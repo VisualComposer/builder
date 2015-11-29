@@ -1,4 +1,4 @@
-var Mediator = require('../helpers/Mediator');
+var Mediator = require( '../../helpers/Mediator' ); // need to remove too
 
 var Store = {
 	data: []

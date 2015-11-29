@@ -1,7 +1,6 @@
 var React = require('react');
-var Mediator = require( '../helpers/Mediator' );
-
 var Modal = require('react-modal');
+var ElementControl = require('./ElementControl');
 require('./Navbar.less');
 const customStyles = {
 	content : {
@@ -13,24 +12,7 @@ const customStyles = {
 		transform             : 'translate(-50%, -50%)'
 	}
 };
-var ElementControl = React.createClass({
-	propTypes: {
-		element: React.PropTypes.string.isRequired,
-		name: React.PropTypes.string
-	},
-	addElement: function(e) {
-		e.preventDefault();
-		var element = {element: this.props.element, name: this.props.name};
-		ElementControl.publish('store:add', element);
-		// Inform mediator to add new element
-	},
-	render: function() {
-		return (<li key={this.props.element}>
-					<a onClick={this.addElement}>{this.props.name}</a>
-		</li>);
-	}
-});
-Mediator.installTo(ElementControl);
+
 var Navbar = React.createClass({
 	propTypes: {
 		elements: React.PropTypes.array.isRequired,

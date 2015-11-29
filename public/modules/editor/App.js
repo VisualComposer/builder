@@ -1,27 +1,22 @@
 var React = require( 'react' );
-var Navbar = require( './ui/Navbar' );
-var Store = require( './store/Store' );
-var Mediator = require( './helpers/Mediator' );
-var EditorLayout = require( './ui/EditorLayout' );
+var Mediator = require( '../../helpers/Mediator' ); // need to remove too
+
+var Navbar = require( './Navbar' );
+var EditorLayout = require( './EditorLayout' );
 
 require( './App.less' );
 
 var App = React.createClass( {
 	getInitialState: function () {
-
 		return {
 			elements: [
 				{ element: 'TextBlock', name: 'Text Block' }
 			],
-			data: Store.data
+			data: {}
 		};
 	},
 	componentWillMount: function() {
-		App.subscribe( 'store:add', function (element) {
-			var elements = this.state.data;
-			var newElements = elements.concat([element]);
-			this.setState( { data: newElements } );
-		}.bind(this));
+		App.publish('app:mounted');
 	},
 	render: function () {
 		return (

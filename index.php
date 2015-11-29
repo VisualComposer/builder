@@ -28,7 +28,7 @@ if ( is_admin() ) {
 		add_meta_box( 'vc_v', __( 'Visual Composer V', 'js_composer' ), function () {
 			$post = get_post();
 			echo '<div id="vc_v-editor"></div>'
-				.'<script> var vcVPostData = '.json_encode( get_post_meta($post->ID, 'vc_v-post-data', true) ) .';</script>'
+				. '<input type="hidden" id="vc-v-data" name="vc_v_data" value="'.json_encode( get_post_meta($post->ID, 'vc_v-post-data', true) ) .'">'
 				.'<script src="'
 			. ( preg_replace( '/\s/', '%20', plugins_url( 'public/bundle.js', __FILE__ ) ) )
 			. '"></script>';

@@ -1,23 +1,22 @@
-var Mediator = require('../helpers/Mediator');
+var Mediator = require( '../../helpers/Mediator' ); // need to remove too
 var contentElement = document.getElementById('content');
+var dataStore = document.getElementById('vc-v-data');
 var WpContent = {
-	parseSavedHtml: function() {
-
+	updateContent: function(content) {
+		contentElement.value = content;
 	},
-	saveContentHtml: function() {
+	updateDataStore: function(data) {
+		dataStore.value = JSON.stringify(data);
+	},
 
-	}
 };
-module.exports = (function(){
-	return {
-		getContent: function() {
-			return WpContent.parseSavedHtml();
-		},
-		setContent: function(data, content) {
-			return WpContent.saveContentHtml(data, content);
-		}
-	};
-})();
+
 Mediator.installTo( WpContent );
+WpContent.subscribe('store:change', function(data){
+	WpContent.updateDataStore(data);
+});
+
+module.exports = WpContent;
+
 
 

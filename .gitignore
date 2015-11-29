@@ -16,10 +16,7 @@ CVS
 ._*
 # Windows
 Thumbs.db
-custom.css
-assets/css/js_composer_front_custom.css
 #less hack
-assets/css/*.map
 tpl_variables.css
 variables.css
 variables_common.css
@@ -28,14 +25,6 @@ mixins.css
 # Grunt
 node_modules
 npm-debug.log
-
-# Bower
-public/lib/bower
-bower_components
-
-# PHP Composer dev packages
-/vendor/
-composer.lock
 
 *.diff.png
 *.map
