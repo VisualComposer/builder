@@ -3,7 +3,7 @@ var Mediator = require( '../../helpers/Mediator' ); // need to remove too
 
 var Navbar = require( './ui/Navbar' );
 var HtmlLayout = require( './layouts/html/HtmlLayout' );
-// var TreeLayout = require( './layouts/tree/TreeLayout' );
+var TreeLayout = require( './layouts/tree/TreeLayout' );
 // var DataLayout = require( './layouts/data/DataLayout' );
 
 var Editor = React.createClass( {
@@ -25,7 +25,14 @@ var Editor = React.createClass( {
 		return (
 				<div>
 					<Navbar elements={this.state.elements}/>
+					<label>Result</label>
 					<HtmlLayout data={this.state.data}/>
+					<div className="row">
+						<div className="col-md-6">
+					<label>Tree</label>
+					<TreeLayout data={this.state.data}/>
+						</div>
+					</div>
 				</div>
 		);
 	}

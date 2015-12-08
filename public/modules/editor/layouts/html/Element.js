@@ -10,9 +10,9 @@ var Element = React.createClass({
     getContent: function() {
         let elementsList = this.props.data.map(function( element ){
             let data = Array.prototype.slice.call(element.childNodes);
-            return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={Utils.createKey()}/>
+            return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>;
         });
-        elementsList.push((<div className="controls" key="{this.props.element.id}-controls"><a onClick={this.addChild}>Add</a></div>));
+        elementsList.push((<div className="controls" key="{this.props.element.id}-controls"><a onClick={this.addChild}>Add to {this.props.element.element}</a></div>));
         return elementsList;
     },
     render: function() {
