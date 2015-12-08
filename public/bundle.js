@@ -19775,6 +19775,11 @@
 		propTypes: {
 			elements: React.PropTypes.array.isRequired
 		},
+		componentWillMount: function componentWillMount() {
+			Navbar.subscribe('app:add', (function () {
+				this.setState({ modalIsOpen: true });;
+			}).bind(this));
+		},
 		getInitialState: function getInitialState() {
 			return { modalIsOpen: false };
 		},
@@ -21981,13 +21986,22 @@
 
 	    addChild: function addChild() {
 	        Element.publish('data:activeNode', this.props.element.id);
-	        Element.publish('app:add');
+	        Element.publish('app:add', true);
 	    },
 	    getContent: function getContent() {
 	        var elementsList = this.props.data.map(function (element) {
 	            var data = Array.prototype.slice.call(element.childNodes);
 	            return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: Utils.createKey() });
 	        });
+	        elementsList.push(React.createElement(
+	            'div',
+	            { className: 'controls', key: '{this.props.element.id}-controls' },
+	            React.createElement(
+	                'a',
+	                { onClick: this.addChild },
+	                'Add'
+	            )
+	        ));
 	        return elementsList;
 	    },
 	    render: function render() {
@@ -22035,7 +22049,7 @@
 	        return React.createElement(
 	            "section",
 	            { className: "vc-v-section", key: this.props.key },
-	            "This is section"
+	            this.props.content
 	        );
 	    }
 	});

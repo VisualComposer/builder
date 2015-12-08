@@ -19,6 +19,11 @@ var Navbar = React.createClass({
 	propTypes: {
 		elements: React.PropTypes.array.isRequired,
 	},
+	componentWillMount: function() {
+		Navbar.subscribe('app:add', function(){
+			this.setState({modalIsOpen: true});;
+		}.bind(this));
+	},
 	getInitialState: function() {
 		return { modalIsOpen: false };
 	},
