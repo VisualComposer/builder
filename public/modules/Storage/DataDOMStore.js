@@ -13,7 +13,7 @@ var DataStore = {
             DOMElement.setAttributeNode(elementId);
             this.activeNode.appendChild(DOMElement);
         }
-        this.resetActiveNode();
+        // this.resetActiveNode(); // @todo need to find new way to sync with current node
         return DOMElement || false;
     }
 };

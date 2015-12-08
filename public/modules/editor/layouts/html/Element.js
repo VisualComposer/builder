@@ -8,14 +8,16 @@ var Element = React.createClass({
         Element.publish('app:add');
     },
     getContent: function() {
-        return (<div className="vc-v-controls">
-            <a onClick="{this.addChild.bind(this)}">add</a>
-        </div>);
+        let elementsList = this.props.data.map(function( element ){
+            let data = Array.prototype.slice.call(element.childNodes);
+            return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={Utils.createKey()}/>
+        });
+        return elementsList;
     },
     render: function() {
         var element = this.props.element;
         var Element = require('../../../elements/' + element.element + '/' + element.element +'.js');
-        return React.createElement(Element, {key: Utils.createKey()}, this.getContent());
+        return React.createElement(Element, {key: Utils.createKey(), content: this.getContent()});
     }
 });
 Mediator.installTo(Element);

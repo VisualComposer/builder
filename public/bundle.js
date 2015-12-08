@@ -21900,7 +21900,8 @@
 	        if (this.props.data.childNodes) {
 	            var data = Array.prototype.slice.call(this.props.data.childNodes);
 	            elementsList = data.map(function (element) {
-	                return React.createElement(Element, { element: { element: element.tagName }, key: Utils.createKey() });
+	                var data = Array.prototype.slice.call(element.childNodes);
+	                return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
 	            });
 	        }
 	        return React.createElement(
@@ -21983,20 +21984,16 @@
 	        Element.publish('app:add');
 	    },
 	    getContent: function getContent() {
-	        return React.createElement(
-	            'div',
-	            { className: 'vc-v-controls' },
-	            React.createElement(
-	                'a',
-	                { onClick: '{this.addChild.bind(this)}' },
-	                'add'
-	            )
-	        );
+	        var elementsList = this.props.data.map(function (element) {
+	            var data = Array.prototype.slice.call(element.childNodes);
+	            return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: Utils.createKey() });
+	        });
+	        return elementsList;
 	    },
 	    render: function render() {
 	        var element = this.props.element;
 	        var Element = __webpack_require__(227)("./" + element.element + '/' + element.element + '.js');
-	        return React.createElement(Element, { key: Utils.createKey() }, this.getContent());
+	        return React.createElement(Element, { key: Utils.createKey(), content: this.getContent() });
 	    }
 	});
 	Mediator.installTo(Element);
@@ -22035,7 +22032,11 @@
 	    displayName: "Section",
 
 	    render: function render() {
-	        return React.createElement("section", { className: "vc-v-section", key: this.props.key });
+	        return React.createElement(
+	            "section",
+	            { className: "vc-v-section", key: this.props.key },
+	            "This is section"
+	        );
 	    }
 	});
 	module.exports = Section;
@@ -22061,7 +22062,7 @@
 	            DOMElement.setAttributeNode(elementId);
 	            this.activeNode.appendChild(DOMElement);
 	        }
-	        this.resetActiveNode();
+	        // this.resetActiveNode(); // @todo need to find new way to sync with current node
 	        return DOMElement || false;
 	    }
 	};

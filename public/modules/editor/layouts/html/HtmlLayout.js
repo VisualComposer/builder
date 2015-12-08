@@ -8,7 +8,8 @@ var Layout = React.createClass({
         if(this.props.data.childNodes) {
             let data = Array.prototype.slice.call(this.props.data.childNodes);
             elementsList = data.map(function( element ){
-                return <Element element={{element: element.tagName}} key={Utils.createKey()}/>
+                let data = Array.prototype.slice.call(element.childNodes);
+                return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>
             });
         }
         return (<div className="vc-v-layouts-html">
