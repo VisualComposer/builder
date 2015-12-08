@@ -2,6 +2,7 @@ var React = require('react');
 var Modal = require('react-modal');
 var ElementControl = require('./ElementControl');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
+var Elements = require( '../../../helpers/Elements' ); // need to remove too
 
 require('./Navbar.less');
 const customStyles = {
@@ -16,9 +17,6 @@ const customStyles = {
 };
 
 var Navbar = React.createClass({
-	propTypes: {
-		elements: React.PropTypes.array.isRequired,
-	},
 	componentWillMount: function() {
 		Navbar.subscribe('app:add', function(){
 			this.setState({modalIsOpen: true});;
@@ -37,7 +35,7 @@ var Navbar = React.createClass({
 		this.setState({modalIsOpen: false});
 	},
 	render: function() {
-		var elements = this.props.elements;
+		var elements = Elements.getElementsList();
 		return (
 			<nav className="navbar navbar-default">
 				<ul className="nav navbar-nav">

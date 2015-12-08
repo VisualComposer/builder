@@ -107,7 +107,6 @@
 
 		getInitialState: function getInitialState() {
 			return {
-				elements: [{ element: 'Section', name: 'Section' }],
 				data: {}
 			};
 		},
@@ -121,7 +120,7 @@
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(Navbar, { elements: this.state.elements }),
+				React.createElement(Navbar, null),
 				React.createElement(
 					'label',
 					null,
@@ -19785,6 +19784,7 @@
 	var Modal = __webpack_require__(196);
 	var ElementControl = __webpack_require__(217);
 	var Mediator = __webpack_require__(194); // need to remove too
+	var Elements = __webpack_require__(242); // need to remove too
 
 	__webpack_require__(218);
 	var customStyles = {
@@ -19801,9 +19801,6 @@
 	var Navbar = React.createClass({
 		displayName: 'Navbar',
 
-		propTypes: {
-			elements: React.PropTypes.array.isRequired
-		},
 		componentWillMount: function componentWillMount() {
 			Navbar.subscribe('app:add', (function () {
 				this.setState({ modalIsOpen: true });;
@@ -19822,7 +19819,7 @@
 			this.setState({ modalIsOpen: false });
 		},
 		render: function render() {
-			var elements = this.props.elements;
+			var elements = Elements.getElementsList();
 			return React.createElement(
 				'nav',
 				{ className: 'navbar navbar-default' },
@@ -22009,7 +22006,7 @@
 	var React = __webpack_require__(37);
 	var Utils = __webpack_require__(225);
 	var Mediator = __webpack_require__(194);
-
+	var ElementsHelper = __webpack_require__(242);
 	var Element = React.createClass({
 	    displayName: 'Element',
 
@@ -22036,7 +22033,7 @@
 	    },
 	    render: function render() {
 	        var element = this.props.element;
-	        var Element = __webpack_require__(227)("./" + element.element + '/' + element.element + '.js');
+	        var Element = ElementsHelper.getElement(element);
 	        return React.createElement(Element, { key: Utils.createKey(), content: this.getContent() });
 	    }
 	});
@@ -22044,48 +22041,8 @@
 	module.exports = Element;
 
 /***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./Root/Root.js": 230,
-		"./Section/Section.js": 228
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 227;
-
-
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(37);
-	var Section = React.createClass({
-	    displayName: "Section",
-
-	    render: function render() {
-	        return React.createElement(
-	            "section",
-	            { className: "vc-v-section", key: this.props.key },
-	            this.props.content
-	        );
-	    }
-	});
-	module.exports = Section;
-
-/***/ },
+/* 227 */,
+/* 228 */,
 /* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22094,26 +22051,33 @@
 	var Mediator = __webpack_require__(194);
 	var DataStore = {
 	    document: null,
-	    activeNode: null,
-	    resetActiveNode: function resetActiveNode() {
-	        this.activeNode = null;
-	    },
-	    add: function add(element) {
-	        if (this.activeNode) {
+	    add: function add(element, parentNode) {
+	        if (parentNode) {
 	            var DOMElement = this.document.createElement(element.element);
 	            var elementId = document.createAttribute("id"); // Create a "id" attribute
 	            elementId.value = element.id; // Set the value of the class attribute
 	            DOMElement.setAttributeNode(elementId);
-	            this.activeNode.appendChild(DOMElement);
+	            parentNode.appendChild(DOMElement);
 	        }
 	        // this.resetActiveNode(); // @todo need to find new way to sync with current node
 	        return DOMElement || false;
+	    },
+	    remove: function remove(id) {
+	        var DOMElement = this.document.getElementById(id);
+	        if (DOMElement) {
+	            DOMElement.parentNode.removeChild(DOMElement);
+	            return true;
+	        }
+	        return false;
 	    }
 	};
 
 	// Data module
 	var Data = {
-	    // here comes public events
+	    activeNode: null,
+	    resetActiveNode: function resetActiveNode() {
+	        this.activeNode = null;
+	    }
 	};
 	Mediator.installTo(Data);
 
@@ -22122,39 +22086,22 @@
 	});
 
 	Data.subscribe('data:add', function (element) {
-	    DataStore.add(element) && Data.publish('data:changed', DataStore.document);
+	    DataStore.add(element, DataStore.activeNode) && Data.publish('data:changed', DataStore.document);
 	});
-
+	Data.subscribe('data:remove', function (id) {
+	    DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	});
 	Data.subscribe('data:sync', function () {
 	    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
 	    Data.publish('data:changed', DataStore.document);
 	});
-
+	window.vcData = Data;
 	module.exports = Data;
 
 /***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(37);
-	var Section = React.createClass({
-	    displayName: "Section",
-
-	    render: function render() {
-	        return React.createElement(
-	            "div",
-	            { className: "vc-v-root-element", key: this.props.key },
-	            this.props.content
-	        );
-	    }
-	});
-	module.exports = Section;
-
-/***/ },
+/* 230 */,
 /* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22372,6 +22319,136 @@
 	});
 	Mediator.installTo(Element);
 	module.exports = Element;
+
+/***/ },
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Mediator = __webpack_require__(194);
+	var ElementsList = [{ element: 'Section', name: 'Section' }, { element: 'Paragraph', name: 'Paragraph' }, { element: 'Button', name: 'Button' }];
+
+	var Elements = {
+	    getElementsList: function getElementsList() {
+	        return ElementsList;
+	    },
+	    getElement: function getElement(element) {
+	        console && console.log(element); // @todo remove after presentation
+	        return __webpack_require__(243)("./" + element.element + '/' + element.element + '.js');
+	    }
+	};
+
+	Mediator.installTo(Elements);
+
+	module.exports = Elements;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./Button/Button.js": 244,
+		"./Paragraph/Paragraph.js": 245,
+		"./Root/Root.js": 246,
+		"./Section/Section.js": 247
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 243;
+
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(37);
+	var Button = React.createClass({
+	    displayName: "Button",
+
+	    render: function render() {
+	        return React.createElement(
+	            "button",
+	            { className: "vc-button-block", key: this.props.key },
+	            "Button"
+	        );
+	    }
+	});
+	module.exports = Button;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(37);
+	var Paragraph = React.createClass({
+	    displayName: "Paragraph",
+
+	    render: function render() {
+	        return React.createElement(
+	            "p",
+	            { className: "vc-text-block", key: this.props.key },
+	            "Hello my name is Boris and I know ninja rules very well. Hide away."
+	        );
+	    }
+	});
+	module.exports = Paragraph;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(37);
+	var Section = React.createClass({
+	    displayName: "Section",
+
+	    render: function render() {
+	        return React.createElement(
+	            "div",
+	            { className: "vc-v-root-element", key: this.props.key },
+	            this.props.content
+	        );
+	    }
+	});
+	module.exports = Section;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(37);
+	var Section = React.createClass({
+	    displayName: "Section",
+
+	    render: function render() {
+	        return React.createElement(
+	            "section",
+	            { className: "vc-v-section", key: this.props.key },
+	            this.props.content
+	        );
+	    }
+	});
+	module.exports = Section;
 
 /***/ }
 /******/ ]);

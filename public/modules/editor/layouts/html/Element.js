@@ -1,7 +1,7 @@
 var React = require('react');
 var Utils = require('../../../../helpers/Utils');
 var Mediator = require('../../../../helpers/Mediator');
-
+var ElementsHelper = require('../../../../helpers/Elements');
 var Element = React.createClass({
     addChild: function() {
         Element.publish('data:activeNode', this.props.element.id);
@@ -17,7 +17,7 @@ var Element = React.createClass({
     },
     render: function() {
         var element = this.props.element;
-        var Element = require('../../../elements/' + element.element + '/' + element.element +'.js');
+        var Element = ElementsHelper.getElement(element);
         return React.createElement(Element, {key: Utils.createKey(), content: this.getContent()});
     }
 });

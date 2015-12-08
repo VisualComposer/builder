@@ -9,9 +9,6 @@ var DataLayout = require( './layouts/data/DataLayout' );
 var Editor = React.createClass( {
 	getInitialState: function () {
 		return {
-			elements: [
-				{ element: 'Section', name: 'Section' }
-			],
 			data: {}
 		};
 	},
@@ -24,7 +21,7 @@ var Editor = React.createClass( {
 	render: function () {
 		return (
 				<div>
-					<Navbar elements={this.state.elements}/>
+					<Navbar/>
 					<label>Result</label>
 					<HtmlLayout data={this.state.data}/>
 					<div className="row">
