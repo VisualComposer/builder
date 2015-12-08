@@ -21,7 +21,7 @@ var Editor = React.createClass( {
 	render: function () {
 		return (
 				<div>
-					<Navbar/>
+					<Navbar data={this.state.data}/>
 					<HtmlLayout data={this.state.data}/>
 				</div>
 		);

@@ -3,7 +3,7 @@ var Modal = require('react-modal');
 var ElementControl = require('./ElementControl');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var Elements = require( '../../../helpers/Elements' ); // need to remove too
-
+var TreeElement = require('../layouts/tree/TreeLayout');
 require('./Navbar.less');
 const customStyles = {
 	content : {
@@ -38,11 +38,17 @@ var Navbar = React.createClass({
 		var elements = Elements.getElementsList();
 		return (
 			<nav className="navbar navbar-vc navbar-fixed-top">
-				<div class="navbar-header">
+				<div className="navbar-header">
 					<a className="navbar-brand"><img src="sources/images/logo.png" height="100%"/></a>
 				</div>
 				<ul className="nav navbar-nav">
 					<li><a className="as_btn" onClick={this.openModal}><span className="glyphicon glyphicon-plus"></span></a></li>
+					<li role="presentation" className="dropdown">
+						<a className="dropdown-toggle as_btn" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
+						</a>
+						<TreeElement data={this.props.data}/>
+					</li>
 				</ul>
 				<Modal
 					isOpen={this.state.modalIsOpen}

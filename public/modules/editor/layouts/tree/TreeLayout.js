@@ -12,7 +12,7 @@ var Layout = React.createClass({
                 return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>
             });
         }
-        return (<ul className="vc-v-layouts-tree">
+        return (<ul className="vc-v-layouts-tree dropdown-menu">
             {elementsList}
         </ul>);
     }

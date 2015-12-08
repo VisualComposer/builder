@@ -20,7 +20,8 @@ var Element = React.createClass({
     },
     render: function() {
         var element = this.props.element;
-        return <li>{element.element}{this.getContent()} <a onClick={this.addChild}>+</a></li>;
+        return <li><span className="glyphicon glyphicon-th"></span> {element.element} <a onClick={this.addChild} style={{display: 'none'}}><span className="glyphicon glyphicon-plus
+"></span></a>{this.getContent()}</li>;
     }
 });
 Mediator.installTo(Element);

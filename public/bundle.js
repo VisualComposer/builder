@@ -120,7 +120,7 @@
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(Navbar, null),
+				React.createElement(Navbar, { data: this.state.data }),
 				React.createElement(HtmlLayout, { data: this.state.data })
 			);
 		}
@@ -19756,7 +19756,7 @@
 	var ElementControl = __webpack_require__(217);
 	var Mediator = __webpack_require__(194); // need to remove too
 	var Elements = __webpack_require__(242); // need to remove too
-
+	var TreeElement = __webpack_require__(231);
 	__webpack_require__(218);
 	var customStyles = {
 		content: {
@@ -19796,7 +19796,7 @@
 				{ className: 'navbar navbar-vc navbar-fixed-top' },
 				React.createElement(
 					'div',
-					{ 'class': 'navbar-header' },
+					{ className: 'navbar-header' },
 					React.createElement(
 						'a',
 						{ className: 'navbar-brand' },
@@ -19814,6 +19814,18 @@
 							{ className: 'as_btn', onClick: this.openModal },
 							React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 						)
+					),
+					React.createElement(
+						'li',
+						{ role: 'presentation', className: 'dropdown' },
+						React.createElement(
+							'a',
+							{ className: 'dropdown-toggle as_btn', 'data-toggle': 'dropdown', href: '#', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+							React.createElement('span', { className: 'glyphicon glyphicon-align-justify' }),
+							' ',
+							React.createElement('span', { className: 'caret' })
+						),
+						React.createElement(TreeElement, { data: this.props.data })
 					)
 				),
 				React.createElement(
@@ -22120,7 +22132,7 @@
 	        }
 	        return React.createElement(
 	            'ul',
-	            { className: 'vc-v-layouts-tree' },
+	            { className: 'vc-v-layouts-tree dropdown-menu' },
 	            elementsList
 	        );
 	    }
@@ -22155,7 +22167,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(220)();
-	exports.push([module.id, ".vc-v-layouts- {\n  border: 1px solid green;\n  min-height: 100px;\n  padding: 10px;\n}\n", ""]);
+	exports.push([module.id, ".dropdown-menu.vc-v-layouts-tree {\n  padding: 10px;\n}\n.dropdown-menu.vc-v-layouts-tree ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.dropdown-menu.vc-v-layouts-tree ul li {\n  padding: 4px 0 4px 16px;\n  margin: 0;\n  border-top: 1px solid #CCC;\n}\n.dropdown-menu.vc-v-layouts-tree ul li span {\n  color: #555555;\n}\n", ""]);
 
 /***/ },
 /* 234 */
@@ -22194,14 +22206,16 @@
 	        return React.createElement(
 	            'li',
 	            null,
+	            React.createElement('span', { className: 'glyphicon glyphicon-th' }),
+	            ' ',
 	            element.element,
-	            this.getContent(),
 	            ' ',
 	            React.createElement(
 	                'a',
-	                { onClick: this.addChild },
-	                '+'
-	            )
+	                { onClick: this.addChild, style: { display: 'none' } },
+	                React.createElement('span', { className: 'glyphicon glyphicon-plus\n' })
+	            ),
+	            this.getContent()
 	        );
 	    }
 	});
