@@ -12,7 +12,7 @@ var Layout = React.createClass({
                 return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>
             });
         }
-        return (<div className="vc-v-layouts-data">
+        return (<div className="vc-v-layouts-data" id="vc-v-layouts-data">
             {elementsList}
         </div>);
     }

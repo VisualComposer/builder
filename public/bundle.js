@@ -50,6 +50,7 @@
 	var React = __webpack_require__(37);
 	var ReactDOM = __webpack_require__(198);
 	var Data = __webpack_require__(229);
+	var LocalStorage = __webpack_require__(248);
 
 	ReactDOM.render(React.createElement(Editor, null), document.getElementById('vc_v-editor'));
 
@@ -21985,7 +21986,7 @@
 			var i, random;
 			var uuid = '';
 
-			for (i = 0; i < 32; i++) {
+			for (i = 0; i < 8; i++) {
 				random = Math.random() * 16 | 0;
 				if (i === 8 || i === 12 || i === 16 || i === 20) {
 					uuid += '-';
@@ -22050,6 +22051,7 @@
 
 	var Mediator = __webpack_require__(194);
 	var Utils = __webpack_require__(225);
+	var LocalStorage = __webpack_require__(248);
 	var DataStore = {
 	    document: null,
 	    add: function add(element, parentNode) {
@@ -22106,12 +22108,12 @@
 	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 	});
 	Data.subscribe('data:sync', function () {
-	    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
+	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
 	    Data.publish('data:changed', DataStore.document);
 	});
-	window.vcData = Data;
+	window.vcData = Data; // @todo remove after presentation
 	module.exports = Data;
 
 /***/ },
@@ -22251,7 +22253,7 @@
 	        }
 	        return React.createElement(
 	            'div',
-	            { className: 'vc-v-layouts-data' },
+	            { className: 'vc-v-layouts-data', id: 'vc-v-layouts-data' },
 	            elementsList
 	        );
 	    }
@@ -22319,7 +22321,7 @@
 	            return React.createElement(
 	                'div',
 	                { className: 'vc-v-tree-node' },
-	                ['<', this.props.element.element, '>'],
+	                ['<', this.props.element.element, ' id="', this.props.element.id, '"', '>'],
 	                this.getContent(),
 	                ['</', this.props.element.element, '>']
 	            );
@@ -22327,7 +22329,7 @@
 	        return React.createElement(
 	            'div',
 	            { className: 'vc-v-tree-node' },
-	            ['<', this.props.element.element, '/>']
+	            ['<', this.props.element.element, ' id="', this.props.element.id, '"', '/>']
 	        );
 	    }
 	});
@@ -22463,6 +22465,38 @@
 	    }
 	});
 	module.exports = Section;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Mediator = __webpack_require__(194);
+	var DataStorage = {
+	    dataKey: 'vcData',
+	    update: function update(elementsList) {
+	        window.localStorage.setItem(this.dataKey, elementsList);
+	    },
+	    getItem: function getItem() {
+	        return window.localStorage.getItem(this.dataKey);
+	    }
+	};
+	var Data = {
+	    get: function get() {
+	        return DataStorage.getItem() || '';
+	    }
+	};
+	Mediator.installTo(Data);
+	Data.subscribe('data:changed', function (document) {
+	    window.vcTest = document;
+	    var data = Array.prototype.slice.call(document.childNodes);
+	    var elementsList = data.map(function (element) {
+	        return element.innerHTML;
+	    });
+	    DataStorage.update(elementsList.join());
+	});
+	module.exports = Data;
 
 /***/ }
 /******/ ]);

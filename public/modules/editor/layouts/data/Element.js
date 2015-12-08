@@ -19,11 +19,11 @@ var Element = React.createClass({
     render: function() {
         if(this.props.data.length) {
             return <div className="vc-v-tree-node">
-                {['<', this.props.element.element, '>']}
+                {['<', this.props.element.element, ' id="', this.props.element.id, '"', '>']}
                     {this.getContent()}
                 {['</', this.props.element.element, '>']}</div>
         }
-        return <div className="vc-v-tree-node">{['<', this.props.element.element, '/>']}</div>
+        return <div className="vc-v-tree-node">{['<', this.props.element.element, ' id="', this.props.element.id, '"', '/>']}</div>
     }
 });
 Mediator.installTo(Element);

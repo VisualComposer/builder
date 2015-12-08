@@ -1,5 +1,6 @@
 var Mediator = require('../../helpers/Mediator');
 var Utils = require('../../helpers/Utils');
+var LocalStorage = require('./LocalStorage');
 var DataStore = {
     document: null,
     add: function(element, parentNode) {
@@ -56,10 +57,10 @@ Data.subscribe('data:clone', function(id) {
     DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 });
 Data.subscribe('data:sync', function(){
-    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
+    var dataString =  '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
     var parser = new DOMParser();
     DataStore.document = parser.parseFromString(dataString, 'text/xml');
     Data.publish('data:changed', DataStore.document);
 });
-window.vcData = Data;
+window.vcData = Data; // @todo remove after presentation
 module.exports = Data;
