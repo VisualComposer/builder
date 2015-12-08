@@ -100,7 +100,7 @@
 	var Navbar = __webpack_require__(195);
 	var HtmlLayout = __webpack_require__(222);
 	var TreeLayout = __webpack_require__(231);
-	// var DataLayout = require( './layouts/data/DataLayout' );
+	var DataLayout = __webpack_require__(235);
 
 	var Editor = React.createClass({
 		displayName: 'Editor',
@@ -140,6 +140,16 @@
 							'Tree'
 						),
 						React.createElement(TreeLayout, { data: this.state.data })
+					),
+					React.createElement(
+						'div',
+						{ className: 'col-md-6' },
+						React.createElement(
+							'label',
+							null,
+							'Data'
+						),
+						React.createElement(DataLayout, { data: this.state.data })
 					)
 				)
 			);
@@ -22250,6 +22260,113 @@
 	                { onClick: this.addChild },
 	                '+'
 	            )
+	        );
+	    }
+	});
+	Mediator.installTo(Element);
+	module.exports = Element;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(37);
+	__webpack_require__(236);
+	var Utils = __webpack_require__(225);
+	var Element = __webpack_require__(238);
+	var Layout = React.createClass({
+	    displayName: 'Layout',
+
+	    render: function render() {
+	        var elementsList = undefined;
+	        if (this.props.data.childNodes) {
+	            var data = Array.prototype.slice.call(this.props.data.childNodes);
+	            elementsList = data.map(function (element) {
+	                var data = Array.prototype.slice.call(element.childNodes);
+	                return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
+	            });
+	        }
+	        return React.createElement(
+	            'div',
+	            { className: 'vc-v-layouts-data' },
+	            elementsList
+	        );
+	    }
+	});
+	module.exports = Layout;
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(237);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(221)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/data/DataLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/data/DataLayout.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(220)();
+	exports.push([module.id, ".vc-v-layouts-data {\n  border: 1px dashed grey;\n  min-height: 100px;\n  padding: 10px;\n}\n.vc-v-layouts-data .vc-v-tree-node {\n  padding-left: 20px;\n}\n", ""]);
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(37);
+	var Utils = __webpack_require__(225);
+	var Mediator = __webpack_require__(194);
+
+	var Element = React.createClass({
+	    displayName: 'Element',
+
+	    addChild: function addChild() {
+	        Element.publish('data:activeNode', this.props.element.id);
+	        Element.publish('app:add', true);
+	    },
+	    getContent: function getContent() {
+	        var elementsList = this.props.data.map(function (element) {
+	            var data = Array.prototype.slice.call(element.childNodes);
+	            return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data,
+	                key: element.getAttribute('id') });
+	        });
+	        return elementsList;
+	        return '';
+	    },
+	    render: function render() {
+	        if (this.props.data.length) {
+	            return React.createElement(
+	                'div',
+	                { className: 'vc-v-tree-node' },
+	                ['<', this.props.element.element, '>'],
+	                this.getContent(),
+	                ['</', this.props.element.element, '>']
+	            );
+	        }
+	        return React.createElement(
+	            'div',
+	            { className: 'vc-v-tree-node' },
+	            ['<', this.props.element.element, '/>']
 	        );
 	    }
 	});

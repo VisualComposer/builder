@@ -8,19 +8,22 @@ var Element = React.createClass({
         Element.publish('app:add', true);
     },
     getContent: function() {
-        if(this.props.data.length) {
-            let elementsList = this.props.data.map(function( element ) {
-                let data = Array.prototype.slice.call(element.childNodes);
-                return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data}
-                                key={element.getAttribute('id')}/>;
-            });
-            return <ul className="vc-v-tree-node-children">{elementsList}</ul>;
-        }
+        let elementsList = this.props.data.map(function( element ) {
+            let data = Array.prototype.slice.call(element.childNodes);
+            return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data}
+                            key={element.getAttribute('id')}/>;
+        });
+        return elementsList;
         return '';
     },
     render: function() {
-        var element = this.props.element;
-        return <li>{element.element}{this.getContent()} <a onClick={this.addChild}>+</a></li>;
+        if(this.props.data.length) {
+            return <div className="vc-v-tree-node">
+                {['<', this.props.element.element, '>']}
+                    {this.getContent()}
+                {['</', this.props.element.element, '>']}</div>
+        }
+        return <div className="vc-v-tree-node">{['<', this.props.element.element, '/>']}</div>
     }
 });
 Mediator.installTo(Element);
