@@ -21,11 +21,11 @@ var Navbar = React.createClass({
 		return { modalIsOpen: false };
 	},
 	openModal: function(e) {
-		e.preventDefault();
+		e && e.preventDefault();
 		this.setState({modalIsOpen: true});
 	},
 	closeModal: function(e) {
-		e.preventDefault();
+		e && e.preventDefault();
 		this.setState({modalIsOpen: false});
 	},
 	render: function() {

@@ -1,9 +1,9 @@
-var App = require('./modules/editor/App');
-var ReactDOM = require('react-dom');
+var Editor = require('./modules/editor/Editor');
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Data = require('./modules/storage/DataDomStore');
 
 ReactDOM.render(
-	<App />,
+	<Editor />,
 	document.getElementById('vc_v-editor')
 );

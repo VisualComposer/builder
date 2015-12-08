@@ -1,4 +1,5 @@
-var Mediator = require( '../../helpers/Mediator' ); // need to remove too
+var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
+var React = require('react');
 
 var ElementControl = React.createClass({
 	propTypes: {
