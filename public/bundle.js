@@ -22003,8 +22003,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/css-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/less-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/public/modules/editor/EditorLayout.less", function() {
-			var newContent = require("!!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/css-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/less-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/public/modules/editor/EditorLayout.less");
+		module.hot.accept("!!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/css-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/less-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/public/modules/editor/HtmlLayout.less", function() {
+			var newContent = require("!!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/css-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/node_modules/less-loader/index.js!/Users/time2type/Documents/wpbakery/wpvc/public/wp-content/plugins/vc-five/public/modules/editor/HtmlLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

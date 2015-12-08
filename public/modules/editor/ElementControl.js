@@ -7,8 +7,9 @@ var ElementControl = React.createClass({
 	},
 	addElement: function(e) {
 		e.preventDefault();
-		var element = {element: this.props.element, name: this.props.name};
-		ElementControl.publish('store:add', element);
+		var element = {element: this.props.element};
+		// Add element node
+		ElementControl.publish('data:add', element);
 	},
 	render: function() {
 		return (<li key={this.props.element}>
