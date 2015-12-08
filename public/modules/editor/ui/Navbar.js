@@ -1,6 +1,8 @@
 var React = require('react');
 var Modal = require('react-modal');
 var ElementControl = require('./ElementControl');
+var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
+
 require('./Navbar.less');
 const customStyles = {
 	content : {
@@ -22,6 +24,7 @@ var Navbar = React.createClass({
 	},
 	openModal: function(e) {
 		e && e.preventDefault();
+		Navbar.publish('data:activeNode', 'vc-v-root-element');
 		this.setState({modalIsOpen: true});
 	},
 	closeModal: function(e) {
@@ -52,4 +55,5 @@ var Navbar = React.createClass({
 		);
 	}
 });
+Mediator.installTo(Navbar);
 module.exports = Navbar;

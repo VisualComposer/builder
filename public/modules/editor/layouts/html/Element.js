@@ -4,7 +4,7 @@ var Mediator = require('../../../../helpers/Mediator');
 
 var Element = React.createClass({
     addChild: function() {
-        Element.publish('data:activeNode', this.id);
+        Element.publish('data:activeNode', this.props.element.id);
         Element.publish('app:add');
     },
     getContent: function() {
@@ -14,7 +14,6 @@ var Element = React.createClass({
     },
     render: function() {
         var element = this.props.element;
-        console.log(element);
         var Element = require('../../../elements/' + element.element + '/' + element.element +'.js');
         return React.createElement(Element, {key: Utils.createKey()}, this.getContent());
     }

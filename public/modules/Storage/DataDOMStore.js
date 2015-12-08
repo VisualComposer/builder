@@ -5,7 +5,7 @@ var DataStore = {
     resetActiveNode: function() {
         this.activeNode = null;
     },
-    add: function() {
+    add: function(element) {
         if(this.activeNode) {
             var DOMElement = this.document.createElement(element.element);
             var elementId = document.createAttribute("id");       // Create a "id" attribute
@@ -33,7 +33,7 @@ Data.subscribe('data:add', function(element) {
 });
 
 Data.subscribe('data:sync', function(){
-    var dataString = '<Root>' + window.document.getElementById('vc_v-content').value + '</Root>';
+    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
     var parser = new DOMParser();
     DataStore.document = parser.parseFromString(dataString, 'text/xml');
     Data.publish('data:changed', DataStore.document);

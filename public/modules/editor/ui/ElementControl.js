@@ -1,4 +1,5 @@
-var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
+var Mediator = require( '../../../helpers/Mediator' );
+var Utils = require( '../../../helpers/Utils' );
 var React = require('react');
 
 var ElementControl = React.createClass({
@@ -8,7 +9,7 @@ var ElementControl = React.createClass({
 	},
 	addElement: function(e) {
 		e.preventDefault();
-		var element = {element: this.props.element};
+		var element = {element: this.props.element, id: Utils.createKey()};
 		// Add element node
 		ElementControl.publish('data:add', element);
 	},

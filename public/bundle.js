@@ -112,8 +112,8 @@
 			};
 		},
 		componentDidMount: function componentDidMount() {
-			Editor.subscribe('data:changed', (function (data) {
-				this.setState({ data: data });
+			Editor.subscribe('data:changed', (function (document) {
+				this.setState({ data: document });
 			}).bind(this));
 			Editor.publish('data:sync');
 		},
@@ -19755,6 +19755,8 @@
 	var React = __webpack_require__(37);
 	var Modal = __webpack_require__(196);
 	var ElementControl = __webpack_require__(217);
+	var Mediator = __webpack_require__(194); // need to remove too
+
 	__webpack_require__(218);
 	var customStyles = {
 		content: {
@@ -19778,6 +19780,7 @@
 		},
 		openModal: function openModal(e) {
 			e && e.preventDefault();
+			Navbar.publish('data:activeNode', 'vc-v-root-element');
 			this.setState({ modalIsOpen: true });
 		},
 		closeModal: function closeModal(e) {
@@ -19829,6 +19832,7 @@
 			);
 		}
 	});
+	Mediator.installTo(Navbar);
 	module.exports = Navbar;
 
 /***/ },
@@ -21597,7 +21601,8 @@
 
 	'use strict';
 
-	var Mediator = __webpack_require__(194); // need to remove too
+	var Mediator = __webpack_require__(194);
+	var Utils = __webpack_require__(225);
 	var React = __webpack_require__(37);
 
 	var ElementControl = React.createClass({
@@ -21609,7 +21614,7 @@
 		},
 		addElement: function addElement(e) {
 			e.preventDefault();
-			var element = { element: this.props.element };
+			var element = { element: this.props.element, id: Utils.createKey() };
 			// Add element node
 			ElementControl.publish('data:add', element);
 		},
@@ -21974,7 +21979,7 @@
 	    displayName: 'Element',
 
 	    addChild: function addChild() {
-	        Element.publish('data:activeNode', this.id);
+	        Element.publish('data:activeNode', this.props.element.id);
 	        Element.publish('app:add');
 	    },
 	    getContent: function getContent() {
@@ -21990,7 +21995,6 @@
 	    },
 	    render: function render() {
 	        var element = this.props.element;
-	        console.log(element);
 	        var Element = __webpack_require__(227)("./" + element.element + '/' + element.element + '.js');
 	        return React.createElement(Element, { key: Utils.createKey() }, this.getContent());
 	    }
@@ -22049,7 +22053,7 @@
 	    resetActiveNode: function resetActiveNode() {
 	        this.activeNode = null;
 	    },
-	    add: function add() {
+	    add: function add(element) {
 	        if (this.activeNode) {
 	            var DOMElement = this.document.createElement(element.element);
 	            var elementId = document.createAttribute("id"); // Create a "id" attribute
@@ -22077,7 +22081,7 @@
 	});
 
 	Data.subscribe('data:sync', function () {
-	    var dataString = '<Root>' + window.document.getElementById('vc_v-content').value + '</Root>';
+	    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
 	    Data.publish('data:changed', DataStore.document);

@@ -16,8 +16,8 @@ var Editor = React.createClass( {
 		};
 	},
 	componentDidMount: function() {
-		Editor.subscribe('data:changed', function(data) {
-			this.setState({data: data});
+		Editor.subscribe('data:changed', function(document) {
+			this.setState({data: document});
 		}.bind(this));
 		Editor.publish('data:sync');
 	},
