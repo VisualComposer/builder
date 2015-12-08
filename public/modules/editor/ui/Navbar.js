@@ -37,9 +37,12 @@ var Navbar = React.createClass({
 	render: function() {
 		var elements = Elements.getElementsList();
 		return (
-			<nav className="navbar navbar-default">
+			<nav className="navbar navbar-vc">
+				<div class="navbar-header">
+					<a className="navbar-brand"><img src="sources/images/logo.png" height="100%"/></a>
+				</div>
 				<ul className="nav navbar-nav">
-					<li><button onClick={this.openModal}>+ Add</button></li>
+					<li><a className="as_btn" onClick={this.openModal}><span className="glyphicon glyphicon-plus"></span></a></li>
 				</ul>
 				<Modal
 					isOpen={this.state.modalIsOpen}
