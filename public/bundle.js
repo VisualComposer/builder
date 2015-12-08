@@ -22049,12 +22049,13 @@
 	'use strict';
 
 	var Mediator = __webpack_require__(194);
+	var Utils = __webpack_require__(225);
 	var DataStore = {
 	    document: null,
 	    add: function add(element, parentNode) {
 	        if (parentNode) {
 	            var DOMElement = this.document.createElement(element.element);
-	            var elementId = document.createAttribute("id"); // Create a "id" attribute
+	            var elementId = document.createAttribute('id'); // Create a "id" attribute
 	            elementId.value = element.id; // Set the value of the class attribute
 	            DOMElement.setAttributeNode(elementId);
 	            parentNode.appendChild(DOMElement);
@@ -22066,6 +22067,16 @@
 	        var DOMElement = this.document.getElementById(id);
 	        if (DOMElement) {
 	            DOMElement.parentNode.removeChild(DOMElement);
+	            return true;
+	        }
+	        return false;
+	    },
+	    clone: function clone(id) {
+	        var DOMElement = this.document.getElementById(id);
+	        if (DOMElement) {
+	            var DOMElementClone = DOMElement.cloneNode(true);
+	            DOMElementClone.setAttribute('id', Utils.createKey());
+	            DOMElement.parentNode.insertBefore(DOMElementClone, DOMElement.nextSibling);
 	            return true;
 	        }
 	        return false;
@@ -22082,14 +22093,17 @@
 	Mediator.installTo(Data);
 
 	Data.subscribe('data:activeNode', function (id) {
-	    DataStore.activeNode = DataStore.document.getElementById(id);
+	    Data.activeNode = DataStore.document.getElementById(id);
 	});
 
 	Data.subscribe('data:add', function (element) {
-	    DataStore.add(element, DataStore.activeNode) && Data.publish('data:changed', DataStore.document);
+	    DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
 	});
 	Data.subscribe('data:remove', function (id) {
 	    DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	});
+	Data.subscribe('data:clone', function (id) {
+	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 	});
 	Data.subscribe('data:sync', function () {
 	    var dataString = '<Root id="vc-v-root-element">' + window.document.getElementById('vc_v-content').value + '</Root>';
