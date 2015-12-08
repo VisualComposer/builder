@@ -101,6 +101,7 @@
 	var HtmlLayout = __webpack_require__(222);
 	var TreeLayout = __webpack_require__(231);
 	var DataLayout = __webpack_require__(235);
+	__webpack_require__(292);
 	var Editor = React.createClass({
 		displayName: 'Editor',
 
@@ -120,36 +121,7 @@
 				'div',
 				null,
 				React.createElement(Navbar, null),
-				React.createElement(
-					'label',
-					null,
-					'Result'
-				),
-				React.createElement(HtmlLayout, { data: this.state.data }),
-				React.createElement(
-					'div',
-					{ className: 'row' },
-					React.createElement(
-						'div',
-						{ className: 'col-md-6' },
-						React.createElement(
-							'label',
-							null,
-							'Tree'
-						),
-						React.createElement(TreeLayout, { data: this.state.data })
-					),
-					React.createElement(
-						'div',
-						{ className: 'col-md-6' },
-						React.createElement(
-							'label',
-							null,
-							'Data'
-						),
-						React.createElement(DataLayout, { data: this.state.data })
-					)
-				)
+				React.createElement(HtmlLayout, { data: this.state.data })
 			);
 		}
 	});
@@ -19821,7 +19793,7 @@
 			var elements = Elements.getElementsList();
 			return React.createElement(
 				'nav',
-				{ className: 'navbar navbar-vc' },
+				{ className: 'navbar navbar-vc navbar-fixed-top' },
 				React.createElement(
 					'div',
 					{ 'class': 'navbar-header' },
@@ -21700,7 +21672,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(220)();
-	exports.push([module.id, ".as_btn {\n  cursor: pointer;\n  color: white;\n}\n.navbar-vc {\n  background-image: url("+__webpack_require__(291)+");\n}\n", ""]);
+	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(291)+");\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
 
 /***/ },
 /* 220 */
@@ -21980,7 +21952,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(220)();
-	exports.push([module.id, ".vc-v-layouts-html {\n  border: 1px solid grey;\n  min-height: 100px;\n  padding: 10px;\n}\n", ""]);
+	exports.push([module.id, "", ""]);
 
 /***/ },
 /* 225 */
@@ -22552,6 +22524,36 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c472bb699fb59405d951e958ed74c10b.png"
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(293);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(221)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/Editor.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(220)();
+	exports.push([module.id, "/*\n * Globals\n */\n\nbody {\n    font-family: Georgia, \"Times New Roman\", Times, serif;\n    color: #555;\n}\n\nh1, .h1,\nh2, .h2,\nh3, .h3,\nh4, .h4,\nh5, .h5,\nh6, .h6 {\n    margin-top: 0;\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n    font-weight: normal;\n    color: #333;\n}\n\n\n/*\n * Override Bootstrap's default container.\n */\n\n@media (min-width: 1200px) {\n    .container {\n        width: 970px;\n    }\n}\n\n\n/*\n * Masthead for nav\n */\n\n.blog-masthead {\n    background-color: #428bca;\n    -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);\n    box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);\n}\n\n/* Nav links */\n.blog-nav-item {\n    position: relative;\n    display: inline-block;\n    padding: 10px;\n    font-weight: 500;\n    color: #cdddeb;\n}\n.blog-nav-item:hover,\n.blog-nav-item:focus {\n    color: #fff;\n    text-decoration: none;\n}\n\n/* Active state gets a caret at the bottom */\n.blog-nav .active {\n    color: #fff;\n}\n.blog-nav .active:after {\n    position: absolute;\n    bottom: 0;\n    left: 50%;\n    width: 0;\n    height: 0;\n    margin-left: -5px;\n    vertical-align: middle;\n    content: \" \";\n    border-right: 5px solid transparent;\n    border-bottom: 5px solid;\n    border-left: 5px solid transparent;\n}\n\n\n/*\n * Blog name and description\n */\n\n.blog-header {\n    padding-top: 20px;\n    padding-bottom: 20px;\n}\n.blog-title {\n    margin-top: 30px;\n    margin-bottom: 0;\n    font-size: 60px;\n    font-weight: normal;\n}\n.blog-description {\n    font-size: 20px;\n    color: #999;\n}\n\n\n/*\n * Main column and sidebar layout\n */\n\n.blog-main {\n    font-size: 18px;\n    line-height: 1.5;\n}\n\n/* Sidebar modules for boxing content */\n.sidebar-module {\n    padding: 15px;\n    margin: 0 -15px 15px;\n}\n.sidebar-module-inset {\n    padding: 15px;\n    background-color: #f5f5f5;\n    border-radius: 4px;\n}\n.sidebar-module-inset p:last-child,\n.sidebar-module-inset ul:last-child,\n.sidebar-module-inset ol:last-child {\n    margin-bottom: 0;\n}\n\n\n/* Pagination */\n.pager {\n    margin-bottom: 60px;\n    text-align: left;\n}\n.pager > li > a {\n    width: 140px;\n    padding: 10px 20px;\n    text-align: center;\n    border-radius: 30px;\n}\n\n\n/*\n * Blog posts\n */\n\n.blog-post {\n    margin-bottom: 60px;\n}\n.blog-post-title {\n    margin-bottom: 5px;\n    font-size: 40px;\n}\n.blog-post-meta {\n    margin-bottom: 20px;\n    color: #999;\n}\n\n\n/*\n * Footer\n */\n\n.blog-footer {\n    padding: 40px 0;\n    color: #999;\n    text-align: center;\n    background-color: #f9f9f9;\n    border-top: 1px solid #e5e5e5;\n}\n.blog-footer p:last-child {\n    margin-bottom: 0;\n}", ""]);
 
 /***/ }
 /******/ ]);

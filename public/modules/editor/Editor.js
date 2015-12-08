@@ -5,6 +5,7 @@ var Navbar = require( './ui/Navbar' );
 var HtmlLayout = require( './layouts/html/HtmlLayout' );
 var TreeLayout = require( './layouts/tree/TreeLayout' );
 var DataLayout = require( './layouts/data/DataLayout' );
+require('./Editor.css');
 var Editor = React.createClass( {
 	getInitialState: function () {
 		return {
@@ -21,18 +22,7 @@ var Editor = React.createClass( {
 		return (
 				<div>
 					<Navbar/>
-					<label>Result</label>
 					<HtmlLayout data={this.state.data}/>
-					<div className="row">
-						<div className="col-md-6">
-							<label>Tree</label>
-							<TreeLayout data={this.state.data}/>
-						</div>
-						<div className="col-md-6">
-							<label>Data</label>
-							<DataLayout data={this.state.data}/>
-						</div>
-					</div>
 				</div>
 		);
 	}

@@ -37,7 +37,7 @@ var Navbar = React.createClass({
 	render: function() {
 		var elements = Elements.getElementsList();
 		return (
-			<nav className="navbar navbar-vc">
+			<nav className="navbar navbar-vc navbar-fixed-top">
 				<div class="navbar-header">
 					<a className="navbar-brand"><img src="sources/images/logo.png" height="100%"/></a>
 				</div>
