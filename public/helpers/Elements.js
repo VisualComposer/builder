@@ -10,7 +10,6 @@ var Elements = {
         return ElementsList;
     },
     getElement: function(element) {
-        console && console.log(element); // @todo remove after presentation
         return require('../sources/elements/' + element.element + '/' + element.element +'.js');
     }
 };

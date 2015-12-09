@@ -23,6 +23,7 @@ var Editor = React.createClass( {
 				<div>
 					<Navbar data={this.state.data}/>
 					<HtmlLayout data={this.state.data}/>
+					<DataLayout data={this.state.data}/>
 				</div>
 		);
 	}
