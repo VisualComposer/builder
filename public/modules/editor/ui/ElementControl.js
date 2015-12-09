@@ -15,7 +15,10 @@ var ElementControl = React.createClass({
 	},
 	render: function() {
 		return (<li key={this.props.element}>
-			<a onClick={this.addElement}>{this.props.name}</a>
+			<a onClick={this.addElement}>
+				{ this.props.icon ? <span className={this.props.icon}></span> : null}
+				<br/>{this.props.name}
+			</a>
 		</li>);
 	}
 });

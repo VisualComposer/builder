@@ -15,7 +15,9 @@
 
         <div class="row">
 
-            <div class="col-sm-8 blog-main" id="vc_v-editor"></div><!-- /.blog-main -->
+            <div class="col-sm-8 blog-main" id="vc_v-editor">
+                <a href="#" id="load-script">Edit</a>
+            </div><!-- /.blog-main -->
 
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
@@ -59,10 +61,18 @@
             <a href="#">Back to top</a>
         </p>
     </footer>
-    <script src="bundle.js"></script>
+    <!-- <script src="bundle.js"></script> -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+        $('#load-script').click(function(e){
+            e.preventDefault();
+            $(this).remove();
+            $.getScript('bundle.js');
+        });
+    </script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="sources/css/base.css">
 
 
     <!-- Latest compiled and minified JavaScript -->

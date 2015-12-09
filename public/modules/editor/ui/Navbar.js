@@ -12,7 +12,9 @@ const customStyles = {
 		right                 : 'auto',
 		bottom                : 'auto',
 		marginRight           : '-50%',
-		transform             : 'translate(-50%, -50%)'
+		transform             : 'translate(-50%, -50%)',
+		border				  : '0',
+		background			  : 'transparent'
 	}
 };
 
@@ -54,14 +56,21 @@ var Navbar = React.createClass({
 					isOpen={this.state.modalIsOpen}
 					onRequestClose={this.closeModal}
 					style={customStyles} >
-
-					<h2>Add element</h2>
-					<button onClick={this.closeModal}>close</button>
-					<ul className="vc_v-modal-content">
-						{elements.map(function(element) {
-							return <ElementControl key={element.element} {...element}/>;
-						}.bind(this))}
-					</ul>
+					<div className="modal-dialog">
+						<div className="modal-content">
+							<div className="modal-header">
+								<button type="button" className="close" onClick={this.closeModal}><span aria-hidden="true">&times;</span></button>
+								<h4 className="modal-title">Add element</h4>
+							</div>
+							<div className="modal-body">
+								<ul className="vc_v-modal-content">
+									{elements.map(function(element) {
+										return <ElementControl key={element.element} {...element}/>;
+									}.bind(this))}
+								</ul>
+							</div>
+						</div>
+					</div>
 				</Modal>
 			</nav>
 		);
