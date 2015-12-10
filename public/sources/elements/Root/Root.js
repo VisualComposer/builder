@@ -1,7 +1,8 @@
 var React = require('react');
 var Section = React.createClass({
     render: function() {
-        return (<div className="vc-v-root-element" key={this.props.key}>{this.props.content}</div>);
+        var { key, content, ...other } = this.props;
+        return (<div className="vc-v-root-element" key={key} {...other}>{content}</div>);
     }
 });
 module.exports = Section;

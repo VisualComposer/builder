@@ -21784,15 +21784,25 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(3);
 	var Section = React.createClass({
 	    displayName: "Section",
 
 	    render: function render() {
+	        var _props = this.props;
+	        var key = _props.key;
+	        var content = _props.content;
+
+	        var other = _objectWithoutProperties(_props, ["key", "content"]);
+
 	        return React.createElement(
 	            "div",
-	            { className: "vc-v-root-element", key: this.props.key },
-	            this.props.content
+	            _extends({ className: "vc-v-root-element", key: key }, other),
+	            content
 	        );
 	    }
 	});
