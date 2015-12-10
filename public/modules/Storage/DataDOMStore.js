@@ -56,7 +56,10 @@ Data.subscribe('data:remove', function(id) {
 Data.subscribe('data:clone', function(id) {
     DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 });
-Data.subscribe('data:sync', function(){
+
+
+// Add to app
+Data.subscribe('app:init', function(){
     var dataString =  '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
     var parser = new DOMParser();
     DataStore.document = parser.parseFromString(dataString, 'text/xml');

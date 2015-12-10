@@ -46,14 +46,28 @@
 
 	'use strict';
 
-	var Editor = __webpack_require__(2);
-	var React = __webpack_require__(3);
-	var ReactDOM = __webpack_require__(164);
-	var Data = __webpack_require__(214);
-	var EditorControls = __webpack_require__(216);
-	var controls = new EditorControls();
+	var Mediator = __webpack_require__(160); // need to remove
+	var App = {
+		loadModules: function loadModules() {
+			// Create autoloader or mapper via mediator;
 
-	ReactDOM.render(React.createElement(Editor, null), document.getElementById('vc_v-editor'));
+			// Editor module
+			var Editor = __webpack_require__(2);
+			// Data Storage module
+			var Data = __webpack_require__(214);
+			// Editor Controls
+			// @todo move inside editor. For example still here
+			var EditorControls = __webpack_require__(216);
+			new EditorControls();
+		},
+		init: function init() {
+			this.loadModules();
+			this.publish('app:init', true);
+		}
+	};
+	Mediator.installTo(App);
+
+	App.init();
 
 /***/ },
 /* 1 */,
@@ -63,39 +77,14 @@
 	'use strict';
 
 	var React = __webpack_require__(3);
-	var Mediator = __webpack_require__(160); // need to remove too
+	var ReactDOM = __webpack_require__(164);
+	var EditorUI = __webpack_require__(225);
+	var Mediator = __webpack_require__(160); // need to remove
 
-	var Navbar = __webpack_require__(161);
-	var HtmlLayout = __webpack_require__(202);
-	var TreeLayout = __webpack_require__(195);
-	var DataLayout = __webpack_require__(208);
-	__webpack_require__(212);
-	var Editor = React.createClass({
-		displayName: 'Editor',
-
-		getInitialState: function getInitialState() {
-			return {
-				data: {}
-			};
-		},
-		componentDidMount: function componentDidMount() {
-			Editor.subscribe('data:changed', (function (document) {
-				this.setState({ data: document });
-			}).bind(this));
-			Editor.publish('data:sync');
-		},
-		render: function render() {
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(Navbar, { data: this.state.data }),
-				React.createElement(HtmlLayout, { data: this.state.data }),
-				React.createElement(DataLayout, { data: this.state.data })
-			);
-		}
-	});
-
+	// create module
+	var Editor = {};
 	Mediator.installTo(Editor);
+	ReactDOM.render(React.createElement(EditorUI, null), document.getElementById('vc_v-editor'));
 	module.exports = Editor;
 
 /***/ },
@@ -22369,143 +22358,12 @@
 	exports.push([module.id, ".vc-v-root-element .controls {\n  padding: 10px;\n  text-align: center;\n}\n.vc-v-root-element .controls a {\n  font-size: 24px;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n}\nsection {\n  min-height: 60px;\n  border: 1px dashed #999999;\n}\n", ""]);
 
 /***/ },
-/* 208 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(3);
-	__webpack_require__(209);
-	var Utils = __webpack_require__(184);
-	var Element = __webpack_require__(211);
-	var Layout = React.createClass({
-	    displayName: 'Layout',
-
-	    render: function render() {
-	        var elementsList = undefined;
-	        if (this.props.data.childNodes) {
-	            var data = Array.prototype.slice.call(this.props.data.childNodes);
-	            elementsList = data.map(function (element) {
-	                var data = Array.prototype.slice.call(element.childNodes);
-	                return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
-	            });
-	        }
-	        return React.createElement(
-	            'div',
-	            { className: 'vc-v-layouts-data', id: 'vc-v-layouts-data' },
-	            elementsList
-	        );
-	    }
-	});
-	module.exports = Layout;
-
-/***/ },
-/* 209 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(210);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(194)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/data/DataLayout.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/data/DataLayout.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(193)();
-	exports.push([module.id, ".vc-v-layouts-data {\n  border: 1px dashed grey;\n  min-height: 100px;\n  padding: 10px;\n}\n.vc-v-layouts-data .vc-v-tree-node {\n  padding-left: 20px;\n}\n", ""]);
-
-/***/ },
-/* 211 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(3);
-	var Utils = __webpack_require__(184);
-	var Mediator = __webpack_require__(160);
-
-	var Element = React.createClass({
-	    displayName: 'Element',
-
-	    addChild: function addChild() {
-	        Element.publish('data:activeNode', this.props.element.id);
-	        Element.publish('app:add', true);
-	    },
-	    getContent: function getContent() {
-	        var elementsList = this.props.data.map(function (element) {
-	            var data = Array.prototype.slice.call(element.childNodes);
-	            return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data,
-	                key: element.getAttribute('id') });
-	        });
-	        return elementsList;
-	        return '';
-	    },
-	    render: function render() {
-	        if (this.props.data.length) {
-	            return React.createElement(
-	                'div',
-	                { className: 'vc-v-tree-node' },
-	                ['<', this.props.element.element, ' id="', this.props.element.id, '"', '>'],
-	                this.getContent(),
-	                ['</', this.props.element.element, '>']
-	            );
-	        }
-	        return React.createElement(
-	            'div',
-	            { className: 'vc-v-tree-node' },
-	            ['<', this.props.element.element, ' id="', this.props.element.id, '"', '/>']
-	        );
-	    }
-	});
-	Mediator.installTo(Element);
-	module.exports = Element;
-
-/***/ },
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(213);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(194)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/Editor.css", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/Editor.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(193)();
-	exports.push([module.id, "", ""]);
-
-/***/ },
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
 /* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22569,7 +22427,9 @@
 	Data.subscribe('data:clone', function (id) {
 	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 	});
-	Data.subscribe('data:sync', function () {
+
+	// Add to app
+	Data.subscribe('app:init', function () {
 	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
@@ -22846,6 +22706,81 @@
 
 	exports = module.exports = __webpack_require__(193)();
 	exports.push([module.id, "#wysiwyg-controls {\n  display: none;\n}\n#wysiwyg-controls.active {\n  display: block;\n}\n.vc-toolbar-container {\n  height: 10vh;\n  background-color: #f9f9f9;\n}\n.vc-iframe-container {\n  height: 90vh;\n  overflow: hidden;\n  background-color: #e5e5e5;\n  position: relative;\n  margin: 0 auto;\n}\n.vc-iframe {\n  height: 90vh;\n  width: 100%;\n  overflow: auto;\n  border: 0;\n  display: block;\n}\n.vc-iframe-size-lg {\n  width: 90vw;\n}\n.vc-iframe-size-md {\n  width: 60vw;\n}\n.vc-iframe-size-xs {\n  width: 30vw;\n}\n.iframe-content-toggle {\n  visibility: visible;\n  position: absolute;\n  bottom: 0;\n  left: 10px;\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n  background: #c0c0c0;\n  border: 1px solid #d0d0d0;\n  padding: 3px 6px;\n}\n.iframe-content-toggle:focus {\n  box-shadow: none;\n  outline: 0;\n}\n.iframe-content-toggle.vc-active {\n  bottom: 100%;\n}\n.vc-more-actions {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  visibility: hidden;\n  background: #fff;\n  padding: 10px;\n  border-top: 2px solid #d0d0d0;\n}\n.vc-more-actions.vc-visible {\n  visibility: visible;\n}\n.vc-more-actions textarea {\n  display: block;\n  margin: 10px auto;\n  height: 45vh;\n  width: 100%;\n}\n.vc-more-actions .action-button {\n  margin: 10px 0;\n}\n.vc-responsive-layout {\n  position: fixed;\n  top: 0;\n  right: 0;\n}\n.vc-outline {\n  position: absolute;\n  box-shadow: 0 0 1px 1px #2b669a;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n}\n.vc-outline-index-1 {\n  opacity: .5;\n}\n.vc-outline-index-2 {\n  opacity: .3;\n}\n.vc-outline-index-3 {\n  opacity: .1;\n}\n.vc-controls-container {\n  position: absolute;\n  list-style: none;\n  padding: 0 0 3px 0;\n  margin: 0;\n  transform: translateY(-99%);\n  text-align: center;\n}\n.vc-control {\n  display: inline-block;\n  padding: 3px 7px;\n  margin-left: 1px;\n  margin-right: 1px;\n  white-space: nowrap;\n  min-width: 2em;\n  line-height: 2;\n  border: 1px solid #060753;\n  cursor: pointer;\n  color: #fff;\n  background-color: #060753;\n  border-radius: 3px;\n}\n", ""]);
+
+/***/ },
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(224);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(194)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(193)();
+	exports.push([module.id, "", ""]);
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(3);
+	var Mediator = __webpack_require__(160); // need to remove too
+
+	var Navbar = __webpack_require__(161);
+	var HtmlLayout = __webpack_require__(202);
+	// var TreeLayout = require( './layouts/tree/TreeLayout' );
+	// var DataLayout = require( './layouts/data/DataLayout' );
+	__webpack_require__(223);
+	// @todo use mixins logic by module to interact with modules. Big object as Mediator connected with objects as mixins :)
+	var DataChanged = {
+	    componentDidMount: function componentDidMount() {
+	        this.subscribe('data:changed', (function (document) {
+	            this.setState({ data: document });
+	        }).bind(this));
+	    }
+	};
+	var reactObject = {
+	    mixins: [DataChanged],
+	    getInitialState: function getInitialState() {
+	        return {
+	            data: {}
+	        };
+	    },
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(Navbar, { data: this.state.data }),
+	            React.createElement(HtmlLayout, { data: this.state.data })
+	        );
+	    }
+	};
+	Mediator.installTo(reactObject);
+	var Editor = React.createClass(reactObject);
+	module.exports = Editor;
 
 /***/ }
 /******/ ]);

@@ -1,11 +1,29 @@
-var Editor = require('./modules/editor/Editor');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Data = require('./modules/storage/DataDomStore');
-var EditorControls = require('./modules/editor-controls/EditorControls');
-var controls = new EditorControls();
+var Mediator = require( './helpers/Mediator' ); // need to remove
+var App = {
+	loadModules: function() {
+		// Create autoloader or mapper via mediator;
 
-ReactDOM.render(
-	<Editor />,
-	document.getElementById('vc_v-editor')
-);
+		// Editor module
+		var Editor = require('./modules/editor/Editor');
+		// Data Storage module
+		var Data = require('./modules/storage/DataDomStore');
+		// Editor Controls
+		// @todo move inside editor. For example still here
+		var EditorControls = require('./modules/editor-controls/EditorControls');
+		new EditorControls();
+	},
+	init: function() {
+		this.loadModules();
+		this.publish('app:init', true);
+	},
+};
+Mediator.installTo(App);
+
+App.init();
+
+
+
+
+
+
+
