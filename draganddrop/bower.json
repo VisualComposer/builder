@@ -1,0 +1,22 @@
+{
+  "name": "draganddrop",
+  "homepage": "https://github.com/wpbakery/vc-five",
+  "authors": [
+    "Vjaceslav Vasenin <time2type@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
