@@ -22,7 +22,7 @@ variables.css
 variables_common.css
 mixins.css
 
-# Grunt
+
 node_modules
 npm-debug.log
 
