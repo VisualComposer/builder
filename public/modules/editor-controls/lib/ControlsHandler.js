@@ -9,7 +9,7 @@ function ControlsHandler() {
 
 ControlsHandler.prototype.showOutline = function ( $el ) {
     if ($el.data('vcElement') === undefined) {
-        $el = $el.closest('section');
+        $el = $el.closest('[data-vc-element]');
     }
 
     if (!this.$currentElement || $el[0] !== this.$currentElement[0]) {
@@ -53,7 +53,7 @@ ControlsHandler.prototype.updateElementsTree = function (  ) {
 
 
     this.elementsTree.push(this.$currentElement);
-    this.$currentElement.parents('section' ).each( function (  ) {
+    this.$currentElement.parents('[data-vc-element]' ).each( function (  ) {
         _this.elementsTree.push($(this));
     });
     this.elementsTree = this.elementsTree.slice(0, this.sliceSize);

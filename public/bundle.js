@@ -21724,14 +21724,24 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(3);
 	var Button = React.createClass({
 	    displayName: "Button",
 
 	    render: function render() {
+	        var _props = this.props;
+	        var key = _props.key;
+	        var content = _props.content;
+
+	        var other = _objectWithoutProperties(_props, ["key", "content"]);
+
 	        return React.createElement(
 	            "button",
-	            { className: "vc-button-block", key: this.props.key },
+	            _extends({ className: "vc-button-block", key: key }, other),
 	            "Button"
 	        );
 	    }
@@ -21744,14 +21754,24 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(3);
 	var Paragraph = React.createClass({
 	    displayName: "Paragraph",
 
 	    render: function render() {
+	        var _props = this.props;
+	        var key = _props.key;
+	        var content = _props.content;
+
+	        var other = _objectWithoutProperties(_props, ["key", "content"]);
+
 	        return React.createElement(
 	            "p",
-	            { className: "vc-text-block", key: this.props.key },
+	            _extends({ className: "vc-text-block", key: key }, other),
 	            "Hello my name is Boris and I know ninja rules very well. Hide away."
 	        );
 	    }
@@ -21784,16 +21804,26 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 	var React = __webpack_require__(3);
 	__webpack_require__(191);
 	var Section = React.createClass({
 	    displayName: 'Section',
 
 	    render: function render() {
+	        var _props = this.props;
+	        var key = _props.key;
+	        var content = _props.content;
+
+	        var other = _objectWithoutProperties(_props, ['key', 'content']);
+
 	        return React.createElement(
 	            'section',
-	            { className: 'vc-v-section', key: this.props.key },
-	            this.props.content
+	            _extends({ className: 'vc-v-section', key: key }, other),
+	            content
 	        );
 	    }
 	});
@@ -22292,7 +22322,7 @@
 	    render: function render() {
 	        var element = this.props.element;
 	        var Element = ElementsHelper.getElement(element);
-	        return React.createElement(Element, { key: Utils.createKey(), content: this.getContent() });
+	        return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
 	    }
 	});
 	Mediator.installTo(Element);
@@ -22623,7 +22653,7 @@
 
 	ControlsHandler.prototype.showOutline = function ($el) {
 	    if ($el.data('vcElement') === undefined) {
-	        $el = $el.closest('section');
+	        $el = $el.closest('[data-vc-element]');
 	    }
 
 	    if (!this.$currentElement || $el[0] !== this.$currentElement[0]) {
@@ -22666,7 +22696,7 @@
 	    this.clearElementsTree();
 
 	    this.elementsTree.push(this.$currentElement);
-	    this.$currentElement.parents('section').each(function () {
+	    this.$currentElement.parents('[data-vc-element]').each(function () {
 	        _this.elementsTree.push($(this));
 	    });
 	    this.elementsTree = this.elementsTree.slice(0, this.sliceSize);

@@ -1,7 +1,8 @@
 var React = require('react');
 var Button = React.createClass({
     render: function() {
-        return (<button className="vc-button-block" key={this.props.key}>Button</button>);
+        var { key, content, ...other } = this.props;
+        return (<button className="vc-button-block" key={key} {...other}>Button</button>);
     }
 });
 module.exports = Button;

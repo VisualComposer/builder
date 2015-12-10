@@ -19,7 +19,7 @@ var Element = React.createClass({
     render: function() {
         var element = this.props.element;
         var Element = ElementsHelper.getElement(element);
-        return React.createElement(Element, {key: Utils.createKey(), content: this.getContent()});
+        return React.createElement(Element, {key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id});
     }
 });
 Mediator.installTo(Element);
