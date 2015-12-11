@@ -26,5 +26,5 @@ var EditorControls = function() {
     return controlsHandler;
 }
 
-module.exports = EditorControls;
+module.exports = new EditorControls();
 

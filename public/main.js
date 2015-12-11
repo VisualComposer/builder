@@ -10,7 +10,6 @@ var App = {
 		// Editor Controls
 		// @todo move inside editor. For example still here
 		var EditorControls = require('./modules/editor-controls/EditorControls');
-		new EditorControls();
 	},
 	init: function() {
 		this.loadModules();

@@ -58,7 +58,6 @@
 			// Editor Controls
 			// @todo move inside editor. For example still here
 			var EditorControls = __webpack_require__(216);
-			new EditorControls();
 		},
 		init: function init() {
 			this.loadModules();
@@ -22405,6 +22404,23 @@
 	            return true;
 	        }
 	        return false;
+	    },
+	    move: function move(id, beforeId) {
+	        var beforeDOMElement = undefined,
+	            DOMElement = this.document.getElementById(id);
+	        if (DOMElement) {
+	            if (beforeId) {
+	                beforeDOMElement = this.document.getElementById(beforeId);
+	                if (beforeDOMElement) {
+	                    beforeDOMElement.parentNode.insertBefore(DOMElement, beforeDOMElement);
+	                    return true;
+	                }
+	            } else {
+	                DOMElement.parentNode.appendChild(DOMElement);
+	                return true;
+	            }
+	        }
+	        return false;
 	    }
 	};
 
@@ -22429,6 +22445,11 @@
 	});
 	Data.subscribe('data:clone', function (id) {
 	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	});
+
+	// @todo sync how to ignore one or too object.
+	Data.subscribe('data:move', function (id, beforeId) {
+	    DataStore.move(id, beforeId) && Data.publish('data:changed', DataStore.document);
 	});
 
 	// Add to app
@@ -22507,7 +22528,7 @@
 	    return controlsHandler;
 	};
 
-	module.exports = EditorControls;
+	module.exports = new EditorControls();
 
 /***/ },
 /* 217 */
