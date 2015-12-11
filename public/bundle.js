@@ -22372,13 +22372,16 @@
 	var Mediator = __webpack_require__(160);
 	var Utils = __webpack_require__(184);
 	var LocalStorage = __webpack_require__(215);
+	// var mori = require("mori");
 	var DataStore = {
 	    document: null,
 	    add: function add(element, parentNode) {
+	        // @todo Here we should use immutable data.
 	        if (parentNode) {
 	            var DOMElement = this.document.createElement(element.element);
 	            var elementId = document.createAttribute('id'); // Create a "id" attribute
-	            elementId.value = element.id; // Set the value of the class attribute
+	            elementId.value = element.id;
+	            // Set the value of the class attribute
 	            DOMElement.setAttributeNode(elementId);
 	            parentNode.appendChild(DOMElement);
 	        }

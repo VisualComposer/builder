@@ -1,13 +1,16 @@
 var Mediator = require('../../helpers/Mediator');
 var Utils = require('../../helpers/Utils');
 var LocalStorage = require('./LocalStorage');
+// var mori = require("mori");
 var DataStore = {
     document: null,
     add: function(element, parentNode) {
+        // @todo Here we should use immutable data.
         if(parentNode) {
             var DOMElement = this.document.createElement(element.element);
             var elementId = document.createAttribute('id');       // Create a "id" attribute
-            elementId.value = element.id;                           // Set the value of the class attribute
+            elementId.value = element.id;
+            // Set the value of the class attribute
             DOMElement.setAttributeNode(elementId);
             parentNode.appendChild(DOMElement);
         }
