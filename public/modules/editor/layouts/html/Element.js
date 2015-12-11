@@ -2,8 +2,30 @@ var React = require('react');
 var Utils = require('../../../../helpers/Utils');
 var Mediator = require('../../../../helpers/Mediator');
 var ElementsHelper = require('../../../../helpers/Elements');
+var Sortable = require('react-rubaxa-sortable/node_modules/sortablejs/Sortable.js');
+var ReactDOM = require('react-dom');
 require('./Element.less');
+
+
+var SortableMixin = {
+	componentDidMount: function () {
+		var elements = ReactDOM.findDOMNode( this ).querySelectorAll( '[data-vc-element]' );
+		window.console.log(Sortable, elements);
+		$.each( elements, function ( key, item ) {
+			Sortable.create( item, {
+				animation: 150,
+				forceFallback: true,
+				onUpdate: function ( ev ) {
+					var $el = $( ev.item );
+					Element.publish( 'data:move', $el.data( 'vcElement' ), $el.next( '[data-vc-element]' ).data( 'vcElement' ) );
+				}
+			} );
+		} );
+	}
+};
+
 var Element = React.createClass({
+	mixins: [SortableMixin],
     addChild: function() {
         Element.publish('data:activeNode', this.props.element.id);
         Element.publish('app:add', true);
