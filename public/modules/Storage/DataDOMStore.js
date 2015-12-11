@@ -1,13 +1,16 @@
 var Mediator = require('../../helpers/Mediator');
 var Utils = require('../../helpers/Utils');
 var LocalStorage = require('./LocalStorage');
+// var mori = require("mori");
 var DataStore = {
     document: null,
     add: function(element, parentNode) {
+        // @todo Here we should use immutable data.
         if(parentNode) {
             var DOMElement = this.document.createElement(element.element);
             var elementId = document.createAttribute('id');       // Create a "id" attribute
-            elementId.value = element.id;                           // Set the value of the class attribute
+            elementId.value = element.id;
+            // Set the value of the class attribute
             DOMElement.setAttributeNode(elementId);
             parentNode.appendChild(DOMElement);
         }
@@ -29,6 +32,22 @@ var DataStore = {
             DOMElementClone.setAttribute('id', Utils.createKey());
             DOMElement.parentNode.insertBefore(DOMElementClone, DOMElement.nextSibling)
             return true;
+        }
+        return false;
+    },
+    move: function(id, beforeId) {
+        let beforeDOMElement, DOMElement = this.document.getElementById( id );
+        if(DOMElement) {
+            if(beforeId) {
+                beforeDOMElement = this.document.getElementById( beforeId );
+                if(beforeDOMElement) {
+                    beforeDOMElement.parentNode.insertBefore(DOMElement, beforeDOMElement);
+                    return true;
+                }
+            } else {
+                DOMElement.parentNode.appendChild(DOMElement);
+                return true;
+            }
         }
         return false;
     }
@@ -56,7 +75,14 @@ Data.subscribe('data:remove', function(id) {
 Data.subscribe('data:clone', function(id) {
     DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
 });
-Data.subscribe('data:sync', function(){
+
+// @todo sync how to ignore one or too object.
+Data.subscribe('data:move', function(id, beforeId){
+    DataStore.move(id, beforeId) && Data.publish('data:changed', DataStore.document);
+});
+
+// Add to app
+Data.subscribe('app:init', function(){
     var dataString =  '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
     var parser = new DOMParser();
     DataStore.document = parser.parseFromString(dataString, 'text/xml');

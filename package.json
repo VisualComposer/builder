@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "immutable": "^3.7.5",
     "react": "^0.14.2",
     "react-dom": "*",
     "react-modal": "^0.6.1"
