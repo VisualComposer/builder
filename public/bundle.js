@@ -22339,56 +22339,48 @@
 	var Utils = __webpack_require__(185);
 	var Mediator = __webpack_require__(2);
 	var ElementsHelper = __webpack_require__(186);
-	//var Sortable = require('react-rubaxa-sortable/node_modules/sortablejs/Sortable.js');
 	var ReactDOM = __webpack_require__(161);
 	__webpack_require__(208);
 
-	// run: \vc-five\node_modules\react-rubaxa-sortable\node_modules\sortablejs>npm install && grunt jquery
 	var SortableMixin = {
-		componentDidMount: function componentDidMount() {
-			var component = ReactDOM.findDOMNode(this);
-			if ($(component).is('[data-vc-element="vc-v-root-element"')) {
-				debugger;
-				var elements = component.querySelectorAll('[data-vc-element]');
-				$.each(elements, function (key, item) {
-					$(item).sortable({
-						animation: 150,
-						forceFallback: true,
-						onUpdate: function onUpdate(ev) {
-							var $el = $(ev.item);
-							Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
-						}
-					});
-				});
-			}
-		}
+	  componentDidMount: function componentDidMount() {
+	    var component = ReactDOM.findDOMNode(this);
+	    $(component).sortable({
+	      animation: 150,
+	      forceFallback: true,
+	      onUpdate: function onUpdate(ev) {
+	        var $el = $(ev.item);
+	        Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
+	      }
+	    });
+	  }
 	};
 
 	var Element = React.createClass({
-		displayName: 'Element',
+	  displayName: 'Element',
 
-		mixins: [SortableMixin],
-		addChild: function addChild() {
-			Element.publish('data:activeNode', this.props.element.id);
-			Element.publish('app:add', true);
-		},
-		getContent: function getContent() {
-			var elementsList = this.props.data.map(function (element) {
-				var data = Array.prototype.slice.call(element.childNodes);
-				return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
-			});
-			elementsList.push(React.createElement(
-				'div',
-				{ className: 'controls', key: '{this.props.element.id}-controls' },
-				React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
-			));
-			return elementsList;
-		},
-		render: function render() {
-			var element = this.props.element;
-			var Element = ElementsHelper.getElement(element);
-			return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
-		}
+	  mixins: [SortableMixin],
+	  addChild: function addChild() {
+	    Element.publish('data:activeNode', this.props.element.id);
+	    Element.publish('app:add', true);
+	  },
+	  getContent: function getContent() {
+	    var elementsList = this.props.data.map(function (element) {
+	      var data = Array.prototype.slice.call(element.childNodes);
+	      return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
+	    });
+	    elementsList.push(React.createElement(
+	      'div',
+	      { className: 'controls', key: '{this.props.element.id}-controls' },
+	      React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
+	    ));
+	    return elementsList;
+	  },
+	  render: function render() {
+	    var element = this.props.element;
+	    var Element = ElementsHelper.getElement(element);
+	    return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
+	  }
 	});
 	Mediator.installTo(Element);
 	module.exports = Element;
