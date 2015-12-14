@@ -10,11 +10,10 @@ require('./Element.less');
 var SortableMixin = {
 	componentDidMount: function () {
 		var component = ReactDOM.findDOMNode( this );
-		if ( $( component ).is( '[data-vc-element="vc-v-root-element"' ) ) {
-			debugger;
-			var elements = component.querySelectorAll( '[data-vc-element]' );
-			$.each( elements, function ( key, item ) {
-				$( item ).sortable( {
+        //if ( $( component ).is( '[data-vc-element="vc-v-root-element"]' ) ) {
+		//	var elements = component.querySelectorAll( '[data-vc-element]' );
+		//	$.each( elements, function ( key, item ) {
+				$( component ).sortable( {
 					animation: 150,
 					forceFallback: true,
 					onUpdate: function ( ev ) {
@@ -24,8 +23,8 @@ var SortableMixin = {
 							$el.next( '[data-vc-element]' ).data( 'vcElement' ) );
 					}
 				} );
-			} );
-		}
+		//	} );
+		// }
 	}
 };
 

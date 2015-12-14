@@ -83,7 +83,6 @@ Data.subscribe('data:move', function(id, beforeId){
 
 // Add to app
 Data.subscribe('app:init', function(){
-	debugger;
     var dataString =  '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
     var parser = new DOMParser();
     DataStore.document = parser.parseFromString(dataString, 'text/xml');

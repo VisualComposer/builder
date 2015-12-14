@@ -54,10 +54,10 @@
 			// Editor module
 			var Editor = __webpack_require__(3);
 			// Data Storage module
-			var Data = __webpack_require__(212);
+			var Data = __webpack_require__(211);
 			// Editor Controls
 			// @todo move inside editor. For example still here
-			var EditorControls = __webpack_require__(214);
+			// var EditorControls = require('./modules/editor-controls/EditorControls');
 		},
 		init: function init() {
 			this.loadModules();
@@ -19721,7 +19721,7 @@
 	var HtmlLayout = __webpack_require__(203);
 	// var TreeLayout = require( './layouts/tree/TreeLayout' );
 	// var DataLayout = require( './layouts/data/DataLayout' );
-	__webpack_require__(210);
+	__webpack_require__(209);
 	// @todo use mixins logic by module to interact with modules. Big object as Mediator connected with objects as mixins :)
 	var DataChanged = {
 	    componentDidMount: function componentDidMount() {
@@ -21730,6 +21730,7 @@
 
 	var map = {
 		"./Button/Button.js": 188,
+		"./Button/ButtonFront.js": 217,
 		"./Paragraph/Paragraph.js": 189,
 		"./Root/Root.js": 190,
 		"./Section/Section.js": 191
@@ -21752,27 +21753,28 @@
 /* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 	var React = __webpack_require__(4);
+	__webpack_require__(217);
 	var Button = React.createClass({
-	    displayName: "Button",
+	    displayName: 'Button',
 
 	    render: function render() {
 	        var _props = this.props;
 	        var key = _props.key;
 	        var content = _props.content;
 
-	        var other = _objectWithoutProperties(_props, ["key", "content"]);
+	        var other = _objectWithoutProperties(_props, ['key', 'content']);
 
 	        return React.createElement(
-	            "button",
-	            _extends({ className: "vc-button-block", key: key }, other),
-	            "Button"
+	            'button',
+	            _extends({ className: 'vc-button-block', key: key }, other),
+	            'Button'
 	        );
 	    }
 	});
@@ -21883,8 +21885,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\sources\\elements\\Section\\Section.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\sources\\elements\\Section\\Section.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/sources/elements/Section/Section.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/sources/elements/Section/Section.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22163,8 +22165,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\tree\\TreeLayout.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\tree\\TreeLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/tree/TreeLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/tree/TreeLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22223,7 +22225,7 @@
 	            React.createElement(
 	                'a',
 	                { onClick: this.addChild, style: { display: 'none' } },
-	                React.createElement('span', { className: 'glyphicon glyphicon-plus\r\n' })
+	                React.createElement('span', { className: 'glyphicon glyphicon-plus\n' })
 	            ),
 	            this.getContent()
 	        );
@@ -22246,8 +22248,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\ui\\Navbar.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\ui\\Navbar.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Navbar.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Navbar.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22275,12 +22277,20 @@
 	'use strict';
 
 	var React = __webpack_require__(4);
+	var ReactDOM = __webpack_require__(161);
 	__webpack_require__(204);
 	var Utils = __webpack_require__(185);
 	var Element = __webpack_require__(206);
+	var SortableMixin = {
+	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+	        return true;
+	    }
+	};
+
 	var Layout = React.createClass({
 	    displayName: 'Layout',
 
+	    mixins: [SortableMixin],
 	    render: function render() {
 	        var elementsList = undefined;
 	        if (this.props.data.childNodes) {
@@ -22313,8 +22323,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\html\\HtmlLayout.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\html\\HtmlLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/HtmlLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/HtmlLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22341,75 +22351,73 @@
 	var ElementsHelper = __webpack_require__(186);
 	//var Sortable = require('react-rubaxa-sortable/node_modules/sortablejs/Sortable.js');
 	var ReactDOM = __webpack_require__(161);
-	__webpack_require__(208);
+	__webpack_require__(207);
 
 	// run: \vc-five\node_modules\react-rubaxa-sortable\node_modules\sortablejs>npm install && grunt jquery
 	var SortableMixin = {
-		componentDidMount: function componentDidMount() {
-			var component = ReactDOM.findDOMNode(this);
-			if ($(component).is('[data-vc-element="vc-v-root-element"')) {
-				debugger;
-				var elements = component.querySelectorAll('[data-vc-element]');
-				$.each(elements, function (key, item) {
-					$(item).sortable({
-						animation: 150,
-						forceFallback: true,
-						onUpdate: function onUpdate(ev) {
-							var $el = $(ev.item);
-							Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
-						}
-					});
-				});
-			}
-		}
+	  componentDidMount: function componentDidMount() {
+	    var component = ReactDOM.findDOMNode(this);
+	    //if ( $( component ).is( '[data-vc-element="vc-v-root-element"]' ) ) {
+	    //	var elements = component.querySelectorAll( '[data-vc-element]' );
+	    //	$.each( elements, function ( key, item ) {
+	    $(component).sortable({
+	      animation: 150,
+	      forceFallback: true,
+	      onUpdate: function onUpdate(ev) {
+	        var $el = $(ev.item);
+	        Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
+	      }
+	    });
+	    //	} );
+	    // }
+	  }
 	};
 
 	var Element = React.createClass({
-		displayName: 'Element',
+	  displayName: 'Element',
 
-		mixins: [SortableMixin],
-		addChild: function addChild() {
-			Element.publish('data:activeNode', this.props.element.id);
-			Element.publish('app:add', true);
-		},
-		getContent: function getContent() {
-			var elementsList = this.props.data.map(function (element) {
-				var data = Array.prototype.slice.call(element.childNodes);
-				return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
-			});
-			elementsList.push(React.createElement(
-				'div',
-				{ className: 'controls', key: '{this.props.element.id}-controls' },
-				React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
-			));
-			return elementsList;
-		},
-		render: function render() {
-			var element = this.props.element;
-			var Element = ElementsHelper.getElement(element);
-			return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
-		}
+	  mixins: [SortableMixin],
+	  addChild: function addChild() {
+	    Element.publish('data:activeNode', this.props.element.id);
+	    Element.publish('app:add', true);
+	  },
+	  getContent: function getContent() {
+	    var elementsList = this.props.data.map(function (element) {
+	      var data = Array.prototype.slice.call(element.childNodes);
+	      return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
+	    });
+	    elementsList.push(React.createElement(
+	      'div',
+	      { className: 'controls', key: '{this.props.element.id}-controls' },
+	      React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
+	    ));
+	    return elementsList;
+	  },
+	  render: function render() {
+	    var element = this.props.element;
+	    var Element = ElementsHelper.getElement(element);
+	    return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
+	  }
 	});
 	Mediator.installTo(Element);
 	module.exports = Element;
 
 /***/ },
-/* 207 */,
-/* 208 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(209);
+	var content = __webpack_require__(208);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(195)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\html\\Element.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\layouts\\html\\Element.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/Element.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/Element.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22418,28 +22426,28 @@
 	}
 
 /***/ },
-/* 209 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(194)();
 	exports.push([module.id, ".vc-v-root-element .controls {\n  padding: 10px;\n  text-align: center;\n}\n.vc-v-root-element .controls a {\n  font-size: 24px;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n}\nsection {\n  min-height: 60px;\n  border: 1px dashed #999999;\n}\n", ""]);
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(211);
+	var content = __webpack_require__(210);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(195)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\ui\\Editor.css", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor\\ui\\Editor.css");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Editor.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22448,21 +22456,21 @@
 	}
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(194)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(2);
 	var Utils = __webpack_require__(185);
-	var LocalStorage = __webpack_require__(213);
+	var LocalStorage = __webpack_require__(212);
 	// var mori = require("mori");
 	var DataStore = {
 	    document: null,
@@ -22546,7 +22554,6 @@
 
 	// Add to app
 	Data.subscribe('app:init', function () {
-	    debugger;
 	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
@@ -22556,7 +22563,7 @@
 	module.exports = Data;
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22579,7 +22586,6 @@
 	Mediator.installTo(Data);
 	Data.subscribe('data:changed', function (document) {
 	    window.vcTest = document;
-	    debugger;
 	    var data = Array.prototype.slice.call(document.childNodes);
 	    var elementsList = data.map(function (element) {
 	        return element.innerHTML;
@@ -22589,241 +22595,16 @@
 	module.exports = Data;
 
 /***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var Mediator = __webpack_require__(2); // need to remove too
-	var controlsHandler = __webpack_require__(215);
-	var ControlsTrigger = {};
-	__webpack_require__(216);
-
-	ControlsTrigger.triggerShowFrame = function (e) {
-	    e.stopPropagation();
-	    controlsHandler.showOutline($(e.currentTarget));
-	};
-
-	ControlsTrigger.triggerHideFrame = function (e) {
-	    controlsHandler.hideOutline();
-	};
-
-	ControlsTrigger.triggerRedrawFrame = function (e) {
-	    controlsHandler.drawOutlines();
-	};
-	Mediator.installTo(controlsHandler);
-
-	var EditorControls = function EditorControls() {
-	    controlsHandler.subscribe('data:changed', function () {
-	        $(document).on('mousemove hover', 'section', ControlsTrigger.triggerShowFrame);
-	        $(document).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame);
-	        $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);
-	    });
-	    return controlsHandler;
-	};
-
-	module.exports = new EditorControls();
-
-/***/ },
-/* 215 */
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */
 /***/ function(module, exports) {
 
 	'use strict';
 
-	function ControlsHandler() {
-	    this.$currentElement = undefined;
-	    this.sliceSize = 3;
-	    this.elementsTree = [];
-	    this.outlines = [];
-	    this.$controlsWindow = null;
-	    this.$controlsContainer = null;
-	}
-
-	ControlsHandler.prototype.showOutline = function ($el) {
-	    if ($el.data('vcElement') === undefined) {
-	        $el = $el.closest('[data-vc-element]');
-	    }
-
-	    if (!this.$currentElement || $el[0] !== this.$currentElement[0]) {
-	        this.$currentElement = $el;
-	        this.updateElementsTree();
-	        this.drawOutlines();
-	        this.drawControls();
-	    }
-
-	    return this;
-	};
-
-	ControlsHandler.prototype.hideOutline = function () {
-	    if (this.$currentElement !== undefined) {
-	        var outlines = this.getOutlines();
-
-	        this.$currentElement = undefined;
-	        this.clearElementsTree();
-	        for (var i in outlines) {
-	            outlines[i].css({
-	                'display': 'none'
-	            });
-	        }
-	        this.removeControls();
-	    }
-
-	    return this;
-	};
-
-	ControlsHandler.prototype.getElementsTree = function () {
-	    if (!this.elementsTree.length) {
-	        this.updateElementsTree();
-	    }
-	    return this.elementsTree;
-	};
-
-	ControlsHandler.prototype.updateElementsTree = function () {
-	    var _this = this;
-
-	    this.clearElementsTree();
-
-	    this.elementsTree.push(this.$currentElement);
-	    this.$currentElement.parents('[data-vc-element]').each(function () {
-	        _this.elementsTree.push($(this));
-	    });
-	    this.elementsTree = this.elementsTree.slice(0, this.sliceSize);
-	    return this;
-	};
-
-	ControlsHandler.prototype.clearElementsTree = function () {
-	    this.elementsTree = [];
-
-	    return this;
-	};
-
-	ControlsHandler.prototype.getOutlines = function () {
-	    if (this.outlines.length < this.sliceSize) {
-	        $('body .vc-outline').remove();
-	        this.outlines = [];
-	        for (var i in this.getElementsTree()) {
-	            this.outlines.push($('<svg class="vc-outline vc-outline-index-' + i + '"></svg>'));
-	        }
-	        for (var i = this.outlines.length; i-- > 0;) {
-	            this.outlines[i].appendTo('body');
-	        }
-	    }
-	    return this.outlines;
-	};
-
-	ControlsHandler.prototype.getControlsWindow = function () {
-	    if (!this.$controlsWindow) {
-	        this.$controlsWindow = $(this.$currentElement[0].ownerDocument.defaultView);
-	    }
-	    return this.$controlsWindow;
-	};
-
-	ControlsHandler.prototype.drawOutlines = function () {
-	    var outlines = this.getOutlines(),
-	        elemenstsTree = this.getElementsTree(),
-	        posLeft,
-	        posTop,
-	        width,
-	        height;
-
-	    for (var i in outlines) {
-	        if (elemenstsTree[i] === undefined) {
-	            outlines[i].css({
-	                'display': 'none'
-	            });
-	        } else {
-	            posTop = elemenstsTree[i].offset().top - this.getControlsWindow().scrollTop();
-	            posLeft = elemenstsTree[i].offset().left - this.getControlsWindow().scrollLeft();
-	            width = elemenstsTree[i].outerWidth();
-	            height = elemenstsTree[i].outerHeight();
-
-	            outlines[i].css({
-	                'top': posTop,
-	                'left': posLeft,
-	                'width': width,
-	                'height': height,
-	                'display': ''
-	            });
-	        }
-	    }
-
-	    this.setControlsPosition();
-
-	    return this;
-	};
-
-	ControlsHandler.prototype.drawControls = function () {
-	    var elemenstsTree = this.getElementsTree();
-	    if (!this.$controlsContainer) {
-	        this.$controlsContainer = $('<ul class="vc-controls-container" />');
-	        this.$controlsContainer.appendTo('body');
-	    }
-	    this.$controlsContainer.html('');
-	    for (var i in elemenstsTree) {
-	        $('<li class="vc-control">' + i + '</li>').data('vcLinkedElement', elemenstsTree[i]).appendTo(this.$controlsContainer);
-	    }
-	    this.setControlsPosition();
-	};
-
-	ControlsHandler.prototype.removeControls = function () {
-	    if (this.$controlsContainer) {
-	        this.$controlsContainer.remove();
-	        this.$controlsContainer = null;
-	    }
-
-	    return this;
-	};
-
-	ControlsHandler.prototype.setControlsPosition = function () {
-	    var posTop, posLeft, width, height;
-
-	    if (this.elementsTree[0] !== undefined && this.$controlsContainer !== null) {
-	        posTop = this.elementsTree[0].offset().top - this.getControlsWindow().scrollTop();
-	        posLeft = this.elementsTree[0].offset().left - this.getControlsWindow().scrollLeft();
-	        width = this.elementsTree[0].outerWidth();
-	        height = this.elementsTree[0].outerHeight();
-
-	        this.$controlsContainer.css({
-	            'top': posTop,
-	            'left': posLeft,
-	            'width': width
-	        });
-	    } else {
-	        this.removeControls();
-	    }
-	    return this;
-	};
-	module.exports = new ControlsHandler();
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(217);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor-controls\\Controls.less", function() {
-			var newContent = require("!!C:\\Users\\react\\Documents\\vc-five\\node_modules\\css-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\node_modules\\less-loader\\index.js!C:\\Users\\react\\Documents\\vc-five\\public\\modules\\editor-controls\\Controls.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(194)();
-	exports.push([module.id, "#wysiwyg-controls {\n  display: none;\n}\n#wysiwyg-controls.active {\n  display: block;\n}\n.vc-toolbar-container {\n  height: 10vh;\n  background-color: #f9f9f9;\n}\n.vc-iframe-container {\n  height: 90vh;\n  overflow: hidden;\n  background-color: #e5e5e5;\n  position: relative;\n  margin: 0 auto;\n}\n.vc-iframe {\n  height: 90vh;\n  width: 100%;\n  overflow: auto;\n  border: 0;\n  display: block;\n}\n.vc-iframe-size-lg {\n  width: 90vw;\n}\n.vc-iframe-size-md {\n  width: 60vw;\n}\n.vc-iframe-size-xs {\n  width: 30vw;\n}\n.iframe-content-toggle {\n  visibility: visible;\n  position: absolute;\n  bottom: 0;\n  left: 10px;\n  border-top-left-radius: 4px;\n  border-top-right-radius: 4px;\n  background: #c0c0c0;\n  border: 1px solid #d0d0d0;\n  padding: 3px 6px;\n}\n.iframe-content-toggle:focus {\n  box-shadow: none;\n  outline: 0;\n}\n.iframe-content-toggle.vc-active {\n  bottom: 100%;\n}\n.vc-more-actions {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  visibility: hidden;\n  background: #fff;\n  padding: 10px;\n  border-top: 2px solid #d0d0d0;\n}\n.vc-more-actions.vc-visible {\n  visibility: visible;\n}\n.vc-more-actions textarea {\n  display: block;\n  margin: 10px auto;\n  height: 45vh;\n  width: 100%;\n}\n.vc-more-actions .action-button {\n  margin: 10px 0;\n}\n.vc-responsive-layout {\n  position: fixed;\n  top: 0;\n  right: 0;\n}\n.vc-outline {\n  position: absolute;\n  box-shadow: 0 0 1px 1px #2b669a;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n}\n.vc-outline-index-1 {\n  opacity: .5;\n}\n.vc-outline-index-2 {\n  opacity: .3;\n}\n.vc-outline-index-3 {\n  opacity: .1;\n}\n.vc-controls-container {\n  position: absolute;\n  list-style: none;\n  padding: 0 0 3px 0;\n  margin: 0;\n  transform: translateY(-99%);\n  text-align: center;\n}\n.vc-control {\n  display: inline-block;\n  padding: 3px 7px;\n  margin-left: 1px;\n  margin-right: 1px;\n  white-space: nowrap;\n  min-width: 2em;\n  line-height: 2;\n  border: 1px solid #060753;\n  cursor: pointer;\n  color: #fff;\n  background-color: #060753;\n  border-radius: 3px;\n}\n", ""]);
+	console.log('buttonfrnt addoed');
 
 /***/ }
 /******/ ]);
