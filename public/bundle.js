@@ -54,7 +54,7 @@
 			// Editor module
 			var Editor = __webpack_require__(3);
 			// Data Storage module
-			var Data = __webpack_require__(211);
+			var Data = __webpack_require__(212);
 			// Editor Controls
 			// @todo move inside editor. For example still here
 			// var EditorControls = require('./modules/editor-controls/EditorControls');
@@ -19718,10 +19718,10 @@
 	var Mediator = __webpack_require__(2); // need to remove too
 
 	var Navbar = __webpack_require__(163);
-	var HtmlLayout = __webpack_require__(203);
+	var HtmlLayout = __webpack_require__(204);
 	// var TreeLayout = require( './layouts/tree/TreeLayout' );
 	// var DataLayout = require( './layouts/data/DataLayout' );
-	__webpack_require__(209);
+	__webpack_require__(210);
 	// @todo use mixins logic by module to interact with modules. Big object as Mediator connected with objects as mixins :)
 	var DataChanged = {
 	    componentDidMount: function componentDidMount() {
@@ -19763,8 +19763,8 @@
 	var ElementControl = __webpack_require__(184);
 	var Mediator = __webpack_require__(2); // need to remove too
 	var Elements = __webpack_require__(186); // need to remove too
-	var TreeElement = __webpack_require__(196);
-	__webpack_require__(200);
+	var TreeElement = __webpack_require__(197);
+	__webpack_require__(201);
 	var customStyles = {
 		content: {
 			top: '50%',
@@ -21730,10 +21730,10 @@
 
 	var map = {
 		"./Button/Button.js": 188,
-		"./Button/ButtonFront.js": 217,
-		"./Paragraph/Paragraph.js": 189,
-		"./Root/Root.js": 190,
-		"./Section/Section.js": 191
+		"./Button/ButtonFront.js": 189,
+		"./Paragraph/Paragraph.js": 190,
+		"./Root/Root.js": 191,
+		"./Section/Section.js": 192
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -21760,7 +21760,7 @@
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 	var React = __webpack_require__(4);
-	__webpack_require__(217);
+	__webpack_require__(189);
 	var Button = React.createClass({
 	    displayName: 'Button',
 
@@ -21782,6 +21782,14 @@
 
 /***/ },
 /* 189 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	console.log('buttonfrnt addoed');
+
+/***/ },
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -21811,7 +21819,7 @@
 	module.exports = Paragraph;
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -21841,7 +21849,7 @@
 	module.exports = Section;
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21851,7 +21859,7 @@
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 	var React = __webpack_require__(4);
-	__webpack_require__(192);
+	__webpack_require__(193);
 	var Section = React.createClass({
 	    displayName: 'Section',
 
@@ -21872,16 +21880,16 @@
 	module.exports = Section;
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(193);
+	var content = __webpack_require__(194);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -21895,14 +21903,14 @@
 	}
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
+	exports = module.exports = __webpack_require__(195)();
 	exports.push([module.id, "section {\n  padding: 10px;\n}\n", ""]);
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -21925,7 +21933,7 @@
 	};
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -22121,15 +22129,15 @@
 
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(4);
-	__webpack_require__(197);
+	__webpack_require__(198);
 	var Utils = __webpack_require__(185);
-	var Element = __webpack_require__(199);
+	var Element = __webpack_require__(200);
 	var Layout = React.createClass({
 	    displayName: 'Layout',
 
@@ -22152,16 +22160,16 @@
 	module.exports = Layout;
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(198);
+	var content = __webpack_require__(199);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22175,14 +22183,14 @@
 	}
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
+	exports = module.exports = __webpack_require__(195)();
 	exports.push([module.id, ".dropdown-menu.vc-v-layouts-tree {\n  padding: 10px;\n}\n.dropdown-menu.vc-v-layouts-tree ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.dropdown-menu.vc-v-layouts-tree ul li {\n  padding: 4px 0 4px 16px;\n  margin: 0;\n  border-top: 1px solid #CCC;\n}\n.dropdown-menu.vc-v-layouts-tree ul li span {\n  color: #555555;\n}\n", ""]);
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22235,16 +22243,16 @@
 	module.exports = Element;
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(201);
+	var content = __webpack_require__(202);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22258,29 +22266,29 @@
 	}
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
-	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(202)+");\n}\n.vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
+	exports = module.exports = __webpack_require__(195)();
+	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(203)+");\n}\n.vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c472bb699fb59405d951e958ed74c10b.png"
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(4);
 	var ReactDOM = __webpack_require__(161);
-	__webpack_require__(204);
+	__webpack_require__(205);
 	var Utils = __webpack_require__(185);
-	var Element = __webpack_require__(206);
+	var Element = __webpack_require__(207);
 	var SortableMixin = {
 	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	        return true;
@@ -22310,16 +22318,16 @@
 	module.exports = Layout;
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(205);
+	var content = __webpack_require__(206);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22333,14 +22341,14 @@
 	}
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
+	exports = module.exports = __webpack_require__(195)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22349,17 +22357,12 @@
 	var Utils = __webpack_require__(185);
 	var Mediator = __webpack_require__(2);
 	var ElementsHelper = __webpack_require__(186);
-	//var Sortable = require('react-rubaxa-sortable/node_modules/sortablejs/Sortable.js');
 	var ReactDOM = __webpack_require__(161);
-	__webpack_require__(207);
+	__webpack_require__(208);
 
-	// run: \vc-five\node_modules\react-rubaxa-sortable\node_modules\sortablejs>npm install && grunt jquery
 	var SortableMixin = {
 	  componentDidMount: function componentDidMount() {
 	    var component = ReactDOM.findDOMNode(this);
-	    //if ( $( component ).is( '[data-vc-element="vc-v-root-element"]' ) ) {
-	    //	var elements = component.querySelectorAll( '[data-vc-element]' );
-	    //	$.each( elements, function ( key, item ) {
 	    $(component).sortable({
 	      animation: 150,
 	      forceFallback: true,
@@ -22368,8 +22371,6 @@
 	        Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
 	      }
 	    });
-	    //	} );
-	    // }
 	  }
 	};
 
@@ -22403,16 +22404,16 @@
 	module.exports = Element;
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(208);
+	var content = __webpack_require__(209);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22426,23 +22427,23 @@
 	}
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
+	exports = module.exports = __webpack_require__(195)();
 	exports.push([module.id, ".vc-v-root-element .controls {\n  padding: 10px;\n  text-align: center;\n}\n.vc-v-root-element .controls a {\n  font-size: 24px;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n}\nsection {\n  min-height: 60px;\n  border: 1px dashed #999999;\n}\n", ""]);
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(210);
+	var content = __webpack_require__(211);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(195)(content, {});
+	var update = __webpack_require__(196)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22456,21 +22457,21 @@
 	}
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(194)();
+	exports = module.exports = __webpack_require__(195)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(2);
 	var Utils = __webpack_require__(185);
-	var LocalStorage = __webpack_require__(212);
+	var LocalStorage = __webpack_require__(213);
 	// var mori = require("mori");
 	var DataStore = {
 	    document: null,
@@ -22563,7 +22564,7 @@
 	module.exports = Data;
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22593,18 +22594,6 @@
 	    DataStorage.update(elementsList.join());
 	});
 	module.exports = Data;
-
-/***/ },
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	console.log('buttonfrnt addoed');
 
 /***/ }
 /******/ ]);
