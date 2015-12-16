@@ -1,8 +1,16 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 require('./HtmlLayout.less');
 var Utils = require('../../../../helpers/Utils');
 var Element = require('./Element.js');
+var SortableMixin = {
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return true;
+    }
+};
+
 var Layout = React.createClass({
+    mixins: [SortableMixin],
     render: function() {
         let elementsList;
         if(this.props.data.childNodes) {
