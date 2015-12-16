@@ -21893,8 +21893,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/sources/elements/Section/Section.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/sources/elements/Section/Section.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Section/Section.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Section/Section.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22173,8 +22173,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/tree/TreeLayout.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/tree/TreeLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/TreeLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/TreeLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22256,8 +22256,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Navbar.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Navbar.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Navbar.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Navbar.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22331,8 +22331,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/HtmlLayout.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/HtmlLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22361,44 +22361,55 @@
 	__webpack_require__(208);
 
 	var SortableMixin = {
-	  componentDidMount: function componentDidMount() {
-	    var component = ReactDOM.findDOMNode(this);
-	    $(component).sortable({
-	      animation: 150,
-	      forceFallback: true,
-	      onUpdate: function onUpdate(ev) {
-	        var $el = $(ev.item);
-	        Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
-	      }
-	    });
-	  }
+	    componentDidMount: function componentDidMount() {
+	        var component = ReactDOM.findDOMNode(this);
+	        $(component).sortable({
+	            animation: 150,
+	            forceFallback: true,
+	            onStart: function onStart( /**Event*/evt) {
+	                $('#vc_v-editor').addClass('vc-draganddrop');
+	                // evt.oldIndex;  // element index within parent
+	            },
+
+	            // dragging ended
+	            onEnd: function onEnd( /**Event*/evt) {
+	                $('#vc_v-editor').removeClass('vc-draganddrop');
+	                // evt.oldIndex;  // element's old index within parent
+	                // evt.newIndex;  // element's new index within parent
+	            },
+	            onUpdate: function onUpdate(ev) {
+	                var $el = $(ev.item);
+	                Element.publish('data:move', $el.data('vcElement'), $el.next('[data-vc-element]').data('vcElement'));
+	            }
+	        });
+	    }
 	};
-
+	__webpack_require__(214);
 	var Element = React.createClass({
-	  displayName: 'Element',
+	    displayName: 'Element',
 
-	  mixins: [SortableMixin],
-	  addChild: function addChild() {
-	    Element.publish('data:activeNode', this.props.element.id);
-	    Element.publish('app:add', true);
-	  },
-	  getContent: function getContent() {
-	    var elementsList = this.props.data.map(function (element) {
-	      var data = Array.prototype.slice.call(element.childNodes);
-	      return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
-	    });
-	    elementsList.push(React.createElement(
-	      'div',
-	      { className: 'controls', key: '{this.props.element.id}-controls' },
-	      React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
-	    ));
-	    return elementsList;
-	  },
-	  render: function render() {
-	    var element = this.props.element;
-	    var Element = ElementsHelper.getElement(element);
-	    return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
-	  }
+	    mixins: [SortableMixin],
+	    addChild: function addChild() {
+	        Element.publish('data:activeNode', this.props.element.id);
+	        Element.publish('app:add', true);
+	    },
+	    getContent: function getContent() {
+	        var elementsList = this.props.data.map(function (element) {
+	            var data = Array.prototype.slice.call(element.childNodes);
+	            return React.createElement(Element, { element: { element: element.tagName, id: element.getAttribute('id') }, data: data, key: element.getAttribute('id') });
+	        });
+	        elementsList.push(React.createElement(
+	            'div',
+	            { className: 'controls', key: '{this.props.element.id}-controls' },
+	            React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' })
+	        ));
+	        return elementsList;
+	    },
+	    render: function render() {
+	        var element = this.props.element;
+	        var Element = ElementsHelper.getElement(element);
+	        return React.createElement(Element, { key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id });
+	    }
 	});
 	Mediator.installTo(Element);
 	module.exports = Element;
@@ -22417,8 +22428,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/Element.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/layouts/html/Element.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Element.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Element.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22447,8 +22458,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Editor.css", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five-pi/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five-pi/public/modules/editor/ui/Editor.css");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22594,6 +22605,36 @@
 	    DataStorage.update(elementsList.join());
 	});
 	module.exports = Data;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(215);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(196)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Sortable.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Sortable.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(195)();
+	exports.push([module.id, "#vc_v-editor.vc-draganddrop [data-vc-element].vc-v-section {\n  padding: 20px;\n}\n", ""]);
 
 /***/ }
 /******/ ]);

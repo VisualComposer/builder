@@ -11,6 +11,17 @@ var SortableMixin = {
 		$( component ).sortable( {
 			animation: 150,
 			forceFallback: true,
+            onStart: function (/**Event*/evt) {
+                $('#vc_v-editor').addClass('vc-draganddrop');
+                // evt.oldIndex;  // element index within parent
+            },
+
+            // dragging ended
+            onEnd: function (/**Event*/evt) {
+                $('#vc_v-editor').removeClass('vc-draganddrop');
+                // evt.oldIndex;  // element's old index within parent
+                // evt.newIndex;  // element's new index within parent
+            },
 			onUpdate: function ( ev ) {
 				var $el = $( ev.item );
 				Element.publish( 'data:move',
@@ -20,7 +31,7 @@ var SortableMixin = {
 		} );
 	}
 };
-
+require('./Sortable.less');
 var Element = React.createClass({
 	mixins: [SortableMixin],
     addChild: function() {
