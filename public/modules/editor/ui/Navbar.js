@@ -4,7 +4,7 @@ var ElementControl = require('./ElementControl');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var Elements = require( '../../../helpers/Elements' ); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
-require('./Navbar.less');
+require('./less/navbar/navbar-init.less');
 const customStyles = {
 	content : {
 		top                   : '50%',
