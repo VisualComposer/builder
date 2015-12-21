@@ -1,19 +1,31 @@
 var Mediator = require('./Mediator');
-var ElementsList = [
-    { element: 'Section', name: 'Section', icon: 'glyphicon glyphicon-oil' },
-    { element: 'Paragraph', name: 'Paragraph', icon: 'glyphicon glyphicon-font' },
-    { element: 'Button', name: 'Button', icon: 'glyphicon glyphicon-modal-window' }
-];
+var ElementsSettings = require('../sources/elements/ElementsSettings');
+var ElementsList = {
+    elements: false
+};
 
 var Elements = {
     getElementsList: function(){
-        return ElementsList;
+        if(!ElementsList.elements) {
+            ElementsList.elements = {};
+            ElementsSettings.forEach(function(settings){
+                ElementsList.elements[settings.key.value] = {
+                    tag: settings.key.value,
+                    name: settings.name.value,
+                    icon: settings.icon ? settings.icon.value : null
+                };
+            });
+        }
+        return ElementsList.elements;
     },
     getElement: function(element) {
-        return require('../sources/elements/' + element.element + '/' + element.element +'.js');
+        return require('../sources/elements/' + element.tag + '/' + element.tag +'.js');
+    },
+    getElementSettings: function(tag) {
+        var elementsList = this.getElementsList();
+        return elementsList[tag] || {name: false, tag: false};
     }
 };
 
 Mediator.installTo(Elements);
-
 module.exports = Elements;

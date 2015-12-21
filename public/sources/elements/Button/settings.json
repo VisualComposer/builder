@@ -1,0 +1,12 @@
+{
+    "name": {
+        "type": "string",
+        "access": "private",
+        "value": "Button 1.0"
+    },
+    "key": {
+        "type": "string",
+        "access": "private",
+        "value": "Button"
+    }
+}

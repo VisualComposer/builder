@@ -38,18 +38,27 @@ var Element = React.createClass({
         Element.publish('data:activeNode', this.props.element.id);
         Element.publish('app:add', true);
     },
+    editElement: function() {
+      Element.publish('app:edit', this.props.element);
+    },
     getContent: function() {
         let elementsList = this.props.data.map(function( element ){
             let data = Array.prototype.slice.call(element.childNodes);
-                return <Element element={{element: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>;
+                return <Element element={{tag: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>;
         });
-        elementsList.push((<div className="controls" key="{this.props.element.id}-controls"><a onClick={this.addChild} className="glyphicon glyphicon-plus"></a></div>));
         return elementsList;
+    },
+    getControls: function() {
+        var addControl = 'Section' === this.props.element.tag ? (<a onClick={this.addChild} className="glyphicon glyphicon-plus"></a>) : null;
+        return <span className="controls">
+            {addControl}
+            <a onClick={this.editElement} className="glyphicon glyphicon-pencil"></a>
+        </span>;
     },
     render: function() {
         var element = this.props.element;
         var Element = ElementsHelper.getElement(element);
-        return React.createElement(Element, {key: Utils.createKey(), content: this.getContent(), 'data-vc-element': element.id});
+        return React.createElement(Element, {key: Utils.createKey(), content: this.getContent(), controls: this.getControls(), 'data-vc-element': element.id});
     }
 });
 Mediator.installTo(Element);

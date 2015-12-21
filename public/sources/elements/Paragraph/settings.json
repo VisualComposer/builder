@@ -1,0 +1,12 @@
+{
+    "name": {
+        "type": "string",
+        "access": "private",
+        "value": "Paragraph"
+    },
+    "key": {
+        "type": "string",
+        "access": "private",
+        "value": "Paragraph"
+    }
+}

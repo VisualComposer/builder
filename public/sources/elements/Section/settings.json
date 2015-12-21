@@ -1,0 +1,12 @@
+{
+    "name": {
+        "type": "string",
+        "access": "private",
+        "value": "Section"
+    },
+    "key": {
+        "type": "string",
+        "access": "private",
+        "value": "Section"
+    }
+}

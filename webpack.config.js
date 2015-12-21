@@ -1,8 +1,13 @@
+var CollectElementSettingsModule = require('./CollectElementsSettings');
 module.exports = {
 	entry: './public/main.js',
 	output: {
-		filename: './public/bundle.js'
+		path: './public/',
+		filename: './bundle.js'
 	},
+	plugins: [
+			new CollectElementSettingsModule()
+	],
 	module: {
 		loaders: [
 			{ test: /\.js$/, loader: 'babel-loader' },
