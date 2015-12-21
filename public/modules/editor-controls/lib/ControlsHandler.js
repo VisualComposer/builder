@@ -140,13 +140,13 @@ ControlsHandler.prototype.drawControls = function (  ) {
 		$('<div class="vc_ui-controls-container">' +
 			'<ul class="vc_ui-controls vc_ui-editor-controls">' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="edit"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
 			'</li>' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="clone"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' +
 			'</li>' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Delete</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="delete"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Delete</span></a>' +
 			'</li>' +
 			'</ul>' +
 			'</div>').appendTo(controlWrap);
