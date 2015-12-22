@@ -9,14 +9,21 @@ var DataStore = {
             var DOMElement = this.document.createElement(element.tag);
             var elementId = document.createAttribute('id');       // Create a "id" attribute
             elementId.value = Utils.createKey();
+            DOMElement.setAttributeNode(elementId);
+
             Object.keys(element).forEach(function(k){
                 let param = element[k];
-                let elementParam = document.createAttribute(k);
-                elementParam.value = param.toString();
-                DOMElement.setAttributeNode(elementParam);
+                if('content' === k && 'public' === param.getAccess()) {
+                    let textNode = document.createTextNode(param.toString());
+                    DOMElement.appendChild(textNode);
+                } else if('public' === param.getAccess()) {
+                    let elementParam = document.createAttribute(k);
+                    elementParam.value = param.toString();
+                    DOMElement.setAttributeNode(elementParam);
+                }
             }, this);
+
             // Set the value of the class attribute
-            DOMElement.setAttributeNode(elementId);
             parentNode.appendChild(DOMElement);
         }
         // this.resetActiveNode(); // @todo need to find new way to sync with current node

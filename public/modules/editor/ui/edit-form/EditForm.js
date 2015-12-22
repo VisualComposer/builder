@@ -1,7 +1,7 @@
 var React = require( 'react' );
 var Mediator = require( '../../../../helpers/Mediator' ); // need to remove too
 var Modal = require('react-modal');
-var Elements = require( '../../../../helpers/Elements' );
+var ElementComponents = require( '../../../../helpers/ElementComponents' );
 const customStyles = {
     content : {
         top                   : '50%',
@@ -34,7 +34,7 @@ var reactObject = {
         this.setState(this.getInitialState());
     },
     getSettings: function() {
-        return this.state.editElement ? Elements.getElementData(this.state.editElement.tag) : {};
+        return false; this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
     },
     saveForm: function(e) {
         e && e.preventDefault();

@@ -1,6 +1,5 @@
 var React = require('react');
 require('./HtmlLayout.less');
-var Utils = require('../../../../helpers/Utils');
 var Element = require('./Element.js');
 var SortableMixin = {
     shouldComponentUpdate: function(nextProps, nextState) {
@@ -16,7 +15,7 @@ var Layout = React.createClass({
             let data = Array.prototype.slice.call(this.props.data.childNodes);
             elementsList = data.map(function( element ){
                 let data = Array.prototype.slice.call(element.childNodes);
-                return <Element element={{tag: element.tagName, id: element.getAttribute('id')}} data={data} key={element.getAttribute('id')}/>
+                return <Element element={element} data={data} key={element.getAttribute('id')}/>
             });
         }
         return (<div className="vc-v-layouts-html">

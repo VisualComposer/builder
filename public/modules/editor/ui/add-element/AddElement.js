@@ -1,9 +1,10 @@
 var React = require('react');
 var Modal = require('react-modal');
 var Mediator = require('../../../../helpers/Mediator'); // need to remove too
-var Elements = require('../../../../helpers/Elements'); // need to remove too
+var ElementComponents = require('../../../../helpers/ElementComponents'); // need to remove too
 var ElementControl = require('./ElementControl');
 require('./AddElement.less');
+
 const customStyles = {
     content: {
         top: '50%',
@@ -35,7 +36,7 @@ module.exports = React.createClass(Mediator.installTo({
         this.setState({modalIsOpen: false});
     },
     render: function () {
-        var elements = this.state.modalIsOpen ? Elements.getElementsList() : {};
+        var components = this.state.modalIsOpen ? ElementComponents.getElementsList() : {};
         return (<Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}
@@ -49,10 +50,19 @@ module.exports = React.createClass(Mediator.installTo({
                     </div>
                     <div className="modal-body">
                         <ul className="vc_v-modal-content">
-                            {Object.keys(elements).map(function (key) {
-                                var element = elements[key];
-                                return <ElementControl key={'vc-element-control-' + element.tag} {...element}/>;
-                            })}
+                            { Object.keys(components).map(function (key) {
+                                var component = components[key];
+                                return (function(){
+                                            if(undefined === component.manageable || true == component.manageable) {
+                                                return <ElementControl
+                                                    key={'vc-element-control-' + component.tag.toString()}
+                                                    tag={component.tag.toString()}
+                                                    name={component.name.toString()}
+                                                    icon={component.icon ? component.icon.toString() : ''}/>;
+                                            }
+                                        })()
+                                }
+                            )}
                         </ul>
                     </div>
                 </div>

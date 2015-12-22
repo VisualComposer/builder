@@ -1,9 +1,10 @@
 var CollectElementSettingsModule = require('./CollectElementsSettings');
 module.exports = {
-	entry: './public/main.js',
+	context: __dirname + "/public",
+	entry: './main',
 	output: {
-		path: './public/',
-		filename: './bundle.js'
+		path:  __dirname + '/dist',
+		filename: 'bundle.js'
 	},
 	plugins: [
 			new CollectElementSettingsModule()
@@ -15,5 +16,6 @@ module.exports = {
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
 			{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' } // inline base64 URLs for <=8k images, direct URLs for the rest
 		]
-	}
+	},
+	debug: true
 };

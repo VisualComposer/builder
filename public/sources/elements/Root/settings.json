@@ -2,16 +2,21 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button 1.0"
+        "value": "Rooter"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Button"
+        "value": "Root"
     },
     "type": {
         "type": "string",
         "access": "system",
-        "value": "inline"
+        "value": "container"
+    },
+    "manageable": {
+        "type": "boolean",
+        "access": "system",
+        "value": false
     }
 }

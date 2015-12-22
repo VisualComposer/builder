@@ -6,7 +6,6 @@ var HtmlLayout = require( '../layouts/html/HtmlLayout' );
 var EditForm = require('./edit-form/EditForm');
 // var DataLayout = require( './layouts/data/DataLayout' );
 require('./Editor.css');
-// @todo use mixins logic by module to interact with modules. Big object as Mediator connected with objects as mixins :)
 var DataChanged = {
     componentDidMount: function(){
         this.subscribe('data:changed', function(document) {
@@ -26,8 +25,8 @@ var reactObject = {
         return (
             <div>
                 <Navbar data={this.state.data}/>
-                <HtmlLayout data={this.state.data}/>
                 <EditForm/>
+                <HtmlLayout data={this.state.data}/>
             </div>
         );
     }

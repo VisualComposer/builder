@@ -1,24 +1,24 @@
 var Mediator = require( '../../../../helpers/Mediator' );
-var Elements = require( '../../../../helpers/Elements' );
+var ElementComponents = require( '../../../../helpers/ElementComponents' );
 var React = require('react');
 
 module.exports = React.createClass(Mediator.installTo({
 	propTypes: {
-		tag: React.PropTypes.object.isRequired,
-		name: React.PropTypes.object.isRequired
+		tag: React.PropTypes.string.isRequired,
+		name: React.PropTypes.string.isRequired
 	},
 	addElement: function(e) {
 		e.preventDefault();
-		var data = Elements.getElementData(this.props.tag.toString());
+		var data = ElementComponents.get(this.props.tag);
 		// Add element node
 		this.publish('data:add', data);
 	},
 	render: function() {
-		return (<li key={this.props.key}>
+		return <li key={this.props.key}>
 			<a onClick={this.addElement}>
-				{ this.props.icon ? <span className={this.props.icon.toString()}></span> : null}
-				<br/>{this.props.name.toString()}
+				{ this.props.icon ? <span className={this.props.icon}></span> : null}
+				<br/>{this.props.name}
 			</a>
-		</li>);
+		</li>;
 	}
 }));

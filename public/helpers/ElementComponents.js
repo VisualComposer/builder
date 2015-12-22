@@ -15,9 +15,9 @@ var ElementsList = {
                                 default: option.value || null,
                                 value: null
                             };
-                            var Parameter = function() {};
-                            Parameter.prototype = {
-                                constructor: String,
+                            // var Parameter = function() {};
+                            var Parameter = {
+                                // constructor: String,
                                 toString: function() {
                                     if(optionSettings.access === 'private') {
                                         return undefined;
@@ -44,7 +44,7 @@ var ElementsList = {
                                     return this.toString();
                                 }
                             };
-                            return new Parameter();
+                            return Parameter;
                         })(settings[k]);
                 });
             });
@@ -59,12 +59,13 @@ module.exports = {
         return ElementsList.items;
     },
     getElement: function (element) {
-        return require('../sources/elements/' + element.tag + '/' + element.tag + '.js');
+        return require('../sources/elements/' + element.tagName + '/' + element.tagName + '.js');
     },
-    getElementData: function (tag, currentData) {
+    get: function (element, currentData) {
+        var tag = element.tagName ? element.tagName : element.toString();
         ElementsList.getElementsData();
         var data = ElementsList.items[tag] || {};
-        var returnData = {};
+        let returnData = {};
         if(currentData) {
             Object.keys(data).forEach(function(k){
                 let paramData = Object.create(data[k]);
@@ -74,8 +75,8 @@ module.exports = {
                 returnData[k] = paramData;
             }, this);
         } else {
-            returnData = Object.create(data);
+            returnData = data;
         }
         return returnData;
-    },
+    }
 };
