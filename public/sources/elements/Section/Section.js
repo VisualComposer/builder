@@ -4,7 +4,7 @@ var Section = React.createClass({
     render: function() {
         var { key, content, controls, ...other } = this.props;
         return (<section className="vc-v-section" key={key} {...other}>
-            {content ? 'Hello my name is Boris and I know ninja rules very well. Hide away.' : ''}{controls || ''}
+            {content}{controls || ''}
         </section>);
     }
 });

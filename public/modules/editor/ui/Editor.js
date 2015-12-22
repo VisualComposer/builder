@@ -26,12 +26,13 @@ var reactObject = {
         return (
             <div>
                 <Navbar data={this.state.data}/>
-                <EditForm/>
                 <HtmlLayout data={this.state.data}/>
+                <EditForm/>
             </div>
         );
     }
 };
+
 Mediator.installTo(reactObject);
 var Editor = React.createClass( reactObject );
 module.exports = Editor;

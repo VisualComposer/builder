@@ -34,11 +34,19 @@ var reactObject = {
         this.setState(this.getInitialState());
     },
     getSettings: function() {
-        return this.state.editElement ? Elements.getElementSettings(this.state.editElement.tag) : {};
+        return this.state.editElement ? Elements.getElementData(this.state.editElement.tag) : {};
+    },
+    saveForm: function(e) {
+        e && e.preventDefault();
+        this.closeModal();
+    },
+    getForm: function() {
+        // here comes list of public properties
+        return '';
     },
     render: function () {
         var elementSettings = this.getSettings();
-        var title = elementSettings.name || 'unknown';
+        var title = elementSettings.name ? elementSettings.name.toString() : 'unknown';
         return (<Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}
@@ -46,12 +54,16 @@ var reactObject = {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <button type="button" className="close" onClick={this.closeModal}><span
-                            aria-hidden="true">&times;</span></button>
+                        <button type="button" className="close" onClick={this.closeModal}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <h4 className="modal-title">Edit {title}</h4>
                     </div>
                     <div className="modal-body">
-                        {this.getComponentForm()}
+                        <form onSubmit={this.saveForm}>
+                            {this.getForm()}
+                            <button type="submit">Save</button> <button type="button" onClick={this.closeModal}>Close</button>
+                        </form>
                     </div>
                 </div>
             </div>

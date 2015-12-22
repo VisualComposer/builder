@@ -1,12 +1,17 @@
 {
     "name": {
         "type": "string",
-        "access": "private",
+        "access": "protected",
         "value": "Paragraph"
     },
-    "key": {
+    "tag": {
         "type": "string",
-        "access": "private",
+        "access": "protected",
         "value": "Paragraph"
+    },
+    "content": {
+        "type": "textarea",
+        "access": "public",
+        "value": "'Hello my name is Boris and I know ninja rules very well. Hide away."
     }
 }
