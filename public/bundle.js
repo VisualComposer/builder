@@ -19771,15 +19771,28 @@
 	var TreeElement = __webpack_require__(174);
 	var AddElementModal = __webpack_require__(197);
 	var InlineEditor = __webpack_require__(221);
+	var classNames = __webpack_require__(196);
 
 	__webpack_require__(225);
 	module.exports = React.createClass(Mediator.installTo({
+	    getInitialState: function getInitialState() {
+	        return {
+	            menuExpand: false
+	        };
+	    },
 	    openAddElement: function openAddElement(e) {
 	        e && e.preventDefault();
 	        this.publish('data:activeNode', 'vc-v-root-element');
 	        this.publish('app:add', true);
 	    },
+	    clickMenuExpand: function clickMenuExpand() {
+	        this.setState({ menuExpand: !this.state.menuExpand });
+	    },
 	    render: function render() {
+	        var menuExpandClass = classNames({
+	            'dropdown': true,
+	            'open': this.state.menuExpand
+	        });
 	        return React.createElement(
 	            'nav',
 	            { className: 'navbar navbar-vc navbar-fixed-top' },
@@ -19801,17 +19814,15 @@
 	                    React.createElement(
 	                        'a',
 	                        { className: 'as_btn', onClick: this.openAddElement },
-	                        React.createElement('span', {
-	                            className: 'glyphicon glyphicon-plus' })
+	                        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
 	                    )
 	                ),
 	                React.createElement(
 	                    'li',
-	                    { role: 'presentation', className: 'dropdown' },
+	                    { role: 'presentation', className: menuExpandClass },
 	                    React.createElement(
 	                        'a',
-	                        { className: 'dropdown-toggle as_btn', 'data-toggle': 'dropdown', href: '#', role: 'button',
-	                            'aria-haspopup': 'true', 'aria-expanded': 'false' },
+	                        { className: 'dropdown-toggle as_btn', href: '#', onClick: this.clickMenuExpand },
 	                        React.createElement('span', { className: 'glyphicon glyphicon-align-justify' }),
 	                        ' ',
 	                        React.createElement('span', { className: 'caret' })
