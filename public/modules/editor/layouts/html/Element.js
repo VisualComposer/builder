@@ -34,8 +34,7 @@ require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
 	// mixins: [SortableMixin],
     addChild: function() {
-        this.publish('data:activeNode', this.props.element.getAttribute('id'));
-        this.publish('app:add', true);
+        this.publish('app:add', this.props.element.getAttribute('id'));
     },
     editElement: function() {
         this.publish('app:edit', this.props.element);
@@ -69,8 +68,14 @@ var Element = React.createClass(Mediator.installTo({
     },
     render: function() {
         var element = this.props.element;
+        var ElementComponent = ElementComponents.get(this.props.element);
         var ElementView = ElementComponents.getElement(element);
-        return React.createElement(ElementView, {key: element.getAttribute('id'), content: this.getContent(), 'data-vc-element': element.getAttribute('id')});
+        return React.createElement(ElementView, {
+            key: element.getAttribute('id'),
+            content: this.getContent(),
+            'data-vc-element': element.getAttribute('id'),
+            'data-vc-element-type': ElementComponent.type.toString()
+        });
     }
 }));
 module.exports = Element;

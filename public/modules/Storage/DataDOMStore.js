@@ -74,10 +74,9 @@ var Data = {
 };
 Mediator.installTo(Data);
 
-Data.subscribe('data:activeNode', function(id){
+Data.subscribe('app:add', function(id){
     Data.activeNode = DataStore.document.getElementById(id);
 });
-
 Data.subscribe('data:add', function(element) {
     DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
 });
