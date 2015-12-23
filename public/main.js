@@ -8,7 +8,6 @@ var App = Mediator.installTo({
 		// Data Storage module
 		require('./modules/storage/DataDomStore');
 		// Editor Controls
-		// @todo move inside editor. For example still here
 		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
 	init: function() {

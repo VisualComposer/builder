@@ -56,7 +56,6 @@
 			// Data Storage module
 			__webpack_require__(230);
 			// Editor Controls
-			// @todo move inside editor. For example still here
 			var EditorControls = __webpack_require__(238);
 		},
 		init: function init() {
