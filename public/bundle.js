@@ -56,7 +56,6 @@
 			// Data Storage module
 			__webpack_require__(230);
 			// Editor Controls
-			// @todo move inside editor. For example still here
 			var EditorControls = __webpack_require__(238);
 		},
 		init: function init() {
@@ -19860,7 +19859,8 @@
 
 	        if (this.props.data.childNodes) {
 	            var data = Array.prototype.slice.call(this.props.data.childNodes);
-	            elementsList = data.map(function (element) {
+	            var rootElement = data[0];
+	            elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
 	                var data = Array.prototype.slice.call(element.childNodes);
 	                return React.createElement(Element, { element: element, data: data, key: element.getAttribute('id'), level: 1 });
 	            });
@@ -22575,7 +22575,6 @@
 		"./Button/Button.js": 185,
 		"./ElementsSettings.js": 183,
 		"./Paragraph/Paragraph.js": 186,
-		"./Root/Root.js": 187,
 		"./Section/Section.js": 188
 	};
 	function webpackContext(req) {
@@ -22703,61 +22702,7 @@
 	module.exports = Paragraph;
 
 /***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _reactTransformCatchErrors2 = __webpack_require__(169);
-
-	var _reactTransformCatchErrors3 = _interopRequireDefault(_reactTransformCatchErrors2);
-
-	var _react = __webpack_require__(8);
-
-	var _redboxReact = __webpack_require__(170);
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	var _components = {
-	    _$Unknown: {}
-	};
-
-	var _reactComponentWrapper = (0, _reactTransformCatchErrors3["default"])({
-	    filename: "/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Root/Root.js",
-	    components: _components,
-	    locals: [],
-	    imports: [_react, _redboxReact]
-	});
-
-	function _wrapComponent(uniqueId) {
-	    return function (ReactClass) {
-	        return _reactComponentWrapper(ReactClass, uniqueId);
-	    };
-	}
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-	var React = __webpack_require__(8);
-	var Section = _wrapComponent("_$Unknown")(React.createClass({
-	    render: function render() {
-	        var _props = this.props;
-	        var key = _props.key;
-	        var content = _props.content;
-
-	        var other = _objectWithoutProperties(_props, ["key", "content"]);
-
-	        return React.createElement(
-	            "div",
-	            _extends({ className: "vc-v-root-element", key: key }, other),
-	            content
-	        );
-	    }
-	}));
-	module.exports = Section;
-
-/***/ },
+/* 187 */,
 /* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -24960,9 +24905,10 @@
 	        var elementsList = undefined;
 	        if (this.props.data.childNodes) {
 	            var data = Array.prototype.slice.call(this.props.data.childNodes);
-	            elementsList = data.map(function (element) {
+	            var rootElement = data[0];
+	            elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
 	                var data = Array.prototype.slice.call(element.childNodes);
-	                return React.createElement(Element, { element: element, data: data, key: element.getAttribute('id') });
+	                return React.createElement(Element, { element: element, data: data, key: element.getAttribute('id'), level: 1 });
 	            });
 	        }
 	        return React.createElement(
