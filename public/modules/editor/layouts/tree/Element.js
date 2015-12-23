@@ -60,8 +60,8 @@ var Element = React.createClass(Mediator.installTo({
 			<span className="vc_ui-tree-child-controls">
 				{addChildControl}
 				<a className="vc_ui-tree-child-control" onClick={this.clickEdit}><i className="glyphicon glyphicon-pencil"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickClone}><i className="glyphicon glyphicon-minus"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickDelete}><i className="glyphicon glyphicon-duplicate"></i></a>
+				<a className="vc_ui-tree-child-control" onClick={this.clickDelete}><i className="glyphicon glyphicon-minus"></i></a>
+				<a className="vc_ui-tree-child-control" onClick={this.clickClone}><i className="glyphicon glyphicon-duplicate"></i></a>
 			</span>;
         return <li className={treeChildClass}>
 				<div className="vc_ui-tree-child-row" style={{paddingLeft: this.props.level + 0.5 + 'em'}}>
@@ -69,11 +69,12 @@ var Element = React.createClass(Mediator.installTo({
 						{expandTrigger}
 						<span className="vc_ui-tree-child-label">
 							<i className="vc_ui-tree-child-label-icon glyphicon glyphicon-th"></i>
-							<span>{element.element}</span>
+							<span>{ElementComponent.name.toString()}</span>
 						</span>
 						{childControls}
 					</div>
 				</div>
+				{content}
 				<div style={{display: 'none'}}>
 					<i className="glyphicon glyphicon-th"></i>
 					{element.element}

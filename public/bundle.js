@@ -57,7 +57,7 @@
 			__webpack_require__(230);
 			// Editor Controls
 			// @todo move inside editor. For example still here
-			// var EditorControls = require('./modules/editor-controls/EditorControls');
+			var EditorControls = __webpack_require__(238);
 		},
 		init: function init() {
 			this.loadModules();
@@ -22342,12 +22342,12 @@
 				),
 				React.createElement(
 					'a',
-					{ className: 'vc_ui-tree-child-control', onClick: this.clickClone },
+					{ className: 'vc_ui-tree-child-control', onClick: this.clickDelete },
 					React.createElement('i', { className: 'glyphicon glyphicon-minus' })
 				),
 				React.createElement(
 					'a',
-					{ className: 'vc_ui-tree-child-control', onClick: this.clickDelete },
+					{ className: 'vc_ui-tree-child-control', onClick: this.clickClone },
 					React.createElement('i', { className: 'glyphicon glyphicon-duplicate' })
 				)
 			);
@@ -22368,12 +22368,13 @@
 							React.createElement(
 								'span',
 								null,
-								element.element
+								ElementComponent.name.toString()
 							)
 						),
 						childControls
 					)
 				),
+				content,
 				React.createElement(
 					'div',
 					{ style: { display: 'none' } },
@@ -25434,6 +25435,289 @@
 	    DataStorage.update(elementsList.join());
 	});
 	module.exports = Data;
+
+/***/ },
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Mediator = __webpack_require__(6); // need to remove too
+	var controlsHandler = __webpack_require__(239);
+	var ControlsTrigger = {};
+	__webpack_require__(240);
+
+	ControlsTrigger.triggerShowFrame = function (e) {
+	    e.stopPropagation();
+	    controlsHandler.showOutline($(e.currentTarget));
+	};
+
+	ControlsTrigger.triggerHideFrame = function (e) {
+	    controlsHandler.hideOutline();
+	};
+
+	ControlsTrigger.triggerRedrawFrame = function (e) {
+	    controlsHandler.drawOutlines();
+	};
+	Mediator.installTo(controlsHandler);
+
+	var EditorControls = function EditorControls() {
+	    controlsHandler.subscribe('data:changed', function () {
+	        $(document).on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame);
+	        $(document).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame);
+	        $(document).on('mousemove hover', '.visual-composer', function (e) {
+	            e.stopPropagation();
+	        });
+	        $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);
+	    });
+	    return controlsHandler;
+	};
+
+	module.exports = new EditorControls();
+
+/***/ },
+/* 239 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function ControlsHandler() {
+	    this.$currentElement = undefined;
+	    this.sliceSize = 3;
+	    this.elementsTree = [];
+	    this.outlines = [];
+	    this.$controlsContainer = null;
+	    this.$controlsList = null;
+	}
+
+	ControlsHandler.prototype.showOutline = function ($el) {
+	    if ($el.data('vcElement') === undefined) {
+	        $el = $el.closest('[data-vc-element]');
+	    }
+
+	    if (!this.$currentElement || $el[0] !== this.$currentElement[0]) {
+	        this.$currentElement = $el;
+	        this.updateElementsTree();
+	        this.drawOutlines();
+	        this.drawControls();
+	    }
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.hideOutline = function () {
+	    var outlines = this.getOutlines();
+	    for (var i in outlines) {
+	        outlines[i].css({
+	            'display': 'none'
+	        });
+	    }
+	    if (this.$currentElement !== undefined) {
+	        this.$currentElement = undefined;
+	        this.clearElementsTree();
+	        this.removeControls();
+	    }
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.getElementsTree = function () {
+	    if (!this.elementsTree.length) {
+	        this.updateElementsTree();
+	    }
+	    return this.elementsTree;
+	};
+
+	ControlsHandler.prototype.updateElementsTree = function () {
+	    var _this = this;
+
+	    this.clearElementsTree();
+
+	    if (this.$currentElement === undefined) {
+	        return this;
+	    }
+
+	    this.elementsTree.push(this.$currentElement);
+	    this.$currentElement.parents('[data-vc-element]').each(function () {
+	        _this.elementsTree.push($(this));
+	    });
+	    this.elementsTree = this.elementsTree.slice(0, this.sliceSize);
+	    this.elementsTree.reverse();
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.clearElementsTree = function () {
+	    this.elementsTree = [];
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.getOutlines = function () {
+	    if (this.outlines.length < this.sliceSize) {
+	        var $outline;
+	        $('body .vc_ui-outline').remove();
+	        this.outlines = [];
+	        for (var i in this.getElementsTree()) {
+	            $outline = $('<svg class="vc_ui-outline vc_ui-outline-index-' + i + '"></svg>');
+	            this.outlines.push($outline);
+	            $outline.appendTo('body');
+	        }
+	    }
+	    return this.outlines;
+	};
+
+	ControlsHandler.prototype.drawOutlines = function () {
+	    var outlines = this.getOutlines(),
+	        elemenstsTree = this.getElementsTree(),
+	        posLeft,
+	        posTop,
+	        width,
+	        height;
+
+	    for (var i in outlines) {
+	        if (elemenstsTree[i] === undefined) {
+	            outlines[i].css({
+	                'display': 'none'
+	            });
+	        } else {
+	            posTop = elemenstsTree[i].offset().top;
+	            posLeft = elemenstsTree[i].offset().left;
+	            width = elemenstsTree[i].outerWidth();
+	            height = elemenstsTree[i].outerHeight();
+
+	            outlines[i].css({
+	                'top': posTop,
+	                'left': posLeft,
+	                'width': width,
+	                'height': height,
+	                'display': ''
+	            });
+	        }
+	    }
+
+	    this.setControlsPosition();
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.drawControls = function () {
+	    var elemenstsTree = this.getElementsTree(),
+	        controlWrap;
+	    if (!this.$controlsContainer) {
+	        this.$controlsContainer = $('<div class="vc_ui-editor-controls-container visual-composer" />');
+	        this.$controlsContainer.appendTo('body');
+	    }
+
+	    if (!this.$controlsList) {
+	        var $controlsContainer = $('<div class="vc_ui-controls-container" />');
+	        $controlsContainer.appendTo(this.$controlsContainer);
+	        this.$controlsList = $('<ul class="vc_ui-controls vc_ui-controls-o-position-bottom vc_ui-editor-controls" />');
+	        this.$controlsList.appendTo($controlsContainer);
+	    }
+	    this.$controlsList.html('');
+	    controlWrap = $('<li class="vc_ui-control-wrap"/>');
+	    $('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">...</i></a>').appendTo(controlWrap);
+	    controlWrap.appendTo(this.$controlsList);
+	    for (var i in elemenstsTree) {
+	        controlWrap = $('<li class="vc_ui-control-wrap"/>'); //.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
+	        $('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">' + elemenstsTree[i][0].tagName.substring(0, 2) + '</i></a>').appendTo(controlWrap);
+	        $('<div class="vc_ui-controls-container">' + '<ul class="vc_ui-controls vc_ui-editor-controls">' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Delete</span></a>' + '</li>' + '</ul>' + '</div>').appendTo(controlWrap);
+	        controlWrap.appendTo(this.$controlsList);
+	    }
+
+	    this.setControlsPosition();
+	};
+
+	ControlsHandler.prototype.removeControls = function () {
+	    if (this.$controlsContainer) {
+	        this.$controlsContainer.remove();
+	        this.$controlsContainer = null;
+	        this.$controlsList = null;
+	    }
+
+	    return this;
+	};
+
+	ControlsHandler.prototype.setControlsPosition = function () {
+	    var posTop, posLeft, width;
+
+	    if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
+	        posTop = this.$currentElement.offset().top;
+	        posLeft = this.$currentElement.offset().left;
+	        width = this.$currentElement.outerWidth();
+
+	        this.$controlsContainer.css({
+	            'top': posTop,
+	            'left': posLeft + width / 2
+	        });
+	    } else {
+	        this.removeControls();
+	    }
+	    return this;
+	};
+	module.exports = new ControlsHandler();
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(241);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(179)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(178)();
+	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic,700,700italic,900,900italic|Roboto+Condensed:400,300,300italic,700,400italic,700italic&subset=latin,cyrillic,greek,greek-ext,cyrillic-ext,latin-ext);", ""]);
+	exports.push([module.id, "\n@font-face {\n  font-family: 'VC-UI-Icons';\n  src: url("+__webpack_require__(242)+");\n  src: url("+__webpack_require__(242)+") format('embedded-opentype'), url("+__webpack_require__(243)+") format('truetype'), url("+__webpack_require__(244)+") format('woff'), url("+__webpack_require__(245)+") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.vc_ui-icon {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'VC-UI-Icons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.vc_ui-icon-add:before {\n  content: \"\\e145\";\n}\n.vc_ui-icon-clear:before {\n  content: \"\\e14c\";\n}\n.vc_ui-icon-remove:before {\n  content: \"\\e15b\";\n}\n.vc_ui-icon-desktop:before {\n  content: \"\\e30c\";\n}\n.vc_ui-icon-laptop:before {\n  content: \"\\e31e\";\n}\n.vc_ui-icon-phone:before {\n  content: \"\\e324\";\n}\n.vc_ui-icon-tablet:before {\n  content: \"\\e330\";\n}\n.vc_ui-icon-arrow_drop_down:before {\n  content: \"\\e5c5\";\n}\n.vc_ui-icon-arrow_drop_up:before {\n  content: \"\\e5c7\";\n}\n.vc_ui-icon-more_horiz:before {\n  content: \"\\e5d3\";\n}\n.vc_ui-icon-more_vert:before {\n  content: \"\\e5d4\";\n}\n.vc_ui-icon-done:before {\n  content: \"\\e876\";\n}\n.vc_ui-icon-cog:before {\n  content: \"\\e901\";\n}\n.vc_ui-icon-move:before {\n  content: \"\\e904\";\n}\n.vc_ui-icon-new-window:before {\n  content: \"\\e905\";\n}\n.vc_ui-icon-fullscreen-exit:before {\n  content: \"\\e906\";\n}\n.vc_ui-icon-fullscreen:before {\n  content: \"\\e907\";\n}\n.vc_ui-icon-pen-alt-fill:before {\n  content: \"\\e900\";\n}\n.vc_ui-icon-layers:before {\n  content: \"\\e902\";\n}\n.vc_ui-icon-plus:before {\n  content: \"\\e908\";\n}\n.vc_ui-icon-minus:before {\n  content: \"\\e909\";\n}\n.vc_ui-icon-cross:before {\n  content: \"\\e90a\";\n}\n.vc_ui-icon-checkmark:before {\n  content: \"\\e90b\";\n}\n.vc_ui-icon-frame-landscape:before {\n  content: \"\\e90c\";\n}\n.vc_ui-icon-dots-three-horizontal:before {\n  content: \"\\e90d\";\n}\n.vc_ui-icon-dots-three-vertical:before {\n  content: \"\\e90e\";\n}\n.vc_ui-icon-dots-two-horizontal:before {\n  content: \"\\e90f\";\n}\n.vc_ui-icon-dots-two-vertical:before {\n  content: \"\\e910\";\n}\n.vc_ui-icon-flow-cascade:before {\n  content: \"\\e911\";\n}\n.vc_ui-icon-frame-alt:before {\n  content: \"\\e912\";\n}\n.vc_ui-icon-frame-portrait:before {\n  content: \"\\e913\";\n}\n.vc_ui-icon-heart:before {\n  content: \"\\e915\";\n}\n.vc_ui-icon-menu:before {\n  content: \"\\e914\";\n}\n.vc_ui-icon-500px-with-circle:before {\n  content: \"\\e916\";\n}\n.vc_ui-icon-rdio-with-circle:before {\n  content: \"\\e917\";\n}\n.vc_ui-icon-skype-with-circle:before {\n  content: \"\\e918\";\n}\n.vc_ui-icon-spotify-with-circle:before {\n  content: \"\\e919\";\n}\n.vc_ui-icon-vine-with-circle:before {\n  content: \"\\e91a\";\n}\n.vc_ui-icon-vk-with-circle:before {\n  content: \"\\e91b\";\n}\n.vc_ui-icon-xing-with-circle:before {\n  content: \"\\e91c\";\n}\n.vc_ui-icon-dribbble-with-circle:before {\n  content: \"\\e91d\";\n}\n.vc_ui-icon-facebook-with-circle:before {\n  content: \"\\e91e\";\n}\n.vc_ui-icon-flickr-with-circle:before {\n  content: \"\\e91f\";\n}\n.vc_ui-icon-github-with-circle:before {\n  content: \"\\e920\";\n}\n.vc_ui-icon-google-with-circle:before {\n  content: \"\\e921\";\n}\n.vc_ui-icon-instagram-with-circle:before {\n  content: \"\\e922\";\n}\n.vc_ui-icon-lastfm-with-circle:before {\n  content: \"\\e923\";\n}\n.vc_ui-icon-linkedin-with-circle:before {\n  content: \"\\e924\";\n}\n.vc_ui-icon-pinterest-with-circle:before {\n  content: \"\\e925\";\n}\n.vc_ui-icon-stumbleupon-with-circle:before {\n  content: \"\\e926\";\n}\n.vc_ui-icon-tumblr-with-circle:before {\n  content: \"\\e927\";\n}\n.vc_ui-icon-twitter-with-circle:before {\n  content: \"\\e903\";\n}\n.vc_ui-icon-vimeo-with-circle:before {\n  content: \"\\e928\";\n}\n.vc_ui-icon-youtube-with-circle:before {\n  content: \"\\e929\";\n}\n.vc_ui-icon-bug:before {\n  content: \"\\f188\";\n}\n.vc_ui-icon-wordpress-with-circle:before {\n  content: \"\\f19a\";\n}\n.vc_ui-controls {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control-wrap {\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control {\n  display: block;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  text-decoration: none;\n}\n.vc_ui-control-icon {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n  height: 1em;\n  position: relative;\n}\n.vc_ui-control-label {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap {\n  position: relative;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container {\n  display: none;\n  position: absolute;\n  right: 0;\n  top: 100%;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container:first-child {\n  right: auto;\n  left: 0;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap:hover > .vc_ui-controls-container {\n  display: block;\n}\n.vc_ui-controls-container {\n  text-align: center;\n}\n.vc_ui-editor-controls {\n  display: inline-block;\n  vertical-align: middle;\n  text-align: left;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap {\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap .vc_ui-control-wrap {\n  display: block;\n}\n.vc_ui-editor-controls .vc_ui-control {\n  color: #ffffff;\n  background-color: #2b4b80;\n  padding: 12px 22px 12px 14px;\n  white-space: nowrap;\n}\n.vc_ui-editor-controls .vc_ui-control:hover {\n  background-color: #274475;\n}\n.vc_ui-editor-controls .vc_ui-control-icon ~ * {\n  margin-left: 12px;\n}\n.vc_ui-editor-controls-container {\n  position: absolute;\n  z-index: 1010;\n  list-style: none;\n  transform: translate(-50%, -100%);\n  text-align: center;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container {\n  margin: 4px;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control {\n  color: #ffffff;\n  background-color: #4673bd;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control:hover {\n  background-color: #406cb4;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control {\n  color: #ffffff;\n  background-color: #fec53f;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control:hover {\n  background-color: #fec030;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control {\n  color: #ffffff;\n  background-color: #6dab3c;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control:hover {\n  background-color: #66a038;\n}\n.vc_ui-outline {\n  position: absolute;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n  z-index: 1000;\n  box-shadow: 0 0 0 2px #2b4b80;\n}\n.vc_ui-outline-index-0 {\n  box-shadow: 0 0 0 2px #4673bd;\n}\n.vc_ui-outline-index-1 {\n  box-shadow: 0 0 0 2px #fec53f;\n}\n.vc_ui-outline-index-2 {\n  box-shadow: 0 0 0 2px #6dab3c;\n}\n", ""]);
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "c74388aec60f73aadb621afece1e999b.eot"
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "30adaccc95eb30cdacbc3d62e1f3e2d7.ttf"
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "ccfd86d505c70e6539999de263be5dfd.woff"
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "39d4df41f8f4ee184a0a76597d9a4eab.svg"
 
 /***/ }
 /******/ ]);
