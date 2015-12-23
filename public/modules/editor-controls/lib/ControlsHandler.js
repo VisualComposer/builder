@@ -136,17 +136,18 @@ ControlsHandler.prototype.drawControls = function (  ) {
 	controlWrap.appendTo(this.$controlsList);
     for ( var i in elemenstsTree ) {
 		controlWrap = $('<li class="vc_ui-control-wrap"/>' );//.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
+        var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');
 		$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">'+ elemenstsTree[ i ][0].tagName.substring(0,2) +'</i></a>').appendTo(controlWrap);
 		$('<div class="vc_ui-controls-container">' +
 			'<ul class="vc_ui-controls vc_ui-editor-controls">' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="edit"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-control-event="app:edit" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
 			'</li>' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="clone"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-control-event="data:clone" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' +
 			'</li>' +
 			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-ui-control-action="delete"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Delete</span></a>' +
+			'<a href="#" class="vc_ui-control" data-vc-control-event="data:remove" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Remove</span></a>' +
 			'</li>' +
 			'</ul>' +
 			'</div>').appendTo(controlWrap);

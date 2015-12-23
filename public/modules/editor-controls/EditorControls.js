@@ -18,12 +18,19 @@ ControlsTrigger.triggerRedrawFrame = function ( e ) {
 Mediator.installTo(controlsHandler);
 
 var EditorControls = function() {
-    controlsHandler.subscribe('data:changed', function(){
+    controlsHandler.subscribe('app:init', function(){
         $( document ).on( 'mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame );
         $( document ).on( 'mousemove hover', 'body', ControlsTrigger.triggerHideFrame );
         $( document ).on( 'mousemove hover', '.visual-composer', function ( e ) {
 			e.stopPropagation();
 		});
+        $(document).on('click', '[data-vc-control-event]', function(e){
+            var event = $(e.currentTarget).data('vcControlEvent');
+            var elementId = $(e.currentTarget).data('vcElementId');
+            e.preventDefault();
+            controlsHandler.publish(event, elementId);
+            controlsHandler.hideOutline();
+        });
         $( document ).on( 'scroll', ControlsTrigger.triggerRedrawFrame );
 		$( document ).on( 'click', '[data-vc-ui-control-action]', function ( e ) {
 			alert($(this).data('vcUiControlAction')+' clicked');
