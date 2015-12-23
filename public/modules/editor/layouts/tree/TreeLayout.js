@@ -1,6 +1,5 @@
 var React = require('react');
-var ElementComponents = require('../../../../helpers/ElementComponents');
-require('./TreeLayout.less');
+require('./less/tree/tree-init.less');
 var Utils = require('../../../../helpers/Utils');
 var Element = require('./Element.js');
 var Layout = React.createClass({
@@ -11,12 +10,17 @@ var Layout = React.createClass({
             let data = Array.prototype.slice.call(this.props.data.childNodes);
             elementsList = data.map(function( element ){
                 let data = Array.prototype.slice.call(element.childNodes);
-                return <Element element={element} data={data} key={element.getAttribute('id')}/>
+                return <Element element={element} data={data} key={element.getAttribute('id')} level={1} />
             });
-        };
-        return (<ul className="vc-v-layouts-tree dropdown-menu">
-            {elementsList}
-        </ul>);
+        }
+        return (<div className="vc_ui-tree-dropdown dropdown-menu">
+			<div className="vc_ui-tree-nodes-container">
+				<ul className="vc_ui-tree-node">
+					{elementsList}
+				</ul>
+			</div>
+			<div className="vc_ui-tree-nodes-controls">controls</div>
+        </div>);
     }
 });
 module.exports = Layout;

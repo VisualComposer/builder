@@ -70,7 +70,7 @@ var Element = React.createClass(Mediator.installTo({
     render: function() {
         var element = this.props.element;
         var ElementView = ElementComponents.getElement(element);
-        return React.createElement(ElementView, {key: element.getAttribute('id'), content: this.getContent(), controls: this.getControls(), 'data-vc-element': element.getAttribute('id')});
+        return React.createElement(ElementView, {key: element.getAttribute('id'), content: this.getContent(), 'data-vc-element': element.getAttribute('id')});
     }
 }));
 module.exports = Element;

@@ -2,9 +2,7 @@ var React = require('react');
 var Mediator = require('../../../helpers/Mediator'); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
 var AddElementModal = require('./add-element/AddElement.js');
-require('./Navbar.less');
-
-
+require('./less/navbar/navbar-init.less');
 module.exports = React.createClass(Mediator.installTo({
     openAddElement: function (e) {
         e && e.preventDefault();
