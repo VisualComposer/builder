@@ -137,9 +137,18 @@ ControlsHandler.prototype.drawControls = function (  ) {
     for ( var i in elemenstsTree ) {
 		controlWrap = $('<li class="vc_ui-control-wrap"/>' );//.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
         var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');
+        var elementType = elemenstsTree[ i ][0].getAttribute('data-vc-element-type');
 		$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">'+ elemenstsTree[ i ][0].tagName.substring(0,2) +'</i></a>').appendTo(controlWrap);
 		$('<div class="vc_ui-controls-container">' +
 			'<ul class="vc_ui-controls vc_ui-editor-controls">' +
+                (
+                    'container' === elementType ?
+                    '<li class="vc_ui-control-wrap">' +
+                    '<a href="#" class="vc_ui-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">+</i><span class="vc_ui-control-label">Add</span></a>' +
+                    '</li>'
+                        :
+                        ''
+                ) +
 			'<li class="vc_ui-control-wrap">' +
 			'<a href="#" class="vc_ui-control" data-vc-control-event="app:edit" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
 			'</li>' +
