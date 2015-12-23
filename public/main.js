@@ -13,7 +13,7 @@ var App = Mediator.installTo({
 	init: function() {
 		this.loadModules();
 		this.publish('app:init', true);
-	},
+	}
 });
 App.init();
 
