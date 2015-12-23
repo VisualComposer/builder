@@ -1,0 +1,17 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Button 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Button"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    }
+}

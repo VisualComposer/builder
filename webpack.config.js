@@ -1,10 +1,15 @@
+var CollectElementSettingsModule = require('./CollectElementsSettings');
 module.exports = {
-	entry: './public/main.js',
+	context: __dirname + "/public",
+	entry: './main',
 	output: {
 		path: './public/assets', // Assets dist path
 		publicPath: './assets/', // Used to generate URL's
 		filename: '../bundle.js' // Main bundle file
 	},
+	plugins: [
+			new CollectElementSettingsModule()
+	],
 	module: {
 		loaders: [
 			{ test: /\.js$/, loader: 'babel-loader' },
@@ -14,5 +19,6 @@ module.exports = {
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
 			{ test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
 		]
-	}
+	},
+	debug: true
 };

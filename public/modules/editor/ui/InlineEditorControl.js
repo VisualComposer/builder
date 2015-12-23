@@ -1,9 +1,8 @@
 var React = require('react');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
-var Elements = require( '../../../helpers/Elements' ); // need to remove too
 
 
-var InlineEditorControl = React.createClass({
+module.exports = React.createClass(Mediator.installTo({
 	clickHandler: function ( e ) {
 		e.preventDefault();
 		alert(this.props.name + ' clicked');
@@ -15,6 +14,4 @@ var InlineEditorControl = React.createClass({
 			</a>
 		</li>;
 	}
-});
-Mediator.installTo(InlineEditorControl);
-module.exports = InlineEditorControl;
+}));

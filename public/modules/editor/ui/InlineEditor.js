@@ -1,13 +1,11 @@
 var React = require('react');
-
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
-var Elements = require( '../../../helpers/Elements' ); // need to remove too
 var InlineEditorControl = require('./InlineEditorControl');
 
 require('./less/inline-editor/inline-editor.less');
 
 
-var InlineEditor = React.createClass({
+module.exports = React.createClass(Mediator.installTo({
 	getInitialState: function() {
 		return {
 			activated: false
@@ -36,6 +34,4 @@ var InlineEditor = React.createClass({
 			</ul>
 		);
 	}
-});
-Mediator.installTo(InlineEditor);
-module.exports = InlineEditor;
+}));

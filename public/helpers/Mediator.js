@@ -20,6 +20,7 @@ var mediator = module.exports = (function(){
 		installTo : function(obj){
 			obj.subscribe = subscribe;
 			obj.publish = publish;
+			return obj;
 		}
 	};
 }());

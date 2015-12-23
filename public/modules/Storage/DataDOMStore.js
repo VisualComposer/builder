@@ -1,17 +1,29 @@
 var Mediator = require('../../helpers/Mediator');
 var Utils = require('../../helpers/Utils');
 var LocalStorage = require('./LocalStorage');
-// var mori = require("mori");
 var DataStore = {
     document: null,
     add: function(element, parentNode) {
         // @todo Here we should use immutable data.
         if(parentNode) {
-            var DOMElement = this.document.createElement(element.element);
+            var DOMElement = this.document.createElement(element.tag);
             var elementId = document.createAttribute('id');       // Create a "id" attribute
-            elementId.value = element.id;
-            // Set the value of the class attribute
+            elementId.value = Utils.createKey();
             DOMElement.setAttributeNode(elementId);
+
+            Object.keys(element).forEach(function(k){
+                let param = element[k];
+                if('content' === k && 'public' === param.getAccess()) {
+                    let textNode = document.createTextNode(param.toString());
+                    DOMElement.appendChild(textNode);
+                } else if('public' === param.getAccess()) {
+                    let elementParam = document.createAttribute(k);
+                    elementParam.value = param.toString();
+                    DOMElement.setAttributeNode(elementParam);
+                }
+            }, this);
+
+            // Set the value of the class attribute
             parentNode.appendChild(DOMElement);
         }
         // this.resetActiveNode(); // @todo need to find new way to sync with current node
