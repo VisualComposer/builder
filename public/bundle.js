@@ -19859,7 +19859,8 @@
 
 	        if (this.props.data.childNodes) {
 	            var data = Array.prototype.slice.call(this.props.data.childNodes);
-	            elementsList = data.map(function (element) {
+	            var rootElement = data[0];
+	            elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
 	                var data = Array.prototype.slice.call(element.childNodes);
 	                return React.createElement(Element, { element: element, data: data, key: element.getAttribute('id'), level: 1 });
 	            });
