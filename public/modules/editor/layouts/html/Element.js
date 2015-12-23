@@ -31,20 +31,20 @@ var SortableMixin = {
 	}
 };
 require('./Sortable.less');
-var Element = React.createClass({
-	mixins: [SortableMixin],
+var Element = React.createClass(Mediator.installTo({
+	// mixins: [SortableMixin],
     addChild: function() {
-        Element.publish('data:activeNode', this.props.element.getAttribute('id'));
-        Element.publish('app:add', true);
+        this.publish('data:activeNode', this.props.element.getAttribute('id'));
+        this.publish('app:add', true);
     },
     editElement: function() {
-      Element.publish('app:edit', this.props.element);
+        this.publish('app:edit', this.props.element);
     },
     removeElement: function() {
-        Element.publish('data:remove', this.props.element.getAttribute('id'));
+        this.publish('data:remove', this.props.element.getAttribute('id'));
     },
     cloneElement: function() {
-        Element.publish('data:clone', this.props.element.getAttribute('id'));
+        this.publish('data:clone', this.props.element.getAttribute('id'));
     },
     getContent: function() {
         var ElementComponent = ElementComponents.get(this.props.element); // optimize
@@ -60,7 +60,7 @@ var Element = React.createClass({
     getControls: function() {
         var ElementComponent = ElementComponents.get(this.props.element);
         var addControl = 'container' == ElementComponent.type  ? <a onClick={this.addChild} className="glyphicon glyphicon-plus"></a> : null;
-        return (<span className="controls" key={['vc-element-controls-' + this.props.element.getAttribute('id')]}>
+        return (<span className="controls">
             {addControl}
             <a onClick={this.editElement} className="glyphicon glyphicon-pencil"></a>
             <a onClick={this.removeElement} className="glyphicon glyphicon-remove"></a>
@@ -72,6 +72,5 @@ var Element = React.createClass({
         var ElementView = ElementComponents.getElement(element);
         return React.createElement(ElementView, {key: element.getAttribute('id'), content: this.getContent(), controls: this.getControls(), 'data-vc-element': element.getAttribute('id')});
     }
-});
-Mediator.installTo(Element);
+}));
 module.exports = Element;

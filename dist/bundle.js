@@ -24794,33 +24794,6 @@
 
 	'use strict';
 
-	var _reactTransformCatchErrors2 = __webpack_require__(165);
-
-	var _reactTransformCatchErrors3 = _interopRequireDefault(_reactTransformCatchErrors2);
-
-	var _react = __webpack_require__(4);
-
-	var _redboxReact = __webpack_require__(166);
-
-	var _components = {
-	    _$Unknown: {}
-	};
-
-	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Element.js',
-	    components: _components,
-	    locals: [],
-	    imports: [_react, _redboxReact]
-	});
-
-	function _wrapComponent(uniqueId) {
-	    return function (ReactClass) {
-	        return _reactComponentWrapper(ReactClass, uniqueId);
-	    };
-	}
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	var React = __webpack_require__(4);
 	var Utils = __webpack_require__(176);
 	var Mediator = __webpack_require__(2);
@@ -24852,20 +24825,20 @@
 	    }
 	};
 	__webpack_require__(220);
-	var Element = _wrapComponent('_$Unknown')(React.createClass({
-	    mixins: [SortableMixin],
+	var Element = React.createClass(Mediator.installTo({
+	    // mixins: [SortableMixin],
 	    addChild: function addChild() {
-	        Element.publish('data:activeNode', this.props.element.getAttribute('id'));
-	        Element.publish('app:add', true);
+	        this.publish('data:activeNode', this.props.element.getAttribute('id'));
+	        this.publish('app:add', true);
 	    },
 	    editElement: function editElement() {
-	        Element.publish('app:edit', this.props.element);
+	        this.publish('app:edit', this.props.element);
 	    },
 	    removeElement: function removeElement() {
-	        Element.publish('data:remove', this.props.element.getAttribute('id'));
+	        this.publish('data:remove', this.props.element.getAttribute('id'));
 	    },
 	    cloneElement: function cloneElement() {
-	        Element.publish('data:clone', this.props.element.getAttribute('id'));
+	        this.publish('data:clone', this.props.element.getAttribute('id'));
 	    },
 	    getContent: function getContent() {
 	        var ElementComponent = ElementComponents.get(this.props.element); // optimize
@@ -24883,7 +24856,7 @@
 	        var addControl = 'container' == ElementComponent.type ? React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' }) : null;
 	        return React.createElement(
 	            'span',
-	            { className: 'controls', key: ['vc-element-controls-' + this.props.element.getAttribute('id')] },
+	            { className: 'controls' },
 	            addControl,
 	            React.createElement('a', { onClick: this.editElement, className: 'glyphicon glyphicon-pencil' }),
 	            React.createElement('a', { onClick: this.removeElement, className: 'glyphicon glyphicon-remove' }),
@@ -24896,7 +24869,6 @@
 	        return React.createElement(ElementView, { key: element.getAttribute('id'), content: this.getContent(), controls: this.getControls(), 'data-vc-element': element.getAttribute('id') });
 	    }
 	}));
-	Mediator.installTo(Element);
 	module.exports = Element;
 
 /***/ },
