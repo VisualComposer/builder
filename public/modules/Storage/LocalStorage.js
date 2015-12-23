@@ -16,7 +16,6 @@ let Data = {
 Mediator.installTo(Data);
 Data.subscribe('data:changed', function(document){
     window.vcTest = document;
-	debugger;
     let data = Array.prototype.slice.call(document.childNodes);
     let elementsList = data.map(function(element ){
         return element.innerHTML;

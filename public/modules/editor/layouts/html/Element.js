@@ -11,7 +11,6 @@ var SortableMixin = {
 	componentDidMount: function () {
 		var component = ReactDOM.findDOMNode( this );
 		if ( $( component ).is( '[data-vc-element="vc-v-root-element"' ) ) {
-			debugger;
 			var elements = component.querySelectorAll( '[data-vc-element]' );
 			$.each( elements, function ( key, item ) {
 				$( item ).sortable( {

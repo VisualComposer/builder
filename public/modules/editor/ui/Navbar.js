@@ -1,6 +1,7 @@
 var React = require('react');
 var Modal = require('react-modal');
 var ElementControl = require('./ElementControl');
+var InlineEditor = require('./InlineEditor');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var Elements = require( '../../../helpers/Elements' ); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
@@ -52,6 +53,9 @@ var Navbar = React.createClass({
 						<TreeElement data={this.props.data}/>
 					</li>
 				</ul>
+				<div className="vc_ui-inline-editor-container">
+					<InlineEditor />
+				</div>
 				<Modal
 					isOpen={this.state.modalIsOpen}
 					onRequestClose={this.closeModal}

@@ -19771,6 +19771,7 @@
 	var React = __webpack_require__(14);
 	var Modal = __webpack_require__(174);
 	var ElementControl = __webpack_require__(194);
+	var InlineEditor = __webpack_require__(233);
 	var Mediator = __webpack_require__(12); // need to remove too
 	var Elements = __webpack_require__(196); // need to remove too
 	var TreeElement = __webpack_require__(206);
@@ -19846,6 +19847,11 @@
 						),
 						React.createElement(TreeElement, { data: this.props.data })
 					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'vc_ui-inline-editor-container' },
+					React.createElement(InlineEditor, null)
 				),
 				React.createElement(
 					Modal,
@@ -21811,7 +21817,7 @@
 
 	        return React.createElement(
 	            "p",
-	            _extends({ className: "vc-text-block", key: key }, other),
+	            _extends({ contentEditable: "true", className: "vc-text-block", key: key }, other),
 	            "Hello my name is Boris and I know ninja rules very well. Hide away."
 	        );
 	    }
@@ -22420,7 +22426,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(204)();
-	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(213)+");\n}\n.vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
+	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(213)+");\n  background-color: #2a4b80;\n}\n.vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
 
 /***/ },
 /* 213 */
@@ -22508,7 +22514,6 @@
 		componentDidMount: function componentDidMount() {
 			var component = ReactDOM.findDOMNode(this);
 			if ($(component).is('[data-vc-element="vc-v-root-element"')) {
-				debugger;
 				var elements = component.querySelectorAll('[data-vc-element]');
 				$.each(elements, function (key, item) {
 					$(item).sortable({
@@ -22705,7 +22710,6 @@
 
 	// Add to app
 	Data.subscribe('app:init', function () {
-	    debugger;
 	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
 	    var parser = new DOMParser();
 	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
@@ -22738,7 +22742,6 @@
 	Mediator.installTo(Data);
 	Data.subscribe('data:changed', function (document) {
 	    window.vcTest = document;
-	    debugger;
 	    var data = Array.prototype.slice.call(document.childNodes);
 	    var elementsList = data.map(function (element) {
 	        return element.innerHTML;
@@ -23026,6 +23029,116 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "39d4df41f8f4ee184a0a76597d9a4eab.svg"
+
+/***/ },
+/* 232 */,
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(14);
+
+	var Mediator = __webpack_require__(12); // need to remove too
+	var Elements = __webpack_require__(196); // need to remove too
+	var InlineEditorControl = __webpack_require__(234);
+
+	__webpack_require__(235);
+
+	var InlineEditor = React.createClass({
+		displayName: 'InlineEditor',
+
+		getInitialState: function getInitialState() {
+			return {
+				activated: false
+			};
+		},
+		//componentDidMount: function() {
+		//	// inlineEditorPlugin.publish('app:inline', true, $element.data('vcElement'));
+		//	this.subscribe('app:inline-edit', function(activate, elementID){
+		//		this.setState({activated: activate});
+		//	}.bind(this));
+		//},
+		getControlsList: function getControlsList() {
+			return [{ type: 'Bold', name: 'Bold', icon: 'glyphicon glyphicon-bold', style: {} }, { type: 'Italic', name: 'Italic', icon: 'glyphicon glyphicon-italic', style: {} }, { type: 'Underline', name: 'Underline', icon: 'glyphicon glyphicon-font', style: { textDecoration: 'underline' } }];
+		},
+		render: function render() {
+			var activated = this.state.activated;
+			return React.createElement(
+				'ul',
+				{ className: 'vc_ui-inline-editor-controls' },
+				this.getControlsList().map((function (control) {
+					return React.createElement(InlineEditorControl, _extends({ key: control.type }, control));
+				}).bind(this))
+			);
+		}
+	});
+	Mediator.installTo(InlineEditor);
+	module.exports = InlineEditor;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(14);
+	var Mediator = __webpack_require__(12); // need to remove too
+	var Elements = __webpack_require__(196); // need to remove too
+
+	var InlineEditorControl = React.createClass({
+		displayName: 'InlineEditorControl',
+
+		clickHandler: function clickHandler(e) {
+			e.preventDefault();
+			alert(this.props.name + ' clicked');
+		},
+		render: function render() {
+			return React.createElement(
+				'li',
+				{ className: 'vc_ui-inline-editor-control', key: this.props.type },
+				React.createElement(
+					'a',
+					{ onClick: this.clickHandler, className: 'vc_ui-inline-control-trigger' },
+					React.createElement('i', { className: this.props.icon, style: this.props.style, title: this.props.name })
+				)
+			);
+		}
+	});
+	Mediator.installTo(InlineEditorControl);
+	module.exports = InlineEditorControl;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(236);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(205)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v\\public\\modules\\editor\\ui\\less\\inline-editor\\inline-editor.less", function() {
+			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v\\public\\modules\\editor\\ui\\less\\inline-editor\\inline-editor.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(204)();
+	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 10px 35px;\n  text-align: center;\n}\n.vc_ui-inline-editor-controls {\n  display: inline-block;\n  margin: 0 auto;\n  padding: 0;\n  list-style: none;\n  text-align: left;\n}\n.vc_ui-inline-editor-control {\n  display: inline-block;\n}\n.vc_ui-inline-control-trigger {\n  display: block;\n  font-size: 14px;\n  padding: 2px 7px;\n  line-height: 1.5;\n  color: #333;\n  background-color: #fff;\n  box-shadow: inset 1px 2px 7px -2px rgba(0, 0, 0, 0.5);\n  border-radius: 3px;\n  margin: 2px;\n  cursor: pointer;\n  opacity: .9;\n}\n.vc_ui-inline-control-trigger:hover {\n  color: #333;\n  opacity: .98;\n}\n", ""]);
 
 /***/ }
 /******/ ]);
