@@ -19782,8 +19782,7 @@
 	    },
 	    openAddElement: function openAddElement(e) {
 	        e && e.preventDefault();
-	        this.publish('data:activeNode', 'vc-v-root-element');
-	        this.publish('app:add', true);
+	        this.publish('app:add', 'vc-v-root-element');
 	    },
 	    clickMenuExpand: function clickMenuExpand() {
 	        this.setState({ menuExpand: !this.state.menuExpand });
@@ -22301,8 +22300,7 @@
 		},
 		clickAddChild: function clickAddChild(e) {
 			e.preventDefault();
-			this.publish('data:activeNode', this.props.element.id);
-			this.publish('app:add', true);
+			this.publish('app:add', this.props.element.id);
 		},
 		clickClone: function clickClone(e) {
 			e.preventDefault();
@@ -25090,8 +25088,7 @@
 	var Element = React.createClass(Mediator.installTo({
 	    // mixins: [SortableMixin],
 	    addChild: function addChild() {
-	        this.publish('data:activeNode', this.props.element.getAttribute('id'));
-	        this.publish('app:add', true);
+	        this.publish('app:add', this.props.element.getAttribute('id'));
 	    },
 	    editElement: function editElement() {
 	        this.publish('app:edit', this.props.element);
@@ -25127,8 +25124,14 @@
 	    },
 	    render: function render() {
 	        var element = this.props.element;
+	        var ElementComponent = ElementComponents.get(this.props.element);
 	        var ElementView = ElementComponents.getElement(element);
-	        return React.createElement(ElementView, { key: element.getAttribute('id'), content: this.getContent(), 'data-vc-element': element.getAttribute('id') });
+	        return React.createElement(ElementView, {
+	            key: element.getAttribute('id'),
+	            content: this.getContent(),
+	            'data-vc-element': element.getAttribute('id'),
+	            'data-vc-element-type': ElementComponent.type.toString()
+	        });
 	    }
 	}));
 	module.exports = Element;
@@ -25421,10 +25424,9 @@
 	};
 	Mediator.installTo(Data);
 
-	Data.subscribe('data:activeNode', function (id) {
+	Data.subscribe('app:add', function (id) {
 	    Data.activeNode = DataStore.document.getElementById(id);
 	});
-
 	Data.subscribe('data:add', function (element) {
 	    DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
 	});
@@ -25678,8 +25680,9 @@
 	    for (var i in elemenstsTree) {
 	        controlWrap = $('<li class="vc_ui-control-wrap"/>'); //.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
 	        var elementId = elemenstsTree[i][0].getAttribute('data-vc-element');
+	        var elementType = elemenstsTree[i][0].getAttribute('data-vc-element-type');
 	        $('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">' + elemenstsTree[i][0].tagName.substring(0, 2) + '</i></a>').appendTo(controlWrap);
-	        $('<div class="vc_ui-controls-container">' + '<ul class="vc_ui-controls vc_ui-editor-controls">' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="app:edit" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="data:clone" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="data:remove" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Remove</span></a>' + '</li>' + '</ul>' + '</div>').appendTo(controlWrap);
+	        $('<div class="vc_ui-controls-container">' + '<ul class="vc_ui-controls vc_ui-editor-controls">' + ('container' === elementType ? '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">+</i><span class="vc_ui-control-label">Add</span></a>' + '</li>' : '') + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="app:edit" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="data:clone" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' + '</li>' + '<li class="vc_ui-control-wrap">' + '<a href="#" class="vc_ui-control" data-vc-control-event="data:remove" data-vc-element-id="' + elementId + '"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Remove</span></a>' + '</li>' + '</ul>' + '</div>').appendTo(controlWrap);
 	        controlWrap.appendTo(this.$controlsList);
 	    }
 

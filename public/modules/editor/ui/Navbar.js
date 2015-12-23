@@ -14,8 +14,7 @@ module.exports = React.createClass(Mediator.installTo({
 	},
     openAddElement: function (e) {
         e && e.preventDefault();
-        this.publish('data:activeNode', 'vc-v-root-element');
-        this.publish('app:add', true);
+        this.publish('app:add', 'vc-v-root-element');
     },
 	clickMenuExpand: function() {
 		this.setState({menuExpand: !this.state.menuExpand});
