@@ -14,9 +14,9 @@ var FormParamMixin = {
 module.exports = React.createClass({
     mixins: [FormParam],
     render: function() {
-        return <textarea
+        return <input
             onChange={this.handleChange}
-            ref="ftextarea"
-            defaultValue={this.state.value} />;
+            ref="fstring"
+            value={this.state.value} />;
     }
 });

@@ -17,6 +17,9 @@ const customStyles = {
 var DataChanged = {
     componentDidMount: function(){
         this.subscribe('app:edit', function(element){
+            if('string' === typeof element) {
+                element = Mediator.getService('data').get(element);
+            }
             this.setState({editElement: element, modalIsOpen: true});
         }.bind(this));
     }
@@ -26,23 +29,29 @@ var reactObject = {
     getInitialState: function () {
         return {modalIsOpen: false, editElement: {}};
     },
-    getComponentForm: function() {
-        return 'ooops';
-    },
     closeModal: function (e) {
         e && e.preventDefault();
         this.setState(this.getInitialState());
     },
     getSettings: function() {
-        return false; this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
+        return this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
     },
     saveForm: function(e) {
         e && e.preventDefault();
         this.closeModal();
     },
     getForm: function() {
-        // here comes list of public properties
-        return '';
+        var element = this.props.element;
+        var settings = this.getSettings();
+        var attributesService = Mediator.getService('attributes');
+        var returnList = Object.keys(settings).map(function(key){
+            var option = settings[key];
+            if('public' === option.getAccess()) {
+                var ComponentView = attributesService.setType(option.type).getComponent();
+                return React.createElement(ComponentView, {value: attributesService.setValue(element).getValue()});
+            }
+        }, this);
+        return returnList;
     },
     render: function () {
         var elementSettings = this.getSettings();

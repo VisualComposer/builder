@@ -37,9 +37,6 @@ var ElementsList = {
                                 getType: function() {
                                     return optionSettings.type;
                                 },
-                                getFormComponent: function() {
-                                    // @todo Here we can add logic to return template for paramType :)
-                                },
                                 valueOf: function() {
                                     return this.toString();
                                 }

@@ -22465,9 +22465,6 @@
 	                            getType: function getType() {
 	                                return optionSettings.type;
 	                            },
-	                            getFormComponent: function getFormComponent() {
-	                                // @todo Here we can add logic to return template for paramType :)
-	                            },
 	                            valueOf: function valueOf() {
 	                                return this.toString();
 	                            }
@@ -25136,6 +25133,9 @@
 	var DataChanged = {
 	    componentDidMount: function componentDidMount() {
 	        this.subscribe('app:edit', (function (element) {
+	            if ('string' === typeof element) {
+	                element = Mediator.getService('data').get(element);
+	            }
 	            this.setState({ editElement: element, modalIsOpen: true });
 	        }).bind(this));
 	    }
@@ -25145,23 +25145,29 @@
 	    getInitialState: function getInitialState() {
 	        return { modalIsOpen: false, editElement: {} };
 	    },
-	    getComponentForm: function getComponentForm() {
-	        return 'ooops';
-	    },
 	    closeModal: function closeModal(e) {
 	        e && e.preventDefault();
 	        this.setState(this.getInitialState());
 	    },
 	    getSettings: function getSettings() {
-	        return false;this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
+	        return this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
 	    },
 	    saveForm: function saveForm(e) {
 	        e && e.preventDefault();
 	        this.closeModal();
 	    },
 	    getForm: function getForm() {
-	        // here comes list of public properties
-	        return '';
+	        var element = this.props.element;
+	        var settings = this.getSettings();
+	        var attributesService = Mediator.getService('attributes');
+	        var returnList = Object.keys(settings).map(function (key) {
+	            var option = settings[key];
+	            if ('public' === option.getAccess()) {
+	                var ComponentView = attributesService.setType(option.type).getComponent();
+	                return React.createElement(ComponentView, { value: attributesService.setValue(element).getValue() });
+	            }
+	        }, this);
+	        return returnList;
 	    },
 	    render: function render() {
 	        var elementSettings = this.getSettings();
@@ -25467,9 +25473,6 @@
 	            controlsHandler.hideOutline();
 	        });
 	        $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);
-	        $(document).on('click', '[data-vc-ui-control-action]', function (e) {
-	            alert($(this).data('vcUiControlAction') + ' clicked');
-	        });
 	    });
 	    return controlsHandler;
 	};
