@@ -97,6 +97,7 @@
 			};
 			return this;
 		};
+		var services = {};
 		return {
 			channels: {},
 			publish: publish,
@@ -105,6 +106,12 @@
 				obj.subscribe = subscribe;
 				obj.publish = publish;
 				return obj;
+			},
+			addService: function addService(name, obj) {
+				services[name] = obj;
+			},
+			getService: function getService(name) {
+				return services[name] || null;
 			}
 		};
 	})();
@@ -19858,7 +19865,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: 'V:/www/vc-v/public/modules/editor/layouts/tree/TreeLayout.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/TreeLayout.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -19983,15 +19990,20 @@
 	      try {
 	        return originalRender.apply(this, arguments);
 	      } catch (err) {
-	        if (console.reportErrorsAsExceptions) {
-	          // Stop react-native from triggering its own error handler
-	          console.reportErrorsAsExceptions = false;
-	          console.error(err);
-	          // Reactivate it so other errors are still handled
-	          console.reportErrorsAsExceptions = true;
-	        } else {
-	          console.error(err);
-	        }
+	        setTimeout(function () {
+	          if (typeof console.reportErrorsAsExceptions !== 'undefined') {
+	            var prevReportErrorAsExceptions = console.reportErrorsAsExceptions;
+	            // We're in React Native. Don't throw.
+	            // Stop react-native from triggering its own error handler
+	            console.reportErrorsAsExceptions = false;
+	            // Log an error
+	            console.error(err);
+	            // Reactivate it so other errors are still handled
+	            console.reportErrorsAsExceptions = prevReportErrorAsExceptions;
+	          } else {
+	            throw err;
+	          }
+	        });
 
 	        return React.createElement(ErrorReporter, _extends({
 	          error: err,
@@ -21356,86 +21368,18 @@
 /* 180 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	var toObject = _toObjectOrig;
-	var __$Getters__ = [];
-	var __$Setters__ = [];
-	var __$Resetters__ = [];
-
-	function __GetDependency__(name) {
-		return __$Getters__[name]();
-	}
-
-	function __Rewire__(name, value) {
-		__$Setters__[name](value);
-	}
-
-	function __ResetDependency__(name) {
-		__$Resetters__[name]();
-	}
-
-	var __RewireAPI__ = {
-		'__GetDependency__': __GetDependency__,
-		'__get__': __GetDependency__,
-		'__Rewire__': __Rewire__,
-		'__set__': __Rewire__,
-		'__ResetDependency__': __ResetDependency__
-	};
 	/* eslint-disable no-unused-vars */
 	'use strict';
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	var _hasOwnProperty = hasOwnProperty;
-
-	__$Getters__['hasOwnProperty'] = function () {
-		return hasOwnProperty;
-	};
-
-	__$Setters__['hasOwnProperty'] = function (value) {
-		hasOwnProperty = value;
-	};
-
-	__$Resetters__['hasOwnProperty'] = function () {
-		hasOwnProperty = _hasOwnProperty;
-	};
-
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
-	var _propIsEnumerable = propIsEnumerable;
-
-	__$Getters__['propIsEnumerable'] = function () {
-		return propIsEnumerable;
-	};
-
-	__$Setters__['propIsEnumerable'] = function (value) {
-		propIsEnumerable = value;
-	};
-
-	__$Resetters__['propIsEnumerable'] = function () {
-		propIsEnumerable = _propIsEnumerable;
-	};
-
-	function _toObjectOrig(val) {
+	function toObject(val) {
 		if (val === null || val === undefined) {
 			throw new TypeError('Object.assign cannot be called with null or undefined');
 		}
 
 		return Object(val);
 	}
-
-	var _toObject = toObject;
-
-	__$Getters__['toObject'] = function () {
-		return toObject;
-	};
-
-	__$Setters__['toObject'] = function (value) {
-		toObject = value;
-	};
-
-	__$Resetters__['toObject'] = function () {
-		toObject = _toObject;
-	};
 
 	module.exports = Object.assign || function (target, source) {
 		var from;
@@ -21463,33 +21407,6 @@
 
 		return to;
 	};
-
-	if (typeof module.exports === 'object' || typeof module.exports === 'function') {
-		Object.defineProperty(module.exports, '__Rewire__', {
-			'value': __Rewire__,
-			'enumberable': false
-		});
-		Object.defineProperty(module.exports, '__set__', {
-			'value': __Rewire__,
-			'enumberable': false
-		});
-		Object.defineProperty(module.exports, '__ResetDependency__', {
-			'value': __ResetDependency__,
-			'enumberable': false
-		});
-		Object.defineProperty(module.exports, '__GetDependency__', {
-			'value': __GetDependency__,
-			'enumberable': false
-		});
-		Object.defineProperty(module.exports, '__get__', {
-			'value': __GetDependency__,
-			'enumberable': false
-		});
-		Object.defineProperty(module.exports, '__RewireAPI__', {
-			'value': __RewireAPI__,
-			'enumberable': false
-		});
-	}
 
 /***/ },
 /* 181 */
@@ -22018,8 +21935,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\tree\\less\\tree\\tree-init.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\tree\\less\\tree\\tree-init.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22523,6 +22440,11 @@
 	        "type": "string",
 	        "access": "system",
 	        "value": "inline"
+	    },
+	    "content": {
+	        "type": "string",
+	        "access": "public",
+	        "value": "Button"
 	    }
 	}, {
 	    "name": {
@@ -22543,7 +22465,7 @@
 	    "content": {
 	        "type": "textarea",
 	        "access": "public",
-	        "value": "'Hello my name is Boris and I know ninja rules very well. Hide away."
+	        "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
 	    },
 	    "type": {
 	        "type": "string",
@@ -22615,7 +22537,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3["default"])({
-	    filename: "V:/www/vc-v/public/sources/elements/Button/Button.js",
+	    filename: "/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Button/Button.js",
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22670,7 +22592,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3["default"])({
-	    filename: "V:/www/vc-v/public/sources/elements/Paragraph/Paragraph.js",
+	    filename: "/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Paragraph/Paragraph.js",
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22725,7 +22647,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: 'V:/www/vc-v/public/sources/elements/Section/Section.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22772,8 +22694,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\sources\\elements\\Section\\Section.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\sources\\elements\\Section\\Section.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22974,7 +22896,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	  filename: 'V:/www/vc-v/node_modules/react-modal/lib/components/Modal.js',
+	  filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/react-modal/lib/components/Modal.js',
 	  components: _components,
 	  locals: [],
 	  imports: [_react, _redboxReact]
@@ -23129,7 +23051,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	  filename: 'V:/www/vc-v/node_modules/react-modal/lib/components/ModalPortal.js',
+	  filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/react-modal/lib/components/ModalPortal.js',
 	  components: _components,
 	  locals: [],
 	  imports: [_react, _redboxReact]
@@ -24805,8 +24727,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\add-element\\AddElement.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\add-element\\AddElement.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/add-element/AddElement.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/add-element/AddElement.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24903,8 +24825,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\less\\inline-editor\\inline-editor.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\less\\inline-editor\\inline-editor.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24933,8 +24855,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\less\\navbar\\navbar-init.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\less\\navbar\\navbar-init.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/navbar/navbar-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/navbar/navbar-init.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24974,7 +24896,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: 'V:/www/vc-v/public/modules/editor/layouts/html/HtmlLayout.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -25032,8 +24954,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\HtmlLayout.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\HtmlLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25108,10 +25030,11 @@
 	            });
 	            return elementsList;
 	        }
-	        return this.props.content || '';
+	        return this.props.element.innerHTML || '';
 	    },
 	    getControls: function getControls() {
-	        var ElementComponent = ElementComponents.get(this.props.element);
+	        var element = this.props.element;
+	        var ElementComponent = ElementComponents.get(element);
 	        var addControl = 'container' == ElementComponent.type ? React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' }) : null;
 	        return React.createElement(
 	            'span',
@@ -25124,7 +25047,7 @@
 	    },
 	    render: function render() {
 	        var element = this.props.element;
-	        var ElementComponent = ElementComponents.get(this.props.element);
+	        var ElementComponent = ElementComponents.get(element);
 	        var ElementView = ElementComponents.getElement(element);
 	        return React.createElement(ElementView, {
 	            key: element.getAttribute('id'),
@@ -25150,8 +25073,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\Element.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\Element.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Element.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Element.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25180,8 +25103,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\Sortable.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\layouts\\html\\Sortable.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Sortable.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Sortable.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25325,8 +25248,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\Editor.css", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor\\ui\\Editor.css");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/Editor.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25350,6 +25273,10 @@
 	var Mediator = __webpack_require__(12);
 	var Utils = __webpack_require__(186);
 	var LocalStorage = __webpack_require__(240);
+	/**
+	 * Data Module
+	 * @type {{document: null, add: DataStore.add, remove: DataStore.remove, clone: DataStore.clone, move: DataStore.move, get: DataStore.get}}
+	 */
 	var DataStore = {
 	    document: null,
 	    add: function add(element, parentNode) {
@@ -25412,44 +25339,68 @@
 	            }
 	        }
 	        return false;
+	    },
+	    get: function get(id) {
+	        var element = this.document.getElementById(id);
+	        return element;
 	    }
 	};
 
-	// Data module
+	/**
+	 * Data module API
+	 * @type {{activeNode: null, resetActiveNode: Data.resetActiveNode}}
+	 */
 	var Data = {
 	    activeNode: null,
 	    resetActiveNode: function resetActiveNode() {
 	        this.activeNode = null;
+	    },
+	    get: function get(id) {
+	        return DataStore.get(id);
+	    },
+	    add: function add(element) {
+	        DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
+	    },
+	    remove: function remove(id) {
+	        DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	    },
+	    clone: function clone(id) {
+	        DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	    },
+	    parse: function parse(dataString) {
+	        var parser = new DOMParser();
+	        return parser.parseFromString(dataString, 'text/xml');
 	    }
 	};
+
 	Mediator.installTo(Data);
+	Mediator.addService('data', Data);
 
 	Data.subscribe('app:add', function (id) {
-	    Data.activeNode = DataStore.document.getElementById(id);
+	    if (id) {
+	        Data.activeNode = DataStore.get(id);
+	    }
 	});
 	Data.subscribe('data:add', function (element) {
-	    DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
+	    Data.add(element);
 	});
 	Data.subscribe('data:remove', function (id) {
-	    DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	    Data.remove(id);
 	});
 	Data.subscribe('data:clone', function (id) {
-	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	    Data.clone(id);
 	});
-
 	// @todo sync how to ignore one or too object.
 	Data.subscribe('data:move', function (id, beforeId) {
 	    DataStore.move(id, beforeId) && Data.publish('data:changed', DataStore.document);
 	});
-
 	// Add to app
 	Data.subscribe('app:init', function () {
-	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
-	    var parser = new DOMParser();
-	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
+	    DataStore.document = Data.parse('<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>');
 	    Data.publish('data:changed', DataStore.document);
 	});
-	window.vcData = Data; // @todo remove after presentation
+	window.vcData = Data; // @todo should be removed.
+
 	module.exports = Data;
 
 /***/ },
@@ -25732,8 +25683,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor-controls\\less\\controls\\editor-controls-init.less", function() {
-			var newContent = require("!!V:\\www\\vc-v\\node_modules\\css-loader\\index.js!V:\\www\\vc-v\\node_modules\\less-loader\\index.js!V:\\www\\vc-v/public\\modules\\editor-controls\\less\\controls\\editor-controls-init.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
