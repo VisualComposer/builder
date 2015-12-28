@@ -62,6 +62,10 @@ var DataStore = {
             }
         }
         return false;
+    },
+    get: function(id) {
+        var element = this.document.getElementById(id);
+        return element;
     }
 };
 
@@ -74,8 +78,14 @@ var Data = {
 };
 Mediator.installTo(Data);
 
+Mediator.addService('data', {
+   get: function(id) {
+        return DataStore.get(id);
+   }
+});
+
 Data.subscribe('app:add', function(id){
-    Data.activeNode = DataStore.document.getElementById(id);
+    Data.activeNode = DataStore.get(id);
 });
 Data.subscribe('data:add', function(element) {
     DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);

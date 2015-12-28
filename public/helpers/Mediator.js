@@ -13,6 +13,7 @@ var mediator = module.exports = (function(){
 		};
 		return this;
 	};
+	var services = {};
 	return {
 		channels : {},
 		publish : publish,
@@ -21,6 +22,12 @@ var mediator = module.exports = (function(){
 			obj.subscribe = subscribe;
 			obj.publish = publish;
 			return obj;
+		},
+		addService: function(name, obj) {
+			services[name] = obj;
+		},
+		getService: function(name) {
+			return services[name] || null;
 		}
 	};
 }());
