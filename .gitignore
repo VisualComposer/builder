@@ -30,4 +30,4 @@ npm-debug.log
 *.map
 
 
-public/sources/elements/ElementsSettings.js
+# public/sources/elements/ElementsSettings.js
