@@ -54,9 +54,9 @@
 			// Editor module
 			__webpack_require__(13);
 			// Data Storage module
-			__webpack_require__(239);
+			__webpack_require__(235);
 			// Editor Controls
-			var EditorControls = __webpack_require__(241);
+			var EditorControls = __webpack_require__(237);
 		},
 		init: function init() {
 			this.loadModules();
@@ -19733,10 +19733,10 @@
 	var Mediator = __webpack_require__(12); // need to remove too
 
 	var Navbar = __webpack_require__(173);
-	var HtmlLayout = __webpack_require__(228);
-	var EditForm = __webpack_require__(236);
+	var HtmlLayout = __webpack_require__(224);
+	var EditForm = __webpack_require__(232);
 	// var DataLayout = require( './layouts/data/DataLayout' );
-	__webpack_require__(237);
+	__webpack_require__(233);
 	var DataChanged = {
 	    componentDidMount: function componentDidMount() {
 	        this.subscribe('data:changed', (function (document) {
@@ -19777,10 +19777,10 @@
 	var Mediator = __webpack_require__(12); // need to remove too
 	var TreeElement = __webpack_require__(174);
 	var AddElementModal = __webpack_require__(197);
-	var InlineEditor = __webpack_require__(221);
+	var InlineEditor = __webpack_require__(245);
 	var classNames = __webpack_require__(196);
 
-	__webpack_require__(225);
+	__webpack_require__(221);
 	module.exports = React.createClass(Mediator.installTo({
 	    getInitialState: function getInitialState() {
 	        return {
@@ -19865,7 +19865,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/TreeLayout.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/TreeLayout.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -19990,20 +19990,15 @@
 	      try {
 	        return originalRender.apply(this, arguments);
 	      } catch (err) {
-	        setTimeout(function () {
-	          if (typeof console.reportErrorsAsExceptions !== 'undefined') {
-	            var prevReportErrorAsExceptions = console.reportErrorsAsExceptions;
-	            // We're in React Native. Don't throw.
-	            // Stop react-native from triggering its own error handler
-	            console.reportErrorsAsExceptions = false;
-	            // Log an error
-	            console.error(err);
-	            // Reactivate it so other errors are still handled
-	            console.reportErrorsAsExceptions = prevReportErrorAsExceptions;
-	          } else {
-	            throw err;
-	          }
-	        });
+	        if (console.reportErrorsAsExceptions) {
+	          // Stop react-native from triggering its own error handler
+	          console.reportErrorsAsExceptions = false;
+	          console.error(err);
+	          // Reactivate it so other errors are still handled
+	          console.reportErrorsAsExceptions = true;
+	        } else {
+	          console.error(err);
+	        }
 
 	        return React.createElement(ErrorReporter, _extends({
 	          error: err,
@@ -21368,18 +21363,86 @@
 /* 180 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	var toObject = _toObjectOrig;
+	var __$Getters__ = [];
+	var __$Setters__ = [];
+	var __$Resetters__ = [];
+
+	function __GetDependency__(name) {
+		return __$Getters__[name]();
+	}
+
+	function __Rewire__(name, value) {
+		__$Setters__[name](value);
+	}
+
+	function __ResetDependency__(name) {
+		__$Resetters__[name]();
+	}
+
+	var __RewireAPI__ = {
+		'__GetDependency__': __GetDependency__,
+		'__get__': __GetDependency__,
+		'__Rewire__': __Rewire__,
+		'__set__': __Rewire__,
+		'__ResetDependency__': __ResetDependency__
+	};
 	/* eslint-disable no-unused-vars */
 	'use strict';
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var _hasOwnProperty = hasOwnProperty;
+
+	__$Getters__['hasOwnProperty'] = function () {
+		return hasOwnProperty;
+	};
+
+	__$Setters__['hasOwnProperty'] = function (value) {
+		hasOwnProperty = value;
+	};
+
+	__$Resetters__['hasOwnProperty'] = function () {
+		hasOwnProperty = _hasOwnProperty;
+	};
+
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
-	function toObject(val) {
+	var _propIsEnumerable = propIsEnumerable;
+
+	__$Getters__['propIsEnumerable'] = function () {
+		return propIsEnumerable;
+	};
+
+	__$Setters__['propIsEnumerable'] = function (value) {
+		propIsEnumerable = value;
+	};
+
+	__$Resetters__['propIsEnumerable'] = function () {
+		propIsEnumerable = _propIsEnumerable;
+	};
+
+	function _toObjectOrig(val) {
 		if (val === null || val === undefined) {
 			throw new TypeError('Object.assign cannot be called with null or undefined');
 		}
 
 		return Object(val);
 	}
+
+	var _toObject = toObject;
+
+	__$Getters__['toObject'] = function () {
+		return toObject;
+	};
+
+	__$Setters__['toObject'] = function (value) {
+		toObject = value;
+	};
+
+	__$Resetters__['toObject'] = function () {
+		toObject = _toObject;
+	};
 
 	module.exports = Object.assign || function (target, source) {
 		var from;
@@ -21407,6 +21470,33 @@
 
 		return to;
 	};
+
+	if (typeof module.exports === 'object' || typeof module.exports === 'function') {
+		Object.defineProperty(module.exports, '__Rewire__', {
+			'value': __Rewire__,
+			'enumberable': false
+		});
+		Object.defineProperty(module.exports, '__set__', {
+			'value': __Rewire__,
+			'enumberable': false
+		});
+		Object.defineProperty(module.exports, '__ResetDependency__', {
+			'value': __ResetDependency__,
+			'enumberable': false
+		});
+		Object.defineProperty(module.exports, '__GetDependency__', {
+			'value': __GetDependency__,
+			'enumberable': false
+		});
+		Object.defineProperty(module.exports, '__get__', {
+			'value': __GetDependency__,
+			'enumberable': false
+		});
+		Object.defineProperty(module.exports, '__RewireAPI__', {
+			'value': __RewireAPI__,
+			'enumberable': false
+		});
+	}
 
 /***/ },
 /* 181 */
@@ -21935,8 +22025,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/less/tree/tree-init.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22537,7 +22627,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3["default"])({
-	    filename: "/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Button/Button.js",
+	    filename: "/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Button/Button.js",
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22592,7 +22682,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3["default"])({
-	    filename: "/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Paragraph/Paragraph.js",
+	    filename: "/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Paragraph/Paragraph.js",
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22647,7 +22737,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Section/Section.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -22694,8 +22784,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/sources/elements/Section/Section.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Section/Section.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/sources/elements/Section/Section.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -22896,7 +22986,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	  filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/react-modal/lib/components/Modal.js',
+	  filename: '/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/react-modal/lib/components/Modal.js',
 	  components: _components,
 	  locals: [],
 	  imports: [_react, _redboxReact]
@@ -23051,7 +23141,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	  filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/react-modal/lib/components/ModalPortal.js',
+	  filename: '/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/react-modal/lib/components/ModalPortal.js',
 	  components: _components,
 	  locals: [],
 	  imports: [_react, _redboxReact]
@@ -24727,8 +24817,8 @@
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/add-element/AddElement.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/add-element/AddElement.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/add-element/AddElement.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/add-element/AddElement.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24747,138 +24837,40 @@
 /* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(14);
-	var Mediator = __webpack_require__(12); // need to remove too
-	var InlineEditorControl = __webpack_require__(222);
-
-	__webpack_require__(223);
-
-	module.exports = React.createClass(Mediator.installTo({
-		getInitialState: function getInitialState() {
-			return {
-				activated: false
-			};
-		},
-		//componentDidMount: function() {
-		//	// inlineEditorPlugin.publish('app:inline', true, $element.data('vcElement'));
-		//	this.subscribe('app:inline-edit', function(activate, elementID){
-		//		this.setState({activated: activate});
-		//	}.bind(this));
-		//},
-		getControlsList: function getControlsList() {
-			return [{ type: 'Bold', name: 'Bold', icon: 'glyphicon glyphicon-bold', style: {} }, { type: 'Italic', name: 'Italic', icon: 'glyphicon glyphicon-italic', style: {} }, { type: 'Underline', name: 'Underline', icon: 'glyphicon glyphicon-font', style: { textDecoration: 'underline' } }];
-		},
-		render: function render() {
-			var activated = this.state.activated;
-			return React.createElement(
-				'ul',
-				{ className: 'vc_ui-inline-editor-controls' },
-				this.getControlsList().map((function (control) {
-					return React.createElement(InlineEditorControl, _extends({ key: control.type }, control));
-				}).bind(this))
-			);
-		}
-	}));
+	// load the styles
+	var content = __webpack_require__(222);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(185)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/navbar/navbar-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/navbar/navbar-init.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
 /* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var React = __webpack_require__(14);
-	var Mediator = __webpack_require__(12); // need to remove too
-
-	module.exports = React.createClass(Mediator.installTo({
-		clickHandler: function clickHandler(e) {
-			e.preventDefault();
-			alert(this.props.name + ' clicked');
-		},
-		render: function render() {
-			return React.createElement(
-				'li',
-				{ className: 'vc_ui-inline-editor-control', key: this.props.type },
-				React.createElement(
-					'a',
-					{ onClick: this.clickHandler, className: 'vc_ui-inline-control-trigger' },
-					React.createElement('i', { className: this.props.icon, style: this.props.style, title: this.props.name })
-				)
-			);
-		}
-	}));
+	exports = module.exports = __webpack_require__(184)();
+	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(223)+");\n  background-color: #2a4b80;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
 
 /***/ },
 /* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(224);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(185)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 224 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(184)();
-	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 10px 35px;\n  text-align: center;\n}\n.vc_ui-inline-editor-controls {\n  display: inline-block;\n  margin: 0 auto;\n  padding: 0;\n  list-style: none;\n  text-align: left;\n}\n.vc_ui-inline-editor-control {\n  display: inline-block;\n}\n.vc_ui-inline-control-trigger {\n  display: block;\n  font-size: 14px;\n  padding: 2px 7px;\n  line-height: 1.5;\n  color: #333;\n  background-color: #fff;\n  box-shadow: inset 1px 2px 7px -2px rgba(0, 0, 0, 0.5);\n  border-radius: 3px;\n  margin: 2px;\n  cursor: pointer;\n  opacity: .9;\n}\n.vc_ui-inline-control-trigger:hover {\n  color: #333;\n  opacity: .98;\n}\n", ""]);
-
-/***/ },
-/* 225 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(226);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(185)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/navbar/navbar-init.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/less/navbar/navbar-init.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 226 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(184)();
-	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(227)+");\n  background-color: #2a4b80;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
-
-/***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
 	module.exports = __webpack_require__.p + "c472bb699fb59405d951e958ed74c10b.png"
 
 /***/ },
-/* 228 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24896,7 +24888,7 @@
 	};
 
 	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.js',
+	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.js',
 	    components: _components,
 	    locals: [],
 	    imports: [_react, _redboxReact]
@@ -24911,8 +24903,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var React = __webpack_require__(14);
-	__webpack_require__(229);
-	var Element = __webpack_require__(231);
+	__webpack_require__(225);
+	var Element = __webpack_require__(227);
 	var SortableMixin = {
 	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	        return true;
@@ -24941,21 +24933,21 @@
 	module.exports = Layout;
 
 /***/ },
-/* 229 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(230);
+	var content = __webpack_require__(226);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(185)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/HtmlLayout.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -24964,14 +24956,14 @@
 	}
 
 /***/ },
-/* 230 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(184)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 231 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24981,7 +24973,7 @@
 	var Mediator = __webpack_require__(12);
 	var ElementComponents = __webpack_require__(188);
 	var ReactDOM = __webpack_require__(171);
-	__webpack_require__(232);
+	__webpack_require__(228);
 
 	var SortableMixin = {
 	    componentDidMount: function componentDidMount() {
@@ -25006,7 +24998,7 @@
 	        });
 	    }
 	};
-	__webpack_require__(234);
+	__webpack_require__(230);
 	var Element = React.createClass(Mediator.installTo({
 	    // mixins: [SortableMixin],
 	    addChild: function addChild() {
@@ -25060,21 +25052,21 @@
 	module.exports = Element;
 
 /***/ },
-/* 232 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(233);
+	var content = __webpack_require__(229);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(185)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Element.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Element.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Element.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Element.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25083,28 +25075,28 @@
 	}
 
 /***/ },
-/* 233 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(184)();
 	exports.push([module.id, ".vc-v-root-element .controls {\n  padding: 10px;\n  text-align: center;\n}\n.vc-v-root-element .controls a {\n  font-size: 12px;\n  width: 12px;\n  height: 12px;\n  cursor: pointer;\n  display: inline-block;\n  margin-right: 4px;\n}\nsection {\n  min-height: 60px;\n  border: 1px dashed #999999;\n}\n", ""]);
 
 /***/ },
-/* 234 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(235);
+	var content = __webpack_require__(231);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(185)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Sortable.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/layouts/html/Sortable.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Sortable.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/Sortable.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25113,14 +25105,14 @@
 	}
 
 /***/ },
-/* 235 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(184)();
 	exports.push([module.id, "#vc_v-editor.vc-draganddrop [data-vc-element].vc-v-section {\n  padding: 20px;\n}\n", ""]);
 
 /***/ },
-/* 236 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25235,21 +25227,21 @@
 	module.exports = React.createClass(reactObject);
 
 /***/ },
-/* 237 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(238);
+	var content = __webpack_require__(234);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(185)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/Editor.css", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor/ui/Editor.css");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/Editor.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25258,21 +25250,21 @@
 	}
 
 /***/ },
-/* 238 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(184)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 239 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(12);
 	var Utils = __webpack_require__(186);
-	var LocalStorage = __webpack_require__(240);
+	var LocalStorage = __webpack_require__(236);
 	/**
 	 * Data Module
 	 * @type {{document: null, add: DataStore.add, remove: DataStore.remove, clone: DataStore.clone, move: DataStore.move, get: DataStore.get}}
@@ -25404,7 +25396,7 @@
 	module.exports = Data;
 
 /***/ },
-/* 240 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25436,15 +25428,15 @@
 	module.exports = Data;
 
 /***/ },
-/* 241 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(12); // need to remove too
-	var controlsHandler = __webpack_require__(242);
+	var controlsHandler = __webpack_require__(238);
 	var ControlsTrigger = {};
-	__webpack_require__(243);
+	__webpack_require__(239);
 
 	ControlsTrigger.triggerShowFrame = function (e) {
 	    e.stopPropagation();
@@ -25485,7 +25477,7 @@
 	module.exports = new EditorControls();
 
 /***/ },
-/* 242 */
+/* 238 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25670,21 +25662,21 @@
 	module.exports = new ControlsHandler();
 
 /***/ },
-/* 243 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(244);
+	var content = __webpack_require__(240);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(185)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/wpbakery-vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less");
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor-controls/less/controls/editor-controls-init.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -25693,36 +25685,134 @@
 	}
 
 /***/ },
-/* 244 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(184)();
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic,700,700italic,900,900italic|Roboto+Condensed:400,300,300italic,700,400italic,700italic&subset=latin,cyrillic,greek,greek-ext,cyrillic-ext,latin-ext);", ""]);
-	exports.push([module.id, "\n@font-face {\n  font-family: 'VC-UI-Icons';\n  src: url("+__webpack_require__(245)+");\n  src: url("+__webpack_require__(245)+") format('embedded-opentype'), url("+__webpack_require__(246)+") format('truetype'), url("+__webpack_require__(247)+") format('woff'), url("+__webpack_require__(248)+") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.vc_ui-icon {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'VC-UI-Icons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.vc_ui-icon-add:before {\n  content: \"\\e145\";\n}\n.vc_ui-icon-clear:before {\n  content: \"\\e14c\";\n}\n.vc_ui-icon-remove:before {\n  content: \"\\e15b\";\n}\n.vc_ui-icon-desktop:before {\n  content: \"\\e30c\";\n}\n.vc_ui-icon-laptop:before {\n  content: \"\\e31e\";\n}\n.vc_ui-icon-phone:before {\n  content: \"\\e324\";\n}\n.vc_ui-icon-tablet:before {\n  content: \"\\e330\";\n}\n.vc_ui-icon-arrow_drop_down:before {\n  content: \"\\e5c5\";\n}\n.vc_ui-icon-arrow_drop_up:before {\n  content: \"\\e5c7\";\n}\n.vc_ui-icon-more_horiz:before {\n  content: \"\\e5d3\";\n}\n.vc_ui-icon-more_vert:before {\n  content: \"\\e5d4\";\n}\n.vc_ui-icon-done:before {\n  content: \"\\e876\";\n}\n.vc_ui-icon-cog:before {\n  content: \"\\e901\";\n}\n.vc_ui-icon-move:before {\n  content: \"\\e904\";\n}\n.vc_ui-icon-new-window:before {\n  content: \"\\e905\";\n}\n.vc_ui-icon-fullscreen-exit:before {\n  content: \"\\e906\";\n}\n.vc_ui-icon-fullscreen:before {\n  content: \"\\e907\";\n}\n.vc_ui-icon-pen-alt-fill:before {\n  content: \"\\e900\";\n}\n.vc_ui-icon-layers:before {\n  content: \"\\e902\";\n}\n.vc_ui-icon-plus:before {\n  content: \"\\e908\";\n}\n.vc_ui-icon-minus:before {\n  content: \"\\e909\";\n}\n.vc_ui-icon-cross:before {\n  content: \"\\e90a\";\n}\n.vc_ui-icon-checkmark:before {\n  content: \"\\e90b\";\n}\n.vc_ui-icon-frame-landscape:before {\n  content: \"\\e90c\";\n}\n.vc_ui-icon-dots-three-horizontal:before {\n  content: \"\\e90d\";\n}\n.vc_ui-icon-dots-three-vertical:before {\n  content: \"\\e90e\";\n}\n.vc_ui-icon-dots-two-horizontal:before {\n  content: \"\\e90f\";\n}\n.vc_ui-icon-dots-two-vertical:before {\n  content: \"\\e910\";\n}\n.vc_ui-icon-flow-cascade:before {\n  content: \"\\e911\";\n}\n.vc_ui-icon-frame-alt:before {\n  content: \"\\e912\";\n}\n.vc_ui-icon-frame-portrait:before {\n  content: \"\\e913\";\n}\n.vc_ui-icon-heart:before {\n  content: \"\\e915\";\n}\n.vc_ui-icon-menu:before {\n  content: \"\\e914\";\n}\n.vc_ui-icon-500px-with-circle:before {\n  content: \"\\e916\";\n}\n.vc_ui-icon-rdio-with-circle:before {\n  content: \"\\e917\";\n}\n.vc_ui-icon-skype-with-circle:before {\n  content: \"\\e918\";\n}\n.vc_ui-icon-spotify-with-circle:before {\n  content: \"\\e919\";\n}\n.vc_ui-icon-vine-with-circle:before {\n  content: \"\\e91a\";\n}\n.vc_ui-icon-vk-with-circle:before {\n  content: \"\\e91b\";\n}\n.vc_ui-icon-xing-with-circle:before {\n  content: \"\\e91c\";\n}\n.vc_ui-icon-dribbble-with-circle:before {\n  content: \"\\e91d\";\n}\n.vc_ui-icon-facebook-with-circle:before {\n  content: \"\\e91e\";\n}\n.vc_ui-icon-flickr-with-circle:before {\n  content: \"\\e91f\";\n}\n.vc_ui-icon-github-with-circle:before {\n  content: \"\\e920\";\n}\n.vc_ui-icon-google-with-circle:before {\n  content: \"\\e921\";\n}\n.vc_ui-icon-instagram-with-circle:before {\n  content: \"\\e922\";\n}\n.vc_ui-icon-lastfm-with-circle:before {\n  content: \"\\e923\";\n}\n.vc_ui-icon-linkedin-with-circle:before {\n  content: \"\\e924\";\n}\n.vc_ui-icon-pinterest-with-circle:before {\n  content: \"\\e925\";\n}\n.vc_ui-icon-stumbleupon-with-circle:before {\n  content: \"\\e926\";\n}\n.vc_ui-icon-tumblr-with-circle:before {\n  content: \"\\e927\";\n}\n.vc_ui-icon-twitter-with-circle:before {\n  content: \"\\e903\";\n}\n.vc_ui-icon-vimeo-with-circle:before {\n  content: \"\\e928\";\n}\n.vc_ui-icon-youtube-with-circle:before {\n  content: \"\\e929\";\n}\n.vc_ui-icon-bug:before {\n  content: \"\\f188\";\n}\n.vc_ui-icon-wordpress-with-circle:before {\n  content: \"\\f19a\";\n}\n.vc_ui-controls {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control-wrap {\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control {\n  display: block;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  text-decoration: none;\n}\n.vc_ui-control-icon {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n  height: 1em;\n  position: relative;\n}\n.vc_ui-control-label {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap {\n  position: relative;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container {\n  display: none;\n  position: absolute;\n  right: 0;\n  top: 100%;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container:first-child {\n  right: auto;\n  left: 0;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap:hover > .vc_ui-controls-container {\n  display: block;\n}\n.vc_ui-controls-container {\n  text-align: center;\n}\n.vc_ui-editor-controls {\n  display: inline-block;\n  vertical-align: middle;\n  text-align: left;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap {\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap .vc_ui-control-wrap {\n  display: block;\n}\n.vc_ui-editor-controls .vc_ui-control {\n  color: #ffffff;\n  background-color: #2b4b80;\n  padding: 12px 22px 12px 14px;\n  white-space: nowrap;\n}\n.vc_ui-editor-controls .vc_ui-control:hover {\n  background-color: #274475;\n}\n.vc_ui-editor-controls .vc_ui-control-icon ~ * {\n  margin-left: 12px;\n}\n.vc_ui-editor-controls-container {\n  position: absolute;\n  z-index: 1010;\n  list-style: none;\n  transform: translate(-50%, -100%);\n  text-align: center;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container {\n  margin: 4px;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control {\n  color: #ffffff;\n  background-color: #4673bd;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control:hover {\n  background-color: #406cb4;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control {\n  color: #ffffff;\n  background-color: #fec53f;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control:hover {\n  background-color: #fec030;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control {\n  color: #ffffff;\n  background-color: #6dab3c;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control:hover {\n  background-color: #66a038;\n}\n.vc_ui-outline {\n  position: absolute;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n  z-index: 1000;\n  box-shadow: 0 0 0 2px #2b4b80;\n}\n.vc_ui-outline-index-0 {\n  box-shadow: 0 0 0 2px #4673bd;\n}\n.vc_ui-outline-index-1 {\n  box-shadow: 0 0 0 2px #fec53f;\n}\n.vc_ui-outline-index-2 {\n  box-shadow: 0 0 0 2px #6dab3c;\n}\n", ""]);
+	exports.push([module.id, "\n@font-face {\n  font-family: 'VC-UI-Icons';\n  src: url("+__webpack_require__(241)+");\n  src: url("+__webpack_require__(241)+") format('embedded-opentype'), url("+__webpack_require__(242)+") format('truetype'), url("+__webpack_require__(243)+") format('woff'), url("+__webpack_require__(244)+") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.vc_ui-icon {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'VC-UI-Icons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.vc_ui-icon-add:before {\n  content: \"\\e145\";\n}\n.vc_ui-icon-clear:before {\n  content: \"\\e14c\";\n}\n.vc_ui-icon-remove:before {\n  content: \"\\e15b\";\n}\n.vc_ui-icon-desktop:before {\n  content: \"\\e30c\";\n}\n.vc_ui-icon-laptop:before {\n  content: \"\\e31e\";\n}\n.vc_ui-icon-phone:before {\n  content: \"\\e324\";\n}\n.vc_ui-icon-tablet:before {\n  content: \"\\e330\";\n}\n.vc_ui-icon-arrow_drop_down:before {\n  content: \"\\e5c5\";\n}\n.vc_ui-icon-arrow_drop_up:before {\n  content: \"\\e5c7\";\n}\n.vc_ui-icon-more_horiz:before {\n  content: \"\\e5d3\";\n}\n.vc_ui-icon-more_vert:before {\n  content: \"\\e5d4\";\n}\n.vc_ui-icon-done:before {\n  content: \"\\e876\";\n}\n.vc_ui-icon-cog:before {\n  content: \"\\e901\";\n}\n.vc_ui-icon-move:before {\n  content: \"\\e904\";\n}\n.vc_ui-icon-new-window:before {\n  content: \"\\e905\";\n}\n.vc_ui-icon-fullscreen-exit:before {\n  content: \"\\e906\";\n}\n.vc_ui-icon-fullscreen:before {\n  content: \"\\e907\";\n}\n.vc_ui-icon-pen-alt-fill:before {\n  content: \"\\e900\";\n}\n.vc_ui-icon-layers:before {\n  content: \"\\e902\";\n}\n.vc_ui-icon-plus:before {\n  content: \"\\e908\";\n}\n.vc_ui-icon-minus:before {\n  content: \"\\e909\";\n}\n.vc_ui-icon-cross:before {\n  content: \"\\e90a\";\n}\n.vc_ui-icon-checkmark:before {\n  content: \"\\e90b\";\n}\n.vc_ui-icon-frame-landscape:before {\n  content: \"\\e90c\";\n}\n.vc_ui-icon-dots-three-horizontal:before {\n  content: \"\\e90d\";\n}\n.vc_ui-icon-dots-three-vertical:before {\n  content: \"\\e90e\";\n}\n.vc_ui-icon-dots-two-horizontal:before {\n  content: \"\\e90f\";\n}\n.vc_ui-icon-dots-two-vertical:before {\n  content: \"\\e910\";\n}\n.vc_ui-icon-flow-cascade:before {\n  content: \"\\e911\";\n}\n.vc_ui-icon-frame-alt:before {\n  content: \"\\e912\";\n}\n.vc_ui-icon-frame-portrait:before {\n  content: \"\\e913\";\n}\n.vc_ui-icon-heart:before {\n  content: \"\\e915\";\n}\n.vc_ui-icon-menu:before {\n  content: \"\\e914\";\n}\n.vc_ui-icon-500px-with-circle:before {\n  content: \"\\e916\";\n}\n.vc_ui-icon-rdio-with-circle:before {\n  content: \"\\e917\";\n}\n.vc_ui-icon-skype-with-circle:before {\n  content: \"\\e918\";\n}\n.vc_ui-icon-spotify-with-circle:before {\n  content: \"\\e919\";\n}\n.vc_ui-icon-vine-with-circle:before {\n  content: \"\\e91a\";\n}\n.vc_ui-icon-vk-with-circle:before {\n  content: \"\\e91b\";\n}\n.vc_ui-icon-xing-with-circle:before {\n  content: \"\\e91c\";\n}\n.vc_ui-icon-dribbble-with-circle:before {\n  content: \"\\e91d\";\n}\n.vc_ui-icon-facebook-with-circle:before {\n  content: \"\\e91e\";\n}\n.vc_ui-icon-flickr-with-circle:before {\n  content: \"\\e91f\";\n}\n.vc_ui-icon-github-with-circle:before {\n  content: \"\\e920\";\n}\n.vc_ui-icon-google-with-circle:before {\n  content: \"\\e921\";\n}\n.vc_ui-icon-instagram-with-circle:before {\n  content: \"\\e922\";\n}\n.vc_ui-icon-lastfm-with-circle:before {\n  content: \"\\e923\";\n}\n.vc_ui-icon-linkedin-with-circle:before {\n  content: \"\\e924\";\n}\n.vc_ui-icon-pinterest-with-circle:before {\n  content: \"\\e925\";\n}\n.vc_ui-icon-stumbleupon-with-circle:before {\n  content: \"\\e926\";\n}\n.vc_ui-icon-tumblr-with-circle:before {\n  content: \"\\e927\";\n}\n.vc_ui-icon-twitter-with-circle:before {\n  content: \"\\e903\";\n}\n.vc_ui-icon-vimeo-with-circle:before {\n  content: \"\\e928\";\n}\n.vc_ui-icon-youtube-with-circle:before {\n  content: \"\\e929\";\n}\n.vc_ui-icon-bug:before {\n  content: \"\\f188\";\n}\n.vc_ui-icon-wordpress-with-circle:before {\n  content: \"\\f19a\";\n}\n.vc_ui-controls {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control-wrap {\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control {\n  display: block;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  text-decoration: none;\n}\n.vc_ui-control-icon {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n  height: 1em;\n  position: relative;\n}\n.vc_ui-control-label {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap {\n  position: relative;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container {\n  display: none;\n  position: absolute;\n  right: 0;\n  top: 100%;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container:first-child {\n  right: auto;\n  left: 0;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap:hover > .vc_ui-controls-container {\n  display: block;\n}\n.vc_ui-controls-container {\n  text-align: center;\n}\n.vc_ui-editor-controls {\n  display: inline-block;\n  vertical-align: middle;\n  text-align: left;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap {\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap .vc_ui-control-wrap {\n  display: block;\n}\n.vc_ui-editor-controls .vc_ui-control {\n  color: #ffffff;\n  background-color: #2b4b80;\n  padding: 12px 22px 12px 14px;\n  white-space: nowrap;\n}\n.vc_ui-editor-controls .vc_ui-control:hover {\n  background-color: #274475;\n}\n.vc_ui-editor-controls .vc_ui-control-icon ~ * {\n  margin-left: 12px;\n}\n.vc_ui-editor-controls-container {\n  position: absolute;\n  z-index: 1010;\n  list-style: none;\n  transform: translate(-50%, -100%);\n  text-align: center;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container {\n  margin: 4px;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control {\n  color: #ffffff;\n  background-color: #4673bd;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control:hover {\n  background-color: #406cb4;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control {\n  color: #ffffff;\n  background-color: #fec53f;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control:hover {\n  background-color: #fec030;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control {\n  color: #ffffff;\n  background-color: #6dab3c;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control:hover {\n  background-color: #66a038;\n}\n.vc_ui-outline {\n  position: absolute;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n  z-index: 1000;\n  box-shadow: 0 0 0 2px #2b4b80;\n}\n.vc_ui-outline-index-0 {\n  box-shadow: 0 0 0 2px #4673bd;\n}\n.vc_ui-outline-index-1 {\n  box-shadow: 0 0 0 2px #fec53f;\n}\n.vc_ui-outline-index-2 {\n  box-shadow: 0 0 0 2px #6dab3c;\n}\n", ""]);
 
 /***/ },
-/* 245 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c74388aec60f73aadb621afece1e999b.eot"
 
 /***/ },
-/* 246 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "30adaccc95eb30cdacbc3d62e1f3e2d7.ttf"
 
 /***/ },
-/* 247 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "ccfd86d505c70e6539999de263be5dfd.woff"
 
 /***/ },
-/* 248 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "39d4df41f8f4ee184a0a76597d9a4eab.svg"
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(14);
+	var Mediator = __webpack_require__(12); // need to remove too
+	var InlineEditorControl = __webpack_require__(246);
+
+	__webpack_require__(247);
+
+	module.exports = React.createClass(Mediator.installTo({
+		getInitialState: function getInitialState() {
+			return {
+				activated: false
+			};
+		},
+		//componentDidMount: function() {
+		//	// inlineEditorPlugin.publish('app:inline', true, $element.data('vcElement'));
+		//	this.subscribe('app:inline-edit', function(activate, elementID){
+		//		this.setState({activated: activate});
+		//	}.bind(this));
+		//},
+		getControlsList: function getControlsList() {
+			return [{ type: 'Bold', name: 'Bold', icon: 'glyphicon glyphicon-bold', style: {} }, { type: 'Italic', name: 'Italic', icon: 'glyphicon glyphicon-italic', style: {} }, { type: 'Underline', name: 'Underline', icon: 'glyphicon glyphicon-font', style: { textDecoration: 'underline' } }];
+		},
+		render: function render() {
+			var activated = this.state.activated;
+			return React.createElement(
+				'ul',
+				{ className: 'vc_ui-inline-editor-controls' },
+				this.getControlsList().map((function (control) {
+					return React.createElement(InlineEditorControl, _extends({ key: control.type }, control));
+				}).bind(this))
+			);
+		}
+	}));
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(14);
+	var Mediator = __webpack_require__(12); // need to remove too
+
+	module.exports = React.createClass(Mediator.installTo({
+		clickHandler: function clickHandler(e) {
+			e.preventDefault();
+			alert(this.props.name + ' clicked');
+		},
+		render: function render() {
+			return React.createElement(
+				'li',
+				{ className: 'vc_ui-inline-editor-control', key: this.props.type },
+				React.createElement(
+					'a',
+					{ onClick: this.clickHandler, className: 'vc_ui-inline-control-trigger' },
+					React.createElement('i', { className: this.props.icon, style: this.props.style, title: this.props.name })
+				)
+			);
+		}
+	}));
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(248);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(185)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(184)();
+	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 10px 35px;\n  text-align: center;\n}\n.vc_ui-inline-editor-controls {\n  display: inline-block;\n  margin: 0 auto;\n  padding: 0;\n  list-style: none;\n  text-align: left;\n}\n.vc_ui-inline-editor-control {\n  display: inline-block;\n}\n.vc_ui-inline-control-trigger {\n  display: block;\n  font-size: 14px;\n  padding: 2px 7px;\n  line-height: 1.5;\n  color: #333;\n  background-color: #fff;\n  box-shadow: inset 1px 2px 7px -2px rgba(0, 0, 0, 0.5);\n  border-radius: 3px;\n  margin: 2px;\n  cursor: pointer;\n  opacity: .9;\n}\n.vc_ui-inline-control-trigger:hover {\n  color: #333;\n  opacity: .98;\n}\n", ""]);
 
 /***/ }
 /******/ ]);
