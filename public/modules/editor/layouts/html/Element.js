@@ -54,10 +54,11 @@ var Element = React.createClass(Mediator.installTo({
             });
             return elementsList;
         }
-        return this.props.content || '';
+        return this.props.element.innerHTML || '';
     },
     getControls: function() {
-        var ElementComponent = ElementComponents.get(this.props.element);
+        var element = this.props.element;
+        var ElementComponent = ElementComponents.get(element);
         var addControl = 'container' == ElementComponent.type  ? <a onClick={this.addChild} className="glyphicon glyphicon-plus"></a> : null;
         return (<span className="controls">
             {addControl}
@@ -68,7 +69,7 @@ var Element = React.createClass(Mediator.installTo({
     },
     render: function() {
         var element = this.props.element;
-        var ElementComponent = ElementComponents.get(this.props.element);
+        var ElementComponent = ElementComponents.get(element);
         var ElementView = ElementComponents.getElement(element);
         return React.createElement(ElementView, {
             key: element.getAttribute('id'),

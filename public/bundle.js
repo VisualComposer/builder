@@ -22512,6 +22512,11 @@
 	        "type": "string",
 	        "access": "system",
 	        "value": "inline"
+	    },
+	    "content": {
+	        "type": "string",
+	        "access": "public",
+	        "value": "Button"
 	    }
 	}, {
 	    "name": {
@@ -22532,33 +22537,12 @@
 	    "content": {
 	        "type": "textarea",
 	        "access": "public",
-	        "value": "'Hello my name is Boris and I know ninja rules very well. Hide away."
+	        "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
 	    },
 	    "type": {
 	        "type": "string",
 	        "access": "system",
 	        "value": "block"
-	    }
-	}, {
-	    "name": {
-	        "type": "string",
-	        "access": "system",
-	        "value": "Rooter"
-	    },
-	    "tag": {
-	        "type": "string",
-	        "access": "system",
-	        "value": "Root"
-	    },
-	    "type": {
-	        "type": "string",
-	        "access": "system",
-	        "value": "container"
-	    },
-	    "manageable": {
-	        "type": "boolean",
-	        "access": "system",
-	        "value": false
 	    }
 	}, {
 	    "name": {
@@ -25020,10 +25004,11 @@
 	            });
 	            return elementsList;
 	        }
-	        return this.props.content || '';
+	        return this.props.element.innerHTML || '';
 	    },
 	    getControls: function getControls() {
-	        var ElementComponent = ElementComponents.get(this.props.element);
+	        var element = this.props.element;
+	        var ElementComponent = ElementComponents.get(element);
 	        var addControl = 'container' == ElementComponent.type ? React.createElement('a', { onClick: this.addChild, className: 'glyphicon glyphicon-plus' }) : null;
 	        return React.createElement(
 	            'span',
@@ -25036,7 +25021,7 @@
 	    },
 	    render: function render() {
 	        var element = this.props.element;
-	        var ElementComponent = ElementComponents.get(this.props.element);
+	        var ElementComponent = ElementComponents.get(element);
 	        var ElementView = ElementComponents.getElement(element);
 	        return React.createElement(ElementView, {
 	            key: element.getAttribute('id'),
@@ -25262,6 +25247,10 @@
 	var Mediator = __webpack_require__(12);
 	var Utils = __webpack_require__(186);
 	var LocalStorage = __webpack_require__(236);
+	/**
+	 * Data Module
+	 * @type {{document: null, add: DataStore.add, remove: DataStore.remove, clone: DataStore.clone, move: DataStore.move, get: DataStore.get}}
+	 */
 	var DataStore = {
 	    document: null,
 	    add: function add(element, parentNode) {
@@ -25331,47 +25320,61 @@
 	    }
 	};
 
-	// Data module
+	/**
+	 * Data module API
+	 * @type {{activeNode: null, resetActiveNode: Data.resetActiveNode}}
+	 */
 	var Data = {
 	    activeNode: null,
 	    resetActiveNode: function resetActiveNode() {
 	        this.activeNode = null;
-	    }
-	};
-	Mediator.installTo(Data);
-
-	Mediator.addService('data', {
+	    },
 	    get: function get(id) {
 	        return DataStore.get(id);
+	    },
+	    add: function add(element) {
+	        DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
+	    },
+	    remove: function remove(id) {
+	        DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	    },
+	    clone: function clone(id) {
+	        DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	    },
+	    parse: function parse(dataString) {
+	        var parser = new DOMParser();
+	        return parser.parseFromString(dataString, 'text/xml');
 	    }
-	});
+	};
+
+	Mediator.installTo(Data);
+	Mediator.addService('data', Data);
 
 	Data.subscribe('app:add', function (id) {
-	    Data.activeNode = DataStore.get(id);
+	    if (id) {
+	        Data.activeNode = DataStore.get(id);
+	    }
 	});
 	Data.subscribe('data:add', function (element) {
-	    DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
+	    Data.add(element);
 	});
 	Data.subscribe('data:remove', function (id) {
-	    DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	    Data.remove(id);
 	});
 	Data.subscribe('data:clone', function (id) {
-	    DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	    Data.clone(id);
 	});
-
 	// @todo sync how to ignore one or too object.
 	Data.subscribe('data:move', function (id, beforeId) {
 	    DataStore.move(id, beforeId) && Data.publish('data:changed', DataStore.document);
 	});
-
 	// Add to app
 	Data.subscribe('app:init', function () {
-	    var dataString = '<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>';
-	    var parser = new DOMParser();
-	    DataStore.document = parser.parseFromString(dataString, 'text/xml');
+	    DataStore.document = Data.parse('<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>');
 	    Data.publish('data:changed', DataStore.document);
 	});
-	window.vcData = Data; // @todo remove after presentation
+	window.vcData = Data; // @todo should be removed.
+
 	module.exports = Data;
 
 /***/ },
