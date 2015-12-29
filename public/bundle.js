@@ -19787,6 +19787,11 @@
 	            menuExpand: false
 	        };
 	    },
+	    componentDidMount: function componentDidMount() {
+	        this.subscribe('layout:tree', (function () {
+	            this.setState({ menuExpand: true });
+	        }).bind(this));
+	    },
 	    openAddElement: function openAddElement(e) {
 	        e && e.preventDefault();
 	        this.publish('app:add', 'vc-v-root-element');
@@ -25621,7 +25626,7 @@
 	    }
 	    this.$controlsList.html('');
 	    controlWrap = $('<li class="vc_ui-control-wrap"/>');
-	    $('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">...</i></a>').appendTo(controlWrap);
+	    $('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon" data-vc-control-event="layout:tree" >...</i></a>').appendTo(controlWrap);
 	    controlWrap.appendTo(this.$controlsList);
 	    for (var i in elemenstsTree) {
 	        controlWrap = $('<li class="vc_ui-control-wrap"/>'); //.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
