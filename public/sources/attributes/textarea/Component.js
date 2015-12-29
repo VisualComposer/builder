@@ -1,22 +1,11 @@
-var Elements = require( '../../../../helpers/Elements' );
 var React = require('react');
-var FormParamMixin = {
-    getInitialState: function() {
-      return
-    },
-    componentDidMount: function() {
-        this.setState({content: this.props.content});
-    },
-    handleChange: function() {
-        this.setState({value: this.refs.fcomponent.value});
-    }
-};
+var ParamMixin = require('../param-mixin.js');
 module.exports = React.createClass({
-    mixins: [FormParam],
+    mixins: [ParamMixin],
     render: function() {
         return <textarea
             onChange={this.handleChange}
-            ref="ftextarea"
-            defaultValue={this.state.value} />;
+            ref="fcomponent"
+            value={this.state.value} key={['vc-attribute-', 'textarea']}/>;
     }
 });

@@ -29,6 +29,9 @@ var reactObject = {
     getInitialState: function () {
         return {modalIsOpen: false, editElement: {}};
     },
+    cancelChanges: function(e) {
+      this.closeModal(e);
+    },
     closeModal: function (e) {
         e && e.preventDefault();
         this.setState(this.getInitialState());
@@ -41,14 +44,18 @@ var reactObject = {
         this.closeModal();
     },
     getForm: function() {
-        var element = this.props.element;
         var settings = this.getSettings();
         var attributesService = Mediator.getService('attributes');
         var returnList = Object.keys(settings).map(function(key){
-            var option = settings[key];
-            if('public' === option.getAccess()) {
-                var ComponentView = attributesService.setType(option.type).getComponent();
-                return React.createElement(ComponentView, {value: attributesService.setValue(element).getValue()});
+            var ParamSettings = settings[key];
+            var ParamView = attributesService.getElement(key, ParamSettings, this.state.editElement);
+            if(ParamView) {
+                return <div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
+                        <label>{key}</label>
+                        <div className="vc-v-form-row-control">
+                            {ParamView}
+                        </div>
+                    </div>;
             }
         }, this);
         return returnList;
@@ -71,7 +78,7 @@ var reactObject = {
                     <div className="modal-body">
                         <form onSubmit={this.saveForm}>
                             {this.getForm()}
-                            <button type="submit">Save</button> <button type="button" onClick={this.closeModal}>Close</button>
+                            <button type="submit" onClick={this.closeModal}>Save</button> <button type="button" onClick={this.cancelChanges}>Cancel</button>
                         </form>
                     </div>
                 </div>

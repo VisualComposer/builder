@@ -15,8 +15,9 @@
         "value": "inline"
     },
     "content": {
-        "type": "string",
+        "type": "innerhtml",
         "access": "public",
-        "value": "Button"
+        "value": "Button",
+        "title": "Title"
     }
 }

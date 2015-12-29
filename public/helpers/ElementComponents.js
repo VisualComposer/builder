@@ -1,48 +1,53 @@
 var ElementsSettings = require('../sources/elements/ElementsSettings');
 var ElementsList = {
     items: false,
-    getElementsData: function() {
-        if(!this.items) {
+    getElementsData: function () {
+        if (!this.items) {
             ElementsList.items = {};
-            ElementsSettings.forEach(function(settings){
+            ElementsSettings.forEach(function (settings) {
                 var tag = settings.tag.value;
                 ElementsList.items[tag] = {};
                 Object.keys(settings).forEach(function (k) {
-                    ElementsList.items[tag][k] = (function(option){
-                            var optionSettings = {
-                                access: option.access || 'public',
-                                type: option.type || null,
-                                default: option.value || null,
-                                value: null
-                            };
-                            // var Parameter = function() {};
-                            var Parameter = {
-                                // constructor: String,
-                                toString: function() {
-                                    if(optionSettings.access === 'private') {
-                                        return undefined;
-                                    }
-                                    return optionSettings.value || optionSettings.default || undefined;
-                                },
-                                setValue: function(value) {
-                                    if('public' === this.getAccess()) {
-                                        optionSettings.value = value;
-                                        return true;
-                                    }
-                                    return false;
-                                },
-                                getAccess: function() {
-                                    return optionSettings.access;
-                                },
-                                getType: function() {
-                                    return optionSettings.type;
-                                },
-                                valueOf: function() {
-                                    return this.toString();
+                    var optionKey = k;
+                    ElementsList.items[tag][optionKey] = (function (option) {
+                        var optionSettings = {
+                            key: optionKey,
+                            access: option.access || 'public',
+                            type: option.type || null,
+                            default: option.value || null,
+                            getter: k,
+                            value: null,
+                            title: option.title || optionKey
+                        };
+                        var Parameter = {
+                            toString: function () {
+                                if (optionSettings.access === 'private') {
+                                    return undefined;
                                 }
-                            };
-                            return Parameter;
-                        })(settings[k]);
+                                return optionSettings.value || optionSettings.default || undefined;
+                            },
+                            setValue: function (value) {
+                                if ('public' === this.getAccess()) {
+                                    optionSettings.value = value;
+                                    return true;
+                                }
+                                return false;
+                            },
+                            getAccess: function () {
+                                return optionSettings.access;
+                            },
+                            getType: function () {
+                                return optionSettings.type;
+                            },
+                            valueOf: function () {
+                                return this.toString();
+                            },
+                            getTitle: function() {
+                                return optionSettings.title;
+                            }
+                        };
+                        return Parameter;
+                    })(settings[k]);
                 });
             });
         }
@@ -63,10 +68,10 @@ module.exports = {
         ElementsList.getElementsData();
         var data = ElementsList.items[tag] || {};
         let returnData = {};
-        if(currentData) {
-            Object.keys(data).forEach(function(k){
+        if (currentData) {
+            Object.keys(data).forEach(function (k) {
                 let paramData = Object.create(data[k]);
-                if(currentData[k]) {
+                if (currentData[k]) {
                     paramData.setValue(currentData[k]);
                 }
                 returnData[k] = paramData;
