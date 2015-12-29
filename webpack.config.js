@@ -1,6 +1,7 @@
+var path = require('path');
 var CollectElementSettingsModule = require('./CollectElementsSettings');
 module.exports = {
-	context: __dirname + "/public",
+	context: path.resolve(__dirname, "public"),
 	entry: './main',
 	output: {
 		path: './public/assets', // Assets dist path
