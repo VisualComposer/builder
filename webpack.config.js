@@ -1,11 +1,14 @@
 var CollectElementSettingsModule = require('./CollectElementsSettings');
 module.exports = {
 	context: __dirname + "/public",
-	entry: './main',
+	entry: {
+		node: './main',
+		wp: './wp-main'
+	},
 	output: {
 		path: './public/assets', // Assets dist path
 		publicPath: './assets/', // Used to generate URL's
-		filename: '../bundle.js' // Main bundle file
+		filename: '../[name].bundle.js' // Main bundle file
 	},
 	plugins: [
 			new CollectElementSettingsModule()
