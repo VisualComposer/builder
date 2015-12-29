@@ -32,7 +32,6 @@ var SortableMixin = {
 };
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
-	// mixins: [SortableMixin],
     addChild: function() {
         this.publish('app:add', this.props.element.getAttribute('id'));
     },

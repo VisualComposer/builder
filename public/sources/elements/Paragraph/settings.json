@@ -15,7 +15,7 @@
         "value": "Paragraph"
     },
     "content": {
-        "type": "textarea",
+        "type": "innerhtml",
         "access": "public",
         "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
     },

@@ -6,12 +6,18 @@ var InlineEditor = require('./InlineEditor');
 var classNames = require('classnames');
 
 require('./less/navbar/navbar-init.less');
+
 module.exports = React.createClass(Mediator.installTo({
 	getInitialState: function() {
 		return {
 			menuExpand: false
 		}
 	},
+    componentDidMount: function() {
+      this.subscribe('layout:tree', function(){
+        this.setState({menuExpand: true});
+      }.bind(this));
+    },
     openAddElement: function (e) {
         e && e.preventDefault();
         this.publish('app:add', 'vc-v-root-element');
@@ -35,7 +41,7 @@ module.exports = React.createClass(Mediator.installTo({
                         <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
                             <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
                         </a>
-                        <TreeElement data={this.props.data}/>
+                        <TreeElement/>
                     </li>
                 </ul>
 				<div className="vc_ui-inline-editor-container">

@@ -11,12 +11,15 @@ const customStyles = {
         marginRight           : '-50%',
         transform             : 'translate(-50%, -50%)',
         border				  : '0',
-        background			  : 'transparent'
+        backgroundColor		  : 'transparent'
     }
 };
 var DataChanged = {
     componentDidMount: function(){
         this.subscribe('app:edit', function(element){
+            if('string' === typeof element) {
+                element = Mediator.getService('data').get(element);
+            }
             this.setState({editElement: element, modalIsOpen: true});
         }.bind(this));
     }
@@ -26,23 +29,36 @@ var reactObject = {
     getInitialState: function () {
         return {modalIsOpen: false, editElement: {}};
     },
-    getComponentForm: function() {
-        return 'ooops';
+    cancelChanges: function(e) {
+      this.closeModal(e);
     },
     closeModal: function (e) {
         e && e.preventDefault();
         this.setState(this.getInitialState());
     },
     getSettings: function() {
-        return false; this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
+        return this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
     },
     saveForm: function(e) {
         e && e.preventDefault();
         this.closeModal();
     },
     getForm: function() {
-        // here comes list of public properties
-        return '';
+        var settings = this.getSettings();
+        var attributesService = Mediator.getService('attributes');
+        var returnList = Object.keys(settings).map(function(key){
+            var ParamSettings = settings[key];
+            var ParamView = attributesService.getElement(key, ParamSettings, this.state.editElement);
+            if(ParamView) {
+                return <div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
+                        <label>{ParamSettings.getTitle()}</label>
+                        <div className="vc-v-form-row-control">
+                            {ParamView}
+                        </div>
+                    </div>;
+            }
+        }, this);
+        return returnList;
     },
     render: function () {
         var elementSettings = this.getSettings();
@@ -62,7 +78,7 @@ var reactObject = {
                     <div className="modal-body">
                         <form onSubmit={this.saveForm}>
                             {this.getForm()}
-                            <button type="submit">Save</button> <button type="button" onClick={this.closeModal}>Close</button>
+                            <button type="submit" onClick={this.closeModal}>Save</button> <button type="button" onClick={this.cancelChanges}>Cancel</button>
                         </form>
                     </div>
                 </div>

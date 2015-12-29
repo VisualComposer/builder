@@ -1,8 +1,10 @@
 var Mediator = require( './helpers/Mediator' ); // need to remove
 var App = Mediator.installTo({
+	loadServices: function() {
+		require('./helpers/Utils');
+		require('./helpers/attributes/Attribute');
+	},
 	loadModules: function() {
-		// Create autoloader or mapper via mediator;
-
 		// Editor module
 		require('./modules/editor/Editor');
 		// Data Storage module
@@ -11,6 +13,7 @@ var App = Mediator.installTo({
 		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
 	init: function() {
+		this.loadServices();
 		this.loadModules();
 		this.publish('app:init', true);
 	}

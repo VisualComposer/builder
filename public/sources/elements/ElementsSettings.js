@@ -16,9 +16,10 @@ module.exports = [
         "value": "inline"
     },
     "content": {
-        "type": "string",
+        "type": "innerhtml",
         "access": "public",
-        "value": "Button"
+        "value": "Button",
+        "title": "Title"
     }
 },{
     "name": {
@@ -37,7 +38,7 @@ module.exports = [
         "value": "Paragraph"
     },
     "content": {
-        "type": "textarea",
+        "type": "innerhtml",
         "access": "public",
         "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
     },
