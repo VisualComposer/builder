@@ -54,11 +54,11 @@
 		},
 		loadModules: function loadModules() {
 			// Editor module
-			__webpack_require__(188);
+			__webpack_require__(190);
 			// Data Storage module
-			__webpack_require__(249);
+			__webpack_require__(251);
 			// Editor Controls
-			var EditorControls = __webpack_require__(251);
+			var EditorControls = __webpack_require__(253);
 		},
 		init: function init() {
 			this.loadServices();
@@ -153,6 +153,7 @@
 	var React = __webpack_require__(15);
 
 	var Mediator = __webpack_require__(12);
+	var DataService = Mediator.getService('data');
 	// @todo add Nothing/Maybe monad :)
 	var Nothing = function Nothing(object) {
 	    object.setName(null);
@@ -184,13 +185,15 @@
 	            var ComponentView = this.getComponent();
 	            return React.createElement(ComponentView, {
 	                value: this.getValue(element),
-	                key: Mediator.getService('utils').createKey()
+	                key: Mediator.getService('utils').createKey(),
+	                element: element,
+	                name: this.name
 	            });
 	        }
 	        return Nothing(this);
 	    },
 	    getValue: function getValue(element) {
-	        var Getter = __webpack_require__(184)("./" + this.attributeName + '/Getter');
+	        var Getter = __webpack_require__(186)("./" + this.attributeName + '/Getter');
 	        return Getter(element);
 	    }
 	};
@@ -19785,8 +19788,8 @@
 
 	var map = {
 		"./innerhtml/Component": 173,
-		"./string/Component": 182,
-		"./textarea/Component": 183
+		"./string/Component": 183,
+		"./textarea/Component": 185
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -19837,13 +19840,17 @@
 
 	var React = __webpack_require__(15);
 	var ParamMixin = __webpack_require__(181);
+	var Setter = __webpack_require__(182);
 	module.exports = _wrapComponent('_$Unknown')(React.createClass({
 	    mixins: [ParamMixin],
+	    handleChange: function handleChange() {
+	        this.updateElement(Setter);
+	        this.setState({ value: this.refs.fcomponent.value });
+	    },
 	    render: function render() {
 	        return React.createElement('textarea', {
-	            onChange: this.handleChange,
 	            ref: 'fcomponent',
-	            value: this.state.value, key: ['vc-attribute-', 'innerhtml'] });
+	            value: this.state.value, onChange: this.handleChange });
 	    }
 	}));
 
@@ -21943,18 +21950,21 @@
 
 /***/ },
 /* 181 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
+	var Mediator = __webpack_require__(12);
+	var DataService = Mediator.getService('data');
 	var Mixin = {
 	    getInitialState: function getInitialState() {
 	        return {
 	            value: this.props.value
 	        };
 	    },
-	    handleChange: function handleChange() {
-	        this.setState({ value: this.refs.fcomponent.value });
+	    updateElement: function updateElement(Setter) {
+	        Setter(this.props.element, this.props.name, this.refs.fcomponent.value);
+	        DataService.mutate(this.props.element);
 	    }
 	};
 
@@ -21962,6 +21972,16 @@
 
 /***/ },
 /* 182 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (element, key, value) {
+	    element.innerHTML = value;
+	};
+
+/***/ },
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21995,18 +22015,34 @@
 
 	var React = __webpack_require__(15);
 	var ParamMixin = __webpack_require__(181);
+	var Setter = __webpack_require__(184);
+
 	module.exports = _wrapComponent('_$Unknown')(React.createClass({
 	    mixins: [ParamMixin],
+	    handleChange: function handleChange() {
+	        this.updateElement(Setter);
+	        this.setState({ value: this.refs.fcomponent.value });
+	    },
 	    render: function render() {
 	        return React.createElement('input', {
 	            onChange: this.handleChange,
 	            ref: 'fcomponent',
-	            value: this.state.value, key: ['vc-attribute-', 'string'] });
+	            value: this.state.value });
 	    }
 	}));
 
 /***/ },
-/* 183 */
+/* 184 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (element, key, value) {
+	    element.setAttribute(key, value);
+	};
+
+/***/ },
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22042,22 +22078,26 @@
 	var ParamMixin = __webpack_require__(181);
 	module.exports = _wrapComponent('_$Unknown')(React.createClass({
 	    mixins: [ParamMixin],
+	    handleChange: function handleChange() {
+	        this.updateElement(Setter);
+	        this.setState({ value: this.refs.fcomponent.value });
+	    },
 	    render: function render() {
 	        return React.createElement('textarea', {
 	            onChange: this.handleChange,
 	            ref: 'fcomponent',
-	            value: this.state.value, key: ['vc-attribute-', 'textarea'] });
+	            value: this.state.value });
 	    }
 	}));
 
 /***/ },
-/* 184 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./innerhtml/Getter": 185,
-		"./string/Getter": 186,
-		"./textarea/Getter": 187
+		"./innerhtml/Getter": 187,
+		"./string/Getter": 188,
+		"./textarea/Getter": 189
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -22070,11 +22110,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 184;
+	webpackContext.id = 186;
 
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22085,34 +22125,34 @@
 	};
 
 /***/ },
-/* 186 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = function (element, key) {
-	    return element.getAttribute(key);
-	};
-
-/***/ },
-/* 187 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = function (element, key) {
-	    return element.getAttribute(key);
-	};
-
-/***/ },
 /* 188 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (element, key) {
+	    return element.getAttribute(key);
+	};
+
+/***/ },
+/* 189 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (element, key) {
+	    return element.getAttribute(key);
+	};
+
+/***/ },
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(15);
-	var ReactDOM = __webpack_require__(189);
-	var EditorUI = __webpack_require__(190);
+	var ReactDOM = __webpack_require__(191);
+	var EditorUI = __webpack_require__(192);
 	var Mediator = __webpack_require__(12); // need to remove
 
 	// create module
@@ -22122,7 +22162,7 @@
 	module.exports = Editor;
 
 /***/ },
-/* 189 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22130,7 +22170,7 @@
 	module.exports = __webpack_require__(17);
 
 /***/ },
-/* 190 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22138,55 +22178,39 @@
 	var React = __webpack_require__(15);
 	var Mediator = __webpack_require__(12); // need to remove too
 
-	var Navbar = __webpack_require__(191);
-	var HtmlLayout = __webpack_require__(238);
-	var EditForm = __webpack_require__(246);
-	// var DataLayout = require( './layouts/data/DataLayout' );
-	__webpack_require__(247);
-	var DataChanged = {
-	    componentDidMount: function componentDidMount() {
-	        this.subscribe('data:changed', (function (document) {
-	            this.setState({ data: document });
-	        }).bind(this));
-	    }
-	};
-	var reactObject = {
-	    mixins: [DataChanged],
-	    getInitialState: function getInitialState() {
-	        return {
-	            data: {},
-	            editElement: false
-	        };
-	    },
+	var Navbar = __webpack_require__(193);
+	var HtmlLayout = __webpack_require__(240);
+	var EditForm = __webpack_require__(248);
+	__webpack_require__(249);
+
+	var Editor = React.createClass(Mediator.installTo({
 	    render: function render() {
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(Navbar, { data: this.state.data }),
+	            React.createElement(Navbar, null),
 	            React.createElement(EditForm, null),
-	            React.createElement(HtmlLayout, { data: this.state.data })
+	            React.createElement(HtmlLayout, null)
 	        );
 	    }
-	};
-
-	Mediator.installTo(reactObject);
-	var Editor = React.createClass(reactObject);
+	}));
 	module.exports = Editor;
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(15);
 	var Mediator = __webpack_require__(12); // need to remove too
-	var TreeElement = __webpack_require__(192);
-	var AddElementModal = __webpack_require__(207);
-	var InlineEditor = __webpack_require__(231);
-	var classNames = __webpack_require__(206);
+	var TreeElement = __webpack_require__(194);
+	var AddElementModal = __webpack_require__(209);
+	var InlineEditor = __webpack_require__(233);
+	var classNames = __webpack_require__(208);
 
-	__webpack_require__(235);
+	__webpack_require__(237);
+
 	module.exports = React.createClass(Mediator.installTo({
 	    getInitialState: function getInitialState() {
 	        return {
@@ -22244,7 +22268,7 @@
 	                        ' ',
 	                        React.createElement('span', { className: 'caret' })
 	                    ),
-	                    React.createElement(TreeElement, { data: this.props.data })
+	                    React.createElement(TreeElement, null)
 	                )
 	            ),
 	            React.createElement(
@@ -22258,48 +22282,35 @@
 	}));
 
 /***/ },
-/* 192 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _reactTransformCatchErrors2 = __webpack_require__(174);
-
-	var _reactTransformCatchErrors3 = _interopRequireDefault(_reactTransformCatchErrors2);
-
-	var _react = __webpack_require__(15);
-
-	var _redboxReact = __webpack_require__(175);
-
-	var _components = {
-	    _$Unknown: {}
-	};
-
-	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/tree/TreeLayout.js',
-	    components: _components,
-	    locals: [],
-	    imports: [_react, _redboxReact]
-	});
-
-	function _wrapComponent(uniqueId) {
-	    return function (ReactClass) {
-	        return _reactComponentWrapper(ReactClass, uniqueId);
-	    };
-	}
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	var React = __webpack_require__(15);
-	__webpack_require__(193);
+	__webpack_require__(195);
+	var Mediator = __webpack_require__(12); // need to remove too
+
 	var Utils = __webpack_require__(13);
-	var Element = __webpack_require__(197);
-	var Layout = _wrapComponent('_$Unknown')(React.createClass({
+	var Element = __webpack_require__(199);
+	var DataChanged = {
+	    componentDidMount: function componentDidMount() {
+	        this.subscribe('data:changed', (function (document) {
+	            this.setState({ data: document });
+	        }).bind(this));
+	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            data: {}
+	        };
+	    }
+	};
+	var Layout = React.createClass(Mediator.installTo({
+	    mixins: [DataChanged],
 	    render: function render() {
 	        var elementsList = undefined;
-
-	        if (this.props.data.childNodes) {
-	            var data = Array.prototype.slice.call(this.props.data.childNodes);
+	        if (this.state.data.childNodes) {
+	            var data = Array.prototype.slice.call(this.state.data.childNodes);
 	            var rootElement = data[0];
 	            elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
 	                var data = Array.prototype.slice.call(element.childNodes);
@@ -22329,16 +22340,16 @@
 	module.exports = Layout;
 
 /***/ },
-/* 193 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(194);
+	var content = __webpack_require__(196);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -22352,14 +22363,14 @@
 	}
 
 /***/ },
-/* 194 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, ".vc_ui-tree-nodes-container {\n  max-height: 70vh;\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.dropdown-menu.vc-v-layouts-tree {\n  padding: 10px;\n}\n.dropdown-menu.vc-v-layouts-tree ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.dropdown-menu.vc-v-layouts-tree ul li {\n  padding: 4px 0 4px 16px;\n  margin: 0;\n  border-top: 1px solid #CCC;\n}\n.dropdown-menu.vc-v-layouts-tree ul li span {\n  color: #555555;\n}\n.vc_ui-tree-dropdown.dropdown-menu {\n  color: #ffffff;\n  background-color: #203251;\n  font-family: \"Roboto\", sans-serif;\n}\n.vc_ui-tree-node {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_ui-tree-child-row {\n  box-sizing: border-box;\n}\n.vc_ui-tree-child-row .vc_ui-tree-child-controls {\n  visibility: hidden;\n}\n.vc_ui-tree-child-row:hover {\n  background-color: #416196;\n}\n.vc_ui-tree-child-row:hover .vc_ui-tree-child-controls {\n  visibility: visible;\n}\n.vc_ui-tree-child-col {\n  white-space: nowrap;\n  position: relative;\n  display: flex;\n}\n.vc_ui-tree-child-col .vc_ui-tree-child-expand-trigger {\n  position: absolute;\n  left: -1em;\n  top: 50%;\n  margin-top: -0.5em;\n}\n.vc_ui-tree-child-col::before,\n.vc_ui-tree-child-col::after {\n  content: '  ';\n  display: table;\n}\n.vc_ui-tree-child-col::after {\n  clear: both;\n}\n.vc_ui-tree-child-label {\n  display: inline-block;\n  padding: 12px 18px 12px 14px;\n}\n.vc_ui-tree-child-label .vc_ui-tree-child-label-icon + span {\n  margin-left: 14px;\n}\n.vc_ui-tree-child-controls {\n  text-align: right;\n  flex-grow: 1;\n}\n.vc_ui-tree-child-control {\n  display: inline-block;\n  vertical-align: middle;\n  padding: 12px 18px 12px 0;\n  color: #ffffff;\n}\n.vc_ui-tree-child.vc_ui-expand > .vc_ui-tree-child-row > .vc_ui-tree-child-col > .vc_ui-tree-child-expand-trigger {\n  transform: rotate(90deg);\n}\n.vc_ui-tree-child:not(.vc_ui-expand) > .vc_ui-tree-node {\n  display: none;\n}\n", ""]);
 
 /***/ },
-/* 195 */
+/* 197 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22382,7 +22393,7 @@
 	};
 
 /***/ },
-/* 196 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -22578,7 +22589,7 @@
 
 
 /***/ },
-/* 197 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22586,8 +22597,8 @@
 	var React = __webpack_require__(15);
 	var Utils = __webpack_require__(13);
 	var Mediator = __webpack_require__(12);
-	var ElementComponents = __webpack_require__(198);
-	var classNames = __webpack_require__(206);
+	var ElementComponents = __webpack_require__(200);
+	var classNames = __webpack_require__(208);
 
 	var Element = React.createClass(Mediator.installTo({
 		getInitialState: function getInitialState() {
@@ -22601,7 +22612,8 @@
 		},
 		clickAddChild: function clickAddChild(e) {
 			e.preventDefault();
-			this.publish('app:add', this.props.element.id);
+			this.publish('data:activeNode', this.props.element.id);
+			this.publish('app:add', true);
 		},
 		clickClone: function clickClone(e) {
 			e.preventDefault();
@@ -22715,12 +22727,12 @@
 	module.exports = Element;
 
 /***/ },
-/* 198 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var ElementsSettings = __webpack_require__(199);
+	var ElementsSettings = __webpack_require__(201);
 	var ElementsList = {
 	    items: false,
 	    getElementsData: function getElementsData() {
@@ -22783,7 +22795,7 @@
 	        return ElementsList.items;
 	    },
 	    getElement: function getElement(element) {
-	        return __webpack_require__(200)("./" + element.tagName + '/' + element.tagName + '.js');
+	        return __webpack_require__(202)("./" + element.tagName + '/' + element.tagName + '.js');
 	    },
 	    get: function get(element, currentData) {
 	        var tag = element.tagName ? element.tagName : element.toString();
@@ -22806,7 +22818,7 @@
 	};
 
 /***/ },
-/* 199 */
+/* 201 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22878,14 +22890,14 @@
 	}];
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./Button/Button.js": 201,
-		"./ElementsSettings.js": 199,
-		"./Paragraph/Paragraph.js": 202,
-		"./Section/Section.js": 203
+		"./Button/Button.js": 203,
+		"./ElementsSettings.js": 201,
+		"./Paragraph/Paragraph.js": 204,
+		"./Section/Section.js": 205
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -22898,11 +22910,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 200;
+	webpackContext.id = 202;
 
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22957,7 +22969,7 @@
 	module.exports = Button;
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23012,7 +23024,7 @@
 	module.exports = Paragraph;
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23049,7 +23061,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var React = __webpack_require__(15);
-	__webpack_require__(204);
+	__webpack_require__(206);
 	var Section = _wrapComponent('_$Unknown')(React.createClass({
 	    render: function render() {
 	        var _props = this.props;
@@ -23068,16 +23080,16 @@
 	module.exports = Section;
 
 /***/ },
-/* 204 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(205);
+	var content = __webpack_require__(207);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -23091,14 +23103,14 @@
 	}
 
 /***/ },
-/* 205 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, "section {\n  padding: 10px;\n}\n", ""]);
 
 /***/ },
-/* 206 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -23153,17 +23165,17 @@
 	})();
 
 /***/ },
-/* 207 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(15);
-	var Modal = __webpack_require__(208);
+	var Modal = __webpack_require__(210);
 	var Mediator = __webpack_require__(12); // need to remove too
-	var ElementComponents = __webpack_require__(198); // need to remove too
-	var ElementControl = __webpack_require__(228);
-	__webpack_require__(229);
+	var ElementComponents = __webpack_require__(200); // need to remove too
+	var ElementControl = __webpack_require__(230);
+	__webpack_require__(231);
 
 	var customStyles = {
 	    content: {
@@ -23255,15 +23267,15 @@
 	}));
 
 /***/ },
-/* 208 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(209);
+	module.exports = __webpack_require__(211);
 
 /***/ },
-/* 209 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -23298,12 +23310,12 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var React = __webpack_require__(15);
-	var ReactDOM = __webpack_require__(189);
-	var ExecutionEnvironment = __webpack_require__(210);
-	var ModalPortal = React.createFactory(__webpack_require__(211));
-	var ariaAppHider = __webpack_require__(226);
-	var elementClass = __webpack_require__(227);
-	var renderSubtreeIntoContainer = __webpack_require__(189).unstable_renderSubtreeIntoContainer;
+	var ReactDOM = __webpack_require__(191);
+	var ExecutionEnvironment = __webpack_require__(212);
+	var ModalPortal = React.createFactory(__webpack_require__(213));
+	var ariaAppHider = __webpack_require__(228);
+	var elementClass = __webpack_require__(229);
+	var renderSubtreeIntoContainer = __webpack_require__(191).unstable_renderSubtreeIntoContainer;
 
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 
@@ -23378,7 +23390,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 210 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -23418,7 +23430,7 @@
 	})();
 
 /***/ },
-/* 211 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23454,9 +23466,9 @@
 
 	var React = __webpack_require__(15);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(212);
-	var scopeTab = __webpack_require__(214);
-	var Assign = __webpack_require__(215);
+	var focusManager = __webpack_require__(214);
+	var scopeTab = __webpack_require__(216);
+	var Assign = __webpack_require__(217);
 
 	// so that our CSS is statically analyzable
 	var CLASS_NAMES = {
@@ -23635,12 +23647,12 @@
 	}));
 
 /***/ },
-/* 212 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var findTabbable = __webpack_require__(213);
+	var findTabbable = __webpack_require__(215);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -23706,7 +23718,7 @@
 	};
 
 /***/ },
-/* 213 */
+/* 215 */
 /***/ function(module, exports) {
 
 	/*!
@@ -23757,12 +23769,12 @@
 	module.exports = findTabbableDescendants;
 
 /***/ },
-/* 214 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var findTabbable = __webpack_require__(213);
+	var findTabbable = __webpack_require__(215);
 
 	module.exports = function (node, event) {
 	  var tabbable = findTabbable(node);
@@ -23777,7 +23789,7 @@
 	};
 
 /***/ },
-/* 215 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23790,9 +23802,9 @@
 	 */
 	'use strict';
 
-	var baseAssign = __webpack_require__(216),
-	    createAssigner = __webpack_require__(222),
-	    keys = __webpack_require__(218);
+	var baseAssign = __webpack_require__(218),
+	    createAssigner = __webpack_require__(224),
+	    keys = __webpack_require__(220);
 
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -23861,7 +23873,7 @@
 	module.exports = assign;
 
 /***/ },
-/* 216 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23874,8 +23886,8 @@
 	 */
 	'use strict';
 
-	var baseCopy = __webpack_require__(217),
-	    keys = __webpack_require__(218);
+	var baseCopy = __webpack_require__(219),
+	    keys = __webpack_require__(220);
 
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -23893,7 +23905,7 @@
 	module.exports = baseAssign;
 
 /***/ },
-/* 217 */
+/* 219 */
 /***/ function(module, exports) {
 
 	/**
@@ -23932,7 +23944,7 @@
 	module.exports = baseCopy;
 
 /***/ },
-/* 218 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -23945,9 +23957,9 @@
 	 */
 	'use strict';
 
-	var getNative = __webpack_require__(219),
-	    isArguments = __webpack_require__(220),
-	    isArray = __webpack_require__(221);
+	var getNative = __webpack_require__(221),
+	    isArguments = __webpack_require__(222),
+	    isArray = __webpack_require__(223);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -24171,7 +24183,7 @@
 	module.exports = keys;
 
 /***/ },
-/* 219 */
+/* 221 */
 /***/ function(module, exports) {
 
 	/**
@@ -24312,7 +24324,7 @@
 	module.exports = getNative;
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports) {
 
 	/**
@@ -24424,7 +24436,7 @@
 	module.exports = isArguments;
 
 /***/ },
-/* 221 */
+/* 223 */
 /***/ function(module, exports) {
 
 	/**
@@ -24608,7 +24620,7 @@
 	module.exports = isArray;
 
 /***/ },
-/* 222 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24621,9 +24633,9 @@
 	 */
 	'use strict';
 
-	var bindCallback = __webpack_require__(223),
-	    isIterateeCall = __webpack_require__(224),
-	    restParam = __webpack_require__(225);
+	var bindCallback = __webpack_require__(225),
+	    isIterateeCall = __webpack_require__(226),
+	    restParam = __webpack_require__(227);
 
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -24667,7 +24679,7 @@
 	module.exports = createAssigner;
 
 /***/ },
-/* 223 */
+/* 225 */
 /***/ function(module, exports) {
 
 	/**
@@ -24743,7 +24755,7 @@
 	module.exports = bindCallback;
 
 /***/ },
-/* 224 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/**
@@ -24880,7 +24892,7 @@
 	module.exports = isIterateeCall;
 
 /***/ },
-/* 225 */
+/* 227 */
 /***/ function(module, exports) {
 
 	/**
@@ -24957,7 +24969,7 @@
 	module.exports = restParam;
 
 /***/ },
-/* 226 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25001,7 +25013,7 @@
 	exports.resetForTesting = resetForTesting;
 
 /***/ },
-/* 227 */
+/* 229 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25065,13 +25077,13 @@
 	};
 
 /***/ },
-/* 228 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(12);
-	var ElementComponents = __webpack_require__(198);
+	var ElementComponents = __webpack_require__(200);
 	var React = __webpack_require__(15);
 
 	module.exports = React.createClass(Mediator.installTo({
@@ -25101,16 +25113,16 @@
 	}));
 
 /***/ },
-/* 229 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(230);
+	var content = __webpack_require__(232);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25124,14 +25136,14 @@
 	}
 
 /***/ },
-/* 230 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, ".vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\n", ""]);
 
 /***/ },
-/* 231 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25140,9 +25152,9 @@
 
 	var React = __webpack_require__(15);
 	var Mediator = __webpack_require__(12); // need to remove too
-	var InlineEditorControl = __webpack_require__(232);
+	var InlineEditorControl = __webpack_require__(234);
 
-	__webpack_require__(233);
+	__webpack_require__(235);
 
 	module.exports = React.createClass(Mediator.installTo({
 		getInitialState: function getInitialState() {
@@ -25172,7 +25184,7 @@
 	}));
 
 /***/ },
-/* 232 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25199,16 +25211,16 @@
 	}));
 
 /***/ },
-/* 233 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(234);
+	var content = __webpack_require__(236);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25222,23 +25234,23 @@
 	}
 
 /***/ },
-/* 234 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 10px 35px;\n  text-align: center;\n}\n.vc_ui-inline-editor-controls {\n  display: inline-block;\n  margin: 0 auto;\n  padding: 0;\n  list-style: none;\n  text-align: left;\n}\n.vc_ui-inline-editor-control {\n  display: inline-block;\n}\n.vc_ui-inline-control-trigger {\n  display: block;\n  font-size: 14px;\n  padding: 2px 7px;\n  line-height: 1.5;\n  color: #333;\n  background-color: #fff;\n  box-shadow: inset 1px 2px 7px -2px rgba(0, 0, 0, 0.5);\n  border-radius: 3px;\n  margin: 2px;\n  cursor: pointer;\n  opacity: .9;\n}\n.vc_ui-inline-control-trigger:hover {\n  color: #333;\n  opacity: .98;\n}\n", ""]);
 
 /***/ },
-/* 235 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(236);
+	var content = __webpack_require__(238);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25252,66 +25264,54 @@
 	}
 
 /***/ },
-/* 236 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
-	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(237)+");\n  background-color: #2a4b80;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
+	exports = module.exports = __webpack_require__(197)();
+	exports.push([module.id, "#vc_v-editor .as_btn {\n  cursor: pointer;\n  color: white;\n  font-size: 22px;\n}\n#vc_v-editor .navbar-brand {\n  height: 57px;\n}\n#vc_v-editor .navbar-vc {\n  background-image: url("+__webpack_require__(239)+");\n  background-color: #2a4b80;\n}\nbody {\n  margin-top: 60px !important;\n}\n", ""]);
 
 /***/ },
-/* 237 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "c472bb699fb59405d951e958ed74c10b.png"
 
 /***/ },
-/* 238 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _reactTransformCatchErrors2 = __webpack_require__(174);
-
-	var _reactTransformCatchErrors3 = _interopRequireDefault(_reactTransformCatchErrors2);
-
-	var _react = __webpack_require__(15);
-
-	var _redboxReact = __webpack_require__(175);
-
-	var _components = {
-	    _$Unknown: {}
-	};
-
-	var _reactComponentWrapper = (0, _reactTransformCatchErrors3['default'])({
-	    filename: '/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/HtmlLayout.js',
-	    components: _components,
-	    locals: [],
-	    imports: [_react, _redboxReact]
-	});
-
-	function _wrapComponent(uniqueId) {
-	    return function (ReactClass) {
-	        return _reactComponentWrapper(ReactClass, uniqueId);
-	    };
-	}
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 	var React = __webpack_require__(15);
-	__webpack_require__(239);
-	var Element = __webpack_require__(241);
+	__webpack_require__(241);
+	var Element = __webpack_require__(243);
+	var Mediator = __webpack_require__(12); // need to remove too
+
+	var DataChanged = {
+	    componentDidMount: function componentDidMount() {
+	        this.subscribe('data:changed', (function (document) {
+	            this.setState({ data: document });
+	        }).bind(this));
+	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            data: {},
+	            menuExpand: false
+	        };
+	    }
+	};
 	var SortableMixin = {
 	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	        return true;
 	    }
 	};
 
-	var Layout = _wrapComponent('_$Unknown')(React.createClass({
-	    mixins: [SortableMixin],
+	var Layout = React.createClass(Mediator.installTo({
+	    mixins: [DataChanged],
 	    render: function render() {
 	        var elementsList = undefined;
-	        if (this.props.data.childNodes) {
-	            var data = Array.prototype.slice.call(this.props.data.childNodes);
+	        if (this.state.data.childNodes) {
+	            var data = Array.prototype.slice.call(this.state.data.childNodes);
 	            var rootElement = data[0];
 	            elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
 	                var data = Array.prototype.slice.call(element.childNodes);
@@ -25328,16 +25328,16 @@
 	module.exports = Layout;
 
 /***/ },
-/* 239 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(240);
+	var content = __webpack_require__(242);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25351,14 +25351,14 @@
 	}
 
 /***/ },
-/* 240 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 241 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25366,9 +25366,9 @@
 	var React = __webpack_require__(15);
 	var Utils = __webpack_require__(13);
 	var Mediator = __webpack_require__(12);
-	var ElementComponents = __webpack_require__(198);
-	var ReactDOM = __webpack_require__(189);
-	__webpack_require__(242);
+	var ElementComponents = __webpack_require__(200);
+	var ReactDOM = __webpack_require__(191);
+	__webpack_require__(244);
 
 	var SortableMixin = {
 	    componentDidMount: function componentDidMount() {
@@ -25393,9 +25393,8 @@
 	        });
 	    }
 	};
-	__webpack_require__(244);
+	__webpack_require__(246);
 	var Element = React.createClass(Mediator.installTo({
-	    // mixins: [SortableMixin],
 	    addChild: function addChild() {
 	        this.publish('app:add', this.props.element.getAttribute('id'));
 	    },
@@ -25447,16 +25446,16 @@
 	module.exports = Element;
 
 /***/ },
-/* 242 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(243);
+	var content = __webpack_require__(245);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25470,23 +25469,23 @@
 	}
 
 /***/ },
-/* 243 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, ".vc-v-root-element .controls {\n  padding: 10px;\n  text-align: center;\n}\n.vc-v-root-element .controls a {\n  font-size: 12px;\n  width: 12px;\n  height: 12px;\n  cursor: pointer;\n  display: inline-block;\n  margin-right: 4px;\n}\nsection {\n  min-height: 60px;\n  border: 1px dashed #999999;\n}\n", ""]);
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(245);
+	var content = __webpack_require__(247);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25500,22 +25499,22 @@
 	}
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, "#vc_v-editor.vc-draganddrop [data-vc-element].vc-v-section {\n  padding: 20px;\n}\n", ""]);
 
 /***/ },
-/* 246 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(15);
 	var Mediator = __webpack_require__(12); // need to remove too
-	var Modal = __webpack_require__(208);
-	var ElementComponents = __webpack_require__(198);
+	var Modal = __webpack_require__(210);
+	var ElementComponents = __webpack_require__(200);
 	var customStyles = {
 	    content: {
 	        top: '50%',
@@ -25525,7 +25524,7 @@
 	        marginRight: '-50%',
 	        transform: 'translate(-50%, -50%)',
 	        border: '0',
-	        background: 'transparent'
+	        backgroundColor: 'transparent'
 	    }
 	};
 	var DataChanged = {
@@ -25646,16 +25645,16 @@
 	module.exports = React.createClass(reactObject);
 
 /***/ },
-/* 247 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(248);
+	var content = __webpack_require__(250);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -25669,52 +25668,55 @@
 	}
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(195)();
+	exports = module.exports = __webpack_require__(197)();
 	exports.push([module.id, "", ""]);
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(12);
 	var Utils = __webpack_require__(13);
-	var LocalStorage = __webpack_require__(250);
+	var LocalStorage = __webpack_require__(252);
 	/**
 	 * Data Module
 	 * @type {{document: null, add: DataStore.add, remove: DataStore.remove, clone: DataStore.clone, move: DataStore.move, get: DataStore.get}}
 	 */
 	var DataStore = {
 	    document: null,
+	    create: function create(element) {
+	        var DOMElement = this.document.createElement(element.tag);
+	        var elementId = document.createAttribute('id'); // Create a "id" attribute
+	        elementId.value = Utils.createKey();
+	        DOMElement.setAttributeNode(elementId);
+
+	        Object.keys(element).forEach(function (k) {
+	            var param = element[k];
+	            if ('content' === k && 'public' === param.getAccess()) {
+	                var textNode = document.createTextNode(param.toString());
+	                DOMElement.appendChild(textNode);
+	            } else if ('public' === param.getAccess()) {
+	                var elementParam = document.createAttribute(k);
+	                elementParam.value = param.toString();
+	                DOMElement.setAttributeNode(elementParam);
+	            }
+	        }, this);
+	        return DOMElement;
+	    },
 	    add: function add(element, parentNode) {
 	        // @todo Here we should use immutable data.
 	        if (parentNode) {
-	            var DOMElement = this.document.createElement(element.tag);
-	            var elementId = document.createAttribute('id'); // Create a "id" attribute
-	            elementId.value = Utils.createKey();
-	            DOMElement.setAttributeNode(elementId);
-
-	            Object.keys(element).forEach(function (k) {
-	                var param = element[k];
-	                if ('content' === k && 'public' === param.getAccess()) {
-	                    var textNode = document.createTextNode(param.toString());
-	                    DOMElement.appendChild(textNode);
-	                } else if ('public' === param.getAccess()) {
-	                    var elementParam = document.createAttribute(k);
-	                    elementParam.value = param.toString();
-	                    DOMElement.setAttributeNode(elementParam);
-	                }
-	            }, this);
-
+	            var DOMElement = this.create(element);
 	            // Set the value of the class attribute
 	            parentNode.appendChild(DOMElement);
+	            return DOMElement;
 	        }
-	        // this.resetActiveNode(); // @todo need to find new way to sync with current node
-	        return DOMElement || false;
+	        return false;
 	    },
 	    remove: function remove(id) {
 	        var DOMElement = this.document.getElementById(id);
@@ -25751,9 +25753,16 @@
 	        }
 	        return false;
 	    },
+	    mutate: function mutate(element) {
+	        /*        var DOMElement = this.document.getElementById(element.getAttribute('id'));
+	                DOMElement.setAttribute('id', 'vc-mutate-tmp-' + Math.random());
+	                DOMElement.parentNode.insertBefore(element, DOMElement);
+	                DOMElement.parentNode.removeChild(DOMElement);*/
+	        return true;
+	    },
 	    get: function get(id) {
-	        var element = this.document.getElementById(id);
-	        return element;
+	        var DOMElement = this.document.getElementById(id);
+	        return DOMElement; // .cloneNode(true);
 	    }
 	};
 
@@ -25763,6 +25772,9 @@
 	 */
 	var Data = {
 	    activeNode: null,
+	    getDocument: function getDocument() {
+	        return DataStore.document ? DataStore.document : null;
+	    },
 	    resetActiveNode: function resetActiveNode() {
 	        this.activeNode = null;
 	    },
@@ -25770,17 +25782,22 @@
 	        return DataStore.get(id);
 	    },
 	    add: function add(element) {
-	        DataStore.add(element, Data.activeNode) && Data.publish('data:changed', DataStore.document);
+	        DataStore.add(element, Data.activeNode) && Data.publish('data:changed', this.getDocument());
 	    },
 	    remove: function remove(id) {
-	        DataStore.remove(id) && Data.publish('data:changed', DataStore.document);
+	        DataStore.remove(id) && Data.publish('data:changed', this.getDocument());
 	    },
 	    clone: function clone(id) {
-	        DataStore.clone(id) && Data.publish('data:changed', DataStore.document);
+	        DataStore.clone(id) && Data.publish('data:changed', this.getDocument());
 	    },
 	    parse: function parse(dataString) {
-	        var parser = new DOMParser();
-	        return parser.parseFromString(dataString, 'text/xml');
+	        return new DOMParser().parseFromString(dataString, 'text/xml');
+	    },
+	    mutate: function mutate(element) {
+	        DataStore.mutate(element) && Data.publish('data:changed', this.getDocument());
+	    },
+	    move: function move(id, beforeId) {
+	        DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());
 	    }
 	};
 
@@ -25792,6 +25809,7 @@
 	        Data.activeNode = DataStore.get(id);
 	    }
 	});
+
 	Data.subscribe('data:add', function (element) {
 	    Data.add(element);
 	});
@@ -25801,21 +25819,23 @@
 	Data.subscribe('data:clone', function (id) {
 	    Data.clone(id);
 	});
-	// @todo sync how to ignore one or too object.
+	Data.subscribe('data:mutate', function (element) {
+	    Data.mutate(element);
+	});
 	Data.subscribe('data:move', function (id, beforeId) {
-	    DataStore.move(id, beforeId) && Data.publish('data:changed', DataStore.document);
+	    Data.move(id, beforeId);
 	});
 	// Add to app
 	Data.subscribe('app:init', function () {
 	    DataStore.document = Data.parse('<Root id="vc-v-root-element">' + LocalStorage.get() + '</Root>');
-	    Data.publish('data:changed', DataStore.document);
+	    Data.publish('data:changed', Data.getDocument());
 	});
 	window.vcData = Data; // @todo should be removed.
 
 	module.exports = Data;
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25847,15 +25867,15 @@
 	module.exports = Data;
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Mediator = __webpack_require__(12); // need to remove too
-	var controlsHandler = __webpack_require__(252);
+	var controlsHandler = __webpack_require__(254);
 	var ControlsTrigger = {};
-	__webpack_require__(253);
+	__webpack_require__(255);
 
 	ControlsTrigger.triggerShowFrame = function (e) {
 	    e.stopPropagation();
@@ -25893,7 +25913,7 @@
 	module.exports = new EditorControls();
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26078,16 +26098,16 @@
 	module.exports = new ControlsHandler();
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(254);
+	var content = __webpack_require__(256);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(196)(content, {});
+	var update = __webpack_require__(198)(content, {});
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
@@ -26101,33 +26121,33 @@
 	}
 
 /***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(195)();
-	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic,700,700italic,900,900italic|Roboto+Condensed:400,300,300italic,700,400italic,700italic&subset=latin,cyrillic,greek,greek-ext,cyrillic-ext,latin-ext);", ""]);
-	exports.push([module.id, "\n@font-face {\n  font-family: 'VC-UI-Icons';\n  src: url("+__webpack_require__(255)+");\n  src: url("+__webpack_require__(255)+") format('embedded-opentype'), url("+__webpack_require__(256)+") format('truetype'), url("+__webpack_require__(257)+") format('woff'), url("+__webpack_require__(258)+") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.vc_ui-icon {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'VC-UI-Icons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.vc_ui-icon-add:before {\n  content: \"\\e145\";\n}\n.vc_ui-icon-clear:before {\n  content: \"\\e14c\";\n}\n.vc_ui-icon-remove:before {\n  content: \"\\e15b\";\n}\n.vc_ui-icon-desktop:before {\n  content: \"\\e30c\";\n}\n.vc_ui-icon-laptop:before {\n  content: \"\\e31e\";\n}\n.vc_ui-icon-phone:before {\n  content: \"\\e324\";\n}\n.vc_ui-icon-tablet:before {\n  content: \"\\e330\";\n}\n.vc_ui-icon-arrow_drop_down:before {\n  content: \"\\e5c5\";\n}\n.vc_ui-icon-arrow_drop_up:before {\n  content: \"\\e5c7\";\n}\n.vc_ui-icon-more_horiz:before {\n  content: \"\\e5d3\";\n}\n.vc_ui-icon-more_vert:before {\n  content: \"\\e5d4\";\n}\n.vc_ui-icon-done:before {\n  content: \"\\e876\";\n}\n.vc_ui-icon-cog:before {\n  content: \"\\e901\";\n}\n.vc_ui-icon-move:before {\n  content: \"\\e904\";\n}\n.vc_ui-icon-new-window:before {\n  content: \"\\e905\";\n}\n.vc_ui-icon-fullscreen-exit:before {\n  content: \"\\e906\";\n}\n.vc_ui-icon-fullscreen:before {\n  content: \"\\e907\";\n}\n.vc_ui-icon-pen-alt-fill:before {\n  content: \"\\e900\";\n}\n.vc_ui-icon-layers:before {\n  content: \"\\e902\";\n}\n.vc_ui-icon-plus:before {\n  content: \"\\e908\";\n}\n.vc_ui-icon-minus:before {\n  content: \"\\e909\";\n}\n.vc_ui-icon-cross:before {\n  content: \"\\e90a\";\n}\n.vc_ui-icon-checkmark:before {\n  content: \"\\e90b\";\n}\n.vc_ui-icon-frame-landscape:before {\n  content: \"\\e90c\";\n}\n.vc_ui-icon-dots-three-horizontal:before {\n  content: \"\\e90d\";\n}\n.vc_ui-icon-dots-three-vertical:before {\n  content: \"\\e90e\";\n}\n.vc_ui-icon-dots-two-horizontal:before {\n  content: \"\\e90f\";\n}\n.vc_ui-icon-dots-two-vertical:before {\n  content: \"\\e910\";\n}\n.vc_ui-icon-flow-cascade:before {\n  content: \"\\e911\";\n}\n.vc_ui-icon-frame-alt:before {\n  content: \"\\e912\";\n}\n.vc_ui-icon-frame-portrait:before {\n  content: \"\\e913\";\n}\n.vc_ui-icon-heart:before {\n  content: \"\\e915\";\n}\n.vc_ui-icon-menu:before {\n  content: \"\\e914\";\n}\n.vc_ui-icon-500px-with-circle:before {\n  content: \"\\e916\";\n}\n.vc_ui-icon-rdio-with-circle:before {\n  content: \"\\e917\";\n}\n.vc_ui-icon-skype-with-circle:before {\n  content: \"\\e918\";\n}\n.vc_ui-icon-spotify-with-circle:before {\n  content: \"\\e919\";\n}\n.vc_ui-icon-vine-with-circle:before {\n  content: \"\\e91a\";\n}\n.vc_ui-icon-vk-with-circle:before {\n  content: \"\\e91b\";\n}\n.vc_ui-icon-xing-with-circle:before {\n  content: \"\\e91c\";\n}\n.vc_ui-icon-dribbble-with-circle:before {\n  content: \"\\e91d\";\n}\n.vc_ui-icon-facebook-with-circle:before {\n  content: \"\\e91e\";\n}\n.vc_ui-icon-flickr-with-circle:before {\n  content: \"\\e91f\";\n}\n.vc_ui-icon-github-with-circle:before {\n  content: \"\\e920\";\n}\n.vc_ui-icon-google-with-circle:before {\n  content: \"\\e921\";\n}\n.vc_ui-icon-instagram-with-circle:before {\n  content: \"\\e922\";\n}\n.vc_ui-icon-lastfm-with-circle:before {\n  content: \"\\e923\";\n}\n.vc_ui-icon-linkedin-with-circle:before {\n  content: \"\\e924\";\n}\n.vc_ui-icon-pinterest-with-circle:before {\n  content: \"\\e925\";\n}\n.vc_ui-icon-stumbleupon-with-circle:before {\n  content: \"\\e926\";\n}\n.vc_ui-icon-tumblr-with-circle:before {\n  content: \"\\e927\";\n}\n.vc_ui-icon-twitter-with-circle:before {\n  content: \"\\e903\";\n}\n.vc_ui-icon-vimeo-with-circle:before {\n  content: \"\\e928\";\n}\n.vc_ui-icon-youtube-with-circle:before {\n  content: \"\\e929\";\n}\n.vc_ui-icon-bug:before {\n  content: \"\\f188\";\n}\n.vc_ui-icon-wordpress-with-circle:before {\n  content: \"\\f19a\";\n}\n.vc_ui-controls {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control-wrap {\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control {\n  display: block;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  text-decoration: none;\n}\n.vc_ui-control-icon {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n  height: 1em;\n  position: relative;\n}\n.vc_ui-control-label {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap {\n  position: relative;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container {\n  display: none;\n  position: absolute;\n  right: 0;\n  top: 100%;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container:first-child {\n  right: auto;\n  left: 0;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap:hover > .vc_ui-controls-container {\n  display: block;\n}\n.vc_ui-controls-container {\n  text-align: center;\n}\n.vc_ui-editor-controls {\n  display: inline-block;\n  vertical-align: middle;\n  text-align: left;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap {\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap .vc_ui-control-wrap {\n  display: block;\n}\n.vc_ui-editor-controls .vc_ui-control {\n  color: #ffffff;\n  background-color: #2b4b80;\n  padding: 12px 22px 12px 14px;\n  white-space: nowrap;\n}\n.vc_ui-editor-controls .vc_ui-control:hover {\n  background-color: #274475;\n}\n.vc_ui-editor-controls .vc_ui-control-icon ~ * {\n  margin-left: 12px;\n}\n.vc_ui-editor-controls-container {\n  position: absolute;\n  z-index: 1010;\n  list-style: none;\n  transform: translate(-50%, -100%);\n  text-align: center;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container {\n  margin: 4px;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control {\n  color: #ffffff;\n  background-color: #4673bd;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control:hover {\n  background-color: #406cb4;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control {\n  color: #ffffff;\n  background-color: #fec53f;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control:hover {\n  background-color: #fec030;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control {\n  color: #ffffff;\n  background-color: #6dab3c;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control:hover {\n  background-color: #66a038;\n}\n.vc_ui-outline {\n  position: absolute;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n  z-index: 1000;\n  box-shadow: 0 0 0 2px #2b4b80;\n}\n.vc_ui-outline-index-0 {\n  box-shadow: 0 0 0 2px #4673bd;\n}\n.vc_ui-outline-index-1 {\n  box-shadow: 0 0 0 2px #fec53f;\n}\n.vc_ui-outline-index-2 {\n  box-shadow: 0 0 0 2px #6dab3c;\n}\n", ""]);
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "c74388aec60f73aadb621afece1e999b.eot"
-
-/***/ },
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "30adaccc95eb30cdacbc3d62e1f3e2d7.ttf"
+	exports = module.exports = __webpack_require__(197)();
+	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,500,400italic,500italic,700,700italic,900,900italic|Roboto+Condensed:400,300,300italic,700,400italic,700italic&subset=latin,cyrillic,greek,greek-ext,cyrillic-ext,latin-ext);", ""]);
+	exports.push([module.id, "\n@font-face {\n  font-family: 'VC-UI-Icons';\n  src: url("+__webpack_require__(257)+");\n  src: url("+__webpack_require__(257)+") format('embedded-opentype'), url("+__webpack_require__(258)+") format('truetype'), url("+__webpack_require__(259)+") format('woff'), url("+__webpack_require__(260)+") format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n.vc_ui-icon {\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'VC-UI-Icons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.vc_ui-icon-add:before {\n  content: \"\\e145\";\n}\n.vc_ui-icon-clear:before {\n  content: \"\\e14c\";\n}\n.vc_ui-icon-remove:before {\n  content: \"\\e15b\";\n}\n.vc_ui-icon-desktop:before {\n  content: \"\\e30c\";\n}\n.vc_ui-icon-laptop:before {\n  content: \"\\e31e\";\n}\n.vc_ui-icon-phone:before {\n  content: \"\\e324\";\n}\n.vc_ui-icon-tablet:before {\n  content: \"\\e330\";\n}\n.vc_ui-icon-arrow_drop_down:before {\n  content: \"\\e5c5\";\n}\n.vc_ui-icon-arrow_drop_up:before {\n  content: \"\\e5c7\";\n}\n.vc_ui-icon-more_horiz:before {\n  content: \"\\e5d3\";\n}\n.vc_ui-icon-more_vert:before {\n  content: \"\\e5d4\";\n}\n.vc_ui-icon-done:before {\n  content: \"\\e876\";\n}\n.vc_ui-icon-cog:before {\n  content: \"\\e901\";\n}\n.vc_ui-icon-move:before {\n  content: \"\\e904\";\n}\n.vc_ui-icon-new-window:before {\n  content: \"\\e905\";\n}\n.vc_ui-icon-fullscreen-exit:before {\n  content: \"\\e906\";\n}\n.vc_ui-icon-fullscreen:before {\n  content: \"\\e907\";\n}\n.vc_ui-icon-pen-alt-fill:before {\n  content: \"\\e900\";\n}\n.vc_ui-icon-layers:before {\n  content: \"\\e902\";\n}\n.vc_ui-icon-plus:before {\n  content: \"\\e908\";\n}\n.vc_ui-icon-minus:before {\n  content: \"\\e909\";\n}\n.vc_ui-icon-cross:before {\n  content: \"\\e90a\";\n}\n.vc_ui-icon-checkmark:before {\n  content: \"\\e90b\";\n}\n.vc_ui-icon-frame-landscape:before {\n  content: \"\\e90c\";\n}\n.vc_ui-icon-dots-three-horizontal:before {\n  content: \"\\e90d\";\n}\n.vc_ui-icon-dots-three-vertical:before {\n  content: \"\\e90e\";\n}\n.vc_ui-icon-dots-two-horizontal:before {\n  content: \"\\e90f\";\n}\n.vc_ui-icon-dots-two-vertical:before {\n  content: \"\\e910\";\n}\n.vc_ui-icon-flow-cascade:before {\n  content: \"\\e911\";\n}\n.vc_ui-icon-frame-alt:before {\n  content: \"\\e912\";\n}\n.vc_ui-icon-frame-portrait:before {\n  content: \"\\e913\";\n}\n.vc_ui-icon-heart:before {\n  content: \"\\e915\";\n}\n.vc_ui-icon-menu:before {\n  content: \"\\e914\";\n}\n.vc_ui-icon-500px-with-circle:before {\n  content: \"\\e916\";\n}\n.vc_ui-icon-rdio-with-circle:before {\n  content: \"\\e917\";\n}\n.vc_ui-icon-skype-with-circle:before {\n  content: \"\\e918\";\n}\n.vc_ui-icon-spotify-with-circle:before {\n  content: \"\\e919\";\n}\n.vc_ui-icon-vine-with-circle:before {\n  content: \"\\e91a\";\n}\n.vc_ui-icon-vk-with-circle:before {\n  content: \"\\e91b\";\n}\n.vc_ui-icon-xing-with-circle:before {\n  content: \"\\e91c\";\n}\n.vc_ui-icon-dribbble-with-circle:before {\n  content: \"\\e91d\";\n}\n.vc_ui-icon-facebook-with-circle:before {\n  content: \"\\e91e\";\n}\n.vc_ui-icon-flickr-with-circle:before {\n  content: \"\\e91f\";\n}\n.vc_ui-icon-github-with-circle:before {\n  content: \"\\e920\";\n}\n.vc_ui-icon-google-with-circle:before {\n  content: \"\\e921\";\n}\n.vc_ui-icon-instagram-with-circle:before {\n  content: \"\\e922\";\n}\n.vc_ui-icon-lastfm-with-circle:before {\n  content: \"\\e923\";\n}\n.vc_ui-icon-linkedin-with-circle:before {\n  content: \"\\e924\";\n}\n.vc_ui-icon-pinterest-with-circle:before {\n  content: \"\\e925\";\n}\n.vc_ui-icon-stumbleupon-with-circle:before {\n  content: \"\\e926\";\n}\n.vc_ui-icon-tumblr-with-circle:before {\n  content: \"\\e927\";\n}\n.vc_ui-icon-twitter-with-circle:before {\n  content: \"\\e903\";\n}\n.vc_ui-icon-vimeo-with-circle:before {\n  content: \"\\e928\";\n}\n.vc_ui-icon-youtube-with-circle:before {\n  content: \"\\e929\";\n}\n.vc_ui-icon-bug:before {\n  content: \"\\f188\";\n}\n.vc_ui-icon-wordpress-with-circle:before {\n  content: \"\\f19a\";\n}\n.vc_ui-controls {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control-wrap {\n  margin: 0;\n  padding: 0;\n}\n.vc_ui-control {\n  display: block;\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  text-decoration: none;\n}\n.vc_ui-control-icon {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n  height: 1em;\n  position: relative;\n}\n.vc_ui-control-label {\n  box-sizing: border-box;\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap {\n  position: relative;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container {\n  display: none;\n  position: absolute;\n  right: 0;\n  top: 100%;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap > .vc_ui-controls-container:first-child {\n  right: auto;\n  left: 0;\n}\n.vc_ui-controls-o-position-bottom > .vc_ui-control-wrap:hover > .vc_ui-controls-container {\n  display: block;\n}\n.vc_ui-controls-container {\n  text-align: center;\n}\n.vc_ui-editor-controls {\n  display: inline-block;\n  vertical-align: middle;\n  text-align: left;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap {\n  display: inline-block;\n  vertical-align: middle;\n}\n.vc_ui-editor-controls .vc_ui-control-wrap .vc_ui-control-wrap {\n  display: block;\n}\n.vc_ui-editor-controls .vc_ui-control {\n  color: #ffffff;\n  background-color: #2b4b80;\n  padding: 12px 22px 12px 14px;\n  white-space: nowrap;\n}\n.vc_ui-editor-controls .vc_ui-control:hover {\n  background-color: #274475;\n}\n.vc_ui-editor-controls .vc_ui-control-icon ~ * {\n  margin-left: 12px;\n}\n.vc_ui-editor-controls-container {\n  position: absolute;\n  z-index: 1010;\n  list-style: none;\n  transform: translate(-50%, -100%);\n  text-align: center;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container {\n  margin: 4px;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control {\n  color: #ffffff;\n  background-color: #4673bd;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(3) .vc_ui-control:hover {\n  background-color: #406cb4;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control {\n  color: #ffffff;\n  background-color: #fec53f;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(2) .vc_ui-control:hover {\n  background-color: #fec030;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control {\n  color: #ffffff;\n  background-color: #6dab3c;\n}\n.vc_ui-editor-controls-container > .vc_ui-controls-container > .vc_ui-controls > .vc_ui-control-wrap:nth-last-child(1) .vc_ui-control:hover {\n  background-color: #66a038;\n}\n.vc_ui-outline {\n  position: absolute;\n  pointer-events: none;\n  margin-top: -1px;\n  margin-left: -1px;\n  padding: 1px;\n  box-sizing: content-box;\n  z-index: 1000;\n  box-shadow: 0 0 0 2px #2b4b80;\n}\n.vc_ui-outline-index-0 {\n  box-shadow: 0 0 0 2px #4673bd;\n}\n.vc_ui-outline-index-1 {\n  box-shadow: 0 0 0 2px #fec53f;\n}\n.vc_ui-outline-index-2 {\n  box-shadow: 0 0 0 2px #6dab3c;\n}\n", ""]);
 
 /***/ },
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "ccfd86d505c70e6539999de263be5dfd.woff"
+	module.exports = __webpack_require__.p + "c74388aec60f73aadb621afece1e999b.eot"
 
 /***/ },
 /* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "30adaccc95eb30cdacbc3d62e1f3e2d7.ttf"
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "ccfd86d505c70e6539999de263be5dfd.woff"
+
+/***/ },
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "39d4df41f8f4ee184a0a76597d9a4eab.svg"

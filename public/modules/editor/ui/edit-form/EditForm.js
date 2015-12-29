@@ -11,7 +11,7 @@ const customStyles = {
         marginRight           : '-50%',
         transform             : 'translate(-50%, -50%)',
         border				  : '0',
-        background			  : 'transparent'
+        backgroundColor		  : 'transparent'
     }
 };
 var DataChanged = {

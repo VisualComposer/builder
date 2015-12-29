@@ -1,6 +1,7 @@
 var React = require('react');
 
 var Mediator = require( '../Mediator' );
+var DataService = Mediator.getService('data');
 // @todo add Nothing/Maybe monad :)
 var Nothing = function(object) {
     object.setName(null);
@@ -32,7 +33,9 @@ var Attributes = {
             var ComponentView = this.getComponent();
             return React.createElement(ComponentView, {
                 value: this.getValue(element),
-                key: Mediator.getService('utils').createKey()
+                key: Mediator.getService('utils').createKey(),
+                element: element,
+                name: this.name
             });
         }
         return Nothing(this);

@@ -6,6 +6,7 @@ var InlineEditor = require('./InlineEditor');
 var classNames = require('classnames');
 
 require('./less/navbar/navbar-init.less');
+
 module.exports = React.createClass(Mediator.installTo({
 	getInitialState: function() {
 		return {
@@ -40,7 +41,7 @@ module.exports = React.createClass(Mediator.installTo({
                         <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
                             <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
                         </a>
-                        <TreeElement data={this.props.data}/>
+                        <TreeElement/>
                     </li>
                 </ul>
 				<div className="vc_ui-inline-editor-container">
