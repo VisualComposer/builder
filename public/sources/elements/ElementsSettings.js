@@ -11,15 +11,15 @@ module.exports = [
         "value": "Button"
     },
     "type": {
-        "type": "innerhtml",
+        "type": "string",
         "access": "system",
         "value": "inline"
     },
     "content": {
-        "type": "string",
+        "type": "innerhtml",
         "access": "public",
         "value": "Button",
-        "title": "Title",
+        "title": "Title"
     }
 },{
     "name": {

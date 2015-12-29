@@ -51,7 +51,7 @@ var reactObject = {
             var ParamView = attributesService.getElement(key, ParamSettings, this.state.editElement);
             if(ParamView) {
                 return <div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
-                        <label>{key}</label>
+                        <label>{ParamSettings.getTitle()}</label>
                         <div className="vc-v-form-row-control">
                             {ParamView}
                         </div>
