@@ -22276,7 +22276,6 @@
 	var Mediator = __webpack_require__(12); // need to remove too
 	var TreeElement = __webpack_require__(195);
 	var AddElementModal = __webpack_require__(210);
-	var InlineEditor = __webpack_require__(234);
 	var classNames = __webpack_require__(209);
 
 	__webpack_require__(238);
@@ -22341,11 +22340,7 @@
 	                    React.createElement(TreeElement, null)
 	                )
 	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'vc_ui-inline-editor-container' },
-	                React.createElement(InlineEditor, null)
-	            ),
+	            React.createElement('div', { className: 'vc_ui-inline-editor-container' }),
 	            React.createElement(AddElementModal, null)
 	        );
 	    }
@@ -25213,104 +25208,10 @@
 	exports.push([module.id, ".vc_v-modal-content {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.vc_v-modal-content li {\n  padding: 4px;\n  margin: 0;\n  display: inline-block;\n  width: 84px;\n  height: 54px;\n  text-align: center;\n  border: 1px solid #CCC;\n  border-radius: 2px;\n  margin: 1px;\n  cursor: pointer;\n}\n.vc_v-modal-content li .glyphicon {\n  font-size: 20px;\n  color: black;\n}\n", ""]);
 
 /***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(15);
-	var Mediator = __webpack_require__(12); // need to remove too
-	var InlineEditorControl = __webpack_require__(235);
-
-	__webpack_require__(236);
-
-	module.exports = React.createClass(Mediator.installTo({
-		getInitialState: function getInitialState() {
-			return {
-				activated: false
-			};
-		},
-		//componentDidMount: function() {
-		//	// inlineEditorPlugin.publish('app:inline', true, $element.data('vcElement'));
-		//	this.subscribe('app:inline-edit', function(activate, elementID){
-		//		this.setState({activated: activate});
-		//	}.bind(this));
-		//},
-		getControlsList: function getControlsList() {
-			return [{ type: 'Bold', name: 'Bold', icon: 'glyphicon glyphicon-bold', style: {} }, { type: 'Italic', name: 'Italic', icon: 'glyphicon glyphicon-italic', style: {} }, { type: 'Underline', name: 'Underline', icon: 'glyphicon glyphicon-font', style: { textDecoration: 'underline' } }];
-		},
-		render: function render() {
-			var activated = this.state.activated;
-			return React.createElement(
-				'ul',
-				{ className: 'vc_ui-inline-editor-controls' },
-				this.getControlsList().map((function (control) {
-					return React.createElement(InlineEditorControl, _extends({ key: control.type }, control));
-				}).bind(this))
-			);
-		}
-	}));
-
-/***/ },
-/* 235 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(15);
-	var Mediator = __webpack_require__(12); // need to remove too
-
-	module.exports = React.createClass(Mediator.installTo({
-		clickHandler: function clickHandler(e) {
-			e.preventDefault();
-			alert(this.props.name + ' clicked');
-		},
-		render: function render() {
-			return React.createElement(
-				'li',
-				{ className: 'vc_ui-inline-editor-control', key: this.props.type },
-				React.createElement(
-					'a',
-					{ onClick: this.clickHandler, className: 'vc_ui-inline-control-trigger' },
-					React.createElement('i', { className: this.props.icon, style: this.props.style, title: this.props.name })
-				)
-			);
-		}
-	}));
-
-/***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(237);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(199)(content, {});
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less", function() {
-			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/ui/less/inline-editor/inline-editor.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(198)();
-	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 10px 35px;\n  text-align: center;\n}\n.vc_ui-inline-editor-controls {\n  display: inline-block;\n  margin: 0 auto;\n  padding: 0;\n  list-style: none;\n  text-align: left;\n}\n.vc_ui-inline-editor-control {\n  display: inline-block;\n}\n.vc_ui-inline-control-trigger {\n  display: block;\n  font-size: 14px;\n  padding: 2px 7px;\n  line-height: 1.5;\n  color: #333;\n  background-color: #fff;\n  box-shadow: inset 1px 2px 7px -2px rgba(0, 0, 0, 0.5);\n  border-radius: 3px;\n  margin: 2px;\n  cursor: pointer;\n  opacity: .9;\n}\n.vc_ui-inline-control-trigger:hover {\n  color: #333;\n  opacity: .98;\n}\n", ""]);
-
-/***/ },
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -25438,6 +25339,11 @@
 	var Mediator = __webpack_require__(12);
 	var ElementComponents = __webpack_require__(201);
 	var ReactDOM = __webpack_require__(192);
+
+	var MediumEditor = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"medium-editor\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"medium-editor/dist/css/medium-editor.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+	__webpack_require__(265);
 	__webpack_require__(245);
 
 	var SortableMixin = {
@@ -25463,8 +25369,24 @@
 	        });
 	    }
 	};
+
+	var InlineEditorMixin = {
+	    componentDidMount: function componentDidMount() {
+	        var component = ReactDOM.findDOMNode(this);
+
+	        var inlineEditor = new MediumEditor(component, {
+	            elementsContainer: document.querySelector('.vc_ui-inline-editor-container'),
+	            toolbar: {
+	                buttons: ['bold', 'italic', 'underline', 'h2'],
+	                'static': true
+	            }
+	        });
+	    }
+	};
+
 	__webpack_require__(247);
 	var Element = React.createClass(Mediator.installTo({
+	    mixins: [InlineEditorMixin],
 	    addChild: function addChild() {
 	        this.publish('app:add', this.props.element.getAttribute('id'));
 	    },
@@ -25509,7 +25431,8 @@
 	            key: element.getAttribute('id'),
 	            content: this.getContent(),
 	            'data-vc-element': element.getAttribute('id'),
-	            'data-vc-element-type': ElementComponent.type.toString()
+	            'data-vc-element-type': ElementComponent.type.toString(),
+	            'data-vc-editable': 'true'
 	        });
 	    }
 	}));
@@ -26243,6 +26166,38 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "39d4df41f8f4ee184a0a76597d9a4eab.svg"
+
+/***/ },
+/* 263 */,
+/* 264 */,
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(266);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(199)(content, {});
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		module.hot.accept("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/MediumEditor.less", function() {
+			var newContent = require("!!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/css-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/node_modules/less-loader/index.js!/Users/slavawpb/Documents/wpbakery/vc-five/public/modules/editor/layouts/html/MediumEditor.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(198)();
+	exports.push([module.id, ".vc_ui-inline-editor-container {\n  clear: both;\n  float: none;\n  background-color: rgba(0, 0, 0, 0.5);\n  margin: 0;\n  padding: 0;\n  text-align: center;\n}\n.medium-editor-toolbar {\n  margin: 5px;\n}\n.medium-editor-toolbar.static-toolbar {\n  display: inline-block;\n}\n.medium-editor-toolbar.static-toolbar.medium-editor-toolbar-active {\n  position: static;\n}\n", ""]);
 
 /***/ }
 /******/ ]);
