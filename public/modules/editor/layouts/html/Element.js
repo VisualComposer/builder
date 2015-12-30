@@ -3,7 +3,13 @@ var Utils = require('../../../../helpers/Utils');
 var Mediator = require('../../../../helpers/Mediator');
 var ElementComponents = require('../../../../helpers/ElementComponents');
 var ReactDOM = require('react-dom');
+
+var MediumEditor = require('medium-editor');
+require('medium-editor/dist/css/medium-editor.css');
+
+require('./MediumEditor.less');
 require('./Element.less');
+
 
 var SortableMixin = {
 	componentDidMount: function () {
@@ -30,9 +36,26 @@ var SortableMixin = {
 		} );
 	}
 };
+
+var InlineEditorMixin = {
+	componentDidMount: function () {
+		var component = ReactDOM.findDOMNode( this );
+
+		var inlineEditor = new MediumEditor(component, {
+			elementsContainer: document.querySelector('.vc_ui-inline-editor-container'),
+			toolbar: {
+				buttons: ['bold', 'italic', 'underline', 'h2'],
+				static: true
+			}
+		});
+	}
+};
+
+
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
 	// mixins: [SortableMixin],
+	 mixins: [InlineEditorMixin],
     addChild: function() {
         this.publish('app:add', this.props.element.getAttribute('id'));
     },
@@ -75,7 +98,8 @@ var Element = React.createClass(Mediator.installTo({
             key: element.getAttribute('id'),
             content: this.getContent(),
             'data-vc-element': element.getAttribute('id'),
-            'data-vc-element-type': ElementComponent.type.toString()
+            'data-vc-element-type': ElementComponent.type.toString(),
+			'data-vc-editable': 'true'
         });
     }
 }));

@@ -2,7 +2,6 @@ var React = require('react');
 var Mediator = require('../../../helpers/Mediator'); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
 var AddElementModal = require('./add-element/AddElement.js');
-var InlineEditor = require('./InlineEditor');
 var classNames = require('classnames');
 
 require('./less/navbar/navbar-init.less');
@@ -38,9 +37,7 @@ module.exports = React.createClass(Mediator.installTo({
                         <TreeElement data={this.props.data}/>
                     </li>
                 </ul>
-				<div className="vc_ui-inline-editor-container">
-					<InlineEditor />
-				</div>
+				<div className="vc_ui-inline-editor-container"></div>
                 <AddElementModal/>
             </nav>
         );
