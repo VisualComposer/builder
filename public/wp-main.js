@@ -5,6 +5,8 @@ var App = Mediator.installTo({
 		require('./helpers/attributes/Attribute');
 	},
 	loadModules: function() {
+		// TimeMachine module
+		require('./modules/time-machine/TimeMachine');
 		// Editor module
 		require('./modules/editor/Editor');
 		// Data Storage module
