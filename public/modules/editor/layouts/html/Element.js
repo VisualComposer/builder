@@ -54,7 +54,6 @@ var InlineEditorMixin = {
 
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
-	// mixins: [SortableMixin],
 	 mixins: [InlineEditorMixin],
     addChild: function() {
         this.publish('app:add', this.props.element.getAttribute('id'));

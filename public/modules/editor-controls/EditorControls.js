@@ -32,9 +32,6 @@ var EditorControls = function() {
             controlsHandler.hideOutline();
         });
         $( document ).on( 'scroll', ControlsTrigger.triggerRedrawFrame );
-		$( document ).on( 'click', '[data-vc-ui-control-action]', function ( e ) {
-			alert($(this).data('vcUiControlAction')+' clicked');
-		})
     });
     return controlsHandler;
 };

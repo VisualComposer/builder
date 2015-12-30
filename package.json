@@ -26,8 +26,10 @@
     "url-loader": "^0.5.5"
   },
   "dependencies": {
+    "babel-plugin-rewire": "*",
     "bootstrap": "^3.3.5",
     "immutable": "^3.7.5",
+    "lodash": "^3.10.1",
     "medium-editor": "^5.12.0",
     "react": "^0.14.2",
     "react-dom": "*",

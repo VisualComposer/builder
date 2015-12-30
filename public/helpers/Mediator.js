@@ -25,6 +25,7 @@ var mediator = module.exports = (function(){
 		},
 		addService: function(name, obj) {
 			services[name] = obj;
+			return obj;
 		},
 		getService: function(name) {
 			return services[name] || null;
