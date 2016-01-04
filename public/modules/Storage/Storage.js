@@ -124,8 +124,8 @@ var Data = {
     parse: function (dataString) {
         return (new DOMParser()).parseFromString(dataString, 'text/xml');
     },
-    mutate: function (element) {
-        DataStore.mutate(element) && Data.publish('data:changed', this.getDocument());
+    mutate: function (element, silent) {
+        DataStore.mutate(element) && true !== silent && Data.publish('data:changed', this.getDocument());
     },
     move: function (id, beforeId) {
         DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());

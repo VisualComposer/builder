@@ -23087,7 +23087,7 @@
 	        var other = _objectWithoutProperties(_props, ["key", "content"]);
 
 	        return React.createElement(
-	            "p",
+	            "div",
 	            _extends({ className: "vc-text-block", key: key }, other),
 	            content
 	        );
@@ -25342,7 +25342,6 @@
 	var Mediator = __webpack_require__(12);
 	var ElementComponents = __webpack_require__(201);
 	var ReactDOM = __webpack_require__(192);
-
 	var MediumEditor = __webpack_require__(241);
 	__webpack_require__(242);
 
@@ -25376,14 +25375,24 @@
 	var InlineEditorMixin = {
 	    componentDidMount: function componentDidMount() {
 	        var component = ReactDOM.findDOMNode(this);
-
-	        var inlineEditor = new MediumEditor(component, {
-	            elementsContainer: document.querySelector('.vc_ui-inline-editor-container'),
-	            toolbar: {
-	                buttons: ['bold', 'italic', 'underline', 'h2'],
-	                'static': true
-	            }
-	        });
+	        var element = this.props.element;
+	        var ElementComponent = ElementComponents.get(element);
+	        if ('container' != ElementComponent.type) {
+	            var inlineEditor = new MediumEditor(component, {
+	                elementsContainer: document.querySelector('.vc_ui-inline-editor-container'),
+	                toolbar: {
+	                    buttons: ['bold', 'italic', 'underline', 'h2', 'url'],
+	                    'static': true
+	                }
+	            });
+	            inlineEditor.subscribe('focus', function (event, editable) {
+	                // Do some workx
+	                if (editable) {
+	                    // element.childNodes = editable.childNodes;
+	                    // Mediator.getService('data').mutate(element);
+	                }
+	            });
+	        }
 	    }
 	};
 
@@ -27003,8 +27012,8 @@
 	    parse: function parse(dataString) {
 	        return new DOMParser().parseFromString(dataString, 'text/xml');
 	    },
-	    mutate: function mutate(element) {
-	        DataStore.mutate(element) && Data.publish('data:changed', this.getDocument());
+	    mutate: function mutate(element, silent) {
+	        DataStore.mutate(element) && true !== silent && Data.publish('data:changed', this.getDocument());
 	    },
 	    move: function move(id, beforeId) {
 	        DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());
