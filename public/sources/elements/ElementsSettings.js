@@ -20,6 +20,11 @@ module.exports = [
         "access": "public",
         "value": "Button",
         "title": "Title"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
     }
 },{
     "name": {
@@ -46,6 +51,11 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "block"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
     }
 },{
     "name": {
@@ -62,5 +72,10 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
     }
 }];

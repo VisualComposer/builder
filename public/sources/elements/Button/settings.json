@@ -19,5 +19,10 @@
         "access": "public",
         "value": "Button",
         "title": "Title"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
     }
 }

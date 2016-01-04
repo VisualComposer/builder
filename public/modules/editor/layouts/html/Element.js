@@ -108,6 +108,7 @@ var Element = React.createClass(Mediator.installTo({
             content: this.getContent(),
             'data-vc-element': element.getAttribute('id'),
             'data-vc-element-type': ElementComponent.type.toString(),
+	        'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString(): '',
 			'data-vc-editable': 'true'
         });
     }
