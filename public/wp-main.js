@@ -15,6 +15,7 @@ var App = Mediator.installTo({
 		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
 	init: function() {
+		window.document.getElementsByClassName('entry-content')[0].innerHTML = '<div id="vc_v-editor"></div>';
 		this.loadServices();
 		this.loadModules();
 		this.publish('app:init', true);

@@ -40,30 +40,26 @@ if ( is_admin() ) {
 	// 3. load page
 } else {
 	$jsScriptRendered = false;
-	$rowActionControl = function() use (&$jsScriptRendered) {
-		$post = get_post();
-		if ( $this->showButton( $post->ID ) ) {
-			$actions['edit_vc_v'] = '<a
-		href="#" onClick="vcvLoadInline">' . __( 'Edit with VC 5', 'vc5' ) . '</a>';
-		}
+	$rowActionControl = function($link) use (&$jsScriptRendered) {
+		$link .= '<a href="#" onClick="vcvLoadInline();">' . __( 'Edit with VC 5', 'vc5' ) . '</a>';
 		if(!$jsScriptRendered) {
 			ob_start();
 			?>
 			<script>
 				function vcvLoadInline() {
-					var g = d.createElement('script'),
-        	            s = d.getElementsByTagName('script')[0]; // find the first script tag in the document
-					g.src = ' <?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/wp.bundle.js', __FILE__ ) ) ?>''
+					var g = document.createElement('script'),
+        	            s = document.getElementsByTagName('script')[0]; // find the first script tag in the document
+					g.src = '<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/wp.bundle.js', __FILE__ ) ) ?>';
                     s.parentNode.insertBefore(g, s);
 				};
 			</script>
 			<?php
 			$jsScriptRendered = true;
-			$actions['edit_vc_v'] .= $ob_get_flush();
+			$link .= ob_get_flush();
 		}
-		return $actions;
+		return $link;
 	};
-	add_filter( 'page_row_actions', $rowActionControl);
-	add_filter( 'post_row_actions', $rowActionControl);
+	echo '1';
+	add_filter( 'edit_post_link', $rowActionControl);
 	// add button for frontend editor near edit
 }
