@@ -10,7 +10,7 @@ var App = Mediator.installTo({
 		// Editor module
 		require('./modules/editor/Editor');
 		// Data Storage module
-		require('./modules/storage/DataDomStore');
+		require('./modules/storage/WpDataDOMStore');
 		// Editor Controls
 		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
@@ -18,9 +18,9 @@ var App = Mediator.installTo({
 		this.loadServices();
 		this.loadModules();
 		this.publish('app:init', true);
-		window.App = Mediator;
 	}
 });
+
 App.init();
 
 
