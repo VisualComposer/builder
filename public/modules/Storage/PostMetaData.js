@@ -1,11 +1,11 @@
 var Mediator = require('../../helpers/Mediator');
 let DataStorage = {
-    dataKey: 'vcData',
+    dataId: 'vc-v-data',
     update: function(elementsList) {
-        window.localStorage.setItem(this.dataKey, elementsList);
+        document.getElementById(this.dataId).value = elementsList;
     },
     getItem: function() {
-        return window.localStorage.getItem(this.dataKey);
+        return document.getElementById(this.dataId).value;
     }
 };
 let Data = {
