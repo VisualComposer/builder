@@ -1,4 +1,5 @@
-module.exports = {
+var Mediator = require('./Mediator');
+module.exports = Mediator.addService('utils', {
 	createKey: function () {
 		var i, random;
 		var uuid = '';
@@ -14,4 +15,4 @@ module.exports = {
 
 		return uuid;
 	}
-}
+});

@@ -28,3 +28,6 @@ npm-debug.log
 
 *.diff.png
 *.map
+
+
+# public/sources/elements/ElementsSettings.js

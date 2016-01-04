@@ -1,0 +1,20 @@
+//medium-editor-toolbar static-toolbar medium-editor-toolbar-active
+
+.vc_ui-inline-editor-container {
+  clear: both;
+  float: none;
+  background-color: rgba(0, 0, 0, .5);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.medium-editor-toolbar {
+  margin: 5px;
+  &.static-toolbar {
+    display: inline-block;
+    &.medium-editor-toolbar-active {
+      position: static;
+    }
+  }
+}

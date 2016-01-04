@@ -1,23 +1,23 @@
 var Mediator = require( './helpers/Mediator' ); // need to remove
-var App = {
+var App = Mediator.installTo({
+	loadServices: function() {
+		require('./helpers/Utils');
+		require('./helpers/attributes/Attribute');
+	},
 	loadModules: function() {
-		// Create autoloader or mapper via mediator;
-
 		// Editor module
-		var Editor = require('./modules/editor/Editor');
+		require('./modules/editor/Editor');
 		// Data Storage module
-		var Data = require('./modules/storage/DataDomStore');
+		require('./modules/storage/DataDomStore');
 		// Editor Controls
-		// @todo move inside editor. For example still here
-		// var EditorControls = require('./modules/editor-controls/EditorControls');
+		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
 	init: function() {
+		this.loadServices();
 		this.loadModules();
 		this.publish('app:init', true);
-	},
-};
-Mediator.installTo(App);
-
+	}
+});
 App.init();
 
 
