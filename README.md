@@ -6,7 +6,7 @@ This is standalone editor via node server with webpack dev-server support.
 
 ### Start project
 ```sh
-$ npm install webpack -g
+# npm install webpack -g
 $ npm install
 ```
 
@@ -18,6 +18,6 @@ $ webpack --progress --colors --watch
 ### Start Demo server
 
 ```sh
-$ npm install webpack-dev-server -g
+# npm install webpack-dev-server -g
 $ webpack-dev-server --content-base public/
 ```
