@@ -49,7 +49,7 @@ if (is_admin()) {
         $id = isset($_POST['post_id']) ? (int)$_POST['post_id'] : false;
         if ($id) {
             $post = get_post($id);
-            $post->post_content = $content;
+            $post->post_content = stripslashes($content);
             wp_update_post($post);
             update_post_meta($id, 'vc_page_content', $data);
         }

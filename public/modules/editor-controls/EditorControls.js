@@ -5,7 +5,7 @@ require('./less/controls/editor-controls-init.less');
 
 ControlsTrigger.triggerShowFrame = function ( e ) {
     e.stopPropagation();
-    controlsHandler.showOutline($(e.currentTarget));
+    controlsHandler.showOutline(jQuery(e.currentTarget));
 };
 
 ControlsTrigger.triggerHideFrame = function ( e ) {

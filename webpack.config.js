@@ -17,14 +17,16 @@ module.exports = {
 	],
 	module: {
 		loaders: [
-			{ test: /\.js$/, loader: 'babel-loader' },
+			{ test: /\.js$/, loader: 'babel', include: path.resolve(__dirname, 'public') },
 			{ test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
 			{ test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=8192' }, // inline base64 URLs for <=8k images, direct URLs for the rest
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
 			{ test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
 			{ test: require.resolve("react"), loader: "expose?React" },
-			{ test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" }
+			// **IMPORTANT** This is needed so that each bootstrap js file required by
+			// bootstrap-webpack has access to the jQuery object
+			{ test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' }
 		]
 	}
 };
