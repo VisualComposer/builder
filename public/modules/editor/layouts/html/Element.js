@@ -125,7 +125,7 @@ var Element = React.createClass(Mediator.installTo({
             'data-vc-element-type': ElementComponent.type.toString(),
             'data-vc-editable': 'true',
             ...elementAttributes,
-            content: this.getContent(elementAttributes.content)
+            content: this.getContent(elementAttributes.content),
         });
     }
 }));
