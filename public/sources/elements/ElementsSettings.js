@@ -21,16 +21,16 @@ module.exports = [
         "value": "Button",
         "title": "Title"
     },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
+    },
     "test": {
         "type": "string",
         "access": "public",
         "value": "ninja",
         "title": "Test"
-    },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
     }
 },{
     "name": {
@@ -54,26 +54,40 @@ module.exports = [
         "value": "*"
     }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Icon"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Icon"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
-    }
+  "name": {
+	"type": "string",
+	"access": "system",
+	"value": "Icon"
+  },
+  "tag": {
+	"type": "string",
+	"access": "system",
+	"value": "Icon"
+  },
+  "type": {
+	"type": "string",
+	"access": "system",
+	"value": "inline"
+  },
+  "mutable": {
+	"type": "string",
+	"access": "system",
+	"value": "*"
+  },
+  "icon-library": {
+	"type": "select",
+	"access": "public",
+	"title": "Icon library",
+	"settings": {
+	  "options": {
+		"fontawesome": "Font Awesome",
+		"openiconic": "Open Iconic",
+		"typicons": "Typicons",
+		"entypo": "Entypo",
+		"linecons": "Linecons"
+	  }
+	}
+  }
 },{
     "name": {
         "type": "string",
