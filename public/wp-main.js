@@ -1,4 +1,5 @@
 var Mediator = require( './helpers/Mediator' ); // need to remove
+// require("!bootstrap-webpack!./bootstrap.config.js");
 var App = Mediator.installTo({
 	loadServices: function() {
 		require('./helpers/Utils');

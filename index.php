@@ -35,12 +35,24 @@ if (is_admin()) {
     }, 10);
     // Sent data
     add_action('wp_ajax_vcv/getPostData', function () {
-        echo $data = '';
-        $id = isset($_POST['id']) ? $_POST['id'] : false;
+        $data = '';
+        $id = isset($_POST['post_id']) ? $_POST['post_id'] : false;
         if ($id) {
             $data = get_post_meta($id, 'vc_page_content', true);
         }
         echo $data;
+        die();
+    });
+    add_action('wp_ajax_vcv/setPostData', function () {
+        $data = isset($_POST['data']) ? $_POST['data'] : false;
+        $content = isset($_POST['content']) ? $_POST['content'] : false;
+        $id = isset($_POST['post_id']) ? (int)$_POST['post_id'] : false;
+        if ($id) {
+            $post = get_post($id);
+            $post->post_content = $content;
+            wp_update_post($post);
+            update_post_meta($id, 'vc_page_content', $data);
+        }
         die();
     });
 } else {
@@ -58,7 +70,6 @@ if (is_admin()) {
                 function vcvLoadInline(element, id) {
                     window.vcPostID = id;
                     window.vcAjaxUrl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ) ?>';
-                    window.vcPostUrl = '<?php echo admin_url( 'post.php', 'relative' ) ?>';
                     element.remove();
                     var g = document.createElement('script'),
                         s = document.getElementsByTagName('script')[0]; // find the first script tag in the document
