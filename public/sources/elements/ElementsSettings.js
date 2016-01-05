@@ -20,6 +20,12 @@ module.exports = [
         "access": "public",
         "value": "Button",
         "title": "Title"
+    },
+    "test": {
+        "type": "string",
+        "access": "public",
+        "value": "ninja",
+        "title": "Test"
     }
 },{
     "name": {

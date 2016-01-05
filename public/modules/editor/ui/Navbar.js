@@ -24,6 +24,9 @@ module.exports = React.createClass(Mediator.installTo({
 	clickMenuExpand: function() {
 		this.setState({menuExpand: !this.state.menuExpand});
 	},
+    clickSaveData: function() {
+      this.publish('app:save', true);
+    },
     render: function () {
 		var menuExpandClass = classNames({
 			'dropdown': true,
@@ -42,6 +45,9 @@ module.exports = React.createClass(Mediator.installTo({
                         </a>
                         <TreeElement/>
                     </li>
+                </ul>
+                <ul className="nav navbar-nav pull-right">
+                    <li><button type="button" className="btn" onClick={this.clickSaveData}>Save</button></li>
                 </ul>
 				<div className="vc_ui-inline-editor-container"></div>
                 <AddElementModal/>
