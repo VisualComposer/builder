@@ -1,4 +1,5 @@
 var Mediator = require( './helpers/Mediator' ); // need to remove
+// require("!bootstrap-webpack!./bootstrap.config.js");
 var App = Mediator.installTo({
 	loadServices: function() {
 		require('./helpers/Utils');
@@ -14,7 +15,11 @@ var App = Mediator.installTo({
 		// Editor Controls
 		var EditorControls = require('./modules/editor-controls/EditorControls');
 	},
+	prepareWPPage: function() {
+		window.document.getElementsByClassName('entry-content')[0].innerHTML = '<div id="vc_v-editor"></div>';
+	},
 	init: function() {
+		this.prepareWPPage();
 		this.loadServices();
 		this.loadModules();
 		this.publish('app:init', true);
