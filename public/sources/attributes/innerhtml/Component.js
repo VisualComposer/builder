@@ -4,13 +4,10 @@ var Setter = require('./Setter');
 
 module.exports = React.createClass({
     mixins: [ParamMixin],
-    handleChange: function() {
-        this.updateElement(Setter);
-        this.setState({value: this.refs.fcomponent.value});
-    },
+    setter: Setter,
     render: function() {
         return <textarea
-            ref="fcomponent"
+            ref={this.props.name + 'Component'}
             value={this.state.value} onChange={this.handleChange}/>;
     }
 });

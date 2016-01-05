@@ -21,6 +21,12 @@ module.exports = [
         "value": "Button",
         "title": "Title"
     },
+    "test": {
+        "type": "string",
+        "access": "public",
+        "value": "ninja",
+        "title": "Test"
+    },
     "mutable": {
         "type": "string",
         "access": "system",

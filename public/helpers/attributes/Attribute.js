@@ -26,6 +26,14 @@ var Attributes = {
         return require('../../sources/attributes/' + this.attributeName + '/Component');
     },
     // @todo add lodash to write via curry/compose
+    getElementValue: function(name, settings, element) {
+        this.setName(name);
+        this.setSettings(settings);
+        if('system' !== this.settings.getAccess()) {
+            return this.getValue(element);
+        }
+        return null;
+    },
     getElement: function(name, settings, element) {
         this.setName(name);
         this.setSettings(settings);
@@ -42,8 +50,8 @@ var Attributes = {
     },
     getValue: function(element) {
         var Getter = require('../../sources/attributes/' + this.attributeName + '/Getter');
-        return Getter(element);
-    }
+        return Getter(element, this.name);
+    },
 };
 
 module.exports = Mediator.addService('attributes', Attributes);
