@@ -1,7 +1,6 @@
 var React = require('react');
-var ParamMixin = require('../param-mixin.js');
+var ParamMixin = require('../param-mixin');
 var Setter = require('./Setter');
-
 module.exports = React.createClass({
     mixins: [ParamMixin],
     handleChange: function() {

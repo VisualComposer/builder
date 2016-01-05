@@ -30,6 +30,48 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Buttons group"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "ButtonsGroup"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Icon"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Icon"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Paragraph"
     },
     "tag": {
