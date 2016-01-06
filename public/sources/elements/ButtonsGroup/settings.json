@@ -2,12 +2,12 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "Buttons group"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "ButtonsGroup"
     },
     "type": {
         "type": "string",
@@ -15,18 +15,18 @@
         "value": "container"
     },
     "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
+        "type": "string",
+        "access": "system",
+        "value": "*"
     },
     "relatedTo": {
       "type": "string",
       "access": "system",
-      "value": ["Sections"]
+      "value": ["Button Groups"]
     },
     "children": {
       "type": "string",
       "access": "system",
-      "value": "*"
+      "value": ["Buttons"]
     }
 }

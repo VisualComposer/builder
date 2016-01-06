@@ -2,31 +2,32 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "Call To Action"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "CallToAction"
     },
     "type": {
         "type": "string",
         "access": "system",
-        "value": "container"
+        "value": "inline"
     },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Cta",
+        "title": "Title"
     },
     "relatedTo": {
       "type": "string",
       "access": "system",
-      "value": ["Sections"]
+      "value": ["CTA"]
     },
     "children": {
       "type": "string",
       "access": "system",
-      "value": "*"
+      "value": ["Button", "Paragraph", "Header"]
     }
 }

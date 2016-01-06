@@ -2,36 +2,33 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Paragraph"
+        "value": "Header 1.0"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Paragraph"
-    },
-    "icon": {
-        "type": "string",
-        "access": "system",
-        "value": "Paragraph"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
+        "value": "Header"
     },
     "type": {
         "type": "string",
         "access": "system",
-        "value": "block"
+        "value": "inline"
     },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Header",
+        "title": "Title"
+    },
+    "param_tag": {
+        "type": "string",
+        "access": "public",
+        "value": "h2",
+        "title": "Tag"
     },
     "relatedTo": {
       "type": "string",
       "access": "system",
-      "value": ["Paragraphs", "Semantics"]
+      "value": ["Headings", "Semantics"]
     }
 }

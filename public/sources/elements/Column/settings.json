@@ -2,31 +2,37 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "Column"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "Column"
     },
     "type": {
         "type": "string",
         "access": "system",
         "value": "container"
     },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
+    "width": {
+        "type": "textarea",
+        "access": "public",
+        "value": "12",
+        "title": "Width"
     },
     "relatedTo": {
       "type": "string",
       "access": "system",
-      "value": ["Sections"]
+      "value": ["Grid Columns"]
     },
     "children": {
       "type": "string",
       "access": "system",
       "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
     }
 }

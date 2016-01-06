@@ -22,6 +22,6 @@
     "children": {
       "type": "string",
       "access": "system",
-      "value": ["Buttons", "Button"]
+      "value": ["Buttons"]
     }
 }
