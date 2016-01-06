@@ -17,7 +17,8 @@ var ElementsList = {
                             default: option.value || null,
                             getter: k,
                             value: null,
-                            title: option.title || optionKey
+                            title: option.title || optionKey,
+                            settings: option.settings || null
                         };
                         var Parameter = {
                             toString: function () {
@@ -44,6 +45,9 @@ var ElementsList = {
                             },
                             getTitle: function() {
                                 return optionSettings.title;
+                            },
+                            getSettings: function() {
+                                return optionSettings.settings;
                             }
                         };
                         return Parameter;
