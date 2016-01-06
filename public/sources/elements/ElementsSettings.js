@@ -42,6 +42,12 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "width": {
+        "type": "textarea",
+        "access": "public",
+        "value": "12",
+        "title": "Width"
     }
 },{
     "name": {
