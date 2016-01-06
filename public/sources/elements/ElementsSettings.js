@@ -54,6 +54,78 @@ module.exports = [
         "value": "*"
     }
 },{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "width": {
+        "type": "textarea",
+        "access": "public",
+        "value": "12",
+        "title": "Width"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Button 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Button"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Button",
+        "title": "Title"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Header 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Header"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Header",
+        "title": "Title"
+    },
+    "param_tag": {
+        "type": "string",
+        "access": "public",
+        "value": "h2",
+        "title": "Tag"
+    }
+},{
   "name": {
     "type": "string",
     "access": "system",
@@ -391,6 +463,22 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "*"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Row"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Row"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
     }
 },{
     "name": {
