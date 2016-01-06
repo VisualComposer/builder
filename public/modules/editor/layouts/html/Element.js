@@ -1,3 +1,4 @@
+
 var React = require('react');
 var Utils = require('../../../../helpers/Utils');
 var Mediator = require('../../../../helpers/Mediator');
@@ -11,11 +12,11 @@ require('./Element.less');
 
 
 var SortableMixin = {
-	componentDidMount: function () {
-		var component = ReactDOM.findDOMNode( this );
-		$( component ).sortable( {
-			animation: 150,
-			forceFallback: true,
+    componentDidMount: function () {
+        var component = ReactDOM.findDOMNode( this );
+        $( component ).sortable( {
+            animation: 150,
+            forceFallback: true,
             onStart: function (/**Event*/evt) {
                 $('#vc_v-editor').addClass('vc-draganddrop');
                 // evt.oldIndex;  // element index within parent
@@ -26,19 +27,19 @@ var SortableMixin = {
                 // evt.oldIndex;  // element's old index within parent
                 // evt.newIndex;  // element's new index within parent
             },
-			onUpdate: function ( ev ) {
-				var $el = $( ev.item );
-				Element.publish( 'data:move',
-					$el.data( 'vcElement' ),
-					$el.next( '[data-vc-element]' ).data( 'vcElement' ) );
-			}
-		} );
-	}
+            onUpdate: function ( ev ) {
+                var $el = $( ev.item );
+                Element.publish( 'data:move',
+                    $el.data( 'vcElement' ),
+                    $el.next( '[data-vc-element]' ).data( 'vcElement' ) );
+            }
+        } );
+    }
 };
 
 var InlineEditorMixin = {
-	componentDidMount: function () {
-		var component = ReactDOM.findDOMNode( this );
+    componentDidMount: function () {
+        var component = ReactDOM.findDOMNode( this );
         var element = this.props.element;
         var ElementComponent = ElementComponents.get(element);
         if('container' != ElementComponent.type) {
@@ -58,13 +59,13 @@ var InlineEditorMixin = {
             });
         }
 
-	}
+    }
 };
 
 
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
-	 //mixins: [InlineEditorMixin],
+    // mixins: [InlineEditorMixin],
     addChild: function() {
         this.publish('app:add', this.props.element.getAttribute('id'));
     },
@@ -77,7 +78,7 @@ var Element = React.createClass(Mediator.installTo({
     cloneElement: function() {
         this.publish('data:clone', this.props.element.getAttribute('id'));
     },
-    getContent: function() {
+    getContent: function(content) {
         var ElementComponent = ElementComponents.get(this.props.element); // optimize
         if('container' == ElementComponent.type) {
             let elementsList = this.props.data.map(function( element ){
@@ -86,7 +87,21 @@ var Element = React.createClass(Mediator.installTo({
             });
             return elementsList;
         }
-        return this.props.element.innerHTML || '';
+        return content;
+    },
+    getElementAttributes: function() {
+        let element = this.props.element;
+        let ElementComponent = ElementComponents.get(element);
+        var atts = {};
+        Object.keys(ElementComponent).map(function(key){
+            let value = null;
+            let option = ElementComponent[key];
+            value = Mediator.getService('attributes').getElementValue(key, option, element);
+            if( 'undefined' !== typeof(value) && null !== value ) {
+                atts[key] = value;
+            }
+        }, this);
+        return atts;
     },
     getControls: function() {
         var element = this.props.element;
@@ -103,13 +118,15 @@ var Element = React.createClass(Mediator.installTo({
         var element = this.props.element;
         var ElementComponent = ElementComponents.get(element);
         var ElementView = ElementComponents.getElement(element);
+        var elementAttributes = this.getElementAttributes();
         return React.createElement(ElementView, {
             key: element.getAttribute('id'),
-            content: this.getContent(),
             'data-vc-element': element.getAttribute('id'),
             'data-vc-element-type': ElementComponent.type.toString(),
-			'data-vc-editable': 'true',
-			'data-vc-name': ElementComponent.name.toString()
+            'data-vc-editable': 'true',
+			'data-vc-name': ElementComponent.name.toString(),
+            ...elementAttributes,
+            content: this.getContent(elementAttributes.content)
         });
     }
 }));

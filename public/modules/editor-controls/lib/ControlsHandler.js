@@ -1,3 +1,5 @@
+let $ = jQuery;
+
 function ControlsHandler() {
     this.$currentElement = undefined;
     this.sliceSize = 3;
@@ -56,7 +58,7 @@ ControlsHandler.prototype.updateElementsTree = function (  ) {
 
     this.elementsTree.push(this.$currentElement);
     this.$currentElement.parents('[data-vc-element]' ).each( function (  ) {
-        _this.elementsTree.push($(this));
+        _this.elementsTree.push(jQuery(this));
     });
     this.elementsTree = this.elementsTree.slice(0, this.sliceSize);
     this.elementsTree.reverse();

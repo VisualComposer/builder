@@ -19,6 +19,7 @@ Mediator.installTo(controlsHandler);
 
 var EditorControls = function() {
     controlsHandler.subscribe('app:init', function(){
+        let $ = jQuery;
         $( document ).on( 'mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame );
         $( document ).on( 'mousemove hover', 'body', ControlsTrigger.triggerHideFrame );
         $( document ).on( 'mousemove hover', '.visual-composer', function ( e ) {
