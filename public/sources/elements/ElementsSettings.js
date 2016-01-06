@@ -14,6 +14,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Button"]
     }
 },{
     "name": {
@@ -42,6 +52,11 @@ module.exports = [
         "access": "public",
         "value": "ninja",
         "title": "Test"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Semantics"]
     }
 },{
     "name": {
@@ -58,6 +73,21 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
     }
 },{
     "name": {
@@ -84,6 +114,11 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "block"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
     }
 },{
     "name": {
@@ -110,6 +145,11 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "block"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Paragraphs", "Semantics"]
     }
 },{
     "name": {
@@ -126,6 +166,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -142,5 +192,15 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Sections"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
     }
 }];

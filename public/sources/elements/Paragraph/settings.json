@@ -23,5 +23,10 @@
         "type": "string",
         "access": "system",
         "value": "block"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Paragraphs", "Semantics"]
     }
 }
