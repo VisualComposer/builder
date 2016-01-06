@@ -43,6 +43,7 @@ var Attributes = {
                 value: this.getValue(element),
                 key: Mediator.getService('utils').createKey(),
                 element: element,
+                settings: settings,
                 name: this.name
             });
         }

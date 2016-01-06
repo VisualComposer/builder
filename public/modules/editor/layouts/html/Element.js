@@ -1,4 +1,3 @@
-
 var React = require('react');
 var Utils = require('../../../../helpers/Utils');
 var Mediator = require('../../../../helpers/Mediator');
@@ -123,7 +122,8 @@ var Element = React.createClass(Mediator.installTo({
             key: element.getAttribute('id'),
             'data-vc-element': element.getAttribute('id'),
             'data-vc-element-type': ElementComponent.type.toString(),
-            'data-vc-editable': 'true',
+	    'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString(): '',            
+	    'data-vc-editable': 'true',
             ...elementAttributes,
             content: this.getContent(elementAttributes.content),
         });
