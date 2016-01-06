@@ -1,9 +1,11 @@
-var React = require('react');
-require('./Icon.less');
-var Icon = React.createClass({
-    render: function() {
-        var { key, content, ...other } = this.props;
-        return (<span className="vc-icon" key={key} {...other}>{content}</span>);
-    }
-});
+var React = require( 'react' );
+var classNames = require( 'classnames' );
+require( './Icon.less' );
+var Icon = React.createClass( {
+	render: function () {
+		var { key, content, ...other } = this.props;
+		var className = classNames( 'vc-icon', this.props.icon );
+		return (<span className={className} key={key} {...other}>{content}</span>);
+	}
+} );
 module.exports = Icon;
