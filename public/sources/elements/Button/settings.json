@@ -20,6 +20,11 @@
         "value": "Button",
         "title": "Title"
     },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
+    },
     "test": {
         "type": "string",
         "access": "public",

@@ -23,5 +23,10 @@
         "type": "string",
         "access": "system",
         "value": "block"
+    },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
     }
 }

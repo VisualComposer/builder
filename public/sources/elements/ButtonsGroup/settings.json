@@ -2,12 +2,12 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "Buttons group"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Section"
+        "value": "ButtonsGroup"
     },
     "type": {
         "type": "string",
