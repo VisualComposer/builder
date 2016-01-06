@@ -3,7 +3,7 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button Group"
+        "value": "Button Group 1.0"
     },
     "tag": {
         "type": "string",
@@ -62,12 +62,12 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Column"
+        "value": "Flex Column"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Column"
+        "value": "FlexColumn"
     },
     "type": {
         "type": "string",
@@ -88,6 +88,32 @@ module.exports = [
       "type": "string",
       "access": "system",
       "value": true
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Row"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexRow"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -150,32 +176,6 @@ module.exports = [
       "type": "string",
       "access": "system",
       "value": ["Paragraphs", "Semantics"]
-    }
-},{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Row"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Row"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Rows"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Columns"]
     }
 },{
     "name": {

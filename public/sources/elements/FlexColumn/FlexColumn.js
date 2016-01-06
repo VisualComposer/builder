@@ -1,11 +1,11 @@
 var React = require('react');
-require('./Row.less');
-var Row = React.createClass({
+require('./FlexColumn.less');
+var Column = React.createClass({
     render: function() {
         var { key, content, ...other } = this.props;
-        return (<div className="vc-row" key={key} {...other}>
+        return (<div className="vc-flex-column" key={key} {...other}>
             {content}
         </div>);
     }
 });
-module.exports = Row;
+module.exports = Column;

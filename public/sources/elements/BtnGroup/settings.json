@@ -2,7 +2,7 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button Group"
+        "value": "Button Group 1.0"
     },
     "tag": {
         "type": "string",

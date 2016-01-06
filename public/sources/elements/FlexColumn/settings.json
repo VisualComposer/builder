@@ -2,12 +2,12 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Column"
+        "value": "Flex Column"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Column"
+        "value": "FlexColumn"
     },
     "type": {
         "type": "string",
