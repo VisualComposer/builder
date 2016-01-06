@@ -64,7 +64,7 @@ var InlineEditorMixin = {
 
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
-	 mixins: [InlineEditorMixin],
+	 //mixins: [InlineEditorMixin],
     addChild: function() {
         this.publish('app:add', this.props.element.getAttribute('id'));
     },
@@ -108,7 +108,8 @@ var Element = React.createClass(Mediator.installTo({
             content: this.getContent(),
             'data-vc-element': element.getAttribute('id'),
             'data-vc-element-type': ElementComponent.type.toString(),
-			'data-vc-editable': 'true'
+			'data-vc-editable': 'true',
+			'data-vc-name': ElementComponent.name.toString()
         });
     }
 }));

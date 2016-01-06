@@ -1,0 +1,27 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "icon": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Boris says Да or Not."
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "block"
+    }
+}

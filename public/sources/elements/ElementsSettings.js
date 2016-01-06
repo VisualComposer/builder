@@ -3,6 +3,22 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Button Group"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "BtnGroup"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Button 1.0"
     },
     "tag": {
@@ -20,6 +36,48 @@ module.exports = [
         "access": "public",
         "value": "Button",
         "title": "Title"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "icon": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Boris says Да or Not."
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "block"
     }
 },{
     "name": {
@@ -46,6 +104,22 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "block"
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Row"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Row"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
     }
 },{
     "name": {
