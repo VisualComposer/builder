@@ -2,6 +2,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+
   li {
     padding: 4px;
     margin: 0;
@@ -11,11 +12,21 @@
     text-align: center;
     border: 1px solid #CCC;
     border-radius: 2px;
+    position: relative;
     margin: 1px;
-    cursor: pointer;
+
     .glyphicon {
       font-size: 20px;
       color: black;
     }
+  }
+
+  a {
+    transform: translateY(-50%);
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    top: 50%;
+    left: 0;
   }
 }
