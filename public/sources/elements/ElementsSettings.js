@@ -616,6 +616,7 @@ module.exports = [
     "content": {
         "type": "innerhtml",
         "access": "public",
+        "settings":{"validation": "minlength:2"},
         "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
     },
     "type": {
