@@ -25,8 +25,13 @@
         "value": "block"
     },
     "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Paragraphs", "Semantics"]
     }
 }

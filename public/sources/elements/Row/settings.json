@@ -13,5 +13,15 @@
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 }
