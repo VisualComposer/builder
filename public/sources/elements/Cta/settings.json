@@ -2,12 +2,12 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button 1.0"
+        "value": "Call To Action"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Button"
+        "value": "CallToAction"
     },
     "type": {
         "type": "string",
@@ -17,7 +17,17 @@
     "content": {
         "type": "innerhtml",
         "access": "public",
-        "value": "Button",
+        "value": "Cta",
         "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
     }
 }

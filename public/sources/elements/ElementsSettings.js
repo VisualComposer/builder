@@ -3,6 +3,32 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Button Group 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "BtnGroup"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Button 1.0"
     },
     "tag": {
@@ -31,6 +57,11 @@ module.exports = [
         "access": "public",
         "value": "ninja",
         "title": "Test"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Semantics"]
     }
 },{
     "name": {
@@ -52,6 +83,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
     }
 },{
     "name": {
@@ -74,17 +115,32 @@ module.exports = [
         "access": "public",
         "value": "12",
         "title": "Width"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
     }
 },{
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button 1.0"
+        "value": "Call To Action"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Button"
+        "value": "CallToAction"
     },
     "type": {
         "type": "string",
@@ -94,8 +150,75 @@ module.exports = [
     "content": {
         "type": "innerhtml",
         "access": "public",
-        "value": "Button",
+        "value": "Cta",
         "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexColumn"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Row"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexRow"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -124,6 +247,42 @@ module.exports = [
         "access": "public",
         "value": "h2",
         "title": "Tag"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "icon": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Boris says Да or Not."
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "block"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
     }
 },{
   "name": {
@@ -432,6 +591,11 @@ module.exports = [
         "glyphicon-menu-up": "Menu up"
       }
     }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": ["Icons", "Semantics"]
   }
 },{
     "name": {
@@ -460,9 +624,14 @@ module.exports = [
         "value": "block"
     },
     "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Paragraphs", "Semantics"]
     }
 },{
     "name": {
@@ -479,6 +648,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -497,8 +676,18 @@ module.exports = [
         "value": "container"
     },
     "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Sections"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
     }
 }];
