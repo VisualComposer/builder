@@ -1,6 +1,7 @@
 var React = require( 'react' );
 var Mediator = require( '../../../../helpers/Mediator' ); // need to remove too
 var Modal = require('react-modal');
+var Validator = require( '../../../validation/Validation' );
 var ElementComponents = require( '../../../../helpers/ElementComponents' );
 const customStyles = {
     content : {
@@ -39,10 +40,25 @@ var reactObject = {
     getSettings: function() {
         return this.state.editElement.tagName ? ElementComponents.get(this.state.editElement.tagName) : {};
     },
-    saveForm: function(e) {
-        e && e.preventDefault();
-        this.closeModal();
-    },
+	saveForm: function ( e ) {
+		e && e.preventDefault();
+		var settings = this.getSettings();
+		var attributesService = Mediator.getService( 'attributes' );
+		var returnList = Object.keys( settings ).map( function ( key ) {
+			var ParamSettings = settings[ key ];
+			var settingsValue = ParamSettings.getSettings();
+			if ( settingsValue && settingsValue.validation ) {
+				var value = attributesService.getElementValue( key, ParamSettings, this.state.editElement );
+				console.log(
+					{ "Param": key },
+					{ "Value": value },
+					{ "Rule": settingsValue.validation },
+					{ isValid: Validator.checkValue( settingsValue.validation, value ) }
+				);
+			}
+		}, this );
+		this.closeModal();
+	},
     getForm: function() {
         var settings = this.getSettings();
         var attributesService = Mediator.getService('attributes');
@@ -78,7 +94,7 @@ var reactObject = {
                     <div className="modal-body">
                         <form onSubmit={this.saveForm}>
                             {this.getForm()}
-                            <button type="submit" onClick={this.closeModal}>Save</button> <button type="button" onClick={this.cancelChanges}>Cancel</button>
+                            <button type="submit" onClick={this.saveForm}>Save</button> <button type="button" onClick={this.cancelChanges}>Cancel</button>
                         </form>
                     </div>
                 </div>
