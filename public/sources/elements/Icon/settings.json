@@ -38,6 +38,7 @@
     "type": "select",
     "access": "public",
     "title": "Icon",
+    "value": "glyphicon-ok-circle",
     "settings": {
       "options": {
         "glyphicon-asterisk": "Asterisk",

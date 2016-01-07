@@ -165,6 +165,7 @@ module.exports = [
     "type": "select",
     "access": "public",
     "title": "Icon",
+    "value": "glyphicon-ok-circle",
     "settings": {
       "options": {
         "glyphicon-asterisk": "Asterisk",
@@ -432,6 +433,32 @@ module.exports = [
         "glyphicon-menu-up": "Menu up"
       }
     }
+  }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Image gallery"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "ImageGallery"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "urls": {
+    "type": "textarea",
+    "access": "public",
+    "value": ""
   }
 },{
     "name": {
