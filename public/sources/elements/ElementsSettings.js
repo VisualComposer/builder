@@ -796,6 +796,6 @@ module.exports = [
         return value == 2016;
       }
     },
-    "title": "[value:2:50,required,minlength:2]"
+    "title": "Callback check value 2016"
   }
 }];
