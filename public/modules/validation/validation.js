@@ -15,6 +15,8 @@ var Validator = {
 			this.setValid( this.checkRules( rules, value ) );
 		} else if ( typeof rules === 'string' || rules instanceof String ) {
 			this.setValid( this.checkRule( rules, value ) );
+		} else if ( typeof rules == 'function')  {
+			this.setValid( rules.call( this, value ) );
 		}
 		return this.isValid();
 	},
@@ -27,8 +29,9 @@ var Validator = {
 		} )
 	},
 	checkRule: function checkRule( rule, value ) {
-		window.console && window.console.assert && window.console.assert( typeof rule === 'string' || rule instanceof String,
-			'rule: must be a string' );
+		if ( typeof rule == 'function')  {
+			return this.setValid( rule.call( this, value ) );
+		}
 		var info = rule.split( ':' );
 		var name = info[ 0 ];
 		var options = info.slice( 1 );
@@ -36,6 +39,9 @@ var Validator = {
 			return this.rules[ name ].call( this, value, options );
 		}
 		return false;
+	},
+	addRule: function ( name, ruleCallback ) {
+		this.rules[ name ] = ruleCallback;
 	},
 	rules: {
 		length: function ( value, options ) {
