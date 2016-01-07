@@ -67,14 +67,30 @@ if (is_admin()) {
             ob_start();
             ?>
             <script>
+                function vcvLoadJsCssFile(filename, filetype) {
+                    var fileRef;
+                    if ('js' === filetype) {
+                        fileRef = document.createElement('script');
+                        fileRef.setAttribute("type", "text/javascript");
+                        fileRef.setAttribute("src", filename);
+                    } else if ('css' === filetype) {
+                        fileRef = document.createElement("link");
+                        fileRef.setAttribute("rel", "stylesheet");
+                        fileRef.setAttribute("type", "text/css");
+                        fileRef.setAttribute("href", filename);
+                    }
+                    if ('undefined' !== typeof fileRef) {
+                        document.getElementsByTagName("head")[0].appendChild(fileRef);
+                    }
+                }
                 function vcvLoadInline(element, id) {
                     window.vcPostID = id;
                     window.vcAjaxUrl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ) ?>';
                     element.remove();
-                    var g = document.createElement('script'),
-                        s = document.getElementsByTagName('script')[0]; // find the first script tag in the document
-                    g.src = '<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/wp.bundle.js?' . time(), __FILE__ ) ) ?>';
-                    s.parentNode.insertBefore(g, s);
+                    // Load css
+                    vcvLoadJsCssFile('<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/dist/wp.bundle.css?' . time(), __FILE__ ) ) ?>', 'css');
+                    // Load js
+                    vcvLoadJsCssFile('<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/dist/wp.bundle.js?' . time(), __FILE__ ) ) ?>', 'js');
                 }
                 ;
             </script>

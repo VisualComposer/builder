@@ -64,10 +64,27 @@
     <!-- <script src="bundle.js"></script> -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script>
+        function vcvLoadJsCssFile(filename, filetype) {
+            var fileRef;
+            if ('js' === filetype) {
+                fileRef = document.createElement('script');
+                fileRef.setAttribute("type", "text/javascript");
+                fileRef.setAttribute("src", filename);
+            } else if ('css' === filetype) {
+                fileRef = document.createElement("link");
+                fileRef.setAttribute("rel", "stylesheet");
+                fileRef.setAttribute("type", "text/css");
+                fileRef.setAttribute("href", filename);
+            }
+            if ('undefined' !== typeof fileRef) {
+                document.getElementsByTagName("head")[0].appendChild(fileRef);
+            }
+        }
         $('#load-script').click(function(e){
             e.preventDefault();
             $(this).remove();
-            $.getScript('node.bundle.js');
+            vcvLoadJsCssFile('/dist/node.bundle.css', 'css');
+            vcvLoadJsCssFile('/dist/node.bundle.js', 'js');
         });
     </script>
     <!-- Latest compiled and minified CSS -->

@@ -13,7 +13,7 @@ var App = Mediator.installTo({
 		// Data Storage module
 		require('./modules/storage/WpDataDOMStore');
 		// Editor Controls
-		var EditorControls = require('./modules/editor-controls/EditorControls');
+		var EditorControls = require('imports?$=jquery!./modules/editor-controls/EditorControls');
 	},
 	prepareWPPage: function() {
 		require('./modules/wordpress/style.less');

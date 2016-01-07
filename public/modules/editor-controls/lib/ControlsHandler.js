@@ -1,4 +1,3 @@
-let $ = jQuery;
 
 function ControlsHandler() {
     this.$currentElement = undefined;
