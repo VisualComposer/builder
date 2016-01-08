@@ -30,5 +30,10 @@
         "access": "public",
         "value": "ninja",
         "title": "Test"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Semantics"]
     }
 }

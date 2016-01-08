@@ -306,5 +306,10 @@
         "glyphicon-menu-up": "Menu up"
       }
     }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": ["Icons", "Semantics"]
   }
 }

@@ -18,5 +18,15 @@
         "type": "string",
         "access": "system",
         "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
     }
 }

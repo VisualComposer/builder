@@ -140,7 +140,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
 		controlWrap = $('<li class="vc_ui-control-wrap"/>' );//.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
         var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');
         var elementType = elemenstsTree[ i ][0].getAttribute('data-vc-element-type');
-		$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">'+ elemenstsTree[ i ][0].tagName.substring(0,2) +'</i></a>').appendTo(controlWrap);
+		$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">'+ elemenstsTree[ i ][0].getAttribute('data-vc-name') +'</i></a>').appendTo(controlWrap);
 		$('<div class="vc_ui-controls-container">' +
 			'<ul class="vc_ui-controls vc_ui-editor-controls">' +
                 (

@@ -3,6 +3,32 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Button Group 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "BtnGroup"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Button 1.0"
     },
     "tag": {
@@ -31,6 +57,11 @@ module.exports = [
         "access": "public",
         "value": "ninja",
         "title": "Test"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Semantics"]
     }
 },{
     "name": {
@@ -52,6 +83,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
     }
 },{
     "name": {
@@ -74,17 +115,32 @@ module.exports = [
         "access": "public",
         "value": "12",
         "title": "Width"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
     }
 },{
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Button 1.0"
+        "value": "Call To Action"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Button"
+        "value": "CallToAction"
     },
     "type": {
         "type": "string",
@@ -94,8 +150,75 @@ module.exports = [
     "content": {
         "type": "innerhtml",
         "access": "public",
-        "value": "Button",
+        "value": "Cta",
         "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexColumn"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Row"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexRow"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -124,6 +247,42 @@ module.exports = [
         "access": "public",
         "value": "h2",
         "title": "Tag"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "icon": {
+        "type": "string",
+        "access": "system",
+        "value": "Heading"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Boris says Да or Not."
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "block"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
     }
 },{
   "name": {
@@ -433,6 +592,11 @@ module.exports = [
         "glyphicon-menu-up": "Menu up"
       }
     }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": ["Icons", "Semantics"]
   }
 },{
   "name": {
@@ -488,9 +652,14 @@ module.exports = [
         "value": "block"
     },
     "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Paragraphs", "Semantics"]
     }
 },{
     "name": {
@@ -507,6 +676,16 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Rows"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
     }
 },{
     "name": {
@@ -525,8 +704,126 @@ module.exports = [
         "value": "container"
     },
     "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Sections"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
     }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "minlength": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "minlength:2"
+    },
+    "title": "Min Length validation check, minlength: 2"
+  },
+  "maxlength": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "maxlength:5"
+    },
+    "title": "Max Length validation check, maxlength: 2"
+  },
+  "length": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "length:2:5"
+    },
+    "title": "Length validation check, length:2:5"
+  },
+  "value": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "value:2:5"
+    },
+    "title": "Value validation check, value:2:5"
+  },
+  "minvalue": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "minvalue:2"
+    },
+    "title": "Value validation check, minvalue:2"
+  },
+  "maxvalue": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "maxvalue:5"
+    },
+    "title": "Value validation check, maxvalue:5"
+  },
+  "required": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "required"
+    },
+    "title": "Required validation check"
+  },
+  "arrays": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": [
+        "value:2:50",
+        "required",
+        "minlength:2"
+      ]
+    },
+    "title": "[value:2:50,required,minlength:2]"
+  },
+  "callbacks": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": function(value, options) {
+        return value == 2016;
+      }
+    },
+    "title": "Callback check value 2016"
+  }
 }];

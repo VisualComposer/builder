@@ -2,29 +2,27 @@
     "name": {
         "type": "string",
         "access": "system",
-        "value": "Header 1.0"
+        "value": "Heading"
     },
     "tag": {
         "type": "string",
         "access": "system",
-        "value": "Header"
+        "value": "Heading"
     },
-    "type": {
+    "icon": {
         "type": "string",
         "access": "system",
-        "value": "inline"
+        "value": "Heading"
     },
     "content": {
         "type": "innerhtml",
         "access": "public",
-        "value": "Header",
-        "title": "Title"
+        "value": "Boris says Да or Not."
     },
-    "param_tag": {
+    "type": {
         "type": "string",
-        "access": "public",
-        "value": "h2",
-        "title": "Tag"
+        "access": "system",
+        "value": "block"
     },
     "relatedTo": {
       "type": "string",
