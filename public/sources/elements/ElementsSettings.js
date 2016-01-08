@@ -456,9 +456,10 @@ module.exports = [
     "value": "*"
   },
   "urls": {
+    "title": "URLs",
     "type": "textarea",
     "access": "public",
-    "value": ""
+    "value": "http://lorempixel.com/800/600/nature/1,http://lorempixel.com/800/600/nature/2,http://lorempixel.com/800/600/nature/3"
   }
 },{
     "name": {
