@@ -98,6 +98,38 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Call To Action"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "CallToAction"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Cta",
+        "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Column"
     },
     "tag": {
@@ -130,38 +162,6 @@ module.exports = [
       "type": "string",
       "access": "system",
       "value": true
-    }
-},{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Call To Action"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "CallToAction"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Cta",
-        "title": "Title"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["CTA"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button", "Paragraph", "Header"]
     }
 },{
     "name": {
@@ -711,7 +711,7 @@ module.exports = [
     "access": "system",
     "value": "block"
   },
-  "minlength": {
+  "n111": {
     "type": "textarea",
     "access": "public",
     "value": "",
