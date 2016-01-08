@@ -1,5 +1,56 @@
 module.exports = [
 {
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Attributes"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "AttributesElement"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "AttributesElement"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "textfield": {
+    "type": "textfield",
+    "access": "public",
+    "value": "",
+    "title": "textfield param"
+  },
+  "textarea": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "title": "textarea param"
+  },
+  "string": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "string param"
+  },
+  "select": {
+    "type": "select",
+    "access": "public",
+    "value": "",
+    "title": "select param",
+    "settings": {
+      "options": {
+        "value": "test",
+        "value2": "test2"
+      }
+    }
+  }
+},{
     "name": {
         "type": "string",
         "access": "system",
@@ -111,7 +162,7 @@ module.exports = [
         "value": "inline"
     },
     "content": {
-        "type": "innerhtml",
+        "type": "textarea",
         "access": "public",
         "value": "Cta",
         "title": "Title"
@@ -711,7 +762,7 @@ module.exports = [
     "access": "system",
     "value": "block"
   },
-  "n111": {
+  "minlength": {
     "type": "textarea",
     "access": "public",
     "value": "",
