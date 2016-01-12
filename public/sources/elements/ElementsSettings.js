@@ -1,5 +1,56 @@
 module.exports = [
 {
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Attributes"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "AttributesElement"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "AttributesElement"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "textfield": {
+    "type": "textfield",
+    "access": "public",
+    "value": "",
+    "title": "textfield param"
+  },
+  "textarea": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "title": "textarea param"
+  },
+  "string": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "string param"
+  },
+  "select": {
+    "type": "select",
+    "access": "public",
+    "value": "",
+    "title": "select param",
+    "settings": {
+      "options": {
+        "value": "test",
+        "value2": "test2"
+      }
+    }
+  }
+},{
     "name": {
         "type": "string",
         "access": "system",
@@ -103,6 +154,38 @@ module.exports = [
     "name": {
         "type": "string",
         "access": "system",
+        "value": "Call To Action"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "CallToAction"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "textarea",
+        "access": "public",
+        "value": "Cta",
+        "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
+    }
+},{
+    "name": {
+        "type": "string",
+        "access": "system",
         "value": "Column"
     },
     "tag": {
@@ -135,38 +218,6 @@ module.exports = [
       "type": "string",
       "access": "system",
       "value": true
-    }
-},{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Call To Action"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "CallToAction"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Cta",
-        "title": "Title"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["CTA"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button", "Paragraph", "Header"]
     }
 },{
     "name": {
@@ -329,6 +380,7 @@ module.exports = [
     "type": "select",
     "access": "public",
     "title": "Icon",
+    "value": "glyphicon-ok-circle",
     "settings": {
       "options": {
         "glyphicon-asterisk": "Asterisk",
@@ -603,6 +655,33 @@ module.exports = [
     "value": ["Icons", "Semantics"]
   }
 },{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Image gallery"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "ImageGallery"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "urls": {
+    "title": "URLs",
+    "type": "textarea",
+    "access": "public",
+    "value": "http://lorempixel.com/800/600/nature/1,http://lorempixel.com/800/600/nature/2,http://lorempixel.com/800/600/nature/3"
+  }
+},{
     "name": {
         "type": "string",
         "access": "system",
@@ -695,4 +774,112 @@ module.exports = [
       "access": "system",
       "value": "*"
     }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "Validation"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "minlength": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "minlength:2"
+    },
+    "title": "Min Length validation check, minlength: 2"
+  },
+  "maxlength": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "maxlength:5"
+    },
+    "title": "Max Length validation check, maxlength: 2"
+  },
+  "length": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "length:2:5"
+    },
+    "title": "Length validation check, length:2:5"
+  },
+  "value": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "value:2:5"
+    },
+    "title": "Value validation check, value:2:5"
+  },
+  "minvalue": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "minvalue:2"
+    },
+    "title": "Value validation check, minvalue:2"
+  },
+  "maxvalue": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "maxvalue:5"
+    },
+    "title": "Value validation check, maxvalue:5"
+  },
+  "required": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": "required"
+    },
+    "title": "Required validation check"
+  },
+  "arrays": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": [
+        "value:2:50",
+        "required",
+        "minlength:2"
+      ]
+    },
+    "title": "[value:2:50,required,minlength:2]"
+  },
+  "callbacks": {
+    "type": "textarea",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "validation": function(value, options) {
+        return value == 2016;
+      }
+    },
+    "title": "Callback check value 2016"
+  }
 }];

@@ -15,7 +15,7 @@
         "value": "inline"
     },
     "content": {
-        "type": "innerhtml",
+        "type": "textarea",
         "access": "public",
         "value": "Cta",
         "title": "Title"
