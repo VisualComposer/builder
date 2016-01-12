@@ -33,10 +33,9 @@ module.exports = {
 			{ test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]' }, // inline base64 URLs for <=8k images, direct URLs for the rest
 			{ test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]" },
 			{ test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader?name=/fonts/[name].[ext]?[hash]" },
+			{ test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' },
 			// { test: require.resolve("react"), loader: "expose?React" },
-			// **IMPORTANT** This is needed so that each bootstrap js file required by
-			// bootstrap-webpack has access to the jQuery object
-			{ test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
+			// { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" }
 		]
 	}
 };

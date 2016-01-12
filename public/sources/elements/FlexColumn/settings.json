@@ -1,0 +1,32 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Flex Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "FlexColumn"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
+    }
+}

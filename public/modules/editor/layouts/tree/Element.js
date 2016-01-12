@@ -16,8 +16,7 @@ var Element = React.createClass(Mediator.installTo({
 	},
 	clickAddChild: function(e) {
 		e.preventDefault();
-		this.publish('data:activeNode', this.props.element.id);
-		this.publish('app:add', true);
+		this.publish('app:add', this.props.element.id);
 	},
 	clickClone: function(e) {
 		e.preventDefault();

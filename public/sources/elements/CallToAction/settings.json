@@ -1,0 +1,33 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Call To Action"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "CallToAction"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "textarea",
+        "access": "public",
+        "value": "Cta",
+        "title": "Title"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["CTA"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button", "Paragraph", "Header"]
+    }
+}

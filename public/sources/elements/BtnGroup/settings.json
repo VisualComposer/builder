@@ -1,0 +1,27 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Button Group 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "BtnGroup"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Button Groups"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons"]
+    }
+}

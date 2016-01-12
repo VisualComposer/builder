@@ -1,0 +1,34 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Header 1.0"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Header"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "inline"
+    },
+    "content": {
+        "type": "innerhtml",
+        "access": "public",
+        "value": "Header",
+        "title": "Title"
+    },
+    "param_tag": {
+        "type": "string",
+        "access": "public",
+        "value": "h2",
+        "title": "Tag"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Headings", "Semantics"]
+    }
+}

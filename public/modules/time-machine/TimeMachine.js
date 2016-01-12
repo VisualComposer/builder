@@ -49,7 +49,7 @@ var Module = module.exports = {
     undo: function() {
         TimeMachine.moveDown() && publishCurrentStep();
     },
-    redo: function() {s
+    redo: function() {
         TimeMachine.moveUp() && publishCurrentStep();
     },
     set: function(index) {

@@ -20,10 +20,20 @@
         "value": "Button",
         "title": "Title"
     },
+    "mutable": {
+        "type": "string",
+        "access": "system",
+        "value": "*"
+    },
     "test": {
         "type": "string",
         "access": "public",
         "value": "ninja",
         "title": "Test"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Buttons", "Semantics"]
     }
 }

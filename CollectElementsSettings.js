@@ -24,10 +24,10 @@ var CollectElementSettings = function (options) {
 };
 
 CollectElementSettings.prototype.apply = function (compiler) {
-    console.log('Collect elements settings');
-    compiler.plugin('run', function (params) {
-        Builder.buildFile();
-    });
+	compiler.plugin('run', function (params) {
+		console.log('Collect elements settings');
+		Builder.buildFile();
+	});
 }
 
 module.exports = CollectElementSettings;

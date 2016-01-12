@@ -1,0 +1,38 @@
+{
+    "name": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "tag": {
+        "type": "string",
+        "access": "system",
+        "value": "Column"
+    },
+    "type": {
+        "type": "string",
+        "access": "system",
+        "value": "container"
+    },
+    "width": {
+        "type": "textarea",
+        "access": "public",
+        "value": "12",
+        "title": "Width"
+    },
+    "relatedTo": {
+      "type": "string",
+      "access": "system",
+      "value": ["Grid Columns"]
+    },
+    "children": {
+      "type": "string",
+      "access": "system",
+      "value": "*"
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
+    }
+}

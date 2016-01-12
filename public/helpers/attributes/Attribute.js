@@ -43,6 +43,7 @@ var Attributes = {
                 value: this.getValue(element),
                 key: Mediator.getService('utils').createKey(),
                 element: element,
+                settings: settings,
                 name: this.name
             });
         }
@@ -50,7 +51,7 @@ var Attributes = {
     },
     getValue: function(element) {
         var Getter = require('../../sources/attributes/' + this.attributeName + '/Getter');
-        return Getter(element, this.name);
+        return Getter(element, this.name); // todo fix maxlength/class/style names with prefix-postfix and fix default value
     },
 };
 

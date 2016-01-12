@@ -19,7 +19,7 @@
     "css-loader": "^0.9.0",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.0",
-    "file-loader": "^0.7.2",
+    "file-loader": "~0.8.1",
     "less": "^1.7.5",
     "less-loader": "^0.7.7",
     "react-hot-loader": "^1.3.0",
@@ -30,7 +30,8 @@
     "style-loader": "^0.8.0",
     "url-loader": "^0.5.5",
     "webpack-sources": "^0.1.0",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "fancybox": "~3.0.0"
   },
   "dependencies": {
     "babel-plugin-rewire": "*",
@@ -42,6 +43,8 @@
     "lodash": "^3.10.1",
     "medium-editor": "^5.12.0",
     "react": "^0.14.2",
+    "react-dnd": "^2.0.2",
+    "react-dnd-html5-backend": "^2.0.2",
     "react-dom": "*",
     "react-modal": "^0.6.1",
     "react-rubaxa-sortable": "^0.1.2",
