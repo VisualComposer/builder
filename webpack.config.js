@@ -4,20 +4,23 @@ var CollectElementSettingsModule = require('./CollectElementsSettings');
 // var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
+	devtool: 'eval',
 	// context: path.resolve(__dirname, "public"),
 	entry: {
 		node: './public/main',
-		wp: './public/wp-main'
+		wp: './public/wp-main',
+		app: []
 	},
 	output: {
-		path: './public/dist/', // Assets dist path
+		path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
 		publicPath: '.', // Used to generate URL's
 		filename: '[name].bundle.js', // Main bundle file
-		chunkFilename: "[id].js"
+		chunkFilename: '[id].js'
 	},
 	plugins: [
 			new CollectElementSettingsModule(),
-			new ExtractTextPlugin("[name].bundle.css")
+			new ExtractTextPlugin("[name].bundle.css"),
+			new webpack.HotModuleReplacementPlugin()
 	],
 	module: {
 		loaders: [

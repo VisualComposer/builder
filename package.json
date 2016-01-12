@@ -29,7 +29,8 @@
     "resolve-url-loader": "^1.4.3",
     "style-loader": "^0.8.0",
     "url-loader": "^0.5.5",
-    "webpack-sources": "^0.1.0"
+    "webpack-sources": "^0.1.0",
+    "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
     "babel-plugin-rewire": "*",
@@ -45,6 +46,9 @@
     "react-modal": "^0.6.1",
     "react-rubaxa-sortable": "^0.1.2",
     "webpack": "*"
+  },
+  "scripts": {
+    "start": "node server.js"
   },
   "babel": {
     "stage": 0,
