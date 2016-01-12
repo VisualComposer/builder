@@ -113,6 +113,11 @@ module.exports = [
       "type": "string",
       "access": "system",
       "value": ["Buttons", "Semantics"]
+    },
+    "strongRelation": {
+      "type": "string",
+      "access": "system",
+      "value": true
     }
 },{
     "name": {

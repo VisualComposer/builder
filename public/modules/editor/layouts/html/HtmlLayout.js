@@ -3,6 +3,9 @@ require('./HtmlLayout.less');
 var Element = require('./Element.js');
 var Mediator = require('../../../../helpers/Mediator'); // need to remove too
 
+var DragDropContext = require('react-dnd').DragDropContext;
+var HTML5Backend = require('react-dnd-html5-backend');
+
 var DataChanged = {
     componentDidMount: function(){
         this.subscribe('data:changed', function(document) {
@@ -39,4 +42,4 @@ var Layout = React.createClass(Mediator.installTo({
         </div>);
     }
 }));
-module.exports = Layout;
+module.exports = DragDropContext(HTML5Backend)(Layout);
