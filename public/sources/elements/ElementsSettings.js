@@ -375,6 +375,7 @@ module.exports = [
     "type": "select",
     "access": "public",
     "title": "Icon",
+    "value": "glyphicon-ok-circle",
     "settings": {
       "options": {
         "glyphicon-asterisk": "Asterisk",
@@ -647,6 +648,33 @@ module.exports = [
     "type": "string",
     "access": "system",
     "value": ["Icons", "Semantics"]
+  }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Image gallery"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "ImageGallery"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "urls": {
+    "title": "URLs",
+    "type": "textarea",
+    "access": "public",
+    "value": "http://lorempixel.com/800/600/nature/1,http://lorempixel.com/800/600/nature/2,http://lorempixel.com/800/600/nature/3"
   }
 },{
     "name": {

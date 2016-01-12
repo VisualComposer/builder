@@ -3,6 +3,8 @@ var Mediator = require( '../../../../helpers/Mediator' ); // need to remove too
 var Modal = require('react-modal');
 var Validator = require( '../../../validation/Validation' );
 var ElementComponents = require( '../../../../helpers/ElementComponents' );
+require('./EditForm.less');
+
 const customStyles = {
     content : {
         top                   : '50%',
