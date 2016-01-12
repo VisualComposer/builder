@@ -64,7 +64,6 @@ module.exports = React.createClass(Mediator.installTo({
                         <ul className="vc_v-modal-content">
                             { Object.keys(components).map(function (key) {
                                 var component = components[key];
-								console.log(":"+component.tag.toString());
 								// check relations
 								if ( "*" === dependencies ) {
 									if ( component.strongRelation && component.strongRelation.toString() ) {
@@ -78,11 +77,7 @@ module.exports = React.createClass(Mediator.installTo({
 									}
 									// check by relatedTo
 									if ( component.relatedTo ) {
-										console.log(component.relatedTo.toString());
-										console.log(component.tag.toString());
 										component.relatedTo.toString().map( function ( relation ) {
-											console.log(relation);
-											console.log(dependencies.indexOf(relation));
 											if ( dependencies.indexOf(relation) > -1 ) {
 												allowed = true;
 											}
