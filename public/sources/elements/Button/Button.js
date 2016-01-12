@@ -12,7 +12,6 @@ export const ItemTypes = {
 
 var elementSource = {
 	beginDrag: function (props) {
-		console.log(props);
 		return {
 			id: props['data-vc-element'],
 			element: Mediator.getService('data').get(props['data-vc-element'])
