@@ -65,18 +65,6 @@ var InlineEditorMixin = {
 require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
     // mixins: [InlineEditorMixin],
-    addChild: function() {
-        this.publish('app:add', this.props.element.getAttribute('id'));
-    },
-    editElement: function() {
-        this.publish('app:edit', this.props.element);
-    },
-    removeElement: function() {
-        this.publish('data:remove', this.props.element.getAttribute('id'));
-    },
-    cloneElement: function() {
-        this.publish('data:clone', this.props.element.getAttribute('id'));
-    },
     getContent: function(content) {
         var ElementComponent = ElementComponents.get(this.props.element); // optimize
         if('container' == ElementComponent.type) {
@@ -101,17 +89,6 @@ var Element = React.createClass(Mediator.installTo({
             }
         }, this);
         return atts;
-    },
-    getControls: function() {
-        var element = this.props.element;
-        var ElementComponent = ElementComponents.get(element);
-        var addControl = 'container' == ElementComponent.type  ? <a onClick={this.addChild} className="glyphicon glyphicon-plus"></a> : null;
-        return (<span className="controls">
-            {addControl}
-            <a onClick={this.editElement} className="glyphicon glyphicon-pencil"></a>
-            <a onClick={this.removeElement} className="glyphicon glyphicon-remove"></a>
-            <a onClick={this.cloneElement} className="glyphicon glyphicon-duplicate"></a>
-        </span>);
     },
     render: function() {
         var element = this.props.element;
