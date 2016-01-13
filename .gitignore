@@ -29,5 +29,5 @@ npm-debug.log
 *.diff.png
 *.map
 public/*.bundle.js
-
+public/dist/
 # public/sources/elements/ElementsSettings.js

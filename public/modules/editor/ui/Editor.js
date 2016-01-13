@@ -5,11 +5,10 @@ var Navbar = require( './Navbar' );
 var HtmlLayout = require( '../layouts/html/HtmlLayout' );
 var EditForm = require('./edit-form/EditForm');
 require('./Editor.css');
-
 var Editor = React.createClass(Mediator.installTo({
     render: function () {
         return (
-            <div>
+            <div className="vc-editor-here">
                 <Navbar/>
                 <EditForm/>
                 <HtmlLayout/>

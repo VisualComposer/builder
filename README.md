@@ -20,3 +20,10 @@ $ webpack --progress --colors --watch
 ```sh
 $ webpack-dev-server --content-base public/
 ```
+### Start Debug demo server
+
+```sh
+$ npm start
+```
+
+URL in your browser: http://localhost:3000/webpack-dev-server/index.html

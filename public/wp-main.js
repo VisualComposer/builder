@@ -1,5 +1,5 @@
 var Mediator = require( './helpers/Mediator' ); // need to remove
-// require("!bootstrap-webpack!./bootstrap.config.js");
+require("bootstrap-webpack");
 var App = Mediator.installTo({
 	loadServices: function() {
 		require('./helpers/Utils');
@@ -13,9 +13,10 @@ var App = Mediator.installTo({
 		// Data Storage module
 		require('./modules/storage/WpDataDOMStore');
 		// Editor Controls
-		var EditorControls = require('./modules/editor-controls/EditorControls');
+		var EditorControls = require('imports?$=jquery!./modules/editor-controls/EditorControls');
 	},
 	prepareWPPage: function() {
+		require('./modules/wordpress/style.less');
 		window.document.getElementsByClassName('entry-content')[0].innerHTML = '<div id="vc_v-editor"></div>';
 	},
 	init: function() {

@@ -3,9 +3,7 @@ var Mediator = require('../../../helpers/Mediator'); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
 var AddElementModal = require('./add-element/AddElement.js');
 var classNames = require('classnames');
-
 require('./less/navbar/navbar-init.less');
-
 module.exports = React.createClass(Mediator.installTo({
 	getInitialState: function() {
 		return {
@@ -35,7 +33,7 @@ module.exports = React.createClass(Mediator.installTo({
         return (
             <nav className="navbar navbar-vc navbar-fixed-top">
                 <div className="navbar-header">
-                    <a className="navbar-brand"><img src="sources/images/logo.png" height="100%"/></a>
+                    <a className="navbar-brand"><span className="vcv-logo"></span></a>
                 </div>
                 <ul className="nav navbar-nav">
                     <li><a className="as_btn" onClick={this.openAddElement}><span className="glyphicon glyphicon-plus"></span></a></li>
@@ -47,7 +45,7 @@ module.exports = React.createClass(Mediator.installTo({
                     </li>
                 </ul>
                 <ul className="nav navbar-nav pull-right">
-                    <li><button type="button" className="btn" onClick={this.clickSaveData}>Save</button></li>
+                    <li><button type="button" className="btn btn-default navbar-btn" onClick={this.clickSaveData}>Update</button></li>
                 </ul>
 				<div className="vc_ui-inline-editor-container"></div>
                 <AddElementModal/>

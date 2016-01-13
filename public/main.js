@@ -12,7 +12,7 @@ var App = Mediator.installTo({
 		// Data Storage module
 		require('./modules/storage/DataDomStore');
 		// Editor Controls
-		var EditorControls = require('./modules/editor-controls/EditorControls');
+		require('./modules/editor-controls/EditorControls');
 	},
 	init: function() {
 		this.loadServices();
