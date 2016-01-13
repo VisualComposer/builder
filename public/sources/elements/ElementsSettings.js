@@ -109,15 +109,19 @@ module.exports = [
         "value": "ninja",
         "title": "Test"
     },
+    "icon": {
+        "type": "component",
+        "access": "public",
+        "value": "",
+        "title": "test",
+        "settings": {
+          "component": "icon"
+        }
+    },
     "relatedTo": {
       "type": "string",
       "access": "system",
       "value": ["Buttons", "Semantics"]
-    },
-    "strongRelation": {
-      "type": "string",
-      "access": "system",
-      "value": true
     }
 },{
     "name": {

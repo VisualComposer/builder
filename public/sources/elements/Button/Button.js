@@ -1,6 +1,7 @@
 var React = require('react');
 var Mediator = require('../../../helpers/Mediator');
 
+var Icon = require('../Icon/Icon');
 
 // D&D
 var PropTypes = React.PropTypes;
@@ -35,9 +36,10 @@ var Button = React.createClass({
 		var connectDragSource = this.props.connectDragSource;
 		var isDragging = this.props.isDragging;
 
-        var { key, content, test, ...other } = this.props;
+        var { key, content, test,icon, ...other } = this.props;
+		var IconProps = JSON.parse(icon);
         return connectDragSource(
-			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...other}>{content}</button>
+			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...other}><Icon {...IconProps} />{content}</button>
 		);
     }
 });
