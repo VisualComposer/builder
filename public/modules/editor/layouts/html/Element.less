@@ -12,4 +12,32 @@
     }
   }
 }
+
+[data-vc-dnd-status] {
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+[data-vc-dnd-status=allowed] {
+  &::before {
+    background-color: yellow;
+    opacity: .3;
+  }
+}
+[data-vc-dnd-status=success] {
+  &::before {
+    background-color: green;
+    opacity: .3;
+  }
+}
+
 @import '../../../../sources/elements/Section/editor/Section.less';
