@@ -795,11 +795,259 @@ module.exports = [
     "access": "system",
     "value": "*"
   },
-  "urls": {
-    "title": "URLs",
-    "type": "textarea",
+  "design": {
+    "type": "select",
     "access": "public",
-    "value": "http://lorempixel.com/800/600/nature/1,http://lorempixel.com/800/600/nature/2,http://lorempixel.com/800/600/nature/3"
+    "title": "Style",
+    "value": "classic",
+    "settings": {
+      "options": {
+        "classic": "Classic",
+        "modern": "Modern",
+        "flat": "Flat",
+        "outline": "Outline"
+      }
+    }
+  },
+  "shape": {
+    "type": "select",
+    "access": "public",
+    "title": "Shape",
+    "value": "rounded",
+    "settings": {
+      "options": {
+        "rounded": "Rounded",
+        "square": "Square",
+        "round": "Round"
+      }
+    }
+  },
+  "color": {
+    "type": "select",
+    "access": "public",
+    "title": "Color",
+    "value": "grey",
+    "settings": {
+      "options": {
+        "blue": "Blue",
+        "turquoise": "Turquoise",
+        "pink": "Pink",
+        "violet": "Violet",
+        "peacoc": "Peacoc",
+        "chino": "Chino",
+        "mulled-wine": "Mulled Wine",
+        "vista-blue": "Vista Blue",
+        "black": "Black",
+        "grey": "Grey",
+        "orange": "Orange",
+        "sky": "Sky",
+        "green": "Green",
+        "juicy-pink": "Juicy pink",
+        "sandy-brown": "Sandy brown",
+        "purple": "Purple",
+        "white": "White"
+      }
+    }
+  },
+  "spacing": {
+    "type": "select",
+    "access": "public",
+    "title": "Spacing",
+    "value": "0",
+    "settings": {
+      "options": {
+        "0": "None",
+        "1": "1px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "5": "5px",
+        "10": "10px",
+        "15": "15px",
+        "20": "20px",
+        "25": "25px",
+        "30": "30px",
+        "35": "35px"
+      }
+    }
+  },
+  "gap": {
+    "type": "select",
+    "access": "public",
+    "title": "Gap",
+    "value": "0",
+    "settings": {
+      "options": {
+        "0": "None",
+        "1": "1px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "5": "5px",
+        "10": "10px",
+        "15": "15px",
+        "20": "20px",
+        "25": "25px",
+        "30": "30px",
+        "35": "35px"
+      }
+    }
+  },
+  "position": {
+    "type": "select",
+    "access": "public",
+    "title": "Position of tabs",
+    "value": "top",
+    "settings": {
+      "options": {
+        "top": "Top",
+        "bottom": "Bottom"
+      }
+    }
+  },
+  "alignment": {
+    "type": "select",
+    "access": "public",
+    "title": "Alignment of tabs",
+    "value": "left",
+    "settings": {
+      "options": {
+        "left": "Left",
+        "center": "Center",
+        "right": "Right"
+      }
+    }
+  }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Tour"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Tour"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "design": {
+    "type": "select",
+    "access": "public",
+    "title": "Style",
+    "value": "classic",
+    "settings": {
+      "options": {
+        "classic": "Classic",
+        "modern": "Modern",
+        "flat": "Flat",
+        "outline": "Outline"
+      }
+    }
+  },
+  "shape": {
+    "type": "select",
+    "access": "public",
+    "title": "Shape",
+    "value": "rounded",
+    "settings": {
+      "options": {
+        "rounded": "Rounded",
+        "square": "Square",
+        "round": "Round"
+      }
+    }
+  },
+  "color": {
+    "type": "select",
+    "access": "public",
+    "title": "Color",
+    "value": "grey",
+    "settings": {
+      "options": {
+        "blue": "Blue",
+        "turquoise": "Turquoise",
+        "pink": "Pink",
+        "violet": "Violet",
+        "peacoc": "Peacoc",
+        "chino": "Chino",
+        "mulled-wine": "Mulled Wine",
+        "vista-blue": "Vista Blue",
+        "black": "Black",
+        "grey": "Grey",
+        "orange": "Orange",
+        "sky": "Sky",
+        "green": "Green",
+        "juicy-pink": "Juicy pink",
+        "sandy-brown": "Sandy brown",
+        "purple": "Purple",
+        "white": "White"
+      }
+    }
+  },
+  "spacing": {
+    "type": "select",
+    "access": "public",
+    "title": "Spacing",
+    "value": "0",
+    "settings": {
+      "options": {
+        "0": "None",
+        "1": "1px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "5": "5px",
+        "10": "10px",
+        "15": "15px",
+        "20": "20px",
+        "25": "25px",
+        "30": "30px",
+        "35": "35px"
+      }
+    }
+  },
+  "gap": {
+    "type": "select",
+    "access": "public",
+    "title": "Gap",
+    "value": "0",
+    "settings": {
+      "options": {
+        "0": "None",
+        "1": "1px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "5": "5px",
+        "10": "10px",
+        "15": "15px",
+        "20": "20px",
+        "25": "25px",
+        "30": "30px",
+        "35": "35px"
+      }
+    }
+  },
+  "position": {
+    "type": "select",
+    "access": "public",
+    "title": "Position of tabs",
+    "value": "left",
+    "settings": {
+      "options": {
+        "left": "Left",
+        "right": "Right"
+      }
+    }
   }
 },{
   "name": {
