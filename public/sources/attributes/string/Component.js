@@ -5,9 +5,10 @@ module.exports = React.createClass({
     mixins: [ParamMixin],
     setter: Setter,
     render: function() {
-        return <input
+        return (<div><label>{this.props.settings.getTitle()}</label><input
+			type="text"
             onChange={this.handleChange}
             ref={this.props.name + 'Component'}
-            value={this.state.value}/>;
+            value={this.state.value}/></div>);
     }
 });
