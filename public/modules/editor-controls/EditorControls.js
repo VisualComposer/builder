@@ -25,8 +25,9 @@ var EditorControls = function() {
 			e.stopPropagation();
 		});
         $(document).on('click', '[data-vc-control-event]', function(e){
-            var event = $(e.currentTarget).data('vcControlEvent');
-            var elementId = $(e.currentTarget).data('vcElementId').toString();
+			var $el = $(e.currentTarget);
+			var event = $el.data('vcControlEvent');
+            var elementId = $el.data('vcElementId');
             e.preventDefault();
             controlsHandler.publish(event, elementId);
             controlsHandler.hideOutline();

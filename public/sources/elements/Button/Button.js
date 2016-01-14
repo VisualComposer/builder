@@ -1,17 +1,17 @@
-var React = require('react');
-var Mediator = require('../../../helpers/Mediator');
+let React = require('react');
+let Mediator = require('../../../helpers/Mediator');
 
-var Icon = require('../Icon/Icon');
+let Icon = require('../Icon/Icon');
 
 // D&D
-var PropTypes = React.PropTypes;
-var DragSource = require('react-dnd').DragSource;
+let PropTypes = React.PropTypes;
+let DragSource = require('react-dnd').DragSource;
 
 export const ItemTypes = {
 	ELEMENT: 'element'
 };
 
-var elementSource = {
+let elementSource = {
 	beginDrag: function (props) {
 		return {
 			id: props['data-vc-element'],
@@ -27,19 +27,20 @@ function collect(connect, monitor) {
 	}
 }
 
-var Button = React.createClass({
+let Button = React.createClass({
 	propTypes: {
 		connectDragSource: PropTypes.func.isRequired,
 		isDragging: PropTypes.bool.isRequired
 	},
     render: function() {
-		var connectDragSource = this.props.connectDragSource;
-		var isDragging = this.props.isDragging;
+		let connectDragSource = this.props.connectDragSource;
+		let isDragging = this.props.isDragging;
 
-        var { key, content, test,icon, ...other } = this.props;
-		var IconProps = JSON.parse(icon);
-        return connectDragSource(
-			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...other}><Icon {...IconProps} />{content}</button>
+		let { key, content, test, icon, ...other } = this.props;
+		let IconProps = JSON.parse( icon || null ) || {};
+		return connectDragSource(
+			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...other}>
+				<Icon {...IconProps} />{content}</button>
 		);
     }
 });

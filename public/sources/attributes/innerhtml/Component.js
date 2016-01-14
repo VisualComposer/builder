@@ -6,8 +6,13 @@ module.exports = React.createClass({
     mixins: [ParamMixin],
     setter: Setter,
     render: function() {
-        return <textarea
-            ref={this.props.name + 'Component'}
-            value={this.state.value} onChange={this.handleChange}/>;
+        return (
+			<div>
+				<label>{this.props.settings.getTitle()}</label>
+				<textarea
+					ref={this.props.name + 'Component'}
+					value={this.state.value} onChange={this.handleChange}/>
+			</div>
+		);
     }
 });

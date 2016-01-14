@@ -1,12 +1,13 @@
-var React = require( 'react' );
-var ParamMixin = require( '../param-mixin' );
-var Setter = require( './Setter' );
-var ElementComponents = require( '../../../helpers/ElementComponents' );
-var Mediator = require( '../../../helpers/Mediator' );
+let React = require( 'react' );
+let ParamMixin = require( '../param-mixin' );
+let Setter = require( './Setter' );
+let ElementComponents = require( '../../../helpers/ElementComponents' );
+let Mediator = require( '../../../helpers/Mediator' );
 
 module.exports = React.createClass( {
 	mixins: [ ParamMixin ],
 	setter: Setter,
+	values: {},
 	getParams: function ( component ) {
 		return ElementComponents.get( component );
 	},
@@ -15,7 +16,7 @@ module.exports = React.createClass( {
 	},
 	getElement: function ( name, settings, value, element ) {
 		if ( 'public' === settings.getAccess() ) {
-			var ComponentView = this.getComponent( settings.getType().toLowerCase() );
+			let ComponentView = this.getComponent( settings.getType().toLowerCase() );
 			return React.createElement( ComponentView, {
 				value: value,
 				key: Mediator.getService( 'utils' ).createKey(),
@@ -26,51 +27,37 @@ module.exports = React.createClass( {
 		}
 		return null;
 	},
-	customHandleChange: function ( e ) {
-		var settings = this.props.settings.getSettings();
-		var params = settings.params || this.getParams( settings.component.charAt( 0 ).toUpperCase() + settings.component.slice(
-					1 ) );
-		var values = {};
-		if ( Object.getOwnPropertyNames( params ).length ) {
-			Object.keys( params ).forEach( function ( key ) {
-				var paramSettings = params[ key ];
-				var name = this.props.name + key;
-				var element = this.props.element; // todo check and fix
-				if ( 'public' === paramSettings.getAccess() ) {
-					var value = this.getInnerValue( name, paramSettings, element );
-					values[ key ] = value;
-				}
-			}, this );
-		}
-		console.log( values );
-
-		this.setState( { value: values } );
-		this.updateElement( values );
+	customHandleChange: function () {
+		this.setState( { value: JSON.stringify( this.values ) } );
+		this.updateElement( this.values );
 	},
-	getInnerValue: function ( name, settings, element ) {
-		var Getter = require( '../' + settings.getType().toLowerCase() + '/Getter' );
-
-		return Getter( element, name );
+	setAttribute: function ( name, value ) {
+		this.values[ name ] = value;
+		this.customHandleChange();
+	},
+	getAttribute: function ( element, key ) {
+		return this.values[ key ];
 	},
 	render: function () {
-		var settings = this.props.settings.getSettings();
+		let settings = this.props.settings.getSettings();
 		if ( settings && settings.component ) {
-			// render component params
+			let returnList = "";
+			let values = this.values = JSON.parse( this.state.value || null ) || {};
 			//ucfirst
-			var returnList = "";
-			var values = JSON.parse( this.props.value ) || {};
-			var params = settings.params || this.getParams( settings.component.charAt( 0 ).toUpperCase() + settings.component.slice(
-						1 ) );
+			let params = settings.params || this.getParams(
+					settings.component.charAt( 0 ).toUpperCase() + settings.component.slice( 1 )
+				);
+
+			// render component params
 			if ( Object.getOwnPropertyNames( params ).length ) {
 				returnList = Object.keys( params ).map( function ( key ) {
-					var ParamSettings = params[ key ];
-					var ParamView = this.getElement( this.props.name + key,
+					let ParamSettings = params[ key ];
+					let ParamView = this.getElement( key,
 						ParamSettings,
 						values[ key ] || "",
-						this.props.element );
+						this );
 					if ( ParamView ) {
-						return (<div className="vc-v-form-row" key={['vc-v-edit-form-element-' , this.props.name +key]}>
-							<label>{ParamSettings.getTitle()}</label>
+						return (<div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
 							<div className="vc-v-form-row-control">
 								{ParamView}
 							</div>
@@ -79,9 +66,8 @@ module.exports = React.createClass( {
 				}, this );
 			}
 			return (
-				<div ref={this.props.name + 'Component'} value={this.state.value}>Component {this.props.name} {JSON.stringify(
-					params )} {returnList} {JSON.stringify(this.state.value)}
-					<button onClick={this.customHandleChange}>Save component</button>
+				<div ref={this.props.name + 'Component'} value={this.state.value}>
+					{returnList}
 				</div>
 			);
 		} else {

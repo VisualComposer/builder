@@ -20,12 +20,6 @@ module.exports = [
     "access": "system",
     "value": "block"
   },
-  "textfield": {
-    "type": "textfield",
-    "access": "public",
-    "value": "",
-    "title": "textfield param"
-  },
   "textarea": {
     "type": "textarea",
     "access": "public",
@@ -113,7 +107,7 @@ module.exports = [
         "type": "component",
         "access": "public",
         "value": "",
-        "title": "test",
+        "title": "",
         "settings": {
           "component": "icon"
         }

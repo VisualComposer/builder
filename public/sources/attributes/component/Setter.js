@@ -1,5 +1,3 @@
-module.exports = function(element, key, value) {
-	console.log({'param-group':value});
-	debugger;
-    element.setAttribute('param-group-'+key, JSON.stringify(value));
+module.exports = function ( element, key, value ) {
+	element.setAttribute( key, JSON.stringify( value ) );
 };

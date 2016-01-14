@@ -35,7 +35,7 @@
         "type": "component",
         "access": "public",
         "value": "",
-        "title": "test",
+        "title": "",
         "settings": {
           "component": "icon"
         }
