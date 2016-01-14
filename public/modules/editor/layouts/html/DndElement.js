@@ -22,18 +22,46 @@ var elementSource = {
 	}
 };
 
+
+var DndElementServices = Mediator.installTo({
+
+});
+
 var elementTarget = {
 	hover: function ( props, monitor, component ) {
-		//console.log(monitor.isOver({ shallow: false }) );
-		//console.log(monitor.isOver({ shallow: true }) );
-
-		let isOverChild = monitor.isOver({ shallow: true });
-		if (!isOverChild) {
-			return false;
+		// check if hover is on final element
+		if (!monitor.isOver({ shallow: true })) {
+			return;
 		}
 
+		let dragElementId = monitor.getItem().id,
+			srcElementId = props['data-vc-element'];
+
+		// don't replace item with itself
+		if (srcElementId === dragElementId){
+			return;
+		}
+
+		// get elements
+		let dragElemnt = monitor.getItem().element,
+			hoverElement = Mediator.getService('data').get(dragElementId);
+
+		// get offsets and positions
+		let hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect(),
+			hoverMiddleX = hoverBoundingRect.width / 2,
+			hoverMiddleY = hoverBoundingRect.height / 2,
+			clientOffset = monitor.getClientOffset(),
+			hoverClientX = clientOffset.x - hoverBoundingRect.left,
+			hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+		let domDragElement = document.getElementById(dragElementId);
+
+
+		//DndElementServices.publish( 'data:swipe',
+		//	srcElementId,
+		//	dragElementId);
+
 		console.log('hover');
-		//console.log(props);
 	},
 	canDrop: function (props, monitor) {
 		let component = ElementComponents.get( monitor.getItem().element ),
@@ -67,22 +95,16 @@ var elementTarget = {
 		return false;
 	},
 	drop: function (props, monitor, component) {
-		let hasDroppedOnChild = monitor.didDrop();
-		if (hasDroppedOnChild) {
+		if (monitor.didDrop()) {
 			return;
 		}
-
-
 
 		let element = monitor.getItem().element,
 			container = Mediator.getService('data').get( props['data-vc-element'] );
 
-		console.log('drop');
-
-		//component.setState({
-		//	hasDropped: true,
-		//	hasDroppedOnChild: hasDroppedOnChild
-		//});
+		DndElementServices.publish( 'data:moveToParent',
+			element,
+			container);
 	}
 };
 
@@ -101,7 +123,7 @@ function collectTarget(connect, monitor) {
 	}
 }
 
-var DndElement = React.createClass({
+var DndElement = React.createClass(Mediator.installTo({
 	propTypes: {
 		connectDragSource: PropTypes.func.isRequired,
 		isDragging: PropTypes.bool.isRequired,
@@ -146,7 +168,7 @@ var DndElement = React.createClass({
 
 		return render;
 	}
-});
+}));
 module.exports = flow(
 	DragSource(ItemTypes.ELEMENT, elementSource, collectSource),
 	DropTarget(ItemTypes.ELEMENT, elementTarget, collectTarget)

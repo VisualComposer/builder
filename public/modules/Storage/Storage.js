@@ -77,6 +77,13 @@ var DataStore = {
         }
         return false;
     },
+	moveToParent: function (element, parent) {
+		if (parent) {
+			parent.appendChild(element);
+			return element;
+		}
+		return false;
+	},
     mutate: function (element) {
         /*
          var DOMElement = this.document.getElementById(element.getAttribute('id'));
@@ -129,7 +136,10 @@ var Data = {
     },
     move: function (id, beforeId) {
         DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());
-    }
+    },
+	moveToParent: function ( srcElId, dragElId ) {
+		DataStore.moveToParent(srcElId, dragElId) && Data.publish('data:changed', this.getDocument());
+	}
 };
 
 Mediator.installTo(Data);
@@ -155,6 +165,9 @@ Data.subscribe('data:mutate', function (element) {
 });
 Data.subscribe('data:move', function (id, beforeId) {
     Data.move(id, beforeId);
+});
+Data.subscribe('data:moveToParent', function (srcElId, dragElId) {
+    Data.moveToParent(srcElId, dragElId);
 });
 
 module.exports = Data;
