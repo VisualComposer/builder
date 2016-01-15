@@ -13,12 +13,17 @@ module.exports = React.createClass({
 			optionElements.push(<option key={key} value={key}>{options[key]}</option>);
 		});
 
-		return <select
-			onChange={this.handleChange}
-			ref={this.props.name + 'Component'}
-			value={this.state.value}
-		>
-			{optionElements}
-		</select>;
+		return (
+			<div>
+				<label>{this.props.settings.getTitle()}</label>
+				<select
+					onChange={this.handleChange}
+					ref={this.props.name + 'Component'}
+					value={this.state.value}
+				>
+				{optionElements}
+				</select>
+			</div>
+		);
 	}
 });

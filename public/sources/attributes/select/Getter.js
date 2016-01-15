@@ -1,3 +1,3 @@
 module.exports = function(element, key) {
-    return element.getAttribute('param-select-'+key);
+    return element.getAttribute(key);
 };

@@ -20,12 +20,6 @@ module.exports = [
     "access": "system",
     "value": "block"
   },
-  "textfield": {
-    "type": "textfield",
-    "access": "public",
-    "value": "",
-    "title": "textfield param"
-  },
   "textarea": {
     "type": "textarea",
     "access": "public",
@@ -109,15 +103,19 @@ module.exports = [
         "value": "ninja",
         "title": "Test"
     },
+    "icon": {
+        "type": "component",
+        "access": "public",
+        "value": "",
+        "title": "",
+        "settings": {
+          "component": "icon"
+        }
+    },
     "relatedTo": {
       "type": "string",
       "access": "system",
       "value": ["Buttons", "Semantics"]
-    },
-    "strongRelation": {
-      "type": "string",
-      "access": "system",
-      "value": true
     }
 },{
     "name": {

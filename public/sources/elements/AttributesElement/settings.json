@@ -19,12 +19,6 @@
     "access": "system",
     "value": "block"
   },
-  "textfield": {
-    "type": "textfield",
-    "access": "public",
-    "value": "",
-    "title": "textfield param"
-  },
   "textarea": {
     "type": "textarea",
     "access": "public",
