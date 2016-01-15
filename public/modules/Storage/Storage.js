@@ -16,7 +16,7 @@ var DataStore = {
                 let textNode = document.createTextNode(param.toString());
                 DOMElement.appendChild(textNode);
             } else if ('public' === param.getAccess()) {
-                var key = 'param-' + param.getType() + '-' + k;
+                var key = k;
                 let elementParam = document.createAttribute(key);
                 elementParam.value = param.toString();
                 DOMElement.setAttributeNode(elementParam);
