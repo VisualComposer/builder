@@ -14,11 +14,6 @@
     "access": "system",
     "value": "inline"
   },
-  "mutable": {
-    "type": "string",
-    "access": "system",
-    "value": "*"
-  },
   "icon-library": {
     "type": "select",
     "access": "public",
@@ -306,6 +301,12 @@
         "glyphicon-menu-up": "Menu up"
       }
     }
+  },
+  "custom": {
+      "type": "string",
+      "access": "public",
+      "value": "",
+      "title": "custom class"
   },
   "relatedTo": {
     "type": "string",

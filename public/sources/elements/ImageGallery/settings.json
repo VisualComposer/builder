@@ -14,11 +14,6 @@
     "access": "system",
     "value": "block"
   },
-  "mutable": {
-    "type": "string",
-    "access": "system",
-    "value": "*"
-  },
   "urls": {
     "title": "URLs",
     "type": "textarea",

@@ -18,7 +18,7 @@ var DataStore = {
             } else if ('public' === param.getAccess()) {
                 var key = k;
                 let elementParam = document.createAttribute(key);
-                elementParam.value = param.toString();
+                elementParam.value = param.toString() || "";
                 DOMElement.setAttributeNode(elementParam);
             }
         }, this);

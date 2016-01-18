@@ -14,11 +14,6 @@
         "access": "system",
         "value": "container"
     },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
-    },
     "relatedTo": {
       "type": "string",
       "access": "system",

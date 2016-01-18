@@ -15,15 +15,10 @@
         "value": "inline"
     },
     "content": {
-        "type": "innerhtml",
+        "type": "textarea",
         "access": "public",
         "value": "Button",
         "title": "Title"
-    },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
     },
     "test": {
         "type": "string",
@@ -31,7 +26,7 @@
         "value": "ninja",
         "title": "Test"
     },
-    "icon": {
+    "iconComponent": {
         "type": "component",
         "access": "public",
         "value": "",
