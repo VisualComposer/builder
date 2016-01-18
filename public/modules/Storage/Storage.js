@@ -12,12 +12,13 @@ var DataStore = {
 
         Object.keys(element).forEach(function (k) {
             let param = element[k];
-            if ('content' === k && 'public' === param.getAccess()) {
-                let textNode = document.createTextNode(param.toString());
-                DOMElement.appendChild(textNode);
-            } else if ('public' === param.getAccess()) {
+            //if ('content' === k && 'public' === param.getAccess()) {
+             //   let textNode = document.createTextNode(param.toString());
+              //  DOMElement.appendChild(textNode);
+             if ('public' === param.getAccess()) {
                 var key = k;
                 let elementParam = document.createAttribute(key);
+				debugger;
                 elementParam.value = param.toString() || "";
                 DOMElement.setAttributeNode(elementParam);
             }
