@@ -18,7 +18,6 @@ var DataStore = {
              if ('public' === param.getAccess()) {
                 var key = k;
                 let elementParam = document.createAttribute(key);
-				debugger;
                 elementParam.value = param.toString() || "";
                 DOMElement.setAttributeNode(elementParam);
             }
