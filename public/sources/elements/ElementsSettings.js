@@ -87,15 +87,10 @@ module.exports = [
         "value": "inline"
     },
     "content": {
-        "type": "innerhtml",
+        "type": "textarea",
         "access": "public",
         "value": "Button",
         "title": "Title"
-    },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
     },
     "test": {
         "type": "string",
@@ -103,7 +98,7 @@ module.exports = [
         "value": "ninja",
         "title": "Test"
     },
-    "icon": {
+    "iconComponent": {
         "type": "component",
         "access": "public",
         "value": "",
@@ -133,11 +128,6 @@ module.exports = [
         "access": "system",
         "value": "container"
     },
-    "mutable": {
-        "type": "string",
-        "access": "system",
-        "value": "*"
-    },
     "relatedTo": {
       "type": "string",
       "access": "system",
@@ -164,21 +154,33 @@ module.exports = [
         "access": "system",
         "value": "inline"
     },
+    "buttonComponent": {
+        "type": "component",
+        "access": "public",
+        "value": "",
+        "settings": {
+          "component": "button"
+        }
+    },
     "content": {
         "type": "textarea",
         "access": "public",
         "value": "Cta",
         "title": "Title"
     },
+    "iconComponent": {
+      "type": "component",
+      "access": "public",
+      "value": "",
+      "title": "Custom Icon",
+      "settings": {
+        "component": "icon"
+      }
+    },
     "relatedTo": {
       "type": "string",
       "access": "system",
       "value": ["CTA"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button", "Paragraph", "Header"]
     }
 },{
     "name": {
@@ -353,11 +355,6 @@ module.exports = [
     "type": "string",
     "access": "system",
     "value": "inline"
-  },
-  "mutable": {
-    "type": "string",
-    "access": "system",
-    "value": "*"
   },
   "icon-library": {
     "type": "select",
@@ -647,6 +644,12 @@ module.exports = [
       }
     }
   },
+  "custom": {
+      "type": "string",
+      "access": "public",
+      "value": "",
+      "title": "custom class"
+  },
   "relatedTo": {
     "type": "string",
     "access": "system",
@@ -667,11 +670,6 @@ module.exports = [
     "type": "string",
     "access": "system",
     "value": "block"
-  },
-  "mutable": {
-    "type": "string",
-    "access": "system",
-    "value": "*"
   },
   "urls": {
     "title": "URLs",
@@ -704,11 +702,6 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "block"
-    },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
     },
     "relatedTo": {
       "type": "string",
@@ -756,11 +749,6 @@ module.exports = [
         "type": "string",
         "access": "system",
         "value": "container"
-    },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
     },
     "relatedTo": {
       "type": "string",

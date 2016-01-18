@@ -4,10 +4,25 @@ let Setter = require( './Setter' );
 let ElementComponents = require( '../../../helpers/ElementComponents' );
 let Mediator = require( '../../../helpers/Mediator' );
 
+var AttributesChecker = function ( update ) {
+	return {
+		values: {},
+		setAttribute: function ( name, value ) {
+			this.values[ name ] = value;
+			update( this.values );
+		},
+		getAttribute: function ( element, key ) {
+			return this.values[ key ];
+		}
+	}
+};
 module.exports = React.createClass( {
 	mixins: [ ParamMixin ],
 	setter: Setter,
 	values: {},
+	componentWillMount: function () {
+		this.attributesChecker = new AttributesChecker( this.customHandleChange );
+	},
 	getParams: function ( component ) {
 		return ElementComponents.get( component );
 	},
@@ -27,16 +42,13 @@ module.exports = React.createClass( {
 		}
 		return null;
 	},
-	customHandleChange: function () {
-		this.setState( { value: JSON.stringify( this.values ) } );
-		this.updateElement( this.values );
+	shouldComponentUpdate( nextProps, nextState ) {
+		return false;
 	},
-	setAttribute: function ( name, value ) {
-		this.values[ name ] = value;
-		this.customHandleChange();
-	},
-	getAttribute: function ( element, key ) {
-		return this.values[ key ];
+	customHandleChange: function ( values ) {
+		this.values = values;
+		this.setState( { value: JSON.stringify( values ) } );// todo fix this
+		this.updateElement( values );
 	},
 	render: function () {
 		let settings = this.props.settings.getSettings();
@@ -54,8 +66,8 @@ module.exports = React.createClass( {
 					let ParamSettings = params[ key ];
 					let ParamView = this.getElement( key,
 						ParamSettings,
-						values[ key ] || "",
-						this );
+						values[ key ] || ParamSettings.toString(),
+						this.attributesChecker );
 					if ( ParamView ) {
 						return (<div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
 							<div className="vc-v-form-row-control">
@@ -67,7 +79,8 @@ module.exports = React.createClass( {
 			}
 			return (
 				<div ref={this.props.name + 'Component'} value={this.state.value}>
-					{returnList}
+					<label>{this.props.settings.getTitle()}</label>
+					<div style={{padding:"20px"}}>{returnList}</div>
 				</div>
 			);
 		} else {

@@ -6,6 +6,7 @@ module.exports = React.createClass({
     mixins: [ParamMixin],
     setter: Setter,
     render: function() {
+		console.log('render innerhtml');
         return (
 			<div>
 				<label>{this.props.settings.getTitle()}</label>

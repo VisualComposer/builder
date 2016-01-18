@@ -14,20 +14,32 @@
         "access": "system",
         "value": "inline"
     },
+    "buttonComponent": {
+        "type": "component",
+        "access": "public",
+        "value": "",
+        "settings": {
+          "component": "button"
+        }
+    },
     "content": {
         "type": "textarea",
         "access": "public",
         "value": "Cta",
         "title": "Title"
     },
+    "iconComponent": {
+      "type": "component",
+      "access": "public",
+      "value": "",
+      "title": "Custom Icon",
+      "settings": {
+        "component": "icon"
+      }
+    },
     "relatedTo": {
       "type": "string",
       "access": "system",
       "value": ["CTA"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button", "Paragraph", "Header"]
     }
 }
