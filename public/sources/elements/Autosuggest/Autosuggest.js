@@ -69,11 +69,11 @@ var Autosuggest = React.createClass( {
 	},
 
 	render: function () {
-		let { key, suggestions, ...other } = this.props,
+		let { key, suggestions, editor, ...other } = this.props,
 			options = this.normalizeOptions( suggestions.split( ',' ) );
 
 		return (
-			<div key={key} {...other}>
+			<div key={key} {...editor}>
 				<Select
 					onChange={this.onChange}
 					value={this.state.value}
