@@ -37,11 +37,11 @@ let Button = React.createClass( {
 		let connectDragSource = this.props.connectDragSource;
 		let isDragging = this.props.isDragging;
 
-		let { key, content, test, iconComponent, ...other } = this.props;
+		let { key, content, test, iconComponent, editor, ...other } = this.props;
 		let IconDefaults = ElementDefaults.get( 'Icon' );
 		let IconProps = JSON.parse( iconComponent || null ) || IconDefaults;
 		return connectDragSource(
-			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...other}>
+			<button type="button" data-dragging={isDragging} className="vc-button-block " data-vc-test={test} key={key} {...editor}>
 				<Icon {...IconProps} />{content}</button>
 		);
 	}

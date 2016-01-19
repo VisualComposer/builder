@@ -107,8 +107,8 @@ var BtnGroup = React.createClass({
 			isOver = this.props.isOver,
 			isOverCurrent = this.props.isOverCurrent,
 			canDrop = this.props.canDrop,
-			{ key, content, ...other } = this.props;
-        return connectDragSource(connectDropTarget(<div className="vc-btn-group" key={key} {...other}>
+			{ key, content, editor, ...other } = this.props;
+        return connectDragSource(connectDropTarget(<div className="vc-btn-group" key={key} {...editor}>
 			{!isOverCurrent && canDrop && this.renderOverlay('yellow')}
 			{isOverCurrent && canDrop && this.renderOverlay('green')}
 

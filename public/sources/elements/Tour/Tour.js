@@ -114,7 +114,7 @@ var Tour = React.createClass( {
 	},
 
 	render: function () {
-		var { key, position, ...other } = this.props;
+		var { key, position, editor, ...other } = this.props;
 
 		var className = classNames(
 			'vc_tta',
@@ -129,7 +129,7 @@ var Tour = React.createClass( {
 		);
 
 		return (
-			<div className="vc-tabs vc_tta-container" data-vc-action="collapse" key={key} {...other}>
+			<div className="vc-tabs vc_tta-container" data-vc-action="collapse" key={key} {...editor}>
 				<div className={className}>
 
 					{ position === 'left' ? this.renderTabs() : '' }

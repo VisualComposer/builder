@@ -4,7 +4,7 @@ var classNames = require('classnames');
 require('./editor/Column.less');
 var Column = React.createClass({
     render: function() {
-        var { key, content, width, ...other } = this.props;
+        var { key, content, width, editor, ...other } = this.props;
 		var classes = {
 			"vc-v-column": true
 		};
@@ -13,7 +13,7 @@ var Column = React.createClass({
 		classes[ "col-md-" + width ] = ! ! width;
 		classes[ "col-lg-" + width ] = ! ! width;
 		var className = classNames( classes );
-        return (<div className={className} key={key} {...other}>
+        return (<div className={className} key={key} {...editor}>
             {content}
         </div>);
     }
