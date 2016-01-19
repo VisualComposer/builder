@@ -5,7 +5,7 @@ let ElementDefaults = require( '../../../helpers/ElementDefaults' );
 
 let CallToAction = React.createClass( {
 	render: function () {
-		let { key, content, buttonComponent, iconComponent, ...other } = this.props;
+		let { key, content, buttonComponent, iconComponent, editor, ...other } = this.props;
 
 		let IconDefaults = ElementDefaults.get( 'Icon' );
 		let ButtonDefaults = ElementDefaults.get( 'Button' );
@@ -14,7 +14,7 @@ let CallToAction = React.createClass( {
 		let iconProps = JSON.parse( iconComponent || null ) || IconDefaults;
 
 		return (
-			<div className="vc-cta-block" key={key} {...other}>
+			<div className="vc-cta-block" key={key} {...editor}>
 				<Button {...buttonProps}/>{content}<Icon {...iconProps} /></div>
 		);
 	}

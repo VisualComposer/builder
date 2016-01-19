@@ -764,6 +764,129 @@ module.exports = [
   "name": {
     "type": "string",
     "access": "system",
+    "value": "Text Separator"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "TextSeparator"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "title": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "Title"
+  },
+  "color": {
+    "type": "select",
+    "title": "Color",
+    "value": "",
+    "settings": {
+      "options": {
+        "blue": "Blue",
+        "turquoise": "Turquoise",
+        "pink": "Pink",
+        "violet": "Violet",
+        "peacoc": "Peacoc",
+        "chino": "Chino",
+        "mulled-wine": "Mulled Wine",
+        "vista-blue": "Vista Blue",
+        "black": "Black",
+        "grey": "Grey",
+        "orange": "Orange",
+        "sky": "Sky",
+        "green": "Green",
+        "juicy-pink": "Juicy pink",
+        "sandy-brown": "Sandy brown",
+        "purple": "Purple",
+        "white": "White"
+      }
+    },
+    "description": "Select color."
+  },
+  "customColor": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "Custom Separator color (Hex)"
+  },
+  "borderWidth": {
+    "type": "select",
+    "title": "Border width",
+    "value": "",
+    "settings": {
+      "options": {
+        "1": "1px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "5": "5px",
+        "6": "6px",
+        "7": "7px",
+        "8": "8px",
+        "9": "9px",
+        "10": "10px"
+      }
+    },
+    "description": "Select border width (pixels)."
+  },
+  "style": {
+    "type": "select",
+    "title": "Style",
+    "value": "",
+    "settings": {
+      "options": {
+        "border": "Border",
+        "dashed": "Dashed",
+        "dotted": "Dotted",
+        "double": "Double",
+        "shadow": "Shadow"
+      }
+    },
+    "description": "Select style."
+  },
+  "position": {
+    "type": "select",
+    "title": "Separator position",
+    "value": "",
+    "settings": {
+      "options": {
+        "center": "Center",
+        "left": "Left",
+        "right": "Right"
+      },
+      "description": "Select separator posititon."
+    }
+  },
+  "elWidth": {
+    "type": "select",
+    "title": "Element width",
+    "value": "",
+    "settings": {
+      "options": {
+        "100": "100%",
+        "90": "90%",
+        "80": "80%",
+        "70": "70%",
+        "60": "60%",
+        "50": "50%",
+        "40": "40%",
+        "30": "30%",
+        "20": "20%",
+        "10": "10%"
+      }
+    },
+    "description": "Separator element width in percents."
+  }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
     "value": "Validation"
   },
   "tag": {

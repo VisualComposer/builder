@@ -102,8 +102,8 @@ var Section = React.createClass({
 			isOver = this.props.isOver,
 			isOverCurrent = this.props.isOverCurrent,
 			canDrop = this.props.canDrop,
-			{ key, content, ...other } = this.props;
-        return connectDragSource(connectDropTarget(<section className="vc-v-section" key={key} {...other}>
+			{ key, content, editor, ...other } = this.props;
+        return connectDragSource(connectDropTarget(<section className="vc-v-section" key={key} {...editor}>
 			{!isOverCurrent && canDrop && this.renderOverlay('yellow')}
 			{isOverCurrent && canDrop && this.renderOverlay('green')}
 
