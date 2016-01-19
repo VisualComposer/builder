@@ -1,6 +1,15 @@
+/**
+ * Attribute uses React-Select component. For more info see:
+ * @link https://github.com/JedWatson/react-select
+ */
+
 var React = require( 'react' );
+var Select = require( 'react-select' );
 var ParamMixin = require( '../param-mixin' );
 var Setter = require( './Setter' );
+
+require( '../../../../node_modules/react-select/dist/react-select.min.css' );
+
 module.exports = React.createClass( {
 	mixins: [ ParamMixin ],
 	setter: Setter,
@@ -56,27 +65,29 @@ module.exports = React.createClass( {
 		return normalizedOptions;
 	},
 
-	render: function () {
-		console.log('render select');
-		// TODO: change key to something unique
-		var optionElements = [ <option key="-1"></option> ],
-			options = this.options;
+	onChange: function ( selected ) {
+		let value = selected ? selected.value : null;
 
-		for ( let key in this.options ) {
-			let value = options[ key ].value;
-			optionElements.push( <option key={value} value={value}>{options[ key ].label}</option> );
-		}
+		this.setState( {
+			value: value
+		} );
+
+		this.updateElement( value );
+	},
+
+	render: function () {
+		let value = this.state.value;
 
 		return (
 			<div>
 				<label>{this.props.settings.getTitle()}</label>
-				<select
-					onChange={this.handleChange}
+
+				<Select
 					ref={this.props.name + 'Component'}
-					value={this.state.value}
-				>
-					{optionElements}
-				</select>
+					onChange={this.onChange}
+					options={this.options}
+					value={value}
+				/>
 			</div>
 		);
 	}

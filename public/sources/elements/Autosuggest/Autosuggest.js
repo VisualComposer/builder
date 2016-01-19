@@ -1,15 +1,19 @@
+/**
+ * Element uses React-Select component. For more info see:
+ * @link https://github.com/JedWatson/react-select
+ */
+
 var React = require( 'react' );
-var ParamMixin = require( '../param-mixin' );
-var Setter = require( './Setter' );
-module.exports = React.createClass( {
-	mixins: [ ParamMixin ],
-	setter: Setter,
+var Select = require( 'react-select' );
 
-	componentWillMount: function () {
-		let settings = this.props.settings.getSettings(),
-			options = settings.options ? settings.options : [];
+require( '../../../../node_modules/react-select/dist/react-select.min.css' );
 
-		this.options = this.normalizeOptions( options );
+var Autosuggest = React.createClass( {
+
+	getInitialState: function () {
+		return {
+			value: this.props.initialSuggestion
+		};
 	},
 
 	/**
@@ -56,28 +60,29 @@ module.exports = React.createClass( {
 		return normalizedOptions;
 	},
 
-	render: function () {
-		console.log('render select');
-		// TODO: change key to something unique
-		var optionElements = [ <option key="-1"></option> ],
-			options = this.options;
+	onChange: function ( selected ) {
+		let value = selected ? selected.value : null;
 
-		for ( let key in this.options ) {
-			let value = options[ key ].value;
-			optionElements.push( <option key={value} value={value}>{options[ key ].label}</option> );
-		}
+		this.setState( {
+			value: value
+		} );
+	},
+
+	render: function () {
+		let { key, suggestions, ...other } = this.props,
+			options = this.normalizeOptions( suggestions.split( ',' ) );
 
 		return (
-			<div>
-				<label>{this.props.settings.getTitle()}</label>
-				<select
-					onChange={this.handleChange}
-					ref={this.props.name + 'Component'}
+			<div key={key} {...other}>
+				<Select
+					onChange={this.onChange}
 					value={this.state.value}
-				>
-					{optionElements}
-				</select>
+					options={options}
+				/>
 			</div>
 		);
+
 	}
 } );
+
+module.exports = Autosuggest;
