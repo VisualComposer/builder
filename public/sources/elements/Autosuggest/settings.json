@@ -1,0 +1,34 @@
+{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Autosuggest"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Autosuggest"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "suggestions": {
+    "type": "textarea",
+    "access": "public",
+    "title": "Suggestions",
+    "value": ""
+  },
+  "initialSuggestion": {
+    "type": "string",
+    "access": "public",
+    "title": "Selected value",
+    "value": ""
+  }
+}

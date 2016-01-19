@@ -15,7 +15,7 @@
     "value": "inline"
   },
   "icon-library": {
-    "type": "select",
+    "type": "autosuggest",
     "access": "public",
     "title": "Icon library",
     "settings": {
@@ -30,276 +30,1065 @@
     }
   },
   "icon": {
-    "type": "select",
+    "type": "autosuggest",
     "access": "public",
     "title": "Icon",
     "value": "glyphicon-ok-circle",
     "settings": {
-      "options": {
-        "glyphicon-asterisk": "Asterisk",
-        "glyphicon-plus": "Plus",
-        "glyphicon-euro": "Euro",
-        "glyphicon-eur": "Eur",
-        "glyphicon-minus": "Minus",
-        "glyphicon-cloud": "Cloud",
-        "glyphicon-envelope": "Envelope",
-        "glyphicon-pencil": "Pencil",
-        "glyphicon-glass": "Glass",
-        "glyphicon-music": "Music",
-        "glyphicon-search": "Search",
-        "glyphicon-heart": "Heart",
-        "glyphicon-star": "Star",
-        "glyphicon-star-empty": "Star empty",
-        "glyphicon-user": "User",
-        "glyphicon-film": "Film",
-        "glyphicon-th-large": "Th large",
-        "glyphicon-th": "Th",
-        "glyphicon-th-list": "Th list",
-        "glyphicon-ok": "Ok",
-        "glyphicon-remove": "Remove",
-        "glyphicon-zoom-in": "Zoom in",
-        "glyphicon-zoom-out": "Zoom out",
-        "glyphicon-off": "Off",
-        "glyphicon-signal": "Signal",
-        "glyphicon-cog": "Cog",
-        "glyphicon-trash": "Trash",
-        "glyphicon-home": "Home",
-        "glyphicon-file": "File",
-        "glyphicon-time": "Time",
-        "glyphicon-road": "Road",
-        "glyphicon-download-alt": "Download alt",
-        "glyphicon-download": "Download",
-        "glyphicon-upload": "Upload",
-        "glyphicon-inbox": "Inbox",
-        "glyphicon-play-circle": "Play circle",
-        "glyphicon-repeat": "Repeat",
-        "glyphicon-refresh": "Refresh",
-        "glyphicon-list-alt": "List alt",
-        "glyphicon-lock": "Lock",
-        "glyphicon-flag": "Flag",
-        "glyphicon-headphones": "Headphones",
-        "glyphicon-volume-off": "Volume off",
-        "glyphicon-volume-down": "Volume down",
-        "glyphicon-volume-up": "Volume up",
-        "glyphicon-qrcode": "Qrcode",
-        "glyphicon-barcode": "Barcode",
-        "glyphicon-tag": "Tag",
-        "glyphicon-tags": "Tags",
-        "glyphicon-book": "Book",
-        "glyphicon-bookmark": "Bookmark",
-        "glyphicon-print": "Print",
-        "glyphicon-camera": "Camera",
-        "glyphicon-font": "Font",
-        "glyphicon-bold": "Bold",
-        "glyphicon-italic": "Italic",
-        "glyphicon-text-height": "Text height",
-        "glyphicon-text-width": "Text width",
-        "glyphicon-align-left": "Align left",
-        "glyphicon-align-center": "Align center",
-        "glyphicon-align-right": "Align right",
-        "glyphicon-align-justify": "Align justify",
-        "glyphicon-list": "List",
-        "glyphicon-indent-left": "Indent left",
-        "glyphicon-indent-right": "Indent right",
-        "glyphicon-facetime-video": "Facetime video",
-        "glyphicon-picture": "Picture",
-        "glyphicon-map-marker": "Map marker",
-        "glyphicon-adjust": "Adjust",
-        "glyphicon-tint": "Tint",
-        "glyphicon-edit": "Edit",
-        "glyphicon-share": "Share",
-        "glyphicon-check": "Check",
-        "glyphicon-move": "Move",
-        "glyphicon-step-backward": "Step backward",
-        "glyphicon-fast-backward": "Fast backward",
-        "glyphicon-backward": "Backward",
-        "glyphicon-play": "Play",
-        "glyphicon-pause": "Pause",
-        "glyphicon-stop": "Stop",
-        "glyphicon-forward": "Forward",
-        "glyphicon-fast-forward": "Fast forward",
-        "glyphicon-step-forward": "Step forward",
-        "glyphicon-eject": "Eject",
-        "glyphicon-chevron-left": "Chevron left",
-        "glyphicon-chevron-right": "Chevron right",
-        "glyphicon-plus-sign": "Plus sign",
-        "glyphicon-minus-sign": "Minus sign",
-        "glyphicon-remove-sign": "Remove sign",
-        "glyphicon-ok-sign": "Ok sign",
-        "glyphicon-question-sign": "Question sign",
-        "glyphicon-info-sign": "Info sign",
-        "glyphicon-screenshot": "Screenshot",
-        "glyphicon-remove-circle": "Remove circle",
-        "glyphicon-ok-circle": "Ok circle",
-        "glyphicon-ban-circle": "Ban circle",
-        "glyphicon-arrow-left": "Arrow left",
-        "glyphicon-arrow-right": "Arrow right",
-        "glyphicon-arrow-up": "Arrow up",
-        "glyphicon-arrow-down": "Arrow down",
-        "glyphicon-share-alt": "Share alt",
-        "glyphicon-resize-full": "Resize full",
-        "glyphicon-resize-small": "Resize small",
-        "glyphicon-exclamation-sign": "Exclamation sign",
-        "glyphicon-gift": "Gift",
-        "glyphicon-leaf": "Leaf",
-        "glyphicon-fire": "Fire",
-        "glyphicon-eye-open": "Eye open",
-        "glyphicon-eye-close": "Eye close",
-        "glyphicon-warning-sign": "Warning sign",
-        "glyphicon-plane": "Plane",
-        "glyphicon-calendar": "Calendar",
-        "glyphicon-random": "Random",
-        "glyphicon-comment": "Comment",
-        "glyphicon-magnet": "Magnet",
-        "glyphicon-chevron-up": "Chevron up",
-        "glyphicon-chevron-down": "Chevron down",
-        "glyphicon-retweet": "Retweet",
-        "glyphicon-shopping-cart": "Shopping cart",
-        "glyphicon-folder-close": "Folder close",
-        "glyphicon-folder-open": "Folder open",
-        "glyphicon-resize-vertical": "Resize vertical",
-        "glyphicon-resize-horizontal": "Resize horizontal",
-        "glyphicon-hdd": "Hdd",
-        "glyphicon-bullhorn": "Bullhorn",
-        "glyphicon-bell": "Bell",
-        "glyphicon-certificate": "Certificate",
-        "glyphicon-thumbs-up": "Thumbs up",
-        "glyphicon-thumbs-down": "Thumbs down",
-        "glyphicon-hand-right": "Hand right",
-        "glyphicon-hand-left": "Hand left",
-        "glyphicon-hand-up": "Hand up",
-        "glyphicon-hand-down": "Hand down",
-        "glyphicon-circle-arrow-right": "Circle arrow right",
-        "glyphicon-circle-arrow-left": "Circle arrow left",
-        "glyphicon-circle-arrow-up": "Circle arrow up",
-        "glyphicon-circle-arrow-down": "Circle arrow down",
-        "glyphicon-globe": "Globe",
-        "glyphicon-wrench": "Wrench",
-        "glyphicon-tasks": "Tasks",
-        "glyphicon-filter": "Filter",
-        "glyphicon-briefcase": "Briefcase",
-        "glyphicon-fullscreen": "Fullscreen",
-        "glyphicon-dashboard": "Dashboard",
-        "glyphicon-paperclip": "Paperclip",
-        "glyphicon-heart-empty": "Heart empty",
-        "glyphicon-link": "Link",
-        "glyphicon-phone": "Phone",
-        "glyphicon-pushpin": "Pushpin",
-        "glyphicon-usd": "Usd",
-        "glyphicon-gbp": "Gbp",
-        "glyphicon-sort": "Sort",
-        "glyphicon-sort-by-alphabet": "Sort by alphabet",
-        "glyphicon-sort-by-alphabet-alt": "Sort by alphabet alt",
-        "glyphicon-sort-by-order": "Sort by order",
-        "glyphicon-sort-by-order-alt": "Sort by order alt",
-        "glyphicon-sort-by-attributes": "Sort by attributes",
-        "glyphicon-sort-by-attributes-alt": "Sort by attributes alt",
-        "glyphicon-unchecked": "Unchecked",
-        "glyphicon-expand": "Expand",
-        "glyphicon-collapse-down": "Collapse down",
-        "glyphicon-collapse-up": "Collapse up",
-        "glyphicon-log-in": "Log in",
-        "glyphicon-flash": "Flash",
-        "glyphicon-log-out": "Log out",
-        "glyphicon-new-window": "New window",
-        "glyphicon-record": "Record",
-        "glyphicon-save": "Save",
-        "glyphicon-open": "Open",
-        "glyphicon-saved": "Saved",
-        "glyphicon-import": "Import",
-        "glyphicon-export": "Export",
-        "glyphicon-send": "Send",
-        "glyphicon-floppy-disk": "Floppy disk",
-        "glyphicon-floppy-saved": "Floppy saved",
-        "glyphicon-floppy-remove": "Floppy remove",
-        "glyphicon-floppy-save": "Floppy save",
-        "glyphicon-floppy-open": "Floppy open",
-        "glyphicon-credit-card": "Credit card",
-        "glyphicon-transfer": "Transfer",
-        "glyphicon-cutlery": "Cutlery",
-        "glyphicon-header": "Header",
-        "glyphicon-compressed": "Compressed",
-        "glyphicon-earphone": "Earphone",
-        "glyphicon-phone-alt": "Phone alt",
-        "glyphicon-tower": "Tower",
-        "glyphicon-stats": "Stats",
-        "glyphicon-sd-video": "Sd video",
-        "glyphicon-hd-video": "Hd video",
-        "glyphicon-subtitles": "Subtitles",
-        "glyphicon-sound-stereo": "Sound stereo",
-        "glyphicon-sound-dolby": "Sound dolby",
-        "glyphicon-sound-5-1": "Sound 5 1",
-        "glyphicon-sound-6-1": "Sound 6 1",
-        "glyphicon-sound-7-1": "Sound 7 1",
-        "glyphicon-copyright-mark": "Copyright mark",
-        "glyphicon-registration-mark": "Registration mark",
-        "glyphicon-cloud-download": "Cloud download",
-        "glyphicon-cloud-upload": "Cloud upload",
-        "glyphicon-tree-conifer": "Tree conifer",
-        "glyphicon-tree-deciduous": "Tree deciduous",
-        "glyphicon-cd": "Cd",
-        "glyphicon-save-file": "Save file",
-        "glyphicon-open-file": "Open file",
-        "glyphicon-level-up": "Level up",
-        "glyphicon-copy": "Copy",
-        "glyphicon-paste": "Paste",
-        "glyphicon-alert": "Alert",
-        "glyphicon-equalizer": "Equalizer",
-        "glyphicon-king": "King",
-        "glyphicon-queen": "Queen",
-        "glyphicon-pawn": "Pawn",
-        "glyphicon-bishop": "Bishop",
-        "glyphicon-knight": "Knight",
-        "glyphicon-baby-formula": "Baby formula",
-        "glyphicon-tent": "Tent",
-        "glyphicon-blackboard": "Blackboard",
-        "glyphicon-bed": "Bed",
-        "glyphicon-apple": "Apple",
-        "glyphicon-erase": "Erase",
-        "glyphicon-hourglass": "Hourglass",
-        "glyphicon-lamp": "Lamp",
-        "glyphicon-duplicate": "Duplicate",
-        "glyphicon-piggy-bank": "Piggy bank",
-        "glyphicon-scissors": "Scissors",
-        "glyphicon-bitcoin": "Bitcoin",
-        "glyphicon-btc": "Btc",
-        "glyphicon-xbt": "Xbt",
-        "glyphicon-yen": "Yen",
-        "glyphicon-jpy": "Jpy",
-        "glyphicon-ruble": "Ruble",
-        "glyphicon-rub": "Rub",
-        "glyphicon-scale": "Scale",
-        "glyphicon-ice-lolly": "Ice lolly",
-        "glyphicon-ice-lolly-tasted": "Ice lolly tasted",
-        "glyphicon-education": "Education",
-        "glyphicon-option-horizontal": "Option horizontal",
-        "glyphicon-option-vertical": "Option vertical",
-        "glyphicon-menu-hamburger": "Menu hamburger",
-        "glyphicon-modal-window": "Modal window",
-        "glyphicon-oil": "Oil",
-        "glyphicon-grain": "Grain",
-        "glyphicon-sunglasses": "Sunglasses",
-        "glyphicon-text-size": "Text size",
-        "glyphicon-text-color": "Text color",
-        "glyphicon-text-background": "Text background",
-        "glyphicon-object-align-top": "Object align top",
-        "glyphicon-object-align-bottom": "Object align bottom",
-        "glyphicon-object-align-horizontal": "Object align horizontal",
-        "glyphicon-object-align-left": "Object align left",
-        "glyphicon-object-align-vertical": "Object align vertical",
-        "glyphicon-object-align-right": "Object align right",
-        "glyphicon-triangle-right": "Triangle right",
-        "glyphicon-triangle-left": "Triangle left",
-        "glyphicon-triangle-bottom": "Triangle bottom",
-        "glyphicon-triangle-top": "Triangle top",
-        "glyphicon-console": "Console",
-        "glyphicon-superscript": "Superscript",
-        "glyphicon-subscript": "Subscript",
-        "glyphicon-menu-left": "Menu left",
-        "glyphicon-menu-right": "Menu right",
-        "glyphicon-menu-down": "Menu down",
-        "glyphicon-menu-up": "Menu up"
-      }
+      "options": [
+        {
+          "value": "glyphicon-asterisk",
+          "label": "Asterisk"
+        },
+        {
+          "value": "glyphicon-plus",
+          "label": "Plus"
+        },
+        {
+          "value": "glyphicon-euro",
+          "label": "Euro"
+        },
+        {
+          "value": "glyphicon-eur",
+          "label": "Eur"
+        },
+        {
+          "value": "glyphicon-minus",
+          "label": "Minus"
+        },
+        {
+          "value": "glyphicon-cloud",
+          "label": "Cloud"
+        },
+        {
+          "value": "glyphicon-envelope",
+          "label": "Envelope"
+        },
+        {
+          "value": "glyphicon-pencil",
+          "label": "Pencil"
+        },
+        {
+          "value": "glyphicon-glass",
+          "label": "Glass"
+        },
+        {
+          "value": "glyphicon-music",
+          "label": "Music"
+        },
+        {
+          "value": "glyphicon-search",
+          "label": "Search"
+        },
+        {
+          "value": "glyphicon-heart",
+          "label": "Heart"
+        },
+        {
+          "value": "glyphicon-star",
+          "label": "Star"
+        },
+        {
+          "value": "glyphicon-star-empty",
+          "label": "Star empty"
+        },
+        {
+          "value": "glyphicon-user",
+          "label": "User"
+        },
+        {
+          "value": "glyphicon-film",
+          "label": "Film"
+        },
+        {
+          "value": "glyphicon-th-large",
+          "label": "Th large"
+        },
+        {
+          "value": "glyphicon-th",
+          "label": "Th"
+        },
+        {
+          "value": "glyphicon-th-list",
+          "label": "Th list"
+        },
+        {
+          "value": "glyphicon-ok",
+          "label": "Ok"
+        },
+        {
+          "value": "glyphicon-remove",
+          "label": "Remove"
+        },
+        {
+          "value": "glyphicon-zoom-in",
+          "label": "Zoom in"
+        },
+        {
+          "value": "glyphicon-zoom-out",
+          "label": "Zoom out"
+        },
+        {
+          "value": "glyphicon-off",
+          "label": "Off"
+        },
+        {
+          "value": "glyphicon-signal",
+          "label": "Signal"
+        },
+        {
+          "value": "glyphicon-cog",
+          "label": "Cog"
+        },
+        {
+          "value": "glyphicon-trash",
+          "label": "Trash"
+        },
+        {
+          "value": "glyphicon-home",
+          "label": "Home"
+        },
+        {
+          "value": "glyphicon-file",
+          "label": "File"
+        },
+        {
+          "value": "glyphicon-time",
+          "label": "Time"
+        },
+        {
+          "value": "glyphicon-road",
+          "label": "Road"
+        },
+        {
+          "value": "glyphicon-download-alt",
+          "label": "Download alt"
+        },
+        {
+          "value": "glyphicon-download",
+          "label": "Download"
+        },
+        {
+          "value": "glyphicon-upload",
+          "label": "Upload"
+        },
+        {
+          "value": "glyphicon-inbox",
+          "label": "Inbox"
+        },
+        {
+          "value": "glyphicon-play-circle",
+          "label": "Play circle"
+        },
+        {
+          "value": "glyphicon-repeat",
+          "label": "Repeat"
+        },
+        {
+          "value": "glyphicon-refresh",
+          "label": "Refresh"
+        },
+        {
+          "value": "glyphicon-list-alt",
+          "label": "List alt"
+        },
+        {
+          "value": "glyphicon-lock",
+          "label": "Lock"
+        },
+        {
+          "value": "glyphicon-flag",
+          "label": "Flag"
+        },
+        {
+          "value": "glyphicon-headphones",
+          "label": "Headphones"
+        },
+        {
+          "value": "glyphicon-volume-off",
+          "label": "Volume off"
+        },
+        {
+          "value": "glyphicon-volume-down",
+          "label": "Volume down"
+        },
+        {
+          "value": "glyphicon-volume-up",
+          "label": "Volume up"
+        },
+        {
+          "value": "glyphicon-qrcode",
+          "label": "Qrcode"
+        },
+        {
+          "value": "glyphicon-barcode",
+          "label": "Barcode"
+        },
+        {
+          "value": "glyphicon-tag",
+          "label": "Tag"
+        },
+        {
+          "value": "glyphicon-tags",
+          "label": "Tags"
+        },
+        {
+          "value": "glyphicon-book",
+          "label": "Book"
+        },
+        {
+          "value": "glyphicon-bookmark",
+          "label": "Bookmark"
+        },
+        {
+          "value": "glyphicon-print",
+          "label": "Print"
+        },
+        {
+          "value": "glyphicon-camera",
+          "label": "Camera"
+        },
+        {
+          "value": "glyphicon-font",
+          "label": "Font"
+        },
+        {
+          "value": "glyphicon-bold",
+          "label": "Bold"
+        },
+        {
+          "value": "glyphicon-italic",
+          "label": "Italic"
+        },
+        {
+          "value": "glyphicon-text-height",
+          "label": "Text height"
+        },
+        {
+          "value": "glyphicon-text-width",
+          "label": "Text width"
+        },
+        {
+          "value": "glyphicon-align-left",
+          "label": "Align left"
+        },
+        {
+          "value": "glyphicon-align-center",
+          "label": "Align center"
+        },
+        {
+          "value": "glyphicon-align-right",
+          "label": "Align right"
+        },
+        {
+          "value": "glyphicon-align-justify",
+          "label": "Align justify"
+        },
+        {
+          "value": "glyphicon-list",
+          "label": "List"
+        },
+        {
+          "value": "glyphicon-indent-left",
+          "label": "Indent left"
+        },
+        {
+          "value": "glyphicon-indent-right",
+          "label": "Indent right"
+        },
+        {
+          "value": "glyphicon-facetime-video",
+          "label": "Facetime video"
+        },
+        {
+          "value": "glyphicon-picture",
+          "label": "Picture"
+        },
+        {
+          "value": "glyphicon-map-marker",
+          "label": "Map marker"
+        },
+        {
+          "value": "glyphicon-adjust",
+          "label": "Adjust"
+        },
+        {
+          "value": "glyphicon-tint",
+          "label": "Tint"
+        },
+        {
+          "value": "glyphicon-edit",
+          "label": "Edit"
+        },
+        {
+          "value": "glyphicon-share",
+          "label": "Share"
+        },
+        {
+          "value": "glyphicon-check",
+          "label": "Check"
+        },
+        {
+          "value": "glyphicon-move",
+          "label": "Move"
+        },
+        {
+          "value": "glyphicon-step-backward",
+          "label": "Step backward"
+        },
+        {
+          "value": "glyphicon-fast-backward",
+          "label": "Fast backward"
+        },
+        {
+          "value": "glyphicon-backward",
+          "label": "Backward"
+        },
+        {
+          "value": "glyphicon-play",
+          "label": "Play"
+        },
+        {
+          "value": "glyphicon-pause",
+          "label": "Pause"
+        },
+        {
+          "value": "glyphicon-stop",
+          "label": "Stop"
+        },
+        {
+          "value": "glyphicon-forward",
+          "label": "Forward"
+        },
+        {
+          "value": "glyphicon-fast-forward",
+          "label": "Fast forward"
+        },
+        {
+          "value": "glyphicon-step-forward",
+          "label": "Step forward"
+        },
+        {
+          "value": "glyphicon-eject",
+          "label": "Eject"
+        },
+        {
+          "value": "glyphicon-chevron-left",
+          "label": "Chevron left"
+        },
+        {
+          "value": "glyphicon-chevron-right",
+          "label": "Chevron right"
+        },
+        {
+          "value": "glyphicon-plus-sign",
+          "label": "Plus sign"
+        },
+        {
+          "value": "glyphicon-minus-sign",
+          "label": "Minus sign"
+        },
+        {
+          "value": "glyphicon-remove-sign",
+          "label": "Remove sign"
+        },
+        {
+          "value": "glyphicon-ok-sign",
+          "label": "Ok sign"
+        },
+        {
+          "value": "glyphicon-question-sign",
+          "label": "Question sign"
+        },
+        {
+          "value": "glyphicon-info-sign",
+          "label": "Info sign"
+        },
+        {
+          "value": "glyphicon-screenshot",
+          "label": "Screenshot"
+        },
+        {
+          "value": "glyphicon-remove-circle",
+          "label": "Remove circle"
+        },
+        {
+          "value": "glyphicon-ok-circle",
+          "label": "Ok circle"
+        },
+        {
+          "value": "glyphicon-ban-circle",
+          "label": "Ban circle"
+        },
+        {
+          "value": "glyphicon-arrow-left",
+          "label": "Arrow left"
+        },
+        {
+          "value": "glyphicon-arrow-right",
+          "label": "Arrow right"
+        },
+        {
+          "value": "glyphicon-arrow-up",
+          "label": "Arrow up"
+        },
+        {
+          "value": "glyphicon-arrow-down",
+          "label": "Arrow down"
+        },
+        {
+          "value": "glyphicon-share-alt",
+          "label": "Share alt"
+        },
+        {
+          "value": "glyphicon-resize-full",
+          "label": "Resize full"
+        },
+        {
+          "value": "glyphicon-resize-small",
+          "label": "Resize small"
+        },
+        {
+          "value": "glyphicon-exclamation-sign",
+          "label": "Exclamation sign"
+        },
+        {
+          "value": "glyphicon-gift",
+          "label": "Gift"
+        },
+        {
+          "value": "glyphicon-leaf",
+          "label": "Leaf"
+        },
+        {
+          "value": "glyphicon-fire",
+          "label": "Fire"
+        },
+        {
+          "value": "glyphicon-eye-open",
+          "label": "Eye open"
+        },
+        {
+          "value": "glyphicon-eye-close",
+          "label": "Eye close"
+        },
+        {
+          "value": "glyphicon-warning-sign",
+          "label": "Warning sign"
+        },
+        {
+          "value": "glyphicon-plane",
+          "label": "Plane"
+        },
+        {
+          "value": "glyphicon-calendar",
+          "label": "Calendar"
+        },
+        {
+          "value": "glyphicon-random",
+          "label": "Random"
+        },
+        {
+          "value": "glyphicon-comment",
+          "label": "Comment"
+        },
+        {
+          "value": "glyphicon-magnet",
+          "label": "Magnet"
+        },
+        {
+          "value": "glyphicon-chevron-up",
+          "label": "Chevron up"
+        },
+        {
+          "value": "glyphicon-chevron-down",
+          "label": "Chevron down"
+        },
+        {
+          "value": "glyphicon-retweet",
+          "label": "Retweet"
+        },
+        {
+          "value": "glyphicon-shopping-cart",
+          "label": "Shopping cart"
+        },
+        {
+          "value": "glyphicon-folder-close",
+          "label": "Folder close"
+        },
+        {
+          "value": "glyphicon-folder-open",
+          "label": "Folder open"
+        },
+        {
+          "value": "glyphicon-resize-vertical",
+          "label": "Resize vertical"
+        },
+        {
+          "value": "glyphicon-resize-horizontal",
+          "label": "Resize horizontal"
+        },
+        {
+          "value": "glyphicon-hdd",
+          "label": "Hdd"
+        },
+        {
+          "value": "glyphicon-bullhorn",
+          "label": "Bullhorn"
+        },
+        {
+          "value": "glyphicon-bell",
+          "label": "Bell"
+        },
+        {
+          "value": "glyphicon-certificate",
+          "label": "Certificate"
+        },
+        {
+          "value": "glyphicon-thumbs-up",
+          "label": "Thumbs up"
+        },
+        {
+          "value": "glyphicon-thumbs-down",
+          "label": "Thumbs down"
+        },
+        {
+          "value": "glyphicon-hand-right",
+          "label": "Hand right"
+        },
+        {
+          "value": "glyphicon-hand-left",
+          "label": "Hand left"
+        },
+        {
+          "value": "glyphicon-hand-up",
+          "label": "Hand up"
+        },
+        {
+          "value": "glyphicon-hand-down",
+          "label": "Hand down"
+        },
+        {
+          "value": "glyphicon-circle-arrow-right",
+          "label": "Circle arrow right"
+        },
+        {
+          "value": "glyphicon-circle-arrow-left",
+          "label": "Circle arrow left"
+        },
+        {
+          "value": "glyphicon-circle-arrow-up",
+          "label": "Circle arrow up"
+        },
+        {
+          "value": "glyphicon-circle-arrow-down",
+          "label": "Circle arrow down"
+        },
+        {
+          "value": "glyphicon-globe",
+          "label": "Globe"
+        },
+        {
+          "value": "glyphicon-wrench",
+          "label": "Wrench"
+        },
+        {
+          "value": "glyphicon-tasks",
+          "label": "Tasks"
+        },
+        {
+          "value": "glyphicon-filter",
+          "label": "Filter"
+        },
+        {
+          "value": "glyphicon-briefcase",
+          "label": "Briefcase"
+        },
+        {
+          "value": "glyphicon-fullscreen",
+          "label": "Fullscreen"
+        },
+        {
+          "value": "glyphicon-dashboard",
+          "label": "Dashboard"
+        },
+        {
+          "value": "glyphicon-paperclip",
+          "label": "Paperclip"
+        },
+        {
+          "value": "glyphicon-heart-empty",
+          "label": "Heart empty"
+        },
+        {
+          "value": "glyphicon-link",
+          "label": "Link"
+        },
+        {
+          "value": "glyphicon-phone",
+          "label": "Phone"
+        },
+        {
+          "value": "glyphicon-pushpin",
+          "label": "Pushpin"
+        },
+        {
+          "value": "glyphicon-usd",
+          "label": "Usd"
+        },
+        {
+          "value": "glyphicon-gbp",
+          "label": "Gbp"
+        },
+        {
+          "value": "glyphicon-sort",
+          "label": "Sort"
+        },
+        {
+          "value": "glyphicon-sort-by-alphabet",
+          "label": "Sort by alphabet"
+        },
+        {
+          "value": "glyphicon-sort-by-alphabet-alt",
+          "label": "Sort by alphabet alt"
+        },
+        {
+          "value": "glyphicon-sort-by-order",
+          "label": "Sort by order"
+        },
+        {
+          "value": "glyphicon-sort-by-order-alt",
+          "label": "Sort by order alt"
+        },
+        {
+          "value": "glyphicon-sort-by-attributes",
+          "label": "Sort by attributes"
+        },
+        {
+          "value": "glyphicon-sort-by-attributes-alt",
+          "label": "Sort by attributes alt"
+        },
+        {
+          "value": "glyphicon-unchecked",
+          "label": "Unchecked"
+        },
+        {
+          "value": "glyphicon-expand",
+          "label": "Expand"
+        },
+        {
+          "value": "glyphicon-collapse-down",
+          "label": "Collapse down"
+        },
+        {
+          "value": "glyphicon-collapse-up",
+          "label": "Collapse up"
+        },
+        {
+          "value": "glyphicon-log-in",
+          "label": "Log in"
+        },
+        {
+          "value": "glyphicon-flash",
+          "label": "Flash"
+        },
+        {
+          "value": "glyphicon-log-out",
+          "label": "Log out"
+        },
+        {
+          "value": "glyphicon-new-window",
+          "label": "New window"
+        },
+        {
+          "value": "glyphicon-record",
+          "label": "Record"
+        },
+        {
+          "value": "glyphicon-save",
+          "label": "Save"
+        },
+        {
+          "value": "glyphicon-open",
+          "label": "Open"
+        },
+        {
+          "value": "glyphicon-saved",
+          "label": "Saved"
+        },
+        {
+          "value": "glyphicon-import",
+          "label": "Import"
+        },
+        {
+          "value": "glyphicon-export",
+          "label": "Export"
+        },
+        {
+          "value": "glyphicon-send",
+          "label": "Send"
+        },
+        {
+          "value": "glyphicon-floppy-disk",
+          "label": "Floppy disk"
+        },
+        {
+          "value": "glyphicon-floppy-saved",
+          "label": "Floppy saved"
+        },
+        {
+          "value": "glyphicon-floppy-remove",
+          "label": "Floppy remove"
+        },
+        {
+          "value": "glyphicon-floppy-save",
+          "label": "Floppy save"
+        },
+        {
+          "value": "glyphicon-floppy-open",
+          "label": "Floppy open"
+        },
+        {
+          "value": "glyphicon-credit-card",
+          "label": "Credit card"
+        },
+        {
+          "value": "glyphicon-transfer",
+          "label": "Transfer"
+        },
+        {
+          "value": "glyphicon-cutlery",
+          "label": "Cutlery"
+        },
+        {
+          "value": "glyphicon-header",
+          "label": "Header"
+        },
+        {
+          "value": "glyphicon-compressed",
+          "label": "Compressed"
+        },
+        {
+          "value": "glyphicon-earphone",
+          "label": "Earphone"
+        },
+        {
+          "value": "glyphicon-phone-alt",
+          "label": "Phone alt"
+        },
+        {
+          "value": "glyphicon-tower",
+          "label": "Tower"
+        },
+        {
+          "value": "glyphicon-stats",
+          "label": "Stats"
+        },
+        {
+          "value": "glyphicon-sd-video",
+          "label": "Sd video"
+        },
+        {
+          "value": "glyphicon-hd-video",
+          "label": "Hd video"
+        },
+        {
+          "value": "glyphicon-subtitles",
+          "label": "Subtitles"
+        },
+        {
+          "value": "glyphicon-sound-stereo",
+          "label": "Sound stereo"
+        },
+        {
+          "value": "glyphicon-sound-dolby",
+          "label": "Sound dolby"
+        },
+        {
+          "value": "glyphicon-sound-5-1",
+          "label": "Sound 5 1"
+        },
+        {
+          "value": "glyphicon-sound-6-1",
+          "label": "Sound 6 1"
+        },
+        {
+          "value": "glyphicon-sound-7-1",
+          "label": "Sound 7 1"
+        },
+        {
+          "value": "glyphicon-copyright-mark",
+          "label": "Copyright mark"
+        },
+        {
+          "value": "glyphicon-registration-mark",
+          "label": "Registration mark"
+        },
+        {
+          "value": "glyphicon-cloud-download",
+          "label": "Cloud download"
+        },
+        {
+          "value": "glyphicon-cloud-upload",
+          "label": "Cloud upload"
+        },
+        {
+          "value": "glyphicon-tree-conifer",
+          "label": "Tree conifer"
+        },
+        {
+          "value": "glyphicon-tree-deciduous",
+          "label": "Tree deciduous"
+        },
+        {
+          "value": "glyphicon-cd",
+          "label": "Cd"
+        },
+        {
+          "value": "glyphicon-save-file",
+          "label": "Save file"
+        },
+        {
+          "value": "glyphicon-open-file",
+          "label": "Open file"
+        },
+        {
+          "value": "glyphicon-level-up",
+          "label": "Level up"
+        },
+        {
+          "value": "glyphicon-copy",
+          "label": "Copy"
+        },
+        {
+          "value": "glyphicon-paste",
+          "label": "Paste"
+        },
+        {
+          "value": "glyphicon-alert",
+          "label": "Alert"
+        },
+        {
+          "value": "glyphicon-equalizer",
+          "label": "Equalizer"
+        },
+        {
+          "value": "glyphicon-king",
+          "label": "King"
+        },
+        {
+          "value": "glyphicon-queen",
+          "label": "Queen"
+        },
+        {
+          "value": "glyphicon-pawn",
+          "label": "Pawn"
+        },
+        {
+          "value": "glyphicon-bishop",
+          "label": "Bishop"
+        },
+        {
+          "value": "glyphicon-knight",
+          "label": "Knight"
+        },
+        {
+          "value": "glyphicon-baby-formula",
+          "label": "Baby formula"
+        },
+        {
+          "value": "glyphicon-tent",
+          "label": "Tent"
+        },
+        {
+          "value": "glyphicon-blackboard",
+          "label": "Blackboard"
+        },
+        {
+          "value": "glyphicon-bed",
+          "label": "Bed"
+        },
+        {
+          "value": "glyphicon-apple",
+          "label": "Apple"
+        },
+        {
+          "value": "glyphicon-erase",
+          "label": "Erase"
+        },
+        {
+          "value": "glyphicon-hourglass",
+          "label": "Hourglass"
+        },
+        {
+          "value": "glyphicon-lamp",
+          "label": "Lamp"
+        },
+        {
+          "value": "glyphicon-duplicate",
+          "label": "Duplicate"
+        },
+        {
+          "value": "glyphicon-piggy-bank",
+          "label": "Piggy bank"
+        },
+        {
+          "value": "glyphicon-scissors",
+          "label": "Scissors"
+        },
+        {
+          "value": "glyphicon-bitcoin",
+          "label": "Bitcoin"
+        },
+        {
+          "value": "glyphicon-btc",
+          "label": "Btc"
+        },
+        {
+          "value": "glyphicon-xbt",
+          "label": "Xbt"
+        },
+        {
+          "value": "glyphicon-yen",
+          "label": "Yen"
+        },
+        {
+          "value": "glyphicon-jpy",
+          "label": "Jpy"
+        },
+        {
+          "value": "glyphicon-ruble",
+          "label": "Ruble"
+        },
+        {
+          "value": "glyphicon-rub",
+          "label": "Rub"
+        },
+        {
+          "value": "glyphicon-scale",
+          "label": "Scale"
+        },
+        {
+          "value": "glyphicon-ice-lolly",
+          "label": "Ice lolly"
+        },
+        {
+          "value": "glyphicon-ice-lolly-tasted",
+          "label": "Ice lolly tasted"
+        },
+        {
+          "value": "glyphicon-education",
+          "label": "Education"
+        },
+        {
+          "value": "glyphicon-option-horizontal",
+          "label": "Option horizontal"
+        },
+        {
+          "value": "glyphicon-option-vertical",
+          "label": "Option vertical"
+        },
+        {
+          "value": "glyphicon-menu-hamburger",
+          "label": "Menu hamburger"
+        },
+        {
+          "value": "glyphicon-modal-window",
+          "label": "Modal window"
+        },
+        {
+          "value": "glyphicon-oil",
+          "label": "Oil"
+        },
+        {
+          "value": "glyphicon-grain",
+          "label": "Grain"
+        },
+        {
+          "value": "glyphicon-sunglasses",
+          "label": "Sunglasses"
+        },
+        {
+          "value": "glyphicon-text-size",
+          "label": "Text size"
+        },
+        {
+          "value": "glyphicon-text-color",
+          "label": "Text color"
+        },
+        {
+          "value": "glyphicon-text-background",
+          "label": "Text background"
+        },
+        {
+          "value": "glyphicon-object-align-top",
+          "label": "Object align top"
+        },
+        {
+          "value": "glyphicon-object-align-bottom",
+          "label": "Object align bottom"
+        },
+        {
+          "value": "glyphicon-object-align-horizontal",
+          "label": "Object align horizontal"
+        },
+        {
+          "value": "glyphicon-object-align-left",
+          "label": "Object align left"
+        },
+        {
+          "value": "glyphicon-object-align-vertical",
+          "label": "Object align vertical"
+        },
+        {
+          "value": "glyphicon-object-align-right",
+          "label": "Object align right"
+        },
+        {
+          "value": "glyphicon-triangle-right",
+          "label": "Triangle right"
+        },
+        {
+          "value": "glyphicon-triangle-left",
+          "label": "Triangle left"
+        },
+        {
+          "value": "glyphicon-triangle-bottom",
+          "label": "Triangle bottom"
+        },
+        {
+          "value": "glyphicon-triangle-top",
+          "label": "Triangle top"
+        },
+        {
+          "value": "glyphicon-console",
+          "label": "Console"
+        },
+        {
+          "value": "glyphicon-superscript",
+          "label": "Superscript"
+        },
+        {
+          "value": "glyphicon-subscript",
+          "label": "Subscript"
+        },
+        {
+          "value": "glyphicon-menu-left",
+          "label": "Menu left"
+        },
+        {
+          "value": "glyphicon-menu-right",
+          "label": "Menu right"
+        },
+        {
+          "value": "glyphicon-menu-down",
+          "label": "Menu down"
+        },
+        {
+          "value": "glyphicon-menu-up",
+          "label": "Menu up"
+        }
+      ]
     }
   },
   "custom": {
@@ -311,6 +1100,9 @@
   "relatedTo": {
     "type": "string",
     "access": "system",
-    "value": ["Icons", "Semantics"]
+    "value": [
+      "Icons",
+      "Semantics"
+    ]
   }
 }
