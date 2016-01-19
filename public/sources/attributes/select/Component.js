@@ -5,6 +5,7 @@ module.exports = React.createClass({
 	mixins: [ParamMixin],
 	setter: Setter,
 	render: function () {
+		console.log('render select');
 		// TODO: change key to something unique
 		var optionElements = [<option key="-1"></option>],
 			options = this.props.settings.getSettings().options;

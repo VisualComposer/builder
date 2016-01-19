@@ -5,6 +5,7 @@ module.exports = React.createClass({
     mixins: [ParamMixin],
     setter: Setter,
     render: function() {
+		console.log('render string');
         return (<div><label>{this.props.settings.getTitle()}</label><input
 			type="text"
             onChange={this.handleChange}

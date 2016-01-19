@@ -48,6 +48,9 @@ var ElementsList = {
                             },
                             getSettings: function() {
                                 return optionSettings.settings;
+                            },
+                            getDefault: function() {
+                                return optionSettings.default;
                             }
                         };
                         return Parameter;
