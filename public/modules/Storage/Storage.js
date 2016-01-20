@@ -77,10 +77,28 @@ var DataStore = {
         }
         return false;
     },
-	moveToParent: function (element, parent) {
-		if (parent) {
-			parent.appendChild(element);
-			return element;
+	moveTo: function (dragId, targetId, action) {
+		let dragEl = this.document.getElementById(dragId),
+			targetEl = this.document.getElementById(targetId);
+		if (dragEl && targetEl) {
+			switch (action) {
+				case 'before':
+					targetEl.parentNode.insertBefore(dragEl, targetEl);
+					return true;
+					break;
+				case 'after':
+					if (targetEl.nextSibling) {
+						targetEl.parentNode.insertBefore(dragEl, targetEl.nextSibling);
+					} else {
+						targetEl.parentNode.appendChild(dragEl);
+					}
+					return true;
+					break;
+				case 'into':
+					targetEl.appendChild(dragEl);
+					return true;
+					break;
+			}
 		}
 		return false;
 	},
@@ -137,8 +155,8 @@ var Data = {
     move: function (id, beforeId) {
         DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());
     },
-	moveToParent: function ( srcElId, dragElId ) {
-		DataStore.moveToParent(srcElId, dragElId) && Data.publish('data:changed', this.getDocument());
+	moveTo: function ( srcElId, nextElId, parentId ) {
+		DataStore.moveTo(srcElId, nextElId, parentId) && Data.publish('data:changed', this.getDocument());
 	}
 };
 
@@ -166,8 +184,8 @@ Data.subscribe('data:mutate', function (element) {
 Data.subscribe('data:move', function (id, beforeId) {
     Data.move(id, beforeId);
 });
-Data.subscribe('data:moveToParent', function (srcElId, dragElId) {
-    Data.moveToParent(srcElId, dragElId);
+Data.subscribe('data:moveTo', function (srcElId, nextElId, parentId) {
+    Data.moveTo(srcElId, nextElId, parentId);
 });
 
 module.exports = Data;

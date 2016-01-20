@@ -13,100 +13,254 @@ export const ItemTypes = {
 	ELEMENT: 'element'
 };
 
-var elementSource = {
-	beginDrag: function (props) {
-		return {
-			id: props['data-vc-element'],
-			element: Mediator.getService('data').get(props['data-vc-element'])
-		};
-	}
-};
-
-
 var DndElementServices = Mediator.installTo({
 
 });
 
+var elementSource = {
+	beginDrag: function (props, monitor) {
+		let element = Mediator.getService('data').get(props['data-vc-element'] ),
+			data = {
+				hoverStack: [],
+				emptyHoverStack: true,
+				hoverElementId: null,
+				dropTarget: null,
+				dropAction: 'before',
+				clientOffset: null,
+				dragElement: {
+					element: element,
+					id: element.id
+				},
+				parentElement: {
+					element: element.parentNode,
+					id: element.parentNode.id
+				},
+				nextElement: {
+					element: element.nextSibling,
+					id: function ( ) {
+						if (element.nextSibling) {
+							return element.nextSibling.id;
+						}
+						return null;
+					}
+				},
+				canDropCache: {},
+				changeHoverElement: function(elId) {
+					this.hoverElementId = elId;
+					this.clientOffset = null;
+					this.dropAction = 'before';
+				},
+				preventDrop: function (  ) {
+					return this.hoverStack.some(elem => elem['data-vc-element'] === this.dragElement.id)
+				},
+				offsetDifference: function ( ) {
+					if (this.clientOffset === null) {
+						this.clientOffset = monitor.getClientOffset();
+						return undefined;
+					}
+					let newOffset = monitor.getClientOffset(),
+						offsetDifference = {
+							x: newOffset.x - this.clientOffset.x,
+							y: newOffset.y - this.clientOffset.y
+						};
+
+					this.clientOffset = monitor.getClientOffset();
+					return offsetDifference;
+				}
+			};
+
+		return data;
+	},
+	endDrag(props, monitor) {
+		// remove placeholder
+		let placeholder = document.getElementById(monitor.getItem().dragElement.id + '-placeholder');
+		if (placeholder) {
+			placeholder.remove();
+		}
+		//monitor.getItem().dragElement.element.remove();
+
+	}
+};
+
 var elementTarget = {
+
 	hover: function ( props, monitor, component ) {
-		// check if hover is on final element
-		if (!monitor.isOver({ shallow: true })) {
+		if (!monitor.isOver()) {
 			return;
 		}
 
-		let dragElementId = monitor.getItem().id,
-			srcElementId = props['data-vc-element'];
-
-		// don't replace item with itself
-		if (srcElementId === dragElementId){
-			return;
+		if (monitor.getItem().emptyHoverStack) {
+			monitor.getItem().hoverStack = [];
+			monitor.getItem().emptyHoverStack = false;
 		}
 
-		// get elements
-		let dragElemnt = monitor.getItem().element,
-			hoverElement = Mediator.getService('data').get(dragElementId);
+		// check if it is final hover element
+		if (monitor.isOver({ shallow: true })) {
+			monitor.getItem().emptyHoverStack = true;
+		} else {
+			monitor.getItem().hoverStack.push(props);
+			return false;
+		}
+
+		if (monitor.getItem().dragElement.id === props['data-vc-element' ]) {
+			return false;
+		}
+
+		// no move, no other actions
+		let offsetDifference = monitor.getItem().offsetDifference();
+		if  (!offsetDifference || offsetDifference.x == 0 && offsetDifference.y == 0) {
+			return false;
+		}
+
+		// if change object no need for another action
+		if (monitor.getItem().hoverElementId !== props['data-vc-element']) {
+			monitor.getItem().changeHoverElement(props['data-vc-element']);
+			return false;
+		}
 
 		// get offsets and positions
 		let hoverBoundingRect = ReactDOM.findDOMNode(component).getBoundingClientRect(),
-			hoverMiddleX = hoverBoundingRect.width / 2,
+			hoverMiddleX = (hoverBoundingRect.width / 2),
 			hoverMiddleY = hoverBoundingRect.height / 2,
+			hoverQuadX = hoverBoundingRect.width / 4,
+			hoverQuadY = hoverBoundingRect.height / 4,
 			clientOffset = monitor.getClientOffset(),
 			hoverClientX = clientOffset.x - hoverBoundingRect.left,
 			hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-		let domDragElement = document.getElementById(dragElementId);
+		// calculating action
+		let hoverStack = monitor.getItem().hoverStack;
+		let canSort = hoverStack.length && this.canDrop(hoverStack[hoverStack.length - 1], monitor);
+		let canDrop = this.canDrop(props, monitor);
 
-
-		//DndElementServices.publish( 'data:swipe',
-		//	srcElementId,
-		//	dragElementId);
-
-		console.log('hover');
-	},
-	canDrop: function (props, monitor) {
-		let component = ElementComponents.get( monitor.getItem().element ),
-			container = Mediator.getService('data').get(props['data-vc-element']),
-
-			containerComponent = ElementComponents.get( container ),
-			dependencies = containerComponent.children ? containerComponent.children.toString() : '';
-
-			if (monitor.getItem().element == container) {
-				return false; // todo: rewrite this
+		if (canSort && canDrop) { // check quad sizes
+			if (offsetDifference.x < 0 && hoverClientX < hoverQuadX || offsetDifference.y < 0 && hoverClientY < hoverQuadY) {
+				monitor.getItem().dropAction = 'before';
+			} else if (offsetDifference.x > 0 && hoverClientX > hoverQuadX * 3 || offsetDifference.y > 0 && hoverClientY > hoverQuadY * 3) {
+				monitor.getItem().dropAction = 'after';
+			} else {
+				monitor.getItem().dropAction = 'into';
 			}
-
-		if ( "*" === dependencies ) {
-			return ! (component.strongRelation && component.strongRelation.toString());
-		} else if ( dependencies.length ) {
-			let allowed = false;
-			// check by tag name
-			if ( dependencies.indexOf(component.tag.toString()) > -1 ) {
-				return true;
+			monitor.getItem().dropTarget = props['data-vc-element' ];
+		} else if (canSort && !canDrop) { // check half size
+			if (offsetDifference.x < 0 && hoverClientX < hoverMiddleX || offsetDifference.y < 0 && hoverClientY < hoverMiddleY) {
+				monitor.getItem().dropAction = 'before';
 			}
-			// check by relatedTo
-			if ( component.relatedTo ) {
-				component.relatedTo.toString().map( function ( relation ) {
-					if ( dependencies.indexOf(relation) > -1 ) {
-						allowed = true;
-					}
-				})
+			if (offsetDifference.x > 0 && hoverClientX > hoverMiddleX || offsetDifference.y > 0 && hoverClientY > hoverMiddleY) {
+				monitor.getItem().dropAction = 'after';
 			}
-			return allowed;
-		}
-		return false;
-	},
-	drop: function (props, monitor, component) {
-		if (monitor.didDrop()) {
+			monitor.getItem().dropTarget = props['data-vc-element' ];
+		} else if (!canSort && canDrop){ // don't check sizes, just drop
+			monitor.getItem().dropAction = 'into';
+			monitor.getItem().dropTarget = props['data-vc-element' ];
+		} else {
 			return;
 		}
 
-		let element = monitor.getItem().element,
-			container = Mediator.getService('data').get( props['data-vc-element'] );
+		if (!monitor.getItem().dropTarget) {
+			return false;
+		}
+		moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().dropTarget, monitor.getItem().dropAction);
+	},
+	canDrop: function (props, monitor) {
+		if (monitor.isOver() && monitor.getItem().preventDrop()) {
+			return false;
+		}
 
-		DndElementServices.publish( 'data:moveToParent',
-			element,
-			container);
+		if (!monitor.getItem().canDropCache.hasOwnProperty(props['data-vc-element'])) {
+			monitor.getItem().canDropCache[props['data-vc-element']] = canDropByRelation(props, monitor);
+		}
+
+		return monitor.getItem().canDropCache[props['data-vc-element']];
+	},
+	drop: function (props, monitor) {
+		if (monitor.didDrop()) {
+			return;
+		}
+		// before drop revert all changes
+		if (monitor.getItem().nextElement.id()) {
+			moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().nextElement.id(), 'before');
+		} else {
+			moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().parentElement.id, 'into');
+		}
+		DndElementServices.publish( 'data:moveTo',
+			monitor.getItem().dragElement.id,
+			monitor.getItem().dropTarget,
+			monitor.getItem().dropAction
+		);
 	}
 };
+
+function canDropByRelation(props, monitor) {
+	// no need to drop to itself
+	if (monitor.getItem().dragElement.id === props['data-vc-element']) {
+		return false;
+	}
+	let dragElement = monitor.getItem().dragElement.element,
+		checkElement = Mediator.getService('data').get(props['data-vc-element'] ),
+		dragComponent = ElementComponents.get( dragElement ),
+		checkComponent = ElementComponents.get( checkElement ),
+		dependencies = checkComponent.children ? checkComponent.children.toString() : '';
+
+	if ( "*" === dependencies ) {
+		return ! (dragComponent.strongRelation && dragComponent.strongRelation.toString());
+	} else if ( dependencies.length ) {
+		let allowed = false;
+		// check by tag name
+		if ( dependencies.indexOf(dragComponent.tag.toString()) > -1 ) {
+			return true;
+		}
+		// check by relatedTo
+		if ( dragComponent.relatedTo ) {
+			dragComponent.relatedTo.toString().map( function ( relation ) {
+				if ( dependencies.indexOf(relation) > -1 ) {
+					allowed = true;
+				}
+			})
+		}
+		return allowed;
+	}
+	return false;
+}
+
+function moveElementPlaceholder(dragId, targetId, action){
+	let dragEl = document.querySelector('[data-vc-element="'+dragId+'"]' ),
+		targetEl = document.querySelector('[data-vc-element="'+targetId+'"]');
+
+	if (dragEl && targetEl) {
+		// create placeholder
+		let placeholder = document.getElementById(dragId + '-placeholder');
+		//if (!placeholder) {
+		//	placeholder = dragEl.cloneNode(true);
+		//	placeholder.classList.add('vc_ui-drag-placeholder' );
+		//	placeholder.id = dragId + '-placeholder';
+		//}
+		// hide element if only sorting
+		//console.log(dragEl.parentNode === targetEl.parentNode, dragEl.parentNode.dataset.vcElement === targetEl.parentNode.dataset.vcElement,dragEl.parentNode.dataset.vcElement, targetEl.parentNode.dataset.vcElement);
+		//if (placeholder) {
+		//	if (placeholder.parentNode === targetEl.parentNode) {
+		//		placeholder.setAttribute('data-vc-dnd-hidden', 'true');
+		//	} else {
+		//		placeholder.removeAttribute('data-vc-dnd-hidden');
+		//	}
+		//}
+		switch (action) {
+			case 'before':
+				targetEl.parentNode.insertBefore(dragEl, targetEl);
+				break;
+			case 'after':
+				if (targetEl.nextSibling) {
+					targetEl.parentNode.insertBefore(dragEl, targetEl.nextSibling);
+				} else {
+					targetEl.parentNode.appendChild(dragEl);
+				}
+				break;
+			case 'into':
+				targetEl.appendChild(dragEl);
+				break;
+		}
+	}
+}
 
 function collectSource(connect, monitor) {
 	return {
@@ -132,12 +286,6 @@ var DndElement = React.createClass(Mediator.installTo({
 		canDrop: PropTypes.bool.isRequired
 	},
 
-
-	moveElement: function ( dragIndex, hoverIndex ) {
-		console.log(dragIndex);
-		console.log(hoverIndex);
-	},
-
 	render: function() {
 		let connectDragSource = this.props.connectDragSource,
 			connectDropTarget = this.props.connectDropTarget,
@@ -154,6 +302,9 @@ var DndElement = React.createClass(Mediator.installTo({
 		//}
 		if (isOverCurrent && canDrop) {
 			overlay['data-vc-dnd-status'] = 'success';
+		}
+		if (isDragging) {
+			overlay['data-vc-dnd-status'] = 'is-dragging';
 		}
 
 		let render = React.createElement(ElementView, {
