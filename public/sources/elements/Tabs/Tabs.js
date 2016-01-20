@@ -1,9 +1,16 @@
 var React = require( 'react' );
 var classNames = require( 'classnames' );
+var AssetManager = require( '../../../helpers/AssetManager' );
 require( './Tabs.less' );
 require( 'jquery' );
 require( './js/accordion.js' );
 require( './js/tabs.js' );
+
+AssetManager.addScripts( 'Tabs', [ './js/accordion.js', './js/tabs.js' ] );
+AssetManager.addStyles( 'Tabs', [
+	'./less/base-colors.less', './less/colors.less', './less/core.less', './less/frontend-editor.less',
+	'./less/icon-controls.less', './less/mixins.less', './less/options.less', './less/variables.less'
+] );
 
 var Tabs = React.createClass( {
 
@@ -156,4 +163,5 @@ var Tabs = React.createClass( {
 		);
 	}
 } );
+
 module.exports = Tabs;

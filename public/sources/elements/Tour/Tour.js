@@ -1,9 +1,16 @@
 var React = require( 'react' );
 var classNames = require( 'classnames' );
+var AssetManager = require( '../../../helpers/AssetManager' );
 require( './Tour.less' );
 require( 'jquery' );
 require( './js/accordion.js' );
 require( './js/tour.js' );
+
+AssetManager.addScripts( 'Tour', [ './js/accordion.js', './js/tour.js' ] );
+AssetManager.addStyles( 'Tour', [
+	'./less/base-colors.less', './less/colors.less', './less/core.less', './less/frontend-editor.less',
+	'./less/icon-controls.less', './less/mixins.less', './less/options.less', './less/variables.less'
+] );
 
 var Tour = React.createClass( {
 
@@ -148,4 +155,5 @@ var Tour = React.createClass( {
 		);
 	}
 } );
+
 module.exports = Tour;
