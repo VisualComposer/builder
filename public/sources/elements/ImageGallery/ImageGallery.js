@@ -17,7 +17,7 @@ var ImageGallery = React.createClass( {
 	render: function () {
 		var images,
 			galleryID = this.galleryID,
-			{ key, urls, ...other } = this.props;
+			{ key, urls, editor, ...other } = this.props;
 
 		images = urls.split( ',' ).map( function ( url ) {
 			// TODO: key must be something else, because url is not necessarily unique
@@ -29,7 +29,7 @@ var ImageGallery = React.createClass( {
 		} );
 
 		return (
-			<div className="vc-image-gallery" id={galleryID} key={key} {...other}>
+			<div className="vc-image-gallery" id={galleryID} key={key} {...editor}>
 				{images}
 			</div>
 		);

@@ -19,7 +19,7 @@ var DndElementServices = Mediator.installTo({
 
 var elementSource = {
 	beginDrag: function (props, monitor) {
-		let element = Mediator.getService('data').get(props['data-vc-element'] ),
+		let element = Mediator.getService('data').get(props.editor['data-vc-element'] ),
 			data = {
 				hoverStack: [],
 				emptyHoverStack: true,
@@ -77,6 +77,16 @@ var elementSource = {
 		if (placeholder) {
 			placeholder.remove();
 		}
+
+		if (!monitor.didDrop()) {
+			if (monitor.getItem().nextElement.id()) {
+				moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().nextElement.id(), 'before');
+			} else {
+				moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().parentElement.id, 'into');
+			}
+		}
+
+
 		//monitor.getItem().dragElement.element.remove();
 
 	}
@@ -102,7 +112,7 @@ var elementTarget = {
 			return false;
 		}
 
-		if (monitor.getItem().dragElement.id === props['data-vc-element' ]) {
+		if (monitor.getItem().dragElement.id === props.editor['data-vc-element' ]) {
 			return false;
 		}
 
@@ -113,8 +123,8 @@ var elementTarget = {
 		}
 
 		// if change object no need for another action
-		if (monitor.getItem().hoverElementId !== props['data-vc-element']) {
-			monitor.getItem().changeHoverElement(props['data-vc-element']);
+		if (monitor.getItem().hoverElementId !== props.editor['data-vc-element']) {
+			monitor.getItem().changeHoverElement(props.editor['data-vc-element']);
 			return false;
 		}
 
@@ -141,7 +151,7 @@ var elementTarget = {
 			} else {
 				monitor.getItem().dropAction = 'into';
 			}
-			monitor.getItem().dropTarget = props['data-vc-element' ];
+			monitor.getItem().dropTarget = props.editor['data-vc-element' ];
 		} else if (canSort && !canDrop) { // check half size
 			if (offsetDifference.x < 0 && hoverClientX < hoverMiddleX || offsetDifference.y < 0 && hoverClientY < hoverMiddleY) {
 				monitor.getItem().dropAction = 'before';
@@ -149,10 +159,10 @@ var elementTarget = {
 			if (offsetDifference.x > 0 && hoverClientX > hoverMiddleX || offsetDifference.y > 0 && hoverClientY > hoverMiddleY) {
 				monitor.getItem().dropAction = 'after';
 			}
-			monitor.getItem().dropTarget = props['data-vc-element' ];
+			monitor.getItem().dropTarget = props.editor['data-vc-element' ];
 		} else if (!canSort && canDrop){ // don't check sizes, just drop
 			monitor.getItem().dropAction = 'into';
-			monitor.getItem().dropTarget = props['data-vc-element' ];
+			monitor.getItem().dropTarget = props.editor['data-vc-element' ];
 		} else {
 			return;
 		}
@@ -167,16 +177,21 @@ var elementTarget = {
 			return false;
 		}
 
-		if (!monitor.getItem().canDropCache.hasOwnProperty(props['data-vc-element'])) {
-			monitor.getItem().canDropCache[props['data-vc-element']] = canDropByRelation(props, monitor);
+		if (!monitor.getItem().canDropCache.hasOwnProperty(props.editor['data-vc-element'])) {
+			monitor.getItem().canDropCache[props.editor['data-vc-element']] = canDropByRelation(props, monitor);
 		}
 
-		return monitor.getItem().canDropCache[props['data-vc-element']];
+		return monitor.getItem().canDropCache[props.editor['data-vc-element']];
 	},
 	drop: function (props, monitor) {
 		if (monitor.didDrop()) {
 			return;
 		}
+
+		if (null === monitor.getItem().dropTarget) {
+			return;
+		}
+
 		// before drop revert all changes
 		if (monitor.getItem().nextElement.id()) {
 			moveElementPlaceholder(monitor.getItem().dragElement.id, monitor.getItem().nextElement.id(), 'before');
@@ -193,11 +208,11 @@ var elementTarget = {
 
 function canDropByRelation(props, monitor) {
 	// no need to drop to itself
-	if (monitor.getItem().dragElement.id === props['data-vc-element']) {
+	if (monitor.getItem().dragElement.id === props.editor['data-vc-element']) {
 		return false;
 	}
 	let dragElement = monitor.getItem().dragElement.element,
-		checkElement = Mediator.getService('data').get(props['data-vc-element'] ),
+		checkElement = Mediator.getService('data').get(props.editor['data-vc-element'] ),
 		dragComponent = ElementComponents.get( dragElement ),
 		checkComponent = ElementComponents.get( checkElement ),
 		dependencies = checkComponent.children ? checkComponent.children.toString() : '';

@@ -42,7 +42,7 @@ module.exports = React.createClass(Mediator.installTo({
 		// get dependencies
 		if (this.state.modalIsOpen) {
 			let activeNode =  Mediator.getService('data').activeNode;
-			let nodeData = ElementComponents.get(activeNode);
+			let nodeData = activeNode ? ElementComponents.get(activeNode) : {};
 
 			if (Object.getOwnPropertyNames(nodeData).length && nodeData.children) {
 				dependencies = nodeData.children.toString();

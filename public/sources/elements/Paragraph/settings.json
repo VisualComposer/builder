@@ -1,37 +1,40 @@
 {
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Paragraph"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Paragraph"
-    },
-    "icon": {
-        "type": "string",
-        "access": "system",
-        "value": "Paragraph"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "block"
-    },
-    "mutable": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Paragraphs", "Semantics"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Paragraph"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Paragraph"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "Paragraph"
+  },
+  "content": {
+    "type": "innerhtml",
+    "access": "public",
+    "value": "Hello my name is Boris and I know ninja rules very well. Hide away."
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "mutable": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Paragraphs",
+      "Semantics"
+    ]
+  }
 }

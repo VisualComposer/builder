@@ -72,11 +72,13 @@ var Element = React.createClass(Mediator.installTo({
         return React.createElement(DndElement, {
 			'ElementView': ElementView,
             key: element.getAttribute('id'),
-            'data-vc-element': element.getAttribute('id'),
-            'data-vc-element-type': ElementComponent.type.toString(),
-			'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString(): '',
-            'data-vc-editable': 'true',
-			'data-vc-name': ElementComponent.name.toString(),
+            editor: {
+				'data-vc-element': element.getAttribute( 'id' ),
+				'data-vc-element-type': ElementComponent.type.toString(),
+				'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString() : '',
+				'data-vc-editable': 'true',
+				'data-vc-name': ElementComponent.name.toString(),
+			},
             ...elementAttributes,
             content: this.getContent(elementAttributes.content)
         });
