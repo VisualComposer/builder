@@ -2,8 +2,26 @@ var Mediator = require( './Mediator' );
 var path = require( 'path' );
 
 var AssetManager = Mediator.installTo( {
-	scripts: {},
-	styles: {},
+
+	/**
+	 * Up-to-date list of all assets
+	 *
+	 * @param {Object}
+	 */
+	assets: {
+		scripts: {},
+		styles: {}
+	},
+
+	/**
+	 * Items are only added, never removed
+	 *
+	 * @param {Object}
+	 */
+	cache: {
+		scripts: {},
+		styles: {}
+	},
 
 	/**
 	 * @return {Object}
@@ -24,7 +42,7 @@ var AssetManager = Mediator.installTo( {
 	 * @return {Object}
 	 */
 	getAssets: function ( assetType ) {
-		return this[ assetType ];
+		return this.assets[ assetType ];
 	},
 
 	/**
@@ -35,13 +53,19 @@ var AssetManager = Mediator.installTo( {
 	addAsset: function ( assetType, element, file ) {
 		let filepath = path.join( element, file );
 
-		if ( typeof(this[ assetType ][ element ]) === 'undefined' ) {
-			this[ assetType ][ element ] = [];
-		} else if ( this[ assetType ][ element ].indexOf( filepath ) !== - 1 ) {
+		if ( typeof(this.cache[ assetType ][ element ]) === 'undefined' ) {
+			this.cache[ assetType ][ element ] = [ filepath ];
+		} else if ( this.cache[ assetType ][ element ].indexOf( filepath ) === - 1 ) {
+			this.cache[ assetType ][ element ].push( filepath );
+		}
+
+		if ( typeof(this.assets[ assetType ][ element ]) === 'undefined' ) {
+			this.assets[ assetType ][ element ] = [];
+		} else if ( this.assets[ assetType ][ element ].indexOf( filepath ) !== - 1 ) {
 			return;
 		}
 
-		this[ assetType ][ element ].push( filepath );
+		this.assets[ assetType ][ element ].push( filepath );
 	},
 
 	/**
@@ -89,6 +113,13 @@ var AssetManager = Mediator.installTo( {
 	}
 } );
 
+AssetManager.subscribe( 'data:add', function ( element ) {
+	let elementTag = element.tag.toString();
+
+	this.addScripts( elementTag, this.cache.scripts[ elementTag ] );
+	this.addStyles( elementTag, this.cache.styles[ elementTag ] );
+} );
+
 /**
  * Get all unique elements on page (their tag names) and remove all orphaned assets
  */
@@ -113,7 +144,7 @@ AssetManager.subscribe( 'data:remove', function ( id ) {
 			}
 		}
 
-		this[ assetTypes[ i ] ] = assets;
+		this.assets[ assetTypes[ i ] ] = assets;
 	}
 } );
 
