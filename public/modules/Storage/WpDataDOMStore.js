@@ -1,5 +1,7 @@
 var Data = require('./Storage');
 var Storage = require('./PostMetaData');
+var AssetManager = require( '../../helpers/AssetManager' );
+
 // Add to app
 var getData = function(document) {
     let data = Array.prototype.slice.call(document.childNodes);
@@ -36,18 +38,22 @@ Data.subscribe('app:init', function () {
         }
     });
 });
-Data.subscribe('app:save', function () {
-    // Here comes spinner
-    var content = document.getElementsByClassName('vc-v-layouts-html')[0].innerHTML.replace(/\s+data\-reactid="[^"]+"/, '');
-    ajaxPost({
-        action: 'vcv/setPostData',
-        post_id: window.vcPostID,
-        content: content,
-        data: getData(Data.getDocument())
-    }, function (request) {
-        console && console.log('VCV: Data saved!');
-    });
-});
+Data.subscribe( 'app:save', function () {
+	var content = document.getElementsByClassName( 'vc-v-layouts-html' )[ 0 ].innerHTML.replace(/\s+data\-reactid="[^"]+"/, '' ),
+		scripts = AssetManager.getAssets( 'scripts' ),
+		styles = AssetManager.getAssets( 'styles' );
+
+	ajaxPost( {
+		action: 'vcv/setPostData',
+		post_id: window.vcPostID,
+		content: content,
+		data: getData( Data.getDocument() ),
+		scripts: JSON.stringify( scripts ),
+		styles: JSON.stringify( styles )
+	}, function ( request ) {
+		console && console.log( 'VCV: Data saved!' );
+	} );
+} );
 window.vcData = Data; // @todo should be removed.
 
 module.exports = Data;

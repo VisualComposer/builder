@@ -44,16 +44,32 @@ if (is_admin()) {
         die();
     });
     add_action('wp_ajax_vcv/setPostData', function () {
-        $data = isset($_POST['data']) ? $_POST['data'] : false;
-        $content = isset($_POST['content']) ? $_POST['content'] : false;
-        $id = isset($_POST['post_id']) ? (int)$_POST['post_id'] : false;
-        if ($id) {
-            $post = get_post($id);
-            $post->post_content = stripslashes($content);
-            wp_update_post($post);
-            update_post_meta($id, 'vc_page_content', $data);
-        }
-        die();
+	    $data = isset( $_POST['data'] ) ? $_POST['data'] : false;
+	    $content = isset( $_POST['content'] ) ? $_POST['content'] : false;
+	    $id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : false;
+	    if ( $id ) {
+		    // TODO: save elements on page
+		    $post = get_post( $id );
+		    $post->post_content = stripslashes( $content );
+		    wp_update_post( $post );
+		    update_post_meta( $id, 'vc_page_content', $data );
+
+		    foreach ( [ 'scripts', 'styles' ] as $asset_type ) {
+			    $option_name = 'vc_' . $asset_type;
+			    $assets = get_option( $option_name );
+			    $assets = $assets ? json_decode( $assets, true ) : [ ];
+			    $page_assets = isset( $_POST[ $asset_type ] ) ? $_POST[ $asset_type ] : false;
+
+			    if ( $page_assets ) {
+				    $assets[ $id ] = $page_assets;
+			    } else {
+				    unset( $assets[ $id ] );
+			    }
+
+			    update_option( $option_name, $assets );
+		    }
+	    }
+	    die();
     });
 } else {
     add_action('wp_enqueue_scripts', function () {
