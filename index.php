@@ -80,6 +80,25 @@ if (is_admin()) {
 
         $link .= '<a href="#" onClick="vcvLoadInline(this, ' . get_the_ID() . ');">' . __('Edit with VC 5', 'vc5') . '</a>';
         if (!$jsScriptRendered) {
+
+	          // get list of all element assets from all posts
+		        $final_element_assets = [ 'scripts' => [ ], 'styles' => [ ] ];
+		        foreach ( $final_element_assets as $asset_type => $list ) {
+			        $loaded = [ ];
+			        $option_name = 'vc_' . $asset_type;
+			        $assets = (array) get_option( $option_name, [ ] );
+			        foreach ( $assets as $post_id => $elements ) {
+				        foreach ( $elements as $element => $element_assets ) {
+					        if ( in_array( $element, $loaded ) ) {
+						        continue;
+					        }
+					        $list = array_merge( $list, $element_assets );
+					        $loaded[] = $element;
+				        }
+			        }
+			        $final_element_assets[ $asset_type ] = $list;
+		        }
+
             ob_start();
             ?>
             <script>
@@ -107,6 +126,13 @@ if (is_admin()) {
                     vcvLoadJsCssFile('<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/dist/wp.bundle.css?' . time(), __FILE__ ) ) ?>', 'css');
                     // Load js
                     vcvLoadJsCssFile('<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/dist/wp.bundle.js?' . time(), __FILE__ ) ) ?>', 'js');
+
+		                <?php foreach ($final_element_assets['scripts'] as $file): ?>
+		                  vcvLoadJsCssFile( '<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/sources/elements/' . $file, __FILE__ ) ) ?>', 'js' );
+		                <?php endforeach ?>
+		                <?php foreach ($final_element_assets['styles'] as $file): ?>
+		                  vcvLoadJsCssFile( '<?php echo preg_replace( '/\s/', '%20', plugins_url( 'public/sources/elements/' . $file, __FILE__ ) ) ?>', 'css' );
+		                <?php endforeach ?>
                 }
                 ;
             </script>
