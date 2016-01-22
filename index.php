@@ -119,3 +119,26 @@ if (is_admin()) {
     add_filter('edit_post_link', $rowActionControl);
     // add button for frontend editor near edit
 }
+
+add_action( 'before_delete_post', 'vcv_before_delete_post' );
+/**
+ * Called every time post is permanently deleted
+ *
+ * Remove list of associated assets
+ *
+ * @param int $id Post ID
+ */
+function vcv_before_delete_post( $id ) {
+	foreach ( [ 'scripts', 'styles' ] as $asset_type ) {
+		$option_name = 'vc_' . $asset_type;
+		$assets = (array) get_option( $option_name, [ ] );
+
+		if ( ! isset( $assets[ $id ] ) ) {
+			continue;
+		}
+
+		unset( $assets[ $id ] );
+
+		update_option( $option_name, $assets );
+	}
+}
