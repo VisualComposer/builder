@@ -1,0 +1,107 @@
+{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Url"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Url"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "url": {
+    "type": "string",
+    "access": "public",
+    "value": "#",
+    "title": "Min Length validation check, minlength: 1",
+    "settings": {
+      "onOpen": [
+        {
+          "rule": "minlength",
+          "options": 1,
+          "done": [
+            // "ping"
+          ],
+          "fail": [
+            // "ping",
+            {
+              "action": "alert",
+              "options": "onOpen: URL must have minlength: 1"
+            }
+          ],
+          "always": [
+            // "ping"
+          ]
+        }
+      ],
+      "onChange": [
+        {
+          "rule": "minlength",
+          "options": "1", // {} // []
+          "done": [
+            //   "ping"
+          ],
+          "fail": [
+            // "ping",
+            {
+              "action": "alert",
+              "options": "onChange: URL must have minlength: 1"
+            }
+          ],
+          "always": [
+            //  "ping"
+          ]
+        }
+      ],
+      "onCancel": [
+        {
+          "rule": "minlength",
+          "options": "1", // {} // []
+          "done": [
+            //"ping"
+          ],
+          "fail": [
+            // "ping",
+            {
+              "action": "alert",
+              "options": "onCancel: URL must have minlength: 1"
+            }
+          ],
+          "always": [
+            //   "ping"
+          ]
+        }
+      ],
+      "onSave": [
+        {
+          "rule": "minlength",
+          "options": 1,
+          "done": [
+            //   "ping"
+          ],
+          "fail": [
+            // "ping",
+            {
+              "action": "alert",
+              "options": "onSave: URL must have minlength: 1"
+            }
+          ],
+          "always": [
+            //   "ping"
+          ]
+        }
+      ]
+    }
+  },
+  "title": {
+    "type": "string",
+    "access": "public",
+    "value": "Url",
+    "title": "Title, required"
+  }
+}
