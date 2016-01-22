@@ -56,8 +56,8 @@ if (is_admin()) {
 
 		    foreach ( [ 'scripts', 'styles' ] as $asset_type ) {
 			    $option_name = 'vc_' . $asset_type;
-			    $assets = get_option( $option_name );
-			    $assets = $assets ? json_decode( $assets, true ) : [ ];
+			    $assets = (array) get_option( $option_name, [ ] );
+
 			    $page_assets = isset( $_POST[ $asset_type ] ) ? $_POST[ $asset_type ] : false;
 
 			    if ( $page_assets ) {

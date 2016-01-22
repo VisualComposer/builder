@@ -48,8 +48,8 @@ Data.subscribe( 'app:save', function () {
 		post_id: window.vcPostID,
 		content: content,
 		data: getData( Data.getDocument() ),
-		scripts: JSON.stringify( scripts ),
-		styles: JSON.stringify( styles )
+		scripts: scripts,
+		styles: styles
 	}, function ( request ) {
 		console && console.log( 'VCV: Data saved!' );
 	} );
