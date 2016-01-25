@@ -34,16 +34,19 @@ var Attributes = {
         }
         return null;
     },
-    getElement: function(name, settings, element) {
+    getElement: function(name, settings, element, RulesManager) {
         this.setName(name);
         this.setSettings(settings);
         if('public' === this.settings.getAccess()) {
             var ComponentView = this.getComponent();
+			var value = this.getValue(element);
+			//var settings = this.settings.getSettings();
             return React.createElement(ComponentView, {
                 value: this.getValue(element),
                 key: Mediator.getService('utils').createKey(),
                 element: element,
-                settings: settings,
+                settings: this.settings,
+				rulesManager: RulesManager,
                 name: this.name
             });
         }

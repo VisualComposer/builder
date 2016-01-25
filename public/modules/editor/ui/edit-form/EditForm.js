@@ -1,7 +1,7 @@
 var React = require( 'react' );
 var Mediator = require( '../../../../helpers/Mediator' ); // need to remove too
 var Modal = require('react-modal');
-var Validator = require( '../../../validation/Validation' );
+var RulesManager = require( '../../../rules-manager/RulesManager' );
 var ElementComponents = require( '../../../../helpers/ElementComponents' );
 require('./EditForm.less');
 
@@ -33,6 +33,23 @@ var reactObject = {
         return {modalIsOpen: false, editElement: {}};
     },
     cancelChanges: function(e) {
+		var settings = this.getSettings();
+		var attributesService = Mediator.getService( 'attributes' );
+		var returnList = Object.keys( settings ).map( function ( key ) {
+			var ParamSettings = settings[ key ];
+			var settingsValue = ParamSettings.getSettings();
+			if ( settingsValue && settingsValue.onCancel ) {
+				var value = attributesService.getElementValue( key, ParamSettings, this.state.editElement );
+				RulesManager.check(
+					{value: value},
+					settingsValue.onCancel,
+					RulesManager.EVENT_TYPES.onCancel,
+					(function () {
+						console.log( 'check for onCancel:param finished', arguments, this );
+					}).bind( this )
+				);
+			}
+		}, this );
       this.closeModal(e);
     },
     closeModal: function (e) {
@@ -49,13 +66,15 @@ var reactObject = {
 		var returnList = Object.keys( settings ).map( function ( key ) {
 			var ParamSettings = settings[ key ];
 			var settingsValue = ParamSettings.getSettings();
-			if ( settingsValue && settingsValue.validation ) {
+			if ( settingsValue && settingsValue.onSave ) {
 				var value = attributesService.getElementValue( key, ParamSettings, this.state.editElement );
-				console.log(
-					{ "Param": key },
-					{ "Value": value },
-					{ "Rule": settingsValue.validation },
-					{ isValid: Validator.checkValue( settingsValue.validation, value ) }
+				RulesManager.check(
+					{value: value},
+					settingsValue.onSave,
+					RulesManager.EVENT_TYPES.onSave,
+					(function () {
+						console.log( 'check for onSave:param finished', arguments, this );
+					}).bind( this )
 				);
 			}
 		}, this );
@@ -66,7 +85,7 @@ var reactObject = {
         var attributesService = Mediator.getService('attributes');
         var returnList = Object.keys(settings).map(function(key){
             var ParamSettings = settings[key];
-            var ParamView = attributesService.getElement(key, ParamSettings, this.state.editElement);
+            var ParamView = attributesService.getElement(key, ParamSettings, this.state.editElement, RulesManager);
             if(ParamView) {
                 return <div className="vc-v-form-row" key={['vc-v-edit-form-element-' , key]}>
                         <div className="vc-v-form-row-control">
@@ -78,6 +97,7 @@ var reactObject = {
         return returnList;
     },
     render: function () {
+		console.log('render editForm');
         var elementSettings = this.getSettings();
         var title = elementSettings.name ? elementSettings.name.toString() : 'unknown';
         return (<Modal
