@@ -116,8 +116,13 @@ var AssetManager = Mediator.installTo( {
 AssetManager.subscribe( 'data:add', function ( element ) {
 	let elementTag = element.tag.toString();
 
-	this.addScripts( elementTag, this.cache.scripts[ elementTag ] );
-	this.addStyles( elementTag, this.cache.styles[ elementTag ] );
+	if ( typeof(this.cache.scripts[ elementTag ]) !== 'undefined' ) {
+		this.addScripts( elementTag, this.cache.scripts[ elementTag ] );
+	}
+
+	if ( typeof(this.cache.styles[ elementTag ]) !== 'undefined' ) {
+		this.addStyles( elementTag, this.cache.styles[ elementTag ] );
+	}
 } );
 
 /**
