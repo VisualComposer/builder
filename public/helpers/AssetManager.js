@@ -85,7 +85,7 @@ var AssetManager = Mediator.installTo( {
 	 * @param {string[]} files
 	 */
 	addScripts: function ( element, files ) {
-		for ( let i = files.length - 1; i >= 0; i -- ) {
+		for ( let i = 0, len = files.length; i < len; i ++ ) {
 			this.addScript( element, files[ i ] );
 		}
 	},
@@ -107,7 +107,7 @@ var AssetManager = Mediator.installTo( {
 	 * @param {string[]} files
 	 */
 	addStyles: function ( element, files ) {
-		for ( let i = files.length - 1; i >= 0; i -- ) {
+		for ( let i = 0, len = files.length; i < len; i ++ ) {
 			this.addStyle( element, files[ i ] );
 		}
 	}

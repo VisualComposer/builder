@@ -7,9 +7,10 @@ require( './js/accordion.js' );
 require( './js/tabs.js' );
 
 AssetManager.addScripts( 'Tabs', [ './js/accordion.js', './js/tabs.js' ] );
+
 AssetManager.addStyles( 'Tabs', [
-	'./less/base-colors.less', './less/colors.less', './less/core.less', './less/frontend-editor.less',
-	'./less/icon-controls.less', './less/mixins.less', './less/options.less', './less/variables.less'
+	'bootstrap/less/variables.less', 'bootstrap/less/mixins/gradients.less', 'less/base-colors.less',
+	'less/variables.less', 'less/core.less', 'less/colors.less', 'less/options.less', 'less/mixins.less'
 ] );
 
 var Tabs = React.createClass( {
