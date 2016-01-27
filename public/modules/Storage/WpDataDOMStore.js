@@ -43,7 +43,11 @@ Data.subscribe( 'app:save', function () {
 		/\s+data\-reactid="[^"]+"/,
 		'' ),
 		scripts = AssetManager.getAssets( 'scripts' ),
-		styles = AssetManager.getAssets( 'styles' );
+		styles = AssetManager.getAssets( 'styles' ),
+		stylesStringified = JSON.stringify( styles ),
+		recompileStyles = window.vcvPostStyles !== stylesStringified;
+
+	window.vcvPostStyles = stylesStringified;
 
 	ajaxPost( {
 		action: 'vcv/setPostData',
@@ -53,7 +57,13 @@ Data.subscribe( 'app:save', function () {
 		scripts: scripts,
 		styles: styles
 	}, function ( request ) {
-		console && console.log( 'Data saved. Recompiling less...' );
+		console && console.log( 'Data saved.' );
+
+		if ( ! recompileStyles ) {
+			return;
+		}
+
+		console && console.log( 'Recompiling less...' );
 
 		var response = JSON.parse( request.response );
 
@@ -78,6 +88,7 @@ Data.subscribe( 'app:save', function () {
 
 			console && console.log( 'CSS bundle saved to', response.data.filename );
 		} );
+
 	} );
 } );
 window.vcData = Data; // @todo should be removed.
