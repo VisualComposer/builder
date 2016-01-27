@@ -208,7 +208,7 @@ function vcv_generate_scripts_bundle() {
 				$contents .= file_get_contents( $filepath ) . "\n";
 			}
 
-			if ( ! file_put_contents( $bundle, $contents ) ) {
+			if ( ! vcv_file_force_put_contents( $bundle, $contents ) ) {
 				return false;
 			}
 		}
@@ -238,7 +238,7 @@ function vcv_generate_styles_bundle( $contents ) {
 		$bundle_url = $upload_dir['baseurl'] . '/js_composer' . '/' . $concatenated_filename;
 
 		if ( ! is_file( $bundle ) ) {
-			if ( ! file_put_contents( $bundle, $contents ) ) {
+			if ( ! vcv_file_force_put_contents( $bundle, $contents ) ) {
 				return false;
 			}
 		}
@@ -296,4 +296,30 @@ function vcv_update_post_assets( $post_id, $asset_type, $post_assets ) {
 	}
 
 	update_option( $option_name, $assets );
+}
+
+/**
+ * Same as built-in file_put_contents(), but creates directory if it doesn't exist
+ *
+ *
+ * @link http://php.net/manual/en/function.file-put-contents.php
+ *
+ * @param string $filename
+ * @param mixed $data
+ * @param int $flags
+ * @param resource $context
+ *
+ * @return int|bool
+ */
+function vcv_file_force_put_contents( $filename, $data, $flags = 0, $context = null ) {
+	$chunks = explode( '/', $filename );
+	$file = array_pop( $chunks );
+	$dir = '';
+	foreach ( $chunks as $part ) {
+		if ( ! is_dir( $dir .= '/' . $part ) ) {
+			mkdir( $dir );
+		}
+	}
+
+	return file_put_contents( $dir . '/' . $file, $data, $flags, $context );
 }
