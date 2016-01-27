@@ -3,6 +3,7 @@ var classNames = require( 'classnames' );
 var AssetManager = require( '../../../helpers/AssetManager' );
 require( './Icon.less' );
 
+AssetManager.addStyle( 'Icon', 'todo-remove-me.less' );
 AssetManager.addScript( 'Icon', 'todo-remove-me.js' );
 
 var Icon = React.createClass( {
