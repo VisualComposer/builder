@@ -54,9 +54,9 @@ var AssetManager = Mediator.installTo( {
 		let filepath = path.join( element, file );
 
 		if ( typeof(this.cache[ assetType ][ element ]) === 'undefined' ) {
-			this.cache[ assetType ][ element ] = [ filepath ];
+			this.cache[ assetType ][ element ] = [ path.normalize( file ) ];
 		} else if ( this.cache[ assetType ][ element ].indexOf( filepath ) === - 1 ) {
-			this.cache[ assetType ][ element ].push( filepath );
+			this.cache[ assetType ][ element ].push( path.normalize( file ) );
 		}
 
 		if ( typeof(this.assets[ assetType ][ element ]) === 'undefined' ) {
@@ -85,7 +85,7 @@ var AssetManager = Mediator.installTo( {
 	 * @param {string[]} files
 	 */
 	addScripts: function ( element, files ) {
-		for ( let i = files.length - 1; i >= 0; i -- ) {
+		for ( let i = 0, len = files.length; i < len; i ++ ) {
 			this.addScript( element, files[ i ] );
 		}
 	},
@@ -107,7 +107,7 @@ var AssetManager = Mediator.installTo( {
 	 * @param {string[]} files
 	 */
 	addStyles: function ( element, files ) {
-		for ( let i = files.length - 1; i >= 0; i -- ) {
+		for ( let i = 0, len = files.length; i < len; i ++ ) {
 			this.addStyle( element, files[ i ] );
 		}
 	}

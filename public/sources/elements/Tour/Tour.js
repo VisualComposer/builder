@@ -8,8 +8,8 @@ require( './js/tour.js' );
 
 AssetManager.addScripts( 'Tour', [ './js/accordion.js', './js/tour.js' ] );
 AssetManager.addStyles( 'Tour', [
-	'./less/base-colors.less', './less/colors.less', './less/core.less', './less/frontend-editor.less',
-	'./less/icon-controls.less', './less/mixins.less', './less/options.less', './less/variables.less'
+	'bootstrap/less/variables.less', 'bootstrap/less/mixins/gradients.less', 'less/base-colors.less',
+	'less/variables.less', 'less/core.less', 'less/colors.less', 'less/options.less', 'less/mixins.less'
 ] );
 
 var Tour = React.createClass( {
