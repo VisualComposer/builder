@@ -54,9 +54,9 @@ var AssetManager = Mediator.installTo( {
 		let filepath = path.join( element, file );
 
 		if ( typeof(this.cache[ assetType ][ element ]) === 'undefined' ) {
-			this.cache[ assetType ][ element ] = [ filepath ];
+			this.cache[ assetType ][ element ] = [ path.normalize( file ) ];
 		} else if ( this.cache[ assetType ][ element ].indexOf( filepath ) === - 1 ) {
-			this.cache[ assetType ][ element ].push( filepath );
+			this.cache[ assetType ][ element ].push( path.normalize( file ) );
 		}
 
 		if ( typeof(this.assets[ assetType ][ element ]) === 'undefined' ) {
