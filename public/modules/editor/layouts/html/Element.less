@@ -12,4 +12,45 @@
     }
   }
 }
+
+[data-vc-dnd-status] {
+  //position: relative;
+  //&::before {
+  //  content: '';
+  //  display: block;
+  //  position: absolute;
+  //  top: 0;
+  //  bottom: 0;
+  //  left: 0;
+  //  right: 0;
+  //  pointer-events: none;
+  //  z-index: 0;
+  //}
+}
+[data-vc-dnd-status=allowed] {
+  background-color: yellow;
+  //&::before {
+  //  background-color: yellow;
+  //  opacity: .3;
+  //}
+}
+[data-vc-dnd-status=success] {
+  background-color: green;
+  //&::before {
+  //  background-color: green;
+  //  opacity: .3;
+  //}
+}
+[data-vc-dnd-status="is-dragging"] {
+  opacity: .7;
+}
+
+[data-vc-dnd-hidden="true"] {
+  display: none!important;
+}
+
+.vc_ui-drag-placeholder {
+  opacity: .4;
+}
+
 @import '../../../../sources/elements/Section/editor/Section.less';
