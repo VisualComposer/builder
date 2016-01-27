@@ -73,7 +73,7 @@ module.exports = React.createClass(Mediator.installTo({
       'vcv-navbar-placeholder': true,
       'vcv-vertical': !this.state.vertical
     });
-    var Placeholder = (this.state.startMove ? <div className={placeholderClasses}></div> : null);
+    var Placeholder = (this.state.position > 5 && this.state.startMove ? <div className={placeholderClasses}></div> : null);
     return (
       <nav className={mainCssClasses}
            onMouseDown={this.changePosition}
