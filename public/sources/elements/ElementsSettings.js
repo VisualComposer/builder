@@ -2007,6 +2007,21 @@ module.exports = [
     "access": "system",
     "value": "block"
   },
+  "onValidateItems": {
+    "type": "string",
+    "access": "system",
+    "value": 1
+  },
+  "onCancelItems": {
+    "type": "string",
+    "access": "system",
+    "value": 2
+  },
+  "onSaveItems": {
+    "type": "string",
+    "access": "system",
+    "value": 2
+  },
   "url": {
     "type": "string",
     "access": "public",
@@ -2015,80 +2030,122 @@ module.exports = [
     "settings": {
       "onOpen": [
         {
-          "rule": "minlength",
-          "options": 1,
+          "rule": "value",
+          "options": "test",
+        }
+      ],
+      "onChange": [
+        {
+          "rule": "value",
+          "options": "test",
+        }
+      ],
+      "onSave": [
+        {
+          "rule": "value",
+          "options": "test",
+        }
+      ],
+      "onCancel": [
+        {
+          "rule": "value",
+          "options": "test",
+        }
+      ]
+    }
+  },
+  "addIcon": {
+    "type": "checkbox",
+    "access": "public",
+    "value": "",
+    "title": "Check to add icon selector",
+    "settings": {
+      "options": {
+        "1": "Yes"
+      },
+      "onOpen": [
+        {
+          "rule": "value",
+          "options": "1",
           "done": [
-            // "ping"
-          ],
-          "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onOpen: URL must have minlength: 1"
+              "action": "show",
+              "options": "icon"
             }
           ],
-          "always": [
-            // "ping"
+          "fail": [
+            {
+              "action": "hide",
+              "options": "icon"
+            }
           ]
         }
       ],
       "onChange": [
         {
-          "rule": "minlength",
-          "options": "1", // {} // []
+          "rule": "value",
+          "options": "1",
           "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onChange: URL must have minlength: 1"
+              "action": "show",
+              "options": "icon"
             }
           ],
-          "always": [
-            //  "ping"
-          ]
-        }
-      ],
-      "onCancel": [
-        {
-          "rule": "minlength",
-          "options": "1", // {} // []
-          "done": [
-            //"ping"
-          ],
           "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onCancel: URL must have minlength: 1"
+              "action": "hide",
+              "options": "icon"
             }
-          ],
-          "always": [
-            //   "ping"
           ]
         }
       ],
       "onSave": [
         {
-          "rule": "minlength",
-          "options": 1,
+          "rule": "value",
+          "options": "1",
           "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onSave: URL must have minlength: 1"
+              "action": "show",
+              "options": "icon"
             }
           ],
-          "always": [
-            //   "ping"
+          "fail": [
+            {
+              "action": "hide",
+              "options": "icon"
+            }
+          ]
+        }
+      ],
+      "onCancel": [
+        {
+          "rule": "value",
+          "options": "1",
+          "done": [
+            {
+              "action": "show",
+              "options": "icon"
+            }
+          ],
+          "fail": [
+            {
+              "action": "hide",
+              "options": "icon"
+            }
           ]
         }
       ]
+    }
+  },
+  "icon": {
+    "type": "select",
+    "access": "public",
+    "value": "",
+    "title": "Select icon",
+    "settings": {
+      "options": {
+        "fa fa-heart": "Heart"
+      }
     }
   },
   "title": {
