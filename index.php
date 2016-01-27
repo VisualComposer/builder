@@ -180,6 +180,8 @@ function vcv_before_delete_post( $id ) {
 /**
  * Generate (save to fs and update db) scripts bundle
  *
+ * Old files are deleted
+ *
  * @return bool|string URL to generated bundle
  */
 function vcv_generate_scripts_bundle() {
@@ -195,11 +197,11 @@ function vcv_generate_scripts_bundle() {
 
 	if ( $files ) {
 		$upload_dir = wp_upload_dir();
-		$destination_dir = $upload_dir['basedir'] . '/js_composer';
+		$destination_dir = $upload_dir['basedir'] . '/js_composer/asset-bundles';
 
 		$concatenated_filename = md5( implode( ',', $files ) ) . '.js';
 		$bundle = $destination_dir . '/' . $concatenated_filename;
-		$bundle_url = $upload_dir['baseurl'] . '/js_composer' . '/' . $concatenated_filename;
+		$bundle_url = $upload_dir['baseurl'] . '/js_composer/asset-bundles' . '/' . $concatenated_filename;
 
 		if ( ! is_file( $bundle ) ) {
 			$contents = '';
@@ -208,11 +210,13 @@ function vcv_generate_scripts_bundle() {
 				$contents .= file_get_contents( $filepath ) . "\n";
 			}
 
+			vcv_delete_asset_bundles( 'js' );
 			if ( ! vcv_file_force_put_contents( $bundle, $contents ) ) {
 				return false;
 			}
 		}
 	} else {
+		vcv_delete_asset_bundles( 'js' );
 		$bundle_url = '';
 	}
 
@@ -224,6 +228,8 @@ function vcv_generate_scripts_bundle() {
 /**
  * Generate (save to fs and update db) scripts bundle
  *
+ * Old files are deleted
+ *
  * @param string $contents CSS contents to save
  *
  * @return bool|string URL to generated bundle
@@ -231,18 +237,20 @@ function vcv_generate_scripts_bundle() {
 function vcv_generate_styles_bundle( $contents ) {
 	if ( $contents ) {
 		$upload_dir = wp_upload_dir();
-		$destination_dir = $upload_dir['basedir'] . '/js_composer';
+		$destination_dir = $upload_dir['basedir'] . '/js_composer/asset-bundles';
 
 		$concatenated_filename = md5( $contents ) . '.css';
 		$bundle = $destination_dir . '/' . $concatenated_filename;
-		$bundle_url = $upload_dir['baseurl'] . '/js_composer' . '/' . $concatenated_filename;
+		$bundle_url = $upload_dir['baseurl'] . '/js_composer/asset-bundles' . '/' . $concatenated_filename;
 
 		if ( ! is_file( $bundle ) ) {
+			vcv_delete_asset_bundles( 'css' );
 			if ( ! vcv_file_force_put_contents( $bundle, $contents ) ) {
 				return false;
 			}
 		}
 	} else {
+		vcv_delete_asset_bundles( 'css' );
 		$bundle_url = '';
 	}
 
@@ -322,4 +330,23 @@ function vcv_file_force_put_contents( $filename, $data, $flags = 0, $context = n
 	}
 
 	return file_put_contents( $dir . '/' . $file, $data, $flags, $context );
+}
+
+/**
+ * Remove all files by extension in asset-bundles directory
+ *
+ * @param string $extension
+ */
+function vcv_delete_asset_bundles( $extension = '' ) {
+	$upload_dir = wp_upload_dir();
+	$destination_dir = $upload_dir['basedir'] . '/js_composer/asset-bundles';
+
+	if ( $extension ) {
+		$extension = '.' . $extension;
+	}
+
+	$files = glob( $destination_dir . '/*' . $extension );
+	foreach ( $files as $file ) {
+		unlink( $file );
+	}
 }
