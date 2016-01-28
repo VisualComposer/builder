@@ -68,12 +68,13 @@ module.exports = React.createClass( {
 		}
 
 		return (
-			<div>
-				<label>{this.props.settings.getTitle()}</label>
+			<div className="vc_ui-form-group">
+				<label className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</label>
 				<select
 					onChange={this.handleChange}
 					ref={this.props.name + 'Component'}
 					value={this.state.value}
+					className="vc_ui-form-dropdown"
 				>
 					{optionElements}
 				</select>

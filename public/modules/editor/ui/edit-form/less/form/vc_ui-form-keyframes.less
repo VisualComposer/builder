@@ -1,0 +1,34 @@
+// ANIMATIONS
+// standard blink
+@keyframes vc_ui-form-blink {
+  0% {
+    box-shadow: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 0%);
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+  50% {
+    box-shadow: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 100%);
+    border-color: @vcui-form-input-border-blink-color
+  }
+  100% {
+    box-shadow: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 0%);
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+}
+
+// blink with top shadow
+@keyframes vc_ui-form-shadow-blink {
+  0% {
+    box-shadow: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 0%);
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+  50% {
+    box-shadow+: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 100%);
+    #make-vc_ui-form > .focus-blink-shadow(@fade: 0%);
+    border-color: @vcui-form-input-border-blink-color
+  }
+  100% {
+    box-shadow+: 0 0 0 1px fade(@vcui-form-input-border-blink-color, 0%);
+    #make-vc_ui-form > .focus-blink-shadow();
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+}

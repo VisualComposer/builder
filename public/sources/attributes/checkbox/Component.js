@@ -71,7 +71,7 @@ module.exports = React.createClass( {
 	render: function () {
 		// TODO: change key to something unique
 		console.log( 'render checkbox' );
-		var optionElements = [<option key="-1"></option>];
+		var optionElements = [];
 		var settings = this.props.settings.getSettings();
 		var options = this.options;
 		var type = settings.type || 'checkbox';
@@ -83,15 +83,16 @@ module.exports = React.createClass( {
 			let value = options[ key ].value;
 			let checked = values.indexOf( value ) !== - 1 ? "checked" : "";
 			optionElements.push(
-				<label key={value}>
+				<label key={value} className="vc_ui-form-checkbox">
 					<input type={type} name={name} onChange={this.customHandleChange} checked={checked} value={value}/>
+					<span className="vc_ui-form-checkbox-indicator"></span>
 					{options[ key ].label}
 				</label>
 			);
 		}
 		return (
-			<div ref={this.props.name + 'Component'} value={this.state.value}>
-				<label>{this.props.settings.getTitle()}</label>
+			<div ref={this.props.name + 'Component'} value={this.state.value} className="vc_ui-form-group">
+				<div className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</div>
 				{optionElements}
 			</div>
 		);
