@@ -2,8 +2,8 @@ var Mediator = require('../../helpers/Mediator');
 var DataService = Mediator.getService('data');
 var Mixin = {
     getInitialState: function() {
-		console.log( 'mixin getInitialState called' );
-		var settings = this.props.settings.getSettings();
+		//console.log( 'mixin getInitialState called' );
+		/*var settings = this.props.settings.getSettings();
 		if ( settings ) {
 			if ( settings.onOpen ) {
 				this.props.rulesManager.check(
@@ -15,26 +15,14 @@ var Mixin = {
 					}).bind( this )
 				);
 			}
-		}
+		}*/
         return {
             value: this.props.value
         }
     },
     handleChange: function(e) {
         var value = { value: this.refs[this.props.name + 'Component'].value };
-		var settings = this.props.settings.getSettings();
-		if ( settings ) {
-			if ( settings.onChange ) {
-				this.props.rulesManager.check(
-					value,
-					settings.onChange,
-					this.props.rulesManager.EVENT_TYPES.onChange,
-					(function () {
-						console.log( 'check for onChange:param finished', arguments, this );
-					}).bind( this )
-				);
-			}
-		}
+		this.props.rulesManager.onChange(value);
         this.setState(value);
         this.updateElement(value.value);
     },

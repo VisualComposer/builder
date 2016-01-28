@@ -7,7 +7,7 @@ var RulesManager = {
 		onSave: { key: 2, name: 'onSave' },
 		onCancel: { key: 3, name: 'onCancel' }
 	},
-	check: function ( props, eventData, eventType, finishCallback ) {
+	check: function ( props, eventData, eventType, finishCallback, actionManagerHelpers ) {
 		var length = eventData.length - 1;
 		var valid = true;
 		var finishes = 0;
@@ -21,6 +21,7 @@ var RulesManager = {
 							ruleState,
 							ruleData,
 							eventType,
+							actionManagerHelpers,
 							ActionsManager.ACTION_TYPES.done );
 					}
 				}
@@ -32,6 +33,7 @@ var RulesManager = {
 							ruleState,
 							ruleData,
 							eventType,
+							actionManagerHelpers,
 							ActionsManager.ACTION_TYPES.fail );
 					}
 				}
@@ -43,6 +45,7 @@ var RulesManager = {
 							ruleState,
 							ruleData,
 							eventType,
+							actionManagerHelpers,
 							ActionsManager.ACTION_TYPES.always );
 					}
 					if ( ruleData.validate ) {
@@ -66,7 +69,7 @@ var RulesManager = {
 		maxlength: function ( dfd, props, ruleData ) {
 			this.result( dfd, props.value.length <= parseInt( ruleData.options ) );
 		},
-		length: function ( dfd, props, ruleData ) {
+		range: function ( dfd, props, ruleData ) {
 			var min = parseInt( ruleData.options[ 0 ] );
 			var max = parseInt( ruleData.options[ 1 ] );
 			this.result( dfd, min <= props.value.length && props.value.length <= max );
@@ -81,11 +84,15 @@ var RulesManager = {
 			var max = parseFloat( ruleData.options );
 			this.result( dfd, ! isNaN( fl ) && fl <= max );
 		},
-		value: function ( dfd, props, ruleData ) {
+		between: function ( dfd, props, ruleData ) {
 			var min = parseFloat( ruleData.options[ 0 ] );
 			var max = parseFloat( ruleData.options[ 1 ] );
 			var fl = parseFloat( props.value );
 			this.result( dfd, ! isNaN( fl ) && min <= fl && fl <= max );
+		},
+		value: function ( dfd, props, ruleData ) {
+			var expected = ruleData.options;
+			this.result( dfd, props.value.localeCompare( expected ) === 0 );
 		},
 		required: function ( dfd, props, ruleData ) {
 			this.result( dfd, props.value.length >= 1 );
