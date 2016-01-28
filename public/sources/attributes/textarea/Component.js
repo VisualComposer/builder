@@ -7,9 +7,14 @@ module.exports = React.createClass({
 	render: function() {
 		console.log('render textarea');
 
-		return (<div><label>{this.props.settings.getTitle()}</label><textarea
-			onChange={this.handleChange}
-			ref={this.props.name + 'Component'}
-			value={this.state.value}/></div>);
+		return (
+			<div className="vc_ui-form-group">
+				<label className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</label>
+				<textarea
+					className="vc_ui-form-input"
+					onChange={this.handleChange}
+					ref={this.props.name + 'Component'}
+					value={this.state.value}/>
+			</div>);
 	}
 });
