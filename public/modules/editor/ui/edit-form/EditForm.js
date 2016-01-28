@@ -27,9 +27,9 @@ var DataChanged = {
 			Mediator.channels['save'] = false;
 			Mediator.channels['cancel'] = false;
 			var settings = ElementComponents.get( element.tagName );
-			var onSaveItems = settings.onSaveItems.toString();
-			var onCancelItems = settings.onCancelItems.toString();
-			var onValidateItems = settings.onValidateItems.toString();
+			var onSaveItems = settings.onSaveItems ? parseInt(settings.onSaveItems.toString()) : 0;
+			var onCancelItems = settings.onCancelItems ? parseInt(settings.onCancelItems.toString()) : 0;
+			var onValidateItems = settings.onValidateItems ? parseInt(settings.onValidateItems.toString()): 0;
 
 			this.validateItems = 0;
 			this.saveItems = 0;
@@ -55,10 +55,12 @@ var reactObject = {
 	},
 	onSaveItemsAdd: function(data, cb) {
 		this.saveItems+=data;
+		console.log('onSaveItemsAdd', data, cb)
 		this.state.onSaveItemsTotal == this.saveItems && cb();
 	},
 	onCancelItemsAdd: function(data, cb) {
 		this.cancelItems+=data;
+		console.log('onCancelItemsAdd', data, cb)
 		this.state.onCancelItemsTotal == this.cancelItems && cb();
 	},
 	getInitialState: function () {

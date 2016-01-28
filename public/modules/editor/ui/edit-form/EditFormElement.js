@@ -43,7 +43,7 @@ var EditFormElement = React.createClass( {
 					toggleVisible: toggleVisible
 				}
 			);
-		}
+		} else { this.props.onCancelItemsAdd( 0, cancelCallback ); }
 	},
 	onSave: function ( saveCallback ) {
 		var { paramKey, paramSettings, editElement } = this.props;
@@ -63,7 +63,7 @@ var EditFormElement = React.createClass( {
 					toggleVisible: toggleVisible
 				}
 			);
-		}
+		} else { this.props.onSaveItemsAdd( 0, saveCallback ); }
 	},
 	onChange: function ( value ) {
 		var { paramKey, paramSettings } = this.props;
@@ -84,11 +84,13 @@ var EditFormElement = React.createClass( {
 		}
 	},
 	componentWillMount: function () {
-		//console.log( "EditFormElement componentWillMount call" );
+		console.log( "EditFormElement componentWillMount call" );
 		this.props.subscribe( 'save', (function ( saveCallback ) {
+			console.log('save subscribe called');
 			this.onSave( saveCallback );
 		}).bind( this ) );
 		this.props.subscribe( 'cancel', (function ( cancelCallback ) {
+			console.log('cancel subscribe called');
 			this.onCancel( cancelCallback );
 		}).bind( this ) );
 		this.onOpen();
@@ -123,7 +125,8 @@ var EditFormElement = React.createClass( {
 						element={editElement}
 						settings={paramSettings}
 						rulesManager={this}
-						name={paramKey}></ComponentView>
+						name={paramKey}
+					/>
 				</div>
 			</div>
 		);
