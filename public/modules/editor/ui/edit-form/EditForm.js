@@ -30,7 +30,7 @@ var DataChanged = {
 			var onSaveItems = settings.onSaveItems ? parseInt(settings.onSaveItems.toString()) : 0;
 			var onCancelItems = settings.onCancelItems ? parseInt(settings.onCancelItems.toString()) : 0;
 			var onValidateItems = settings.onValidateItems ? parseInt(settings.onValidateItems.toString()): 0;
-
+			this.closeImmediately = false;
 			this.validateItems = 0;
 			this.saveItems = 0;
 			this.cancelItems = 0;
@@ -68,10 +68,13 @@ var reactObject = {
 	},
 	cancelChanges: function ( e ) {
 		e && e.preventDefault();
-		this.publish( 'cancel', (function () {
+		var cb = (function () {
 			console.log( 'cancel callback called' );
 			this.closeModal();
-		}).bind( this ) );
+		}).bind( this );
+		this.publish( 'cancel', cb );
+
+		this.closeImmediately && cb();
 	},
 	closeModal: function ( e ) {
 		e && e.preventDefault();
@@ -82,10 +85,13 @@ var reactObject = {
 	},
 	saveForm: function ( e ) {
 		e && e.preventDefault();
-		this.publish( 'save', (function () {
+		var cb = (function () {
 			console.log( 'save callback called' );
 			this.closeModal();
-		}).bind( this ) );
+		}).bind( this );
+		this.publish( 'save', cb );
+
+		this.closeImmediately && cb();
 	},
 	toggleVisible: function ( key, visible ) {
 		var newState = {};
@@ -120,6 +126,9 @@ var reactObject = {
 					);
 				}
 			}, this ).filter( i=>i );
+		}
+		if ( ! returnList.length ) {
+			this.closeImmediately = true;
 		}
 		return returnList;
 	},
