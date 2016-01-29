@@ -2011,7 +2011,25 @@ module.exports = [
     "type": "string",
     "access": "public",
     "value": "#",
-    "title": "Url"
+    "title": "Url",
+    "settings": {
+      "onChange": [
+        {
+          "rule": "value",
+          "options": "test",
+          "done": [
+            {
+              "action": "preset",
+              "options": {
+                "key": "title",
+                "type": "string",
+                "value": "test2"
+              }
+            }
+          ]
+        }
+      ]
+    }
   },
   "title": {
     "type": "string",

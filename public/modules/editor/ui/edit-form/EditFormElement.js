@@ -14,7 +14,7 @@ var EditFormElement = React.createClass( {
 			var type = paramSettings.getType().toLowerCase();
 			var paramValue = this.getValue( editElement, type, paramKey );
 			RulesManager.check(
-				{ value: paramValue },
+				{ value: paramValue, editElement: this.props.editElement },
 				settingsValue.onOpen,
 				RulesManager.EVENT_TYPES.onOpen, (function () {
 					this.props.publish( 'onOpenFinished', paramKey );
@@ -34,7 +34,7 @@ var EditFormElement = React.createClass( {
 			var type = paramSettings.getType().toLowerCase();
 			var paramValue = this.getValue( editElement, type, paramKey );
 			RulesManager.check(
-				{ value: paramValue },
+				{ value: paramValue, editElement: this.props.editElement },
 				settingsValue.onCancel,
 				RulesManager.EVENT_TYPES.onCancel, (function () {
 					this.props.onCancelItemsAdd( 1, cancelCallback );
@@ -54,7 +54,7 @@ var EditFormElement = React.createClass( {
 			var type = paramSettings.getType().toLowerCase();
 			var paramValue = this.getValue( editElement, type, paramKey );
 			RulesManager.check(
-				{ value: paramValue },
+				{ value: paramValue, editElement: this.props.editElement },
 				settingsValue.onSave,
 				RulesManager.EVENT_TYPES.onSave, (function () {
 					this.props.onSaveItemsAdd( 1, saveCallback );
@@ -71,6 +71,7 @@ var EditFormElement = React.createClass( {
 		if ( settingsValue && settingsValue.onChange ) {
 			console.log( 'onChange called' );
 			var toggleVisible = this.props.toggleVisible;
+			value.editElement = this.props.editElement;
 			RulesManager.check(
 				value,
 				settingsValue.onChange,
