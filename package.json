@@ -29,8 +29,7 @@
     "style-loader": "^0.8.0",
     "url-loader": "^0.5.5",
     "webpack-sources": "^0.1.0",
-    "webpack-dev-server": "^1.12.1",
-    "fancybox": "~3.0.0"
+    "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
     "babel-plugin-rewire": "*",
