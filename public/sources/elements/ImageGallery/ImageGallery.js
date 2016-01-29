@@ -1,15 +1,27 @@
 var React = require( 'react' );
+var AssetManager = require( '../../../helpers/AssetManager' );
+
 require( './ImageGallery.less' );
 require( 'jquery' );
-require( 'fancybox' )( jQuery );
-require( '../../../../node_modules/fancybox/dist/css/jquery.fancybox.css' );
+require( './fancybox' )( jQuery );
+require( './fancybox/dist/css/jquery.fancybox.css' );
+
+AssetManager.addScripts( 'ImageGallery', [
+	'./fancybox/dist/js/jquery.fancybox.js',
+	'./frontend.js'
+] );
+
+AssetManager.addStyles( 'ImageGallery', [
+	'./fancybox/dist/css/jquery.fancybox.css',
+	'./ImageGallery.less'
+] );
 
 var ImageGallery = React.createClass( {
 	componentWillMount: function () {
 		this.galleryID = 'vc-image-gallery-' + Math.random().toString().substr( 2 );
 	},
 	componentDidMount: function () {
-		$( '#' + this.galleryID + ' a' ).fancybox( {
+		jQuery( '#' + this.galleryID + ' a' ).fancybox( {
 			href: this.href,
 			type: 'image'
 		} );
@@ -29,7 +41,7 @@ var ImageGallery = React.createClass( {
 		} );
 
 		return (
-			<div className="vc-image-gallery" id={galleryID} key={key} {...editor}>
+			<div className="vc-image-gallery" id={galleryID} key={key} {...editor} {...other}>
 				{images}
 			</div>
 		);
