@@ -18,81 +18,21 @@
     "type": "string",
     "access": "public",
     "value": "#",
-    "title": "Min Length validation check, minlength: 1",
+    "title": "Url",
     "settings": {
-      "onOpen": [
-        {
-          "rule": "minlength",
-          "options": 1,
-          "done": [
-            // "ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onOpen: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            // "ping"
-          ]
-        }
-      ],
       "onChange": [
         {
-          "rule": "minlength",
-          "options": "1", // {} // []
+          "rule": "value",
+          "options": "test",
           "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onChange: URL must have minlength: 1"
+              "action": "preset",
+              "options": {
+                "key": "title",
+                "type": "string",
+                "value": "test2"
+              }
             }
-          ],
-          "always": [
-            //  "ping"
-          ]
-        }
-      ],
-      "onCancel": [
-        {
-          "rule": "minlength",
-          "options": "1", // {} // []
-          "done": [
-            //"ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onCancel: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            //   "ping"
-          ]
-        }
-      ],
-      "onSave": [
-        {
-          "rule": "minlength",
-          "options": 1,
-          "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onSave: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            //   "ping"
           ]
         }
       ]

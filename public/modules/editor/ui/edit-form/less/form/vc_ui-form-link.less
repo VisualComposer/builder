@@ -1,0 +1,53 @@
+.vc_ui-form-link {
+  display: flex;
+  align-items: center;
+
+  .vc_ui-form-link-data {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: @vcui-link-button-helper-font-size;
+  }
+  .vc_ui-form-link-title {
+    color: @vcui-form-helper-color;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: @vcui-link-button-padding-horizontal;
+    &::before {
+      content: attr(data-vc-link-title);
+    }
+  }
+  .vc_ui-form-link-title:empty {
+    display: none;
+  }
+
+  // Button behaviour
+  .vc_ui-button-form-control {
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+    &:focus {
+      animation: vc_ui-form-blink @vcui-form-transition-duration * 2 ease-out;
+    }
+    &:disabled,
+    &[disabled] {
+      &:focus {
+        animation: none;
+      }
+    }
+  }
+
+  // Icon behaviour
+  .vc_ui-icon {
+    font-size: 1.3em;
+    line-height: @vcui-link-button-font-size;
+    vertical-align: middle;
+    margin-right: @vcui-link-button-padding-horizontal/2;
+  }
+}

@@ -2011,81 +2011,21 @@ module.exports = [
     "type": "string",
     "access": "public",
     "value": "#",
-    "title": "Min Length validation check, minlength: 1",
+    "title": "Url",
     "settings": {
-      "onOpen": [
-        {
-          "rule": "minlength",
-          "options": 1,
-          "done": [
-            // "ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onOpen: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            // "ping"
-          ]
-        }
-      ],
       "onChange": [
         {
-          "rule": "minlength",
-          "options": "1", // {} // []
+          "rule": "value",
+          "options": "test",
           "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
             {
-              "action": "alert",
-              "options": "onChange: URL must have minlength: 1"
+              "action": "preset",
+              "options": {
+                "key": "title",
+                "type": "string",
+                "value": "test2"
+              }
             }
-          ],
-          "always": [
-            //  "ping"
-          ]
-        }
-      ],
-      "onCancel": [
-        {
-          "rule": "minlength",
-          "options": "1", // {} // []
-          "done": [
-            //"ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onCancel: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            //   "ping"
-          ]
-        }
-      ],
-      "onSave": [
-        {
-          "rule": "minlength",
-          "options": 1,
-          "done": [
-            //   "ping"
-          ],
-          "fail": [
-            // "ping",
-            {
-              "action": "alert",
-              "options": "onSave: URL must have minlength: 1"
-            }
-          ],
-          "always": [
-            //   "ping"
           ]
         }
       ]
@@ -2096,113 +2036,5 @@ module.exports = [
     "access": "public",
     "value": "Url",
     "title": "Title, required"
-  }
-},{
-  "name": {
-    "type": "string",
-    "access": "system",
-    "value": "Validation"
-  },
-  "tag": {
-    "type": "string",
-    "access": "system",
-    "value": "Validation"
-  },
-  "icon": {
-    "type": "string",
-    "access": "system",
-    "value": "Validation"
-  },
-  "type": {
-    "type": "string",
-    "access": "system",
-    "value": "block"
-  },
-  "minlength": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "minlength:2"
-    },
-    "title": "Min Length validation check, minlength: 2"
-  },
-  "maxlength": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "maxlength:5"
-    },
-    "title": "Max Length validation check, maxlength: 2"
-  },
-  "length": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "length:2:5"
-    },
-    "title": "Length validation check, length:2:5"
-  },
-  "value": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "value:2:5"
-    },
-    "title": "Value validation check, value:2:5"
-  },
-  "minvalue": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "minvalue:2"
-    },
-    "title": "Value validation check, minvalue:2"
-  },
-  "maxvalue": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "maxvalue:5"
-    },
-    "title": "Value validation check, maxvalue:5"
-  },
-  "required": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": "required"
-    },
-    "title": "Required validation check"
-  },
-  "arrays": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": [
-        "value:2:50",
-        "required",
-        "minlength:2"
-      ]
-    },
-    "title": "[value:2:50,required,minlength:2]"
-  },
-  "callbacks": {
-    "type": "textarea",
-    "access": "public",
-    "value": "",
-    "settings": {
-      "validation": function(value, options) {
-        return value == 2016;
-      }
-    },
-    "title": "Callback check value 2016"
   }
 }];

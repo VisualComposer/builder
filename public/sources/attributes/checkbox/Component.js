@@ -4,7 +4,7 @@ var Setter = require( './Setter' );
 module.exports = React.createClass( {
 	mixins: [ ParamMixin ],
 	setter: Setter,
-
+	options: [],
 	componentWillMount: function () {
 		let settings = this.props.settings.getSettings(),
 			options = settings.options ? settings.options : [];
@@ -33,7 +33,8 @@ module.exports = React.createClass( {
 			return normalizedOptions;
 		}
 
-		for ( let key in options ) {
+		for ( let key in
+			options ) {
 			let item;
 
 			if ( ! options.hasOwnProperty( key ) ) {
@@ -56,28 +57,43 @@ module.exports = React.createClass( {
 		return normalizedOptions;
 	},
 
+	customHandleChange: function ( e ) {
+		var value = {
+			value: Array.from( this.refs[ this.props.name + 'Component' ].querySelectorAll( '[name*=' + this.props.name + ']:checked' ) ).map(
+				function ( item ) {
+					return item.value;
+				} ).join()
+		};
+		this.props.rulesManager.onChange(value);
+		this.setState( value );
+		this.updateElement( value.value );
+	},
 	render: function () {
-		console.log('render select');
 		// TODO: change key to something unique
-		var optionElements = [ <option key="-1"></option> ],
-			options = this.options;
-
-		for ( let key in this.options ) {
+		console.log( 'render checkbox' );
+		var optionElements = [];
+		var settings = this.props.settings.getSettings();
+		var options = this.options;
+		var type = settings.type || 'checkbox';
+		var multiple = type == 'checkbox';
+		var name = multiple ? this.props.name + '[]' : this.props.name;
+		var values = (this.state.value || "").split( ',' );
+		for ( let key in
+			options ) {
 			let value = options[ key ].value;
-			optionElements.push( <option key={value} value={value}>{options[ key ].label}</option> );
+			let checked = values.indexOf( value ) !== - 1 ? "checked" : "";
+			optionElements.push(
+				<label key={value} className="vc_ui-form-checkbox">
+					<input type={type} name={name} onChange={this.customHandleChange} checked={checked} value={value}/>
+					<span className="vc_ui-form-checkbox-indicator"></span>
+					{options[ key ].label}
+				</label>
+			);
 		}
-
 		return (
-			<div className="vc_ui-form-group">
-				<label className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</label>
-				<select
-					onChange={this.handleChange}
-					ref={this.props.name + 'Component'}
-					value={this.state.value}
-					className="vc_ui-form-dropdown"
-				>
-					{optionElements}
-				</select>
+			<div ref={this.props.name + 'Component'} value={this.state.value} className="vc_ui-form-group">
+				<div className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</div>
+				{optionElements}
 			</div>
 		);
 	}

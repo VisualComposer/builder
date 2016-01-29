@@ -9,32 +9,7 @@ require('medium-editor/dist/css/medium-editor.css');
 require('./MediumEditor.less');
 require('./Element.less');
 
-
-var SortableMixin = {
-    componentDidMount: function () {
-        var component = ReactDOM.findDOMNode( this );
-        $( component ).sortable( {
-            animation: 150,
-            forceFallback: true,
-            onStart: function (/**Event*/evt) {
-                $('#vc_v-editor').addClass('vc-draganddrop');
-                // evt.oldIndex;  // element index within parent
-            },
-            // dragging ended
-            onEnd: function (/**Event*/evt) {
-                $('#vc_v-editor').removeClass('vc-draganddrop');
-                // evt.oldIndex;  // element's old index within parent
-                // evt.newIndex;  // element's new index within parent
-            },
-            onUpdate: function ( ev ) {
-                var $el = $( ev.item );
-                Element.publish( 'data:move',
-                    $el.data( 'vcElement' ),
-                    $el.next( '[data-vc-element]' ).data( 'vcElement' ) );
-            }
-        } );
-    }
-};
+var DndElement = require('./DndElement.js');
 
 var InlineEditorMixin = {
     componentDidMount: function () {
@@ -61,8 +36,6 @@ var InlineEditorMixin = {
     }
 };
 
-
-require('./Sortable.less');
 var Element = React.createClass(Mediator.installTo({
     // mixins: [InlineEditorMixin],
     getContent: function(content) {
@@ -95,7 +68,9 @@ var Element = React.createClass(Mediator.installTo({
         var ElementComponent = ElementComponents.get(element);
         var ElementView = ElementComponents.getElement(element);
         var elementAttributes = this.getElementAttributes();
-        return React.createElement(ElementView, {
+
+        return React.createElement(DndElement, {
+			'ElementView': ElementView,
             key: element.getAttribute('id'),
             editor: {
 				'data-vc-element': element.getAttribute( 'id' ),
@@ -105,7 +80,7 @@ var Element = React.createClass(Mediator.installTo({
 				'data-vc-name': ElementComponent.name.toString(),
 			},
             ...elementAttributes,
-            content: this.getContent(elementAttributes.content),
+            content: this.getContent(elementAttributes.content)
         });
     }
 }));

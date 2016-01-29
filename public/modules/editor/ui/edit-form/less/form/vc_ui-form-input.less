@@ -1,0 +1,111 @@
+// Textual inputs (text, password, datetime, number, email, textarea)
+.vc_ui-form-input {
+  background-color: @vcui-form-input-background;
+  background-image: none;
+  border: 1px solid @vcui-form-input-border-color;
+  border-radius: @vcui-form-border-radius;
+  color: @vcui-form-controls-color;
+  font-size: @vcui-form-font-size-base;
+  font-weight: 400;
+  line-height: 1.5;
+  outline: none;
+  padding: @vcui-form-input-padding;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+  &:hover,
+  &:focus {
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+  &:focus {
+    animation: vc_ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
+    outline: none;
+    #make-vc_ui-form > .focus-blink-shadow();
+  }
+  &::placeholder {
+    color: @vcui-form-input-placeholder-color;
+    font-style: italic;
+  }
+  &:disabled,
+  &[disabled],
+  &[readonly] {
+    background-color: @vcui-form-input-disabled-background;
+    border-color: @vcui-form-input-border-color;
+    color: @vcui-form-input-disabled-color;
+    cursor: not-allowed;
+  }
+}
+
+textarea.vc_ui-form-input {
+  overflow: auto;
+  resize: vertical;
+  height: 10em;
+}
+
+.vc_ui-form-input-group {
+  display: flex;
+  padding-left: 1px;
+
+  // input
+  .vc_ui-form-input {
+    flex-grow: 1;
+    min-width: 50%;
+    width: auto;
+    position: relative;
+    margin-left: -1px;
+    &:focus,
+    &:hover {
+      z-index: 10;
+    }
+    &:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
+  // addon
+  .vc_ui-form-input-group-addon {
+    &:extend(.vc_ui-form-input);
+    background: @vcui-form-input-disabled-background;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: auto;
+    margin-left: -1px;
+    &:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
+  // button
+  .vc_ui-form-input-group-button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: auto;
+    margin-left: -1px;
+    position: relative;
+    &:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+    &:hover,
+    &:focus {
+      z-index: 10;
+    }
+  }
+}

@@ -78,6 +78,31 @@ var DataStore = {
         }
         return false;
     },
+	moveTo: function (dragId, targetId, action) {
+		let dragEl = this.document.getElementById(dragId),
+			targetEl = this.document.getElementById(targetId);
+		if (dragEl && targetEl) {
+			switch (action) {
+				case 'before':
+					targetEl.parentNode.insertBefore(dragEl, targetEl);
+					return true;
+					break;
+				case 'after':
+					if (targetEl.nextSibling) {
+						targetEl.parentNode.insertBefore(dragEl, targetEl.nextSibling);
+					} else {
+						targetEl.parentNode.appendChild(dragEl);
+					}
+					return true;
+					break;
+				case 'into':
+					targetEl.appendChild(dragEl);
+					return true;
+					break;
+			}
+		}
+		return false;
+	},
     mutate: function (element) {
         /*
          var DOMElement = this.document.getElementById(element.getAttribute('id'));
@@ -130,7 +155,10 @@ var Data = {
     },
     move: function (id, beforeId) {
         DataStore.move(id, beforeId) && Data.publish('data:changed', this.getDocument());
-    }
+    },
+	moveTo: function ( srcElId, nextElId, parentId ) {
+		DataStore.moveTo(srcElId, nextElId, parentId) && Data.publish('data:changed', this.getDocument());
+	}
 };
 
 Mediator.installTo(Data);
@@ -156,6 +184,9 @@ Data.subscribe('data:mutate', function (element) {
 });
 Data.subscribe('data:move', function (id, beforeId) {
     Data.move(id, beforeId);
+});
+Data.subscribe('data:moveTo', function (srcElId, nextElId, parentId) {
+    Data.moveTo(srcElId, nextElId, parentId);
 });
 
 module.exports = Data;
