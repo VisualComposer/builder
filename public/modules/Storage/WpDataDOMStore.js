@@ -39,8 +39,8 @@ Data.subscribe( 'app:init', function () {
 	} );
 } );
 Data.subscribe( 'app:save', function () {
-	var content = document.getElementsByClassName( 'vc-v-layouts-html' )[ 0 ].innerHTML.replace(
-		/\s+data\-reactid="[^"]+"/,
+	var content = document.getElementsByClassName( 'vc-v-layouts-cleanhtml' )[ 0 ].innerHTML.replace(
+		/\s+data\-reactid="[^"]+"/g,
 		'' ),
 		scripts = AssetManager.getAssets( 'scripts' ),
 		styles = AssetManager.getAssets( 'styles' ),
