@@ -54,6 +54,14 @@ var ActionsManager = {
 					actionManagerHelpers.toggleVisible( item, false );
 				} );
 			}
+		},
+		preset: function ( props, ruleStatus, ruleData, actionData, eventType, actionManagerHelpers, actionType ) {
+			var key = actionData.options.key;
+			var type = actionData.options.type;
+			var value = actionData.options.value;
+
+			var Setter = require('../../sources/attributes/' + type + '/Setter');
+			Setter(props.editElement, key, value);
 		}
 	}
 };
