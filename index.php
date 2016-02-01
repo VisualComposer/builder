@@ -43,11 +43,7 @@ if ( is_admin() ) {
 } else {
 
 	add_action( 'wp_head', function () {
-		echo '<script>
-			less = {
-				async: true
-			};
-		</script>';
+		echo '<script src="' . plugins_url( 'node_modules/less/dist/less.js', __FILE__ ) . '" data-async="true"></script>';
 	} );
 
 	add_action( 'wp_enqueue_scripts', function () {

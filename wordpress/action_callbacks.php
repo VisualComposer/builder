@@ -104,8 +104,6 @@ function vcv_output_admin_scripts() {
 			vcvLoadJsCssFile( '<?php echo plugins_url( '../public/dist/wp.bundle.js?' . time(), __FILE__ )  ?>', 'js' );
 		}
 
-		vcvLoadJsCssFile( '<?php echo plugins_url( '../node_modules/less/dist/less.js', __FILE__ ) ?>', 'js' );
-
 		<?php if ($scripts_bundle): ?>
 		vcvLoadJsCssFile( '<?php echo $scripts_bundle  ?>', 'js' );
 		<?php endif ?>
