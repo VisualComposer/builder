@@ -42,14 +42,23 @@ if ( is_admin() ) {
 	add_action( 'wp_ajax_vcv/saveCssBundle', 'vcv_save_css_bundle' );
 } else {
 
+	add_action( 'wp_head', function () {
+		echo '<script>
+			less = {
+				async: true
+			};
+		</script>';
+	} );
+
 	add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_script( 'jquery' );
 	} );
 
+
 	$jsScriptRendered = false;
 	$rowActionControl = function ( $link ) use ( &$jsScriptRendered ) {
 
-		$link .= '<a href="#" onclick="vcvLoadInline(this, ' . get_the_ID() . ');">' . __( 'Edit with VC 5', 'vc5' ) . '</a>';
+		$link .= ' <a href="#" onclick="vcvLoadInline(this, ' . get_the_ID() . ');">' . __( 'Edit with VC 5', 'vc5' ) . '</a>';
 		if ( ! $jsScriptRendered ) {
 			$link .= vcv_output_admin_scripts();
 			$jsScriptRendered = true;
