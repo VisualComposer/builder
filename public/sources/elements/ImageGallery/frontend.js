@@ -1,12 +1,12 @@
-+ function ( $ ) {
-	'use strict';
+(function ( $ ) {
+  'use strict';
 
-	$( document ).ready( function () {
-		jQuery( '.vc-image-gallery a' ).fancybox( {
-			href: this.href,
-			type: 'image'
-		} );
+  $( document ).ready( function () {
+    $( '.vc-image-gallery a' ).fancybox( {
+      href: this.href,
+      type: 'image'
+    } );
 
-	} );
+  } );
 
-}( window.jQuery );
+}( window.jQuery ));
