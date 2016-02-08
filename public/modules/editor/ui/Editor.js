@@ -9,7 +9,6 @@ var Editor = React.createClass(Mediator.installTo({
     render: function () {
         return (
             <div className="vc-editor-here">
-                <Navbar/>
                 <EditForm/>
                 <HtmlLayout/>
             </div>

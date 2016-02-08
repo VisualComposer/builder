@@ -12,4 +12,5 @@ ReactDOM.render(
 		<EditorUI />,
 		document.getElementById('vc_v-editor')
 );
+require('./ui/Navbar.js');
 module.exports = Editor;

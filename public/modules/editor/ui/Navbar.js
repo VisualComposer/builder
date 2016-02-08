@@ -1,10 +1,11 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Mediator = require('../../../helpers/Mediator'); // need to remove too
 var TreeElement = require('../layouts/tree/TreeLayout');
 var AddElementModal = require('./add-element/AddElement.js');
 var classNames = require('classnames');
 require('./less/navbar/navbar-init.less');
-module.exports = React.createClass(Mediator.installTo({
+var Navbar = React.createClass(Mediator.installTo({
   getInitialState: function () {
     return {
       startMove: false,
@@ -105,3 +106,12 @@ module.exports = React.createClass(Mediator.installTo({
     );
   }
 }));
+// Here comes wrapper for navbar
+var navbarWrapper = document.createElement('div');
+navbarWrapper.setAttribute('id', 'vc-navbar-container');
+document.body.appendChild(navbarWrapper);
+ReactDOM.render(
+  <Navbar/>,
+  navbarWrapper
+);
+module.exports = Navbar;
