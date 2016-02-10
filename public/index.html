@@ -80,6 +80,15 @@
                 document.getElementsByTagName("head")[0].appendChild(fileRef);
             }
         }
+
+        $(window).load(function(e){ // TODO: remove this after navbar completed
+//	        e.preventDefault();
+	        $(this).remove();
+	        vcvLoadJsCssFile('/dist/node.bundle.css', 'css');
+
+	        vcvLoadJsCssFile('/dist/node.bundle.js', 'js');
+        });
+
         $('#load-script').click(function(e){
             e.preventDefault();
             $(this).remove();

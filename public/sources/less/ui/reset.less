@@ -1,0 +1,167 @@
+/* Reset all tags from theme
+-------------------------------------------------------------------------------*/
+
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+em,
+img,
+ins,
+small,
+strong,
+sub,
+sup,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+article,
+aside,
+figure,
+figcaption,
+footer,
+header,
+menu,
+nav,
+section,
+time,
+mark,
+audio,
+video,
+details,
+summary,
+main,
+summary,
+canvas,
+progress {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  font-weight: normal;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+// Responsive images and other embedded objects
+img,
+object,
+embed {
+  max-width: 100%;
+  height: auto;
+}
+img {
+  vertical-align: top;
+}
+
+// to restore the bullets within content
+ul {
+  list-style: none;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  vertical-align: baseline;
+  background: transparent;
+  border: none;
+  &:active,
+  &:hover,
+  &:focus {
+    outline: 0;
+  }
+}
+
+small {
+  font-size: .85em;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+
+// Make sure sup and sub don't mess with your line-heights http://gist.github.com/413930
+sub, sup {
+  font-size: .75em;
+  line-height: 0;
+  position: relative;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+// standardize any monospaced elements
+pre, code, kbd, samp {
+  font-family: monospace, sans-serif;
+}
+
+// hand cursor on clickable elements
+label,
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+  cursor: pointer;
+}
+
+// Webkit browsers add a 2px margin outside the chrome of form elements
+button, input, select, textarea {
+  margin: 0;
+}
