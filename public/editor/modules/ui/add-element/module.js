@@ -21,9 +21,11 @@ vcCake.add('ui-add-element', function(){
 
   module.exports = React.createClass({
     componentWillMount: function() {
-      this.subscribe('app:add', function() {
-        this.setState({modalIsOpen: true});
-      }.bind(this));
+      api.module('ui-navbar').on('render', function(){
+        api.module('ui-navbar').do('add-control', 'Add element', 'as_btn', 'glyphicon glyphicon-plus', function(){
+          this.setState({modalIsOpen: true});
+        }.bind(this));
+      });
     },
     getInitialState: function() {
       return {modalIsOpen: false};
@@ -107,6 +109,7 @@ vcCake.add('ui-add-element', function(){
       </Modal>);
     }
   });
+
   // Here comes wrapper for navbar
   var wrapper = document.createElement('div');
   wrapper.setAttribute('id', 'vc-ui-add-element-wrapper');

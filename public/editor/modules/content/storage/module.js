@@ -1,6 +1,5 @@
 var vcCake = require('vc-cake');
-vcCake.add('storage', function(api) {
-  vcCake.add('storage', function(api) {
+vcCake.add('storage', function(context) {
     var data = api.getService('data');
     api.reply('app:add', function(id) {
       if (id) {
@@ -25,6 +24,4 @@ vcCake.add('storage', function(api) {
     api.reply('data:moveTo', function(srcElId, nextElId, parentId) {
       Data.moveTo(srcElId, nextElId, parentId);
     });
-  });
-
 });

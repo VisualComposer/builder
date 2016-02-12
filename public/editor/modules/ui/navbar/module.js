@@ -2,8 +2,8 @@ var vcCake = require('vc-cake');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
-require('./css/navbar/navbar-init.less');
 vcCake.add('ui-navbar', function(api) {
+  require('./css/navbar/navbar-init.less');
   var Navbar = React.createClass(Mediator.installTo({
     getInitialState: function() {
       return {
@@ -90,7 +90,6 @@ vcCake.add('ui-navbar', function(api) {
               <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
                 <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
               </a>
-              <TreeElement/>
             </li>
           </ul>
           <div className="vcv-navbar-right-block">

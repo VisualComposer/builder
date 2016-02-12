@@ -21,6 +21,9 @@ vcCake.add('ui-edit-element', function(api) {
   };
   var DataChanged = {
     componentDidMount: function() {
+      api.module('ui-navbar').on('render', function(){
+        api.module('ui-navbar').do('add-control', 'Edit element', 'edit-btn-class', 'glyphicon glyphicon-edit', function(){});
+      });
       api.reply('app:edit', function(element) {
         if ('string' === typeof element) {
           element = Mediator.getService('data').get(element);

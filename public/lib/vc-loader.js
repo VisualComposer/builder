@@ -7,7 +7,7 @@ module.exports = {
     require(join(__drianme, '../editor/modules', name, 'module.js'));
   },
   loadSource: function(type, name) {
-    return require(join(__drianme, '../sources', type, name +'.js'));
+    return require(join(__dirname, '../sources', type, name +'.js'));
   },
   loadSourceElements: function(name, file) {
     return require(join(__drianme, '../sources', type, name +'.js'));
