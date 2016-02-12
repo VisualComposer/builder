@@ -85,8 +85,14 @@
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  transition: all @vc-ui-transition-duration @vc-ui-transition-timing-function;
   &:hover {
     background-color: @bg-base-hover;
+  }
+  &[disabled] {
+    background-color: transparent;
+    opacity: .5;
+    cursor: not-allowed;
   }
 }
 .vc-ui-navbar-control-content {
@@ -141,7 +147,8 @@
   //&:not(.vc-ui-active),
   &:not(:hover){
     .vc-ui-navbar-dropdown-content {
-      display: none;
+      visibility: hidden;
+      opacity: 0;
     }
   }
   &:hover {
@@ -156,6 +163,9 @@
   position: absolute;
   top: 100%;
   left: 0;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity @vc-ui-transition-duration @vc-ui-transition-timing-function;
   .vc-ui-navbar-control {
     text-align: left;
     &:hover {

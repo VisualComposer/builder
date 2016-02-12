@@ -128,7 +128,7 @@ var Navbar = React.createClass( Mediator.installTo( {
 
           <div className="vc-ui-navbar-controls-group">
             <a className="vc-ui-navbar-control" href="#" title="Undo"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-undo"></i><span>Undo</span></span></a>
-            <a className="vc-ui-navbar-control" href="#" title="Redo"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-redo"></i><span>Redo</span></span></a>
+            <a className="vc-ui-navbar-control" href="#" title="Redo" disabled><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-redo"></i><span>Redo</span></span></a>
           </div>
           <dl className="vc-ui-navbar-dropdown vc-ui-navbar-dropdown-linear vc-ui-pull-right">
             <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Desktop">
