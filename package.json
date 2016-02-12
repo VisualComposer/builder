@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.php",
   "scripts": {
-    "start": "node server.js"
+    "test": "jest",
+    "start": "node server.js",
+    "build-module": "node ./public/lib/module-builder/index.js"
   },
   "author": "@vv",
   "license": "",
@@ -23,12 +25,14 @@
     "jscs": "^2.9.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
+    "mkdirp": "^0.5.1",
     "react-hot-loader": "^1.3.0",
     "react-transform-catch-errors": "^1.0.0",
     "redbox-react": "^1.2.0",
     "resolve-url": "^0.2.1",
     "resolve-url-loader": "^1.4.3",
     "style-loader": "^0.8.0",
+    "swig": "^1.4.2",
     "url-loader": "^0.5.5",
     "webpack-dev-server": "^1.12.1",
     "webpack-sources": "^0.1.0"

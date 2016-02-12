@@ -107,4 +107,12 @@ vcCake.add('ui-add-element', function(){
       </Modal>);
     }
   });
+  // Here comes wrapper for navbar
+  var wrapper = document.createElement('div');
+  wrapper.setAttribute('id', 'vc-ui-add-element-wrapper');
+  document.body.appendChild(wrapper);
+  ReactDOM.render(
+    <Component/>,
+    wrapper
+  );
 });
