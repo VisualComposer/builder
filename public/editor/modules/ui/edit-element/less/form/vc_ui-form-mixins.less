@@ -6,10 +6,10 @@
   }
   .property-darken-color (@property, @color) {
     & when (lightness(@color) > 70%) {
-      @{property}: darken(@color, 5%);
+        @{property}: darken(@color, 5%);
     }
     & when not (lightness(@color) > 70%) {
-      @{property}: darken(@color, 8%);
+        @{property}: darken(@color, 8%);
     }
   }
 }
