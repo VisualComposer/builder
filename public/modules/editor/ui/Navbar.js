@@ -202,7 +202,7 @@ var Navbar = React.createClass( Mediator.installTo( {
   }
 } ) );
 // Here comes wrapper for navbar
-document.querySelector( 'body' ).classList.add( 'vc-ui-has-navbar' );
+document.querySelector( 'body' ).classList.add( 'vc-ui-navbar-position-top' );
 var editorWrapper = document.createElement( 'div' );
 editorWrapper.setAttribute( 'id', 'vc-editor-container' );
 var navbarWrapper = document.createElement( 'div' );
