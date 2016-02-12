@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'VC-Icons';
+    src:
+        url('fonts/VC-Icons.ttf?546ip5') format('truetype'),
+        url('fonts/VC-Icons.woff?546ip5') format('woff'),
+        url('fonts/VC-Icons.svg?546ip5#VC-Icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.vc-ui-icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'VC-Icons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.vc-ui-icon-mobile-menu:before {
+    content: "\e900";
+}
+.vc-ui-icon-desktop:before {
+    content: "\e901";
+}
+.vc-ui-icon-mobile-portrait:before {
+    content: "\e902";
+}
+.vc-ui-icon-mobile-landscape:before {
+    content: "\e903";
+}
+.vc-ui-icon-tablet-portrait:before {
+    content: "\e904";
+}
+.vc-ui-icon-tablet-landscape:before {
+    content: "\e905";
+}
+.vc-ui-icon-template:before {
+    content: "\e906";
+}
+.vc-ui-icon-save:before {
+    content: "\e907";
+}
+.vc-ui-icon-add:before {
+    content: "\e908";
+}
+.vc-ui-icon-remove:before {
+    content: "\e909";
+}
+.vc-ui-icon-close:before {
+    content: "\e90a";
+}
+.vc-ui-icon-drag-dots:before {
+    content: "\e90b";
+}
+.vc-ui-icon-cog:before {
+    content: "\e90e";
+}
+.vc-ui-icon-link:before {
+    content: "\e911";
+}
+.vc-ui-icon-move:before {
+    content: "\e912";
+}
+.vc-ui-icon-undo:before {
+    content: "\e913";
+}
+.vc-ui-icon-redo:before {
+    content: "\e914";
+}
+.vc-ui-icon-pen-alt-fill:before {
+    content: "\e915";
+}
+.vc-ui-icon-eyedropper:before {
+    content: "\e916";
+}
+.vc-ui-icon-layers:before {
+    content: "\e917";
+}
+.vc-ui-icon-lock-stroke:before {
+    content: "\e918";
+}
+.vc-ui-icon-unlock-stroke:before {
+    content: "\e919";
+}
+.vc-ui-icon-bug:before {
+    content: "\e91a";
+}
+

@@ -89,7 +89,7 @@ video {
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 // Responsive images and other embedded objects
@@ -115,6 +115,7 @@ a {
   vertical-align: baseline;
   background: transparent;
   border: none;
+  transition: all @vc-ui-transition-duration @vc-ui-transition-timing-function;
   &:active,
   &:hover,
   &:focus {
