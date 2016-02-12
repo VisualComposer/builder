@@ -126,11 +126,11 @@ var Navbar = React.createClass( Mediator.installTo( {
             </dd>
           </dl>
 
-          <div className="vc-ui-navbar-controls-group">
+          <div className="vc-ui-navbar-controls-group vc-ui-navbar-hidden-sm">
             <a className="vc-ui-navbar-control" href="#" title="Undo"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-undo"></i><span>Undo</span></span></a>
             <a className="vc-ui-navbar-control" href="#" title="Redo" disabled><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-redo"></i><span>Redo</span></span></a>
           </div>
-          <dl className="vc-ui-navbar-dropdown vc-ui-navbar-dropdown-linear vc-ui-pull-right">
+          <dl className="vc-ui-navbar-dropdown vc-ui-navbar-dropdown-linear vc-ui-navbar-hidden-sm vc-ui-pull-end">
             <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Desktop">
               <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-desktop"></i></span>
             </dt>
@@ -144,13 +144,14 @@ var Navbar = React.createClass( Mediator.installTo( {
               </div>
             </dd>
           </dl>
-          <a className="vc-ui-navbar-control vc-ui-badge-warning vc-ui-pull-right" href="#"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-cog"></i><span>Settings</span></span></a>
-          <div className="vc-ui-navbar-controls-group vc-ui-pull-right">
+          <a className="vc-ui-navbar-control vc-ui-badge-warning vc-ui-pull-end" href="#" title="Settings"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-cog"></i><span>Settings</span></span></a>
+          <span className="vc-ui-navbar-control-separator vc-ui-pull-end"></span>
+          <div className="vc-ui-navbar-controls-group vc-ui-pull-end">
             <a className={saveButtonClasses} href="#" title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
               <i className={saveIconClasses}></i><span>Save</span>
             </span></a>
           </div>
-          <dl className="vc-ui-navbar-dropdown vc-ui-pull-right">
+          <dl className="vc-ui-navbar-dropdown vc-ui-pull-end">
             <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Menu">
               <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-mobile-menu"></i><span>Menu</span></span>
             </dt>
