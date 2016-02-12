@@ -49,6 +49,7 @@
     "react-rubaxa-sortable": "^0.1.2",
     "react-select": "~1.0.0-beta8",
     "simply-deferred": "^3.0.0",
+    "vc-cake": "^0.1.6",
     "webpack": "*"
   },
   "babel": {

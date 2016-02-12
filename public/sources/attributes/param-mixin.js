@@ -1,4 +1,4 @@
-var Mediator = require('../../helpers/Mediator');
+var Mediator = require('.././Mediator');
 var DataService = Mediator.getService('data');
 var Mixin = {
     getInitialState: function() {

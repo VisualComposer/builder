@@ -1,6 +1,6 @@
 var React = require( 'react' );
 var classNames = require( 'classnames' );
-var AssetManager = require( '../../../helpers/AssetManager' );
+var AssetManager = require( '../.././AssetManager' );
 require( './Tabs.less' );
 require( 'jquery' );
 require( './js/accordion.js' );

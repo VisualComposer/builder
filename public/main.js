@@ -1,18 +1,18 @@
-var Mediator = require( './helpers/Mediator' ); // need to remove
+var Mediator = require( './_helpers/Mediator' ); // need to remove
 var App = Mediator.installTo({
 	loadServices: function() {
-		require('./helpers/Utils');
-		require('./helpers/attributes/Attribute');
+		require('./_helpers/Utils');
+		require('./_helpers/attributes/Attribute');
 	},
 	loadModules: function() {
 		// TimeMachine module
-		require('./modules/time-machine/TimeMachine');
+		require('./_modules/time-machine/TimeMachine');
 		// Editor module
-		require('./modules/editor/Editor');
+		require('./_modules/editor/Editor');
 		// Data Storage module
-		require('./modules/storage/DataDomStore');
+		require('./_modules/storage/DataDomStore');
 		// Editor Controls
-		require('./modules/editor-controls/EditorControls');
+		require('./_modules/editor-controls/EditorControls');
 	},
 	init: function() {
 		this.loadServices();

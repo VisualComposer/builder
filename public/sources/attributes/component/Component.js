@@ -1,8 +1,8 @@
 let React = require( 'react' );
 let ParamMixin = require( '../param-mixin' );
 let Setter = require( './Setter' );
-let ElementComponents = require( '../../../helpers/ElementComponents' );
-let Mediator = require( '../../../helpers/Mediator' );
+let ElementComponents = require( '../.././ElementComponents' );
+let Mediator = require( '../.././Mediator' );
 
 var AttributesChecker = function ( update ) {
 	return {

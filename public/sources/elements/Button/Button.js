@@ -1,6 +1,6 @@
 var React = require('react');
 let Icon = require( '../Icon/Icon' );
-let ElementDefaults = require( '../../../helpers/ElementDefaults' );
+let ElementDefaults = require( '../.././ElementDefaults' );
 
 var Button = React.createClass({
 	render: function() {

@@ -1,5 +1,5 @@
 var React = require( 'react' );
-var AssetManager = require( '../../../helpers/AssetManager' );
+var AssetManager = require( '../.././AssetManager' );
 
 require( './ImageGallery.less' );
 require( 'jquery' );
