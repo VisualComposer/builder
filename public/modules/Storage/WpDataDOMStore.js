@@ -28,7 +28,7 @@ var ajaxPost = function ( data, successCallback, failureCallback ) {
 };
 Data.subscribe( 'app:init', function () {
   ajaxPost( {
-    action: 'vcv/getPostData',
+    action: 'vc:v:get_post_data',
     post_id: window.vcPostID
   }, function ( request ) {
     var newDocument = Data.parse( '<Root id="vc-v-root-element">' + request.responseText + '</Root>' );
@@ -50,7 +50,7 @@ Data.subscribe( 'app:save', function () {
   window.vcvPostStyles = stylesStringified;
 
   ajaxPost( {
-    action: 'vcv/setPostData',
+    action: 'vc:v:set_post_data',
     post_id: window.vcPostID,
     content: content,
     data: getData( Data.getDocument() ),
@@ -81,7 +81,7 @@ Data.subscribe( 'app:save', function () {
     }
 
     ajaxPost( {
-      action: 'vcv/saveCssBundle',
+      action: 'vc:v:save_css_bundle',
       contents: contents
     }, function ( request ) {
       var response = JSON.parse( request.response );
