@@ -1,6 +1,6 @@
 <?php
 
-namespace VcV\Api\Helpers;
+namespace App\Api;
 
 class Url {
 	public static function assetURL( $path ) {

@@ -1,26 +1,27 @@
 <?php
 
-namespace VcV\Front;
+namespace App\Controllers;
 
-use VcV\Api\Helpers\Url;
+use App\Api\Url;
+use Illuminate\Contracts\Events\Dispatcher;
 
-use VcV\Traits\Singleton;
+class PageFrontController {
 
-class Front {
-	use Singleton;
+	protected static $jsScriptRendered = false;
+	protected $event;
 
-	private static $jsScriptRendered = false;
+	public function __construct( Dispatcher $event ) {
+		$this->event = $event;
 
-	private function initialize() {
-		add_action( 'wp_head', [ $this, 'appendScript' ] );
-
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueueScripts' ] );
-
-		add_filter( 'edit_post_link', [ $this, 'addEditPostLink' ] );
+		$this->event->listen( 'driver:head', [ $this, 'appendScript' ] );
+		$this->event->listen( 'driver:edit_post_link', [
+			$this,
+			'addEditPostLink',
+		] );
 	}
 
-	public function addEditPostLink( $link ) {
-		$link .= ' <a href="javascript:;" onclick="vcvLoadInline(this, ' . get_the_ID() . ');">' . __( 'Edit with VC 5', 'vc5' ) . '</a>';
+	public function addEditPostLink( $link, $id ) {
+		$link .= ' <a href="javascript:;" onclick="vcvLoadInline(this, ' . $id . ');">' . last( $this->event->fire( 'driver:locale:get', [ 'edit_with_vc' ] ) ) . '</a>';
 		if ( ! self::$jsScriptRendered ) {
 			$link .= $this->outputScripts();
 			self::$jsScriptRendered = true;
@@ -33,13 +34,9 @@ class Front {
 		echo '<script src="' . Url::url( 'node_modules/less/dist/less.js' ) . '" data-async="true"></script>';
 	}
 
-	public function enqueueScripts() {
-		wp_enqueue_script( 'jquery' );
-	}
-
 	private function outputScripts() {
-		$scriptsBundle = get_option( 'vc_v_scripts_bundle' ); // @todo: use Api
-		$stylesBundle = get_option( 'vc_v_styles_bundle' );
+		$scriptsBundle = last( $this->event->fire( 'driver:option:get', [ 'vc_v_scripts_bundle' ] ) );
+		$stylesBundle = last( $this->event->fire( 'driver:option:get', [ 'vc_v_styles_bundle' ] ) );
 
 		ob_start();
 		?>
@@ -74,7 +71,7 @@ class Front {
 
 			function vcvLoadInline( element, id ) {
 				window.vcPostID = id;
-				window.vcAjaxUrl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ) ?>';
+				window.vcAjaxUrl = '<?php echo last( $this->event->fire( 'vc:page_front:output_scripts:get_ajax_url' ) ); ?>';
 				element.remove();
 
 				vcvLoadJsCssFile( '<?php echo Url::url( 'public/dist/wp.bundle.css?' . time() ) /* @todo: use assets folder */ ?>',
