@@ -202,15 +202,16 @@ var Navbar = React.createClass( Mediator.installTo( {
   }
 } ) );
 // Here comes wrapper for navbar
-document.querySelector( 'body' ).classList.add( 'vc-ui-navbar-position-top' );
-var editorWrapper = document.createElement( 'div' );
-editorWrapper.setAttribute( 'id', 'vc-editor-container' );
-var navbarWrapper = document.createElement( 'div' );
-navbarWrapper.setAttribute( 'id', 'vc-navbar-container' );
-editorWrapper.appendChild( navbarWrapper );
-document.body.appendChild( editorWrapper );
-ReactDOM.render(
-  <Navbar/>,
-  navbarWrapper
-);
+//document.querySelector( 'body' ).classList.add( 'vc-ui-navbar-position-top' );
+//var editorWrapper = document.createElement( 'div' );
+//editorWrapper.setAttribute( 'id', 'vc-editor-container' );
+//var navbarWrapper = document.createElement( 'div' );
+//navbarWrapper.setAttribute( 'id', 'vc-navbar-container' );
+//editorWrapper.appendChild( navbarWrapper );
+//document.body.appendChild( editorWrapper );
+//ReactDOM.render(
+//  <Navbar/>,
+//  navbarWrapper
+//);
+
 module.exports = Navbar;
