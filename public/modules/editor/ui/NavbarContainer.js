@@ -8,33 +8,55 @@ var HTML5Backend = require('react-dnd-html5-backend');
 var Navbar = require( './Navbar' );
 
 var NavbarContainer = React.createClass(Mediator.installTo({
+  getInitialState() {
+    return {
+      showOverlay: false
+    };
+  },
 
   componentDidMount: function () {
     console.log('component mounded');
     window.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart, false );
-  },
-
-  handleNavbarDragStart: function (e) {
-    console.log('vc-ui-navbar-drag-start', e);
-  },
-  handleNavbarDragEnd: function (e) {
-    console.log('vc-ui-navbar-drag-end', e);
-  },
-  handleNavbarDraging: function (e) {
-    console.log('vc-ui-navbar-dragging', e);
+    window.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd, false );
+    window.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging, false );
   },
 
   componentWillUnmount: function () {
-    console.log('component unmounted');
+    window.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart );
+    window.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd );
+    window.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging );
+  },
+
+  handleNavbarDragStart: function (e) {
+    console.log('vc-ui-navbar-drag-start', e.target.classList);
+    this.setState({
+      showOverlay: true
+    });
+  },
+  handleNavbarDragEnd: function (e) {
+    console.log('vc-ui-navbar-drag-end', e.target.classList);
+    this.setState({
+      showOverlay: false
+    });
+  },
+  handleNavbarDragging: function (e) {
+    console.log('vc-ui-navbar-dragging', e.target.classList);
   },
   handleDragStart(data) {
     console.log('parent', data);
   },
 
   render: function() {
+    let {showOverlay} = this.state;
+
     return (
       <div  id="vc-navbar-container">
         <Navbar/>
+        {(() => {
+          if (showOverlay) {
+            return <div className="vc-ui-navbar-overlay"></div>
+          }
+        })()}
       </div>
     );
   }

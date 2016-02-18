@@ -20,6 +20,13 @@ var Navbar = React.createClass( Mediator.installTo( {
     this.subscribe( 'layout:tree', function () {
       this.setState( { menuExpand: true } );
     }.bind( this ) );
+
+    //window.addEventListener('mousedown', function (e) {
+    //  console.log('e.target', e.target, e.pageX, e.pageY);
+    //})
+    //window.addEventListener('mousemove', function (e) {
+    //  console.log('e.target', e, e.pageX, e.pageY);
+    //})
   },
 
   handleDragStart(e) {
@@ -45,7 +52,7 @@ var Navbar = React.createClass( Mediator.installTo( {
     e.target.dispatchEvent(movingEvent);
 
     console.log('mouse moved');
-    console.log( e.target.classList);
+    console.log( e );
   },
 
 
