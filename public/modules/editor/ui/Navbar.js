@@ -1,5 +1,4 @@
 var React = require( 'react' );
-var ReactDOM = require( 'react-dom' );
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var TreeElement = require( '../layouts/tree/TreeLayout' );
 var AddElementModal = require( './add-element/AddElement.js' );
@@ -22,6 +21,35 @@ var Navbar = React.createClass( Mediator.installTo( {
       this.setState( { menuExpand: true } );
     }.bind( this ) );
   },
+
+  handleDragStart(e) {
+    let moveStartEvent = new CustomEvent('vc.ui.navbar.drag-start', e);
+    e.target.dispatchEvent(moveStartEvent);
+
+    document.body.classList.add('vc-ui-navbar-is-dragging');
+    //console.log('mouse down', data.target.classList, document.body.classList);
+    window.addEventListener('mousemove', this.handleMouseMove);
+    window.addEventListener('mouseup', this.handleDragEnd);
+  },
+  handleDragEnd(e){
+    let moveEndEvent = new CustomEvent('vc.ui.navbar.drag-end', e);
+    e.target.dispatchEvent(moveEndEvent);
+
+    document.body.classList.remove('vc-ui-navbar-is-dragging');
+    //console.log('mouse up', data.target.classList, document.body.classList);
+    window.removeEventListener( 'mousemove', this.handleMouseMove);
+    window.removeEventListener('mouseup', this.handleDragEnd);
+  },
+  handleMouseMove(e) {
+    let movingEvent = new CustomEvent('vc.ui.navbar.dragging', e);
+    e.target.dispatchEvent(movingEvent);
+
+    console.log('mouse moved');
+    console.log( e.target.classList);
+  },
+
+
+
   openAddElement: function ( e ) {
     e && e.preventDefault();
     this.publish( 'app:add', 'vc-v-root-element' );
@@ -109,7 +137,7 @@ var Navbar = React.createClass( Mediator.installTo( {
     return (
       <div className="vc-ui-navbar-container">
         <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
-          <div className="vc-ui-navbar-drag-handler"><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
+          <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
           <a className="vc-ui-navbar-logo" title="Visual Composer" href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amp;utm_source=vc_user&amp;utm_medium=frontend_editor" target="_blank">
             <span className="vc-ui-navbar-logo-title">Visual Composer</span>
           </a>
