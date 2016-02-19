@@ -1,8 +1,15 @@
 {
   "require": {
     "laravel/lumen-framework": "5.0.*",
-    "vlucas/phpdotenv": "~1.0"
+    "vlucas/phpdotenv": "~1.0",
+    "illuminate/events": "5.0.*@dev"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/AngeIII/events"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "App\\": "app/"
