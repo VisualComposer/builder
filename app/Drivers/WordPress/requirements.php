@@ -4,9 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Compatible up to php 5.1
+ * Plugin requirements in driver WordPress
+ * Class VcVCore_Requirements
  */
 class VcVCore_Requirements {
+	/**
+	 * Perform system check for requirements
+	 */
 	public static function coreChecks() {
 		$exitMsgPhp = sprintf( 'Visual Composer requires PHP %s or newer.', VC_V_REQUIRED_PHP_VERSION ) . '<a href="http://wordpress.org/about/requirements/"> ' . 'Please update!' . '</a>';
 		self::checkVersion( VC_V_REQUIRED_PHP_VERSION, PHP_VERSION, $exitMsgPhp );
@@ -15,6 +19,11 @@ class VcVCore_Requirements {
 		self::checkVersion( VC_V_REQUIRED_BLOG_VERSION, get_bloginfo( 'version' ), $exitMsgWp );
 	}
 
+	/**
+	 * @param string $mustHaveVersion
+	 * @param string $versionToCheck
+	 * @param string $errorMessage
+	 */
 	private static function checkVersion( $mustHaveVersion, $versionToCheck, $errorMessage = '' ) {
 		if ( version_compare( $mustHaveVersion, $versionToCheck, '>' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';

@@ -5,12 +5,27 @@ namespace App\Controllers;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
+/**
+ * Class PostAjaxController
+ * @package App\Controllers
+ */
 class PostAjaxController {
-
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
-
+	
+	/**
+	 * @var \Illuminate\Http\Request
+	 */
 	protected $request;
 
+	/**
+	 * PostAjaxController constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 * @param \Illuminate\Http\Request $request
+	 */
 	public function __construct( Dispatcher $event, Request $request ) {
 		$this->event = $event;
 		$this->request = $request;

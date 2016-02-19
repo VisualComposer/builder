@@ -4,15 +4,22 @@ namespace App\Drivers\WordPress\Connectors;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class File
+ * @package App\Drivers\WordPress\Connectors
+ */
 class File {
-	/** @var $app \Laravel\Lumen\Application */
-	protected $app;
-
-	/** @var $event \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * File constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
-		$this->app = app();
 		$this->event = $event;
 
 		$this->event->listen( 'driver:file:get_contents', function ( $filePath ) {
@@ -23,5 +30,4 @@ class File {
 			return file_put_contents( $filePath, $contents );
 		} );
 	}
-
 }

@@ -3,15 +3,22 @@ namespace App\Drivers\WordPress\Controllers;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class AssetsControllerDriver
+ * @package App\Drivers\WordPress\Controllers
+ */
 class AssetsControllerDriver {
-	/** @var $app \Laravel\Lumen\Application */
-	protected $app;
-
-	/** @var $event \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * AssetsControllerDriver constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
-		$this->app = app();
 		$this->event = $event;
 
 		add_action( 'before_delete_post', function ( $postId ) {
@@ -69,7 +76,7 @@ class AssetsControllerDriver {
 			return $bundle;
 		} );
 
-		$this->event->listen( 'vc:assets:delete_assets_bundles:get_destionation_dir', function () {
+		$this->event->listen( 'vc:assets:delete_assets_bundles:get_destination_dir', function () {
 			$uploadDir = wp_upload_dir();
 			$destinationDir = $uploadDir['basedir'] . '/' . VC_V_PLUGIN_DIRNAME . '/assets-bundles';
 

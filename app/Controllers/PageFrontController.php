@@ -5,11 +5,26 @@ namespace App\Controllers;
 use App\Api\Url;
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class PageFrontController
+ * @package App\Controllers
+ */
 class PageFrontController {
-
+	/**
+	 * @var bool
+	 */
 	protected static $jsScriptRendered = false;
+
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * PageFrontController constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
 		$this->event = $event;
 
@@ -20,6 +35,12 @@ class PageFrontController {
 		] );
 	}
 
+	/**
+	 * @param $link
+	 * @param $id
+	 *
+	 * @return string
+	 */
 	public function addEditPostLink( $link, $id ) {
 		$link .= ' <a href="javascript:;" onclick="vcvLoadInline(this, ' . $id . ');">' . last( $this->event->fire( 'driver:locale:get', [ 'edit_with_vc' ] ) ) . '</a>';
 		if ( ! self::$jsScriptRendered ) {
@@ -30,10 +51,17 @@ class PageFrontController {
 		return $link;
 	}
 
+	/**
+	 * Output less.js script to page header
+	 */
 	public function appendScript() {
 		echo '<script src="' . Url::url( 'node_modules/less/dist/less.js' ) . '" data-async="true"></script>';
 	}
 
+	/**
+	 * Output used assets
+	 * @return string
+	 */
 	private function outputScripts() {
 		$scriptsBundle = last( $this->event->fire( 'driver:option:get', [ 'vc_v_scripts_bundle' ] ) );
 		$stylesBundle = last( $this->event->fire( 'driver:option:get', [ 'vc_v_styles_bundle' ] ) );

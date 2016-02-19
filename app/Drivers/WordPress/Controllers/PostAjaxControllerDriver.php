@@ -3,11 +3,21 @@ namespace App\Drivers\WordPress\Controllers;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class PostAjaxControllerDriver
+ * @package App\Drivers\WordPress\Controllers
+ */
 class PostAjaxControllerDriver {
-	
-	/** @var $event \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * PostAjaxControllerDriver constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
 		$this->event = $event;
 
@@ -30,10 +40,20 @@ class PostAjaxControllerDriver {
 		] );
 	}
 
+	/**
+	 * @param $postId
+	 *
+	 * @return mixed
+	 */
 	public function getPostData( $postId ) {
 		return get_post_meta( $postId, 'vc_v_page_content', true );
 	}
 
+	/**
+	 * @param $postId
+	 * @param $content
+	 * @param $data
+	 */
 	public function setPostData( $postId, $content, $data ) {
 		// @todo: save elements on page
 		$post = get_post( $postId );
@@ -42,5 +62,4 @@ class PostAjaxControllerDriver {
 		update_post_meta( $postId, 'vc_v_page_content', $data );
 		wp_send_json_success();
 	}
-
 }

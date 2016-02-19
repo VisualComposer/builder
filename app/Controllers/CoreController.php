@@ -3,12 +3,22 @@
 namespace App\Controllers;
 
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Http\Request;
 
+/**
+ * Class CoreController
+ * @package App\Controllers
+ */
 class CoreController {
-	/** @var \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * CoreController constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
 		$this->event = $event;
 
@@ -29,8 +39,7 @@ class CoreController {
 	/**
 	 * Core action for activation plugin
 	 */
-	public function activationHook(Request $request) {
-		$request->all();
+	public function activationHook() {
 		$this->checkForUpdate();
 		$this->setVersion();
 		$this->event->fire( 'vc:core:activation' );
@@ -51,6 +60,9 @@ class CoreController {
 		$this->event->fire( 'vc:core:init' );
 	}
 
+	/**
+	 * Trigger system action admin_init
+	 */
 	public function adminInitHook() {
 		$this->event->fire( 'vc:core:admin_init' );
 	}

@@ -15,8 +15,16 @@ define( 'VC_V_START', microtime( true ) );
 |
 */
 require __DIR__ . '/../vendor/autoload.php';
+/**
+ * Load .env file for APP_DEBUG and other keys
+ */
 Dotenv::load( __DIR__ . '/../' );
+
+/** @var \Laravel\Lumen\Application $app */
 $app = require_once __DIR__ . '/app.php';
 
+/**
+ * Initialize used system Driver
+ */
 require __DIR__ . '/../app/Drivers/' . VC_V_DRIVER . '/driver.php';
 

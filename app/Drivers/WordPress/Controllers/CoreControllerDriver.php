@@ -3,15 +3,22 @@ namespace App\Drivers\WordPress\Controllers;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class CoreControllerDriver
+ * @package App\Drivers\WordPress\Controllers
+ */
 class CoreControllerDriver {
-	/** @var $app \Laravel\Lumen\Application */
-	protected $app;
-
-	/** @var $event \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * CoreControllerDriver constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
-		$this->app = app();
 		$this->event = $event;
 
 		$event->listen( 'vc:core:load', [ $this, 'addLoadHooks' ] );
@@ -25,6 +32,9 @@ class CoreControllerDriver {
 		} );
 	}
 
+	/**
+	 *
+	 */
 	public function addLoadHooks() {
 		register_activation_hook( VC_V_PLUGIN_FULL_PATH, function () {
 			$this->event->fire( 'driver:activation_hook' );
@@ -34,7 +44,10 @@ class CoreControllerDriver {
 		} );
 	}
 
+	/**
+	 *
+	 */
 	public function addInitHooks() {
-		load_plugin_textdomain( 'vc_v_composer', false, VC_V_PLUGIN_DIRNAME . '/languages' );
+		load_plugin_textdomain( 'vc5', false, VC_V_PLUGIN_DIRNAME . '/languages' );
 	}
 }

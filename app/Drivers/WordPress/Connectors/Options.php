@@ -4,15 +4,22 @@ namespace App\Drivers\WordPress\Connectors;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
+/**
+ * Class Options
+ * @package App\Drivers\WordPress\Connectors
+ */
 class Options {
-	/** @var $app \Laravel\Lumen\Application */
-	protected $app;
-
-	/** @var $event \Illuminate\Events\Dispatcher */
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
 
+	/**
+	 * Options constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 */
 	public function __construct( Dispatcher $event ) {
-		$this->app = app();
 		$this->event = $event;
 
 		$this->event->listen( 'driver:option:get', function ( $optionName, $default = false ) {

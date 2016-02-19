@@ -5,20 +5,36 @@ namespace App\Controllers;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 
+/**
+ * Class AssetsController
+ * @package App\Controllers
+ */
 class AssetsController {
-
 	/**
 	 * @var \Laravel\Lumen\Application
 	 */
 	protected $app;
 
+	/**
+	 * @var \Illuminate\Contracts\Events\Dispatcher
+	 */
 	protected $event;
+
+	/**
+	 * @var \Illuminate\Http\Request
+	 */
 	protected $request;
 
+	/**
+	 * AssetsController constructor.
+	 *
+	 * @param \Illuminate\Contracts\Events\Dispatcher $event
+	 * @param \Illuminate\Http\Request $request
+	 */
 	public function __construct( Dispatcher $event, Request $request ) {
+		$this->app = app();
 		$this->event = $event;
 		$this->request = $request;
-		$this->app = app();
 
 		$this->event->listen( 'driver:before_delete_post', [
 			$this,
@@ -37,7 +53,10 @@ class AssetsController {
 		] );
 	}
 
-	public function setPostDataHook( $postId, $content, $data ) {
+	/**
+	 * @param $postId
+	 */
+	public function setPostDataHook( $postId ) {
 		$this->updatePostAssets( $postId, 'scripts', $this->request->has( 'scripts' ) ? $this->request->input( 'scripts' ) : [ ] );
 		$this->updatePostAssets( $postId, 'styles', $this->request->has( 'styles' ) ? $this->request->input( 'styles' ) : [ ] );
 		$this->generateScriptsBundle();
@@ -76,11 +95,9 @@ class AssetsController {
 
 	/**
 	 * Save compiled less into one css bundle
-	 *
-	 * @param \Illuminate\Http\Request $request
 	 */
-	public function saveCssBundleHook( Request $request ) {
-		$contents = $request->input( 'contents' );
+	public function saveCssBundleHook() {
+		$contents = $this->request->input( 'contents' );
 
 		$bundleUrl = $this->generateStylesBundle( $contents );
 
@@ -263,7 +280,7 @@ class AssetsController {
 	 * @param string $extension
 	 */
 	private function deleteAssetsBundles( $extension = '' ) {
-		$destinationDir = last( $this->event->fire( 'vc:assets:delete_assets_bundles:get_destionation_dir' ) );
+		$destinationDir = last( $this->event->fire( 'vc:assets:delete_assets_bundles:get_destination_dir' ) );
 
 		if ( $extension ) {
 			$extension = '.' . $extension;
