@@ -46,7 +46,8 @@ class PostAjaxControllerDriver {
 	 * @return mixed
 	 */
 	public function getPostData( $postId ) {
-		return get_post_meta( $postId, 'vc_v_page_content', true );
+		// @todo: fix react components if there is empty page content
+		return get_post_meta( $postId, 'vc_v_page_content', true ) || get_post( $postId )->post_content;
 	}
 
 	/**
@@ -59,6 +60,7 @@ class PostAjaxControllerDriver {
 		$post = get_post( $postId );
 		$post->post_content = stripslashes( $content ); // @todo: check for stripslashes - maybe not needed!
 		wp_update_post( $post );
+		// In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vc_v_page_content' => $data ]
 		update_post_meta( $postId, 'vc_v_page_content', $data );
 		wp_send_json_success();
 	}
