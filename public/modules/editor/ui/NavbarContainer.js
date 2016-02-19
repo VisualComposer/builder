@@ -27,34 +27,77 @@ var NavbarContainer = React.createClass(Mediator.installTo({
   },
 
   handleNavbarDragStart: function (e) {
-    //console.log('vc.ui.navbar.drag-start', e.target.classList);
     this.setState({
       isDragging: true,
-      showOverlay: true
+      showOverlay: true,
+      navbarPosition: e.eventData.navbarNewPosition
     });
   },
   handleNavbarDragEnd: function (e) {
-    //console.log('vc.ui.navbar.drag-end', e.target.classList);
     this.setState({
       isDragging: false,
       showOverlay: false
     });
   },
   handleNavbarDragging: function (e) {
-    console.log('vc.ui.navbar.dragging');
+    let {navbarSize, navbarNewPosition, windowSize} = e.eventData;
 
-    let {navbarSize} = e.eventData;
+    console.log(windowSize);
 
-    if ( e.eventData.navPosY - navbarSize.height / 2 < navbarSize.height
-      && e.eventData.navPosY - navbarSize.height / 2 >= navbarSize.height / 2 ) {
-      this.setState({
-        showGuideline: true
-      });
-    } else {
-      this.setState({
-        showGuideline: false
-      });
+    switch (navbarNewPosition) {
+      case "top":
+        if ( e.eventData.navPosY - navbarSize.height / 2 < navbarSize.height
+          && e.eventData.navPosY - navbarSize.height / 2 >= navbarSize.height / 2 ) {
+          this.setState({
+            showGuideline: true
+          });
+        } else {
+          this.setState({
+            showGuideline: false
+          });
+        }
+        break;
+
+      case "left":
+        if ( e.eventData.navPosX - navbarSize.width / 2 < navbarSize.width
+          && e.eventData.navPosX - navbarSize.width / 2 >= navbarSize.width / 2 ) {
+          this.setState({
+            showGuideline: true
+          });
+        } else {
+          this.setState({
+            showGuideline: false
+          });
+        }
+        break;
+
+      case "bottom":
+        if ( windowSize.height - ( e.eventData.navPosY + navbarSize.height / 2 ) < navbarSize.height
+          && windowSize.height - ( e.eventData.navPosY + navbarSize.height / 2 ) >= navbarSize.height / 2 ) {
+          this.setState({
+            showGuideline: true
+          });
+        } else {
+          this.setState({
+            showGuideline: false
+          });
+        }
+        break;
+      case "right":
+        if ( windowSize.height - ( e.eventData.navPosX + navbarSize.width / 2 ) < navbarSize.width
+          && windowSize.height - ( e.eventData.navPosX - navbarSize.width / 2 ) >= navbarSize.width / 2 ) {
+          this.setState({
+            showGuideline: true
+          });
+        } else {
+          this.setState({
+            showGuideline: false
+          });
+        }
+        break;
     }
+
+
 
   },
 

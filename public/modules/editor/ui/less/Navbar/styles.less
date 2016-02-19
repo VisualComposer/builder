@@ -31,12 +31,7 @@
   transition-timing-function: @vc-ui-transition-timing-function;
 }
 
-.vc-ui-navbar-is-detached {
-  left: auto;
-  right: auto;
-  top: auto;
-  bottom: auto;
-}
+
 
 .vc-ui-navbar-overlay {
   position: fixed;
@@ -51,7 +46,7 @@
 
 .vc-ui-navbar-guideline {
   position: fixed;
-  transition-property: height;
+  transition-property: height, width;
   transition-duration: @vc-ui-transition-duration;
   transition-timing-function: @vc-ui-transition-timing-function;
   background-color: @bg-base;
@@ -435,5 +430,12 @@
   .vc-ui-navbar-drag-handler-icon {
     transform: translate(-50%, -50%) rotate(-90deg);
   }
+}
+
+.vc-ui-navbar-container.vc-ui-navbar-is-detached {
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
 }
 
