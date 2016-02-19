@@ -43,15 +43,13 @@ var NavbarContainer = React.createClass(Mediator.installTo({
   handleNavbarDragging: function (e) {
     console.log('vc.ui.navbar.dragging');
 
-    if ( e.eventData.navPosY - e.eventData.navbarHeight / 2 < e.eventData.navbarHeight
-      && e.eventData.navPosY - e.eventData.navbarHeight / 2 >= e.eventData.navbarHeight / 2 ) {
+    let {navbarSize} = e.eventData;
+
+    if ( e.eventData.navPosY - navbarSize.height / 2 < navbarSize.height
+      && e.eventData.navPosY - navbarSize.height / 2 >= navbarSize.height / 2 ) {
       this.setState({
         showGuideline: true
       });
-      console.log(
-        document.body
-      )
-      document.body.style.paddingTop = this.state.navbarHeight+'px';
     } else {
       this.setState({
         showGuideline: false

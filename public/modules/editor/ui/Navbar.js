@@ -14,10 +14,15 @@ var Navbar = React.createClass( Mediator.installTo( {
       saving: false,
       saved: false,
       isDragging: false,
+      isDetached: false,
       navbarPosition: 'top',
+      navbarNewPosition: this.navbarPosition,
       navPosX: 0,
       navPosY: 0,
-      navbarHeight: undefined,
+      navbarSize: {
+        height: undefined,
+        width: undefined
+      },
       moveDirection: {
         top: false,
         right: false,
@@ -42,7 +47,7 @@ var Navbar = React.createClass( Mediator.installTo( {
 
     this.setState({
       isDragging: true,
-      navbarHeight: ReactDOM.findDOMNode( this ).offsetHeight
+      navbarSize: {height: ReactDOM.findDOMNode( this ).offsetHeight}
     });
     this.handleDragging( e.nativeEvent );
   },
@@ -124,23 +129,26 @@ var Navbar = React.createClass( Mediator.installTo( {
       "vc-ui-icon-save": !this.state.saving
     } );
 
-    let {isDragging, navPosX, navPosY, navbarPosition, moveDirection, navbarHeight } = this.state,
+    let {isDragging, navPosX, navPosY, navbarPosition, moveDirection, navbarSize } = this.state,
       navBarStyle = {}, isDetached;
 
     if (isDragging) {
-
+      isDetached = false;
       navBarStyle.opacity = .5;
 
       // top position
-      navBarStyle.top = navPosY - navbarHeight / 2;
-      if (navBarStyle.top > navbarHeight) {
+      navBarStyle.top = navPosY - navbarSize.height / 2;
+      if (navBarStyle.top > navbarSize.height) {
         isDetached = true;
       }
-      if (moveDirection.bottom && navPosY - navbarHeight / 2 < navbarHeight / 2) {
+      if (moveDirection.bottom && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
         navBarStyle.top = 0;
       }
-      if (moveDirection.top && navPosY - navbarHeight / 2 < navbarHeight / 2) {
+      if (moveDirection.top && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
         navBarStyle.top = 0;
+      }
+      if (isDetached) {
+        navBarStyle.left = navPosX - 7;
       }
 
     }
