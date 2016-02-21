@@ -1,6 +1,7 @@
+var vcCake = require('vc-cake');
 var React = require( 'react' );
 var classNames = require( 'classnames' );
-var AssetManager = require( '../.././AssetManager' );
+var AssetManager = vcCake.getService('asset-manager');
 require( './Icon.less' );
 
 AssetManager.addStyle( 'Icon', 'todo-remove-me.less' );

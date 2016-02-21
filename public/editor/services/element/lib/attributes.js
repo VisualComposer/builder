@@ -21,7 +21,7 @@ var Attributes = {
     return this;
   },
   getComponent: function() {
-    return require('../../sources/attributes/' + this.attributeName + '/Component');
+    return require('../../../../sources/attributes/' + this.attributeName + '/Component');
   },
   // @todo add lodash to write via curry/compose
   getElementValue: function(name, settings, element) {

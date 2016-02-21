@@ -1,6 +1,7 @@
+var vcCake = require('vc-cake');
 var React = require( 'react' );
 var classNames = require( 'classnames' );
-var AssetManager = require( '../.././AssetManager' );
+var AssetManager = vcCake.getService('asset-manager');
 require( './Tabs.less' );
 require( 'jquery' );
 require( './js/accordion.js' );

@@ -1,8 +1,8 @@
+var vcCake = require('vc-cake');
 let React = require( 'react' );
 let ParamMixin = require( '../param-mixin' );
 let Setter = require( './Setter' );
-let ElementComponents = require( '../.././ElementComponents' );
-let Mediator = require( '../.././Mediator' );
+let ElementComponents = vcCake.getService('element').components;
 
 var AttributesChecker = function ( update ) {
 	return {
@@ -14,7 +14,7 @@ var AttributesChecker = function ( update ) {
 		getAttribute: function ( element, key ) {
 			return this.values[ key ];
 		}
-	}
+	};
 };
 module.exports = React.createClass( {
 	mixins: [ ParamMixin ],
@@ -34,7 +34,7 @@ module.exports = React.createClass( {
 			let ComponentView = this.getComponent( settings.getType().toLowerCase() );
 			return React.createElement( ComponentView, {
 				value: value,
-				key: Mediator.getService( 'utils' ).createKey(),
+				key: vcCake.getService( 'utils' ).createKey(),
 				element: element,
 				settings: settings,
 				name: name

@@ -1,5 +1,5 @@
-var Mediator = require('.././Mediator');
-var DataService = Mediator.getService('data');
+var vcCake = require('vc-cake');
+var DataService = vcCake.getService('data');
 var Mixin = {
     getInitialState: function() {
 		//console.log( 'mixin getInitialState called' );
