@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
-    "build-module": "node ./public/lib/module-builder/index.js"
+    "build-module": "node ./tools/module-builder/index.js"
   },
   "author": "@vv",
   "license": "",
@@ -55,7 +55,7 @@
     "react-rubaxa-sortable": "^0.1.2",
     "react-select": "~1.0.0-beta8",
     "simply-deferred": "^3.0.0",
-    "vc-cake": "^0.1.6",
+    "vc-cake": "^0.2.0",
     "webpack": "*"
   },
   "babel": {

@@ -2,7 +2,7 @@ var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-var moduleDir = '../../editor/modules';
+var moduleDir = '../../public/editor/modules';
 
 
 var args = process.argv.slice(2);

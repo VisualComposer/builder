@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var Collector = require('./Collector');
+var Collector = require('./tools/webpack-collector');
 // var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
@@ -22,6 +22,38 @@ module.exports = {
     new ExtractTextPlugin("[name].bundle.css"),
     new webpack.HotModuleReplacementPlugin()
   ],
+  vc: {
+    node: {
+      modules: [
+        'content/layout'
+        ],
+      services: [
+          'actions-manager',
+          'asset-manager',
+          'data',
+          'element',
+          'rules-manager',
+          'shared',
+          'time-machine',
+          'utils'
+      ]
+    },
+    wp: {
+      modules: [
+        'content/layout'
+        ],
+      services: [
+          'actions-manager',
+          'asset-manager',
+          'data',
+          'element',
+          'rules-manager',
+          'shared',
+          'time-machine',
+          'utils'
+      ]
+    },
+  },
   module: {
     loaders: [
       {

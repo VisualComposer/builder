@@ -1,4 +1,4 @@
-var ElementsSettings = require('../../../sources/elements/ElementsSettings');
+var ElementsSettings = require('../../../sources/elements/elements-settings');
 var ElementsList = {
   items: false,
   getElementsData: function() {
