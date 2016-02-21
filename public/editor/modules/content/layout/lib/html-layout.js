@@ -1,47 +1,31 @@
 var vcCake = require('vc-cake');
-vcCake.add('editor-content-layout', function(api) {
-  var React = require('react');
-  require('../css/html-layout.less');
-  var Element = require('./element.js');
+var React = require('react');
+require('../css/html-layout.less');
+var Element = require('./element');
 
-  var DragDropContext = require('react-dnd').DragDropContext;
-  var HTML5Backend = require('react-dnd-html5-backend');
+var DragDropContext = require('react-dnd').DragDropContext;
+var HTML5Backend = require('react-dnd-html5-backend');
 
-  var DataChanged = {
-    componentDidMount: function() {
-      api.reply('data:changed', function(document) {
-        this.setState({data: document});
-      }.bind(this));
-    },
-    getInitialState: function() {
-      return {
-        data: {},
-        menuExpand: false
-      }
-    }
-  };
-  var SortableMixin = {
-    shouldComponentUpdate: function(nextProps, nextState) {
-      return true;
-    }
-  };
+var SortableMixin = {
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return true;
+  }
+};
 
-  var Layout = React.createClass({
-    mixins: [DataChanged],
-    render: function() {
-      let elementsList;
-      if (this.state.data.childNodes) {
-        let data = Array.prototype.slice.call(this.state.data.childNodes);
-        let rootElement = data[0];
-        elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function(element) {
-          let data = Array.prototype.slice.call(element.childNodes);
-          return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
-        });
-      }
-      return (<div className="vc-v-layouts-html">
-        {elementsList}
-      </div>);
+var Layout = React.createClass({
+  render: function() {
+    let elementsList;
+    if (this.props.data.childNodes) {
+      let data = Array.prototype.slice.call(this.props.data.childNodes);
+      let rootElement = data[0];
+      elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function(element) {
+        let data = Array.prototype.slice.call(element.childNodes);
+        return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
+      });
     }
-  });
-  module.exports = DragDropContext(HTML5Backend)(Layout);
+    return (<div className="vc-v-layouts-html">
+      {elementsList}
+    </div>);
+  }
 });
+module.exports = DragDropContext(HTML5Backend)(Layout);

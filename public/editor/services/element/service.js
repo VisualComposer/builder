@@ -4,7 +4,7 @@ var attributes = require('./lib/attributes');
 var components = require('./lib/components');
 var defaults = require('./lib/defaults');
 
-vcCake.addService('elements', {
+vcCake.addService('element', {
   attributes: attributes,
   components: components,
   defaults: defaults,

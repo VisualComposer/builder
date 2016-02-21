@@ -1,15 +1,15 @@
+var vcCake = require('vc-cake');
 var React = require('react');
-var Utils = require('../../.././Utils');
-var Mediator = require('../../.././Mediator');
-var ElementComponents = require('../../.././ElementComponents');
+var Utils = vcCake.getService('utils');
+var ElementComponents = vcCake.getService('element').components;
 var ReactDOM = require('react-dom');
 var MediumEditor = require('medium-editor');
 require('medium-editor/dist/css/medium-editor.css');
 
-require('./MediumEditor.less');
-require('./Element.less');
+require('../css/medium-editor.less');
+require('../css/element.less');
 
-var DndElement = require('./DndElement.js');
+var DndElement = require('./dnd-element.js');
 
 var InlineEditorMixin = {
   componentDidMount: function() {
@@ -36,7 +36,7 @@ var InlineEditorMixin = {
   }
 };
 
-var Element = React.createClass(Mediator.installTo({
+var Element = React.createClass({
   // mixins: [InlineEditorMixin],
   getContent: function(content) {
     var ElementComponent = ElementComponents.get(this.props.element); // optimize
@@ -83,5 +83,5 @@ var Element = React.createClass(Mediator.installTo({
       content: this.getContent(elementAttributes.content)
     });
   }
-}));
+});
 module.exports = Element;

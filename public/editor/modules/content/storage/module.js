@@ -24,4 +24,5 @@ vcCake.add('storage', function(context) {
     api.reply('data:moveTo', function(srcElId, nextElId, parentId) {
       Data.moveTo(srcElId, nextElId, parentId);
     });
+    api.reply('data:changed');
 });

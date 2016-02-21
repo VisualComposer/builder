@@ -1,5 +1,5 @@
+var vcCake = require('vc-cake');
 var React = require('react');
-var Mediator = require('../../.././Mediator');
 var ReactDOM = require('react-dom');
 
 // D&D
@@ -7,17 +7,16 @@ var PropTypes = React.PropTypes;
 var DragSource = require('react-dnd').DragSource;
 var DropTarget = require('react-dnd').DropTarget;
 var flow = require('lodash/function/flow');
-var ElementComponents = require('../../.././ElementComponents');
+var ElementComponents = vcCake.getService('element').components;
 
 export const ItemTypes = {
   ELEMENT: 'element'
 };
 
-var DndElementServices = Mediator.installTo({});
 
 var elementSource = {
   beginDrag: function(props, monitor) {
-    let element = Mediator.getService('data').get(props.editor['data-vc-element']),
+    let element = vcCake.getService('data').get(props.editor['data-vc-element']),
       data = {
         hoverStack: [],
         emptyHoverStack: true,
@@ -210,7 +209,7 @@ function canDropByRelation(props, monitor) {
     return false;
   }
   let dragElement = monitor.getItem().dragElement.element,
-    checkElement = Mediator.getService('data').get(props.editor['data-vc-element']),
+    checkElement = vcCake.getService('data').get(props.editor['data-vc-element']),
     dragComponent = ElementComponents.get(dragElement),
     checkComponent = ElementComponents.get(checkElement),
     dependencies = checkComponent.children ? checkComponent.children.toString() : '';
@@ -290,7 +289,7 @@ function collectTarget(connect, monitor) {
   }
 }
 
-var DndElement = React.createClass(Mediator.installTo({
+var DndElement = React.createClass({
   propTypes: {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
@@ -332,7 +331,7 @@ var DndElement = React.createClass(Mediator.installTo({
 
     return render;
   }
-}));
+});
 module.exports = flow(
   DragSource(ItemTypes.ELEMENT, elementSource, collectSource),
   DropTarget(ItemTypes.ELEMENT, elementTarget, collectTarget)
