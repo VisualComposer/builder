@@ -8,7 +8,7 @@ var ServicesCollector = {
   buildFile: function(prefix, services) {
     var content = "var join = require('path').join;\n";
     services.forEach(function(f) {
-      content += uf("require(join(__dirname, 'editor/services', '%s', 'service.js'));\n", f);
+      content += uf("require(join(__dirname, '%s', '%s', 'service.js'));\n", config.servicePath, f);
     });
     this.writeToFile(prefix, content);
   },
