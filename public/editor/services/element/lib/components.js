@@ -1,4 +1,4 @@
-var ElementsSettings = require('../../../sources/elements/elements-settings');
+var ElementsSettings = require('../../../../sources/elements/elements-settings');
 var ElementsList = {
   items: false,
   getElementsData: function() {
@@ -68,7 +68,7 @@ module.exports = {
     return ElementsList.items;
   },
   getElement: function(element) {
-    return require('../../../sources/elements/' + element.tagName + '/' + element.tagName + '.js');
+    return require('../../../../sources/elements/' + element.tagName + '/' + element.tagName + '.js');
   },
   get: function(element, currentData) {
     var tag = element.tagName ? element.tagName : element.toString();

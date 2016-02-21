@@ -1,3 +1,4 @@
+var vcCake = require('vc-cake');
 module.exports = {
   data: {},
   get: function(tag) {

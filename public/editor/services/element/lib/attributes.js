@@ -1,7 +1,5 @@
 var React = require('react');
-
-var Mediator = require('../Mediator');
-var DataService = Mediator.getService('data');
+var vcCake = require('vc-cake');
 // @todo add Nothing/Maybe monad :)
 var Nothing = function(object) {
   object.setName(null);
@@ -39,22 +37,22 @@ var Attributes = {
     this.setSettings(settings);
     if ('public' === this.settings.getAccess()) {
       var ComponentView = this.getComponent();
-      var value = this.getValue(element);
+      // var value = this.getValue(element);
       //var settings = this.settings.getSettings();
       return React.createElement(ComponentView, {
         value: this.getValue(element),
-        key: Mediator.getService('utils').createKey(),
+        key: vcCake.getService('utils').createKey(),
         element: element,
         settings: this.settings,
         rulesManager: RulesManager,
         name: this.name
       });
     }
-    return Nothing(this);
+    return new Nothing(this);
   },
   getValue: function(element) {
-    var Getter = require('../../sources/attributes/' + this.attributeName + '/Getter');
-    return Getter(element, this.name); // todo fix maxlength/class/style names with prefix-postfix and fix default value
+    var Getter = require('../../../../sources/attributes/' + this.attributeName + '/Getter');
+    return new Getter(element, this.name); // todo fix maxlength/class/style names with prefix-postfix and fix default value
   },
 };
 

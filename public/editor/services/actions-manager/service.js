@@ -7,7 +7,7 @@ var ActionsManager = {
   },
   do: function(actionsList, props, ruleStatus, ruleData, eventType, actionManagerHelpers, actionType) {
     actionsList.forEach(function(actionData) {
-      var actionName = (typeof actionData === 'string' || actionData instanceof String ) ? actionData : actionData.action;
+      var actionName = (typeof actionData === 'string' || actionData instanceof String) ? actionData : actionData.action;
       this.actions[actionName].call(this, props,
         ruleStatus,
         ruleData,

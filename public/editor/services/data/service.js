@@ -7,7 +7,7 @@ var DataStore = {
   create: function(element) {
     var DOMElement = this.document.createElement(element.tag);
     var elementId = document.createAttribute('id');       // Create a "id" attribute
-    elementId.value = Mediator.getService('utils').createKey();
+    elementId.value = vcCake.getService('utils').createKey();
     DOMElement.setAttributeNode(elementId);
 
     Object.keys(element).forEach(function(k) {
@@ -46,9 +46,9 @@ var DataStore = {
     var DOMElement = this.document.getElementById(id);
     if (DOMElement) {
       let DOMElementClone = DOMElement.cloneNode(true);
-      DOMElementClone.setAttribute('id', Mediator.getService('utils').createKey());
+      DOMElementClone.setAttribute('id', vcCake.getService('utils').createKey());
       this.changeChildrenIds(DOMElementClone.childNodes);
-      DOMElement.parentNode.insertBefore(DOMElementClone, DOMElement.nextSibling)
+      DOMElement.parentNode.insertBefore(DOMElementClone, DOMElement.nextSibling);
       return true;
     }
     return false;
@@ -57,7 +57,7 @@ var DataStore = {
     let list = Array.prototype.slice.call(nodes);
     list.forEach(function(node) {
       if (node.setAttribute) {
-        node.setAttribute('id', Mediator.getService('utils').createKey());
+        node.setAttribute('id', vcCake.getService('utils').createKey());
         this.changeChildrenIds(node.childNodes);
       }
     }, this);
@@ -86,7 +86,6 @@ var DataStore = {
         case 'before':
           targetEl.parentNode.insertBefore(dragEl, targetEl);
           return true;
-          break;
         case 'after':
           if (targetEl.nextSibling) {
             targetEl.parentNode.insertBefore(dragEl, targetEl.nextSibling);
@@ -94,11 +93,9 @@ var DataStore = {
             targetEl.parentNode.appendChild(dragEl);
           }
           return true;
-          break;
         case 'into':
           targetEl.appendChild(dragEl);
           return true;
-          break;
       }
     }
     return false;

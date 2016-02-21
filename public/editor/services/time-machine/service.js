@@ -35,26 +35,28 @@ var TimeMachine = {
   }
 };
 var publishCurrentStep = function() {
-  Mediator.getService('data').setDocument(TimeMachine.get());
+  vcCake.getService('data').setDocument(TimeMachine.get());
   return true;
 };
-Mediator.installTo(TimeMachine);
 
-TimeMachine.subscribe('data:changed', function(document) {
-  TimeMachine.add(document);
-});
 var Module = module.exports = {
   getCurrentIndex: function() {
     return TimeMachine.stackPosition;
   },
   undo: function() {
-    TimeMachine.moveDown() && publishCurrentStep();
+    if (TimeMachine.moveDown()) {
+      publishCurrentStep();
+    }
   },
   redo: function() {
-    TimeMachine.moveUp() && publishCurrentStep();
+    if(TimeMachine.moveUp()) {
+      publishCurrentStep();
+    }
   },
   set: function(index) {
-    TimeMachine.set(index) && publishCurrentStep();
+    if(TimeMachine.set(index)) { 
+      publishCurrentStep();
+    }
   },
 };
 vcCake.addService('time-machine', Module);

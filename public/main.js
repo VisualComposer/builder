@@ -1,7 +1,7 @@
 var vcCake = require('vc-cake');
-require('./node.services');
+require('./node-services');
 vcCake.start(function() {
-  require('./node.modules');
+  // require('./node.modules');
   // Content
   /*loader.loadModule('content/storage');
   loader.loadModule('content/editor-controls');

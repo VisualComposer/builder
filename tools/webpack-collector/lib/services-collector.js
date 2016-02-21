@@ -6,14 +6,14 @@ var config = require('./settings');
 var ServicesCollector = {
   directory: '',
   buildFile: function(prefix, services) {
-    var content = "var join = require('path').join;\n";
+    var content = "";
     services.forEach(function(f) {
-      content += uf("require(join(__dirname, '%s', '%s', 'service.js'));\n", config.servicePath, f);
+      content += uf("require('./%s/%s/service.js');\n", config.servicePath, f);
     });
     this.writeToFile(prefix, content);
   },
   writeToFile: function(prefix, content) {
-    fs.writeFileSync(path.join(config.publicDir, uf('%s.services.js', prefix)), content);
+    fs.writeFileSync(path.join(config.publicDir, uf('%s-services.js', prefix)), content);
   }
 };
 

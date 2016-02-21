@@ -1,8 +1,8 @@
 var vcCake = require('vc-cake');
 
-var attributes = require('./lib/attributes.js');
-var components = require('./lib/components.js');
-var defaults = require('./lib/defaults.js');
+var attributes = require('./lib/attributes');
+var components = require('./lib/components');
+var defaults = require('./lib/defaults');
 
 vcCake.addService('elements', {
   attributes: attributes,

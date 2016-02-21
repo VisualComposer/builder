@@ -59,7 +59,7 @@ var RulesManager = {
         }
       );
       this.rules[ruleData.rule].call(this, deferred, props, ruleData, eventType);
-    }, this)
+    }, this);
   },
   rules: {
     true: function(dfd, props, ruleData) {
