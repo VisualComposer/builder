@@ -8,26 +8,34 @@ use Illuminate\Contracts\Events\Dispatcher;
  * Class Options
  * @package App\Drivers\WordPress\Connectors
  */
-class Options {
-	/**
-	 * @var \Illuminate\Contracts\Events\Dispatcher
-	 */
-	protected $event;
+class Options
+{
+    /**
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $event;
 
-	/**
-	 * Options constructor.
-	 *
-	 * @param \Illuminate\Contracts\Events\Dispatcher $event
-	 */
-	public function __construct( Dispatcher $event ) {
-		$this->event = $event;
+    /**
+     * Options constructor.
+     *
+     * @param \Illuminate\Contracts\Events\Dispatcher $event
+     */
+    public function __construct(Dispatcher $event)
+    {
+        $this->event = $event;
 
-		$this->event->listen( 'driver:option:get', function ( $optionName, $default = false ) {
-			return get_option( VC_V_PREFIX . $optionName, $default );
-		} );
+        $this->event->listen(
+            'driver:option:get',
+            function ($optionName, $default = false) {
+                return get_option(VC_V_PREFIX.$optionName, $default);
+            }
+        );
 
-		$this->event->listen( 'driver:option:set', function ( $optionName, $value ) {
-			update_option( VC_V_PREFIX . $optionName, $value );
-		} );
-	}
+        $this->event->listen(
+            'driver:option:set',
+            function ($optionName, $value) {
+                update_option(VC_V_PREFIX.$optionName, $value);
+            }
+        );
+    }
 }

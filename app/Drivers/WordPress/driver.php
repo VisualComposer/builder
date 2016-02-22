@@ -2,40 +2,68 @@
 
 namespace App\Drivers\WordPress;
 
-/** @var $app \Laravel\Lumen\Application */
-$app->singleton( 'CoreControllerDriver', '\App\Drivers\WordPress\Controllers\CoreControllerDriver' );
-$app->make( 'CoreControllerDriver' );
+/**
+ * Class Driver
+ * @package App\Drivers\WordPress
+ */
+class Driver
+{
 
-$app->singleton( 'PostAjaxControllerDriver', '\App\Drivers\WordPress\Controllers\PostAjaxControllerDriver' );
-$app->make( 'PostAjaxControllerDriver' );
+    /**
+     * List of system connectors layer driver-module-system
+     * @var array
+     */
+    protected $connectors = [
+        'Options' => '\App\Drivers\WordPress\Connectors\Options',
+        'File' => '\App\Drivers\WordPress\Connectors\File',
+        'Locale' => '\App\Drivers\WordPress\Connectors\Locale',
+    ];
 
-$app->singleton( 'AssetsControllerDriver', '\App\Drivers\WordPress\Controllers\AssetsControllerDriver' );
-$app->make( 'PostAjaxControllerDriver' );
+    /**
+     * List of available module drivers
+     * @var array
+     */
+    protected $drivers = [
+        'CoreControllerDriver' => '\App\Drivers\WordPress\Modules\Core\CoreControllerDriver',
+        'PostAjaxControllerDriver' => '\App\Drivers\WordPress\Modules\PostAjax\PostAjaxControllerDriver',
+        'AssetsManagerControllerDriver' => '\App\Drivers\WordPress\Modules\AssetsManager\AssetsManagerControllerDriver',
+        'PageFrontControllerDriver' => '\App\Drivers\WordPress\Modules\PageFront\PageFrontControllerDriver',
 
-$app->singleton( 'PageFrontControllerDriver', '\App\Drivers\WordPress\Controllers\PageFrontControllerDriver' );
-$app->make( 'PageFrontControllerDriver' );
+    ];
 
-// Connectors
-$app->singleton( 'Options', '\App\Drivers\WordPress\Connectors\Options' );
-$app->make( 'Options' );
+    /**
+     * List of system modules
+     * @var array
+     */
+    protected $modules = [
+        'CoreController' => '\App\Modules\Core\CoreController',
+        'PostAjaxController' => '\App\Modules\PostAjax\PostAjaxController',
+        'AssetsManagerController' => '\App\Modules\AssetsManager\AssetsManagerController',
+        'PageFrontController' => '\App\Modules\PageFront\PageFrontController',
+    ];
 
-$app->singleton( 'File', '\App\Drivers\WordPress\Connectors\File' );
-$app->make( 'File' );
+    /** @var \Laravel\Lumen\Application */
+    protected $app;
 
-// Locale
-$app->singleton( 'Locale', '\App\Drivers\WordPress\Locale\Locale' );
-$app->make( 'Locale' );
+    /**
+     * Driver constructor.
+     */
+    public function __construct()
+    {
+        $this->app = app();
+        $this->init($this->connectors);
+        $this->init($this->drivers);
+        $this->init($this->modules);
+    }
 
-// Application Initialization
-$app->singleton( 'CoreController', '\App\Controllers\CoreController' );
-$app->make( 'CoreController' );
-
-$app->singleton( 'PostAjaxController', '\App\Controllers\PostAjaxController' );
-$app->make( 'PostAjaxController' );
-
-$app->singleton( 'AssetsController', '\App\Controllers\AssetsController' );
-$app->make( 'AssetsController' );
-
-$app->singleton( 'PageFrontController', '\App\Controllers\PageFrontController' );
-$app->make( 'PageFrontController' );
-
+    /**
+     * @param array $list
+     */
+    protected function init(array $list)
+    {
+        foreach ($list as $name => $instance) {
+            $this->app->singleton($instance);
+            $this->app->make($name);
+        }
+    }
+}

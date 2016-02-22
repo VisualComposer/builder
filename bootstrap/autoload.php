@@ -1,8 +1,8 @@
 <?php
-if ( ! defined( 'VC_V_DRIVER' ) ) {
-	exit;
+if ( ! defined('VC_V_DRIVER')) {
+    exit;
 }
-define( 'VC_V_START', microtime( true ) );
+define('VC_V_START', microtime(true));
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader
@@ -14,17 +14,19 @@ define( 'VC_V_START', microtime( true ) );
 | loading of any our classes "manually". Feels great to relax.
 |
 */
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 /**
  * Load .env file for APP_DEBUG and other keys
  */
-Dotenv::load( __DIR__ . '/../' );
+Dotenv::load(__DIR__.'/../');
 
 /** @var \Laravel\Lumen\Application $app */
-$app = require_once __DIR__ . '/app.php';
+$app = require_once __DIR__.'/app.php';
 
 /**
  * Initialize used system Driver
  */
-require __DIR__ . '/../app/Drivers/' . VC_V_DRIVER . '/driver.php';
+require __DIR__.'/../app/Drivers/'.VC_V_DRIVER.'/driver.php';
 
+$app->singleton('Driver', 'App\\Drivers\\'.VC_V_DRIVER.'\\Driver');
+$app->make('Driver');
