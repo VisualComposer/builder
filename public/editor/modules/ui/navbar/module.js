@@ -3,18 +3,19 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var classNames = require('classnames');
 vcCake.add('ui-navbar', function(api) {
-  require('./css/navbar/navbar-init.less');
-  var Navbar = React.createClass(Mediator.installTo({
+  require('./css/navbar-init.less');
+  var Navbar = React.createClass({
     getInitialState: function() {
       return {
+        controlsLeft: [],
+        controlsRight: [],
         startMove: false,
-        menuExpand: false,
         vertical: false,
         position: 0
       }
     },
     componentDidMount: function() {
-      this.subscribe('layout:tree', function() {
+      api.reply('layout:tree', function() {
         this.setState({menuExpand: true});
       }.bind(this));
     },
@@ -54,6 +55,9 @@ vcCake.add('ui-navbar', function(api) {
       if (this.setState({startMove: false}));
       this.setState({position: 0});
     },
+    buildControls: function(side) {
+
+    },
     render: function() {
       var menuExpandClass = classNames({
         'dropdown': true,
@@ -75,6 +79,8 @@ vcCake.add('ui-navbar', function(api) {
       });
       var Placeholder = (this.state.position > 5 && this.state.startMove ?
         <div className={placeholderClasses}></div> : null);
+      var controlsLeft = this.buildControls('left');
+      var controlsRight = this.buildControls('right');
       return (
         <nav className={mainCssClasses}
              onMouseDown={this.changePosition}
@@ -84,7 +90,7 @@ vcCake.add('ui-navbar', function(api) {
             <a className="navbar-brand"><span className="vcv-logo"></span></a>
           </div>
           <ul className="nav navbar-nav">
-            <li><a className="as_btn" onClick={this.openAddElement}><span className="glyphicon glyphicon-plus"></span></a>
+            {controlsLeft}
             </li>
             <li role="presentation" className={menuExpandClass}>
               <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
@@ -94,6 +100,7 @@ vcCake.add('ui-navbar', function(api) {
           </ul>
           <div className="vcv-navbar-right-block">
             <ul className="nav navbar-nav pull-right" style={{marginRight: this.state.vertical ? null : 10 + 'px'}}>
+              {controlsRight}
               <li>
                 <button type="button" className="btn btn-success navbar-btn" onClick={this.clickSaveData}>Update</button>
               </li>
@@ -103,7 +110,7 @@ vcCake.add('ui-navbar', function(api) {
         </nav>
       );
     }
-  }));
+  });
 // Here comes wrapper for navbar
   var navbarWrapper = document.createElement('div');
   navbarWrapper.setAttribute('id', 'vc-navbar-container');

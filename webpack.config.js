@@ -25,7 +25,8 @@ module.exports = {
   vc: {
     node: {
       modules: [
-        'content/layout'
+        'content/layout',
+        'ui/navbar'
         ],
       services: [
           'actions-manager',

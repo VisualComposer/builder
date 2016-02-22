@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
 
-vcCake.add('ui-editor-controls', function() {
+vcCake.add('ui-editor-controls', function(api) {
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js');
   var ControlsTrigger = {};
   require('./css/controls/editor-controls-init.less');
@@ -10,14 +10,13 @@ vcCake.add('ui-editor-controls', function() {
     controlsHandler.showOutline($(e.currentTarget));
   };
 
-  ControlsTrigger.triggerHideFrame = function(e) {
+  ControlsTrigger.triggerHideFrame = function() {
     controlsHandler.hideOutline();
   };
 
-  ControlsTrigger.triggerRedrawFrame = function(e) {
+  ControlsTrigger.triggerRedrawFrame = function() {
     controlsHandler.drawOutlines();
   };
-  Mediator.installTo(controlsHandler);
 
   var EditorControls = function() {
     controlsHandler.subscribe('app:init', function() {
@@ -31,7 +30,7 @@ vcCake.add('ui-editor-controls', function() {
         var event = $el.data('vcControlEvent');
         var elementId = $el.data('vcElementId');
         e.preventDefault();
-        controlsHandler.publish(event, elementId);
+        api.request(event, elementId);
         controlsHandler.hideOutline();
       });
       $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);
