@@ -26,7 +26,9 @@ module.exports = {
     node: {
       modules: [
         'content/layout',
-        'ui/navbar'
+        'ui/navbar',
+        'ui/brand-logo',
+        'ui/add-element'
         ],
       services: [
           'actions-manager',

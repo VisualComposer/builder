@@ -21,15 +21,10 @@ vcCake.add('ui-edit-element', function(api) {
   };
   var DataChanged = {
     componentDidMount: function() {
-      api.module('ui-navbar').on('render', function(){
-        api.module('ui-navbar').do('add-control', 'Edit element', 'edit-btn-class', 'glyphicon glyphicon-edit', function(){});
-      });
       api.reply('app:edit', function(element) {
         if ('string' === typeof element) {
-          element = Mediator.getService('data').get(element);
+          element = vcCake.getService('data').get(element);
         }
-        Mediator.channels['save'] = false;
-        Mediator.channels['cancel'] = false;
         var settings = ElementComponents.get(element.tagName);
         var onSaveItems = settings.onSaveItems ? parseInt(settings.onSaveItems.toString()) : 0;
         var onCancelItems = settings.onCancelItems ? parseInt(settings.onCancelItems.toString()) : 0;

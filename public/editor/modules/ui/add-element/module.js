@@ -1,11 +1,13 @@
 var vcCake = require('vc-cake');
-vcCake.add('ui-add-element', function(){
+require('./lib/navbar-control');
+
+vcCake.add('ui-add-element', function(api){
   var React = require('react');
+  var ReactDOM = require('react-dom');
   var Modal = require('react-modal');
-  var ElementComponents = vcCake.getServers('element').components;
+  var ElementComponents = vcCake.getService('element').components;
   var ElementControl = require('./lib/element-control');
   require('./css/module.less');
-
   const customStyles = {
     content: {
       top: '50%',
@@ -19,13 +21,11 @@ vcCake.add('ui-add-element', function(){
     }
   };
 
-  module.exports = React.createClass({
+  var Component = React.createClass({
     componentWillMount: function() {
-      api.module('ui-navbar').on('render', function(){
-        api.module('ui-navbar').do('add-control', 'Add element', 'as_btn', 'glyphicon glyphicon-plus', function(){
-          this.setState({modalIsOpen: true});
-        }.bind(this));
-      });
+      api.on('show', function(){
+        this.setState({modalIsOpen: true});
+      }.bind(this));
     },
     getInitialState: function() {
       return {modalIsOpen: false};
@@ -44,7 +44,7 @@ vcCake.add('ui-add-element', function(){
 
       // get dependencies
       if (this.state.modalIsOpen) {
-        let activeNode = Mediator.getService('data').activeNode;
+        let activeNode = vcCake.getService('data').activeNode;
         let nodeData = activeNode ? ElementComponents.get(activeNode) : {};
 
         if (Object.getOwnPropertyNames(nodeData).length && nodeData.children) {

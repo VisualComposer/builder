@@ -6,6 +6,10 @@ var Utils = require('../../.././Utils');
 var Element = require('./Element.js');
 var DataChanged = {
   componentDidMount: function() {
+    // @todo move to layout tree
+    api.reply('layout:tree', function() {
+      this.setState({menuExpand: true});
+    }.bind(this));
     this.subscribe('data:changed', function(document) {
       this.setState({data: document});
     }.bind(this));

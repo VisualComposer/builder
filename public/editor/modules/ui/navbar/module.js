@@ -1,33 +1,32 @@
 var vcCake = require('vc-cake');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var classNames = require('classnames');
+
 vcCake.add('ui-navbar', function(api) {
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+  var classNames = require('classnames');
   require('./css/navbar-init.less');
+  var navbarControls = [];
+  /**
+   * @var {string} position - possible values: header, left, right;
+   */
+  api.addAction('addElement', function(name, Icon, position) {
+    navbarControls.push({name: name, Icon: Icon, position: position});
+    api.notify('build', navbarControls.length);
+  });
   var Navbar = React.createClass({
     getInitialState: function() {
       return {
-        controlsLeft: [],
-        controlsRight: [],
+        controlsCount: 0,
+        state: true,
         startMove: false,
         vertical: false,
         position: 0
       }
     },
     componentDidMount: function() {
-      api.reply('layout:tree', function() {
-        this.setState({menuExpand: true});
+      api.on('build', function(count) {
+        this.setState({controlsCount: count});
       }.bind(this));
-    },
-    openAddElement: function(e) {
-      e && e.preventDefault();
-      this.publish('app:add', 'vc-v-root-element');
-    },
-    clickMenuExpand: function() {
-      this.setState({menuExpand: !this.state.menuExpand});
-    },
-    clickSaveData: function() {
-      this.publish('app:save', true);
     },
     changePosition: function(e) {
       if (this.setState({startMove: true}));
@@ -55,8 +54,17 @@ vcCake.add('ui-navbar', function(api) {
       if (this.setState({startMove: false}));
       this.setState({position: 0});
     },
-    buildControls: function(side) {
-
+    buildControls: function(position) {
+      console.log(navbarControls);
+      return navbarControls.filter(function(value) {
+        return value.position === position;
+      }).map(function(value) {
+        var Element = React.createElement(value.Icon, {key: vcCake.getService('utils').createKey()});
+        if('header' !== value.position) {
+          return <li key={vcCake.getService('utils').createKey()}>{Element}</li>;
+        }
+        return Element;
+      });
     },
     render: function() {
       var menuExpandClass = classNames({
@@ -79,31 +87,19 @@ vcCake.add('ui-navbar', function(api) {
       });
       var Placeholder = (this.state.position > 5 && this.state.startMove ?
         <div className={placeholderClasses}></div> : null);
-      var controlsLeft = this.buildControls('left');
-      var controlsRight = this.buildControls('right');
       return (
         <nav className={mainCssClasses}
-             onMouseDown={this.changePosition}
              style={navStyle}>
           {Placeholder}
           <div className="navbar-header">
-            <a className="navbar-brand"><span className="vcv-logo"></span></a>
+            {this.buildControls('header')}
           </div>
           <ul className="nav navbar-nav">
-            {controlsLeft}
-            </li>
-            <li role="presentation" className={menuExpandClass}>
-              <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
-                <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
-              </a>
-            </li>
+            {this.buildControls('left')}
           </ul>
           <div className="vcv-navbar-right-block">
             <ul className="nav navbar-nav pull-right" style={{marginRight: this.state.vertical ? null : 10 + 'px'}}>
-              {controlsRight}
-              <li>
-                <button type="button" className="btn btn-success navbar-btn" onClick={this.clickSaveData}>Update</button>
-              </li>
+              {this.buildControls('right')}
             </ul>
           </div>
           <div className="vc_ui-inline-editor-container"></div>

@@ -1,9 +1,9 @@
-var Mediator = require('../../.././Mediator');
-var ElementComponents = require('../../.././ElementComponents');
+var vcCake = require('vc-cake');
+var ElementComponents = vcCake.getService('element').components;
 var React = require('react');
 var classNames = require('classnames');
 
-module.exports = React.createClass(Mediator.installTo({
+module.exports = React.createClass({
   propTypes: {
     tag: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired
@@ -12,7 +12,7 @@ module.exports = React.createClass(Mediator.installTo({
     e.preventDefault();
     var data = ElementComponents.get(this.props.tag);
     // Add element node
-    this.publish('data:add', data);
+    api.request('data:add', data);
   },
   render: function() {
     var className;
@@ -28,4 +28,4 @@ module.exports = React.createClass(Mediator.installTo({
       </a>
     </li>;
   }
-}));
+});
