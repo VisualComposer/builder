@@ -28,7 +28,8 @@ module.exports = {
         'content/layout',
         'ui/navbar',
         'ui/brand-logo',
-        'ui/add-element'
+        'ui/add-element',
+        'ui/save-data'
         ],
       services: [
           'actions-manager',
