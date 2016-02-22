@@ -1,10 +1,9 @@
+var vcCake = require('vc-cake');
 var React = require('react');
-var Utils = require('../../.././Utils');
-var Mediator = require('../../.././Mediator');
-var ElementComponents = require('../../.././ElementComponents');
+var ElementComponents = vcCake.getService('element').components;
 var classNames = require('classnames');
 
-var Element = React.createClass(Mediator.installTo({
+var Element = React.createClass({
   getInitialState: function() {
     return {
       childExpand: true,
@@ -85,5 +84,5 @@ var Element = React.createClass(Mediator.installTo({
       </div>
     </li>;
   }
-}));
+});
 module.exports = Element;

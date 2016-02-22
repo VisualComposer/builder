@@ -7,7 +7,7 @@ vcCake.add('ui-save-data', function(api){
       api.notify('app:save', true);
     },
     render: function() {
-      return (<button type="button" className="btn btn-success navbar-btn" onClick={this.handleClick}>Update</button>);
+      return (<li><button type="button" className="btn btn-success navbar-btn" onClick={this.handleClick}>Update</button></li>);
     }
   });
   api.module('ui-navbar').do('addElement', 'Save post', Control, 'right');

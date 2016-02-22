@@ -8,7 +8,7 @@ vcCake.add('ui-add-element', function(api){
       api.notify('show', true);
     },
     render: function() {
-      return (<a className="as_btn" onClick={this.handleClick}><span className="glyphicon glyphicon-plus"></span></a>);
+      return (<li><a className="as_btn" onClick={this.handleClick}><span className="glyphicon glyphicon-plus"></span></a></li>);
     }
   });
   api.module('ui-navbar').do('addElement', 'Add element', Control, 'left');

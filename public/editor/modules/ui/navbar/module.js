@@ -55,22 +55,13 @@ vcCake.add('ui-navbar', function(api) {
       this.setState({position: 0});
     },
     buildControls: function(position) {
-      console.log(navbarControls);
       return navbarControls.filter(function(value) {
         return value.position === position;
       }).map(function(value) {
-        var Element = React.createElement(value.Icon, {key: vcCake.getService('utils').createKey()});
-        if('header' !== value.position) {
-          return <li key={vcCake.getService('utils').createKey()}>{Element}</li>;
-        }
-        return Element;
+        return React.createElement(value.Icon, {key: vcCake.getService('utils').createKey()});
       });
     },
     render: function() {
-      var menuExpandClass = classNames({
-        'dropdown': true,
-        'open': this.state.menuExpand
-      });
       var mainCssClasses = classNames({
         'navbar': true,
         'navbar-vc': true,

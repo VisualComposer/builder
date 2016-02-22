@@ -29,6 +29,7 @@ module.exports = {
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
+        'ui/tree-layout',
         'ui/save-data'
         ],
       services: [
