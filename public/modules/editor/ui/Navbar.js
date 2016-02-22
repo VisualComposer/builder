@@ -15,7 +15,7 @@ var Navbar = React.createClass( Mediator.installTo( {
       saved: false,
       isDragging: false,
       isDetached: false,
-      navbarPosition: 'right',
+      navbarPosition: 'top',
       navbarNewPosition: undefined,
       navPosX: 0,
       navPosY: 0,
