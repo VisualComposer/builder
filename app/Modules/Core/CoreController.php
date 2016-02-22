@@ -3,7 +3,6 @@
 namespace App\Modules\Core;
 
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Facades\Request;
 
 /**
  * Class CoreController
