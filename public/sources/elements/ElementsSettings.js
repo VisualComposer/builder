@@ -3,6 +3,22 @@ module.exports = [
   "name": {
     "type": "string",
     "access": "system",
+    "value": "AjaxElement"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "AjaxElement"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
     "value": "Attributes"
   },
   "tag": {

@@ -1,0 +1,22 @@
+{
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "AjaxElement"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "AjaxElement"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "shortcode": {
+    "type": "string",
+    "access": "public",
+    "value": "inline"
+  }
+}
