@@ -4,7 +4,7 @@ namespace App\Drivers\WordPress;
 
 /**
  * Class Driver
- * @package App\Drivers\WordPress
+ * @package \App\Drivers\WordPress
  */
 class Driver
 {
@@ -14,9 +14,9 @@ class Driver
      * @var array
      */
     protected $connectors = [
-        'Options' => '\App\Drivers\WordPress\Connectors\Options',
-        'File' => '\App\Drivers\WordPress\Connectors\File',
-        'Locale' => '\App\Drivers\WordPress\Connectors\Locale',
+       // 'Options' => '\App\Drivers\WordPress\Connectors\Options',
+       // 'File' => '\App\Drivers\WordPress\Connectors\File',
+       // 'Locale' => '\App\Drivers\WordPress\Connectors\Locale',
     ];
 
     /**
@@ -25,9 +25,9 @@ class Driver
      */
     protected $drivers = [
         'CoreControllerDriver' => '\App\Drivers\WordPress\Modules\Core\CoreControllerDriver',
-        'PostAjaxControllerDriver' => '\App\Drivers\WordPress\Modules\PostAjax\PostAjaxControllerDriver',
-        'AssetsManagerControllerDriver' => '\App\Drivers\WordPress\Modules\AssetsManager\AssetsManagerControllerDriver',
-        'PageFrontControllerDriver' => '\App\Drivers\WordPress\Modules\PageFront\PageFrontControllerDriver',
+      // 'PostAjaxControllerDriver' => '\App\Drivers\WordPress\Modules\PostAjax\PostAjaxControllerDriver',
+        //'AssetsManagerControllerDriver' => '\App\Drivers\WordPress\Modules\AssetsManager\AssetsManagerControllerDriver',
+       // 'PageFrontControllerDriver' => '\App\Drivers\WordPress\Modules\PageFront\PageFrontControllerDriver',
 
     ];
 
@@ -37,9 +37,9 @@ class Driver
      */
     protected $modules = [
         'CoreController' => '\App\Modules\Core\CoreController',
-        'PostAjaxController' => '\App\Modules\PostAjax\PostAjaxController',
-        'AssetsManagerController' => '\App\Modules\AssetsManager\AssetsManagerController',
-        'PageFrontController' => '\App\Modules\PageFront\PageFrontController',
+    //    'PostAjaxController' => '\App\Modules\PostAjax\PostAjaxController',
+     //   'AssetsManagerController' => '\App\Modules\AssetsManager\AssetsManagerController',
+     //   'PageFrontController' => '\App\Modules\PageFront\PageFrontController',
     ];
 
     /** @var \Laravel\Lumen\Application */
@@ -62,7 +62,7 @@ class Driver
     protected function init(array $list)
     {
         foreach ($list as $name => $instance) {
-            $this->app->singleton($instance);
+            $this->app->singleton($name, $instance);
             $this->app->make($name);
         }
     }

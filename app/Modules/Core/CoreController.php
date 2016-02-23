@@ -22,6 +22,7 @@ class CoreController
      */
     public function __construct(Dispatcher $event)
     {
+
         $this->event = $event;
 
         $this->event->listen('driver:init', [$this, 'initHook']);

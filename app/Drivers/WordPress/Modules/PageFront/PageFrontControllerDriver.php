@@ -58,7 +58,7 @@ class PageFrontControllerDriver
         $this->event->listen(
             'vc:page_front:output_scripts:get_ajax_url',
             function () {
-                return admin_url('admin-ajax.php', 'relative');
+                return admin_url('admin-ajax.php');
             }
         );
     }

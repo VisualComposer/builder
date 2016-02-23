@@ -27,6 +27,7 @@ class Options
         $this->event->listen(
             'driver:option:get',
             function ($optionName, $default = false) {
+                $args =func_get_args();
                 return get_option(VC_V_PREFIX.$optionName, $default);
             }
         );

@@ -62,7 +62,9 @@ class PostAjaxControllerDriver
     public function getPostData($postId)
     {
         // @todo: fix react components if there is empty page content
-        return get_post_meta($postId, 'vc_v_page_content', true) || get_post(
+        $postMeta = get_post_meta($postId, 'vc_v_page_content', true);
+
+        return ! empty($postMeta) ? $postMeta : get_post(
             $postId
         )->post_content;
     }

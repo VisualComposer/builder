@@ -76,10 +76,10 @@ class PageFrontController
     private function outputScripts()
     {
         $scriptsBundle = last(
-            $this->event->fire('driver:option:get', ['vc_v_scripts_bundle'])
+            $this->event->fire('driver:option:get', ['optionName'=>'vc_v_scripts_bundle'])
         );
         $stylesBundle = last(
-            $this->event->fire('driver:option:get', ['vc_v_styles_bundle'])
+            $this->event->fire('driver:option:get', ['optionName'=>'vc_v_styles_bundle', []])
         );
 
         ob_start();
