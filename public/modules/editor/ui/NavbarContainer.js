@@ -133,9 +133,12 @@ var NavbarContainer = React.createClass(Mediator.installTo({
 module.exports = (NavbarContainer);
 
 // Here comes wrapper for navbar
-var editorWrapper = document.createElement( 'div' );
-editorWrapper.setAttribute( 'id', 'vc-editor-container' );
-document.body.appendChild( editorWrapper );
+var editorWrapper = document.getElementById('vc-editor-container');
+if (!editorWrapper) {
+  editorWrapper = document.createElement( 'div' );
+  editorWrapper.setAttribute( 'id', 'vc-editor-container' );
+  document.body.appendChild( editorWrapper );
+}
 
 ReactDOM.render(
   <NavbarContainer/>,

@@ -72,14 +72,17 @@ ControlsHandler.prototype.clearElementsTree = function (  ) {
 };
 
 ControlsHandler.prototype.getOutlines = function (  ) {
-    if (this.outlines.length < this.sliceSize) {
+  // Here comes wrapper for controls
+  var controlsWrapper = document.getElementById('vc-ui-controls-container');
+  if (this.outlines.length < this.sliceSize) {
 		var $outline;
-        $('body .vc_ui-outline').remove();
+        $(controlsWrapper).find('.vc-ui-outline').remove();
         this.outlines = [];
         for (var i in this.getElementsTree()) {
-			$outline = $('<svg class="vc_ui-outline vc_ui-outline-index-' + i + '"></svg>');
+            // todo: refactor, color is based on react component
+			      $outline = $('<svg class="vc-ui-outline vc-ui-outline-index-' + i + '"></svg>');
             this.outlines.push($outline);
-			$outline.appendTo('body');
+			      $outline.appendTo(controlsWrapper);
         }
     }
     return this.outlines;
