@@ -14,9 +14,9 @@ class Driver
      * @var array
      */
     protected $connectors = [
-       // 'Options' => '\App\Drivers\WordPress\Connectors\Options',
-       // 'File' => '\App\Drivers\WordPress\Connectors\File',
-       // 'Locale' => '\App\Drivers\WordPress\Connectors\Locale',
+        // 'Options' => '\App\Drivers\WordPress\Connectors\Options',
+        // 'File' => '\App\Drivers\WordPress\Connectors\File',
+        // 'Locale' => '\App\Drivers\WordPress\Connectors\Locale',
     ];
 
     /**
@@ -25,9 +25,10 @@ class Driver
      */
     protected $drivers = [
         'CoreControllerDriver' => '\App\Drivers\WordPress\Modules\Core\CoreControllerDriver',
-      // 'PostAjaxControllerDriver' => '\App\Drivers\WordPress\Modules\PostAjax\PostAjaxControllerDriver',
+        // 'PostAjaxControllerDriver' => '\App\Drivers\WordPress\Modules\PostAjax\PostAjaxControllerDriver',
         //'AssetsManagerControllerDriver' => '\App\Drivers\WordPress\Modules\AssetsManager\AssetsManagerControllerDriver',
-       // 'PageFrontControllerDriver' => '\App\Drivers\WordPress\Modules\PageFront\PageFrontControllerDriver',
+        // 'PageFrontControllerDriver' => '\App\Drivers\WordPress\Modules\PageFront\PageFrontControllerDriver',
+        'AjaxShortcodeRenderControllerDriver' => '\App\Drivers\WordPress\Modules\AjaxShortcodeRender\AjaxShortcodeRenderControllerDriver',
 
     ];
 
@@ -37,9 +38,9 @@ class Driver
      */
     protected $modules = [
         'CoreController' => '\App\Modules\Core\CoreController',
-    //    'PostAjaxController' => '\App\Modules\PostAjax\PostAjaxController',
-     //   'AssetsManagerController' => '\App\Modules\AssetsManager\AssetsManagerController',
-     //   'PageFrontController' => '\App\Modules\PageFront\PageFrontController',
+        //    'PostAjaxController' => '\App\Modules\PostAjax\PostAjaxController',
+        //   'AssetsManagerController' => '\App\Modules\AssetsManager\AssetsManagerController',
+        //   'PageFrontController' => '\App\Modules\PageFront\PageFrontController',
     ];
 
     /** @var \Laravel\Lumen\Application */
