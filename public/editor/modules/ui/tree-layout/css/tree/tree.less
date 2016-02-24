@@ -1,0 +1,143 @@
+.vc_ui-tree-nodes-container {
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dropdown-menu.vc-v-layouts-tree {
+  padding: 10px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      padding: 4px 0 4px 16px;
+      margin: 0;
+      border-top: 1px solid #CCC;
+      span {
+        color: #555555;
+      }
+    }
+  }
+}
+
+// ******************************
+// Tree Nodes And Children
+// ******************************
+
+.vc_ui-tree-dropdown.dropdown-menu {
+  @dropdown-color: #fff;
+  @dropdown-bg: #203251;
+  color: @dropdown-color;
+  background-color: @dropdown-bg;
+  font-family: "Roboto", sans-serif;
+}
+
+.vc_ui-tree-node {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vc_ui-tree-child-row {
+  box-sizing: border-box;
+  @hover-bg: #416196;
+  .vc_ui-tree-child-controls {
+    visibility: hidden;
+  }
+  &:hover {
+    background-color: @hover-bg;
+    .vc_ui-tree-child-controls {
+      visibility: visible;
+    }
+  }
+}
+
+.vc_ui-tree-child-col {
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+
+  .vc_ui-tree-child-expand-trigger {
+    position: absolute;
+    left: -1em;
+    top: 50%;
+    margin-top: -.5em;
+    cursor: pointer;
+  }
+
+  &::before,
+  &::after {
+    content: '  ';
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+.vc_ui-tree-child-label {
+  @label-padding: 12px 18px 12px 14px;
+
+  //border: 1px solid red;
+  display: inline-block;
+  padding: @label-padding;
+
+  .vc_ui-tree-child-label-icon {
+    + span {
+      margin-left: extract(@label-padding, 4);
+    }
+  }
+}
+
+.vc_ui-tree-child-controls {
+  text-align: right;
+  flex-grow: 1;
+}
+
+.vc_ui-tree-child-control {
+  @color: #fff;
+  @label-padding: 12px 18px 12px 0;
+  display: inline-block;
+  vertical-align: middle;
+  padding: @label-padding;
+  color: @color;
+  cursor: pointer;
+}
+
+.vc_ui-tree-child {
+  > .vc_ui-tree-child-row {
+    > .vc_ui-tree-child-col {
+      > .vc_ui-tree-child-expand-trigger {
+        //border: 1px solid red;
+      }
+    }
+  }
+  &.vc_ui-expand {
+    > .vc_ui-tree-child-row {
+      > .vc_ui-tree-child-col {
+        > .vc_ui-tree-child-expand-trigger {
+          transform+: rotate(90deg);
+        }
+      }
+    }
+  }
+  &:not(.vc_ui-expand) {
+    > .vc_ui-tree-node {
+      display: none;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,8 @@
+var vcCake = require('vc-cake');
 let React = require( 'react' );
 let Button = require( '../Button/Button' );
 let Icon = require( '../Icon/Icon' );
-let ElementDefaults = require( '../../../helpers/ElementDefaults' );
+let ElementDefaults = vcCake.getService('element').defaults;
 
 let CallToAction = React.createClass( {
 	render: function () {

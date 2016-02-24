@@ -1,4 +1,6 @@
-var Mediator = require( './helpers/Mediator' ); // need to remove
+var vcCake = require('vc-cake');
+
+/*var Mediator = require( './helpers/Mediator' ); // need to remove
 require("bootstrap-webpack");
 var App = Mediator.installTo({
 	loadServices: function() {
@@ -27,7 +29,7 @@ var App = Mediator.installTo({
 	}
 });
 
-App.init();
+App.init();*/
 
 
 
