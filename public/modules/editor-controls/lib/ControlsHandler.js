@@ -80,7 +80,7 @@ ControlsHandler.prototype.getOutlines = function (  ) {
         this.outlines = [];
         for (var i in this.getElementsTree()) {
             // todo: refactor, color is based on react component
-			      $outline = $('<svg class="vc-ui-outline vc-ui-outline-index-' + i + '"></svg>');
+			      $outline = $('<svg class="vc-ui-outline vc-ui-outline-type-index-' + i + '"></svg>');
             this.outlines.push($outline);
 			      $outline.appendTo(controlsWrapper);
         }

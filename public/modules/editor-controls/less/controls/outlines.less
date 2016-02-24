@@ -5,39 +5,19 @@
   pointer-events: none;
   box-sizing: border-box;
   z-index: @outline-z-index;
-  .outline(@outline-color-element);
-
-
-  &-type-base {
-    .outline(@outline-color-base);
-  }
-  &-type-section {
-    .outline(@outline-color-section);
-  }
-  &-type-row {
-    .outline(@outline-color-row);
-  }
-  &-type-column {
-    .outline(@outline-color-column);
-  }
-  &-type-element {
-    .outline(@outline-color-element);
-  }
-
-  //== todo: refactor, color is based on react components
-  &-index-0 {
-    .outline(@background-row);
-  }
-  &-index-1 {
-    .outline(@background-column);
-  }
-  &-index-2 {
-    .outline(@background-element);
-  }
-
-
-
-  .outline (@color) {
-    box-shadow: inset 0 0 0 @outline-size/2 @color, 0 0 0 @outline-size/2 @color;
-  }
+  #vc-ui-outline-controls > .create-outline-type(@color: @outline-color-element);
 }
+
+//== outline types
+
+
+#vc-ui-outline-controls > .create-outline-type(base, @outline-color-base);
+#vc-ui-outline-controls > .create-outline-type(section, @outline-color-section);
+#vc-ui-outline-controls > .create-outline-type(row, @outline-color-row);
+#vc-ui-outline-controls > .create-outline-type(column, @outline-color-column);
+#vc-ui-outline-controls > .create-outline-type(element, @outline-color-element);
+
+//== todo: refactor, color is based on react components
+#vc-ui-outline-controls > .create-outline-type(index-0, @background-row);
+#vc-ui-outline-controls > .create-outline-type(index-1, @background-column);
+#vc-ui-outline-controls > .create-outline-type(index-2, @background-element);
