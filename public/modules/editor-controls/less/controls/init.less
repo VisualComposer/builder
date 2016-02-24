@@ -2,8 +2,11 @@
 // init common VC UI Data
 @import (once) "../../../../sources/less/ui/init";
 
+// mixins
+@import "mixins";
+
 // Component data
-#vc-ui-controls {
+#vc-ui-outline-controls {
   .init-variables() {
     @import "variables";
   }
@@ -12,7 +15,7 @@
 
 // Component scoped styles
 #vc-ui-controls-container {
-  #vc-ui-controls > .init-variables();
+  #vc-ui-outline-controls > .init-variables();
   @import "outlines";
   @import "controls";
 }

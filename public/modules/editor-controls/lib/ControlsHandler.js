@@ -148,7 +148,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
 
   // add elements controld in dropdown
     for ( var i in elemenstsTree ) {
-      $controlElement = $('<dl class="vc-ui-outline-control-dropdown"/>');
+      $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-'+ i +'"/>');
       $controlElement.appendTo(this.$controlsList);
         var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');
         var elementType = elemenstsTree[ i ][0].getAttribute('data-vc-element-type');

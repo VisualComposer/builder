@@ -1,0 +1,28 @@
+
+//== Constols mixins
+#vc-ui-outline-controls {
+
+  //== Create color
+  .create-type(@color-name, @text, @background) {
+    .vc-ui-outline-control-type-@{color-name} {
+      &.vc-ui-outline-control {
+        color: @text;
+        background-color: @background;
+      }
+      &.vc-ui-outline-control-dropdown {
+        .vc-ui-outline-control {
+          color: @text;
+          background-color: @background;
+        }
+        .vc-ui-outline-control-dropdown-content {
+          .vc-ui-outline-control {
+            &:hover {
+              background-color: darken(@background, 7%);
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
