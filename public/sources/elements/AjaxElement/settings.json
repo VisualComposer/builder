@@ -14,9 +14,9 @@
     "access": "system",
     "value": "inline"
   },
-  "shortcode": {
+  "shortcodeString": {
     "type": "string",
     "access": "public",
-    "value": "inline"
+    "value": "[wp_test_dynamic]"
   }
 }

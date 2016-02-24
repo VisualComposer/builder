@@ -15,6 +15,11 @@ module.exports = [
     "access": "system",
     "value": "inline"
   },
+  "shortcodeString": {
+    "type": "string",
+    "access": "public",
+    "value": "[wp_test_dynamic]"
+  }
 },{
   "name": {
     "type": "string",
