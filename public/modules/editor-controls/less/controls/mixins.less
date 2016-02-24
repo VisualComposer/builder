@@ -1,0 +1,42 @@
+
+//== Constols mixins
+#vc-ui-outline-controls {
+
+  //== Create outline type
+  .create-outline-type(@type-name: ''; @color) {
+    & when (@type-name = '') {
+      box-shadow: inset 0 0 0 @outline-size/2 @color, 0 0 0 @outline-size/2 @color;
+    }
+    & when not (@type-name = '') {
+      .vc-ui-outline-type-@{type-name} {
+        &.vc-ui-outline {
+          .create-outline-type(@color: @color);
+        }
+      }
+    }
+  }
+
+  //== Create type
+  .create-type(@type-name, @text, @background) {
+    .vc-ui-outline-control-type-@{type-name} {
+      &.vc-ui-outline-control {
+        color: @text;
+        background-color: @background;
+      }
+      &.vc-ui-outline-control-dropdown {
+        .vc-ui-outline-control {
+          color: @text;
+          background-color: @background;
+        }
+        .vc-ui-outline-control-dropdown-content {
+          .vc-ui-outline-control {
+            &:hover {
+              background-color: darken(@background, 7%);
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

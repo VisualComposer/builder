@@ -72,14 +72,17 @@ ControlsHandler.prototype.clearElementsTree = function (  ) {
 };
 
 ControlsHandler.prototype.getOutlines = function (  ) {
-    if (this.outlines.length < this.sliceSize) {
+  // Here comes wrapper for controls
+  var controlsWrapper = document.getElementById('vc-ui-controls-container');
+  if (this.outlines.length < this.sliceSize) {
 		var $outline;
-        $('body .vc_ui-outline').remove();
+        $(controlsWrapper).find('.vc-ui-outline').remove();
         this.outlines = [];
         for (var i in this.getElementsTree()) {
-			$outline = $('<svg class="vc_ui-outline vc_ui-outline-index-' + i + '"></svg>');
+            // todo: refactor, color is based on react component
+			      $outline = $('<svg class="vc-ui-outline vc-ui-outline-type-index-' + i + '"></svg>');
             this.outlines.push($outline);
-			$outline.appendTo('body');
+			      $outline.appendTo(controlsWrapper);
         }
     }
     return this.outlines;
@@ -119,49 +122,94 @@ ControlsHandler.prototype.drawOutlines = function () {
 
 ControlsHandler.prototype.drawControls = function (  ) {
     var elemenstsTree = this.getElementsTree(),
-		controlWrap;
+		$controlElement, $dropdownContent, $controlAction;
 	if (!this.$controlsContainer) {
-		this.$controlsContainer = $('<div class="vc_ui-editor-controls-container visual-composer" />');
-		this.$controlsContainer.appendTo('body');
+    // Here comes wrapper for controls
+    var controlsWrapper = $('#vc-ui-controls-container');
+    /* vc-ui-controls-o-inset for inset controls
+     * vc-ui-controls-o-controls-left to stick controls to left side
+     */
+		this.$controlsContainer = $('<div class="vc-ui-outline-controls-container"/>');
+		this.$controlsContainer.appendTo(controlsWrapper);
 	}
 
-    if (!this.$controlsList) {
-		var $controlsContainer = $('<div class="vc_ui-controls-container" />');
-		$controlsContainer.appendTo(this.$controlsContainer);
-        this.$controlsList = $('<ul class="vc_ui-controls vc_ui-controls-o-position-bottom vc_ui-editor-controls" />');
-        this.$controlsList.appendTo($controlsContainer);
-    }
-    this.$controlsList.html('');
-	controlWrap = $('<li class="vc_ui-control-wrap"/>' );
-	$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon" data-vc-control-event="layout:tree" >...</i></a>').appendTo(controlWrap);
-	controlWrap.appendTo(this.$controlsList);
+  if (!this.$controlsList) {
+      this.$controlsList = $('<nav class="vc-ui-outline-controls" />');
+      this.$controlsList.appendTo(this.$controlsContainer);
+  }
+
+  this.$controlsList.html('');
+
+  // add tree layout button
+  if (elemenstsTree.length < this.$currentElement.parents('[data-vc-element]' ).length) {
+    $controlElement = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="layout:tree"/>' );
+    $('<span  class="vc-ui-outline-control-content">' +
+      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug" ></i>' +
+      '</span>' ).appendTo($controlElement);
+    $controlElement.appendTo(this.$controlsList);
+  }
+
+  // add elements controld in dropdown
     for ( var i in elemenstsTree ) {
-		controlWrap = $('<li class="vc_ui-control-wrap"/>' );//.data('vcLinkedElement', elemenstsTree[ i ] ).appendTo(this.$controlsContainer);
+      /* vc-ui-outline-control-dropdown-o-drop-up to open dropdown up
+       * vc-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
+       */
+      $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-'+ i +'"/>');
+      $controlElement.appendTo(this.$controlsList);
         var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');
         var elementType = elemenstsTree[ i ][0].getAttribute('data-vc-element-type');
-		$('<a href="#" class="vc_ui-control"><i class="vc_ui-control-icon">'+ elemenstsTree[ i ][0].getAttribute('data-vc-name') +'</i></a>').appendTo(controlWrap);
-		$('<div class="vc_ui-controls-container">' +
-			'<ul class="vc_ui-controls vc_ui-editor-controls">' +
-                (
-                    'container' === elementType ?
-                    '<li class="vc_ui-control-wrap">' +
-                    '<a href="#" class="vc_ui-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">+</i><span class="vc_ui-control-label">Add</span></a>' +
-                    '</li>'
-                        :
-                        ''
-                ) +
-			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-control-event="app:edit" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&bkarow;</i><span class="vc_ui-control-label">Edit</span></a>' +
-			'</li>' +
-			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-control-event="data:clone" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&boxH;</i><span class="vc_ui-control-label">Duplicate</span></a>' +
-			'</li>' +
-			'<li class="vc_ui-control-wrap">' +
-			'<a href="#" class="vc_ui-control" data-vc-control-event="data:remove" data-vc-element-id="' + elementId +'"><i class="vc_ui-control-icon">&times;</i><span class="vc_ui-control-label">Remove</span></a>' +
-			'</li>' +
-			'</ul>' +
-			'</div>').appendTo(controlWrap);
-		controlWrap.appendTo(this.$controlsList);
+
+      // add dropdown trigger
+      $('<dt class="vc-ui-outline-control-dropdown-trigger vc-ui-outline-control">' +
+          '<span  class="vc-ui-outline-control-content" title="'+ elemenstsTree[ i ][0].getAttribute('data-vc-name') +'">' +
+            '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug"></i>' +
+          '</span>' +
+        '</dt>' ).appendTo($controlElement);
+
+      // add dropdown content
+      $dropdownContent = $('<dd class="vc-ui-outline-control-dropdown-content"/>');
+      $dropdownContent.appendTo($controlElement);
+
+
+      // add button
+      if ('container' === elementType) {
+        $controlAction = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId +'"/>' );
+        $('<span  class="vc-ui-outline-control-content">' +
+            '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-add" ></i>' +
+            '<span class="vc-ui-outline-control-label" >Add</span>' +
+          '</span>' ).appendTo($controlAction);
+        $controlAction.appendTo($dropdownContent);
+      }
+
+      // edit button
+      $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+        ' data-vc-control-event="app:edit"' +
+        ' data-vc-element-id="' + elementId +'"/>' );
+      $('<span  class="vc-ui-outline-control-content">' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-pen-alt-fill" ></i>' +
+        '<span class="vc-ui-outline-control-label" >Edit</span>' +
+        '</span>' ).appendTo($controlAction);
+      $controlAction.appendTo($dropdownContent);
+
+      // clone button
+      $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+        ' data-vc-control-event="data:clone"' +
+        ' data-vc-element-id="' + elementId +'"/>' );
+      $('<span  class="vc-ui-outline-control-content">' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug" ></i>' +
+        '<span class="vc-ui-outline-control-label" >Clone</span>' +
+        '</span>' ).appendTo($controlAction);
+      $controlAction.appendTo($dropdownContent);
+
+      // remove button
+      $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+        ' data-vc-control-event="data:remove"' +
+        ' data-vc-element-id="' + elementId +'"/>' );
+      $('<span  class="vc-ui-outline-control-content">' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-remove" ></i>' +
+        '<span class="vc-ui-outline-control-label" >Remove</span>' +
+        '</span>' ).appendTo($controlAction);
+      $controlAction.appendTo($dropdownContent);
     }
 
     this.setControlsPosition();
@@ -187,7 +235,8 @@ ControlsHandler.prototype.setControlsPosition = function (  ) {
 
         this.$controlsContainer.css({
             'top': posTop,
-            'left': posLeft + width / 2
+            'left': posLeft,
+            'width': width
         });
     } else {
         this.removeControls();
