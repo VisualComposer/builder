@@ -22,17 +22,17 @@ var DataChanged = {
 };
 module.exports = React.createClass({
   mixins: [DataChanged],
-  render: function() {
+  render: function () {
     let elementsList;
     if (this.state.data.childNodes) {
       let data = Array.prototype.slice.call(this.state.data.childNodes);
       let rootElement = data[0];
-      elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function(element) {
+      elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
         let data = Array.prototype.slice.call(element.childNodes);
         return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
       });
     }
-    return (<div className="vc_ui-tree-dropdown dropdown-menu">
+    return (<div className="vc_ui-tree-dropdown">
       <div className="vc_ui-tree-nodes-container">
         <ul className="vc_ui-tree-node">
           {elementsList}

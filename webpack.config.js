@@ -50,17 +50,28 @@ module.exports = {
     },
     wp: {
       modules: [
-        'content/layout'
-        ],
+        'content/layout',
+        'ui/navbar',
+        'ui/brand-logo',
+        'ui/add-element',
+        'ui/add-template',
+        'ui/tree-layout',
+        'ui/inline-editor',
+        'ui/edit-element',
+        'ui/layout-control',
+        'ui/settings',
+        'ui/navbar-separator',
+        'ui/wordpress'
+      ],
       services: [
-          'actions-manager',
-          'asset-manager',
-          'data',
-          'element',
-          'rules-manager',
-          'shared',
-          'time-machine',
-          'utils'
+        'actions-manager',
+        'asset-manager',
+        'data',
+        'element',
+        'rules-manager',
+        'shared',
+        'time-machine',
+        'utils'
       ]
     },
   },
