@@ -44,19 +44,17 @@ var api = {
     document = documentData.delete(id);
   },
   update: function(id, data) {
-    documentData = documentData.get(id).mergeDeepIn(id, data);
-    return this.get(id).toJS();
+    var obj = documentData.get(id).mergeDeep(data);
+    documentData = documentData.update(id, obj);
+    return obj.toJS();
   },
   get: function(id) {
-    return documentData.get(id);
+    return documentData.get(id).toJS();
   },
   children: function(id) {
-      return dataStore.getChildren(id).map((i)=> {return i.toJS()});
+      return dataStore.getChildren(id).toJS();
   },
   move: function(id, parent_id, order) {
-  },
-  find: function(data) {
-
   },
   all: function() {
     return documentData.toJS();
