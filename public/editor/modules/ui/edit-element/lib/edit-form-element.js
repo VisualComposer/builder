@@ -1,9 +1,10 @@
+var vcCake = require('vc-cake');
 var React = require('react');
-var Mediator = require('../../.././Mediator'); // need to remove too
-var classNames = require('classnames');
-var RulesManager = require('../../../rules-manager/RulesManager');
 
-require('./EditFormElement.less');
+var classNames = require('classnames');
+var RulesManager = vcCake.getService('rules-manager');
+
+require('../css/edit-form-element.less');
 var EditFormElement = React.createClass({
   onOpen: function() {
     var { paramKey, paramSettings, editElement } = this.props;
@@ -105,10 +106,10 @@ var EditFormElement = React.createClass({
     return {};
   },
   getComponent: function(type) {
-    return require('../../../../sources/attributes/' + type + '/Component');
+    return require('../../../../../sources/attributes/' + type + '/Component');
   },
   getValue: function(element, type, key) {
-    var Getter = require('../../../../sources/attributes/' + type + '/Getter');
+    var Getter = require('../../../../../sources/attributes/' + type + '/Getter');
     return Getter(element, key); // todo fix maxlength/class/style names with prefix-postfix and fix default value
   },
   render: function() {
