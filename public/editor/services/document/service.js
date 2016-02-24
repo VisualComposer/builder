@@ -45,7 +45,7 @@ var api = {
   },
   update: function(id, data) {
     var obj = documentData.get(id).mergeDeep(data);
-    documentData = documentData.update(id, obj);
+    documentData = documentData.set(id, obj);
     return obj.toJS();
   },
   get: function(id) {
