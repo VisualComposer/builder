@@ -13,16 +13,14 @@ vcCake.add('ui-tree-layout', function(api){
       this.setState({menuExpand: !this.state.menuExpand});
     },
     render: function(){
-      var menuExpandClass = classNames({
-        'dropdown': true,
-        'open': this.state.menuExpand
-      });
-      return <li role="presentation" className={menuExpandClass}>
-        <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
-          <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
-        </a>
-        <Layout/>
-      </li>;
+      return <dl className="vc-ui-navbar-dropdown">
+        <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Tree View">
+          <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-layers"></i><span>Tree View</span></span>
+        </dt>
+        <dd className="vc-ui-navbar-dropdown-content vc-ui-navbar-show-labels">
+          <Layout/>
+        </dd>
+      </dl>;
     }
   });
   api.module('ui-navbar').do('addElement', 'Tree layout', Control, 'left');

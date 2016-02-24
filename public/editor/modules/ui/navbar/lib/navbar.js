@@ -1,3 +1,4 @@
+var vcCake = require('vc-cake');
 var React = require( 'react' );
 var ReactDOM = require('react-dom');
 // var TreeElement = require( '../layouts/tree/TreeLayout' );
@@ -5,11 +6,12 @@ var ReactDOM = require('react-dom');
 var classNames = require( 'classnames' );
 require( '../css/navbar_old/navbar-init.less' );
 require( '../css/module.less' );
-
+var navbarControls = [];
 
 var Navbar = React.createClass({
   getInitialState: function () {
     return {
+      controlsCount: 0,
       saving: false,
       saved: false,
       isDragging: false,
@@ -34,10 +36,22 @@ var Navbar = React.createClass({
       }
     }
   },
-  componentDidMount: function () {
-
+  componentWillMount: function () {
+    this.props.api.addAction('addElement', function(name, Icon) {
+      navbarControls.push({name: name, Icon: Icon});
+      this.props.api.notify('build', navbarControls.length);
+    }.bind(this));
   },
-
+  componentDidMount: function() {
+    this.props.api.on('build', function(count) {
+      this.setState({controlsCount: count});
+    }.bind(this));
+  },
+  buildControls: function() {
+    return navbarControls.map(function(value) {
+      return React.createElement(value.Icon, {key: vcCake.getService('utils').createKey()});
+    });
+  },
   handleDragStart(e) {
     this.setState({
       isDragging: true,
@@ -112,32 +126,10 @@ var Navbar = React.createClass({
 
   openAddElement: function ( e ) {
     e && e.preventDefault();
-    this.publish( 'app:add', 'vc-v-root-element' );
-  },
-  clickSaveData: function () {
-    var _this = this;
-    this.setState( {'saving': true} );
-    setTimeout( function (  ) {
-      _this.setState( {'saving': false} );
-      _this.setState( {'saved': true} );
-    }, 3000 );
-    setTimeout( function (  ) {
-      _this.setState( {'saved': false} );
-    }, 5000 );
-    this.publish( 'app:save', true );
+    // this.publish( 'app:add', 'vc-v-root-element' );
   },
 
   render: function () {
-    var saveButtonClasses = classNames( {
-      "vc-ui-navbar-control": true,
-      "vc-ui-state-success": this.state.saved
-    } );
-    var saveIconClasses = classNames( {
-      "vc-ui-navbar-control-icon": true,
-      "vc-ui-wp-spinner": this.state.saving,
-      "vc-ui-icon": !this.state.saving,
-      "vc-ui-icon-save": !this.state.saving
-    } );
 
     let {
       isDragging,
@@ -234,63 +226,8 @@ var Navbar = React.createClass({
       <div className={navbarContainerClasses} style={navBarStyle}>
         <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
           <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
-          <a className="vc-ui-navbar-logo" title="Visual Composer" href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amp;utm_source=vc_user&amp;utm_medium=frontend_editor" target="_blank">
-            <span className="vc-ui-navbar-logo-title">Visual Composer</span>
-          </a>
-          <a className="vc-ui-navbar-control" href="#" title="Add Element" onClick={this.openAddElement}><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-add"></i><span>Add Element</span></span></a>
-          <a className="vc-ui-navbar-control" href="#" title="Template"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-template"></i><span>Template</span></span></a>
-
-
-          <dl className="vc-ui-navbar-dropdown">
-            <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Tree View">
-              <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-layers"></i><span>Tree View</span></span>
-            </dt>
-            <dd className="vc-ui-navbar-dropdown-content vc-ui-navbar-show-labels">
-              treeLayout
-            </dd>
-          </dl>
-
-          <div className="vc-ui-navbar-controls-group vc-ui-navbar-hidden-sm">
-            <a className="vc-ui-navbar-control" href="#" title="Undo"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-undo"></i><span>Undo</span></span></a>
-            <a className="vc-ui-navbar-control" href="#" title="Redo" disabled><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-redo"></i><span>Redo</span></span></a>
-          </div>
-          <dl className="vc-ui-navbar-dropdown vc-ui-navbar-dropdown-linear vc-ui-navbar-hidden-sm vc-ui-pull-end">
-            <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Desktop">
-              <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-desktop"></i></span>
-            </dt>
-            <dd className="vc-ui-navbar-dropdown-content">
-              <div className="vc-ui-navbar-controls-group">
-                <a className="vc-ui-navbar-control" href="#" title="Desktop"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-desktop"></i></span></a>
-                <a className="vc-ui-navbar-control" href="#" title="Tablet Landscape"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-tablet-landscape"></i></span></a>
-                <a className="vc-ui-navbar-control" href="#" title="Tablet Portrait"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-tablet-portrait"></i></span></a>
-                <a className="vc-ui-navbar-control" href="#" title="Mobile Landscape"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-mobile-landscape"></i></span></a>
-                <a className="vc-ui-navbar-control" href="#" title="Mobile Portrait"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-mobile-portrait"></i></span></a>
-              </div>
-            </dd>
-          </dl>
-          <a className="vc-ui-navbar-control vc-ui-badge-warning vc-ui-pull-end" href="#" title="Settings"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-cog"></i><span>Settings</span></span></a>
-          <span className="vc-ui-navbar-control-separator vc-ui-pull-end"></span>
-          <div className="vc-ui-navbar-controls-group vc-ui-pull-end">
-            <a className={saveButtonClasses} href="#" title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
-              <i className={saveIconClasses}></i><span>Save</span>
-            </span></a>
-          </div>
-          <dl className="vc-ui-navbar-dropdown vc-ui-pull-end">
-            <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Menu">
-              <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-mobile-menu"></i><span>Menu</span></span>
-            </dt>
-            <dd className="vc-ui-navbar-dropdown-content vc-ui-navbar-show-labels">
-              <div className="vc-ui-navbar-controls-group">
-                <a className="vc-ui-navbar-control" href="#" title="Save as draft"><span className="vc-ui-navbar-control-content">Save as draft</span></a>
-                <a className="vc-ui-navbar-control" href="#" title="View page"><span className="vc-ui-navbar-control-content">View page</span></a>
-                <a className="vc-ui-navbar-control" href="#" title="Backend editor"><span className="vc-ui-navbar-control-content">Backend editor</span></a>
-                <a className="vc-ui-navbar-control" href="#" title="WPB Dashboard"><span className="vc-ui-navbar-control-content">WPB Dashboard</span></a>
-                <a className="vc-ui-navbar-control" href="#" title="WordPress Admin"><span className="vc-ui-navbar-control-content">WordPress Admin</span></a>
-              </div>
-            </dd>
-          </dl>
+          {this.buildControls()}
         </nav>
-       Addelementmodal
       </div>
     );
   }

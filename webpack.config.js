@@ -28,8 +28,13 @@ module.exports = {
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
-        'ui/edit-element',
+        'ui/add-template',
         'ui/tree-layout',
+        'ui/inline-editor',
+        'ui/edit-element',
+        'ui/layout-control',
+        'ui/settings',
+        'ui/navbar-separator',
         'ui/save-data'
         ],
       services: [
