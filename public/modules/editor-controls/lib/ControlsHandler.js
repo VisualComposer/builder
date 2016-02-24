@@ -126,7 +126,10 @@ ControlsHandler.prototype.drawControls = function (  ) {
 	if (!this.$controlsContainer) {
     // Here comes wrapper for controls
     var controlsWrapper = $('#vc-ui-controls-container');
-		this.$controlsContainer = $('<div class="vc-ui-outline-controls-container"/>');//  vc-ui-controls-o-inset for inset controls
+    /* vc-ui-controls-o-inset for inset controls
+     * vc-ui-controls-o-controls-left to stick controls to left side
+     */
+		this.$controlsContainer = $('<div class="vc-ui-outline-controls-container"/>');
 		this.$controlsContainer.appendTo(controlsWrapper);
 	}
 
@@ -148,6 +151,9 @@ ControlsHandler.prototype.drawControls = function (  ) {
 
   // add elements controld in dropdown
     for ( var i in elemenstsTree ) {
+      /* vc-ui-outline-control-dropdown-o-drop-up to open dropdown up
+       * vc-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
+       */
       $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-'+ i +'"/>');
       $controlElement.appendTo(this.$controlsList);
         var elementId = elemenstsTree[ i ][0].getAttribute('data-vc-element');

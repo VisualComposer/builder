@@ -26,18 +26,9 @@
   > * {
     flex-grow: 0;
     flex-shrink: 0;
-    order: -1;
     &:not(:last-child) {
       margin-right: @space-size;
     }
-  }
-  > .vc-ui-pull-end {
-    order: 1;
-  }
-  &::after {
-    content: '';
-    flex-shrink: 1;
-    flex-grow: 1;
   }
 }
 
@@ -112,12 +103,6 @@
     .vc-ui-outline-control-dropdown-content {
       visibility: hidden;
       opacity: 0;
-    }
-  }
-  &.vc-ui-pull-end {
-    .vc-ui-outline-control-dropdown-content {
-      left: auto;
-      right: 0;
     }
   }
 }
@@ -198,4 +183,34 @@
       padding-bottom: @outline-size;
     }
   }
+
+  //== controls from left side
+  &.vc-ui-controls-o-controls-left {
+    .vc-ui-outline-controls {
+      right: auto;
+      left: 0;
+    }
+  }
+
+
 }
+
+//== Dropdown options
+.vc-ui-outline-control-dropdown {
+  //== dropdown from right side
+  &.vc-ui-outline-control-dropdown-o-drop-right {
+    .vc-ui-outline-control-dropdown-content {
+      left: auto;
+      right: 0;
+    }
+  }
+  //== dropdown from top
+  &.vc-ui-outline-control-dropdown-o-drop-up {
+    .vc-ui-outline-control-dropdown-content {
+      top: auto;
+      bottom: 100%;
+      margin: 0 0 @space-size 0;
+    }
+  }
+}
+
