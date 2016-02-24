@@ -20,16 +20,13 @@
   position: absolute;
   right: 0;
   bottom: 100%;
-  margin-right: -@outline-size/2;
-  margin-bottom: -@outline-size/2;
-  padding-bottom: @outline-size;
+  margin: -@outline-size/2;
+  padding-bottom: @outline-size + 1;
 
   > * {
     flex-grow: 0;
     flex-shrink: 0;
     order: -1;
-    margin-top: @space-size;
-    margin-bottom: @space-size;
     &:not(:last-child) {
       margin-right: @space-size;
     }
@@ -187,3 +184,18 @@
 #vc-ui-outline-controls > .create-type(index-0, @text-color-base, @control-color-row );
 #vc-ui-outline-controls > .create-type(index-1, @text-color-base, @control-color-column );
 #vc-ui-outline-controls > .create-type(index-2, @text-color-base, @control-color-element );
+
+
+//== Options
+.vc-ui-outline-controls-container {
+  //== inner controls
+  &.vc-ui-controls-o-inset {
+    .vc-ui-outline-controls {
+      right: @inset-space-size;
+      bottom: auto;
+      top: @inset-space-size;
+      margin: 0;
+      padding-bottom: @outline-size;
+    }
+  }
+}

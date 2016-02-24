@@ -126,7 +126,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
 	if (!this.$controlsContainer) {
     // Here comes wrapper for controls
     var controlsWrapper = $('#vc-ui-controls-container');
-		this.$controlsContainer = $('<div class="vc-ui-outline-controls-container" />');
+		this.$controlsContainer = $('<div class="vc-ui-outline-controls-container"/>');//  vc-ui-controls-o-inset for inset controls
 		this.$controlsContainer.appendTo(controlsWrapper);
 	}
 
