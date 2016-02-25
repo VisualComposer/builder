@@ -102,7 +102,7 @@ var DataStore = {
   },
   mutate: function(element) {
     /*
-     var DOMElement = this.document.getElementById(element.getAttribute('id'));
+     var DOMElement = this.document.getElementById(element.id);
      DOMElement.setAttribute('id', 'vc-mutate-tmp-' + Math.random());
      DOMElement.parentNode.insertBefore(element, DOMElement);
      DOMElement.parentNode.removeChild(DOMElement);

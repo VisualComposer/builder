@@ -26,6 +26,7 @@ module.exports = {
       modules: [
         'content/storage',
         'content/layout',
+        'content/editor-controls',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',

@@ -19,7 +19,7 @@ vcCake.add('ui-editor-controls', function(api) {
   };
 
   var EditorControls = function() {
-    controlsHandler.subscribe('app:init', function() {
+    api.reply('start', function() {
       $(document).on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame);
       $(document).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame);
       $(document).on('mousemove hover', '.visual-composer', function(e) {
@@ -30,6 +30,7 @@ vcCake.add('ui-editor-controls', function(api) {
         var event = $el.data('vcControlEvent');
         var elementId = $el.data('vcElementId');
         e.preventDefault();
+        console.log(event);
         api.request(event, elementId);
         controlsHandler.hideOutline();
       });
