@@ -5,8 +5,7 @@ vcCake.add('editor-content-layout', function(api) {
   var HtmlLayout = require('./lib/html-layout');
   var DataChanged = {
   componentDidMount: function() {
-    api.reply('data:added', function() {
-      var data = vcCake.getService('document').children(false);
+    api.reply('data:changed', function(data) {
       this.setState({data: data});
     }.bind(this));
   },

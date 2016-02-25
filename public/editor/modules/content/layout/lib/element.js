@@ -38,10 +38,11 @@ var InlineEditorMixin = {
 var Element = React.createClass({
   // mixins: [InlineEditorMixin],
   getContent: function(content) {
+    var document = vcCake.getService('document');
     var ElementComponent = ElementComponents.get(this.props.element); // optimize
     if ('container' == ElementComponent.type) {
       let elementsList = this.props.data.map(function(element) {
-        let data = Array.prototype.slice.call(element.childNodes);
+        let data = document.children(element.id);
         return <Element element={element} data={data} key={element.id}/>;
       });
       return elementsList;

@@ -4,8 +4,7 @@ vcCake.add('ui-add-element', function(api) {
   var Control = React.createClass({
     handleClick: function(e) {
       e && e.preventDefault();
-      api.actions.setParent(false);
-      api.notify('show', true);
+      api.notify('show', false);
     },
     render: function() {
       return (<a className="vc-ui-navbar-control" href="#" title="Add Element" onClick={this.handleClick}>

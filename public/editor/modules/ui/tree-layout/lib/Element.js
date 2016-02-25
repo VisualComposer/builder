@@ -13,22 +13,6 @@ var Element = React.createClass({
   clickChildExpand: function() {
     this.setState({childExpand: !this.state.childExpand});
   },
-  clickAddChild: function(e) {
-    e.preventDefault();
-    this.publish('app:add', this.props.element.id);
-  },
-  clickClone: function(e) {
-    e.preventDefault();
-    this.publish('data:clone', this.props.element.id);
-  },
-  clickEdit: function(e) {
-    e.preventDefault();
-    this.publish('app:edit', this.props.element);
-  },
-  clickDelete: function(e) {
-    e.preventDefault();
-    this.publish('data:remove', this.props.element.id);
-  },
   getContent: function() {
     if (this.props.data.length) {
       let level = this.props.level + 1;
@@ -57,20 +41,20 @@ var Element = React.createClass({
       </i> : '';
     var childControls =
       <span className="vc_ui-tree-child-controls">
-				{addChildControl}
+        {addChildControl}
         <a className="vc_ui-tree-child-control" onClick={this.clickEdit}><i className="glyphicon glyphicon-pencil"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickDelete}><i className="glyphicon glyphicon-minus"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickClone}><i
+        <a className="vc_ui-tree-child-control" onClick={this.clickDelete}><i className="glyphicon glyphicon-minus"></i></a>
+        <a className="vc_ui-tree-child-control" onClick={this.clickClone}><i
           className="glyphicon glyphicon-duplicate"></i></a>
-			</span>;
+      </span>;
     return <li className={treeChildClass}>
       <div className="vc_ui-tree-child-row" style={{paddingLeft: this.props.level + 0.5 + 'em'}}>
         <div className="vc_ui-tree-child-col">
           {expandTrigger}
-						<span className="vc_ui-tree-child-label">
-							<i className="vc_ui-tree-child-label-icon glyphicon glyphicon-th"></i>
-							<span>{ElementComponent.name.toString()}</span>
-						</span>
+            <span className="vc_ui-tree-child-label">
+              <i className="vc_ui-tree-child-label-icon glyphicon glyphicon-th"></i>
+              <span>{ElementComponent.name.toString()}</span>
+            </span>
           {childControls}
         </div>
       </div>

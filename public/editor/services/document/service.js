@@ -26,22 +26,29 @@ var dataStore = {
   getLastOrderIndex: function(id) {
     var lastObj =  this.getChildren(id).last();
     return lastObj ? lastObj.get('order') + 1 : 0;
+  },
+  moveUp: function() {
+
+  },
+  moveDown: function() {
+
   }
 };
 
 var api = {
   create: function(data) {
     var id = dataStore.createKey();
-    var obj = Immutable.Map({
+    var obj = Immutable.Map(data).mergeDeep({
       id: id,
       parent: false,
       order: dataStore.getLastOrderIndex(data.parent_id || false)
-    }).mergeDeep(data);
+    });
     documentData = documentData.set(id, obj);
     return obj.toJS();
   },
   delete: function(id) {
     documentData = documentData.delete(id);
+    dataStore.getChildren(id).forEach((el) => {this.delete(el.get('id'))}, this);
     return id;
   },
   update: function(id, data) {
@@ -56,6 +63,9 @@ var api = {
     return dataStore.getChildren(id).toJS();
   },
   move: function(id, parent_id, order) {
+
+  },
+  clone: function(id) {
   },
   all: function() {
     return documentData.toJS();

@@ -1,7 +1,7 @@
 var vcCake = require('vc-cake');
 require('./lib/navbar-control');
 
-vcCake.add('ui-add-element', function(api){
+vcCake.add('ui-add-element', function(api) {
   var React = require('react');
   var ReactDOM = require('react-dom');
   var Modal = require('react-modal');
@@ -21,20 +21,24 @@ vcCake.add('ui-add-element', function(api){
     }
   };
   var currentParentElement = false;
-  api.addAction('setParent', function(parent){
-      currentParentElement = parent;
+  api.addAction('setParent', function(parent) {
+    currentParentElement = parent;
   });
-  api.addAction('getParent', function(){
+  api.addAction('getParent', function() {
     return currentParentElement;
   });
   var Component = React.createClass({
-    componentWillMount: function() {
-      api.on('show', function(){
-        this.setState({modalIsOpen: true});
-      }.bind(this));
-    },
     getInitialState: function() {
-      return {modalIsOpen: false};
+      return {modalIsOpen: false, parent: false};
+    },
+    componentWillMount: function() {
+      api
+        .on('show', function(parent) {
+          this.setState({modalIsOpen: true, parent: parent});
+        }.bind(this))
+        .reply('app:add', function(parent) {
+          this.setState({modalIsOpen: true, parent: parent});
+        }.bind(this));
     },
     openModal: function(e) {
       e && e.preventDefault();
@@ -56,6 +60,7 @@ vcCake.add('ui-add-element', function(api){
         if (Object.getOwnPropertyNames(nodeData).length && nodeData.children) {
           dependencies = nodeData.children.toString();
         }
+        api.actions.setParent(this.state.parent);
       }
 
       return (<Modal

@@ -1,19 +1,19 @@
 var vcCake = require('vc-cake');
 vcCake.add('storage', function(api) {
     var data = api.getService('document');
-/*    api.reply('data:add', function(element) {
+    api.reply('data:add', function(element) {
       data.create(element);
       api.request('data:changed', data.children(false));
-    });*/
+    });
     api.reply('data:remove', function(id) {
       data.delete(id);
       api.request('data:changed', data.children(false));
     });
     api.reply('data:clone', function(id) {
-      data.clone(id);
+      // data.clone(id);
       api.request('data:changed', data.children(false));
     });
-    api.reply('data:mutate', function(id, element) {
+    api.reply('data:update', function(id, element) {
       data.update(id, element);
       api.request('data:changed', data.children(false));
     });

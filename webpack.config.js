@@ -38,17 +38,16 @@ module.exports = {
         'ui/settings',
         'ui/navbar-separator',
         'ui/save-data'
-        ],
+      ],
       services: [
-          'actions-manager',
-          'asset-manager',
-          'data',
-          'document',
-          'element',
-          'rules-manager',
-          'shared',
-          'time-machine',
-          'utils'
+        'actions-manager',
+        'asset-manager',
+        'document',
+        'element',
+        'rules-manager',
+        'shared',
+        'time-machine',
+        'utils'
       ]
     },
     wp: {
@@ -69,7 +68,6 @@ module.exports = {
       services: [
         'actions-manager',
         'asset-manager',
-        'data',
         'document',
         'element',
         'rules-manager',

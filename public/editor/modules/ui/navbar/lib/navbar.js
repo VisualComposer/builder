@@ -123,12 +123,6 @@ var Navbar = React.createClass({
     e.target.dispatchEvent(movingEvent);
 
   },
-
-  openAddElement: function ( e ) {
-    e && e.preventDefault();
-    // this.publish( 'app:add', 'vc-v-root-element' );
-  },
-
   render: function () {
 
     let {
