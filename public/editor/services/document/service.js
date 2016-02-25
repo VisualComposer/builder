@@ -20,7 +20,7 @@ var dataStore = {
   getChildren: function(id) {
     return documentData
       .valueSeq()
-      .filter((i)=> {return i.get('parent') === id;})
+      .filter((el)=> {return el.get('parent') === id;})
       .sortBy((el) => {return el.get('order');});
   },
   getLastOrderIndex: function(id) {

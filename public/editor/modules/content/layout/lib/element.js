@@ -1,6 +1,5 @@
 var vcCake = require('vc-cake');
 var React = require('react');
-var Utils = vcCake.getService('utils');
 var ElementComponents = vcCake.getService('element').components;
 var ReactDOM = require('react-dom');
 var MediumEditor = require('medium-editor');
@@ -43,7 +42,7 @@ var Element = React.createClass({
     if ('container' == ElementComponent.type) {
       let elementsList = this.props.data.map(function(element) {
         let data = Array.prototype.slice.call(element.childNodes);
-        return <Element element={element} data={data} key={element.getAttribute('id')}/>;
+        return <Element element={element} data={data} key={element.id}/>;
       });
       return elementsList;
     }
@@ -54,9 +53,8 @@ var Element = React.createClass({
     let ElementComponent = ElementComponents.get(element);
     var atts = {};
     Object.keys(ElementComponent).map(function(key) {
-      let value = null;
       let option = ElementComponent[key];
-      value = Mediator.getService('attributes').getElementValue(key, option, element);
+      let value = vcCake.getService('element').attributes.getElementValue(key, option, element);
       if ('undefined' !== typeof(value) && null !== value) {
         atts[key] = value;
       }
@@ -71,9 +69,9 @@ var Element = React.createClass({
 
     return React.createElement(DndElement, {
       'ElementView': ElementView,
-      key: element.getAttribute('id'),
+      key: element.id,
       editor: {
-        'data-vc-element': element.getAttribute('id'),
+        'data-vc-element': element.id,
         'data-vc-element-type': ElementComponent.type.toString(),
         'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString() : '',
         'data-vc-editable': 'true',

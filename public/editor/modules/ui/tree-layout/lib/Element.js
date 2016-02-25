@@ -19,7 +19,7 @@ var Element = React.createClass({
   },
   clickClone: function(e) {
     e.preventDefault();
-    this.publish('data:clone', this.props.element.getAttribute('id'));
+    this.publish('data:clone', this.props.element.id);
   },
   clickEdit: function(e) {
     e.preventDefault();
@@ -27,14 +27,14 @@ var Element = React.createClass({
   },
   clickDelete: function(e) {
     e.preventDefault();
-    this.publish('data:remove', this.props.element.getAttribute('id'));
+    this.publish('data:remove', this.props.element.id);
   },
   getContent: function() {
     if (this.props.data.length) {
       let level = this.props.level + 1;
       let elementsList = this.props.data.map(function(element) {
         let data = Array.prototype.slice.call(element.childNodes);
-        return <Element element={element} data={data} key={element.getAttribute('id')} level={level}/>;
+        return <Element element={element} data={data} key={element.id} level={level}/>;
       });
       return <ul className="vc_ui-tree-node">{elementsList}</ul>;
     }

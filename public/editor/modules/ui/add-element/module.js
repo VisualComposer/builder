@@ -100,6 +100,7 @@ vcCake.add('ui-add-element', function(api){
                     return (function() {
                       if (undefined === component.manageable || true == component.manageable) {
                         return <ElementControl
+                          api={api}
                           key={'vc-element-control-' + component.tag.toString()}
                           tag={component.tag.toString()}
                           name={component.name.toString()}

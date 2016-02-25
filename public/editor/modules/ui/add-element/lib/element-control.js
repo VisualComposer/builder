@@ -10,10 +10,12 @@ module.exports = React.createClass({
   },
   addElement: function(e) {
     e.preventDefault();
+    var document = this.props.api.getService('document');
     var data = ElementComponents.get(this.props.tag);
     // Add element node
-    data.parent = this.props.actions.getParent();
-    this.props.api.request('data:add', data);
+    data.parent = this.props.api.actions.getParent();
+    var obj = document.create(data);
+    this.props.api.request('data:added', obj);
   },
   render: function() {
     var className;

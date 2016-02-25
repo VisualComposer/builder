@@ -68,14 +68,14 @@ module.exports = {
     return ElementsList.items;
   },
   getElement: function(element) {
-    return require('../../../../sources/elements/' + element.tagName + '/' + element.tagName + '.js');
+    return require('../../../../sources/elements/' + element.tag + '/' + element.tag + '.js');
   },
   get: function(element, currentData) {
-    var tag = element.tagName ? element.tagName : element.toString();
+    var tag = element.tag ? element.tag : element.toString();
     ElementsList.getElementsData();
     var data = ElementsList.items[tag] || {};
-    let returnData = {};
     if (currentData) {
+      var returnData = {};
       Object.keys(data).forEach(function(k) {
         let paramData = Object.create(data[k]);
         if (currentData[k]) {
@@ -84,7 +84,7 @@ module.exports = {
         returnData[k] = paramData;
       }, this);
     } else {
-      returnData = data;
+      var {parent, order, ...returnData} = data;
     }
     return returnData;
   }

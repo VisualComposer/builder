@@ -12,7 +12,7 @@ vcCake.add('content-wordpress-data-layout', function(api) {
     },
     getInitialState: function() {
       return {
-        data: {}
+        data: []
       }
     }
   };
@@ -21,12 +21,12 @@ vcCake.add('content-wordpress-data-layout', function(api) {
     mixins: [DataChanged],
     render: function() {
       let elementsList;
-      if (this.state.data.childNodes) {
+      if (this.state.data) {
         let data = Array.prototype.slice.call(this.state.data.childNodes);
         let rootElement = data[0];
         elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function(element) {
           let data = Array.prototype.slice.call(element.childNodes);
-          return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
+          return <Element element={element} data={data} key={element.id} level={1}/>
         });
       }
       return (<div className="vc-v-layouts-cleanhtml">

@@ -9,7 +9,7 @@ var Element = React.createClass(Mediator.installTo({
     if ('container' == ElementComponent.type) {
       return this.props.data.map(function(element) {
         let data = Array.prototype.slice.call(element.childNodes);
-        return <Element element={element} data={data} key={element.getAttribute('id')}/>;
+        return <Element element={element} data={data} key={element.id}/>;
       });
     }
     return content;

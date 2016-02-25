@@ -1,8 +1,7 @@
 var vcCake = require('vc-cake');
-
 var React = require('react');
+
 require('../css/tree/tree-init.less');
-var Utils = vcCake.getService('utils');
 var Element = require('./element.js');
 var DataChanged = {
   componentDidMount: function() {
@@ -16,7 +15,7 @@ var DataChanged = {
   },
   getInitialState: function() {
     return {
-      data: {}
+      data: []
     }
   }
 };
@@ -24,12 +23,11 @@ module.exports = React.createClass({
   mixins: [DataChanged],
   render: function () {
     let elementsList;
-    if (this.state.data.childNodes) {
-      let data = Array.prototype.slice.call(this.state.data.childNodes);
-      let rootElement = data[0];
-      elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function (element) {
-        let data = Array.prototype.slice.call(element.childNodes);
-        return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
+    let document = vcCake.getService('document');
+    if (this.state.data) {
+      elementsList = this.state.data.map(function (element) {
+        let data = document.children(element.id);
+        return <Element element={element} data={data} key={element.id} level={1}/>
       });
     }
     return (<div className="vc_ui-tree-dropdown">

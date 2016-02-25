@@ -24,6 +24,7 @@ module.exports = {
   vc: {
     node: {
       modules: [
+        'content/storage',
         'content/layout',
         'ui/navbar',
         'ui/brand-logo',
