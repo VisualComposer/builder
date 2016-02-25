@@ -4,7 +4,7 @@ vcCake.add('ui-add-element', function(api) {
   var Control = React.createClass({
     handleClick: function(e) {
       e && e.preventDefault();
-      vcCake.getService('data').activeNode = 'vc-v-root-element';
+      api.actions.setParentId(false);
       api.notify('show', true);
     },
     render: function() {

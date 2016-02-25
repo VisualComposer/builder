@@ -20,7 +20,13 @@ vcCake.add('ui-add-element', function(api){
       background: 'transparent'
     }
   };
-
+  var currentParentElement = false;
+  api.addAction('setParent', function(parent){
+      currentParentElement = parent;
+  });
+  api.addAction('getParent', function(){
+    return currentParentElement;
+  });
   var Component = React.createClass({
     componentWillMount: function() {
       api.on('show', function(){

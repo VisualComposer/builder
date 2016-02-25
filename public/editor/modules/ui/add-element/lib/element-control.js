@@ -12,7 +12,8 @@ module.exports = React.createClass({
     e.preventDefault();
     var data = ElementComponents.get(this.props.tag);
     // Add element node
-    api.request('data:add', data);
+    data.parent = this.props.actions.getParent();
+    this.props.api.request('data:add', data);
   },
   render: function() {
     var className;
