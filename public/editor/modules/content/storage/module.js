@@ -1,28 +1,28 @@
 var vcCake = require('vc-cake');
 vcCake.add('storage', function(context) {
-    var data = api.getService('data');
-    api.reply('app:add', function(id) {
-      if (id) {
-        data.activeNode = DataStore.get(id);
-      }
-    });
+    var data = api.getService('document');
     api.reply('data:add', function(element) {
-      data.add(element);
+      data.create(element);
+      api.request('data:changed', data.children(false));
     });
     api.reply('data:remove', function(id) {
-      data.remove(id);
+      data.delete(id);
+      api.request('data:changed', data.children(false));
     });
     api.reply('data:clone', function(id) {
       data.clone(id);
+      api.request('data:changed', data.children(false));
     });
-    api.reply('data:mutate', function(element) {
-      Data.mutate(element);
+    api.reply('data:mutate', function(id, element) {
+      data.update(id, element);
+      api.request('data:changed', data.children(false));
     });
     api.reply('data:move', function(id, beforeId) {
       Data.move(id, beforeId);
+      api.request('data:changed', data.children(false));
     });
     api.reply('data:moveTo', function(srcElId, nextElId, parentId) {
       Data.moveTo(srcElId, nextElId, parentId);
     });
-    api.reply('data:changed');
+    api.request('data:changed', data.children(false));
 });

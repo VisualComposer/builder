@@ -41,7 +41,8 @@ var api = {
     return obj.toJS();
   },
   delete: function(id) {
-    document = documentData.delete(id);
+    documentData = documentData.delete(id);
+    return id;
   },
   update: function(id, data) {
     var obj = documentData.get(id).mergeDeep(data);
@@ -52,7 +53,7 @@ var api = {
     return documentData.get(id).toJS();
   },
   children: function(id) {
-      return dataStore.getChildren(id).toJS();
+    return dataStore.getChildren(id).toJS();
   },
   move: function(id, parent_id, order) {
   },
