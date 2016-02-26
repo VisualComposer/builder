@@ -32,7 +32,7 @@ module.exports = {
         'ui/add-element',
         'ui/add-template',
         'ui/tree-layout',
-        'ui/inline-editor',
+        'ui/undo-redo',
         'ui/edit-element',
         'ui/layout-control',
         'ui/settings',

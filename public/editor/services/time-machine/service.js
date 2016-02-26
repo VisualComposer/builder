@@ -34,29 +34,35 @@ var TimeMachine = {
     return this.stack[this.stackPosition - 1];
   }
 };
-var publishCurrentStep = function() {
-  vcCake.getService('data').setDocument(TimeMachine.get());
-  return true;
-};
-
 var Module = module.exports = {
-  getCurrentIndex: function() {
+  add: function(document) {
+    TimeMachine.add(document);
+  },
+  getCurrentPosition: function() {
     return TimeMachine.stackPosition;
   },
   undo: function() {
     if (TimeMachine.moveDown()) {
-      publishCurrentStep();
+      return this.get();
     }
   },
   redo: function() {
     if(TimeMachine.moveUp()) {
-      publishCurrentStep();
+      return this.get();
     }
   },
   set: function(index) {
-    if(TimeMachine.set(index)) { 
-      publishCurrentStep();
-    }
+    TimeMachine.set(index);
+    return this.get();
+  },
+  get: function() {
+    return TimeMachine.get();
+  },
+  isFirst: function() {
+    return 0 === TimeMachine.stackPosition; 
+  },
+  isLast: function() {
+    return TimeMachine.stack.length === TimeMachine.stackPosition;
   },
 };
 vcCake.addService('time-machine', Module);
