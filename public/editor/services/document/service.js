@@ -72,14 +72,20 @@ var api = {
   move: function(id, parent_id, order) {
 
   },
-  clone: function(id) {
+  clone: function(id, parent) {
     var obj = documentData.get(id);
     var cloneId = dataStore.createKey();
-    dataStore.cloneIndex  += 0.1;
-    var clone = obj.withMutations(map => {
-      map.set('id', cloneId).set('order', map.get('order') + dataStore.cloneIndex);
+    var clone = obj.withMutations(function(map) {
+      map.set('id', cloneId);
+      if('undefined' !== typeof parent) {
+        map.set('parent', parent);
+      } else {
+        dataStore.cloneIndex  += 0.1;
+        map.set('order', map.get('order') + dataStore.cloneIndex);
+      }
     });
     documentData = documentData.set(cloneId, clone);
+    dataStore.getChildren(obj.get('id')).forEach(el => {this.clone(el.get('id'), cloneId);}, this);
     // dataStore.moveDownAfter(cloneId, 1);
     return clone.toJS();
   },
