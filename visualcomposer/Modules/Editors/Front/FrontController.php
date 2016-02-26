@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Modules\PageFront;
+namespace VisualComposer\Modules\Editors\Front;
 
-use App\Api\Url;
+use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Helpers\Generic\Url;
 use Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\WordPress\Actions;
+use VisualComposer\Helpers\WordPress\Filters;
+use VisualComposer\Modules\System\Container;
 
-/**
- * Class PageFrontController
- * @package App\Modules\PageFront
- */
-class PageFrontController
+class FrontController extends Container
 {
     /**
      * @var bool
@@ -29,28 +29,29 @@ class PageFrontController
     public function __construct(Dispatcher $event)
     {
         $this->event = $event;
+        Actions::add('wp_head', function () {
+            $this->call('appendScript');
+        });
 
-        $this->event->listen('driver:head', [$this, 'appendScript']);
-        $this->event->listen(
-            'driver:edit_post_link',
-            [
-                $this,
-                'addEditPostLink',
-            ]
-        );
+        Actions::add('wp_enqueue_scripts', function () {
+            wp_enqueue_script('jquery');
+        });
+
+        Filters::add('edit_post_link', function () {
+            $args = func_get_args();
+
+            return $this->call('addEditPostLink', $args);
+        });
     }
 
     /**
      * @param $link
-     * @param $id
      *
      * @return string
      */
-    public function addEditPostLink($link, $id)
+    private function addEditPostLink($link)
     {
-        $link .= ' <a href="javascript:;" onclick="vcvLoadInline(this, '.$id.');">'.last(
-                $this->event->fire('driver:locale:get', ['edit_with_vc'])
-            ).'</a>';
+        $link .= ' <a href="javascript:;" onclick="vcvLoadInline(this, '.get_the_ID().');">'.__('Edit with VC5', 'vc5').'</a>';
         if ( ! self::$jsScriptRendered) {
             $link .= $this->outputScripts();
             self::$jsScriptRendered = true;
@@ -62,25 +63,20 @@ class PageFrontController
     /**
      * Output less.js script to page header
      */
-    public function appendScript()
+    private function appendScript()
     {
-        echo '<script src="'.Url::url(
-                'node_modules/less/dist/less.js'
-            ).'" data-async="true"></script>';
+        echo '<script src="'.Url::to('node_modules/less/dist/less.js').'" data-async="true"></script>';
     }
 
     /**
      * Output used assets
+     *
      * @return string
      */
     private function outputScripts()
     {
-        $scriptsBundle = last(
-            $this->event->fire('driver:option:get', ['optionName'=>'vc_v_scripts_bundle'])
-        );
-        $stylesBundle = last(
-            $this->event->fire('driver:option:get', ['optionName'=>'vc_v_styles_bundle', []])
-        );
+        $scriptsBundle = Options::get('scriptsBundle', []);
+        $stylesBundle = Options::get('stylesBundle', []);
 
         ob_start();
         ?>
@@ -115,20 +111,12 @@ class PageFrontController
 
             function vcvLoadInline( element, id ) {
                 window.vcPostID = id;
-                window.vcAjaxUrl = '<?php echo last(
-                    $this->event->fire(
-                        'vc:page_front:output_scripts:get_ajax_url'
-                    )
-                ); ?>';
+                window.vcAjaxUrl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
                 element.remove();
 
-                vcvLoadJsCssFile( '<?php echo Url::url(
-                        'public/dist/wp.bundle.css?'.time()
-                    ) /* @todo: use assets folder */ ?>',
+                vcvLoadJsCssFile( '<?php echo Url::to('public/dist/wp.bundle.css?'.uniqid()) /* @todo: use assets folder */ ?>',
                     'css' );
-                vcvLoadJsCssFile( '<?php echo Url::url(
-                        'public/dist/wp.bundle.js?'.time()
-                    )  ?>',
+                vcvLoadJsCssFile( '<?php echo Url::to('public/dist/wp.bundle.js?'.uniqid())  ?>',
                     'js' );
             }
 
