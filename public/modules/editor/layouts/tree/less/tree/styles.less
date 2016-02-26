@@ -127,7 +127,7 @@
   width: @control-height;
   height: 1em;
   display: inline-block;
-  vertical-align: top;
+  vertical-align: middle;
   color: inherit;
   cursor: pointer;
   > * {
@@ -191,7 +191,7 @@
 // Expand
 .vc-ui-tree-layout-node-expand-trigger {
   position: absolute;
-  left: -1em;
+  left: -1.25em;
   top: 50%;
   margin-top: -.5em;
   cursor: pointer;
@@ -201,7 +201,7 @@
     > .vc-ui-tree-layout-control {
       > .vc-ui-tree-layout-control-content {
         > .vc-ui-tree-layout-node-expand-trigger {
-          transform+: rotate(90deg);
+          transform+: rotate(-90deg);
         }
       }
     }

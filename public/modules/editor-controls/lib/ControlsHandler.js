@@ -144,7 +144,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
   if (elemenstsTree.length < this.$currentElement.parents('[data-vc-element]' ).length) {
     $controlElement = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="layout:tree"/>' );
     $('<span  class="vc-ui-outline-control-content">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug" ></i>' +
+      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-more-dots" ></i>' +
       '</span>' ).appendTo($controlElement);
     $controlElement.appendTo(this.$controlsList);
   }
@@ -175,7 +175,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
       if ('container' === elementType) {
         $controlAction = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId +'"/>' );
         $('<span  class="vc-ui-outline-control-content">' +
-            '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-add" ></i>' +
+            '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-add-thin" ></i>' +
             '<span class="vc-ui-outline-control-label" >Add</span>' +
           '</span>' ).appendTo($controlAction);
         $controlAction.appendTo($dropdownContent);
@@ -186,7 +186,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
         ' data-vc-control-event="app:edit"' +
         ' data-vc-element-id="' + elementId +'"/>' );
       $('<span  class="vc-ui-outline-control-content">' +
-        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-pen-alt-fill" ></i>' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-edit" ></i>' +
         '<span class="vc-ui-outline-control-label" >Edit</span>' +
         '</span>' ).appendTo($controlAction);
       $controlAction.appendTo($dropdownContent);
@@ -196,7 +196,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
         ' data-vc-control-event="data:clone"' +
         ' data-vc-element-id="' + elementId +'"/>' );
       $('<span  class="vc-ui-outline-control-content">' +
-        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug" ></i>' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-copy" ></i>' +
         '<span class="vc-ui-outline-control-label" >Clone</span>' +
         '</span>' ).appendTo($controlAction);
       $controlAction.appendTo($dropdownContent);
@@ -206,7 +206,7 @@ ControlsHandler.prototype.drawControls = function (  ) {
         ' data-vc-control-event="data:remove"' +
         ' data-vc-element-id="' + elementId +'"/>' );
       $('<span  class="vc-ui-outline-control-content">' +
-        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-remove" ></i>' +
+        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-close-thin" ></i>' +
         '<span class="vc-ui-outline-control-label" >Remove</span>' +
         '</span>' ).appendTo($controlAction);
       $controlAction.appendTo($dropdownContent);

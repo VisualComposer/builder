@@ -10,7 +10,7 @@ require( './less/treeView/init.less' );
 var TreeView = React.createClass( Mediator.installTo( {
   getInitialState: function () {
     return {
-      contentExpand: true
+      contentExpand: false
     }
   },
   componentDidMount: function () {

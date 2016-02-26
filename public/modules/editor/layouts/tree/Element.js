@@ -51,17 +51,17 @@ var Element = React.createClass(Mediator.installTo({
 		});
 		var child = 'container' == ElementComponent.type ? this.getContent() : ''; // yes == not === it is required :P
 		this.state.hasChild = !!child;
-		var addChildControl = 'container' == ElementComponent.type ? <a className="vc-ui-tree-layout-control-action" title="Add" onClick={this.clickAddChild}><i className="vc-ui-icon vc-ui-icon-bug"></i></a> : '';
+		var addChildControl = 'container' == ElementComponent.type ? <a className="vc-ui-tree-layout-control-action" title="Add" onClick={this.clickAddChild}><i className="vc-ui-icon vc-ui-icon-add-thin"></i></a> : false;
 		var expandTrigger = this.state.hasChild ?
-				<i className="vc-ui-tree-layout-node-expand-trigger vc-ui-icon vc-ui-icon-bug"
+				<i className="vc-ui-tree-layout-node-expand-trigger vc-ui-icon vc-ui-icon-expand"
 						onClick={this.clickChildExpand}>
 				</i> : '';
 		var childControls =
 			<span className="vc-ui-tree-layout-control-actions">
 				{addChildControl}
-				<a className="vc-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
-				<a className="vc-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
-				<a className="vc-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}><i className="vc-ui-icon vc-ui-icon-edit"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}><i className="vc-ui-icon vc-ui-icon-close-thin"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}><i className="vc-ui-icon vc-ui-icon-copy"></i></a>
 			</span>;
         return <li className={treeChildClass}>
           <div className="vc-ui-tree-layout-control" style={{paddingLeft: this.props.level + 1 + 'em'}}>
