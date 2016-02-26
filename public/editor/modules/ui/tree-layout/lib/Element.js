@@ -16,8 +16,9 @@ var Element = React.createClass({
   getContent: function() {
     if (this.props.data.length) {
       let level = this.props.level + 1;
+      let document = vcCake.getService('document');
       let elementsList = this.props.data.map(function(element) {
-        let data = Array.prototype.slice.call(element.childNodes);
+        let data = document.children(element.id)
         return <Element element={element} data={data} key={element.id} level={level}/>;
       });
       return <ul className="vc_ui-tree-node">{elementsList}</ul>;

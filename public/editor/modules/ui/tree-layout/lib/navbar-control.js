@@ -6,19 +6,31 @@ vcCake.add('ui-tree-layout', function(api){
   var Control = React.createClass({
     getInitialState: function() {
       return {
-        menuExpand: false
+        menuExpand: false,
+        data: [],
+        treeBuild: false,
       };
     },
-    clickMenuExpand: function () {
-      this.setState({menuExpand: !this.state.menuExpand});
+    enableTree: function () {
+      if(false === this.state.treeBuild) {
+        var document = vcCake.getService('document');
+        api.reply('data:changed', function(data) {
+          this.setState({data: data});
+        }.bind(this));
+
+        this.setState({
+          data: document.children(false), 
+          treeBuild: true
+        });
+      }
     },
     render: function(){
-      return <dl className="vc-ui-navbar-dropdown">
+      return <dl className="vc-ui-navbar-dropdown" onMouseOver={this.enableTree}>
         <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Tree View">
           <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-layers"></i><span>Tree View</span></span>
         </dt>
         <dd className="vc-ui-navbar-dropdown-content vc-ui-navbar-show-labels">
-          <Layout/>
+          <Layout data={this.state.data}/>
         </dd>
       </dl>;
     }
