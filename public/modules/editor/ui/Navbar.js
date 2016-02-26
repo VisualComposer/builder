@@ -2,7 +2,8 @@ var React = require( 'react' );
 var ReactDOM = require('react-dom');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var TreeElement = require( '../layouts/tree/TreeLayout' );
-var AddElementModal = require( './add-element/AddElement.js' );
+var AddElementModal = require( './add-element/AddElement' );
+var TreeView = require( './tree-view/TreeView' );
 var classNames = require( 'classnames' );
 require( './less/navbar_old/navbar-init.less' );
 require( './less/navbar/init.less' );
@@ -290,8 +291,16 @@ var Navbar = React.createClass( Mediator.installTo( {
               </div>
             </dd>
           </dl>
+
+          {
+            //tree layout trigger
+            <a className="vc-ui-navbar-control" href="#" title="Template"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-bug"></i><span>New Tree View</span></span></a>
+          }
+
+
         </nav>
         <AddElementModal/>
+        <TreeView/>
       </div>
     );
   }
