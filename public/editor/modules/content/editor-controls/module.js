@@ -31,7 +31,6 @@ vcCake.add('ui-editor-controls', function(api) {
         var elementId = $el.data('vcElementId');
         e.preventDefault();
         api.request(event, elementId);
-        console.log(event);
         controlsHandler.hideOutline();
       });
       $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);

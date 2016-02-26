@@ -10,7 +10,7 @@ vcCake.add('storage', function(api) {
       api.request('data:changed', data.children(false));
     });
     api.reply('data:clone', function(id) {
-      // data.clone(id);
+      data.clone(id);
       api.request('data:changed', data.children(false));
     });
     api.reply('data:update', function(id, element) {

@@ -12,7 +12,6 @@
         "waitsFor": false,
         "runs": false
     },
-
     "node" : true,
     "browser" : true,
     "boss" : false,

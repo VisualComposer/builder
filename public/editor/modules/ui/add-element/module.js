@@ -51,10 +51,10 @@ vcCake.add('ui-add-element', function(api) {
     render: function() {
       var components = this.state.modalIsOpen ? ElementComponents.getElementsList() : {};
       var dependencies = "*";
-
+      api.actions.setParent(this.state.parent);
       // get dependencies
       if (this.state.modalIsOpen) {
-        let activeNode = vcCake.getService('data').activeNode;
+        let activeNode = api.actions.getParent();
         let nodeData = activeNode ? ElementComponents.get(activeNode) : {};
 
         if (Object.getOwnPropertyNames(nodeData).length && nodeData.children) {

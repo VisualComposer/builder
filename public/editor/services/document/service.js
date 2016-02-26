@@ -30,8 +30,14 @@ var dataStore = {
   moveUp: function() {
 
   },
-  moveDown: function() {
-
+  moveDownAfter: function(id, step) {
+    var element = documentData.get(id);
+    var keys = documentData.valueSeq().filter((el) => {
+      return el.get('id') !== element.get('id') &&
+        el.get('parent') === element.get('parent') &&
+        el.get('order') >= element.get('order');
+    }).map((el) => {return el.get('id');}).toJS();
+    // documentData = documentData.updateIn(keys, el => el.set('order', el.get('order') + step));
   }
 };
 
@@ -40,15 +46,15 @@ var api = {
     var id = dataStore.createKey();
     var obj = Immutable.Map(data).mergeDeep({
       id: id,
-      parent: false,
-      order: dataStore.getLastOrderIndex(data.parent_id || false)
+      parent: data.parent || false,
+      order: dataStore.getLastOrderIndex(data.parent || false)
     });
     documentData = documentData.set(id, obj);
     return obj.toJS();
   },
   delete: function(id) {
     documentData = documentData.delete(id);
-    dataStore.getChildren(id).forEach((el) => {this.delete(el.get('id'))}, this);
+    dataStore.getChildren(id).forEach((el) => {this.delete(el.get('id'));}, this);
     return id;
   },
   update: function(id, data) {
@@ -66,6 +72,14 @@ var api = {
 
   },
   clone: function(id) {
+    var obj = documentData.get(id);
+    var cloneId = dataStore.createKey();
+    var clone = obj.withMutations(map => {
+      map.set('id', cloneId).set('order', map.get('order') + map.get('order')/2);
+    });
+    documentData = documentData.set(cloneId, clone);
+    // dataStore.moveDownAfter(cloneId, 1);
+    return clone.toJS();
   },
   all: function() {
     return documentData.toJS();
