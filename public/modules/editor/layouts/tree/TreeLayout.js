@@ -1,5 +1,5 @@
 var React = require('react');
-require('./less/tree/tree-init.less');
+require('./less/tree/init.less');
 var Mediator = require('../../../../helpers/Mediator'); // need to remove too
 
 var Utils = require('../../../../helpers/Utils');
@@ -28,14 +28,17 @@ var Layout = React.createClass(Mediator.installTo({
                 return <Element element={element} data={data} key={element.getAttribute('id')} level={1}/>
             });
         }
-        return (<div className="vc_ui-tree-dropdown">
-            <div className="vc_ui-tree-nodes-container">
-                <ul className="vc_ui-tree-node">
-                    {elementsList}
-                </ul>
-            </div>
-            <div className="vc_ui-tree-nodes-controls">controls</div>
-        </div>);
+        return (
+          <div className="vc-ui-tree-layout-container">
+              <div className="vc-ui-tree-layout">
+                {elementsList}
+              </div>
+              <div className="vc-ui-tree-layout-actions">
+                  <a className="vc-ui-tree-layout-action" href="#" title="Add Element"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-add"></i></span></a>
+                  <a className="vc-ui-tree-layout-action" href="#" title="Template"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-template"></i></span></a>
+              </div>
+          </div>
+        );
     }
 }));
 module.exports = Layout;
