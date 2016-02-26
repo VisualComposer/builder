@@ -3,6 +3,7 @@ var Immutable = require('immutable');
 var documentData = Immutable.Map({});
 
 var dataStore = {
+  cloneIndex: 0.1,
   createKey: function() {
     var i, random;
     var uuid = '';
@@ -37,7 +38,7 @@ var dataStore = {
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order');
     }).map((el) => {return el.get('id');}).toJS();
-    // documentData = documentData.updateIn(keys, el => el.set('order', el.get('order') + step));
+    documentData = documentData.updateIn(keys, el => el.set('order', el.get('order') + step));
   }
 };
 
@@ -74,8 +75,9 @@ var api = {
   clone: function(id) {
     var obj = documentData.get(id);
     var cloneId = dataStore.createKey();
+    dataStore.cloneIndex  += 0.1;
     var clone = obj.withMutations(map => {
-      map.set('id', cloneId).set('order', map.get('order') + map.get('order')/2);
+      map.set('id', cloneId).set('order', map.get('order') + dataStore.cloneIndex);
     });
     documentData = documentData.set(cloneId, clone);
     // dataStore.moveDownAfter(cloneId, 1);
