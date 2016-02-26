@@ -8,11 +8,11 @@ vcCake.add('ui-tree-layout', function(api){
       return {
         menuExpand: false,
         data: [],
-        treeBuild: false,
+        build: false,
       };
     },
     enableTree: function () {
-      if(false === this.state.treeBuild) {
+      if(false === this.state.build) {
         var document = vcCake.getService('document');
         api.reply('data:changed', function(data) {
           this.setState({data: data});
@@ -20,7 +20,7 @@ vcCake.add('ui-tree-layout', function(api){
 
         this.setState({
           data: document.children(false), 
-          treeBuild: true
+          build: true
         });
       }
     },

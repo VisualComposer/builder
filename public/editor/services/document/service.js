@@ -86,11 +86,13 @@ var api = {
     });
     documentData = documentData.set(cloneId, clone);
     dataStore.getChildren(obj.get('id')).forEach(el => {this.clone(el.get('id'), cloneId);}, this);
-    // dataStore.moveDownAfter(cloneId, 1);
     return clone.toJS();
   },
   all: function() {
     return documentData.toJS();
+  },
+  reset: function(data) {
+    documentData = Immutable.fromJS(data);
   }
 };
 

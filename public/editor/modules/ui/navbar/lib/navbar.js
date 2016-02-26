@@ -38,7 +38,7 @@ var Navbar = React.createClass({
   },
   componentWillMount: function () {
     this.props.api.addAction('addElement', function(name, Icon) {
-      navbarControls.push({name: name, Icon: Icon});
+      navbarControls.push({name: name, icon: Icon});
       this.props.api.notify('build', navbarControls.length);
     }.bind(this));
   },
@@ -49,7 +49,7 @@ var Navbar = React.createClass({
   },
   buildControls: function() {
     return navbarControls.map(function(value) {
-      return React.createElement(value.Icon, {key: vcCake.getService('utils').createKey()});
+      return React.createElement(value.icon, {key: 'Navbar:' + value.name});
     });
   },
   handleDragStart(e) {
@@ -88,7 +88,7 @@ var Navbar = React.createClass({
     });
   },
 
-  handleDragging(e  ) {
+  handleDragging(e ) {
     //check dirrection
     this.setState(function(previousState) {
       let newStates = {
