@@ -5,31 +5,31 @@ var ElementComponents = require('../../../../helpers/ElementComponents');
 var classNames = require('classnames');
 
 var Element = React.createClass(Mediator.installTo({
-	getInitialState: function() {
-		return {
-			childExpand: true,
-			hasContent: false
-		}
-	},
-	clickChildExpand: function() {
-		this.setState({childExpand: !this.state.childExpand});
-	},
-	clickAddChild: function(e) {
-		e.preventDefault();
-		this.publish('app:add', this.props.element.id);
-	},
-	clickClone: function(e) {
-		e.preventDefault();
-		this.publish('data:clone', this.props.element.getAttribute('id'));
-	},
-	clickEdit: function(e) {
-		e.preventDefault();
-		this.publish('app:edit', this.props.element);
-	},
-	clickDelete: function(e) {
-		e.preventDefault();
-		this.publish('data:remove', this.props.element.getAttribute('id'));
-	},
+    getInitialState: function() {
+      return {
+        childExpand: true,
+        hasChild: false
+      }
+    },
+    clickChildExpand: function() {
+      this.setState({childExpand: !this.state.childExpand});
+    },
+    clickAddChild: function(e) {
+      e.preventDefault();
+      this.publish('app:add', this.props.element.id);
+    },
+    clickClone: function(e) {
+      e.preventDefault();
+      this.publish('data:clone', this.props.element.getAttribute('id'));
+    },
+    clickEdit: function(e) {
+      e.preventDefault();
+      this.publish('app:edit', this.props.element);
+    },
+    clickDelete: function(e) {
+      e.preventDefault();
+      this.publish('data:remove', this.props.element.getAttribute('id'));
+    },
     getContent: function() {
         if(this.props.data.length) {
 			let level = this.props.level + 1;
@@ -37,7 +37,7 @@ var Element = React.createClass(Mediator.installTo({
                 let data = Array.prototype.slice.call(element.childNodes);
                 return <Element element={element} data={data} key={element.getAttribute('id')} level={level}/>;
             });
-            return <ul className="vc_ui-tree-node">{elementsList}</ul>;
+            return <ul className="vc-ui-tree-layout-node">{elementsList}</ul>;
         }
         return '';
     },
@@ -45,43 +45,40 @@ var Element = React.createClass(Mediator.installTo({
         var element = this.props.element;
 		var ElementComponent = ElementComponents.get(element);
 		var treeChildClass = classNames({
-			'vc_ui-tree-child': true,
-			'vc_ui-expand': this.state.childExpand
+			'vc-ui-tree-layout-node-child': true,
+			'vc-ui-tree-layout-node-expand': this.state.childExpand,
+			'vc-ui-tree-layout-node-state-draft': false
 		});
-		var content = 'container' == ElementComponent.type ? this.getContent() : ''; // yes == not === it is required :P
-		this.state.hasContent = !!content;
-		var addChildControl = 'container' == ElementComponent.type ? <a className="vc_ui-tree-child-control" onClick={this.clickAddChild}><i className="glyphicon glyphicon-plus"></i></a> : '';
-		var expandTrigger = this.state.hasContent ?
-				<i className="vc_ui-tree-child-expand-trigger glyphicon glyphicon-triangle-right"
+		var child = 'container' == ElementComponent.type ? this.getContent() : ''; // yes == not === it is required :P
+		this.state.hasChild = !!child;
+		var addChildControl = 'container' == ElementComponent.type ? <a className="vc-ui-tree-layout-control-action" title="Add" onClick={this.clickAddChild}><i className="vc-ui-icon vc-ui-icon-bug"></i></a> : '';
+		var expandTrigger = this.state.hasChild ?
+				<i className="vc-ui-tree-layout-node-expand-trigger vc-ui-icon vc-ui-icon-bug"
 						onClick={this.clickChildExpand}>
 				</i> : '';
 		var childControls =
-			<span className="vc_ui-tree-child-controls">
+			<span className="vc-ui-tree-layout-control-actions">
 				{addChildControl}
-				<a className="vc_ui-tree-child-control" onClick={this.clickEdit}><i className="glyphicon glyphicon-pencil"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickDelete}><i className="glyphicon glyphicon-minus"></i></a>
-				<a className="vc_ui-tree-child-control" onClick={this.clickClone}><i className="glyphicon glyphicon-duplicate"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
+				<a className="vc-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}><i className="vc-ui-icon vc-ui-icon-bug"></i></a>
 			</span>;
         return <li className={treeChildClass}>
-				<div className="vc_ui-tree-child-row" style={{paddingLeft: this.props.level + 0.5 + 'em'}}>
-					<div className="vc_ui-tree-child-col">
-						{expandTrigger}
-						<span className="vc_ui-tree-child-label">
-							<i className="vc_ui-tree-child-label-icon glyphicon glyphicon-th"></i>
-							<span>{ElementComponent.name.toString()}</span>
-						</span>
-						{childControls}
-					</div>
-				</div>
-				{content}
-				<div style={{display: 'none'}}>
-					<i className="glyphicon glyphicon-th"></i>
-					{element.element}
-					<a onClick={this.addChild} style={{display: 'none'}}>
-						<i className="glyphicon glyphicon-plus"></i>
-					</a>
-				</div>
-			</li>;
+          <div className="vc-ui-tree-layout-control" style={{paddingLeft: this.props.level + 1 + 'em'}}>
+            <div className="vc-ui-tree-layout-control-drag-handler"><i className="vc-ui-tree-layout-control-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
+            <div className="vc-ui-tree-layout-control-content">
+              {expandTrigger}
+              <span className="vc-ui-tree-layout-control-icon">
+                 <i className="vc-ui-icon vc-ui-icon-bug"></i>
+              </span>
+              <span className="vc-ui-tree-layout-control-label">
+                <span>{ElementComponent.name.toString()}</span>
+              </span>
+              {childControls}
+            </div>
+          </div>
+          {child}
+        </li>;
     }
 }));
 module.exports = Element;

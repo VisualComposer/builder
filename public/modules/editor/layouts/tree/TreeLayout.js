@@ -30,9 +30,9 @@ var Layout = React.createClass(Mediator.installTo({
         }
         return (
           <div className="vc-ui-tree-layout-container">
-              <div className="vc-ui-tree-layout">
+              <ul className="vc-ui-tree-layout">
                 {elementsList}
-              </div>
+              </ul>
               <div className="vc-ui-tree-layout-actions">
                   <a className="vc-ui-tree-layout-action" href="#" title="Add Element"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-add"></i></span></a>
                   <a className="vc-ui-tree-layout-action" href="#" title="Template"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-template"></i></span></a>

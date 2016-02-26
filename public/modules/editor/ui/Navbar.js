@@ -12,6 +12,7 @@ require( './less/navbar/init.less' );
 var Navbar = React.createClass( Mediator.installTo( {
   getInitialState: function () {
     return {
+      treeViewExpand: false,
       saving: false,
       saved: false,
       isDragging: false,
@@ -116,6 +117,13 @@ var Navbar = React.createClass( Mediator.installTo( {
     e && e.preventDefault();
     this.publish( 'app:add', 'vc-v-root-element' );
   },
+  openTreeView: function ( e ) {
+    e && e.preventDefault();
+    this.setState(function(prevState) {
+      return { treeViewExpand: !prevState.treeViewExpand };
+    });
+  },
+
   clickSaveData: function () {
     var _this = this;
     this.setState( {'saving': true} );
@@ -242,15 +250,7 @@ var Navbar = React.createClass( Mediator.installTo( {
           <a className="vc-ui-navbar-control" href="#" title="Add Element" onClick={this.openAddElement}><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-add"></i><span>Add Element</span></span></a>
           <a className="vc-ui-navbar-control" href="#" title="Template"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-template"></i><span>Template</span></span></a>
 
-
-          <dl className="vc-ui-navbar-dropdown">
-            <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Tree View">
-              <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-layers"></i><span>Tree View</span></span>
-            </dt>
-            <dd className="vc-ui-navbar-dropdown-content vc-ui-navbar-show-labels">
-              <TreeElement/>
-            </dd>
-          </dl>
+          <a className="vc-ui-navbar-control" href="#" title="Tree View" onClick={this.openTreeView}><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-layers"></i><span>Tree View</span></span></a>
 
           <div className="vc-ui-navbar-controls-group vc-ui-navbar-hidden-sm">
             <a className="vc-ui-navbar-control" href="#" title="Undo"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-undo"></i><span>Undo</span></span></a>
@@ -292,15 +292,11 @@ var Navbar = React.createClass( Mediator.installTo( {
             </dd>
           </dl>
 
-          {
-            //tree layout trigger
-            <a className="vc-ui-navbar-control" href="#" title="Template"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-bug"></i><span>New Tree View</span></span></a>
-          }
-
-
         </nav>
         <AddElementModal/>
-        <TreeView/>
+        <div style={this.state.treeViewExpand ? {opacity: 1, visibility: 'visible'} : {opacity: 0, visibility: 'hidden'}}>
+          <TreeView/>
+        </div>
       </div>
     );
   }
