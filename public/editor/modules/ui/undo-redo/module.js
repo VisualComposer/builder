@@ -5,8 +5,8 @@ vcCake.add('ui-inline-editor', function(api){
   api.reply('data:changed', function(data, action){
     if('reset' !== action) {
       timeMachine.add(doc.all());
+      api.notify('added', data);
     }
-    api.notify('added', data);
   });
 });
 require('./lib/navbar-controls');

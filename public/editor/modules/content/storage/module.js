@@ -17,6 +17,7 @@ vcCake.add('storage', function(api) {
       data.update(id, element);
       api.request('data:changed', data.children(false), 'update');
     });
+    
   /*
     api.reply('data:move', function(id, beforeId) {
       data.move(id, beforeId);
@@ -29,9 +30,5 @@ vcCake.add('storage', function(api) {
     api.reply('data:reset', function(content){
       data.reset(content || {});
       api.request('data:changed', data.children(false), 'reset');
-    });
-    api.reply('data:set', function(content){
-      data.reset(content || {});
-      api.request('data:changed', data.children(false), 'set');
     });
 });

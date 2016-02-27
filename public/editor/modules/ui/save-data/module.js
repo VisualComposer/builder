@@ -8,7 +8,7 @@ vcCake.add('ui-save-data', function(api) {
   });
   api.reply('start', function() {
     var localStorage = vcCake.getService('local-storage');
-    api.request('data:set', localStorage.get());
+    api.request('data:reset', localStorage.get());
   });
 });
 require('./lib/navbar-save-button');
