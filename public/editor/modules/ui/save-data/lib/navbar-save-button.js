@@ -14,7 +14,7 @@ vcCake.add('ui-save-data', function(api){
       setTimeout( function (  ) {
         _this.setState( {'saving': false} );
         _this.setState( {'saved': true} );
-      }, 3000 );
+      }, 500 );
       setTimeout( function (  ) {
         _this.setState( {'saved': false} );
       }, 5000 );
