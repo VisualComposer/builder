@@ -18,7 +18,7 @@ vcCake.add('ui-save-data', function(api){
       setTimeout( function (  ) {
         _this.setState( {'saved': false} );
       }, 5000 );
-      // this.publish( 'app:save', true );
+      api.notify('save');
     },
     render: function() {
       var saveButtonClasses = classNames( {
@@ -32,7 +32,7 @@ vcCake.add('ui-save-data', function(api){
         "vc-ui-icon-save": !this.state.saving
       } );
       return (<div className="vc-ui-navbar-controls-group vc-ui-pull-end">
-        <a className={saveButtonClasses} href="#" title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
+        <a className={saveButtonClasses} title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
               <i className={saveIconClasses}></i><span>Save</span>
             </span></a>
       </div>);

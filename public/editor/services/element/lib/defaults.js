@@ -5,7 +5,7 @@ module.exports = {
     if (this.data[tag]) {
       return this.data[tag];
     }
-    let list = vcCake.getService('element-components').getElementsList();
+    let list = vcCake.getService('element').components.getElementsList();
     let data = list[tag] || {};
     let returnData = {};
     Object.keys(data).forEach(function(k) {

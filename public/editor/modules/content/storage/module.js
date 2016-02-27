@@ -30,4 +30,8 @@ vcCake.add('storage', function(api) {
       data.reset(content || {});
       api.request('data:changed', data.children(false), 'reset');
     });
+    api.reply('data:set', function(content){
+      data.reset(content || {});
+      api.request('data:changed', data.children(false), 'set');
+    });
 });

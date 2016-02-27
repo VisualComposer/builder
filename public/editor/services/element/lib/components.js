@@ -74,8 +74,8 @@ module.exports = {
     var tag = element.tag ? element.tag : element.toString();
     ElementsList.getElementsData();
     var data = ElementsList.items[tag] || {};
+    var returnData = {};
     if (currentData) {
-      var returnData = {};
       Object.keys(data).forEach(function(k) {
         let paramData = Object.create(data[k]);
         if (currentData[k]) {

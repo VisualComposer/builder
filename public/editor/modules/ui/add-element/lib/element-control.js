@@ -1,5 +1,5 @@
 var vcCake = require('vc-cake');
-var ElementComponents = vcCake.getService('element').components;
+var defaults = vcCake.getService('element').defaults;
 var React = require('react');
 var classNames = require('classnames');
 
@@ -11,7 +11,7 @@ module.exports = React.createClass({
   addElement: function(e) {
     e.preventDefault();
     var document = this.props.api.getService('document');
-    var data = ElementComponents.get(this.props.tag);
+    var data = defaults.get(this.props.tag);
     // Add element node
     data.parent = this.props.api.actions.getParent();
     this.props.api.request('data:add', data);
