@@ -8,6 +8,8 @@ vcCake.add('ui-save-data', function(api) {
   });
   api.reply('start', function() {
     var localStorage = vcCake.getService('local-storage');
+    var timeMachine = vcCake.getService('time-machine');
+    timeMachine.setZeroState(localStorage.get());
     api.request('data:reset', localStorage.get());
   });
 });

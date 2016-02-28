@@ -1,5 +1,5 @@
 var vcCake = require('vc-cake');
-vcCake.add('ui-inline-editor', function(api){
+vcCake.add('ui-undo-redo', function(api){
   var React = require('react');
   var Control = React.createClass({
     componentWillMount: function() {
