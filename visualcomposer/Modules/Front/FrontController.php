@@ -51,7 +51,7 @@ class FrontController extends Container
      */
     private function addEditPostLink($link)
     {
-        $link .= ' <a href="'.Url::to(sprintf('visualcomposer/Modules/Ajax/Loader.php?vc-v-action=%s&vc-source-id=%d', 'frontend', get_the_ID())).'">'.__('Edit with VC5', 'vc5')
+        $link .= ' <a href="'.Url::to(sprintf('visualcomposer/Modules/System/Loader.php?vc-v-action=%s&vc-source-id=%d', 'frontend', get_the_ID())).'">'.__('Edit with VC5', 'vc5')
             .'</a>';
         if ( ! self::$jsScriptRendered) {
             $link .= $this->outputScripts();
