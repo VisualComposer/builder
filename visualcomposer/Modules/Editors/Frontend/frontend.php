@@ -1,0 +1,33 @@
+<?php
+namespace VisualComposer\Modules\Editors\Frontend;
+
+use Illuminate\Http\Request;
+use VisualComposer\Helpers\WordPress\Nonce;
+use VisualComposer\Modules\System\Container;
+
+class Frontend extends Container
+{
+    public function __construct()
+    {
+        add_action('vc:v:ajax:loader:frontend', function () {
+            // @todo check access
+            $this->call('renderEditorBase');
+        });
+    }
+
+    private function renderEditorBase(Request $request)
+    {
+        $sourceId = (int)$request->input('vc-source-id');
+        $link = get_permalink($sourceId);
+        $question = (preg_match('/\?/', $link) ? '&' : '?');
+        $query = [
+            'vc-v-editable' => '1',
+            'vc-v-nonce' => Nonce::admin(),
+        ];
+
+        // @todo do_action fe-editor rendering
+        // Include fe template
+        echo '<iframe src="'.$link.$question.http_build_query($query).'" width="100%" height="100%"></iframe>';
+    }
+}
+
