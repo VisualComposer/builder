@@ -1,7 +1,8 @@
 var Mediator = require( '../../helpers/Mediator' ); // need to remove too
 var controlsHandler = require('imports?$=jquery!./lib/ControlsHandler.js');
 var ControlsTrigger = {};
-require('./less/controls/editor-controls-init.less');
+
+require('./less/controls/init.less');
 
 ControlsTrigger.triggerShowFrame = function ( e ) {
     e.stopPropagation();
@@ -18,10 +19,22 @@ ControlsTrigger.triggerRedrawFrame = function ( e ) {
 Mediator.installTo(controlsHandler);
 
 var EditorControls = function() {
+    var editorWrapper = document.getElementById('vc-editor-container');
+    if (!editorWrapper) {
+      editorWrapper = document.createElement( 'div' );
+      editorWrapper.setAttribute( 'id', 'vc-editor-container' );
+      document.body.appendChild( editorWrapper );
+    }
+
+    var controlsWrapper = document.createElement( 'div' );
+    controlsWrapper.setAttribute( 'id', 'vc-ui-controls-container' );
+    editorWrapper.appendChild(controlsWrapper);
+
+
     controlsHandler.subscribe('app:init', function(){
         $( document ).on( 'mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame );
         $( document ).on( 'mousemove hover', 'body', ControlsTrigger.triggerHideFrame );
-        $( document ).on( 'mousemove hover', '.visual-composer', function ( e ) {
+        $( document ).on( 'mousemove hover', '.vc-ui-outline-controls-container', function ( e ) {
 			e.stopPropagation();
 		});
         $(document).on('click', '[data-vc-control-event]', function(e){
@@ -32,7 +45,7 @@ var EditorControls = function() {
             controlsHandler.publish(event, elementId);
             controlsHandler.hideOutline();
         });
-        $( document ).on( 'scroll', ControlsTrigger.triggerRedrawFrame );
+        $( document ).on( 'scroll resize', ControlsTrigger.triggerRedrawFrame );
     });
     return controlsHandler;
 };

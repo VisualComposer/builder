@@ -1,33 +1,119 @@
 var React = require( 'react' );
-var ReactDOM = require( 'react-dom' );
+var ReactDOM = require('react-dom');
 var Mediator = require( '../../../helpers/Mediator' ); // need to remove too
 var TreeElement = require( '../layouts/tree/TreeLayout' );
 var AddElementModal = require( './add-element/AddElement.js' );
 var classNames = require( 'classnames' );
 require( './less/navbar_old/navbar-init.less' );
 require( './less/navbar/init.less' );
+
+
 var Navbar = React.createClass( Mediator.installTo( {
   getInitialState: function () {
     return {
-      startMove: false,
-      menuExpand: false,
-      vertical: false,
-      position: 0,
       saving: false,
-      saved: false
+      saved: false,
+      isDragging: false,
+      isDetached: false,
+      navbarPosition: 'top',
+      navbarNewPosition: undefined,
+      navPosX: 0,
+      navPosY: 0,
+      windowSize: {
+        height: window.innerHeight,
+        width: window.innerWidth
+      },
+      navbarSize: {
+        height: undefined,
+        width: undefined
+      },
+      moveDirection: {
+        top: false,
+        right: false,
+        bottom: false,
+        left: false
+      }
     }
   },
   componentDidMount: function () {
-    this.subscribe( 'layout:tree', function () {
-      this.setState( { menuExpand: true } );
-    }.bind( this ) );
+
   },
+
+  handleDragStart(e) {
+    this.setState({
+      isDragging: true,
+      navbarSize: {
+        height: ReactDOM.findDOMNode( this ).offsetHeight,
+        width: ReactDOM.findDOMNode( this ).offsetWidth
+      },
+      navbarNewPosition: this.state.navbarPosition
+    });
+
+
+    let moveStartEvent = document.createEvent('Event');
+    moveStartEvent.eventData = this.state;
+    moveStartEvent.initEvent('vc.ui.navbar.drag-start', true, true);
+    e.target.dispatchEvent(moveStartEvent);
+
+    document.body.classList.add('vc-ui-navbar-is-dragging');
+    document.addEventListener('mousemove', this.handleDragging);
+    document.addEventListener('mouseup', this.handleDragEnd);
+
+    this.handleDragging( e.nativeEvent );
+  },
+
+  handleDragEnd(e){
+    let moveEndEvent = document.createEvent('Event');
+    moveEndEvent.initEvent('vc.ui.navbar.drag-end', true, true);
+    e.target.dispatchEvent(moveEndEvent);
+    document.body.classList.remove('vc-ui-navbar-is-dragging');
+    document.removeEventListener( 'mousemove', this.handleDragging);
+    document.removeEventListener('mouseup', this.handleDragEnd);
+
+    this.setState({
+      isDragging: false
+    });
+  },
+
+  handleDragging(e  ) {
+    //check dirrection
+    this.setState(function(previousState) {
+      let newStates = {
+        moveDirection: {
+          left: false,
+          right: false,
+          top: false,
+          bottom: false
+        },
+        navPosX: e.clientX,
+        navPosY: e.clientY,
+        navbarNewPosition: this.state.navbarPosition
+      };
+
+      if (previousState.navPosX > e.clientX) {
+        newStates.moveDirection.left = true;
+      } else if (previousState.navPosX < e.clientX) {
+        newStates.moveDirection.right = true;
+      }
+      if (previousState.navPosY > e.clientY) {
+        newStates.moveDirection.top = true;
+      } else if (previousState.navPosY < e.clientY) {
+        newStates.moveDirection.bottom = true;
+      }
+
+      return newStates;
+    });
+
+    let movingEvent = document.createEvent('Event');
+    movingEvent.eventData = this.state;
+    movingEvent.initEvent('vc.ui.navbar.dragging', true, true);
+    e.target.dispatchEvent(movingEvent);
+
+  },
+
   openAddElement: function ( e ) {
     e && e.preventDefault();
     this.publish( 'app:add', 'vc-v-root-element' );
-  },
-  clickMenuExpand: function () {
-    this.setState( { menuExpand: ! this.state.menuExpand } );
   },
   clickSaveData: function () {
     var _this = this;
@@ -41,51 +127,8 @@ var Navbar = React.createClass( Mediator.installTo( {
     }, 5000 );
     this.publish( 'app:save', true );
   },
-  changePosition: function ( e ) {
-    if ( this.setState( { startMove: true } ) ) {
-      ;
-    }
-    document.body.addEventListener( 'mouseup', this.cancelPositionChange );
-    document.body.addEventListener( 'mousemove', this.checkMouseMove );
-  },
-  checkMouseMove: function ( e ) {
-    if ( this.state.startMove ) {
-      if ( e.stopPropagation ) {
-        e.stopPropagation();
-      }
-      if ( e.preventDefault ) {
-        e.preventDefault();
-      }
-      e.cancelBubble = true;
-      e.returnValue = false;
-      if ( this.state.position > 30 ) {
-        this.cancelPositionChange();
-        this.setState( { vertical: ! this.state.vertical } );
-      } else {
-        this.setState( { position: this.state.position + 1 } )
-      }
-    }
-    return false;
-  },
-  cancelPositionChange: function () {
-    document.body.removeEventListener( 'mouseup', this.cancelPositionChange );
-    document.body.removeEventListener( 'mousemove', this.checkMouseMove );
-    if ( this.setState( { startMove: false } ) ) {
-      ;
-    }
-    this.setState( { position: 0 } );
-  },
+
   render: function () {
-    var menuExpandClass = classNames( {
-      'dropdown': true,
-      'open': this.state.menuExpand
-    } );
-    var mainCssClasses = classNames( {
-      'navbar': true,
-      'navbar-vc': true,
-      'navbar-fixed-top': true,
-      'vcv-navbar-vertical': this.state.vertical
-    } );
     var saveButtonClasses = classNames( {
       "vc-ui-navbar-control": true,
       "vc-ui-state-success": this.state.saved
@@ -96,20 +139,102 @@ var Navbar = React.createClass( Mediator.installTo( {
       "vc-ui-icon": !this.state.saving,
       "vc-ui-icon-save": !this.state.saving
     } );
-    var navStyle = {
-      top: this.state.position > 5 ? this.state.position + 'px' : 0,
-      left: this.state.position > 5 ? this.state.position + 'px' : 0
-    };
-    var placeholderClasses = classNames( {
-      'vcv-navbar-placeholder': true,
-      'vcv-vertical': ! this.state.vertical
+
+    let {
+      isDragging,
+      navPosX,
+      navPosY,
+      navbarPosition,
+      navbarNewPosition,
+      moveDirection,
+      navbarSize,
+      windowSize
+      } = this.state,
+      navBarStyle = {}, isDetached;
+
+    if (isDragging) {
+      isDetached = false;
+      navBarStyle.opacity = .5;
+
+
+      switch (navbarNewPosition) {
+        case 'top':
+          navBarStyle.top = navPosY - navbarSize.height / 2;
+          if (navBarStyle.top > navbarSize.height) {
+            isDetached = true;
+          }
+          if (moveDirection.bottom && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
+            navBarStyle.top = 0;
+          }
+          if (moveDirection.top && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
+            navBarStyle.top = 0;
+          }
+          if (isDetached) {
+            navBarStyle.left = navPosX - 7;
+          }
+          break;
+        case 'left':
+          navBarStyle.left = navPosX - navbarSize.width / 2;
+          if (navBarStyle.left > navbarSize.width) {
+            isDetached = true;
+          }
+          if (moveDirection.right && navPosX - navbarSize.width / 2 < navbarSize.width / 2) {
+            navBarStyle.left = 0;
+          }
+          if (moveDirection.left && navPosX - navbarSize.width / 2 < navbarSize.width / 2) {
+            navBarStyle.left = 0;
+          }
+          if (isDetached) {
+            navBarStyle.top = navPosY - 7;
+          }
+          break;
+        case 'bottom':
+          navBarStyle.bottom = windowSize.height - ( navPosY + navbarSize.height / 2) ;
+          if (navBarStyle.bottom > navbarSize.height) {
+            isDetached = true;
+          }
+          if (moveDirection.bottom && windowSize.height - (navPosY + navbarSize.height / 2) < navbarSize.height / 2) {
+            navBarStyle.bottom = 0;
+          }
+          if (moveDirection.top && windowSize.height - (navPosY + navbarSize.height / 2 ) < navbarSize.height / 2) {
+            navBarStyle.bottom = 0;
+          }
+          if (isDetached) {
+            navBarStyle.left = navPosX - 7;
+          }
+          break;
+        case 'right':
+          navBarStyle.right = windowSize.width - (navPosX + navbarSize.width / 2);
+          if (navBarStyle.right > navbarSize.width) {
+            isDetached = true;
+          }
+          if (moveDirection.left && windowSize.width - (navPosX + navbarSize.width / 2) < navbarSize.width / 2) {
+            navBarStyle.right = 0;
+          }
+          if (moveDirection.right && windowSize.width - ( navPosX + navbarSize.width / 2) < navbarSize.width / 2) {
+            navBarStyle.right = 0;
+          }
+          if (isDetached) {
+            navBarStyle.top = navPosY - 7;
+          }
+          break;
+      }
+
+
+
+    }
+
+    let navbarContainerClasses = classNames( {
+      "vc-ui-navbar-container": true,
+      "vc-ui-navbar-is-detached": isDetached
     } );
-    var Placeholder = (this.state.position > 5 && this.state.startMove ?
-      <div className={placeholderClasses}></div> : null);
+
+    document.body.classList.add( 'vc-ui-has-navbar' );
+    document.body.classList.add( 'vc-ui-navbar-position-' + navbarPosition );
     return (
-      <div className="vc-ui-navbar-container">
+      <div className={navbarContainerClasses} style={navBarStyle}>
         <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
-          <div className="vc-ui-navbar-drag-handler"><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
+          <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
           <a className="vc-ui-navbar-logo" title="Visual Composer" href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amp;utm_source=vc_user&amp;utm_medium=frontend_editor" target="_blank">
             <span className="vc-ui-navbar-logo-title">Visual Composer</span>
           </a>
@@ -168,49 +293,8 @@ var Navbar = React.createClass( Mediator.installTo( {
         </nav>
         <AddElementModal/>
       </div>
-
-
-
-      //<nav className={mainCssClasses}
-      //     onMouseDown={this.changePosition}
-      //     style={navStyle}>
-      //  {Placeholder}
-      //  <div className="navbar-header">
-      //    <a className="navbar-brand"><span className="vcv-logo"></span></a>
-      //  </div>
-      //  <ul className="nav navbar-nav">
-      //    <li><a className="as_btn" onClick={this.openAddElement}><span className="glyphicon glyphicon-plus"></span></a>
-      //    </li>
-      //    <li role="presentation" className={menuExpandClass}>
-      //      <a className="dropdown-toggle as_btn" href="#" onClick={this.clickMenuExpand}>
-      //        <span className="glyphicon glyphicon-align-justify"></span> <span className="caret"></span>
-      //      </a>
-      //      <TreeElement/>
-      //    </li>
-      //  </ul>
-      //  <div className="vcv-navbar-right-block">
-      //    <ul className="nav navbar-nav pull-right" style={{marginRight: this.state.vertical ? null : 10 + 'px'}}>
-      //      <li>
-      //        <button type="button" className="btn btn-success navbar-btn" onClick={this.clickSaveData}>Update</button>
-      //      </li>
-      //    </ul>
-      //  </div>
-      //  <div className="vc_ui-inline-editor-container"></div>
-      //  <AddElementModal/>
-      //</nav>
     );
   }
 } ) );
-// Here comes wrapper for navbar
-document.querySelector( 'body' ).classList.add( 'vc-ui-navbar-position-top' );
-var editorWrapper = document.createElement( 'div' );
-editorWrapper.setAttribute( 'id', 'vc-editor-container' );
-var navbarWrapper = document.createElement( 'div' );
-navbarWrapper.setAttribute( 'id', 'vc-navbar-container' );
-editorWrapper.appendChild( navbarWrapper );
-document.body.appendChild( editorWrapper );
-ReactDOM.render(
-  <Navbar/>,
-  navbarWrapper
-);
+
 module.exports = Navbar;

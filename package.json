@@ -46,6 +46,7 @@
     "react-dnd-touch-backend": "^0.2.4",
     "react-dom": "*",
     "react-modal": "^0.6.1",
+    "react-motion": "^0.4.2",
     "react-rubaxa-sortable": "^0.1.2",
     "react-select": "~1.0.0-beta8",
     "simply-deferred": "^3.0.0",
