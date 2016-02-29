@@ -29,8 +29,7 @@ class Frontend extends Container
         $editableLink = $link.$question.http_build_query($query);
         Templates::includeTemplate('editor/frontend/frontend.php', [
             'editableLink' => $editableLink,
-            true,
-        ]);
+        ], true);
     }
 }
 
