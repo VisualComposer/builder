@@ -1,19 +1,24 @@
 var vcCake = require('vc-cake');
-vcCake.add('ui-wordpress', function(api){
+vcCake.add('ui-save-data', function(api){
   var React = require('react');
   var classNames = require('classnames');
   var Control = React.createClass({
+    getInitialState: function() {
+      return {
+        saving: false
+      }
+    },
     clickSaveData: function () {
       var _this = this;
       this.setState( {'saving': true} );
       setTimeout( function (  ) {
         _this.setState( {'saving': false} );
         _this.setState( {'saved': true} );
-      }, 3000 );
+      }, 500 );
       setTimeout( function (  ) {
         _this.setState( {'saved': false} );
       }, 5000 );
-      // this.publish( 'app:save', true );
+      api.notify('save');
     },
     render: function() {
       var saveButtonClasses = classNames( {
@@ -27,7 +32,7 @@ vcCake.add('ui-wordpress', function(api){
         "vc-ui-icon-save": !this.state.saving
       } );
       return (<div className="vc-ui-navbar-controls-group vc-ui-pull-end">
-        <a className={saveButtonClasses} href="#" title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
+        <a className={saveButtonClasses} title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
               <i className={saveIconClasses}></i><span>Save</span>
             </span></a>
       </div>);

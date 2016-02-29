@@ -8,8 +8,6 @@ require('medium-editor/dist/css/medium-editor.css');
 require('../css/medium-editor.less');
 require('../css/element.less');
 
-var DndElement = require('./dnd-element.js');
-
 var InlineEditorMixin = {
   componentDidMount: function() {
     var component = ReactDOM.findDOMNode(this);

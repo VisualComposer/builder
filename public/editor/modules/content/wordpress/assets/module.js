@@ -16,9 +16,8 @@ vcCake.add('asset-manager', function(api) {
     }
   });
   api.reply('data:remove', function(id) {
-    let document = Mediator.getService('data').getDocument();
+    let document = Mediator.getService('document').all();
     let assetTypes = ['scripts', 'styles'];
-    let elements = document.getElementsByTagName('*');
     let tagNames = [];
 
     for (let i = elements.length - 1; i >= 0; i--) {
