@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="tests/bootstrap.php"
+        backupGlobals="false"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        >
+    <testsuites>
+        <testsuite name="Main Core Test Suite">
+            <directory prefix="test-" suffix=".php">./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
+            <file>plugin-wordpress.php</file>
+            <directory suffix=".php">visualcomposer</directory>
+            <directory suffix=".php">bootstrap</directory>
+        </whitelist>
+    </filter>
+</phpunit>

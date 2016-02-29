@@ -15,7 +15,7 @@ class Application extends \Laravel\Lumen\Application
         'FrontController'               => 'VisualComposer\Modules\Editors\Front\FrontController',
         // Editor elements
         'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
-    ];
+      ];
 
     /**
      * Create a new Lumen application instance.
@@ -28,6 +28,7 @@ class Application extends \Laravel\Lumen\Application
     {
         $this->basePath = $basePath;
         $this->bootstrapContainer();
+        do_action('vc:v:init');
     }
 
     public function boot()
