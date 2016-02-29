@@ -31,3 +31,7 @@ npm-debug.log
 public/*.bundle.js
 public/dist/
 # public/sources/elements/ElementsSettings.js
+
+/vendor
+.env
+composer.lock

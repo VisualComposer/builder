@@ -3,6 +3,27 @@ module.exports = [
   "name": {
     "type": "string",
     "access": "system",
+    "value": "AjaxElement"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "AjaxElement"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "shortcodeString": {
+    "type": "string",
+    "access": "public",
+    "value": "[wp_test_dynamic]"
+  }
+},{
+  "name": {
+    "type": "string",
+    "access": "system",
     "value": "Attributes"
   },
   "tag": {
