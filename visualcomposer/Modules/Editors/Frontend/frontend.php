@@ -2,6 +2,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Modules\System\Container;
 
@@ -25,9 +26,11 @@ class Frontend extends Container
             'vc-v-nonce' => Nonce::admin(),
         ];
 
-        // @todo do_action fe-editor rendering
-        // Include fe template
-        echo '<iframe src="'.$link.$question.http_build_query($query).'" width="100%" height="100%"></iframe>';
+        $editableLink = $link.$question.http_build_query($query);
+        Templates::includeTemplate('editor/frontend/frontend.php', [
+            'editableLink' => $editableLink,
+            true,
+        ]);
     }
 }
 
