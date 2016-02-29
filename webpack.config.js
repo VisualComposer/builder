@@ -56,6 +56,8 @@ module.exports = {
         'content/storage',
         'content/layout',
         'content/editor-controls',
+        'content/wordpress/assets',
+        'content/wordpress/data-layout',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',

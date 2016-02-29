@@ -1,9 +1,9 @@
 var vcCake = require('vc-cake');
 var assetManager = vcCake.getService('asset-manager');
-var localStorage = {
+var wordpressStorage = {
   dataKey: 'vcData',
   getItem: function(callback) {
-    ajaxPost( {
+    this.ajaxPost( {
       action: 'vc:v:getData',
       post_id: window.vcPostID
     }, callback.bind(this) );
@@ -24,7 +24,10 @@ var localStorage = {
     request.send( jQuery.param( data ) );
   },
   update: function(data) {
-    var scripts = assetManager.getAssets( 'scripts' ),
+    var content = document.getElementsByClassName( 'vc-v-layouts-clean-html' )[ 0 ].innerHTML.replace(
+      /\s+data\-reactid="[^"]+"/,
+      '' ),
+      scripts = assetManager.getAssets( 'scripts' ),
       styles = assetManager.getAssets( 'styles' ),
       stylesStringified = JSON.stringify( styles ),
       recompileStyles = window.vcvPostStyles !== stylesStringified;
@@ -77,11 +80,11 @@ var localStorage = {
 
 var service = {
   save: function(data) {
-    localStorage.update(data);
+    wordpressStorage.update(data);
   },
   get: function(callback) {
-    localStorage.getItem(callback);
+    wordpressStorage.getItem(callback);
   }
 };
 
-vcCake.addService('wp-storage', service);
+vcCake.addService('wordpress-storage', service);

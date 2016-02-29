@@ -1,12 +1,12 @@
 var vcCake = require('vc-cake');
-var React = require('react');
-var Element = require('./lib/element.js');
-
-require('./css/clean-html-layout.less');
+require('./css/module.less');
 vcCake.add('content-wordpress-data-layout', function(api) {
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+  var Element = require('./lib/element.js');
   var DataChanged = {
     componentDidMount: function() {
-      this.subscribe('data:changed', function(document) {
+      api.reply('data:changed', function(document) {
         this.setState({data: document});
       }.bind(this));
     },
@@ -22,14 +22,13 @@ vcCake.add('content-wordpress-data-layout', function(api) {
     render: function() {
       let elementsList;
       if (this.state.data) {
-        let data = Array.prototype.slice.call(this.state.data.childNodes);
-        let rootElement = data[0];
-        elementsList = Array.prototype.slice.call(rootElement.childNodes).map(function(element) {
-          let data = Array.prototype.slice.call(element.childNodes);
-          return <Element element={element} data={data} key={element.id} level={1}/>
+        let document = vcCake.getService('document');
+        elementsList = this.state.data.map(function(element) {
+          let data = document.children(element.id);
+          return <Element element={element} data={data} key={element.id} api={api}/>
         });
       }
-      return (<div className="vc-v-layouts-cleanhtml">
+      return (<div className="vc-v-layouts-clean-html">
         {elementsList}
       </div>);
     }

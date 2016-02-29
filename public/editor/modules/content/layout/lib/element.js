@@ -3,6 +3,7 @@ var React = require('react');
 var ElementComponents = vcCake.getService('element').components;
 var ReactDOM = require('react-dom');
 var MediumEditor = require('medium-editor');
+var DndElement = require('./dnd-element');
 require('medium-editor/dist/css/medium-editor.css');
 
 require('../css/medium-editor.less');
