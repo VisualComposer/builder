@@ -3,7 +3,7 @@ var vcCake = require('vc-cake');
 vcCake.add('ui-editor-controls', function(api) {
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js');
   var ControlsTrigger = {};
-  require('./css/controls/editor-controls-init.less');
+  require('./css/module.less');
 
   ControlsTrigger.triggerShowFrame = function(e) {
     e.stopPropagation();
@@ -19,6 +19,16 @@ vcCake.add('ui-editor-controls', function(api) {
   };
 
   var EditorControls = function() {
+    var editorWrapper = document.getElementById('vc-editor-container');
+    if (!editorWrapper) {
+      editorWrapper = document.createElement('div');
+      editorWrapper.setAttribute('id', 'vc-editor-container');
+      document.body.appendChild(editorWrapper);
+    }
+    var controlsWrapper = document.createElement('div');
+    controlsWrapper.setAttribute('id', 'vc-ui-controls-container');
+    editorWrapper.appendChild(controlsWrapper);
+
     api.reply('start', function() {
       $(document).on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame);
       $(document).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame);
@@ -33,7 +43,7 @@ vcCake.add('ui-editor-controls', function(api) {
         api.request(event, elementId);
         controlsHandler.hideOutline();
       });
-      $(document).on('scroll', ControlsTrigger.triggerRedrawFrame);
+      $(document).on('scroll resize', ControlsTrigger.triggerRedrawFrame);
     });
     return controlsHandler;
   };

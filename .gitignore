@@ -45,4 +45,6 @@ public/*-modules.js
 public/*-services.js
 public/dist/
 # public/sources/elements/ElementsSettings.js
-# public/services.js
+/vendor
+.env
+composer.lock

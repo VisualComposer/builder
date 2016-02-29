@@ -1,121 +1,256 @@
 {
 	"metadata": {
 		"name": "VC UI Icons",
-		"lastOpened": 1455184944781,
-		"created": 1455184926605
+		"lastOpened": 1455202104082,
+		"created": 1455202101957
 	},
 	"iconSets": [
 		{
 			"selection": [
 				{
-					"order": 22,
+					"order": 29,
+					"id": 18,
+					"prevSize": 32,
+					"code": 59676,
+					"name": "expand",
+					"tempChar": ""
+				},
+				{
+					"order": 28,
+					"id": 17,
+					"prevSize": 32,
+					"code": 59660,
+					"name": "add-thin",
+					"tempChar": ""
+				},
+				{
+					"order": 27,
+					"id": 16,
+					"prevSize": 32,
+					"code": 59661,
+					"name": "close-thin",
+					"tempChar": ""
+				},
+				{
+					"order": 30,
+					"id": 15,
+					"prevSize": 32,
+					"code": 59663,
+					"name": "copy",
+					"tempChar": ""
+				},
+				{
+					"order": 25,
+					"id": 14,
+					"prevSize": 32,
+					"code": 59664,
+					"name": "edit",
+					"tempChar": ""
+				},
+				{
+					"order": 24,
+					"id": 13,
+					"prevSize": 32,
+					"code": 59675,
+					"name": "paste",
+					"tempChar": ""
+				},
+				{
+					"order": 12,
 					"id": 3,
 					"prevSize": 32,
 					"code": 59648,
 					"name": "mobile-menu",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 23,
+					"order": 13,
 					"id": 10,
 					"name": "desktop",
 					"prevSize": 32,
 					"code": 59649,
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 24,
+					"order": 14,
 					"id": 4,
 					"prevSize": 32,
 					"code": 59650,
 					"name": "mobile-portrait",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 25,
+					"order": 15,
 					"id": 9,
 					"prevSize": 32,
 					"code": 59651,
 					"name": "mobile-landscape",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 26,
+					"order": 16,
 					"id": 7,
 					"prevSize": 32,
 					"code": 59652,
 					"name": "tablet-portrait",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 27,
+					"order": 17,
 					"id": 6,
 					"prevSize": 32,
 					"code": 59653,
 					"name": "tablet-landscape",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 28,
+					"order": 18,
 					"id": 8,
 					"prevSize": 32,
 					"code": 59654,
 					"name": "template",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 29,
+					"order": 19,
 					"id": 5,
 					"prevSize": 32,
 					"code": 59655,
 					"name": "save",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 30,
+					"order": 20,
 					"id": 12,
 					"prevSize": 32,
 					"code": 59656,
 					"name": "add",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 31,
+					"order": 21,
 					"id": 1,
 					"prevSize": 32,
 					"code": 59657,
 					"name": "remove",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 32,
+					"order": 22,
 					"id": 11,
 					"prevSize": 32,
 					"code": 59658,
 					"name": "close",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
-					"order": 33,
+					"order": 31,
+					"id": 19,
+					"prevSize": 32,
+					"code": 59677,
+					"name": "more-dots",
+					"tempChar": ""
+				},
+				{
+					"order": 23,
 					"id": 0,
 					"prevSize": 32,
 					"code": 59659,
 					"name": "drag-dots",
-					"tempChar": ""
+					"tempChar": ""
 				}
 			],
 			"id": 3,
 			"metadata": {
 				"name": "VC Icons",
 				"importSize": {
-					"width": 60,
-					"height": 60
+					"width": 32,
+					"height": 32
 				},
 				"designer": "Raitis Sevelis"
 			},
 			"height": 1024,
 			"prevSize": 32,
 			"icons": [
+				{
+					"id": 18,
+					"paths": [
+						"M248.78 404.565l263.22 263.22 263.22-263.22c17.844-17.844 5.212-48.35-20.025-48.35h-486.389c-25.237 0-37.87 30.506-20.025 48.35z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"expand"
+					]
+				},
+				{
+					"id": 17,
+					"paths": [
+						"M32 452.48h960v119.056h-960v-119.056z",
+						"M452.464 32h119.040v960h-119.040v-960z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"add-thin",
+						"plus-thin"
+					]
+				},
+				{
+					"id": 16,
+					"paths": [
+						"M886.083 991.98l-854.046-854.046 105.916-105.916 854.046 854.046-105.916 105.916z",
+						"M137.904 991.967l-105.902-105.902 854.046-854.046 105.902 105.902-854.046 854.046z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"close-thin",
+						"times-thin"
+					]
+				},
+				{
+					"id": 15,
+					"paths": [
+						"M706.943 256h-631.983c-39.792 0-42.96 8.88-42.96 48.656v638.687c0 39.776 21.28 48.656 61.056 48.656h631.999c39.776 0 42.944-8.88 42.944-48.656v-638.687c0-39.776-21.28-48.656-61.056-48.656zM644.607 896h-487.12c-30.576 0-29.488-9.808-29.488-40.4v-463.2c0-30.592-3.2-40.4 27.392-40.4h487.104c30.592 0 29.504 9.808 29.504 40.4v463.2c0 30.592 3.2 40.4-27.392 40.4z",
+						"M930.943 32.001h-631.983c-39.792 0-42.96 8.88-42.96 48.656v175.344h96v-87.6c0-30.592-3.2-40.4 27.392-40.4h487.104c30.592 0 29.504 9.808 29.504 40.4v463.2c0 30.592 3.2 40.4-27.392 40.4h-100.608v96h181.040c39.792 0 42.96-8.88 42.96-48.656v-638.687c0-39.776-21.28-48.656-61.056-48.656z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"copy",
+						"duplicate"
+					]
+				},
+				{
+					"id": 14,
+					"paths": [
+						"M320.892 960.215l639.258-639.21c25.772-25.772 31.447-56.233 5.659-81.989l-172.175-172.159c-25.74-25.756-65.886-28.488-91.673-2.716l-640.858 637.011c-28.698 27.373-22.409 27.826-22.442 45.95l-0.469 187.535c0.065 28.036 22.458 50.93 50.477 50.995l199.775-5.336c14.002 0.049 21.585-9.152 32.45-20.081zM773.893 184.11l74.664 74.697c11.932 11.948 6.289 30.477-5.691 42.442l-44.446 44.462-113.21-113.193 52.66-52.223c11.948-11.981 24.042-8.133 36.023 3.816zM237.755 906.505l-81.375-3.007c-12.984-0.032-22.976-9.442-23.055-22.458l1.778-92.935c0-6.435 0.211-9.184 13.889-22.927l0.016 0.032 453.664-450.817 113.516 113.516-463.816 463.816c-10.865 10.865-8.181 14.842-14.616 14.778z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"edit"
+					]
+				},
+				{
+					"id": 13,
+					"paths": [
+						"M154.384 992h712c39.776 0 69.616-14.224 69.616-54v-682h-848v682c0 39.776 26.608 54 66.384 54zM184 352h656v498.256c0 30.624-23.472 45.744-54.064 45.744h-551.12c-30.576 0-50.816-15.12-50.816-45.744v-498.256z",
+						"M88 86v266h848v-266c0-39.776-29.84-54-69.632-54h-712c-39.76 0-66.368 14.224-66.368 54zM184 173.744c0-30.608 20.24-45.744 50.816-45.744h567.12c30.592 0 38.064 15.136 38.064 45.744v82.256h-656v-82.256z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"paste"
+					]
+				},
 				{
 					"id": 3,
 					"paths": [
@@ -267,6 +402,20 @@
 					"width": 1024
 				},
 				{
+					"id": 19,
+					"paths": [
+						"M512 619.59c-59.421 0-107.59-48.17-107.59-107.59s48.17-107.59 107.59-107.59c59.421 0 107.59 48.17 107.59 107.59s-48.17 107.59-107.59 107.59z",
+						"M884.411 619.59c-59.421 0-107.59-48.17-107.59-107.59s48.17-107.59 107.59-107.59c59.421 0 107.59 48.17 107.59 107.59s-48.17 107.59-107.59 107.59z",
+						"M139.591 619.59c-59.421 0-107.59-48.17-107.59-107.59s48.17-107.59 107.59-107.59c59.421 0 107.59 48.17 107.59 107.59s-48.17 107.59-107.59 107.59z"
+					],
+					"attrs": [],
+					"isMulticolor": false,
+					"grid": 16,
+					"tags": [
+						"more-dots"
+					]
+				},
+				{
 					"id": 0,
 					"paths": [
 						"M619.59 512c0 59.421-48.17 107.59-107.59 107.59s-107.59-48.17-107.59-107.59c0-59.421 48.17-107.59 107.59-107.59s107.59 48.17 107.59 107.59z",
@@ -292,7 +441,7 @@
 					"prevSize": 32,
 					"code": 59674,
 					"name": "bug",
-					"tempChar": ""
+					"tempChar": ""
 				}
 			],
 			"id": 1,
@@ -417,11 +566,11 @@
 				},
 				{
 					"id": 19,
-					"order": 2,
+					"order": 3,
 					"prevSize": 32,
 					"code": 59662,
 					"name": "cog",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 20,
@@ -501,11 +650,11 @@
 				},
 				{
 					"id": 37,
-					"order": 7,
+					"order": 6,
 					"prevSize": 32,
 					"code": 59665,
 					"name": "link",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 38,
@@ -513,11 +662,11 @@
 				},
 				{
 					"id": 39,
-					"order": 10,
+					"order": 7,
 					"prevSize": 32,
 					"code": 59666,
 					"name": "move",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 40,
@@ -588,20 +737,20 @@
 					"order": 0
 				},
 				{
-					"order": 3,
+					"order": 4,
 					"id": 172,
 					"prevSize": 32,
 					"code": 59667,
 					"name": "undo",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 57,
-					"order": 1,
+					"order": 2,
 					"prevSize": 32,
 					"code": 59668,
 					"name": "redo",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 58,
@@ -889,11 +1038,11 @@
 				},
 				{
 					"id": 129,
-					"order": 14,
+					"order": 11,
 					"prevSize": 32,
 					"code": 59669,
 					"name": "pen-alt-fill",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 130,
@@ -909,11 +1058,11 @@
 				},
 				{
 					"id": 133,
-					"order": 11,
+					"order": 8,
 					"prevSize": 32,
 					"code": 59670,
 					"name": "eyedropper",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 134,
@@ -925,7 +1074,7 @@
 					"prevSize": 32,
 					"code": 59671,
 					"name": "layers",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 136,
@@ -977,11 +1126,11 @@
 				},
 				{
 					"id": 148,
-					"order": 13,
+					"order": 10,
 					"prevSize": 32,
 					"code": 59672,
 					"name": "lock-stroke",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 149,
@@ -989,11 +1138,11 @@
 				},
 				{
 					"id": 150,
-					"order": 12,
+					"order": 9,
 					"prevSize": 32,
 					"code": 59673,
 					"name": "unlock-stroke",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 151,
@@ -3447,7 +3596,6 @@
 			]
 		}
 	],
-	"uid": -1,
 	"preferences": {
 		"showGlyphs": true,
 		"showCodes": true,
@@ -3489,5 +3637,6 @@
 		"historySize": 100,
 		"gridSize": 16,
 		"showGrid": true
-	}
+	},
+	"uid": -1
 }

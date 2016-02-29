@@ -1,0 +1,23 @@
+//== outline
+
+.vc-ui-outline {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  z-index: @outline-z-index;
+  #vc-ui-outline-controls > .create-outline-type(@color: @outline-color-element);
+}
+
+//== outline types
+
+
+#vc-ui-outline-controls > .create-outline-type(base, @outline-color-base);
+#vc-ui-outline-controls > .create-outline-type(section, @outline-color-section);
+#vc-ui-outline-controls > .create-outline-type(row, @outline-color-row);
+#vc-ui-outline-controls > .create-outline-type(column, @outline-color-column);
+#vc-ui-outline-controls > .create-outline-type(element, @outline-color-element);
+
+//== todo: refactor, color is based on react components
+#vc-ui-outline-controls > .create-outline-type(index-0, @background-row);
+#vc-ui-outline-controls > .create-outline-type(index-1, @background-column);
+#vc-ui-outline-controls > .create-outline-type(index-2, @background-element);
