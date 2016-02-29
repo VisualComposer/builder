@@ -1,5 +1,5 @@
 var vcCake = require('vc-cake');
-vcCake.add('ui-wordpress', function(api){
+vcCake.add('ui-wordpress-post', function(api){
   var React = require('react');
   var Control = React.createClass({
     render: function() {
@@ -19,5 +19,5 @@ vcCake.add('ui-wordpress', function(api){
       </dl>;
     }
   });
-  api.module('ui-navbar').do('addElement', 'Save post', Control, 'right');
+  api.module('ui-navbar').do('addElement', 'Manage post version', Control, 'right');
 });
