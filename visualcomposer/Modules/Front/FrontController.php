@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Front;
+namespace VisualComposer\Modules\Front;
 
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;

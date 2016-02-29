@@ -12,9 +12,9 @@ class Application extends \Laravel\Lumen\Application
         // Editors modules & submodules
         'AssetsManagerController'       => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
         'DataAjaxController'            => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
-        'FrontController'               => 'VisualComposer\Modules\Editors\Front\FrontController',
-        // Editor elements
-        'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
+        'FrontController'               => 'VisualComposer\Modules\Front\FrontController',
+        // Elements
+        'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
       ];
 
     /**

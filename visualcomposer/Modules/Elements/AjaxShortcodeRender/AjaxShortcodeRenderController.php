@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender;
+namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
