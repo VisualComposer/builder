@@ -4,7 +4,6 @@ var ReactDOM = require('react-dom');
 // var TreeElement = require( '../layouts/tree/TreeLayout' );
 // var AddElementModal = require( './add-element/AddElement.js' );
 var classNames = require( 'classnames' );
-require( '../css/navbar_old/navbar-init.less' );
 require( '../css/module.less' );
 var navbarControls = [];
 
