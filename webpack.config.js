@@ -53,7 +53,11 @@ module.exports = {
     },
     wp: {
       modules: [
+        'content/storage',
         'content/layout',
+        'content/editor-controls',
+        'content/wordpress/assets',
+        'content/wordpress/data-layout',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
@@ -64,12 +68,13 @@ module.exports = {
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
-        'ui/wordpress'
+        'ui/wordpress-post'
       ],
       services: [
         'actions-manager',
         'asset-manager',
         'document',
+        'wordpress-storage',
         'element',
         'rules-manager',
         'shared',

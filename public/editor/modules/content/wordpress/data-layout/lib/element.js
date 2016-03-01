@@ -1,16 +1,16 @@
+var vcCake = require('vc-cake');
 var React = require('react');
-var Utils = require('../../.././Utils');
-var Mediator = require('../../.././Mediator');
-var ElementComponents = require('../../.././ElementComponents');
+var ElementComponents = vcCake.getService('element').components;
 
-var Element = React.createClass(Mediator.installTo({
+var Element = React.createClass({
   getContent: function(content) {
     var ElementComponent = ElementComponents.get(this.props.element); // optimize
+    let document = vcCake.getService('document');
     if ('container' == ElementComponent.type) {
       return this.props.data.map(function(element) {
-        let data = Array.prototype.slice.call(element.childNodes);
-        return <Element element={element} data={data} key={element.id}/>;
-      });
+        let data = document.children(element.id);
+        return <Element element={element} data={data} key={element.id} api={this.props.api}/>;
+      }, this);
     }
     return content;
   },
@@ -20,7 +20,7 @@ var Element = React.createClass(Mediator.installTo({
     var atts = {};
     Object.keys(ElementComponent).map(function(key) {
       let option = ElementComponent[key];
-      let value = Mediator.getService('attributes').getElementValue(key, option, element);
+      let value = vcCake.getService('element').attributes.getElementValue(key, option, element);
       if ('undefined' !== typeof(value) && null !== value) {
         atts[key] = value;
       }
@@ -36,5 +36,5 @@ var Element = React.createClass(Mediator.installTo({
       content: this.getContent(elementAttributes.content),
     });
   }
-}));
+});
 module.exports = Element;
