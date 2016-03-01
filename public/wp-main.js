@@ -13,17 +13,20 @@ var App = Mediator.installTo({
 		// Data Storage module
 		require('./modules/storage/WpDataDOMStore');
 		// Editor Controls
-		var EditorControls = require('imports?$=jquery!./modules/editor-controls/EditorControls');
+		require('imports?$=jquery!./modules/editor-controls-iframe/EditorControls');
 	},
 	prepareWPPage: function() {
 		require('./modules/wordpress/style.less');
-		window.document.getElementsByClassName('entry-content')[0].innerHTML = '<div id="vc_v-editor"></div>';
+		var _this = this;
+		jQuery('#vc-v-editor-iframe').load( function () {
+			jQuery('#vc-v-frontend-editable-placeholder', this.contentWindow.document).replaceWith('<div id="vc_v-editor">Editor</div>');
+			_this.loadServices();
+			_this.loadModules();
+			_this.publish('app:init', true);
+		} );
 	},
 	init: function() {
 		this.prepareWPPage();
-		this.loadServices();
-		this.loadModules();
-		this.publish('app:init', true);
 	}
 });
 

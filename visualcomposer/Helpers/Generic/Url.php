@@ -30,4 +30,16 @@ abstract class Url
     {
         return VC_V_PLUGIN_URL.ltrim($path, '\//');
     }
+
+    /**
+     * Url to whole plugin folder
+     *
+     * @param $query
+     *
+     * @return string
+     */
+    public static function ajax($query = [])
+    {
+        return self::to(sprintf('visualcomposer/Modules/System/Loader.php?%s', http_build_query($query)));
+    }
 }

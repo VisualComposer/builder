@@ -2,14 +2,13 @@
 
 namespace VisualComposer\Modules\System\TextDomain;
 
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Modules\System\Container;
 
 class TextDomainController extends Container
 {
     public function __construct()
     {
-        Actions::add('init', function () {
+        add_action('init', function () {
             $this->call('setDomain');
         });
     }

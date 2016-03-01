@@ -18,12 +18,17 @@ class Frontend extends Container
 
     private function renderEditorBase(Request $request)
     {
+        global $post;
         $sourceId = (int)$request->input('vc-source-id');
+
+        $post = get_post($sourceId);
+        setup_postdata($post);
+
         $link = get_permalink($sourceId);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vc-v-editable' => '1',
-            'vc-v-nonce' => Nonce::admin(),
+            'nonce' => Nonce::admin(),
         ];
 
         $editableLink = $link.$question.http_build_query($query);

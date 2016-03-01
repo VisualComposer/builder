@@ -28,8 +28,9 @@ var ajaxPost = function ( data, successCallback, failureCallback ) {
 };
 Data.subscribe( 'app:init', function () {
   ajaxPost( {
-    action: 'vc:v:getData',
-    post_id: window.vcPostID
+    action: 'vc:v:getData:adminNonce',
+    nonce: window.vcNonce,
+    source_id: window.vcSourceID
   }, function ( request ) {
     var newDocument = Data.parse( '<Root id="vc-v-root-element">' + request.responseText + '</Root>' );
     if ( newDocument.childNodes ) {
@@ -50,8 +51,9 @@ Data.subscribe( 'app:save', function () {
   window.vcvPostStyles = stylesStringified;
 
   ajaxPost( {
-    action: 'vc:v:setData',
-    post_id: window.vcPostID,
+    action: 'vc:v:setData:adminNonce',
+    nonce: window.vcNonce,
+	source_id: window.vcPostID,
     content: content,
     data: getData( Data.getDocument() ),
     scripts: scripts,
@@ -81,7 +83,8 @@ Data.subscribe( 'app:save', function () {
     }
 
     ajaxPost( {
-      action: 'vc:v:saveCssBundle',
+      action: 'vc:v:saveCssBundle:adminNonce',
+      nonce: window.vcNonce,
       contents: contents
     }, function ( request ) {
       var response = JSON.parse( request.response );

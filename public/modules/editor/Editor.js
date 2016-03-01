@@ -7,10 +7,11 @@ var Mediator = require( '../../helpers/Mediator' ); // need to remove
 var Editor = {
 
 };
+
 Mediator.installTo(Editor);
 ReactDOM.render(
 		<EditorUI />,
-		document.getElementById('vc_v-editor')
+		jQuery( '#vc_v-editor', jQuery( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document ).get(0)
 );
 require('./ui/NavbarContainer.js');
 module.exports = Editor;

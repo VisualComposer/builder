@@ -3,7 +3,7 @@
 define('VC_V_LOADING_EDITOR', true);
 
 // Require an action parameter
-if (empty($_REQUEST['vc-v-action'])) {
+if (empty($_REQUEST['action'])) {
     die(json_encode([
         'status' => 'fail',
         'key' => 0,
@@ -23,15 +23,15 @@ nocache_headers();
 
 use VisualComposer\Helpers\WordPress\Nonce;
 
-if (strpos($_REQUEST['vc-v-action'], ':nonce')) {
-    if (empty($_REQUEST['vc-v-nonce']) || ! Nonce::verifyUser($_REQUEST['vc-v-nonce'])) {
+if (strpos($_REQUEST['action'], ':nonce')) {
+    if (empty($_REQUEST['nonce']) || ! Nonce::verifyUser($_REQUEST['nonce'])) {
         die(json_encode([
             'status' => 'fail',
             'key' => 1,
         ]));
     }
-} else if (strpos($_REQUEST['vc-v-action'], ':admin-nonce')) {
-    if (empty($_REQUEST['vc-v-nonce']) || ! Nonce::verifyAdmin($_REQUEST['vc-v-nonce'])) {
+} else if (strpos($_REQUEST['action'], ':admin-nonce')) {
+    if (empty($_REQUEST['nonce']) || ! Nonce::verifyAdmin($_REQUEST['nonce'])) {
         die(json_encode([
             'status' => 'fail',
             'key' => 2,
@@ -44,7 +44,7 @@ if (strpos($_REQUEST['vc-v-action'], ':nonce')) {
  * @todo: 2) sanitize input
  */
 do_action('vc:v:ajax:loader');
-do_action('vc:v:ajax:loader:'.$_REQUEST['vc-v-action']);
+do_action('vc:v:ajax:loader:'.$_REQUEST['action']);
 
 // Detect if output received, just DIE
 $sent = headers_sent() || ob_get_status();

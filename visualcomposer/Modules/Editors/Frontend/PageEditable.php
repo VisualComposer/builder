@@ -2,6 +2,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Modules\System\Container;
 
@@ -19,8 +20,8 @@ class PageEditable extends Container
     private function isPageEditable(Request $request)
     {
         if ($request->has('vc-v-editable')
-            && $request->has('vc-v-nonce')
-            && Nonce::verifyAdmin($request->input('vc-v-nonce'))
+            && $request->has('nonce')
+            && Nonce::verifyAdmin($request->input('nonce'))
         ) {
             return true;
         }
@@ -33,7 +34,39 @@ class PageEditable extends Container
         add_action('the_post', function () {
             remove_all_filters('the_content');
             add_filter('the_content', function () {
-                return '<span id="vc-v-frontend-editable-placeholder">Content Placeholder</span>';
+                return '
+<script>
+        (function () {
+            function vcvLoadJsCssFile( filename, filetype ) {
+                var fileRef;
+                filename = filename.replace( /\s/g, \'%20\' );
+
+                if ( \'js\' === filetype ) {
+                    fileRef = document.createElement( \'script\' );
+                    fileRef.setAttribute( \'type\', \'text/javascript\' );
+                    fileRef.setAttribute( \'src\', filename );
+                } else if ( \'css\' === filetype ) {
+                    fileRef = document.createElement( \'link\' );
+                    if ( filename.substr( - 5, 5 ) === \'.less\' ) {
+                        fileRef.setAttribute( \'rel\', \'stylesheet/less\' );
+                    } else {
+                        fileRef.setAttribute( \'rel\', \'stylesheet\' );
+                    }
+
+                    fileRef.setAttribute( \'type\', \'text/css\' );
+                    fileRef.setAttribute( \'href\', filename );
+                }
+                if ( \'undefined\' !== typeof fileRef ) {
+                    document.getElementsByTagName( \'head\' )[ 0 ].appendChild(
+                        fileRef );
+                }
+            }
+
+            vcvLoadJsCssFile( \''.Url::to('public/dist/wp.bundle.css?'.uniqid()).'\',
+                \'css\' );
+        })();
+    </script>
+<span id="vc-v-frontend-editable-placeholder"></span>';
             });
         }, 9999); // after all the_post actions ended
     }
