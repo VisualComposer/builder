@@ -7,10 +7,20 @@
 .vc-ui-navbar-position-left {
   #vc-ui-navbar > .init-variables();
   padding-left: @navbar-size;
+  #vc-navbar-container {
+    .vc-ui-navbar-controls-group {
+      flex-direction: column;
+    }
+  }
 }
 .vc-ui-navbar-position-right {
   #vc-ui-navbar > .init-variables();
   padding-right: @navbar-size;
+  #vc-navbar-container {
+    .vc-ui-navbar-controls-group {
+      flex-direction: column;
+    }
+  }
 }
 .vc-ui-navbar-position-bottom {
   #vc-ui-navbar > .init-variables();
