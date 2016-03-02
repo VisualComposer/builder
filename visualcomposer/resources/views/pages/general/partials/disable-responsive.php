@@ -9,7 +9,7 @@ $attributes = [
 ?>
 <label>
 	<input type="checkbox" value="1" <?= implode( ' ', $attributes ) ?> />
-	<?php _e( 'Disable', 'vc5' ) ?>
+	<?= __( 'Disable', 'vc5' ) ?>
 </label>
 
 <br/>

@@ -16,7 +16,7 @@ abstract class Access {
 	/**
 	 * @param mixed $validAccess
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function setValidAccess( $validAccess ) {
 		$this->validAccess = $validAccess;
@@ -31,7 +31,7 @@ abstract class Access {
 	 * @param $valid
 	 * @param $argsList
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function checkMulti( $callback, $valid, $argsList ) {
 		if ( $this->getValidAccess() ) {
@@ -70,7 +70,7 @@ abstract class Access {
 	 *
 	 * @param string $message
 	 *
-	 * @return $this
+	 * @return self
 	 * @throws \Exception
 	 */
 	public function validateDie( $message = '' ) {
@@ -90,7 +90,7 @@ abstract class Access {
 	/**
 	 * @param $func
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function check( $func ) {
 		if ( $this->getValidAccess() ) {
@@ -110,7 +110,7 @@ abstract class Access {
 	 *      [ 'current_user_can', 'edit_posts' ],
 	 * )
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function checkAny() {
 		if ( $this->getValidAccess() ) {
@@ -125,10 +125,10 @@ abstract class Access {
 	 * All provided rules should be valid
 	 * Usage: checkAll(
 	 *      'vc_verify_admin_nonce',
-	 *      array( 'current_user_can', 'edit_post', 12 ),
-	 *      array( 'current_user_can', 'edit_posts' ),
+	 *      [ 'current_user_can', 'edit_post', 12 ],
+	 *      [ 'current_user_can', 'edit_posts' ],
 	 * )
-	 * @return $this
+	 * @return self
 	 */
 	public function checkAll() {
 		if ( $this->getValidAccess() ) {

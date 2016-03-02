@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
+use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Helpers\WordPress\Options;
@@ -221,10 +222,9 @@ class General extends Container {
 	 * Guide tours callback
 	 */
 	public function guideToursFieldCallback() {
-		// TODO: put back
-		//		if ( ! vc_pointers_is_dismissed() ) {
-		//			return;
-		//		}
+		if ( ! Todo::pointersAreDismissed() ) {
+			return;
+		}
 
 		Templates::render( 'pages/general/partials/guide-tours' );
 	}

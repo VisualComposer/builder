@@ -83,7 +83,7 @@ class RoleAccessController extends Access {
 	 * @param string $rule
 	 * @param bool|true $check_state
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function can( $rule = '', $check_state = true ) {
 		if ( null === $this->getRole() ) {

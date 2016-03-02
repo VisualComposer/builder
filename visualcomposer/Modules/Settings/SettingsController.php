@@ -9,8 +9,6 @@ use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Modules\System\Container;
 
-//use VisualComposer\Api\Access\UserAccess;
-
 class SettingsController extends Container {
 
 	private $pages = null;
@@ -74,21 +72,16 @@ class SettingsController extends Container {
 	 * @return string
 	 */
 	public function getMainPageSlug() {
-		// TODO: put back (raitisg)
-		$hasAccess = true;
-		//		$hasAccess = ! UserAccess::getInstance()
-		//		                         ->wpAny( 'manage_options' )
-		//		                         ->part( 'settings' )
-		//		                         ->can( General::getPageSlug() )
-		//		                         ->get() || ( is_multisite() && ! is_main_site() );
+		$hasAccess = ! app( 'CurrentUserAccess' )
+				->wpAny( 'manage_options' )
+				->part( 'settings' )
+				->can( app( 'General' )->getPageSlug() )
+				->get() || ( is_multisite() && ! is_main_site() );
 
-		// TODO: get slugs from class
 		if ( $hasAccess ) {
-			return 'vc-v-about';
-			//return $About->getPageSlug();
+			return app( 'About' )->getPageSlug();
 		} else {
-			return 'vc-v-general';
-			//return $General->getPageSlug();
+			return app( 'General' )->getPageSlug();
 		}
 	}
 
@@ -104,20 +97,18 @@ class SettingsController extends Container {
 	}
 
 	public function addSubmenuPages() {
-		// TODO: pub back (raitisg)
-		//if ( ! UserAccess::getInstance()->wpAny( 'manage_options' )->get() ) {
-		//	return;
-		//}
+		if ( ! app( 'CurrentUserAccess' )->wpAny( 'manage_options' )->get() ) {
+			return;
+		}
+
 		$pages = $this->getPages();
 		$parentSlug = $this->getMainPageSlug();
 
 		foreach ( $pages as $page ) {
-			// TODO: put back (raitisg)
-			$hasAccess = true;
-			//$hasAccess = UserAccess::getInstance()
-			//                       ->part( 'settings' )
-			//                       ->can( $page['slug'] . '-tab' )
-			//                       ->get();
+			$hasAccess = app( 'CurrentUserAccess' )
+				->part( 'settings' )
+				->can( $page['slug'] . '-tab' )
+				->get();
 
 			if ( $hasAccess ) {
 				add_submenu_page( $parentSlug, $page['title'], $page['title'], 'manage_options', $page['slug'], function () {
@@ -141,7 +132,6 @@ class SettingsController extends Container {
 		$content = ob_get_clean();
 
 		Templates::render( 'layout', [
-			'Templates' => Templates::class,
 			'content' => $content,
 			'tabs' => $this->getPages(),
 			'activeSlug' => $page
@@ -192,7 +182,7 @@ class SettingsController extends Container {
 	 * @param $fieldCallback
 	 * @param array $args
 	 *
-	 * @return $this
+	 * @return self
 	 */
 	public function addField( $page, $title, $fieldName, $sanitizeCallback, $fieldCallback, $args = [ ] ) {
 		register_setting( $this->getOptionGroup() . '_' . $page, $this->fieldPrefix . $fieldName, $sanitizeCallback );

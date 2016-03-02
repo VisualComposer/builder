@@ -17,6 +17,9 @@ class Application extends \Laravel\Lumen\Application {
 		// Editor elements
 		'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
 
+		// License
+		'LicenseController' => 'VisualComposer\Modules\License\LicenseController',
+
 		// Settings
 		'SettingsController' => 'VisualComposer\Modules\Settings\SettingsController',
 		'Page' => 'VisualComposer\Modules\Settings\Pages\Page',
@@ -27,6 +30,7 @@ class Application extends \Laravel\Lumen\Application {
 		// Access
 		//'CurrentUserAccessController'   => 'VisualComposer\Modules\Access\CurrentUserAccessController',
 		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
+		'UserAccess' => 'VisualComposer\Api\Access\UserAccess',
 	];
 
 	/**

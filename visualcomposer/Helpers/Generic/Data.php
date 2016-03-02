@@ -43,4 +43,22 @@ abstract class Data {
 
 		return false;
 	}
+
+	/**
+	 * Return random string
+	 *
+	 * @param int $length
+	 *
+	 * @return string
+	 */
+	public static function randomString( $length = 10 ) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$len = strlen( $characters );
+		$str = '';
+		for ( $i = 0; $i < $length; $i ++ ) {
+			$str .= $characters[ rand( 0, $len - 1 ) ];
+		}
+
+		return $str;
+	}
 }

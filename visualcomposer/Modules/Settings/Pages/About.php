@@ -92,16 +92,22 @@ class About extends Container {
 	 * @param Request $request
 	 */
 	public function renderPage( Request $request ) {
+		$hasAccessToSettings = app( 'CurrentUserAccess' )
+			                       ->wpAny( 'manage_options' )
+			                       ->part( 'settings' )
+			                       ->can( 'vc-general-tab' )
+			                       ->get() && ( ! is_multisite() || ! is_main_site() );
 		$args = [
 			'tabs' => $this->getTabs(),
 			'pageSlug' => $this->getPageSlug(),
-			'activeSlug' => $request->input( 'tab', $this->defaultTabSlug )
+			'activeSlug' => $request->input( 'tab', $this->defaultTabSlug ),
+			'hasAccessToSettings' => $hasAccessToSettings
 		];
 
 		$page = new Page();
 
 		$page->setSlug( $this->getPageSlug() )
-			   ->setTemplatePath( 'pages/about/index' )
+		     ->setTemplatePath( 'pages/about/index' )
 		     ->setTemplateArgs( $args )
 		     ->render();
 	}

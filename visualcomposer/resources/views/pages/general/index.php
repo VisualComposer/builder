@@ -25,17 +25,15 @@ $tab =  $page->getSlug() ;
 
 	<?php do_settings_sections( $pageSlug . '_' . $tab ) ?>
 
-
-
 	<?php
 
-	$submit_button_attributes = array();
+	$submit_button_attributes = [];
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes', $submit_button_attributes, $tab );
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes-' . $tab, $submit_button_attributes, $tab );
 
 	?>
 
-	<?php submit_button( __( 'Save Changes', 'js_composer' ), 'primary', 'submit_btn', true, $submit_button_attributes ) ?>
+	<?php submit_button( __( 'Save Changes', 'vc5' ), 'primary', 'submit_btn', true, $submit_button_attributes ) ?>
 
 	<input type="hidden" name="vc_action" value="vc_action-<?= $tab ?>"
 	       id="vc_settings-<?= $tab ?>-action"/>

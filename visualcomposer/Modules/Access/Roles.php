@@ -104,7 +104,7 @@ class Roles {
 				}
 			}
 		}
-		$data['message'] = __( 'Roles settings successfully saved.', 'js_composer' );
+		$data['message'] = __( 'Roles settings successfully saved.', 'vc5' );
 
 		return $data;
 	}

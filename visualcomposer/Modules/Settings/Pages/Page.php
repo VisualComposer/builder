@@ -88,7 +88,6 @@ class Page {
 	 */
 	public function render() {
 		$args = array_merge( $this->getTemplateArgs(), [
-			'Templates' => Templates::class,
 			'page' => $this
 		] );
 
