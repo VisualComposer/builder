@@ -23,14 +23,17 @@ class Application extends \Laravel\Lumen\Application {
 		// Settings
 		'SettingsController' => 'VisualComposer\Modules\Settings\SettingsController',
 		'Page' => 'VisualComposer\Modules\Settings\Pages\Page',
-		'General' => 'VisualComposer\Modules\Settings\Pages\General',
-		'License' => 'VisualComposer\Modules\Settings\Pages\License',
-		'About' => 'VisualComposer\Modules\Settings\Pages\About',
+		'GeneralPage' => 'VisualComposer\Modules\Settings\Pages\General',
+		'LicensePage' => 'VisualComposer\Modules\Settings\Pages\License',
+		'RolesPage' => 'VisualComposer\Modules\Settings\Pages\Roles',
+		'AboutPage' => 'VisualComposer\Modules\Settings\Pages\About',
 
 		// Access
 		//'CurrentUserAccessController'   => 'VisualComposer\Modules\Access\CurrentUserAccessController',
 		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
 		'UserAccess' => 'VisualComposer\Api\Access\UserAccess',
+		'Roles' => 'VisualComposer\Modules\Access\Roles',
+		'RoleAccess' => 'VisualComposer\Modules\Access\RoleAccess',
 	];
 
 	/**

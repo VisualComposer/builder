@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 use VisualComposer\Helpers\WordPress\Security;
 
 // TODO: refactor these to be taken from SettingsController

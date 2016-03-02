@@ -1,3 +1,11 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+?>
+
 <?php if ( $dev_environment ) : ?>
 	<br/>
 	<div class="updated vc_updater-result-message">

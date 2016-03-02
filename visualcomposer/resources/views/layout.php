@@ -1,6 +1,10 @@
 <?php
 
-	use VisualComposer\Helpers\Generic\Templates;
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+use VisualComposer\Helpers\Generic\Templates;
 
 ?>
 

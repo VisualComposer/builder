@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 $attributes = [
 	'id="' . VC_V_PREFIX . 'not_responsive_css"',
 	'name="' . VC_V_PREFIX . 'not_responsive_css"',

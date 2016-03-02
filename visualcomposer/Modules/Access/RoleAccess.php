@@ -33,9 +33,6 @@ class RoleAccess extends Access {
 			$this->parts[ $key ] = new RoleAccessController( $part );
 		}
 
-		/**
-		 * @var RoleAccessController
-		 */
 		$roleAccessController = $this->parts[ $key ];
 		$roleAccessController->setValidAccess( $this->getValidAccess() ); // send current status to upper level
 		$this->setValidAccess( true ); // reset

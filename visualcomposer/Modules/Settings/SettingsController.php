@@ -75,13 +75,13 @@ class SettingsController extends Container {
 		$hasAccess = ! app( 'CurrentUserAccess' )
 				->wpAny( 'manage_options' )
 				->part( 'settings' )
-				->can( app( 'General' )->getPageSlug() )
+				->can( app( 'GeneralPage' )->getPageSlug() )
 				->get() || ( is_multisite() && ! is_main_site() );
 
 		if ( $hasAccess ) {
-			return app( 'About' )->getPageSlug();
+			return app( 'AboutPage' )->getPageSlug();
 		} else {
-			return app( 'General' )->getPageSlug();
+			return app( 'GeneralPage' )->getPageSlug();
 		}
 	}
 

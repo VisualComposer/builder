@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 $url_func = is_network_admin() ? 'network_admin_url' : 'admin_url';
 
 ?>

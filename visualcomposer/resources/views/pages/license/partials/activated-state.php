@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+?>
 <div class="vc_settings-activation-deactivation">
 	<p>
 		<?= __( 'You have activated Visual Composer version which allows you to access all the customer benefits. Thank you for choosing Visual Composer as your page builder. If you do not wish to use Visual Composer on this WordPress site you can deactivate your license below.', 'vc5' ) ?>

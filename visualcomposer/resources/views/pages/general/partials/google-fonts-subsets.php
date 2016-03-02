@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+?>
 <?php foreach ( $subsets as $subset ): ?>
 	<?php
 

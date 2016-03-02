@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+?>
 <a href="#"
    class="button vc_pointers-reset-button"
    id="vc_settings-vc-pointers-reset"
