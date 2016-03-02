@@ -6,11 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use VisualComposer\Helpers\WordPress\Security;
 
-// TODO: refactor these to be taken from SettingsController
-$optionGroup = 'vc_v_composer_settings';
-$pageSlug = 'vc-v-settings';
-
-$tab =  $page->getSlug() ;
+$optionGroup = app( 'SettingsController' )->getOptionGroup();
+$pageSlug = app( 'SettingsController' )->getPageSlug();
+$tab = $page->getSlug();
 
 ?>
 <script type="text/javascript">
@@ -31,7 +29,7 @@ $tab =  $page->getSlug() ;
 
 	<?php
 
-	$submit_button_attributes = [];
+	$submit_button_attributes = [ ];
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes', $submit_button_attributes, $tab );
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes-' . $tab, $submit_button_attributes, $tab );
 
