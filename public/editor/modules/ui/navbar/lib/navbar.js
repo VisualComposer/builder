@@ -203,9 +203,6 @@ var Navbar = React.createClass({
           }
           break;
       }
-
-
-
     }
 
     let navbarContainerClasses = classNames( {

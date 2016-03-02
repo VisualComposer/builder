@@ -1,0 +1,73 @@
+
+//== Styles for content styles
+
+.vc-ui-tree-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+.vc-ui-tree-content-header {
+
+}
+
+.vc-ui-tree-content-footer {
+
+}
+
+.vc-ui-tree-content-section {
+  flex-grow: 1;
+  flex-shrink: 1;
+  background: white;
+}
+
+//== Title bar
+.vc-ui-tree-content-title-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  padding: @tree-content-gutter / 2;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+    min-width: 1px;
+    padding: @tree-content-gutter / 2;
+  }
+}
+
+.vc-ui-tree-content-title {
+  color: inherit;
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: @heading-font-size;
+}
+.vc-ui-tree-content-title-icon {
+  position: relative;
+  font-size: 1.5em;
+  padding-right: 0;
+}
+//== title controls
+.vc-ui-tree-content-title-controls {
+  padding-left: 0;
+  padding-right: 0;
+  font-size: @content-control-size;
+}
+.vc-ui-tree-content-title-control {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0 @tree-content-gutter / 2;
+}
