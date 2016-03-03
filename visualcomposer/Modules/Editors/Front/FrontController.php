@@ -5,7 +5,6 @@ namespace VisualComposer\Modules\Editors\Front;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;
 use Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
 class FrontController extends Container
@@ -36,7 +35,7 @@ class FrontController extends Container
             wp_enqueue_script('jquery');
         });
 
-        Filters::add('edit_post_link', function () {
+        add_filter('edit_post_link', function () {
             $args = func_get_args();
 
             return $this->call('addEditPostLink', $args);

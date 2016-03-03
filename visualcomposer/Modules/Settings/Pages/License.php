@@ -2,7 +2,6 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
 class License extends Container {
@@ -16,7 +15,7 @@ class License extends Container {
 	 * License constructor.
 	 */
 	public function __construct() {
-		Filters::add( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:get_pages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );

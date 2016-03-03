@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Todo;
-use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\SettingsController;
 use VisualComposer\Modules\System\Container;
@@ -38,7 +37,7 @@ class General extends Container {
 	 * General constructor.
 	 */
 	public function __construct() {
-		Filters::add( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:get_pages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );

@@ -3,7 +3,6 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use Illuminate\Http\Request;
-use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
 class About extends Container {
@@ -27,7 +26,7 @@ class About extends Container {
 	 * About constructor.
 	 */
 	public function __construct() {
-		Filters::add( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:get_pages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );

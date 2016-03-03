@@ -2,7 +2,6 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\Access\RoleAccess;
 use VisualComposer\Modules\System\Container;
 
@@ -31,7 +30,7 @@ class Roles extends Container {
 	 * Roles constructor.
 	 */
 	public function __construct() {
-		Filters::add( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:get_pages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );
