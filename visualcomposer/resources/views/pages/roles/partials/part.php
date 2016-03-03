@@ -48,9 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<span><?= esc_html( $customLabel ) ?></span>
 					</legend>
 					<?php if ( isset( $categories ) && ! empty( $categories ) ) : ?>
-						<?php vc_include_template( 'editors/partials/add_element_tabs.tpl.php', array(
+						<?php vc_include_template( 'editors/partials/add_element_tabs.tpl.php', [
 							'categories' => $categories,
-						) ) ?>
+						] ) ?>
 					<?php endif ?>
 					<table class="vc_general vc_wp-form-table fixed" data-vc-roles="table">
 						<thead>

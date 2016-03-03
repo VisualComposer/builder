@@ -154,10 +154,10 @@ class WPBMap extends Container {
 			} elseif ( empty( $attributes['base'] ) ) {
 				trigger_error( sprintf( __( 'Wrong base for shortcode:%s. Base required', 'js_composer' ), $tag ) );
 			} else {
-				vc_mapper()->addActivity( 'mapper', 'map', array(
+				vc_mapper()->addActivity( 'mapper', 'map', [
 					'tag' => $tag,
 					'attributes' => $attributes,
-				) );
+				] );
 
 				return true;
 			}
@@ -439,10 +439,10 @@ class WPBMap extends Container {
 	 */
 	public static function dropParam( $name, $attributeName ) {
 		if ( ! isset( self::$initElements[ $name ] ) ) {
-			vc_mapper()->addElementActivity( $name, 'drop_param', array(
+			vc_mapper()->addElementActivity( $name, 'drop_param', [
 				'name' => $name,
 				'attribute_name' => $attributeName,
-			) );
+			] );
 
 			return true;
 		}
@@ -503,10 +503,10 @@ class WPBMap extends Container {
 	 */
 	public static function addParam( $name, $attribute = [] ) {
 		if ( ! isset( self::$initElements[ $name ] ) ) {
-			vc_mapper()->addElementActivity( $name, 'add_param', array(
+			vc_mapper()->addElementActivity( $name, 'add_param', [
 				'name' => $name,
 				'attribute' => $attribute,
-			) );
+			] );
 
 			return false;
 		}
@@ -549,10 +549,10 @@ class WPBMap extends Container {
 	 */
 	public static function mutateParam( $name, $attribute = [] ) {
 		if ( ! isset( self::$initElements[ $name ] ) ) {
-			vc_mapper()->addElementActivity( $name, 'mutate_param', array(
+			vc_mapper()->addElementActivity( $name, 'mutate_param', [
 				'name' => $name,
 				'attribute' => $attribute,
-			) );
+			] );
 
 			return false;
 		}
@@ -592,9 +592,9 @@ class WPBMap extends Container {
 	 */
 	public static function dropShortcode( $name ) {
 		if ( ! isset( self::$initElements[ $name ] ) ) {
-			vc_mapper()->addElementActivity( $name, 'drop_shortcode', array(
+			vc_mapper()->addElementActivity( $name, 'drop_shortcode', [
 				'name' => $name,
-			) );
+			] );
 
 			return false;
 		}
@@ -634,11 +634,11 @@ class WPBMap extends Container {
 	 */
 	public static function modify( $name, $settingName, $value = '' ) {
 		if ( ! isset( self::$initElements[ $name ] ) ) {
-			vc_mapper()->addElementActivity( $name, 'modify', array(
+			vc_mapper()->addElementActivity( $name, 'modify', [
 				'name' => $name,
 				'setting_name' => $settingName,
 				'value' => $value,
-			) );
+			] );
 
 			return false;
 		}

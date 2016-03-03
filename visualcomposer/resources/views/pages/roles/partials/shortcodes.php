@@ -13,7 +13,7 @@ Templates::render( 'pages/roles/partials/part', [
 	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
 	'customValue' => 'custom',
 	'capabilities' => app('WPBMap')->getSortedAllShortCodes(),
-	'ignoreCapabilities' => array(
+	'ignoreCapabilities' => [
 		'vc_gitem',
 		'vc_gitem_animated_block',
 		'vc_gitem_zone',
@@ -24,7 +24,7 @@ Templates::render( 'pages/roles/partials/part', [
 		'vc_row_inner',
 		'vc_column_inner',
 		'vc_posts_grid',
-	),
+	],
 	'categories' => app('WPBMap')->getCategories(),
 	'capTypes' => [
 		[ 'all', __( 'All', 'vc5' ) ],
