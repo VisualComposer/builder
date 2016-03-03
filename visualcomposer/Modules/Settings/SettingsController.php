@@ -13,8 +13,7 @@ use VisualComposer\Modules\System\Container;
 class SettingsController extends Container {
 
 	private $pages = null;
-	private $fieldPrefix = 'vc_v_';
-	private $optionGroup = 'vc_v_composer_settings';
+	private $optionGroup = 'vc-v-settings';
 	private $pageSlug = 'vc-v-settings';
 	private $layout = 'default';
 
@@ -202,8 +201,8 @@ class SettingsController extends Container {
 	 * @return self
 	 */
 	public function addField( $page, $title, $fieldName, $sanitizeCallback, $fieldCallback, $args = [ ] ) {
-		register_setting( $this->getOptionGroup() . '_' . $page, $this->fieldPrefix . $fieldName, $sanitizeCallback );
-		add_settings_field( $this->fieldPrefix . $fieldName, $title, $fieldCallback, $this->getPageSlug() . '_' . $page, $this->getOptionGroup() . '_' . $page, $args );
+		register_setting( $this->getOptionGroup() . '_' . $page, VC_V_PREFIX . $fieldName, $sanitizeCallback );
+		add_settings_field( VC_V_PREFIX . $fieldName, $title, $fieldCallback, $this->getPageSlug() . '_' . $page, $this->getOptionGroup() . '_' . $page, $args );
 
 		return $this;
 	}
