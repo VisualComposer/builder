@@ -95,9 +95,9 @@ class SettingsController extends Container {
 		$slug = $this->getMainPageSlug();
 		$title = __( 'Visual Composer ', 'vc5' );
 
-		$icon_url = Url::assetUrl( 'images/logo/16x16.png' );
+		$iconUrl = Url::assetUrl( 'images/logo/16x16.png' );
 
-		add_menu_page( $title, $title, 'exist', $slug, null, $icon_url, 76 );
+		add_menu_page( $title, $title, 'exist', $slug, null, $iconUrl, 76 );
 
 		do_action( 'vc:v:settings:main_page:menu_page_build', $slug );
 	}

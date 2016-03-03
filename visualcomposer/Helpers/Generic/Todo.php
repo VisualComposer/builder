@@ -24,4 +24,28 @@ abstract class Todo {
 		return true;
 	}
 
+	/**
+	 * @todo Implementation
+	 */
+	public static function isPageEditable() {
+		//		return 'page_editable' === vc_mode();
+		return true;
+	}
+
+	/**
+	 * @todo Implementation
+	 */
+	function isFrontendEditor() {
+		//		return 'admin_frontend_editor' === vc_mode();
+		return true;
+	}
+
+	/**
+	 * @todo Implementation
+	 */
+	function enabledFrontend() {
+		//		return vc_frontend_editor()->frontendEditorEnabled();
+		return true;
+	}
+
 }

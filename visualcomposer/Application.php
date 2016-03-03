@@ -8,11 +8,13 @@ class Application extends \Laravel\Lumen\Application {
 		'ActivationController' => 'VisualComposer\Modules\System\Activation\ActivationController',
 		'ActivationListener' => 'VisualComposer\Modules\System\Activation\ActivationListener',
 		'TextDomainController' => 'VisualComposer\Modules\System\TextDomain\TextDomainController',
+		'WPBMap' => 'VisualComposer\Modules\WPBMap',
 
 		// Editors modules & submodules
 		'AssetsManagerController' => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
 		'DataAjaxController' => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
 		'FrontController' => 'VisualComposer\Modules\Editors\Front\FrontController',
+		'FrontendEditor' => 'VisualComposer\Modules\Editors\Front\FrontendEditor',
 
 		// Editor elements
 		'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',

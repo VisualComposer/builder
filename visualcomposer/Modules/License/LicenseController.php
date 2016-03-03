@@ -211,9 +211,9 @@ class LicenseController extends Container {
 	 * @param Request $request
 	 */
 	public function checkLicenseKeyFromRemote( Request $request ) {
-		$license_key = $request->input( 'license_key' );
+		$licenseKey = $request->input( 'license_key' );
 
-		if ( ! $this->isValid( $license_key ) ) {
+		if ( ! $this->isValid( $licenseKey ) ) {
 			$response = [ 'status' => false, 'error' => __( 'Invalid license key', 'vc5' ) ];
 		} else {
 			$response = [ 'status' => true ];
@@ -300,10 +300,10 @@ class LicenseController extends Container {
 	/**
 	 * Set license key
 	 *
-	 * @param string $license_key
+	 * @param string $licenseKey
 	 */
-	public function setLicenseKey( $license_key ) {
-		Options::set( self::$licenseKeyOption, $license_key );
+	public function setLicenseKey( $licenseKey ) {
+		Options::set( self::$licenseKeyOption, $licenseKey );
 	}
 
 	/**
@@ -318,12 +318,12 @@ class LicenseController extends Container {
 	/**
 	 * Check if specified license key is valid
 	 *
-	 * @param string $license_key
+	 * @param string $licenseKey
 	 *
 	 * @return bool
 	 */
-	public function isValid( $license_key ) {
-		return $license_key === $this->getLicenseKey();
+	public function isValid( $licenseKey ) {
+		return $licenseKey === $this->getLicenseKey();
 	}
 
 	/**

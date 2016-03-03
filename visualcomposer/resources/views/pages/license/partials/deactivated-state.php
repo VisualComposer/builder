@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<?php if ( $dev_environment ) : ?>
+<?php if ( $devEnvironment ) : ?>
 	<br/>
 	<div class="updated vc_updater-result-message">
 		<p>

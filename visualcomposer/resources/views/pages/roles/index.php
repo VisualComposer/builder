@@ -34,27 +34,27 @@ $tab = $page->getSlug();
 				<?php
 
 				$name = translate_user_role( $details['name'] );
-				$unique_id = 'vc_role-' . $role;
-				$valid_roles = [ ];
+				$uniqueId = 'vc_role-' . $role;
+				$validRoles = [ ];
 
 				foreach ( $Roles->getParts() as $part ) {
 					if ( $Roles->hasRoleCapability( $role, $Roles->getPartCapability( $part ) ) ) {
-						$valid_roles[] = $part;
+						$validRoles[] = $part;
 					}
 				}
 
 				?>
 
-				<?php if ( count( $valid_roles ) > 0 ): ?>
+				<?php if ( count( $validRoles ) > 0 ): ?>
 					<div
 						class="vc_wp-accordion-panel vc_ui-settings-roles-role<?= ! isset( $next ) ? ' vc_active' : '' ?>"
-						data-vc-unique-id="<?= esc_attr( $unique_id ) ?>"
+						data-vc-unique-id="<?= esc_attr( $uniqueId ) ?>"
 						data-vc-content=".vc_wp-accordion-panel-body"
 						data-vc-role="<?= esc_attr( $role ) ?>">
 						<div class="widget"
 						     data-vc-accordion=""
 						     data-vc-container=".vc_wp-accordion"
-						     data-vc-target="[data-vc-unique-id=<?= esc_attr( $unique_id ) ?>]">
+						     data-vc-target="[data-vc-unique-id=<?= esc_attr( $uniqueId ) ?>]">
 							<div class="widget-top">
 								<div class="widget-title-action">
 									<a class="widget-action hide-if-no-js" href="#"></a>
@@ -81,12 +81,12 @@ $tab = $page->getSlug();
 
 								$next = true;
 
-								foreach ( $valid_roles as $part ) {
+								foreach ( $validRoles as $part ) {
 									$view = str_replace( '_', '-', $part );
 									Templates::render( 'pages/roles/partials/' . $view, [
 										'part' => $part,
 										'role' => $role,
-										'vc_role' => $Roles,
+										'vcRole' => $Roles,
 									] );
 								}
 								?>
@@ -105,11 +105,11 @@ $tab = $page->getSlug();
 
 	wp_nonce_field( 'vc_settings-' . $tab . '-action', 'vc_nonce_field' );
 
-	$submit_button_attributes = [ ];
-	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes', $submit_button_attributes, $tab );
-	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes-' . $tab, $submit_button_attributes, $tab );
+	$submitButtonAttributes = [ ];
+	$submitButtonAttributes = apply_filters( 'vc_settings-tab-submit-button-attributes', $submitButtonAttributes, $tab );
+	$submitButtonAttributes = apply_filters( 'vc_settings-tab-submit-button-attributes-' . $tab, $submitButtonAttributes, $tab );
 
-	submit_button( __( 'Save Changes', 'vc5' ), 'primary', 'submit_btn', true, $submit_button_attributes );
+	submit_button( __( 'Save Changes', 'vc5' ), 'primary', 'submit_btn', true, $submitButtonAttributes );
 
 	?>
 	<input type="hidden" name="action" value="vc_roles_settings_save" id="vc_settings-<?= $tab ?>-action"/>

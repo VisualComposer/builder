@@ -6,12 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 	<tr>
-		<th scope="row"><?= esc_html( $main_label ) ?></th>
+		<th scope="row">
+			<?= esc_html( $mainLabel ) ?>
+		</th>
 		<td>
 			<fieldset>
 				<legend class="screen-reader-text">
-					<span><?php esc_html( $main_label ) ?></span></legend>
-				<select name="<?= esc_attr( $params_prefix . '[_state]' ) ?>"
+					<span><?php esc_html( $mainLabel ) ?></span></legend>
+				<select name="<?= esc_attr( $paramsPrefix . '[_state]' ) ?>"
 				        data-vc-part="<?= esc_attr( $part ) ?>"
 				        data-vc-name="<?= esc_attr( '_state' ) ?>"
 				        <?php if ( ! empty( $capabilities ) ) : ?>data-vc-roles="part-state"
@@ -31,19 +33,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</td>
 	</tr>
 <?php if ( ! empty( $capabilities ) ) : ?>
-	<?php if ( isset( $use_table ) && true === $use_table ) : ?>
+	<?php if ( isset( $useTable ) && true === $useTable ) : ?>
 		<?php
 		require_once vc_path_dir( 'EDITORS_DIR', 'popups/class-vc-add-element-box.php' );
-		$add_box = new Vc_Add_Element_Box();
+		$addBox = new Vc_Add_Element_Box();
 		?>
 		<tr data-vc-role-related-part="<?= esc_attr( $part . '-' . $role ) ?>"
-		    data-vc-role-part-state="<?= esc_attr( isset( $custom_value ) ? $custom_value : '*' ) ?>"
-		    class="vc_role-custom-settings<?= ! isset( $custom_value ) || (string) $controller->getState() === (string) $custom_value ? ' vc_visible' : '' ?>">
+		    data-vc-role-part-state="<?= esc_attr( isset( $customValue ) ? $customValue : '*' ) ?>"
+		    class="vc_role-custom-settings<?= ! isset( $customValue ) || (string) $controller->getState() === (string) $customValue ? ' vc_visible' : '' ?>">
 			<th scope="row"></th>
 			<td>
 				<fieldset>
 					<legend class="screen-reader-text">
-						<span><?= esc_html( $custom_label ) ?></span>
+						<span><?= esc_html( $customLabel ) ?></span>
 					</legend>
 					<?php if ( isset( $categories ) && ! empty( $categories ) ) : ?>
 						<?php vc_include_template( 'editors/partials/add_element_tabs.tpl.php', array(
@@ -53,8 +55,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<table class="vc_general vc_wp-form-table fixed" data-vc-roles="table">
 						<thead>
 						<tr>
-							<th><?= esc_html( $item_header_name ) ?></th>
-							<?php foreach ( $cap_types as $type ) : ?>
+							<th><?= esc_html( $itemHeaderName ) ?></th>
+							<?php foreach ( $capTypes as $type ) : ?>
 								<th class="column-date">
 									<label>
 										<input type="checkbox" name="all"
@@ -65,10 +67,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php endforeach ?>
 						</tr>
 						</thead>
-						<tfoot<?= isset( $global_set ) ? ' style="display: none;"' : '' ?>>
+						<tfoot<?= isset( $globalSet ) ? ' style="display: none;"' : '' ?>>
 						<tr>
-							<th><?= esc_html( $item_header_name ) ?></th>
-							<?php foreach ( $cap_types as $type ) : ?>
+							<th><?= esc_html( $itemHeaderName ) ?></th>
+							<?php foreach ( $capTypes as $type ) : ?>
 								<th class="column-date">
 									<label>
 										<input type="checkbox" name="all"
@@ -79,37 +81,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php endforeach ?>
 						</tr>
 						</tfoot>
-						<tbody<?= isset( $global_set ) ? ' style="display: none;"' : '' ?>>
+						<tbody<?= isset( $globalSet ) ? ' style="display: none;"' : '' ?>>
 						<?php foreach ( $capabilities as $cap ) : ?>
-							<?php if ( ! isset( $ignore_capabilities ) || ! in_array( $cap['base'], $ignore_capabilities ) ) : ?>
+							<?php if ( ! isset( $ignoreCapabilities ) || ! in_array( $cap['base'], $ignoreCapabilities ) ) : ?>
 								<?php
-								$category_css_classes = '';
+								$categoryCssClasses = '';
 								if ( isset( $cap['_category_ids'] ) ) {
 									foreach ( $cap['_category_ids'] as $id ) {
-										$category_css_classes .= ' js-category-' . $id;
+										$categoryCssClasses .= ' js-category-' . $id;
 									}
 								}
 								?>
 								<tr data-vc-capability="<?= esc_attr( $cap['base'] ) ?>"
-								    class="<?= esc_attr( trim( $category_css_classes ) ) ?>">
+								    class="<?= esc_attr( trim( $categoryCssClasses ) ) ?>">
 									<td title="<?= esc_attr( $cap['base'] ) ?>">
-										<?= $add_box->renderIcon( $cap ) ?>
+										<?= $addBox->renderIcon( $cap ) ?>
 										<div>
 											<?= esc_html( $cap['name'] ) ?>
 											<?= ! empty( $cap['description'] ) ? '<span class="vc_element-description">' . esc_html( $cap['description'] ) . '</span>' : '' ?>
 										</div>
 									</td>
-									<?php foreach ( $cap_types as $type ) : ?>
+									<?php foreach ( $capTypes as $type ) : ?>
 										<td>
 											<div class="vc_wp-form-checkbox">
 												<label>
 													<input type="checkbox"
-													       name="<?= esc_attr( $params_prefix . '[' . $role . '][' . $part . ']' . '[' . $cap['base'] . '_' . $type[0] . ']' ) ?>"
+													       name="<?= esc_attr( $paramsPrefix . '[' . $role . '][' . $part . ']' . '[' . $cap['base'] . '_' . $type[0] . ']' ) ?>"
 													       data-vc-part="<?= esc_attr( $part ) ?>"
 													       data-vc-name="<?= esc_attr( $cap['base'] . '_' . $type[0] ) ?>"
 													       data-vc-roles="table-checkbox"
 													       data-vc-cap="<?= esc_attr( $type[0] ) ?>"
-													       value="1"<?= ! isset( $global_set ) && $controller->can( $cap['base'] . '_' . $type[0], false )->get() ? ' checked' : '' ?>>
+													       value="1"<?= ! isset( $globalSet ) && $controller->can( $cap['base'] . '_' . $type[0], false )->get() ? ' checked' : '' ?>>
 													<?= esc_html( $type[1] ) ?>
 												</label>
 											</div>
@@ -125,20 +127,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 	<?php else : ?>
 		<tr data-vc-role-related-part="<?= esc_attr( $part . '-' . $role ) ?>"
-		    data-vc-role-part-state="<?= esc_attr( isset( $custom_value ) ? $custom_value : '*' ) ?>"
-		    class="vc_role-custom-settings<?= ! isset( $custom_value ) || $controller->getState() === $custom_value ? ' vc_visible' : '' ?>">
+		    data-vc-role-part-state="<?= esc_attr( isset( $customValue ) ? $customValue : '*' ) ?>"
+		    class="vc_role-custom-settings<?= ! isset( $customValue ) || $controller->getState() === $customValue ? ' vc_visible' : '' ?>">
 			<th scope="row"></th>
 			<td>
 				<fieldset>
 					<legend class="screen-reader-text">
-						<span><?= esc_html( $custom_label ) ?></span>
+						<span><?= esc_html( $customLabel ) ?></span>
 					</legend>
 					<div class="vc_wp-form-row">
 						<?php foreach ( $capabilities as $cap ) : ?>
 							<div class="vc_wp-form-col vc_wp-form-checkbox">
 								<label>
 									<input type="checkbox"
-									       name="<?= esc_attr( $params_prefix . '[' . $cap[0] . ']' ) ?>"
+									       name="<?= esc_attr( $paramsPrefix . '[' . $cap[0] . ']' ) ?>"
 									       value="1"
 									       class="vc_roles-settings-checkbox"
 										<?php

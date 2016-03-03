@@ -117,7 +117,7 @@ class AssetsManagerController extends Container
 
         $files = [];
         if (is_array($assets)) {
-            foreach ($assets as $post_id => $elements) {
+            foreach ($assets as $postId => $elements) {
                 if (is_array($elements)) {
                     foreach ($elements as $element => $elementAssets) {
                         $files = array_merge($files, $elementAssets);

@@ -9,11 +9,11 @@ use VisualComposer\Helpers\Generic\Templates;
 Templates::render( 'pages/roles/partials/part', [
 	'part' => $part,
 	'role' => $role,
-	'params_prefix' => 'vc_roles[' . $role . '][' . $part . ']',
+	'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
 	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
-	'custom_value' => 'custom',
-	'capabilities' => WPBMap::getSortedAllShortCodes(),
-	'ignore_capabilities' => array(
+	'customValue' => 'custom',
+	'capabilities' => app('WPBMap')->getSortedAllShortCodes(),
+	'ignoreCapabilities' => array(
 		'vc_gitem',
 		'vc_gitem_animated_block',
 		'vc_gitem_zone',
@@ -25,19 +25,19 @@ Templates::render( 'pages/roles/partials/part', [
 		'vc_column_inner',
 		'vc_posts_grid',
 	),
-	'categories' => WPBMap::getCategories(),
-	'cap_types' => [
+	'categories' => app('WPBMap')->getCategories(),
+	'capTypes' => [
 		[ 'all', __( 'All', 'vc5' ) ],
 		[ 'edit', __( 'Edit', 'vc5' ) ],
 	],
-	'item_header_name' => __( 'Element', 'vc5' ),
+	'itemHeaderName' => __( 'Element', 'vc5' ),
 	'options' => [
 		[ true, __( 'All', 'vc5' ) ],
 		[ 'edit', __( 'Edit only', 'vc5' ) ],
 		[ 'custom', __( 'Custom', 'vc5' ) ],
 	],
-	'main_label' => __( 'Elements', 'vc5' ),
-	'custom_label' => __( 'Elements', 'vc5' ),
+	'mainLabel' => __( 'Elements', 'vc5' ),
+	'customLabel' => __( 'Elements', 'vc5' ),
 	'description' => __( 'Control user access to content elements.', 'vc5' ),
-	'use_table' => true,
+	'useTable' => true,
 ] );

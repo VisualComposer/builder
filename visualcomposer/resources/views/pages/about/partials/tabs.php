@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-$url_func = is_network_admin() ? 'network_admin_url' : 'admin_url';
+$urlFunction = is_network_admin() ? 'network_admin_url' : 'admin_url';
 
 ?>
 <h2 class="nav-tab-wrapper">
@@ -13,7 +13,7 @@ $url_func = is_network_admin() ? 'network_admin_url' : 'admin_url';
 
 		$page = 'admin.php?page=' . rawurlencode( $pageSlug ) . '&tab=' . rawurlencode( $tab['slug'] );
 
-		$url = call_user_func( $url_func, $page );
+		$url = call_user_func( $urlFunction, $page );
 
 		$class = 'nav-tab';
 

@@ -6,19 +6,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use VisualComposer\Helpers\Generic\Templates;
 
-if ( vc_frontend_editor()->inlineEnabled() ) {
+if ( app('FrontendEditor')->inlineEnabled() ) {
 	Templates::render( 'pages/roles/partials/part', [
 		'part' => $part,
 		'role' => $role,
-		'params_prefix' => 'vc_roles[' . $role . '][' . $part . ']',
+		'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
 		'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
-		'custom_value' => 'custom',
+		'customValue' => 'custom',
 		'options' => [
 			[ true, __( 'Enabled', 'vc5' ) ],
 			[ true, __( 'Disabled', 'vc5' ) ],
 		],
-		'main_label' => __( 'Frontend editor', 'vc5' ),
-		'custom_label' => __( 'Frontend editor', 'vc5' ),
+		'mainLabel' => __( 'Frontend editor', 'vc5' ),
+		'customLabel' => __( 'Frontend editor', 'vc5' ),
 	] );
 }
 

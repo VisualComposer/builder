@@ -30,10 +30,10 @@ class RoleAccessController extends Access {
 	/**
 	 * Set role name
 	 *
-	 * @param $role_name
+	 * @param $roleName
 	 */
-	public function setRoleName( $role_name ) {
-		$this->roleName = $role_name;
+	public function setRoleName( $roleName ) {
+		$this->roleName = $roleName;
 	}
 
 	/**
@@ -81,11 +81,11 @@ class RoleAccessController extends Access {
 	 * Any rule has three types of state: true, false, string
 	 *
 	 * @param string $rule
-	 * @param bool|true $check_state
+	 * @param bool|true $checkState
 	 *
 	 * @return self
 	 */
-	public function can( $rule = '', $check_state = true ) {
+	public function can( $rule = '', $checkState = true ) {
 		if ( null === $this->getRole() ) {
 			$this->setValidAccess( is_super_admin() );
 		} elseif ( $this->getValidAccess() ) {
@@ -97,7 +97,7 @@ class RoleAccessController extends Access {
 			}
 			$rule = $this->updateMergedCaps( $rule );
 
-			if ( true === $check_state ) {
+			if ( true === $checkState ) {
 				$state = $this->getState();
 				$return = false !== $state;
 				if ( null === $state ) {
@@ -164,8 +164,8 @@ class RoleAccessController extends Access {
 	 * @param bool $value
 	 */
 	public function setCapRule( $rule, $value = true ) {
-		$role_rule = $this->getStateKey() . '/' . $rule;
-		$this->getRole() && $this->getRole()->add_cap( $role_rule, $value );
+		$roleRule = $this->getStateKey() . '/' . $rule;
+		$this->getRole() && $this->getRole()->add_cap( $roleRule, $value );
 	}
 
 	/**

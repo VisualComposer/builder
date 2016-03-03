@@ -66,9 +66,9 @@ class Roles extends Container {
 
 	public function hasRoleCapability( $role, $caps ) {
 		$has = false;
-		$wp_role = get_role( $role );
+		$wpRole = get_role( $role );
 		if ( is_string( $caps ) ) {
-			$has = $wp_role->has_cap( $caps );
+			$has = $wpRole->has_cap( $caps );
 		} elseif ( is_array( $caps ) ) {
 			$i = 0;
 			while ( false === $has && $i < count( $caps ) ) {
@@ -80,29 +80,29 @@ class Roles extends Container {
 	}
 
 	public function getWpRoles() {
-		global $wp_roles;
+		global $wpRoles;
 		if ( function_exists( 'wp_roles' ) ) {
-			return $wp_roles;
+			return $wpRoles;
 		} else {
-			if ( ! isset( $wp_roles ) ) {
-				$wp_roles = new \WP_Roles();
+			if ( ! isset( $wpRoles ) ) {
+				$wpRoles = new \WP_Roles();
 			}
 		}
 
-		return $wp_roles;
+		return $wpRoles;
 	}
 
 	public function save( $params = [ ], RoleAccess $roleAccess ) {
 		$data = [ 'message' => '' ];
 		$roles = $this->getWpRoles();
-		$editable_roles = get_editable_roles();
+		$editableRoles = get_editable_roles();
 		foreach ( $params as $role => $parts ) {
 			if ( is_string( $parts ) ) {
 				$parts = json_decode( stripslashes( $parts ), true );
 			}
-			if ( isset( $editable_roles[ $role ] ) ) {
+			if ( isset( $editableRoles[ $role ] ) ) {
 				foreach ( $parts as $part => $settings ) {
-					$part_key = $roleAccess
+					$partKey = $roleAccess
 						->who( $role )
 						->part( $part )
 						->getStateKey();
@@ -116,14 +116,14 @@ class Roles extends Container {
 							] ) ? (boolean) $value : $value;
 						} else {
 							if ( empty( $value ) ) {
-								$roles->remove_cap( $role, $part_key . '/' . $key );
+								$roles->remove_cap( $role, $partKey . '/' . $key );
 							} else {
-								$roles->add_cap( $role, $part_key . '/' . $key, true );
+								$roles->add_cap( $role, $partKey . '/' . $key, true );
 							}
 						}
 					}
 					$roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
-					$roles->add_cap( $role, $part_key, $stateValue );
+					$roles->add_cap( $role, $partKey, $stateValue );
 				}
 			}
 		}
@@ -136,9 +136,9 @@ class Roles extends Container {
 		if ( false === $this->postTypes ) {
 			$this->postTypes = [ ];
 			$excluded = $this->getExcludedPostTypes();
-			foreach ( get_post_types( [ 'public' => true ] ) as $post_type ) {
-				if ( ! in_array( $post_type, $excluded ) ) {
-					$this->postTypes[] = [ $post_type, $post_type ];
+			foreach ( get_post_types( [ 'public' => true ] ) as $postType ) {
+				if ( ! in_array( $postType, $excluded ) ) {
+					$this->postTypes[] = [ $postType, $postType ];
 				}
 			}
 		}
