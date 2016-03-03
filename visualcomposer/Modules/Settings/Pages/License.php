@@ -2,7 +2,6 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
@@ -23,7 +22,7 @@ class License extends Container {
 			return $this->call( 'addPage', $args );
 		} );
 
-		Actions::add( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );

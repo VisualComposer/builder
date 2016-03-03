@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Editors\DataAjax;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Modules\System\Container;
 
 class DataAjaxController extends Container
@@ -27,12 +26,12 @@ class DataAjaxController extends Container
         $this->event = $event;
         $this->request = $request;
 
-        Actions::add('wp_ajax_vc:v:getData', function () {
+        add_action('wp_ajax_vc:v:getData', function () {
             $args = func_get_args();
             $this->call('getData', $args);
         });
 
-        Actions::add('wp_ajax_vc:v:setData', function () {
+        add_action('wp_ajax_vc:v:setData', function () {
             $args = func_get_args();
             $this->call('setData', $args);
         });

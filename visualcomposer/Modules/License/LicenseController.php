@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Todo;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\System\Container;
 
@@ -44,12 +43,12 @@ class LicenseController extends Container {
 			$this->finishActivationDeactivation( false, $request->input( 'deactivate' ) );
 		}
 
-		Actions::add( 'wp_ajax_vc_get_activation_url', function () {
+		add_action( 'wp_ajax_vc_get_activation_url', function () {
 			$args = func_get_args();
 			$this->call( 'startActivationResponse', $args );
 		} );
 
-		Actions::add( 'wp_ajax_vc_get_deactivation_url', function () {
+		add_action( 'wp_ajax_vc_get_deactivation_url', function () {
 			$args = func_get_args();
 			$this->call( 'startDeactivationResponse', $args );
 		} );
@@ -88,7 +87,7 @@ class LicenseController extends Container {
 	public function renderError( $error ) {
 		$this->error = $error;
 
-		Actions::add( 'admin_notices', function () {
+		add_action( 'admin_notices', function () {
 			$args = func_get_args();
 			$this->call( 'renderLastError', $args );
 		} );
@@ -179,14 +178,14 @@ class LicenseController extends Container {
 
 			$this->setLicenseKey( $json['license_key'] );
 
-			Actions::add( 'admin_notices', function () {
+			add_action( 'admin_notices', function () {
 				$args = func_get_args();
 				$this->call( 'renderActivatedSuccess', $args );
 			} );
 		} else {
 			$this->setLicenseKey( '' );
 
-			Actions::add( 'admin_notices', function () {
+			add_action( 'admin_notices', function () {
 				$args = func_get_args();
 				$this->call( 'renderDeactivatedSuccess', $args );
 			} );
@@ -345,7 +344,7 @@ class LicenseController extends Container {
 			return;
 		}
 
-		Actions::add( 'admin_notices', function () {
+		add_action( 'admin_notices', function () {
 			$args = func_get_args();
 			$this->call( 'renderLicenseActivationNotice', $args );
 		} );

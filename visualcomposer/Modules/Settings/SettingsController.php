@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Modules\System\Container;
 
 class SettingsController extends Container {
@@ -23,24 +22,24 @@ class SettingsController extends Container {
 	 * @param Dispatcher $event
 	 */
 	public function __construct( Dispatcher $event ) {
-		Actions::add( 'admin_init', function () {
+		add_action( 'admin_init', function () {
 			$args = func_get_args();
 			$this->call( 'initAdmin', $args );
 		} );
 
-		Actions::add( 'admin_menu', function () {
+		add_action( 'admin_menu', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addMenuPage', $args );
 		} );
 
-		Actions::add( 'network_admin_menu', function () {
+		add_action( 'network_admin_menu', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addMenuPage', $args );
 		} );
 
-		Actions::add( 'vc:v:settings:main_page:menu_page_build', function () {
+		add_action( 'vc:v:settings:main_page:menu_page_build', function () {
 			$args = func_get_args();
 			$this->call( 'addSubmenuPages', $args );
 		} );

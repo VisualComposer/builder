@@ -5,7 +5,6 @@ namespace VisualComposer\Modules\Editors\Front;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;
 use Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
@@ -29,11 +28,11 @@ class FrontController extends Container
     public function __construct(Dispatcher $event)
     {
         $this->event = $event;
-        Actions::add('wp_head', function () {
+        add_action('wp_head', function () {
             $this->call('appendScript');
         });
 
-        Actions::add('wp_enqueue_scripts', function () {
+        add_action('wp_enqueue_scripts', function () {
             wp_enqueue_script('jquery');
         });
 

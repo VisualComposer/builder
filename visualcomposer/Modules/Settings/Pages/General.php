@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Todo;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\SettingsController;
@@ -45,12 +44,12 @@ class General extends Container {
 			return $this->call( 'addPage', $args );
 		} );
 
-		Actions::add( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );
 
-		Actions::add( 'vc:v:settings:init_admin:page:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:init_admin:page:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'buildPage', $args );
 		} );

@@ -3,7 +3,6 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use Illuminate\Http\Request;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\Filters;
 use VisualComposer\Modules\System\Container;
 
@@ -34,7 +33,7 @@ class About extends Container {
 			return $this->call( 'addPage', $args );
 		} );
 
-		Actions::add( 'vc:v:settings:page_render:' . $this->getPageSlug(), function () {
+		add_action( 'vc:v:settings:page_render:' . $this->getPageSlug(), function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );
