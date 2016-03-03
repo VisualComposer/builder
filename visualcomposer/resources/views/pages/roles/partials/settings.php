@@ -20,11 +20,11 @@ Templates::render( 'pages/roles/partials/part', [
 	'custom_value' => 'custom',
 	'capabilities' => $tabs,
 	'options' => [
-		[ true, __( 'All', 'js_composer' ) ],
-		[ 'custom', __( 'Custom', 'js_composer' ) ],
-		[ true, __( 'Disabled', 'js_composer' ) ],
+		[ true, __( 'All', 'vc5' ) ],
+		[ 'custom', __( 'Custom', 'vc5' ) ],
+		[ true, __( 'Disabled', 'vc5' ) ],
 	],
-	'main_label' => __( 'Settings options', 'js_composer' ),
-	'custom_label' => __( 'Settings options', 'js_composer' ),
-	'description' => __( 'Control access rights to Visual Composer admin settings tabs (e.g. General Settings, Shortcode Mapper, ...)', 'js_composer' ),
+	'main_label' => __( 'Settings options', 'vc5' ),
+	'custom_label' => __( 'Settings options', 'vc5' ),
+	'description' => __( 'Control access rights to Visual Composer admin settings tabs (e.g. General Settings, Shortcode Mapper, ...)', 'vc5' ),
 ] );

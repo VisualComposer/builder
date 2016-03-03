@@ -14,11 +14,11 @@ if ( vc_frontend_editor()->inlineEnabled() ) {
 		'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
 		'custom_value' => 'custom',
 		'options' => [
-			[ true, __( 'Enabled', 'js_composer' ) ],
-			[ true, __( 'Disabled', 'js_composer' ) ],
+			[ true, __( 'Enabled', 'vc5' ) ],
+			[ true, __( 'Disabled', 'vc5' ) ],
 		],
-		'main_label' => __( 'Frontend editor', 'js_composer' ),
-		'custom_label' => __( 'Frontend editor', 'js_composer' ),
+		'main_label' => __( 'Frontend editor', 'vc5' ),
+		'custom_label' => __( 'Frontend editor', 'vc5' ),
 	] );
 }
 

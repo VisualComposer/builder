@@ -14,11 +14,11 @@ Templates::render( 'pages/roles/partials/part', [
 	'custom_value' => 'custom',
 	'capabilities' => app( 'Roles' )->getPostTypes(),
 	'options' => [
-		[ true, __( 'Pages only', 'js_composer' ) ],
-		[ 'custom', __( 'Custom', 'js_composer' ) ],
-		[ true, __( 'Disabled', 'js_composer' ) ],
+		[ true, __( 'Pages only', 'vc5' ) ],
+		[ 'custom', __( 'Custom', 'vc5' ) ],
+		[ true, __( 'Disabled', 'vc5' ) ],
 	],
-	'main_label' => __( 'Post types', 'js_composer' ),
-	'custom_label' => __( 'Post types', 'js_composer' ),
-	'description' => __( 'Enable Visual Composer for pages, posts and custom post types. Note: By default Visual Composer is available for pages only.', 'js_composer' ),
+	'main_label' => __( 'Post types', 'vc5' ),
+	'custom_label' => __( 'Post types', 'vc5' ),
+	'description' => __( 'Enable Visual Composer for pages, posts and custom post types. Note: By default Visual Composer is available for pages only.', 'vc5' ),
 ] );

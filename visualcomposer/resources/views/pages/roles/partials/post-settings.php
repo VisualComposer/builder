@@ -12,9 +12,9 @@ Templates::render( 'pages/roles/partials/part', [
 	'params_prefix' => 'vc_roles[' . $role . '][' . $part . ']',
 	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
 	'options' => [
-		[ true, __( 'Enabled', 'js_composer' ) ],
-		[ true, __( 'Disabled', 'js_composer' ) ],
+		[ true, __( 'Enabled', 'vc5' ) ],
+		[ true, __( 'Disabled', 'vc5' ) ],
 	],
-	'main_label' => __( 'Page settings', 'js_composer' ),
-	'description' => __( 'Control access to Visual Composer page settings. Note: Disable page settings to restrict editing of Custom CSS through page.', 'js_composer' ),
+	'main_label' => __( 'Page settings', 'vc5' ),
+	'description' => __( 'Control access to Visual Composer page settings. Note: Disable page settings to restrict editing of Custom CSS through page.', 'vc5' ),
 ] );

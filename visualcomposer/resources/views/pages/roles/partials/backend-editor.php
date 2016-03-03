@@ -12,13 +12,13 @@ Templates::render( 'pages/roles/partials/part', [
 	'params_prefix' => 'vc_roles[' . $role . '][' . $part . ']',
 	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
 	'capabilities' => [
-		[ 'disabled_ce_editor', __( 'Disable Classic editor', 'js_composer' ) ],
+		[ 'disabled_ce_editor', __( 'Disable Classic editor', 'vc5' ) ],
 	],
 	'options' => [
-		[ true, __( 'Enabled', 'js_composer' ) ],
-		[ 'default', __( 'Enabled and default', 'js_composer' ) ],
-		[ true, __( 'Disabled', 'js_composer' ) ],
+		[ true, __( 'Enabled', 'vc5' ) ],
+		[ 'default', __( 'Enabled and default', 'vc5' ) ],
+		[ true, __( 'Disabled', 'vc5' ) ],
 	],
-	'main_label' => __( 'Backend editor', 'js_composer' ),
-	'custom_label' => __( 'Backend editor', 'js_composer' ),
+	'main_label' => __( 'Backend editor', 'vc5' ),
+	'custom_label' => __( 'Backend editor', 'vc5' ),
 ] );
