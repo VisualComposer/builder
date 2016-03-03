@@ -55,7 +55,7 @@ abstract class Security {
 	public static function verifyAdminNonce( $nonce = '' ) {
 		$nonce = $nonce ? self::flattenData( $nonce ) : self::requestParam( '_vcnonce' );
 
-		return (bool) vc_verify_nonce( $nonce, 'vc-admin-nonce' );
+		return self::verifyNonce( $nonce, 'vc-admin-nonce' );
 	}
 
 	/**
@@ -66,6 +66,6 @@ abstract class Security {
 	public static function verifyPublicNonce( $nonce = '' ) {
 		$nonce = $nonce ? self::flattenData( $nonce ) : self::requestParam( '_vcnonce' );
 
-		return (bool) vc_verify_nonce( $nonce, 'vc-public-nonce' );
+		return self::verifyNonce( $nonce, 'vc-public-nonce' );
 	}
 }

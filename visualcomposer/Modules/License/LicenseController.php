@@ -60,7 +60,7 @@ class LicenseController extends Container {
 	 * @return string
 	 */
 	public function getLicensePage() {
-		return 'admin.php?page=' . app( 'License' )->getPageSlug();
+		return 'admin.php?page=' . app( 'LicensePage' )->getPageSlug();
 	}
 
 	/**

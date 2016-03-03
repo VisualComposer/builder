@@ -8,6 +8,8 @@ use VisualComposer\Helpers\Generic\Templates;
 
 ?>
 
+<?php Templates::render( 'partials/admin-nonce' ) ?>
+
 <div class="wrap vc_settings">
 
 	<h2><?= __( 'Visual Composer Settings', 'vc5' ) ?></h2>
