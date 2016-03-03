@@ -17,7 +17,6 @@ $tab = $page->getSlug();
 
 <form action="options.php"
       method="post"
-      id="vc_settings-<?= $tab ?>"
       data-vc-ui-element="settings-tab-<?= $tab ?>"
       class="vc_settings-tab-content vc_settings-tab-content-active"
 	<?= apply_filters( 'vc_setting-tab-form-' . $tab, '' ) ?>
