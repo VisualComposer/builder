@@ -157,6 +157,10 @@ class SettingsController extends Container {
 	 * Init settings page
 	 */
 	public function initAdmin() {
+		wp_register_script( VC_V_PREFIX . 'scripts-settings', Url::assetUrl( 'scripts/dist/settings.min.js' ), [ ], VC_V_VERSION, true );
+		wp_enqueue_style( VC_V_PREFIX . 'styles-settings', Url::assetUrl( 'styles/dist/settings.min.css' ), false, VC_V_VERSION, false );
+		wp_enqueue_script( VC_V_PREFIX . 'scripts-settings' );
+
 		foreach ( $this->getPages() as $page ) {
 			do_action( 'vc:v:settings:init_admin:page:' . $page['slug'] );
 		}
