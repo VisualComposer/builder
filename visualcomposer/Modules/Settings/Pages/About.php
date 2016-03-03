@@ -80,7 +80,9 @@ class About extends Container {
 	public function addPage( $pages ) {
 		$pages[] = [
 			'slug' => $this->getPageSlug(),
-			'title' => __( 'About', 'vc5' )
+			'title' => __( 'About', 'vc5' ),
+			'layout' => 'standalone',
+			'showTab' => false
 		];
 
 		return $pages;

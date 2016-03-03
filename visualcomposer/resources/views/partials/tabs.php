@@ -11,6 +11,10 @@ $url_func = is_network_admin() ? 'network_admin_url' : 'admin_url';
 	<?php foreach ( $tabs as $tab ) : ?>
 		<?php
 
+		if ( isset( $tab['showTab'] ) && ! $tab['showTab'] ) {
+			continue;
+		}
+
 		$page = 'admin.php?page=' . rawurlencode( $tab['slug'] );
 
 		$url = call_user_func( $url_func, $page );

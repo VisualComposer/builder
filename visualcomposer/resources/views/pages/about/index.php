@@ -37,7 +37,7 @@ use VisualComposer\Helpers\Generic\Templates;
 		   data-size="large">Tweet</a>
 	</p>
 
-	<?php Templates::render( 'partials/inner-tabs', [
+	<?php Templates::render( 'pages/about/partials/tabs', [
 		'activeSlug' => $activeSlug,
 		'pageSlug' => $pageSlug,
 		'tabs' => $tabs

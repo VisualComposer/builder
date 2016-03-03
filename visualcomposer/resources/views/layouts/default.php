@@ -8,7 +8,7 @@ use VisualComposer\Helpers\Generic\Templates;
 
 ?>
 
-<div class="wrap vc_settings" id="wpb-js-composer-settings">
+<div class="wrap vc_settings">
 
 	<h2><?= __( 'Visual Composer Settings', 'vc5' ) ?></h2>
 

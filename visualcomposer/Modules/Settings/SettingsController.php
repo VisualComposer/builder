@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Settings;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Actions;
@@ -15,20 +16,7 @@ class SettingsController extends Container {
 	private $fieldPrefix = 'vc_v_';
 	private $optionGroup = 'vc_v_composer_settings';
 	private $pageSlug = 'vc-v-settings';
-
-	/**
-	 * @return string
-	 */
-	public function getPageSlug() {
-		return $this->pageSlug;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getOptionGroup() {
-		return $this->optionGroup;
-	}
+	private $layout = 'default';
 
 	/**
 	 * SettingsController constructor.
@@ -61,6 +49,26 @@ class SettingsController extends Container {
 		do_action( 'vc:v:settings:initialize' );
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getPageSlug() {
+		return $this->pageSlug;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOptionGroup() {
+		return $this->optionGroup;
+	}
+
+	/**
+	 * @param string $layout
+	 */
+	public function setLayout( $layout ) {
+		$this->layout = $layout;
+	}
 
 	/**
 	 * Get main page slug
@@ -125,16 +133,25 @@ class SettingsController extends Container {
 	 * @param Request $request
 	 */
 	public function renderPage( Request $request ) {
-		$page = $request->input( 'page' );
+		$pageSlug = $request->input( 'page' );
 
 		ob_start();
-		do_action( 'vc:v:settings:page_render:' . $page, $page );
+		do_action( 'vc:v:settings:page_render:' . $pageSlug, $pageSlug );
 		$content = ob_get_clean();
 
-		Templates::render( 'layout', [
+		$layout = $this->layout;
+
+		// pages can define different layout, by setting 'layout' key/value
+		$pages = $this->getPages();
+		$key = Data::arraySearch( $pages, 'slug', $pageSlug );
+		if ( $key !== false && isset( $pages[ $key ]['layout'] ) ) {
+			$layout = $pages[ $key ]['layout'];
+		}
+
+		Templates::render( 'layouts/' . $layout, [
 			'content' => $content,
 			'tabs' => $this->getPages(),
-			'activeSlug' => $page
+			'activeSlug' => $pageSlug
 		] );
 	}
 
