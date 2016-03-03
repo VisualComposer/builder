@@ -9,12 +9,6 @@ namespace VisualComposer\Helpers\Generic;
  * @package VisualComposer\Helpers\Generic
  */
 abstract class Todo {
-	/**
-	 * @todo Implementation
-	 */
-	public static function isAsTheme() {
-		return false;
-	}
 
 	/**
 	 * @todo Implementation

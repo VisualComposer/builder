@@ -339,8 +339,7 @@ class LicenseController extends Container {
 
 		$showActivationReminder = ! $this->isActivated()
 		                          && empty( $_COOKIE['vchideactivationmsg'] )
-		                          && ! ( Todo::isNetworkPlugin() && is_network_admin() )
-		                          && ! Todo::isAsTheme();
+		                          && ! ( Todo::isNetworkPlugin() && is_network_admin() );
 
 		if ( ! $showActivationReminder ) {
 			return;
