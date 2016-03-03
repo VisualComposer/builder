@@ -13,19 +13,6 @@ abstract class Todo {
 	/**
 	 * @todo Implementation
 	 */
-	public static function isNetworkPlugin() {
-		//		if ( is_null( $this->isNetworkPlugin ) ) {
-		//			$isNetworkPlugin = is_multisite() && ( is_plugin_active_for_network( $this->pluginName() ) || is_network_only_plugin( $this->pluginName() ) );
-		//			$this->setAsNetworkPlugin( $isNetworkPlugin );
-		//		}
-		//
-		//		return $this->isNetworkPlugin;
-		return false;
-	}
-
-	/**
-	 * @todo Implementation
-	 */
 	public static function pointersAreDismissed() {
 		//		global $vc_default_pointers;
 		//

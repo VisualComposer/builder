@@ -3,9 +3,9 @@
 namespace VisualComposer\Modules\License;
 
 use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Core;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
-use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\System\Container;
 
@@ -338,7 +338,7 @@ class LicenseController extends Container {
 
 		$showActivationReminder = ! $this->isActivated()
 		                          && empty( $_COOKIE['vchideactivationmsg'] )
-		                          && ! ( Todo::isNetworkPlugin() && is_network_admin() );
+		                          && ! ( Core::isNetworkPlugin() && is_network_admin() );
 
 		if ( ! $showActivationReminder ) {
 			return;
