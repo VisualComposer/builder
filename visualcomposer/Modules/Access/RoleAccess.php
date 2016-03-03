@@ -31,6 +31,7 @@ class RoleAccess extends Access {
 
 		if ( ! isset( $this->parts[ $key ] ) ) {
 			$this->parts[ $key ] = new RoleAccessController( $part );
+			$this->parts[ $key ]->setRoleName( $this->getRoleName() );
 		}
 
 		$roleAccessController = $this->parts[ $key ];

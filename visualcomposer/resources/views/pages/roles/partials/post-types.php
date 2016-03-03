@@ -12,7 +12,7 @@ Templates::render( 'pages/roles/partials/part', [
 	'params_prefix' => 'vc_roles[' . $role . '][' . $part . ']',
 	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
 	'custom_value' => 'custom',
-	'capabilities' => app( 'Roles' )->getPostTypes(),
+	'capabilities' => $vc_role->getPostTypes(),
 	'options' => [
 		[ true, __( 'Pages only', 'vc5' ) ],
 		[ 'custom', __( 'Custom', 'vc5' ) ],

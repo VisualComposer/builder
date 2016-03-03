@@ -1,12 +1,13 @@
 <?php
-
+/**
+ * @var $page VisualComposer\Modules\Settings\Pages\Page
+ * @var $Roles VisualComposer\Modules\Settings\Pages\Roles
+ */
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 use VisualComposer\Helpers\Generic\Templates;
-
-$Roles = app( 'Roles' );
 
 $editableRoles = get_editable_roles();
 

@@ -29,10 +29,8 @@ class Application extends \Laravel\Lumen\Application {
 		'AboutPage' => 'VisualComposer\Modules\Settings\Pages\About',
 
 		// Access
-		//'CurrentUserAccessController'   => 'VisualComposer\Modules\Access\CurrentUserAccessController',
 		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
 		'UserAccess' => 'VisualComposer\Api\Access\UserAccess',
-		'Roles' => 'VisualComposer\Modules\Access\Roles',
 		'RoleAccess' => 'VisualComposer\Modules\Access\RoleAccess',
 	];
 
