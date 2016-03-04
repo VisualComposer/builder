@@ -1,10 +1,9 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender;
+namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Modules\System\Container;
 
 class AjaxShortcodeRenderController extends Container
@@ -12,7 +11,7 @@ class AjaxShortcodeRenderController extends Container
 
     public function __construct(Dispatcher $event)
     {
-        Actions::add('wp_ajax_vc:v:ajaxShortcodeRender', function () {
+        add_action('wp_ajax_vc:v:ajaxShortcodeRender', function () {
             $this->call('ajaxShortcodeRender');
         });
 
