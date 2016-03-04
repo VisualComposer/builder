@@ -266,7 +266,7 @@ class LicenseController extends Container {
 			->wpAny( 'manage_options' )
 			->validateDie()
 			->part( 'settings' )
-			->can( 'vc-updater-tab' )
+			->can( 'vc-v-license-tab' )
 			->validateDie();
 
 		$response = [
@@ -287,7 +287,7 @@ class LicenseController extends Container {
 			->wpAny( 'manage_options' )
 			->validateDie()
 			->part( 'settings' )
-			->can( 'vc-updater-tab' )
+			->can( 'vc-v-license-tab' )
 			->validateDie();
 
 		$response = [

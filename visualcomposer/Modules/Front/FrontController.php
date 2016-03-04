@@ -48,7 +48,7 @@ class FrontController extends Container {
 	 * @return string
 	 */
 	private function addEditPostLink( $link, CurrentUserAccess $currentUserAccess ) {
-		if ( $currentUserAccess->part( 'frontend' )->can() ) {
+		if ( $currentUserAccess->part( 'frontend_editor' )->can() ) {
 			$link .= ' <a href="' . Url::ajax( [
 					'vc-v-action' => 'frontend',
 					'vc-source-id' => get_the_ID(),

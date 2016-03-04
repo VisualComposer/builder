@@ -145,7 +145,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									       class="vc_roles-settings-checkbox"
 										<?php
 
-										if ( 'administrator' === $role && 'settings' === $part && ( 'vc-roles-tab' === $cap[0] || 'vc-updater-tab' === $cap[0] ) ) {
+										if ( 'administrator' === $role && 'settings' === $part && ( 'vc-v-roles-tab' === $cap[0] || 'vc-v-license-tab' === $cap[0] ) ) {
 											echo ' disabled checked';
 										} else {
 											?>
