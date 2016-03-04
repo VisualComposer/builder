@@ -137,7 +137,7 @@
   display: block;
   height: 16px;
   width: 16px;
-  background: transparent url('../vc/loaders/spinner.svg') 50% 50% no-repeat;
+  background: transparent url('../../images/loaders/spinner.svg') 50% 50% no-repeat;
   background-size: contain;
   position: absolute;
   left: 50%;
