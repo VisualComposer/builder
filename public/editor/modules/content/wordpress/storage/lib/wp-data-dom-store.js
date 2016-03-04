@@ -1,7 +1,8 @@
+var vcCake = require('vc-cake');
 var Data = require('./Storage');
 var Storage = require('./PostMetaData');
-var AssetManager = require('.././AssetManager');
-
+var AssetManager = vcCake.getService('asset-manager');
+var $ = require('jquery');
 // Add to app
 var getData = function(document) {
   let data = Array.prototype.slice.call(document.childNodes);
@@ -24,7 +25,7 @@ var ajaxPost = function(data, successCallback, failureCallback) {
       }
     }
   };
-  request.send(jQuery.param(data));
+  request.send($.param(data));
 };
 Data.subscribe('app:init', function() {
   ajaxPost({

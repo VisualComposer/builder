@@ -25,7 +25,6 @@ class DataAjaxController extends Container
     {
         $this->event = $event;
         $this->request = $request;
-
         add_action('vc:v:ajax:loader:v:getData:adminNonce', function () {
             $this->call('getData');
         });

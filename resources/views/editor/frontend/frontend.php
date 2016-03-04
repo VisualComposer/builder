@@ -17,7 +17,6 @@ use VisualComposer\Helpers\WordPress\Nonce;
 	<?php /** @todo add jquery into bundle.js */ ?>
 </head>
 <body>
-<div id="vc-v-editor" style="height: 100vh">
     <script>
         window.vcSourceID = <?php echo get_the_ID(); ?>;
         window.vcAjaxUrl = '<?php echo Url::ajax(); ?>';
@@ -25,7 +24,6 @@ use VisualComposer\Helpers\WordPress\Nonce;
     </script>
 	<script type="text/javascript" src="<?php echo Url::to('public/dist/wp.bundle.js?'.uniqid()); /* @todo: use assets folder */ ?>"></script>
 
-    <iframe src="<?php echo $editableLink; ?>" id="vc-v-editor-iframe" width="100%" height="100%"></iframe>
-</div>
+    <iframe src="<?php echo $editableLink; ?>" id="vc-v-editor-iframe" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
 </body>
 </html>

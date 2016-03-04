@@ -1,11 +1,14 @@
 var vcCake = require('vc-cake');
 require('./wp-services');
-vcCake.env('platform', 'worpdress').start(function() {
-	var $ = require('jquery');
-	require('./modules/wordpress/style.less');
-	$('#vc-v-editor-iframe').load( function () {
-		$('#vc-v-frontend-editable-placeholder', this.contentWindow.document).replaceWith('<div id="vc_v-editor">Editor</div>');
-	} );
-	require('./wp-modules');
+var $ = require('expose?$!jquery');
+$(document).ready(function(){
+  require('./sources/css/wordpress.less');
+
+  $( '#vc-v-editor-iframe' ).load(function(){
+    $('#vc-v-editor-iframe').height($(window).height()-64);
+    vcCake.env('platform', 'wordpress').start(function() {
+      require('./wp-modules');
+    });
+  });
 });
 window.app = vcCake;
