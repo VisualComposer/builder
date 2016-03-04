@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.php",
   "scripts": {
-    "start": "node server.js"
+    "test": "jest",
+    "start": "node server.js",
+    "build-module": "node ./tools/module-builder/index.js",
+    "lint": "eslint . --ext .js --ext .jsx"
   },
   "author": "@vv",
   "license": "",
@@ -16,20 +19,26 @@
     "bundle-loader": "^0.5.0",
     "classnames": "^2.2.1",
     "css-loader": "^0.9.0",
+    "eslint": "^2.2.0",
+    "eslint-plugin-react": "^4.1.0",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.0",
     "file-loader": "~0.8.1",
+    "jest-cli": "^0.8.2",
+    "jscs": "^2.9.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
+    "mkdirp": "^0.5.1",
     "react-hot-loader": "^1.3.0",
     "react-transform-catch-errors": "^1.0.0",
     "redbox-react": "^1.2.0",
     "resolve-url": "^0.2.1",
     "resolve-url-loader": "^1.4.3",
     "style-loader": "^0.8.0",
+    "swig": "^1.4.2",
     "url-loader": "^0.5.5",
-    "webpack-sources": "^0.1.0",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.12.1",
+    "webpack-sources": "^0.1.0"
   },
   "dependencies": {
     "babel-plugin-rewire": "*",
@@ -38,6 +47,7 @@
     "immutable": "^3.7.5",
     "imports-loader": "^0.6.5",
     "jquery": "^2.1.4",
+    "jquery-ui": "^1.10.5",
     "lodash": "^3.10.1",
     "medium-editor": "^5.12.0",
     "react": "^0.14.2",
@@ -50,6 +60,7 @@
     "react-rubaxa-sortable": "^0.1.2",
     "react-select": "~1.0.0-beta8",
     "simply-deferred": "^3.0.0",
+    "vc-cake": "^0.2.2",
     "webpack": "*"
   },
   "babel": {

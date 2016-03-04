@@ -18,7 +18,7 @@ abstract class Templates {
 	 * @return string Rendered view
 	 */
 	public static function render( $path, $args = [ ], $echo = true ) {
-		if ( strtolower( substr( $path, - 4, 4 ) ) !== '.php' ) {
+		if ( strtolower( substr( $path, -4, 4 ) ) !== '.php' ) {
 			$path .= '.php';
 		}
 
@@ -26,7 +26,7 @@ abstract class Templates {
 
 		extract( $args );
 
-		$path = apply_filters( 'vc:v:api:templates:include_template', VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim( $path, '/\\' ), $path, $args, $echo );
+		$path = apply_filters( 'vc:v:api:templates:render', VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim( $path, '/\\' ), $path, $args, $echo );
 		include( $path );
 
 		$content = ob_get_clean();
@@ -37,5 +37,4 @@ abstract class Templates {
 
 		return $content;
 	}
-
 }

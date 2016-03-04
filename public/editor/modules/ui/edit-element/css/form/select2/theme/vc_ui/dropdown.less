@@ -1,0 +1,93 @@
+// Search dropdown
+
+.select2-dropdown {
+  background-color: @vcui-form-input-background;
+  border: 1px solid;
+  #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  border-radius: @vcui-form-border-radius;
+  color: @vcui-form-controls-color;
+  font-size: @vcui-form-font-size-base;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0;
+}
+
+.select2-dropdown--below {
+  margin-top: 3px;
+}
+
+.select2-dropdown--above {
+  margin-bottom: 3px;
+}
+
+// search
+.select2-search--dropdown {
+  padding: @vcui-form-input-padding;
+  background-color: @vcui-dropdown-search-background;
+  position: relative;
+  border-bottom: 1px solid @vcui-dropdown-delimiter-color;
+
+  &::after {
+    &:extend(.vc_ui-icon);
+    content: "\f002"; //.vc_ui-icon-search
+    width: 28px;
+    font-size: 1.2em;
+    position: absolute;
+    margin-right: 1px;
+    top: 50%;
+    right: @vcui-dropdown-search-icon-position;
+    color: @vcui-form-input-placeholder-color;
+    transform: translateY(-50%);
+    text-align: center;
+  }
+
+  .select2-search__field {
+    &:extend(.vc_ui-form-input all);
+    padding: @vcui-dropdown-search-padding;
+  }
+}
+
+// list
+.select2-results {
+
+}
+
+.select2-results__options {
+
+}
+
+.select2-results__option {
+  border-top: 1px solid @vcui-dropdown-delimiter-color;
+  box-sizing: border-box;
+  color: @vcui-form-controls-color;
+  display: block;
+  font-size: @vcui-form-font-size-base;
+  font-weight: 400;
+  height: auto;
+  line-height: 1.5;
+  padding: @vcui-form-input-padding;
+  margin: 0;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &[aria-selected=true] {
+    color: @vcui-form-input-disabled-color;
+    background-color: @vcui-form-input-disabled-background;
+  }
+
+  &--highlighted {
+    &,
+    &[aria-selected=true] {
+      color: @vcui-dropdown-highlight-color;
+      background-color: @vcui-dropdown-highlight-background;
+    }
+  }
+
+}
+

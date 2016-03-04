@@ -15,7 +15,7 @@ class CurrentUserAccess extends RoleAccess {
 		}
 
 		/**
-		 * @var CurrentUserAccessController
+		 * @var $userAccessController CurrentUserAccessController
 		 */
 		$userAccessController = $this->parts[ $part ];
 

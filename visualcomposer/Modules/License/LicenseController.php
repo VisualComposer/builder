@@ -7,6 +7,8 @@ use VisualComposer\Helpers\Generic\Core;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Modules\Access\CurrentUserAccess;
+use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Modules\System\Container;
 
 class LicenseController extends Container {
@@ -59,8 +61,8 @@ class LicenseController extends Container {
 	 *
 	 * @return string
 	 */
-	public function getLicensePage() {
-		return 'admin.php?page=' . app( 'LicensePage' )->getPageSlug();
+	public function getLicensePage(License $licensePage) {
+		return 'admin.php?page=' . $licensePage->getPageSlug();
 	}
 
 	/**
@@ -73,9 +75,9 @@ class LicenseController extends Container {
 		$args = [ 'message' => $message ];
 
 		if ( $success ) {
-			Templates::render( 'partials/notice-success', $args );
+			Templates::render( 'settings/partials/notice-success', $args );
 		} else {
-			Templates::render( 'partials/notice-error', $args );
+			Templates::render( 'settings/partials/notice-error', $args );
 		}
 	}
 
@@ -257,8 +259,8 @@ class LicenseController extends Container {
 	/**
 	 * Start activation process and output redirect URL as JSON
 	 */
-	public function startActivationResponse() {
-		app( 'CurrentUserAccess' )
+	public function startActivationResponse(CurrentUserAccess $currentUserAccess) {
+		$currentUserAccess
 			->checkAdminNonce()
 			->validateDie()
 			->wpAny( 'manage_options' )
@@ -278,8 +280,8 @@ class LicenseController extends Container {
 	/**
 	 * Start deactivation process and output redirect URL as JSON
 	 */
-	public function startDeactivationResponse() {
-		app( 'CurrentUserAccess' )
+	public function startDeactivationResponse(CurrentUserAccess $currentUserAccess) {
+		$currentUserAccess
 			->checkAdminNonce()
 			->validateDie()
 			->wpAny( 'manage_options' )
@@ -394,7 +396,7 @@ class LicenseController extends Container {
 
 		$redirectUrl = wp_nonce_url( esc_url( ( $redirectUrl ) ) );
 
-		Templates::render( 'partials/activation-notice', [ 'redirectUrl' => $redirectUrl ] );
+		Templates::render( 'settings/partials/activation-notice', [ 'redirectUrl' => $redirectUrl ] );
 	}
 
 	/**

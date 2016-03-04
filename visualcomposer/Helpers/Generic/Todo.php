@@ -3,7 +3,6 @@ namespace VisualComposer\Helpers\Generic;
 
 /**
  * Class Todo
- *
  * All these functions must be implemented and moved into appropriate places
  *
  * @package VisualComposer\Helpers\Generic

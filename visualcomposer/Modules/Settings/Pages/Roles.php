@@ -7,7 +7,7 @@ use VisualComposer\Modules\Access\RoleAccess;
 use VisualComposer\Modules\System\Container;
 
 class Roles extends Container {
-
+	use Page;
 	/**
 	 * @var string
 	 */
@@ -31,13 +31,13 @@ class Roles extends Container {
 	 * Roles constructor.
 	 */
 	public function __construct() {
-		add_filter( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:getPages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );
 		} );
 
-		add_action( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:pageRender:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );
@@ -50,10 +50,11 @@ class Roles extends Container {
 
 	/**
 	 * Get list of parts
+	 *
 	 * @return mixed|void
 	 */
 	public function getParts() {
-		return apply_filters( 'vc:v:access:roles:get_parts', $this->parts );
+		return apply_filters( 'vc:v:access:roles:getParts', $this->parts );
 	}
 
 	/**
@@ -78,7 +79,7 @@ class Roles extends Container {
 		} elseif ( is_array( $caps ) ) {
 			$i = 0;
 			while ( false === $has && $i < count( $caps ) ) {
-				$has = $this->hasRoleCapability( $role, $caps[ $i ++ ] );
+				$has = $this->hasRoleCapability( $role, $caps[ $i++ ] );
 			}
 		}
 
@@ -108,10 +109,7 @@ class Roles extends Container {
 			}
 			if ( isset( $editableRoles[ $role ] ) ) {
 				foreach ( $parts as $part => $settings ) {
-					$partKey = $roleAccess
-						->who( $role )
-						->part( $part )
-						->getStateKey();
+					$partKey = $roleAccess->who( $role )->part( $part )->getStateKey();
 					$stateValue = '0';
 					$roles->use_db = false; // Disable saving in DB on every cap change
 					foreach ( $settings as $key => $value ) {
@@ -144,7 +142,10 @@ class Roles extends Container {
 			$excluded = $this->getExcludedPostTypes();
 			foreach ( get_post_types( [ 'public' => true ] ) as $postType ) {
 				if ( ! in_array( $postType, $excluded ) ) {
-					$this->postTypes[] = [ $postType, $postType ];
+					$this->postTypes[] = [
+						$postType,
+						$postType,
+					];
 				}
 			}
 		}
@@ -157,7 +158,7 @@ class Roles extends Container {
 	 */
 	public function getExcludedPostTypes() {
 		if ( false === $this->excludedPostTypes ) {
-			$this->excludedPostTypes = apply_filters( 'vc:v:access:roles:get_excluded_post_types', [
+			$this->excludedPostTypes = apply_filters( 'vc:v:access:roles:getExcludedPostTypes', [
 				'attachment',
 				'revision',
 				'nav_menu_item',
@@ -198,7 +199,7 @@ class Roles extends Container {
 	public function addPage( $pages ) {
 		$pages[] = [
 			'slug' => $this->pageSlug,
-			'title' => __( 'Role Manager', 'vc5' )
+			'title' => __( 'Role Manager', 'vc5' ),
 		];
 
 		return $pages;
@@ -208,13 +209,7 @@ class Roles extends Container {
 	 * Render page
 	 */
 	public function renderPage() {
-		$page = new Page();
-
-		$page
-			->setSlug( $this->pageSlug )
-			->setTemplatePath( 'pages/roles/index' )
-			->setTemplateArgs( [ 'Roles' => $this ] )
-			->render();
+		$this->setSlug( $this->pageSlug )->setTemplatePath( 'settings/pages/roles/index' )->setTemplateArgs( [ 'Roles' => $this ] )->render();
 	}
 
 }
