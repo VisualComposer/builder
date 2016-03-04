@@ -90,7 +90,7 @@ class RoleAccessController extends Access {
 			$this->setValidAccess( is_super_admin() );
 		} elseif ( $this->getValidAccess() ) {
 			// YES it is hard coded :)
-			if ( 'administrator' === $this->getRole()->name && 'settings' === $this->getPart() && ( 'vc-roles-tab' === $rule || 'vc-updater-tab' === $rule ) ) {
+			if ( 'administrator' === $this->getRole()->name && 'settings' === $this->getPart() && ( 'vc-v-roles-tab' === $rule || 'vc-v-license-tab' === $rule ) ) {
 				$this->setValidAccess( true );
 
 				return $this;

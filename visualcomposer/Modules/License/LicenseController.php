@@ -221,7 +221,7 @@ class LicenseController extends Container {
 			$response = [ 'status' => true ];
 		}
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 	/**
@@ -266,7 +266,7 @@ class LicenseController extends Container {
 			->wpAny( 'manage_options' )
 			->validateDie()
 			->part( 'settings' )
-			->can( 'vc-updater-tab' )
+			->can( 'vc-v-license-tab' )
 			->validateDie();
 
 		$response = [
@@ -274,7 +274,7 @@ class LicenseController extends Container {
 			'url' => $this->generateActivationUrl()
 		];
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 	/**
@@ -287,7 +287,7 @@ class LicenseController extends Container {
 			->wpAny( 'manage_options' )
 			->validateDie()
 			->part( 'settings' )
-			->can( 'vc-updater-tab' )
+			->can( 'vc-v-license-tab' )
 			->validateDie();
 
 		$response = [
@@ -295,7 +295,7 @@ class LicenseController extends Container {
 			'url' => $this->generateDeactivationUrl()
 		];
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 

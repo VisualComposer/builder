@@ -80,8 +80,8 @@ class SettingsController extends Container {
 	 */
 	public function getMainPageSlug( Request $request, CurrentUserAccess $currentUserAccess, About $aboutPage, General $generalPage ) {
 		$hasAccess = ! $currentUserAccess->wpAny( 'manage_options' )->part( 'settings' )->can( $generalPage->getPageSlug() )->get()
-			|| ( is_multisite()
-				&& ! is_main_site() );
+		             || ( is_multisite()
+		                  && ! is_main_site() );
 
 		if ( $hasAccess ) {
 			return $aboutPage->getPageSlug();
@@ -181,13 +181,15 @@ class SettingsController extends Container {
 	 * @param $callback
 	 */
 	public function addSection( $page, $title = null, $callback = null ) {
-		add_settings_section( $this->getOptionGroup() . '_' . $page, $title, ( null !== $callback
-			? $callback
-			: function () {
+		if ( ! $callback ) {
+			$callback = function () {
 				$args = func_get_args();
 
 				return $this->call( 'settingSectionCallbackFunction', $args );
-			} ), $this->getPageSlug() . '_' . $page );
+			};
+		}
+
+		add_settings_section( $this->getOptionGroup() . '_' . $page, $title, $callback, $this->getPageSlug() . '_' . $page );
 	}
 
 	/**
@@ -202,7 +204,23 @@ class SettingsController extends Container {
 	 *
 	 * @return self
 	 */
-	public function addField( $page, $title, $fieldName, $sanitizeCallback, $fieldCallback, $args = [ ] ) {
+	public function addField( $page, $title, $fieldName, $sanitizeCallback = null, $fieldCallback = null, $args = [ ] ) {
+		if ( ! $sanitizeCallback ) {
+			$sanitizeCallback = function () {
+				$args = func_get_args();
+
+				return $this->call( 'addFieldSanitizeCallback', $args );
+			};
+		}
+
+		if ( ! $fieldCallback ) {
+			$fieldCallback = function () {
+				$args = func_get_args();
+
+				return $this->call( 'addFieldFieldCallback', $args );
+			};
+		}
+
 		register_setting( $this->getOptionGroup() . '_' . $page, VC_V_PREFIX . $fieldName, $sanitizeCallback );
 		add_settings_field( VC_V_PREFIX . $fieldName, $title, $fieldCallback, $this->getPageSlug() . '_' . $page, $this->getOptionGroup() . '_' . $page, $args );
 
@@ -212,9 +230,34 @@ class SettingsController extends Container {
 	/**
 	 * Callback function for settings section
 	 *
-	 * @param string $page
+	 * @param string $section
+	 *
+	 * @return string
 	 */
-	public function settingSectionCallbackFunction( $page ) {
+	public function settingSectionCallbackFunction( $section ) {
+		return $section;
+	}
+
+	/**
+	 * Callback function for addField sanitize
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function addFieldSanitizeCallback( $value ) {
+		return $value;
+	}
+
+	/**
+	 * Callback function for addField field
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function addFieldFieldCallback( $value ) {
+		return $value;
 	}
 
 }
