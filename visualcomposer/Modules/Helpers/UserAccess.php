@@ -1,20 +1,13 @@
 <?php
 
-namespace VisualComposer\Api\Access;
+namespace VisualComposer\Modules\Helpers;
 
-use VisualComposer\Modules\Access\CurrentUserAccess;
-//use VcV\Api\General\Request;
-//use VcV\Editors\EditorFactory;
+	//use VisualComposer\Modules\Access\CurrentUserAccess;
+	//use VcV\Api\General\Request;
+	//use VcV\Editors\EditorFactory;
 //use VcV\Editors\Frontend\Frontend;
 
 class UserAccess {
-
-	/**
-	 * @return CurrentUserAccess
-	 */
-//	public static function getInstance() {
-//		return CurrentUserAccess::getInstance();
-//	}
 
 	/**
 	 * @param $type
@@ -65,44 +58,6 @@ class UserAccess {
 		} else {
 			return $doCheck;
 		}
-	}
-
-
-	/**
-	 * @param $data
-	 *
-	 * @return string
-	 */
-	public static function generateNonce( $data ) {
-		return wp_create_nonce( is_array( $data ) ? ( 'vc-v-nonce-' . implode( '|', $data ) ) : ( 'vc-v-nonce-' . $data ) );
-	}
-
-	/**
-	 * @param $nonce
-	 * @param $data
-	 *
-	 * @return bool
-	 */
-	public static function verifyNonce( $nonce, $data ) {
-		return (bool) wp_verify_nonce( $nonce, ( is_array( $data ) ? ( 'vc-v-nonce-' . implode( '|', $data ) ) : ( 'vc-v-nonce-' . $data ) ) );
-	}
-
-	/**
-	 * @param $nonce
-	 *
-	 * @return bool
-	 */
-	public static function verifyAdminNonce( $nonce = '' ) {
-		return (bool) self::verifyNonce( ! empty( $nonce ) ? $nonce : Request::request( '_vcnonce' ), 'vc-v-admin-nonce' );
-	}
-
-	/**
-	 * @param $nonce
-	 *
-	 * @return bool
-	 */
-	public static function verifyPublicNonce( $nonce = '' ) {
-		return (bool) vc_verify_nonce( ( ! empty( $nonce ) ? $nonce : Request::request( '_vcnonce' ) ), 'vc-public-nonce' );
 	}
 
 }

@@ -32,7 +32,7 @@ class Application extends \Laravel\Lumen\Application {
 
 		// Access
 		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
-		'UserAccess' => 'VisualComposer\Api\Access\UserAccess',
+		'UserAccess' => 'VisualComposer\Modules\Helpers\UserAccess',
 		'RoleAccess' => 'VisualComposer\Modules\Access\RoleAccess',
 	];
 
