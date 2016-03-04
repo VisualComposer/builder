@@ -78,7 +78,7 @@ class SettingsController extends Container {
 	 *
 	 * @return string
 	 */
-	public function getMainPageSlug( CurrentUserAccess $currentUserAccess, About $aboutPage, General $generalPage ) {
+	public function getMainPageSlug( Request $request, CurrentUserAccess $currentUserAccess, About $aboutPage, General $generalPage ) {
 		$hasAccess = ! $currentUserAccess->wpAny( 'manage_options' )->part( 'settings' )->can( $generalPage->getPageSlug() )->get()
 			|| ( is_multisite()
 				&& ! is_main_site() );

@@ -5,31 +5,31 @@ namespace VisualComposer;
 class Application extends \Laravel\Lumen\Application {
 	public $modules = [
 		// system modules & submodules
-		'ActivationController' => 'VisualComposer\Modules\System\Activation\ActivationController',
-		'ActivationListener' => 'VisualComposer\Modules\System\Activation\ActivationListener',
-		'TextDomainController' => 'VisualComposer\Modules\System\TextDomain\TextDomainController',
+		'VisualComposer\Modules\System\Activation\ActivationController',
+		'VisualComposer\Modules\System\Activation\ActivationListener',
+		'VisualComposer\Modules\System\TextDomain\TextDomainController',
 
 		// Editors modules & submodules
-		'AssetsManagerController' => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
-		'DataAjaxController' => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
-		'FrontController' => 'VisualComposer\Modules\Front\FrontController',
+		'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
+		'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
+		'VisualComposer\Modules\Front\FrontController',
 
 		// Elements
-		'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
+		'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
 
 		// License
-		'LicenseController' => 'VisualComposer\Modules\License\LicenseController',
+		'VisualComposer\Modules\License\LicenseController',
 
 		// Settings
-		'SettingsController' => 'VisualComposer\Modules\Settings\SettingsController',
-		'General' => 'VisualComposer\Modules\Settings\Pages\General',
-		'License' => 'VisualComposer\Modules\Settings\Pages\License',
-		'Roles' => 'VisualComposer\Modules\Settings\Pages\Roles',
-		'About' => 'VisualComposer\Modules\Settings\Pages\About',
+		'VisualComposer\Modules\Settings\SettingsController',
+		'VisualComposer\Modules\Settings\Pages\General',
+		'VisualComposer\Modules\Settings\Pages\License',
+		'VisualComposer\Modules\Settings\Pages\Roles',
+		'VisualComposer\Modules\Settings\Pages\About',
 
 		// Access
-		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
-		'RoleAccess' => 'VisualComposer\Modules\Access\RoleAccess',
+		'VisualComposer\Modules\Access\CurrentUserAccess',
+		'VisualComposer\Modules\Access\RoleAccess',
 	];
 
 	/**
@@ -46,9 +46,9 @@ class Application extends \Laravel\Lumen\Application {
 	}
 
 	public function boot() {
-		foreach ( $this->modules as $moduleName => $module ) {
-			$this->singleton( $moduleName, $module );
-			$this->make( $moduleName );
+		foreach ( $this->modules as $module ) {
+			$this->singleton( $module, $module );
+			$this->make( $module );
 		}
 		do_action( 'vc:v:init' );
 	}
@@ -76,7 +76,29 @@ class Application extends \Laravel\Lumen\Application {
 	 *
 	 * @return void
 	 */
-	/*protected function registerContainerAliases() {
-		$this->aliases =  array_flip( $this->modules );
-	}*/
+	protected function registerContainerAliases() {
+		$this->aliases = [
+				'Illuminate\Contracts\Foundation\Application' => 'app',
+				'Illuminate\Contracts\Auth\Guard' => 'auth.driver',
+				'Illuminate\Contracts\Auth\PasswordBroker' => 'auth.password',
+				'Illuminate\Contracts\Cache\Factory' => 'cache',
+				'Illuminate\Contracts\Cache\Repository' => 'cache.store',
+				'Illuminate\Container\Container' => 'app',
+				'Illuminate\Contracts\Container\Container' => 'app',
+				'Illuminate\Contracts\Cookie\Factory' => 'cookie',
+				'Illuminate\Contracts\Cookie\QueueingFactory' => 'cookie',
+				'Illuminate\Contracts\Encryption\Encrypter' => 'encrypter',
+				'Illuminate\Contracts\Events\Dispatcher' => 'events',
+				'Illuminate\Contracts\Filesystem\Factory' => 'filesystem',
+				'Illuminate\Contracts\Hashing\Hasher' => 'hash',
+				'log' => 'Psr\Log\LoggerInterface',
+				'Illuminate\Contracts\Mail\Mailer' => 'mailer',
+				'Illuminate\Contracts\Queue\Queue' => 'queue.connection',
+				'Illuminate\Redis\Database' => 'redis',
+				'Illuminate\Contracts\Redis\Database' => 'redis',
+				'request' => 'Illuminate\Http\Request',
+				'Illuminate\Session\SessionManager' => 'session',
+				'Illuminate\Contracts\View\Factory' => 'view',
+			] + $this->modules;
+	}
 }

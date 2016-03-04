@@ -10,11 +10,6 @@ use VisualComposer\Modules\System\Container;
 
 class AssetsManagerController extends Container {
 	/**
-	 * @var \Laravel\Lumen\Application
-	 */
-	protected $app;
-
-	/**
 	 * @var \Illuminate\Contracts\Events\Dispatcher
 	 */
 	protected $event;
@@ -31,7 +26,6 @@ class AssetsManagerController extends Container {
 	 * @param \Illuminate\Http\Request $request
 	 */
 	public function __construct( Dispatcher $event, Request $request ) {
-		$this->app = app();
 		$this->event = $event;
 		$this->request = $request;
 

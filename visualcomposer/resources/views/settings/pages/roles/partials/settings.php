@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use VisualComposer\Helpers\Generic\Templates;
 
 $tabs = [ ];
-foreach ( app( 'SettingsController' )->getPages() as $tab ) {
+foreach ( app( 'VisualComposer\Modules\Settings\SettingsController' )->getPages() as $tab ) {
 	$tabs[] = [ $tab['slug'] . '-tab', $tab['title'] ];
 }
 
@@ -15,7 +15,7 @@ Templates::render( 'settings/pages/roles/partials/part', [
 	'part' => $part,
 	'role' => $role,
 	'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-	'controller' => app( 'RoleAccess' )->who( $role )->part( $part ),
+	'controller' => app( 'VisualComposer\Modules\Access\RoleAccess' )->who( $role )->part( $part ),
 	'customValue' => 'custom',
 	'capabilities' => $tabs,
 	'options' => [
