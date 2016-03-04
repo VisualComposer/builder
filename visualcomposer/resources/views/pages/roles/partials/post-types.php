@@ -14,9 +14,9 @@ Templates::render( 'pages/roles/partials/part', [
 	'customValue' => 'custom',
 	'capabilities' => $vcRole->getPostTypes(),
 	'options' => [
-		[ true, __( 'Pages only', 'vc5' ) ],
+		[ '1', __( 'Pages only', 'vc5' ) ],
 		[ 'custom', __( 'Custom', 'vc5' ) ],
-		[ true, __( 'Disabled', 'vc5' ) ],
+		[ '0', __( 'Disabled', 'vc5' ) ],
 	],
 	'mainLabel' => __( 'Post types', 'vc5' ),
 	'customLabel' => __( 'Post types', 'vc5' ),

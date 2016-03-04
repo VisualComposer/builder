@@ -112,5 +112,6 @@ $tab = $page->getSlug();
 	submit_button( __( 'Save Changes', 'vc5' ), 'primary', 'submit_btn', true, $submitButtonAttributes );
 
 	?>
-	<input type="hidden" name="action" value="vc_roles_settings_save" id="vc_settings-<?= $tab ?>-action"/>
+	<?php /* change id in JS from #vc_settings-roles-action to #settings-save-roles-btn */ ?>
+	<input type="hidden" name="action" value="vc_roles_settings_save" id="settings-save-roles-btn"/>
 </form>

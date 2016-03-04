@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
+use Illuminate\Http\Request;
 use VisualComposer\Modules\Access\RoleAccess;
 use VisualComposer\Modules\System\Container;
 
@@ -25,7 +26,7 @@ class Roles extends Container {
 		'grid_builder',
 		'presets',
 	];
-	
+
 	/**
 	 * Roles constructor.
 	 */
@@ -39,6 +40,11 @@ class Roles extends Container {
 		add_action( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
+		} );
+
+		add_action( 'wp_ajax_vc_roles_settings_save', function () {
+			$args = func_get_args();
+			$this->call( 'saveSettings', $args );
 		} );
 	}
 
@@ -80,16 +86,16 @@ class Roles extends Container {
 	}
 
 	public function getWpRoles() {
-		global $wpRoles;
+		global $wp_roles;
 		if ( function_exists( 'wp_roles' ) ) {
-			return $wpRoles;
+			return $wp_roles;
 		} else {
-			if ( ! isset( $wpRoles ) ) {
-				$wpRoles = new \WP_Roles();
+			if ( ! isset( $wp_roles ) ) {
+				$wp_roles = new \WP_Roles();
 			}
 		}
 
-		return $wpRoles;
+		return $wp_roles;
 	}
 
 	public function save( $params = [ ], RoleAccess $roleAccess ) {
@@ -161,7 +167,22 @@ class Roles extends Container {
 
 		return $this->excludedPostTypes;
 	}
-	
+
+	/**
+	 * Save roles
+	 *
+	 * @param Request $request
+	 * @param RoleAccess $roleAccess
+	 */
+	public function saveSettings( Request $request, RoleAccess $roleAccess ) {
+		$field = 'vc_settings-' . $this->getPageSlug() . '-action';
+
+		if ( check_admin_referer( $field, 'vc_nonce_field' ) && current_user_can( 'manage_options' ) ) {
+			$data = $this->save( $request->input( 'vc_roles', [ ] ), $roleAccess );
+			wp_send_json( $data );
+		}
+	}
+
 	/**
 	 * @return string
 	 */
@@ -183,10 +204,17 @@ class Roles extends Container {
 		return $pages;
 	}
 
+	/**
+	 * Render page
+	 */
 	public function renderPage() {
 		$page = new Page();
 
-		$page->setSlug( $this->pageSlug )->setTemplatePath( 'pages/roles/index' )->setTemplateArgs( [ 'Roles' => $this ] )->render();
+		$page
+			->setSlug( $this->pageSlug )
+			->setTemplatePath( 'pages/roles/index' )
+			->setTemplateArgs( [ 'Roles' => $this ] )
+			->render();
 	}
 
 }
