@@ -122,6 +122,11 @@ var Navbar = React.createClass({
     e.target.dispatchEvent(movingEvent);
 
   },
+
+  btnClickHandler: function (  ) {
+    this.props.api.notify('resize');
+  },
+
   render: function () {
 
     let {
@@ -217,6 +222,7 @@ var Navbar = React.createClass({
         <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
           <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
           {this.buildControls()}
+          <button onClick={this.btnClickHandler}>Click Me!</button>
         </nav>
       </div>
     );

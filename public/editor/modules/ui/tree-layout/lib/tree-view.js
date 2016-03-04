@@ -8,8 +8,6 @@ var TreeContent = require( './tree-content' );
 
 require( '../css/tree-view/init.less' );
 
-var treeViewContent = [];
-
 var TreeView = React.createClass({
   getInitialState: function () {
     return {
@@ -33,7 +31,7 @@ var TreeView = React.createClass({
             <TreeLayout api={this.props.api}/>
           </div>
           <div className="vc-ui-tree-view-content">
-            <TreeContent/>
+            <TreeContent api={this.props.api}/>
           </div>
         </div>
       </div>

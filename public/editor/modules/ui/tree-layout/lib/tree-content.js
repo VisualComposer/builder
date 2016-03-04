@@ -1,25 +1,170 @@
 var vcCake = require('vc-cake');
 var React = require( 'react' );
+var ReactDom = require('react-dom');
 
 var classNames = require( 'classnames' );
+var TreeContentTab = require('./tree-content-tab');
 
 require( '../css/tree-view/init.less' );
 
 
 var TreeContent = React.createClass({
+  tabsBD: {},
+  options: {
+    forceRefresh: false
+  },
+
   getInitialState: function () {
     return {
-      treeContent: false
+      activeTab: 'content-tab-1',
+      visibleTabs: [
+        {
+          id: 'content-tab-'+1,
+          title: 'General'
+        },
+        {
+          id: 'content-tab-'+2,
+          title: 'Design Options'
+        },
+        {
+          id: 'content-tab-'+3,
+          title: 'Advanced'
+        }
+      ],
+      hiddenTabs: [
+        {
+          id: 'content-tab-'+9,
+          title: 'JAT'
+        },
+        {
+          id: 'content-tab-'+4,
+          title: 'Filter Options'
+        },
+        {
+          id: 'content-tab-'+5,
+          title: 'Exposure Settings'
+        },
+        {
+          id: 'content-tab-'+6,
+          title: 'More Options'
+        },
+        {
+          id: 'content-tab-'+7,
+          title: 'Other Tab'
+        },
+        {
+          id: 'content-tab-'+8,
+          title: 'One More Tab'
+        }
+      ]
     }
   },
   componentDidMount: function () {
+    window.addEventListener("resize", this.refreshTabs);
+    setTimeout(this.refreshTabs, 100);
 
+    this.props.api.module('ui-navbar' ).on('resize', this.refreshTabs)
+  },
+  componentWillUnmount: function() {
+    window.removeEventListener("resize", this.refreshTabs);
+  },
+
+  componentDidUpdate: function (prevProps, prevState) {
+    if (this.options.forceRefresh === true) {
+      this.options.forceRefresh = false;
+      this.refreshTabs();
+    }
+  },
+
+  changeActiveTab: function ( tabId ) {
+    this.setState({
+      activeTab: tabId
+    })
+  },
+
+  putTabToDrop: function ( tabsCount ) {
+    if (!tabsCount) {
+      tabsCount = 1;
+    }
+    this.setState( function ( prevState ) {
+      while (tabsCount > 0) {
+        prevState.hiddenTabs.unshift(prevState.visibleTabs.pop());
+        tabsCount --;
+      }
+      return prevState
+    });
+  },
+  popTabFromDrop: function ( tabsCount ) {
+    if (!tabsCount) {
+      tabsCount = 1;
+    }
+    this.setState( function ( prevState ) {
+      while (tabsCount > 0) {
+        prevState.visibleTabs.push(prevState.hiddenTabs.shift());
+        tabsCount --;
+      }
+      return prevState;
+    });
+  },
+
+  refreshTabs: function (  ) {
+    // get tabs line width
+    let $tabsLine = ReactDom.findDOMNode(this ).querySelector('.vc-ui-editor-tabs' ),
+      $freeSpaceEl = $tabsLine.querySelector('.vc-ui-editor-tabs-free-space');
+
+    // if there is no space move tab from visible to hidden tabs
+    if ($freeSpaceEl.offsetWidth === 0 && this.state.visibleTabs.length > 0 ) {
+      this.options.forceRefresh = true;
+      this.putTabToDrop();
+      return;
+    }
+
+    // if we have free space move tab from hidden tabs to visible
+    if (this.state.hiddenTabs.length > 0) {
+
+      let freeSpace = $freeSpaceEl.offsetWidth,
+        tabsCount = 0;
+
+      while (freeSpace > 0 && tabsCount < this.state.hiddenTabs.length) {
+        let lastTabId = this.state.hiddenTabs[tabsCount].id,
+          lastTab = this.tabsBD[lastTabId];
+
+        if (lastTab && (lastTab.getRealWidth() + 5 < freeSpace)) {
+          freeSpace -= lastTab.getRealWidth();
+          tabsCount++;
+        } else {
+          freeSpace = 0;
+        }
+      }
+      if (tabsCount) {
+        this.popTabFromDrop(tabsCount);
+      }
+    }
   },
 
   render: function () {
-    var treeContentClasses = classNames( {
+    let {activeTab, visibleTabs, hiddenTabs} = this.state;
+
+    let treeContentClasses = classNames( {
       "vc-ui-tree-content": true
     } );
+    let dropdownClasses = classNames( {
+      "vc-ui-editor-tab-dropdown": true,
+      "vc-ui-active": !!hiddenTabs.filter( function ( value ) { return value.id == activeTab; } ).length
+    });
+
+    function getTabProps(tab, activeTab, context) {
+      return {
+        key: tab.id,
+        id: tab.id,
+        title:tab.title,
+        active:(activeTab == tab.id),
+        container: ".vc-ui-editor-tabs",
+        ref: (ref) => context.tabsBD[tab.id] = ref,
+        changeActive: context.changeActiveTab
+      }
+    }
+
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">
@@ -40,32 +185,32 @@ var TreeContent = React.createClass({
         <div className="vc-ui-tree-content-section">
           <div className="vc-ui-editor-tabs-container">
             <nav className="vc-ui-editor-tabs">
-
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>General</span></span></a>
-
-              <a className="vc-ui-editor-tab" href="#" disabled><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-redo"></i><span>Design Options</span></span></a>
-
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>Advanced</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>Filter Options</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>Exposure Settings</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>More Options</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>Other Tab</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>One More Tab</span></span></a>
-              <a className="vc-ui-editor-tab" href="#"><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i><span>JAT</span></span></a>
-
-              <dl className="vc-ui-editor-tab-dropdown">
-                <dt className="vc-ui-editor-tab-dropdown-trigger vc-ui-editor-tab-control" title="Menu">
-                  <span className="vc-ui-editor-tab-control-content"><i className="vc-ui-editor-tab-control-icon vc-ui-icon vc-ui-icon-mobile-menu"></i><span>Menu</span></span>
-                </dt>
-                <dd className="vc-ui-editor-tab-dropdown-content">
-                  <a className="vc-ui-editor-tab" href="#" ><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i>Save as draft</span></a>
-                  <a className="vc-ui-editor-tab" href="#" ><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i>View page</span></a>
-                  <a className="vc-ui-editor-tab" href="#" ><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i>Backend editor</span></a>
-                  <a className="vc-ui-editor-tab" href="#" ><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i>WPB Dashboard</span></a>
-                  <a className="vc-ui-editor-tab" href="#" ><span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-bug"></i>WordPress Admin</span></a>
-                </dd>
-              </dl>
-
+              { visibleTabs.map( (tab, i) => {
+                let { ...tabProps} = getTabProps(tab, activeTab, this);
+                return (
+                  <TreeContentTab {...tabProps}/>
+                );
+              } )
+              }
+              {(() => {
+                if (hiddenTabs.length) {
+                  return <dl className={dropdownClasses}>
+                    <dt className="vc-ui-editor-tab-dropdown-trigger vc-ui-editor-tab" title="More">
+                      <span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-more-dots"></i></span>
+                    </dt>
+                    <dd className="vc-ui-editor-tab-dropdown-content">
+                      { hiddenTabs.map( (tab, i) => {
+                        let { ...tabProps} = getTabProps(tab, activeTab, this);
+                        return (
+                          <TreeContentTab {...tabProps}/>
+                        );
+                      } )
+                      }
+                    </dd>
+                  </dl>
+                }
+              })()}
+              <span className="vc-ui-editor-tabs-free-space"></span>
             </nav>
           </div>
         </div>
