@@ -30,6 +30,10 @@ class Application extends \Laravel\Lumen\Application {
 		// Access
 		'VisualComposer\Modules\Access\CurrentUserAccess',
 		'VisualComposer\Modules\Access\RoleAccess',
+
+		'VisualComposer\Modules\Editors\Frontend\Frontend',
+		'VisualComposer\Modules\Editors\Frontend\PageEditable',
+
 	];
 
 	/**

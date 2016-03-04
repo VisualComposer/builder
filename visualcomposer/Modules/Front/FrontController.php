@@ -35,10 +35,8 @@ class FrontController extends Container {
 			wp_enqueue_script( 'jquery' );
 		} );
 
-		add_filter( 'edit_post_link', function () {
-			$args = func_get_args();
-
-			return $this->call( 'addEditPostLink', $args );
+		add_filter( 'edit_post_link', function ( $link ) {
+			return $this->call( 'addEditPostLink', [ 'link' => $link ] );
 		} );
 	}
 
@@ -50,7 +48,7 @@ class FrontController extends Container {
 	private function addEditPostLink( $link, CurrentUserAccess $currentUserAccess ) {
 		if ( $currentUserAccess->part( 'frontend_editor' )->can() ) {
 			$link .= ' <a href="' . Url::ajax( [
-					'vc-v-action' => 'frontend',
+					'action' => 'frontend',
 					'vc-source-id' => get_the_ID(),
 				] ) . '">' . __( 'Edit with VC5', 'vc5' ) . '</a>';
 			if ( ! self::$jsScriptRendered ) {

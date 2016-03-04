@@ -35,6 +35,7 @@ class CurrentUserAccessController extends RoleAccessController {
 	public function getRole() {
 		if ( ! $this->roleName && function_exists( 'wp_get_current_user' ) ) {
 			$user = wp_get_current_user();
+			require_once ABSPATH."/wp-admin/includes/user.php";
 			$userRoles = array_intersect( array_values( $user->roles ), array_keys( get_editable_roles() ) );
 			$this->roleName = reset( $userRoles );
 			$this->role = get_role( $this->roleName );
