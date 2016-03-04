@@ -89,7 +89,7 @@ class General extends Container {
 
 		$fieldCallback = function () {
 			$args = func_get_args();
-			$this->call( 'disableResponsiveFieldCallback', $args );
+			return $this->call( 'disableResponsiveFieldCallback', $args );
 		};
 
 		$SettingsController->addField( $page, __( 'Disable responsive content elements', 'vc5' ), 'not_responsive_css', null, $fieldCallback );
@@ -98,12 +98,12 @@ class General extends Container {
 
 		$sanitizeCallback = function () {
 			$args = func_get_args();
-			$this->call( 'sanitizeGoogleFontsSubsetsFieldCallback', $args );
+			return $this->call( 'sanitizeGoogleFontsSubsetsFieldCallback', $args );
 		};
 
 		$fieldCallback = function () {
 			$args = func_get_args();
-			$this->call( 'googleFontsSubsetsFieldCallback', $args );
+			return $this->call( 'googleFontsSubsetsFieldCallback', $args );
 		};
 
 		$SettingsController->addField( $page, __( 'Google fonts subsets', 'vc5' ), 'google_fonts_subsets', $sanitizeCallback, $fieldCallback );
@@ -112,7 +112,7 @@ class General extends Container {
 
 		$fieldCallback = function () {
 			$args = func_get_args();
-			$this->call( 'guideToursFieldCallback', $args );
+			return $this->call( 'guideToursFieldCallback', $args );
 		};
 
 		$SettingsController->addField( $page, __( 'Guide tours', 'vc5' ), 'reset_guide_tours', null, $fieldCallback );
