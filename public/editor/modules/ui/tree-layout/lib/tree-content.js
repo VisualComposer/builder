@@ -33,10 +33,6 @@ var TreeContent = React.createClass({
       ],
       hiddenTabs: [
         {
-          id: 'content-tab-'+9,
-          title: 'JAT'
-        },
-        {
           id: 'content-tab-'+4,
           title: 'Filter Options'
         },
@@ -55,6 +51,10 @@ var TreeContent = React.createClass({
         {
           id: 'content-tab-'+8,
           title: 'One More Tab'
+        },
+        {
+          id: 'content-tab-'+9,
+          title: 'JAT'
         }
       ]
     }
@@ -182,36 +182,62 @@ var TreeContent = React.createClass({
           </div>
         </div>
 
+        <div className="vc-ui-editor-tabs-container">
+          <nav className="vc-ui-editor-tabs">
+            { visibleTabs.map( (tab, i) => {
+              let { ...tabProps} = getTabProps(tab, activeTab, this);
+              return (
+                <TreeContentTab {...tabProps}/>
+              );
+            } )
+            }
+            {(() => {
+              if (hiddenTabs.length) {
+                return <dl className={dropdownClasses}>
+                  <dt className="vc-ui-editor-tab-dropdown-trigger vc-ui-editor-tab" title="More">
+                    <span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-more-dots"></i></span>
+                  </dt>
+                  <dd className="vc-ui-editor-tab-dropdown-content">
+                    { hiddenTabs.map( (tab, i) => {
+                      let { ...tabProps} = getTabProps(tab, activeTab, this);
+                      return (
+                        <TreeContentTab {...tabProps}/>
+                      );
+                    } )
+                    }
+                  </dd>
+                </dl>
+              }
+            })()}
+            <span className="vc-ui-editor-tabs-free-space"></span>
+          </nav>
+        </div>
+
         <div className="vc-ui-tree-content-section">
-          <div className="vc-ui-editor-tabs-container">
-            <nav className="vc-ui-editor-tabs">
+
+          <div className="vc-ui-editor-plates-container">
+            <div className="vc-ui-editor-plates">
               { visibleTabs.map( (tab, i) => {
-                let { ...tabProps} = getTabProps(tab, activeTab, this);
-                return (
-                  <TreeContentTab {...tabProps}/>
-                );
+                let plateClass = 'vc-ui-editor-plate';
+                if (tab.id === this.state.activeTab) {
+                  plateClass += ' vc-ui-active';
+                }
+                return (<div key={'plate'+tab.id} className={plateClass}>
+                  tab content {tab.id}
+                </div>)
               } )
               }
-              {(() => {
-                if (hiddenTabs.length) {
-                  return <dl className={dropdownClasses}>
-                    <dt className="vc-ui-editor-tab-dropdown-trigger vc-ui-editor-tab" title="More">
-                      <span className="vc-ui-editor-tab-content"><i className="vc-ui-editor-tab-icon vc-ui-icon vc-ui-icon-more-dots"></i></span>
-                    </dt>
-                    <dd className="vc-ui-editor-tab-dropdown-content">
-                      { hiddenTabs.map( (tab, i) => {
-                        let { ...tabProps} = getTabProps(tab, activeTab, this);
-                        return (
-                          <TreeContentTab {...tabProps}/>
-                        );
-                      } )
-                      }
-                    </dd>
-                  </dl>
+              { hiddenTabs.map( (tab, i) => {
+                let plateClass = 'vc-ui-editor-plate';
+                if (tab.id === this.state.activeTab) {
+                  plateClass += ' vc-ui-active';
                 }
-              })()}
-              <span className="vc-ui-editor-tabs-free-space"></span>
-            </nav>
+                return (<div key={'plate'+tab.id} className={plateClass}>
+                  tab content {tab.id}
+                </div>)
+              } )
+              }
+            </div>
           </div>
         </div>
 

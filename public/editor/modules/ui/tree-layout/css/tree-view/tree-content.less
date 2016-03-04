@@ -23,6 +23,10 @@
 .vc-ui-tree-content-section {
   flex-grow: 1;
   flex-shrink: 1;
+  color: @content-text;
+  background-color: @content-bg;
+  padding: (@tree-content-gutter / 2) @tree-content-gutter;
+  overflow: auto;
 }
 
 //== Title bar
@@ -151,12 +155,14 @@
     flex-shrink: 0;
   }
   &:hover {
+    .vc-ui-editor-tab-dropdown-trigger {
+      background-color: @tab-bg-hover;
+    }
     .vc-ui-editor-tab-dropdown-content {
       visibility: visible;
       opacity: 1;
     }
   }
-  &:hover,
   &.vc-ui-active {
     .vc-ui-editor-tab-dropdown-trigger {
       background-color: @tab-bg-active;
@@ -178,11 +184,15 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity @vc-ui-transition-duration @vc-ui-transition-timing-function;
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .5); //todo: rewrite this
+  margin-right: ceil(@tab-space/2);
+  margin-left: floor(@tab-space/2);
   .vc-ui-editor-tab {
     text-align: left;
     background-color: @tab-bg-active;
     color: @tab-color-active;
     border-radius: 0;
+    margin: 0;
     &:hover,
     &.vc-ui-active {
       background-color: @tab-bg-hover;
@@ -193,4 +203,16 @@
 .vc-ui-editor-tabs-free-space {
   flex-grow: 1;
   flex-shrink: 1;
+}
+//== Tabs content
+.vc-ui-editor-plates-container {
+
+}
+.vc-ui-editor-plates {
+
+}
+.vc-ui-editor-plate {
+  &:not(.vc-ui-active) {
+    display: none;
+  }
 }
