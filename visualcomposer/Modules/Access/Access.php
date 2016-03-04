@@ -2,8 +2,6 @@
 
 namespace VisualComposer\Modules\Access;
 
-use VisualComposer\Helpers\WordPress\Security;
-
 abstract class Access {
 
 	/**
@@ -147,7 +145,7 @@ abstract class Access {
 	 * @return CurrentUserAccess
 	 */
 	public function checkAdminNonce( $nonce = '' ) {
-		return $this->check( [ Security::class, 'verifyAdminNonce' ], $nonce );
+		return $this->check( [ 'Security', 'verifyAdminNonce' ], $nonce );
 	}
 
 	/**
@@ -156,6 +154,6 @@ abstract class Access {
 	 * @return CurrentUserAccess
 	 */
 	public function checkPublicNonce( $nonce = '' ) {
-		return $this->check( [ Security::class, 'verifyPublicNonce' ], $nonce );
+		return $this->check( [ 'Security', 'verifyPublicNonce' ], $nonce );
 	}
 }
