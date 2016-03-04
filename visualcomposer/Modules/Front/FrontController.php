@@ -49,7 +49,7 @@ class FrontController extends Container
      */
     private function addEditPostLink($link)
     {
-        $link .= ' <a href="'.Url::ajax([
+        $link .= ' <a data-vc-v="edit-fe-editor" href="'.Url::ajax([
                 'action' => 'frontend',
                 'vc-source-id' => get_the_ID(),
             ]).'">'.__('Edit with VC5', 'vc5').'</a>';
