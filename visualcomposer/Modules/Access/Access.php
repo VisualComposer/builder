@@ -145,7 +145,7 @@ abstract class Access {
 	 * @return CurrentUserAccess
 	 */
 	public function checkAdminNonce( $nonce = '' ) {
-		return $this->check( [ 'Security', 'verifyAdmin' ], $nonce );
+		return $this->check( [ 'Nonce', 'verifyAdmin' ], $nonce );
 	}
 
 	/**
