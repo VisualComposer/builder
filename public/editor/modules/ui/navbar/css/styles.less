@@ -1,0 +1,442 @@
+/* ===================================
+ * Visual composer Navbar styles
+ * =================================== */
+
+//== logo
+.vc-ui-navbar-logo {
+  background: data-uri('image/png;base64', '../resourses/img/VC-Logo-small.png') 50% 50% no-repeat;
+  min-width: @navbar-size;
+  min-height: @navbar-size;
+  padding: @gold-value;
+  color: inherit;
+  text-decoration: none;
+  order: -10;
+  &:hover {
+    background-color: @bg-base-hover;
+  }
+}
+.vc-ui-navbar-logo-title {
+  display: none;
+}
+
+//== navbar
+.vc-ui-navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  //bottom: 0;
+  transition-property: opacity, top, left, bottom, right;
+  transition-duration: @vc-ui-transition-duration;
+  transition-timing-function: @vc-ui-transition-timing-function;
+}
+
+
+
+.vc-ui-navbar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  opacity: .2;
+  cursor: move;
+}
+
+.vc-ui-navbar-guideline {
+  position: fixed;
+  transition-property: height, width;
+  transition-duration: @vc-ui-transition-duration;
+  transition-timing-function: @vc-ui-transition-timing-function;
+  background-color: @bg-base;
+  box-shadow: inset 0 0 10px 1px @bg-base-hover;
+  &-top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    &.vc-ui-navbar-guideline-is-visible {
+      height: 5px;
+    }
+  }
+  &-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    &.vc-ui-navbar-guideline-is-visible {
+      height: 5px;
+    }
+  }
+  &-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    &.vc-ui-navbar-guideline-is-visible {
+      width: 5px;
+    }
+  }
+  &-right {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    &.vc-ui-navbar-guideline-is-visible {
+      width: 5px;
+    }
+  }
+}
+
+
+.vc-ui-navbar {
+  font-family: 'Roboto', sans-serif;
+  font-size: @text-size-base;
+  color: @text-color-base;
+  background-color: @bg-base;
+  height: @navbar-size;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  //flex-direction: column;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+    order: -1;
+  }
+  > .vc-ui-pull-end {
+    order: 1;
+  }
+  &::after {
+    content: '';
+    flex-shrink: 1;
+    flex-grow: 1;
+  }
+}
+
+//== drag handler
+.vc-ui-navbar-drag-handler {
+  order: -100;
+  cursor: move;
+  min-height: @gold-value;
+  min-width: @gold-value;
+  user-select: none;
+  position: relative;
+  opacity: .5;
+}
+.vc-ui-navbar-drag-handler-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+//== delimeter
+.vc-ui-navbar-control-separator {
+  min-height: 1px;
+  min-width: 1px;
+  background-color: @separator-color;
+}
+
+//== controls
+.vc-ui-navbar-control {
+  padding: @gold-value;
+  min-width: @navbar-size;
+  min-height: @navbar-size;
+  color: @text-color-base;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all @vc-ui-transition-duration @vc-ui-transition-timing-function;
+  &:hover,
+  &.vc-ui-navbar-control-active {
+    background-color: @bg-base-hover;
+  }
+  &[disabled] {
+    background-color: transparent;
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}
+.vc-ui-navbar-control-content {
+  white-space: nowrap;
+  span {
+    //border: 1px solid red;
+  }
+}
+.vc-ui-navbar-control-icon {
+  font-size: 1em;
+  height: 1em;
+  width: 1.25em;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  &::before {
+    font-size: 1.25em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  + span {
+    margin-left: @gold-value;
+  }
+}
+
+//== Controls group
+.vc-ui-navbar-controls-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+//== dropdown
+.vc-ui-navbar-dropdown {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .vc-ui-navbar-controls-group {
+    flex-direction: column;
+  }
+  //&:not(.vc-ui-active),
+  &:not(:hover){
+    .vc-ui-navbar-dropdown-content {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+  &:hover {
+    .vc-ui-navbar-dropdown-trigger {
+      background-color: @bg-dropdown;
+    }
+  }
+}
+.vc-ui-navbar-dropdown-content {
+  background-color: @bg-dropdown;
+  min-width: @dropdown-size;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: @dropdown-zindex;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity @vc-ui-transition-duration @vc-ui-transition-timing-function;
+  .vc-ui-navbar-control {
+    text-align: left;
+    &:hover {
+      background-color: @bg-dropdown-hover;
+    }
+  }
+}
+.vc-ui-navbar-dropdown {
+  &.vc-ui-pull-end {
+    .vc-ui-navbar-dropdown-content {
+      left: auto;
+      right: 0;
+    }
+  }
+}
+
+//== linear dropdown
+.vc-ui-navbar-dropdown-linear {
+  .vc-ui-navbar-dropdown-content {
+    min-width: 100%;
+    .vc-ui-navbar-control {
+      min-height: 0;
+      min-width: 0;
+      padding: @gold-value * .75;
+    }
+  }
+  .vc-ui-navbar-control {
+    text-align: center;
+  }
+}
+
+
+//== show/hide labels
+.vc-ui-navbar-hide-labels{
+  .vc-ui-navbar-control-content {
+    > span {
+      display: none;
+    }
+  }
+}
+.vc-ui-navbar-show-labels {
+  .vc-ui-navbar-control-content {
+    > span {
+      display: inline;
+    }
+  }
+}
+
+//== states
+.vc-ui-navbar-control {
+  &.vc-ui-state-active {
+    background-color: @bg-base-hover;
+  }
+  &.vc-ui-state-success {
+    background-color: @bg-success;
+  }
+}
+
+
+//== badges
+.vc-ui-navbar-control {
+  &[class*=vc-ui-badge-] {
+    .vc-ui-navbar-control-icon {
+      &::after {
+        content: '';
+        display: block;
+        height: @badge-size;
+        width: @badge-size;
+        border-radius: 50%;
+        position: absolute;
+        top: -.5em;
+        right: -.5em
+      }
+    }
+  }
+  &.vc-ui-badge-warning {
+    .vc-ui-navbar-control-icon {
+      &::after {
+        background-color: @bg-warning;
+      }
+    }
+  }
+  &.vc-ui-badge-success {
+    .vc-ui-navbar-control-icon {
+      &::after {
+        background-color: @bg-success;
+      }
+    }
+  }
+}
+
+
+//== responsiveness
+@media (max-width: 768px) {
+  .vc-ui-navbar-hidden-sm {
+    display: none;
+  }
+}
+
+// navbar positions
+.vc-ui-navbar-position-top &{
+
+}
+
+.vc-ui-navbar-position-bottom &{
+  .vc-ui-navbar-container {
+    top: auto;
+    bottom: 0;
+  }
+  .vc-ui-navbar-dropdown-content {
+    top: auto;
+    bottom: 100%;
+  }
+}
+
+.vc-ui-navbar-position-left &{
+  .vc-ui-navbar-container {
+    right: auto;
+    bottom: 0;
+  }
+  .vc-ui-navbar {
+    width: @navbar-size;
+    height: 100%;
+    flex-direction: column;
+  }
+  .vc-ui-navbar-dropdown-content {
+    top: 0;
+    bottom: auto;
+    left: 100%;
+    right: auto;
+  }
+  .vc-ui-navbar-dropdown {
+    &.vc-ui-pull-end {
+      .vc-ui-navbar-dropdown-content {
+        top: auto;
+        bottom: 0;
+        left: 100%;
+        right: auto;
+      }
+    }
+  }
+  .vc-ui-navbar-dropdown-linear {
+    .vc-ui-navbar-controls-group {
+      flex-direction: row;
+    }
+    .vc-ui-navbar-dropdown-content {
+      min-width: 0;
+      min-height: 100%;
+      display: flex;
+    }
+  }
+  .vc-ui-navbar-drag-handler-icon {
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+}
+
+.vc-ui-navbar-position-right &{
+  .vc-ui-navbar-container {
+    left: auto;
+    bottom: 0;
+  }
+  .vc-ui-navbar {
+    width: @navbar-size;
+    height: 100%;
+    flex-direction: column;
+  }
+  .vc-ui-navbar-dropdown-content {
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: 100%;
+  }
+  .vc-ui-navbar-dropdown {
+    &.vc-ui-pull-end {
+      .vc-ui-navbar-dropdown-content {
+        top: auto;
+        bottom: 0;
+        right: 100%;
+        left: auto;
+      }
+    }
+  }
+  .vc-ui-navbar-dropdown-linear {
+    .vc-ui-navbar-controls-group {
+      flex-direction: row;
+    }
+    .vc-ui-navbar-dropdown-content {
+      min-width: 0;
+      min-height: 100%;
+      display: flex;
+    }
+  }
+  .vc-ui-navbar-drag-handler-icon {
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+}
+
+.vc-ui-navbar-container.vc-ui-navbar-is-detached {
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+}
+

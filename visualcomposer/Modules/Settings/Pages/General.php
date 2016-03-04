@@ -10,6 +10,7 @@ use VisualComposer\Modules\System\Container;
 
 class General extends Container {
 
+	use Page;
 	/**
 	 * @var string
 	 */
@@ -37,18 +38,18 @@ class General extends Container {
 	 * General constructor.
 	 */
 	public function __construct() {
-		add_filter( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:getPages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );
 		} );
 
-		add_action( 'vc:v:settings:page_render:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:pageRender:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );
 
-		add_action( 'vc:v:settings:init_admin:page:' . $this->pageSlug, function () {
+		add_action( 'vc:v:settings:initAdmin:page:' . $this->pageSlug, function () {
 			$args = func_get_args();
 			$this->call( 'buildPage', $args );
 		} );
@@ -69,7 +70,7 @@ class General extends Container {
 	public function addPage( $pages ) {
 		$pages[] = [
 			'slug' => $this->pageSlug,
-			'title' => __( 'General Settings', 'vc5' )
+			'title' => __( 'General Settings', 'vc5' ),
 		];
 
 		return $pages;
@@ -89,6 +90,7 @@ class General extends Container {
 
 		$fieldCallback = function () {
 			$args = func_get_args();
+
 			return $this->call( 'disableResponsiveFieldCallback', $args );
 		};
 
@@ -98,11 +100,13 @@ class General extends Container {
 
 		$sanitizeCallback = function () {
 			$args = func_get_args();
+
 			return $this->call( 'sanitizeGoogleFontsSubsetsFieldCallback', $args );
 		};
 
 		$fieldCallback = function () {
 			$args = func_get_args();
+
 			return $this->call( 'googleFontsSubsetsFieldCallback', $args );
 		};
 
@@ -112,6 +116,7 @@ class General extends Container {
 
 		$fieldCallback = function () {
 			$args = func_get_args();
+
 			return $this->call( 'guideToursFieldCallback', $args );
 		};
 
@@ -122,11 +127,7 @@ class General extends Container {
 	 * Render page
 	 */
 	public function renderPage() {
-		$page = new Page();
-
-		$page->setSlug( $this->pageSlug )
-		     ->setTemplatePath( 'pages/general/index' )
-		     ->render();
+		$this->setSlug( $this->pageSlug )->setTemplatePath( 'settings/pages/general/index' )->render();
 	}
 
 	/**
@@ -164,8 +165,8 @@ class General extends Container {
 	public function disableResponsiveFieldCallback() {
 		$checked = Options::get( 'not_responsive_css', false );
 
-		Templates::render( 'pages/general/partials/disable-responsive', [
-			'checked' => $checked
+		Templates::render( 'settings/pages/general/partials/disable-responsive', [
+			'checked' => $checked,
 		] );
 	}
 
@@ -207,12 +208,12 @@ class General extends Container {
 
 			$subsets[] = [
 				'title' => $subset,
-				'checked' => in_array( $subset, $checkedSubsets )
+				'checked' => in_array( $subset, $checkedSubsets ),
 			];
 		}
 
-		Templates::render( 'pages/general/partials/google-fonts-subsets', [
-			'subsets' => $subsets
+		Templates::render( 'settings/pages/general/partials/google-fonts-subsets', [
+			'subsets' => $subsets,
 		] );
 	}
 
@@ -224,7 +225,7 @@ class General extends Container {
 			return;
 		}
 
-		Templates::render( 'pages/general/partials/guide-tours' );
+		Templates::render( 'settings/pages/general/partials/guide-tours' );
 	}
 
 }

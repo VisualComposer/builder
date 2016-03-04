@@ -56,7 +56,7 @@ class RoleAccessController extends Access {
 			$state = $role->capabilities[ $this->getStateKey() ];
 		}
 
-		return apply_filters( 'vc:v:role:get_state:access_with_' . $this->getPart(), $state, $this->getRole() );
+		return apply_filters( 'vc:v:role:getState:accessWith' . $this->getPart(), $state, $this->getRole() );
 	}
 
 	/**
@@ -110,8 +110,8 @@ class RoleAccessController extends Access {
 			} else {
 				$return = $this->getCapRule( $rule );
 			}
-			$return = apply_filters( 'vc:v:role:can:access_with_' . $this->getPart(), $return, $this->getRole(), $rule );
-			$return = apply_filters( 'vc:v:role:can:access_with_' . $this->getPart() . ':' . $rule, $return, $this->getRole() );
+			$return = apply_filters( 'vc:v:role:can:accessWith' . $this->getPart(), $return, $this->getRole(), $rule );
+			$return = apply_filters( 'vc:v:role:can:accessWith' . $this->getPart() . ':' . $rule, $return, $this->getRole() );
 			$this->setValidAccess( $return );
 		}
 
@@ -175,7 +175,7 @@ class RoleAccessController extends Access {
 		$role = $this->getRole();
 		$caps = [];
 		if ( $role ) {
-			$role = apply_filters( 'vc:v:role:get_all_caps:role', $role );
+			$role = apply_filters( 'vc:v:role:getAllCaps:role', $role );
 			if ( isset( $role->capabilities ) && is_array( $role->capabilities ) ) {
 				foreach ( $role->capabilities as $key => $value ) {
 					if ( preg_match( '/^' . $this->getStateKey() . '\//', $key ) ) {

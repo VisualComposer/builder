@@ -8,31 +8,27 @@ class Application extends \Laravel\Lumen\Application {
 		'ActivationController' => 'VisualComposer\Modules\System\Activation\ActivationController',
 		'ActivationListener' => 'VisualComposer\Modules\System\Activation\ActivationListener',
 		'TextDomainController' => 'VisualComposer\Modules\System\TextDomain\TextDomainController',
-		'WPBMap' => 'VisualComposer\Modules\WPBMap',
 
 		// Editors modules & submodules
 		'AssetsManagerController' => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
 		'DataAjaxController' => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
-		'FrontController' => 'VisualComposer\Modules\Editors\Front\FrontController',
-		'FrontendEditor' => 'VisualComposer\Modules\Editors\Front\FrontendEditor',
+		'FrontController' => 'VisualComposer\Modules\Front\FrontController',
 
-		// Editor elements
-		'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
+		// Elements
+		'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
 
 		// License
 		'LicenseController' => 'VisualComposer\Modules\License\LicenseController',
 
 		// Settings
 		'SettingsController' => 'VisualComposer\Modules\Settings\SettingsController',
-		'Page' => 'VisualComposer\Modules\Settings\Pages\Page',
-		'GeneralPage' => 'VisualComposer\Modules\Settings\Pages\General',
-		'LicensePage' => 'VisualComposer\Modules\Settings\Pages\License',
-		'RolesPage' => 'VisualComposer\Modules\Settings\Pages\Roles',
-		'AboutPage' => 'VisualComposer\Modules\Settings\Pages\About',
+		'General' => 'VisualComposer\Modules\Settings\Pages\General',
+		'License' => 'VisualComposer\Modules\Settings\Pages\License',
+		'Roles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+		'About' => 'VisualComposer\Modules\Settings\Pages\About',
 
 		// Access
 		'CurrentUserAccess' => 'VisualComposer\Modules\Access\CurrentUserAccess',
-		'UserAccess' => 'VisualComposer\Modules\Helpers\UserAccess',
 		'RoleAccess' => 'VisualComposer\Modules\Access\RoleAccess',
 	];
 
@@ -46,7 +42,7 @@ class Application extends \Laravel\Lumen\Application {
 	public function __construct( $basePath = null ) {
 		$this->basePath = $basePath;
 		$this->bootstrapContainer();
-		do_action( 'vc:v:init' );
+		do_action( 'vc:v:load' );
 	}
 
 	public function boot() {
@@ -54,6 +50,7 @@ class Application extends \Laravel\Lumen\Application {
 			$this->singleton( $moduleName, $module );
 			$this->make( $moduleName );
 		}
+		do_action( 'vc:v:init' );
 	}
 
 	/**
@@ -73,4 +70,13 @@ class Application extends \Laravel\Lumen\Application {
 	public function welcome() {
 		return 'Visual Composer';
 	}
+
+	/**
+	 * Register the core container aliases.
+	 *
+	 * @return void
+	 */
+	/*protected function registerContainerAliases() {
+		$this->aliases =  array_flip( $this->modules );
+	}*/
 }

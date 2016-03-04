@@ -3,10 +3,11 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use Illuminate\Http\Request;
+use VisualComposer\Modules\Access\CurrentUserAccess;
 use VisualComposer\Modules\System\Container;
 
 class About extends Container {
-
+	use Page;
 	/**
 	 * @var string
 	 */
@@ -26,13 +27,13 @@ class About extends Container {
 	 * About constructor.
 	 */
 	public function __construct() {
-		add_filter( 'vc:v:settings:get_pages', function () {
+		add_filter( 'vc:v:settings:getPages', function () {
 			$args = func_get_args();
 
 			return $this->call( 'addPage', $args );
 		} );
 
-		add_action( 'vc:v:settings:page_render:' . $this->getPageSlug(), function () {
+		add_action( 'vc:v:settings:pageRender:' . $this->getPageSlug(), function () {
 			$args = func_get_args();
 			$this->call( 'renderPage', $args );
 		} );
@@ -41,18 +42,18 @@ class About extends Container {
 			[
 				'slug' => 'vc-v-main',
 				'title' => __( 'What\'s New', 'vc5' ),
-				'view' => 'pages/about/partials/main'
+				'view' => 'settings/pages/about/partials/main',
 			],
 			[
 				'slug' => 'vc-v-faq',
 				'title' => __( 'FAQ', 'vc5' ),
-				'view' => 'pages/about/partials/faq'
+				'view' => 'settings/pages/about/partials/faq',
 			],
 			[
 				'slug' => 'vc-v-resources',
 				'title' => __( 'Resources', 'vc5' ),
-				'view' => 'pages/about/partials/resources'
-			]
+				'view' => 'settings/pages/about/partials/resources',
+			],
 		] );
 	}
 
@@ -80,7 +81,7 @@ class About extends Container {
 			'slug' => $this->getPageSlug(),
 			'title' => __( 'About', 'vc5' ),
 			'layout' => 'standalone',
-			'showTab' => false
+			'showTab' => false,
 		];
 
 		return $pages;
@@ -91,25 +92,16 @@ class About extends Container {
 	 *
 	 * @param Request $request
 	 */
-	public function renderPage( Request $request ) {
-		$hasAccessToSettings = app( 'CurrentUserAccess' )
-			                       ->wpAny( 'manage_options' )
-			                       ->part( 'settings' )
-			                       ->can( 'vc-general-tab' )
-			                       ->get() && ( ! is_multisite() || ! is_main_site() );
+	public function renderPage( Request $request, CurrentUserAccess $currentUserAccess ) {
+		$hasAccessToSettings = $currentUserAccess->wpAny( 'manage_options' )->part( 'settings' )->can( 'vc-general-tab' )->get() && ( ! is_multisite() || ! is_main_site() );
 		$args = [
 			'tabs' => $this->getTabs(),
 			'pageSlug' => $this->getPageSlug(),
 			'activeSlug' => $request->input( 'tab', $this->defaultTabSlug ),
-			'hasAccessToSettings' => $hasAccessToSettings
+			'hasAccessToSettings' => $hasAccessToSettings,
 		];
 
-		$page = new Page();
-
-		$page->setSlug( $this->getPageSlug() )
-		     ->setTemplatePath( 'pages/about/index' )
-		     ->setTemplateArgs( $args )
-		     ->render();
+		$this->setSlug( $this->getPageSlug() )->setTemplatePath( 'settings/pages/about/index' )->setTemplateArgs( $args )->render();
 	}
 
 }

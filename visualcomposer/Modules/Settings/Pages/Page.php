@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
 
-class Page {
+trait Page {
 
 	protected $slug;
 	protected $title;

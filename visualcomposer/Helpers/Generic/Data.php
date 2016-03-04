@@ -10,10 +10,6 @@ abstract class Data {
 	 * @todo Doctype
 	 */
 	public static function arraySearch( $array, $column, $value ) {
-		if ( function_exists( 'array_column' ) ) {
-			// PHP 5.5
-			return array_search( $value, array_column( $array, $column ) );
-		}
 		if ( ! is_array( $array ) ) {
 			return false;
 		}
@@ -55,7 +51,7 @@ abstract class Data {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$len = strlen( $characters );
 		$str = '';
-		for ( $i = 0; $i < $length; $i ++ ) {
+		for ( $i = 0; $i < $length; $i++ ) {
 			$str .= $characters[ rand( 0, $len - 1 ) ];
 		}
 

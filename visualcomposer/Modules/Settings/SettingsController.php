@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
+use VisualComposer\Modules\Access\CurrentUserAccess;
+use VisualComposer\Modules\Settings\Pages\About;
+use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Modules\System\Container;
 
 class SettingsController extends Container {
@@ -39,7 +42,7 @@ class SettingsController extends Container {
 			return $this->call( 'addMenuPage', $args );
 		} );
 
-		add_action( 'vc:v:settings:main_page:menu_page_build', function () {
+		add_action( 'vc:v:settings:mainPage:menuPageBuild', function () {
 			$args = func_get_args();
 			$this->call( 'addSubmenuPages', $args );
 		} );
@@ -70,51 +73,44 @@ class SettingsController extends Container {
 
 	/**
 	 * Get main page slug
-	 *
 	 * This determines what page is opened when user clicks 'Visual Composer' in settings menu
-	 *
 	 * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
 	 *
 	 * @return string
 	 */
-	public function getMainPageSlug() {
-		$hasAccess = ! app( 'CurrentUserAccess' )
-				->wpAny( 'manage_options' )
-				->part( 'settings' )
-				->can( app( 'GeneralPage' )->getPageSlug() )
-				->get() || ( is_multisite() && ! is_main_site() );
+	public function getMainPageSlug( CurrentUserAccess $currentUserAccess, About $aboutPage, General $generalPage ) {
+		$hasAccess = ! $currentUserAccess->wpAny( 'manage_options' )->part( 'settings' )->can( $generalPage->getPageSlug() )->get()
+			|| ( is_multisite()
+				&& ! is_main_site() );
 
 		if ( $hasAccess ) {
-			return app( 'AboutPage' )->getPageSlug();
+			return $aboutPage->getPageSlug();
 		} else {
-			return app( 'GeneralPage' )->getPageSlug();
+			return $generalPage->getPageSlug();
 		}
 	}
 
 	public function addMenuPage() {
-		$slug = $this->getMainPageSlug();
+		$slug = $this->call( 'getMainPageSlug' );
 		$title = __( 'Visual Composer ', 'vc5' );
 
 		$iconUrl = Url::assetUrl( 'images/logo/16x16.png' );
 
 		add_menu_page( $title, $title, 'exist', $slug, null, $iconUrl, 76 );
 
-		do_action( 'vc:v:settings:main_page:menu_page_build', $slug );
+		do_action( 'vc:v:settings:mainPage:menuPageBuild', $slug );
 	}
 
-	public function addSubmenuPages() {
-		if ( ! app( 'CurrentUserAccess' )->wpAny( 'manage_options' )->get() ) {
+	public function addSubmenuPages( CurrentUserAccess $currentUserAccess ) {
+		if ( ! $currentUserAccess->wpAny( 'manage_options' )->get() ) {
 			return;
 		}
 
 		$pages = $this->getPages();
-		$parentSlug = $this->getMainPageSlug();
+		$parentSlug = $this->call( 'getMainPageSlug' );
 
 		foreach ( $pages as $page ) {
-			$hasAccess = app( 'CurrentUserAccess' )
-				->part( 'settings' )
-				->can( $page['slug'] . '-tab' )
-				->get();
+			$hasAccess = $currentUserAccess->part( 'settings' )->can( $page['slug'] . '-tab' )->get();
 
 			if ( $hasAccess ) {
 				add_submenu_page( $parentSlug, $page['title'], $page['title'], 'manage_options', $page['slug'], function () {
@@ -124,7 +120,7 @@ class SettingsController extends Container {
 			}
 		}
 
-		do_action( 'vc:v:settings:page_settings_build' );
+		do_action( 'vc:v:settings:pageSettingsBuild' );
 	}
 
 	/**
@@ -134,7 +130,7 @@ class SettingsController extends Container {
 		$pageSlug = $request->input( 'page' );
 
 		ob_start();
-		do_action( 'vc:v:settings:page_render:' . $pageSlug, $pageSlug );
+		do_action( 'vc:v:settings:pageRender:' . $pageSlug, $pageSlug );
 		$content = ob_get_clean();
 
 		$layout = $this->layout;
@@ -146,10 +142,10 @@ class SettingsController extends Container {
 			$layout = $pages[ $key ]['layout'];
 		}
 
-		Templates::render( 'layouts/' . $layout, [
+		Templates::render( 'settings/layouts/' . $layout, [
 			'content' => $content,
 			'tabs' => $this->getPages(),
-			'activeSlug' => $pageSlug
+			'activeSlug' => $pageSlug,
 		] );
 	}
 
@@ -162,10 +158,10 @@ class SettingsController extends Container {
 		wp_enqueue_script( VC_V_PREFIX . 'scripts-settings' );
 
 		foreach ( $this->getPages() as $page ) {
-			do_action( 'vc:v:settings:init_admin:page:' . $page['slug'] );
+			do_action( 'vc:v:settings:initAdmin:page:' . $page['slug'] );
 		}
 
-		do_action( 'vc:v:settings:init_admin' );
+		do_action( 'vc:v:settings:initAdmin' );
 	}
 
 	/**
@@ -173,7 +169,7 @@ class SettingsController extends Container {
 	 */
 	public function getPages() {
 		if ( is_null( $this->pages ) ) {
-			$this->pages = apply_filters( 'vc:v:settings:get_pages', [ ] );
+			$this->pages = apply_filters( 'vc:v:settings:getPages', [ ] );
 		}
 
 		return $this->pages;
@@ -185,10 +181,13 @@ class SettingsController extends Container {
 	 * @param $callback
 	 */
 	public function addSection( $page, $title = null, $callback = null ) {
-		add_settings_section( $this->getOptionGroup() . '_' . $page, $title, ( null !== $callback ? $callback : function () {
-			$args = func_get_args();
-			$this->call( 'settingSectionCallbackFunction', $args );
-		} ), $this->getPageSlug() . '_' . $page );
+		add_settings_section( $this->getOptionGroup() . '_' . $page, $title, ( null !== $callback
+			? $callback
+			: function () {
+				$args = func_get_args();
+
+				return $this->call( 'settingSectionCallbackFunction', $args );
+			} ), $this->getPageSlug() . '_' . $page );
 	}
 
 	/**
@@ -217,6 +216,5 @@ class SettingsController extends Container {
 	 */
 	public function settingSectionCallbackFunction( $page ) {
 	}
-
 
 }
