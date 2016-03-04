@@ -219,7 +219,7 @@ class LicenseController extends Container {
 			$response = [ 'status' => true ];
 		}
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 	/**
@@ -272,7 +272,7 @@ class LicenseController extends Container {
 			'url' => $this->generateActivationUrl()
 		];
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 	/**
@@ -293,7 +293,7 @@ class LicenseController extends Container {
 			'url' => $this->generateDeactivationUrl()
 		];
 
-		die( json_encode( $response ) );
+		wp_send_json( $response );
 	}
 
 
