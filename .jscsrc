@@ -1,7 +1,7 @@
 {
   "maxErrors": "2000",
   "maximumLineLength": {
-    "value": 180,
+    "value": 250,
     "allExcept": ["comments", "functionSignature", "regex"]
   },
   "requireCurlyBraces": [
@@ -60,7 +60,8 @@
   "requireSpaceBeforeObjectValues": true,
   "requireSpaceBeforeBlockStatements": true,
   "requireSpacesInForStatement": true,
-
+  "requireSpaceAfterLineComment": true,
+  "requireDollarBeforejQueryAssignment": true,
   "validateIndentation": 2,
   "validateParameterSeparator": ", ",
   "validateQuoteMarks": { "mark": "'", "escape": true },

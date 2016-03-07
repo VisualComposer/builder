@@ -6,16 +6,18 @@ class Application extends \Laravel\Lumen\Application
 {
     public $modules = [
         // system modules & submodules
-        'ActivationController'          => 'VisualComposer\Modules\System\Activation\ActivationController',
-        'ActivationListener'            => 'VisualComposer\Modules\System\Activation\ActivationListener',
-        'TextDomainController'          => 'VisualComposer\Modules\System\TextDomain\TextDomainController',
+        'ActivationController' => 'VisualComposer\Modules\System\Activation\ActivationController',
+        'ActivationListener' => 'VisualComposer\Modules\System\Activation\ActivationListener',
+        'TextDomainController' => 'VisualComposer\Modules\System\TextDomain\TextDomainController',
         // Editors modules & submodules
-        'AssetsManagerController'       => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
-        'DataAjaxController'            => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
-        'FrontController'               => 'VisualComposer\Modules\Editors\Front\FrontController',
-        // Editor elements
-        'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Editors\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
-      ];
+        'AssetsManagerController' => 'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
+        'DataAjaxController' => 'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
+        'FrontController' => 'VisualComposer\Modules\Front\FrontController',
+        // Elements
+        'AjaxShortcodeRenderController' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
+        'Frontend' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
+        'PageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
+    ];
 
     /**
      * Create a new Lumen application instance.
@@ -28,7 +30,7 @@ class Application extends \Laravel\Lumen\Application
     {
         $this->basePath = $basePath;
         $this->bootstrapContainer();
-        do_action('vc:v:init');
+        do_action('vc:v:load');
     }
 
     public function boot()
@@ -37,6 +39,7 @@ class Application extends \Laravel\Lumen\Application
             $this->singleton($moduleName, $module);
             $this->make($moduleName);
         }
+        do_action('vc:v:init');
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
 use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\WordPress\Actions;
 use VisualComposer\Helpers\WordPress\File;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
@@ -43,13 +42,13 @@ class AssetsManagerController extends Container
             $this->call('setPostDataHook', $args);
         });
 
-        Actions::add('before_delete_post', function () {
+        add_action('before_delete_post', function () {
             $args = func_get_args();
             $this->call('deletePostAssetsHook', $args);
         });
 
         // Save compiled less into one css bundle
-        Actions::add('wp_ajax_vc:v:saveCssBundle', function () {
+        add_action('vc:v:ajax:loader:saveCssBundle:admin-nonce', function () {
             $args = func_get_args();
             $this->call('saveCssBundleHook', $args);
         });
