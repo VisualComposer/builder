@@ -1,8 +1,8 @@
 var path = require('path');
 var vcCake = require('vc-cake');
+var $ = require('jquery');
 
 vcCake.addService('asset-manager', {
-
   /**
    * Up-to-date list of all assets
    *
