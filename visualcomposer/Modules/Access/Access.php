@@ -41,7 +41,7 @@ abstract class Access {
 					$args = [ $args ];
 				}
 				$this->setValidAccess( true );
-				call_user_func_array( $callback, $args );
+				app()->call( $callback, $args );
 				if ( $valid === $this->getValidAccess() ) {
 					$access = $valid;
 					break;
@@ -142,7 +142,7 @@ abstract class Access {
 	/**
 	 * @param string $nonce
 	 *
-	 * @return CurrentUserAccess
+	 * @return $this
 	 */
 	public function checkAdminNonce( $nonce = '' ) {
 		return $this->check( [ 'Nonce', 'verifyAdmin' ], $nonce );
@@ -151,7 +151,7 @@ abstract class Access {
 	/**
 	 * @param string $nonce
 	 *
-	 * @return CurrentUserAccess
+	 * @return $this
 	 */
 	public function checkPublicNonce( $nonce = '' ) {
 		return $this->check( [ 'Nonce', 'verifyUser' ], $nonce );

@@ -5,7 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Modules\Settings\SettingsController;
+use VisualComposer\Modules\Settings\Controller as SettingsController;
 use VisualComposer\Modules\System\Container;
 
 class General extends Container {

@@ -10,7 +10,7 @@ Templates::render( 'settings/pages/roles/partials/part', [
 	'part' => $part,
 	'role' => $role,
 	'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-	'controller' => app( 'VisualComposer\Modules\Access\RoleAccess' )->who( $role )->part( $part ),
+	'controller' => app( 'VisualComposer\Modules\Access\Role\Access' )->who( $role )->part( $part ),
 	'customValue' => 'custom',
 	'capabilities' => [ ],
 	// @todo add shortcodes

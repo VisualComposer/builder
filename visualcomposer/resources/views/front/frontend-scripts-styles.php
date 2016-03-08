@@ -37,7 +37,7 @@ use VisualComposer\Helpers\Generic\Url;
 
 	function vcvLoadInline( element, id ) {
 		window.vcPostID = id;
-		window.vcAjaxUrl = '<?= admin_url( 'admin-ajax.php', 'relative' ) ?>';
+		window.vcAjaxUrl = '<?= admin_url( 'admin-ajax.php' ) ?>';
 		element.remove();
 
 		<?php /* TODO: use assets folder */ ?>

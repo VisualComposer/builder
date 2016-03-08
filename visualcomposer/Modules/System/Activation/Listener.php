@@ -6,7 +6,7 @@ use VisualComposer\Helpers\WordPress\Options;
 use Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Modules\System\Container;
 
-class ActivationListener extends Container
+class Listener extends Container
 {
     public function __construct(Dispatcher $event)
     {

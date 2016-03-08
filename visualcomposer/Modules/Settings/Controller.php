@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Modules\Access\CurrentUserAccess;
+use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Modules\System\Container;
 
-class SettingsController extends Container {
+class Controller extends Container {
 
 	private $pages = null;
 	private $optionGroup = 'vc-v-settings';
@@ -20,8 +20,6 @@ class SettingsController extends Container {
 	private $layout = 'default';
 
 	/**
-	 * SettingsController constructor.
-	 *
 	 * @param Dispatcher $event
 	 */
 	public function __construct( Dispatcher $event ) {

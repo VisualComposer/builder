@@ -6,7 +6,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use VisualComposer\Modules\System\Container;
 
-class DataAjaxController extends Container {
+class Controller extends Container {
 	/**
 	 * @var \Illuminate\Http\Request
 	 */

@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use Illuminate\Http\Request;
-use VisualComposer\Modules\Access\CurrentUserAccess;
+use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\System\Container;
 
 class About extends Container {

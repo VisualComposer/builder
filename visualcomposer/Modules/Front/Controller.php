@@ -6,10 +6,10 @@ use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;
 use Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Modules\Access\CurrentUserAccess;
+use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\System\Container;
 
-class FrontController extends Container {
+class Controller extends Container {
 	/**
 	 * @var bool
 	 */

@@ -5,31 +5,31 @@ namespace VisualComposer;
 class Application extends \Laravel\Lumen\Application {
 	public $modules = [
 		// system modules & submodules
-		'VisualComposer\Modules\System\Activation\ActivationController',
-		'VisualComposer\Modules\System\Activation\ActivationListener',
-		'VisualComposer\Modules\System\TextDomain\TextDomainController',
+		'VisualComposer\Modules\System\Activation\Controller',
+		'VisualComposer\Modules\System\Activation\Listener',
+		'VisualComposer\Modules\System\TextDomain\Controller',
 
 		// Editors modules & submodules
-		'VisualComposer\Modules\Editors\AssetsManager\AssetsManagerController',
-		'VisualComposer\Modules\Editors\DataAjax\DataAjaxController',
-		'VisualComposer\Modules\Front\FrontController',
+		'VisualComposer\Modules\Editors\AssetsManager\Controller',
+		'VisualComposer\Modules\Editors\DataAjax\Controller',
+		'VisualComposer\Modules\Front\Controller',
 
 		// Elements
-		'VisualComposer\Modules\Elements\AjaxShortcodeRender\AjaxShortcodeRenderController',
+		'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
 
 		// License
-		'VisualComposer\Modules\License\LicenseController',
+		'VisualComposer\Modules\License\Controller',
 
 		// Settings
-		'VisualComposer\Modules\Settings\SettingsController',
+		'VisualComposer\Modules\Settings\Controller',
 		'VisualComposer\Modules\Settings\Pages\General',
 		'VisualComposer\Modules\Settings\Pages\License',
 		'VisualComposer\Modules\Settings\Pages\Roles',
 		'VisualComposer\Modules\Settings\Pages\About',
 
 		// Access
-		'VisualComposer\Modules\Access\CurrentUserAccess',
-		'VisualComposer\Modules\Access\RoleAccess',
+		'VisualComposer\Modules\Access\CurrentUser\Access',
+		'VisualComposer\Modules\Access\Role\Access',
 
 		'VisualComposer\Modules\Editors\Frontend\Frontend',
 		'VisualComposer\Modules\Editors\Frontend\PageEditable',
@@ -46,7 +46,7 @@ class Application extends \Laravel\Lumen\Application {
 	public function __construct( $basePath = null ) {
 		$this->basePath = $basePath;
 		$this->bootstrapContainer();
-		do_action( 'vc:v:load' );
+		do_action( 'vc:v:load', $this );
 	}
 
 	public function boot() {
@@ -54,7 +54,7 @@ class Application extends \Laravel\Lumen\Application {
 			$this->singleton( $module, $module );
 			$this->make( $module );
 		}
-		do_action( 'vc:v:init' );
+		do_action( 'vc:v:boot', $this );
 	}
 
 	/**

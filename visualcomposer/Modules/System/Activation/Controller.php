@@ -5,7 +5,7 @@ namespace VisualComposer\Modules\System\Activation;
 use Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Modules\System\Container;
 
-class ActivationController extends Container
+class Controller extends Container
 {
     /**
      * ActivationController constructor.

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use VisualComposer\Helpers\Generic\Templates;
 
-if ( app('VisualComposer\Modules\License\LicenseController')->isActivated() ) {
+if ( app('VisualComposer\Modules\License\Controller')->isActivated() ) {
 	$view = 'activated-state';
 } else {
 	$view = 'deactivated-state';

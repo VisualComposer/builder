@@ -15,7 +15,7 @@ $tab = $page->getSlug();
 
 ?>
 
-<form action="<?= admin_url( 'admin-ajax.php', 'relative' ); ?>"
+<form action="<?= admin_url( 'admin-ajax.php' ); ?>"
       method="post"
       id="vc_settings-<?= $tab ?>"
       class="vc_settings-tab-content vc_settings-tab-content-active"

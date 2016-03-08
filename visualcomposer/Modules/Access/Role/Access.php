@@ -1,14 +1,19 @@
 <?php
 
-namespace VisualComposer\Modules\Access;
+namespace VisualComposer\Modules\Access\Role;
+use VisualComposer\Modules\Access\Access as AccessFactory;
 
-class RoleAccessController extends Access {
+class Access extends AccessFactory {
+
+	/**
+	 * @var bool
+	 */
+	protected $roleName = false;
+	protected $role;
+
+	protected $part;
 
 	protected static $partNamePrefix = 'vc_v_access_rules_';
-	protected $part = false;
-	protected $roleName = false;
-	protected $role = false;
-	protected $validAccess = true;
 	protected $mergedCaps = [
 		'vc_row_inner_all' => 'vc_row_all',
 		'vc_column_all' => 'vc_row_all',
@@ -19,12 +24,42 @@ class RoleAccessController extends Access {
 	];
 
 	/**
-	 * RoleAccessController constructor.
-	 *
 	 * @param $part
+	 *
+	 * @return $this
+	 * @throws \Exception
 	 */
-	public function __construct( $part ) {
+	public function part( $part ) {
+		$roleName = $this->getRoleName();
+
+		if ( ! $roleName ) {
+			throw new \Exception( 'roleName for vc_role_access is not set, please use ->who(roleName) method to set!' );
+		}
+
 		$this->part = $part;
+		$this->setValidAccess( true ); // reset
+
+		return $this;
+	}
+
+	/**
+	 * Set role to get access to data
+	 *
+	 * @param $roleName
+	 *
+	 * @return self
+	 */
+	public function who( $roleName ) {
+		$this->roleName = $roleName;
+
+		return $this;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getRoleName() {
+		return $this->roleName;
 	}
 
 	/**
@@ -86,11 +121,15 @@ class RoleAccessController extends Access {
 	 * @return self
 	 */
 	public function can( $rule = '', $checkState = true ) {
+		$part = $this->getPart();
+		if( empty( $part ) ) {
+			throw new \Exception( 'partName for vc_role_access is not set, please use ->part(partName) method to set!' );
+		}
 		if ( null === $this->getRole() ) {
 			$this->setValidAccess( is_super_admin() );
 		} elseif ( $this->getValidAccess() ) {
 			// YES it is hard coded :)
-			if ( 'administrator' === $this->getRole()->name && 'settings' === $this->getPart() && ( 'vc-v-roles-tab' === $rule || 'vc-v-license-tab' === $rule ) ) {
+			if ( 'administrator' === $this->getRole()->name && 'settings' === $part && ( 'vc-v-roles-tab' === $rule || 'vc-v-license-tab' === $rule ) ) {
 				$this->setValidAccess( true );
 
 				return $this;
@@ -110,8 +149,8 @@ class RoleAccessController extends Access {
 			} else {
 				$return = $this->getCapRule( $rule );
 			}
-			$return = apply_filters( 'vc:v:role:can:accessWith' . $this->getPart(), $return, $this->getRole(), $rule );
-			$return = apply_filters( 'vc:v:role:can:accessWith' . $this->getPart() . ':' . $rule, $return, $this->getRole() );
+			$return = apply_filters( 'vc:v:role:can:accessWith' . $part, $return, $this->getRole(), $rule );
+			$return = apply_filters( 'vc:v:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole() );
 			$this->setValidAccess( $return );
 		}
 
@@ -203,13 +242,7 @@ class RoleAccessController extends Access {
 
 		return $this->role;
 	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getRoleName() {
-		return $this->roleName;
-	}
+	
 
 	public function getStateKey() {
 		return self::$partNamePrefix . $this->getPart();

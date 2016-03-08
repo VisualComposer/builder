@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Modules\System\Container;
 
-class TextDomainController extends Container
+class Controller extends Container
 {
     public function __construct()
     {

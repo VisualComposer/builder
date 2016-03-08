@@ -6,8 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use VisualComposer\Helpers\WordPress\Nonce;
 
-$optionGroup = app( 'VisualComposer\Modules\Settings\SettingsController' )->getOptionGroup();
-$pageSlug = app( 'VisualComposer\Modules\Settings\SettingsController' )->getPageSlug();
+$settings = app( 'VisualComposer\Modules\Settings\Controller' );
+$optionGroup = $settings->getOptionGroup();
+$pageSlug = $settings->getPageSlug();
 $tab = $page->getSlug();
 
 ?>

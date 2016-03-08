@@ -6,7 +6,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use VisualComposer\Modules\System\Container;
 
-class AjaxShortcodeRenderController extends Container {
+class Controller extends Container {
 
 	public function __construct( Dispatcher $event ) {
 		add_action( 'wp_ajax_vc:v:ajaxShortcodeRender', function () {
