@@ -2,7 +2,6 @@
 
 class VcAccessRolesUsersTest extends WP_UnitTestCase {
 
-
 	public function _check( $value ) {
 		// used in next test
 		return (bool) $value;
@@ -33,27 +32,26 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
 			->can()
-			->get() );
+			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users' )
 			->get() );
-
 
 		app( 'VisualComposer\Modules\Access\Role\Access' )
 			->who( 'administrator' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->setState( 'custom' );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can()
-			->get() );
+			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
 			->can( 'something_role_users' )
-			->get() );
+			->get( true ) );
 
 		// reset:
 		app( 'VisualComposer\Modules\Access\Role\Access' )
@@ -63,13 +61,13 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 
 	}
 
-
 	public function test_part_capabilities_for_empty_can_canany_canall() {
 		wp_set_current_user( 1 );
 
 		// for state=null any cap is true
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users' )
 			->setCapRule( 'something_role_users', true );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
@@ -94,7 +92,8 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 
 		// for state=null any cap is true
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users' )
 			->setCapRule( 'something_role_users', false );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
@@ -155,7 +154,8 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 
 		// what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users' )
 			->setCapRule( 'something_role_users', true );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
@@ -179,7 +179,8 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 			->get() );
 
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users' )
 			->setCapRule( 'something_role_users', false );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->part( 'something_role_users' )
@@ -210,14 +211,15 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 			->part( 'something_role_users' )
 			->setState( 'custom' );
 
-		$this->assertEquals( 'custom', app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
-			->getState() );
+		$this->assertEquals( 'custom',
+			app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
+				->part( 'something_role_users', true )
+				->getState() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can()
-			->get() );
+			->get( true ) );
 
 		wp_set_current_user( null );
 		wp_set_current_user( 1 ); // this will reset user capabilities and get latests from user role
@@ -252,162 +254,166 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase {
 
 		wp_set_current_user( null );
 		wp_set_current_user( 1 ); // this will reset user capabilities and get latests from user role
-		$this->assertEquals( 'administrator', app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
-			->getRoleName() );
-
+		$this->assertEquals( 'administrator',
+			app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
+				->part( 'something_role_users', true )
+				->getRoleName() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users' )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users', 'something_role_users2' )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users' )
 			->get() );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users', 'something_role_users2' )
 			->get() );
 
 		// For false
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users', true )
 			->setCapRule( 'something_role_users', false );
 
 		wp_set_current_user( null );
 		wp_set_current_user( 1 ); // this will reset user capabilities and get latests from user role
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users' )
-			->get() );
+			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users' )
-			->get() );
+			->get( true ) );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users', 'something_role_users2' )
-			->get() );
+			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users' )
 			->get() );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users2' )
 			->get() );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users', 'something_role_users2' )
 			->get() );
 
-
 		// For multiple
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users', true )
 			->setCapRule( 'something_role_users', true );
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users', true )
 			->setCapRule( 'something_role_users2', true );
 
 		wp_set_current_user( null );
 		wp_set_current_user( 1 ); // this will reset user capabilities and get latests from user role
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users2' )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users2' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users', 'something_role_users2' )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users2' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users', 'something_role_users2' )
 			->get() );
 
 		// For multiple false
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users', true )
 			->setCapRule( 'something_role_users', false );
 		app( 'VisualComposer\Modules\Access\Role\Access' )
-			->who( 'administrator' )->part( 'something_role_users' )
+			->who( 'administrator' )
+			->part( 'something_role_users', true )
 			->setCapRule( 'something_role_users2', true );
 
 		wp_set_current_user( null );
 		wp_set_current_user( 1 ); // this will reset user capabilities and get latests from user role
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->can( 'something_role_users2' )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users2' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAny( 'something_role_users', 'something_role_users2' )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users' )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users2' )
 			->get() );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->canAll( 'something_role_users', 'something_role_users2' )
 			->get() );
 		//reset
 		app( 'VisualComposer\Modules\Access\Role\Access' )
 			->who( 'administrator' )
-			->part( 'something_role_users' )
+			->part( 'something_role_users', true )
 			->setState( null );
 	}
 

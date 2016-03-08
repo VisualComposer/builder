@@ -29,7 +29,10 @@ class Access extends AccessFactory {
 	 * @return $this
 	 * @throws \Exception
 	 */
-	public function part( $part ) {
+	public function part( $part, $reset = false ) {
+		if($reset) {
+			$this->reset();
+		}
 		$roleName = $this->getRoleName();
 
 		if ( ! $roleName ) {
@@ -37,7 +40,7 @@ class Access extends AccessFactory {
 		}
 
 		$this->part = $part;
-		$this->setValidAccess( true ); // reset
+		$this->setValidAccess( $this->getValidAccess() );
 
 		return $this;
 	}

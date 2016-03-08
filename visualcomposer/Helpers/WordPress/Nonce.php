@@ -16,11 +16,11 @@ abstract class Nonce
 
     public static function verifyUser($nonce)
     {
-        return wp_verify_nonce($nonce, 'vc:v:nonce');
+        return !empty($nonce) &&  wp_verify_nonce($nonce, 'vc:v:nonce');
     }
 
     public static function verifyAdmin($nonce)
     {
-        return wp_verify_nonce($nonce, 'vc:v:nonce:admin');
+        return !empty($nonce) && wp_verify_nonce($nonce, 'vc:v:nonce:admin');
     }
 }

@@ -41,7 +41,7 @@ abstract class Access {
 					$args = [ $args ];
 				}
 				$this->setValidAccess( true );
-				app()->call( $callback, $args );
+				call_user_func_array( $callback, $args );
 				if ( $valid === $this->getValidAccess() ) {
 					$access = $valid;
 					break;
@@ -58,11 +58,18 @@ abstract class Access {
 	 *
 	 * @return bool
 	 */
-	public function get() {
+	public function get($reset = false) {
 		$result = $this->getValidAccess();
+		if ( $reset ) {
+			$this->reset();
+		}
+		return $result;
+	}
+
+	public function reset() {
 		$this->setValidAccess( true );
 
-		return $result;
+		return $this;
 	}
 
 	/**
@@ -145,7 +152,7 @@ abstract class Access {
 	 * @return $this
 	 */
 	public function checkAdminNonce( $nonce = '' ) {
-		return $this->check( [ 'Nonce', 'verifyAdmin' ], $nonce );
+		return $this->check( 'VisualComposer\Helpers\WordPress\Nonce::verifyAdmin', $nonce );
 	}
 
 	/**
@@ -154,6 +161,6 @@ abstract class Access {
 	 * @return $this
 	 */
 	public function checkPublicNonce( $nonce = '' ) {
-		return $this->check( [ 'Nonce', 'verifyUser' ], $nonce );
+		return $this->check( 'VisualComposer\Helpers\WordPress\Nonce::verifyUser', $nonce );
 	}
 }

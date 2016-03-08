@@ -10,7 +10,10 @@ class Access extends AccessFactory {
 	 *
 	 * @return $this
 	 */
-	public function part( $part ) {
+	public function part( $part, $reset = false ) {
+		if($reset) {
+			$this->reset();
+		}
 		$this->part = $part;
 		// we also check for user "logged_in" status
 		$isUserLoggedIn = function_exists( 'is_user_logged_in' ) && is_user_logged_in(); // @todo fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
@@ -28,7 +31,7 @@ class Access extends AccessFactory {
 				}
 				array_unshift( $args, 'current_user_can' );
 				$this->setValidAccess( true );
-				app()->call( $callback, $args );
+				call_user_func_array( $callback, $args );
 				if ( $valid === $this->getValidAccess() ) {
 					$access = $valid;
 					break;
