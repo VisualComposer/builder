@@ -261,6 +261,7 @@ class Controller extends Container {
 	 */
 	public function startActivationResponse(CurrentUserAccess $currentUserAccess) {
 		$currentUserAccess
+			->reset()
 			->checkAdminNonce()
 			->validateDie()
 			->wpAny( 'manage_options' )
