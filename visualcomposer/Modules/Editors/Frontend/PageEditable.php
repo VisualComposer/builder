@@ -62,7 +62,7 @@ class PageEditable extends Container {
                 \'css\' );
         })();
     </script>
-<span id="vc-v-frontend-editable-placeholder"></span>';
+	<div id="vc-v-editor">Loading...</div>';
 			} );
 		}, 9999 ); // after all the_post actions ended
 	}

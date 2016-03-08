@@ -1,9 +1,11 @@
 var vcCake = require('vc-cake');
 vcCake.add('editor-content-layout', function(api) {
+  var $ = require('jquery');
   var domContainer = 'wordpress' === vcCake.env('platform') ?
-    $( '#vc_v-editor', $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document ).get(0) :
-    document.getElementById('vc_v-editor');
-
+    $( '#vc-v-editor', $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document ).get(0) :
+    document.getElementById('vc-v-editor');
+  console.log( $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document);
+  console.log( $( '#vc-v-editor', $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document ).length);
   var React = require('react');
   var ReactDOM = require('react-dom');
   var HtmlLayout = require('./lib/html-layout');

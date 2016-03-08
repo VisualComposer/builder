@@ -27,17 +27,20 @@ class Controller extends Container {
 	 */
 	public function __construct( Dispatcher $event ) {
 		$this->event = $event;
-		add_action( 'wp_head', function () {
-			$this->call( 'appendScript' );
-		} );
+		add_action( 'wp_head',
+			function () {
+				$this->call( 'appendScript' );
+			} );
 
-		add_action( 'wp_enqueue_scripts', function () {
-			wp_enqueue_script( 'jquery' );
-		} );
+		add_action( 'wp_enqueue_scripts',
+			function () {
+				wp_enqueue_script( 'jquery' );
+			} );
 
-		add_filter( 'edit_post_link', function ( $link ) {
-			return $this->call( 'addEditPostLink', [ 'link' => $link ] );
-		} );
+		add_filter( 'edit_post_link',
+			function ( $link ) {
+				return $this->call( 'addEditPostLink', [ 'link' => $link ] );
+			} );
 	}
 
 	/**
@@ -45,8 +48,11 @@ class Controller extends Container {
 	 *
 	 * @return string
 	 */
-	private function addEditPostLink( $link, CurrentUserAccess $currentUserAccess ) {
-		if ( $currentUserAccess->part( 'frontend_editor' )->can() ) {
+	private function addEditPostLink(
+		$link,
+		CurrentUserAccess $currentUserAccess
+	) {
+		if ( $currentUserAccess->reset()->part( 'frontend_editor' )->can()->get( true ) ) {
 			$link .= ' <a href="' . Url::ajax( [
 					'action' => 'frontend',
 					'vc-source-id' => get_the_ID(),
@@ -78,6 +84,8 @@ class Controller extends Container {
 		$stylesBundle = Options::get( 'stylesBundle', [ ] );
 		$args = compact( 'scriptsBundle', 'stylesBundle' );
 
-		return Templates::render( 'front/frontend-scripts-styles', $args, false );
+		return Templates::render( 'front/frontend-scripts-styles',
+			$args,
+			false );
 	}
 }

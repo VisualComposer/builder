@@ -4,13 +4,15 @@ var classNames = require( 'classnames' );
 
 
 var TreeLayout = require( './tree-layout' );
+var TreeContent = require( './tree-content' );
 
 require( '../css/tree-view/init.less' );
 
 var TreeView = React.createClass({
   getInitialState: function () {
     return {
-      contentExpand: false
+      contentExpand: true,
+      treeContentCount: 0
     }
   },
   componentDidMount: function () {
@@ -29,9 +31,7 @@ var TreeView = React.createClass({
             <TreeLayout api={this.props.api}/>
           </div>
           <div className="vc-ui-tree-view-content">
-            <p>
-              <i className="vc-ui-icon vc-ui-icon-bug" style={{fontSize: '3em'}}></i> right side content
-            </p>
+            <TreeContent api={this.props.api}/>
           </div>
         </div>
       </div>

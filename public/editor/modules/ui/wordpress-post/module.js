@@ -16,7 +16,6 @@ vcCake.add('ui-save-data', function(api) {
         this.request('data:reset', data);
       }
     }.bind(api));
-
   });
 });
 require('./lib/navbar-dropdown-control.js');

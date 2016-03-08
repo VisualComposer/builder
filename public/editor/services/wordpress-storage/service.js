@@ -1,11 +1,13 @@
 var vcCake = require('vc-cake');
 var assetManager = vcCake.getService('asset-manager');
+var $ = require('jquery');
 var wordpressStorage = {
   dataKey: 'vcData',
   getItem: function(callback) {
     this.ajaxPost( {
-      action: 'vc:v:getData',
-      post_id: window.vcPostID
+      action: 'vc:v:getData:adminNonce',
+      nonce: window.vcNonce,
+      source_id: window.vcSourceID
     }, callback.bind(this) );
   },
   ajaxPost: function ( data, successCallback, failureCallback ) {
@@ -21,7 +23,7 @@ var wordpressStorage = {
         }
       }
     };
-    request.send( jQuery.param( data ) );
+    request.send( $.param( data ) );
   },
   update: function(data) {
     var content = document.getElementsByClassName( 'vc-v-layouts-clean-html' )[ 0 ].innerHTML.replace(
@@ -35,8 +37,9 @@ var wordpressStorage = {
     window.vcvPostStyles = stylesStringified;
 
     this.ajaxPost( {
-      action: 'vc:v:setData',
-      post_id: window.vcPostID,
+      action: 'vc:v:setData:adminNonce',
+      nonce: window.vcNonce,
+      source_id: window.vcPostID,
       content: content,
       data: data,
       scripts: scripts,
@@ -66,7 +69,8 @@ var wordpressStorage = {
       }
 
       this.ajaxPost( {
-        action: 'vc:v:saveCssBundle',
+        action: 'vc:v:saveCssBundle:adminNonce',
+        nonce: window.vcNonce,
         contents: contents
       }, function ( request ) {
         var response = JSON.parse( request.response );

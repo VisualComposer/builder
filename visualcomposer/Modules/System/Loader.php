@@ -1,5 +1,4 @@
 <?php
-
 define('VC_V_LOADING_EDITOR', true);
 
 // Require an action parameter

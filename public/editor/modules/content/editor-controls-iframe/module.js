@@ -1,9 +1,10 @@
-var Mediator = require( '../../helpers/Mediator' ); // need to remove too
-var controlsHandler = require('imports?$=jquery!./lib/ControlsHandler.js');
+var vcCake = require('vc-cake');
 var ControlsTrigger = {};
 
 require('./css/controls/init.less');
 vcCake.add('ui-editor-controls', function(api) {
+  var $ = require('jquery');
+  var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js');
     ControlsTrigger.triggerShowFrame = function ( e ) {
         e.stopPropagation();
         controlsHandler.showOutline($(e.currentTarget));
@@ -16,7 +17,6 @@ vcCake.add('ui-editor-controls', function(api) {
     ControlsTrigger.triggerRedrawFrame = function ( e ) {
         controlsHandler.drawOutlines();
     };
-    Mediator.installTo(controlsHandler);
 
     var EditorControls = function() {
         var editorWrapper = document.getElementById('vc-editor-container');
@@ -32,7 +32,7 @@ vcCake.add('ui-editor-controls', function(api) {
 
 
         api.reply('start', function(){
-            var iframeDocument = jQuery( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document;
+            var iframeDocument = $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document;
             $( iframeDocument ).on( 'mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame );
             $( iframeDocument ).on( 'mousemove hover', 'body', ControlsTrigger.triggerHideFrame );
             $( document ).on( 'mousemove hover', '.vc-ui-outline-controls-container', function ( e ) {
