@@ -13,7 +13,7 @@ class Application extends \Laravel\Lumen\Application
         // Editors modules & submodules
         'VisualComposer\Modules\Editors\AssetsManager\Controller',
         'VisualComposer\Modules\Editors\DataAjax\Controller',
-        'VisualComposer\Modules\Front\Controller',
+        'VisualComposer\Modules\Live\Controller',
 
         // Elements
         'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
