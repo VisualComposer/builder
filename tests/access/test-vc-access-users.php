@@ -110,208 +110,220 @@ class VcAccessUsersTest extends WP_UnitTestCase {
 		// custom validators:
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				true )
+                    ],
+                    true )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				false )
+                    ],
+                    false )
 			->get() );
 
 		// checkAny
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			) )
+                       ]
+            )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			) )
+                       ]
+            )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get() );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get() );
 
 		//checkAll
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			) )
+                       ]
+            )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get() );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get() );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			) )
+                       ]
+            )
 			->get() );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\CurrentUser\Access' )
 			->reset()
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get() );
 	}
 
@@ -987,11 +999,11 @@ class VcAccessUsersTest extends WP_UnitTestCase {
 			->reset()
 			->checkAdminNonce( Nonce::admin() )
 			->checkPublicNonce( Nonce::user() )
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				true )
+                    ],
+                    true )
 			->wpAny( 'edit_posts', 'edit_pages' )
 			->wpAll( 'edit_posts', 'edit_pages' )
 			->part( 'something' )

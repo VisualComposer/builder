@@ -107,195 +107,207 @@ class VcAccessRolesTest extends WP_UnitTestCase {
 		// custom validators:
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
 			->reset()
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				true )
+                    ],
+                    true )
 			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				false )
+                    ],
+                    false )
 			->get( true ) );
 
 		// checkAny
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get( true ) );
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAny( array(
-				array(
+			->checkAny([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get( true ) );
 
 		//checkAll
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get( true ) );
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					false,
-				) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertFalse( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				false,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			) )
+                       ]
+            )
 			->get( true ) );
 
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
-			->checkAll( array(
-				array(
+			->checkAll([
+				[
 					$this,
 					'_check',
-				),
+                ],
 				true,
-			),
-				array(
-					array(
+                       ],
+                       [
+					[
 						$this,
 						'_check',
-					),
+                    ],
 					true,
-				) )
+                       ]
+            )
 			->get( true ) );
 	}
 
@@ -759,11 +771,11 @@ class VcAccessRolesTest extends WP_UnitTestCase {
 		$this->assertTrue( app( 'VisualComposer\Modules\Access\Role\Access' )
 			->checkAdminNonce( Nonce::admin() )
 			->checkPublicNonce( Nonce::user() )
-			->check( array(
+			->check([
 				$this,
 				'_check',
-			),
-				true )
+                    ],
+                    true )
 			->part( 'something_role' )
 			->can()
 			->canAny( 'something_role' )// in null it is always true
