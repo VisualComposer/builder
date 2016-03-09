@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+if (!defined('ABSPATH')) {
+    die('-1');
 }
 
 ?>
 <div class="updated">
-	<p><?= $message ?></p>
+    <p><?= $message ?></p>
 </div>

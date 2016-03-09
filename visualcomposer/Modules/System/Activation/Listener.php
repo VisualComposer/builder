@@ -10,9 +10,12 @@ class Listener extends Container
 {
     public function __construct(Dispatcher $event)
     {
-        $event->listen('vc:system:activationController:activation', function () {
-            $this->call('setVersion');
-        });
+        $event->listen(
+            'vc:system:activationController:activation',
+            function () {
+                $this->call('setVersion');
+            }
+        );
     }
 
     private function setVersion()

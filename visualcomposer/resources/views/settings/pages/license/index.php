@@ -1,15 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+if (!defined('ABSPATH')) {
+    die('-1');
 }
 
 use VisualComposer\Helpers\Generic\Templates;
 
-if ( app('VisualComposer\Modules\License\Controller')->isActivated() ) {
-	$view = 'activated-state';
+if (app('VisualComposer\Modules\License\Controller')->isActivated()) {
+    $view = 'activated-state';
 } else {
-	$view = 'deactivated-state';
+    $view = 'deactivated-state';
 }
 
-Templates::render( 'settings/pages/license/partials/' . $view );
+Templates::render('settings/pages/license/partials/' . $view);

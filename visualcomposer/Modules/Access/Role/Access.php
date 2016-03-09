@@ -1,293 +1,314 @@
 <?php
 
 namespace VisualComposer\Modules\Access\Role;
+
 use VisualComposer\Modules\Access\Access as AccessFactory;
 
-class Access extends AccessFactory {
+class Access extends AccessFactory
+{
+    /**
+     * @var bool
+     */
+    protected $roleName = false;
+    protected $role;
+    protected $part;
+    protected static $partNamePrefix = 'vc_v_access_rules_';
+    protected $mergedCaps = [
+        'vc_row_inner_all' => 'vc_row_all',
+        'vc_column_all' => 'vc_row_all',
+        'vc_column_inner_all' => 'vc_row_all',
+        'vc_row_inner_edit' => 'vc_row_edit',
+        'vc_column_edit' => 'vc_row_edit',
+        'vc_column_inner_edit' => 'vc_row_edit',
+    ];
 
-	/**
-	 * @var bool
-	 */
-	protected $roleName = false;
-	protected $role;
+    /**
+     * @param $part
+     *
+     * @return $this
+     * @throws \Exception
+     */
+    public function part($part, $reset = false)
+    {
+        if ($reset) {
+            $this->reset();
+        }
+        $roleName = $this->getRoleName();
 
-	protected $part;
+        if (!$roleName) {
+            throw new \Exception('roleName for vc_role_access is not set, please use ->who(roleName) method to set!');
+        }
 
-	protected static $partNamePrefix = 'vc_v_access_rules_';
-	protected $mergedCaps = [
-		'vc_row_inner_all' => 'vc_row_all',
-		'vc_column_all' => 'vc_row_all',
-		'vc_column_inner_all' => 'vc_row_all',
-		'vc_row_inner_edit' => 'vc_row_edit',
-		'vc_column_edit' => 'vc_row_edit',
-		'vc_column_inner_edit' => 'vc_row_edit',
-	];
+        $this->part = $part;
+        $this->setValidAccess($this->getValidAccess());
 
-	/**
-	 * @param $part
-	 *
-	 * @return $this
-	 * @throws \Exception
-	 */
-	public function part( $part, $reset = false ) {
-		if($reset) {
-			$this->reset();
-		}
-		$roleName = $this->getRoleName();
+        return $this;
+    }
 
-		if ( ! $roleName ) {
-			throw new \Exception( 'roleName for vc_role_access is not set, please use ->who(roleName) method to set!' );
-		}
+    /**
+     * Set role to get access to data
+     *
+     * @param $roleName
+     *
+     * @return self
+     */
+    public function who($roleName)
+    {
+        $this->roleName = $roleName;
 
-		$this->part = $part;
-		$this->setValidAccess( $this->getValidAccess() );
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * @return null|string
+     */
+    public function getRoleName()
+    {
+        return $this->roleName;
+    }
 
-	/**
-	 * Set role to get access to data
-	 *
-	 * @param $roleName
-	 *
-	 * @return self
-	 */
-	public function who( $roleName ) {
-		$this->roleName = $roleName;
+    /**
+     * Set role name
+     *
+     * @param $roleName
+     */
+    public function setRoleName($roleName)
+    {
+        $this->roleName = $roleName;
+    }
 
-		return $this;
-	}
+    /**
+     * Get part for role.
+     * @return bool
+     */
+    public function getPart()
+    {
+        return $this->part;
+    }
 
-	/**
-	 * @return null|string
-	 */
-	public function getRoleName() {
-		return $this->roleName;
-	}
+    /**
+     * Get state of the Vc access rules part
+     *
+     * @return mixed;
+     */
+    public function getState()
+    {
+        $role = $this->getRole();
+        $state = null;
+        if ($role && isset($role->capabilities, $role->capabilities[ $this->getStateKey() ])) {
+            $state = $role->capabilities[ $this->getStateKey() ];
+        }
 
-	/**
-	 * Set role name
-	 *
-	 * @param $roleName
-	 */
-	public function setRoleName( $roleName ) {
-		$this->roleName = $roleName;
-	}
+        return apply_filters('vc:v:role:getState:accessWith' . $this->getPart(), $state, $this->getRole());
+    }
 
-	/**
-	 * Get part for role.
-	 * @return bool
-	 */
-	public function getPart() {
-		return $this->part;
-	}
+    /**
+     * Set state for full part
+     *
+     * State can have 3 values:
+     * true - all allowed under this part;
+     * false - all disabled under this part;
+     * string|'custom' - custom settings. It means that need to check exact capability.
+     *
+     * @param bool $value
+     *
+     * @return bool
+     */
+    public function setState($value = true)
+    {
+        $this->getRole()
+        && $this->getRole()->add_cap($this->getStateKey(), $value);
+    }
 
-	/**
-	 * Get state of the Vc access rules part
-	 *
-	 * @return mixed;
-	 */
-	public function getState() {
-		$role = $this->getRole();
-		$state = null;
-		if ( $role && isset( $role->capabilities, $role->capabilities[ $this->getStateKey() ] ) ) {
-			$state = $role->capabilities[ $this->getStateKey() ];
-		}
+    /**
+     * Can user do what he doo
+     * Any rule has three types of state: true, false, string
+     *
+     * @param string $rule
+     * @param bool|true $checkState
+     *
+     * @return self
+     */
+    public function can($rule = '', $checkState = true)
+    {
+        $part = $this->getPart();
+        if (empty($part)) {
+            throw new \Exception('partName for vc_role_access is not set, please use ->part(partName) method to set!');
+        }
+        if (null === $this->getRole()) {
+            $this->setValidAccess(is_super_admin());
+        } elseif ($this->getValidAccess()) {
+            // YES it is hard coded :)
+            if ('administrator' === $this->getRole()->name && 'settings' === $part
+                && ('vc-v-roles-tab' === $rule
+                    || 'vc-v-license-tab' === $rule)
+            ) {
+                $this->setValidAccess(true);
 
-		return apply_filters( 'vc:v:role:getState:accessWith' . $this->getPart(), $state, $this->getRole() );
-	}
+                return $this;
+            }
+            $rule = $this->updateMergedCaps($rule);
 
-	/**
-	 * Set state for full part
-	 *
-	 * State can have 3 values:
-	 * true - all allowed under this part;
-	 * false - all disabled under this part;
-	 * string|'custom' - custom settings. It means that need to check exact capability.
-	 *
-	 * @param bool $value
-	 *
-	 * @return bool
-	 */
-	public function setState( $value = true ) {
-		$this->getRole() && $this->getRole()
-		                         ->add_cap( $this->getStateKey(), $value );
-	}
+            if (true === $checkState) {
+                $state = $this->getState();
+                $return = false !== $state;
+                if (null === $state) {
+                    $return = true;
+                } elseif (is_bool($state)) {
+                    $return = $state;
+                } elseif ('' !== $rule) {
+                    $return = $this->getCapRule($rule);
+                }
+            } else {
+                $return = $this->getCapRule($rule);
+            }
+            $return = apply_filters('vc:v:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
+            $return = apply_filters('vc:v:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
+            $this->setValidAccess($return);
+        }
 
-	/**
-	 * Can user do what he doo
-	 * Any rule has three types of state: true, false, string
-	 *
-	 * @param string $rule
-	 * @param bool|true $checkState
-	 *
-	 * @return self
-	 */
-	public function can( $rule = '', $checkState = true ) {
-		$part = $this->getPart();
-		if( empty( $part ) ) {
-			throw new \Exception( 'partName for vc_role_access is not set, please use ->part(partName) method to set!' );
-		}
-		if ( null === $this->getRole() ) {
-			$this->setValidAccess( is_super_admin() );
-		} elseif ( $this->getValidAccess() ) {
-			// YES it is hard coded :)
-			if ( 'administrator' === $this->getRole()->name && 'settings' === $part && ( 'vc-v-roles-tab' === $rule || 'vc-v-license-tab' === $rule ) ) {
-				$this->setValidAccess( true );
+        return $this;
+    }
 
-				return $this;
-			}
-			$rule = $this->updateMergedCaps( $rule );
+    /**
+     * Can user do what he do
+     * Any rule has three types of state: true,false, string
+     */
+    public function canAny()
+    {
+        if ($this->getValidAccess()) {
+            $args = func_get_args();
+            $this->checkMulti([$this, 'can'], true, $args);
+        }
 
-			if ( true === $checkState ) {
-				$state = $this->getState();
-				$return = false !== $state;
-				if ( null === $state ) {
-					$return = true;
-				} elseif ( is_bool( $state ) ) {
-					$return = $state;
-				} elseif ( '' !== $rule ) {
-					$return = $this->getCapRule( $rule );
-				}
-			} else {
-				$return = $this->getCapRule( $rule );
-			}
-			$return = apply_filters( 'vc:v:role:can:accessWith' . $part, $return, $this->getRole(), $rule );
-			$return = apply_filters( 'vc:v:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole() );
-			$this->setValidAccess( $return );
-		}
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Can user do what he do
+     * Any rule has three types of state: true,false, string
+     */
+    public function canAll()
+    {
+        if ($this->getValidAccess()) {
+            $args = func_get_args();
+            $this->checkMulti([$this, 'can'], false, $args);
+        }
 
-	/**
-	 * Can user do what he do
-	 * Any rule has three types of state: true,false, string
-	 */
-	public function canAny() {
-		if ( $this->getValidAccess() ) {
-			$args = func_get_args();
-			$this->checkMulti( [ $this, 'can' ], true, $args );
-		}
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get capability for role
+     *
+     * @param $rule
+     *
+     * @return bool
+     */
+    public function getCapRule($rule)
+    {
+        $rule = $this->getStateKey() . '/' . $rule;
 
-	/**
-	 * Can user do what he do
-	 * Any rule has three types of state: true,false, string
-	 */
-	public function canAll() {
-		if ( $this->getValidAccess() ) {
-			$args = func_get_args();
-			$this->checkMulti( [ $this, 'can'], false, $args );
-		}
+        return $this->getRole() ? $this->getRole()->has_cap($rule) : false;
+    }
 
-		return $this;
-	}
+    /**
+     * Add capability to role
+     *
+     * @param $rule
+     * @param bool $value
+     */
+    public function setCapRule($rule, $value = true)
+    {
+        $roleRule = $this->getStateKey() . '/' . $rule;
+        $this->getRole() && $this->getRole()->add_cap($roleRule, $value);
+    }
 
-	/**
-	 * Get capability for role
-	 *
-	 * @param $rule
-	 *
-	 * @return bool
-	 */
-	public function getCapRule( $rule ) {
-		$rule = $this->getStateKey() . '/' . $rule;
+    /**
+     * Get all capability for this part
+     */
+    public function getAllCaps()
+    {
+        $role = $this->getRole();
+        $caps = [];
+        if ($role) {
+            $role = apply_filters('vc:v:role:getAllCaps:role', $role);
+            if (isset($role->capabilities) && is_array($role->capabilities)) {
+                foreach ($role->capabilities as $key => $value) {
+                    if (preg_match('/^' . $this->getStateKey() . '\//', $key)) {
+                        $rule = preg_replace('/^' . $this->getStateKey() . '\//', '', $key);
+                        $caps[ $rule ] = $value;
+                    }
+                }
+            }
+        }
 
-		return $this->getRole() ? $this->getRole()->has_cap( $rule ) : false;
-	}
+        return $caps;
+    }
 
-	/**
-	 * Add capability to role
-	 *
-	 * @param $rule
-	 * @param bool $value
-	 */
-	public function setCapRule( $rule, $value = true ) {
-		$roleRule = $this->getStateKey() . '/' . $rule;
-		$this->getRole() && $this->getRole()->add_cap( $roleRule, $value );
-	}
+    /**
+     * @return null|\WP_Role
+     * @throws \Exception
+     */
+    public function getRole()
+    {
+        if (!$this->role) {
+            if (!$this->getRoleName()) {
+                throw new \Exception('roleName for role_manager is not set, please use ->who(roleName) method to set!');
+            }
+            $this->role = get_role($this->getRoleName());
+        }
 
-	/**
-	 * Get all capability for this part
-	 */
-	public function getAllCaps() {
-		$role = $this->getRole();
-		$caps = [];
-		if ( $role ) {
-			$role = apply_filters( 'vc:v:role:getAllCaps:role', $role );
-			if ( isset( $role->capabilities ) && is_array( $role->capabilities ) ) {
-				foreach ( $role->capabilities as $key => $value ) {
-					if ( preg_match( '/^' . $this->getStateKey() . '\//', $key ) ) {
-						$rule = preg_replace( '/^' . $this->getStateKey() . '\//', '', $key );
-						$caps[ $rule ] = $value;
-					}
-				}
-			}
-		}
+        return $this->role;
+    }
 
-		return $caps;
-	}
+    public function getStateKey()
+    {
+        return self::$partNamePrefix . $this->getPart();
+    }
 
-	/**
-	 * @return null|\WP_Role
-	 * @throws \Exception
-	 */
-	public function getRole() {
-		if ( ! $this->role ) {
-			if ( ! $this->getRoleName() ) {
-				throw new \Exception( 'roleName for role_manager is not set, please use ->who(roleName) method to set!' );
-			}
-			$this->role = get_role( $this->getRoleName() );
-		}
+    public function checkState($data)
+    {
+        if ($this->getValidAccess()) {
+            $this->setValidAccess($this->getState() === $data);
+        }
 
-		return $this->role;
-	}
-	
+        return $this;
+    }
 
-	public function getStateKey() {
-		return self::$partNamePrefix . $this->getPart();
-	}
+    public function checkStateAny()
+    {
+        if ($this->getValidAccess()) {
+            $args = func_get_args();
+            $this->checkMulti([$this, 'checkState'], true, $args);
+        }
 
-	public function checkState( $data ) {
-		if ( $this->getValidAccess() ) {
-			$this->setValidAccess( $this->getState() === $data );
-		}
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Return access value
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->get();
+    }
 
-	public function checkStateAny() {
-		if ( $this->getValidAccess() ) {
-			$args = func_get_args();
-			$this->checkMulti( [ $this, 'checkState' ], true, $args );
-		}
+    public function updateMergedCaps($rule)
+    {
+        if (isset($this->mergedCaps[ $rule ])) {
+            return $this->mergedCaps[ $rule ];
+        }
 
-		return $this;
-	}
+        return $rule;
+    }
 
-	/**
-	 * Return access value
-	 * @return string
-	 */
-	public function __toString() {
-		return (string) $this->get();
-	}
-
-	public function updateMergedCaps( $rule ) {
-		if ( isset( $this->mergedCaps[ $rule ] ) ) {
-			return $this->mergedCaps[ $rule ];
-		}
-
-		return $rule;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getMergedCaps() {
-		return $this->mergedCaps;
-	}
+    /**
+     * @return array
+     */
+    public function getMergedCaps()
+    {
+        return $this->mergedCaps;
+    }
 }

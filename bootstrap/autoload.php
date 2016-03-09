@@ -12,5 +12,5 @@ define('VC_V_START', microtime(true));
 | loading of any our classes "manually". Feels great to relax.
 |
 */
-require __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/app.php';
+require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/app.php';

@@ -6,31 +6,42 @@ use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Modules\System\Container;
 
-class PageEditable extends Container {
-	public function __construct() {
-		add_action( 'template_redirect', function () {
-			if ( $this->call( 'isPageEditable' ) ) {
-				$this->call( 'buildPageEditable' );
-			}
-		} );
-	}
+class PageEditable extends Container
+{
+    public function __construct()
+    {
+        add_action(
+            'template_redirect',
+            function () {
+                if ($this->call('isPageEditable')) {
+                    $this->call('buildPageEditable');
+                }
+            }
+        );
+    }
 
-	private function isPageEditable( Request $request ) {
-		if ( $request->has( 'vc-v-editable' )
-			&& $request->has( 'nonce' )
-			&& Nonce::verifyAdmin( $request->input( 'nonce' ) )
-		) {
-			return true;
-		}
+    private function isPageEditable(Request $request)
+    {
+        if ($request->has('vc-v-editable')
+            && $request->has('nonce')
+            && Nonce::verifyAdmin($request->input('nonce'))
+        ) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private function buildPageEditable() {
-		add_action( 'the_post', function () {
-			remove_all_filters( 'the_content' );
-			add_filter( 'the_content', function () {
-				return '
+    private function buildPageEditable()
+    {
+        add_action(
+            'the_post',
+            function () {
+                remove_all_filters('the_content');
+                add_filter(
+                    'the_content',
+                    function () {
+                        return '
 <script>
         (function () {
             function vcvLoadJsCssFile( filename, filetype ) {
@@ -58,12 +69,15 @@ class PageEditable extends Container {
                 }
             }
 
-            vcvLoadJsCssFile( \'' . Url::to( 'public/dist/wp.bundle.css?' . uniqid() ) . '\',
+            vcvLoadJsCssFile( \'' . Url::to('public/dist/wp.bundle.css?' . uniqid()) . '\',
                 \'css\' );
         })();
     </script>
 	<div id="vc-v-editor">Loading...</div>';
-			} );
-		}, 9999 ); // after all the_post actions ended
-	}
+                    }
+                );
+            },
+            9999
+        ); // after all the_post actions ended
+    }
 }

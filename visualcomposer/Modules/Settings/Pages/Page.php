@@ -4,93 +4,105 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
 
-trait Page {
+trait Page
+{
+    protected $slug;
+    protected $title;
+    protected $templatePath;
+    protected $templateArgs = [];
 
-	protected $slug;
-	protected $title;
-	protected $templatePath;
-	protected $templateArgs = [];
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getSlug() {
-		return $this->slug;
-	}
+    /**
+     * @param mixed $slug
+     *
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = (string)$slug;
 
-	/**
-	 * @param mixed $slug
-	 *
-	 * @return self
-	 */
-	public function setSlug( $slug ) {
-		$this->slug = (string) $slug;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
+    public function setTitle($title)
+    {
+        $this->title = (string)$title;
 
-	/**
-	 * @param string $title
-	 *
-	 * @return self
-	 */
-	public function setTitle( $title ) {
-		$this->title = (string) $title;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * @return mixed
+     */
+    public function getTemplatePath()
+    {
+        return $this->templatePath;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getTemplatePath() {
-		return $this->templatePath;
-	}
+    /**
+     * @param mixed $templatePath
+     *
+     * @return self
+     */
+    public function setTemplatePath($templatePath)
+    {
+        $this->templatePath = $templatePath;
 
-	/**
-	 * @param mixed $templatePath
-	 *
-	 * @return self
-	 */
-	public function setTemplatePath( $templatePath ) {
-		$this->templatePath = $templatePath;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * @return mixed
+     */
+    public function getTemplateArgs()
+    {
+        return $this->templateArgs;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getTemplateArgs() {
-		return $this->templateArgs;
-	}
+    /**
+     * @param mixed $templateArgs
+     *
+     * @return self
+     */
+    public function setTemplateArgs($templateArgs)
+    {
+        $this->templateArgs = $templateArgs;
 
-	/**
-	 * @param mixed $templateArgs
-	 *
-	 * @return self
-	 */
-	public function setTemplateArgs( $templateArgs ) {
-		$this->templateArgs = $templateArgs;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Render page
+     */
+    public function render()
+    {
+        $args = array_merge(
+            $this->getTemplateArgs(),
+            [
+                'page' => $this,
+            ]
+        );
 
-	/**
-	 * Render page
-	 */
-	public function render() {
-		$args = array_merge( $this->getTemplateArgs(), [
-			'page' => $this
-		] );
-
-		Templates::render( $this->getTemplatePath(), $args );
-	}
+        Templates::render($this->getTemplatePath(), $args);
+    }
 }

@@ -1,24 +1,29 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+if (!defined('ABSPATH')) {
+    die('-1');
 }
 
 use VisualComposer\Helpers\Generic\Templates;
 
 ?>
 
-<?php Templates::render( 'settings/partials/admin-nonce' ) ?>
+<?php Templates::render('settings/partials/admin-nonce') ?>
 
 <div class="wrap vc_settings">
 
-	<h2><?= __( 'Visual Composer Settings', 'vc5' ) ?></h2>
+    <h2><?= __('Visual Composer Settings', 'vc5') ?></h2>
 
-	<?php Templates::render( 'settings/partials/tabs', [
-		'activeSlug' => $activeSlug,
-		'tabs' => $tabs
-	] ) ?>
+    <?php
+    Templates::render(
+        'settings/partials/tabs',
+        [
+            'activeSlug' => $activeSlug,
+            'tabs' => $tabs,
+        ]
+    );
+    ?>
 
-	<?= $content ?>
+    <?php echo $content; ?>
 
 </div>

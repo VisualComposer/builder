@@ -14,11 +14,17 @@ class Controller extends Container
      */
     public function __construct(Dispatcher $event)
     {
-        register_activation_hook(VC_V_PLUGIN_FULL_PATH, function () use ($event) {
-            $event->fire('vc:system:activationController:activation');
-        });
-        register_deactivation_hook(VC_V_PLUGIN_FULL_PATH, function () use ($event) {
-            $event->fire('vc:system:activationController:deactivation');
-        });
+        register_activation_hook(
+            VC_V_PLUGIN_FULL_PATH,
+            function () use ($event) {
+                $event->fire('vc:system:activationController:activation');
+            }
+        );
+        register_deactivation_hook(
+            VC_V_PLUGIN_FULL_PATH,
+            function () use ($event) {
+                $event->fire('vc:system:activationController:deactivation');
+            }
+        );
     }
 }

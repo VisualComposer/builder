@@ -8,224 +8,260 @@ use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\Controller as SettingsController;
 use VisualComposer\Modules\System\Container;
 
-class General extends Container {
+class General extends Container
+{
+    use Page;
+    /**
+     * @var string
+     */
+    private $pageSlug = 'vc-v-general';
+    /**
+     * @var array
+     */
+    private $googleFontsSubsetsExcluded = [];
+    /**
+     * @var array
+     */
+    private $googleFontsSubsets = [
+        'latin',
+        'vietnamese',
+        'cyrillic',
+        'latin-ext',
+        'greek',
+        'cyrillic-ext',
+        'greek-ext',
+    ];
 
-	use Page;
-	/**
-	 * @var string
-	 */
-	private $pageSlug = 'vc-v-general';
+    /**
+     * General constructor.
+     */
+    public function __construct()
+    {
+        add_filter(
+            'vc:v:settings:getPages',
+            function () {
+                $args = func_get_args();
 
-	/**
-	 * @var array
-	 */
-	private $googleFontsSubsetsExcluded = [ ];
+                return $this->call('addPage', $args);
+            }
+        );
 
-	/**
-	 * @var array
-	 */
-	private $googleFontsSubsets = [
-		'latin',
-		'vietnamese',
-		'cyrillic',
-		'latin-ext',
-		'greek',
-		'cyrillic-ext',
-		'greek-ext',
-	];
+        add_action(
+            'vc:v:settings:pageRender:' . $this->pageSlug,
+            function () {
+                $args = func_get_args();
+                $this->call('renderPage', $args);
+            }
+        );
 
-	/**
-	 * General constructor.
-	 */
-	public function __construct() {
-		add_filter( 'vc:v:settings:getPages', function () {
-			$args = func_get_args();
+        add_action(
+            'vc:v:settings:initAdmin:page:' . $this->pageSlug,
+            function () {
+                $args = func_get_args();
+                $this->call('buildPage', $args);
+            }
+        );
+    }
 
-			return $this->call( 'addPage', $args );
-		} );
+    /**
+     * @return string
+     */
+    public function getPageSlug()
+    {
+        return $this->pageSlug;
+    }
 
-		add_action( 'vc:v:settings:pageRender:' . $this->pageSlug, function () {
-			$args = func_get_args();
-			$this->call( 'renderPage', $args );
-		} );
+    /**
+     * @param array $pages
+     *
+     * @return array
+     */
+    public function addPage($pages)
+    {
+        $pages[] = [
+            'slug' => $this->pageSlug,
+            'title' => __('General Settings', 'vc5'),
+        ];
 
-		add_action( 'vc:v:settings:initAdmin:page:' . $this->pageSlug, function () {
-			$args = func_get_args();
-			$this->call( 'buildPage', $args );
-		} );
-	}
+        return $pages;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPageSlug() {
-		return $this->pageSlug;
-	}
+    /**
+     * Page: General Settings
+     *
+     * @param SettingsController $SettingsController
+     */
+    public function buildPage(SettingsController $SettingsController)
+    {
+        $page = $this->pageSlug;
 
-	/**
-	 * @param array $pages
-	 *
-	 * @return array
-	 */
-	public function addPage( $pages ) {
-		$pages[] = [
-			'slug' => $this->pageSlug,
-			'title' => __( 'General Settings', 'vc5' ),
-		];
+        $SettingsController->addSection($page);
 
-		return $pages;
-	}
+        // Disable responsive content elements
 
-	/**
-	 * Page: General Settings
-	 *
-	 * @param SettingsController $SettingsController
-	 */
-	public function buildPage( SettingsController $SettingsController ) {
-		$page = $this->pageSlug;
+        $fieldCallback = function () {
+            $args = func_get_args();
 
-		$SettingsController->addSection( $page );
+            return $this->call('disableResponsiveFieldCallback', $args);
+        };
 
-		// Disable responsive content elements
+        $SettingsController->addField(
+            $page,
+            __('Disable responsive content elements', 'vc5'),
+            'not_responsive_css',
+            null,
+            $fieldCallback
+        );
 
-		$fieldCallback = function () {
-			$args = func_get_args();
+        // Google fonts subsets
 
-			return $this->call( 'disableResponsiveFieldCallback', $args );
-		};
+        $sanitizeCallback = function () {
+            $args = func_get_args();
 
-		$SettingsController->addField( $page, __( 'Disable responsive content elements', 'vc5' ), 'not_responsive_css', null, $fieldCallback );
+            return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', $args);
+        };
 
-		// Google fonts subsets
+        $fieldCallback = function () {
+            $args = func_get_args();
 
-		$sanitizeCallback = function () {
-			$args = func_get_args();
+            return $this->call('googleFontsSubsetsFieldCallback', $args);
+        };
 
-			return $this->call( 'sanitizeGoogleFontsSubsetsFieldCallback', $args );
-		};
+        $SettingsController->addField(
+            $page,
+            __('Google fonts subsets', 'vc5'),
+            'google_fonts_subsets',
+            $sanitizeCallback,
+            $fieldCallback
+        );
 
-		$fieldCallback = function () {
-			$args = func_get_args();
+        // Guide tours
 
-			return $this->call( 'googleFontsSubsetsFieldCallback', $args );
-		};
+        $fieldCallback = function () {
+            $args = func_get_args();
 
-		$SettingsController->addField( $page, __( 'Google fonts subsets', 'vc5' ), 'google_fonts_subsets', $sanitizeCallback, $fieldCallback );
+            return $this->call('guideToursFieldCallback', $args);
+        };
 
-		// Guide tours
+        $SettingsController->addField($page, __('Guide tours', 'vc5'), 'reset_guide_tours', null, $fieldCallback);
+    }
 
-		$fieldCallback = function () {
-			$args = func_get_args();
+    /**
+     * Render page
+     */
+    public function renderPage()
+    {
+        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/general/index')->render();
+    }
 
-			return $this->call( 'guideToursFieldCallback', $args );
-		};
+    /**
+     * @return array
+     */
+    public function getGoogleFontsSubsetsExcluded()
+    {
+        return $this->googleFontsSubsetsExcluded;
+    }
 
-		$SettingsController->addField( $page, __( 'Guide tours', 'vc5' ), 'reset_guide_tours', null, $fieldCallback );
-	}
+    /**
+     * @param $excluded
+     *
+     * @return bool
+     */
+    public function setGoogleFontsSubsetsExcluded($excluded)
+    {
+        if (is_array($excluded)) {
+            $this->googleFontsSubsetsExcluded = $excluded;
 
-	/**
-	 * Render page
-	 */
-	public function renderPage() {
-		$this->setSlug( $this->pageSlug )->setTemplatePath( 'settings/pages/general/index' )->render();
-	}
+            return true;
+        }
 
-	/**
-	 * @return array
-	 */
-	public function getGoogleFontsSubsetsExcluded() {
-		return $this->googleFontsSubsetsExcluded;
-	}
+        return false;
+    }
 
-	/**
-	 * @param $excluded
-	 *
-	 * @return bool
-	 */
-	public function setGoogleFontsSubsetsExcluded( $excluded ) {
-		if ( is_array( $excluded ) ) {
-			$this->googleFontsSubsetsExcluded = $excluded;
+    /**
+     * @return array
+     */
+    public function getGoogleFontsSubsets()
+    {
+        return $this->googleFontsSubsets;
+    }
 
-			return true;
-		}
+    /**
+     * Not responsive checkbox callback function
+     */
+    public function disableResponsiveFieldCallback()
+    {
+        $checked = Options::get('not_responsive_css', false);
 
-		return false;
-	}
+        Templates::render(
+            'settings/pages/general/partials/disable-responsive',
+            [
+                'checked' => $checked,
+            ]
+        );
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getGoogleFontsSubsets() {
-		return $this->googleFontsSubsets;
-	}
+    /**
+     * @param array $subsetsToSanitize
+     *
+     * @return array
+     */
+    public function sanitizeGoogleFontsSubsetsFieldCallback($subsetsToSanitize)
+    {
+        $sanitized = [];
 
-	/**
-	 * Not responsive checkbox callback function
-	 */
-	public function disableResponsiveFieldCallback() {
-		$checked = Options::get( 'not_responsive_css', false );
+        if (isset($subsetsToSanitize) && is_array($subsetsToSanitize)) {
+            $excluded = $this->getGoogleFontsSubsetsExcluded();
+            $subsets = $this->getGoogleFontsSubsets();
 
-		Templates::render( 'settings/pages/general/partials/disable-responsive', [
-			'checked' => $checked,
-		] );
-	}
+            foreach ($subsetsToSanitize as $subset) {
+                if (!in_array($subset, $excluded) && in_array($subset, $subsets)) {
+                    $sanitized[] = $subset;
+                }
+            }
+        }
 
-	/**
-	 * @param array $subsetsToSanitize
-	 *
-	 * @return array
-	 */
-	public function sanitizeGoogleFontsSubsetsFieldCallback( $subsetsToSanitize ) {
-		$sanitized = [ ];
+        return $sanitized;
+    }
 
-		if ( isset( $subsetsToSanitize ) && is_array( $subsetsToSanitize ) ) {
-			$excluded = $this->getGoogleFontsSubsetsExcluded();
-			$subsets = $this->getGoogleFontsSubsets();
+    /**
+     * Google fonts subsets callback
+     */
+    public function googleFontsSubsetsFieldCallback()
+    {
+        $checkedSubsets = Options::get('google_fonts_subsets', $this->getGoogleFontsSubsets());
 
-			foreach ( $subsetsToSanitize as $subset ) {
-				if ( ! in_array( $subset, $excluded ) && in_array( $subset, $subsets ) ) {
-					$sanitized[] = $subset;
-				}
-			}
-		}
+        $excluded = $this->getGoogleFontsSubsetsExcluded();
+        $subsets = [];
 
-		return $sanitized;
-	}
+        foreach ($this->getGoogleFontsSubsets() as $subset) {
+            if (in_array($subset, $excluded)) {
+                continue;
+            }
 
-	/**
-	 * Google fonts subsets callback
-	 */
-	public function googleFontsSubsetsFieldCallback() {
-		$checkedSubsets = Options::get( 'google_fonts_subsets', $this->getGoogleFontsSubsets() );
+            $subsets[] = [
+                'title' => $subset,
+                'checked' => in_array($subset, $checkedSubsets),
+            ];
+        }
 
-		$excluded = $this->getGoogleFontsSubsetsExcluded();
-		$subsets = [ ];
+        Templates::render(
+            'settings/pages/general/partials/google-fonts-subsets',
+            [
+                'subsets' => $subsets,
+            ]
+        );
+    }
 
-		foreach ( $this->getGoogleFontsSubsets() as $subset ) {
-			if ( in_array( $subset, $excluded ) ) {
-				continue;
-			}
+    /**
+     * Guide tours callback
+     */
+    public function guideToursFieldCallback()
+    {
+        if (!Todo::pointersAreDismissed()) {
+            return;
+        }
 
-			$subsets[] = [
-				'title' => $subset,
-				'checked' => in_array( $subset, $checkedSubsets ),
-			];
-		}
-
-		Templates::render( 'settings/pages/general/partials/google-fonts-subsets', [
-			'subsets' => $subsets,
-		] );
-	}
-
-	/**
-	 * Guide tours callback
-	 */
-	public function guideToursFieldCallback() {
-		if ( ! Todo::pointersAreDismissed() ) {
-			return;
-		}
-
-		Templates::render( 'settings/pages/general/partials/guide-tours' );
-	}
-
+        Templates::render('settings/pages/general/partials/guide-tours');
+    }
 }
