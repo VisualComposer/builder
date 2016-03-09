@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\System\TextDomain;
 
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
 class Controller extends Container
 {

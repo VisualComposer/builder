@@ -1,5 +1,5 @@
 <?php
-namespace VisualComposer\Modules\System;
+namespace VisualComposer\Framework;
 
 use ReflectionFunction;
 use ReflectionMethod;

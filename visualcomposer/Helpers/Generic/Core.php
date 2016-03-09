@@ -5,24 +5,24 @@ namespace VisualComposer\Helpers\Generic;
 /**
  * Core helper methods
  */
-abstract class Core
+class Core
 {
-    private static $isNetworkPlugin = null;
+    private $isNetworkPlugin = null;
 
     /**
      * Check if this is network plugin
      *
      * @return bool
      */
-    public static function isNetworkPlugin()
+    public function isNetworkPlugin()
     {
-        if (is_null(self::$isNetworkPlugin)) {
+        if (is_null($this->isNetworkPlugin)) {
             $isNetworkPlugin = is_multisite()
                 && (is_plugin_active_for_network(VC_V_PLUGIN_BASE_NAME)
                     || is_network_only_plugin(VC_V_PLUGIN_BASE_NAME));
-            self::$isNetworkPlugin = $isNetworkPlugin;
+            $this->isNetworkPlugin = $isNetworkPlugin;
         }
 
-        return self::$isNetworkPlugin;
+        return $this->isNetworkPlugin;
     }
 }

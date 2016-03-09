@@ -1,13 +1,10 @@
 <?php
 namespace VisualComposer\Helpers\Generic;
 
-abstract class Events
+class Events
 {
-    /**
-     * @return \Illuminate\Contracts\Events\Dispatcher
-     */
-    public static function getEventManager()
+    public function getEventManager()
     {
-        return app('events');
+        return vcapp('events');
     }
 }

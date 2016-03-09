@@ -1,7 +1,7 @@
 <?php
 namespace VisualComposer\Modules\Editors\Frontend;
 
-use Illuminate\Http\Request;
+use VisualComposer\Framework\Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Modules\System\Container;

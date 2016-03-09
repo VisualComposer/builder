@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers\Generic;
 /**
  * Helper methods related to templates
  */
-abstract class Templates
+class Templates
 {
     /**
      * Render template
@@ -17,7 +17,7 @@ abstract class Templates
      *
      * @return string Rendered view
      */
-    public static function render($path, $args = [], $echo = true)
+    public function render($path, $args = [], $echo = true)
     {
         if (strtolower(substr($path, -4, 4)) !== '.php') {
             $path .= '.php';
@@ -28,7 +28,7 @@ abstract class Templates
         extract($args);
 
         $path = apply_filters(
-            'vc:v:api:templates:render',
+            'vc:v:helpers:templates:render',
             VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim($path, '/\\'),
             $path,
             $args,

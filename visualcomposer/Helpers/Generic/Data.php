@@ -5,12 +5,10 @@ namespace VisualComposer\Helpers\Generic;
 /**
  * Helper methods related to data manipulation
  */
-abstract class Data
+class Data
 {
-    /**
-     * @todo Doctype
-     */
-    public static function arraySearch($array, $column, $value)
+
+    public function arraySearch($array, $column, $value)
     {
         if (!is_array($array)) {
             return false;
@@ -25,10 +23,7 @@ abstract class Data
         return false;
     }
 
-    /**
-     * @todo Doctype
-     */
-    public static function arraySearchKey($array, $column)
+    public function arraySearchKey($array, $column)
     {
         if (!is_array($array)) {
             return false;
@@ -50,7 +45,7 @@ abstract class Data
      *
      * @return string
      */
-    public static function randomString($length = 10)
+    public function randomString($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $len = strlen($characters);

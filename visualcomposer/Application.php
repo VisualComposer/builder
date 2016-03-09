@@ -2,15 +2,14 @@
 
 namespace VisualComposer;
 
-class Application extends \Laravel\Lumen\Application
+class Application extends \VisualComposer\Framework\Application
 {
     public $modules = [
         // system modules & submodules
         'VisualComposer\Modules\System\Activation\Controller',
-        'VisualComposer\Modules\System\Activation\Listener',
         'VisualComposer\Modules\System\TextDomain\Controller',
 
-        // Editors modules & submodules
+      /*  // Editors modules & submodules
         'VisualComposer\Modules\Editors\AssetsManager\Controller',
         'VisualComposer\Modules\Editors\DataAjax\Controller',
         'VisualComposer\Modules\Live\Controller',
@@ -33,8 +32,17 @@ class Application extends \Laravel\Lumen\Application
         'VisualComposer\Modules\Access\Role\Access',
 
         'VisualComposer\Modules\Editors\Frontend\Frontend',
-        'VisualComposer\Modules\Editors\Frontend\PageEditable',
+        'VisualComposer\Modules\Editors\Frontend\PageEditable',*/
 
+    ];
+    /**
+     * The available container bindings and their respective load methods.
+     *
+     * @var array
+     */
+    public $availableBindings = [
+        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'events' => 'registerEventBindings',
     ];
 
     /**
@@ -53,9 +61,11 @@ class Application extends \Laravel\Lumen\Application
 
     public function boot()
     {
-        foreach ($this->modules as $module) {
-            $this->singleton($module, $module);
-            $this->make($module);
+        if (is_array($this->modules)) {
+            foreach ($this->modules as $module) {
+                $this->singleton($module, $module);
+                $this->make($module);
+            }
         }
         do_action('vc:v:boot', $this);
     }
@@ -71,16 +81,6 @@ class Application extends \Laravel\Lumen\Application
     }
 
     /**
-     * Get the HTML from the welcome screen.
-     *
-     * @return string
-     */
-    public function welcome()
-    {
-        return 'Visual Composer';
-    }
-
-    /**
      * Register the core container aliases.
      *
      * @return void
@@ -88,27 +88,27 @@ class Application extends \Laravel\Lumen\Application
     protected function registerContainerAliases()
     {
         $this->aliases = [
-                'Illuminate\Contracts\Foundation\Application' => 'app',
-                'Illuminate\Contracts\Auth\Guard' => 'auth.driver',
-                'Illuminate\Contracts\Auth\PasswordBroker' => 'auth.password',
-                'Illuminate\Contracts\Cache\Factory' => 'cache',
-                'Illuminate\Contracts\Cache\Repository' => 'cache.store',
-                'Illuminate\Container\Container' => 'app',
-                'Illuminate\Contracts\Container\Container' => 'app',
-                'Illuminate\Contracts\Cookie\Factory' => 'cookie',
-                'Illuminate\Contracts\Cookie\QueueingFactory' => 'cookie',
-                'Illuminate\Contracts\Encryption\Encrypter' => 'encrypter',
-                'Illuminate\Contracts\Events\Dispatcher' => 'events',
-                'Illuminate\Contracts\Filesystem\Factory' => 'filesystem',
-                'Illuminate\Contracts\Hashing\Hasher' => 'hash',
-                'log' => 'Psr\Log\LoggerInterface',
-                'Illuminate\Contracts\Mail\Mailer' => 'mailer',
-                'Illuminate\Contracts\Queue\Queue' => 'queue.connection',
-                'Illuminate\Redis\Database' => 'redis',
-                'Illuminate\Contracts\Redis\Database' => 'redis',
-                'request' => 'Illuminate\Http\Request',
-                'Illuminate\Session\SessionManager' => 'session',
-                'Illuminate\Contracts\View\Factory' => 'view',
+                'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
+                'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'events',
             ] + $this->modules;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'events',
+            function () {
+                $this->register('VisualComposer\Framework\Illuminate\Events\EventServiceProvider');
+
+                return $this->make('events');
+            }
+        );
     }
 }

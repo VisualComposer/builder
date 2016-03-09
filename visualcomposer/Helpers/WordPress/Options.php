@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Helpers\WordPress;
 
-abstract class Options
+class Options
 {
     /**
      * @param $optionName

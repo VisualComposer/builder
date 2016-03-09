@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
  * Plugin requirements in driver WordPress
  * Class VcVCore_Requirements
  */
-abstract class VcVCore_Requirements
+abstract class VcVCoreRequirements
 {
     /**
      * Perform system check for requirements
@@ -43,5 +43,5 @@ abstract class VcVCore_Requirements
 }
 
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
-    VcVCore_Requirements::coreChecks();
+    VcVCoreRequirements::coreChecks();
 }

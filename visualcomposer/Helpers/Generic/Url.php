@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers\Generic;
 /**
  * Helper API methods related to make Url for plugin directory
  */
-abstract class Url
+class Url
 {
     /**
      * Helper method assetUrl for plugin assets folder
@@ -14,9 +14,9 @@ abstract class Url
      *
      * @return string
      */
-    public static function assetUrl($path)
+    public function assetUrl($path)
     {
-        return self::to('visualcomposer/resources/' . ltrim($path, '\//'));
+        return $this->to('visualcomposer/resources/' . ltrim($path, '\//'));
     }
 
     /**
@@ -26,7 +26,7 @@ abstract class Url
      *
      * @return string
      */
-    public static function to($path)
+    public function to($path)
     {
         return VC_V_PLUGIN_URL . ltrim($path, '\//');
     }
@@ -38,8 +38,8 @@ abstract class Url
      *
      * @return string
      */
-    public static function ajax($query = [])
+    public function ajax($query = [])
     {
-        return self::to(sprintf('visualcomposer/Modules/System/Loader.php?%s', http_build_query($query)));
+        return $this->to(sprintf('visualcomposer/Modules/System/Loader.php?%s', http_build_query($query)));
     }
 }
