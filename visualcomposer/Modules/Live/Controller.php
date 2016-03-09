@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Front;
+namespace VisualComposer\Modules\Live;
 
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
