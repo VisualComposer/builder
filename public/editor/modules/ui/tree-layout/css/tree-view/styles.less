@@ -1,0 +1,51 @@
+
+//== Tree view styles
+.vc-ui-tree-view-container {
+  position: fixed;
+  top: 0;
+  height: @initial-height;
+  left: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap:nowrap;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: @text-size-base;
+  color: @text-color-base;
+  background-color: @bg-base;
+}
+
+//== tree view
+.vc-ui-tree-view-layout {
+  width: @initial-width;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+//== content
+.vc-ui-tree-view-content {
+  flex-grow: 1;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.vc-ui-tree-view-container:not(.vc-ui-tree-view-o-content-expand){
+  .vc-ui-tree-view-content {
+    display: none;
+  }
+}
+
+
+// Options
+
+//== expand content
+.vc-ui-tree-view-o-content-expand {
+  &.vc-ui-tree-view-container {
+    right: 0;
+  }
+}
+

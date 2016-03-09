@@ -1,0 +1,59 @@
+/* ===================================
+ * Visual composer Global styles
+ * related to Navbar
+ * =================================== */
+
+// navbar positions
+.vc-ui-navbar-position-left {
+  #vc-ui-navbar > .init-variables();
+  padding-left: @navbar-size;
+  #vc-navbar-container {
+    .vc-ui-navbar-controls-group {
+      flex-direction: column;
+    }
+  }
+}
+.vc-ui-navbar-position-right {
+  #vc-ui-navbar > .init-variables();
+  padding-right: @navbar-size;
+  #vc-navbar-container {
+    .vc-ui-navbar-controls-group {
+      flex-direction: column;
+    }
+  }
+}
+.vc-ui-navbar-position-bottom {
+  #vc-ui-navbar > .init-variables();
+  padding-bottom: @navbar-size;
+}
+.vc-ui-navbar-position-top {
+  #vc-ui-navbar > .init-variables();
+  padding-top: @navbar-size;
+}
+
+.vc-ui-has-navbar {
+  transition-property: padding;
+  transition-duration: @vc-ui-transition-duration;
+  transition-timing-function: @vc-ui-transition-timing-function;
+}
+
+.vc-ui-navbar-is-dragging {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0;
+  #vc-navbar-container {
+    .vc-ui-navbar {
+      pointer-events: none;
+    }
+    .vc-ui-navbar-container {
+      cursor: move;
+      transition-property: top, left, bottom, right;
+      transition-duration: 0s;
+      transition-timing-function: ease-out;
+    }
+  }
+
+}

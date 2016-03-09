@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="VC5">
+
+    <!--
+       The name attribute of the ruleset tag is displayed
+       when running PHP_CodeSniffer with the -v command line
+       argument. The description tag below is not displayed anywhere
+       except in this file, so it can contain information for
+       developers who may change this file in the future.
+    -->
+    <description>A custom coding standard</description>
+
+
+    <rule ref="PSR2">
+        <exclude name="PSR1.Files.SideEffects"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+    </rule>
+
+    <rule ref="Squiz.Classes.ValidClassName">
+        <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration">
+        <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR2.Methods.FunctionCallSignature.Indent">
+        <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
+    </rule>
+    <file>./visualcomposer</file>
+    <file>./bootstrap</file>
+    <file>./plugin-wordpress.php</file>
+    <exclude-pattern type="relative">tests/*</exclude-pattern>
+    <exclude-pattern type="relative">vendor/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+</ruleset>

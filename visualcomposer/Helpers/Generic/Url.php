@@ -14,9 +14,9 @@ abstract class Url
      *
      * @return string
      */
-    public static function assetURL($path)
+    public static function assetUrl($path)
     {
-        return self::to('assets/'.ltrim($path, '\//'));
+        return self::to('visualcomposer/resources/' . ltrim($path, '\//'));
     }
 
     /**
@@ -28,7 +28,7 @@ abstract class Url
      */
     public static function to($path)
     {
-        return VC_V_PLUGIN_URL.ltrim($path, '\//');
+        return VC_V_PLUGIN_URL . ltrim($path, '\//');
     }
 
     /**

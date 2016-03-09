@@ -441,7 +441,7 @@
 					"prevSize": 32,
 					"code": 59674,
 					"name": "bug",
-					"tempChar": ""
+					"tempChar": ""
 				}
 			],
 			"id": 1,
@@ -594,7 +594,11 @@
 				},
 				{
 					"id": 25,
-					"order": 0
+					"order": 33,
+					"prevSize": 32,
+					"code": 59678,
+					"name": "heart-stroke",
+					"tempChar": ""
 				},
 				{
 					"id": 26,
@@ -606,7 +610,11 @@
 				},
 				{
 					"id": 28,
-					"order": 0
+					"order": 32,
+					"prevSize": 32,
+					"code": 59679,
+					"name": "document-alt-stroke",
+					"tempChar": ""
 				},
 				{
 					"id": 29,
@@ -654,7 +662,7 @@
 					"prevSize": 32,
 					"code": 59665,
 					"name": "link",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 38,
@@ -666,7 +674,7 @@
 					"prevSize": 32,
 					"code": 59666,
 					"name": "move",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 40,
@@ -742,7 +750,7 @@
 					"prevSize": 32,
 					"code": 59667,
 					"name": "undo",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 57,
@@ -750,7 +758,7 @@
 					"prevSize": 32,
 					"code": 59668,
 					"name": "redo",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 58,
@@ -1042,7 +1050,7 @@
 					"prevSize": 32,
 					"code": 59669,
 					"name": "pen-alt-fill",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 130,
@@ -1062,7 +1070,7 @@
 					"prevSize": 32,
 					"code": 59670,
 					"name": "eyedropper",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 134,
@@ -1074,7 +1082,7 @@
 					"prevSize": 32,
 					"code": 59671,
 					"name": "layers",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 136,
@@ -1130,7 +1138,7 @@
 					"prevSize": 32,
 					"code": 59672,
 					"name": "lock-stroke",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 149,
@@ -1142,7 +1150,7 @@
 					"prevSize": 32,
 					"code": 59673,
 					"name": "unlock-stroke",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 151,

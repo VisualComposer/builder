@@ -2,7 +2,6 @@
 
 class CoreTest extends WP_UnitTestCase
 {
-
     public function testPluginConstants()
     {
         $this->assertTrue(defined('VC_V_VERSION'));
@@ -17,10 +16,7 @@ class CoreTest extends WP_UnitTestCase
         $this->assertTrue(defined('VC_V_REQUIRED_PHP_VERSION'));
         $this->assertTrue(defined('VC_V_REQUIRED_BLOG_VERSION'));
 
-
         $this->assertTrue(defined('VC_V_START'));
 
     }
-
-
 }

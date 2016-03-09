@@ -7,7 +7,6 @@ use ReflectionParameter;
 
 abstract class Container
 {
-
     /**
      * Call the given callback and inject its dependencies.
      *
@@ -18,10 +17,13 @@ abstract class Container
      */
     protected function call($method, array $parameters = [])
     {
-        $dependencies = $this->getMethodDependencies([
-            $this,
-            $method,
-        ], $parameters);
+        $dependencies = $this->getMethodDependencies(
+            [
+                $this,
+                $method,
+            ],
+            $parameters
+        );
 
         // @todo check for correct
         $reflectionMethod = new ReflectionMethod($this, $method);
@@ -81,14 +83,13 @@ abstract class Container
     protected function addDependencyForCallParameter(ReflectionParameter $parameter, array &$parameters, &$dependencies)
     {
         if (array_key_exists($parameter->name, $parameters)) {
-            $dependencies[] = $parameters[$parameter->name];
+            $dependencies[] = $parameters[ $parameter->name ];
 
-            unset($parameters[$parameter->name]);
+            unset($parameters[ $parameter->name ]);
         } elseif ($parameter->getClass()) {
             $dependencies[] = app()->make($parameter->getClass()->name);
         } elseif ($parameter->isDefaultValueAvailable()) {
             $dependencies[] = $parameter->getDefaultValue();
         }
     }
-
 }

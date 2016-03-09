@@ -1,5 +1,6 @@
+var vcCake = require('vc-cake');
 var React = require( 'react' );
-var AssetManager = require( '../../../helpers/AssetManager' );
+var AssetManager = vcCake.getService('asset-manager');
 
 require( './ImageGallery.less' );
 require( 'jquery' );
