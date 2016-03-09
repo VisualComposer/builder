@@ -96,6 +96,6 @@ class Controller extends Container
         $stylesBundle = Options::get('stylesBundle', []);
         $args = compact('scriptsBundle', 'stylesBundle');
 
-        return Templates::render('front/frontend-scripts-styles', $args, false);
+        return Templates::render('live/frontend-scripts-styles', $args, false);
     }
 }
