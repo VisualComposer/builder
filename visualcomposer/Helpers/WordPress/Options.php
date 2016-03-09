@@ -12,7 +12,7 @@ abstract class Options
      */
     public static function get($optionName, $default = false)
     {
-        return get_option(VC_V_PREFIX.$optionName, $default);
+        return get_option(VC_V_PREFIX . $optionName, $default);
     }
 
     /**
@@ -21,6 +21,6 @@ abstract class Options
      */
     public static function set($optionName, $value)
     {
-        update_option(VC_V_PREFIX.$optionName, $value);
+        update_option(VC_V_PREFIX . $optionName, $value);
     }
 }

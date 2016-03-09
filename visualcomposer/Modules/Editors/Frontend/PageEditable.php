@@ -10,11 +10,14 @@ class PageEditable extends Container
 {
     public function __construct()
     {
-        add_action('template_redirect', function () {
-            if ($this->call('isPageEditable')) {
-                $this->call('buildPageEditable');
+        add_action(
+            'template_redirect',
+            function () {
+                if ($this->call('isPageEditable')) {
+                    $this->call('buildPageEditable');
+                }
             }
-        });
+        );
     }
 
     private function isPageEditable(Request $request)
@@ -31,10 +34,14 @@ class PageEditable extends Container
 
     private function buildPageEditable()
     {
-        add_action('the_post', function () {
-            remove_all_filters('the_content');
-            add_filter('the_content', function () {
-                return '
+        add_action(
+            'the_post',
+            function () {
+                remove_all_filters('the_content');
+                add_filter(
+                    'the_content',
+                    function () {
+                        return '
 <script>
         (function () {
             function vcvLoadJsCssFile( filename, filetype ) {
@@ -62,12 +69,15 @@ class PageEditable extends Container
                 }
             }
 
-            vcvLoadJsCssFile( \''.Url::to('public/dist/wp.bundle.css?'.uniqid()).'\',
+            vcvLoadJsCssFile( \'' . Url::to('public/dist/wp.bundle.css?' . uniqid()) . '\',
                 \'css\' );
         })();
     </script>
-<div id="vc-v-editor">Loading...</div>';
-            });
-        }, 9999); // after all the_post actions ended
+	<div id="vc-v-editor">Loading...</div>';
+                    }
+                );
+            },
+            9999
+        ); // after all the_post actions ended
     }
 }

@@ -2,7 +2,9 @@
 /**
  * Plugin Name: Visual Composer V
  * Plugin URI: http://vc.wpbakery.com
- * Description: Drag and drop page builder for WordPress. Take full control over your WordPress site, build any layout you can imagine – no programming knowledge required.
+ * Description: Drag and drop page builder for WordPress. Take full control over your WordPress site,
+ * build any layout you can imagine – no programming knowledge required.
+ *
  * Version: 5.0.0
  * Author: WPBakery
  * Author URI: http://wpbakery.com
@@ -13,7 +15,7 @@
 /**
  * Check for direct call file
  */
-if ( ! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
     header('HTTP/1.1 403 Forbidden');
     exit;
@@ -53,10 +55,9 @@ define('VC_V_REQUIRED_BLOG_VERSION', '4.1');
  * Check WordPress version
  * PHP 5.1 parse-able (no parse error)
  */
-require_once __DIR__.'/visualcomposer/Requirements.php';
+require_once __DIR__ . '/visualcomposer/Requirements.php';
 
 // !! PHP 5.4 Required under this line (parse error otherwise)
 
 // Bootstrap the system
-require __DIR__.'/bootstrap/autoload.php';
-
+require __DIR__ . '/bootstrap/autoload.php';

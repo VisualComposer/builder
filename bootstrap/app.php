@@ -2,7 +2,7 @@
 /**
  * Start the application
  */
-$app = new VisualComposer\Application(realpath(__DIR__.'/../'));
+$app = new VisualComposer\Application(realpath(__DIR__ . '/../'));
 $app->withFacades();
 $app->boot();
 
