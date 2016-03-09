@@ -37,6 +37,7 @@ VcCake
 ```
 
 ##PHP
-
+We use PSR-2 Code style and codesniffer is configured in ruleset.xml to check PSR2 rules
+http://www.php-fig.org/psr/psr-2/
 ##Less/Css
 
