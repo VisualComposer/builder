@@ -2,15 +2,15 @@
 
 namespace VisualComposer\Modules\Settings;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Http\Request;
+use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
 class Controller extends Container
 {
@@ -110,12 +110,12 @@ class Controller extends Container
         }
     }
 
-    public function addMenuPage()
+    public function addMenuPage(Url $url)
     {
         $slug = $this->call('getMainPageSlug');
         $title = __('Visual Composer ', 'vc5');
 
-        $iconUrl = Url::assetUrl('images/logo/16x16.png');
+        $iconUrl = $url->assetUrl('images/logo/16x16.png');
 
         add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
 
@@ -155,7 +155,7 @@ class Controller extends Container
     /**
      * @param Request $request
      */
-    public function renderPage(Request $request)
+    public function renderPage(Request $request, Data $data, Templates $templates)
     {
         $pageSlug = $request->input('page');
 
@@ -167,12 +167,12 @@ class Controller extends Container
 
         // pages can define different layout, by setting 'layout' key/value
         $pages = $this->getPages();
-        $key = Data::arraySearch($pages, 'slug', $pageSlug);
+        $key = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($key !== false && isset($pages[ $key ]['layout'])) {
             $layout = $pages[ $key ]['layout'];
         }
 
-        Templates::render(
+        $templates->render(
             'settings/layouts/' . $layout,
             [
                 'content' => $content,
@@ -185,18 +185,18 @@ class Controller extends Container
     /**
      * Init settings page
      */
-    public function initAdmin()
+    public function initAdmin(Url $url)
     {
         wp_register_script(
             VC_V_PREFIX . 'scripts-settings',
-            Url::assetUrl('scripts/dist/settings.min.js'),
+            $url->assetUrl('scripts/dist/settings.min.js'),
             [],
             VC_V_VERSION,
             true
         );
         wp_enqueue_style(
             VC_V_PREFIX . 'styles-settings',
-            Url::assetUrl('styles/dist/settings.min.css'),
+            $url->assetUrl('styles/dist/settings.min.css'),
             false,
             VC_V_VERSION,
             false

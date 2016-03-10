@@ -4,31 +4,23 @@ namespace VisualComposer\Modules\Editors\AssetsManager;
 
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\WordPress\File;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Http\Request;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Framework\Container;
 
 class Controller extends Container
 {
-    /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
-     */
     protected $event;
-    /**
-     * @var \Illuminate\Http\Request
-     */
     protected $request;
+    protected $options;
+    protected $file;
 
-    /**
-     * AssetsController constructor.
-     *
-     * @param \Illuminate\Contracts\Events\Dispatcher $event
-     * @param \Illuminate\Http\Request $request
-     */
-    public function __construct(Dispatcher $event, Request $request)
+    public function __construct(Dispatcher $event, Request $request, Options $optionsHelper, File $fileHelper)
     {
         $this->event = $event;
         $this->request = $request;
+        $this->options = $optionsHelper;
+        $this->file = $fileHelper;
 
         $this->event->listen(
             'vc:v:postAjax:setPostData',
@@ -64,12 +56,12 @@ class Controller extends Container
         $this->updatePostAssets(
             $postId,
             'scripts',
-            $this->request->has('scripts') ? $this->request->input('scripts') : []
+            $this->request->input('scripts', [])
         );
         $this->updatePostAssets(
             $postId,
             'styles',
-            $this->request->has('styles') ? $this->request->input('styles') : []
+            $this->request->input('styles', [])
         );
         $this->generateScriptsBundle();
         $styleBundles = $this->getStyleBundles();
@@ -88,7 +80,7 @@ class Controller extends Container
             'scripts',
             'styles',
         ] as $assetType) {
-            $assets = Options::get($assetType, []);
+            $assets = $this->options->get($assetType, []);
 
             if (!is_array($assets) || !isset($assets[ $postId ])) {
                 continue;
@@ -96,7 +88,7 @@ class Controller extends Container
 
             unset($assets[ $postId ]);
 
-            Options::set($assetType, $assets);
+            $this->options->set($assetType, $assets);
         }
     }
 
@@ -123,7 +115,7 @@ class Controller extends Container
      */
     private function generateScriptsBundle()
     {
-        $assets = Options::get('scripts', []);
+        $assets = $this->options->get('scripts', []);
 
         $files = [];
         if (is_array($assets)) {
@@ -150,11 +142,11 @@ class Controller extends Container
                 $contents = '';
                 foreach ($files as $file) {
                     $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
-                    $contents .= File::getContents($filepath) . "\n";
+                    $contents .= $this->file->getContents($filepath) . "\n";
                 }
 
                 $this->deleteAssetsBundles('js');
-                if (!File::setContents($bundle, $contents)) {
+                if (!$this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -163,7 +155,7 @@ class Controller extends Container
             $bundleUrl = '';
         }
 
-        Options::set('scriptsBundle', $bundleUrl);
+        $this->options->set('scriptsBundle', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -189,7 +181,7 @@ class Controller extends Container
 
             if (!is_file($bundle)) {
                 $this->deleteAssetsBundles('css');
-                if (!File::setContents($bundle, $contents)) {
+                if (!$this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -198,7 +190,7 @@ class Controller extends Container
             $bundleUrl = '';
         }
 
-        Options::set('stylesBundle', $bundleUrl);
+        $this->options->set('stylesBundle', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -208,7 +200,7 @@ class Controller extends Container
      */
     private function getStyleBundles()
     {
-        $assets = Options::get('styles', []);
+        $assets = $this->options->get('styles', []);
 
         $list = [];
         if (is_array($assets)) {
@@ -223,7 +215,7 @@ class Controller extends Container
             if (is_array($files)) {
                 foreach ($files as $file) {
                     $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
-                    $contents .= File::getContents($filepath) . "\n";
+                    $contents .= $this->file->getContents($filepath) . "\n";
                 }
             }
 
@@ -243,7 +235,7 @@ class Controller extends Container
      */
     private function updatePostAssets($postId, $assetType, $postAssets)
     {
-        $assets = Options::get($assetType, []);
+        $assets = $this->options->get($assetType, []);
         if (!is_array($assets)) {
             $assets = [];
         }
@@ -254,7 +246,7 @@ class Controller extends Container
             unset($assets[ $postId ]); // @todo check for isset??
         }
 
-        Options::set($assetType, $assets);
+        $this->options->set($assetType, $assets);
     }
 
     /**

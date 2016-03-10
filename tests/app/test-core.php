@@ -17,6 +17,5 @@ class CoreTest extends WP_UnitTestCase
         $this->assertTrue(defined('VC_V_REQUIRED_BLOG_VERSION'));
 
         $this->assertTrue(defined('VC_V_START'));
-
     }
 }

@@ -6,7 +6,7 @@ use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\Controller as SettingsController;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
 class General extends Container
 {
@@ -31,12 +31,14 @@ class General extends Container
         'cyrillic-ext',
         'greek-ext',
     ];
+    protected $templates;
 
     /**
      * General constructor.
      */
-    public function __construct()
+    public function __construct(Templates $templates)
     {
+        $this->templates = $templates;
         add_filter(
             'vc:v:settings:getPages',
             function () {
@@ -134,16 +136,6 @@ class General extends Container
             $sanitizeCallback,
             $fieldCallback
         );
-
-        // Guide tours
-
-        $fieldCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('guideToursFieldCallback', $args);
-        };
-
-        $SettingsController->addField($page, __('Guide tours', 'vc5'), 'reset_guide_tours', null, $fieldCallback);
     }
 
     /**
@@ -193,7 +185,7 @@ class General extends Container
     {
         $checked = Options::get('not_responsive_css', false);
 
-        Templates::render(
+        $this->templates->render(
             'settings/pages/general/partials/disable-responsive',
             [
                 'checked' => $checked,
@@ -245,23 +237,11 @@ class General extends Container
             ];
         }
 
-        Templates::render(
+        $this->templates->render(
             'settings/pages/general/partials/google-fonts-subsets',
             [
                 'subsets' => $subsets,
             ]
         );
-    }
-
-    /**
-     * Guide tours callback
-     */
-    public function guideToursFieldCallback()
-    {
-        if (!Todo::pointersAreDismissed()) {
-            return;
-        }
-
-        Templates::render('settings/pages/general/partials/guide-tours');
     }
 }

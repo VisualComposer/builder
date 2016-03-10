@@ -36,7 +36,7 @@ class Access extends AccessFactory
                 }
                 array_unshift($args, 'current_user_can');
                 $this->setValidAccess(true);
-                call_user_func_array($callback, $args);
+                vcapp()->call($callback, $args);
                 if ($valid === $this->getValidAccess()) {
                     $access = $valid;
                     break;

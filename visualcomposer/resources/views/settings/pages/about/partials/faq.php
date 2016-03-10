@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 ?>
 <div class="vc_faq-tab changelog">
-    <h3><?= __('New to Visual Composer or Looking for More Information?', 'vc5') ?></h3>
+    <h3><?php echo __('New to Visual Composer or Looking for More Information?', 'vc5') ?></h3>
 
     <p><?php printf(
             __(
@@ -112,5 +112,5 @@ if (!defined('ABSPATH')) {
 </div>
 
 <div class="return-to-dashboard">
-    <a target="_blank" href="http://kb.wpbakery.com"><?= __('Visit Knowledge Base for more information', 'vc5') ?></a>
+    <a target="_blank" href="http://kb.wpbakery.com"><?php echo __('Visit Knowledge Base for more information', 'vc5') ?></a>
 </div>

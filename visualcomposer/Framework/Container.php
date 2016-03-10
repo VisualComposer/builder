@@ -1,6 +1,7 @@
 <?php
 namespace VisualComposer\Framework;
 
+use Closure;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -17,19 +18,30 @@ abstract class Container
      */
     protected function call($method, array $parameters = [])
     {
+        $func = $method;
+        $inner = false;
+        if (!is_callable($method)) {
+            if (is_array($method)) {
+                throw new \BadMethodCallException('method is not callable');
+            }
+            $func = [$this, $method];
+            $inner = true;
+        }
+
         $dependencies = $this->getMethodDependencies(
-            [
-                $this,
-                $method,
-            ],
+            $func,
             $parameters
         );
 
-        // @todo check for correct
-        $reflectionMethod = new ReflectionMethod($this, $method);
-        $reflectionMethod->setAccessible(true);
+        if ($inner) {
+            // @todo check for correct
+            $reflectionMethod = new ReflectionMethod($this, $method);
+            $reflectionMethod->setAccessible(true);
 
-        return $reflectionMethod->invokeArgs($this, $dependencies);
+            return $reflectionMethod->invokeArgs($this, $dependencies);
+        } else {
+            return call_user_func_array($func, $dependencies);
+        }
     }
 
     /**
@@ -87,7 +99,7 @@ abstract class Container
 
             unset($parameters[ $parameter->name ]);
         } elseif ($parameter->getClass()) {
-            $dependencies[] = app()->make($parameter->getClass()->name);
+            $dependencies[] = vcapp()->make($parameter->getClass()->name);
         } elseif ($parameter->isDefaultValueAvailable()) {
             $dependencies[] = $parameter->getDefaultValue();
         }

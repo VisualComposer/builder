@@ -7,12 +7,6 @@ use VisualComposer\Framework\Illuminate\Support\ServiceProvider;
 class Application extends Container
 {
     /**
-     * Indicates if the class aliases have been registered.
-     *
-     * @var bool
-     */
-    protected static $aliasesRegistered = false;
-    /**
      * The available container bindings and their respective load methods.
      *
      * @var array
@@ -76,23 +70,6 @@ class Application extends Container
         }
 
         return parent::make($abstract, $parameters);
-    }
-
-    /**
-     * Register the facades for the application.
-     *
-     * @return void
-     */
-    public function withFacades()
-    {
-        Facade::setFacadeApplication($this);
-
-        if (!static::$aliasesRegistered) {
-            static::$aliasesRegistered = true;
-
-            //class_alias('Illuminate\Support\Facades\App', 'App');
-            //class_alias('Illuminate\Support\Facades\Auth', 'Auth');
-        }
     }
 
     /**

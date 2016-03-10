@@ -2,24 +2,15 @@
 
 namespace VisualComposer\Modules\Editors\DataAjax;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Http\Request;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Framework\Container;
 
 class Controller extends Container
 {
-    /**
-     * @var \Illuminate\Http\Request
-     */
     protected $request;
     protected $event;
 
-    /**
-     * PostAjaxController constructor.
-     *
-     * @param \Illuminate\Contracts\Events\Dispatcher $event
-     * @param \Illuminate\Http\Request $request
-     */
     public function __construct(Dispatcher $event, Request $request)
     {
         $this->event = $event;
@@ -50,7 +41,7 @@ class Controller extends Container
         if (is_numeric($sourceId)) {
             // @todo: access checks
             // @todo: fix react components if there is empty page content
-            $postMeta = get_post_meta($sourceId, 'vc_v_page_content', true);
+            $postMeta = get_post_meta($sourceId, VC_V_PREFIX . 'page_content', true);
 
             $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
         }
@@ -71,7 +62,7 @@ class Controller extends Container
             $post->post_content = stripslashes($content); // @todo: check for stripslashes - maybe not needed!
             wp_update_post($post);
             // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vc_v_page_content' => $data ]
-            update_post_meta($sourceId, 'vc_v_page_content', $data);
+            update_post_meta($sourceId, VC_V_PREFIX . 'page_content', $data);
             $this->event->fire(
                 'vc:v:postAjax:setPostData',
                 [

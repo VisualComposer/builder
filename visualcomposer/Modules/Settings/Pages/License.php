@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
 class License extends Container
 {

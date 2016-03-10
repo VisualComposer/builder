@@ -2,9 +2,9 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
 class About extends Container
 {

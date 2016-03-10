@@ -4,8 +4,6 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\Generic\Url;
-
 ?>
 <script>
     function vcvLoadJsCssFile( filename, filetype ) {
@@ -33,11 +31,11 @@ use VisualComposer\Helpers\Generic\Url;
 
     function vcvLoadInline( element, id ) {
         window.vcPostID = id;
-        window.vcAjaxUrl = '<?= admin_url('admin-ajax.php') ?>';
+        window.vcAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
         element.remove();
         <?php /* TODO: use assets folder */ ?>
-        vcvLoadJsCssFile( '<?= Url::to('public/dist/wp.bundle.css?' . uniqid()) ?>', 'css' );
-        vcvLoadJsCssFile( '<?= Url::to('public/dist/wp.bundle.js?' . uniqid())  ?>', 'js' );
+        vcvLoadJsCssFile( '<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to('public/dist/wp.bundle.css?' . uniqid()) ?>', 'css' );
+        vcvLoadJsCssFile( '<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to('public/dist/wp.bundle.js?' . uniqid())  ?>', 'js' );
     }
     <?php if ($scriptsBundle) : ?>
     vcvLoadJsCssFile( '<?php echo $scriptsBundle  ?>', 'js' );

@@ -7,7 +7,6 @@ namespace VisualComposer\Helpers\Generic;
  */
 class Data
 {
-
     public function arraySearch($array, $column, $value)
     {
         if (!is_array($array)) {
@@ -23,7 +22,7 @@ class Data
         return false;
     }
 
-    public function arraySearchKey($array, $column)
+    public function arraySearchKey($array, $column, $returnValue = false)
     {
         if (!is_array($array)) {
             return false;
@@ -31,7 +30,11 @@ class Data
         foreach ($array as $key => $innerArray) {
             $exists = isset($innerArray[ $column ]);
             if ($exists) {
-                return $exists;
+                if ($returnValue) {
+                    return $innerArray[ $column ];
+                } else {
+                    return $key;
+                }
             }
         }
 

@@ -57,5 +57,6 @@ class AppTest extends WP_UnitTestCase
         $this->assertTrue(is_object($evInstance), 'dependency injection must work');
         $this->assertTrue(method_exists($evInstance, 'fire'), 'method fire must exist for instance');
         $this->assertTrue(method_exists($evInstance, 'listen'), 'method listen must exist for instance');
+        $this->assertEquals($events, $evInstance, 'dependnecy injected method should be same as vcapp');
     }
 }

@@ -7,9 +7,6 @@ use VisualComposer\Framework\Container;
 
 class Controller extends Container
 {
-    /**
-     * ActivationController constructor.
-     */
     public function __construct()
     {
         register_activation_hook(
@@ -26,8 +23,8 @@ class Controller extends Container
         );*/
     }
 
-    private function setVersion()
+    private function setVersion(Options $options)
     {
-        Options::set('version', VC_V_VERSION);
+        $options->set('version', VC_V_VERSION);
     }
 }

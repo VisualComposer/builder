@@ -12,7 +12,7 @@ if (empty($_REQUEST['action'])) {
 }
 
 /** Load WordPress Bootstrap */
-require_once('../../../../../../wp-load.php'); // @todo it s****
+require_once __DIR__ . '/../../../../../../wp-load.php'; // @todo it s****
 
 send_origin_headers();
 
@@ -22,10 +22,8 @@ send_origin_headers();
 send_nosniff_header();
 nocache_headers();
 
-use VisualComposer\Helpers\WordPress\Nonce;
-
 if (strpos($_REQUEST['action'], ':nonce')) {
-    if (empty($_REQUEST['nonce']) || !Nonce::verifyUser($_REQUEST['nonce'])) {
+    if (empty($_REQUEST['nonce']) || !vcapp('VisualComposer\Helpers\WordPress\Nonce')->verifyUser($_REQUEST['nonce'])) {
         die(json_encode(
             [
                 'status' => 'fail',
@@ -34,7 +32,11 @@ if (strpos($_REQUEST['action'], ':nonce')) {
         ));
     }
 } elseif (strpos($_REQUEST['action'], ':admin-nonce')) {
-    if (empty($_REQUEST['nonce']) || !Nonce::verifyAdmin($_REQUEST['nonce'])) {
+    if (empty($_REQUEST['nonce'])
+        || !vcapp('VisualComposer\Helpers\WordPress\Nonce')->verifyAdmin(
+            $_REQUEST['nonce']
+        )
+    ) {
         die(json_encode(
             [
                 'status' => 'fail',

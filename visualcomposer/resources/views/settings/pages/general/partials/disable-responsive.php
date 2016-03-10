@@ -12,14 +12,14 @@ $attributes = [
 
 ?>
 <label>
-    <input type="checkbox" value="1" <?= implode(' ', $attributes) ?> />
-    <?= __('Disable', 'vc5') ?>
+    <input type="checkbox" value="1" <?php echo implode(' ', $attributes) ?> />
+    <?php echo __('Disable', 'vc5') ?>
 </label>
 
 <br/>
 
 <p class="description indicator-hint">
-    <?= __(
+    <?php echo __(
         'Disable content elements from "stacking" one on top other on small media screens (Example: mobile devices).',
         'vc5'
     ) ?>

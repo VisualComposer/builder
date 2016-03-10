@@ -9,7 +9,7 @@ class Application extends \VisualComposer\Framework\Application
         'VisualComposer\Modules\System\Activation\Controller',
         'VisualComposer\Modules\System\TextDomain\Controller',
 
-      /*  // Editors modules & submodules
+        // Editors modules & submodules
         'VisualComposer\Modules\Editors\AssetsManager\Controller',
         'VisualComposer\Modules\Editors\DataAjax\Controller',
         'VisualComposer\Modules\Live\Controller',
@@ -32,8 +32,21 @@ class Application extends \VisualComposer\Framework\Application
         'VisualComposer\Modules\Access\Role\Access',
 
         'VisualComposer\Modules\Editors\Frontend\Frontend',
-        'VisualComposer\Modules\Editors\Frontend\PageEditable',*/
+        'VisualComposer\Modules\Editors\Frontend\PageEditable',
 
+    ];
+    public $helpers = [
+        // Generic
+        'VisualComposer\Helpers\Generic\Core',
+        'VisualComposer\Helpers\Generic\Data',
+        'VisualComposer\Helpers\Generic\Events',
+        'VisualComposer\Helpers\Generic\Request',
+        'VisualComposer\Helpers\Generic\Templates',
+        'VisualComposer\Helpers\Generic\Url',
+        /// WordPress
+        'VisualComposer\Helpers\Wordpress\File',
+        'VisualComposer\Helpers\Wordpress\Nonce',
+        'VisualComposer\Helpers\Wordpress\Options',
     ];
     /**
      * The available container bindings and their respective load methods.
@@ -88,11 +101,11 @@ class Application extends \VisualComposer\Framework\Application
     protected function registerContainerAliases()
     {
         $this->aliases = [
-                'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
-                'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
-                'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
+                //'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
+                //'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
+                // 'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
                 'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'events',
-            ] + $this->modules;
+            ] + $this->modules + $this->helpers;
     }
 
     /**

@@ -40,6 +40,6 @@ class Url
      */
     public function ajax($query = [])
     {
-        return $this->to(sprintf('visualcomposer/Modules/System/Loader.php?%s', http_build_query($query)));
+        return $this->to(sprintf('ajax.php?%s', http_build_query($query)));
     }
 }
