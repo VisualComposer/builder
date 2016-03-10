@@ -8,7 +8,7 @@ if (!function_exists('vcapp')) {
      *
      * @param  string $make
      * @param  array $parameters
-     * @return mixed|\Laravel\Lumen\Application
+     * @return mixed|\VisualComposer\Application
      */
     function vcapp($make = null, $parameters = [])
     {

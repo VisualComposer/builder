@@ -31,6 +31,9 @@ class GenericHelpersTest extends WP_UnitTestCase
         );
 
         $this->assertEquals($templateHelper, vcapp('VisualComposer\Helpers\Generic\Templates'));
+
+        $this->assertEquals($templateHelper, vcapp('templatesHelper'));
+        $this->assertEquals(vcapp('VisualComposer\Helpers\Generic\Templates'), vcapp('templatesHelper'));
     }
 
     public function testHelpersDependencyInjection()

@@ -51,7 +51,7 @@ use VisualComposer\Helpers\Generic\Templates;
             data-size="large">Tweet</a>
     </p>
     <?php
-    vcapp('VisualComposer\Helpers\Generic\Templates')->render(
+    vcapp('templatesHelper')->render(
         'settings/pages/about/partials/tabs',
         [
             'activeSlug' => $activeSlug,
@@ -62,7 +62,7 @@ use VisualComposer\Helpers\Generic\Templates;
 
     foreach ($tabs as $tab) :
         if ($tab['slug'] === $activeSlug) {
-            vcapp('VisualComposer\Helpers\Generic\Templates')->render($tab['view']);
+            vcapp('templatesHelper')->render($tab['view']);
         }
     endforeach;
     ?>

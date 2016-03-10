@@ -34,8 +34,8 @@ if (!defined('ABSPATH')) {
         window.vcAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
         element.remove();
         <?php /* TODO: use assets folder */ ?>
-        vcvLoadJsCssFile( '<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to('public/dist/wp.bundle.css?' . uniqid()) ?>', 'css' );
-        vcvLoadJsCssFile( '<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to('public/dist/wp.bundle.js?' . uniqid())  ?>', 'js' );
+        vcvLoadJsCssFile( '<?php echo vcapp('urlHelper')->to('public/dist/wp.bundle.css?' . uniqid()) ?>', 'css' );
+        vcvLoadJsCssFile( '<?php echo vcapp('urlHelper')->to('public/dist/wp.bundle.js?' . uniqid())  ?>', 'js' );
     }
     <?php if ($scriptsBundle) : ?>
     vcvLoadJsCssFile( '<?php echo $scriptsBundle  ?>', 'js' );

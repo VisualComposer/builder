@@ -163,7 +163,7 @@ abstract class Access
      */
     public function checkAdminNonce($nonce = '')
     {
-        return $this->check([vcapp('VisualComposer\Helpers\WordPress\Nonce'), 'verifyAdmin'], $nonce);
+        return $this->check([vcapp('nonceHelper'), 'verifyAdmin'], $nonce);
     }
 
     /**
@@ -173,6 +173,6 @@ abstract class Access
      */
     public function checkPublicNonce($nonce = '')
     {
-        return $this->check([vcapp('VisualComposer\Helpers\WordPress\Nonce'), 'verifyUser'], $nonce);
+        return $this->check([vcapp('nonceHelper'), 'verifyUser'], $nonce);
     }
 }

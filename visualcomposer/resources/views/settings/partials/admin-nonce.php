@@ -6,5 +6,5 @@ if (!defined('ABSPATH')) {
 
 ?>
 <script>
-    var vcAdminNonce = '<?php echo vcapp('VisualComposer\Helpers\Wordpress\Nonce')->admin() ?>';
+    var vcAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';
 </script>

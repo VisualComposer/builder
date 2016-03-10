@@ -4,14 +4,12 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\Generic\Url;
-
 ?>
 <div class="vc_welcome-tab changelog">
 
     <div class="vc_feature-section-teaser">
         <div>
-            <img src="<?php echo Url::assetUrl('images/about/screenshot.png') ?>" class="vc-featured-img"/>
+            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/screenshot.png') ?>" class="vc-featured-img"/>
             <h3><?php echo __('New Elements and Options', 'vc5') ?></h3>
             <p><?php echo __(
                     'Visual Composer 4.10 offers new and enhanced elements to improve your page building process. '
@@ -31,7 +29,7 @@ use VisualComposer\Helpers\Generic\Url;
     <div class="vc_welcome-feature feature-section vc_row">
 
         <div class="vc_col-xs-4">
-            <img src="<?php echo Url::assetUrl('images/about/01.png') ?>" class="vc-img-center"/>
+            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/01.png') ?>" class="vc-img-center"/>
             <h4><?php echo __('ACF Support', 'vc5') ?></h4>
             <p><?php echo __(
                     'Combine power of Visual Composer and ACF - add any custom field of '
@@ -41,7 +39,7 @@ use VisualComposer\Helpers\Generic\Url;
         </div>
 
         <div class="vc_col-xs-4">
-            <img class="vc-img-center" src="<?php echo Url::assetUrl('images/about/02.png') ?>"/>
+            <img class="vc-img-center" src="<?php echo vcapp('urlHelper')->assetUrl('images/about/02.png') ?>"/>
             <h4><?php echo __('Categories and Authors', 'vc5') ?></h4>
             <p><?php echo __(
                     'Visual Composer Grid Builder has 2 more content elements allowing you to add data'
@@ -51,7 +49,7 @@ use VisualComposer\Helpers\Generic\Url;
         </div>
 
         <div class="vc_col-xs-4">
-            <img src="<?php echo Url::assetUrl('images/about/03.png') ?>" class="vc-img-center"/>
+            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/03.png') ?>" class="vc-img-center"/>
             <h4><?php
                 echo __('Parallax Speed', 'vc5');
                 ?></h4>

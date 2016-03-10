@@ -4,14 +4,14 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-$settings = vcapp('VisualComposer\Modules\Settings\Controller');
+$settings = vcapp('settings');
 $optionGroup = $settings->getOptionGroup();
 $pageSlug = $settings->getPageSlug();
 $tab = $page->getSlug();
 
 ?>
 <script type="text/javascript">
-    var vcAdminNonce = '<?php echo vcapp('VisualComposer\Helpers\Wordpress\Nonce')->admin() ?>';
+    var vcAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';
 </script>
 
 <form action="options.php"

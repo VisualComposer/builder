@@ -76,7 +76,7 @@ class Controller extends Container
      * @param string $message
      * @param bool $success
      */
-    private function renderNotice($message, $success = true, Templates $templates)
+    private function renderNotice(Templates $templates, $message, $success = true)
     {
         $args = ['message' => $message];
 

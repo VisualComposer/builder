@@ -4,13 +4,13 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-vcapp('VisualComposer\Helpers\Generic\Templates')->render(
+vcapp('templatesHelper')->render(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('VisualComposer\Modules\Access\Role\Access')->who($role)->part($part),
+        'controller' => vcapp('roleAccess')->who($role)->part($part),
         'options' => [
             [true, __('All', 'vc5')],
             ['add', __('Apply presets only', 'vc5')],

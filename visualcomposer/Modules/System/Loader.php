@@ -23,7 +23,7 @@ send_nosniff_header();
 nocache_headers();
 
 if (strpos($_REQUEST['action'], ':nonce')) {
-    if (empty($_REQUEST['nonce']) || !vcapp('VisualComposer\Helpers\WordPress\Nonce')->verifyUser($_REQUEST['nonce'])) {
+    if (empty($_REQUEST['nonce']) || !vcapp('nonceHelper')->verifyUser($_REQUEST['nonce'])) {
         die(json_encode(
             [
                 'status' => 'fail',
@@ -33,7 +33,7 @@ if (strpos($_REQUEST['action'], ':nonce')) {
     }
 } elseif (strpos($_REQUEST['action'], ':admin-nonce')) {
     if (empty($_REQUEST['nonce'])
-        || !vcapp('VisualComposer\Helpers\WordPress\Nonce')->verifyAdmin(
+        || !vcapp('nonceHelper')->verifyAdmin(
             $_REQUEST['nonce']
         )
     ) {

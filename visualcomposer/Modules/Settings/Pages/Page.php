@@ -103,6 +103,6 @@ trait Page
             ]
         );
 
-        vcapp('VisualComposer\Helpers\Generic\Templates')->render($this->getTemplatePath(), $args);
+        vcapp('templatesHelper')->render($this->getTemplatePath(), $args);
     }
 }

@@ -2,51 +2,53 @@
 
 namespace VisualComposer;
 
-class Application extends \VisualComposer\Framework\Application
+use VisualComposer\Framework\Application as ApplicationFactory;
+
+class Application extends ApplicationFactory
 {
     public $modules = [
-        // system modules & submodules
-        'VisualComposer\Modules\System\Activation\Controller',
-        'VisualComposer\Modules\System\TextDomain\Controller',
+        // system s & subs
+        'activation' => 'VisualComposer\Modules\System\Activation\Controller',
+        'textDomain' => 'VisualComposer\Modules\System\TextDomain\Controller',
 
-        // Editors modules & submodules
-        'VisualComposer\Modules\Editors\AssetsManager\Controller',
-        'VisualComposer\Modules\Editors\DataAjax\Controller',
-        'VisualComposer\Modules\Live\Controller',
+        // Editors s & subs
+        'assetsManager' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
+        'dataAjax' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
+        // Live/Public
+        'live' => 'VisualComposer\Modules\Live\Controller',
 
         // Elements
-        'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
+        'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
 
         // License
-        'VisualComposer\Modules\License\Controller',
+        'license' => 'VisualComposer\Modules\License\Controller',
 
         // Settings
-        'VisualComposer\Modules\Settings\Controller',
-        'VisualComposer\Modules\Settings\Pages\General',
-        'VisualComposer\Modules\Settings\Pages\License',
-        'VisualComposer\Modules\Settings\Pages\Roles',
-        'VisualComposer\Modules\Settings\Pages\About',
+        'settings' => 'VisualComposer\Modules\Settings\Controller',
+        'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
+        'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
+        'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+        'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
 
         // Access
-        'VisualComposer\Modules\Access\CurrentUser\Access',
-        'VisualComposer\Modules\Access\Role\Access',
+        'currentUserAccess' => 'VisualComposer\Modules\Access\CurrentUser\Access',
+        'roleAccess' => 'VisualComposer\Modules\Access\Role\Access',
 
-        'VisualComposer\Modules\Editors\Frontend\Frontend',
-        'VisualComposer\Modules\Editors\Frontend\PageEditable',
+        'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
+        'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
 
     ];
     public $helpers = [
         // Generic
-        'VisualComposer\Helpers\Generic\Core',
-        'VisualComposer\Helpers\Generic\Data',
-        'VisualComposer\Helpers\Generic\Events',
-        'VisualComposer\Helpers\Generic\Request',
-        'VisualComposer\Helpers\Generic\Templates',
-        'VisualComposer\Helpers\Generic\Url',
+        'coreHelper' => 'VisualComposer\Helpers\Generic\Core',
+        'dataHelper' => 'VisualComposer\Helpers\Generic\Data',
+        'requestHelper' => 'VisualComposer\Helpers\Generic\Request',
+        'templatesHelper' => 'VisualComposer\Helpers\Generic\Templates',
+        'urlHelper' => 'VisualComposer\Helpers\Generic\Url',
         /// WordPress
-        'VisualComposer\Helpers\Wordpress\File',
-        'VisualComposer\Helpers\Wordpress\Nonce',
-        'VisualComposer\Helpers\Wordpress\Options',
+        'fileHelper' => 'VisualComposer\Helpers\Wordpress\File',
+        'nonceHelper' => 'VisualComposer\Helpers\Wordpress\Nonce',
+        'optionsHelper' => 'VisualComposer\Helpers\Wordpress\Options',
     ];
     /**
      * The available container bindings and their respective load methods.

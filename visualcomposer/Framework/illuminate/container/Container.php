@@ -817,7 +817,8 @@ class Container implements ArrayAccess, ContainerContract
             return $parameter->getDefaultValue();
         }
 
-        $message = "Unresolvable dependency resolving [$parameter] in class {$parameter->getDeclaringClass()->getName()}";
+        $message = "Unresolvable dependency resolving"
+            . " [$parameter] in class {$parameter->getDeclaringClass()->getName()}";
 
         throw new BindingResolutionException($message);
     }
@@ -834,12 +835,10 @@ class Container implements ArrayAccess, ContainerContract
     {
         try {
             return $this->make($parameter->getClass()->name);
-        }
-
+        } catch (BindingResolutionException $e) {
             // If we can not resolve the class instance, we will check to see if the value
             // is optional, and if it is we will return the optional parameter value as
             // the value of the dependency, similarly to how we do this with scalars.
-        catch (BindingResolutionException $e) {
             if ($parameter->isOptional()) {
                 return $parameter->getDefaultValue();
             }

@@ -85,7 +85,7 @@ $tab = $page->getSlug();
 
                                 foreach ($validRoles as $part) {
                                     $view = str_replace('_', '-', $part);
-                                    vcapp('VisualComposer\Helpers\Generic\Templates')->render(
+                                    vcapp('templatesHelper')->render(
                                         'settings/pages/roles/partials/' . $view,
                                         [
                                             'part' => $part,

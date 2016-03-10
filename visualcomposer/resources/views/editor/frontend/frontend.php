@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>"/>
     <title><?php __('Frontend editor', 'vc5'); /** @todo use more informative title */ ?></title>
     <link rel="stylesheet" property="stylesheet" type="text/css"
-        href="<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to(
+        href="<?php echo vcapp('urlHelper')->to(
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>"/>
     <?php /** @todo add jquery into bundle.js */ ?>
@@ -19,10 +19,10 @@
 <body>
 <script>
     window.vcSourceID = <?php echo get_the_ID(); ?>;
-    window.vcAjaxUrl = '<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->ajax(); ?>';
-    window.vcNonce = '<?php echo vcapp('VisualComposer\Helpers\Wordpress\Nonce')->admin(); ?>';
+    window.vcAjaxUrl = '<?php echo vcapp('urlHelper')->ajax(); ?>';
+    window.vcNonce = '<?php echo vcapp('nonceHelper')->admin(); ?>';
 </script>
-<script type="text/javascript" src="<?php echo vcapp('VisualComposer\Helpers\Generic\Url')->to(
+<script type="text/javascript" src="<?php echo vcapp('urlHelper')->to(
     'public/dist/wp.bundle.js?' . uniqid()
 ); /* @todo: use assets folder */ ?>"></script>
 <iframe src="<?php echo $editableLink; ?>" id="vc-v-editor-iframe"

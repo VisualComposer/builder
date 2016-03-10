@@ -1,13 +1,13 @@
 <?php namespace VisualComposer\Framework\Illuminate\Container;
 
-use VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder as ContextualBindingBuilderContract;
+use VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder as Contract;
 
-class ContextualBindingBuilder implements ContextualBindingBuilderContract
+class ContextualBindingBuilder implements Contract
 {
     /**
      * The underlying container instance.
      *
-     * @var \Illuminate\Container\Container
+     * @var \VisualComposer\Framework\Illuminate\Container\Container
      */
     protected $container;
     /**
@@ -20,7 +20,7 @@ class ContextualBindingBuilder implements ContextualBindingBuilderContract
     /**
      * Create a new contextual binding builder.
      *
-     * @param  \Illuminate\Container\Container $container
+     * @param  \VisualComposer\Framework\Illuminate\Container\Container $container
      * @param  string $concrete
      * @return void
      */

@@ -6,17 +6,17 @@ if (!defined('ABSPATH')) {
 
 
 $tabs = [];
-foreach (vcapp('VisualComposer\Modules\Settings\Controller')->getPages() as $tab) {
+foreach (vcapp('settings')->getPages() as $tab) {
     $tabs[] = [$tab['slug'] . '-tab', $tab['title']];
 }
 
-vcapp('VisualComposer\Helpers\Generic\Templates')->render(
+vcapp('templatesHelper')->render(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('VisualComposer\Modules\Access\Role\Access')->who($role)->part($part),
+        'controller' => vcapp('roleAccess')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => $tabs,
         'options' => [
