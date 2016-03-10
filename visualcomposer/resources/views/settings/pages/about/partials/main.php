@@ -9,7 +9,8 @@ if (!defined('ABSPATH')) {
 
     <div class="vc_feature-section-teaser">
         <div>
-            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/screenshot.png') ?>" class="vc-featured-img"/>
+            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/screenshot.png') ?>"
+                class="vc-featured-img"/>
             <h3><?php echo __('New Elements and Options', 'vc5') ?></h3>
             <p><?php echo __(
                     'Visual Composer 4.10 offers new and enhanced elements to improve your page building process. '

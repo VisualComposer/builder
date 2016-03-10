@@ -4,7 +4,6 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-
 $tabs = [];
 foreach (vcapp('settings')->getPages() as $tab) {
     $tabs[] = [$tab['slug'] . '-tab', $tab['title']];

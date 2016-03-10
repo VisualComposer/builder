@@ -961,17 +961,17 @@ class VcAccessUsersTest extends WP_UnitTestCase
                 ],
                 true
             )->wpAny('edit_posts', 'edit_pages')->wpAll('edit_posts', 'edit_pages')->part('something')->can()->canAny(
-                    'something'
-                )// in null it is always true
+                'something'
+            )// in null it is always true
                                                                      ->canAny(
-                    'something',
-                    'something2'
-                )// in null it is always true
+                'something',
+                'something2'
+            )// in null it is always true
                                                                      ->canAll('something')// in null it is always true
                                                                      ->canAll(
-                    'something',
-                    'something2'
-                )// in null it is always true
+                'something',
+                'something2'
+            )// in null it is always true
                                                                      ->checkState(null)->checkStateAny('custom', null)
                                                                      ->get(true)
         );

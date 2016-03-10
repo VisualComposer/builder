@@ -61,7 +61,7 @@ abstract class Access
      *
      * @return bool
      */
-    public function get($reset = false)
+    public function get($reset = true)
     {
         $result = $this->getValidAccess();
         if ($reset) {

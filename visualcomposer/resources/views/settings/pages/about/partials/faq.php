@@ -112,5 +112,8 @@ if (!defined('ABSPATH')) {
 </div>
 
 <div class="return-to-dashboard">
-    <a target="_blank" href="http://kb.wpbakery.com"><?php echo __('Visit Knowledge Base for more information', 'vc5') ?></a>
+    <a target="_blank" href="http://kb.wpbakery.com"><?php echo __(
+            'Visit Knowledge Base for more information',
+            'vc5'
+        ) ?></a>
 </div>

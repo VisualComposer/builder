@@ -236,11 +236,11 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
     public function test_part_capabilities_for_custom_can_canany_canall()
     {
-        wp_set_current_user(1);
         vcapp('VisualComposer\Modules\Access\Role\Access')->who('administrator')->part('something_role_users')
                                                           ->setState(
                                                               'custom'
                                                           );
+        wp_set_current_user(1);
 
         $this->assertEquals(
             'custom',
@@ -254,39 +254,48 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         );
 
         wp_set_current_user(null);
+        $this->assertEquals(
+            'custom',
+            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users', true)->getState()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users', true)->can()->get(
+                true
+            )
+        );
         wp_set_current_user(1); // this will reset user capabilities and get latests from user role
         $this->assertFalse(
             vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users')->can(
-                'something_role_users'
+                'some_rule'
             )->get()
         );
 
         $this->assertFalse(
             vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users')->canAny(
-                'something_role_users'
+                'some_rule'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users')->canAny(
-                'something_role_users',
-                'something_role_users2'
+            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users', true)->canAny(
+                'some_rule',
+                'some_other_rule'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users')->canAll(
-                'something_role_users'
+            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users', true)->canAll(
+                'some_rule'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users')->canAll(
-                'something_role_users',
-                'something_role_users2'
-            )->get()
+            vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->part('something_role_users', true)->canAll(
+                'some_rule',
+                'some_other_rule'
+            )->get(true)
         );
 
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
-        vcapp('VisualComposer\Modules\Access\Role\Access')->who('administrator')->part('something_role_users')
+        vcapp('VisualComposer\Modules\Access\Role\Access')->who('administrator')->part('something_role_users', true)
                                                           ->setCapRule('something_role_users', true);
 
         wp_set_current_user(null);

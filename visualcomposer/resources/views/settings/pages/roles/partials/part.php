@@ -69,7 +69,9 @@ if (!defined('ABSPATH')) {
                                     <label>
                                         <input type="checkbox" name="all"
                                             data-vc-related-controls="tfoot [data-vc-roles-select-all-checkbox]"
-                                            data-vc-roles-select-all-checkbox="<?php echo esc_attr($type[0]) ?>"><?php echo esc_html(
+                                            data-vc-roles-select-all-checkbox="<?php echo esc_attr(
+                                                $type[0]
+                                            ) ?>"><?php echo esc_html(
                                             $type[1]
                                         ) ?>
                                     </label>
@@ -85,7 +87,9 @@ if (!defined('ABSPATH')) {
                                     <label>
                                         <input type="checkbox" name="all"
                                             data-vc-related-controls="thead [data-vc-roles-select-all-checkbox]"
-                                            data-vc-roles-select-all-checkbox="<?php echo esc_attr($type[0]) ?>"><?php echo esc_html(
+                                            data-vc-roles-select-all-checkbox="<?php echo esc_attr(
+                                                $type[0]
+                                            ) ?>"><?php echo esc_html(
                                             $type[1]
                                         ) ?>
                                     </label>
@@ -110,8 +114,10 @@ if (!defined('ABSPATH')) {
                                         <?php echo $addBox->renderIcon($cap) ?>
                                         <div>
                                             <?php echo esc_html($cap['name']) ?>
-                                            <?php echo !empty($cap['description']) ? '<span class="vc_element-description">'
-                                                . esc_html($cap['description']) . '</span>' : '' ?>
+                                            <?php echo !empty($cap['description'])
+                                                ? '<span class="vc_element-description">' . esc_html(
+                                                    $cap['description']
+                                                ) . '</span>' : '' ?>
                                         </div>
                                     </td>
                                     <?php foreach ($capTypes as $type) : ?>
@@ -124,7 +130,9 @@ if (!defined('ABSPATH')) {
                                                             . $cap['base'] . '_' . $type[0] . ']'
                                                         ) ?>"
                                                         data-vc-part="<?php echo esc_attr($part) ?>"
-                                                        data-vc-name="<?php echo esc_attr($cap['base'] . '_' . $type[0]) ?>"
+                                                        data-vc-name="<?php echo esc_attr(
+                                                            $cap['base'] . '_' . $type[0]
+                                                        ) ?>"
                                                         data-vc-roles="table-checkbox"
                                                         data-vc-cap="<?php echo esc_attr($type[0]) ?>"
                                                         value="1"
