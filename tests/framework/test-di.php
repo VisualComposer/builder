@@ -96,8 +96,8 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $called = false;
         $func = function (
             $param1,
-            $param2,
             \VisualComposer\Helpers\Generic\Core $core,
+            $param2,
             \VisualComposer\Helpers\Generic\Templates $templates
         ) use (&$called) {
             $this->assertEquals('params1', $param1);

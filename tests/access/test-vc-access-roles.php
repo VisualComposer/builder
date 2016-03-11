@@ -8,6 +8,8 @@ class VcAccessRolesTest extends WP_UnitTestCase
     {
         $this->assertTrue(is_object(vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')));
         $this->assertTrue(is_object(vcapp('VisualComposer\Helpers\Generic\Access\Role\Access')));
+        $this->assertTrue(is_object(vcapp('roleAccessHelper')));
+        $this->assertEquals(vcapp('VisualComposer\Helpers\Generic\Access\Role\Access'), vcapp('roleAccessHelper'));
     }
 
     public function test_role_access_get()
@@ -469,8 +471,8 @@ class VcAccessRolesTest extends WP_UnitTestCase
             vcapp('VisualComposer\Helpers\Generic\Access\Role\Access')->part('something_role', true)->can(
                 'something_role'
             )->get(
-                    true
-                )
+                true
+            )
         );
 
         // reset:
