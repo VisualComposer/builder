@@ -4,13 +4,18 @@ namespace VisualComposer\Helpers\Generic;
 
 /**
  * Helper methods related to data manipulation
+ * Class Data
+ * @package VisualComposer\Helpers\Generic
  */
-abstract class Data
+class Data
 {
     /**
-     * @todo Doctype
+     * @param $array
+     * @param $column
+     * @param $value
+     * @return bool|int|string
      */
-    public static function arraySearch($array, $column, $value)
+    public function arraySearch($array, $column, $value)
     {
         if (!is_array($array)) {
             return false;
@@ -26,9 +31,12 @@ abstract class Data
     }
 
     /**
-     * @todo Doctype
+     * @param $array
+     * @param $column
+     * @param bool $returnValue
+     * @return bool|int|string
      */
-    public static function arraySearchKey($array, $column)
+    public function arraySearchKey($array, $column, $returnValue = false)
     {
         if (!is_array($array)) {
             return false;
@@ -36,7 +44,11 @@ abstract class Data
         foreach ($array as $key => $innerArray) {
             $exists = isset($innerArray[ $column ]);
             if ($exists) {
-                return $exists;
+                if ($returnValue) {
+                    return $innerArray[ $column ];
+                } else {
+                    return $key;
+                }
             }
         }
 
@@ -50,7 +62,7 @@ abstract class Data
      *
      * @return string
      */
-    public static function randomString($length = 10)
+    public function randomString($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $len = strlen($characters);

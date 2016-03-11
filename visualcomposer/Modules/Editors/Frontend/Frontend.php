@@ -1,13 +1,20 @@
 <?php
 namespace VisualComposer\Modules\Editors\Frontend;
 
-use Illuminate\Http\Request;
 use VisualComposer\Helpers\Generic\Templates;
+use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\WordPress\Nonce;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
+/**
+ * Class Frontend
+ * @package VisualComposer\Modules\Editors\Frontend
+ */
 class Frontend extends Container
 {
+    /**
+     * Frontend constructor.
+     */
     public function __construct()
     {
         add_action(
@@ -19,7 +26,12 @@ class Frontend extends Container
         );
     }
 
-    private function renderEditorBase(Request $request)
+    /**
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\Generic\Templates $templates
+     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     */
+    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
         global $post;
         $sourceId = (int)$request->input('vc-source-id');
@@ -31,11 +43,11 @@ class Frontend extends Container
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vc-v-editable' => '1',
-            'nonce' => Nonce::admin(),
+            'nonce' => $nonce->admin(),
         ];
 
         $editableLink = $link . $question . http_build_query($query);
-        Templates::render(
+        $templates->render(
             'editor/frontend/frontend',
             [
                 'editableLink' => $editableLink,

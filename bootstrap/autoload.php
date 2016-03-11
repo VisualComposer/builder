@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Just a time constant can be used for performance metrics and other Randoms
+ */
 define('VC_V_START', microtime(true));
 /*
 |--------------------------------------------------------------------------
@@ -13,4 +16,5 @@ define('VC_V_START', microtime(true));
 |
 */
 require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
 require_once __DIR__ . '/app.php';

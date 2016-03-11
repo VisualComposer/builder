@@ -35,7 +35,7 @@ if (!defined('ABSPATH')) {
         </div>
 
         <div class="vc_col-xs-6">
-            <h3><?= __('Official Support', 'vc5') ?></h3>
+            <h3><?php echo __('Official Support', 'vc5') ?></h3>
             <p><?php
                 printf(
                     __(

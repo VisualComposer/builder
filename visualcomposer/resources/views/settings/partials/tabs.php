@@ -26,8 +26,8 @@ $urlFunction = is_network_admin() ? 'network_admin_url' : 'admin_url';
         }
 
         ?>
-        <a href="<?= esc_attr($url) ?>" class="<?= esc_attr($class) ?>">
-            <?= $tab['title'] ?>
+        <a href="<?php echo esc_attr($url) ?>" class="<?php echo esc_attr($class) ?>">
+            <?php echo $tab['title'] ?>
         </a>
         <?php
     endforeach ?>

@@ -16,12 +16,12 @@ if (!defined('ABSPATH')) {
 
     ?>
     <label>
-        <input type="checkbox" <?= implode(' ', $attributes) ?> />
-        <?= $subset['title'] ?>
+        <input type="checkbox" <?php echo implode(' ', $attributes) ?> />
+        <?php echo $subset['title'] ?>
     </label>
     <br/>
 <?php endforeach ?>
 
 <p class="description indicator-hint">
-    <?= __('Select subsets for Google Fonts available to content elements.', 'vc5') ?>
+    <?php echo __('Select subsets for Google Fonts available to content elements.', 'vc5') ?>
 </p>

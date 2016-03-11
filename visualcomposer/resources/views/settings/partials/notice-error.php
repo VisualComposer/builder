@@ -6,5 +6,5 @@ if (!defined('ABSPATH')) {
 
 ?>
 <div class="error">
-    <p><?= $message ?></p>
+    <p><?php echo $message ?></p>
 </div>

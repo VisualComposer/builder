@@ -2,29 +2,39 @@
 
 namespace VisualComposer\Modules\System\Activation;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\System\Activation
+ */
 class Controller extends Container
 {
     /**
-     * ActivationController constructor.
-     *
-     * @param \Illuminate\Contracts\Events\Dispatcher $event
+     * Controller constructor.
      */
-    public function __construct(Dispatcher $event)
+    public function __construct()
     {
         register_activation_hook(
             VC_V_PLUGIN_FULL_PATH,
-            function () use ($event) {
-                $event->fire('vc:system:activationController:activation');
+            function () {
+                $this->call('setVersion');
             }
         );
-        register_deactivation_hook(
+        /*register_deactivation_hook(
             VC_V_PLUGIN_FULL_PATH,
             function () use ($event) {
                 $event->fire('vc:system:activationController:deactivation');
             }
-        );
+        );*/
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\WordPress\Options $options
+     */
+    private function setVersion(Options $options)
+    {
+        $options->set('version', VC_V_VERSION);
     }
 }

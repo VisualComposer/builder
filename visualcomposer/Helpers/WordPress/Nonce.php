@@ -2,24 +2,42 @@
 
 namespace VisualComposer\Helpers\WordPress;
 
-abstract class Nonce
+/**
+ * Class Nonce
+ * @package VisualComposer\Helpers\WordPress
+ */
+class Nonce
 {
-    public static function user()
+    /**
+     * @return mixed
+     */
+    public function user()
     {
         return wp_create_nonce('vc:v:nonce');
     }
 
-    public static function admin()
+    /**
+     * @return mixed
+     */
+    public function admin()
     {
         return wp_create_nonce('vc:v:nonce:admin');
     }
 
-    public static function verifyUser($nonce)
+    /**
+     * @param $nonce
+     * @return bool
+     */
+    public function verifyUser($nonce)
     {
         return !empty($nonce) && wp_verify_nonce($nonce, 'vc:v:nonce');
     }
 
-    public static function verifyAdmin($nonce)
+    /**
+     * @param $nonce
+     * @return bool
+     */
+    public function verifyAdmin($nonce)
     {
         return !empty($nonce) && wp_verify_nonce($nonce, 'vc:v:nonce:admin');
     }

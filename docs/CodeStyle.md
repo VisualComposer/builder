@@ -16,12 +16,12 @@ VC5 code style based on node code style: http://nodeguide.com/style.html
 
 
 Project in JS consists of *modules* and *services*.
-- **Module** is encapsulated peace of data that can access to own code and only.
-- **Service** is object that can be accessed by modules via vc-cake object method. getService.
-Service should have very pure logic and it never works with DOM elements(if browser is used).
+- **Module** is encapsulated peace of data that can access to own code and only
+- **Service** is object that can be accessed by modules via vc-cake object method. getService
+Service should have very pure logic and it never works with DOM elements(if browser is used)
 
 - vc-cake.js is a base library to build js:  https://npmjs.com/package/vc-cake
-- Project is bundled with webpack. 
+- Project is bundled with webpack
 
 Main file example
 
@@ -46,6 +46,7 @@ Side notes:
 - Any statement MUST end with semicolon; even if it is single line method like ```<?php echo $something; ?>```
 - Spaces within brackets ONLY if key is variable or expression like ```$data[ $test ]```
 - Use spaces not tabs [PSR1]
+- Use `phpcs` command to check for codeStyle issues in PHP files
 
 ##Less/Css
 

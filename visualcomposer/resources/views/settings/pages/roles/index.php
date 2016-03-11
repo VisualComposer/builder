@@ -7,24 +7,22 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\Generic\Templates;
-
 $editableRoles = get_editable_roles();
 
 $tab = $page->getSlug();
 
 ?>
 
-<form action="<?= admin_url('admin-ajax.php'); ?>"
+<form action="<?php echo admin_url('admin-ajax.php'); ?>"
     method="post"
-    id="vc_settings-<?= $tab ?>"
+    id="vc_settings-<?php echo $tab ?>"
     class="vc_settings-tab-content vc_settings-tab-content-active"
-    <?= apply_filters('vc_setting-tab-form-' . $tab, '') ?>
+    <?php echo apply_filters('vc_setting-tab-form-' . $tab, '') ?>
     data-vc-roles="form">
 
     <div class="tab_intro">
         <p>
-            <?= __(
+            <?php echo __(
                 'Control user group role access to the features and options of Visual Composer - manage WordPress default and custom roles.',
                 'vc5'
             ) ?>
@@ -50,26 +48,27 @@ $tab = $page->getSlug();
 
                 <?php if (count($validRoles) > 0) : ?>
                     <div
-                        class="vc_wp-accordion-panel vc_ui-settings-roles-role<?= !isset($next) ? ' vc_active' : '' ?>"
-                        data-vc-unique-id="<?= esc_attr($uniqueId) ?>"
+                        class="vc_wp-accordion-panel vc_ui-settings-roles-role<?php echo !isset($next) ? ' vc_active'
+                            : '' ?>"
+                        data-vc-unique-id="<?php echo esc_attr($uniqueId) ?>"
                         data-vc-content=".vc_wp-accordion-panel-body"
-                        data-vc-role="<?= esc_attr($role) ?>">
+                        data-vc-role="<?php echo esc_attr($role) ?>">
                         <div class="widget"
                             data-vc-accordion=""
                             data-vc-container=".vc_wp-accordion"
-                            data-vc-target="[data-vc-unique-id=<?= esc_attr($uniqueId) ?>]">
+                            data-vc-target="[data-vc-unique-id=<?php echo esc_attr($uniqueId) ?>]">
                             <div class="widget-top">
                                 <div class="widget-title-action">
                                     <a class="widget-action hide-if-no-js" href="#"></a>
                                     <a class="widget-control-edit hide-if-js">
-                                        <span class="edit vc_automapper-edit-btn"><?= __('Edit', 'vc5') ?></span>
-                                        <span class="add vc_automapper-delete-btn"><?= __('Add', 'vc5') ?></span>
-                                        <span class="screen-reader-text"><?= __('Search', 'vc5') ?></span>
+                                        <span class="edit vc_automapper-edit-btn"><?php echo __('Edit', 'vc5') ?></span>
+                                        <span class="add vc_automapper-delete-btn"><?php echo __('Add', 'vc5') ?></span>
+                                        <span class="screen-reader-text"><?php echo __('Search', 'vc5') ?></span>
                                     </a>
                                 </div>
                                 <div class="widget-title">
                                     <h4>
-                                        <?= esc_html($name) ?>
+                                        <?php echo esc_html($name) ?>
                                         <span class="in-widget-title"></span>
                                     </h4>
                                 </div>
@@ -86,7 +85,7 @@ $tab = $page->getSlug();
 
                                 foreach ($validRoles as $part) {
                                     $view = str_replace('_', '-', $part);
-                                    Templates::render(
+                                    vcapp('templatesHelper')->render(
                                         'settings/pages/roles/partials/' . $view,
                                         [
                                             'part' => $part,

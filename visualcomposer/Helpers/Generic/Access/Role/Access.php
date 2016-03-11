@@ -1,18 +1,41 @@
 <?php
 
-namespace VisualComposer\Modules\Access\Role;
+namespace VisualComposer\Helpers\Generic\Access\Role;
 
-use VisualComposer\Modules\Access\Access as AccessFactory;
+use VisualComposer\Helpers\Generic\Access\Access as AccessFactory;
 
-class Access extends AccessFactory
+/**
+ * Available by vcapp('roleAccessHelper')
+ * Provides API for specific role for checks & access
+ *
+ * Class Access
+ * @package VisualComposer\Helpers\Generic\Access\Role
+ */
+class Access
 {
+    use AccessFactory;
     /**
-     * @var bool
+     * Current RoleName (administrator/contributor..)
+     * @var string
      */
-    protected $roleName = false;
+    protected $roleName;
+    /**
+     * Current get_role(from RoleName)
+     * @var \WP_Role
+     */
     protected $role;
+    /**
+     * Current working part of access system
+     * @var string
+     */
     protected $part;
+    /**
+     * @var string
+     */
     protected static $partNamePrefix = 'vc_v_access_rules_';
+    /**
+     * @var array
+     */
     protected $mergedCaps = [
         'vc_row_inner_all' => 'vc_row_all',
         'vc_column_all' => 'vc_row_all',
@@ -262,11 +285,18 @@ class Access extends AccessFactory
         return $this->role;
     }
 
+    /**
+     * @return string
+     */
     public function getStateKey()
     {
         return self::$partNamePrefix . $this->getPart();
     }
 
+    /**
+     * @param $data
+     * @return $this
+     */
     public function checkState($data)
     {
         if ($this->getValidAccess()) {
@@ -276,6 +306,9 @@ class Access extends AccessFactory
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function checkStateAny()
     {
         if ($this->getValidAccess()) {
@@ -295,6 +328,10 @@ class Access extends AccessFactory
         return (string)$this->get();
     }
 
+    /**
+     * @param $rule
+     * @return mixed
+     */
     public function updateMergedCaps($rule)
     {
         if (isset($this->mergedCaps[ $rule ])) {

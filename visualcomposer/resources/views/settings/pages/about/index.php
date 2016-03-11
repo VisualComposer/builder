@@ -4,8 +4,6 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\Generic\Templates;
-
 ?>
 
 <div class="wrap vc-page-welcome about-wrap">
@@ -29,15 +27,15 @@ use VisualComposer\Helpers\Generic\Templates;
     </div>
 
     <div class="wp-badge vc-page-logo">
-        <?= sprintf(__('Version %s', 'vc5'), VC_V_VERSION) ?>
+        <?php echo sprintf(__('Version %s', 'vc5'), VC_V_VERSION) ?>
     </div>
 
     <p class="vc-page-actions">
 
         <?php
         if ($hasAccessToSettings) : ?>
-            <a href="<?= esc_attr(admin_url('admin.php?page=vc-general')) ?>" class="button button-primary">
-                <?= __('Settings', 'vc5') ?>
+            <a href="<?php echo esc_attr(admin_url('admin.php?page=vc-general')) ?>" class="button button-primary">
+                <?php echo __('Settings', 'vc5') ?>
             </a>
             <?php
         endif;
@@ -51,7 +49,7 @@ use VisualComposer\Helpers\Generic\Templates;
             data-size="large">Tweet</a>
     </p>
     <?php
-    Templates::render(
+    vcapp('templatesHelper')->render(
         'settings/pages/about/partials/tabs',
         [
             'activeSlug' => $activeSlug,
@@ -62,7 +60,7 @@ use VisualComposer\Helpers\Generic\Templates;
 
     foreach ($tabs as $tab) :
         if ($tab['slug'] === $activeSlug) {
-            Templates::render($tab['view']);
+            vcapp('templatesHelper')->render($tab['view']);
         }
     endforeach;
     ?>
@@ -70,13 +68,13 @@ use VisualComposer\Helpers\Generic\Templates;
 </div>
 
 <script>
-    ! function ( d, s, id ) {
-        var js, fjs = d.getElementsByTagName( s )[ 0 ], p = /^http:/.test( d.location ) ? 'http' : 'https';
-        if ( ! d.getElementById( id ) ) {
-            js = d.createElement( s );
+    !function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
             js.id = id;
             js.src = p + '://platform.twitter.com/widgets.js';
-            fjs.parentNode.insertBefore( js, fjs );
+            fjs.parentNode.insertBefore(js, fjs);
         }
-    }( document, 'script', 'twitter-wjs' );
+    }(document, 'script', 'twitter-wjs');
 </script>

@@ -1,13 +1,20 @@
 <?php
 namespace VisualComposer\Modules\Editors\Frontend;
 
-use Illuminate\Http\Request;
+use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Nonce;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Container;
 
+/**
+ * Class PageEditable
+ * @package VisualComposer\Modules\Editors\Frontend
+ */
 class PageEditable extends Container
 {
+    /**
+     * PageEditable constructor.
+     */
     public function __construct()
     {
         add_action(
@@ -20,27 +27,30 @@ class PageEditable extends Container
         );
     }
 
-    private function isPageEditable(Request $request)
+    /**
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     * @return bool
+     */
+    private function isPageEditable(Request $request, Nonce $nonce)
     {
-        if ($request->has('vc-v-editable')
-            && $request->has('nonce')
-            && Nonce::verifyAdmin($request->input('nonce'))
-        ) {
-            return true;
-        }
-
-        return false;
+        return ($request->exists('vc-v-editable')
+            && $request->exists('nonce')
+            && $nonce->verifyAdmin($request->input('nonce')));
     }
 
-    private function buildPageEditable()
+    /**
+     * @param \VisualComposer\Helpers\Generic\Url $url
+     */
+    private function buildPageEditable(Url $url)
     {
         add_action(
             'the_post',
-            function () {
+            function () use ($url) {
                 remove_all_filters('the_content');
                 add_filter(
                     'the_content',
-                    function () {
+                    function () use ($url) {
                         return '
 <script>
         (function () {
@@ -69,7 +79,7 @@ class PageEditable extends Container
                 }
             }
 
-            vcvLoadJsCssFile( \'' . Url::to('public/dist/wp.bundle.css?' . uniqid()) . '\',
+            vcvLoadJsCssFile( \'' . $url->to('public/dist/wp.bundle.css?' . uniqid()) . '\',
                 \'css\' );
         })();
     </script>

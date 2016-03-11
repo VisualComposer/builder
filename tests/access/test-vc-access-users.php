@@ -6,7 +6,11 @@ class VcAccessUsersTest extends WP_UnitTestCase
 {
     public function test_user_access_validate_die()
     {
-        $user_access = app('VisualComposer\Modules\Access\CurrentUser\Access');
+        $this->assertEquals(
+            vcapp('VisualComposer\Helpers\Generic\Access\Role\Access')->who('administrator')->getRoleName(),
+            vcapp('VisualComposer\Helpers\Generic\Access\Role\Access')->getRoleName()
+        );
+        $user_access = vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access');
         // validateDie and setValidAccess tests
         try {
             $user_access->setValidAccess(false)->validateDie('test message')->get();
@@ -32,7 +36,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
     public function test_user_access_get()
     {
-        $user_access = app('VisualComposer\Modules\Access\CurrentUser\Access');
+        $user_access = vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access');
 
         // getValidAccess tests:
         $this->assertTrue($user_access->getValidAccess());
@@ -43,62 +47,62 @@ class VcAccessUsersTest extends WP_UnitTestCase
             $user_access->setValidAccess(false)->getValidAccess()
         );
 
-        // ->get()
+        // ->get() by defautls resets
         $this->assertFalse($user_access->setValidAccess(false)->get());
-        // now access should be again false
-        $this->assertFalse($user_access->getValidAccess());
-        $this->assertFalse($user_access->get());
-
-        // ->get(true) reset
-        $this->assertFalse(
-            $user_access->setValidAccess(false)->get(true)
-        );
-        // now access should be again true
+        // now access should be true
         $this->assertTrue($user_access->getValidAccess());
         $this->assertTrue($user_access->get());
     }
 
     public function test_check_admin_nonce()
     {
-        $this->assertTrue(Nonce::verifyAdmin(Nonce::admin()));
+        $this->assertTrue(vcapp('nonceHelper')->verifyAdmin(vcapp('nonceHelper')->admin()));
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce(Nonce::admin())->get(true)
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce(
+                vcapp('nonceHelper')->admin()
+            )->get(true)
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce(Nonce::admin())
-                                                                   ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce(
+                vcapp('nonceHelper')->admin()
+            )->getValidAccess()
         );
 
         // negative tests
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce('abc')->getValidAccess()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce('abc')
+                                                                             ->getValidAccess()
         );
         //reset
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->setValidAccess(true);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->setValidAccess(true);
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce('abc')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce('abc')->get()
         );
     }
 
     public function test_check_public_nonce()
     {
-        $this->assertTrue(Nonce::verifyUser(Nonce::user()));
+        $this->assertTrue(vcapp('nonceHelper')->verifyUser(vcapp('nonceHelper')->user()));
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkPublicNonce(Nonce::user())->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkPublicNonce(
+                vcapp('nonceHelper')->user()
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkPublicNonce(Nonce::user())
-                                                                   ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkPublicNonce(
+                vcapp('nonceHelper')->user()
+            )->getValidAccess()
         );
 
         // negative tests
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkPublicNonce('abc')->getValidAccess()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkPublicNonce('abc')
+                                                                             ->getValidAccess()
         );
         //reset
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->setValidAccess(true);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->setValidAccess(true);
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkPublicNonce('abc')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkPublicNonce('abc')->get()
         );
     }
 
@@ -112,230 +116,230 @@ class VcAccessUsersTest extends WP_UnitTestCase
     {
         // custom validators:
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->check(
-                    [
-                        $this,
-                        '_check',
-                    ],
-                    true
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->check(
+                [
+                    $this,
+                    '_check',
+                ],
+                true
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->check(
-                    [
-                        $this,
-                        '_check',
-                    ],
-                    false
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->check(
+                [
+                    $this,
+                    '_check',
+                ],
+                false
+            )->get()
         );
 
         // checkAny
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
+                        $this,
+                        '_check',
                     ],
+                    false,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
+                        $this,
+                        '_check',
                     ],
+                    true,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
+                        $this,
+                        '_check',
                     ],
+                    true,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAny(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAny(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
+                        $this,
+                        '_check',
                     ],
+                    false,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
 
         //checkAll
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
+                        $this,
+                        '_check',
                     ],
+                    true,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
+                        $this,
+                        '_check',
                     ],
+                    false,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    false,
+                ]
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        false,
+                        $this,
+                        '_check',
                     ],
+                    false,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAll(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAll(
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
+                        $this,
+                        '_check',
                     ],
+                    true,
+                ],
+                [
                     [
-                        [
-                            $this,
-                            '_check',
-                        ],
-                        true,
-                    ]
-                )->get()
+                        $this,
+                        '_check',
+                    ],
+                    true,
+                ]
+            )->get()
         );
     }
 
     public function test_current_user_access()
     {
         wp_set_current_user(1);
-        $user_access = app('VisualComposer\Modules\Access\CurrentUser\Access')->reset();
+        $user_access = vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset();
         $this->assertTrue($user_access->wpAny('edit_posts')->get(true));
         $this->assertTrue($user_access->wpAny('edit_pages')->get(true));
         $this->assertFalse(
@@ -368,65 +372,72 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         $this->assertEquals(
             'administrator',
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->part('any')->getRole()->name
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->part('any')->getRole()->name
         );
         $this->assertEquals(
             'administrator',
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->part('any')->getRoleName()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->part('any')->getRoleName()
         );
     }
 
     public function test_states()
     {
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
         $this->assertNull(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->getState()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->getState()
         );
 
         // now assert "real" parts in "clean" vc-state should be null
         wp_set_current_user(1);
         $this->assertNull(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('frontend_editor')->getState()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('frontend_editor')
+                                                                             ->getState()
         );
         $this->assertNull(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('backend_editor')->getState()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('backend_editor')
+                                                                             ->getState()
         );
         $this->assertNull(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('shortcodes')->getState()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('shortcodes')->getState()
         );
 
         // check can
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('frontend_editor')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('frontend_editor')->can()
+                                                                             ->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('backend_editor')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('backend_editor')->can()
+                                                                             ->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('shortcodes')->can()->get()
         );
 
         // check nonce falses
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce()// no nonce exists
-                                                                   ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce(
+            )// no nonce exists
+                                                                             ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkPublicNonce()// no nonce exists
-                                                                   ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkPublicNonce(
+            )// no nonce exists
+                                                                             ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce()// no nonce exists
-                                                                   ->checkPublicNonce()// no nonce exists
-                                                                   ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce(
+            )// no nonce exists
+                                                                             ->checkPublicNonce()// no nonce exists
+                                                                             ->part('shortcodes')->can()->get()
         );
 
-        $this->assertFalse(app('VisualComposer\Modules\Access\CurrentUser\Access')->getValidAccess());
-        $this->assertFalse(app('VisualComposer\Modules\Access\CurrentUser\Access')->get());
-        $this->assertFalse(app('VisualComposer\Modules\Access\CurrentUser\Access')->get(true));
-        $this->assertTrue(app('VisualComposer\Modules\Access\CurrentUser\Access')->get());
+        $this->assertTrue(vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->getValidAccess());
+        $this->assertTrue(vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->get());
+        $this->assertTrue(vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->get(true));
+        $this->assertTrue(vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->get());
 
     }
 
@@ -435,39 +446,45 @@ class VcAccessUsersTest extends WP_UnitTestCase
         wp_set_current_user(1);
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('edit_posts')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny('edit_posts')->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('non_exists')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny('non_exists')->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('edit_posts')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll('edit_posts')->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('non_exists')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll('non_exists')->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('edit_posts', 'edit_pages')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny(
+                'edit_posts',
+                'edit_pages'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny(
-                    'edit_posts',
-                    'edit_pages',
-                    'non_exists'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny(
+                'edit_posts',
+                'edit_pages',
+                'non_exists'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('edit_posts', 'edit_pages')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll(
+                'edit_posts',
+                'edit_pages'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll(
-                    'edit_posts',
-                    'edit_pages',
-                    'non_exists'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll(
+                'edit_posts',
+                'edit_pages',
+                'non_exists'
+            )->get()
         );
     }
 
@@ -476,47 +493,57 @@ class VcAccessUsersTest extends WP_UnitTestCase
         wp_set_current_user(1);
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('edit_posts')->part('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny('edit_posts')->part(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('non_exists')->part('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny('non_exists')->part(
+                'something'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('edit_posts')->part('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll('edit_posts')->part(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('non_exists')->part('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll('non_exists')->part(
+                'something'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny('edit_posts', 'edit_pages')->part(
-                    'something'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny(
+                'edit_posts',
+                'edit_pages'
+            )->part(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAny(
-                    'edit_posts',
-                    'edit_pages',
-                    'non_exists'
-                )->part('something')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAny(
+                'edit_posts',
+                'edit_pages',
+                'non_exists'
+            )->part('something')->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll('edit_posts', 'edit_pages')->part(
-                    'something'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll(
+                'edit_posts',
+                'edit_pages'
+            )->part(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->wpAll(
-                    'edit_posts',
-                    'edit_pages',
-                    'non_exists'
-                )->part('something')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->wpAll(
+                'edit_posts',
+                'edit_pages',
+                'non_exists'
+            )->part('something')->get()
         );
     }
 
@@ -525,25 +552,31 @@ class VcAccessUsersTest extends WP_UnitTestCase
         wp_set_current_user(1);
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->checkState(null)->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->checkState(
+                null
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->checkState(true)->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->checkState(
+                true
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->checkStateAny(
-                    true,
-                    'custom',
-                    null
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')
+                                                                             ->checkStateAny(
+                                                                                 true,
+                                                                                 'custom',
+                                                                                 null
+                                                                             )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->checkStateAny(
-                    true,
-                    'custom'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')
+                                                                             ->checkStateAny(
+                                                                                 true,
+                                                                                 'custom'
+                                                                             )->get()
         );
     }
 
@@ -553,33 +586,41 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // un existed
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState(false);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(false);
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState('custom');
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(
+            'custom'
+        );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
         // reset:
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState(null);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(null);
 
     }
 
@@ -589,66 +630,78 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // un existed
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
-        );
-
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something',
+                'something2'
+            )->get()
+        );
+
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // for state=null any cap is true
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something',
-                true
-            );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            true
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
 
         // for state=null any cap is true
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something',
-                false
-            );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            false
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
     }
 
@@ -656,68 +709,80 @@ class VcAccessUsersTest extends WP_UnitTestCase
     {
         wp_set_current_user(1);
 
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState(false);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(false);
         // always false..
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
-        );
-
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
-        );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something',
+                'something2'
+            )->get()
+        );
+
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something',
-                true
-            );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            true
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
 
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something',
-                false
-            );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            false
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
     }
 
@@ -725,198 +790,227 @@ class VcAccessUsersTest extends WP_UnitTestCase
     {
         wp_set_current_user(1);
 
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState('custom');
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(
+            'custom'
+        );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can()->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
-        );
-
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
-        );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something',
+                'something2'
+            )->get()
+        );
+
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            true
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
+        );
+
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
                 'something',
-                true
-            );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+                'something2'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
-        );
-
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // For false
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            false
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
+        );
+
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
                 'something',
-                false
-            );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
+                'something2'
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
-        );
-
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something2'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something2')
-                                                                   ->get()
-        );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // For multiple
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            true
+        );
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something2',
+            true
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something2'
+            )->get()
+        );
+
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something2'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
                 'something',
-                true
-            );
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something2',
-                true
-            );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something2')->get(
-                )
+                'something2'
+            )->get()
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something2')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something2'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
-        );
-
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something2')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
 
         // For multiple false
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something',
+            false
+        );
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
+            'something2',
+            true
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->can(
+                'something2'
+            )->get()
+        );
+
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
+                'something2'
+            )->get()
+        );
+        $this->assertTrue(
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAny(
                 'something',
-                false
-            );
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setCapRule(
-                'something2',
-                true
-            );
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something')->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->can('something2')->get(
-                )
+                'something2'
+            )->get()
         );
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something'
+            )->get()
         );
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny('something2')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAny(
-                    'something',
-                    'something2'
-                )->get()
-        );
-
-        $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something')
-                                                                   ->get()
-        );
-        $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll('something2')
-                                                                   ->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something2'
+            )->get()
         );
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->canAll(
-                    'something',
-                    'something2'
-                )->get()
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->canAll(
+                'something',
+                'something2'
+            )->get()
         );
         //reset
-        app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->part('something')->setState(null);
+        vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->part('something')->setState(null);
     }
 
     public function test_part_validation()
@@ -924,31 +1018,38 @@ class VcAccessUsersTest extends WP_UnitTestCase
         wp_set_current_user(1);
 
         $this->assertFalse(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->setValidAccess(false)->part('something')
-                                                                   ->get(true)
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->setValidAccess(false)->part(
+                'something'
+            )->get(true)
         );
 
         $this->assertTrue(
-            app('VisualComposer\Modules\Access\CurrentUser\Access')->reset()->checkAdminNonce(Nonce::admin())
-                                                                   ->checkPublicNonce(Nonce::user())->check(
-                    [
-                        $this,
-                        '_check',
-                    ],
-                    true
-                )->wpAny('edit_posts', 'edit_pages')->wpAll('edit_posts', 'edit_pages')->part('something')->can()
-                                                                   ->canAny('something')// in null it is always true
-                                                                   ->canAny(
-                    'something',
-                    'something2'
-                )// in null it is always true
-                                                                   ->canAll('something')// in null it is always true
-                                                                   ->canAll(
-                    'something',
-                    'something2'
-                )// in null it is always true
-                                                                   ->checkState(null)->checkStateAny('custom', null)
-                                                                   ->get(true)
+            vcapp('VisualComposer\Helpers\Generic\Access\CurrentUser\Access')->reset()->checkAdminNonce(
+                vcapp('nonceHelper')->admin()
+            )->checkPublicNonce(vcapp('nonceHelper')->user())->check(
+                [
+                    $this,
+                    '_check',
+                ],
+                true
+            )->wpAny('edit_posts', 'edit_pages')->wpAll('edit_posts', 'edit_pages')->part('something')->can()->canAny(
+                'something'
+            )// in null it is always true
+                                                                             ->canAny(
+                'something',
+                'something2'
+            )// in null it is always true
+                                                                             ->canAll(
+                'something'
+            )// in null it is always true
+                                                                             ->canAll(
+                'something',
+                'something2'
+            )// in null it is always true
+                                                                             ->checkState(null)->checkStateAny(
+                'custom',
+                null
+            )->get(true)
         );
     }
 }

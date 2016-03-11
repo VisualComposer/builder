@@ -5,10 +5,14 @@ namespace VisualComposer\Modules\Live;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;
-use Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
-use VisualComposer\Modules\System\Container;
+use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\Live
+ */
 class Controller extends Container
 {
     /**
@@ -57,10 +61,11 @@ class Controller extends Container
      */
     private function addEditPostLink(
         $link,
-        CurrentUserAccess $currentUserAccess
+        CurrentUserAccess $currentUserAccess,
+        Url $urlHelper
     ) {
-        if ($currentUserAccess->reset()->part('frontend_editor')->can()->get(true)) {
-            $url = Url::ajax(
+        if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
+            $url = $urlHelper->ajax(
                 [
                     'action' => 'frontend',
                     'vc-source-id' => get_the_ID(),
@@ -68,7 +73,7 @@ class Controller extends Container
             );
             $link .= ' <a href="' . $url . '">' . __('Edit with VC5', 'vc5') . '</a>';
             if (!self::$jsScriptRendered) {
-                $link .= $this->outputScripts();
+                $link .= $this->call('outputScripts');
                 self::$jsScriptRendered = true;
             }
 
@@ -80,9 +85,9 @@ class Controller extends Container
     /**
      * Output less.js script to page header
      */
-    private function appendScript()
+    private function appendScript(Url $urlHelper)
     {
-        echo '<script src="' . Url::to('node_modules/less/dist/less.js') . '" data-async="true"></script>';
+        echo '<script src="' . $urlHelper->to('node_modules/less/dist/less.js') . '" data-async="true"></script>';
     }
 
     /**
@@ -90,12 +95,12 @@ class Controller extends Container
      *
      * @return string
      */
-    private function outputScripts()
+    private function outputScripts(Templates $templatesHelper, Options $optionsHelper)
     {
-        $scriptsBundle = Options::get('scriptsBundle', []);
-        $stylesBundle = Options::get('stylesBundle', []);
+        $scriptsBundle = $optionsHelper->get('scriptsBundle', []);
+        $stylesBundle = $optionsHelper->get('stylesBundle', []);
         $args = compact('scriptsBundle', 'stylesBundle');
 
-        return Templates::render('live/frontend-scripts-styles', $args, false);
+        return $templatesHelper->render('live/frontend-scripts-styles', $args, false);
     }
 }

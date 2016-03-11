@@ -2,43 +2,84 @@
 
 namespace VisualComposer;
 
-class Application extends \Laravel\Lumen\Application
+use VisualComposer\Framework\Application as ApplicationFactory;
+use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
+
+/**
+ * Main plugin instance which controls modules and helpers
+ * Provides Inner and Outer API with vcapp() helper
+ *
+ * Class Application
+ * @package VisualComposer
+ */
+class Application extends ApplicationFactory implements ApplicationContract
 {
+    /**
+     * List of system registred modules
+     * Notes:
+     *  - It will be singletons
+     *  - It will be automatically instatiated after `vc:v:load` action
+     *  - It was available by moduleNmae -> vcapp('settings')
+     * @see \docs\php\Readme.md and \docs\php\Modules.md
+     * @var array
+     */
     public $modules = [
-        // system modules & submodules
-        'VisualComposer\Modules\System\Activation\Controller',
-        'VisualComposer\Modules\System\Activation\Listener',
-        'VisualComposer\Modules\System\TextDomain\Controller',
-
-        // Editors modules & submodules
-        'VisualComposer\Modules\Editors\AssetsManager\Controller',
-        'VisualComposer\Modules\Editors\DataAjax\Controller',
-        'VisualComposer\Modules\Live\Controller',
-
+        // system s & subs
+        'activation' => 'VisualComposer\Modules\System\Activation\Controller',
+        'textDomain' => 'VisualComposer\Modules\System\TextDomain\Controller',
+        // Editors s & subs
+        'assetsManager' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
+        'dataAjax' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
+        'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
+        'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
+        // Live/Public
+        'live' => 'VisualComposer\Modules\Live\Controller',
         // Elements
-        'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
-
+        'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
         // License
-        'VisualComposer\Modules\License\Controller',
-
-        // Settings
-        'VisualComposer\Modules\Settings\Controller',
-        'VisualComposer\Modules\Settings\Pages\General',
-        'VisualComposer\Modules\Settings\Pages\License',
-        'VisualComposer\Modules\Settings\Pages\Roles',
-        'VisualComposer\Modules\Settings\Pages\About',
-
-        // Access
-        'VisualComposer\Modules\Access\CurrentUser\Access',
-        'VisualComposer\Modules\Access\Role\Access',
-
-        'VisualComposer\Modules\Editors\Frontend\Frontend',
-        'VisualComposer\Modules\Editors\Frontend\PageEditable',
-
+        'license' => 'VisualComposer\Modules\License\Controller',
+        // Settings & Settings Pages
+        'settings' => 'VisualComposer\Modules\Settings\Controller',
+        'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
+        'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
+        'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+        'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
+    ];
+    /**
+     * List of system registred helpers
+     * Notes:
+     *  - It will be singletons
+     *  - It was available by helperName -> vcapp('urlHelper')
+     * @see \docs\php\Readme.md and \docs\php\api\API.md|Helpers.md
+     * @var array
+     */
+    public $helpers = [
+        // Generic
+        'coreHelper' => 'VisualComposer\Helpers\Generic\Core',
+        'dataHelper' => 'VisualComposer\Helpers\Generic\Data',
+        'requestHelper' => 'VisualComposer\Helpers\Generic\Request',
+        'templatesHelper' => 'VisualComposer\Helpers\Generic\Templates',
+        'urlHelper' => 'VisualComposer\Helpers\Generic\Url',
+        /// WordPress
+        'fileHelper' => 'VisualComposer\Helpers\WordPress\File',
+        'nonceHelper' => 'VisualComposer\Helpers\WordPress\Nonce',
+        'optionsHelper' => 'VisualComposer\Helpers\WordPress\Options',
+        // Other helpers
+        'currentUserAccessHelper' => 'VisualComposer\Helpers\Generic\Access\CurrentUser\Access',
+        'roleAccessHelper' => 'VisualComposer\Helpers\Generic\Access\Role\Access',
+    ];
+    /**
+     * The available container bindings and their respective load methods.
+     *
+     * @var array
+     */
+    public $availableBindings = [
+        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'eventsHelper' => 'registerEventBindings',
     ];
 
     /**
-     * Create a new Lumen application instance.
+     * Create a new Application instance.
      *
      * @overrides parent::__construct()
      *
@@ -51,11 +92,22 @@ class Application extends \Laravel\Lumen\Application
         do_action('vc:v:load', $this);
     }
 
+    /**
+     * Bootstraps registred modules( also creates an instance )
+     * And saves helpers as singletons
+     */
     public function boot()
     {
-        foreach ($this->modules as $module) {
-            $this->singleton($module, $module);
-            $this->make($module);
+        if (is_array($this->modules)) {
+            foreach ($this->modules as $module) {
+                $this->singleton($module, $module);
+                $this->make($module);
+            }
+        }
+        if (is_array($this->helpers)) {
+            foreach ($this->helpers as $helper) {
+                $this->singleton($helper, $helper);
+            }
         }
         do_action('vc:v:boot', $this);
     }
@@ -71,44 +123,37 @@ class Application extends \Laravel\Lumen\Application
     }
 
     /**
-     * Get the HTML from the welcome screen.
-     *
-     * @return string
-     */
-    public function welcome()
-    {
-        return 'Visual Composer';
-    }
-
-    /**
      * Register the core container aliases.
+     * Used in Dependency Injection
+     * @see \docs\php\DependencyInjection.md
      *
      * @return void
      */
     protected function registerContainerAliases()
     {
         $this->aliases = [
-                'Illuminate\Contracts\Foundation\Application' => 'app',
-                'Illuminate\Contracts\Auth\Guard' => 'auth.driver',
-                'Illuminate\Contracts\Auth\PasswordBroker' => 'auth.password',
-                'Illuminate\Contracts\Cache\Factory' => 'cache',
-                'Illuminate\Contracts\Cache\Repository' => 'cache.store',
-                'Illuminate\Container\Container' => 'app',
-                'Illuminate\Contracts\Container\Container' => 'app',
-                'Illuminate\Contracts\Cookie\Factory' => 'cookie',
-                'Illuminate\Contracts\Cookie\QueueingFactory' => 'cookie',
-                'Illuminate\Contracts\Encryption\Encrypter' => 'encrypter',
-                'Illuminate\Contracts\Events\Dispatcher' => 'events',
-                'Illuminate\Contracts\Filesystem\Factory' => 'filesystem',
-                'Illuminate\Contracts\Hashing\Hasher' => 'hash',
-                'log' => 'Psr\Log\LoggerInterface',
-                'Illuminate\Contracts\Mail\Mailer' => 'mailer',
-                'Illuminate\Contracts\Queue\Queue' => 'queue.connection',
-                'Illuminate\Redis\Database' => 'redis',
-                'Illuminate\Contracts\Redis\Database' => 'redis',
-                'request' => 'Illuminate\Http\Request',
-                'Illuminate\Session\SessionManager' => 'session',
-                'Illuminate\Contracts\View\Factory' => 'view',
-            ] + $this->modules;
+                'VisualComposer\Framework\Application' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
+                'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'eventsHelper',
+            ] + $this->modules + $this->helpers;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'eventsHelper',
+            function () {
+                $this->register('VisualComposer\Framework\Illuminate\Events\EventServiceProvider');
+
+                return $this->make('eventsHelper');
+            }
+        );
     }
 }

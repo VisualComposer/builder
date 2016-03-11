@@ -4,11 +4,27 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Templates;
 
+/**
+ * Class Page
+ * @package VisualComposer\Modules\Settings\Pages
+ */
 trait Page
 {
+    /**
+     * @var
+     */
     protected $slug;
+    /**
+     * @var
+     */
     protected $title;
+    /**
+     * @var
+     */
     protected $templatePath;
+    /**
+     * @var array
+     */
     protected $templateArgs = [];
 
     /**
@@ -103,6 +119,6 @@ trait Page
             ]
         );
 
-        Templates::render($this->getTemplatePath(), $args);
+        vcapp('templatesHelper')->render($this->getTemplatePath(), $args);
     }
 }

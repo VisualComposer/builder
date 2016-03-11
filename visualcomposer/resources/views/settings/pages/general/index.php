@@ -4,23 +4,21 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\WordPress\Nonce;
-
-$settings = app('VisualComposer\Modules\Settings\Controller');
+$settings = vcapp('settings');
 $optionGroup = $settings->getOptionGroup();
 $pageSlug = $settings->getPageSlug();
 $tab = $page->getSlug();
 
 ?>
 <script type="text/javascript">
-    var vcAdminNonce = '<?= Nonce::admin() ?>';
+    var vcAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';
 </script>
 
 <form action="options.php"
     method="post"
-    data-vc-ui-element="settings-tab-<?= $tab ?>"
+    data-vc-ui-element="settings-tab-<?php echo $tab ?>"
     class="vc_settings-tab-content vc_settings-tab-content-active"
-    <?= apply_filters('vc_setting-tab-form-' . $tab, '') ?>
+    <?php echo apply_filters('vc_setting-tab-form-' . $tab, '') ?>
 >
 
     <?php settings_fields($optionGroup . '_' . $tab) ?>
@@ -41,7 +39,7 @@ $tab = $page->getSlug();
 
     <?php submit_button(__('Save Changes', 'vc5'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
 
-    <input type="hidden" name="vc_action" value="vc_action-<?= $tab ?>"
-        id="vc_settings-<?= $tab ?>-action"/>
+    <input type="hidden" name="vc_action" value="vc_action-<?php echo $tab ?>"
+        id="vc_settings-<?php echo $tab ?>-action"/>
 
 </form>
