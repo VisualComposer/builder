@@ -23,17 +23,12 @@ class VcAccessRolesTest extends WP_UnitTestCase
             $role_access->setValidAccess(false)->getValidAccess()
         );
 
-        // ->get()
+        // ->get() by default resets after used
         $this->assertFalse($role_access->setValidAccess(false)->get());
-        // now access should be again true
-        $this->assertFalse($role_access->getValidAccess());
-        $this->assertFalse($role_access->get());
-
-        // ->get(true) will reset
-        $this->assertFalse($role_access->get(true));
         // now access should be again true
         $this->assertTrue($role_access->getValidAccess());
         $this->assertTrue($role_access->get());
+
     }
 
     public function test_role_access_validate_die()

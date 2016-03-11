@@ -11,6 +11,7 @@ use VisualComposer\Framework\Illuminate\Contracts\Container\Container as Contain
 
 class Container implements ArrayAccess, ContainerContract
 {
+    use ContainerTrait;
     /**
      * The current globally available container (if any).
      *
@@ -100,7 +101,7 @@ class Container implements ArrayAccess, ContainerContract
      * Define a contextual binding.
      *
      * @param  string $concrete
-     * @return \Illuminate\Contracts\Container\ContextualBindingBuilder
+     * @return \VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder
      */
     public function when($concrete)
     {
@@ -511,64 +512,6 @@ class Container implements ArrayAccess, ContainerContract
         }
 
         return strpos($callback, '@') !== false;
-    }
-
-    /**
-     * Get all dependencies for a given method.
-     *
-     * @param  callable|string $callback
-     * @param  array $parameters
-     * @return array
-     */
-    protected function getMethodDependencies($callback, $parameters = [])
-    {
-        $dependencies = [];
-
-        foreach ($this->getCallReflector($callback)->getParameters() as $key => $parameter) {
-            $this->addDependencyForCallParameter($parameter, $parameters, $dependencies);
-        }
-
-        return array_merge($dependencies, $parameters);
-    }
-
-    /**
-     * Get the proper reflection instance for the given callback.
-     *
-     * @param  callable|string $callback
-     * @return \ReflectionFunctionAbstract
-     */
-    protected function getCallReflector($callback)
-    {
-        if (is_string($callback) && strpos($callback, '::') !== false) {
-            $callback = explode('::', $callback);
-        }
-
-        if (is_array($callback)) {
-            return new ReflectionMethod($callback[0], $callback[1]);
-        }
-
-        return new ReflectionFunction($callback);
-    }
-
-    /**
-     * Get the dependency for the given call parameter.
-     *
-     * @param  \ReflectionParameter $parameter
-     * @param  array $parameters
-     * @param  array $dependencies
-     * @return mixed
-     */
-    protected function addDependencyForCallParameter(ReflectionParameter $parameter, array &$parameters, &$dependencies)
-    {
-        if (array_key_exists($parameter->name, $parameters)) {
-            $dependencies[] = $parameters[ $parameter->name ];
-
-            unset($parameters[ $parameter->name ]);
-        } elseif ($parameter->getClass()) {
-            $dependencies[] = $this->make($parameter->getClass()->name);
-        } elseif ($parameter->isDefaultValueAvailable()) {
-            $dependencies[] = $parameter->getDefaultValue();
-        }
     }
 
     /**
@@ -1131,7 +1074,7 @@ class Container implements ArrayAccess, ContainerContract
     /**
      * Set the shared instance of the container.
      *
-     * @param  \Illuminate\Contracts\Container\Container $container
+     * @param  \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
      * @return void
      */
     public static function setInstance(ContainerContract $container)

@@ -43,17 +43,9 @@ class VcAccessUsersTest extends WP_UnitTestCase
             $user_access->setValidAccess(false)->getValidAccess()
         );
 
-        // ->get()
+        // ->get() by defautls resets
         $this->assertFalse($user_access->setValidAccess(false)->get());
-        // now access should be again false
-        $this->assertFalse($user_access->getValidAccess());
-        $this->assertFalse($user_access->get());
-
-        // ->get(true) reset
-        $this->assertFalse(
-            $user_access->setValidAccess(false)->get(true)
-        );
-        // now access should be again true
+        // now access should be true
         $this->assertTrue($user_access->getValidAccess());
         $this->assertTrue($user_access->get());
     }
@@ -430,9 +422,9 @@ class VcAccessUsersTest extends WP_UnitTestCase
                                                                      ->part('shortcodes')->can()->get()
         );
 
-        $this->assertFalse(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->getValidAccess());
-        $this->assertFalse(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->get());
-        $this->assertFalse(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->get(true));
+        $this->assertTrue(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->getValidAccess());
+        $this->assertTrue(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->get());
+        $this->assertTrue(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->get(true));
         $this->assertTrue(vcapp('VisualComposer\Modules\Access\CurrentUser\Access')->get());
 
     }

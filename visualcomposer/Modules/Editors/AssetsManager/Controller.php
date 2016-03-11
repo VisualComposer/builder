@@ -2,6 +2,8 @@
 
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
+use VisualComposer\Helpers\Generic\Core;
+use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\WordPress\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
@@ -74,7 +76,7 @@ class Controller extends Container
      *
      * @param int $postId Post ID
      */
-    private function deletePostAssetsHook($postId)
+    private function deletePostAssetsHook(Templates $templates, $postId)
     {
         foreach ([
             'scripts',
