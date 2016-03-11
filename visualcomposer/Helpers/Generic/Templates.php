@@ -4,6 +4,8 @@ namespace VisualComposer\Helpers\Generic;
 
 /**
  * Helper methods related to templates
+ * Class Templates
+ * @package VisualComposer\Helpers\Generic
  */
 class Templates
 {

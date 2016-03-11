@@ -6,11 +6,26 @@ use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\Editors\DataAjax
+ */
 class Controller extends Container
 {
+    /**
+     * @var \VisualComposer\Helpers\Generic\Request
+     */
     protected $request;
+    /**
+     * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+     */
     protected $event;
 
+    /**
+     * Controller constructor.
+     * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     */
     public function __construct(Dispatcher $event, Request $request)
     {
         $this->event = $event;

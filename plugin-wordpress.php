@@ -37,17 +37,43 @@ if (defined('VC_V_VERSION')) {
     wp_die('It seems that other version of Visual Composer is active. Please deactivate it before use this version');
 }
 
-// Plugin constants
+/**
+ * Plugin version constant: '5.0'
+ */
 define('VC_V_VERSION', '5.0');
-define('VC_V_PLUGIN_URL', plugin_dir_url(__FILE__)); // http://web/wp-content/plugins/plugin_dir/
-define('VC_V_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__)); // /server/web/wp-content/plugins/plugin_dir/
-define('VC_V_PLUGIN_BASE_NAME', plugin_basename(__FILE__)); // plugin_dir/plugin.php
-define('VC_V_PLUGIN_FULL_PATH', __FILE__); // /server/web/wp-content/plugins/plugin_dir/plugin.php
-define('VC_V_PLUGIN_DIRNAME', dirname(VC_V_PLUGIN_BASE_NAME)); // plugin_dir
+/**
+ * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
+ */
+define('VC_V_PLUGIN_URL', plugin_dir_url(__FILE__));
+/**
+ * Plugin directory full path: 'server/web/wp-content/plugins/plugin_dir/'
+ */
+define('VC_V_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
+/**
+ * Plugin "basename" - directoryName/PluginFileName.php: 'vc-five/plugin-wordpress.php'
+ */
+define('VC_V_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
+/**
+ * Plugin core file full path: '/server/web/wp-content/plugins/vc-five/plugin-wordpress.php'
+ */
+define('VC_V_PLUGIN_FULL_PATH', __FILE__);
+/**
+ * Plugin directory name: 'vc-five'
+ */
+define('VC_V_PLUGIN_DIRNAME', dirname(VC_V_PLUGIN_BASE_NAME));
+/**
+ * Plugin core prefix for options/meta and etc
+ */
 define('VC_V_PREFIX', 'vc-v-');
 
 // Used in requirements.php
+/**
+ * Minimal required PHP version
+ */
 define('VC_V_REQUIRED_PHP_VERSION', '5.4');
+/**
+ * Minimal required WordPress version
+ */
 define('VC_V_REQUIRED_BLOG_VERSION', '4.1');
 
 /**

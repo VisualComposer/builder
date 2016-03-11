@@ -6,6 +6,10 @@ use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Access\RoleAccess;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Roles
+ * @package VisualComposer\Modules\Settings\Pages
+ */
 class Roles extends Container
 {
     use Page;
@@ -13,8 +17,17 @@ class Roles extends Container
      * @var string
      */
     protected $pageSlug = 'vc-v-roles';
+    /**
+     * @var bool
+     */
     protected $postTypes = false;
+    /**
+     * @var bool
+     */
     protected $excludedPostTypes = false;
+    /**
+     * @var array
+     */
     protected $parts = [
         'post_types',
         'backend_editor',
@@ -83,6 +96,11 @@ class Roles extends Container
         ] : 'manage_options';
     }
 
+    /**
+     * @param $role
+     * @param $caps
+     * @return bool
+     */
     public function hasRoleCapability($role, $caps)
     {
         $has = false;
@@ -99,6 +117,9 @@ class Roles extends Container
         return $has;
     }
 
+    /**
+     * @return \WP_Roles
+     */
     public function getWpRoles()
     {
         global $wp_roles;
@@ -113,6 +134,11 @@ class Roles extends Container
         return $wp_roles;
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Access\RoleAccess $roleAccess
+     * @param array $params
+     * @return array
+     */
     public function save(RoleAccess $roleAccess, $params = [])
     {
         $data = ['message' => ''];
@@ -154,6 +180,9 @@ class Roles extends Container
         return $data;
     }
 
+    /**
+     * @return array|bool
+     */
     public function getPostTypes()
     {
         if (false === $this->postTypes) {

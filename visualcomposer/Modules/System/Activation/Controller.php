@@ -5,8 +5,15 @@ namespace VisualComposer\Modules\System\Activation;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\System\Activation
+ */
 class Controller extends Container
 {
+    /**
+     * Controller constructor.
+     */
     public function __construct()
     {
         register_activation_hook(
@@ -23,6 +30,9 @@ class Controller extends Container
         );*/
     }
 
+    /**
+     * @param \VisualComposer\Helpers\WordPress\Options $options
+     */
     private function setVersion(Options $options)
     {
         $options->set('version', VC_V_VERSION);

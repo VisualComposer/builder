@@ -11,6 +11,10 @@ use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAcces
 use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\License
+ */
 class Controller extends Container
 {
     /**

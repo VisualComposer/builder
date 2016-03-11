@@ -6,8 +6,15 @@ use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Frontend
+ * @package VisualComposer\Modules\Editors\Frontend
+ */
 class Frontend extends Container
 {
+    /**
+     * Frontend constructor.
+     */
     public function __construct()
     {
         add_action(
@@ -19,6 +26,11 @@ class Frontend extends Container
         );
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\Generic\Templates $templates
+     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     */
     private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
         global $post;

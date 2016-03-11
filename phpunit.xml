@@ -14,7 +14,7 @@
     </testsuites>
 
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <file>plugin-wordpress.php</file>
             <directory suffix=".php">visualcomposer</directory>
             <directory suffix=".php">bootstrap</directory>

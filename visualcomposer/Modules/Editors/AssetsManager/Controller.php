@@ -2,21 +2,42 @@
 
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
-use VisualComposer\Helpers\Generic\Core;
-use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\WordPress\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\Editors\AssetsManager
+ */
 class Controller extends Container
 {
+    /**
+     * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+     */
     protected $event;
+    /**
+     * @var \VisualComposer\Helpers\Generic\Request
+     */
     protected $request;
+    /**
+     * @var \VisualComposer\Helpers\WordPress\Options
+     */
     protected $options;
+    /**
+     * @var \VisualComposer\Helpers\WordPress\File
+     */
     protected $file;
 
+    /**
+     * Controller constructor.
+     * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
+     * @param \VisualComposer\Helpers\WordPress\File $fileHelper
+     */
     public function __construct(Dispatcher $event, Request $request, Options $optionsHelper, File $fileHelper)
     {
         $this->event = $event;
@@ -76,7 +97,7 @@ class Controller extends Container
      *
      * @param int $postId Post ID
      */
-    private function deletePostAssetsHook(Templates $templates, $postId)
+    private function deletePostAssetsHook($postId)
     {
         foreach ([
             'scripts',

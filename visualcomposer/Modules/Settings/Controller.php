@@ -12,11 +12,27 @@ use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\Settings
+ */
 class Controller extends Container
 {
+    /**
+     * @var null
+     */
     private $pages = null;
+    /**
+     * @var string
+     */
     private $optionGroup = 'vc-v-settings';
+    /**
+     * @var string
+     */
     private $pageSlug = 'vc-v-settings';
+    /**
+     * @var string
+     */
     private $layout = 'default';
 
     /**
@@ -110,6 +126,9 @@ class Controller extends Container
         }
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Url $url
+     */
     public function addMenuPage(Url $url)
     {
         $slug = $this->call('getMainPageSlug');
@@ -122,6 +141,10 @@ class Controller extends Container
         do_action('vc:v:settings:mainPage:menuPageBuild', $slug);
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @throws \Exception
+     */
     public function addSubmenuPages(CurrentUserAccess $currentUserAccess)
     {
         if (!$currentUserAccess->wpAny('manage_options')->get()) {

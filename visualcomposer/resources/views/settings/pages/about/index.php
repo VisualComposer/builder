@@ -4,8 +4,6 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-use VisualComposer\Helpers\Generic\Templates;
-
 ?>
 
 <div class="wrap vc-page-welcome about-wrap">

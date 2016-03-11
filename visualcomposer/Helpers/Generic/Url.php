@@ -4,6 +4,8 @@ namespace VisualComposer\Helpers\Generic;
 
 /**
  * Helper API methods related to make Url for plugin directory
+ * Class Url
+ * @package VisualComposer\Helpers\Generic
  */
 class Url
 {

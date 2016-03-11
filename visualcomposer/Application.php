@@ -5,8 +5,24 @@ namespace VisualComposer;
 use VisualComposer\Framework\Application as ApplicationFactory;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
+/**
+ * Main plugin instance which controls modules and helpers
+ * Provides Inner and Outer API with vcapp() helper
+ *
+ * Class Application
+ * @package VisualComposer
+ */
 class Application extends ApplicationFactory implements ApplicationContract
 {
+    /**
+     * List of system registred modules
+     * Notes:
+     *  - It will be singletons
+     *  - It will be automatically instatiated after `vc:v:load` action
+     *  - It was available by moduleNmae -> vcapp('settings')
+     * @see \docs\php\Readme.md and \docs\php\Modules.md
+     * @var array
+     */
     public $modules = [
         // system s & subs
         'activation' => 'VisualComposer\Modules\System\Activation\Controller',
@@ -29,6 +45,14 @@ class Application extends ApplicationFactory implements ApplicationContract
         'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
         'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
     ];
+    /**
+     * List of system registred helpers
+     * Notes:
+     *  - It will be singletons
+     *  - It was available by helperName -> vcapp('urlHelper')
+     * @see \docs\php\Readme.md and \docs\php\api\API.md|Helpers.md
+     * @var array
+     */
     public $helpers = [
         // Generic
         'coreHelper' => 'VisualComposer\Helpers\Generic\Core',
@@ -55,7 +79,7 @@ class Application extends ApplicationFactory implements ApplicationContract
     ];
 
     /**
-     * Create a new Lumen application instance.
+     * Create a new Application instance.
      *
      * @overrides parent::__construct()
      *
@@ -68,6 +92,10 @@ class Application extends ApplicationFactory implements ApplicationContract
         do_action('vc:v:load', $this);
     }
 
+    /**
+     * Bootstraps registred modules( also creates an instance )
+     * And saves helpers as singletons
+     */
     public function boot()
     {
         if (is_array($this->modules)) {
@@ -96,6 +124,8 @@ class Application extends ApplicationFactory implements ApplicationContract
 
     /**
      * Register the core container aliases.
+     * Used in Dependency Injection
+     * @see \docs\php\DependencyInjection.md
      *
      * @return void
      */

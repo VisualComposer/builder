@@ -4,6 +4,10 @@ use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Support\ServiceProvider;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
+/**
+ * Class Application
+ * @package VisualComposer\Framework
+ */
 class Application extends Container implements ApplicationContract
 {
     /**
@@ -52,6 +56,9 @@ class Application extends Container implements ApplicationContract
         $this->registerContainerAliases();
     }
 
+    /**
+     *
+     */
     public function boot()
     {
 

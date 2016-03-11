@@ -2,6 +2,10 @@
 
 namespace VisualComposer\Helpers\WordPress;
 
+/**
+ * Class Options
+ * @package VisualComposer\Helpers\WordPress
+ */
 class Options
 {
     /**

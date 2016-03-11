@@ -9,6 +9,10 @@ use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class Controller
+ * @package VisualComposer\Modules\Live
+ */
 class Controller extends Container
 {
     /**

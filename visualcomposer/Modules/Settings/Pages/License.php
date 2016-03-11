@@ -4,6 +4,10 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
 
+/**
+ * Class License
+ * @package VisualComposer\Modules\Settings\Pages
+ */
 class License extends Container
 {
     use Page;
@@ -58,6 +62,9 @@ class License extends Container
         return $pages;
     }
 
+    /**
+     *
+     */
     public function renderPage()
     {
         $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/license/index')->render();

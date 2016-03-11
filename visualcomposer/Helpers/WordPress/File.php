@@ -2,6 +2,10 @@
 
 namespace VisualComposer\Helpers\WordPress;
 
+/**
+ * Class File
+ * @package VisualComposer\Helpers\WordPress
+ */
 class File
 {
     /**

@@ -6,8 +6,15 @@ use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\WordPress\Nonce;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class PageEditable
+ * @package VisualComposer\Modules\Editors\Frontend
+ */
 class PageEditable extends Container
 {
+    /**
+     * PageEditable constructor.
+     */
     public function __construct()
     {
         add_action(
@@ -20,6 +27,11 @@ class PageEditable extends Container
         );
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     * @return bool
+     */
     private function isPageEditable(Request $request, Nonce $nonce)
     {
         return ($request->exists('vc-v-editable')
@@ -27,6 +39,9 @@ class PageEditable extends Container
             && $nonce->verifyAdmin($request->input('nonce')));
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Url $url
+     */
     private function buildPageEditable(Url $url)
     {
         add_action(

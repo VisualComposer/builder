@@ -2,6 +2,10 @@
 
 namespace VisualComposer\Helpers\Generic\Access;
 
+/**
+ * Class Access
+ * @package VisualComposer\Helpers\Generic\Access
+ */
 trait Access
 {
     /**
@@ -9,6 +13,9 @@ trait Access
      */
     protected $validAccess = true;
 
+    /**
+     * @return bool
+     */
     public function getValidAccess()
     {
         return $this->validAccess;
@@ -71,6 +78,9 @@ trait Access
         return $result;
     }
 
+    /**
+     * @return $this
+     */
     public function reset()
     {
         $this->setValidAccess(true);

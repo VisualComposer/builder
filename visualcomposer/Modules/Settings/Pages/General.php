@@ -8,6 +8,10 @@ use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\Controller as SettingsController;
 use VisualComposer\Framework\Container;
 
+/**
+ * Class General
+ * @package VisualComposer\Modules\Settings\Pages
+ */
 class General extends Container
 {
     use Page;
@@ -31,6 +35,9 @@ class General extends Container
         'cyrillic-ext',
         'greek-ext',
     ];
+    /**
+     * @var \VisualComposer\Helpers\Generic\Templates
+     */
     protected $templates;
 
     /**

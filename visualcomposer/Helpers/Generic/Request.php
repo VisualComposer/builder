@@ -1,7 +1,14 @@
 <?php namespace VisualComposer\Helpers\Generic;
 
+/**
+ * Class Request
+ * @package VisualComposer\Helpers\Generic
+ */
 class Request
 {
+    /**
+     * @var null
+     */
     protected $data = null;
 
     /**

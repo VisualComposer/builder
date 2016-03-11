@@ -3,10 +3,14 @@
 namespace VisualComposer\Helpers\Generic;
 
 /**
- * Core helper methods
+ * Class Core
+ * @package VisualComposer\Helpers\Generic
  */
 class Core
 {
+    /**
+     * @var null
+     */
     private $isNetworkPlugin = null;
 
     /**

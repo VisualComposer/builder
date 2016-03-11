@@ -1,5 +1,8 @@
 <?php
-define('VC_V_LOADING_EDITOR', true);
+/**
+ * Constant that determinates that it is outer-request(ajax)
+ */
+define('VC_V_LOADER', true);
 
 // Require an action parameter
 if (empty($_REQUEST['action'])) {

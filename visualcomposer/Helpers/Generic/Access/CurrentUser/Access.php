@@ -4,6 +4,12 @@ namespace VisualComposer\Helpers\Generic\Access\CurrentUser;
 
 use VisualComposer\Helpers\Generic\Access\Role\Access as AccessFactory;
 
+/**
+ * Available by vcapp('userAccessHelper')
+ * Provides API to check access for current logged in used.
+ * Class Access
+ * @package VisualComposer\Helpers\Generic\Access\CurrentUser
+ */
 class Access extends AccessFactory
 {
     /**
@@ -26,6 +32,12 @@ class Access extends AccessFactory
         return $this;
     }
 
+    /**
+     * @param $callback
+     * @param $valid
+     * @param $argsList
+     * @return $this
+     */
     public function wpMulti($callback, $valid, $argsList)
     {
         if ($this->getValidAccess()) {
@@ -106,7 +118,7 @@ class Access extends AccessFactory
     }
 
     /**
-     * @return mixed
+     * @return \WP_Role
      */
     public function getRole()
     {

@@ -7,6 +7,10 @@ use ReflectionMethod;
 use ReflectionParameter;
 use VisualComposer\Framework\Illuminate\Container\ContainerTrait;
 
+/**
+ * Class Container
+ * @package VisualComposer\Framework
+ */
 abstract class Container
 {
     use ContainerTrait;
