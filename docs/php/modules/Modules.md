@@ -1,6 +1,35 @@
 #Modules
 Modules is system main logic, they controls proccess flow and determines actions for events
 
+#Currently registred modules
+
+- List:
+
+	    // system s & subs
+	    'activation' => 'VisualComposer\Modules\System\Activation\Controller',
+	    'textDomain' => 'VisualComposer\Modules\System\TextDomain\Controller',
+	    // Editors s & subs
+	    'assetsManager' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
+	    'dataAjax' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
+	    'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
+	    'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
+	    // Live/Public
+	    'live' => 'VisualComposer\Modules\Live\Controller',
+	    // Elements
+	    'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
+	    // License
+	    'license' => 'VisualComposer\Modules\License\Controller',
+	    // Settings & Settings Pages
+	    'settings' => 'VisualComposer\Modules\Settings\Controller',
+	    'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
+	    'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
+	    'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+	    'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
+
+##Modules descriptions
+- All modules should be determine description inside phpDocBlocks on top of Controller
+
+
 ##Module creation:
 - Location:
 	- ./visualcomposer/Modules/*
