@@ -1,11 +1,12 @@
 <?php
 
-namespace VisualComposer\Modules\Access\Role;
+namespace VisualComposer\Helpers\Generic\Access\Role;
 
-use VisualComposer\Modules\Access\Access as AccessFactory;
+use VisualComposer\Helpers\Generic\Access\Access as AccessFactory;
 
-class Access extends AccessFactory
+class Access
 {
+    use AccessFactory;
     /**
      * @var bool
      */

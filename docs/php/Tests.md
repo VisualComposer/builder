@@ -10,4 +10,3 @@
 	* You should test actions flow (__construct()->otherMethods()->secondMethod())
 - Write tests for getters and setters
 - Write tests for wp actions and filters ( trigger it in test and check for output )
-

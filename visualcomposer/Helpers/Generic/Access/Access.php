@@ -1,8 +1,8 @@
 <?php
 
-namespace VisualComposer\Modules\Access;
+namespace VisualComposer\Helpers\Generic\Access;
 
-abstract class Access
+trait Access
 {
     /**
      * @var bool

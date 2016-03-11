@@ -12,7 +12,7 @@ class EventServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
-            'events',
+            'eventsHelper',
             function ($app) {
                 return (new Dispatcher($app))->setQueueResolver(
                     function () use ($app) {

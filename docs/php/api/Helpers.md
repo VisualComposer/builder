@@ -27,3 +27,8 @@ Generic and WordPress helpers located in ./visualcomposer/Helpers
 	- put Modules helpers into visualcomposer/Helpers/Modules folder
 - Registration:
 	- Add helperName=>helperNameSpace/Class into `./visualcomposer/Application.php` $helpers variable
+
+##Tips and Notes
+- Helpers can also extend `\VisualComposer\Framework\Container` - this will allow to use Dependency/Method Injection
+    and $this->call() function
+- Helpers by default is shared(single instance), but you can also create them manualy. (__avoid this for performance__)

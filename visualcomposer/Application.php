@@ -3,40 +3,31 @@
 namespace VisualComposer;
 
 use VisualComposer\Framework\Application as ApplicationFactory;
+use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
-class Application extends ApplicationFactory
+class Application extends ApplicationFactory implements ApplicationContract
 {
     public $modules = [
         // system s & subs
         'activation' => 'VisualComposer\Modules\System\Activation\Controller',
         'textDomain' => 'VisualComposer\Modules\System\TextDomain\Controller',
-
         // Editors s & subs
         'assetsManager' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
         'dataAjax' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
+        'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
+        'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
         // Live/Public
         'live' => 'VisualComposer\Modules\Live\Controller',
-
         // Elements
         'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
-
         // License
         'license' => 'VisualComposer\Modules\License\Controller',
-
-        // Settings
+        // Settings & Settings Pages
         'settings' => 'VisualComposer\Modules\Settings\Controller',
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
         'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
         'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
         'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
-
-        // Access
-        'currentUserAccess' => 'VisualComposer\Modules\Access\CurrentUser\Access',
-        'roleAccess' => 'VisualComposer\Modules\Access\Role\Access',
-
-        'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
-        'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
-
     ];
     public $helpers = [
         // Generic
@@ -46,9 +37,12 @@ class Application extends ApplicationFactory
         'templatesHelper' => 'VisualComposer\Helpers\Generic\Templates',
         'urlHelper' => 'VisualComposer\Helpers\Generic\Url',
         /// WordPress
-        'fileHelper' => 'VisualComposer\Helpers\Wordpress\File',
-        'nonceHelper' => 'VisualComposer\Helpers\Wordpress\Nonce',
-        'optionsHelper' => 'VisualComposer\Helpers\Wordpress\Options',
+        'fileHelper' => 'VisualComposer\Helpers\WordPress\File',
+        'nonceHelper' => 'VisualComposer\Helpers\WordPress\Nonce',
+        'optionsHelper' => 'VisualComposer\Helpers\WordPress\Options',
+        // Other helpers
+        'currentUserAccessHelper' => 'VisualComposer\Helpers\Generic\Access\CurrentUser\Access',
+        'roleAccessHelper' => 'VisualComposer\Helpers\Generic\Access\Role\Access',
     ];
     /**
      * The available container bindings and their respective load methods.
@@ -57,7 +51,7 @@ class Application extends ApplicationFactory
      */
     public $availableBindings = [
         'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
-        'events' => 'registerEventBindings',
+        'eventsHelper' => 'registerEventBindings',
     ];
 
     /**
@@ -82,6 +76,11 @@ class Application extends ApplicationFactory
                 $this->make($module);
             }
         }
+        if (is_array($this->helpers)) {
+            foreach ($this->helpers as $helper) {
+                $this->singleton($helper, $helper);
+            }
+        }
         do_action('vc:v:boot', $this);
     }
 
@@ -103,10 +102,11 @@ class Application extends ApplicationFactory
     protected function registerContainerAliases()
     {
         $this->aliases = [
-                //'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
-                //'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
-                // 'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
-                'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'events',
+                'VisualComposer\Framework\Application' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'app',
+                'VisualComposer\Framework\Illuminate\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
+                'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'eventsHelper',
             ] + $this->modules + $this->helpers;
     }
 
@@ -118,11 +118,11 @@ class Application extends ApplicationFactory
     protected function registerEventBindings()
     {
         $this->singleton(
-            'events',
+            'eventsHelper',
             function () {
                 $this->register('VisualComposer\Framework\Illuminate\Events\EventServiceProvider');
 
-                return $this->make('events');
+                return $this->make('eventsHelper');
             }
         );
     }

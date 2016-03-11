@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Modules\Access\RoleAccess;
+use VisualComposer\Helpers\Generic\Access\RoleAccess;
 use VisualComposer\Framework\Container;
 
 class Roles extends Container

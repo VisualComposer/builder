@@ -6,7 +6,7 @@ use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Framework\Container;
 
 class Controller extends Container

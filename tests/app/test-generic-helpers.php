@@ -2,6 +2,25 @@
 
 class GenericHelpersTest extends WP_UnitTestCase
 {
+    public function setUp()
+    {
+        $_POST = [
+            'test0' => false,
+            'test1' => 1,
+            'test2' => 2,
+            'test3' => 3,
+        ];
+        $_GET = [
+            'test2' => 4,
+            'test3' => 5,
+            'test4' => 6,
+        ];
+        $_REQUEST = [
+            'test3' => 7,
+            'test5' => 8,
+        ];
+    }
+
     public function testHelpersTemplates()
     {
         /**
@@ -183,21 +202,6 @@ class GenericHelpersTest extends WP_UnitTestCase
 
     public function testRequestHelper()
     {
-        $_POST = [
-            'test0' => false,
-            'test1' => 1,
-            'test2' => 2,
-            'test3' => 3,
-        ];
-        $_GET = [
-            'test2' => 4,
-            'test3' => 5,
-            'test4' => 6,
-        ];
-        $_REQUEST = [
-            'test3' => 7,
-            'test5' => 8,
-        ];
         /**
          * @var $helper VisualComposer\Helpers\Generic\Request
          */
@@ -269,6 +273,18 @@ class GenericHelpersTest extends WP_UnitTestCase
 
         $this->assertEquals(
             $_REQUEST + $_GET + $_POST,
+            $teInstance->input(),
+            'it should be equals to $_REQUEST + $_GET + $_POST'
+        );
+        $this->assertEquals(
+            [
+                'test0' => false, // from POST
+                'test1' => 1, // from POST
+                'test2' => 4, // from GET (overrides POST)
+                'test3' => 7, // from REQUEST (overrides GET)
+                'test4' => 6, // from GET
+                'test5' => 8, //from REQUEST
+            ],
             $teInstance->input(),
             'it should be equals to $_REQUEST + $_GET + $_POST'
         );

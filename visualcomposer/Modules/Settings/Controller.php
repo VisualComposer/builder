@@ -7,7 +7,7 @@ use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;

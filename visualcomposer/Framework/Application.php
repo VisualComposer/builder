@@ -1,10 +1,10 @@
 <?php namespace VisualComposer\Framework;
 
-use VisualComposer\Framework\Facades\Facade;
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Support\ServiceProvider;
+use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
-class Application extends Container
+class Application extends Container implements ApplicationContract
 {
     /**
      * The available container bindings and their respective load methods.
@@ -50,6 +50,11 @@ class Application extends Container
         $this->instance('app', $this);
 
         $this->registerContainerAliases();
+    }
+
+    public function boot()
+    {
+
     }
 
     /**

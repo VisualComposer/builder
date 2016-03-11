@@ -1,5 +1,5 @@
 #Modules
-Modules is system main logic, they controls proccess flow and determines actions for events.
+Modules is system main logic, they controls proccess flow and determines actions for events
 
 ##Module creation:
 - Location:

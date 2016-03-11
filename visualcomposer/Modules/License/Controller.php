@@ -7,7 +7,7 @@ use VisualComposer\Helpers\Generic\Core;
 use VisualComposer\Helpers\Generic\Data;
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Modules\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
@@ -192,7 +192,7 @@ class Controller extends Container
                 return false;
             }
 
-            $this->setLicenseKey($json['license_key']);
+            $this->call('setLicenseKey', $json['license_key']);
 
             add_action(
                 'admin_notices',

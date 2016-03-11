@@ -31,6 +31,6 @@ if (!function_exists('vcevent')) {
      */
     function vcevent($event, $payload = [], $halt = false)
     {
-        return vcapp('events')->fire($event, $payload, $halt);
+        return vcapp('eventsHelper')->fire($event, $payload, $halt);
     }
 }

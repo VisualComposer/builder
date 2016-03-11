@@ -154,7 +154,7 @@ abstract class ServiceProvider
         // To register the commands with Artisan, we will grab each of the arguments
         // passed into the method and listen for Artisan "start" event which will
         // give us the Artisan console instance which we will give commands to.
-        $events = $this->app['events'];
+        $events = $this->app['eventsHelper'];
 
         $events->listen(
             'artisan.start',

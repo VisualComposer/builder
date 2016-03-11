@@ -1,8 +1,8 @@
 <?php
 
-namespace VisualComposer\Modules\Access\CurrentUser;
+namespace VisualComposer\Helpers\Generic\Access\CurrentUser;
 
-use VisualComposer\Modules\Access\Role\Access as AccessFactory;
+use VisualComposer\Helpers\Generic\Access\Role\Access as AccessFactory;
 
 class Access extends AccessFactory
 {
