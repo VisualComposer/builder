@@ -2,14 +2,16 @@
 
 - ./plugin-wordpress.php - initial WordPress plugin which supports PHP 5.0+
 - ./bootstrap/autoload.php - System bootstraper, initializes \VisualComposer\Application instance and bootstraps system:
-	* wp action vc:v:load called `[\VisualComposer\Application::__construct]` Before all modules registred
+	* wp action `vc:v:load` called `[\VisualComposer\Application::__construct]` Before all modules registred
 	    ( this will allow to register own module: [not tested]
-	    
+
+	    ```php
 	    add_action('vc:v:load', function($vcapp){ 
 	        $vcapp->modules['my3rdmodules'=>'myNamespace'];
 	    });
-	
-	* wp action vc:v:boot called `[\VisualComposer\Application::boot]` After all modules instances created
+	    ```
+	    
+	* wp action `vc:v:boot` called `[\VisualComposer\Application::boot]` After all modules instances created
 - ./visualcomposer/Framework - contains Lumen microframework classes (Application, Illuminate events and container)
 	* Note: framework was modified for vcapp() helper and strip out all unneded files/classes/functions
 	* Note: Events library based on Illuminate/Events but it was modificated to allow use Method Injection
