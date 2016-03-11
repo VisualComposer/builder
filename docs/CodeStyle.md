@@ -46,6 +46,7 @@ Side notes:
 - Any statement MUST end with semicolon; even if it is single line method like ```<?php echo $something; ?>```
 - Spaces within brackets ONLY if key is variable or expression like ```$data[ $test ]```
 - Use spaces not tabs [PSR1]
+- Use `phpcs` command to check for codeStyle issues in PHP files
 
 ##Less/Css
 
