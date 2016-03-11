@@ -71,9 +71,10 @@ if (!defined('ABSPATH')) {
                                             data-vc-related-controls="tfoot [data-vc-roles-select-all-checkbox]"
                                             data-vc-roles-select-all-checkbox="<?php echo esc_attr(
                                                 $type[0]
-                                            ) ?>"><?php echo esc_html(
+                                            ) ?>"><?php
+                                        echo esc_html(
                                             $type[1]
-                                        ) ?>
+                                        ); ?>
                                     </label>
                                 </th>
                             <?php endforeach ?>
@@ -89,9 +90,10 @@ if (!defined('ABSPATH')) {
                                             data-vc-related-controls="thead [data-vc-roles-select-all-checkbox]"
                                             data-vc-roles-select-all-checkbox="<?php echo esc_attr(
                                                 $type[0]
-                                            ) ?>"><?php echo esc_html(
+                                            ) ?>"><?php
+                                        echo esc_html(
                                             $type[1]
-                                        ) ?>
+                                        ); ?>
                                     </label>
                                 </th>
                             <?php endforeach ?>
