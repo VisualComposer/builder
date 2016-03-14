@@ -1,5 +1,6 @@
 var vcCake = require('vc-cake');
 var documentData = vcCake.getService('document');
+var Atoll = require('./atoll');
 /**
  * Drag&drop builder
  * @param container
@@ -8,7 +9,6 @@ var documentData = vcCake.getService('document');
  */
 var Builder = function(container, options) {
   this.container = container;
-  this.itemSelector = '';
   this.atolls = {};
   this.hover = '';
   this.dragingElement = null;
@@ -25,8 +25,7 @@ Builder.prototype.initContainer = function() {
   this.container.addEventListener('drag', this.handleDrag.bind(this), false);
 };
 Builder.prototype.addItem = function(id) {
-  var el = documentData.get(id);
-  this.atolls[id] = new window.Atoll(el)
+  this.atolls[id] = new Atoll(id)
     .on('dragstart', this.handleDragStart.bind(this))
     .on('dragend', this.handleDragEnd.bind(this));
 };
@@ -82,15 +81,17 @@ Builder.prototype.hideHover = function() {
  */
 Builder.prototype.renderControls = function() {
   _.defer(function() {
-    this.atolls.forEach(function(atoll) {
+    Object.keys(this.atolls).forEach(function(key) {
+      var atoll = this.atolls[key];
       if (atoll.el !== this.dragingElement) {
         atoll.setControls();
       }
-    });
+    },  this);
   }.bind(this));
 };
 Builder.prototype.checkControls = function(center) {
-  this.atolls.forEach(function(atoll) {
+  Object.keys(this.atolls).forEach(function(key) {
+    var atoll = this.atolls[key];
     if (atoll.el !== this.dragingElement) {
       atoll.checkControls(this.options.radius, center);
     }
@@ -98,9 +99,9 @@ Builder.prototype.checkControls = function(center) {
 };
 Builder.prototype.hideControls = function() {
   $('.vcv-atoll-control').remove();
-  this.atolls.forEach(function(atoll) {
-    atoll.removeControls();
-  });
+  Object.keys(this.atolls).forEach(function(key) {
+    this.atolls[key].removeControls();
+  }, this);
 };
 /**
  * Drag handlers

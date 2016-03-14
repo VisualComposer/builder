@@ -25,7 +25,7 @@ vcCake.add('content-layout', function(api) {
       var data = this.state.data;
       return (
         <div className="vc-editor-here">
-          <HtmlLayout data={data}/>
+          <HtmlLayout data={data} api={api}/>
         </div>
       );
     }
@@ -34,10 +34,4 @@ vcCake.add('content-layout', function(api) {
     <Editor />,
     domContainer
   );
-  require('./css/atolls/dnd.less');
-  var AtollsDnD = require('./lib/atolls/atolls-dnd');
-  var atolls = new AtollsDnD(document.querySelector('[data-vcv-module="content-layout"]'), {
-    radius: 350
-  });
-  atolls.init();
 });

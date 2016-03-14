@@ -4,13 +4,19 @@ var ElementComponents = vcCake.getService('element').components;
 require('../css/element.less');
 
 var Element = React.createClass({
+  componentDidMount: function() {
+      this.props.api.notify('element:mount', this.props.element.id);
+    },
+  componentWillUnmount: function() {
+    this.props.api.notify('element:unmount', this.props.element.id);
+  },
   getContent: function(content) {
     var documentData = vcCake.getService('document');
     var ElementComponent = ElementComponents.get(this.props.element); // optimize
     if ('container' == ElementComponent.type) {
       let elementsList = documentData.children(this.props.element.id).map(function(element) {
-        return <Element element={element} key={element.id}/>;
-      });
+        return <Element element={element} key={element.id} api={this.props.api}/>;
+      }, this);
       return elementsList;
     }
     return content;

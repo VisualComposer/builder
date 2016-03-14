@@ -9,8 +9,8 @@ var Layout = React.createClass({
     let elementsList;
     if (this.props.data) {
       elementsList = this.props.data.map(function(element) {
-        return <Element element={element} key={element.id}/>
-      });
+        return <Element element={element} key={element.id} api={this.props.api}/>
+      }, this);
     }
     return (<div className="vc-v-layouts-html" data-vcv-module="content-layout">
       {elementsList}

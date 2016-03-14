@@ -5,9 +5,10 @@ var AtollControl = require('./atoll-control');
  * @param el  DOM element;
  * @constructor
  */
-var Atoll = function(el) {
-  this.el = el;
-  this.$el = $(el);
+var Atoll = function(id) {
+  this.id = id;
+  this.el = document.querySelector('[data-vc-element="' + this.id + '"]');
+  this.$el = $(this.el);
   this.points = {};
   this.helper = null;
   this.controls = [];
@@ -75,7 +76,7 @@ Atoll.prototype.setControls = function() {
   if (Array.prototype.indexOf.call(this.el.parentNode.children, this.el) === this.el.parentNode.children.length - 1) {
     this.controls.push(this.createControl(after));
   }
-  if ('container' === this.el.getAttribute('data-vc-element') && this.$el.find('[data-vc-element]').length == 0) {
+  if ('container' === this.el.getAttribute('data-vc-element-type') && this.$el.find('[data-vc-element]').length == 0) {
     this.controls.push(this.createControl('center'));
   }
 };
@@ -148,13 +149,14 @@ Atoll.prototype.controlHandleDropOver = function(e) {
     id = e.dataTransfer.getData('Text'),
     element = document.querySelector('[data-vcv="' + id + '"]'),
     dropPosition = control.getAttribute('data-vcv-drop-position');
-  if ('after' === dropPosition) {
+ /* if ('after' === dropPosition) {
     this.dropAfter(element);
   } else if ('append' === dropPosition) {
     this.dropChild(element);
   } else {
     this.dropBefore(element);
   }
+  */
 };
 Atoll.prototype.dropAfter = function(element) {
   $(element).insertAfter(this.el);
