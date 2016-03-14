@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
 
-vcCake.add('ui-editor-controls', function(api) {
+vcCake.add('content-editor-controls', function(api) {
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js');
   var ControlsTrigger = {};
   require('./css/module.less');
