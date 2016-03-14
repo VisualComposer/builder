@@ -13,7 +13,9 @@ var Builder = function(container, options) {
   this.hover = '';
   this.dragingElement = null;
   this.options = _.defaults(options, {
-    radius: 20
+    radius: 20,
+    cancelMove: false,
+    moveCallback: function(){}
   });
 };
 Builder.prototype.init = function() {
@@ -25,7 +27,7 @@ Builder.prototype.initContainer = function() {
   this.container.addEventListener('drag', this.handleDrag.bind(this), false);
 };
 Builder.prototype.addItem = function(id) {
-  this.atolls[id] = new Atoll(id)
+  this.atolls[id] = new Atoll(id, this.options)
     .on('dragstart', this.handleDragStart.bind(this))
     .on('dragend', this.handleDragEnd.bind(this));
 };
@@ -121,7 +123,7 @@ Builder.prototype.handleDragStart = function(e) {
   if (e.dataTransfer) {
     e.dataTransfer.setDragImage(this.getHelper(), 20, 20);
     e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
-    e.dataTransfer.setData('Text', e.currentTarget.getAttribute('data-vcv')); // required otherwise doesn't work
+    e.dataTransfer.setData('Text', e.currentTarget.getAttribute('data-vc-element')); // required otherwise doesn't work
     this.hideHelper();
   }
   this.watchMouse();

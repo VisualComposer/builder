@@ -11,7 +11,9 @@ vcCake.add('content-atolls-dnd', function(api) {
   ModuleDnd.prototype.buildAtolls = function() {
     if (!this.atolls) {
       this.atolls = new AtollsDnD(document.querySelector('[data-vcv-module="content-layout"]'), {
-        radius: 350
+        radius: 350,
+        cancelMove: true,
+        moveCallback: this.move.bind(this)
       });
       this.atolls.init();
     }
@@ -28,6 +30,9 @@ vcCake.add('content-atolls-dnd', function(api) {
   ModuleDnd.prototype.remove = function(id) {
     this.buildAtolls();
     this.atolls.removeItem(id);
+  };
+  ModuleDnd.prototype.move = function(id, action, related) {
+    api.request('data:move', id, action, related);
   };
   new ModuleDnd(api);
 });

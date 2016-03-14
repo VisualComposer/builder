@@ -69,8 +69,33 @@ var api = {
   children: function(id) {
     return dataStore.getChildren(id).toJS();
   },
-  move: function(id, parent_id, order) {
+  resort: function(parentId, items) {
+    parentId = dataStore.filterId(parentId);
+    items.forEach(function(id){
+      var item = documentData.get(id);
+      if(item) {
+        var order = items.indexOf(item.get('id'));
+        item  = item.withMutations(function(map) {
+          map
+            .set('parent', parentId)
+            .set('order', order);
+        });
+        documentData = documentData.set(id, item);
+      }
+    }, this);
+  },
+  moveBefore: function(id, before) {
+    var obj = documentData.get(id);
+    var beforeObj = documentData(before);
+    obj = obj.withMutations(function(map){
 
+    });
+  },
+  moveAfter: function(id, after) {
+    console.log('after');
+  },
+  prependTo: function(id, parent) {
+    console.log('prepend');
   },
   clone: function(id, parent) {
     var obj = documentData.get(id);
