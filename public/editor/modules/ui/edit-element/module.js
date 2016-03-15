@@ -21,11 +21,12 @@ vcCake.add('ui-edit-element', function(api) {
   };
   var DataChanged = {
     componentDidMount: function() {
-      api.reply('app:edit', function(element) {
-        if ('string' === typeof element) {
-          element = vcCake.getService('data').get(element);
+      api.reply('app:edit', function(id) {
+        var element;
+        if ('string' === typeof id) {
+          element = vcCake.getService('document').get(id);
         }
-        var settings = ElementComponents.get(element.tagName);
+        var settings = ElementComponents.get(element.tag);
         var onSaveItems = settings.onSaveItems ? parseInt(settings.onSaveItems.toString()) : 0;
         var onCancelItems = settings.onCancelItems ? parseInt(settings.onCancelItems.toString()) : 0;
         var onValidateItems = settings.onValidateItems ? parseInt(settings.onValidateItems.toString()) : 0;
@@ -71,7 +72,7 @@ vcCake.add('ui-edit-element', function(api) {
         console.log('cancel callback called');
         this.closeModal();
       }).bind(this);
-      this.publish('cancel', cb);
+      // this.publish('cancel', cb);
 
       this.closeImmediately && cb();
     },
@@ -88,7 +89,7 @@ vcCake.add('ui-edit-element', function(api) {
         console.log('save callback called');
         this.closeModal();
       }).bind(this);
-      this.publish('save', cb);
+      // api.request('data:update', cb);
 
       this.closeImmediately && cb();
     },
@@ -119,8 +120,6 @@ vcCake.add('ui-edit-element', function(api) {
                 onCancelItemsAdd={this.onCancelItemsAdd}
                 onValidateItemsAdd={this.onValidateItemsAdd}
                 closeModal={this.closeModal}
-                subscribe={this.subscribe}
-                publish={this.publish}
               />
             );
           }

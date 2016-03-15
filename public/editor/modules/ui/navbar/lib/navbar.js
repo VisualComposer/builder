@@ -33,7 +33,7 @@ var Navbar = React.createClass({
         bottom: false,
         left: false
       }
-    }
+    };
   },
   componentWillMount: function () {
     this.props.api.addAction('addElement', function(name, Icon) {
@@ -222,7 +222,6 @@ var Navbar = React.createClass({
         <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
           <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
           {this.buildControls()}
-          <button onClick={this.btnClickHandler}>Click Me!</button>
         </nav>
       </div>
     );
