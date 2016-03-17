@@ -1,26 +1,33 @@
 var React = require( 'react' );
 var classNames = require( 'classnames' );
-require( './separator.less' );
+require( './css/TextSeparator.css' );
 
 var Separator = React.createClass( {
+  getInitialState: function () {
+    return {
+      'alignment': 'semi-left',
+      'style': 'solid-dots',
+      'color': 'info'
+    };
+  },
 	render: function () {
-		var { key, title, color, customColor, style,position, borderWidth, elWidth, editor, ...other } = this.props;
+		var { key, title, editor, ...other } = this.props;
 
-		var inlineCss = customColor ? { style: { borderColor: customColor } } : {};
-		var content = title ? <h4>{title}</h4> : "";
-		var cssClass = classNames(
-			'vc-separator',
-			( elWidth ) ? 'vc-sep-width-' + elWidth : 'vc-sep-width-100',
-			( style ) ? 'vc-sep-' + style : '',
-			( borderWidth ) ? 'vc-sep-border-width-' + borderWidth : '',
-			( color && ! customColor ) ? 'vc-sep-color-' + color : '',
-			( position ) ? 'vc-sep-pos-' + position : '',
-			( title ) ? 'vc-sep-has-text' : 'vc-sep-no-text'
-		);
+    title = 'Text separator';
+
+		var content = title ? title : "";
+
+    let elementClassName = classNames(
+      "vce-text-separator",
+      ( this.state.alignment ) ? 'vce-text-separator-align-' + this.state.alignment : '',
+      ( this.state.style ) ? 'vce-text-separator-style-' + this.state.style : '',
+      ( this.state.color ) ? 'vce-text-separator-color-' + this.state.color : ''
+    );
+
 		return (
-			<div className={cssClass} key={key} {...editor}>
-				<span className="vc-sep-holder vc-sep-holder-l"><span {...inlineCss} className="vc-sep-line"></span></span>{content}<span className="vc-sep-holder vc-sep-holder-r"><span {...inlineCss} className="vc-sep-line"></span></span>
-			</div>
+      <h4 className={elementClassName} key={key} {...editor} {...other}>
+        <span className="vce-text-separator-content">{content}</span>
+      </h4>
 		);
 	}
 } );

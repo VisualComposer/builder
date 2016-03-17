@@ -1,0 +1,76 @@
+// Styles for Text Separator
+//-----------------------------------------
+
+.vce-text-separator {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  margin-top: @vce-top-indent;
+  margin-bottom: @vce-bottom-indent;
+  &::before,
+  &::after {
+    display: block;
+    content: '';
+    flex-grow: 1;
+    flex-shrink: 1;
+    transition: flex @vce-transition-duration @vce-transition-function;
+    box-sizing: content-box;
+    border-width: 1px;
+    min-width: @vce-min-separator-width;
+  }
+}
+
+.vce-text-separator-content {
+  padding-left: @vce-content-padding;
+  padding-right: @vce-content-padding;
+}
+
+// Alignments
+//============================
+//== center
+#vce-text-separator > .make-alignment(center; @text-align: center);
+
+//== left
+#vce-text-separator > .make-alignment(left; @text-align: left; @before-grow: 0);
+.vce-text-separator-align-left {
+  .vce-text-separator-content {
+    padding-left: 0;
+  }
+  &::before {
+    min-width: 0;
+  }
+}
+
+//== right
+#vce-text-separator > .make-alignment(right; @text-align: right; @after-grow: 0);
+.vce-text-separator-align-right {
+  .vce-text-separator-content {
+    padding-right: 0;
+  }
+  &::after {
+    min-width: 0;
+  }
+}
+
+//== semi left
+#vce-text-separator > .make-alignment(semi-left; @text-align: left; @after-grow: 2);
+
+//== semi right
+#vce-text-separator > .make-alignment(semi-right; @text-align: right; @before-grow: 2);
+
+// Styles
+//===========================
+#vce-text-separator > .make-style(border; @top-border-style: solid);
+#vce-text-separator > .make-style(dashed; @top-border-style: dashed);
+#vce-text-separator > .make-style(dotted; @top-border-style: dotted);
+#vce-text-separator > .make-style(double; @top-border-style: solid; @bottom-border-style: solid;  @border-space: 1px;);
+#vce-text-separator > .make-style(solid-dots; @top-border-style: solid; @bottom-border-style: dotted;  @border-space: 1px;);
+
+// Colors
+//===========================
+#vce-text-separator > .make-color(info; @color: @vce-color-info);
+#vce-text-separator > .make-color(danger; @color: @vce-color-danger);
+#vce-text-separator > .make-color(warning; @color: @vce-color-warning);
+#vce-text-separator > .make-color(success; @color: @vce-color-success);
+

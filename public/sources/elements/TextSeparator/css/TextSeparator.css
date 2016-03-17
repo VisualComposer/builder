@@ -1,0 +1,105 @@
+/*
+ * Text separator
+ * ---------------------------------------------- */
+.vce-text-separator {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.vce-text-separator::before,
+.vce-text-separator::after {
+  display: block;
+  content: '';
+  flex-grow: 1;
+  flex-shrink: 1;
+  transition: flex 0.2s ease-in-out;
+  box-sizing: content-box;
+  border-width: 1px;
+  min-width: 1em;
+}
+.vce-text-separator-content {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+.vce-text-separator-align-center {
+  text-align: center;
+}
+.vce-text-separator-align-left {
+  text-align: left;
+}
+.vce-text-separator-align-left::before {
+  flex-grow: 0;
+}
+.vce-text-separator-align-left .vce-text-separator-content {
+  padding-left: 0;
+}
+.vce-text-separator-align-left::before {
+  min-width: 0;
+}
+.vce-text-separator-align-right {
+  text-align: right;
+}
+.vce-text-separator-align-right::after {
+  flex-grow: 0;
+}
+.vce-text-separator-align-right .vce-text-separator-content {
+  padding-right: 0;
+}
+.vce-text-separator-align-right::after {
+  min-width: 0;
+}
+.vce-text-separator-align-semi-left {
+  text-align: left;
+}
+.vce-text-separator-align-semi-left::after {
+  flex-grow: 2;
+}
+.vce-text-separator-align-semi-right {
+  text-align: right;
+}
+.vce-text-separator-align-semi-right::before {
+  flex-grow: 2;
+}
+.vce-text-separator-style-border::before,
+.vce-text-separator-style-border::after {
+  border-top-style: solid;
+}
+.vce-text-separator-style-dashed::before,
+.vce-text-separator-style-dashed::after {
+  border-top-style: dashed;
+}
+.vce-text-separator-style-dotted::before,
+.vce-text-separator-style-dotted::after {
+  border-top-style: dotted;
+}
+.vce-text-separator-style-double::before,
+.vce-text-separator-style-double::after {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  height: 1px;
+}
+.vce-text-separator-style-solid-dots::before,
+.vce-text-separator-style-solid-dots::after {
+  border-top-style: solid;
+  border-bottom-style: dotted;
+  height: 1px;
+}
+.vce-text-separator-color-info::before,
+.vce-text-separator-color-info::after {
+  color: #1da0c5;
+}
+.vce-text-separator-color-danger::before,
+.vce-text-separator-color-danger::after {
+  color: #e11612;
+}
+.vce-text-separator-color-warning::before,
+.vce-text-separator-color-warning::after {
+  color: #e7b460;
+}
+.vce-text-separator-color-success::before,
+.vce-text-separator-color-success::after {
+  color: #40c651;
+}
