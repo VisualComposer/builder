@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\RoleAccess;
+use VisualComposer\Helpers\Generic\Access\Role\Access;
 use VisualComposer\Framework\Container;
 
 /**
@@ -135,11 +135,11 @@ class Roles extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\RoleAccess $roleAccess
+     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
      * @param array $params
      * @return array
      */
-    public function save(RoleAccess $roleAccess, $params = [])
+    public function save(Access $roleAccess, $params = [])
     {
         $data = ['message' => ''];
         $roles = $this->getWpRoles();
@@ -150,28 +150,7 @@ class Roles extends Container
             }
             if (isset($editableRoles[ $role ])) {
                 foreach ($parts as $part => $settings) {
-                    $partKey = $roleAccess->who($role)->part($part)->getStateKey();
-                    $stateValue = '0';
-                    $roles->use_db = false; // Disable saving in DB on every cap change
-                    foreach ($settings as $key => $value) {
-                        if ('_state' === $key) {
-                            $stateValue = in_array(
-                                $value,
-                                [
-                                    '0',
-                                    '1',
-                                ]
-                            ) ? (boolean)$value : $value;
-                        } else {
-                            if (empty($value)) {
-                                $roles->remove_cap($role, $partKey . '/' . $key);
-                            } else {
-                                $roles->add_cap($role, $partKey . '/' . $key, true);
-                            }
-                        }
-                    }
-                    $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
-                    $roles->add_cap($role, $partKey, $stateValue);
+                    $this->parseRole($roleAccess, $role, $part, $roles, $settings);
                 }
             }
         }
@@ -225,9 +204,9 @@ class Roles extends Container
      * Save roles
      *
      * @param Request $request
-     * @param RoleAccess $roleAccess
+     * @param Access $roleAccess
      */
-    public function saveSettings(Request $request, RoleAccess $roleAccess)
+    public function saveSettings(Request $request, Access $roleAccess)
     {
         $field = 'vc_settings-' . $this->getPageSlug() . '-action';
 
@@ -268,5 +247,38 @@ class Roles extends Container
         $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/roles/index')->setTemplateArgs(
             ['Roles' => $this]
         )->render();
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
+     * @param $role
+     * @param $part
+     * @param $roles
+     * @param $settings
+     */
+    private function parseRole(Access $roleAccess, $role, $part, $roles, $settings)
+    {
+        $partKey = $roleAccess->who($role)->part($part)->getStateKey();
+        $stateValue = '0';
+        $roles->use_db = false; // Disable saving in DB on every cap change
+        foreach ($settings as $key => $value) {
+            if ('_state' === $key) {
+                $stateValue = in_array(
+                    $value,
+                    [
+                        '0',
+                        '1',
+                    ]
+                ) ? (boolean)$value : $value;
+            } else {
+                if (empty($value)) {
+                    $roles->remove_cap($role, $partKey . '/' . $key);
+                } else {
+                    $roles->add_cap($role, $partKey . '/' . $key, true);
+                }
+            }
+        }
+        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
+        $roles->add_cap($role, $partKey, $stateValue);
     }
 }

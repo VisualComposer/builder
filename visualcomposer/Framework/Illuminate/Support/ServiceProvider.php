@@ -58,6 +58,7 @@ abstract class ServiceProvider
     {
         $config = $this->app['config']->get($key, []);
 
+        /** @noinspection PhpIncludeInspection */
         $this->app['config']->set($key, array_merge(require $path, $config));
     }
 

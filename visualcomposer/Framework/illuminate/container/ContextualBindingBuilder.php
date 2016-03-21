@@ -16,6 +16,7 @@ class ContextualBindingBuilder implements Contract
      * @var string
      */
     protected $concrete;
+    protected $needs;
 
     /**
      * Create a new contextual binding builder.

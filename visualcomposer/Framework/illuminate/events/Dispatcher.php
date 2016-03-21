@@ -326,7 +326,7 @@ class Dispatcher implements DispatcherContract
      * Create the class based event callable.
      *
      * @param  string $listener
-     * @param  \Illuminate\Container\Container $container
+     * @param  \VisualComposer\Illuminate\Container\Container $container
      * @return callable
      */
     protected function createClassCallable($listener, $container)
@@ -464,7 +464,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get the queue implementation from the resolver.
      *
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return \VisualComposer\Illuminate\Contracts\Queue\Queue
      */
     protected function resolveQueue()
     {

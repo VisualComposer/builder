@@ -82,8 +82,8 @@ class Application extends ApplicationFactory implements ApplicationContract
      * Create a new Application instance.
      *
      * @overrides parent::__construct()
-     *
      * @param  string|null $basePath
+     * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct($basePath = null)
     {

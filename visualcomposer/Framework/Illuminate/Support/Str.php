@@ -276,18 +276,7 @@ class Str
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
-
-    /**
-     * Get the singular form of an English word.
-     *
-     * @param  string $value
-     * @return string
-     */
-    public static function singular($value)
-    {
-        return Pluralizer::singular($value);
-    }
-
+    
     /**
      * Convert a string to snake case.
      *

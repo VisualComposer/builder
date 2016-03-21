@@ -20,14 +20,14 @@ class Controller extends Container
      */
     protected static $jsScriptRendered = false;
     /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
+     * @var \VisualComposer\Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
 
     /**
      * PageFrontController constructor.
      *
-     * @param \Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Illuminate\Contracts\Events\Dispatcher $event
      */
     public function __construct(Dispatcher $event)
     {

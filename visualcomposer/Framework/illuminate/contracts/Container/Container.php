@@ -91,7 +91,7 @@ interface Container
      * Define a contextual binding.
      *
      * @param  string $concrete
-     * @return \Illuminate\Contracts\Container\ContextualBindingBuilder
+     * @return \VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder
      */
     public function when($concrete);
 

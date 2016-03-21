@@ -149,8 +149,8 @@ class Access
      *
      * @param string $rule
      * @param bool|true $checkState
-     *
-     * @return self
+     * @return static
+     * @throws \Exception
      */
     public function can($rule = '', $checkState = true)
     {

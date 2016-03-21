@@ -36,6 +36,7 @@ class Templates
             $args,
             $echo
         );
+        /** @noinspection PhpIncludeInspection */
         include($path);
 
         $content = ob_get_clean();
