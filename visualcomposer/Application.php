@@ -38,7 +38,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         // Elements
         'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
         // License
-        'license' => 'VisualComposer\Modules\License\Controller',
+        //'license' => 'VisualComposer\Modules\License\Controller',
         // Settings & Settings Pages
         'settings' => 'VisualComposer\Modules\Settings\Controller',
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',

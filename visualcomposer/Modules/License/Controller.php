@@ -41,6 +41,7 @@ class Controller extends Container
      */
     public function __construct(Request $request)
     {
+        // @todo this is not valid. we sohuld use register_activation_callback..
         if ($request->exists('activate')) {
             $this->call('finishActivationDeactivation', [true, $request->input('activate')]);
         } elseif ($request->exists('deactivate')) {
