@@ -4,10 +4,16 @@ vcCake.add('content-editor-controls', function(api) {
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js');
   var ControlsTrigger = {};
   require('./css/module.less');
-
+  var showControls = true;
+  api.addAction('enableControls', function(state) {
+    showControls = !!state;
+    if (!showControls) {
+      controlsHandler.hideOutline();
+    }
+  });
   ControlsTrigger.triggerShowFrame = function(e) {
     e.stopPropagation();
-    controlsHandler.showOutline($(e.currentTarget));
+    showControls && controlsHandler.showOutline($(e.currentTarget));
   };
 
   ControlsTrigger.triggerHideFrame = function() {
@@ -15,7 +21,7 @@ vcCake.add('content-editor-controls', function(api) {
   };
 
   ControlsTrigger.triggerRedrawFrame = function() {
-    controlsHandler.drawOutlines();
+    showControls && controlsHandler.drawOutlines();
   };
 
   var EditorControls = function() {
