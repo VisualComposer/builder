@@ -16,7 +16,14 @@ if (empty($_REQUEST['action'])) {
 $requestAction = $_REQUEST['action'];
 /** Load WordPress Bootstrap */
 require_once __DIR__ . '/../../../../../../wp-load.php'; // @todo it s****
-
+if (!defined('VC_V_VERSION')) {
+    die(json_encode(
+        [
+            'status' => 'fail',
+            'key' => 3,
+        ]
+    ));
+}
 send_origin_headers();
 
 @header('Content-Type: text/html; charset=' . get_option('blog_charset'));
