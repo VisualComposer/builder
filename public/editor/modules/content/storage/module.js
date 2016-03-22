@@ -17,13 +17,13 @@ vcCake.add('storage', function(api) {
     documentData.update(id, element);
     api.request('data:changed', documentData.children(false), 'update');
   });
-  api.reply('data:move', function(id, action, related) {
-    if ('after' === action) {
-      documentData.moveAfter(id, related);
-    } else if ('append' === action) {
-      documentData.prependTo(id, related);
+  api.reply('data:move', function(id, data) {
+    if ('after' === data.action) {
+      documentData.moveAfter(id, data.related);
+    } else if ('append' === data.action) {
+      documentData.appendTo(id, data.related);
     } else {
-      documentData.moveBefore(id, related);
+      documentData.moveBefore(id, data.related);
     }
     api.request('data:changed', documentData.children(false));
   });
