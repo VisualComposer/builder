@@ -13,7 +13,7 @@ if (empty($_REQUEST['action'])) {
         ]
     ));
 }
-
+$requestAction = $_REQUEST['action'];
 /** Load WordPress Bootstrap */
 require_once __DIR__ . '/../../../../../../wp-load.php'; // @todo it s****
 
@@ -25,7 +25,7 @@ send_origin_headers();
 send_nosniff_header();
 nocache_headers();
 
-if (strpos($_REQUEST['action'], ':nonce')) {
+if (strpos($requestAction, ':nonce')) {
     if (empty($_REQUEST['nonce']) || !vcapp('nonceHelper')->verifyUser($_REQUEST['nonce'])) {
         die(json_encode(
             [
@@ -34,7 +34,7 @@ if (strpos($_REQUEST['action'], ':nonce')) {
             ]
         ));
     }
-} elseif (strpos($_REQUEST['action'], ':admin-nonce')) {
+} elseif (strpos($requestAction, ':admin-nonce')) {
     if (empty($_REQUEST['nonce'])
         || !vcapp('nonceHelper')->verifyAdmin(
             $_REQUEST['nonce']
@@ -54,7 +54,7 @@ if (strpos($_REQUEST['action'], ':nonce')) {
  * @todo: 2) sanitize input
  */
 do_action('vc:v:ajax:loader');
-do_action('vc:v:ajax:loader:' . $_REQUEST['action']);
+do_action('vc:v:ajax:loader:' . $requestAction);
 
 // Detect if output received, just DIE
 $sent = headers_sent() || ob_get_status();

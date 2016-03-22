@@ -15,6 +15,7 @@
         <exclude name="PSR1.Files.SideEffects"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
     </rule>
     <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
     <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
@@ -64,6 +65,7 @@
     <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
     </rule>
+
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>
