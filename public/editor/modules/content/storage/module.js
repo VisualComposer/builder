@@ -18,6 +18,7 @@ vcCake.add('storage', function(api) {
     api.request('data:changed', documentData.children(false), 'update');
   });
   api.reply('data:move', function(id, action, related) {
+    console.log(action);
     if ('after' === action) {
       documentData.moveAfter(id, related);
     } else if ('append' === action) {

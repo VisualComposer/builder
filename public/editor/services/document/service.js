@@ -71,9 +71,9 @@ var api = {
   },
   resort: function(parentId, items) {
     parentId = dataStore.filterId(parentId);
-    items.forEach(function(id){
+    items.forEach(function(id) {
       var item = documentData.get(id);
-      if(item) {
+      if (item) {
         var order = items.indexOf(item.get('id'));
         item  = item.withMutations(function(map) {
           map
@@ -84,25 +84,44 @@ var api = {
       }
     }, this);
   },
-  moveBefore: function(id, before) {
+  moveBefore: function(id, beforeId) {
     var obj = documentData.get(id);
-    var beforeObj = documentData(before);
-    obj = obj.withMutations(function(map){
-
+    var before = documentData.get(beforeId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', before.get('order'))
+        .set('parent', before.get('parent'));
     });
+    documentData = documentData.set(obj.get('id'), obj);
+    dataStore.moveDownAfter(obj.get('id'), 1);
   },
-  moveAfter: function(id, after) {
-    console.log('after');
+  moveAfter: function(id, afterId) {
+    var obj = documentData.get(id);
+    var after = documentData.get(afterId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', after.get('order'))
+        .set('parent', after.get('parent'));
+    });
+    documentData = documentData.set(obj.get('id'), obj);
+    dataStore.moveDownAfter(after.get('id'), 1);
   },
-  prependTo: function(id, parent) {
-    console.log('prepend');
+  prependTo: function(id, parentId) {
+    var obj = documentData.get(id);
+    var parent = documentData.get(parentId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', documentData.getLastOrderIndex())
+        .set('parent', parent.get('parent'));
+    });
+    documentData = documentData.set(obj.get('id'), obj);
   },
   clone: function(id, parent) {
     var obj = documentData.get(id);
     var cloneId = dataStore.createKey();
     var clone = obj.withMutations(function(map) {
       map.set('id', cloneId);
-      if('undefined' !== typeof parent) {
+      if ('undefined' !== typeof parent) {
         map.set('parent', parent);
       } else {
         dataStore.cloneIndex  += 0.1;
