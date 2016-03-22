@@ -4,6 +4,7 @@ namespace VisualComposer;
 
 use VisualComposer\Framework\Application as ApplicationFactory;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher;
 
 /**
  * Main plugin instance which controls modules and helpers
@@ -149,10 +150,8 @@ class Application extends ApplicationFactory implements ApplicationContract
     {
         $this->singleton(
             'eventsHelper',
-            function () {
-                $this->register('VisualComposer\Framework\Illuminate\Events\EventServiceProvider');
-
-                return $this->make('eventsHelper');
+            function ($app) {
+                return (new Dispatcher($app));
             }
         );
     }

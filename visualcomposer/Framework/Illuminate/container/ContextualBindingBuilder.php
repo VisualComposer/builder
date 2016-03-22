@@ -23,7 +23,6 @@ class ContextualBindingBuilder implements Contract
      *
      * @param  \VisualComposer\Framework\Illuminate\Container\Container $container
      * @param  string $concrete
-     * @return void
      */
     public function __construct(Container $container, $concrete)
     {
@@ -48,7 +47,6 @@ class ContextualBindingBuilder implements Contract
      * Define the implementation for the contextual binding.
      *
      * @param  \Closure|string $implementation
-     * @return void
      */
     public function give($implementation)
     {

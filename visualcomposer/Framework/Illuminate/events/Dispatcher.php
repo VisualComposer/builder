@@ -1,7 +1,5 @@
 <?php namespace VisualComposer\Framework\Illuminate\Events;
 
-use Exception;
-use ReflectionClass;
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Support\Str;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -50,7 +48,6 @@ class Dispatcher implements DispatcherContract
      * Create a new event dispatcher instance.
      *
      * @param  \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
-     * @return void
      */
     public function __construct(ContainerContract $container = null)
     {
@@ -63,7 +60,6 @@ class Dispatcher implements DispatcherContract
      * @param  string|array $events
      * @param  mixed $listener
      * @param  int $priority
-     * @return void
      */
     public function listen($events, $listener, $priority = 0)
     {
@@ -71,7 +67,7 @@ class Dispatcher implements DispatcherContract
             if (Str::contains($event, '*')) {
                 $this->setupWildcardListen($event, $listener);
             } else {
-                $this->listeners[ $event ][ $priority ][] = $this->makeListener($listener);
+                $this->listeners[ $event ][ $priority ][] = $listener;
 
                 unset($this->sorted[ $event ]);
             }
@@ -83,11 +79,10 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string $event
      * @param  mixed $listener
-     * @return void
      */
     protected function setupWildcardListen($event, $listener)
     {
-        $this->wildcards[ $event ][] = $this->makeListener($listener);
+        $this->wildcards[ $event ][] = $listener;
     }
 
     /**
@@ -106,7 +101,6 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string $event
      * @param  array $payload
-     * @return void
      */
     public function push($event, $payload = [])
     {
@@ -122,7 +116,6 @@ class Dispatcher implements DispatcherContract
      * Register an event subscriber with the dispatcher.
      *
      * @param  object|string $subscriber
-     * @return void
      */
     public function subscribe($subscriber)
     {
@@ -176,7 +169,7 @@ class Dispatcher implements DispatcherContract
      */
     public function firing()
     {
-        return last($this->firing);
+        return end($this->firing);
     }
 
     /**
@@ -206,9 +199,10 @@ class Dispatcher implements DispatcherContract
         }
 
         $this->firing[] = $event;
-
+        /** @var \VisualComposer\Framework\Application $vcapp */
+        $vcapp = vcapp();
         foreach ($this->getListeners($event) as $listener) {
-            $response = vcapp()->call($listener, $payload);
+            $response = $vcapp->call($listener, $payload);
 
             // If a response is returned from the listener and event halting is enabled
             // we will just return this response, and not call the rest of the event
@@ -262,7 +256,7 @@ class Dispatcher implements DispatcherContract
         $wildcards = [];
 
         foreach ($this->wildcards as $key => $listeners) {
-            if (str_is($key, $eventName)) {
+            if (Str::is($key, $eventName)) {
                 $wildcards = array_merge($wildcards, $listeners);
             }
         }
@@ -294,149 +288,6 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event listener with the dispatcher.
-     *
-     * @param  mixed $listener
-     * @return mixed
-     */
-    public function makeListener($listener)
-    {
-        return is_string($listener) ? $this->createClassListener($listener) : $listener;
-    }
-
-    /**
-     * Create a class based listener using the IoC container.
-     *
-     * @param  mixed $listener
-     * @return \Closure
-     */
-    public function createClassListener($listener)
-    {
-        $container = $this->container;
-
-        return function () use ($listener, $container) {
-            return call_user_func_array(
-                $this->createClassCallable($listener, $container),
-                func_get_args()
-            );
-        };
-    }
-
-    /**
-     * Create the class based event callable.
-     *
-     * @param  string $listener
-     * @param  \VisualComposer\Illuminate\Container\Container $container
-     * @return callable
-     */
-    protected function createClassCallable($listener, $container)
-    {
-        list($class, $method) = $this->parseClassCallable($listener);
-
-        if ($this->handlerShouldBeQueued($class)) {
-            return $this->createQueuedHandlerCallable($class, $method);
-        } else {
-            return [$container->make($class), $method];
-        }
-    }
-
-    /**
-     * Parse the class listener into class and method.
-     *
-     * @param  string $listener
-     * @return array
-     */
-    protected function parseClassCallable($listener)
-    {
-        $segments = explode('@', $listener);
-
-        return [$segments[0], count($segments) == 2 ? $segments[1] : 'handle'];
-    }
-
-    /**
-     * Determine if the event handler class should be queued.
-     *
-     * @param  string $class
-     * @return bool
-     */
-    protected function handlerShouldBeQueued($class)
-    {
-        try {
-            return (new ReflectionClass($class))->implementsInterface(
-                'VisualComposer\Framework\Illuminate\Contracts\Queue\ShouldBeQueued'
-            );
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Create a callable for putting an event handler on the queue.
-     *
-     * @param  string $class
-     * @param  string $method
-     * @return \Closure
-     */
-    protected function createQueuedHandlerCallable($class, $method)
-    {
-        return function () use ($class, $method) {
-            $arguments = $this->cloneArgumentsForQueueing(func_get_args());
-
-            if (method_exists($class, 'queue')) {
-                $this->callQueueMethodOnHandler($class, $method, $arguments);
-            } else {
-                $this->resolveQueue()->push(
-                    'VisualComposer\Framework\Illuminate\Events\CallQueuedHandler@call',
-                    [
-                        'class' => $class,
-                        'method' => $method,
-                        'data' => serialize($arguments),
-                    ]
-                );
-            }
-        };
-    }
-
-    /**
-     * Clone the given arguments for queueing.
-     *
-     * @param  array $arguments
-     * @return array
-     */
-    protected function cloneArgumentsForQueueing(array $arguments)
-    {
-        return array_map(
-            function ($a) {
-                return is_object($a) ? clone $a : $a;
-            },
-            $arguments
-        );
-    }
-
-    /**
-     * Call the queue method on the handler class.
-     *
-     * @param  string $class
-     * @param  string $method
-     * @param  array $arguments
-     * @return void
-     */
-    protected function callQueueMethodOnHandler($class, $method, $arguments)
-    {
-        $handler = (new ReflectionClass($class))->newInstanceWithoutConstructor();
-
-        $handler->queue(
-            $this->resolveQueue(),
-            'VisualComposer\Framework\Illuminate\Events\CallQueuedHandler@call',
-            [
-                'class' => $class,
-                'method' => $method,
-                'data' => serialize($arguments),
-            ]
-        );
-    }
-
-    /**
      * Remove a set of listeners from the dispatcher.
      *
      * @param  string $event
@@ -455,32 +306,9 @@ class Dispatcher implements DispatcherContract
     public function forgetPushed()
     {
         foreach ($this->listeners as $key => $value) {
-            if (ends_with($key, '_pushed')) {
+            if (Str::endsWith($key, '_pushed')) {
                 $this->forget($key);
             }
         }
-    }
-
-    /**
-     * Get the queue implementation from the resolver.
-     *
-     * @return \VisualComposer\Illuminate\Contracts\Queue\Queue
-     */
-    protected function resolveQueue()
-    {
-        return call_user_func($this->queueResolver);
-    }
-
-    /**
-     * Set the queue resolver implementation.
-     *
-     * @param  callable $resolver
-     * @return $this
-     */
-    public function setQueueResolver(callable $resolver)
-    {
-        $this->queueResolver = $resolver;
-
-        return $this;
     }
 }

@@ -26,7 +26,6 @@ interface Container
      *
      * @param  array|string $abstracts
      * @param  array|mixed ...$tags
-     * @return void
      */
     public function tag($abstracts, $tags);
 
@@ -44,7 +43,6 @@ interface Container
      * @param  string|array $abstract
      * @param  \Closure|string|null $concrete
      * @param  bool $shared
-     * @return void
      */
     public function bind($abstract, $concrete = null, $shared = false);
 
@@ -54,7 +52,6 @@ interface Container
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
      * @param  bool $shared
-     * @return void
      */
     public function bindIf($abstract, $concrete = null, $shared = false);
 
@@ -63,7 +60,6 @@ interface Container
      *
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
-     * @return void
      */
     public function singleton($abstract, $concrete = null);
 
@@ -72,7 +68,6 @@ interface Container
      *
      * @param  string $abstract
      * @param  \Closure $closure
-     * @return void
      *
      * @throws \InvalidArgumentException
      */
@@ -83,7 +78,6 @@ interface Container
      *
      * @param  string $abstract
      * @param  mixed $instance
-     * @return void
      */
     public function instance($abstract, $instance);
 
@@ -127,7 +121,6 @@ interface Container
      *
      * @param  string $abstract
      * @param  \Closure $callback
-     * @return void
      */
     public function resolving($abstract, Closure $callback = null);
 
@@ -136,7 +129,6 @@ interface Container
      *
      * @param  string $abstract
      * @param  \Closure $callback
-     * @return void
      */
     public function afterResolving($abstract, Closure $callback = null);
 }
