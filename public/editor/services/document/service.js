@@ -38,7 +38,11 @@ var dataStore = {
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order');
     }).map((el) => {return el.get('id');}).toJS();
-    documentData = documentData.updateIn(keys, el => el.set('order', el.get('order') + step));
+    keys.forEach(function(elId){
+      var obj = documentData.get(elId);
+      obj = obj.set('order', obj.get('order') + step);
+      documentData = documentData.set(elId, obj);
+    }, this);
   }
 };
 
@@ -106,13 +110,13 @@ var api = {
     documentData = documentData.set(obj.get('id'), obj);
     dataStore.moveDownAfter(after.get('id'), 1);
   },
-  prependTo: function(id, parentId) {
+  appendTo: function(id, parentId) {
     var obj = documentData.get(id);
     var parent = documentData.get(parentId);
     obj = obj.withMutations(function(map) {
       map
-        .set('order', documentData.getLastOrderIndex())
-        .set('parent', parent.get('parent'));
+        .set('order', dataStore.getLastOrderIndex())
+        .set('parent', parent.get('id'));
     });
     documentData = documentData.set(obj.get('id'), obj);
   },

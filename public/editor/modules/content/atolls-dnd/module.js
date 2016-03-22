@@ -32,7 +32,7 @@ vcCake.add('content-atolls-dnd', function(api) {
     this.atolls.removeItem(id);
   };
   ModuleDnd.prototype.move = function(id, action, related) {
-    api.request('data:move', id, action, related);
+    api.request('data:move', id, {action: action, related: related});
   };
   new ModuleDnd(api);
 });
