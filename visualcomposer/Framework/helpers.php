@@ -34,3 +34,10 @@ if (!function_exists('vcevent')) {
         return vcapp('eventsHelper')->fire($event, $payload, $halt);
     }
 }
+
+if (!function_exists('vcview')) {
+    function vcview($path, $args = [], $echo = true)
+    {
+        return vcapp('templatesHelper')->render($path, $args, $echo);
+    }
+}

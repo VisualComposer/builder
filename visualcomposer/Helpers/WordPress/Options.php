@@ -14,7 +14,7 @@ class Options
      *
      * @return mixed
      */
-    public static function get($optionName, $default = false)
+    public function get($optionName, $default = false)
     {
         return get_option(VC_V_PREFIX . $optionName, $default);
     }
@@ -23,7 +23,7 @@ class Options
      * @param $optionName
      * @param $value
      */
-    public static function set($optionName, $value)
+    public function set($optionName, $value)
     {
         update_option(VC_V_PREFIX . $optionName, $value);
     }

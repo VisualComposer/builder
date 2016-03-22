@@ -42,15 +42,15 @@ class Application extends ApplicationFactory implements ApplicationContract
         // Settings & Settings Pages
         'settings' => 'VisualComposer\Modules\Settings\Controller',
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
-        'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
-        'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+        //'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
+        //'settingsPageAuthorization' => 'VisualComposer\Modules\Settings\Pages\Authorization',
+        //'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
         'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
     ];
     /**
      * List of system registred helpers
      * Notes:
-     *  - It will be singletons
-     *  - It was available by helperName -> vcapp('urlHelper')
+     *  - It will be singletons    *  - It was available by helperName -> vcapp('urlHelper')
      * @see \docs\php\Readme.md and \docs\php\api\API.md|Helpers.md
      * @var array
      */

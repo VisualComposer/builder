@@ -14,11 +14,13 @@ use VisualComposer\Framework\Container;
  */
 class General extends Container
 {
+    use Fields;
     use Page;
     /**
      * @var string
      */
-    private $pageSlug = 'vc-v-general';
+    protected $slug = 'vc-v-general';
+    protected $templatePath = 'settings/pages/general/index';
     /**
      * @var array
      */
@@ -35,49 +37,32 @@ class General extends Container
         'cyrillic-ext',
         'greek-ext',
     ];
-    /**
-     * @var \VisualComposer\Helpers\Generic\Templates
-     */
-    protected $templates;
 
     /**
      * General constructor.
      */
-    public function __construct(Templates $templates)
+    public function __construct()
     {
-        $this->templates = $templates;
         add_filter(
             'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
+            function ($pages) {
+                return $this->call('addPage', [$pages]);
             }
         );
 
         add_action(
-            'vc:v:settings:pageRender:' . $this->pageSlug,
+            'vc:v:settings:pageRender:' . $this->slug,
             function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
+                //$this->call('renderPage');
             }
         );
 
         add_action(
-            'vc:v:settings:initAdmin:page:' . $this->pageSlug,
+            'vc:v:settings:initAdmin:page:' . $this->slug,
             function () {
-                $args = func_get_args();
-                $this->call('buildPage', $args);
+               // $this->call('buildPage');
             }
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
     }
 
     /**
@@ -88,7 +73,7 @@ class General extends Container
     public function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->pageSlug,
+            'slug' => $this->slug,
             'title' => __('General Settings', 'vc5'),
         ];
 
@@ -97,14 +82,12 @@ class General extends Container
 
     /**
      * Page: General Settings
-     *
-     * @param SettingsController $SettingsController
      */
-    public function buildPage(SettingsController $SettingsController)
+    public function buildPage()
     {
-        $page = $this->pageSlug;
+        $page = $this->slug;
 
-        $SettingsController->addSection($page);
+        $this->addSection($page);
 
         // Disable responsive content elements
 
@@ -114,7 +97,7 @@ class General extends Container
             return $this->call('disableResponsiveFieldCallback', $args);
         };
 
-        $SettingsController->addField(
+        $this->addField(
             $page,
             __('Disable responsive content elements', 'vc5'),
             'not_responsive_css',
@@ -136,21 +119,13 @@ class General extends Container
             return $this->call('googleFontsSubsetsFieldCallback', $args);
         };
 
-        $SettingsController->addField(
+        $this->addField(
             $page,
             __('Google fonts subsets', 'vc5'),
             'google_fonts_subsets',
             $sanitizeCallback,
             $fieldCallback
         );
-    }
-
-    /**
-     * Render page
-     */
-    public function renderPage()
-    {
-        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/general/index')->render();
     }
 
     /**
@@ -188,11 +163,11 @@ class General extends Container
     /**
      * Not responsive checkbox callback function
      */
-    public function disableResponsiveFieldCallback()
+    public function disableResponsiveFieldCallback(Options $options)
     {
-        $checked = Options::get('not_responsive_css', false);
+        $checked = $options->get('not_responsive_css', false);
 
-        $this->templates->render(
+        vcview(
             'settings/pages/general/partials/disable-responsive',
             [
                 'checked' => $checked,
@@ -225,10 +200,11 @@ class General extends Container
 
     /**
      * Google fonts subsets callback
+     * @param \VisualComposer\Helpers\WordPress\Options $options
      */
-    public function googleFontsSubsetsFieldCallback()
+    public function googleFontsSubsetsFieldCallback(Options $options)
     {
-        $checkedSubsets = Options::get('google_fonts_subsets', $this->getGoogleFontsSubsets());
+        $checkedSubsets = $options->get('google_fonts_subsets', $this->getGoogleFontsSubsets());
 
         $excluded = $this->getGoogleFontsSubsetsExcluded();
         $subsets = [];
@@ -244,7 +220,7 @@ class General extends Container
             ];
         }
 
-        $this->templates->render(
+        vcview(
             'settings/pages/general/partials/google-fonts-subsets',
             [
                 'subsets' => $subsets,

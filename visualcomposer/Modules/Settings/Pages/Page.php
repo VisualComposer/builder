@@ -10,22 +10,6 @@ use VisualComposer\Helpers\Generic\Templates;
  */
 trait Page
 {
-    /**
-     * @var
-     */
-    protected $slug;
-    /**
-     * @var
-     */
-    protected $title;
-    /**
-     * @var
-     */
-    protected $templatePath;
-    /**
-     * @var array
-     */
-    protected $templateArgs = [];
 
     /**
      * @return string
@@ -119,6 +103,6 @@ trait Page
             ]
         );
 
-        vcapp('templatesHelper')->render($this->getTemplatePath(), $args);
+        vcview($this->getTemplatePath(), $args);
     }
 }

@@ -21,19 +21,19 @@ class Controller extends Container
     /**
      * @var null
      */
-    private $pages = null;
+    protected $pages = null;
     /**
      * @var string
      */
-    private $optionGroup = 'vc-v-settings';
+    protected $optionGroup = 'vc-v-settings';
     /**
      * @var string
      */
-    private $pageSlug = 'vc-v-settings';
+    protected $pageSlug = 'vc-v-settings';
     /**
      * @var string
      */
-    private $layout = 'default';
+    protected $layout = 'default';
 
     /**
      * @param Dispatcher $event
@@ -43,62 +43,30 @@ class Controller extends Container
         add_action(
             'admin_init',
             function () {
-                $args = func_get_args();
-                $this->call('initAdmin', $args);
+                $this->call('initAdmin');
             }
         );
 
         add_action(
             'admin_menu',
             function () {
-                $args = func_get_args();
-
-                return $this->call('addMenuPage', $args);
+                return $this->call('addMenuPage');
             }
         );
 
         add_action(
             'network_admin_menu',
             function () {
-                $args = func_get_args();
-
-                return $this->call('addMenuPage', $args);
+                return $this->call('addMenuPage');
             }
         );
 
         add_action(
             'vc:v:settings:mainPage:menuPageBuild',
             function () {
-                $args = func_get_args();
-                $this->call('addSubmenuPages', $args);
+                $this->call('addSubmenuPages');
             }
         );
-
-        do_action('vc:v:settings:initialize');
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOptionGroup()
-    {
-        return $this->optionGroup;
-    }
-
-    /**
-     * @param string $layout
-     */
-    public function setLayout($layout)
-    {
-        $this->layout = $layout;
     }
 
     /**
@@ -106,35 +74,37 @@ class Controller extends Container
      * This determines what page is opened when user clicks 'Visual Composer' in settings menu
      * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
      *
+     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
+     * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
      * @return string
+     * @throws \Exception
      */
-    public function getMainPageSlug(
-        Request $request,
+    private function getMainPageSlug(
         CurrentUserAccess $currentUserAccess,
         About $aboutPage,
         General $generalPage
     ) {
-        $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($generalPage->getPageSlug())
-                                        ->get()
+        $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($generalPage->getSlug())->get()
             || (is_multisite()
                 && !is_main_site());
 
         if ($hasAccess) {
-            return $aboutPage->getPageSlug();
+            return $aboutPage->getSlug();
         } else {
-            return $generalPage->getPageSlug();
+            return $generalPage->getSlug();
         }
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Url $url
+     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      */
-    public function addMenuPage(Url $url)
+    private function addMenuPage(Url $urlHelper)
     {
         $slug = $this->call('getMainPageSlug');
         $title = __('Visual Composer ', 'vc5');
 
-        $iconUrl = $url->assetUrl('images/logo/16x16.png');
+        $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 
         add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
 
@@ -145,7 +115,7 @@ class Controller extends Container
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
      * @throws \Exception
      */
-    public function addSubmenuPages(CurrentUserAccess $currentUserAccess)
+    private function addSubmenuPages(CurrentUserAccess $currentUserAccess)
     {
         if (!$currentUserAccess->wpAny('manage_options')->get()) {
             return;
@@ -165,8 +135,7 @@ class Controller extends Container
                     'manage_options',
                     $page['slug'],
                     function () {
-                        $args = func_get_args();
-                        $this->call('renderPage', $args);
+                        $this->call('renderPage');
                     }
                 );
             }
@@ -177,8 +146,10 @@ class Controller extends Container
 
     /**
      * @param Request $request
+     * @param \VisualComposer\Helpers\Generic\Data $data
+     * @param \VisualComposer\Helpers\Generic\Templates $templates
      */
-    public function renderPage(Request $request, Data $data, Templates $templates)
+    private function renderPage(Request $request, Data $data, Templates $templates)
     {
         $pageSlug = $request->input('page');
 
@@ -189,37 +160,38 @@ class Controller extends Container
         $layout = $this->layout;
 
         // pages can define different layout, by setting 'layout' key/value
-        $pages = $this->getPages();
-        $key = $data->arraySearch($pages, 'slug', $pageSlug);
-        if ($key !== false && isset($pages[ $key ]['layout'])) {
-            $layout = $pages[ $key ]['layout'];
+        $page = $data->arraySearch($this->getPages(), 'slug', $pageSlug);
+        if ($page) {
+            if (isset($page['layout'])) {
+                $layout = $page['layout'];
+            }
+            $templates->render(
+                'settings/layouts/' . $layout,
+                [
+                    'content' => $page['controller']->render(),
+                    'tabs' => $this->getPages(),
+                    'activeSlug' => $page['slug'],
+                ]
+            );
         }
-
-        $templates->render(
-            'settings/layouts/' . $layout,
-            [
-                'content' => $content,
-                'tabs' => $this->getPages(),
-                'activeSlug' => $pageSlug,
-            ]
-        );
     }
 
     /**
      * Init settings page
+     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      */
-    public function initAdmin(Url $url)
+    private function initAdmin(Url $urlHelper)
     {
         wp_register_script(
             VC_V_PREFIX . 'scripts-settings',
-            $url->assetUrl('scripts/dist/settings.min.js'),
+            $urlHelper->assetUrl('scripts/dist/settings.min.js'),
             [],
             VC_V_VERSION,
             true
         );
         wp_enqueue_style(
             VC_V_PREFIX . 'styles-settings',
-            $url->assetUrl('styles/dist/settings.min.css'),
+            $urlHelper->assetUrl('styles/dist/settings.min.css'),
             false,
             VC_V_VERSION,
             false
@@ -229,121 +201,17 @@ class Controller extends Container
         foreach ($this->getPages() as $page) {
             do_action('vc:v:settings:initAdmin:page:' . $page['slug']);
         }
-
-        do_action('vc:v:settings:initAdmin');
     }
 
     /**
      * @return mixed
      */
-    public function getPages()
+    private function getPages()
     {
         if (is_null($this->pages)) {
             $this->pages = apply_filters('vc:v:settings:getPages', []);
         }
 
         return $this->pages;
-    }
-
-    /**
-     * @param $page
-     * @param $title
-     * @param $callback
-     */
-    public function addSection($page, $title = null, $callback = null)
-    {
-        if (!$callback) {
-            $callback = function () {
-                $args = func_get_args();
-
-                return $this->call('settingSectionCallbackFunction', $args);
-            };
-        }
-
-        add_settings_section(
-            $this->getOptionGroup() . '_' . $page,
-            $title,
-            $callback,
-            $this->getPageSlug() . '_' . $page
-        );
-    }
-
-    /**
-     * Create field in section.
-     *
-     * @param $page
-     * @param $title
-     * @param $fieldName
-     * @param $sanitizeCallback
-     * @param $fieldCallback
-     * @param array $args
-     *
-     * @return self
-     */
-    public function addField($page, $title, $fieldName, $sanitizeCallback = null, $fieldCallback = null, $args = [])
-    {
-        if (!$sanitizeCallback) {
-            $sanitizeCallback = function () {
-                $args = func_get_args();
-
-                return $this->call('addFieldSanitizeCallback', $args);
-            };
-        }
-
-        if (!$fieldCallback) {
-            $fieldCallback = function () {
-                $args = func_get_args();
-
-                return $this->call('addFieldFieldCallback', $args);
-            };
-        }
-
-        register_setting($this->getOptionGroup() . '_' . $page, VC_V_PREFIX . $fieldName, $sanitizeCallback);
-        add_settings_field(
-            VC_V_PREFIX . $fieldName,
-            $title,
-            $fieldCallback,
-            $this->getPageSlug() . '_' . $page,
-            $this->getOptionGroup() . '_' . $page,
-            $args
-        );
-
-        return $this;
-    }
-
-    /**
-     * Callback function for settings section
-     *
-     * @param string $section
-     *
-     * @return string
-     */
-    public function settingSectionCallbackFunction($section)
-    {
-        return $section;
-    }
-
-    /**
-     * Callback function for addField sanitize
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    public function addFieldSanitizeCallback($value)
-    {
-        return $value;
-    }
-
-    /**
-     * Callback function for addField field
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    public function addFieldFieldCallback($value)
-    {
-        return $value;
     }
 }

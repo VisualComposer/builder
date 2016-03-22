@@ -16,7 +16,7 @@ class About extends Container
     /**
      * @var string
      */
-    private $pageSlug = 'vc-v-about';
+    private $slug = 'vc-v-about';
     /**
      * @var string
      */
@@ -33,18 +33,15 @@ class About extends Container
     {
         add_filter(
             'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
+            function ($pages) {
+                return $this->call('addPage', [$pages]);
             }
         );
 
         add_action(
-            'vc:v:settings:pageRender:' . $this->getPageSlug(),
+            'vc:v:settings:pageRender:' . $this->getSlug(),
             function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
+                $this->call('render');
             }
         );
 
@@ -71,14 +68,6 @@ class About extends Container
     }
 
     /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
-    }
-
-    /**
      * @return array
      */
     public function getTabs()
@@ -94,7 +83,7 @@ class About extends Container
     public function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->getPageSlug(),
+            'slug' => $this->getSlug(),
             'title' => __('About', 'vc5'),
             'layout' => 'standalone',
             'showTab' => false,
@@ -115,12 +104,12 @@ class About extends Container
             && (!is_multisite() || !is_main_site());
         $args = [
             'tabs' => $this->getTabs(),
-            'pageSlug' => $this->getPageSlug(),
+            'pageSlug' => $this->getSlug(),
             'activeSlug' => $request->input('tab', $this->defaultTabSlug),
             'hasAccessToSettings' => $hasAccessToSettings,
         ];
 
-        $this->setSlug($this->getPageSlug())->setTemplatePath('settings/pages/about/index')->setTemplateArgs($args)
+        $this->setSlug($this->getSlug())->setTemplatePath('settings/pages/about/index')->setTemplateArgs($args)
              ->render();
     }
 }

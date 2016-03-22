@@ -23,7 +23,7 @@ class Data
         foreach ($array as $key => $innerArray) {
             $exists = isset($innerArray[ $column ]) && $innerArray[ $column ] == $value;
             if ($exists) {
-                return $key;
+                return $innerArray;
             }
         }
 

@@ -5,27 +5,28 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Container;
 
 /**
- * Class License
+ * Class Authorization
  * @package VisualComposer\Modules\Settings\Pages
  */
-class License extends Container
+class Authorization extends Container
 {
     use Page;
-    /**
-     * @var string
-     */
-    protected $slug = 'vc-v-license';
-    protected $templatePath = 'settings/pages/license/index';
+    protected $slug = 'vc-v-auth';
+    protected $templatePath = 'settings/pages/auth/index';
 
-    /**
-     * License constructor.
-     */
     public function __construct()
     {
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
                 return $this->call('addPage', [$pages]);
+            }
+        );
+
+        add_action(
+            'vc:v:settings:pageRender:' . $this->slug,
+            function () {
+                $this->call('render');
             }
         );
     }
@@ -39,8 +40,7 @@ class License extends Container
     {
         $pages[] = [
             'slug' => $this->slug,
-            'title' => __('Product License', 'vc5'),
-            'controller' => $this,
+            'title' => __('Authorize Site', 'vc5'),
         ];
 
         return $pages;
