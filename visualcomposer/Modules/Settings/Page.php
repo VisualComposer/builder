@@ -1,8 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings\Pages;
-
-use VisualComposer\Helpers\Generic\Templates;
+namespace VisualComposer\Modules\Settings;
 
 /**
  * Class Page

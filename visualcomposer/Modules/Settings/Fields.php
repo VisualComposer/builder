@@ -1,5 +1,5 @@
 <?php
-namespace VisualComposer\Modules\Settings\Pages;
+namespace VisualComposer\Modules\Settings;
 
 trait Fields
 {

@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Page;
 
 /**
  * Class License

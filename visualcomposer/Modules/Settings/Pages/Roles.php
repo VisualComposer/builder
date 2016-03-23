@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Access\Role\Access;
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Page;
 
 /**
  * Class Roles
