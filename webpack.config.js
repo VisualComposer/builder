@@ -27,7 +27,7 @@ module.exports = {
         'content/storage',
         'content/layout',
         'content/editor-controls',
-        'content/atolls-dnd',
+        'content/atolls-2-dnd',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
