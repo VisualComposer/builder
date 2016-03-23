@@ -100,7 +100,10 @@ trait Page
      */
     public function render()
     {
+        /** @var $this IgnoreMethod */
+        /** @ignore ->call() is available [phpStorm] bug */
         $this->call('beforeRender');
+        /** @var $this Page */
         $args = array_merge(
             $this->getTemplateArgs(),
             [
