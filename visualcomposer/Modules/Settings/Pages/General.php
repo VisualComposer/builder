@@ -43,6 +43,8 @@ class General extends Container
      */
     public function __construct()
     {
+        $this->optionGroup = 'vc-v-general';
+        $this->optionSlug = 'vc-v-general';
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
@@ -50,12 +52,12 @@ class General extends Container
             }
         );
 
-       /* add_action(
+        add_action(
             'vc:v:settings:initAdmin:page:' . $this->getSlug(),
             function () {
                 $this->call('buildPage');
             }
-        );*/
+        );
     }
 
     /**
@@ -79,46 +81,42 @@ class General extends Container
      */
     public function buildPage()
     {
-        $page = $this->slug;
-
-        $this->addSection($page);
+        $this->addSection(
+            [
+                'page' => $this->getSlug(),
+            ]
+        );
 
         // Disable responsive content elements
-
-        $fieldCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('disableResponsiveFieldCallback', $args);
+        $fieldCallback = function ($data) {
+            return $this->call('disableResponsiveFieldCallback', [$data]);
         };
 
         $this->addField(
-            $page,
-            __('Disable responsive content elements', 'vc5'),
-            'not_responsive_css',
-            null,
-            $fieldCallback
+            [
+                'page' => $this->getSlug(),
+                'title' => __('Disable responsive content elements', 'vc5'),
+                'name' => 'not_responsive_css',
+                'fieldCallback' => $fieldCallback,
+            ]
         );
 
         // Google fonts subsets
-
-        $sanitizeCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', $args);
+        $sanitizeCallback = function ($data) {
+            return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', [$data]);
         };
-
-        $fieldCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('googleFontsSubsetsFieldCallback', $args);
+        $fieldCallback = function ($data) {
+            return $this->call('googleFontsSubsetsFieldCallback', [$data]);
         };
 
         $this->addField(
-            $page,
-            __('Google fonts subsets', 'vc5'),
-            'google_fonts_subsets',
-            $sanitizeCallback,
-            $fieldCallback
+            [
+                'page' => $this->getSlug(),
+                'title' => __('Google fonts subsets', 'vc5'),
+                'name' => 'google_fonts_subsets',
+                'fieldCallback' => $fieldCallback,
+                'sanitizeCallback' => $sanitizeCallback,
+            ]
         );
     }
 
@@ -157,7 +155,7 @@ class General extends Container
     /**
      * Not responsive checkbox callback function
      */
-    public function disableResponsiveFieldCallback(Options $options)
+    private function disableResponsiveFieldCallback(Options $options)
     {
         $checked = $options->get('not_responsive_css', false);
 
@@ -174,7 +172,7 @@ class General extends Container
      *
      * @return array
      */
-    public function sanitizeGoogleFontsSubsetsFieldCallback($subsetsToSanitize)
+    private function sanitizeGoogleFontsSubsetsFieldCallback($subsetsToSanitize)
     {
         $sanitized = [];
 
@@ -196,7 +194,7 @@ class General extends Container
      * Google fonts subsets callback
      * @param \VisualComposer\Helpers\WordPress\Options $options
      */
-    public function googleFontsSubsetsFieldCallback(Options $options)
+    private function googleFontsSubsetsFieldCallback(Options $options)
     {
         $checkedSubsets = $options->get('google_fonts_subsets', $this->getGoogleFontsSubsets());
 
