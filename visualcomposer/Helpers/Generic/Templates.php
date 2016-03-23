@@ -12,36 +12,36 @@ class Templates
     /**
      * Render template
      *
-     * @param string $path Path to view to render. Must be relative to /visualcomposer/resources/views/
+     * @param string $_path Path to view to render. Must be relative to /visualcomposer/resources/views/
      *   Extension ".php" can be ommited
-     * @param array $args Arguments to pass to view
-     * @param bool $echo If false, only return results
+     * @param array $_args Arguments to pass to view
+     * @param bool $_echo If false, only return results
      *
      * @return string Rendered view
      */
-    public function render($path, $args = [], $echo = true)
+    public function render($_path, $_args = [], $_echo = true)
     {
-        if (strtolower(substr($path, -4, 4)) !== '.php') {
-            $path .= '.php';
+        if (strtolower(substr($_path, -4, 4)) !== '.php') {
+            $_path .= '.php';
         }
 
         ob_start();
 
-        extract($args);
+        extract($_args);
 
-        $path = apply_filters(
+        $_path = apply_filters(
             'vc:v:helpers:templates:render',
-            VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim($path, '/\\'),
-            $path,
-            $args,
-            $echo
+            VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim($_path, '/\\'),
+            $_path,
+            $_args,
+            $_echo
         );
         /** @noinspection PhpIncludeInspection */
-        include($path);
+        include($_path);
 
         $content = ob_get_clean();
 
-        if ($echo) {
+        if ($_echo) {
             echo $content;
         }
 

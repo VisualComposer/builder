@@ -42,9 +42,9 @@ class Application extends ApplicationFactory implements ApplicationContract
         // Settings & Settings Pages
         'settings' => 'VisualComposer\Modules\Settings\Controller',
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
-        //'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
-        //'settingsPageAuthorization' => 'VisualComposer\Modules\Settings\Pages\Authorization',
-        //'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
+        'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
+        'settingsPageAuthorization' => 'VisualComposer\Modules\Settings\Pages\Authorization',
+        'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
         'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
     ];
     /**

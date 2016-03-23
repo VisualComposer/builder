@@ -10,13 +10,9 @@ trait Fields
      */
     protected function addSection($page, $title = null, $callback = null)
     {
-        if (!$callback) {
-            $callback = function () {
-                $args = func_get_args();
-
-                return $this->call('sectionCallback', $args);
-            };
-        }
+        $defaultCallback = function ($data) {
+            return $data;
+        };
 
         add_settings_section(
             $this->getOptionGroup() . '_' . $page,
@@ -37,21 +33,9 @@ trait Fields
      */
     protected function addField($page, $title, $fieldData)
     {
-        if (!$sanitizeCallback) {
-            $sanitizeCallback = function () {
-                $args = func_get_args();
-
-                return $this->call('fieldSanitizeCallback', $args);
-            };
-        }
-
-        if (!$fieldCallback) {
-            $fieldCallback = function () {
-                $args = func_get_args();
-
-                return $this->call('fieldCallback', $args);
-            };
-        }
+        $defaultCallback = function ($data) {
+            return $data;
+        };
 
         register_setting($this->getOptionGroup() . '_' . $page, VC_V_PREFIX . $fieldName, $sanitizeCallback);
         add_settings_field(
@@ -64,41 +48,5 @@ trait Fields
         );
 
         return $this;
-    }
-
-    /**
-     * Callback function for settings section
-     *
-     * @param string $section
-     *
-     * @return string
-     */
-    protected function sectionCallback($section)
-    {
-        return $section;
-    }
-
-    /**
-     * Callback function for addField sanitize
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    protected function fieldSanitizeCallback($value)
-    {
-        return $value;
-    }
-
-    /**
-     * Callback function for addField field
-     *
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    protected function fieldCallback($value)
-    {
-        return $value;
     }
 }

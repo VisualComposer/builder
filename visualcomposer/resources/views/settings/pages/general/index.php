@@ -4,11 +4,6 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-$settings = vcapp('settings');
-$optionGroup = $settings->getOptionGroup();
-$pageSlug = $settings->getPageSlug();
-$tab = $page->getSlug();
-
 ?>
 <script type="text/javascript">
     var vcAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';

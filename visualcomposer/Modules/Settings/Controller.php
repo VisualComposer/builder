@@ -147,29 +147,24 @@ class Controller extends Container
     /**
      * @param Request $request
      * @param \VisualComposer\Helpers\Generic\Data $data
-     * @param \VisualComposer\Helpers\Generic\Templates $templates
      */
-    private function renderPage(Request $request, Data $data, Templates $templates)
+    private function renderPage(Request $request, Data $data)
     {
         $pageSlug = $request->input('page');
-
-        ob_start();
-        do_action('vc:v:settings:pageRender:' . $pageSlug, $pageSlug);
-        $content = ob_get_clean();
-
         $layout = $this->layout;
 
-        // pages can define different layout, by setting 'layout' key/value
-        $page = $data->arraySearch($this->getPages(), 'slug', $pageSlug);
+        $pages = $this->getPages();
+        $page = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($page) {
+            // pages can define different layout, by setting 'layout' key/value
             if (isset($page['layout'])) {
                 $layout = $page['layout'];
             }
-            $templates->render(
+            vcview(
                 'settings/layouts/' . $layout,
                 [
                     'content' => $page['controller']->render(),
-                    'tabs' => $this->getPages(),
+                    'tabs' => $pages,
                     'activeSlug' => $page['slug'],
                 ]
             );
@@ -206,7 +201,7 @@ class Controller extends Container
     /**
      * @return mixed
      */
-    private function getPages()
+    public function getPages()
     {
         if (is_null($this->pages)) {
             $this->pages = apply_filters('vc:v:settings:getPages', []);

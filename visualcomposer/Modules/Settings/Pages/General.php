@@ -50,19 +50,12 @@ class General extends Container
             }
         );
 
-        add_action(
-            'vc:v:settings:pageRender:' . $this->slug,
+       /* add_action(
+            'vc:v:settings:initAdmin:page:' . $this->getSlug(),
             function () {
-                //$this->call('renderPage');
+                $this->call('buildPage');
             }
-        );
-
-        add_action(
-            'vc:v:settings:initAdmin:page:' . $this->slug,
-            function () {
-               // $this->call('buildPage');
-            }
-        );
+        );*/
     }
 
     /**
@@ -70,11 +63,12 @@ class General extends Container
      *
      * @return array
      */
-    public function addPage($pages)
+    private function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->slug,
+            'slug' => $this->getSlug(),
             'title' => __('General Settings', 'vc5'),
+            'controller' => $this,
         ];
 
         return $pages;

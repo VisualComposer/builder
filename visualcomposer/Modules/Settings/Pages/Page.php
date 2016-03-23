@@ -10,6 +10,8 @@ use VisualComposer\Helpers\Generic\Templates;
  */
 trait Page
 {
+    protected $templateArgs = [];
+    protected $title = '';
 
     /**
      * @return string
@@ -91,18 +93,26 @@ trait Page
         return $this;
     }
 
+    protected function beforeRender()
+    {
+    }
+
     /**
      * Render page
      */
     public function render()
     {
+        $this->call('beforeRender');
         $args = array_merge(
             $this->getTemplateArgs(),
             [
-                'page' => $this,
+                'controller' => $this,
+                'slug' => $this->getSlug(),
+                'title' => $this->getTitle(),
+                'path' => $this->getTemplatePath(),
             ]
         );
 
-        vcview($this->getTemplatePath(), $args);
+        return vcview($this->getTemplatePath(), $args, false);
     }
 }

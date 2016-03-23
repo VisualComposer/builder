@@ -16,7 +16,8 @@ class Roles extends Container
     /**
      * @var string
      */
-    protected $pageSlug = 'vc-v-roles';
+    protected $slug = 'vc-v-roles';
+    protected $templatePath = 'settings/pages/roles/index';
     /**
      * @var bool
      */
@@ -35,9 +36,9 @@ class Roles extends Container
         'post_settings',
         'settings',
         'templates',
-        'shortcodes',
-        'grid_builder',
-        'presets',
+        //'shortcodes',
+        //'grid_builder',
+        //'presets',
     ];
 
     /**
@@ -47,28 +48,33 @@ class Roles extends Container
     {
         add_filter(
             'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
-            }
-        );
-
-        add_action(
-            'vc:v:settings:pageRender:' . $this->pageSlug,
-            function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
+            function ($pages) {
+                return $this->call('addPage', [$pages]);
             }
         );
 
         add_action(
             'wp_ajax_vc_roles_settings_save',
             function () {
-                $args = func_get_args();
-                $this->call('saveSettings', $args);
+                $this->call('saveSettings');
             }
         );
+    }
+
+    /**
+     * @param array $pages
+     *
+     * @return array
+     */
+    private function addPage($pages)
+    {
+        $pages[] = [
+            'slug' => $this->getSlug(),
+            'title' => __('Role Manager', 'vc5'),
+            'controller' => $this,
+        ];
+
+        return $pages;
     }
 
     /**
@@ -78,7 +84,7 @@ class Roles extends Container
      */
     public function getParts()
     {
-        return apply_filters('vc:v:access:roles:getParts', $this->parts);
+        return apply_filters('vc:v:settings:pages:roles:getParts', $this->parts);
     }
 
     /**
@@ -187,7 +193,7 @@ class Roles extends Container
     {
         if (false === $this->excludedPostTypes) {
             $this->excludedPostTypes = apply_filters(
-                'vc:v:access:roles:getExcludedPostTypes',
+                'vc:v:settings:pages:roles:getExcludedPostTypes',
                 [
                     'attachment',
                     'revision',
@@ -208,45 +214,12 @@ class Roles extends Container
      */
     public function saveSettings(Request $request, Access $roleAccess)
     {
-        $field = 'vc_settings-' . $this->getPageSlug() . '-action';
+        $field = 'vc_settings-' . $this->getSlug() . '-action';
 
         if (check_admin_referer($field, 'vc_nonce_field') && current_user_can('manage_options')) {
             $data = $this->save($request->input('vc_roles', []), $roleAccess);
             wp_send_json($data);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
-    }
-
-    /**
-     * @param array $pages
-     *
-     * @return array
-     */
-    public function addPage($pages)
-    {
-        $pages[] = [
-            'slug' => $this->pageSlug,
-            'title' => __('Role Manager', 'vc5'),
-        ];
-
-        return $pages;
-    }
-
-    /**
-     * Render page
-     */
-    public function renderPage()
-    {
-        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/roles/index')->setTemplateArgs(
-            ['Roles' => $this]
-        )->render();
     }
 
     /**

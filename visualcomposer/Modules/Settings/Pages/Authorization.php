@@ -22,13 +22,6 @@ class Authorization extends Container
                 return $this->call('addPage', [$pages]);
             }
         );
-
-        add_action(
-            'vc:v:settings:pageRender:' . $this->slug,
-            function () {
-                $this->call('render');
-            }
-        );
     }
 
     /**
@@ -39,8 +32,9 @@ class Authorization extends Container
     private function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->slug,
+            'slug' => $this->getSlug(),
             'title' => __('Authorize Site', 'vc5'),
+            'controller' => $this,
         ];
 
         return $pages;

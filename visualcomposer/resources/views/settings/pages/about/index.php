@@ -33,6 +33,7 @@ if (!defined('ABSPATH')) {
     <p class="vc-page-actions">
 
         <?php
+        /** @var $hasAccessToSettings bool */
         if ($hasAccessToSettings) : ?>
             <a href="<?php echo esc_attr(admin_url('admin.php?page=vc-general')) ?>" class="button button-primary">
                 <?php echo __('Settings', 'vc5') ?>
@@ -49,18 +50,18 @@ if (!defined('ABSPATH')) {
             data-size="large">Tweet</a>
     </p>
     <?php
-    vcapp('templatesHelper')->render(
+    vcview(
         'settings/pages/about/partials/tabs',
         [
-            'activeSlug' => $activeSlug,
-            'pageSlug' => $pageSlug,
+            'activeTabSlug' => $activeTabSlug,
+            'slug' => $slug,
             'tabs' => $tabs,
         ]
     );
 
     foreach ($tabs as $tab) :
-        if ($tab['slug'] === $activeSlug) {
-            vcapp('templatesHelper')->render($tab['view']);
+        if ($tab['slug'] === $activeTabSlug) {
+            vcview($tab['view']);
         }
     endforeach;
     ?>

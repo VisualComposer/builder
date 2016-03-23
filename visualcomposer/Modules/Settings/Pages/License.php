@@ -38,7 +38,7 @@ class License extends Container
     private function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->slug,
+            'slug' => $this->getSlug(),
             'title' => __('Product License', 'vc5'),
             'controller' => $this,
         ];
