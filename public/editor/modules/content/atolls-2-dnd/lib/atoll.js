@@ -9,7 +9,8 @@ var Atoll = function(id, options) {
   this.id = id;
   this.options = _.defaults(options, {
     cancelMove: false,
-    moveCallback: function(){}
+    moveCallback: function() {
+    }
   });
   this.el = document.querySelector('[data-vc-element="' + this.id + '"]');
   this.$el = $(this.el);
@@ -26,6 +27,7 @@ Atoll.prototype.init = function() {
 Atoll.prototype.getPosition = function(position) {
   var rect = this.getRect(),
     offset = this.getOffset(),
+    w = 23,
     point;
   if ('top' === position) {
     point = {
@@ -52,6 +54,36 @@ Atoll.prototype.getPosition = function(position) {
       y: offset.top + rect.height / 2,
       x: offset.left + rect.width / 2
     };
+  } else if ('top-left' === position) {
+    point = {
+      y: offset.top,
+      x: offset.left + w
+    };
+  } else if ('top-right' === position) {
+    point = {
+      y: offset.top,
+      x: offset.left + rect.width - w
+    };
+  } else if ('bottom-left' === position) {
+    point = {
+      y: offset.top + rect.height,
+      x: offset.left + w
+    };
+  } else if ('bottom-right' === position) {
+    point = {
+      y: offset.top + rect.height,
+      x: offset.left + rect.width
+    };
+  } else if ('center-left' === position) {
+    point = {
+      y: offset.top + rect.height / 2,
+      x: offset.left + w // @todo set custom value
+    };
+  } else if ('center-right' === position) {
+    point = {
+      y: offset.top + rect.height / 2,
+      x: offset.left + rect.width - w
+    };
   }
   return point;
 };
@@ -74,14 +106,31 @@ Atoll.prototype.setControls = function() {
   var inline = style.display.match(/inline/);
   var before = inline ? 'left' : 'top';
   var after = inline ? 'right' : 'bottom';
-  this.controls = [
-    this.createControl(before)
-  ];
+  if ('left' === before) {
+    this.controls = [
+      this.createControl(before)
+    ];
+  } else {
+    this.controls = [
+      this.createControl(before),
+      // this.createControl(before + '-left'),
+      // this.createControl(before + '-right')
+    ];
+  }
+
   if (Array.prototype.indexOf.call(this.el.parentNode.children, this.el) === this.el.parentNode.children.length - 1) {
-    this.controls.push(this.createControl(after));
+    if ('left' === before) {
+      this.controls.push(this.createControl(after));
+    } else {
+      this.controls.push(this.createControl(after));
+      // this.controls.push(this.createControl(after + '-left'));
+      // this.controls.push(this.createControl(after + '-right'));
+    }
   }
   if ('container' === this.el.getAttribute('data-vc-element-type') && this.$el.find('[data-vc-element]').length == 0) {
     this.controls.push(this.createControl('center'));
+    // this.controls.push(this.createControl('center-left'));
+    // this.controls.push(this.createControl('center-right'));
   }
 };
 Atoll.prototype.checkControls = function(radius, center) {
@@ -106,7 +155,7 @@ Atoll.prototype.hasNearestControl = function(nearestControl, center) {
   this.controls.forEach(function(control) {
     var rect = control.getRect();
     var distance = Math.sqrt(Math.pow(Math.abs(center.y - rect.top), 2) + Math.pow(Math.abs(center.x - rect.left), 2));
-    if(null === nearestControl.distance || nearestControl.distance > distance) {
+    if (null === nearestControl.distance || nearestControl.distance > distance) {
       nearestControl = {
         control: control,
         distance: distance
@@ -129,8 +178,8 @@ Atoll.prototype.off = function(event, callback, capture) {
 Atoll.prototype.createControl = function(position) {
   var control = new AtollControl();
   var cord = this.getPosition(position);
-  var dropPosition = 'center' === position ?
-    'append' : 'top' === position || 'left' === position ? 'before' : 'after';
+  var dropPosition = position.match(/center/) ?
+    'append' : position.match(/^top/) || 'left' === position ? 'before' : 'after';
   control
     .setPosition(cord)
     .setDropPosition(dropPosition)
