@@ -1,0 +1,72 @@
+.vcv-atolls-hover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 0;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: block;
+  opacity: 0;
+  transition: opacity .3s ease;
+  &.vcv-visible {
+    height: 100%;
+    opacity: 0.4;
+  }
+}
+.vcv-drag-helper {
+  position: absolute;
+  z-index: 10003;
+  background-color: #6dab3c;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  white-space: nowrap;
+  display: none;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'VC-Icons' !important;
+  // transition: all 0.25s ease-in-out;
+  &::before {
+    content: "\e912";
+    font-size: 1.25em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &.vcv-visible {
+    display: flex;
+  }
+}
+@vcv-dnd-frame-border-color: #6dab3c;
+#vcv-dnd-frame {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1000;
+  &.vcv-dnd-frame- {
+    &top {
+      border-top: 3px solid @vcv-dnd-frame-border-color;
+    }
+    &bottom {
+      border-bottom: 3px solid @vcv-dnd-frame-border-color;
+    }
+    &left {
+      border-left: 3px solid @vcv-dnd-frame-border-color;
+    }
+    &right {
+      border-right: 3px solid @vcv-dnd-frame-border-color;
+    }
+    &center {
+      border: 3px solid @vcv-dnd-frame-border-color;
+    }
+  }
+}
