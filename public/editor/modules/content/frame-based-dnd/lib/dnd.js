@@ -108,10 +108,13 @@ Builder.prototype.checkItems = function(point) {
 
     var positionY = point.y - (offset.top + rect.height / 2);
     var positionX = point.x - (offset.left + rect.width / 2);
+
+    console.log('X:' + positionX + ' ratio: ' + Math.abs(positionX) / rect.width);
+    console.log('Y:' + positionY + ' ratio: ' + Math.abs(positionY) / rect.height);
     if(
       'container' === element.getAttribute('data-vc-element-type') &&
       $(element).find('[data-vc-element]').length == 0 &&
-      Math.abs(positionX) / rect.width < 0.2 && Math.abs(positionY) / rect.height < 0.2
+      Math.abs(positionY) / rect.height < 0.3
     ) {
       this.position = 'append';
       this.frame.classList.add('vcv-dnd-frame-center');
@@ -159,7 +162,6 @@ Builder.prototype.handleDragEnd = function(e) {
   this.forgetMouse();
   this.hideControls();
   this.removeFrame();
-  console.log('drag end');
   if ('function' === typeof this.options.endCallback) {
     this.options.endCallback(this.dragingElement);
   }
