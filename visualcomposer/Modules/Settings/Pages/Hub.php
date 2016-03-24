@@ -3,8 +3,8 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Curl\Curl;
+use VisualComposer\Helpers\Generic\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -38,31 +38,25 @@ class Hub extends Container
     }
 
     /**
+     * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
+     * @param \VisualComposer\Framework\Curl\Curl $curl
      * @return array
      */
-    public function getDataFromHub()
+    public function getDataFromHub(Token $tokenHelper, Curl $curl)
     {
-        /** @var Options $options */
-        $options = vcapp('optionsHelper');
-        $token = $options->get('page-auth-token');
+        $token = $tokenHelper->getToken();
         if ($token) {
             // post to the API to get token
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://test.account.visualcomposer.io/api/elements");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt(
-                $ch,
-                CURLOPT_HTTPHEADER,
-                [
-                    'Authorization: Bearer ' . $token,
-                    'Accept: application/vnd.vc.v1+json',
-                ]
+            $response = json_decode(
+                $curl->newRequest('get', 'http://test.account.visualcomposer.io/api/elements')->setHeaders(
+                    [
+                        'Authorization' => 'Bearer ' . $token,
+                        'Accept' => 'application/vnd.vc.v1+json',
+                    ]
+                )->send()->body
             );
-            $response = curl_exec($ch);
-            $responseJson = json_decode($response);
-            curl_close($ch);
 
-            return $responseJson;
+            return $response;
         } else {
             return ['status' => 'failed', 'message' => 'invalid token&code'];
         }

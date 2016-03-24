@@ -29,6 +29,7 @@ class Application extends Container implements ApplicationContract
      * @var array
      */
     protected $loadedProviders = [];
+    protected $basePath;
 
     /**
      * Create a new Lumen application instance.

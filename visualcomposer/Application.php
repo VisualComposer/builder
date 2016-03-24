@@ -66,6 +66,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         'fileHelper' => 'VisualComposer\Helpers\WordPress\File',
         'nonceHelper' => 'VisualComposer\Helpers\WordPress\Nonce',
         'optionsHelper' => 'VisualComposer\Helpers\WordPress\Options',
+        'tokenHelper' => 'VisualComposer\Helpers\WordPress\Token',
         // Other helpers
         'currentUserAccessHelper' => 'VisualComposer\Helpers\Generic\Access\CurrentUser\Access',
         'roleAccessHelper' => 'VisualComposer\Helpers\Generic\Access\Role\Access',
