@@ -47,23 +47,24 @@
     display: flex;
   }
 }
-@vcv-dnd-frame-border-color: #6dab3c;
+@vcv-dnd-frame-border-color: red;
+@vcv-dnd-frame-border-width: 4px;
 #vcv-dnd-frame {
   pointer-events: none;
   position: absolute;
   z-index: 1000;
   &.vcv-dnd-frame- {
     &top {
-      border-top: 3px solid @vcv-dnd-frame-border-color;
+      border-top: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
     }
     &bottom {
-      border-bottom: 3px solid @vcv-dnd-frame-border-color;
+      border-bottom: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
     }
     &left {
-      border-left: 3px solid @vcv-dnd-frame-border-color;
+      border-left: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
     }
     &right {
-      border-right: 3px solid @vcv-dnd-frame-border-color;
+      border-right: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
     }
     &center {
       border: 3px solid @vcv-dnd-frame-border-color;

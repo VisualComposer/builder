@@ -106,9 +106,11 @@ Builder.prototype.checkItems = function(point) {
     }, ''));
     this.currentElement = element.getAttribute('data-vc-element');
 
-    var positionY = point.y - (offset.top + rect.height / 2);
-    var positionX = point.x - (offset.left + rect.width / 2);
-
+    var positionY = point.y - (rect.top + rect.height / 2);
+    var positionX = point.x - (rect.left + rect.width / 2);
+    console.log(rect.height / 2);
+    console.log(offset.top);
+    console.log(offset.top + rect.height / 2);
     console.log('X:' + positionX + ' ratio: ' + Math.abs(positionX) / rect.width);
     console.log('Y:' + positionY + ' ratio: ' + Math.abs(positionY) / rect.height);
     if(
