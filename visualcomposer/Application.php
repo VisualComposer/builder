@@ -44,6 +44,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
         'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
         'settingsPageAuthorization' => 'VisualComposer\Modules\Settings\Pages\Authorization',
+        'settingsPageHub' => 'VisualComposer\Modules\Settings\Pages\Hub',
         'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
         'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
     ];

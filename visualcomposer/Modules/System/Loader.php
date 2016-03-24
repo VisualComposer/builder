@@ -13,23 +13,6 @@ if (empty($_REQUEST['action'])) {
         ]
     ));
 }
-$requestAction = $_REQUEST['action'];
-if ($requestAction) {
-    // @TODO: remove this
-    error_log(
-        print_r(
-            [
-                'server' => $_SERVER,
-                'post' => $_POST,
-                'get' => $_GET,
-                'request' => $_REQUEST,
-            ],
-            true
-        ),
-        3,
-        'test.log'
-    );
-}
 /** Load WordPress Bootstrap */
 require_once __DIR__ . '/../../../../../../wp-load.php'; // @todo it s****
 if (!defined('VC_V_VERSION')) {
@@ -48,6 +31,7 @@ send_origin_headers();
 send_nosniff_header();
 nocache_headers();
 
+$requestAction = $_REQUEST['action'];
 if (strpos($requestAction, ':nonce')) {
     if (empty($_REQUEST['nonce']) || !vcapp('nonceHelper')->verifyUser($_REQUEST['nonce'])) {
         die(json_encode(
