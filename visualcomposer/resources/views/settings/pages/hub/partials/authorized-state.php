@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 ?>
 <div class="vcv-settings-page-hub">
     <?php
+    /** @see \VisualComposer\Modules\Settings\Pages\Hub::getDataFromHub */
     $data = vcapp()->call([$controller, 'getDataFromHub']);
     vcview('settings/pages/hub/partials/list', ['items' => $data->data]);
     ?>
