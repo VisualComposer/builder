@@ -191,10 +191,13 @@ class GenericHelpersTest extends WP_UnitTestCase
         ];
 
         $this->assertTrue(method_exists($dataHelper, 'arraySearch'), 'arraySearch should exist in $dataHelper');
-        $this->assertEquals($dataHelper->arraySearch($arr, 'test', 5), 2, 'Value should not be false');
-        $this->assertEquals($dataHelper->arraySearchkey($arr, 'test'), 0, 'Value should not be false');
+        $this->assertEquals($dataHelper->arraySearch($arr, 'test', 5), [
+            'test' => 5,
+            'test2' => 6,
+        ], 'Value should not be false');
+        $this->assertEquals($dataHelper->arraySearchKey($arr, 'test'), 0, 'Value should not be false');
         $this->assertEquals(
-            $dataHelper->arraySearchkey($arr, 'test', true),
+            $dataHelper->arraySearchKey($arr, 'test', true),
             $arr[0]['test'],
             'Value should be 1'
         );
