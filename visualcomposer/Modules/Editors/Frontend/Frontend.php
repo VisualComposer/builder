@@ -21,6 +21,7 @@ class Frontend extends Container
             'vc:v:ajax:loader:frontend',
             function () {
                 // @todo check access
+                /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */
                 $this->call('renderEditorBase');
             }
         );

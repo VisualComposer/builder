@@ -29,6 +29,7 @@ class License extends Container
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
                 return $this->call('addPage', [$pages]);
             }
         );

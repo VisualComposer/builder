@@ -14,14 +14,24 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Authorization extends Container
 {
     use Page;
+    /**
+     * @var string
+     */
     protected $slug = 'vc-v-auth';
+    /**
+     * @var string
+     */
     protected $templatePath = 'settings/pages/auth/index';
 
+    /**
+     * Authorization constructor.
+     */
     public function __construct()
     {
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
                 return $this->call('addPage', [$pages]);
             }
         );
@@ -29,6 +39,7 @@ class Authorization extends Container
         add_action(
             'vc:v:ajax:loader:api',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
                 $this->call('handleApiRequest');
             }
         );
@@ -50,6 +61,10 @@ class Authorization extends Container
         return $pages;
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\WordPress\Options $options
+     */
     private function handleApiRequest(Request $request, Options $options)
     {
         if ($request->exists('code')) {
@@ -90,6 +105,9 @@ class Authorization extends Container
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isAuthorized()
     {
         return vcapp('optionsHelper')->get('page-auth-state', 0) > 0;

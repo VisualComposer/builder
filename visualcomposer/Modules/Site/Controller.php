@@ -35,6 +35,7 @@ class Controller extends Container
         add_action(
             'wp_head',
             function () {
+                /** @see \VisualComposer\Modules\Site\Controller::appendScript */
                 $this->call('appendScript');
             }
         );
@@ -49,6 +50,7 @@ class Controller extends Container
         add_filter(
             'edit_post_link',
             function ($link) {
+                /** @see \VisualComposer\Modules\Site\Controller::addEditPostLink */
                 return $this->call('addEditPostLink', ['link' => $link]);
             }
         );
@@ -76,6 +78,7 @@ class Controller extends Container
             );
             $link .= ' <a href="' . $url . '">' . __('Edit with VC5', 'vc5') . '</a>';
             if (!self::$jsScriptRendered) {
+                /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
                 $link .= $this->call('outputScripts');
                 self::$jsScriptRendered = true;
             }

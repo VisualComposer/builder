@@ -34,6 +34,7 @@ class Controller extends Container
         add_action(
             'vc:v:ajax:loader:v:getData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
                 $this->call('getData');
             }
         );
@@ -41,6 +42,7 @@ class Controller extends Container
         add_action(
             'vc:v:ajax:loader:setData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::setData */
                 $this->call('setData');
             }
         );

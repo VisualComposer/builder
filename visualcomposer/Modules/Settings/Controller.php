@@ -42,6 +42,7 @@ class Controller extends Container
         add_action(
             'admin_init',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Controller::initAdmin */
                 $this->call('initAdmin');
             }
         );
@@ -49,6 +50,7 @@ class Controller extends Container
         add_action(
             'admin_menu',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
                 return $this->call('addMenuPage');
             }
         );
@@ -56,6 +58,7 @@ class Controller extends Container
         add_action(
             'network_admin_menu',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
                 return $this->call('addMenuPage');
             }
         );
@@ -63,6 +66,7 @@ class Controller extends Container
         add_action(
             'vc:v:settings:mainPage:menuPageBuild',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Controller::addSubmenuPages */
                 $this->call('addSubmenuPages');
             }
         );
@@ -100,6 +104,7 @@ class Controller extends Container
      */
     private function addMenuPage(Url $urlHelper)
     {
+        /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
         $slug = $this->call('getMainPageSlug');
         $title = __('Visual Composer ', 'vc5');
 
@@ -121,6 +126,7 @@ class Controller extends Container
         }
 
         $pages = $this->getPages();
+        /** @see \VisualComposer\Modules\Settings\Controller::getMainPageSlug */
         $parentSlug = $this->call('getMainPageSlug');
 
         foreach ($pages as $page) {
@@ -134,6 +140,7 @@ class Controller extends Container
                     'manage_options',
                     $page['slug'],
                     function () {
+                        /** @see \VisualComposer\Modules\Settings\Controller::renderPage */
                         $this->call('renderPage');
                     }
                 );

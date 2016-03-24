@@ -50,6 +50,7 @@ class General extends Container
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
                 return $this->call('addPage', [$pages]);
             }
         );
@@ -57,6 +58,7 @@ class General extends Container
         add_action(
             'vc:v:settings:initAdmin:page:' . $this->getSlug(),
             function () {
+                /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
                 $this->call('buildPage');
             }
         );
@@ -91,6 +93,7 @@ class General extends Container
 
         // Disable responsive content elements
         $fieldCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::disableResponsiveFieldCallback */
             return $this->call('disableResponsiveFieldCallback', [$data]);
         };
 
@@ -105,9 +108,11 @@ class General extends Container
 
         // Google fonts subsets
         $sanitizeCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::sanitizeGoogleFontsSubsetsFieldCallback */
             return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', [$data]);
         };
         $fieldCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::googleFontsSubsetsFieldCallback */
             return $this->call('googleFontsSubsetsFieldCallback', [$data]);
         };
 

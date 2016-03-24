@@ -53,6 +53,7 @@ class Roles extends Container
         add_filter(
             'vc:v:settings:getPages',
             function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
                 return $this->call('addPage', [$pages]);
             }
         );
@@ -60,6 +61,7 @@ class Roles extends Container
         add_action(
             'wp_ajax_vc_roles_settings_save',
             function () {
+                /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
                 $this->call('saveSettings');
             }
         );
@@ -159,6 +161,7 @@ class Roles extends Container
             }
             if (isset($editableRoles[ $role ])) {
                 foreach ($parts as $part => $settings) {
+                    /** @see \VisualComposer\Modules\Settings\Pages\Roles::parseRole */
                     $this->call('parseRole', [$role, $part, $roles, $settings]);
                 }
             }
@@ -219,6 +222,7 @@ class Roles extends Container
         $field = 'vc_settings-' . $this->getSlug() . '-action';
 
         if (check_admin_referer($field, 'vc_nonce_field') && current_user_can('manage_options')) {
+            /** @see \VisualComposer\Modules\Settings\Pages\Roles::save */
             $data = $this->call('save', [$request->input('vc_roles', [])]);
             wp_send_json($data);
         }

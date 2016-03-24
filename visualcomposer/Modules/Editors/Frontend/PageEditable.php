@@ -20,7 +20,9 @@ class PageEditable extends Container
         add_action(
             'template_redirect',
             function () {
+                /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::isPageEditable */
                 if ($this->call('isPageEditable')) {
+                    /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::buildPageEditable */
                     $this->call('buildPageEditable');
                 }
             }

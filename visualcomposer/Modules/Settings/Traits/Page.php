@@ -115,6 +115,7 @@ trait Page
     {
         /** @var $this IgnoreMethod */
         /** @ignore ->call() is available [phpStorm] bug */
+        /** @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender */
         $this->call('beforeRender');
         /** @var $this Page */
         $args = array_merge(

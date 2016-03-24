@@ -49,6 +49,7 @@ class Controller extends Container
             'vc:v:postAjax:setPostData',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::setPostDataHook */
                 $this->call('setPostDataHook', $args);
             }
         );
@@ -57,6 +58,7 @@ class Controller extends Container
             'before_delete_post',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
                 $this->call('deletePostAssetsHook', $args);
             }
         );
@@ -66,6 +68,7 @@ class Controller extends Container
             'vc:v:ajax:loader:saveCssBundle:admin-nonce',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
                 $this->call('saveCssBundleHook', $args);
             }
         );

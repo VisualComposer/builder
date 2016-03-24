@@ -19,6 +19,7 @@ class Controller extends Container
         register_activation_hook(
             VC_V_PLUGIN_FULL_PATH,
             function () {
+                /** @see \VisualComposer\Modules\System\Activation\Controller::setVersion */
                 $this->call('setVersion');
             }
         );

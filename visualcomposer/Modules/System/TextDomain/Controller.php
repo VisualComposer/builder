@@ -18,6 +18,7 @@ class Controller extends Container
         add_action(
             'init',
             function () {
+                /** @see \VisualComposer\Modules\System\TextDomain\Controller::setDomain */
                 $this->call('setDomain');
             }
         );

@@ -43,14 +43,17 @@ class Controller extends Container
     {
         // @todo this is not valid. we should use register_activation_callback..
         if ($request->exists('activate')) {
+            /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
             $this->call('finishActivationDeactivation', [true, $request->input('activate')]);
         } elseif ($request->exists('deactivate')) {
+            /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
             $this->call('finishActivationDeactivation', [false, $request->input('deactivate')]);
         }
 
         add_action(
             'wp_ajax_vc_get_activation_url',
             function () {
+                /** @see \VisualComposer\Modules\License\Controller::startActivationResponse */
                 $this->call('startActivationResponse');
             }
         );
@@ -58,6 +61,7 @@ class Controller extends Container
         add_action(
             'wp_ajax_vc_get_deactivation_url',
             function () {
+                /** @see \VisualComposer\Modules\License\Controller::startDeactivationResponse */
                 $this->call('startDeactivationResponse');
             }
         );
@@ -103,6 +107,7 @@ class Controller extends Container
         add_action(
             'admin_notices',
             function () {
+                /** @see \VisualComposer\Modules\License\Controller::renderLastError */
                 $this->call('renderLastError');
             }
         );
@@ -113,6 +118,7 @@ class Controller extends Container
      */
     private function renderLastError()
     {
+        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
         $this->call('renderNotice', [$this->error, false]);
     }
 
@@ -121,6 +127,7 @@ class Controller extends Container
      */
     private function renderActivatedSuccess()
     {
+        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
         $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
     }
 
@@ -129,6 +136,7 @@ class Controller extends Container
      */
     private function renderDeactivatedSuccess()
     {
+        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
         $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
     }
 
@@ -146,6 +154,7 @@ class Controller extends Container
      */
     private function finishActivationDeactivation($activation, $userToken)
     {
+        /** @see \VisualComposer\Modules\License\Controller::isValidToken */
         if (!$this->call('isValidToken', [$userToken])) {
             $this->renderError(__('Token is not valid or has expired', 'vc5'));
 
@@ -195,27 +204,30 @@ class Controller extends Container
 
                 return false;
             }
-
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', [$json['license_key']]);
 
             add_action(
                 'admin_notices',
                 function () {
+                    /** @see \VisualComposer\Modules\License\Controller::renderActivatedSuccess */
                     $this->call('renderActivatedSuccess');
                 }
             );
         } else {
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', ['']);
 
             add_action(
                 'admin_notices',
                 function () {
+                    /** @see \VisualComposer\Modules\License\Controller::renderDeactivatedSuccess */
                     $this->call('renderDeactivatedSuccess');
                 }
             );
         }
-
-        $this->call('setLicenseKeyToken', '');
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
+        $this->call('setLicenseKeyToken', ['']);
 
         return true;
     }
@@ -225,6 +237,7 @@ class Controller extends Container
      */
     public function isActivated()
     {
+        /** @see \VisualComposer\Modules\License\Controller::getLicenseKey */
         return (bool)$this->call('getLicenseKey');
     }
 
@@ -255,10 +268,12 @@ class Controller extends Container
      */
     private function generateActivationUrl()
     {
+        /** @see \VisualComposer\Modules\License\Controller::newLicenseKeyToken */
         $token = sha1($this->call('newLicenseKeyToken'));
 
         $url = esc_url(site_url());
 
+        /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
         $redirectUrl = esc_url(
             is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage)
@@ -280,12 +295,15 @@ class Controller extends Container
      */
     private function generateDeactivationUrl()
     {
+        /** @see \VisualComposer\Modules\License\Controller::getLicenseKey */
         $licenseKey = $this->call('getLicenseKey');
 
+        /** @see \VisualComposer\Modules\License\Controller::newLicenseKeyToken */
         $token = sha1($this->call('newLicenseKeyToken'));
 
         $url = esc_url(site_url());
 
+        /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
         $redirectUrl = esc_url(
             is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage)
@@ -312,6 +330,7 @@ class Controller extends Container
             'settings'
         )->can('vc-v-license-tab')->validateDie();
 
+        /** @see \VisualComposer\Modules\License\Controller::generateActivationUrl */
         $response = [
             'status' => true,
             'url' => $this->call('generateActivationUrl'),
@@ -330,6 +349,7 @@ class Controller extends Container
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
                           ->can('vc-v-license-tab')->validateDie();
 
+        /** @see \VisualComposer\Modules\License\Controller::generateDeactivationUrl */
         $response = [
             'status' => true,
             'url' => $this->call('generateDeactivationUrl'),
@@ -369,6 +389,7 @@ class Controller extends Container
      */
     private function isValid($licenseKey)
     {
+        /** @see \VisualComposer\Modules\License\Controller::getLicenseKey */
         return $licenseKey === $this->call('getLicenseKey');
     }
 
@@ -395,8 +416,8 @@ class Controller extends Container
         add_action(
             'admin_notices',
             function () {
-                $args = func_get_args();
-                $this->call('renderLicenseActivationNotice', $args);
+                /** @see \VisualComposer\Modules\License\Controller::renderLicenseActivationNotice */
+                $this->call('renderLicenseActivationNotice');
             }
         );
     }
@@ -439,6 +460,7 @@ class Controller extends Container
     {
         $options->set('vc5_license_activation_notified', 'yes');
 
+        /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
         $redirectUrl = is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage);
 
@@ -493,8 +515,10 @@ class Controller extends Container
      */
     private function newLicenseKeyToken()
     {
+        /** @see \VisualComposer\Modules\License\Controller::generateLicenseKeyToken */
         $token = $this->call('generateLicenseKeyToken');
 
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
         $this->call('setLicenseKeyToken', [$token]);
 
         return $token;
@@ -510,6 +534,7 @@ class Controller extends Container
      */
     private function isValidToken($tokenToCheck, $ttlInSeconds = 1200)
     {
+        /** @see \VisualComposer\Modules\License\Controller::getLicenseKeyToken */
         $token = $this->call('getLicenseKeyToken');
 
         if (!$tokenToCheck || $tokenToCheck !== sha1($token)) {
