@@ -62,6 +62,7 @@ class Request
         if ($this->exists($key)) {
             return $this->input($key);
         }
+
         return null;
     }
 }

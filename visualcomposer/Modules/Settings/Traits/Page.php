@@ -1,14 +1,24 @@
 <?php
 
-namespace VisualComposer\Modules\Settings;
+namespace VisualComposer\Modules\Settings\Traits;
 
+    /**
+     * Class Page
+     * @package VisualComposer\Modules\Settings\Pages
+     */
 /**
  * Class Page
- * @package VisualComposer\Modules\Settings\Pages
+ * @package VisualComposer\Modules\Settings
  */
 trait Page
 {
+    /**
+     * @var array
+     */
     protected $templateArgs = [];
+    /**
+     * @var string
+     */
     protected $title = '';
 
     /**
@@ -91,6 +101,9 @@ trait Page
         return $this;
     }
 
+    /**
+     *
+     */
     protected function beforeRender()
     {
     }

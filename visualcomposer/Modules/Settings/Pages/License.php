@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Modules\Settings\Page;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class License
@@ -16,6 +16,9 @@ class License extends Container
      * @var string
      */
     protected $slug = 'vc-v-license';
+    /**
+     * @var string
+     */
     protected $templatePath = 'settings/pages/license/index';
 
     /**

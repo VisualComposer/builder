@@ -3,6 +3,10 @@
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container;
 use VisualComposer\Framework\Illuminate\Support\ServiceProvider;
 
+/**
+ * Interface Application
+ * @package VisualComposer\Framework\Illuminate\Contracts\Foundation
+ */
 interface Application extends Container
 {
     /**

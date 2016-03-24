@@ -5,7 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Access\Role\Access;
 use VisualComposer\Framework\Container;
-use VisualComposer\Modules\Settings\Page;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Roles
@@ -18,6 +18,9 @@ class Roles extends Container
      * @var string
      */
     protected $slug = 'vc-v-roles';
+    /**
+     * @var string
+     */
     protected $templatePath = 'settings/pages/roles/index';
     /**
      * @var bool
@@ -142,11 +145,10 @@ class Roles extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
      * @param array $params
      * @return array
      */
-    public function save(Access $roleAccess, $params = [])
+    public function save($params = [])
     {
         $data = ['message' => ''];
         $roles = $this->getWpRoles();
@@ -157,7 +159,7 @@ class Roles extends Container
             }
             if (isset($editableRoles[ $role ])) {
                 foreach ($parts as $part => $settings) {
-                    $this->parseRole($roleAccess, $role, $part, $roles, $settings);
+                    $this->call('parseRole', [$role, $part, $roles, $settings]);
                 }
             }
         }
@@ -211,26 +213,25 @@ class Roles extends Container
      * Save roles
      *
      * @param Request $request
-     * @param Access $roleAccess
      */
-    public function saveSettings(Request $request, Access $roleAccess)
+    public function saveSettings(Request $request)
     {
         $field = 'vc_settings-' . $this->getSlug() . '-action';
 
         if (check_admin_referer($field, 'vc_nonce_field') && current_user_can('manage_options')) {
-            $data = $this->save($request->input('vc_roles', []), $roleAccess);
+            $data = $this->call('save', [$request->input('vc_roles', [])]);
             wp_send_json($data);
         }
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
      * @param $role
      * @param $part
      * @param $roles
      * @param $settings
+     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
      */
-    private function parseRole(Access $roleAccess, $role, $part, $roles, $settings)
+    private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';

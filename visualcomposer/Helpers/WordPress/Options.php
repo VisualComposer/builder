@@ -22,9 +22,12 @@ class Options
     /**
      * @param $optionName
      * @param $value
+     * @return $this
      */
     public function set($optionName, $value)
     {
         update_option(VC_V_PREFIX . $optionName, $value);
+
+        return $this;
     }
 }

@@ -5,7 +5,7 @@ use Closure;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
-use VisualComposer\Framework\Illuminate\Container\ContainerTrait;
+use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 
 /**
  * Class Container

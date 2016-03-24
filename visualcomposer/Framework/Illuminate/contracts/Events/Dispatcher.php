@@ -1,5 +1,9 @@
 <?php namespace VisualComposer\Framework\Illuminate\Contracts\Events;
 
+/**
+ * Interface Dispatcher
+ * @package VisualComposer\Framework\Illuminate\Contracts\Events
+ */
 interface Dispatcher
 {
     /**

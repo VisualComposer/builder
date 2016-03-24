@@ -36,6 +36,12 @@ if (!function_exists('vcevent')) {
 }
 
 if (!function_exists('vcview')) {
+    /**
+     * @param $path
+     * @param array $args
+     * @param bool $echo
+     * @return mixed|string
+     */
     function vcview($path, $args = [], $echo = true)
     {
         return vcapp('templatesHelper')->render($path, $args, $echo);

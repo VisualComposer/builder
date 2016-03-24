@@ -3,6 +3,10 @@
 use Closure;
 use BadMethodCallException;
 
+/**
+ * Class Macroable
+ * @package VisualComposer\Framework\Illuminate\Support\Traits
+ */
 trait Macroable
 {
     /**

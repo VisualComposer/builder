@@ -34,11 +34,11 @@ class Application extends ApplicationFactory implements ApplicationContract
         'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
         'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
         // Live/Public
-        'live' => 'VisualComposer\Modules\Live\Controller',
+        'site' => 'VisualComposer\Modules\Site\Controller',
         // Elements
         'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
         // License
-        //'license' => 'VisualComposer\Modules\License\Controller',
+        'license' => 'VisualComposer\Modules\License\Controller',
         // Settings & Settings Pages
         'settings' => 'VisualComposer\Modules\Settings\Controller',
         'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',

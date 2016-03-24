@@ -5,7 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Framework\Container;
-use VisualComposer\Modules\Settings\Page;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About
@@ -22,6 +22,9 @@ class About extends Container
      * @var string
      */
     protected $defaultTabSlug = 'vc-v-main';
+    /**
+     * @var string
+     */
     protected $templatePath = 'settings/pages/about/index';
     /**
      * @var array
@@ -69,6 +72,10 @@ class About extends Container
         return $this->tabs;
     }
 
+    /**
+     * @param $tabs
+     * @return $this
+     */
     public function setTabs($tabs)
     {
         $this->tabs = apply_filters(

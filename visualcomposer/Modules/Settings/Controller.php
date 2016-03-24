@@ -5,7 +5,6 @@ namespace VisualComposer\Modules\Settings;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Data;
-use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\Generic\Url;
 use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\About;

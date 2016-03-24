@@ -2,6 +2,10 @@
 
 use Closure;
 
+/**
+ * Interface Container
+ * @package VisualComposer\Framework\Illuminate\Contracts\Container
+ */
 interface Container
 {
     /**

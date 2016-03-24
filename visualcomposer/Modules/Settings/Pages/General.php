@@ -2,11 +2,10 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-//use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Framework\Container;
-use VisualComposer\Modules\Settings\Fields;
-use VisualComposer\Modules\Settings\Page;
+use VisualComposer\Modules\Settings\Traits\Fields;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class General
@@ -20,6 +19,9 @@ class General extends Container
      * @var string
      */
     protected $slug = 'vc-v-general';
+    /**
+     * @var string
+     */
     protected $templatePath = 'settings/pages/general/index';
     /**
      * @var array

@@ -1,21 +1,37 @@
 <?php
-namespace VisualComposer\Modules\Settings;
+namespace VisualComposer\Modules\Settings\Traits;
 
 trait Fields
 {
+    /**
+     * @var string
+     */
     protected $optionGroup = 'vc-v-settings';
+    /**
+     * @var string
+     */
     protected $optionSlug = 'vc-v-settings';
 
+    /**
+     * @return string
+     */
     public function getOptionGroup()
     {
         return $this->optionGroup;
     }
 
+    /**
+     * @return string
+     */
     public function getOptionSlug()
     {
         return $this->optionSlug;
     }
 
+    /**
+     * @param $sectionData
+     * @return $this
+     */
     protected function addSection($sectionData)
     {
         $sectionData = array_merge(
@@ -41,6 +57,10 @@ trait Fields
         return $this;
     }
 
+    /**
+     * @param $fieldData
+     * @return $this
+     */
     protected function addField($fieldData)
     {
         $fieldData = array_merge(

@@ -6,6 +6,10 @@ namespace VisualComposer\Helpers\Generic\Access;
  * Class Access
  * @package VisualComposer\Helpers\Generic\Access
  */
+/**
+ * Class Access
+ * @package VisualComposer\Helpers\Generic\Access
+ */
 trait Access
 {
     /**
@@ -66,6 +70,7 @@ trait Access
     /**
      * Get current validation state and reset it to true. ( should be never called twice )
      *
+     * @param bool $reset
      * @return bool
      */
     public function get($reset = true)

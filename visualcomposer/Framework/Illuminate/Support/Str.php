@@ -3,6 +3,10 @@
 use RuntimeException;
 use VisualComposer\Framework\Illuminate\Support\Traits\Macroable;
 
+/**
+ * Class Str
+ * @package VisualComposer\Framework\Illuminate\Support
+ */
 class Str
 {
     use Macroable;
@@ -172,7 +176,7 @@ class Str
     }
 
     /**
-     * Parse a Class@method style callback into class and method.
+     * Parse a Class@method - style callback into class and method.
      *
      * @param  string $callback
      * @param  string $default
@@ -181,18 +185,6 @@ class Str
     public static function parseCallback($callback, $default)
     {
         return static::contains($callback, '@') ? explode('@', $callback, 2) : [$callback, $default];
-    }
-
-    /**
-     * Get the plural form of an English word.
-     *
-     * @param  string $value
-     * @param  int $count
-     * @return string
-     */
-    public static function plural($value, $count = 2)
-    {
-        return Pluralizer::plural($value, $count);
     }
 
     /**
@@ -276,7 +268,7 @@ class Str
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
-    
+
     /**
      * Convert a string to snake case.
      *

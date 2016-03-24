@@ -2,6 +2,10 @@
 
 use VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder as Contract;
 
+/**
+ * Class ContextualBindingBuilder
+ * @package VisualComposer\Framework\Illuminate\Container
+ */
 class ContextualBindingBuilder implements Contract
 {
     /**
@@ -16,6 +20,9 @@ class ContextualBindingBuilder implements Contract
      * @var string
      */
     protected $concrete;
+    /**
+     * @var
+     */
     protected $needs;
 
     /**

@@ -7,8 +7,13 @@ use ReflectionMethod;
 use ReflectionFunction;
 use ReflectionParameter;
 use InvalidArgumentException;
+use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
 
+/**
+ * Class Container
+ * @package VisualComposer\Framework\Illuminate\Container
+ */
 class Container implements ArrayAccess, ContainerContract
 {
     use ContainerTrait;

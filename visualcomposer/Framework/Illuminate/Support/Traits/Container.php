@@ -1,12 +1,20 @@
 <?php
-namespace VisualComposer\Framework\Illuminate\Container;
+namespace VisualComposer\Framework\Illuminate\Support\Traits;
 
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
 
-trait ContainerTrait
+/**
+ * Class Container
+ * @package VisualComposer\Framework\Illuminate\Support\Traits
+ */
+trait Container
 {
+    /**
+     * @param array $array
+     * @return bool
+     */
     protected function hasStringKeys(array $array)
     {
         return count(array_filter(array_keys($array), 'is_string')) > 0;

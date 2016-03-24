@@ -5,6 +5,10 @@ use VisualComposer\Framework\Illuminate\Support\Str;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
 
+/**
+ * Class Dispatcher
+ * @package VisualComposer\Framework\Illuminate\Events
+ */
 class Dispatcher implements DispatcherContract
 {
     /**

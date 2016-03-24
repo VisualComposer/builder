@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Live;
+namespace VisualComposer\Modules\Site;
 
 use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
@@ -11,7 +11,7 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Live
+ * @package VisualComposer\Modules\Site
  */
 class Controller extends Container
 {
@@ -20,14 +20,14 @@ class Controller extends Container
      */
     protected static $jsScriptRendered = false;
     /**
-     * @var \VisualComposer\Illuminate\Contracts\Events\Dispatcher
+     * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
 
     /**
      * PageFrontController constructor.
      *
-     * @param \VisualComposer\Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      */
     public function __construct(Dispatcher $event)
     {
@@ -57,7 +57,10 @@ class Controller extends Container
     /**
      * @param $link
      *
+     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      * @return string
+     * @throws \Exception
      */
     private function addEditPostLink(
         $link,
@@ -84,6 +87,7 @@ class Controller extends Container
 
     /**
      * Output less.js script to page header
+     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      */
     private function appendScript(Url $urlHelper)
     {
@@ -93,6 +97,8 @@ class Controller extends Container
     /**
      * Output used assets
      *
+     * @param \VisualComposer\Helpers\Generic\Templates $templatesHelper
+     * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
      * @return string
      */
     private function outputScripts(Templates $templatesHelper, Options $optionsHelper)
@@ -101,6 +107,6 @@ class Controller extends Container
         $stylesBundle = $optionsHelper->get('stylesBundle', []);
         $args = compact('scriptsBundle', 'stylesBundle');
 
-        return $templatesHelper->render('live/frontend-scripts-styles', $args, false);
+        return $templatesHelper->render('site/frontend-scripts-styles', $args, false);
     }
 }

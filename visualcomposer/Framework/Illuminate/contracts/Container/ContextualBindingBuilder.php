@@ -1,5 +1,9 @@
 <?php namespace VisualComposer\Framework\Illuminate\Contracts\Container;
 
+/**
+ * Interface ContextualBindingBuilder
+ * @package VisualComposer\Framework\Illuminate\Contracts\Container
+ */
 interface ContextualBindingBuilder
 {
     /**

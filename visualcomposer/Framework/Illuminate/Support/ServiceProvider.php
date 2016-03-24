@@ -2,6 +2,10 @@
 
 use BadMethodCallException;
 
+/**
+ * Class ServiceProvider
+ * @package VisualComposer\Framework\Illuminate\Support
+ */
 abstract class ServiceProvider
 {
     /**
