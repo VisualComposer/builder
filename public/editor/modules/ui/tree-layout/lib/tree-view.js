@@ -36,7 +36,7 @@ var TreeView = React.createClass({
             <TreeLayout api={this.props.api}/>
           </div>
           <div className="vc-ui-tree-view-content">
-            <EditElement elementId={this.state.elementId} api={this.props.api}/>
+            <EditElement id={this.state.elementId} api={this.props.api}/>
           </div>
         </div>
       </div>

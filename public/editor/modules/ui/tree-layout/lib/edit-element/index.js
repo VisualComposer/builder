@@ -4,6 +4,7 @@ var ReactDom = require('react-dom');
 
 var classNames = require('classnames');
 var TreeContentTab = require('./content-tab');
+var ElementComponents = vcCake.getService('element').components;
 
 require('../../css/tree-view/init.less');
 
@@ -107,6 +108,9 @@ var TreeContent = React.createClass({
   },
 
   refreshTabs: function() {
+    if (false === this.props.id) {
+      return false;
+    }
     // get tabs line width
     let $tabsLine = ReactDom.findDOMNode(this).querySelector('.vc-ui-editor-tabs'),
       $freeSpaceEl = $tabsLine.querySelector('.vc-ui-editor-tabs-free-space');
@@ -173,15 +177,9 @@ var TreeContent = React.createClass({
     return returnList;
   },
   closeForm: function() {
-    if (!this.silentClose && confirm('Are you sure?')) {
-      this.props.api.notify('edit:close', false);
-    } else if (true === this.silentClose) {
-      this.props.api.notify('edit:close', false);
-      this.silentClose = false;
-    }
+    this.props.api.notify('edit:close', false);
   },
   saveForm: function() {
-    this.silentClose = true;
     this.closeForm();
   },
   render: function() {
@@ -190,6 +188,10 @@ var TreeContent = React.createClass({
     let treeContentClasses = classNames({
       "vc-ui-tree-content": true
     });
+    if (false === this.props.id) {
+      return (<div className={treeContentClasses}></div>);
+    }
+
     let dropdownClasses = classNames({
       "vc-ui-editor-tab-dropdown": true,
       "vc-ui-active": !!hiddenTabs.filter(function(value) {
@@ -208,14 +210,15 @@ var TreeContent = React.createClass({
         changeActive: context.changeActiveTab
       }
     }
-
+    var element = this.props.api.getService('document').get(this.props.id);
+    var elementSettings = ElementComponents.get(element.tag);
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">
           <div className="vc-ui-tree-content-title-bar">
             <i className="vc-ui-tree-content-title-icon vc-ui-icon vc-ui-icon-bug"></i>
             <h3 className="vc-ui-tree-content-title">
-              Column Settings
+              {elementSettings.name.toString()}
             </h3>
             <nav className="vc-ui-tree-content-title-controls">
               <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span

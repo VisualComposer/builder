@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
 require('./lib/navbar-control');
-vcCake.add('ui-tree-layout', function(api){
+vcCake.add('ui-tree-layout', function(api) {
   var React = require('react');
   var ReactDOM = require('react-dom');
   var TreeView = require('./lib/tree-view');
@@ -11,14 +11,19 @@ vcCake.add('ui-tree-layout', function(api){
       };
     },
     componentDidMount: function() {
-      api.on('toggle', function(){
+      api.on('toggle', function() {
         this.setState(function(prevState) {
-          return { treeViewExpand: !prevState.treeViewExpand };
+          return {treeViewExpand: !prevState.treeViewExpand};
         });
+        api.notify('edit:close', false);
+      }.bind(this));
+      api.reply('app:edit', function() {
+        this.setState({treeViewExpand: true});
       }.bind(this));
     },
     render: function() {
-      return <div style={this.state.treeViewExpand ? {opacity: 1, visibility: 'visible'} : {opacity: 0, visibility: 'hidden'}}>
+      return <div
+        style={this.state.treeViewExpand ? {opacity: 1, visibility: 'visible'} : {opacity: 0, visibility: 'hidden'}}>
         <TreeView api={api}/>
       </div>;
     }
