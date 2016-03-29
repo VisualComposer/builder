@@ -101,6 +101,15 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function boot()
     {
+        $app = $this; // used in require
+        $autoloadFiles = $this->getAutoloadFiles();
+
+        if (is_array($autoloadFiles)) {
+            foreach ($autoloadFiles as $file) {
+                /** @var $app Application */
+                require $file;
+            }
+        }
         if (is_array($this->modules)) {
             foreach ($this->modules as $module) {
                 $this->singleton($module, $module);
@@ -112,7 +121,7 @@ class Application extends ApplicationFactory implements ApplicationContract
                 $this->singleton($helper, $helper);
             }
         }
-        do_action('vc:v:boot', $this);
+        do_action('vc:v:boot', $app);
     }
 
     /**
@@ -156,5 +165,102 @@ class Application extends ApplicationFactory implements ApplicationContract
                 return (new Dispatcher($app));
             }
         );
+    }
+
+    /**
+     * @param $pattern - file pattern to search
+     * @param int $flags
+     * @return mixed
+     */
+    public function rglob($pattern, $flags = 0)
+    {
+        $files = glob(apply_filters('vc:v:application:rglob', $pattern), $flags);
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
+        }
+
+        return $files;
+    }
+
+    /**
+     * Public api to register module
+     * @param $name
+     * @param $controller
+     */
+    public function addModule($name, $controller)
+    {
+        $this->addCompontent(strtolower($name), $controller, true);
+    }
+
+    /**
+     * Public api to register helper
+     * @param $name
+     * @param $controller
+     */
+    public function addHelper($name, $controller)
+    {
+        $this->addCompontent(strtolower($name) . 'Helper', $controller, false);
+    }
+
+    /**$this->addCompontent($moduleName, $moduleController, true);
+     * @param $componentName
+     * @param $componentController
+     * @param bool $make
+     */
+    public function addCompontent($componentName, $componentController, $make = true)
+    {
+        $this->singleton($componentController);
+        $this->addAlias($componentName, $componentController);
+        if ($make) {
+            $this->make($componentController);
+        }
+    }
+
+    /**
+     * Add component Alias
+     * @param $key
+     * @param $value
+     */
+    public function addAlias($key, $value)
+    {
+        $this->aliases[ $key ] = $value;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getAutoloadFiles()
+    {
+        $filename = VC_V_PLUGIN_DIR_PATH . 'cache/autoload-' . VC_V_VERSION . '.php';
+        if (!VC_V_DEBUG
+            && (file_exists(
+                $filename
+            ))
+        ) {
+            $autoloadFiles = require $filename;
+
+            return $autoloadFiles;
+        } else {
+            $autoloadFiles = $this->rglob(VC_V_PLUGIN_DIR_PATH . 'visualcomposer/*/autoload.php');
+            $this->saveAutoloadFiles($autoloadFiles);
+
+            return $autoloadFiles;
+        }
+    }
+
+    /**
+     * @param $autoloadFiles
+     */
+    private function saveAutoloadFiles($autoloadFiles)
+    {
+        $filename = VC_V_PLUGIN_DIR_PATH . 'cache/autoload-' . VC_V_VERSION . '.php';
+        $autoloadFilesExport = var_export($autoloadFiles, true);
+
+        $fileData = <<<DATA
+<?php
+
+return $autoloadFilesExport;
+DATA;
+        file_put_contents($filename, $fileData);
     }
 }

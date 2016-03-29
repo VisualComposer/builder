@@ -11,7 +11,7 @@ require_once $testsDir . '/includes/functions.php';
 tests_add_filter(
     'muplugins_loaded',
     function () {
-        require_once dirname(__FILE__) . '/../plugin-wordpress.php';
+        require_once dirname(__FILE__) . '/../../plugin-wordpress.php';
     }
 );
 

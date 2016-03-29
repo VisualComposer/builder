@@ -65,6 +65,9 @@ define('VC_V_PLUGIN_DIRNAME', dirname(VC_V_PLUGIN_BASE_NAME));
  * Plugin core prefix for options/meta and etc
  */
 define('VC_V_PREFIX', 'vc-v-');
+if (!defined('VC_V_DEBUG')) {
+    define('VC_V_DEBUG', false);
+}
 
 // Used in requirements.php
 /**

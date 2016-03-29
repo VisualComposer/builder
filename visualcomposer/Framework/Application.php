@@ -1,7 +1,6 @@
 <?php namespace VisualComposer\Framework;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
-use VisualComposer\Framework\Illuminate\Support\ServiceProvider;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
 /**
@@ -35,7 +34,6 @@ class Application extends Container implements ApplicationContract
      * Create a new Lumen application instance.
      *
      * @param  string|null $basePath
-     * @return void
      */
     public function __construct($basePath = null)
     {
@@ -93,29 +91,5 @@ class Application extends Container implements ApplicationContract
     protected function registerContainerAliases()
     {
         $this->aliases = [];
-    }
-
-    /**
-     * Register a service provider with the application.
-     *
-     * @param  \VisualComposer\Framework\Illuminate\Support\ServiceProvider|string $provider
-     * @param  array $options
-     * @param  bool $force
-     * @return \VisualComposer\Framework\Illuminate\Support\ServiceProvider
-     */
-    public function register($provider, $options = [], $force = false)
-    {
-        if (!$provider instanceof ServiceProvider) {
-            $provider = new $provider($this);
-        }
-
-        if (array_key_exists($providerName = get_class($provider), $this->loadedProviders)) {
-            return;
-        }
-
-        $this->loadedProviders[ $providerName ] = true;
-
-        $provider->register();
-        $provider->boot();
     }
 }
