@@ -5,6 +5,6 @@ if (!defined('ABSPATH')) {
 
 vcview('settings/partials/admin-nonce');
 ?>
-<div class="wrap vc_settings">
+<div class="wrap vcv-settings">
     <?php echo $content ?>
 </div>

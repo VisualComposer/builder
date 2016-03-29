@@ -83,11 +83,11 @@ trait Fields
 
         register_setting(
             $fieldData['group'] . '_' . $fieldData['page'],
-            VC_V_PREFIX . $fieldData['name'],
+            VCV_PREFIX . $fieldData['name'],
             $fieldData['sanitizeCallback']
         );
         add_settings_field(
-            VC_V_PREFIX . $fieldData['name'],
+            VCV_PREFIX . $fieldData['name'],
             $fieldData['title'],
             $fieldData['fieldCallback'],
             $fieldData['slug'] . '_' . $fieldData['page'],

@@ -19,7 +19,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      * List of system registred modules
      * Notes:
      *  - It will be singletons
-     *  - It will be automatically instatiated after `vc:v:load` action
+     *  - It will be automatically instatiated after `vcv:load` action
      *  - It was available by moduleNmae -> vcapp('settings')
      * @see \docs\php\Readme.md and \docs\php\Modules.md
      * @var array
@@ -94,7 +94,7 @@ class Application extends ApplicationFactory implements ApplicationContract
     {
         $this->basePath = $basePath;
         $this->bootstrapContainer();
-        do_action('vc:v:load', $this);
+        do_action('vcv:load', $this);
     }
 
     /**
@@ -106,9 +106,9 @@ class Application extends ApplicationFactory implements ApplicationContract
     public function boot()
     {
         // Do the boot!
-        do_action('vc:v:booting', $this);
+        do_action('vcv:booting', $this);
         $this->bootHelpers()->bootAutoload()->bootModules();
-        do_action('vc:v:boot', $this);
+        do_action('vcv:boot', $this);
 
         return $this;
     }
@@ -167,7 +167,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function version()
     {
-        return VC_V_VERSION;
+        return VCV_VERSION;
     }
 
     /**
@@ -215,7 +215,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function rglob($pattern, $flags = 0)
     {
-        $files = glob(apply_filters('vc:v:application:rglob', $pattern), $flags);
+        $files = glob(apply_filters('vcv:application:rglob', $pattern), $flags);
         foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
             $files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
         }
@@ -292,8 +292,8 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     private function getAutoloadFiles()
     {
-        $filename = $this->path('cache/autoload-' . VC_V_VERSION . '.php');
-        if (!VC_V_DEBUG
+        $filename = $this->path('cache/autoload-' . VCV_VERSION . '.php');
+        if (!VCV_DEBUG
             && (file_exists(
                 $filename
             ))
@@ -316,7 +316,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     private function saveAutoloadFiles($autoloadFiles)
     {
-        $filename = $this->path('cache/autoload-' . VC_V_VERSION . '.php');
+        $filename = $this->path('cache/autoload-' . VCV_VERSION . '.php');
         $autoloadFilesExport = var_export($autoloadFiles, true);
 
         $fileData = <<<DATA
@@ -338,6 +338,6 @@ DATA;
      */
     public function path($path = '')
     {
-        return apply_filters('vc:v:application:path', $this->basePath . ltrim($path, '\//'));
+        return apply_filters('vcv:application:path', $this->basePath . ltrim($path, '\//'));
     }
 }

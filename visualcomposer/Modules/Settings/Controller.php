@@ -64,7 +64,7 @@ class Controller extends Container
         );
 
         add_action(
-            'vc:v:settings:mainPage:menuPageBuild',
+            'vcv:settings:mainPage:menuPageBuild',
             function () {
                 /** @see \VisualComposer\Modules\Settings\Controller::addSubmenuPages */
                 $this->call('addSubmenuPages');
@@ -112,7 +112,7 @@ class Controller extends Container
 
         add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
 
-        do_action('vc:v:settings:mainPage:menuPageBuild', $slug);
+        do_action('vcv:settings:mainPage:menuPageBuild', $slug);
     }
 
     /**
@@ -147,7 +147,7 @@ class Controller extends Container
             }
         }
 
-        do_action('vc:v:settings:pageSettingsBuild');
+        do_action('vcv:settings:pageSettingsBuild');
     }
 
     /**
@@ -184,23 +184,23 @@ class Controller extends Container
     private function initAdmin(Url $urlHelper)
     {
         wp_register_script(
-            VC_V_PREFIX . 'scripts-settings',
+            VCV_PREFIX . 'scripts-settings',
             $urlHelper->assetUrl('scripts/dist/settings.min.js'),
             [],
-            VC_V_VERSION,
+            VCV_VERSION,
             true
         );
         wp_enqueue_style(
-            VC_V_PREFIX . 'styles-settings',
+            VCV_PREFIX . 'styles-settings',
             $urlHelper->assetUrl('styles/dist/settings.min.css'),
             false,
-            VC_V_VERSION,
+            VCV_VERSION,
             false
         );
-        wp_enqueue_script(VC_V_PREFIX . 'scripts-settings');
+        wp_enqueue_script(VCV_PREFIX . 'scripts-settings');
 
         foreach ($this->getPages() as $page) {
-            do_action('vc:v:settings:initAdmin:page:' . $page['slug']);
+            do_action('vcv:settings:initAdmin:page:' . $page['slug']);
         }
     }
 
@@ -210,7 +210,7 @@ class Controller extends Container
     public function getPages()
     {
         if (is_null($this->pages)) {
-            $this->pages = apply_filters('vc:v:settings:getPages', []);
+            $this->pages = apply_filters('vcv:settings:getPages', []);
         }
 
         return $this->pages;

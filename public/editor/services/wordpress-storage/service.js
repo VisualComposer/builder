@@ -5,7 +5,7 @@ var wordpressStorage = {
   dataKey: 'vcData',
   getItem: function(callback) {
     this.ajaxPost( {
-      action: 'vc:v:getData:adminNonce',
+      action: 'vcv:getData:adminNonce',
       nonce: window.vcNonce,
       source_id: window.vcSourceID
     }, callback.bind(this) );
@@ -37,7 +37,7 @@ var wordpressStorage = {
     window.vcvPostStyles = stylesStringified;
 
     this.ajaxPost( {
-      action: 'vc:v:setData:adminNonce',
+      action: 'vcv:setData:adminNonce',
       nonce: window.vcNonce,
       source_id: window.vcPostID,
       content: content,
@@ -69,7 +69,7 @@ var wordpressStorage = {
       }
 
       this.ajaxPost( {
-        action: 'vc:v:saveCssBundle:adminNonce',
+        action: 'vcv:saveCssBundle:adminNonce',
         nonce: window.vcNonce,
         contents: contents
       }, function ( request ) {

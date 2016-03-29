@@ -1,6 +1,6 @@
 <?php
-define('VC_V_PHPUNIT', true);
-define('VC_V_DIE_EXCEPTION', true);
+define('VCV_PHPUNIT', true);
+define('VCV_DIE_EXCEPTION', true);
 
 $testsDir = getenv('WP_TESTS_DIR');
 if (!$testsDir) {

@@ -48,7 +48,7 @@ class General extends Container
         $this->optionGroup = 'vc-v-general';
         $this->optionSlug = 'vc-v-general';
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
                 return $this->call('addPage', [$pages]);
@@ -56,7 +56,7 @@ class General extends Container
         );
 
         add_action(
-            'vc:v:settings:initAdmin:page:' . $this->getSlug(),
+            'vcv:settings:initAdmin:page:' . $this->getSlug(),
             function () {
                 /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
                 $this->call('buildPage');

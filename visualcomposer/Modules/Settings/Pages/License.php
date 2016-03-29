@@ -27,7 +27,7 @@ class License extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
                 return $this->call('addPage', [$pages]);

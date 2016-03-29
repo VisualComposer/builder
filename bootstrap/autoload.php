@@ -3,7 +3,7 @@
 /**
  * Just a time constant can be used for performance metrics and other Randoms
  */
-define('VC_V_START', microtime(true));
+define('VCV_START', microtime(true));
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

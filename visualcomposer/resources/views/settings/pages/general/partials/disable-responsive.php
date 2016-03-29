@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
 }
 
 $attributes = [
-    'id="' . VC_V_PREFIX . 'not_responsive_css"',
-    'name="' . VC_V_PREFIX . 'not_responsive_css"',
+    'id="' . VCV_PREFIX . 'not_responsive_css"',
+    'name="' . VCV_PREFIX . 'not_responsive_css"',
     ($checked ? ' checked' : null),
 ];
 

@@ -18,7 +18,7 @@ class Frontend extends Container
     public function __construct()
     {
         add_action(
-            'vc:v:ajax:loader:frontend',
+            'vcv:ajax:loader:frontend',
             function () {
                 // @todo check access
                 /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */

@@ -11,8 +11,8 @@ class AppTest extends WP_UnitTestCase
 
     public function testBootstrap()
     {
-        $this->assertTrue((bool)did_action('vc:v:load'), 'vc:v:load action must be called');
-        $this->assertTrue((bool)did_action('vc:v:boot'), 'vc:v:boot action must be called');
+        $this->assertTrue((bool)did_action('vcv:load'), 'vcv:load action must be called');
+        $this->assertTrue((bool)did_action('vcv:boot'), 'vcv:boot action must be called');
     }
 
     public function testModuleEvents()

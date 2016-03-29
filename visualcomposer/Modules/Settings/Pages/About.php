@@ -37,7 +37,7 @@ class About extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
                 return $this->call('addPage', [$pages]);
@@ -80,7 +80,7 @@ class About extends Container
     public function setTabs($tabs)
     {
         $this->tabs = apply_filters(
-            'vc:v:settings:page:about:tabs',
+            'vcv:settings:page:about:tabs',
             $tabs
         );
 

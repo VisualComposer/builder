@@ -30,7 +30,7 @@ class GenericHelpersTest extends WP_UnitTestCase
         $this->assertTrue(is_object($templateHelper), 'templateHelper should be an object');
         $this->assertTrue(method_exists($templateHelper, 'render'), 'render method should exists');
         add_filter(
-            'vc:v:helpers:templates:render',
+            'vcv:helpers:templates:render',
             function ($path) {
                 if (strpos($path, 'test-helpers.php') > 0) {
                     return __DIR__ . '/template-for-test.php';
@@ -130,15 +130,15 @@ class GenericHelpersTest extends WP_UnitTestCase
         $this->assertTrue(method_exists($urlHelper, 'ajax'), 'ajax should exist');
         $this->assertTrue(method_exists($urlHelper, 'assetUrl'), 'assetUrl should exist');
 
-        $this->assertEquals(VC_V_PLUGIN_URL, $urlHelper->to(''), 'to should return plugin url should exist');
+        $this->assertEquals(VCV_PLUGIN_URL, $urlHelper->to(''), 'to should return plugin url should exist');
         $this->assertEquals(
-            VC_V_PLUGIN_URL . 'test',
+            VCV_PLUGIN_URL . 'test',
             $urlHelper->to('//test'),
             'to should return plugin url with test'
         );
-        $this->assertEquals(VC_V_PLUGIN_URL . 'ajax.php?', $urlHelper->ajax(), 'ajax should return url');
+        $this->assertEquals(VCV_PLUGIN_URL . 'ajax.php?', $urlHelper->ajax(), 'ajax should return url');
         $this->assertEquals(
-            VC_V_PLUGIN_URL . 'ajax.php?test=1',
+            VCV_PLUGIN_URL . 'ajax.php?test=1',
             $urlHelper->ajax(['test' => 1]),
             'ajax should return url'
         );
@@ -164,7 +164,7 @@ class GenericHelpersTest extends WP_UnitTestCase
         $this->assertEquals($urlHelper, $teInstance, 'it should be same as $urlHelper');
         $this->assertTrue(method_exists($teInstance, 'to'), 'isNetworkPlugin method should exists');
 
-        $this->assertEquals(VC_V_PLUGIN_URL, $teInstance->to(''), 'to should return plugin url should exist');
+        $this->assertEquals(VCV_PLUGIN_URL, $teInstance->to(''), 'to should return plugin url should exist');
     }
 
     public function testDataHelper()

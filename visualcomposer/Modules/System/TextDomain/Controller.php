@@ -29,6 +29,6 @@ class Controller extends Container
      */
     private function setDomain()
     {
-        load_plugin_textdomain('vc5', false, VC_V_PLUGIN_DIRNAME . '/languages');
+        load_plugin_textdomain('vc5', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }

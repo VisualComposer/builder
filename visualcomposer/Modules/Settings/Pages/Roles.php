@@ -51,7 +51,7 @@ class Roles extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
                 return $this->call('addPage', [$pages]);
@@ -59,7 +59,7 @@ class Roles extends Container
         );
 
         add_action(
-            'wp_ajax_vc_roles_settings_save',
+            'wp_ajax_vcv:rolesSettingsSave',
             function () {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
                 $this->call('saveSettings');
@@ -90,7 +90,7 @@ class Roles extends Container
      */
     public function getParts()
     {
-        return apply_filters('vc:v:settings:pages:roles:getParts', $this->parts);
+        return apply_filters('vcv:settings:pages:roles:getParts', $this->parts);
     }
 
     /**
@@ -199,7 +199,7 @@ class Roles extends Container
     {
         if (false === $this->excludedPostTypes) {
             $this->excludedPostTypes = apply_filters(
-                'vc:v:settings:pages:roles:getExcludedPostTypes',
+                'vcv:settings:pages:roles:getExcludedPostTypes',
                 [
                     'attachment',
                     'revision',
@@ -219,9 +219,9 @@ class Roles extends Container
      */
     public function saveSettings(Request $request)
     {
-        $field = 'vc_settings-' . $this->getSlug() . '-action';
+        $field = 'vcv-settings-' . $this->getSlug() . '-action';
 
-        if (check_admin_referer($field, 'vc_nonce_field') && current_user_can('manage_options')) {
+        if (check_admin_referer($field, 'vcv_nonce_field') && current_user_can('manage_options')) {
             /** @see \VisualComposer\Modules\Settings\Pages\Roles::save */
             $data = $this->call('save', [$request->input('vc_roles', [])]);
             wp_send_json($data);

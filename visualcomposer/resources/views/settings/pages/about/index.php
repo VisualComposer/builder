@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
         <?php
         echo sprintf(
             __('Welcome to Visual Composer %s', 'vc5'),
-            preg_replace('/^(\d+)(\.\d+)?(\.\d)?/', '$1$2', VC_V_VERSION)
+            preg_replace('/^(\d+)(\.\d+)?(\.\d)?/', '$1$2', VCV_VERSION)
         );
         ?>
     </h1>
@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
     </div>
 
     <div class="wp-badge vc-page-logo">
-        <?php echo sprintf(__('Version %s', 'vc5'), VC_V_VERSION) ?>
+        <?php echo sprintf(__('Version %s', 'vc5'), VCV_VERSION) ?>
     </div>
 
     <p class="vc-page-actions">

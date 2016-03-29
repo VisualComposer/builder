@@ -32,17 +32,11 @@ class Access
     /**
      * @var string
      */
-    protected static $partNamePrefix = 'vc_v_access_rules_';
+    protected static $partNamePrefix = 'vcv:access:rules:';
     /**
      * @var array
      */
     protected $mergedCaps = [
-        'vc_row_inner_all' => 'vc_row_all',
-        'vc_column_all' => 'vc_row_all',
-        'vc_column_inner_all' => 'vc_row_all',
-        'vc_row_inner_edit' => 'vc_row_edit',
-        'vc_column_edit' => 'vc_row_edit',
-        'vc_column_inner_edit' => 'vc_row_edit',
     ];
 
     /**
@@ -59,7 +53,7 @@ class Access
         $roleName = $this->getRoleName();
 
         if (!$roleName) {
-            throw new \Exception('roleName for vc_role_access is not set, please use ->who(roleName) method to set!');
+            throw new \Exception('roleName for Role\Access is not set, please use ->who(roleName) method to set!');
         }
 
         $this->part = $part;
@@ -122,7 +116,7 @@ class Access
             $state = $role->capabilities[ $this->getStateKey() ];
         }
 
-        return apply_filters('vc:v:role:getState:accessWith' . $this->getPart(), $state, $this->getRole());
+        return apply_filters('vcv:role:getState:accessWith' . $this->getPart(), $state, $this->getRole());
     }
 
     /**
@@ -156,7 +150,7 @@ class Access
     {
         $part = $this->getPart();
         if (empty($part)) {
-            throw new \Exception('partName for vc_role_access is not set, please use ->part(partName) method to set!');
+            throw new \Exception('partName for Role\Access is not set, please use ->part(partName) method to set!');
         }
         if (null === $this->getRole()) {
             $this->setValidAccess(is_super_admin());
@@ -185,8 +179,8 @@ class Access
             } else {
                 $return = $this->getCapRule($rule);
             }
-            $return = apply_filters('vc:v:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
-            $return = apply_filters('vc:v:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
+            $return = apply_filters('vcv:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
+            $return = apply_filters('vcv:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
             $this->setValidAccess($return);
         }
 
@@ -255,7 +249,7 @@ class Access
         $role = $this->getRole();
         $caps = [];
         if ($role) {
-            $role = apply_filters('vc:v:role:getAllCaps:role', $role);
+            $role = apply_filters('vcv:role:getAllCaps:role', $role);
             if (isset($role->capabilities) && is_array($role->capabilities)) {
                 foreach ($role->capabilities as $key => $value) {
                     if (preg_match('/^' . $this->getStateKey() . '\//', $key)) {

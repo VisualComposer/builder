@@ -51,7 +51,7 @@ class Controller extends Container
         }
 
         add_action(
-            'wp_ajax_vc_get_activation_url',
+            'wp_ajax_vcv:getActivationUrl',
             function () {
                 /** @see \VisualComposer\Modules\License\Controller::startActivationResponse */
                 $this->call('startActivationResponse');
@@ -59,7 +59,7 @@ class Controller extends Container
         );
 
         add_action(
-            'wp_ajax_vc_get_deactivation_url',
+            'wp_ajax_vcv:getDeactivationUrl',
             function () {
                 /** @see \VisualComposer\Modules\License\Controller::startDeactivationResponse */
                 $this->call('startDeactivationResponse');

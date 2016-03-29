@@ -29,7 +29,7 @@ class Hub extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Hub::addPage */
                 return $this->call('addPage', [$pages]);

@@ -17,18 +17,12 @@ class Controller extends Container
     public function __construct()
     {
         register_activation_hook(
-            VC_V_PLUGIN_FULL_PATH,
+            VCV_PLUGIN_FULL_PATH,
             function () {
                 /** @see \VisualComposer\Modules\System\Activation\Controller::setVersion */
                 $this->call('setVersion');
             }
         );
-        /*register_deactivation_hook(
-            VC_V_PLUGIN_FULL_PATH,
-            function () use ($event) {
-                $event->fire('vc:system:activationController:deactivation');
-            }
-        );*/
     }
 
     /**
@@ -36,6 +30,6 @@ class Controller extends Container
      */
     private function setVersion(Options $options)
     {
-        $options->set('version', VC_V_VERSION);
+        $options->set('version', VCV_VERSION);
     }
 }

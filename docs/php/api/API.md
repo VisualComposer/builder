@@ -2,7 +2,7 @@
 Plugin/Helpers/Module API
 
 ##WordPress Filters and Actions usage:
-- All filters and actions __MUST__ use `vc:v:` prefix
+- All filters and actions __MUST__ use `vcv:` prefix
 - Prefer to use Inner __EVENTS__ manager to trigger/listen actions
 
 
@@ -20,12 +20,12 @@ Plugin/Helpers/Module API
             $this->event = $event;
     
             $this->event->listen(
-                'vc:v:postAjax:setPostData',
+                'vcv:postAjax:setPostData',
                 function ($data) {
                 }
             );
             $someData = [ 'data' => 'hello!' ];
-            $this->event->fire('vc:v:myModules:init', $someData);
+            $this->event->fire('vcv:myModules:init', $someData);
         }
         
 - By Using `vcapp()`:
@@ -35,12 +35,12 @@ Plugin/Helpers/Module API
             $this->event = vcapp('eventsHelper'); // vcapp('\VisualComposer\Framework\Illuminate\Contracts\Dispatcher');
     
             $this->event->listen(
-                'vc:v:postAjax:setPostData',
+                'vcv:postAjax:setPostData',
                 function ($data) {
                 }
             );
             $someData = [ 'data' => 'hello!' ];
-            $this->event->fire('vc:v:myModules:init', $someData);
+            $this->event->fire('vcv:myModules:init', $someData);
         }
 
 ##Modules API

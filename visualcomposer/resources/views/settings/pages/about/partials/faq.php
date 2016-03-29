@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<div class="vc_faq-tab changelog">
+<div class="vcv-faq-tab changelog">
     <h3><?php echo __('New to Visual Composer or Looking for More Information?', 'vc5') ?></h3>
 
     <p><?php printf(
@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
             'http://kb.wpbakery.com'
         ) ?></p>
 
-    <div class="feature-section vc_row">
-        <div class="vc_col-xs-4">
+    <div class="feature-section vcv-row">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/preface">Preface</a></h4>
             <ul>
                 <li><a target="_blank" href="http://go.wpbakery.com/introduction">Introduction</a></li>
@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
             </ul>
         </div>
 
-        <div class="vc_col-xs-4">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/licensing">Licensing</a></h4>
             <ul>
                 <li><a target="_blank" href="http://go.wpbakery.com/regular-license">Regular License</a></li>
@@ -42,7 +42,7 @@ if (!defined('ABSPATH')) {
             </ul>
         </div>
 
-        <div class="vc_col-xs-4">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/getting-started">Getting Started</a></h4>
             <ul>
                 <li><a target="_blank" href="http://go.wpbakery.com/install">Plugin Installation</a></li>
@@ -53,8 +53,8 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <div class="feature-section vc_row">
-        <div class="vc_col-xs-4">
+    <div class="feature-section vcv-row">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/learning-more">Learning More</a>
             </h4>
             <ul>
@@ -74,20 +74,20 @@ if (!defined('ABSPATH')) {
             </ul>
         </div>
 
-        <div class="vc_col-xs-4">
-            <h4><a target="_blank" href="http://go.wpbakery.com/vc-how-tos">Visual Composer "How To's"</a></h4>
+        <div class="vcv-col-xs-4">
+            <h4><a target="_blank" href="http://go.wpbakery.com/vcv-how-tos">Visual Composer "How To's"</a></h4>
             <p>In this section you will find a quick tips in form of video tutorials on how to operate with Visual
                 Composer.</p>
         </div>
 
-        <div class="vc_col-xs-4">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/faq">FAQ</a></h4>
             <p>Here you can find answers to the Frequently Asked Question about Visual Composer.</p>
         </div>
     </div>
 
-    <div class="feature-section vc_row">
-        <div class="vc_col-xs-4">
+    <div class="feature-section vcv-row">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/addons">Add-ons</a></h4>
             <ul>
                 <li><a target="_blank" href="http://go.wpbakery.com/templatera">Templatera</a></li>
@@ -99,12 +99,12 @@ if (!defined('ABSPATH')) {
             </ul>
         </div>
 
-        <div class="vc_col-xs-4">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/theme-integration">Theme Integration</a></h4>
             <p>See how you can integrate Visual Composer within your WordPress theme.</p>
         </div>
 
-        <div class="vc_col-xs-4">
+        <div class="vcv-col-xs-4">
             <h4><a target="_blank" href="http://go.wpbakery.com/inner-api">Inner API</a></h4>
             <p>Inner API section describes capabilities of interaction with Visual Composer.</p>
         </div>

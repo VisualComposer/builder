@@ -17,7 +17,7 @@ class Controller extends Container
     public function __construct()
     {
         add_action(
-            'wp_ajax_vc:v:ajaxShortcodeRender',
+            'wp_ajax_vcv:ajaxShortcodeRender',
             function () {
                 /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
                 $this->call('ajaxShortcodeRender');

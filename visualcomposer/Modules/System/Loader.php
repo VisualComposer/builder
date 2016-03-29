@@ -2,7 +2,7 @@
 /**
  * Constant that determinates that it is outer-request(ajax)
  */
-define('VC_V_LOADER', true);
+define('VCV_LOADER', true);
 
 // Require an action parameter
 if (empty($_REQUEST['action'])) {
@@ -15,7 +15,7 @@ if (empty($_REQUEST['action'])) {
 }
 /** Load WordPress Bootstrap */
 require_once __DIR__ . '/../../../../../../wp-load.php'; // @todo it s****
-if (!defined('VC_V_VERSION')) {
+if (!defined('VCV_VERSION')) {
     die(json_encode(
         [
             'status' => 'fail',
@@ -60,8 +60,8 @@ if (strpos($requestAction, ':nonce')) {
  * @todo: 1) check access [authorized, permission, guest]
  * @todo: 2) sanitize input
  */
-do_action('vc:v:ajax:loader');
-do_action('vc:v:ajax:loader:' . $requestAction);
+do_action('vcv:ajax:loader');
+do_action('vcv:ajax:loader:' . $requestAction);
 
 // Detect if output received, just DIE
 $sent = headers_sent() || ob_get_status();

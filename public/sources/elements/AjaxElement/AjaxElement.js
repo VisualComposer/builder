@@ -31,7 +31,7 @@ var AjaxElement = React.createClass( {
 			this.serverRequest.abort();
 		}
 		this.serverRequest = innerAjax( {
-			action: 'vc:v:ajaxShortcodeRender',
+			action: 'vcv:ajaxShortcodeRender',
 			shortcodeString: this.props.shortcodeString,
 			post_id: window.vcPostID
 		}, function ( result ) {
@@ -94,7 +94,7 @@ var AjaxElement = React.createClass( {
 			this.serverRequest.abort();
 		}
 		this.serverRequest = innerAjax( {
-			action: 'vc:v:ajaxShortcodeRender',
+			action: 'vcv:ajaxShortcodeRender',
 			shortcodeString: nextProps.shortcodeString,
 			post_id: window.vcPostID
 		}, function ( result ) {

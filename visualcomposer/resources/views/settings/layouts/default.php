@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 
 vcview('settings/partials/admin-nonce');
 ?>
-<div class="wrap vc_settings">
+<div class="wrap vcv-settings">
     <h2><?php echo __('Visual Composer Settings', 'vc5') ?></h2>
     <?php
     vcview(

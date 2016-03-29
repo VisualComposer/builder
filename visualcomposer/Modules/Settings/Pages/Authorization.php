@@ -29,7 +29,7 @@ class Authorization extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
+            'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
                 return $this->call('addPage', [$pages]);
@@ -37,7 +37,7 @@ class Authorization extends Container
         );
 
         add_action(
-            'vc:v:ajax:loader:api',
+            'vcv:ajax:loader:api',
             function () {
                 /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
                 $this->call('handleApiRequest');
