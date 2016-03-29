@@ -47,6 +47,7 @@ define('VC_V_VERSION', '5.0');
 define('VC_V_PLUGIN_URL', plugin_dir_url(__FILE__));
 /**
  * Plugin directory full path: 'server/web/wp-content/plugins/plugin_dir/'
+ * @internal - please try to use vcapp()->path() instead
  */
 define('VC_V_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 /**

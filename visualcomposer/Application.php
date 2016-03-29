@@ -85,7 +85,9 @@ class Application extends ApplicationFactory implements ApplicationContract
      * Create a new Application instance.
      *
      * @overrides parent::__construct()
+     *
      * @param  string|null $basePath
+     *
      * @noinspection PhpMissingParentConstructorInspection
      */
     public function __construct($basePath = null)
@@ -98,8 +100,23 @@ class Application extends ApplicationFactory implements ApplicationContract
     /**
      * Bootstraps registred modules( also creates an instance )
      * And saves helpers as singletons
+     *
+     * @return $this
      */
     public function boot()
+    {
+        // Do the boot!
+        do_action('vc:v:booting', $this);
+        $this->bootHelpers()->bootAutoload()->bootModules();
+        do_action('vc:v:boot', $this);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function bootAutoload()
     {
         $app = $this; // used in require
         $autoloadFiles = $this->getAutoloadFiles();
@@ -110,18 +127,37 @@ class Application extends ApplicationFactory implements ApplicationContract
                 require $file;
             }
         }
+
+        return $app;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function bootHelpers()
+    {
+        if (is_array($this->helpers)) {
+            foreach ($this->helpers as $helper) {
+                $this->singleton($helper, $helper);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function bootModules()
+    {
         if (is_array($this->modules)) {
             foreach ($this->modules as $module) {
                 $this->singleton($module, $module);
                 $this->make($module);
             }
         }
-        if (is_array($this->helpers)) {
-            foreach ($this->helpers as $helper) {
-                $this->singleton($helper, $helper);
-            }
-        }
-        do_action('vc:v:boot', $app);
+
+        return $this;
     }
 
     /**
@@ -139,7 +175,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      * Used in Dependency Injection
      * @see \docs\php\DependencyInjection.md
      *
-     * @return void
+     * @return $this
      */
     protected function registerContainerAliases()
     {
@@ -150,12 +186,14 @@ class Application extends ApplicationFactory implements ApplicationContract
                 'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'app',
                 'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'eventsHelper',
             ] + $this->modules + $this->helpers;
+
+        return $this;
     }
 
     /**
      * Register container bindings for the application.
      *
-     * @return void
+     * @return $this
      */
     protected function registerEventBindings()
     {
@@ -165,11 +203,14 @@ class Application extends ApplicationFactory implements ApplicationContract
                 return (new Dispatcher($app));
             }
         );
+
+        return $this;
     }
 
     /**
      * @param $pattern - file pattern to search
      * @param int $flags
+     *
      * @return mixed
      */
     public function rglob($pattern, $flags = 0)
@@ -184,28 +225,41 @@ class Application extends ApplicationFactory implements ApplicationContract
 
     /**
      * Public api to register module
+     *
      * @param $name
      * @param $controller
+     *
+     * @return $this
      */
     public function addModule($name, $controller)
     {
         $this->addCompontent(strtolower($name), $controller, true);
+
+        return $this;
     }
 
     /**
      * Public api to register helper
+     *
      * @param $name
      * @param $controller
+     *
+     * @return $this
      */
     public function addHelper($name, $controller)
     {
         $this->addCompontent(strtolower($name) . 'Helper', $controller, false);
+
+        return $this;
     }
 
     /**$this->addCompontent($moduleName, $moduleController, true);
+     *
      * @param $componentName
      * @param $componentController
      * @param bool $make
+     *
+     * @return $this
      */
     public function addCompontent($componentName, $componentController, $make = true)
     {
@@ -214,16 +268,23 @@ class Application extends ApplicationFactory implements ApplicationContract
         if ($make) {
             $this->make($componentController);
         }
+
+        return $this;
     }
 
     /**
      * Add component Alias
+     *
      * @param $key
      * @param $value
+     *
+     * @return $this
      */
     public function addAlias($key, $value)
     {
         $this->aliases[ $key ] = $value;
+
+        return $this;
     }
 
     /**
@@ -231,7 +292,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     private function getAutoloadFiles()
     {
-        $filename = VC_V_PLUGIN_DIR_PATH . 'cache/autoload-' . VC_V_VERSION . '.php';
+        $filename = $this->path('cache/autoload-' . VC_V_VERSION . '.php');
         if (!VC_V_DEBUG
             && (file_exists(
                 $filename
@@ -241,7 +302,7 @@ class Application extends ApplicationFactory implements ApplicationContract
 
             return $autoloadFiles;
         } else {
-            $autoloadFiles = $this->rglob(VC_V_PLUGIN_DIR_PATH . 'visualcomposer/*/autoload.php');
+            $autoloadFiles = $this->rglob($this->path('visualcomposer/*/autoload.php'));
             $this->saveAutoloadFiles($autoloadFiles);
 
             return $autoloadFiles;
@@ -250,10 +311,12 @@ class Application extends ApplicationFactory implements ApplicationContract
 
     /**
      * @param $autoloadFiles
+     *
+     * @return $this
      */
     private function saveAutoloadFiles($autoloadFiles)
     {
-        $filename = VC_V_PLUGIN_DIR_PATH . 'cache/autoload-' . VC_V_VERSION . '.php';
+        $filename = $this->path('cache/autoload-' . VC_V_VERSION . '.php');
         $autoloadFilesExport = var_export($autoloadFiles, true);
 
         $fileData = <<<DATA
@@ -262,5 +325,19 @@ class Application extends ApplicationFactory implements ApplicationContract
 return $autoloadFilesExport;
 DATA;
         file_put_contents($filename, $fileData);
+
+        return $this;
+    }
+
+    /**
+     * Get plugin dir path + custom dir
+     *
+     * @param $path
+     *
+     * @return string
+     */
+    public function path($path = '')
+    {
+        return apply_filters('vc:v:application:path', $this->basePath . ltrim($path, '\//'));
     }
 }

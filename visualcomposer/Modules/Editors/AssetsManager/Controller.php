@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
+use VisualComposer\Application;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\WordPress\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
@@ -166,8 +167,10 @@ class Controller extends Container
 
             if (!is_file($bundle)) {
                 $contents = '';
+                /** @var $app Application */
+                $app = vcapp();
                 foreach ($files as $file) {
-                    $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
+                    $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
                 }
 
@@ -239,8 +242,10 @@ class Controller extends Container
         foreach ($list as $element => $files) {
             $contents = '';
             if (is_array($files)) {
+                /** @var Application $app */
+                $app = vcapp();
                 foreach ($files as $file) {
-                    $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
+                    $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
                 }
             }

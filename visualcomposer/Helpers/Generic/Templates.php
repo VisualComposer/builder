@@ -24,6 +24,8 @@ class Templates
         if (strtolower(substr($_path, -4, 4)) !== '.php') {
             $_path .= '.php';
         }
+        /** @var \VisualComposer\Application $_app */
+        $_app = vcapp();
 
         ob_start();
 
@@ -31,7 +33,7 @@ class Templates
 
         $_path = apply_filters(
             'vc:v:helpers:templates:render',
-            VC_V_PLUGIN_DIR_PATH . 'visualcomposer/resources/views/' . ltrim($_path, '/\\'),
+            $_app->path('visualcomposer/resources/views/' . ltrim($_path, '/\\')),
             $_path,
             $_args,
             $_echo
