@@ -3,9 +3,9 @@ var React = require('react');
 var ReactDom = require('react-dom');
 
 var classNames = require('classnames');
-var TreeContentTab = require('./content-tab');
+var TreeContentTab = require('./tab');
 var ElementComponents = vcCake.getService('element').components;
-
+var EditFormElement = require('./edit-form-element');
 require('../../css/tree-view/init.less');
 
 var TreeContent = React.createClass({
@@ -21,43 +21,10 @@ var TreeContent = React.createClass({
         {
           id: 'content-tab-' + 1,
           title: 'General'
-        },
-        {
-          id: 'content-tab-' + 2,
-          title: 'Design Options'
-        },
-        {
-          id: 'content-tab-' + 3,
-          title: 'Advanced'
         }
       ],
-      hiddenTabs: [
-        {
-          id: 'content-tab-' + 4,
-          title: 'Filter Options'
-        },
-        {
-          id: 'content-tab-' + 5,
-          title: 'Exposure Settings'
-        },
-        {
-          id: 'content-tab-' + 6,
-          title: 'More Options'
-        },
-        {
-          id: 'content-tab-' + 7,
-          title: 'Other Tab'
-        },
-        {
-          id: 'content-tab-' + 8,
-          title: 'One More Tab'
-        },
-        {
-          id: 'content-tab-' + 9,
-          title: 'JAT'
-        }
-      ]
-    }
+      hiddenTabs: []
+    };
   },
   componentDidMount: function() {
     window.addEventListener("resize", this.refreshTabs);
@@ -144,8 +111,16 @@ var TreeContent = React.createClass({
       }
     }
   },
+  getSettings: function() {
+    var element = this.getElement();
+    return ElementComponents.get(element.tag);
+  },
+  getElement: function() {
+    return this.props.api.getService('document').get(this.props.id);
+  },
   getForm: function() {
     console.log('getForm called');
+    var element = this.getElement();
     var settings = this.getSettings();
     var returnList = [];
     var settingsKeys = Object.keys(settings);
@@ -158,7 +133,7 @@ var TreeContent = React.createClass({
             <EditFormElement
               key={['vc-v-edit-form-element-' , key]}
               paramSettings={paramSettings}
-              editElement={this.state.editElement}
+              editElement={element}
               paramKey={key}
               toggleVisible={this.toggleVisible}
               isVisible={isVisible}
@@ -188,9 +163,6 @@ var TreeContent = React.createClass({
     let treeContentClasses = classNames({
       "vc-ui-tree-content": true
     });
-    if (false === this.props.id) {
-      return (<div className={treeContentClasses}></div>);
-    }
 
     let dropdownClasses = classNames({
       "vc-ui-editor-tab-dropdown": true,
@@ -279,9 +251,9 @@ var TreeContent = React.createClass({
                   plateClass += ' vc-ui-active';
                 }
                 return (<div key={'plate'+tab.id} className={plateClass}>
-                  tab content {tab.id}
+                  {this.getForm()}
                 </div>)
-              })
+              }, this)
               }
               { hiddenTabs.map((tab, i) => {
                 let plateClass = 'vc-ui-editor-plate';
@@ -291,7 +263,7 @@ var TreeContent = React.createClass({
                 return (<div key={'plate'+tab.id} className={plateClass}>
                   tab content {tab.id}
                 </div>)
-              })
+              }, this)
               }
             </div>
           </div>

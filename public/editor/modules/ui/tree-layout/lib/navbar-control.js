@@ -10,7 +10,6 @@ vcCake.add('ui-tree-layout', function(api){
       };
     },
     componentDidMount: function () {
-      var document = vcCake.getService('document');
     },
     toggleTreeView: function() {
       this.setState({menuExpand: !this.state.menuExpand});

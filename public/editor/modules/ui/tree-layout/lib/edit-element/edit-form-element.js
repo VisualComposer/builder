@@ -18,7 +18,6 @@ var EditFormElement = React.createClass({
         {value: paramValue, editElement: this.props.editElement},
         settingsValue.onOpen,
         RulesManager.EVENT_TYPES.onOpen, (function() {
-          // this.props.publish('onOpenFinished', paramKey);
         }).bind(this),
         {
           toggleVisible: toggleVisible
@@ -52,7 +51,6 @@ var EditFormElement = React.createClass({
     var { paramKey, paramSettings, editElement } = this.props;
     var settingsValue = paramSettings.getSettings();
     if (settingsValue && settingsValue.onSave) {
-      console.log('onSave called');
       var toggleVisible = this.props.toggleVisible;
       var type = paramSettings.getType().toLowerCase();
       var paramValue = this.getValue(editElement, type, paramKey);
@@ -91,14 +89,6 @@ var EditFormElement = React.createClass({
   },
   componentWillMount: function() {
     console.log("EditFormElement componentWillMount call");
-    this.props.subscribe('save', (function(saveCallback) {
-      console.log('save subscribe called');
-      this.onSave(saveCallback);
-    }).bind(this));
-    this.props.subscribe('cancel', (function(cancelCallback) {
-      console.log('cancel subscribe called');
-      this.onCancel(cancelCallback);
-    }).bind(this));
     this.onOpen();
   },
   getInitialState: function() {
@@ -106,10 +96,10 @@ var EditFormElement = React.createClass({
     return {};
   },
   getComponent: function(type) {
-    return require('../../../../../sources/attributes/' + type + '/Component');
+    return require('../../../../../../sources/attributes/' + type + '/Component');
   },
   getValue: function(element, type, key) {
-    var Getter = require('../../../../../sources/attributes/' + type + '/Getter');
+    var Getter = require('../../../../../../sources/attributes/' + type + '/Getter');
     return Getter(element, key); // todo fix maxlength/class/style names with prefix-postfix and fix default value
   },
   render: function() {
@@ -127,7 +117,7 @@ var EditFormElement = React.createClass({
         <div className="vc-v-form-row-control">
           <ComponentView
             value={paramValue}
-            key={Mediator.getService('utils').createKey()}
+            key={vcCake.getService('utils').createKey()}
             element={editElement}
             settings={paramSettings}
             rulesManager={this}
