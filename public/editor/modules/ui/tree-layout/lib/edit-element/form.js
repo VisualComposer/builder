@@ -152,7 +152,10 @@ var TreeContent = React.createClass({
     return returnList;
   },
   closeForm: function() {
-    this.props.api.notify('edit:close', false);
+    this.props.api.notify('form:hide', false);
+  },
+  closeTreeView: function() {
+    this.props.api.notify('hide', false);
   },
   saveForm: function() {
     this.closeForm();
@@ -163,7 +166,9 @@ var TreeContent = React.createClass({
     let treeContentClasses = classNames({
       "vc-ui-tree-content": true
     });
-
+    if(false === this.props.id) {
+      return <div className={treeContentClasses}></div>;
+    }
     let dropdownClasses = classNames({
       "vc-ui-editor-tab-dropdown": true,
       "vc-ui-active": !!hiddenTabs.filter(function(value) {
@@ -183,14 +188,14 @@ var TreeContent = React.createClass({
       }
     }
     var element = this.props.api.getService('document').get(this.props.id);
-    var elementSettings = ElementComponents.get(element.tag);
+    var elementSettings = element ? ElementComponents.get(element.tag) : null;
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">
           <div className="vc-ui-tree-content-title-bar">
             <i className="vc-ui-tree-content-title-icon vc-ui-icon vc-ui-icon-bug"></i>
             <h3 className="vc-ui-tree-content-title">
-              {elementSettings.name.toString()}
+              {elementSettings ? elementSettings.name.toString() : null}
             </h3>
             <nav className="vc-ui-tree-content-title-controls">
               <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span
@@ -202,7 +207,7 @@ var TreeContent = React.createClass({
               <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-cog"></i></span></a>
-              <a className="vc-ui-tree-content-title-control" href="#" title="title bug" onClick={this.closeForm}><span
+              <a className="vc-ui-tree-content-title-control" href="#" title="title bug" onClick={this.closeTreeView}><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-close"></i></span></a>
             </nav>

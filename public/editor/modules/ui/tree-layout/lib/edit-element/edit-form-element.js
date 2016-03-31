@@ -88,7 +88,6 @@ var EditFormElement = React.createClass({
     }
   },
   componentWillMount: function() {
-    console.log("EditFormElement componentWillMount call");
     this.onOpen();
   },
   getInitialState: function() {
@@ -98,10 +97,7 @@ var EditFormElement = React.createClass({
   getComponent: function(type) {
     return require('../../../../../../sources/attributes/' + type + '/Component');
   },
-  getValue: function(element, type, key) {
-    var Getter = require('../../../../../../sources/attributes/' + type + '/Getter');
-    return Getter(element, key); // todo fix maxlength/class/style names with prefix-postfix and fix default value
-  },
+
   render: function() {
     var { paramKey, isVisible, paramSettings, editElement } = this.props;
     var formRowClasses = classNames(
@@ -109,19 +105,18 @@ var EditFormElement = React.createClass({
       isVisible ? 'vc-rules-manager-visible' : 'vc-rules-manager-hidden'
     );
     var type = paramSettings.getType().toLowerCase();
-    var ComponentView = this.getComponent(type);
-    var paramValue = this.getValue(editElement, type, paramKey);
+    var AttributeView = this.getComponent(type);
 
     return (
       <div className={formRowClasses}>
-        <div className="vc-v-form-row-control">
-          <ComponentView
-            value={paramValue}
+        <div className="vcv-form-row-control">
+          <AttributeView
             key={vcCake.getService('utils').createKey()}
             element={editElement}
             settings={paramSettings}
             rulesManager={this}
             name={paramKey}
+            onChange={this.onChange}
           />
         </div>
       </div>

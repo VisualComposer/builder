@@ -5,7 +5,7 @@
  *
  * Visual composer Tabs
  * ========================================================= */
-(function ( $ ) {
+(function($) {
   'use strict';
 
   var Tabs, old, clickHandler, changeHandler;
@@ -15,8 +15,8 @@
    * @param element
    * @constructor
    */
-  Tabs = function ( element, options ) {
-    this.$element = $( element );
+  Tabs = function(element, options) {
+    this.$element = $(element);
     this.activeClass = 'vc_active';
     this.tabSelector = '[data-vc-tab]';
 
@@ -33,14 +33,14 @@
    * Is cache used
    * @returns {boolean}
    */
-  Tabs.prototype.isCacheUsed = function () {
+  Tabs.prototype.isCacheUsed = function() {
     var useCache, that;
     that = this;
-    useCache = function () {
-      return false !== that.$element.data( 'vcUseCache' );
+    useCache = function() {
+      return false !== that.$element.data('vcUseCache');
     };
 
-    if ( 'undefined' === typeof(this.useCacheFlag) ) {
+    if ('undefined' === typeof(this.useCacheFlag)) {
       this.useCacheFlag = useCache();
     }
 
@@ -51,12 +51,12 @@
    * Get container
    * @returns {*|Number}
    */
-  Tabs.prototype.getContainer = function () {
-    if ( ! this.isCacheUsed() ) {
+  Tabs.prototype.getContainer = function() {
+    if (!this.isCacheUsed()) {
       return this.findContainer();
     }
 
-    if ( 'undefined' === typeof(this.$container) ) {
+    if ('undefined' === typeof(this.$container)) {
       this.$container = this.findContainer();
     }
 
@@ -67,11 +67,11 @@
    * Find container
    * @returns {window.jQuery}
    */
-  Tabs.prototype.findContainer = function () {
+  Tabs.prototype.findContainer = function() {
     var $container;
-    $container = this.$element.closest( this.$element.data( 'vcContainer' ) );
-    if ( ! $container.length ) {
-      $container = $( 'body' );
+    $container = this.$element.closest(this.$element.data('vcContainer'));
+    if (!$container.length) {
+      $container = $('body');
     }
     return $container;
   };
@@ -80,34 +80,34 @@
    * Get container accordions
    * @returns {*}
    */
-  Tabs.prototype.getContainerAccordion = function () {
-    return this.getContainer().find( '[data-vc-accordion]' );
+  Tabs.prototype.getContainerAccordion = function() {
+    return this.getContainer().find('[data-vc-accordion]');
   };
 
   /**
    * Get selector
    * @returns {*}
    */
-  Tabs.prototype.getSelector = function () {
+  Tabs.prototype.getSelector = function() {
     var findSelector, $this;
 
     $this = this.$element;
-    findSelector = function () {
+    findSelector = function() {
       var selector;
 
-      selector = $this.data( 'vcTarget' );
-      if ( ! selector ) {
-        selector = $this.attr( 'href' );
+      selector = $this.data('vcTarget');
+      if (!selector) {
+        selector = $this.attr('href');
       }
 
       return selector;
     };
 
-    if ( ! this.isCacheUsed() ) {
+    if (!this.isCacheUsed()) {
       return findSelector();
     }
 
-    if ( 'undefined' === typeof(this.selector) ) {
+    if ('undefined' === typeof(this.selector)) {
       this.selector = findSelector();
     }
 
@@ -118,16 +118,16 @@
    * Get target
    * @returns {*}
    */
-  Tabs.prototype.getTarget = function () {
+  Tabs.prototype.getTarget = function() {
     var selector;
     selector = this.getSelector();
 
-    if ( ! this.isCacheUsed() ) {
-      return this.getContainer().find( selector );
+    if (!this.isCacheUsed()) {
+      return this.getContainer().find(selector);
     }
 
-    if ( 'undefined' === typeof(this.$target) ) {
-      this.$target = this.getContainer().find( selector );
+    if ('undefined' === typeof(this.$target)) {
+      this.$target = this.getContainer().find(selector);
     }
 
     return this.$target;
@@ -137,39 +137,39 @@
    * Get related accordion
    * @returns {*}
    */
-  Tabs.prototype.getRelatedAccordion = function () {
+  Tabs.prototype.getRelatedAccordion = function() {
     var tab, filterElements;
 
     tab = this;
 
-    filterElements = function () {
+    filterElements = function() {
       var $elements;
 
-      $elements = tab.getContainerAccordion().filter( function () {
+      $elements = tab.getContainerAccordion().filter(function() {
         var $that, accordion;
-        $that = $( this );
+        $that = $(this);
 
-        accordion = $that.data( 'vc.accordion' );
+        accordion = $that.data('vc.accordion');
 
-        if ( 'undefined' === typeof(accordion) ) {
+        if ('undefined' === typeof(accordion)) {
           $that.vcAccordion();
-          accordion = $that.data( 'vc.accordion' );
+          accordion = $that.data('vc.accordion');
         }
 
         return tab.getSelector() === accordion.getSelector();
-      } );
+      });
 
-      if ( $elements.length ) {
+      if ($elements.length) {
         return $elements;
       }
 
       return undefined;
     };
-    if ( ! this.isCacheUsed() ) {
+    if (!this.isCacheUsed()) {
       return filterElements();
     }
 
-    if ( 'undefined' === typeof(this.$relatedAccordion) ) {
+    if ('undefined' === typeof(this.$relatedAccordion)) {
       this.$relatedAccordion = filterElements();
     }
 
@@ -180,11 +180,11 @@
    * Trigger event
    * @param event
    */
-  Tabs.prototype.triggerEvent = function ( event ) {
+  Tabs.prototype.triggerEvent = function(event) {
     var $event;
-    if ( 'string' === typeof(event) ) {
-      $event = $.Event( event );
-      this.$element.trigger( $event );
+    if ('string' === typeof(event)) {
+      $event = $.Event(event);
+      this.$element.trigger($event);
     }
   };
 
@@ -192,16 +192,16 @@
    * Get target tab
    * @returns {*|Number}
    */
-  Tabs.prototype.getTargetTab = function () {
+  Tabs.prototype.getTargetTab = function() {
     var $this;
     $this = this.$element;
 
-    if ( ! this.isCacheUsed() ) {
-      return $this.closest( this.tabSelector );
+    if (!this.isCacheUsed()) {
+      return $this.closest(this.tabSelector);
     }
 
-    if ( 'undefined' === typeof(this.$targetTab) ) {
-      this.$targetTab = $this.closest( this.tabSelector );
+    if ('undefined' === typeof(this.$targetTab)) {
+      this.$targetTab = $this.closest(this.tabSelector);
     }
 
     return this.$targetTab;
@@ -210,60 +210,60 @@
   /**
    * Tab Clicked
    */
-  Tabs.prototype.tabClick = function () {
+  Tabs.prototype.tabClick = function() {
 
-    this.getRelatedAccordion().trigger( 'click' );
+    this.getRelatedAccordion().trigger('click');
   };
 
   /**
    * Tab Show
    */
-  Tabs.prototype.show = function () {
+  Tabs.prototype.show = function() {
     // if showed no need to do anything
-    if ( this.getTargetTab().hasClass( this.activeClass ) ) {
+    if (this.getTargetTab().hasClass(this.activeClass)) {
       return;
     }
 
-    this.triggerEvent( 'show.vc.tab' );
+    this.triggerEvent('show.vc.tab');
 
-    this.getTargetTab().addClass( this.activeClass );
+    this.getTargetTab().addClass(this.activeClass);
   };
 
   /**
    * Tab Hide
    */
-  Tabs.prototype.hide = function () {
+  Tabs.prototype.hide = function() {
     // if showed no need to do anything
-    if ( ! this.getTargetTab().hasClass( this.activeClass ) ) {
+    if (!this.getTargetTab().hasClass(this.activeClass)) {
       return;
     }
 
-    this.triggerEvent( 'hide.vc.tab' );
+    this.triggerEvent('hide.vc.tab');
 
-    this.getTargetTab().removeClass( this.activeClass );
+    this.getTargetTab().removeClass(this.activeClass);
   };
 
   //Tabs.prototype
 
   // Tabs plugin definition
   // ==========================
-  function Plugin( action, options ) {
+  function Plugin(action, options) {
     var args;
 
-    args = Array.prototype.slice.call( arguments, 1 );
-    return this.each( function () {
+    args = Array.prototype.slice.call(arguments, 1);
+    return this.each(function() {
       var $this, data;
 
-      $this = $( this );
-      data = $this.data( 'vc.tabs' );
-      if ( ! data ) {
-        data = new Tabs( $this, $.extend( true, {}, options ) );
-        $this.data( 'vc.tabs', data );
+      $this = $(this);
+      data = $this.data('vc.tabs');
+      if (!data) {
+        data = new Tabs($this, $.extend(true, {}, options));
+        $this.data('vc.tabs', data);
       }
-      if ( 'string' === typeof(action) ) {
-        data[ action ].apply( data, args );
+      if ('string' === typeof(action)) {
+        data[action].apply(data, args);
       }
-    } );
+    });
   }
 
   old = $.fn.vcTabs;
@@ -273,7 +273,7 @@
 
   // Tabs no conflict
   // ==========================
-  $.fn.vcTabs.noConflict = function () {
+  $.fn.vcTabs.noConflict = function() {
     $.fn.vcTabs = old;
     return this;
   };
@@ -281,48 +281,48 @@
   // Tabs data-api
   // =================
 
-  clickHandler = function ( e ) {
+  clickHandler = function(e) {
     var $this;
-    $this = $( this );
+    $this = $(this);
     e.preventDefault();
-    Plugin.call( $this, 'tabClick' );
+    Plugin.call($this, 'tabClick');
   };
 
-  changeHandler = function ( e ) {
+  changeHandler = function(e) {
     var caller;
-    caller = $( e.target ).data( 'vc.accordion' );
+    caller = $(e.target).data('vc.accordion');
 
-    if ( 'undefined' === typeof(caller.getRelatedTab) ) {
+    if ('undefined' === typeof(caller.getRelatedTab)) {
       /**
        * Get related tab from accordion
        * @returns {*}
        */
-      caller.getRelatedTab = function () {
+      caller.getRelatedTab = function() {
         var findTargets;
 
-        findTargets = function () {
+        findTargets = function() {
           var $targets;
-          $targets = caller.getContainer().find( '[data-vc-tabs]' ).filter( function () {
+          $targets = caller.getContainer().find('[data-vc-tabs]').filter(function() {
             var $this, tab;
-            $this = $( this );
+            $this = $(this);
 
-            tab = $this.data( 'vc.accordion' );
-            if ( 'undefined' === typeof(tab) ) {
+            tab = $this.data('vc.accordion');
+            if ('undefined' === typeof(tab)) {
               $this.vcAccordion();
             }
-            tab = $this.data( 'vc.accordion' );
+            tab = $this.data('vc.accordion');
 
             return tab.getSelector() === caller.getSelector();
-          } );
+          });
 
           return $targets;
         };
 
-        if ( ! caller.isCacheUsed() ) {
+        if (!caller.isCacheUsed()) {
           return findTargets();
         }
 
-        if ( 'undefined' === typeof(caller.relatedTab) ) {
+        if ('undefined' === typeof(caller.relatedTab)) {
           caller.relatedTab = findTargets();
         }
 
@@ -330,9 +330,9 @@
       };
     }
 
-    Plugin.call( caller.getRelatedTab(), e.type );
+    Plugin.call(caller.getRelatedTab(), e.type);
   };
 
-  $( document ).on( 'click.vc.tabs.data-api', '[data-vc-tabs]', clickHandler );
-  $( document ).on( 'show.vc.accordion hide.vc.accordion', changeHandler );
-}( window.jQuery ));
+  $(document).on('click.vc.tabs.data-api', '[data-vc-tabs]', clickHandler);
+  $(document).on('show.vc.accordion hide.vc.accordion', changeHandler);
+}(window.jQuery));

@@ -1,3 +1,3 @@
-module.exports = function ( element, key ) {
-	return element[key];
+module.exports = function(element, key) {
+  return JSON.parse(element[key]);
 };

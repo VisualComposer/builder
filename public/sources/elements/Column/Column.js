@@ -3,19 +3,19 @@ var classNames = require('classnames');
 
 require('./editor/Column.less');
 var Column = React.createClass({
-    render: function() {
-        var { key, content, width, editor, ...other } = this.props;
-		var classes = {
-			"vc-v-column": true
-		};
-		classes[ "col-xs-" + width ] = ! ! width;
-		classes[ "col-sm-" + width ] = ! ! width;
-		classes[ "col-md-" + width ] = ! ! width;
-		classes[ "col-lg-" + width ] = ! ! width;
-		var className = classNames( classes );
-        return (<div className={className} key={key} {...editor}>
-            {content}
-        </div>);
-    }
+  render: function() {
+    var {key, content, width, editor, ...other} = this.props;
+    var classes = {
+      "vc-v-column": true
+    };
+    classes["col-xs-" + width] = !!width;
+    classes["col-sm-" + width] = !!width;
+    classes["col-md-" + width] = !!width;
+    classes["col-lg-" + width] = !!width;
+    var className = classNames(classes);
+    return (<div className={className} key={key} {...editor}>
+      {content}
+    </div>);
+  }
 });
 module.exports = Column;

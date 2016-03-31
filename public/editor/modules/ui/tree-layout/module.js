@@ -11,14 +11,15 @@ vcCake.add('ui-tree-layout', function(api) {
       };
     },
     componentDidMount: function() {
-      api.on('toggle', function() {
-        this.setState(function(prevState) {
-          return {treeViewExpand: !prevState.treeViewExpand};
-        });
-        api.notify('edit:close', false);
-      }.bind(this));
-      api.reply('app:edit', function() {
-        this.setState({treeViewExpand: true});
+      api
+        .on('show', function() {
+          this.setState({treeViewExpand: true});
+        }.bind(this))
+        .on('hide', function() {
+          this.setState({treeViewExpand: false});
+        }.bind(this))
+        .reply('app:edit', function() {
+         api.notify('show');
       }.bind(this));
     },
     render: function() {

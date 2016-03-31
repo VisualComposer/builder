@@ -14,12 +14,16 @@ var TreeView = React.createClass({
     }
   },
   componentDidMount: function() {
-    this.props.api.reply('app:edit', function(id) {
-      this.setState({elementId: id});
-    }.bind(this));
-    this.props.api.on('edit:close', function(elementId) {
-      this.setState({elementId: elementId});
-    }.bind(this));
+    this.props.api
+      .reply('app:edit', function(id) {
+        this.setState({elementId: id});
+      }.bind(this))
+      .on('hide', function() {
+        this.setState({elementId: false});
+      }.bind(this))
+      .on('form:hide', function(){
+        this.setState({elementId: false});
+      }.bind(this));
   },
   render: function() {
     var treeViewClasses = classNames({
