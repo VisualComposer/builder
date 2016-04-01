@@ -38,7 +38,11 @@ var dataStore = {
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order');
     }).map((el) => {return el.get('id');}).toJS();
-    documentData = documentData.updateIn(keys, el => el.set('order', el.get('order') + step));
+    keys.forEach(function(elId){
+      var obj = documentData.get(elId);
+      obj = obj.set('order', obj.get('order') + step);
+      documentData = documentData.set(elId, obj);
+    }, this);
   }
 };
 
@@ -69,15 +73,59 @@ var api = {
   children: function(id) {
     return dataStore.getChildren(id).toJS();
   },
-  move: function(id, parent_id, order) {
-
+  resort: function(parentId, items) {
+    parentId = dataStore.filterId(parentId);
+    items.forEach(function(id) {
+      var item = documentData.get(id);
+      if (item) {
+        var order = items.indexOf(item.get('id'));
+        item  = item.withMutations(function(map) {
+          map
+            .set('parent', parentId)
+            .set('order', order);
+        });
+        documentData = documentData.set(id, item);
+      }
+    }, this);
+  },
+  moveBefore: function(id, beforeId) {
+    var obj = documentData.get(id);
+    var before = documentData.get(beforeId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', before.get('order'))
+        .set('parent', before.get('parent'));
+    });
+    documentData = documentData.set(obj.get('id'), obj);
+    dataStore.moveDownAfter(obj.get('id'), 1);
+  },
+  moveAfter: function(id, afterId) {
+    var obj = documentData.get(id);
+    var after = documentData.get(afterId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', after.get('order'))
+        .set('parent', after.get('parent'));
+    });
+    documentData = documentData.set(obj.get('id'), obj);
+    dataStore.moveDownAfter(after.get('id'), 1);
+  },
+  appendTo: function(id, parentId) {
+    var obj = documentData.get(id);
+    var parent = documentData.get(parentId);
+    obj = obj.withMutations(function(map) {
+      map
+        .set('order', dataStore.getLastOrderIndex())
+        .set('parent', parent.get('id'));
+    });
+    documentData = documentData.set(obj.get('id'), obj);
   },
   clone: function(id, parent) {
     var obj = documentData.get(id);
     var cloneId = dataStore.createKey();
     var clone = obj.withMutations(function(map) {
       map.set('id', cloneId);
-      if('undefined' !== typeof parent) {
+      if ('undefined' !== typeof parent) {
         map.set('parent', parent);
       } else {
         dataStore.cloneIndex  += 0.1;

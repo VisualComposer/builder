@@ -52,7 +52,7 @@ var Attributes = {
   },
   getValue: function(element) {
     var Getter = require('../../../../sources/attributes/' + this.attributeName + '/Getter');
-    return new Getter(element, this.name); // todo fix maxlength/class/style names with prefix-postfix and fix default value
+    return Getter(element, this.name); // todo fix maxlength/class/style names with prefix-postfix and fix default value
   },
 };
 
