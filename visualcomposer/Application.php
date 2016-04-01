@@ -94,7 +94,16 @@ class Application extends ApplicationFactory implements ApplicationContract
     {
         $this->basePath = $basePath;
         $this->bootstrapContainer();
+        add_action('init', [$this, 'ajaxHook']);
         do_action('vcv:load', $this);
+    }
+
+    public function ajaxHook()
+    {
+        if (isset($_REQUEST[ VCV_AJAX_REQUEST ])) {
+            require_once $this->path('visualcomposer/Modules/System/Loader.php');
+            die;
+        }
     }
 
     /**

@@ -61,6 +61,7 @@ class Controller extends Container
      *
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
      * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     *
      * @return string
      * @throws \Exception
      */
@@ -72,7 +73,7 @@ class Controller extends Container
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
             $url = $urlHelper->ajax(
                 [
-                    'action' => 'frontend',
+                    'vcv-action' => 'frontend',
                     'vcv-source-id' => get_the_ID(),
                 ]
             );
@@ -90,6 +91,7 @@ class Controller extends Container
 
     /**
      * Output less.js script to page header
+     *
      * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      */
     private function appendScript(Url $urlHelper)
@@ -102,12 +104,13 @@ class Controller extends Container
      *
      * @param \VisualComposer\Helpers\Generic\Templates $templatesHelper
      * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
+     *
      * @return string
      */
     private function outputScripts(Templates $templatesHelper, Options $optionsHelper)
     {
-        $scriptsBundle = $optionsHelper->get('scriptsBundle', []);
-        $stylesBundle = $optionsHelper->get('stylesBundle', []);
+        $scriptsBundle = $optionsHelper->get('scriptsBundle');
+        $stylesBundle = $optionsHelper->get('stylesBundle');
         $args = compact('scriptsBundle', 'stylesBundle');
 
         return $templatesHelper->render('site/frontend-scripts-styles', $args, false);

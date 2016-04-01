@@ -38,8 +38,8 @@ class PageEditable extends Container
     private function isPageEditable(Request $request, Nonce $nonce)
     {
         return ($request->exists('vcv-editable')
-            && $request->exists('nonce')
-            && $nonce->verifyAdmin($request->input('nonce')));
+            && $request->exists('vcv-nonce')
+            && $nonce->verifyAdmin($request->input('vcv-nonce')));
     }
 
     /**

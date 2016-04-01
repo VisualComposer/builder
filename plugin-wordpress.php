@@ -78,6 +78,9 @@ define('VCV_REQUIRED_PHP_VERSION', '5.4');
  * Minimal required WordPress version
  */
 define('VCV_REQUIRED_BLOG_VERSION', '4.1');
+if (!defined('VCV_AJAX_REQUEST')) {
+    define('VCV_AJAX_REQUEST', 'vcv-ajax');
+}
 
 /**
  * Check PHP version

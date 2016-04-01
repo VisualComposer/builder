@@ -44,7 +44,7 @@ class Frontend extends Container
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vcv-editable' => '1',
-            'nonce' => $nonce->admin(),
+            'vcv-nonce' => $nonce->admin(),
         ];
 
         $editableLink = $link . $question . http_build_query($query);
