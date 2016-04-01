@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
+use VisualComposer\Application;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\WordPress\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
@@ -33,6 +34,7 @@ class Controller extends Container
 
     /**
      * Controller constructor.
+     *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Generic\Request $request
      * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
@@ -46,9 +48,10 @@ class Controller extends Container
         $this->file = $fileHelper;
 
         $this->event->listen(
-            'vc:v:postAjax:setPostData',
+            'vcv:postAjax:setPostData',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::setPostDataHook */
                 $this->call('setPostDataHook', $args);
             }
         );
@@ -57,15 +60,17 @@ class Controller extends Container
             'before_delete_post',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
                 $this->call('deletePostAssetsHook', $args);
             }
         );
 
         // Save compiled less into one css bundle
         add_action(
-            'vc:v:ajax:loader:saveCssBundle:admin-nonce',
+            'vcv:ajax:loader:saveCssBundle:admin-nonce',
             function () {
                 $args = func_get_args();
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
                 $this->call('saveCssBundleHook', $args);
             }
         );
@@ -155,16 +160,18 @@ class Controller extends Container
         if (!empty($files)) {
             $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5(implode(',', $files)) . '.js';
-            $bundleUrl = $uploadDir['baseurl'] . '/' . VC_V_PLUGIN_DIRNAME . '/asset-bundles' . '/'
+            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles' . '/'
                 . $concatenatedFilename;
 
-            $destinationDir = $uploadDir['basedir'] . '/' . VC_V_PLUGIN_DIRNAME . '/asset-bundles';
+            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
 
             if (!is_file($bundle)) {
                 $contents = '';
+                /** @var $app Application */
+                $app = vcapp();
                 foreach ($files as $file) {
-                    $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
+                    $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
                 }
 
@@ -196,10 +203,10 @@ class Controller extends Container
         if ($contents) {
             $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5($contents) . '.css';
-            $bundleUrl = $uploadDir['baseurl'] . '/' . VC_V_PLUGIN_DIRNAME . '/assets-bundles' . '/'
+            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
                 . $concatenatedFilename;
 
-            $destinationDir = $uploadDir['basedir'] . '/' . VC_V_PLUGIN_DIRNAME . '/assets-bundles';
+            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
 
             if (!is_file($bundle)) {
@@ -236,8 +243,10 @@ class Controller extends Container
         foreach ($list as $element => $files) {
             $contents = '';
             if (is_array($files)) {
+                /** @var Application $app */
+                $app = vcapp();
                 foreach ($files as $file) {
-                    $filepath = VC_V_PLUGIN_DIR_PATH . 'public/sources/elements/' . $file;
+                    $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
                 }
             }
@@ -280,7 +289,7 @@ class Controller extends Container
     private function deleteAssetsBundles($extension = '')
     {
         $uploadDir = wp_upload_dir();
-        $destinationDir = $uploadDir['basedir'] . '/' . VC_V_PLUGIN_DIRNAME . '/assets-bundles';
+        $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
 
         if ($extension) {
             $extension = '.' . $extension;

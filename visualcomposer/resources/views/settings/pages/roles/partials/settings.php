@@ -9,7 +9,7 @@ foreach (vcapp('settings')->getPages() as $tab) {
     $tabs[] = [$tab['slug'] . '-tab', $tab['title']];
 }
 
-vcapp('templatesHelper')->render(
+vcview(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,

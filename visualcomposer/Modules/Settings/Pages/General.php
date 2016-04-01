@@ -2,11 +2,10 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Templates;
-use VisualComposer\Helpers\Generic\Todo;
 use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Modules\Settings\Controller as SettingsController;
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Traits\Fields;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class General
@@ -14,11 +13,16 @@ use VisualComposer\Framework\Container;
  */
 class General extends Container
 {
+    use Fields;
     use Page;
     /**
      * @var string
      */
-    private $pageSlug = 'vc-v-general';
+    protected $slug = 'vcv-general';
+    /**
+     * @var string
+     */
+    protected $templatePath = 'settings/pages/general/index';
     /**
      * @var array
      */
@@ -35,49 +39,29 @@ class General extends Container
         'cyrillic-ext',
         'greek-ext',
     ];
-    /**
-     * @var \VisualComposer\Helpers\Generic\Templates
-     */
-    protected $templates;
 
     /**
      * General constructor.
      */
-    public function __construct(Templates $templates)
+    public function __construct()
     {
-        $this->templates = $templates;
+        $this->optionGroup = 'vcv-general';
+        $this->optionSlug = 'vcv-general';
         add_filter(
-            'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
+            'vcv:settings:getPages',
+            function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
+                return $this->call('addPage', [$pages]);
             }
         );
 
         add_action(
-            'vc:v:settings:pageRender:' . $this->pageSlug,
+            'vcv:settings:initAdmin:page:' . $this->getSlug(),
             function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
+                /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
+                $this->call('buildPage');
             }
         );
-
-        add_action(
-            'vc:v:settings:initAdmin:page:' . $this->pageSlug,
-            function () {
-                $args = func_get_args();
-                $this->call('buildPage', $args);
-            }
-        );
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
     }
 
     /**
@@ -85,11 +69,12 @@ class General extends Container
      *
      * @return array
      */
-    public function addPage($pages)
+    private function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->pageSlug,
+            'slug' => $this->getSlug(),
             'title' => __('General Settings', 'vc5'),
+            'controller' => $this,
         ];
 
         return $pages;
@@ -97,60 +82,49 @@ class General extends Container
 
     /**
      * Page: General Settings
-     *
-     * @param SettingsController $SettingsController
      */
-    public function buildPage(SettingsController $SettingsController)
+    public function buildPage()
     {
-        $page = $this->pageSlug;
-
-        $SettingsController->addSection($page);
+        $this->addSection(
+            [
+                'page' => $this->getSlug(),
+            ]
+        );
 
         // Disable responsive content elements
-
-        $fieldCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('disableResponsiveFieldCallback', $args);
+        $fieldCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::disableResponsiveFieldCallback */
+            return $this->call('disableResponsiveFieldCallback', [$data]);
         };
 
-        $SettingsController->addField(
-            $page,
-            __('Disable responsive content elements', 'vc5'),
-            'not_responsive_css',
-            null,
-            $fieldCallback
+        $this->addField(
+            [
+                'page' => $this->getSlug(),
+                'title' => __('Disable responsive content elements', 'vc5'),
+                'name' => 'not_responsive_css',
+                'fieldCallback' => $fieldCallback,
+            ]
         );
 
         // Google fonts subsets
-
-        $sanitizeCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', $args);
+        $sanitizeCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::sanitizeGoogleFontsSubsetsFieldCallback */
+            return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', [$data]);
+        };
+        $fieldCallback = function ($data) {
+            /** @see \VisualComposer\Modules\Settings\Pages\General::googleFontsSubsetsFieldCallback */
+            return $this->call('googleFontsSubsetsFieldCallback', [$data]);
         };
 
-        $fieldCallback = function () {
-            $args = func_get_args();
-
-            return $this->call('googleFontsSubsetsFieldCallback', $args);
-        };
-
-        $SettingsController->addField(
-            $page,
-            __('Google fonts subsets', 'vc5'),
-            'google_fonts_subsets',
-            $sanitizeCallback,
-            $fieldCallback
+        $this->addField(
+            [
+                'page' => $this->getSlug(),
+                'title' => __('Google fonts subsets', 'vc5'),
+                'name' => 'google_fonts_subsets',
+                'fieldCallback' => $fieldCallback,
+                'sanitizeCallback' => $sanitizeCallback,
+            ]
         );
-    }
-
-    /**
-     * Render page
-     */
-    public function renderPage()
-    {
-        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/general/index')->render();
     }
 
     /**
@@ -188,11 +162,11 @@ class General extends Container
     /**
      * Not responsive checkbox callback function
      */
-    public function disableResponsiveFieldCallback()
+    private function disableResponsiveFieldCallback(Options $options)
     {
-        $checked = Options::get('not_responsive_css', false);
+        $checked = $options->get('not_responsive_css', false);
 
-        $this->templates->render(
+        vcview(
             'settings/pages/general/partials/disable-responsive',
             [
                 'checked' => $checked,
@@ -205,7 +179,7 @@ class General extends Container
      *
      * @return array
      */
-    public function sanitizeGoogleFontsSubsetsFieldCallback($subsetsToSanitize)
+    private function sanitizeGoogleFontsSubsetsFieldCallback($subsetsToSanitize)
     {
         $sanitized = [];
 
@@ -225,10 +199,12 @@ class General extends Container
 
     /**
      * Google fonts subsets callback
+     *
+     * @param \VisualComposer\Helpers\WordPress\Options $options
      */
-    public function googleFontsSubsetsFieldCallback()
+    private function googleFontsSubsetsFieldCallback(Options $options)
     {
-        $checkedSubsets = Options::get('google_fonts_subsets', $this->getGoogleFontsSubsets());
+        $checkedSubsets = $options->get('google_fonts_subsets', $this->getGoogleFontsSubsets());
 
         $excluded = $this->getGoogleFontsSubsetsExcluded();
         $subsets = [];
@@ -244,7 +220,7 @@ class General extends Container
             ];
         }
 
-        $this->templates->render(
+        vcview(
             'settings/pages/general/partials/google-fonts-subsets',
             [
                 'subsets' => $subsets,

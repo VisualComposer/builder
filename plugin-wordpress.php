@@ -1,11 +1,10 @@
 <?php
 /**
- * Plugin Name: Visual Composer V
- * Plugin URI: http://vc.wpbakery.com
- * Description: Drag and drop page builder for WordPress. Take full control over your WordPress site,
- * build any layout you can imagine – no programming knowledge required.
+ * Plugin Name: Visual Composer Web Site builder
+ * Plugin URI: http://visualcomposer.io
+ * Description: WEB Site builder
  *
- * Version: 5.0.0
+ * Version: 1.0.0
  * Author: WPBakery
  * Author URI: http://wpbakery.com
  * Requires at least: 4.1
@@ -33,48 +32,52 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
 /**
  * Check for plugin conflict
  */
-if (defined('VC_V_VERSION')) {
+if (defined('VCV_VERSION')) {
     wp_die('It seems that other version of Visual Composer is active. Please deactivate it before use this version');
 }
 
 /**
- * Plugin version constant: '5.0'
+ * Plugin version constant: '1.0.0'
  */
-define('VC_V_VERSION', '5.0');
+define('VCV_VERSION', '1.0.0');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
-define('VC_V_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('VCV_PLUGIN_URL', plugin_dir_url(__FILE__));
 /**
  * Plugin directory full path: 'server/web/wp-content/plugins/plugin_dir/'
+ * @internal - please try to use vcapp()->path() instead
  */
-define('VC_V_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
+define('VCV_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 /**
  * Plugin "basename" - directoryName/PluginFileName.php: 'vc-five/plugin-wordpress.php'
  */
-define('VC_V_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
+define('VCV_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
 /**
  * Plugin core file full path: '/server/web/wp-content/plugins/vc-five/plugin-wordpress.php'
  */
-define('VC_V_PLUGIN_FULL_PATH', __FILE__);
+define('VCV_PLUGIN_FULL_PATH', __FILE__);
 /**
  * Plugin directory name: 'vc-five'
  */
-define('VC_V_PLUGIN_DIRNAME', dirname(VC_V_PLUGIN_BASE_NAME));
+define('VCV_PLUGIN_DIRNAME', dirname(VCV_PLUGIN_BASE_NAME));
 /**
  * Plugin core prefix for options/meta and etc
  */
-define('VC_V_PREFIX', 'vc-v-');
+define('VCV_PREFIX', 'vcv-');
+if (!defined('VCV_DEBUG')) {
+    define('VCV_DEBUG', false);
+}
 
 // Used in requirements.php
 /**
  * Minimal required PHP version
  */
-define('VC_V_REQUIRED_PHP_VERSION', '5.4');
+define('VCV_REQUIRED_PHP_VERSION', '5.4');
 /**
  * Minimal required WordPress version
  */
-define('VC_V_REQUIRED_BLOG_VERSION', '4.1');
+define('VCV_REQUIRED_BLOG_VERSION', '4.1');
 
 /**
  * Check PHP version

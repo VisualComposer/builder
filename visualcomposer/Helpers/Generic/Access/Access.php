@@ -2,6 +2,10 @@
 
 namespace VisualComposer\Helpers\Generic\Access;
 
+    /**
+     * Class Access
+     * @package VisualComposer\Helpers\Generic\Access
+     */
 /**
  * Class Access
  * @package VisualComposer\Helpers\Generic\Access
@@ -66,6 +70,8 @@ trait Access
     /**
      * Get current validation state and reset it to true. ( should be never called twice )
      *
+     * @param bool $reset
+     *
      * @return bool
      */
     public function get($reset = true)
@@ -101,7 +107,7 @@ trait Access
         $result = $this->getValidAccess();
         $this->setValidAccess(true);
         if (!$result) {
-            if (defined('VC_V_DIE_EXCEPTION') && VC_V_DIE_EXCEPTION) {
+            if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
                 throw new \Exception($message);
             } else {
                 die($message);
@@ -129,11 +135,6 @@ trait Access
 
     /**
      * Any of provided rules should be valid
-     * Usage: checkAny(
-     *      'vc_verify_admin_nonce',
-     *      [ 'current_user_can', 'edit_post', 12 ],
-     *      [ 'current_user_can', 'edit_posts' ],
-     * )
      *
      * @return self
      */
@@ -149,11 +150,7 @@ trait Access
 
     /**
      * All provided rules should be valid
-     * Usage: checkAll(
-     *      'vc_verify_admin_nonce',
-     *      [ 'current_user_can', 'edit_post', 12 ],
-     *      [ 'current_user_can', 'edit_posts' ],
-     * )
+     *
      * @return self
      */
     public function checkAll()

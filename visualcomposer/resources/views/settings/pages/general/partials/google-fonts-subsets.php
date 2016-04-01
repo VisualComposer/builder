@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     <?php
 
     $attributes = [
-        'name="' . VC_V_PREFIX . 'google_fonts_subsets[]"',
+        'name="' . VCV_PREFIX . 'google_fonts_subsets[]"',
         'value="' . $subset['title'] . '"',
         ($subset['checked'] ? 'checked' : null),
     ];

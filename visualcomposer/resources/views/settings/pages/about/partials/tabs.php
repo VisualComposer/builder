@@ -11,13 +11,13 @@ $urlFunction = is_network_admin() ? 'network_admin_url' : 'admin_url';
     <?php foreach ($tabs as $tab) : ?>
         <?php
 
-        $page = 'admin.php?page=' . rawurlencode($pageSlug) . '&tab=' . rawurlencode($tab['slug']);
+        $page = 'admin.php?page=' . rawurlencode($slug) . '&tab=' . rawurlencode($tab['slug']);
 
         $url = call_user_func($urlFunction, $page);
 
         $class = 'nav-tab';
 
-        if ($tab['slug'] === $activeSlug) {
+        if ($tab['slug'] === $activeTabSlug) {
             $class .= ' ' . (' nav-tab-active');
         }
 

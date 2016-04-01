@@ -29,7 +29,7 @@ var ajaxPost = function ( data, successCallback, failureCallback ) {
 };
 Data.subscribe( 'app:init', function () {
   ajaxPost( {
-    action: 'vc:v:getData:adminNonce',
+    action: 'vcv:getData:adminNonce',
     nonce: window.vcNonce,
     source_id: window.vcSourceID
   }, function ( request ) {
@@ -52,7 +52,7 @@ Data.subscribe( 'app:save', function () {
   window.vcvPostStyles = stylesStringified;
 
   ajaxPost( {
-    action: 'vc:v:setData:adminNonce',
+    action: 'vcv:setData:adminNonce',
     nonce: window.vcNonce,
 	source_id: window.vcPostID,
     content: content,
@@ -84,7 +84,7 @@ Data.subscribe( 'app:save', function () {
     }
 
     ajaxPost( {
-      action: 'vc:v:saveCssBundle:adminNonce',
+      action: 'vcv:saveCssBundle:adminNonce',
       nonce: window.vcNonce,
       contents: contents
     }, function ( request ) {

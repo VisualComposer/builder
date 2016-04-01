@@ -18,9 +18,10 @@ class Frontend extends Container
     public function __construct()
     {
         add_action(
-            'vc:v:ajax:loader:frontend',
+            'vcv:ajax:loader:frontend',
             function () {
                 // @todo check access
+                /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */
                 $this->call('renderEditorBase');
             }
         );
@@ -34,7 +35,7 @@ class Frontend extends Container
     private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
         global $post;
-        $sourceId = (int)$request->input('vc-source-id');
+        $sourceId = (int)$request->input('vcv-source-id');
 
         $post = get_post($sourceId);
         setup_postdata($post);
@@ -42,7 +43,7 @@ class Frontend extends Container
         $link = get_permalink($sourceId);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
-            'vc-v-editable' => '1',
+            'vcv-editable' => '1',
             'nonce' => $nonce->admin(),
         ];
 

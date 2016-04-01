@@ -18,9 +18,9 @@
 </head>
 <body>
 <script>
-    window.vcSourceID = <?php echo get_the_ID(); ?>;
-    window.vcAjaxUrl = '<?php echo vcapp('urlHelper')->ajax(); ?>';
-    window.vcNonce = '<?php echo vcapp('nonceHelper')->admin(); ?>';
+    window.vcvSourceID = <?php echo get_the_ID(); ?>;
+    window.vcvAjaxUrl = '<?php echo vcapp('urlHelper')->ajax(); ?>';
+    window.vcvNonce = '<?php echo vcapp('nonceHelper')->admin(); ?>';
 </script>
 <script type="text/javascript" src="<?php echo vcapp('urlHelper')->to(
     'public/dist/wp.bundle.js?' . uniqid()

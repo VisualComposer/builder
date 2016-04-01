@@ -8,6 +8,7 @@ if (!function_exists('vcapp')) {
      *
      * @param  string $make
      * @param  array $parameters
+     *
      * @return mixed|\VisualComposer\Application
      */
     function vcapp($make = null, $parameters = [])
@@ -27,10 +28,25 @@ if (!function_exists('vcevent')) {
      * @param  string $event
      * @param  mixed $payload
      * @param  bool $halt
+     *
      * @return array|null
      */
     function vcevent($event, $payload = [], $halt = false)
     {
         return vcapp('eventsHelper')->fire($event, $payload, $halt);
+    }
+}
+
+if (!function_exists('vcview')) {
+    /**
+     * @param $path
+     * @param array $args
+     * @param bool $echo
+     *
+     * @return mixed|string
+     */
+    function vcview($path, $args = [], $echo = true)
+    {
+        return vcapp('templatesHelper')->render($path, $args, $echo);
     }
 }

@@ -3,14 +3,16 @@
 if (!defined('ABSPATH')) {
     die('-1');
 }
+/** @var VisualComposer\Helpers\Generic\Url $urlHelper */
+$urlHelper = vcapp('urlHelper');
 
 ?>
-<div class="vc_welcome-tab changelog">
+<div class="vcv-welcome-tab changelog">
 
-    <div class="vc_feature-section-teaser">
+    <div class="vcv-feature-section-teaser">
         <div>
-            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/screenshot.png') ?>"
-                class="vc-featured-img"/>
+            <img src="<?php echo $urlHelper->assetUrl('images/about/screenshot.png') ?>"
+                class="vcv-featured-img"/>
             <h3><?php echo __('New Elements and Options', 'vc5') ?></h3>
             <p><?php echo __(
                     'Visual Composer 4.10 offers new and enhanced elements to improve your page building process. '
@@ -27,10 +29,10 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <div class="vc_welcome-feature feature-section vc_row">
+    <div class="vcv-welcome-feature feature-section vcv-row">
 
-        <div class="vc_col-xs-4">
-            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/01.png') ?>" class="vc-img-center"/>
+        <div class="vcv-col-xs-4">
+            <img src="<?php echo $urlHelper->assetUrl('images/about/01.png') ?>" class="vcv-img-center"/>
             <h4><?php echo __('ACF Support', 'vc5') ?></h4>
             <p><?php echo __(
                     'Combine power of Visual Composer and ACF - add any custom field of '
@@ -39,8 +41,8 @@ if (!defined('ABSPATH')) {
                 ) ?></p>
         </div>
 
-        <div class="vc_col-xs-4">
-            <img class="vc-img-center" src="<?php echo vcapp('urlHelper')->assetUrl('images/about/02.png') ?>"/>
+        <div class="vcv-col-xs-4">
+            <img class="vcv-img-center" src="<?php echo $urlHelper->assetUrl('images/about/02.png') ?>"/>
             <h4><?php echo __('Categories and Authors', 'vc5') ?></h4>
             <p><?php echo __(
                     'Visual Composer Grid Builder has 2 more content elements allowing you to add data'
@@ -49,8 +51,8 @@ if (!defined('ABSPATH')) {
                 ) ?></p>
         </div>
 
-        <div class="vc_col-xs-4">
-            <img src="<?php echo vcapp('urlHelper')->assetUrl('images/about/03.png') ?>" class="vc-img-center"/>
+        <div class="vcv-col-xs-4">
+            <img src="<?php echo $urlHelper->assetUrl('images/about/03.png') ?>" class="vcv-img-center"/>
             <h4><?php
                 echo __('Parallax Speed', 'vc5');
                 ?></h4>
@@ -65,7 +67,7 @@ if (!defined('ABSPATH')) {
 
     </div>
 
-    <p class="vc-thank-you">
+    <p class="vcv-thank-you">
         Thank you for choosing Visual Composer,
         <br/>
         Michael M, CEO at WPBakery

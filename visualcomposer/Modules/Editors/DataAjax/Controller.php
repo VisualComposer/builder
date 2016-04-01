@@ -23,6 +23,7 @@ class Controller extends Container
 
     /**
      * Controller constructor.
+     *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Generic\Request $request
      */
@@ -32,15 +33,17 @@ class Controller extends Container
         $this->request = $request;
 
         add_action(
-            'vc:v:ajax:loader:v:getData:adminNonce',
+            'vcv:ajax:loader:v:getData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
                 $this->call('getData');
             }
         );
 
         add_action(
-            'vc:v:ajax:loader:setData:adminNonce',
+            'vcv:ajax:loader:setData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::setData */
                 $this->call('setData');
             }
         );
@@ -56,7 +59,7 @@ class Controller extends Container
         if (is_numeric($sourceId)) {
             // @todo: access checks
             // @todo: fix react components if there is empty page content
-            $postMeta = get_post_meta($sourceId, VC_V_PREFIX . 'page_content', true);
+            $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'page_content', true);
 
             $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
         }
@@ -76,10 +79,10 @@ class Controller extends Container
             $post = get_post($sourceId);
             $post->post_content = stripslashes($content); // @todo: check for stripslashes - maybe not needed!
             wp_update_post($post);
-            // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vc_v_page_content' => $data ]
-            update_post_meta($sourceId, VC_V_PREFIX . 'page_content', $data);
+            // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vcv:pageContent' => $data ]
+            update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
             $this->event->fire(
-                'vc:v:postAjax:setPostData',
+                'vcv:postAjax:setPostData',
                 [
                     $sourceId,
                     $post,

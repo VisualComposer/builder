@@ -3,6 +3,10 @@
 use RuntimeException;
 use VisualComposer\Framework\Illuminate\Support\Traits\Macroable;
 
+/**
+ * Class Str
+ * @package VisualComposer\Framework\Illuminate\Support
+ */
 class Str
 {
     use Macroable;
@@ -29,6 +33,7 @@ class Str
      * Convert a value to camel case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function camel($value)
@@ -45,6 +50,7 @@ class Str
      *
      * @param  string $haystack
      * @param  string|array $needles
+     *
      * @return bool
      */
     public static function contains($haystack, $needles)
@@ -63,6 +69,7 @@ class Str
      *
      * @param  string $haystack
      * @param  string|array $needles
+     *
      * @return bool
      */
     public static function endsWith($haystack, $needles)
@@ -81,6 +88,7 @@ class Str
      *
      * @param  string $value
      * @param  string $cap
+     *
      * @return string
      */
     public static function finish($value, $cap)
@@ -95,6 +103,7 @@ class Str
      *
      * @param  string $pattern
      * @param  string $value
+     *
      * @return bool
      */
     public static function is($pattern, $value)
@@ -117,6 +126,7 @@ class Str
      * Return the length of the given string.
      *
      * @param  string $value
+     *
      * @return int
      */
     public static function length($value)
@@ -130,6 +140,7 @@ class Str
      * @param  string $value
      * @param  int $limit
      * @param  string $end
+     *
      * @return string
      */
     public static function limit($value, $limit = 100, $end = '...')
@@ -145,6 +156,7 @@ class Str
      * Convert the given string to lower-case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function lower($value)
@@ -158,6 +170,7 @@ class Str
      * @param  string $value
      * @param  int $words
      * @param  string $end
+     *
      * @return string
      */
     public static function words($value, $words = 100, $end = '...')
@@ -172,10 +185,11 @@ class Str
     }
 
     /**
-     * Parse a Class@method style callback into class and method.
+     * Parse a Class@method - style callback into class and method.
      *
      * @param  string $callback
      * @param  string $default
+     *
      * @return array
      */
     public static function parseCallback($callback, $default)
@@ -184,21 +198,10 @@ class Str
     }
 
     /**
-     * Get the plural form of an English word.
-     *
-     * @param  string $value
-     * @param  int $count
-     * @return string
-     */
-    public static function plural($value, $count = 2)
-    {
-        return Pluralizer::plural($value, $count);
-    }
-
-    /**
      * Generate a more truly "random" alpha-numeric string.
      *
      * @param  int $length
+     *
      * @return string
      *
      * @throws \RuntimeException
@@ -220,6 +223,7 @@ class Str
      * Generate a more truly "random" bytes.
      *
      * @param  int $length
+     *
      * @return string
      *
      * @throws \RuntimeException
@@ -246,6 +250,7 @@ class Str
      * Should not be considered sufficient for cryptography, etc.
      *
      * @param  int $length
+     *
      * @return string
      */
     public static function quickRandom($length = 16)
@@ -259,6 +264,7 @@ class Str
      * Convert the given string to upper-case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function upper($value)
@@ -270,6 +276,7 @@ class Str
      * Convert the given string to title case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function title($value)
@@ -278,21 +285,11 @@ class Str
     }
 
     /**
-     * Get the singular form of an English word.
-     *
-     * @param  string $value
-     * @return string
-     */
-    public static function singular($value)
-    {
-        return Pluralizer::singular($value);
-    }
-
-    /**
      * Convert a string to snake case.
      *
      * @param  string $value
      * @param  string $delimiter
+     *
      * @return string
      */
     public static function snake($value, $delimiter = '_')
@@ -315,6 +312,7 @@ class Str
      *
      * @param  string $haystack
      * @param  string|array $needles
+     *
      * @return bool
      */
     public static function startsWith($haystack, $needles)
@@ -332,6 +330,7 @@ class Str
      * Convert a value to studly caps case.
      *
      * @param  string $value
+     *
      * @return string
      */
     public static function studly($value)

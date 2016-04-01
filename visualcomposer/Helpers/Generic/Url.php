@@ -30,7 +30,7 @@ class Url
      */
     public function to($path)
     {
-        return VC_V_PLUGIN_URL . ltrim($path, '\//');
+        return VCV_PLUGIN_URL . ltrim($path, '\//');
     }
 
     /**

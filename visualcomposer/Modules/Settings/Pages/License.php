@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class License
@@ -14,7 +15,11 @@ class License extends Container
     /**
      * @var string
      */
-    protected $pageSlug = 'vc-v-license';
+    protected $slug = 'vcv-license';
+    /**
+     * @var string
+     */
+    protected $templatePath = 'settings/pages/license/index';
 
     /**
      * License constructor.
@@ -22,29 +27,12 @@ class License extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
+            'vcv:settings:getPages',
+            function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
+                return $this->call('addPage', [$pages]);
             }
         );
-
-        add_action(
-            'vc:v:settings:pageRender:' . $this->pageSlug,
-            function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
-            }
-        );
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageSlug()
-    {
-        return $this->pageSlug;
     }
 
     /**
@@ -52,21 +40,14 @@ class License extends Container
      *
      * @return array
      */
-    public function addPage($pages)
+    private function addPage($pages)
     {
         $pages[] = [
-            'slug' => $this->pageSlug,
+            'slug' => $this->getSlug(),
             'title' => __('Product License', 'vc5'),
+            'controller' => $this,
         ];
 
         return $pages;
-    }
-
-    /**
-     *
-     */
-    public function renderPage()
-    {
-        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/license/index')->render();
     }
 }
