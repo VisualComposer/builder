@@ -95,6 +95,12 @@ class Application extends ApplicationFactory implements ApplicationContract
         $this->basePath = $basePath;
         $this->bootstrapContainer();
         add_action('init', [$this, 'ajaxHook']);
+        add_action(
+            'init',
+            function () {
+                do_action('vcv:inited', $this);
+            }
+        );
         do_action('vcv:load', $this);
     }
 
