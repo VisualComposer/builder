@@ -1,26 +1,36 @@
-var vcCake = require('vc-cake');
-var defaults = require('lodash').defaults;
-var ElementAttribute = require('./element-attribute');
+import vcCake from 'vc-cake';
+import _ from 'lodash';
+var ElementAttribute = require('./lib/element-attribute');
 var Manager = {
   items: {},
-  get: function(name, settings) {
-    var AttributeComponent = this.items[name].view;
-    return AttributeComponent(
-
-    );
+  add: function(name, component, settings) {
+    var {setter, getter, ...attributeSettings} = settings;
+    this.items[name] = 
+      new ElementAttribute(name, component, attributeSettings);
+    if ('function' === typeof setter) {
+      this.items[name].setSetter(setter);
+    }
+    if ('function' === typeof getter) {
+      this.items[name].setGetter(getter);
+    }
+  },
+  get: function(name) {
+    return this.items[name] || null;
   }
 };
 vcCake.addService('attributes', {
-  add: function(name, Component, settings) {
-    Manager.items[name] = {
-      view: Component,
-      settings: defaults(settings, {setter: null, getter: null})
-    }
+  add: function(name, component, settings) {
+    Manager.add(name, component,
+      _.defaults(('object' === typeof settings ? settings : {}), {setter: null, getter: null}));
   },
   remove: function(name) {
     delete Manager.items[name];
   },
-  elementAttribute: function(name, settings, element) {
-    return Manager.get(name, settings);
+  get: function(name) {
+    var attributeElement = Manager.get(name);
+    if (attributeElement) {
+      return attributeElement;
+    }
+    throw new Error('Error! attribute type doesn\'t exist.');
   }
 });

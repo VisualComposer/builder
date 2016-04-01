@@ -43,6 +43,7 @@ npm-debug.log
 public/*.bundle.js
 public/*-modules.js
 public/*-services.js
+public/*-attributes.js
 public/dist/
 # public/sources/elements/ElementsSettings.js
 /vendor

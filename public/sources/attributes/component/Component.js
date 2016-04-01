@@ -1,8 +1,6 @@
 var vcCake = require('vc-cake');
 let React = require('react');
 let ParamMixin = require('../param-mixin');
-let Setter = require('./Setter');
-let Getter = require('./Getter');
 let ElementComponents = vcCake.getService('element').components;
 
 var AttributesChecker = function(update) {
@@ -19,8 +17,6 @@ var AttributesChecker = function(update) {
 };
 module.exports = React.createClass({
   mixins: [ParamMixin],
-  setter: Setter,
-  getter: Getter,
   values: {},
   componentWillMount: function() {
     this.attributesChecker = new AttributesChecker(this.customHandleChange);

@@ -1,5 +1,6 @@
 var vcCake = require('vc-cake');
 require('./wp-services');
+require('./wp-attributes');
 var $ = require('expose?$!jquery');
 $(document).ready(function(){
   require('./sources/css/wordpress.less');

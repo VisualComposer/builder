@@ -87,26 +87,39 @@ var EditFormElement = React.createClass({
       );
     }
   },
-  componentWillMount: function() {
+  componentWillMount: function(paramSettings) {
     this.onOpen();
   },
   getInitialState: function() {
     //console.log( 'EditFormElement getInitialState called' );
     return {};
   },
-  getComponent: function(type) {
-    return require('../../../../../../sources/attributes/' + type + '/Component');
+  getElementAttribute: function() {
+    var type = this.props.paramSettings.getType().toLowerCase();
+    console.log(type);
+    console.log(vcCake.getService('attributes').get(type));
+    this.elementAttribute = vcCake.getService('attributes').get(type);
   },
-
+  getComponent: function() {
+    this.getElementAttribute();
+    return this.props.elementAttribute.getField();
+  },
+  setValue: function(value) {
+    this.getElementAttribute();
+    this.props.editElement = this.elementAttribute.setValue(this.props.editElement, value);
+    this.props.update(this.props.editElement);
+  },
+  getValue: function() {
+    this.getElementAttribute();
+    return this.elementAttribute.getValue(this.props.editElement, this.props.paramKey);
+  },
   render: function() {
     var { paramKey, isVisible, paramSettings, editElement } = this.props;
     var formRowClasses = classNames(
       'vc-v-form-row',
       isVisible ? 'vc-rules-manager-visible' : 'vc-rules-manager-hidden'
     );
-    var type = paramSettings.getType().toLowerCase();
-    var AttributeView = this.getComponent(type);
-
+    var AttributeView = this.getComponent(paramSettings);
     return (
       <div className={formRowClasses}>
         <div className="vcv-form-row-control">
@@ -116,7 +129,8 @@ var EditFormElement = React.createClass({
             settings={paramSettings}
             rulesManager={this}
             name={paramKey}
-            onChange={this.onChange}
+            setValue={this.setValue}
+            getValue={this.getValue}
           />
         </div>
       </div>

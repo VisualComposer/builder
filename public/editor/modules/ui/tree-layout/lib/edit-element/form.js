@@ -118,9 +118,12 @@ var TreeContent = React.createClass({
   getElement: function() {
     return this.props.api.getService('document').get(this.props.id);
   },
+  updateElement: function(element) {
+    this.element = element;
+    console.log(this.element);
+  },
   getForm: function() {
     console.log('getForm called');
-    var element = this.getElement();
     var settings = this.getSettings();
     var returnList = [];
     var settingsKeys = Object.keys(settings);
@@ -133,7 +136,7 @@ var TreeContent = React.createClass({
             <EditFormElement
               key={['vc-v-edit-form-element-' , key]}
               paramSettings={paramSettings}
-              editElement={element}
+              editElement={this.element}
               paramKey={key}
               toggleVisible={this.toggleVisible}
               isVisible={isVisible}
@@ -141,6 +144,7 @@ var TreeContent = React.createClass({
               onCancelItemsAdd={this.onCancelItemsAdd}
               onValidateItemsAdd={this.onValidateItemsAdd}
               closeModal={this.closeModal}
+              updateElement={this.updateElement}
             />
           );
         }
@@ -187,8 +191,8 @@ var TreeContent = React.createClass({
         changeActive: context.changeActiveTab
       }
     }
-    var element = this.props.api.getService('document').get(this.props.id);
-    var elementSettings = element ? ElementComponents.get(element.tag) : null;
+    this.element = this.props.api.getService('document').get(this.props.id);
+    var elementSettings = this.element ? ElementComponents.get(this.element.tag) : null;
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">

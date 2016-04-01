@@ -20,23 +20,22 @@ var Mixin = {
     }
   },
   getValue: function() {
-    if (this.getter) {
-      return this.getter(this.props.element, this.props.name);
-    }
-    return this.props.element[this.props.name];
+    return this.props.getValue();
   },
   handleChange: function(e) {
     var value = {value: this.refs[this.props.name + 'Component'].value};
-    this.props.rulesManager.onChange(value);
-    this.setState(value);
+    // this.props.rulesManager.onChange(value);
+    // this.setState(value);
     this.updateElement(value.value);
   },
   updateElement: function(value) {
-    if (this.setter) {
+    this.props.setValue(value);
+    // send it to manager
+/*    if (this.setter) {
       this.props.element = this.setter(this.props.element, this.props.name, value);
     } else {
       this.props.element[this.props.name] = value;
-    }
+    }*/
     // Her comes callback to update element not document data. from wrapper sent as props/state
   }
 };
