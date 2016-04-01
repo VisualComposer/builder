@@ -13,7 +13,7 @@ vcCake.add('ui-save-data', function(api) {
       if (data) {
         var timeMachine = vcCake.getService('time-machine');
         timeMachine.setZeroState(data);
-        this.request('data:reset', data);
+        api.request('data:reset', data);
       }
     }.bind(api));
   });
