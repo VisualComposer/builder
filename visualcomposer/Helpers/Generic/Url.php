@@ -30,7 +30,7 @@ class Url
      */
     public function to($path)
     {
-        return VC_V_PLUGIN_URL . ltrim($path, '\//');
+        return VCV_PLUGIN_URL . ltrim($path, '\//');
     }
 
     /**
@@ -42,6 +42,13 @@ class Url
      */
     public function ajax($query = [])
     {
-        return $this->to(sprintf('ajax.php?%s', http_build_query($query)));
+        $query[ VCV_AJAX_REQUEST ] = '1';
+        $url = get_site_url();
+        $q = '?';
+        if (strpos($url, '?') !== false) {
+            $q = '&';
+        }
+
+        return get_site_url() . $q . http_build_query($query);
     }
 }

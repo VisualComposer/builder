@@ -6,5 +6,5 @@ if (!defined('ABSPATH')) {
 
 ?>
 <script>
-    var vcAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';
+    var vcvAdminNonce = '<?php echo vcapp('nonceHelper')->admin() ?>';
 </script>

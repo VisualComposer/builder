@@ -3,7 +3,7 @@ var ReactDOM = require( 'react-dom' );
 
 var innerAjax = function ( data, successCallback, failureCallback ) {
 	var request = new XMLHttpRequest();
-	request.open( 'POST', window.vcAjaxUrl, true );
+	request.open( 'POST', window.vcvAjaxUrl, true );
 	request.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
 	request.onload = function () {
 		if ( request.status >= 200 && request.status < 400 ) {
@@ -31,9 +31,9 @@ var AjaxElement = React.createClass( {
 			this.serverRequest.abort();
 		}
 		this.serverRequest = innerAjax( {
-			action: 'vc:v:ajaxShortcodeRender',
-			shortcodeString: this.props.shortcodeString,
-			post_id: window.vcPostID
+			"vcv-action": 'elements:ajaxShortcodeRender',
+			"vcv-shortcode-string": this.props.shortcodeString,
+			"vcv-source-id": window.vcvSourceID
 		}, function ( result ) {
 			this.setState( {
 				shortcodeContent: this.initScripts( result.responseText, ReactDOM.findDOMNode( this.refs[ 'it' ] ) )
@@ -94,9 +94,9 @@ var AjaxElement = React.createClass( {
 			this.serverRequest.abort();
 		}
 		this.serverRequest = innerAjax( {
-			action: 'vc:v:ajaxShortcodeRender',
-			shortcodeString: nextProps.shortcodeString,
-			post_id: window.vcPostID
+			"vcv-action": 'elements:ajaxShortcodeRender',
+			"vcv-shortcode-string": nextProps.shortcodeString,
+			"vcv-source-id": window.vcvSourceID
 		}, function ( result ) {
 			this.setState( {
 				shortcodeContent: this.initScripts( result.responseText, ReactDOM.findDOMNode( this.refs[ 'it' ] ) )

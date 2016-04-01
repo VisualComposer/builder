@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-vcapp('templatesHelper')->render(
+vcview(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,
@@ -12,7 +12,7 @@ vcapp('templatesHelper')->render(
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
         'controller' => vcapp('roleAccessHelper')->who($role)->part($part),
         'customValue' => 'custom',
-        'capabilities' => $vcRole->getPostTypes(),
+        'capabilities' => $controller->getPostTypes(),
         'options' => [
             ['1', __('Pages only', 'vc5')],
             ['custom', __('Custom', 'vc5')],

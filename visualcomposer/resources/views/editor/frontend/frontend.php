@@ -18,14 +18,14 @@
 </head>
 <body>
 <script>
-    window.vcSourceID = <?php echo get_the_ID(); ?>;
-    window.vcAjaxUrl = '<?php echo vcapp('urlHelper')->ajax(); ?>';
-    window.vcNonce = '<?php echo vcapp('nonceHelper')->admin(); ?>';
+    window.vcvSourceID = <?php echo get_the_ID(); ?>;
+    window.vcvAjaxUrl = '<?php echo vcapp('urlHelper')->ajax(); ?>';
+    window.vcvNonce = '<?php echo vcapp('nonceHelper')->admin(); ?>';
 </script>
 <script type="text/javascript" src="<?php echo vcapp('urlHelper')->to(
     'public/dist/wp.bundle.js?' . uniqid()
 ); /* @todo: use assets folder */ ?>"></script>
-<iframe src="<?php echo $editableLink; ?>" id="vc-v-editor-iframe"
+<iframe src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
     width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
 </body>
 </html>

@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<div class="updated vc_license activation notice">
+<div class="updated vcv-license activation notice">
     <p>
         <?php echo sprintf(
             __(

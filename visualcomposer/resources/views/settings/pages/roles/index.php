@@ -9,15 +9,13 @@ if (!defined('ABSPATH')) {
 
 $editableRoles = get_editable_roles();
 
-$tab = $page->getSlug();
-
 ?>
 
 <form action="<?php echo admin_url('admin-ajax.php'); ?>"
     method="post"
-    id="vc_settings-<?php echo $tab ?>"
+    id="vc_settings-<?php echo $slug ?>"
     class="vc_settings-tab-content vc_settings-tab-content-active"
-    <?php echo apply_filters('vc_setting-tab-form-' . $tab, '') ?>
+    <?php echo apply_filters('vc_setting-tab-form-' . $slug, '') ?>
     data-vc-roles="form">
 
     <div class="tab_intro">
@@ -31,15 +29,17 @@ $tab = $page->getSlug();
 
     <div class="vc_wp-settings">
         <div class="vc_wp-accordion" data-vc-action="collapseAll">
-            <?php foreach ($editableRoles as $role => $details) : ?>
+            <?php
+            $parts = $controller->getParts();
+            foreach ($editableRoles as $role => $details) : ?>
                 <?php
 
                 $name = translate_user_role($details['name']);
                 $uniqueId = 'vc_role-' . $role;
                 $validRoles = [];
 
-                foreach ($Roles->getParts() as $part) {
-                    if ($Roles->hasRoleCapability($role, $Roles->getPartCapability($part))) {
+                foreach ($parts as $part) {
+                    if ($controller->hasRoleCapability($role, $controller->getPartCapability($part))) {
                         $validRoles[] = $part;
                     }
                 }
@@ -85,12 +85,12 @@ $tab = $page->getSlug();
 
                                 foreach ($validRoles as $part) {
                                     $view = str_replace('_', '-', $part);
-                                    vcapp('templatesHelper')->render(
+                                    vcview(
                                         'settings/pages/roles/partials/' . $view,
                                         [
                                             'part' => $part,
                                             'role' => $role,
-                                            'vcRole' => $Roles,
+                                            'controller' => $controller,
                                         ]
                                     );
                                 }
@@ -108,19 +108,23 @@ $tab = $page->getSlug();
 
     <?php
 
-    wp_nonce_field('vc_settings-' . $tab . '-action', 'vc_nonce_field');
+    wp_nonce_field('vc_settings-' . $slug . '-action', 'vc_nonce_field');
 
     $submitButtonAttributes = [];
-    $submitButtonAttributes = apply_filters('vc_settings-tab-submit-button-attributes', $submitButtonAttributes, $tab);
     $submitButtonAttributes = apply_filters(
-        'vc_settings-tab-submit-button-attributes-' . $tab,
+        'vcv:template:settings:settings-tab-submit-button-attributes',
         $submitButtonAttributes,
-        $tab
+        $slug
+    );
+    $submitButtonAttributes = apply_filters(
+        'vcv:template:settings:settings-tab-submit-button-attributes' . $slug,
+        $submitButtonAttributes,
+        $slug
     );
 
     submit_button(__('Save Changes', 'vc5'), 'primary', 'submit_btn', true, $submitButtonAttributes);
 
     ?>
-    <?php /* change id in JS from #vc_settings-roles-action to #settings-save-roles-btn */ ?>
-    <input type="hidden" name="action" value="vc_roles_settings_save" id="settings-save-roles-btn"/>
+    <?php /* @todo change id in JS from #vcv_settings-roles-action to #settings-save-roles-btn */ ?>
+    <input type="hidden" name="action" value="vcv_roles_settings_save" id="vcv-settings-save-roles-btn"/>
 </form>

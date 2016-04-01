@@ -18,6 +18,7 @@ class Controller extends Container
         add_action(
             'init',
             function () {
+                /** @see \VisualComposer\Modules\System\TextDomain\Controller::setDomain */
                 $this->call('setDomain');
             }
         );
@@ -28,6 +29,6 @@ class Controller extends Container
      */
     private function setDomain()
     {
-        load_plugin_textdomain('vc5', false, VC_V_PLUGIN_DIRNAME . '/languages');
+        load_plugin_textdomain('vc5', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }

@@ -36,6 +36,7 @@ class Access extends AccessFactory
      * @param $callback
      * @param $valid
      * @param $argsList
+     *
      * @return $this
      */
     public function wpMulti($callback, $valid, $argsList)

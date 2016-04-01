@@ -9,7 +9,7 @@ vcCake.add('ui-save-data', function(api) {
   api.reply('start', function() {
     var storage = vcCake.getService('wordpress-storage');
     storage.get(function(request) {
-      var data = JSON.parse(request.responseText);
+      var data = JSON.parse(request.responseText||'{}');
       if (data) {
         var timeMachine = vcCake.getService('time-machine');
         timeMachine.setZeroState(data);

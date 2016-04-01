@@ -23,6 +23,7 @@ class Controller extends Container
 
     /**
      * Controller constructor.
+     *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Generic\Request $request
      */
@@ -32,15 +33,17 @@ class Controller extends Container
         $this->request = $request;
 
         add_action(
-            'vc:v:ajax:loader:v:getData:adminNonce',
+            'vcv:ajax:loader:getData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
                 $this->call('getData');
             }
         );
 
         add_action(
-            'vc:v:ajax:loader:setData:adminNonce',
+            'vcv:ajax:loader:setData:adminNonce',
             function () {
+                /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::setData */
                 $this->call('setData');
             }
         );
@@ -52,15 +55,15 @@ class Controller extends Container
     private function getData()
     {
         $data = '';
-        $sourceId = $this->request->input('source_id');
+        $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             // @todo: access checks
             // @todo: fix react components if there is empty page content
-            $postMeta = get_post_meta($sourceId, VC_V_PREFIX . 'page_content', true);
+            $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
 
             $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
         }
-        echo $data;
+        echo is_array($data) ? json_encode($data) : $data;
     }
 
     /**
@@ -68,24 +71,26 @@ class Controller extends Container
      */
     private function setData()
     {
-        $data = $this->request->input('data');
-        $content = $this->request->input('content');
-        $sourceId = $this->request->input('source_id');
+        $data = $this->request->input('vcv-data');
+        $content = $this->request->input('vcv-content');
+        $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             // @todo: save elements on page
             $post = get_post($sourceId);
             $post->post_content = stripslashes($content); // @todo: check for stripslashes - maybe not needed!
             wp_update_post($post);
-            // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vc_v_page_content' => $data ]
-            update_post_meta($sourceId, VC_V_PREFIX . 'page_content', $data);
+            // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vcv:pageContent' => $data ]
+            update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
             $this->event->fire(
-                'vc:v:postAjax:setPostData',
+                'vcv:postAjax:setPostData',
                 [
                     $sourceId,
                     $post,
                     $data,
                 ]
             );
+            die(json_encode(['status' => 'ok']));
         }
+        die(json_encode(['status' => 'fail']));
     }
 }

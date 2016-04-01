@@ -10,4 +10,4 @@ if (vcapp('license')->isActivated()) {
     $view = 'deactivated-state';
 }
 
-vcapp('templatesHelper')->render('settings/pages/license/partials/' . $view);
+vcview('settings/pages/license/partials/' . $view);
