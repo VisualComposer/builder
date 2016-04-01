@@ -93,6 +93,7 @@ class Dispatcher implements DispatcherContract
      * Determine if a given event has listeners.
      *
      * @param  string $eventName
+     *
      * @return bool
      */
     public function hasListeners($eventName)
@@ -132,6 +133,7 @@ class Dispatcher implements DispatcherContract
      * Resolve the subscriber instance.
      *
      * @param  object|string $subscriber
+     *
      * @return mixed
      */
     protected function resolveSubscriber($subscriber)
@@ -148,6 +150,7 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string $event
      * @param  array $payload
+     *
      * @return mixed
      */
     public function until($event, $payload = [])
@@ -159,6 +162,7 @@ class Dispatcher implements DispatcherContract
      * Flush a set of pushed events.
      *
      * @param  string $event
+     *
      * @return void
      */
     public function flush($event)
@@ -182,6 +186,7 @@ class Dispatcher implements DispatcherContract
      * @param  string|object $event
      * @param  mixed $payload
      * @param  bool $halt
+     *
      * @return array|null
      */
     public function fire($event, $payload = [], $halt = false)
@@ -236,6 +241,7 @@ class Dispatcher implements DispatcherContract
      * Get all of the listeners for a given event name.
      *
      * @param  string $eventName
+     *
      * @return array
      */
     public function getListeners($eventName)
@@ -253,6 +259,7 @@ class Dispatcher implements DispatcherContract
      * Get the wildcard listeners for the event.
      *
      * @param  string $eventName
+     *
      * @return array
      */
     protected function getWildcardListeners($eventName)
@@ -272,6 +279,7 @@ class Dispatcher implements DispatcherContract
      * Sort the listeners for a given event by priority.
      *
      * @param  string $eventName
+     *
      * @return array
      */
     protected function sortListeners($eventName)
@@ -295,6 +303,7 @@ class Dispatcher implements DispatcherContract
      * Remove a set of listeners from the dispatcher.
      *
      * @param  string $event
+     *
      * @return void
      */
     public function forget($event)

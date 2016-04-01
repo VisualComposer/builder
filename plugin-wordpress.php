@@ -37,9 +37,9 @@ if (defined('VCV_VERSION')) {
 }
 
 /**
- * Plugin version constant: '5.0'
+ * Plugin version constant: '1.0.0'
  */
-define('VCV_VERSION', '5.0');
+define('VCV_VERSION', '1.0.0');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
@@ -64,7 +64,7 @@ define('VCV_PLUGIN_DIRNAME', dirname(VCV_PLUGIN_BASE_NAME));
 /**
  * Plugin core prefix for options/meta and etc
  */
-define('VCV_PREFIX', 'vc-v-');
+define('VCV_PREFIX', 'vcv-');
 if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }

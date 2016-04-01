@@ -17,11 +17,11 @@ class About extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-about';
+    protected $slug = 'vcv-about';
     /**
      * @var string
      */
-    protected $defaultTabSlug = 'vc-v-main';
+    protected $defaultTabSlug = 'vcv-main';
     /**
      * @var string
      */
@@ -47,17 +47,17 @@ class About extends Container
         $this->setTabs(
             [
                 [
-                    'slug' => 'vc-v-main',
+                    'slug' => 'vcv-main',
                     'title' => __('What\'s New', 'vc5'),
                     'view' => 'settings/pages/about/partials/main',
                 ],
                 [
-                    'slug' => 'vc-v-faq',
+                    'slug' => 'vcv-faq',
                     'title' => __('FAQ', 'vc5'),
                     'view' => 'settings/pages/about/partials/faq',
                 ],
                 [
-                    'slug' => 'vc-v-resources',
+                    'slug' => 'vcv-resources',
                     'title' => __('Resources', 'vc5'),
                     'view' => 'settings/pages/about/partials/resources',
                 ],
@@ -75,6 +75,7 @@ class About extends Container
 
     /**
      * @param $tabs
+     *
      * @return $this
      */
     public function setTabs($tabs)
@@ -110,11 +111,12 @@ class About extends Container
      *
      * @param Request $request
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     *
      * @throws \Exception
      */
     protected function beforeRender(Request $request, CurrentUserAccess $currentUserAccess)
     {
-        $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vc-general-tab')
+        $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vcv-general-tab')
                                                  ->get()
             && (!is_multisite() || !is_main_site());
         $args = [

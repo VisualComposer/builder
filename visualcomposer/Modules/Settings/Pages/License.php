@@ -15,7 +15,7 @@ class License extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-license';
+    protected $slug = 'vcv-license';
     /**
      * @var string
      */

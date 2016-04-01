@@ -32,11 +32,12 @@ class PageEditable extends Container
     /**
      * @param \VisualComposer\Helpers\Generic\Request $request
      * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     *
      * @return bool
      */
     private function isPageEditable(Request $request, Nonce $nonce)
     {
-        return ($request->exists('vc-v-editable')
+        return ($request->exists('vcv-editable')
             && $request->exists('nonce')
             && $nonce->verifyAdmin($request->input('nonce')));
     }
@@ -85,7 +86,7 @@ class PageEditable extends Container
                 \'css\' );
         })();
     </script>
-	<div id="vc-v-editor">Loading...</div>';
+	<div id="vcv-editor">Loading...</div>';
                     }
                 );
             },

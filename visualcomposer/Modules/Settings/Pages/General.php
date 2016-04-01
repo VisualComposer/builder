@@ -18,7 +18,7 @@ class General extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-general';
+    protected $slug = 'vcv-general';
     /**
      * @var string
      */
@@ -45,8 +45,8 @@ class General extends Container
      */
     public function __construct()
     {
-        $this->optionGroup = 'vc-v-general';
-        $this->optionSlug = 'vc-v-general';
+        $this->optionGroup = 'vcv-general';
+        $this->optionSlug = 'vcv-general';
         add_filter(
             'vcv:settings:getPages',
             function ($pages) {
@@ -199,6 +199,7 @@ class General extends Container
 
     /**
      * Google fonts subsets callback
+     *
      * @param \VisualComposer\Helpers\WordPress\Options $options
      */
     private function googleFontsSubsetsFieldCallback(Options $options)

@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 
 /**
  * Plugin requirements in driver WordPress
- * Class VcvCore_Requirements
+ * Class VcvCoreRequirements
  */
 abstract class VcvCoreRequirements
 {

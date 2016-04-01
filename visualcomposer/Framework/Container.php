@@ -1,10 +1,8 @@
 <?php
 namespace VisualComposer\Framework;
 
-use Closure;
-use ReflectionFunction;
+use BadMethodCallException;
 use ReflectionMethod;
-use ReflectionParameter;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 
 /**
@@ -29,7 +27,7 @@ abstract class Container
         $inner = false;
         if (!is_callable($method)) {
             if (is_array($method)) {
-                throw new \BadMethodCallException('method is not callable');
+                throw new BadMethodCallException('method is not callable');
             }
             $func = [$this, $method];
             $inner = true;

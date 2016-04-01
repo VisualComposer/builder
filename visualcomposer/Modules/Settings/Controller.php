@@ -24,11 +24,11 @@ class Controller extends Container
     /**
      * @var string
      */
-    protected $optionGroup = 'vc-v-settings';
+    protected $optionGroup = 'vcv-settings';
     /**
      * @var string
      */
-    protected $pageSlug = 'vc-v-settings';
+    protected $pageSlug = 'vcv-settings';
     /**
      * @var string
      */
@@ -80,6 +80,7 @@ class Controller extends Container
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
+     *
      * @return string
      * @throws \Exception
      */
@@ -117,6 +118,7 @@ class Controller extends Container
 
     /**
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     *
      * @throws \Exception
      */
     private function addSubmenuPages(CurrentUserAccess $currentUserAccess)
@@ -179,6 +181,7 @@ class Controller extends Container
 
     /**
      * Init settings page
+     *
      * @param \VisualComposer\Helpers\Generic\Url $urlHelper
      */
     private function initAdmin(Url $urlHelper)

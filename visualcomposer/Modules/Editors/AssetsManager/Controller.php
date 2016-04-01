@@ -34,6 +34,7 @@ class Controller extends Container
 
     /**
      * Controller constructor.
+     *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Generic\Request $request
      * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper

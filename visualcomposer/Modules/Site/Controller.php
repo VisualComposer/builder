@@ -73,7 +73,7 @@ class Controller extends Container
             $url = $urlHelper->ajax(
                 [
                     'action' => 'frontend',
-                    'vc-source-id' => get_the_ID(),
+                    'vcv-source-id' => get_the_ID(),
                 ]
             );
             $link .= ' <a href="' . $url . '">' . __('Edit with VC5', 'vc5') . '</a>';

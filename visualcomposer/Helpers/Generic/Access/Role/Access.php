@@ -143,6 +143,7 @@ class Access
      *
      * @param string $rule
      * @param bool|true $checkState
+     *
      * @return static
      * @throws \Exception
      */
@@ -289,6 +290,7 @@ class Access
 
     /**
      * @param $data
+     *
      * @return $this
      */
     public function checkState($data)
@@ -324,6 +326,7 @@ class Access
 
     /**
      * @param $rule
+     *
      * @return mixed
      */
     public function updateMergedCaps($rule)

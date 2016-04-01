@@ -22,6 +22,7 @@ class Options
     /**
      * @param $optionName
      * @param $value
+     *
      * @return $this
      */
     public function set($optionName, $value)

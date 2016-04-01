@@ -26,6 +26,7 @@ class Nonce
 
     /**
      * @param $nonce
+     *
      * @return bool
      */
     public function verifyUser($nonce)
@@ -35,6 +36,7 @@ class Nonce
 
     /**
      * @param $nonce
+     *
      * @return bool
      */
     public function verifyAdmin($nonce)

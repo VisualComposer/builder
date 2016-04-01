@@ -17,7 +17,7 @@ class Authorization extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-auth';
+    protected $slug = 'vcv-auth';
     /**
      * @var string
      */
@@ -64,6 +64,7 @@ class Authorization extends Container
     /**
      * @param \VisualComposer\Helpers\Generic\Request $request
      * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
+     *
      * @internal param \VisualComposer\Helpers\WordPress\Options $options
      */
     private function handleApiRequest(Request $request, Token $tokenHelper)
@@ -73,9 +74,9 @@ class Authorization extends Container
             /** @see \VisualComposer\Helpers\Generic\Token::generateToken */
             $token = vcapp()->call([$tokenHelper, 'generateToken'], [$request->input('code')]);
             if ($token) {
-                wp_redirect(self_admin_url('admin.php?page=vc-v-auth'));
+                wp_redirect(self_admin_url('admin.php?page=vcv-auth'));
             } else {
-                wp_redirect(self_admin_url('admin.php?page=vc-v-auth&failed=true'));
+                wp_redirect(self_admin_url('admin.php?page=vcv-auth&failed=true'));
             }
         }
     }

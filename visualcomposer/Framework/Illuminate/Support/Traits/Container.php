@@ -13,6 +13,7 @@ trait Container
 {
     /**
      * @param array $array
+     *
      * @return bool
      */
     protected function hasStringKeys(array $array)
@@ -66,6 +67,7 @@ trait Container
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
      * @param  array $dependencies
+     *
      * @return mixed
      */
     protected function addDependencyForCallParameter(

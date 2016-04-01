@@ -6,11 +6,11 @@ trait Fields
     /**
      * @var string
      */
-    protected $optionGroup = 'vc-v-settings';
+    protected $optionGroup = 'vcv-settings';
     /**
      * @var string
      */
-    protected $optionSlug = 'vc-v-settings';
+    protected $optionSlug = 'vcv-settings';
 
     /**
      * @return string
@@ -30,6 +30,7 @@ trait Fields
 
     /**
      * @param $sectionData
+     *
      * @return $this
      */
     protected function addSection($sectionData)
@@ -59,6 +60,7 @@ trait Fields
 
     /**
      * @param $fieldData
+     *
      * @return $this
      */
     protected function addField($fieldData)

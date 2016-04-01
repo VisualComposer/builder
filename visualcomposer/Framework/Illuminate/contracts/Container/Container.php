@@ -12,6 +12,7 @@ interface Container
      * Determine if the given abstract type has been bound.
      *
      * @param  string $abstract
+     *
      * @return bool
      */
     public function bound($abstract);
@@ -21,6 +22,7 @@ interface Container
      *
      * @param  string $abstract
      * @param  string $alias
+     *
      * @return void
      */
     public function alias($abstract, $alias);
@@ -37,6 +39,7 @@ interface Container
      * Resolve all of the bindings for a given tag.
      *
      * @param  array $tag
+     *
      * @return array
      */
     public function tagged($tag);
@@ -89,6 +92,7 @@ interface Container
      * Define a contextual binding.
      *
      * @param  string $concrete
+     *
      * @return \VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder
      */
     public function when($concrete);
@@ -98,6 +102,7 @@ interface Container
      *
      * @param  string $abstract
      * @param  array $parameters
+     *
      * @return mixed
      */
     public function make($abstract, $parameters = []);
@@ -108,6 +113,7 @@ interface Container
      * @param  callable|string $callback
      * @param  array $parameters
      * @param  string|null $defaultMethod
+     *
      * @return mixed
      */
     public function call($callback, array $parameters = [], $defaultMethod = null);
@@ -116,6 +122,7 @@ interface Container
      * Determine if the given abstract type has been resolved.
      *
      * @param  string $abstract
+     *
      * @return bool
      */
     public function resolved($abstract);

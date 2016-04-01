@@ -15,6 +15,7 @@ class Token extends Container
     /**
      * @param $code
      * @param \VisualComposer\Framework\Curl\Curl $curl
+     *
      * @return bool|string
      */
     public function generateToken($code, Curl $curl)
@@ -42,6 +43,7 @@ class Token extends Container
     /**
      * @param $data
      * @param \VisualComposer\Helpers\WordPress\Options $options
+     *
      * @return string
      */
     private function saveToken($data, Options $options)
@@ -83,6 +85,7 @@ class Token extends Container
     /**
      * @param \VisualComposer\Helpers\WordPress\Options $options
      * @param \VisualComposer\Framework\Curl\Curl $curl
+     *
      * @return bool
      */
     private function refreshToken(Options $options, Curl $curl)

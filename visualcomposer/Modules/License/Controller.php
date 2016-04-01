@@ -5,7 +5,6 @@ namespace VisualComposer\Modules\License;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Core;
 use VisualComposer\Helpers\Generic\Data;
-use VisualComposer\Helpers\Generic\Templates;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\License;
@@ -71,6 +70,7 @@ class Controller extends Container
      * Get license page  url
      *
      * @param \VisualComposer\Modules\Settings\Pages\License $licensePage
+     *
      * @return string
      */
     private function getLicensePage(License $licensePage)
@@ -321,14 +321,16 @@ class Controller extends Container
 
     /**
      * Start activation process and output redirect URL as JSON
+     *
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     *
      * @throws \Exception
      */
     private function startActivationResponse(CurrentUserAccess $currentUserAccess)
     {
         $currentUserAccess->reset()->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part(
             'settings'
-        )->can('vc-v-license-tab')->validateDie();
+        )->can('vcv-license-tab')->validateDie();
 
         /** @see \VisualComposer\Modules\License\Controller::generateActivationUrl */
         $response = [
@@ -341,13 +343,15 @@ class Controller extends Container
 
     /**
      * Start deactivation process and output redirect URL as JSON
+     *
      * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     *
      * @throws \Exception
      */
     private function startDeactivationResponse(CurrentUserAccess $currentUserAccess)
     {
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
-                          ->can('vc-v-license-tab')->validateDie();
+                          ->can('vcv-license-tab')->validateDie();
 
         /** @see \VisualComposer\Modules\License\Controller::generateDeactivationUrl */
         $response = [
@@ -373,6 +377,7 @@ class Controller extends Container
      * Get license key
      *
      * @param \VisualComposer\Helpers\WordPress\Options $options
+     *
      * @return string
      */
     private function getLicenseKey(Options $options)
@@ -397,6 +402,7 @@ class Controller extends Container
      * Set up license activation notice if needed
      *
      * Don't show notice on dev environment
+     *
      * @param \VisualComposer\Helpers\Generic\Core $core
      */
     private function setupReminder(Core $core)
@@ -406,7 +412,7 @@ class Controller extends Container
         }
 
         $showActivationReminder = !$this->isActivated()
-            && empty($_COOKIE['vchideactivationmsg'])
+            && empty($_COOKIE['vcvhideactivationmsg'])
             && !($core->isNetworkPlugin() && is_network_admin());
 
         if (!$showActivationReminder) {
@@ -454,6 +460,7 @@ class Controller extends Container
 
     /**
      * Render license activation notice
+     *
      * @param \VisualComposer\Helpers\WordPress\Options $options
      */
     private function renderLicenseActivationNotice(Options $options)
@@ -473,6 +480,7 @@ class Controller extends Container
      * Get license key token
      *
      * @param \VisualComposer\Helpers\WordPress\Options $options
+     *
      * @return string
      */
     private function getLicenseKeyToken(Options $options)
@@ -499,6 +507,7 @@ class Controller extends Container
      * Format is: timestamp|20-random-characters
      *
      * @param \VisualComposer\Helpers\Generic\Data $data
+     *
      * @return string
      */
     private function generateLicenseKeyToken(Data $data)

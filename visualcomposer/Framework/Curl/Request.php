@@ -78,6 +78,7 @@ class Request
      * Set the HTTP method of the request.
      *
      * @param string $method
+     *
      * @return $this
      */
     public function setMethod($method)
@@ -107,6 +108,7 @@ class Request
      * Set the URL of the request.
      *
      * @param string $url
+     *
      * @return $this
      */
     public function setUrl($url)
@@ -132,6 +134,7 @@ class Request
      * @param string $key Can also be a string in "foo: bar" format
      * @param mixed $value
      * @param boolean $preserveCase
+     *
      * @return $this
      */
     public function setHeader($key, $value = null, $preserveCase = false)
@@ -158,6 +161,7 @@ class Request
      * will be done for you when the request is sent.
      *
      * @param array $headers
+     *
      * @return $this
      */
     public function setHeaders(array $headers)
@@ -200,6 +204,7 @@ class Request
      *
      * @param string $key
      * @param string $value
+     *
      * @return $this
      */
     public function setCookie($key, $value)
@@ -214,6 +219,7 @@ class Request
      * Replace the request's cookies.
      *
      * @param array $cookies
+     *
      * @return $this
      */
     public function setCookies(array $cookies)
@@ -287,6 +293,7 @@ class Request
      * Set the POST data to be sent with the request.
      *
      * @param mixed $data
+     *
      * @return $this
      */
     public function setData($data)
@@ -310,6 +317,7 @@ class Request
      * Set the encoding to use on the POST data, and (possibly) associated Content-Type headers
      *
      * @param int $encoding a Request::ENCODING_* constant
+     *
      * @return $this
      */
     public function setEncoding($encoding)
@@ -366,6 +374,7 @@ class Request
      *
      * @param string $key
      * @param mixed $value
+     *
      * @return $this
      */
     public function setOption($key, $value)
@@ -379,6 +388,7 @@ class Request
      * Set the Curl options for the request.
      *
      * @param array $options
+     *
      * @return $this
      */
     public function setOptions(array $options)

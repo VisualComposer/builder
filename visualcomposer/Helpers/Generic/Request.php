@@ -15,6 +15,7 @@ class Request
      * Determine if the request contains a given input item key.
      *
      * @param  string|array $key
+     *
      * @return bool
      */
     public function exists($key)
@@ -37,6 +38,7 @@ class Request
      *
      * @param  string $key
      * @param  mixed $default
+     *
      * @return string|array
      */
     public function input($key = null, $default = null)
@@ -55,6 +57,7 @@ class Request
      * Get an input element from the request.
      *
      * @param  string $key
+     *
      * @return mixed
      */
     public function __get($key)

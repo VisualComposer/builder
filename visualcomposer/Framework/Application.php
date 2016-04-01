@@ -68,6 +68,7 @@ class Application extends Container implements ApplicationContract
      *
      * @param  string $abstract
      * @param  array $parameters
+     *
      * @return mixed
      */
     public function make($abstract, $parameters = [])

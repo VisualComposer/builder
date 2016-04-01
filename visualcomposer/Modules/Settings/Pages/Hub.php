@@ -17,7 +17,7 @@ class Hub extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-hub';
+    protected $slug = 'vcv-hub';
     /**
      * @var string
      */
@@ -40,6 +40,7 @@ class Hub extends Container
     /**
      * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
      * @param \VisualComposer\Framework\Curl\Curl $curl
+     *
      * @return array
      */
     public function getDataFromHub(Token $tokenHelper, Curl $curl)

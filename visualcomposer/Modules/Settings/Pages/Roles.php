@@ -17,7 +17,7 @@ class Roles extends Container
     /**
      * @var string
      */
-    protected $slug = 'vc-v-roles';
+    protected $slug = 'vcv-roles';
     /**
      * @var string
      */
@@ -111,6 +111,7 @@ class Roles extends Container
     /**
      * @param $role
      * @param $caps
+     *
      * @return bool
      */
     public function hasRoleCapability($role, $caps)
@@ -148,6 +149,7 @@ class Roles extends Container
 
     /**
      * @param array $params
+     *
      * @return array
      */
     public function save($params = [])
