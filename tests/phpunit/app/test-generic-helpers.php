@@ -136,9 +136,9 @@ class GenericHelpersTest extends WP_UnitTestCase
             $urlHelper->to('//test'),
             'to should return plugin url with test'
         );
-        $this->assertEquals(VCV_PLUGIN_URL . 'ajax.php?', $urlHelper->ajax(), 'ajax should return url');
+        $this->assertEquals(get_site_url() . '?vcv-ajax=1', $urlHelper->ajax(), 'ajax should return url');
         $this->assertEquals(
-            VCV_PLUGIN_URL . 'ajax.php?test=1',
+            get_site_url() . '?test=1&vcv-ajax=1',
             $urlHelper->ajax(['test' => 1]),
             'ajax should return url'
         );
@@ -191,10 +191,14 @@ class GenericHelpersTest extends WP_UnitTestCase
         ];
 
         $this->assertTrue(method_exists($dataHelper, 'arraySearch'), 'arraySearch should exist in $dataHelper');
-        $this->assertEquals($dataHelper->arraySearch($arr, 'test', 5), [
-            'test' => 5,
-            'test2' => 6,
-        ], 'Value should not be false');
+        $this->assertEquals(
+            $dataHelper->arraySearch($arr, 'test', 5),
+            [
+                'test' => 5,
+                'test2' => 6,
+            ],
+            'Value should not be false'
+        );
         $this->assertEquals($dataHelper->arraySearchKey($arr, 'test'), 0, 'Value should not be false');
         $this->assertEquals(
             $dataHelper->arraySearchKey($arr, 'test', true),
