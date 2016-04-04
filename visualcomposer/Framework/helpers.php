@@ -21,6 +21,21 @@ if (!function_exists('vcapp')) {
     }
 }
 
+if (!function_exists('vchelper')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param  string $name
+     * @param  array $parameters
+     *
+     * @return mixed|\VisualComposer\Application
+     */
+    function vchelper($name, $parameters = [])
+    {
+        return vcapp($name . 'Helper', $parameters);
+    }
+}
+
 if (!function_exists('vcevent')) {
     /**
      * Fire an event and call the listeners.
@@ -33,7 +48,7 @@ if (!function_exists('vcevent')) {
      */
     function vcevent($event, $payload = [], $halt = false)
     {
-        return vcapp('eventsHelper')->fire($event, $payload, $halt);
+        return vchelper('events')->fire($event, $payload, $halt);
     }
 }
 
@@ -47,6 +62,6 @@ if (!function_exists('vcview')) {
      */
     function vcview($path, $args = [], $echo = true)
     {
-        return vcapp('templatesHelper')->render($path, $args, $echo);
+        return vchelper('templates')->render($path, $args, $echo);
     }
 }

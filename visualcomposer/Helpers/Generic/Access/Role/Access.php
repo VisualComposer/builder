@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers\Generic\Access\Role;
 use VisualComposer\Helpers\Generic\Access\Access as AccessFactory;
 
 /**
- * Available by vcapp('roleAccessHelper')
+ * Available by vchelper('roleAccess')
  * Provides API for specific role for checks & access
  *
  * Class Access
@@ -321,7 +321,7 @@ class Access
      */
     public function __toString()
     {
-        return (string)$this->get();
+        return (string)$this->get(true);
     }
 
     /**

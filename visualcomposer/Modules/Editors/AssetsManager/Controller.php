@@ -165,11 +165,10 @@ class Controller extends Container
 
             $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
-
+            /** @var $app Application */
+            $app = vcapp();
             if (!is_file($bundle)) {
                 $contents = '';
-                /** @var $app Application */
-                $app = vcapp();
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
@@ -240,11 +239,11 @@ class Controller extends Container
         }
 
         $bundles = [];
+        /** @var Application $app */
+        $app = vcapp();
         foreach ($list as $element => $files) {
             $contents = '';
             if (is_array($files)) {
-                /** @var Application $app */
-                $app = vcapp();
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";

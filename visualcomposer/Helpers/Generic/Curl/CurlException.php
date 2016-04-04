@@ -1,12 +1,12 @@
 <?php
 
-namespace VisualComposer\Framework\Curl;
+namespace VisualComposer\Helpers\Generic\Curl;
 
 use RuntimeException;
 
 /**
  * Class CurlException
- * @package VisualComposer\Framework\Curl
+ * @package VisualComposer\Helpers\Generic\Curl
  */
 class CurlException extends RuntimeException
 {

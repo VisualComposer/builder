@@ -10,7 +10,7 @@ vcview(
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('roleAccessHelper')->who($role)->part($part),
+        'controller' => vchelper('roleAccess')->who($role)->part($part),
         'options' => [
             [true, __('Enabled', 'vc5')],
             [true, __('Disabled', 'vc5')],

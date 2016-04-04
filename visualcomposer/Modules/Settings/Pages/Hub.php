@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Curl\Curl;
+use VisualComposer\Helpers\Generic\Curl\Curl;
 use VisualComposer\Helpers\Generic\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -39,7 +39,7 @@ class Hub extends Container
 
     /**
      * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
-     * @param \VisualComposer\Framework\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
      *
      * @return array
      */

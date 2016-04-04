@@ -1,13 +1,13 @@
 <?php
 
-namespace VisualComposer\Framework\Curl;
+namespace VisualComposer\Helpers\Generic\Curl;
 
 use InvalidArgumentException;
 use UnexpectedValueException;
 
 /**
  * Class Request
- * @package VisualComposer\Framework\Curl
+ * @package VisualComposer\Helpers\Generic\Curl
  */
 class Request
 {

@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers\Generic\Access\CurrentUser;
 use VisualComposer\Helpers\Generic\Access\Role\Access as AccessFactory;
 
 /**
- * Available by vcapp('userAccessHelper')
+ * Available by vchelper('userAccess')
  * Provides API to check access for current logged in used.
  * Class Access
  * @package VisualComposer\Helpers\Generic\Access\CurrentUser

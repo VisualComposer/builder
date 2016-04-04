@@ -5,7 +5,7 @@
  * Modified by visual composer team
  */
 
-namespace VisualComposer\Framework\Curl;
+namespace VisualComposer\Helpers\Generic\Curl;
 
 use BadMethodCallException;
 use InvalidArgumentException;
@@ -16,8 +16,6 @@ use InvalidArgumentException;
  * @method Response delete(string $url) Execute a DELETE request
  * @method Response head(string $url) Execute a HEAD request
  * @method Response post(string $url, array $data) Execute a POST request
- * @method Response put(string $url, array $data) Execute a PUT request
- * @method Response patch(string $url, array $data) Execute a PATCH request
  * @method Response jsonGet(string $url) Execute a JSON GET request
  * @method Response jsonDelete(string $url) Execute a JSON DELETE request
  * @method Response jsonHead(string $url) Execute a JSON HEAD request
@@ -30,7 +28,7 @@ use InvalidArgumentException;
  * @method Response rawPost(string $url, array $data) Execute a raw POST request
  * @method Response rawPut(string $url, array $data) Execute a raw PUT request
  * @method Response rawPatch(string $url, array $data) Execute a raw PATCH request
- * @package VisualComposer\Framework\Curl
+ * @package VisualComposer\Helpers\Generic\Curl
  */
 class Curl
 {

@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\License;
 
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Core;
-use VisualComposer\Helpers\Generic\Data;
+use VisualComposer\Helpers\Generic\Str;
 use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\License;
@@ -506,13 +506,13 @@ class Controller extends Container
      *
      * Format is: timestamp|20-random-characters
      *
-     * @param \VisualComposer\Helpers\Generic\Data $data
+     * @param \VisualComposer\Helpers\Generic\Str $strHelper
      *
      * @return string
      */
-    private function generateLicenseKeyToken(Data $data)
+    private function generateLicenseKeyToken(Str $strHelper)
     {
-        $token = time() . '|' . $data->randomString(20);
+        $token = time() . '|' . $strHelper->quickRandom(20);
 
         return $token;
     }

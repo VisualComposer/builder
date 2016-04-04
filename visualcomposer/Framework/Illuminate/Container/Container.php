@@ -8,6 +8,7 @@ use ReflectionParameter;
 use InvalidArgumentException;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
+use VisualComposer\Helpers\Generic\Str;
 
 /**
  * Class Container
@@ -540,8 +541,10 @@ class Container implements ArrayAccess, ContainerContract
         if (!is_string($callback)) {
             return false;
         }
+        /** @var Str $strHelper */
+        $strHelper = vchelper('str');
 
-        return strpos($callback, '@') !== false;
+        return $strHelper->contains($callback, '@');
     }
 
     /**

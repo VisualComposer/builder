@@ -3,7 +3,7 @@
 namespace VisualComposer\Helpers\Generic;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Curl\Curl;
+use VisualComposer\Helpers\Generic\Curl\Curl;
 use VisualComposer\Helpers\WordPress\Options;
 
 /**
@@ -14,7 +14,7 @@ class Token extends Container
 {
     /**
      * @param $code
-     * @param \VisualComposer\Framework\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
      *
      * @return bool|string
      */
@@ -71,7 +71,7 @@ class Token extends Container
     public function getToken()
     {
         /** @var Options $options */
-        $options = vcapp('optionsHelper');
+        $options = vchelper('options');
         $token = $options->get('page-auth-token');
         $ttl = current_time('timestamp') - (int)$options->get('page-auth-token-ttl');
         if ($ttl > 3600) {
@@ -84,7 +84,7 @@ class Token extends Container
 
     /**
      * @param \VisualComposer\Helpers\WordPress\Options $options
-     * @param \VisualComposer\Framework\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
      *
      * @return bool
      */

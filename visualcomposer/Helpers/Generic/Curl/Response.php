@@ -1,10 +1,10 @@
 <?php
 
-namespace VisualComposer\Framework\Curl;
+namespace VisualComposer\Helpers\Generic\Curl;
 
 /**
  * Class Response
- * @package VisualComposer\Framework\Curl
+ * @package VisualComposer\Helpers\Generic\Curl
  */
 class Response
 {

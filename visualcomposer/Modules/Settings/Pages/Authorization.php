@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Generic\Request;
 use VisualComposer\Helpers\Generic\Token;
+use VisualComposer\Helpers\WordPress\Options;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -86,6 +87,9 @@ class Authorization extends Container
      */
     public function isAuthorized()
     {
-        return vcapp('optionsHelper')->get('page-auth-state', 0) > 0;
+        /** @var Options $optionsHelper */
+        $optionsHelper = vchelper('options');
+
+        return $optionsHelper->get('page-auth-state', 0) > 0;
     }
 }

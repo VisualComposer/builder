@@ -15,7 +15,7 @@ vcview(
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('roleAccessHelper')->who($role)->part($part),
+        'controller' => vchelper('roleAccess')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => $tabs,
         'options' => [

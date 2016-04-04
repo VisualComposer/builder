@@ -45,7 +45,9 @@ class Url
         $query[ VCV_AJAX_REQUEST ] = '1';
         $url = get_site_url();
         $q = '?';
-        if (strpos($url, '?') !== false) {
+        /** @var Str $strHelper */
+        $strHelper = vchelper('str');
+        if ($strHelper->contains($url, '?')) {
             $q = '&';
         }
 

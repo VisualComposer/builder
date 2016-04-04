@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 /** @var VisualComposer\Helpers\Generic\Url $urlHelper */
-$urlHelper = vcapp('urlHelper');
+$urlHelper = vchelper('url');
 
 ?>
 <div class="vcv-welcome-tab changelog">

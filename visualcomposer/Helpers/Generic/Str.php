@@ -1,15 +1,13 @@
-<?php namespace VisualComposer\Framework\Illuminate\Support;
+<?php namespace VisualComposer\Helpers\Generic;
 
 use RuntimeException;
-use VisualComposer\Framework\Illuminate\Support\Traits\Macroable;
 
 /**
  * Class Str
- * @package VisualComposer\Framework\Illuminate\Support
+ * @package VisualComposer\Helpers\Generic
  */
 class Str
 {
-    use Macroable;
     /**
      * The cache of snake-cased words.
      *
@@ -36,7 +34,7 @@ class Str
      *
      * @return string
      */
-    public static function camel($value)
+    public function camel($value)
     {
         if (isset(static::$camelCache[ $value ])) {
             return static::$camelCache[ $value ];
@@ -53,7 +51,7 @@ class Str
      *
      * @return bool
      */
-    public static function contains($haystack, $needles)
+    public function contains($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
             if ($needle != '' && strpos($haystack, $needle) !== false) {
@@ -72,7 +70,7 @@ class Str
      *
      * @return bool
      */
-    public static function endsWith($haystack, $needles)
+    public function endsWith($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
             if ((string)$needle === substr($haystack, -strlen($needle))) {
@@ -91,7 +89,7 @@ class Str
      *
      * @return string
      */
-    public static function finish($value, $cap)
+    public function finish($value, $cap)
     {
         $quoted = preg_quote($cap, '/');
 
@@ -106,7 +104,7 @@ class Str
      *
      * @return bool
      */
-    public static function is($pattern, $value)
+    public function is($pattern, $value)
     {
         if ($pattern == $value) {
             return true;
@@ -129,7 +127,7 @@ class Str
      *
      * @return int
      */
-    public static function length($value)
+    public function length($value)
     {
         return mb_strlen($value);
     }
@@ -143,7 +141,7 @@ class Str
      *
      * @return string
      */
-    public static function limit($value, $limit = 100, $end = '...')
+    public function limit($value, $limit = 100, $end = '...')
     {
         if (mb_strlen($value) <= $limit) {
             return $value;
@@ -159,7 +157,7 @@ class Str
      *
      * @return string
      */
-    public static function lower($value)
+    public function lower($value)
     {
         return mb_strtolower($value);
     }
@@ -173,7 +171,7 @@ class Str
      *
      * @return string
      */
-    public static function words($value, $words = 100, $end = '...')
+    public function words($value, $words = 100, $end = '...')
     {
         preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
 
@@ -192,9 +190,9 @@ class Str
      *
      * @return array
      */
-    public static function parseCallback($callback, $default)
+    public function parseCallback($callback, $default)
     {
-        return static::contains($callback, '@') ? explode('@', $callback, 2) : [$callback, $default];
+        return $this->contains($callback, '@') ? explode('@', $callback, 2) : [$callback, $default];
     }
 
     /**
@@ -206,13 +204,13 @@ class Str
      *
      * @throws \RuntimeException
      */
-    public static function random($length = 16)
+    public function random($length = 16)
     {
         $string = '';
 
         while (($len = strlen($string)) < $length) {
             $size = $length - $len;
-            $bytes = static::randomBytes($size);
+            $bytes = $this->randomBytes($size);
             $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
         }
 
@@ -228,7 +226,7 @@ class Str
      *
      * @throws \RuntimeException
      */
-    public static function randomBytes($length = 16)
+    public function randomBytes($length = 16)
     {
         if (function_exists('random_bytes')) {
             $bytes = random_bytes($length);
@@ -253,7 +251,7 @@ class Str
      *
      * @return string
      */
-    public static function quickRandom($length = 16)
+    public function quickRandom($length = 16)
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -267,7 +265,7 @@ class Str
      *
      * @return string
      */
-    public static function upper($value)
+    public function upper($value)
     {
         return mb_strtoupper($value);
     }
@@ -279,7 +277,7 @@ class Str
      *
      * @return string
      */
-    public static function title($value)
+    public function title($value)
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
@@ -292,7 +290,7 @@ class Str
      *
      * @return string
      */
-    public static function snake($value, $delimiter = '_')
+    public function snake($value, $delimiter = '_')
     {
         $key = $value . $delimiter;
 
@@ -315,7 +313,7 @@ class Str
      *
      * @return bool
      */
-    public static function startsWith($haystack, $needles)
+    public function startsWith($haystack, $needles)
     {
         foreach ((array)$needles as $needle) {
             if ($needle != '' && strpos($haystack, $needle) === 0) {
@@ -333,7 +331,7 @@ class Str
      *
      * @return string
      */
-    public static function studly($value)
+    public function studly($value)
     {
         $key = $value;
 

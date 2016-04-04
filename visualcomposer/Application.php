@@ -62,6 +62,8 @@ class Application extends ApplicationFactory implements ApplicationContract
         'requestHelper' => 'VisualComposer\Helpers\Generic\Request',
         'templatesHelper' => 'VisualComposer\Helpers\Generic\Templates',
         'urlHelper' => 'VisualComposer\Helpers\Generic\Url',
+        'strHelper' => 'VisualComposer\Helpers\Generic\Str',
+        'curlHelper' => 'VisualComposer\Helpers\Generic\Str',
         /// WordPress
         'fileHelper' => 'VisualComposer\Helpers\WordPress\File',
         'nonceHelper' => 'VisualComposer\Helpers\WordPress\Nonce',
@@ -248,7 +250,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function addModule($name, $controller)
     {
-        $this->addCompontent(strtolower($name), $controller, true);
+        $this->addCompontent($name, $controller, true);
 
         return $this;
     }
@@ -263,7 +265,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function addHelper($name, $controller)
     {
-        $this->addCompontent(strtolower($name) . 'Helper', $controller, false);
+        $this->addCompontent($name . 'Helper', $controller, false);
 
         return $this;
     }
