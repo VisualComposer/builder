@@ -63,7 +63,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         'templatesHelper' => 'VisualComposer\Helpers\Generic\Templates',
         'urlHelper' => 'VisualComposer\Helpers\Generic\Url',
         'strHelper' => 'VisualComposer\Helpers\Generic\Str',
-        'curlHelper' => 'VisualComposer\Helpers\Generic\Str',
+        'curlHelper' => 'VisualComposer\Helpers\Generic\Curl',
         /// WordPress
         'fileHelper' => 'VisualComposer\Helpers\WordPress\File',
         'nonceHelper' => 'VisualComposer\Helpers\WordPress\Nonce',
