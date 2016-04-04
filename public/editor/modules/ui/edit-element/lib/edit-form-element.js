@@ -18,7 +18,7 @@ var EditFormElement = React.createClass({
         {value: paramValue, editElement: this.props.editElement},
         settingsValue.onOpen,
         RulesManager.EVENT_TYPES.onOpen, (function() {
-          this.props.publish('onOpenFinished', paramKey);
+          // this.props.publish('onOpenFinished', paramKey);
         }).bind(this),
         {
           toggleVisible: toggleVisible
@@ -81,7 +81,7 @@ var EditFormElement = React.createClass({
         value,
         settingsValue.onChange,
         RulesManager.EVENT_TYPES.onChange, (function() {
-          this.props.publish('onChangeFinished', paramKey);
+          // this.props.publish('onChangeFinished', paramKey);
         }).bind(this),
         {
           toggleVisible: toggleVisible

@@ -67,7 +67,7 @@ class Controller extends Container
 
         // Save compiled less into one css bundle
         add_action(
-            'vcv:ajax:loader:saveCssBundle:admin-nonce',
+            'vcv:ajax:loader:saveCssBundle:adminNonce',
             function () {
                 $args = func_get_args();
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
@@ -84,12 +84,12 @@ class Controller extends Container
         $this->updatePostAssets(
             $postId,
             'scripts',
-            $this->request->input('scripts', [])
+            $this->request->input('vcv-scripts', [])
         );
         $this->updatePostAssets(
             $postId,
             'styles',
-            $this->request->input('styles', [])
+            $this->request->input('vcv-styles', [])
         );
         $this->generateScriptsBundle();
         $styleBundles = $this->getStyleBundles();
@@ -125,7 +125,7 @@ class Controller extends Container
      */
     private function saveCssBundleHook()
     {
-        $contents = $this->request->input('contents');
+        $contents = $this->request->input('vcv-contents');
 
         $bundleUrl = $this->generateStylesBundle($contents);
 

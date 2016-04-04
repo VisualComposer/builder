@@ -25,7 +25,7 @@
 <script type="text/javascript" src="<?php echo vcapp('urlHelper')->to(
     'public/dist/wp.bundle.js?' . uniqid()
 ); /* @todo: use assets folder */ ?>"></script>
-<iframe src="<?php echo $editableLink; ?>" id="vc-v-editor-iframe"
+<iframe src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
     width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
 </body>
 </html>

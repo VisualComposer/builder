@@ -33,7 +33,7 @@ class Controller extends Container
         $this->request = $request;
 
         add_action(
-            'vcv:ajax:loader:v:getData:adminNonce',
+            'vcv:ajax:loader:getData:adminNonce',
             function () {
                 /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
                 $this->call('getData');
@@ -55,15 +55,15 @@ class Controller extends Container
     private function getData()
     {
         $data = '';
-        $sourceId = $this->request->input('source_id');
+        $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             // @todo: access checks
             // @todo: fix react components if there is empty page content
-            $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'page_content', true);
+            $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
 
             $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
         }
-        echo $data;
+        echo is_array($data) ? json_encode($data) : $data;
     }
 
     /**
@@ -71,9 +71,9 @@ class Controller extends Container
      */
     private function setData()
     {
-        $data = $this->request->input('data');
-        $content = $this->request->input('content');
-        $sourceId = $this->request->input('source_id');
+        $data = $this->request->input('vcv-data');
+        $content = $this->request->input('vcv-content');
+        $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             // @todo: save elements on page
             $post = get_post($sourceId);
@@ -89,6 +89,8 @@ class Controller extends Container
                     $data,
                 ]
             );
+            die(json_encode(['status' => 'ok']));
         }
+        die(json_encode(['status' => 'fail']));
     }
 }

@@ -3,7 +3,6 @@
 if (!defined('ABSPATH')) {
     die('-1');
 }
-
 ?>
 <script>
     function vcvLoadJsCssFile(filename, filetype) {
@@ -28,21 +27,12 @@ if (!defined('ABSPATH')) {
                 fileRef);
         }
     }
-
-    function vcvLoadInline(element, id) {
-        window.vcPostID = id;
-        window.vcAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
-        element.remove();
-        <?php /* TODO: use assets folder */ ?>
-        vcvLoadJsCssFile('<?php echo vcapp('urlHelper')->to('public/dist/wp.bundle.css?' . uniqid()) ?>', 'css');
-        vcvLoadJsCssFile('<?php echo vcapp('urlHelper')->to('public/dist/wp.bundle.js?' . uniqid())  ?>', 'js');
-    }
-    <?php if ($scriptsBundle) : ?>
+    <?php if (isset($scriptsBundle)) : ?>
     vcvLoadJsCssFile('<?php echo $scriptsBundle  ?>', 'js');
     <?php
     endif;
     ?>
-    <?php if ($stylesBundle) : ?>
+    <?php if (isset($stylesBundle)) : ?>
     vcvLoadJsCssFile('<?php echo $stylesBundle  ?>', 'css');
     <?php
     endif;
