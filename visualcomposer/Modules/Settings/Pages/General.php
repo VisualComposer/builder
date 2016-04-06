@@ -2,7 +2,8 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Fields;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -11,7 +12,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
  * Class General
  * @package VisualComposer\Modules\Settings\Pages
  */
-class General extends Container
+class General extends Container implements Module
 {
     use Fields;
     use Page;
@@ -200,7 +201,7 @@ class General extends Container
     /**
      * Google fonts subsets callback
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function googleFontsSubsetsFieldCallback(Options $options)
     {

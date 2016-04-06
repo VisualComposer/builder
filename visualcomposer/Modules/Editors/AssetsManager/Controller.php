@@ -3,32 +3,33 @@
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
 use VisualComposer\Application;
-use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\WordPress\File;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
  * @package VisualComposer\Modules\Editors\AssetsManager
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
     /**
-     * @var \VisualComposer\Helpers\Generic\Request
+     * @var \VisualComposer\Helpers\Request
      */
     protected $request;
     /**
-     * @var \VisualComposer\Helpers\WordPress\Options
+     * @var \VisualComposer\Helpers\Options
      */
     protected $options;
     /**
-     * @var \VisualComposer\Helpers\WordPress\File
+     * @var \VisualComposer\Helpers\File
      */
     protected $file;
 
@@ -36,9 +37,9 @@ class Controller extends Container
      * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
-     * @param \VisualComposer\Helpers\Generic\Request $request
-     * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
-     * @param \VisualComposer\Helpers\WordPress\File $fileHelper
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\File $fileHelper
      */
     public function __construct(Dispatcher $event, Request $request, Options $optionsHelper, File $fileHelper)
     {

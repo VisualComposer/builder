@@ -1,12 +1,14 @@
 <?php
 
-namespace VisualComposer\Helpers\WordPress;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class File
- * @package VisualComposer\Helpers\WordPress
+ * @package VisualComposer\Helpers
  */
-class File
+class File implements Helper
 {
     /**
      * @param $filePath

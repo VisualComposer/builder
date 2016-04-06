@@ -50,8 +50,8 @@ trait Container
      */
     protected function getCallReflector($callback)
     {
-        /** @var \VisualComposer\Helpers\Generic\Str $strHelper */
-        $strHelper = vchelper('str');
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
         if (is_string($callback) && $strHelper->contains($callback, '::')) {
             $callback = explode('::', $callback);
         }

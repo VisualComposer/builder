@@ -3,13 +3,14 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class License
  * @package VisualComposer\Modules\Settings\Pages
  */
-class License extends Container
+class License extends Container implements Module
 {
     use Page;
     /**

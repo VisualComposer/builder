@@ -10,7 +10,7 @@ vcview(
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vchelper('roleAccess')->who($role)->part($part),
+        'controller' => vchelper('AccessRole')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => [],
         // @todo add shortcodes

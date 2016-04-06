@@ -3,16 +3,17 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Token;
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Token;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Authorization
  * @package VisualComposer\Modules\Settings\Pages
  */
-class Authorization extends Container
+class Authorization extends Container implements Module
 {
     use Page;
     /**
@@ -63,16 +64,16 @@ class Authorization extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Request $request
-     * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Token $tokenHelper
      *
-     * @internal param \VisualComposer\Helpers\WordPress\Options $options
+     * @internal param \VisualComposer\Helpers\Options $options
      */
     private function handleApiRequest(Request $request, Token $tokenHelper)
     {
         if ($request->exists('code')) {
             // post to the API to get token
-            /** @see \VisualComposer\Helpers\Generic\Token::generateToken */
+            /** @see \VisualComposer\Helpers\Token::generateToken */
             $token = vcapp()->call([$tokenHelper, 'generateToken'], [$request->input('code')]);
             if ($token) {
                 wp_redirect(self_admin_url('admin.php?page=vcv-auth'));
@@ -88,7 +89,7 @@ class Authorization extends Container
     public function isAuthorized()
     {
         /** @var Options $optionsHelper */
-        $optionsHelper = vchelper('options');
+        $optionsHelper = vchelper('Options');
 
         return $optionsHelper->get('page-auth-state', 0) > 0;
     }

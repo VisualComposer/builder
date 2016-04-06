@@ -15,10 +15,10 @@ if (empty($_REQUEST['vcv-action'])) {
 }
 
 $requestAction = $_REQUEST['vcv-action'];
-/** @var \VisualComposer\Helpers\Generic\Str $strHelper */
-$strHelper = vchelper('str');
-/** @var \VisualComposer\Helpers\WordPress\Nonce $nonceHelper */
-$nonceHelper = vchelper('nonce');
+/** @var \VisualComposer\Helpers\Str $strHelper */
+$strHelper = vchelper('Str');
+/** @var \VisualComposer\Helpers\Nonce $nonceHelper */
+$nonceHelper = vchelper('Nonce');
 if ($strHelper->contains($requestAction, ':nonce')) {
     if (empty($_REQUEST['vcv-nonce']) || !$nonceHelper->verifyUser($_REQUEST['vcv-nonce'])) {
         die(json_encode(

@@ -2,6 +2,7 @@
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher;
 
 /**
  * Class Application
@@ -14,7 +15,9 @@ class Application extends Container implements ApplicationContract
      *
      * @var array
      */
-    public $availableBindings = [
+    protected $availableBindings = [
+        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'EventsHelper' => 'registerEventBindings',
     ];
     /**
      * The service binding methods that have been executed.
@@ -43,14 +46,12 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Bootstrap the application container.
-     *
-     * @return void
      */
     protected function bootstrapContainer()
     {
         static::setInstance($this);
 
-        $this->instance('app', $this);
+        $this->instance('App', $this);
 
         $this->registerContainerAliases();
     }
@@ -62,7 +63,24 @@ class Application extends Container implements ApplicationContract
     {
 
     }
+    
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'EventsHelper',
+            function ($app) {
+                return (new Dispatcher($app));
+            }
+        );
 
+        return $this;
+    }
+    
     /**
      * Resolve the given type from the container.
      *
@@ -86,8 +104,6 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Register the core container aliases.
-     *
-     * @return void
      */
     protected function registerContainerAliases()
     {

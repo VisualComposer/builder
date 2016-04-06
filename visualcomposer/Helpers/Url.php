@@ -1,13 +1,15 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Helper API methods related to make Url for plugin directory
  * Class Url
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Url
+class Url implements Helper
 {
     /**
      * Helper method assetUrl for plugin assets folder
@@ -46,7 +48,7 @@ class Url
         $url = get_site_url();
         $q = '?';
         /** @var Str $strHelper */
-        $strHelper = vchelper('str');
+        $strHelper = vchelper('Str');
         if ($strHelper->contains($url, '?')) {
             $q = '&';
         }

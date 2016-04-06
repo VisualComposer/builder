@@ -1,12 +1,14 @@
 <?php
 
-namespace VisualComposer\Helpers\WordPress;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Nonce
- * @package VisualComposer\Helpers\WordPress
+ * @package VisualComposer\Helpers
  */
-class Nonce
+class Nonce implements Helper
 {
     /**
      * @return mixed

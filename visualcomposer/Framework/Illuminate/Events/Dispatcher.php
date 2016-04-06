@@ -3,7 +3,7 @@
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
-use VisualComposer\Helpers\Generic\Str;
+use VisualComposer\Helpers\Str;
 
 /**
  * Class Dispatcher
@@ -68,7 +68,7 @@ class Dispatcher implements DispatcherContract
     public function listen($events, $listener, $priority = 0)
     {
         /** @var Str $strHelper */
-        $strHelper = vchelper('str');
+        $strHelper = vchelper('Str');
         foreach ((array)$events as $event) {
             if ($strHelper->contains($event, '*')) {
                 $this->setupWildcardListen($event, $listener);
@@ -267,8 +267,8 @@ class Dispatcher implements DispatcherContract
     protected function getWildcardListeners($eventName)
     {
         $wildcards = [];
-        /** @var \VisualComposer\Helpers\Generic\Str $strHelper */
-        $strHelper = vchelper('str');
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
         foreach ($this->wildcards as $key => $listeners) {
             if ($strHelper->is($key, $eventName)) {
                 $wildcards = array_merge($wildcards, $listeners);
@@ -321,8 +321,8 @@ class Dispatcher implements DispatcherContract
      */
     public function forgetPushed()
     {
-        /** @var \VisualComposer\Helpers\Generic\Str $strHelper */
-        $strHelper = vchelper('str');
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
         foreach ($this->listeners as $key => $value) {
             if ($strHelper->endsWith($key, '_pushed')) {
                 $this->forget($key);

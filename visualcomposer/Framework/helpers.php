@@ -48,7 +48,7 @@ if (!function_exists('vcevent')) {
      */
     function vcevent($event, $payload = [], $halt = false)
     {
-        return vchelper('events')->fire($event, $payload, $halt);
+        return vchelper('Events')->fire($event, $payload, $halt);
     }
 }
 
@@ -62,6 +62,6 @@ if (!function_exists('vcview')) {
      */
     function vcview($path, $args = [], $echo = true)
     {
-        return vchelper('templates')->render($path, $args, $echo);
+        return vchelper('Templates')->render($path, $args, $echo);
     }
 }

@@ -1,16 +1,17 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic\Access\CurrentUser;
+namespace VisualComposer\Helpers\Access;
 
-use VisualComposer\Helpers\Generic\Access\Role\Access as AccessFactory;
+use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Access\Role as AccessFactory;
 
 /**
- * Available by vchelper('userAccess')
+ * Available by vchelper('AccessCurrentUser')
  * Provides API to check access for current logged in used.
  * Class Access
- * @package VisualComposer\Helpers\Generic\Access\CurrentUser
+ * @package VisualComposer\Helpers\Access
  */
-class Access extends AccessFactory
+class CurrentUser extends AccessFactory implements Helper
 {
     /**
      * @param $part

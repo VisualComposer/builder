@@ -9,7 +9,8 @@
         >
     <testsuites>
         <testsuite name="Main Core Test Suite">
-            <directory prefix="test-" suffix=".php">./tests/phpunit</directory>
+            <directory prefix="test-" suffix=".php">./tests/phpunit/app</directory>
+            <directory prefix="test-" suffix=".php">./tests/phpunit/framework</directory>
         </testsuite>
     </testsuites>
 

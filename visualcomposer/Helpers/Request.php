@@ -1,10 +1,12 @@
-<?php namespace VisualComposer\Helpers\Generic;
+<?php namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Request
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Request
+class Request implements Helper
 {
     /**
      * @var null
@@ -31,6 +33,14 @@ class Request
         }
 
         return true;
+    }
+
+    /**
+     * @param $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 
     /**

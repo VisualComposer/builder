@@ -43,5 +43,5 @@
 - Module can have own helper to process Public API
 - Module __SHOULD__ be __PROTECTED__ access, this means other theme/plugins developers __SHOULD NOT__ not use modules
    as API, instead they __SHOULD__ use Modules __PUBLIC__ Api in
-    `\VisualComposer\Helpers\Modules(or Generic)\ModuleName..`
+    `\VisualComposer\Helpers\HelperName..`
 

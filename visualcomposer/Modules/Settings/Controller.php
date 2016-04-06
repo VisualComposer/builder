@@ -3,10 +3,11 @@
 namespace VisualComposer\Modules\Settings;
 
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Data;
-use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Data;
+use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
@@ -15,7 +16,7 @@ use VisualComposer\Framework\Container;
  * Class Controller
  * @package VisualComposer\Modules\Settings
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var null
@@ -77,7 +78,7 @@ class Controller extends Container
      * This determines what page is opened when user clicks 'Visual Composer' in settings menu
      * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
      *
@@ -101,7 +102,7 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     private function addMenuPage(Url $urlHelper)
     {
@@ -117,7 +118,7 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
      *
      * @throws \Exception
      */
@@ -154,7 +155,7 @@ class Controller extends Container
 
     /**
      * @param Request $request
-     * @param \VisualComposer\Helpers\Generic\Data $data
+     * @param \VisualComposer\Helpers\Data $data
      */
     private function renderPage(Request $request, Data $data)
     {
@@ -182,7 +183,7 @@ class Controller extends Container
     /**
      * Init settings page
      *
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     private function initAdmin(Url $urlHelper)
     {

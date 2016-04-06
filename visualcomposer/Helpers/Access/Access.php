@@ -1,12 +1,12 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic\Access;
+namespace VisualComposer\Helpers\Access;
 
-use VisualComposer\Helpers\WordPress\Nonce;
+use VisualComposer\Helpers\Nonce;
 
 /**
  * Class Access
- * @package VisualComposer\Helpers\Generic\Access
+ * @package VisualComposer\Helpers\Access
  */
 trait Access
 {
@@ -169,9 +169,9 @@ trait Access
     public function checkAdminNonce($nonce = '')
     {
         /** @var Nonce $nonceHelper */
-        $nonceHelper = vchelper('nonce');
+        $nonceHelper = vchelper('Nonce');
 
-        /** @see \VisualComposer\Helpers\WordPress\Nonce::verifyAdmin */
+        /** @see \VisualComposer\Helpers\Nonce::verifyAdmin */
         return $this->check([$nonceHelper, 'verifyAdmin'], $nonce);
     }
 
@@ -183,9 +183,9 @@ trait Access
     public function checkPublicNonce($nonce = '')
     {
         /** @var Nonce $nonceHelper */
-        $nonceHelper = vchelper('nonce');
+        $nonceHelper = vchelper('Nonce');
 
-        /** @see \VisualComposer\Helpers\WordPress\Nonce::verifyUser */
+        /** @see \VisualComposer\Helpers\Nonce::verifyUser */
         return $this->check([$nonceHelper, 'verifyUser'], $nonce);
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Helper methods related to data manipulation
  * Class Data
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Data
+class Data implements Helper
 {
     /**
      * @param $array

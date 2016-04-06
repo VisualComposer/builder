@@ -1,12 +1,14 @@
 <?php
 
-namespace VisualComposer\Helpers\WordPress;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Options
- * @package VisualComposer\Helpers\WordPress
+ * @package VisualComposer\Helpers
  */
-class Options
+class Options implements Helper
 {
     /**
      * @param $optionName

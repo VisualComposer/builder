@@ -1,17 +1,18 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic\Access\Role;
+namespace VisualComposer\Helpers\Access;
 
-use VisualComposer\Helpers\Generic\Access\Access as AccessFactory;
+use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Access\Access as AccessFactory;
 
 /**
- * Available by vchelper('roleAccess')
+ * Available by vchelper('AccessRole')
  * Provides API for specific role for checks & access
  *
  * Class Access
- * @package VisualComposer\Helpers\Generic\Access\Role
+ * @package VisualComposer\Helpers\Access
  */
-class Access
+class Role implements Helper
 {
     use AccessFactory;
     /**

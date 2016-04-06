@@ -2,13 +2,9 @@
 
 namespace VisualComposer\Modules\Settings\Traits;
 
-    /**
-     * Class Page
-     * @package VisualComposer\Modules\Settings\Pages
-     */
 /**
  * Class Page
- * @package VisualComposer\Modules\Settings
+ * @package VisualComposer\Modules\Settings\Traits
  */
 trait Page
 {

@@ -1,16 +1,17 @@
 <?php
-namespace VisualComposer\Modules\Editors\Frontend;
+namespace VisualComposer\Modules\Editors\PageEditable;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Helpers\WordPress\Nonce;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 
 /**
- * Class PageEditable
- * @package VisualComposer\Modules\Editors\Frontend
+ * Class Controller
+ * @package VisualComposer\Modules\Editors
  */
-class PageEditable extends Container
+class Controller extends Container implements Module
 {
     /**
      * PageEditable constructor.
@@ -30,8 +31,8 @@ class PageEditable extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Request $request
-     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Nonce $nonce
      *
      * @return bool
      */
@@ -43,7 +44,7 @@ class PageEditable extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Url $url
+     * @param \VisualComposer\Helpers\Url $url
      */
     private function buildPageEditable(Url $url)
     {

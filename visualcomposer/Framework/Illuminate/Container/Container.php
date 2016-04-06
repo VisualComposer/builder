@@ -8,7 +8,7 @@ use ReflectionParameter;
 use InvalidArgumentException;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
-use VisualComposer\Helpers\Generic\Str;
+use VisualComposer\Helpers\Str;
 
 /**
  * Class Container
@@ -259,11 +259,13 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
      *
-     * @return void
+     * @return $this
      */
     public function singleton($abstract, $concrete = null)
     {
         $this->bind($abstract, $concrete, true);
+
+        return $this;
     }
 
     /**
@@ -405,11 +407,13 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string $abstract
      * @param  string $alias
      *
-     * @return void
+     * @return $this
      */
     public function alias($abstract, $alias)
     {
         $this->aliases[ $alias ] = $abstract;
+
+        return $this;
     }
 
     /**
@@ -542,7 +546,7 @@ class Container implements ArrayAccess, ContainerContract
             return false;
         }
         /** @var Str $strHelper */
-        $strHelper = vchelper('str');
+        $strHelper = vchelper('Str');
 
         return $strHelper->contains($callback, '@');
     }

@@ -1,12 +1,13 @@
-<?php namespace VisualComposer\Helpers\Generic;
+<?php namespace VisualComposer\Helpers;
 
 use RuntimeException;
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Str
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Str
+class Str implements Helper
 {
     /**
      * The cache of snake-cased words.

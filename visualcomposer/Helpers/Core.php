@@ -1,12 +1,14 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic;
+namespace VisualComposer\Helpers;
+
+use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Core
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Core
+class Core implements Helper
 {
     /**
      * @var null

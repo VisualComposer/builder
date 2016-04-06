@@ -2,8 +2,9 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\Role\Access;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Access\Role\Access;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -11,7 +12,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
  * Class Roles
  * @package VisualComposer\Modules\Settings\Pages
  */
-class Roles extends Container
+class Roles extends Container implements Module
 {
     use Page;
     /**
@@ -235,7 +236,7 @@ class Roles extends Container
      * @param $part
      * @param $roles
      * @param $settings
-     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
+     * @param \VisualComposer\Helpers\Access\Role\Access $roleAccess
      */
     private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
     {

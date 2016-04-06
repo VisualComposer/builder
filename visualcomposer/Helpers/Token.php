@@ -1,20 +1,21 @@
 <?php
 
-namespace VisualComposer\Helpers\Generic;
+namespace VisualComposer\Helpers;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Generic\Curl\Curl;
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Curl\Curl;
+use VisualComposer\Helpers\Options;
 
 /**
  * Class Token
- * @package VisualComposer\Helpers\Generic
+ * @package VisualComposer\Helpers
  */
-class Token extends Container
+class Token extends Container implements Helper
 {
     /**
      * @param $code
-     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Curl\Curl $curl
      *
      * @return bool|string
      */
@@ -33,7 +34,7 @@ class Token extends Container
         );
         $responseJson = json_decode($curlRequest->send()->body);
         if ($responseJson->access_token) {
-            /** @see \VisualComposer\Helpers\Generic\Token::saveToken */
+            /** @see \VisualComposer\Helpers\Token::saveToken */
             return $this->call('saveToken', [$responseJson]);
         }
 
@@ -42,7 +43,7 @@ class Token extends Container
 
     /**
      * @param $data
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
@@ -71,11 +72,11 @@ class Token extends Container
     public function getToken()
     {
         /** @var Options $options */
-        $options = vchelper('options');
+        $options = vchelper('Options');
         $token = $options->get('page-auth-token');
         $ttl = current_time('timestamp') - (int)$options->get('page-auth-token-ttl');
         if ($ttl > 3600) {
-            /** @see \VisualComposer\Helpers\Generic\Token::refreshToken */
+            /** @see \VisualComposer\Helpers\Token::refreshToken */
             $token = $this->call('refreshToken');
         }
 
@@ -83,8 +84,8 @@ class Token extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\WordPress\Options $options
-     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Options $options
+     * @param \VisualComposer\Helpers\Curl\Curl $curl
      *
      * @return bool
      */

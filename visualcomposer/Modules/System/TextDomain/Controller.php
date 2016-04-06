@@ -3,12 +3,13 @@
 namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
  * Class Controller
  * @package VisualComposer\Modules\System\TextDomain
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * Controller constructor.

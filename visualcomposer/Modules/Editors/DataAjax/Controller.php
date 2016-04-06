@@ -3,17 +3,18 @@
 namespace VisualComposer\Modules\Editors\DataAjax;
 
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
  * @package VisualComposer\Modules\Editors\DataAjax
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
-     * @var \VisualComposer\Helpers\Generic\Request
+     * @var \VisualComposer\Helpers\Request
      */
     protected $request;
     /**
@@ -25,7 +26,7 @@ class Controller extends Container
      * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
-     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\Request $request
      */
     public function __construct(Dispatcher $event, Request $request)
     {

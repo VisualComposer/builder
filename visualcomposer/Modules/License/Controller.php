@@ -2,11 +2,12 @@
 
 namespace VisualComposer\Modules\License;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Core;
-use VisualComposer\Helpers\Generic\Str;
-use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Core;
+use VisualComposer\Helpers\Str;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
@@ -14,7 +15,7 @@ use VisualComposer\Framework\Container;
  * Class Controller
  * @package VisualComposer\Modules\License
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var string
@@ -322,7 +323,7 @@ class Controller extends Container
     /**
      * Start activation process and output redirect URL as JSON
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
      *
      * @throws \Exception
      */
@@ -344,7 +345,7 @@ class Controller extends Container
     /**
      * Start deactivation process and output redirect URL as JSON
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
      *
      * @throws \Exception
      */
@@ -366,7 +367,7 @@ class Controller extends Container
      * Set license key
      *
      * @param string $licenseKey
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function setLicenseKey($licenseKey, Options $options)
     {
@@ -376,7 +377,7 @@ class Controller extends Container
     /**
      * Get license key
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
@@ -403,7 +404,7 @@ class Controller extends Container
      *
      * Don't show notice on dev environment
      *
-     * @param \VisualComposer\Helpers\Generic\Core $core
+     * @param \VisualComposer\Helpers\Core $core
      */
     private function setupReminder(Core $core)
     {
@@ -461,7 +462,7 @@ class Controller extends Container
     /**
      * Render license activation notice
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function renderLicenseActivationNotice(Options $options)
     {
@@ -479,7 +480,7 @@ class Controller extends Container
     /**
      * Get license key token
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
@@ -492,7 +493,7 @@ class Controller extends Container
      * Set license key token
      *
      * @param string $token
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function setLicenseKeyToken($token, Options $options)
     {
@@ -506,7 +507,7 @@ class Controller extends Container
      *
      * Format is: timestamp|20-random-characters
      *
-     * @param \VisualComposer\Helpers\Generic\Str $strHelper
+     * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return string
      */

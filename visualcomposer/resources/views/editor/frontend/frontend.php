@@ -2,10 +2,10 @@
 /**
  * @var $editableLink - link to editable content
  */
-/** @var \VisualComposer\Helpers\Generic\Url $urlHelper */
-$urlHelper = vchelper('url');
-/** @var \VisualComposer\Helpers\WordPress\Nonce $nonceHelper */
-$nonceHelper = vchelper('nonce');
+/** @var \VisualComposer\Helpers\Url $urlHelper */
+$urlHelper = vchelper('Url');
+/** @var \VisualComposer\Helpers\Nonce $nonceHelper */
+$nonceHelper = vchelper('Nonce');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>

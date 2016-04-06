@@ -3,15 +3,16 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Generic\Curl\Curl;
-use VisualComposer\Helpers\Generic\Token;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Curl\Curl;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Hub
  * @package VisualComposer\Modules\Settings\Pages
  */
-class Hub extends Container
+class Hub extends Container implements Module
 {
     use Page;
     /**
@@ -38,8 +39,8 @@ class Hub extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
-     * @param \VisualComposer\Helpers\Generic\Curl\Curl $curl
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @param \VisualComposer\Helpers\Curl\Curl $curl
      *
      * @return array
      */

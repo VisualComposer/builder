@@ -2,14 +2,15 @@
 
 namespace VisualComposer\Modules\System\Activation;
 
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
  * @package VisualComposer\Modules\System\Activation
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * Controller constructor.
@@ -26,7 +27,7 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function setVersion(Options $options)
     {

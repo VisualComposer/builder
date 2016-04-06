@@ -2,8 +2,9 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -11,7 +12,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
  * Class About
  * @package VisualComposer\Modules\Settings\Pages
  */
-class About extends Container
+class About extends Container implements Module
 {
     use Page;
     /**
@@ -110,7 +111,7 @@ class About extends Container
      * Render page
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
      *
      * @throws \Exception
      */

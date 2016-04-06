@@ -1,32 +1,22 @@
 <?php
 
-class GenericHelpersTest extends WP_UnitTestCase
+class HelpersTest extends WP_UnitTestCase
 {
-    public function setUp()
-    {
-        $_POST = [
-            'test0' => false,
-            'test1' => 1,
-            'test2' => 2,
-            'test3' => 3,
-        ];
-        $_GET = [
-            'test2' => 4,
-            'test3' => 5,
-            'test4' => 6,
-        ];
-        $_REQUEST = [
-            'test3' => 7,
-            'test5' => 8,
-        ];
-    }
+    protected $data = [
+        'test0' => false,
+        'test1' => 1,
+        'test2' => 4,
+        'test3' => 7,
+        'test4' => 6,
+        'test5' => 8,
+    ];
 
     public function testHelpersTemplates()
     {
         /**
-         * @var $templateHelper VisualComposer\Helpers\Generic\Templates
+         * @var $templateHelper VisualComposer\Helpers\Templates
          */
-        $templateHelper = vcapp('VisualComposer\Helpers\Generic\Templates');
+        $templateHelper = vcapp('VisualComposer\Helpers\Templates');
         $this->assertTrue(is_object($templateHelper), 'templateHelper should be an object');
         $this->assertTrue(method_exists($templateHelper, 'render'), 'render method should exists');
         add_filter(
@@ -49,22 +39,22 @@ class GenericHelpersTest extends WP_UnitTestCase
             )
         );
 
-        $this->assertEquals($templateHelper, vcapp('VisualComposer\Helpers\Generic\Templates'));
+        $this->assertEquals($templateHelper, vcapp('VisualComposer\Helpers\Templates'));
 
-        $this->assertEquals($templateHelper, vcapp('templatesHelper'));
-        $this->assertEquals(vcapp('VisualComposer\Helpers\Generic\Templates'), vcapp('templatesHelper'));
+        $this->assertEquals($templateHelper, vcapp('TemplatesHelper'));
+        $this->assertEquals(vcapp('VisualComposer\Helpers\Templates'), vcapp('TemplatesHelper'));
     }
 
     public function testHelpersDependencyInjection()
     {
         /**
-         * @var $templateHelper VisualComposer\Helpers\Generic\Templates
+         * @var $templateHelper VisualComposer\Helpers\Templates
          */
-        $templateHelper = vcapp('VisualComposer\Helpers\Generic\Templates');
+        $templateHelper = vcapp('VisualComposer\Helpers\Templates');
         $called = false;
         $teInstance = false;
 
-        $data = function (\VisualComposer\Helpers\Generic\Templates $templates) use (&$called, &$teInstance) {
+        $data = function (\VisualComposer\Helpers\Templates $templates) use (&$called, &$teInstance) {
             $teInstance = $templates;
             $called = true;
         };
@@ -79,9 +69,9 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testCoreHelper()
     {
         /**
-         * @var $coreHelper VisualComposer\Helpers\Generic\Core
+         * @var $coreHelper VisualComposer\Helpers\Core
          */
-        $coreHelper = vcapp('VisualComposer\Helpers\Generic\Core');
+        $coreHelper = vcapp('VisualComposer\Helpers\Core');
         $this->assertTrue(is_object($coreHelper), 'coreHelper should be an object');
         $this->assertTrue(method_exists($coreHelper, 'isNetworkPlugin'), 'isNetworkPlugin should exist');
 
@@ -101,13 +91,13 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testHelpersCoreDependencyInjection()
     {
         /**
-         * @var $coreHelper VisualComposer\Helpers\Generic\Core
+         * @var $coreHelper VisualComposer\Helpers\Core
          */
-        $coreHelper = vcapp('VisualComposer\Helpers\Generic\Core');
+        $coreHelper = vcapp('VisualComposer\Helpers\Core');
         $called = false;
         $teInstance = false;
 
-        $data = function (\VisualComposer\Helpers\Generic\Core $core) use (&$called, &$teInstance) {
+        $data = function (\VisualComposer\Helpers\Core $core) use (&$called, &$teInstance) {
             $teInstance = $core;
             $called = true;
         };
@@ -122,9 +112,9 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testUrlHelper()
     {
         /**
-         * @var $urlHelper VisualComposer\Helpers\Generic\Url
+         * @var $urlHelper VisualComposer\Helpers\Url
          */
-        $urlHelper = vcapp('VisualComposer\Helpers\Generic\Url');
+        $urlHelper = vcapp('VisualComposer\Helpers\Url');
         $this->assertTrue(is_object($urlHelper), '$urlHelper should be an object');
         $this->assertTrue(method_exists($urlHelper, 'to'), 'to should exist');
         $this->assertTrue(method_exists($urlHelper, 'ajax'), 'ajax should exist');
@@ -147,13 +137,13 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testUrlHelperDependencyInjection()
     {
         /**
-         * @var $urlHelper VisualComposer\Helpers\Generic\Url
+         * @var $urlHelper VisualComposer\Helpers\Url
          */
-        $urlHelper = vcapp('VisualComposer\Helpers\Generic\Url');
+        $urlHelper = vcapp('VisualComposer\Helpers\Url');
         $called = false;
         $teInstance = false;
 
-        $data = function (\VisualComposer\Helpers\Generic\Url $url) use (&$called, &$teInstance) {
+        $data = function (\VisualComposer\Helpers\Url $url) use (&$called, &$teInstance) {
             $teInstance = $url;
             $called = true;
         };
@@ -170,9 +160,9 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testDataHelper()
     {
         /**
-         * @var $dataHelper VisualComposer\Helpers\Generic\Data
+         * @var $dataHelper VisualComposer\Helpers\Data
          */
-        $dataHelper = vcapp('VisualComposer\Helpers\Generic\Data');
+        $dataHelper = vcapp('VisualComposer\Helpers\Data');
         $this->assertTrue(is_object($dataHelper));
 
         $arr = [
@@ -210,10 +200,13 @@ class GenericHelpersTest extends WP_UnitTestCase
     public function testRequestHelper()
     {
         /**
-         * @var $helper VisualComposer\Helpers\Generic\Request
+         * @var $helper VisualComposer\Helpers\Request
          */
-        $helper = vcapp('VisualComposer\Helpers\Generic\Request');
+        $helper = vcapp('VisualComposer\Helpers\Request');
         $this->assertTrue(is_object($helper), 'request helper should be an object');
+        $helper->setData(
+            $this->data
+        );
         $this->assertEquals(
             [
                 'test0' => false, // from POST
@@ -224,12 +217,12 @@ class GenericHelpersTest extends WP_UnitTestCase
                 'test5' => 8, //from REQUEST
             ],
             $helper->input(),
-            'it should be equals to POST+GET+REQUEST'
+            'it should be equals to this->data'
         );
         $this->assertEquals(
-            $_REQUEST + $_GET + $_POST,
+            $this->data,
             $helper->input(),
-            'it should be equals to $_REQUEST + $_GET + $_POST'
+            'it should be equals to this->data'
         );
 
         $this->assertTrue($helper->exists('test0'));
@@ -255,19 +248,24 @@ class GenericHelpersTest extends WP_UnitTestCase
         $this->assertEquals(8, $helper->test5);
 
         $this->assertNull($helper->notexisted);
+
+        $helper->setData(null);
     }
 
     public function testRequestHelperDependencyInjection()
     {
         /**
-         * @var $helper VisualComposer\Helpers\Generic\Request
+         * @var $helper VisualComposer\Helpers\Request
          */
-        $helper = vcapp('VisualComposer\Helpers\Generic\Request');
+        $helper = vcapp('VisualComposer\Helpers\Request');
 
+        $helper->setData(
+            $this->data
+        );
         $called = false;
         $teInstance = false;
 
-        $data = function (\VisualComposer\Helpers\Generic\Request $request) use (&$called, &$teInstance) {
+        $data = function (\VisualComposer\Helpers\Request $request) use (&$called, &$teInstance) {
             $teInstance = $request;
             $called = true;
         };
@@ -279,9 +277,9 @@ class GenericHelpersTest extends WP_UnitTestCase
         $this->assertTrue(method_exists($teInstance, 'input'), 'isNetworkPlugin method should exists');
 
         $this->assertEquals(
-            $_REQUEST + $_GET + $_POST,
+            $this->data,
             $teInstance->input(),
-            'it should be equals to $_REQUEST + $_GET + $_POST'
+            'it should be equals to this->data'
         );
         $this->assertEquals(
             [
@@ -293,7 +291,8 @@ class GenericHelpersTest extends WP_UnitTestCase
                 'test5' => 8, //from REQUEST
             ],
             $teInstance->input(),
-            'it should be equals to $_REQUEST + $_GET + $_POST'
+            'it should be equals to this->data'
         );
+        $helper->setData(null);
     }
 }

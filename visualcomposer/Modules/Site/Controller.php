@@ -2,18 +2,19 @@
 
 namespace VisualComposer\Modules\Site;
 
-use VisualComposer\Helpers\Generic\Templates;
-use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\Generic\Url;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Templates;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
  * @package VisualComposer\Modules\Site
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var bool
@@ -59,8 +60,8 @@ class Controller extends Container
     /**
      * @param $link
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return string
      * @throws \Exception
@@ -92,7 +93,7 @@ class Controller extends Container
     /**
      * Output less.js script to page header
      *
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     private function appendScript(Url $urlHelper)
     {
@@ -102,8 +103,8 @@ class Controller extends Container
     /**
      * Output used assets
      *
-     * @param \VisualComposer\Helpers\Generic\Templates $templatesHelper
-     * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Templates $templatesHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return string
      */

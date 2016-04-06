@@ -1,16 +1,17 @@
 <?php
 namespace VisualComposer\Modules\Editors\Frontend;
 
-use VisualComposer\Helpers\Generic\Templates;
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\WordPress\Nonce;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Templates;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Frontend
+ * Class Controller
  * @package VisualComposer\Modules\Editors\Frontend
  */
-class Frontend extends Container
+class Controller extends Container implements Module
 {
     /**
      * Frontend constructor.
@@ -28,9 +29,9 @@ class Frontend extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Request $request
-     * @param \VisualComposer\Helpers\Generic\Templates $templates
-     * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Templates $templates
+     * @param \VisualComposer\Helpers\Nonce $nonce
      */
     private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
