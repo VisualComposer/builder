@@ -7,7 +7,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
@@ -78,7 +78,7 @@ class Controller extends Container implements Module
      * This determines what page is opened when user clicks 'Visual Composer' in settings menu
      * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
      *
@@ -86,7 +86,7 @@ class Controller extends Container implements Module
      * @throws \Exception
      */
     private function getMainPageSlug(
-        CurrentUserAccess $currentUserAccess,
+        CurrentUser $currentUserAccess,
         About $aboutPage,
         General $generalPage
     ) {
@@ -118,11 +118,11 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function addSubmenuPages(CurrentUserAccess $currentUserAccess)
+    private function addSubmenuPages(CurrentUser $currentUserAccess)
     {
         if (!$currentUserAccess->wpAny('manage_options')->get()) {
             return;

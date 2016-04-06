@@ -7,7 +7,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Core;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
@@ -323,11 +323,11 @@ class Controller extends Container implements Module
     /**
      * Start activation process and output redirect URL as JSON
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function startActivationResponse(CurrentUserAccess $currentUserAccess)
+    private function startActivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->reset()->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part(
             'settings'
@@ -345,11 +345,11 @@ class Controller extends Container implements Module
     /**
      * Start deactivation process and output redirect URL as JSON
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function startDeactivationResponse(CurrentUserAccess $currentUserAccess)
+    private function startDeactivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
                           ->can('vcv-license-tab')->validateDie();

@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -111,11 +111,11 @@ class About extends Container implements Module
      * Render page
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    protected function beforeRender(Request $request, CurrentUserAccess $currentUserAccess)
+    protected function beforeRender(Request $request, CurrentUser $currentUserAccess)
     {
         $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vcv-general-tab')
                                                  ->get()

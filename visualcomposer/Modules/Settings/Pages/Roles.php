@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Access\Role\Access;
+use VisualComposer\Helpers\Access\Role;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -236,9 +236,9 @@ class Roles extends Container implements Module
      * @param $part
      * @param $roles
      * @param $settings
-     * @param \VisualComposer\Helpers\Access\Role\Access $roleAccess
+     * @param \VisualComposer\Helpers\Access\Role $roleAccess
      */
-    private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
+    private function parseRole($role, $part, $roles, $settings, Role $roleAccess)
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';

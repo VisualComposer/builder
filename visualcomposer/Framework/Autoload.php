@@ -4,26 +4,75 @@ namespace VisualComposer\Framework;
 
 use VisualComposer\Application as ApplicationVc;
 
+/**
+ * Class Autoload
+ * @package VisualComposer\Framework
+ */
 class Autoload
 {
+    /**
+     * Used in bitwise comparison
+     */
     const CLASS_START = 1;
+    /**
+     * Used in bitwise comparison
+     */
     const CLASS_START_STRING = 2;
     /** @var  ApplicationVc */
     private $app;
 
+    /**
+     * Autoload constructor.
+     * @param \VisualComposer\Application $app
+     */
     public function __construct(ApplicationVc $app)
     {
         $this->app = $app;
-        $this->loadComponents();
+        if (VCV_DEBUG) {
+            $all = $this->getComponents();
+            $this->initComponents($all);
+            $this->saveComponents($all);
+        } else {
+            $this->useCache();
+        }
     }
 
-    public function loadComponents()
+    private function saveComponents($all)
+    {
+        $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
+        $autoloadFilesExport = var_export($all, true);
+
+        $fileData = <<<DATA
+<?php
+
+return $autoloadFilesExport;
+DATA;
+        /** @var File $fileHelper */
+        $fileHelper = vchelper('File');
+        $fileHelper->setContents($filename, $fileData);
+
+        return $this;
+    }
+
+    public function initComponents($all)
+    {
+        if (is_array($all)) {
+            foreach ($all as $component) {
+                $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComponents()
     {
         $components = $this->app->rglob($this->app->path('visualcomposer/*/*.php'));
-        $all = [
-            'helpers' => [],
-            'modules' => [],
-        ];
+        $all = [];
         foreach ($components as $componentPath) {
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = $this->checkTokens($tokens);
@@ -40,8 +89,11 @@ class Autoload
                         '',
                         $data['namespace'] . $data['class'] . 'Helper'
                     );
-                    $all['helpers'][] = $name;
-                    $this->app->addComponent($name, $data['namespace'] . '\\' . $data['class'], false);
+                    $all[ $name ] = [
+                        'name' => $name,
+                        'abstract' => $data['namespace'] . '\\' . $data['class'],
+                        'make' => false,
+                    ];
                 } elseif (in_array(
                     $data['implements'],
                     [
@@ -50,15 +102,22 @@ class Autoload
                     ]
                 )) {
                     $name = str_replace(['VisualComposer\Modules', '\\'], '', $data['namespace'] . $data['class']);
-                    $all['modules'][] = $name;
-                    $this->app->addComponent($name, $data['namespace'] . '\\' . $data['class'], true);
+                    $all[ $name ] = [
+                        'name' => $name,
+                        'abstract' => $data['namespace'] . '\\' . $data['class'],
+                        'make' => true,
+                    ];
                 }
             }
         }
 
-        return $components;
+        return $all;
     }
 
+    /**
+     * @param $tokens
+     * @return array|mixed
+     */
     public function checkTokens($tokens)
     {
         $data = [
@@ -103,6 +162,12 @@ class Autoload
         return $data;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
     protected function checkKey($key, $value, $data)
     {
         switch ($key) {
@@ -133,5 +198,19 @@ class Autoload
         }
 
         return $data;
+    }
+
+    protected function useCache()
+    {
+        $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
+        if (file_exists($filename)) {
+            $all = require $filename;
+
+            $this->initComponents($all);
+
+            return true;
+        }
+
+        return false;
     }
 }

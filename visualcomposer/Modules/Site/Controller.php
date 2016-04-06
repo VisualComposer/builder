@@ -7,7 +7,7 @@ use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 
 /**
@@ -60,7 +60,7 @@ class Controller extends Container implements Module
     /**
      * @param $link
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return string
@@ -68,7 +68,7 @@ class Controller extends Container implements Module
      */
     private function addEditPostLink(
         $link,
-        CurrentUserAccess $currentUserAccess,
+        CurrentUser $currentUserAccess,
         Url $urlHelper
     ) {
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {

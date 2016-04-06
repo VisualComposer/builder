@@ -4,7 +4,7 @@
  * Plugin URI: http://visualcomposer.io
  * Description: WEB Site builder
  *
- * Version: 1.0.0
+ * Version: 1.0.0-dev-1
  * Author: WPBakery
  * Author URI: http://wpbakery.com
  * Requires at least: 4.1
@@ -37,9 +37,9 @@ if (defined('VCV_VERSION')) {
 }
 
 /**
- * Plugin version constant: '1.0.0'
+ * Plugin version constant: '1.0.0-dev-1'
  */
-define('VCV_VERSION', '1.0.0');
+define('VCV_VERSION', '1.0.0-dev-1');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
