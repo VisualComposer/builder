@@ -1,11 +1,11 @@
 # Element in VC WB 1.0
 
 !INCLUDE "pages/FilesDirectoriesStructure.md"
+!INCLUDE "pages/types/Index.md"
+!INCLUDE "pages/attributes/Index.md"
 !INCLUDE "pages/ElementSettings.md"
 !INCLUDE "pages/ElementsRelationships.md"
 !INCLUDE "pages/ReactComponent.md"
-!INCLUDE "pages/attributes/Index.md"
-!INCLUDE "pages/types/Index.md"
 !INCLUDE "pages/ElementAssets.md"
 !INCLUDE "pages/EditorComponentInteractionAPI.md"
 

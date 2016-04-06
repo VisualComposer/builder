@@ -8,7 +8,7 @@ Default system settings:
 Example:
 
 {
-    "name": "tag",
+    "key": "tag",
     "type": "string",
     "access": "system",
     "value": "Button"

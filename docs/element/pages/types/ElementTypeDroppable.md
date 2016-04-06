@@ -1,3 +1,4 @@
-### Containers
+### Droppable
 
-Container defined but subelement <Droppable /> with attributes: relatedTo, children.
+
+Should contain <Droppable/> component in html template.

@@ -1,3 +1,3 @@
 ## Complex Element
 
-Every element can store another element inside element. Element should be primitive. It can't be container and can't be complex. 
+Element is complex when it contains other elements. Element can contain any type of element except only itself. 

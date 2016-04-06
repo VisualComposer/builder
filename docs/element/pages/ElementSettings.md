@@ -5,7 +5,7 @@ All settings in JSON format.
 
 Settings template:
 {
-    name: '{name}',
+    key: '{key}',
     type: '{string|array|object}',
     access: '{public|private|protected|system}',
     value: {value depending on type},
