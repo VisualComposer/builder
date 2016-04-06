@@ -11,9 +11,9 @@ class Autoload
     /** @var  ApplicationVc */
     private $app;
 
-    public function __construct()
+    public function __construct(ApplicationVc $app)
     {
-        $this->app = vcapp();
+        $this->app = $app;
         $this->loadComponents();
     }
 

@@ -112,12 +112,15 @@ class Application extends ApplicationFactory implements ApplicationContract
     protected function registerContainerAliases()
     {
         $this->aliases = [
+            // Inner bindings
             'VisualComposer\Application' => 'App',
             'VisualComposer\Framework\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'EventsHelper',
+            // Outer bindings
+            'Autoload' => 'VisualComposer\Framework\Autoload',
         ];
     }
 }
