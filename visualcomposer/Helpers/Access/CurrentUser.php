@@ -2,20 +2,21 @@
 
 namespace VisualComposer\Helpers\Access;
 
+use VisualComposer\Application;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Helpers\Access\Role as AccessFactory;
 
 /**
  * Available by vchelper('AccessCurrentUser')
- * Provides API to check access for current logged in used.
+ * Provides API to check access for current logged in used
  * Class Access
- * @package VisualComposer\Helpers\Access
  */
 class CurrentUser extends AccessFactory implements Helper
 {
     /**
      * @param $part
      *
+     * @param bool $reset
      * @return $this
      */
     public function part($part, $reset = false)
@@ -44,13 +45,15 @@ class CurrentUser extends AccessFactory implements Helper
     {
         if ($this->getValidAccess()) {
             $access = !$valid;
+            /** @var Application $vcapp */
+            $vcapp = vcapp();
             foreach ($argsList as &$args) {
                 if (!is_array($args)) {
                     $args = [$args];
                 }
                 array_unshift($args, 'current_user_can');
                 $this->setValidAccess(true);
-                vcapp()->call($callback, $args);
+                $vcapp->call($callback, $args);
                 if ($valid === $this->getValidAccess()) {
                     $access = $valid;
                     break;

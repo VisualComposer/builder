@@ -10,12 +10,11 @@ use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as Appl
  * Provides Inner and Outer API with vcapp() helper
  *
  * Class Application
- * @package VisualComposer
  */
 class Application extends ApplicationFactory implements ApplicationContract
 {
     /**
-     * Create a new Application instance.
+     * Create a new Application instance
      *
      * @overrides parent::__construct()
      *
@@ -25,8 +24,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function __construct($basePath = null)
     {
-        $this->basePath = $basePath;
-        $this->bootstrapContainer();
+        parent::__construct($basePath);
 
         /**
          * Add action for init state
@@ -105,12 +103,13 @@ class Application extends ApplicationFactory implements ApplicationContract
     }
 
     /**
-     * Register the core container aliases.
+     * Register the core container aliases
      * Used in Dependency Injection
      * @see \docs\php\DependencyInjection.md
      */
     protected function registerContainerAliases()
     {
+        parent::registerContainerAliases();
         $this->aliases = [
             // Inner bindings
             'VisualComposer\Application' => 'App',

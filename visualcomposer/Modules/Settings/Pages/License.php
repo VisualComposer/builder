@@ -8,7 +8,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class License
- * @package VisualComposer\Modules\Settings\Pages
  */
 class License extends Container implements Module
 {
@@ -23,7 +22,7 @@ class License extends Container implements Module
     protected $templatePath = 'settings/pages/license/index';
 
     /**
-     * License constructor.
+     * License constructor
      */
     public function __construct()
     {

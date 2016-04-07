@@ -6,7 +6,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Core
- * @package VisualComposer\Helpers
  */
 class Core implements Helper
 {

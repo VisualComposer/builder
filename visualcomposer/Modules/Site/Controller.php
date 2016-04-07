@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Site
  */
 class Controller extends Container implements Module
 {
@@ -26,7 +25,7 @@ class Controller extends Container implements Module
     protected $event;
 
     /**
-     * PageFrontController constructor.
+     * PageFrontController constructor
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      */

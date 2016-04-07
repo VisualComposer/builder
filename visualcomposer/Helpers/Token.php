@@ -2,21 +2,21 @@
 
 namespace VisualComposer\Helpers;
 
+// @todo fix BUG @error
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Curl\Curl;
+//use VisualComposer\Helpers\Curl\Curl;
 use VisualComposer\Helpers\Options;
 
 /**
  * Class Token
- * @package VisualComposer\Helpers
  */
 class Token extends Container implements Helper
 {
     /**
      * @param $code
      * @param \VisualComposer\Helpers\Curl\Curl $curl
-     *
+     * @todo Fix CURL @error
      * @return bool|string
      */
     public function generateToken($code, Curl $curl)
@@ -86,7 +86,7 @@ class Token extends Container implements Helper
     /**
      * @param \VisualComposer\Helpers\Options $options
      * @param \VisualComposer\Helpers\Curl\Curl $curl
-     *
+     * @todo FIX Curl @error
      * @return bool
      */
     private function refreshToken(Options $options, Curl $curl)

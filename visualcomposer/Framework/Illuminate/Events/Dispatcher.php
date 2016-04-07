@@ -7,49 +7,48 @@ use VisualComposer\Helpers\Str;
 
 /**
  * Class Dispatcher
- * @package VisualComposer\Framework\Illuminate\Events
  */
 class Dispatcher implements DispatcherContract
 {
     /**
-     * The IoC container instance.
+     * The IoC container instance
      *
      * @var \VisualComposer\Framework\Illuminate\Contracts\Container\Container
      */
     protected $container;
     /**
-     * The registered event listeners.
+     * The registered event listeners
      *
      * @var array
      */
     protected $listeners = [];
     /**
-     * The wildcard listeners.
+     * The wildcard listeners
      *
      * @var array
      */
     protected $wildcards = [];
     /**
-     * The sorted event listeners.
+     * The sorted event listeners
      *
      * @var array
      */
     protected $sorted = [];
     /**
-     * The event firing stack.
+     * The event firing stack
      *
      * @var array
      */
     protected $firing = [];
     /**
-     * The queue resolver instance.
+     * The queue resolver instance
      *
      * @var callable
      */
     protected $queueResolver;
 
     /**
-     * Create a new event dispatcher instance.
+     * Create a new event dispatcher instance
      *
      * @param  \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
      */
@@ -59,7 +58,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event listener with the dispatcher.
+     * Register an event listener with the dispatcher
      *
      * @param  string|array $events
      * @param  mixed $listener
@@ -81,7 +80,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Setup a wildcard listener callback.
+     * Setup a wildcard listener callback
      *
      * @param  string $event
      * @param  mixed $listener
@@ -92,7 +91,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Determine if a given event has listeners.
+     * Determine if a given event has listeners
      *
      * @param  string $eventName
      *
@@ -104,7 +103,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event and payload to be fired later.
+     * Register an event and payload to be fired later
      *
      * @param  string $event
      * @param  array $payload
@@ -120,7 +119,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Register an event subscriber with the dispatcher.
+     * Register an event subscriber with the dispatcher
      *
      * @param  object|string $subscriber
      */
@@ -132,7 +131,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Resolve the subscriber instance.
+     * Resolve the subscriber instance
      *
      * @param  object|string $subscriber
      *
@@ -148,7 +147,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Fire an event until the first non-null response is returned.
+     * Fire an event until the first non-null response is returned
      *
      * @param  string $event
      * @param  array $payload
@@ -161,7 +160,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Flush a set of pushed events.
+     * Flush a set of pushed events
      *
      * @param  string $event
      *
@@ -173,7 +172,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Get the event that is currently firing.
+     * Get the event that is currently firing
      *
      * @return string
      */
@@ -183,7 +182,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Fire an event and call the listeners.
+     * Fire an event and call the listeners
      *
      * @param  string|object $event
      * @param  mixed $payload
@@ -195,7 +194,7 @@ class Dispatcher implements DispatcherContract
     {
         // When the given "event" is actually an object we will assume it is an event
         // object and use the class as the event name and this event itself as the
-        // payload to the handler, which makes object based events quite simple.
+        // payload to the handler, which makes object based events quite simple
         if (is_object($event)) {
             list($payload, $event) = [[$event], get_class($event)];
         }
@@ -204,7 +203,7 @@ class Dispatcher implements DispatcherContract
 
         // If an array is not given to us as the payload, we will turn it into one so
         // we can easily use call_user_func_array on the listeners, passing in the
-        // payload to each of them so that they receive each of these arguments.
+        // payload to each of them so that they receive each of these arguments
         if (!is_array($payload)) {
             $payload = [$payload];
         }
@@ -217,7 +216,7 @@ class Dispatcher implements DispatcherContract
 
             // If a response is returned from the listener and event halting is enabled
             // we will just return this response, and not call the rest of the event
-            // listeners. Otherwise we will add the response on the response list.
+            // listeners. Otherwise we will add the response on the response list
             if (!is_null($response) && $halt) {
                 array_pop($this->firing);
 
@@ -226,7 +225,7 @@ class Dispatcher implements DispatcherContract
 
             // If a boolean false is returned from a listener, we will stop propagating
             // the event to any further listeners down in the chain, else we keep on
-            // looping through the listeners and firing every one in our sequence.
+            // looping through the listeners and firing every one in our sequence
             if ($response === false) {
                 break;
             }
@@ -240,7 +239,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Get all of the listeners for a given event name.
+     * Get all of the listeners for a given event name
      *
      * @param  string $eventName
      *
@@ -258,7 +257,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Get the wildcard listeners for the event.
+     * Get the wildcard listeners for the event
      *
      * @param  string $eventName
      *
@@ -279,7 +278,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Sort the listeners for a given event by priority.
+     * Sort the listeners for a given event by priority
      *
      * @param  string $eventName
      *
@@ -291,7 +290,7 @@ class Dispatcher implements DispatcherContract
 
         // If listeners exist for the given event, we will sort them by the priority
         // so that we can call them in the correct order. We will cache off these
-        // sorted event listeners so we do not have to re-sort on every events.
+        // sorted event listeners so we do not have to re-sort on every events
         if (isset($this->listeners[ $eventName ])) {
             krsort($this->listeners[ $eventName ]);
 
@@ -303,7 +302,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Remove a set of listeners from the dispatcher.
+     * Remove a set of listeners from the dispatcher
      *
      * @param  string $event
      *
@@ -315,7 +314,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Forget all of the pushed listeners.
+     * Forget all of the pushed listeners
      *
      * @return void
      */

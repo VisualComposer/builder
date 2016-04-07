@@ -2,9 +2,10 @@
 
 namespace VisualComposer\Modules\Settings\Traits;
 
+use VisualComposer\Application;
+
 /**
  * Class Page
- * @package VisualComposer\Modules\Settings\Traits
  */
 trait Page
 {
@@ -109,9 +110,11 @@ trait Page
      */
     public function render()
     {
-        /** @var $this IgnoreMethod */
-        /** @ignore ->call() is available [phpStorm] bug */
-        /** @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender */
+        /**
+         * @var $this Application|\VisualComposer\Framework\Container
+         * @see \VisualComposer\Framework\Container::call
+         * @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender
+         */
         $this->call('beforeRender');
         /** @var $this Page */
         $args = array_merge(

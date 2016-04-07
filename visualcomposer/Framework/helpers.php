@@ -4,12 +4,12 @@ use VisualComposer\Framework\Illuminate\Container\Container;
 
 if (!function_exists('vcapp')) {
     /**
-     * Get the available container instance.
+     * Get the available container instance
      *
      * @param  string $make
      * @param  array $parameters
      *
-     * @return mixed|\VisualComposer\Application
+     * @return \VisualComposer\Application|mixed
      */
     function vcapp($make = null, $parameters = [])
     {
@@ -23,7 +23,7 @@ if (!function_exists('vcapp')) {
 
 if (!function_exists('vchelper')) {
     /**
-     * Get the available container instance.
+     * Get the available container instance
      *
      * @param  string $name
      * @param  array $parameters
@@ -38,7 +38,7 @@ if (!function_exists('vchelper')) {
 
 if (!function_exists('vcevent')) {
     /**
-     * Fire an event and call the listeners.
+     * Fire an event and call the listeners
      *
      * @param  string $event
      * @param  mixed $payload

@@ -7,7 +7,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 /**
  * Helper API methods related to make Url for plugin directory
  * Class Url
- * @package VisualComposer\Helpers
  */
 class Url implements Helper
 {

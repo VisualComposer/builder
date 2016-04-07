@@ -1,12 +1,12 @@
 <?php
 
-namespace VisualComposer\Helpers\Access;
+namespace VisualComposer\Helpers\Access\Traits;
 
+use VisualComposer\Application;
 use VisualComposer\Helpers\Nonce;
 
 /**
  * Class Access
- * @package VisualComposer\Helpers\Access
  */
 trait Access
 {
@@ -48,12 +48,14 @@ trait Access
     {
         if ($this->getValidAccess()) {
             $access = !$valid;
+            /** @var Application $vcapp */
+            $vcapp = vcapp();
             foreach ($argsList as $args) {
                 if (!is_array($args)) {
                     $args = [$args];
                 }
                 $this->setValidAccess(true);
-                vcapp()->call($callback, $args);
+                $vcapp->call($callback, $args);
                 if ($valid === $this->getValidAccess()) {
                     $access = $valid;
                     break;
@@ -125,7 +127,9 @@ trait Access
         if ($this->getValidAccess()) {
             $args = func_get_args();
             $args = array_slice($args, 1);
-            $this->setValidAccess(vcapp()->call($func, $args));
+            /** @var Application $vcapp */
+            $vcapp = vcapp();
+            $this->setValidAccess($vcapp->call($func, $args));
         }
 
         return $this;

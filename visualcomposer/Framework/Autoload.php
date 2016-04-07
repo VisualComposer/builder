@@ -6,7 +6,6 @@ use VisualComposer\Application as ApplicationVc;
 
 /**
  * Class Autoload
- * @package VisualComposer\Framework
  */
 class Autoload
 {
@@ -22,7 +21,7 @@ class Autoload
     private $app;
 
     /**
-     * Autoload constructor.
+     * Autoload constructor
      * @param \VisualComposer\Application $app
      */
     public function __construct(ApplicationVc $app)
@@ -37,6 +36,10 @@ class Autoload
         }
     }
 
+    /**
+     * @param $all
+     * @return $this
+     */
     private function saveComponents($all)
     {
         $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
@@ -47,19 +50,22 @@ class Autoload
 
 return $autoloadFilesExport;
 DATA;
-        /** @var File $fileHelper */
-        $fileHelper = vchelper('File');
-        $fileHelper->setContents($filename, $fileData);
+        file_put_contents($filename, $fileData);
 
         return $this;
     }
 
+    /**
+     * @param $all
+     * @return bool
+     */
     public function initComponents($all)
     {
         if (is_array($all)) {
             foreach ($all as $component) {
                 $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
             }
+
             return true;
         }
 
@@ -200,10 +206,14 @@ DATA;
         return $data;
     }
 
+    /**
+     * @return bool
+     */
     protected function useCache()
     {
         $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
         if (file_exists($filename)) {
+            /** @noinspection PhpIncludeInspection */
             $all = require $filename;
 
             $this->initComponents($all);

@@ -11,7 +11,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Authorization
- * @package VisualComposer\Modules\Settings\Pages
  */
 class Authorization extends Container implements Module
 {
@@ -26,7 +25,7 @@ class Authorization extends Container implements Module
     protected $templatePath = 'settings/pages/auth/index';
 
     /**
-     * Authorization constructor.
+     * Authorization constructor
      */
     public function __construct()
     {

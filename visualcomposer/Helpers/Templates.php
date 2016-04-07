@@ -7,7 +7,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 /**
  * Helper methods related to templates
  * Class Templates
- * @package VisualComposer\Helpers
  */
 class Templates implements Helper
 {

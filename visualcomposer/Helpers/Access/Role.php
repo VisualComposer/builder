@@ -3,14 +3,13 @@
 namespace VisualComposer\Helpers\Access;
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Access\Access as AccessFactory;
+use VisualComposer\Helpers\Access\Traits\Access as AccessFactory;
 
 /**
  * Available by vchelper('AccessRole')
  * Provides API for specific role for checks & access
  *
  * Class Access
- * @package VisualComposer\Helpers\Access
  */
 class Role implements Helper
 {
@@ -43,6 +42,7 @@ class Role implements Helper
     /**
      * @param $part
      *
+     * @param bool $reset
      * @return $this
      * @throws \Exception
      */
@@ -96,7 +96,7 @@ class Role implements Helper
     }
 
     /**
-     * Get part for role.
+     * Get part for role
      * @return bool
      */
     public function getPart()
@@ -126,7 +126,7 @@ class Role implements Helper
      * State can have 3 values:
      * true - all allowed under this part;
      * false - all disabled under this part;
-     * string|'custom' - custom settings. It means that need to check exact capability.
+     * string|'custom' - custom settings. It means that need to check exact capability
      *
      * @param bool $value
      *

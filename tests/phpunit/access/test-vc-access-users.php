@@ -70,8 +70,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // negative tests
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce('abc')
-                                                                             ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce('abc')->getValidAccess()
         );
         //reset
         vcapp('VisualComposer\Helpers\Access\CurrentUser')->setValidAccess(true);
@@ -96,8 +95,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // negative tests
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkPublicNonce('abc')
-                                                                             ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkPublicNonce('abc')->getValidAccess()
         );
         //reset
         vcapp('VisualComposer\Helpers\Access\CurrentUser')->setValidAccess(true);
@@ -392,12 +390,10 @@ class VcAccessUsersTest extends WP_UnitTestCase
         // now assert "real" parts in "clean" vc-state should be null
         wp_set_current_user(1);
         $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')
-                                                                             ->getState()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')->getState()
         );
         $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')
-                                                                             ->getState()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')->getState()
         );
         $this->assertNull(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('shortcodes')->getState()
@@ -405,12 +401,10 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // check can
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')->can()
-                                                                             ->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('frontend_editor')->can()->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')->can()
-                                                                             ->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('backend_editor')->can()->get()
         );
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('shortcodes')->can()->get()
@@ -418,20 +412,17 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         // check nonce falses
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce(
-            )// no nonce exists
-                                                                             ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce()// no nonce exists
+                                                              ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkPublicNonce(
-            )// no nonce exists
-                                                                             ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkPublicNonce()// no nonce exists
+                                                              ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce(
-            )// no nonce exists
-                                                                             ->checkPublicNonce()// no nonce exists
-                                                                             ->part('shortcodes')->can()->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce()// no nonce exists
+                                                              ->checkPublicNonce()// no nonce exists
+                                                              ->part('shortcodes')->can()->get()
         );
 
         $this->assertTrue(vcapp('VisualComposer\Helpers\Access\CurrentUser')->getValidAccess());
@@ -564,19 +555,17 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')
-                                                                             ->checkStateAny(
-                                                                                 true,
-                                                                                 'custom',
-                                                                                 null
-                                                                             )->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->checkStateAny(
+                true,
+                'custom',
+                null
+            )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')
-                                                                             ->checkStateAny(
-                                                                                 true,
-                                                                                 'custom'
-                                                                             )->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->checkStateAny(
+                true,
+                'custom'
+            )->get()
         );
     }
 
@@ -1035,18 +1024,18 @@ class VcAccessUsersTest extends WP_UnitTestCase
             )->wpAny('edit_posts', 'edit_pages')->wpAll('edit_posts', 'edit_pages')->part('something')->can()->canAny(
                 'something'
             )// in null it is always true
-                                                                             ->canAny(
+                                                              ->canAny(
                 'something',
                 'something2'
             )// in null it is always true
-                                                                             ->canAll(
+                                                              ->canAll(
                 'something'
             )// in null it is always true
-                                                                             ->canAll(
+                                                              ->canAll(
                 'something',
                 'something2'
             )// in null it is always true
-                                                                             ->checkState(null)->checkStateAny(
+                                                              ->checkState(null)->checkStateAny(
                 'custom',
                 null
             )->get(true)

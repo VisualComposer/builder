@@ -8,12 +8,11 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Elements\AjaxShortcodeRender
  */
 class Controller extends Container implements Module
 {
     /**
-     * Controller constructor.
+     * Controller constructor
      */
     public function __construct()
     {

@@ -10,7 +10,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class General
- * @package VisualComposer\Modules\Settings\Pages
  */
 class General extends Container implements Module
 {
@@ -42,7 +41,7 @@ class General extends Container implements Module
     ];
 
     /**
-     * General constructor.
+     * General constructor
      */
     public function __construct()
     {
@@ -162,6 +161,7 @@ class General extends Container implements Module
 
     /**
      * Not responsive checkbox callback function
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function disableResponsiveFieldCallback(Options $options)
     {

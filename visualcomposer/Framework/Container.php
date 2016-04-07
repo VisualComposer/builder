@@ -7,14 +7,13 @@ use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTra
 
 /**
  * Class Container
- * @package VisualComposer\Framework
  */
 abstract class Container
 {
     use ContainerTrait;
 
     /**
-     * Call the given callback and inject its dependencies.
+     * Call the given callback and inject its dependencies
      *
      * @param  $method
      * @param  array $parameters

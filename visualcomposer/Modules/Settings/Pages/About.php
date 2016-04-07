@@ -10,7 +10,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About
- * @package VisualComposer\Modules\Settings\Pages
  */
 class About extends Container implements Module
 {
@@ -33,7 +32,7 @@ class About extends Container implements Module
     protected $tabs;
 
     /**
-     * About constructor.
+     * About constructor
      */
     public function __construct()
     {

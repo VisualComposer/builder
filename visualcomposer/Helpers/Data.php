@@ -7,7 +7,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 /**
  * Helper methods related to data manipulation
  * Class Data
- * @package VisualComposer\Helpers
  */
 class Data implements Helper
 {

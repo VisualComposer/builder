@@ -6,12 +6,11 @@ use VisualComposer\Framework\Illuminate\Events\Dispatcher;
 
 /**
  * Class Application
- * @package VisualComposer\Framework
  */
 class Application extends Container implements ApplicationContract
 {
     /**
-     * The available container bindings and their respective load methods.
+     * The available container bindings and their respective load methods
      *
      * @var array
      */
@@ -20,13 +19,13 @@ class Application extends Container implements ApplicationContract
         'EventsHelper' => 'registerEventBindings',
     ];
     /**
-     * The service binding methods that have been executed.
+     * The service binding methods that have been executed
      *
      * @var array
      */
     protected $ranServiceBinders = [];
     /**
-     * The loaded service providers.
+     * The loaded service providers
      *
      * @var array
      */
@@ -34,7 +33,7 @@ class Application extends Container implements ApplicationContract
     protected $basePath;
 
     /**
-     * Create a new Lumen application instance.
+     * Create a new Lumen application instance
      *
      * @param  string|null $basePath
      */
@@ -45,7 +44,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Bootstrap the application container.
+     * Bootstrap the application container
      */
     protected function bootstrapContainer()
     {
@@ -63,9 +62,9 @@ class Application extends Container implements ApplicationContract
     {
 
     }
-    
+
     /**
-     * Register container bindings for the application.
+     * Register container bindings for the application
      *
      * @return $this
      */
@@ -80,9 +79,9 @@ class Application extends Container implements ApplicationContract
 
         return $this;
     }
-    
+
     /**
-     * Resolve the given type from the container.
+     * Resolve the given type from the container
      *
      * @param  string $abstract
      * @param  array $parameters
@@ -103,7 +102,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Register the core container aliases.
+     * Register the core container aliases
      */
     protected function registerContainerAliases()
     {

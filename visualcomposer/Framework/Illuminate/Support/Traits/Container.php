@@ -7,7 +7,6 @@ use ReflectionParameter;
 
 /**
  * Class Container
- * @package VisualComposer\Framework\Illuminate\Support\Traits
  */
 trait Container
 {
@@ -22,7 +21,7 @@ trait Container
     }
 
     /**
-     * Get all dependencies for a given method.
+     * Get all dependencies for a given method
      *
      * @param  callable|string $callback
      * @param  array $parameters
@@ -42,7 +41,7 @@ trait Container
     }
 
     /**
-     * Get the proper reflection instance for the given callback.
+     * Get the proper reflection instance for the given callback
      *
      * @param  callable|string $callback
      *
@@ -64,12 +63,13 @@ trait Container
     }
 
     /**
-     * Get the dependency for the given call parameter.
+     * Get the dependency for the given call parameter
      *
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
      * @param  array $dependencies
      *
+     * @param $assoc
      * @return mixed
      */
     protected function addDependencyForCallParameter(

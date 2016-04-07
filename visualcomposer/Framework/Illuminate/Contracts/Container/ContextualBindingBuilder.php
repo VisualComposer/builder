@@ -2,12 +2,11 @@
 
 /**
  * Interface ContextualBindingBuilder
- * @package VisualComposer\Framework\Illuminate\Contracts\Container
  */
 interface ContextualBindingBuilder
 {
     /**
-     * Define the abstract target that depends on the context.
+     * Define the abstract target that depends on the context
      *
      * @param  string $abstract
      *
@@ -16,7 +15,7 @@ interface ContextualBindingBuilder
     public function needs($abstract);
 
     /**
-     * Define the implementation for the contextual binding.
+     * Define the implementation for the contextual binding
      *
      * @param  \Closure|string $implementation
      */

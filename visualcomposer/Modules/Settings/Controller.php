@@ -14,7 +14,6 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Settings
  */
 class Controller extends Container implements Module
 {

@@ -9,7 +9,6 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Editors\DataAjax
  */
 class Controller extends Container implements Module
 {
@@ -23,7 +22,7 @@ class Controller extends Container implements Module
     protected $event;
 
     /**
-     * Controller constructor.
+     * Controller constructor
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Request $request

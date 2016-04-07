@@ -6,7 +6,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Nonce
- * @package VisualComposer\Helpers
  */
 class Nonce implements Helper
 {

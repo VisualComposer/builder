@@ -4,18 +4,17 @@ use VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBui
 
 /**
  * Class ContextualBindingBuilder
- * @package VisualComposer\Framework\Illuminate\Container
  */
 class ContextualBindingBuilder implements Contract
 {
     /**
-     * The underlying container instance.
+     * The underlying container instance
      *
      * @var \VisualComposer\Framework\Illuminate\Container\Container
      */
     protected $container;
     /**
-     * The concrete instance.
+     * The concrete instance
      *
      * @var string
      */
@@ -26,7 +25,7 @@ class ContextualBindingBuilder implements Contract
     protected $needs;
 
     /**
-     * Create a new contextual binding builder.
+     * Create a new contextual binding builder
      *
      * @param  \VisualComposer\Framework\Illuminate\Container\Container $container
      * @param  string $concrete
@@ -38,7 +37,7 @@ class ContextualBindingBuilder implements Contract
     }
 
     /**
-     * Define the abstract target that depends on the context.
+     * Define the abstract target that depends on the context
      *
      * @param  string $abstract
      *
@@ -52,7 +51,7 @@ class ContextualBindingBuilder implements Contract
     }
 
     /**
-     * Define the implementation for the contextual binding.
+     * Define the implementation for the contextual binding
      *
      * @param  \Closure|string $implementation
      */

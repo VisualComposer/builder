@@ -63,14 +63,13 @@ class VcAccessRolesTest extends WP_UnitTestCase
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyAdmin(vcapp('NonceHelper')->admin()));
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())
-                                                                      ->get(
-                                                                          true
-                                                                      )
+            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->get(
+                true
+            )
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())
-                                                                      ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->getValidAccess(
+            )
         );
 
         // negative tests
@@ -93,8 +92,8 @@ class VcAccessRolesTest extends WP_UnitTestCase
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce(vcapp('NonceHelper')->user())
-                                                                      ->getValidAccess()
+            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce(vcapp('NonceHelper')->user())->getValidAccess(
+            )
         );
 
         // negative tests
@@ -350,13 +349,11 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
         $this->assertEquals(
             'administrator',
-            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)
-                                                                      ->getRole()->name
+            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)->getRole()->name
         );
         $this->assertEquals(
             'administrator',
-            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)
-                                                                      ->getRoleName()
+            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)->getRoleName()
         );
     }
 
@@ -392,16 +389,16 @@ class VcAccessRolesTest extends WP_UnitTestCase
         // check nonce falses
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
-                                                                      ->part('shortcodes')->can()->get(true)
+                                                       ->part('shortcodes')->can()->get(true)
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce()// no nonce exists
-                                                                      ->part('shortcodes')->can()->get(true)
+                                                       ->part('shortcodes')->can()->get(true)
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
-                                                                      ->checkPublicNonce()// no nonce exists
-                                                                      ->part('shortcodes')->can()->get(true)
+                                                       ->checkPublicNonce()// no nonce exists
+                                                       ->part('shortcodes')->can()->get(true)
         );
 
         $this->assertTrue(vcapp('VisualComposer\Helpers\Access\Role')->getValidAccess());
@@ -411,10 +408,9 @@ class VcAccessRolesTest extends WP_UnitTestCase
     public function test_part_check_state()
     {
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkState(null)
-                                                                      ->get(
-                                                                          true
-                                                                      )
+            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkState(null)->get(
+                true
+            )
         );
 
         $this->assertFalse(
@@ -448,8 +444,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')
-                                                                      ->get()
+            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')->get()
         );
 
         vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->setState(false);
@@ -458,8 +453,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')
-                                                                      ->get(true)
+            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')->get(true)
         );
 
         vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState('custom');
@@ -872,36 +866,34 @@ class VcAccessRolesTest extends WP_UnitTestCase
         wp_set_current_user(1);
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->setValidAccess(false)->part('something_role')
-                                                                      ->get(true)
+            vcapp('VisualComposer\Helpers\Access\Role')->setValidAccess(false)->part('something_role')->get(true)
         );
 
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())
-                                                                      ->checkPublicNonce(
-                                                                          vcapp('NonceHelper')->user()
-                                                                      )->check(
+                                                       ->checkPublicNonce(
+                                                           vcapp('NonceHelper')->user()
+                                                       )->check(
                     [
                         $this,
                         '_check',
                     ],
                     true
                 )->part('something_role')->can()->canAny('something_role')// in null it is always true
-                                                                      ->canAny(
+                                                       ->canAny(
                     'something_role',
                     'something_role2'
                 )// in null it is always true
-                                                                      ->canAll(
+                                                       ->canAll(
                     'something_role'
                 )// in null it is always true
-                                                                      ->canAll(
+                                                       ->canAll(
                     'something_role',
                     'something_role2'
                 )// in null it is always true
-                                                                      ->checkState(null)->checkStateAny('custom', null)
-                                                                      ->get(
-                                                                          true
-                                                                      )
+                                                       ->checkState(null)->checkStateAny('custom', null)->get(
+                    true
+                )
         );
 
     }

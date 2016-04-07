@@ -13,7 +13,6 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\License
  */
 class Controller extends Container implements Module
 {
@@ -35,13 +34,13 @@ class Controller extends Container implements Module
     private $error = null;
 
     /**
-     * LicenseController constructor.
+     * LicenseController constructor
      *
      * @param Request $request
      */
     public function __construct(Request $request)
     {
-        // @todo this is not valid. we should use register_activation_callback..
+        // @todo this is not valid. we should use register_activation_callback.
         if ($request->exists('activate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
             $this->call('finishActivationDeactivation', [true, $request->input('activate')]);
@@ -564,7 +563,7 @@ class Controller extends Container implements Module
      * Check if license key format is valid
      *
      * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
-     * where x is any hexadecimal digit and y is one of 8, 9, A, or B.
+     * where x is any hexadecimal digit and y is one of 8, 9, A, or B
      *
      * @param string $licenseKey
      *

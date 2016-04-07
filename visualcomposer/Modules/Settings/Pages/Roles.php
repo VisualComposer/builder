@@ -10,7 +10,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Roles
- * @package VisualComposer\Modules\Settings\Pages
  */
 class Roles extends Container implements Module
 {
@@ -47,7 +46,7 @@ class Roles extends Container implements Module
     ];
 
     /**
-     * Roles constructor.
+     * Roles constructor
      */
     public function __construct()
     {
@@ -95,7 +94,7 @@ class Roles extends Container implements Module
     }
 
     /**
-     * Check required capability for this role to have user access.
+     * Check required capability for this role to have user access
      *
      * @param $part
      *

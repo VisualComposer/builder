@@ -9,12 +9,11 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Editors
  */
 class Controller extends Container implements Module
 {
     /**
-     * PageEditable constructor.
+     * PageEditable constructor
      */
     public function __construct()
     {
@@ -87,7 +86,7 @@ class Controller extends Container implements Module
                 \'css\' );
         })();
     </script>
-	<div id="vcv-editor">Loading...</div>';
+    <div id="vcv-editor">Loading...</div>';
                     }
                 );
             },

@@ -10,7 +10,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Hub
- * @package VisualComposer\Modules\Settings\Pages
  */
 class Hub extends Container implements Module
 {
@@ -25,7 +24,7 @@ class Hub extends Container implements Module
     protected $templatePath = 'settings/pages/hub/index';
 
     /**
-     * Authorization constructor.
+     * Authorization constructor
      */
     public function __construct()
     {

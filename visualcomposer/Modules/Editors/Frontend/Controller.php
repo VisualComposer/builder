@@ -9,12 +9,11 @@ use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Editors\Frontend
  */
 class Controller extends Container implements Module
 {
     /**
-     * Frontend constructor.
+     * Frontend constructor
      */
     public function __construct()
     {
