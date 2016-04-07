@@ -5,4 +5,4 @@
 !INCLUDE "AttributeSystem.md"
 !INCLUDE "AttributeActions.md"
 !INCLUDE "AttributeGrouping.md"
-!INCLUDE "AtributesRelations.md"
+!INCLUDE "AttributesRelations.md"
