@@ -52,6 +52,6 @@ class Url implements Helper
             $q = '&';
         }
 
-        return get_site_url() . $q . http_build_query($query);
+        return rtrim($url, '/\\') . '/' . $q . http_build_query($query);
     }
 }

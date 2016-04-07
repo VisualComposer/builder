@@ -43,6 +43,7 @@ class Role implements Helper
      * @param $part
      *
      * @param bool $reset
+     *
      * @return $this
      * @throws \Exception
      */

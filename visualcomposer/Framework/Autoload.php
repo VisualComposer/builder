@@ -22,6 +22,7 @@ class Autoload
 
     /**
      * Autoload constructor
+     *
      * @param \VisualComposer\Application $app
      */
     public function __construct(ApplicationVc $app)
@@ -38,6 +39,7 @@ class Autoload
 
     /**
      * @param $all
+     *
      * @return $this
      */
     private function saveComponents($all)
@@ -57,6 +59,7 @@ DATA;
 
     /**
      * @param $all
+     *
      * @return bool
      */
     public function initComponents($all)
@@ -122,6 +125,7 @@ DATA;
 
     /**
      * @param $tokens
+     *
      * @return array|mixed
      */
     public function checkTokens($tokens)
@@ -172,6 +176,7 @@ DATA;
      * @param $key
      * @param $value
      * @param $data
+     *
      * @return mixed
      */
     protected function checkKey($key, $value, $data)

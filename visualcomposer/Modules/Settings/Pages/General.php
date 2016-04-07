@@ -52,7 +52,8 @@ class General extends Container implements Module
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            20
         );
 
         add_action(
@@ -161,6 +162,7 @@ class General extends Container implements Module
 
     /**
      * Not responsive checkbox callback function
+     *
      * @param \VisualComposer\Helpers\Options $options
      */
     private function disableResponsiveFieldCallback(Options $options)

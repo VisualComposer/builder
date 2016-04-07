@@ -31,7 +31,8 @@ class License extends Container implements Module
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            30
         );
     }
 

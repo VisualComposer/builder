@@ -55,7 +55,8 @@ class Roles extends Container implements Module
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            60
         );
 
         add_action(

@@ -17,6 +17,7 @@ class CurrentUser extends AccessFactory implements Helper
      * @param $part
      *
      * @param bool $reset
+     *
      * @return $this
      */
     public function part($part, $reset = false)

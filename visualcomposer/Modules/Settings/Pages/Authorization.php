@@ -7,6 +7,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -34,7 +35,8 @@ class Authorization extends Container implements Module
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            40
         );
 
         add_action(
@@ -44,6 +46,27 @@ class Authorization extends Container implements Module
                 $this->call('handleApiRequest');
             }
         );
+    }
+
+    protected function beforeRender(Token $tokenHelper)
+    {
+        /** @see \VisualComposer\Helpers\Token::isRegistred */
+        if (!vcapp()->call([$tokenHelper, 'isRegistred'])) {
+            /** @var Url $urlHelper */
+            $urlHelper = vchelper('Url');
+            $url = $urlHelper->ajax(['vcv-action' => 'api']);
+            $result = wp_remote_post(
+                'http://test.account.visualcomposer.io/register-app',
+                ['body' => ['url' => $url]]
+            );
+            if (is_array($result) && 200 === $result['response']['code']) {
+                $body = json_decode($result['body'], true);
+                /** @see \VisualComposer\Helpers\Token::registerSite */
+                vcapp()->call([$tokenHelper, 'registerSite'], [$body]);
+            } else {
+                // @todo @error
+            }
+        }
     }
 
     /**

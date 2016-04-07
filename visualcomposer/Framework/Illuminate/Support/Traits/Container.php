@@ -70,6 +70,7 @@ trait Container
      * @param  array $dependencies
      *
      * @param $assoc
+     *
      * @return mixed
      */
     protected function addDependencyForCallParameter(
