@@ -25,6 +25,16 @@
       success: function(response) {
         var html = template({items: response.data});
         $hub.html(html);
+      },
+      fail: function(response) {
+        console.log('failed', arguments);
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log('error', arguments);
+        alert('token expired/unauthorized');
+      },
+      always: function() {
+        console.log('always', arguments);
       }
     });
   });
