@@ -38,37 +38,6 @@ class Hub extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Token $tokenHelper
-     *
-     * @return array
-     */
-    public function getDataFromHub(Token $tokenHelper)
-    {
-        $token = vcapp()->call([$tokenHelper, 'getToken']);
-        if ($token) {
-            // post to the API to get token
-            $result = wp_remote_get(
-                'http://test.account.visualcomposer.io/api/elements',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $token,
-                        'Accept' => 'application/vnd.vc.v1+json',
-                    ],
-                ]
-            );
-            if (is_array($result) && 200 === $result['response']['code']) {
-                $body = json_decode($result['body']);
-
-                return $body;
-            } else {
-                // @todo @error
-            }
-        }
-
-        return ['status' => 'failed', 'message' => 'invalid token&code'];
-    }
-
-    /**
      * @param array $pages
      *
      * @return array
