@@ -1,8 +1,8 @@
 import vcCake from 'vc-cake';
 import Element from 'lib/Element';
-
-vcCake.addService('element-manager', {
-  get: function(element) {
-    return new Element(element);
+class ElementManager {
+  constructor(id) {
+    this.element = new Element(id);
   }
-});
+}
+vcCake.addService('element-manager', ElementManager);

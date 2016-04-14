@@ -1,7 +1,7 @@
 var vcCake = require('vc-cake');
-require('./node-services');
-require('./node-attributes');
+require('./config/node-services');
+require('./config/node-attributes');
 vcCake.start(function() {
-  require('./node-modules');
+  require('./config/node-modules');
 });
 window.app = vcCake;

@@ -41,11 +41,11 @@ npm-debug.log
 *.diff.png
 *.map
 public/*.bundle.js
-public/*-modules.js
-public/*-services.js
-public/*-attributes.js
+public/config/*-modules.js
+public/config/*-services.js
+public/config/*-attributes.js
+public/config/element-settings.js
 public/dist/
-# public/sources/elements/ElementsSettings.js
 /vendor
 .env
 composer.lock

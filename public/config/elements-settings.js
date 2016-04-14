@@ -1,33 +1,31 @@
-{
-  "tag": {
+module.exports = [
+[
+  {
+    "key": "tag",
     "type": "string",
     "access": "system",
     "value": "Button"
   },
-  "name": {
+  {
+    "key": "name",
     "type": "string",
     "access": "system",
     "value": "Button 1.0"
   },
-  "category": {
+  {
+    "key": "category",
     "type": "array",
     "access": "system",
-    "value": [
-      "General",
-      "Buttons"
-    ]
+    "value": ["General", "Buttons"]
   },
-  "color": {
+  {
+    "key": "color",
     "type": "dropdown",
-    "access": "public",
     "value": "red",
+    "access": "public",
     "title": "Color",
     "options": {
       "data": "colors"
     }
-  },
-  "edit-form-tabs": {
-    "type": "group",
-    "access": ""
   }
-}
+]];

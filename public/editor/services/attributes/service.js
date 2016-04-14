@@ -3,7 +3,7 @@ import _ from 'lodash';
 var ElementAttribute = require('./lib/element-attribute');
 var Manager = {
   items: {},
-  add: function(name, component, settings) {
+  add(name, component, settings) {
     var {setter, getter, ...attributeSettings} = settings;
     this.items[name] = 
       new ElementAttribute(name, component, attributeSettings);
@@ -14,19 +14,19 @@ var Manager = {
       this.items[name].setGetter(getter);
     }
   },
-  get: function(name) {
+  get(name) {
     return this.items[name] || null;
   }
 };
 vcCake.addService('attributes', {
-  add: function(name, component, settings) {
+  add(name, component, settings) {
     Manager.add(name, component,
       _.defaults(('object' === typeof settings ? settings : {}), {setter: null, getter: null}));
   },
-  remove: function(name) {
+  remove(name) {
     delete Manager.items[name];
   },
-  get: function(name) {
+  get(name) {
     var attributeElement = Manager.get(name);
     if (attributeElement) {
       return attributeElement;

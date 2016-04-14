@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
-require('./wp-services');
-require('./wp-attributes');
+require('./config/wp-services');
+require('./config/wp-attributes');
 var $ = require('expose?$!jquery');
 $(document).ready(function(){
   require('./sources/css/wordpress.less');
@@ -10,7 +10,7 @@ $(document).ready(function(){
     $('[data-vc-v="edit-fe-editor"]', iframeDocument ).remove();
     $('#vc-v-editor-iframe').height($(window).height()-64);
     vcCake.env('platform', 'wordpress').start(function() {
-      require('./wp-modules');
+      require('./config/wp-modules');
     });
   });
 });

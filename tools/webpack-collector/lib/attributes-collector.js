@@ -13,7 +13,7 @@ var Collector = {
     this.writeToFile(prefix, content);
   },
   writeToFile: function(prefix, content) {
-    fs.writeFileSync(path.join(config.publicDir, uf('%s-attributes.js', prefix)), content);
+    fs.writeFileSync(path.join(config.publicDir, config.configPath, uf('%s-attributes.js', prefix)), content);
   }
 };
 
