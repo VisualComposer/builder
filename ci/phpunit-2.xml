@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        bootstrap="tests/phpunit/bootstrap.php"
+        bootstrap="../tests/phpunit/bootstrap.php"
         backupGlobals="false"
         colors="true"
         convertErrorsToExceptions="true"
@@ -9,8 +9,7 @@
         >
     <testsuites>
         <testsuite name="Main Core Test Suite">
-            <directory prefix="test-" suffix=".php">./tests/phpunit/app</directory>
-            <directory prefix="test-" suffix=".php">./tests/phpunit/framework</directory>
+            <directory prefix="test-" suffix=".php">../tests/phpunit/framework</directory>
         </testsuite>
     </testsuites>
 
