@@ -116,7 +116,7 @@ class HelpersTest extends WP_UnitTestCase
          */
         $urlHelper = vcapp('VisualComposer\Helpers\Url');
         $this->assertTrue(is_object($urlHelper), '$urlHelper should be an object');
-        $this->assertTrue(method_exists($urlHelper, 'to'), 'to should exist');
+        $this->assertTrue(method_exists($urlHelper, 'to'), 'method to should exist');
         $this->assertTrue(method_exists($urlHelper, 'ajax'), 'ajax should exist');
         $this->assertTrue(method_exists($urlHelper, 'assetUrl'), 'assetUrl should exist');
 
