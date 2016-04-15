@@ -8,7 +8,7 @@ $testsDir = getenv('WP_TESTS_DIR');
 if (!$testsDir) {
     $testsDir = '/tmp/wordpress-tests-lib';
 }
-require_once $testsDir . '/includes/functions.php';
+require_once $testsDir . '/phpunit/includes/functions.php';
 
 tests_add_filter(
     'muplugins_loaded',
@@ -17,4 +17,4 @@ tests_add_filter(
     }
 );
 
-require $testsDir . '/includes/bootstrap.php';
+require $testsDir . '/phpunit/includes/bootstrap.php';
