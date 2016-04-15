@@ -2,7 +2,8 @@
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
-use VisualComposer\Framework\Illuminate\Events\Dispatcher;
+use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 
 /**
  * Class Application
@@ -17,6 +18,8 @@ class Application extends Container implements ApplicationContract
     protected $availableBindings = [
         'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
         'EventsHelper' => 'registerEventBindings',
+        'VisualComposer\Framework\Illuminate\Contracts\Filters\Dispatcher' => 'registerFilterBindings',
+        'FiltersHelper' => 'registerFilterBindings',
     ];
     /**
      * The service binding methods that have been executed
@@ -73,7 +76,24 @@ class Application extends Container implements ApplicationContract
         $this->singleton(
             'EventsHelper',
             function ($app) {
-                return (new Dispatcher($app));
+                return (new EventsDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application
+     *
+     * @return $this
+     */
+    protected function registerFilterBindings()
+    {
+        $this->singleton(
+            'FiltersHelper',
+            function ($app) {
+                return (new FiltersDispatcher($app));
             }
         );
 

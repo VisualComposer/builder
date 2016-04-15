@@ -126,9 +126,13 @@ class HelpersTest extends WP_UnitTestCase
             $urlHelper->to('//test'),
             'to should return plugin url with test'
         );
-        $this->assertEquals(get_site_url() . '?vcv-ajax=1', $urlHelper->ajax(), 'ajax should return url');
         $this->assertEquals(
-            get_site_url() . '?test=1&vcv-ajax=1',
+            rtrim(get_site_url(), '/\\') . '/?vcv-ajax=1',
+            $urlHelper->ajax(),
+            'ajax should return url'
+        );
+        $this->assertEquals(
+            rtrim(get_site_url(), '/\\') . '/?test=1&vcv-ajax=1',
             $urlHelper->ajax(['test' => 1]),
             'ajax should return url'
         );

@@ -86,31 +86,15 @@ DATA;
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = $this->checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
-                if (in_array(
-                    $data['implements'],
-                    [
-                        'Helper',
-                        '\VisualComposer\Framework\Illuminate\Support\Helper',
-                    ]
-                )) {
-                    $name = str_replace(
-                        ['VisualComposer\Helpers', '\\'],
-                        '',
-                        $data['namespace'] . $data['class'] . 'Helper'
-                    );
+                if ($this->isHelper($data['implements'])) {
+                    $name = $this->getHelperName($data);
                     $all[ $name ] = [
                         'name' => $name,
                         'abstract' => $data['namespace'] . '\\' . $data['class'],
                         'make' => false,
                     ];
-                } elseif (in_array(
-                    $data['implements'],
-                    [
-                        'Module',
-                        '\VisualComposer\Framework\Illuminate\Support\Module',
-                    ]
-                )) {
-                    $name = str_replace(['VisualComposer\Modules', '\\'], '', $data['namespace'] . $data['class']);
+                } elseif ($this->isModule($data['implements'])) {
+                    $name = $this->getModuleName($data);
                     $all[ $name ] = [
                         'name' => $name,
                         'abstract' => $data['namespace'] . '\\' . $data['class'],
@@ -119,8 +103,43 @@ DATA;
                 }
             }
         }
+        if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
+            return array_rand($all);
+        }
 
         return $all;
+    }
+
+    /**
+     * @param $implements
+     *
+     * @return bool
+     */
+    private function isHelper($implements)
+    {
+        return in_array(
+            $implements,
+            [
+                'Helper',
+                '\VisualComposer\Framework\Illuminate\Support\Helper',
+            ]
+        );
+    }
+
+    /**
+     * @param $implements
+     *
+     * @return bool
+     */
+    private function isModule($implements)
+    {
+        return in_array(
+            $implements,
+            [
+                'Module',
+                '\VisualComposer\Framework\Illuminate\Support\Module',
+            ]
+        );
     }
 
     /**
@@ -227,5 +246,39 @@ DATA;
         }
 
         return false;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return mixed
+     */
+    private function getHelperName($data)
+    {
+        return str_replace(
+            [
+                'VisualComposer\Helpers',
+                '\\',
+            ],
+            '',
+            $data['namespace'] . $data['class'] . 'Helper'
+        );
+    }
+
+    /**
+     * @param $data
+     *
+     * @return mixed
+     */
+    private function getModuleName($data)
+    {
+        return str_replace(
+            [
+                'VisualComposer\Modules',
+                '\\',
+            ],
+            '',
+            $data['namespace'] . $data['class']
+        );
     }
 }
