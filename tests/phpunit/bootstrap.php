@@ -1,4 +1,5 @@
 <?php
+
 define('VCV_PHPUNIT', true);
 define('VCV_DIE_EXCEPTION', true);
 define('VCV_DEBUG', true);
