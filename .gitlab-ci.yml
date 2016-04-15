@@ -5,18 +5,21 @@ variables:
 
 test1:
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit.xml
   tags:
     - docker
 
 test2:
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit-2.xml
   tags:
     - docker
 
 test3:
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit-3.xml
   tags:
     - docker
