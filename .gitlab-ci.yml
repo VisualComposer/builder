@@ -1,8 +1,5 @@
 image: reactoranime/test-docker
 
-variables:
-  WP_TESTS_ABSPATH: "/var/www/html/"
-
 before_script:
   - composer install
 
