@@ -3,17 +3,23 @@ image: reactoranime/test-docker
 test1:
   script:
     - phpunit --configuration=ci/phpunit.xml
+  variables:
+    WP_TESTS_ABSPATH: "/var/www/html/"
   tags:
     - docker
 
 test2:
   script:
     - phpunit --configuration=ci/phpunit-2.xml
+  variables:
+    WP_TESTS_ABSPATH: "/var/www/html/"
   tags:
     - docker
 
 test3:
   script:
     - phpunit --configuration=ci/phpunit-3.xml
+  variables:
+    WP_TESTS_ABSPATH: "/var/www/html/"
   tags:
     - docker
