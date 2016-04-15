@@ -3,8 +3,9 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\RoleAccess;
+use VisualComposer\Helpers\Generic\Access\Role\Access;
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Roles
@@ -16,7 +17,11 @@ class Roles extends Container
     /**
      * @var string
      */
-    protected $pageSlug = 'vc-v-roles';
+    protected $slug = 'vcv-roles';
+    /**
+     * @var string
+     */
+    protected $templatePath = 'settings/pages/roles/index';
     /**
      * @var bool
      */
@@ -35,9 +40,9 @@ class Roles extends Container
         'post_settings',
         'settings',
         'templates',
-        'shortcodes',
-        'grid_builder',
-        'presets',
+        //'shortcodes',
+        //'grid_builder',
+        //'presets',
     ];
 
     /**
@@ -46,29 +51,36 @@ class Roles extends Container
     public function __construct()
     {
         add_filter(
-            'vc:v:settings:getPages',
-            function () {
-                $args = func_get_args();
-
-                return $this->call('addPage', $args);
+            'vcv:settings:getPages',
+            function ($pages) {
+                /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
+                return $this->call('addPage', [$pages]);
             }
         );
 
         add_action(
-            'vc:v:settings:pageRender:' . $this->pageSlug,
+            'wp_ajax_vcv:rolesSettingsSave',
             function () {
-                $args = func_get_args();
-                $this->call('renderPage', $args);
+                /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
+                $this->call('saveSettings');
             }
         );
+    }
 
-        add_action(
-            'wp_ajax_vc_roles_settings_save',
-            function () {
-                $args = func_get_args();
-                $this->call('saveSettings', $args);
-            }
-        );
+    /**
+     * @param array $pages
+     *
+     * @return array
+     */
+    private function addPage($pages)
+    {
+        $pages[] = [
+            'slug' => $this->getSlug(),
+            'title' => __('Role Manager', 'vc5'),
+            'controller' => $this,
+        ];
+
+        return $pages;
     }
 
     /**
@@ -78,7 +90,7 @@ class Roles extends Container
      */
     public function getParts()
     {
-        return apply_filters('vc:v:access:roles:getParts', $this->parts);
+        return apply_filters('vcv:settings:pages:roles:getParts', $this->parts);
     }
 
     /**
@@ -99,6 +111,7 @@ class Roles extends Container
     /**
      * @param $role
      * @param $caps
+     *
      * @return bool
      */
     public function hasRoleCapability($role, $caps)
@@ -135,11 +148,11 @@ class Roles extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\RoleAccess $roleAccess
      * @param array $params
+     *
      * @return array
      */
-    public function save(RoleAccess $roleAccess, $params = [])
+    public function save($params = [])
     {
         $data = ['message' => ''];
         $roles = $this->getWpRoles();
@@ -150,28 +163,8 @@ class Roles extends Container
             }
             if (isset($editableRoles[ $role ])) {
                 foreach ($parts as $part => $settings) {
-                    $partKey = $roleAccess->who($role)->part($part)->getStateKey();
-                    $stateValue = '0';
-                    $roles->use_db = false; // Disable saving in DB on every cap change
-                    foreach ($settings as $key => $value) {
-                        if ('_state' === $key) {
-                            $stateValue = in_array(
-                                $value,
-                                [
-                                    '0',
-                                    '1',
-                                ]
-                            ) ? (boolean)$value : $value;
-                        } else {
-                            if (empty($value)) {
-                                $roles->remove_cap($role, $partKey . '/' . $key);
-                            } else {
-                                $roles->add_cap($role, $partKey . '/' . $key, true);
-                            }
-                        }
-                    }
-                    $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
-                    $roles->add_cap($role, $partKey, $stateValue);
+                    /** @see \VisualComposer\Modules\Settings\Pages\Roles::parseRole */
+                    $this->call('parseRole', [$role, $part, $roles, $settings]);
                 }
             }
         }
@@ -208,7 +201,7 @@ class Roles extends Container
     {
         if (false === $this->excludedPostTypes) {
             $this->excludedPostTypes = apply_filters(
-                'vc:v:access:roles:getExcludedPostTypes',
+                'vcv:settings:pages:roles:getExcludedPostTypes',
                 [
                     'attachment',
                     'revision',
@@ -225,48 +218,48 @@ class Roles extends Container
      * Save roles
      *
      * @param Request $request
-     * @param RoleAccess $roleAccess
      */
-    public function saveSettings(Request $request, RoleAccess $roleAccess)
+    public function saveSettings(Request $request)
     {
-        $field = 'vc_settings-' . $this->getPageSlug() . '-action';
+        $field = 'vcv-settings-' . $this->getSlug() . '-action';
 
-        if (check_admin_referer($field, 'vc_nonce_field') && current_user_can('manage_options')) {
-            $data = $this->save($request->input('vc_roles', []), $roleAccess);
+        if (check_admin_referer($field, 'vcv_nonce_field') && current_user_can('manage_options')) {
+            /** @see \VisualComposer\Modules\Settings\Pages\Roles::save */
+            $data = $this->call('save', [$request->input('vc_roles', [])]);
             wp_send_json($data);
         }
     }
 
     /**
-     * @return string
+     * @param $role
+     * @param $part
+     * @param $roles
+     * @param $settings
+     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
      */
-    public function getPageSlug()
+    private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
     {
-        return $this->pageSlug;
-    }
-
-    /**
-     * @param array $pages
-     *
-     * @return array
-     */
-    public function addPage($pages)
-    {
-        $pages[] = [
-            'slug' => $this->pageSlug,
-            'title' => __('Role Manager', 'vc5'),
-        ];
-
-        return $pages;
-    }
-
-    /**
-     * Render page
-     */
-    public function renderPage()
-    {
-        $this->setSlug($this->pageSlug)->setTemplatePath('settings/pages/roles/index')->setTemplateArgs(
-            ['Roles' => $this]
-        )->render();
+        $partKey = $roleAccess->who($role)->part($part)->getStateKey();
+        $stateValue = '0';
+        $roles->use_db = false; // Disable saving in DB on every cap change
+        foreach ($settings as $key => $value) {
+            if ('_state' === $key) {
+                $stateValue = in_array(
+                    $value,
+                    [
+                        '0',
+                        '1',
+                    ]
+                ) ? (boolean)$value : $value;
+            } else {
+                if (empty($value)) {
+                    $roles->remove_cap($role, $partKey . '/' . $key);
+                } else {
+                    $roles->add_cap($role, $partKey . '/' . $key, true);
+                }
+            }
+        }
+        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
+        $roles->add_cap($role, $partKey, $stateValue);
     }
 }

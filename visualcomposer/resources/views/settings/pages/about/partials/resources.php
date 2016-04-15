@@ -5,9 +5,9 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<div class="vc_resources-tab changelog">
-    <div class="feature-section vc_row">
-        <div class="vc_col-xs-6">
+<div class="vcv-resources-tab changelog">
+    <div class="feature-section vcv-row">
+        <div class="vcv-col-xs-6">
             <h3><?php
                 echo __('Resources', 'vc5');
                 ?></h3>
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 
             <ul>
                 <li>
-                    <a href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amp;utm_source=vc_user&amp;utm_medium=welcome_page"
+                    <a href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amp;utm_source=vcv-user&amp;utm_medium=welcome_page"
                         target="_blank">
                         Official website
                     </a></li>
@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
             </ul>
         </div>
 
-        <div class="vc_col-xs-6">
+        <div class="vcv-col-xs-6">
             <h3><?php echo __('Official Support', 'vc5') ?></h3>
             <p><?php
                 printf(

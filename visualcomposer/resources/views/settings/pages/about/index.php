@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
         <?php
         echo sprintf(
             __('Welcome to Visual Composer %s', 'vc5'),
-            preg_replace('/^(\d+)(\.\d+)?(\.\d)?/', '$1$2', VC_V_VERSION)
+            preg_replace('/^(\d+)(\.\d+)?(\.\d)?/', '$1$2', VCV_VERSION)
         );
         ?>
     </h1>
@@ -27,12 +27,13 @@ if (!defined('ABSPATH')) {
     </div>
 
     <div class="wp-badge vc-page-logo">
-        <?php echo sprintf(__('Version %s', 'vc5'), VC_V_VERSION) ?>
+        <?php echo sprintf(__('Version %s', 'vc5'), VCV_VERSION) ?>
     </div>
 
     <p class="vc-page-actions">
 
         <?php
+        /** @var $hasAccessToSettings bool */
         if ($hasAccessToSettings) : ?>
             <a href="<?php echo esc_attr(admin_url('admin.php?page=vc-general')) ?>" class="button button-primary">
                 <?php echo __('Settings', 'vc5') ?>
@@ -49,18 +50,18 @@ if (!defined('ABSPATH')) {
             data-size="large">Tweet</a>
     </p>
     <?php
-    vcapp('templatesHelper')->render(
+    vcview(
         'settings/pages/about/partials/tabs',
         [
-            'activeSlug' => $activeSlug,
-            'pageSlug' => $pageSlug,
+            'activeTabSlug' => $activeTabSlug,
+            'slug' => $slug,
             'tabs' => $tabs,
         ]
     );
 
     foreach ($tabs as $tab) :
-        if ($tab['slug'] === $activeSlug) {
-            vcapp('templatesHelper')->render($tab['view']);
+        if ($tab['slug'] === $activeTabSlug) {
+            vcview($tab['view']);
         }
     endforeach;
     ?>

@@ -3,6 +3,10 @@
 use Closure;
 use BadMethodCallException;
 
+/**
+ * Class Macroable
+ * @package VisualComposer\Framework\Illuminate\Support\Traits
+ */
 trait Macroable
 {
     /**
@@ -17,6 +21,7 @@ trait Macroable
      *
      * @param  string $name
      * @param  callable $macro
+     *
      * @return void
      */
     public static function macro($name, callable $macro)
@@ -28,6 +33,7 @@ trait Macroable
      * Checks if macro is registered.
      *
      * @param  string $name
+     *
      * @return bool
      */
     public static function hasMacro($name)
@@ -40,6 +46,7 @@ trait Macroable
      *
      * @param  string $method
      * @param  array $parameters
+     *
      * @return mixed
      *
      * @throws \BadMethodCallException
@@ -65,6 +72,7 @@ trait Macroable
      *
      * @param  string $method
      * @param  array $parameters
+     *
      * @return mixed
      *
      * @throws \BadMethodCallException

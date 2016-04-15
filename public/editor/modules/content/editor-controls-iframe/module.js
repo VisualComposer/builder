@@ -32,7 +32,7 @@ vcCake.add('ui-editor-controls', function(api) {
 
 
         api.reply('start', function(){
-            var iframeDocument = $( '#vc-v-editor-iframe' ).get( 0 ).contentWindow.document;
+            var iframeDocument = $( '#vcv-editor-iframe' ).get( 0 ).contentWindow.document;
             $( iframeDocument ).on( 'mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame );
             $( iframeDocument ).on( 'mousemove hover', 'body', ControlsTrigger.triggerHideFrame );
             $( document ).on( 'mousemove hover', '.vc-ui-outline-controls-container', function ( e ) {

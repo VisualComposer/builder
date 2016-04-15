@@ -15,7 +15,43 @@
         <exclude name="PSR1.Files.SideEffects"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
     </rule>
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+    <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+    <rule ref="Generic.Functions.CallTimePassByReference"/>
+    <rule ref="Generic.Metrics.CyclomaticComplexity"/>
+    <rule ref="Generic.Metrics.NestingLevel"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent"/>
+    <rule ref="PSR1.Classes.ClassDeclaration"/>
+    <rule ref="PSR2.Classes.ClassDeclaration"/>
+    <rule ref="PSR2.Classes.PropertyDeclaration"/>
+    <rule ref="PSR2.ControlStructures.ControlStructureSpacing"/>
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration"/>
+    <rule ref="PSR2.Files.EndFileNewline"/>
+    <rule ref="PSR2.Methods.MethodDeclaration"/>
+    <rule ref="PSR2.Namespaces.NamespaceDeclaration"/>
+    <rule ref="PSR2.Namespaces.UseDeclaration"/>
+    <rule ref="Squiz.PHP.DiscouragedFunctions"/>
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+    <rule ref="Squiz.Scope.MethodScope"/>
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+    <rule ref="Squiz.WhiteSpace.CastSpacing"/>
 
     <rule ref="Squiz.Classes.ValidClassName">
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
@@ -29,6 +65,7 @@
     <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
     </rule>
+
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>

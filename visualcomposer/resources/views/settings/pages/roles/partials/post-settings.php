@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-vcapp('templatesHelper')->render(
+vcview(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,

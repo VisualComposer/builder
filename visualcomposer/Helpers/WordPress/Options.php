@@ -14,17 +14,21 @@ class Options
      *
      * @return mixed
      */
-    public static function get($optionName, $default = false)
+    public function get($optionName, $default = false)
     {
-        return get_option(VC_V_PREFIX . $optionName, $default);
+        return get_option(VCV_PREFIX . $optionName, $default);
     }
 
     /**
      * @param $optionName
      * @param $value
+     *
+     * @return $this
      */
-    public static function set($optionName, $value)
+    public function set($optionName, $value)
     {
-        update_option(VC_V_PREFIX . $optionName, $value);
+        update_option(VCV_PREFIX . $optionName, $value);
+
+        return $this;
     }
 }

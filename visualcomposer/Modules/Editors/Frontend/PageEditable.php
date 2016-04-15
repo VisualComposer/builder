@@ -20,7 +20,9 @@ class PageEditable extends Container
         add_action(
             'template_redirect',
             function () {
+                /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::isPageEditable */
                 if ($this->call('isPageEditable')) {
+                    /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::buildPageEditable */
                     $this->call('buildPageEditable');
                 }
             }
@@ -30,13 +32,14 @@ class PageEditable extends Container
     /**
      * @param \VisualComposer\Helpers\Generic\Request $request
      * @param \VisualComposer\Helpers\WordPress\Nonce $nonce
+     *
      * @return bool
      */
     private function isPageEditable(Request $request, Nonce $nonce)
     {
-        return ($request->exists('vc-v-editable')
-            && $request->exists('nonce')
-            && $nonce->verifyAdmin($request->input('nonce')));
+        return ($request->exists('vcv-editable')
+            && $request->exists('vcv-nonce')
+            && $nonce->verifyAdmin($request->input('vcv-nonce')));
     }
 
     /**
@@ -83,7 +86,7 @@ class PageEditable extends Container
                 \'css\' );
         })();
     </script>
-	<div id="vc-v-editor">Loading...</div>';
+	<div id="vcv-editor">Loading...</div>';
                     }
                 );
             },
