@@ -96,14 +96,14 @@ DATA;
                     $name = $this->getHelperName($data);
                     $all[ $name ] = [
                         'name' => $name,
-                        'abstract' => $data['namespace'] . '\\' . $data['class'],
+                        'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => false,
                     ];
                 } elseif ($this->isModule($data['implements'])) {
                     $name = $this->getModuleName($data);
                     $all[ $name ] = [
                         'name' => $name,
-                        'abstract' => $data['namespace'] . '\\' . $data['class'],
+                        'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => true,
                     ];
                 }
