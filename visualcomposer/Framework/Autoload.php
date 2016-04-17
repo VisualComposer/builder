@@ -30,7 +30,6 @@ class Autoload
         $this->app = $app;
         if (VCV_DEBUG) {
             $all = $this->getComponents();
-            var_dump(['construct'=>$all]);
             $this->initComponents($all);
             $this->saveComponents($all);
         } else {
@@ -65,7 +64,6 @@ DATA;
      */
     public function initComponents($all)
     {
-        var_export($all);
         if (is_array($all)) {
             foreach ($all as $component) {
                 $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
@@ -83,12 +81,6 @@ DATA;
     public function getComponents()
     {
         $components = $this->app->rglob($this->app->path('visualcomposer/*/*.php'));
-        var_export(
-            [
-                'path'=>$this->app->path('visualcomposer/*/*.php'),
-                'components'=>$components,
-            ]
-        );
         $all = [];
         foreach ($components as $componentPath) {
             $tokens = token_get_all(file_get_contents($componentPath));
@@ -112,10 +104,30 @@ DATA;
             }
         }
         if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
-            return array_rand($all);
+            return $this->shuffleAssoc($all);
         }
 
         return $all;
+    }
+
+    /**
+     * Shuffles and array with keys
+     *
+     * @param $array
+     *
+     * @return array
+     */
+    private function shuffleAssoc($array)
+    {
+        $keys = array_keys($array);
+
+        shuffle($keys);
+        $new = [];
+        foreach ($keys as $key) {
+            $new[ $key ] = $array[ $key ];
+        }
+
+        return $new;
     }
 
     /**
@@ -130,6 +142,7 @@ DATA;
             [
                 'Helper',
                 '\VisualComposer\Framework\Illuminate\Support\Helper',
+                '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
             ]
         );
     }
@@ -146,6 +159,7 @@ DATA;
             [
                 'Module',
                 '\VisualComposer\Framework\Illuminate\Support\Module',
+                '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
             ]
         );
     }
@@ -266,7 +280,8 @@ DATA;
         return str_replace(
             [
                 'VisualComposer\Helpers',
-                '\\',
+                '\\', // this is \\
+                "\\", // this is \
             ],
             '',
             $data['namespace'] . $data['class'] . 'Helper'
