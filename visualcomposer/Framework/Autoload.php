@@ -67,6 +67,7 @@ DATA;
     {
         if (is_array($all)) {
             foreach ($all as $component) {
+                var_dump(['comp' => $component]);
                 $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
             }
 
