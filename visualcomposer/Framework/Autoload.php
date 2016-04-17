@@ -86,6 +86,13 @@ DATA;
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = $this->checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
+                var_dump(
+                    [
+                        'data' => $data,
+                        'isHelper' => $this->isHelper($data['implements']),
+                        'isModule' => $this->isModule($data['implements']),
+                    ]
+                );
                 if ($this->isHelper($data['implements'])) {
                     $name = $this->getHelperName($data);
                     $all[ $name ] = [
