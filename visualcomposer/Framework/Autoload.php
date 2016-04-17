@@ -109,6 +109,7 @@ DATA;
                 }
             }
         }
+        var_export($all);
         if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
             return array_rand($all);
         }
