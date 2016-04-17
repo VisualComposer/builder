@@ -30,6 +30,7 @@ class Autoload
         $this->app = $app;
         if (VCV_DEBUG) {
             $all = $this->getComponents();
+            var_dump(['construct'=>$all]);
             $this->initComponents($all);
             $this->saveComponents($all);
         } else {
