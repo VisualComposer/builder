@@ -48,5 +48,5 @@ public/dist/
 /vendor
 .env
 composer.lock
-#cache/*
+cache/*
 !cache/.gitkeep
