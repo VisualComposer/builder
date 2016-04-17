@@ -30,7 +30,6 @@ class Autoload
         $this->app = $app;
         if (VCV_DEBUG) {
             $all = $this->getComponents();
-            var_dump($all);
             $this->initComponents($all);
             $this->saveComponents($all);
         } else {
@@ -65,9 +64,8 @@ DATA;
      */
     public function initComponents($all)
     {
-        if (is_array($all)) {
-            foreach ($all as $component) {
-                var_dump(['comp' => $component]);
+        if (is_array($all) && is_array($all['helpers']) && is_array($all['modules'])) {
+            foreach (array_merge($all['helpers'], $all['modules']) as $component) {
                 $this->app->addComponent($component['name'], $component['abstract'], $component['make']);
             }
 
@@ -83,28 +81,24 @@ DATA;
     public function getComponents()
     {
         $components = $this->app->rglob($this->app->path('visualcomposer/*/*.php'));
-        $all = [];
+        $all = [
+            'helpers' => [],
+            'modules' => [],
+        ];
         foreach ($components as $componentPath) {
             $tokens = token_get_all(file_get_contents($componentPath));
             $data = $this->checkTokens($tokens);
             if (!empty($data['namespace']) && !empty($data['class']) && !empty($data['implements'])) {
-                var_dump(
-                    [
-                        'data' => $data,
-                        'isHelper' => $this->isHelper($data['implements']),
-                        'isModule' => $this->isModule($data['implements']),
-                    ]
-                );
                 if ($this->isHelper($data['implements'])) {
                     $name = $this->getHelperName($data);
-                    $all[ $name ] = [
+                    $all['helpers'][ $name ] = [
                         'name' => $name,
                         'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => false,
                     ];
                 } elseif ($this->isModule($data['implements'])) {
                     $name = $this->getModuleName($data);
-                    $all[ $name ] = [
+                    $all['modules'][ $name ] = [
                         'name' => $name,
                         'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => true,
@@ -113,7 +107,10 @@ DATA;
             }
         }
         if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
-            return $this->shuffleAssoc($all);
+            $all['helpers'] = $this->shuffleAssoc($all['helpers']);
+            $all['modules'] = $this->shuffleAssoc($all['modules']);
+
+            return $all;
         }
 
         return $all;
