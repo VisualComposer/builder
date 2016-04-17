@@ -10,6 +10,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         $this->assertTrue(is_object(vcapp('VisualComposer\Helpers\Access\Role')));
         $this->assertTrue(is_object(vcapp('AccessRoleHelper')));
         $this->assertEquals(vcapp('VisualComposer\Helpers\Access\Role'), vcapp('AccessRoleHelper'));
+        $this->assertEquals(vchelper('AccessRole'), vcapp('AccessRoleHelper'));
     }
 
     public function test_role_access_get()

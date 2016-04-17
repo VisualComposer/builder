@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework\Illuminate\Contracts\Events;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Contracts\Events;
 
 /**
  * Interface Dispatcher
@@ -10,11 +12,11 @@ interface Dispatcher
      *
      * @param  string|array $events
      * @param  mixed $listener
-     * @param  int $priority
+     * @param  int $weight
      *
      * @return void
      */
-    public function listen($events, $listener, $priority = 0);
+    public function listen($events, $listener, $weight = 0);
 
     /**
      * Determine if a given event has listeners

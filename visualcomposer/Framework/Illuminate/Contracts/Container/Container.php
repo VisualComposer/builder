@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework\Illuminate\Contracts\Container;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Contracts\Container;
 
 use Closure;
 

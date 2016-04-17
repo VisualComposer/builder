@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework\Illuminate\Events;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Events;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;

@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework;
+<?php
+
+namespace VisualComposer\Framework;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;

@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Illuminate\Support\Module;

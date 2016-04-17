@@ -81,6 +81,12 @@ DATA;
     public function getComponents()
     {
         $components = $this->app->rglob($this->app->path('visualcomposer/*/*.php'));
+        var_export(
+            [
+                'path'=>$this->app->path('visualcomposer/*/*.php'),
+                'components'=>$components,
+            ]
+        );
         $all = [];
         foreach ($components as $componentPath) {
             $tokens = token_get_all(file_get_contents($componentPath));

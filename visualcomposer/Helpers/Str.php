@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Helpers;
+<?php
+
+namespace VisualComposer\Helpers;
 
 use RuntimeException;
 use VisualComposer\Framework\Illuminate\Support\Helper;

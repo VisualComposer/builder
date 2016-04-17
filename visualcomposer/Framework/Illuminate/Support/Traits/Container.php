@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Framework\Illuminate\Support\Traits;
 
 use ReflectionFunction;

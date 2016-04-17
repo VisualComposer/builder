@@ -11,6 +11,11 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Token extends Container implements Helper
 {
+    /**
+     * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return bool
+     */
     public function isRegistred(Options $options)
     {
         return !!$options->get(
@@ -18,6 +23,10 @@ class Token extends Container implements Helper
         );
     }
 
+    /**
+     * @param $body
+     * @param \VisualComposer\Helpers\Options $options
+     */
     public function registerSite($body, Options $options)
     {
         $options->set(

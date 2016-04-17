@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework\Illuminate\Filters;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Filters;
 
 use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 

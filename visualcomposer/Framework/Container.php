@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Framework;
 
 use BadMethodCallException;
