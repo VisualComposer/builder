@@ -280,6 +280,7 @@ DATA;
         return str_replace(
             [
                 'VisualComposer\Helpers',
+                'VisualComposer\\Helpers',
                 '\\', // this is \\
                 "\\", // this is \
             ],
@@ -298,7 +299,9 @@ DATA;
         return str_replace(
             [
                 'VisualComposer\Modules',
+                'VisualComposer\\Modules',
                 '\\',
+                "\\",
             ],
             '',
             $data['namespace'] . $data['class']
