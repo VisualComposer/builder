@@ -46,6 +46,7 @@ module.exports = {
         'document',
         'local-storage',
         'element',
+        'element-manager',
         'attributes',
         'rules-manager',
         'shared',

@@ -1,31 +1,34 @@
 module.exports = [
-[
-  {
-    "key": "tag",
+{
+  "tag": {
     "type": "string",
     "access": "system",
     "value": "Button"
   },
-  {
-    "key": "name",
+  "name": {
     "type": "string",
     "access": "system",
     "value": "Button 1.0"
   },
-  {
-    "key": "category",
+  "category": {
     "type": "array",
     "access": "system",
-    "value": ["General", "Buttons"]
+    "value": [
+      "General",
+      "Buttons"
+    ]
   },
-  {
-    "key": "color",
+  "color": {
     "type": "dropdown",
-    "value": "red",
     "access": "public",
+    "value": "red",
     "title": "Color",
     "options": {
       "data": "colors"
     }
+  },
+  "edit-form-tabs": {
+    "type": "group",
+    "access": ""
   }
-]];
+}];

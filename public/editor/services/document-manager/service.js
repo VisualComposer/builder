@@ -155,4 +155,4 @@ var api = {
   }
 };
 
-vcCake.addService('document-manager', api);
+vcCake.addService('document', api);
