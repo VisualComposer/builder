@@ -6,7 +6,7 @@
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
-        >
+>
     <testsuites>
         <testsuite name="Main Core Test Suite">
             <directory prefix="test-" suffix=".php">../tests/phpunit/access</directory>
@@ -15,9 +15,13 @@
 
     <filter>
         <whitelist>
-            <file>plugin-wordpress.php</file>
-            <directory suffix=".php">visualcomposer</directory>
-            <directory suffix=".php">bootstrap</directory>
+            <directory suffix=".php">../visualcomposer</directory>
+            <directory suffix=".php">../bootstrap</directory>
+            <file>../plugin-wordpress.php</file>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+    </logging>
 </phpunit>
