@@ -5,10 +5,8 @@ before_script:
 
 test1:
   script:
-    - ls -la
-    - ls -la tests/phpunit
-    - phpunit --configuration=ci/phpunit.xml --include-path="tests"
-    - cat test.log
+    - phpunit --configuration=ci/phpunit.xml
+    - php ci/test-coverage.php
   tags:
     - docker
 

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
+  <file name="BindingResolutionException.php">
+    <totals>
+      <lines total="12" comments="3" code="9" executable="0" executed="0" percent=""/>
+      <methods count="0" tested="0" percent=""/>
+      <functions count="0" tested="0" percent=""/>
+      <classes count="1" tested="1" percent="100.00%"/>
+      <traits count="0" tested="0" percent=""/>
+    </totals>
+    <class name="BindingResolutionException" start="10" executable="0" executed="0" crap="0">
+      <package full="" name="" sub="" category=""/>
+      <namespace name="VisualComposer\Framework\Illuminate\Container"/>
+    </class>
+  </file>
+</phpunit>

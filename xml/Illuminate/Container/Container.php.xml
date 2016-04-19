@@ -1,0 +1,701 @@
+<?xml version="1.0"?>
+<phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
+  <file name="Container.php">
+    <totals>
+      <lines total="1230" comments="644" code="586" executable="69" executed="67" percent="97.10%"/>
+      <methods count="19" tested="18" percent="94.74%"/>
+      <functions count="0" tested="0" percent=""/>
+      <classes count="1" tested="0" percent="0.00%"/>
+      <traits count="0" tested="0" percent=""/>
+    </totals>
+    <class name="Container" start="18" executable="69" executed="67" crap="127">
+      <package full="" name="" sub="" category=""/>
+      <namespace name="VisualComposer\Framework\Illuminate\Container"/>
+      <method name="when" signature="when($concrete)" start="113" end="116" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="resolvable" signature="resolvable($abstract)" start="125" end="128" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="bound" signature="bound($abstract)" start="137" end="140" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="resolved" signature="resolved($abstract)" start="149" end="152" crap="2" executable="1" executed="1" coverage="100"/>
+      <method name="isAlias" signature="isAlias($name)" start="161" end="164" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="bind" signature="bind($abstract, $concrete = null, $shared = false)" start="175" end="210" crap="5" executable="7" executed="7" coverage="100"/>
+      <method name="getClosure" signature="getClosure($abstract, $concrete)" start="220" end="227" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="anonymous function" signature="anonymous function () use ($value)" start="1186" end="1188" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="addContextualBinding" signature="addContextualBinding($concrete, $abstract, $implementation)" start="236" end="239" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="bindIf" signature="bindIf($abstract, $concrete = null, $shared = false)" start="250" end="255" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="singleton" signature="singleton($abstract, $concrete = null)" start="265" end="270" crap="1" executable="2" executed="2" coverage="100"/>
+      <method name="share" signature="share(Closure $closure)" start="279" end="293" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="bindShared" signature="bindShared($abstract, Closure $closure)" start="303" end="306" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="extend" signature="extend($abstract, Closure $closure)" start="318" end="327" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="instance" signature="instance($abstract, $instance)" start="337" end="360" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="tag" signature="tag($abstracts, $tags)" start="370" end="383" crap="5" executable="0" executed="0" coverage="100"/>
+      <method name="tagged" signature="tagged($tag)" start="392" end="403" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="alias" signature="alias($abstract, $alias)" start="413" end="418" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="extractAlias" signature="extractAlias(array $definition)" start="427" end="430" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="rebinding" signature="rebinding($abstract, Closure $callback)" start="440" end="449" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="refresh" signature="refresh($abstract, $target, $method)" start="460" end="468" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="rebound" signature="rebound($abstract)" start="477" end="484" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="getReboundCallbacks" signature="getReboundCallbacks($abstract)" start="493" end="500" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="wrap" signature="wrap(Closure $callback, array $parameters = [])" start="510" end="515" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="call" signature="call($callback, array $parameters = [], $defaultMethod = null)" start="526" end="535" crap="3" executable="3" executed="3" coverage="100"/>
+      <method name="isCallableWithAtSign" signature="isCallableWithAtSign($callback)" start="544" end="553" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="callClass" signature="callClass($target, array $parameters = [], $defaultMethod = null)" start="564" end="578" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="make" signature="make($abstract, $parameters = [])" start="588" end="629" crap="5.07" executable="14" executed="12" coverage="85.714285714286"/>
+      <method name="getConcrete" signature="getConcrete($abstract)" start="638" end="658" crap="5" executable="3" executed="3" coverage="100"/>
+      <method name="getContextualConcrete" signature="getContextualConcrete($abstract)" start="667" end="674" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="missingLeadingSlash" signature="missingLeadingSlash($abstract)" start="683" end="686" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="getExtenders" signature="getExtenders($abstract)" start="695" end="702" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="build" signature="build($concrete, $parameters = [])" start="714" end="765" crap="4" executable="9" executed="9" coverage="100"/>
+      <method name="getDependencies" signature="getDependencies($parameters, array $primitives = [])" start="775" end="795" crap="4" executable="0" executed="0" coverage="100"/>
+      <method name="resolveNonClass" signature="resolveNonClass(ReflectionParameter $parameter)" start="806" end="816" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="resolveClass" signature="resolveClass(ReflectionParameter $parameter)" start="827" end="841" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="keyParametersByArgument" signature="keyParametersByArgument(array $dependencies, array $parameters)" start="851" end="862" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="resolving" signature="resolving($abstract, Closure $callback = null)" start="872" end="879" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="afterResolving" signature="afterResolving($abstract, Closure $callback = null)" start="889" end="896" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="resolvingCallback" signature="resolvingCallback(Closure $callback)" start="905" end="914" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="afterResolvingCallback" signature="afterResolvingCallback(Closure $callback)" start="923" end="932" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="getFunctionHint" signature="getFunctionHint(Closure $callback)" start="941" end="956" crap="3" executable="0" executed="0" coverage="100"/>
+      <method name="fireResolvingCallbacks" signature="fireResolvingCallbacks($abstract, $object)" start="966" end="989" crap="1" executable="9" executed="9" coverage="100"/>
+      <method name="getCallbacksForType" signature="getCallbacksForType($abstract, $object, array $callbacksPerType)" start="1000" end="1011" crap="4" executable="3" executed="3" coverage="100"/>
+      <method name="fireCallbackArray" signature="fireCallbackArray($object, array $callbacks)" start="1019" end="1024" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="isShared" signature="isShared($abstract)" start="1033" end="1042" crap="3" executable="3" executed="3" coverage="100"/>
+      <method name="isBuildable" signature="isBuildable($concrete, $abstract)" start="1052" end="1055" crap="2" executable="1" executed="1" coverage="100"/>
+      <method name="getAlias" signature="getAlias($abstract)" start="1064" end="1067" crap="2" executable="1" executed="1" coverage="100"/>
+      <method name="getBindings" signature="getBindings()" start="1074" end="1077" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="dropStaleInstances" signature="dropStaleInstances($abstract)" start="1086" end="1089" crap="1" executable="2" executed="2" coverage="100"/>
+      <method name="forgetInstance" signature="forgetInstance($abstract)" start="1098" end="1101" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="forgetInstances" signature="forgetInstances()" start="1108" end="1111" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="flush" signature="flush()" start="1118" end="1124" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="getInstance" signature="getInstance()" start="1131" end="1134" crap="1" executable="1" executed="1" coverage="100"/>
+      <method name="setInstance" signature="setInstance(ContainerContract $container)" start="1143" end="1146" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="offsetExists" signature="offsetExists($key)" start="1155" end="1158" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="offsetGet" signature="offsetGet($key)" start="1167" end="1170" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="offsetSet" signature="offsetSet($key, $value)" start="1180" end="1192" crap="2" executable="0" executed="0" coverage="100"/>
+      <method name="offsetUnset" signature="offsetUnset($key)" start="1201" end="1204" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="__get" signature="__get($key)" start="1213" end="1216" crap="1" executable="0" executed="0" coverage="100"/>
+      <method name="__set" signature="__set($key, $value)" start="1226" end="1229" crap="1" executable="0" executed="0" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="590">
+        <covered by="ModulesDependencyInjectionTest::testEmpty"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="595">
+        <covered by="ModulesDependencyInjectionTest::testEmpty"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="596">
+        <covered by="ModulesDependencyInjectionTest::testEmpty"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="599">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="604">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="605">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="613">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="620">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="621">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="624">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="626">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="628">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1066">
+        <covered by="ModulesDependencyInjectionTest::testEmpty"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="1133">
+        <covered by="ModulesDependencyInjectionTest::testEmpty"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="ModulesDependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="ModulesDependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="223">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="225">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="640">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="647">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="657">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="669">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="673">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="697">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="701">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="719">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="720">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="723">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="728">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="734">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="736">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="741">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="742">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="744">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+      </line>
+      <line nr="968">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="970">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="972">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="975">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="979">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="981">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="983">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="986">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="989">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1002">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1004">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1010">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1021">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1024">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1035">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1036">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1041">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1054">
+        <covered by="ModulesDependencyInjectionTest::testBasicInjection"/>
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="528">
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="532">
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="534">
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="546">
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="547">
+        <covered by="DependencyInjectionTest::testEmpty"/>
+        <covered by="DependencyInjectionTest::testDefaults"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValuesAssoc"/>
+        <covered by="DependencyInjectionTest::testDefaultsWithValues"/>
+        <covered by="DependencyInjectionTest::testWithoutInjection"/>
+        <covered by="DependencyInjectionTest::testWithoutInjectionAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjection"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParams"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaults"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValue"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValueAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst"/>
+        <covered by="DependencyInjectionTest::testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjects"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsDeclaration"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValues"/>
+        <covered by="DependencyInjectionTest::testInjectionWithCustomObjectsWithAllValuesAndDi"/>
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="151">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="180">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="189">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="191">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="198">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="202">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="207">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="210">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="267">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="269">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1088">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="1089">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+    </coverage>
+  </file>
+</phpunit>

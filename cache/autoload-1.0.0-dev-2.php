@@ -3,22 +3,10 @@
 return array (
   'helpers' => 
   array (
-    'AccessCurrentUserHelper' => 
+    'StrHelper' => 
     array (
-      'name' => 'AccessCurrentUserHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Access\\CurrentUser',
-      'make' => false,
-    ),
-    'FileHelper' => 
-    array (
-      'name' => 'FileHelper',
-      'abstract' => 'VisualComposer\\Helpers\\File',
-      'make' => false,
-    ),
-    'AccessRoleHelper' => 
-    array (
-      'name' => 'AccessRoleHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Access\\Role',
+      'name' => 'StrHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Str',
       'make' => false,
     ),
     'TokenHelper' => 
@@ -27,16 +15,28 @@ return array (
       'abstract' => 'VisualComposer\\Helpers\\Token',
       'make' => false,
     ),
-    'CoreHelper' => 
+    'TemplatesHelper' => 
     array (
-      'name' => 'CoreHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Core',
+      'name' => 'TemplatesHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Templates',
+      'make' => false,
+    ),
+    'AccessCurrentUserHelper' => 
+    array (
+      'name' => 'AccessCurrentUserHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Access\\CurrentUser',
       'make' => false,
     ),
     'RequestHelper' => 
     array (
       'name' => 'RequestHelper',
       'abstract' => 'VisualComposer\\Helpers\\Request',
+      'make' => false,
+    ),
+    'CoreHelper' => 
+    array (
+      'name' => 'CoreHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Core',
       'make' => false,
     ),
     'NonceHelper' => 
@@ -51,43 +51,55 @@ return array (
       'abstract' => 'VisualComposer\\Helpers\\Options',
       'make' => false,
     ),
-    'DataHelper' => 
-    array (
-      'name' => 'DataHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Data',
-      'make' => false,
-    ),
     'UrlHelper' => 
     array (
       'name' => 'UrlHelper',
       'abstract' => 'VisualComposer\\Helpers\\Url',
       'make' => false,
     ),
-    'StrHelper' => 
+    'FileHelper' => 
     array (
-      'name' => 'StrHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Str',
+      'name' => 'FileHelper',
+      'abstract' => 'VisualComposer\\Helpers\\File',
       'make' => false,
     ),
-    'TemplatesHelper' => 
+    'AccessRoleHelper' => 
     array (
-      'name' => 'TemplatesHelper',
-      'abstract' => 'VisualComposer\\Helpers\\Templates',
+      'name' => 'AccessRoleHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Access\\Role',
+      'make' => false,
+    ),
+    'DataHelper' => 
+    array (
+      'name' => 'DataHelper',
+      'abstract' => 'VisualComposer\\Helpers\\Data',
       'make' => false,
     ),
   ),
   'modules' => 
   array (
+    'SettingsPagesAbout' => 
+    array (
+      'name' => 'SettingsPagesAbout',
+      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\About',
+      'make' => true,
+    ),
+    'SettingsPagesGeneral' => 
+    array (
+      'name' => 'SettingsPagesGeneral',
+      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\General',
+      'make' => true,
+    ),
     'ElementsAjaxShortcodeRenderController' => 
     array (
       'name' => 'ElementsAjaxShortcodeRenderController',
       'abstract' => 'VisualComposer\\Modules\\Elements\\AjaxShortcodeRender\\Controller',
       'make' => true,
     ),
-    'SettingsPagesHub' => 
+    'EditorsPageEditableController' => 
     array (
-      'name' => 'SettingsPagesHub',
-      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\Hub',
+      'name' => 'EditorsPageEditableController',
+      'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
       'make' => true,
     ),
     'SettingsPagesAuthorization' => 
@@ -96,10 +108,22 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\Authorization',
       'make' => true,
     ),
+    'SystemActivationController' => 
+    array (
+      'name' => 'SystemActivationController',
+      'abstract' => 'VisualComposer\\Modules\\System\\Activation\\Controller',
+      'make' => true,
+    ),
     'EditorsAssetsManagerController' => 
     array (
       'name' => 'EditorsAssetsManagerController',
       'abstract' => 'VisualComposer\\Modules\\Editors\\AssetsManager\\Controller',
+      'make' => true,
+    ),
+    'SettingsPagesHub' => 
+    array (
+      'name' => 'SettingsPagesHub',
+      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\Hub',
       'make' => true,
     ),
     'SettingsPagesRoles' => 
@@ -114,46 +138,10 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\License',
       'make' => true,
     ),
-    'SystemTextDomainController' => 
-    array (
-      'name' => 'SystemTextDomainController',
-      'abstract' => 'VisualComposer\\Modules\\System\\TextDomain\\Controller',
-      'make' => true,
-    ),
-    'EditorsDataAjaxController' => 
-    array (
-      'name' => 'EditorsDataAjaxController',
-      'abstract' => 'VisualComposer\\Modules\\Editors\\DataAjax\\Controller',
-      'make' => true,
-    ),
-    'SettingsPagesGeneral' => 
-    array (
-      'name' => 'SettingsPagesGeneral',
-      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\General',
-      'make' => true,
-    ),
-    'EditorsFrontendController' => 
-    array (
-      'name' => 'EditorsFrontendController',
-      'abstract' => 'VisualComposer\\Modules\\Editors\\Frontend\\Controller',
-      'make' => true,
-    ),
     'SettingsController' => 
     array (
       'name' => 'SettingsController',
       'abstract' => 'VisualComposer\\Modules\\Settings\\Controller',
-      'make' => true,
-    ),
-    'SiteController' => 
-    array (
-      'name' => 'SiteController',
-      'abstract' => 'VisualComposer\\Modules\\Site\\Controller',
-      'make' => true,
-    ),
-    'SettingsPagesAbout' => 
-    array (
-      'name' => 'SettingsPagesAbout',
-      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\About',
       'make' => true,
     ),
     'LicenseController' => 
@@ -162,16 +150,28 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\License\\Controller',
       'make' => true,
     ),
-    'EditorsPageEditableController' => 
+    'EditorsDataAjaxController' => 
     array (
-      'name' => 'EditorsPageEditableController',
-      'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
+      'name' => 'EditorsDataAjaxController',
+      'abstract' => 'VisualComposer\\Modules\\Editors\\DataAjax\\Controller',
       'make' => true,
     ),
-    'SystemActivationController' => 
+    'SystemTextDomainController' => 
     array (
-      'name' => 'SystemActivationController',
-      'abstract' => 'VisualComposer\\Modules\\System\\Activation\\Controller',
+      'name' => 'SystemTextDomainController',
+      'abstract' => 'VisualComposer\\Modules\\System\\TextDomain\\Controller',
+      'make' => true,
+    ),
+    'EditorsFrontendController' => 
+    array (
+      'name' => 'EditorsFrontendController',
+      'abstract' => 'VisualComposer\\Modules\\Editors\\Frontend\\Controller',
+      'make' => true,
+    ),
+    'SiteController' => 
+    array (
+      'name' => 'SiteController',
+      'abstract' => 'VisualComposer\\Modules\\Site\\Controller',
       'make' => true,
     ),
   ),

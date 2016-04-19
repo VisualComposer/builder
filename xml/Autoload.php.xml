@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
+  <file name="Autoload.php">
+    <totals>
+      <lines total="316" comments="75" code="241" executable="106" executed="0" percent="0.00%"/>
+      <methods count="12" tested="0" percent="0.00%"/>
+      <functions count="0" tested="0" percent=""/>
+      <classes count="1" tested="0" percent="0.00%"/>
+      <traits count="0" tested="0" percent=""/>
+    </totals>
+    <class name="Autoload" start="10" executable="106" executed="0" crap="2352">
+      <package full="" name="" sub="" category=""/>
+      <namespace name="VisualComposer\Framework"/>
+      <method name="__construct" signature="__construct(ApplicationVc $app)" start="28" end="38" crap="6" executable="7" executed="0" coverage="0"/>
+      <method name="saveComponents" signature="saveComponents($all)" start="45" end="58" crap="2" executable="5" executed="0" coverage="0"/>
+      <method name="initComponents" signature="initComponents($all)" start="65" end="76" crap="30" executable="5" executed="0" coverage="0"/>
+      <method name="getComponents" signature="getComponents()" start="81" end="117" crap="132" executable="21" executed="0" coverage="0"/>
+      <method name="shuffleAssoc" signature="shuffleAssoc($array)" start="126" end="137" crap="6" executable="6" executed="0" coverage="0"/>
+      <method name="isHelper" signature="isHelper($implements)" start="144" end="154" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="isModule" signature="isModule($implements)" start="161" end="171" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="checkTokens" signature="checkTokens($tokens)" start="178" end="220" crap="110" executable="23" executed="0" coverage="0"/>
+      <method name="checkKey" signature="checkKey($key, $value, $data)" start="229" end="259" crap="132" executable="21" executed="0" coverage="0"/>
+      <method name="useCache" signature="useCache()" start="264" end="277" crap="6" executable="6" executed="0" coverage="0"/>
+      <method name="getHelperName" signature="getHelperName($data)" start="284" end="296" crap="2" executable="4" executed="0" coverage="0"/>
+      <method name="getModuleName" signature="getModuleName($data)" start="303" end="315" crap="2" executable="4" executed="0" coverage="0"/>
+    </class>
+  </file>
+</phpunit>

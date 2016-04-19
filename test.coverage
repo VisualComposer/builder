@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1461050120">
+  <project timestamp="1461050120">
+    <package name="VisualComposer\Framework">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Application.php">
+        <class name="Application" namespace="VisualComposer\Framework">
+          <metrics complexity="10" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="12" coveredelements="12"/>
+        </class>
+        <line num="93" type="method" name="registerFilterBindings" visibility="protected" complexity="1" crap="1" count="1"/>
+        <line num="95" type="stmt" count="1"/>
+        <line num="96" type="stmt" count="1"/>
+        <line num="97" type="method" name="anonymous function" complexity="1" crap="1" count="1"/>
+        <line num="98" type="stmt" count="1"/>
+        <line num="99" type="stmt" count="1"/>
+        <line num="102" type="stmt" count="1"/>
+        <line num="113" type="method" name="make" visibility="public" complexity="3" crap="3" count="51"/>
+        <line num="115" type="stmt" count="51"/>
+        <line num="116" type="stmt" count="51"/>
+        <line num="118" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="123" type="stmt" count="51"/>
+        <metrics loc="133" ncloc="83" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="13" coveredelements="13"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Autoload.php">
+        <class name="Autoload" namespace="VisualComposer\Framework">
+          <metrics complexity="48" methods="12" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="106" coveredstatements="0" elements="118" coveredelements="0"/>
+        </class>
+        <line num="28" type="method" name="__construct" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="31" type="stmt" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="45" type="method" name="saveComponents" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="47" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="57" type="stmt" count="0"/>
+        <line num="65" type="method" name="initComponents" visibility="public" complexity="5" crap="30" count="0"/>
+        <line num="67" type="stmt" count="0"/>
+        <line num="68" type="stmt" count="0"/>
+        <line num="69" type="stmt" count="0"/>
+        <line num="72" type="stmt" count="0"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="81" type="method" name="getComponents" visibility="public" complexity="11" crap="132" count="0"/>
+        <line num="83" type="stmt" count="0"/>
+        <line num="85" type="stmt" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="95" type="stmt" count="0"/>
+        <line num="96" type="stmt" count="0"/>
+        <line num="99" type="stmt" count="0"/>
+        <line num="100" type="stmt" count="0"/>
+        <line num="101" type="stmt" count="0"/>
+        <line num="102" type="stmt" count="0"/>
+        <line num="103" type="stmt" count="0"/>
+        <line num="109" type="stmt" count="0"/>
+        <line num="110" type="stmt" count="0"/>
+        <line num="111" type="stmt" count="0"/>
+        <line num="113" type="stmt" count="0"/>
+        <line num="116" type="stmt" count="0"/>
+        <line num="126" type="method" name="shuffleAssoc" visibility="private" complexity="2" crap="6" count="0"/>
+        <line num="128" type="stmt" count="0"/>
+        <line num="130" type="stmt" count="0"/>
+        <line num="131" type="stmt" count="0"/>
+        <line num="132" type="stmt" count="0"/>
+        <line num="133" type="stmt" count="0"/>
+        <line num="136" type="stmt" count="0"/>
+        <line num="144" type="method" name="isHelper" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="146" type="stmt" count="0"/>
+        <line num="149" type="stmt" count="0"/>
+        <line num="161" type="method" name="isModule" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="163" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="178" type="method" name="checkTokens" visibility="public" complexity="10" crap="110" count="0"/>
+        <line num="185" type="stmt" count="0"/>
+        <line num="190" type="stmt" count="0"/>
+        <line num="191" type="stmt" count="0"/>
+        <line num="192" type="stmt" count="0"/>
+        <line num="193" type="stmt" count="0"/>
+        <line num="194" type="stmt" count="0"/>
+        <line num="196" type="stmt" count="0"/>
+        <line num="197" type="stmt" count="0"/>
+        <line num="198" type="stmt" count="0"/>
+        <line num="199" type="stmt" count="0"/>
+        <line num="200" type="stmt" count="0"/>
+        <line num="201" type="stmt" count="0"/>
+        <line num="202" type="stmt" count="0"/>
+        <line num="203" type="stmt" count="0"/>
+        <line num="204" type="stmt" count="0"/>
+        <line num="206" type="stmt" count="0"/>
+        <line num="207" type="stmt" count="0"/>
+        <line num="210" type="stmt" count="0"/>
+        <line num="211" type="stmt" count="0"/>
+        <line num="212" type="stmt" count="0"/>
+        <line num="213" type="stmt" count="0"/>
+        <line num="216" type="stmt" count="0"/>
+        <line num="219" type="stmt" count="0"/>
+        <line num="229" type="method" name="checkKey" visibility="protected" complexity="11" crap="132" count="0"/>
+        <line num="232" type="stmt" count="0"/>
+        <line num="233" type="stmt" count="0"/>
+        <line num="234" type="stmt" count="0"/>
+        <line num="236" type="stmt" count="0"/>
+        <line num="238" type="stmt" count="0"/>
+        <line num="239" type="stmt" count="0"/>
+        <line num="240" type="stmt" count="0"/>
+        <line num="241" type="stmt" count="0"/>
+        <line num="242" type="stmt" count="0"/>
+        <line num="243" type="stmt" count="0"/>
+        <line num="244" type="stmt" count="0"/>
+        <line num="245" type="stmt" count="0"/>
+        <line num="246" type="stmt" count="0"/>
+        <line num="248" type="stmt" count="0"/>
+        <line num="249" type="stmt" count="0"/>
+        <line num="250" type="stmt" count="0"/>
+        <line num="251" type="stmt" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="253" type="stmt" count="0"/>
+        <line num="255" type="stmt" count="0"/>
+        <line num="258" type="stmt" count="0"/>
+        <line num="264" type="method" name="useCache" visibility="protected" complexity="2" crap="6" count="0"/>
+        <line num="266" type="stmt" count="0"/>
+        <line num="267" type="stmt" count="0"/>
+        <line num="269" type="stmt" count="0"/>
+        <line num="271" type="stmt" count="0"/>
+        <line num="273" type="stmt" count="0"/>
+        <line num="276" type="stmt" count="0"/>
+        <line num="284" type="method" name="getHelperName" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="288" type="stmt" count="0"/>
+        <line num="293" type="stmt" count="0"/>
+        <line num="294" type="stmt" count="0"/>
+        <line num="303" type="method" name="getModuleName" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="305" type="stmt" count="0"/>
+        <line num="307" type="stmt" count="0"/>
+        <line num="312" type="stmt" count="0"/>
+        <line num="313" type="stmt" count="0"/>
+        <metrics loc="316" ncloc="241" classes="1" methods="12" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="106" coveredstatements="0" elements="118" coveredelements="0"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Container.php">
+        <class name="Container" namespace="VisualComposer\Framework">
+          <metrics complexity="4" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="6" elements="14" coveredelements="6"/>
+        </class>
+        <line num="24" type="method" name="call" visibility="protected" complexity="4" crap="6.50" count="23"/>
+        <line num="26" type="stmt" count="23"/>
+        <line num="27" type="stmt" count="23"/>
+        <line num="28" type="stmt" count="23"/>
+        <line num="29" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="23"/>
+        <line num="41" type="stmt" count="23"/>
+        <line num="43" type="stmt" count="0"/>
+        <line num="44" type="stmt" count="0"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="23"/>
+        <metrics loc="51" ncloc="38" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="6" elements="14" coveredelements="6"/>
+      </file>
+    </package>
+    <package name="VisualComposer\Framework\Illuminate\Container">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Container/BindingResolutionException.php">
+        <class name="BindingResolutionException" namespace="VisualComposer\Framework\Illuminate\Container">
+          <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        </class>
+        <metrics loc="12" ncloc="9" classes="1" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Container/Container.php">
+        <class name="Container" namespace="VisualComposer\Framework\Illuminate\Container">
+          <metrics complexity="127" methods="19" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="67" elements="88" coveredelements="85"/>
+        </class>
+        <line num="149" type="method" name="resolved" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="175" type="method" name="bind" visibility="public" complexity="5" crap="5" count="1"/>
+        <line num="180" type="stmt" count="1"/>
+        <line num="189" type="stmt" count="1"/>
+        <line num="191" type="stmt" count="1"/>
+        <line num="198" type="stmt" count="1"/>
+        <line num="202" type="stmt" count="1"/>
+        <line num="207" type="stmt" count="1"/>
+        <line num="210" type="stmt" count="1"/>
+        <line num="220" type="method" name="getClosure" visibility="protected" complexity="2" crap="2" count="1"/>
+        <line num="223" type="stmt" count="1"/>
+        <line num="225" type="stmt" count="1"/>
+        <line num="265" type="method" name="singleton" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="267" type="stmt" count="1"/>
+        <line num="269" type="stmt" count="1"/>
+        <line num="526" type="method" name="call" visibility="public" complexity="3" crap="3" count="28"/>
+        <line num="528" type="stmt" count="28"/>
+        <line num="532" type="stmt" count="28"/>
+        <line num="534" type="stmt" count="28"/>
+        <line num="544" type="method" name="isCallableWithAtSign" visibility="protected" complexity="2" crap="2" count="28"/>
+        <line num="546" type="stmt" count="28"/>
+        <line num="547" type="stmt" count="28"/>
+        <line num="588" type="method" name="make" visibility="public" complexity="5" crap="5.07" count="51"/>
+        <line num="590" type="stmt" count="51"/>
+        <line num="595" type="stmt" count="51"/>
+        <line num="596" type="stmt" count="51"/>
+        <line num="599" type="stmt" count="2"/>
+        <line num="604" type="stmt" count="2"/>
+        <line num="605" type="stmt" count="2"/>
+        <line num="607" type="stmt" count="0"/>
+        <line num="613" type="stmt" count="2"/>
+        <line num="614" type="stmt" count="0"/>
+        <line num="620" type="stmt" count="2"/>
+        <line num="621" type="stmt" count="2"/>
+        <line num="624" type="stmt" count="2"/>
+        <line num="626" type="stmt" count="2"/>
+        <line num="628" type="stmt" count="2"/>
+        <line num="638" type="method" name="getConcrete" visibility="protected" complexity="5" crap="5" count="2"/>
+        <line num="640" type="stmt" count="2"/>
+        <line num="647" type="stmt" count="2"/>
+        <line num="657" type="stmt" count="2"/>
+        <line num="667" type="method" name="getContextualConcrete" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="669" type="stmt" count="2"/>
+        <line num="673" type="stmt" count="2"/>
+        <line num="695" type="method" name="getExtenders" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="697" type="stmt" count="2"/>
+        <line num="701" type="stmt" count="2"/>
+        <line num="714" type="method" name="build" visibility="public" complexity="4" crap="4" count="2"/>
+        <line num="719" type="stmt" count="2"/>
+        <line num="720" type="stmt" count="2"/>
+        <line num="723" type="stmt" count="1"/>
+        <line num="728" type="stmt" count="1"/>
+        <line num="734" type="stmt" count="1"/>
+        <line num="736" type="stmt" count="1"/>
+        <line num="741" type="stmt" count="1"/>
+        <line num="742" type="stmt" count="1"/>
+        <line num="744" type="stmt" count="1"/>
+        <line num="966" type="method" name="fireResolvingCallbacks" visibility="protected" complexity="1" crap="1" count="2"/>
+        <line num="968" type="stmt" count="2"/>
+        <line num="970" type="stmt" count="2"/>
+        <line num="972" type="stmt" count="2"/>
+        <line num="975" type="stmt" count="2"/>
+        <line num="979" type="stmt" count="2"/>
+        <line num="981" type="stmt" count="2"/>
+        <line num="983" type="stmt" count="2"/>
+        <line num="986" type="stmt" count="2"/>
+        <line num="989" type="stmt" count="2"/>
+        <line num="1000" type="method" name="getCallbacksForType" visibility="protected" complexity="4" crap="4" count="2"/>
+        <line num="1002" type="stmt" count="2"/>
+        <line num="1004" type="stmt" count="2"/>
+        <line num="1010" type="stmt" count="2"/>
+        <line num="1019" type="method" name="fireCallbackArray" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="1021" type="stmt" count="2"/>
+        <line num="1024" type="stmt" count="2"/>
+        <line num="1033" type="method" name="isShared" visibility="public" complexity="3" crap="3" count="2"/>
+        <line num="1035" type="stmt" count="2"/>
+        <line num="1036" type="stmt" count="2"/>
+        <line num="1041" type="stmt" count="2"/>
+        <line num="1052" type="method" name="isBuildable" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="1054" type="stmt" count="2"/>
+        <line num="1064" type="method" name="getAlias" visibility="protected" complexity="2" crap="2" count="51"/>
+        <line num="1066" type="stmt" count="51"/>
+        <line num="1086" type="method" name="dropStaleInstances" visibility="protected" complexity="1" crap="1" count="1"/>
+        <line num="1088" type="stmt" count="1"/>
+        <line num="1089" type="stmt" count="1"/>
+        <line num="1131" type="method" name="getInstance" visibility="public" complexity="1" crap="1" count="51"/>
+        <line num="1133" type="stmt" count="51"/>
+        <metrics loc="1230" ncloc="586" classes="1" methods="19" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="67" elements="88" coveredelements="85"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Container/ContextualBindingBuilder.php">
+        <class name="ContextualBindingBuilder" namespace="VisualComposer\Framework\Illuminate\Container">
+          <metrics complexity="3" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="10" coveredelements="0"/>
+        </class>
+        <line num="35" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="37" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="48" type="method" name="needs" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="50" type="stmt" count="0"/>
+        <line num="52" type="stmt" count="0"/>
+        <line num="60" type="method" name="give" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="62" type="stmt" count="0"/>
+        <line num="63" type="stmt" count="0"/>
+        <metrics loc="64" ncloc="30" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="10" coveredelements="0"/>
+      </file>
+    </package>
+    <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Contracts/Container/ContextualBindingBuilder.php">
+      <metrics loc="25" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Contracts/Filters/Dispatcher.php">
+      <metrics loc="12" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <package name="VisualComposer\Framework\Illuminate\Events">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Events/Dispatcher.php">
+        <class name="Dispatcher" namespace="VisualComposer\Framework\Illuminate\Events">
+          <metrics complexity="34" methods="17" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="66" coveredstatements="25" elements="83" coveredelements="29"/>
+        </class>
+        <line num="57" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="59" type="stmt" count="1"/>
+        <line num="60" type="stmt" count="1"/>
+        <line num="69" type="method" name="listen" visibility="public" complexity="3" crap="3.03" count="5"/>
+        <line num="72" type="stmt" count="5"/>
+        <line num="73" type="stmt" count="5"/>
+        <line num="74" type="stmt" count="5"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="5"/>
+        <line num="79" type="stmt" count="5"/>
+        <line num="82" type="stmt" count="5"/>
+        <line num="90" type="method" name="setupWildcardListen" visibility="protected" complexity="1" crap="2" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="0"/>
+        <line num="102" type="method" name="hasListeners" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="113" type="method" name="push" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="115" type="stmt" count="0"/>
+        <line num="116" type="stmt" count="0"/>
+        <line num="117" type="method" name="anonymous function" complexity="1" crap="2" count="0"/>
+        <line num="119" type="stmt" count="0"/>
+        <line num="121" type="stmt" count="0"/>
+        <line num="128" type="method" name="subscribe" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="130" type="stmt" count="0"/>
+        <line num="132" type="stmt" count="0"/>
+        <line num="133" type="stmt" count="0"/>
+        <line num="142" type="method" name="resolveSubscriber" visibility="protected" complexity="2" crap="6" count="0"/>
+        <line num="144" type="stmt" count="0"/>
+        <line num="145" type="stmt" count="0"/>
+        <line num="148" type="stmt" count="0"/>
+        <line num="159" type="method" name="until" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="161" type="stmt" count="0"/>
+        <line num="171" type="method" name="flush" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="173" type="stmt" count="0"/>
+        <line num="174" type="stmt" count="0"/>
+        <line num="181" type="method" name="firing" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="195" type="method" name="fire" visibility="public" complexity="8" crap="72" count="0"/>
+        <line num="200" type="stmt" count="0"/>
+        <line num="201" type="stmt" count="0"/>
+        <line num="204" type="stmt" count="0"/>
+        <line num="209" type="stmt" count="0"/>
+        <line num="210" type="stmt" count="0"/>
+        <line num="213" type="stmt" count="0"/>
+        <line num="215" type="stmt" count="0"/>
+        <line num="216" type="stmt" count="0"/>
+        <line num="217" type="stmt" count="0"/>
+        <line num="222" type="stmt" count="0"/>
+        <line num="223" type="stmt" count="0"/>
+        <line num="225" type="stmt" count="0"/>
+        <line num="231" type="stmt" count="0"/>
+        <line num="232" type="stmt" count="0"/>
+        <line num="235" type="stmt" count="0"/>
+        <line num="238" type="stmt" count="0"/>
+        <line num="240" type="stmt" count="0"/>
+        <line num="250" type="method" name="getListeners" visibility="public" complexity="2" crap="2" count="5"/>
+        <line num="252" type="stmt" count="5"/>
+        <line num="254" type="stmt" count="5"/>
+        <line num="255" type="stmt" count="5"/>
+        <line num="258" type="stmt" count="5"/>
+        <line num="268" type="method" name="getWildcardListeners" visibility="protected" complexity="3" crap="3.33" count="5"/>
+        <line num="270" type="stmt" count="5"/>
+        <line num="272" type="stmt" count="5"/>
+        <line num="273" type="stmt" count="5"/>
+        <line num="274" type="stmt" count="0"/>
+        <line num="275" type="stmt" count="0"/>
+        <line num="279" type="stmt" count="5"/>
+        <line num="289" type="method" name="sortListeners" visibility="protected" complexity="2" crap="2" count="5"/>
+        <line num="291" type="stmt" count="5"/>
+        <line num="296" type="stmt" count="5"/>
+        <line num="297" type="stmt" count="5"/>
+        <line num="299" type="stmt" count="5"/>
+        <line num="300" type="stmt" count="5"/>
+        <line num="301" type="stmt" count="5"/>
+        <line num="304" type="stmt" count="5"/>
+        <line num="313" type="method" name="forget" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="315" type="stmt" count="5"/>
+        <line num="316" type="stmt" count="5"/>
+        <line num="323" type="method" name="forgetPushed" visibility="public" complexity="3" crap="12" count="0"/>
+        <line num="326" type="stmt" count="0"/>
+        <line num="327" type="stmt" count="0"/>
+        <line num="328" type="stmt" count="0"/>
+        <line num="329" type="stmt" count="0"/>
+        <line num="332" type="stmt" count="0"/>
+        <metrics loc="333" ncloc="161" classes="1" methods="17" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="25" elements="84" coveredelements="29"/>
+      </file>
+    </package>
+    <package name="VisualComposer\Framework\Illuminate\Filters">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Filters/Dispatcher.php">
+        <class name="Dispatcher" namespace="VisualComposer\Framework\Illuminate\Filters">
+          <metrics complexity="7" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="13" elements="17" coveredelements="13"/>
+        </class>
+        <line num="21" type="method" name="fire" visibility="public" complexity="7" crap="7.32" count="5"/>
+        <line num="26" type="stmt" count="5"/>
+        <line num="27" type="stmt" count="0"/>
+        <line num="30" type="stmt" count="5"/>
+        <line num="35" type="stmt" count="5"/>
+        <line num="36" type="stmt" count="5"/>
+        <line num="39" type="stmt" count="5"/>
+        <line num="41" type="stmt" count="5"/>
+        <line num="42" type="stmt" count="5"/>
+        <line num="43" type="stmt" count="5"/>
+        <line num="44" type="stmt" count="5"/>
+        <line num="49" type="stmt" count="5"/>
+        <line num="50" type="stmt" count="0"/>
+        <line num="52" type="stmt" count="0"/>
+        <line num="55" type="stmt" count="5"/>
+        <line num="58" type="stmt" count="5"/>
+        <line num="60" type="stmt" count="5"/>
+        <metrics loc="62" ncloc="29" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="13" elements="17" coveredelements="13"/>
+      </file>
+    </package>
+    <package name="VisualComposer\Framework\Illuminate\Support\Traits">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/Illuminate/Support/Traits/Container.php">
+        <class name="Container" namespace="VisualComposer\Framework\Illuminate\Support\Traits">
+          <metrics complexity="19" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="32" elements="40" coveredelements="34"/>
+        </class>
+        <line num="19" type="method" name="hasStringKeys" visibility="protected" complexity="1" crap="1" count="51"/>
+        <line num="21" type="stmt" count="51"/>
+        <line num="32" type="method" name="getMethodDependencies" visibility="protected" complexity="2" crap="2" count="51"/>
+        <line num="34" type="stmt" count="51"/>
+        <line num="35" type="stmt" count="51"/>
+        <line num="37" type="stmt" count="51"/>
+        <line num="38" type="stmt" count="49"/>
+        <line num="41" type="stmt" count="51"/>
+        <line num="51" type="method" name="getCallReflector" visibility="protected" complexity="4" crap="4.59" count="51"/>
+        <line num="54" type="stmt" count="51"/>
+        <line num="55" type="stmt" count="51"/>
+        <line num="56" type="stmt" count="0"/>
+        <line num="59" type="stmt" count="51"/>
+        <line num="60" type="stmt" count="0"/>
+        <line num="63" type="stmt" count="51"/>
+        <line num="77" type="method" name="addDependencyForCallParameter" visibility="protected" complexity="12" crap="12.08" count="49"/>
+        <line num="83" type="stmt" count="49"/>
+        <line num="85" type="stmt" count="34"/>
+        <line num="86" type="stmt" count="16"/>
+        <line num="87" type="stmt" count="16"/>
+        <line num="88" type="stmt" count="30"/>
+        <line num="89" type="stmt" count="22"/>
+        <line num="90" type="stmt" count="14"/>
+        <line num="91" type="stmt" count="34"/>
+        <line num="98" type="stmt" count="29"/>
+        <line num="99" type="stmt" count="13"/>
+        <line num="100" type="stmt" count="13"/>
+        <line num="101" type="stmt" count="4"/>
+        <line num="102" type="stmt" count="4"/>
+        <line num="103" type="stmt" count="4"/>
+        <line num="104" type="stmt" count="4"/>
+        <line num="105" type="stmt" count="4"/>
+        <line num="107" type="stmt" count="4"/>
+        <line num="110" type="stmt" count="13"/>
+        <line num="113" type="stmt" count="29"/>
+        <line num="114" type="stmt" count="29"/>
+        <line num="115" type="stmt" count="29"/>
+        <line num="116" type="stmt" count="0"/>
+        <line num="117" type="stmt" count="0"/>
+        <line num="121" type="stmt" count="49"/>
+        <metrics loc="122" ncloc="77" classes="1" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="32" elements="40" coveredelements="34"/>
+      </file>
+    </package>
+    <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Framework/helpers.php">
+      <line num="16" type="stmt" count="51"/>
+      <line num="17" type="stmt" count="44"/>
+      <line num="20" type="stmt" count="51"/>
+      <line num="35" type="stmt" count="51"/>
+      <metrics loc="67" ncloc="35" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="4" coveredelements="4"/>
+    </file>
+    <metrics files="12" loc="2427" ncloc="1308" classes="9" methods="60" coveredmethods="27" conditionals="0" coveredconditionals="0" statements="328" coveredstatements="157" elements="388" coveredelements="184"/>
+  </project>
+</coverage>

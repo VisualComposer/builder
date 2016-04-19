@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
+  <file name="ContextualBindingBuilder.php">
+    <totals>
+      <lines total="25" comments="15" code="10" executable="0" executed="0" percent=""/>
+      <methods count="0" tested="0" percent=""/>
+      <functions count="0" tested="0" percent=""/>
+      <classes count="0" tested="0" percent=""/>
+      <traits count="0" tested="0" percent=""/>
+    </totals>
+  </file>
+</phpunit>

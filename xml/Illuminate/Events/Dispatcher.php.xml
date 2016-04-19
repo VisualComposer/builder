@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<phpunit xmlns="http://schema.phpunit.de/coverage/1.0">
+  <file name="Dispatcher.php">
+    <totals>
+      <lines total="333" comments="172" code="161" executable="67" executed="25" percent="37.31%"/>
+      <methods count="17" tested="4" percent="23.53%"/>
+      <functions count="0" tested="0" percent=""/>
+      <classes count="1" tested="0" percent="0.00%"/>
+      <traits count="0" tested="0" percent=""/>
+    </totals>
+    <class name="Dispatcher" start="13" executable="67" executed="25" crap="318.76">
+      <package full="" name="" sub="" category=""/>
+      <namespace name="VisualComposer\Framework\Illuminate\Events"/>
+      <method name="__construct" signature="__construct(ContainerContract $container = null)" start="57" end="60" crap="2" executable="2" executed="2" coverage="100"/>
+      <method name="listen" signature="listen($events, $listener, $weight = 0)" start="69" end="82" crap="3.03" executable="7" executed="6" coverage="85.714285714286"/>
+      <method name="setupWildcardListen" signature="setupWildcardListen($event, $listener)" start="90" end="93" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="hasListeners" signature="hasListeners($eventName)" start="102" end="105" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="push" signature="push($event, $payload = [])" start="113" end="121" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="anonymous function" signature="anonymous function () use ($event, $payload)" start="117" end="119" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="subscribe" signature="subscribe($subscriber)" start="128" end="133" crap="2" executable="3" executed="0" coverage="0"/>
+      <method name="resolveSubscriber" signature="resolveSubscriber($subscriber)" start="142" end="149" crap="6" executable="3" executed="0" coverage="0"/>
+      <method name="until" signature="until($event, $payload = [])" start="159" end="162" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="flush" signature="flush($event)" start="171" end="174" crap="2" executable="2" executed="0" coverage="0"/>
+      <method name="firing" signature="firing()" start="181" end="184" crap="2" executable="1" executed="0" coverage="0"/>
+      <method name="fire" signature="fire($event, $payload = [], $halt = false)" start="195" end="241" crap="72" executable="17" executed="0" coverage="0"/>
+      <method name="getListeners" signature="getListeners($eventName)" start="250" end="259" crap="2" executable="4" executed="4" coverage="100"/>
+      <method name="getWildcardListeners" signature="getWildcardListeners($eventName)" start="268" end="280" crap="3.33" executable="6" executed="4" coverage="66.666666666667"/>
+      <method name="sortListeners" signature="sortListeners($eventName)" start="289" end="304" crap="2" executable="7" executed="7" coverage="100"/>
+      <method name="forget" signature="forget($event)" start="313" end="316" crap="1" executable="2" executed="2" coverage="100"/>
+      <method name="forgetPushed" signature="forgetPushed()" start="323" end="332" crap="12" executable="5" executed="0" coverage="0"/>
+    </class>
+    <coverage>
+      <line nr="59">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="60">
+        <covered by="TestFilters::test_simple_filters"/>
+      </line>
+      <line nr="72">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="73">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="74">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="77">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="79">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="82">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="252">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="254">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="255">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="258">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="270">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="272">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="273">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="279">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="291">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="296">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="297">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="299">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="300">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="301">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="304">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="315">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+      <line nr="316">
+        <covered by="TestFilters::test_simple_filters"/>
+        <covered by="TestFilters::test_filters_weight"/>
+        <covered by="TestFilters::test_filters_weight_random"/>
+        <covered by="TestFilters::test_filters_weight_shuffle"/>
+        <covered by="TestFilters::test_filters_value_passing"/>
+      </line>
+    </coverage>
+  </file>
+</phpunit>
