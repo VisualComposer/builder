@@ -7,6 +7,7 @@ test1:
   script:
     - phpunit --configuration=ci/phpunit.xml
     - ls -la
+    - cat test.coverage
     - php ci/coverage-test.php
   tags:
     - docker
