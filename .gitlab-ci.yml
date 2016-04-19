@@ -5,18 +5,19 @@ before_script:
 
 test1:
   script:
-    - phpunit --configuration=ci/phpunit.xml
+    - phpunit --config=ci/phpunit.xml
+    - cat test.log
   tags:
     - docker
 
 #test2:
 #  script:
-#    - phpunit --configuration=ci/phpunit-2.xml
+#    - phpunit --config=ci/phpunit-2.xml
 #  tags:
 #    - docker
 #
 #test3:
 #  script:
-#    - phpunit --configuration=ci/phpunit-3.xml
+#    - phpunit --config=ci/phpunit-3.xml
 #  tags:
 #    - docker
