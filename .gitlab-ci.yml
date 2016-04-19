@@ -5,6 +5,7 @@ before_script:
 
 test1:
   script:
+    - ls -la
     - phpunit --config=ci/phpunit.xml
     - cat test.log
   tags:
