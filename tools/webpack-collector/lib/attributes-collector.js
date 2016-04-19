@@ -8,7 +8,7 @@ var Collector = {
   buildFile: function(prefix, attributes) {
     var content = "var join = require('path').join;\n";
     attributes.forEach(function(f) {
-      content += uf("require('./%s/%s/attribute.js');\n", config.attributePath, f);
+      content += uf("require('../%s/%s/attribute.js');\n", config.attributePath, f);
     });
     this.writeToFile(prefix, content);
   },

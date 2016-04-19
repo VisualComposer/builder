@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/main',
+    node: './public/node-main',
     wp: './public/wp-main',
     app: []
   },

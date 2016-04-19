@@ -1,7 +1,7 @@
 import {_} from 'lodash';
 
 const items = {};
-export default elementSettings = {
+export default {
   add(settings) {
     items[settings.tag.value] = _.defaults(settings, {tag: null, getter: null});
   },

@@ -8,7 +8,7 @@ var ServicesCollector = {
   buildFile: function(prefix, services) {
     var content = "";
     services.forEach(function(f) {
-      content += uf("require('./%s/%s/service.js');\n", config.servicePath, f);
+      content += uf("require('../%s/%s/service.js');\n", config.servicePath, f);
     });
     this.writeToFile(prefix, content);
   },

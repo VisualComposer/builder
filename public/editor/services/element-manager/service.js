@@ -1,10 +1,8 @@
 import {getService, addService} from 'vc-cake';
 import {default as elementSettings} from './lib/element-settings';
-import _ from 'lodash';
 
 const documentManager = getService('document');
 const attributesManager = getService('attributes');
-
 class Element {
   constructor(id) {
     this.element = {};
@@ -25,12 +23,12 @@ class Element {
         let getter = function(element, key){
           return function() {
             attributeSettings.getValue(element, key);
-          }
+          };
         };
-        let setter = function(element, key, value) {
+        let setter = function(element, key) {
           return function(value) {
             attributeSettings.setter(this.element, key, value);
-          }
+          };
         };
         if ('undefined' === typeof option.acesss || 'protected' === option.access) {
           Object.defineProperty(settings, key, {
@@ -48,8 +46,8 @@ class Element {
             set: setter(this.element, key)
           });
         } else if ('group' === option.access) {
-          var groupGetter =   function(key) {
-            return function(key) {
+          var groupGetter =  function() {
+            return function() {
                 return {
 
                 };
@@ -60,12 +58,12 @@ class Element {
             configurable: false,
             writable: false,
             get: groupGetter
-          }
+          });
         }
       });
   }
 
-  build() {
+  buildElement() {
     this.buildAttributes();
     return this.element;
   }
@@ -75,7 +73,7 @@ class Element {
 addService('element-manager', {
   get: function(id) {
     var element = new Element(id);
-    return element.build();
+    return element.buildElement();
   },
   addElement: function(settings) {
     elementSettings.add(settings);
