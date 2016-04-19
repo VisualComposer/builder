@@ -6,7 +6,7 @@ before_script:
 test1:
   script:
     - phpunit --configuration=ci/phpunit.xml
-    - php ci/test-coverage.php
+    - php ci/coverage-test.php
   tags:
     - docker
 
