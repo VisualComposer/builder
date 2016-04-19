@@ -14,10 +14,8 @@
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory suffix=".php">../visualcomposer</directory>
-            <directory suffix=".php">../bootstrap</directory>
-            <file>../plugin-wordpress.php</file>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../visualcomposer/Framework</directory>
         </whitelist>
     </filter>
 

@@ -9,14 +9,14 @@ test1:
   tags:
     - docker
 
-test2:
-  script:
-    - phpunit --configuration=ci/phpunit-2.xml
-  tags:
-    - docker
-
-test3:
-  script:
-    - phpunit --configuration=ci/phpunit-3.xml
-  tags:
-    - docker
+#test2:
+#  script:
+#    - phpunit --configuration=ci/phpunit-2.xml
+#  tags:
+#    - docker
+#
+#test3:
+#  script:
+#    - phpunit --configuration=ci/phpunit-3.xml
+#  tags:
+#    - docker
