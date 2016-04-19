@@ -6,7 +6,7 @@ before_script:
 test1:
   script:
     - ls -la
-    - phpunit --config=ci/phpunit.xml
+    - phpunit --configuration=ci/phpunit.xml --include-path="tests"
     - cat test.log
   tags:
     - docker
