@@ -238,6 +238,12 @@ class TestFilters extends WP_UnitTestCase
         );
 
         $value = $helper->fire('test-filter', 0);
+        // 0 abs
+        // 0 - 100
+        // -100 - 100
+        // -200 + 100
+        // -100 abs
+        // 100
         $this->assertEquals(100, $value);
         /*$this->assertFalse((bool)($value & 1), $value);
         $this->assertFalse((bool)($value & 2), $value);
