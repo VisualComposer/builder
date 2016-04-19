@@ -1,6 +1,6 @@
 <?php
 $exit = 0;
-$filePath = realpath(__DIR__ . '/../test.coverage');
+$filePath = __DIR__ . '/../test.coverage';
 if (file_exists($filePath)) {
     $xml = simplexml_load_file($filePath);
     $packageFiles = $xml->project->package->file;
