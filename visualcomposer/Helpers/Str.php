@@ -108,7 +108,7 @@ class Str implements Helper
      */
     public function is($pattern, $value)
     {
-        if ($pattern == $value) {
+        if ($pattern === $value) {
             return true;
         }
 
@@ -230,6 +230,10 @@ class Str implements Helper
      */
     public function randomBytes($length = 16)
     {
+        if (intval($length) < 1) {
+            return '';
+        }
+
         if (function_exists('random_bytes')) {
             $bytes = random_bytes($length);
         } elseif (function_exists('openssl_random_pseudo_bytes')) {
@@ -255,6 +259,10 @@ class Str implements Helper
      */
     public function quickRandom($length = 16)
     {
+        if (intval($length) < 1) {
+            return '';
+        }
+
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
