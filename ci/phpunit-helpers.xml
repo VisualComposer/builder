@@ -19,4 +19,7 @@
         </whitelist>
     </filter>
 
+    <logging>
+        <log type="coverage-clover" target="../test.coverage"/>
+    </logging>
 </phpunit>
