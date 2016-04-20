@@ -1,4 +1,4 @@
-image: reactoranime/test-docker
+image: wpbakery/ci-wordpress
 
 before_script:
   - composer install
