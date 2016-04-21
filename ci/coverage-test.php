@@ -12,7 +12,7 @@ if (file_exists($filePath)) {
         if ($total > 0) {
             $covered = (float)$file->metrics->attributes()->coveredelements;
             $coveredCoeff = $covered / $total;
-            if ($coveredCoeff < 0.5) {
+            if ($coveredCoeff < 0.7) {
                 $fileName = (string)$file->attributes()->name;
                 echo 'File: (' . str_replace($microPath, '', $fileName) . ') coverage(' . (round(
                         $coveredCoeff * 100,
