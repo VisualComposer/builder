@@ -14,7 +14,7 @@ Application `vcapp()->call($callback)` and any class that extends `\VisualCompos
 	    $func = function (
 	        $param1,
 	        $param2 = [],
-	        \VisualComposer\Helpers\Generic\Templates $templates
+	        \VisualComposer\Helpers\Templates $templates
 	    ) {
 	        $this->assertEquals('params one', $param1);
 	        $this->assertEquals(['my second param'], $param2);
@@ -28,7 +28,7 @@ Application `vcapp()->call($callback)` and any class that extends `\VisualCompos
 - No difference where injection object is written
 
 	    $func = function (
-	        \VisualComposer\Helpers\Generic\Templates $templates,
+	        \VisualComposer\Helpers\Templates $templates,
 	        $param1,
 	        $param2 = []
 	    ) {
@@ -45,7 +45,7 @@ Application `vcapp()->call($callback)` and any class that extends `\VisualCompos
 
 	    $func = function (
 	        $param1,
-	        \VisualComposer\Helpers\Generic\Templates $templates,
+	        \VisualComposer\Helpers\Templates $templates,
 	        $param2 = []
 	    ) {
 	        $this->assertEquals('params one', $param1);
@@ -63,7 +63,7 @@ Application `vcapp()->call($callback)` and any class that extends `\VisualCompos
 	    $func = function (
 	        $param1,
 	        $param2 = [],
-	        \VisualComposer\Helpers\Generic\Templates $templates
+	        \VisualComposer\Helpers\Templates $templates
 	    ) {
 	        $this->assertEquals('params one', $param1);
 	        $this->assertEquals(['my second param'], $param2);

@@ -2,16 +2,16 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\Role\Access;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Access\Role;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Roles
- * @package VisualComposer\Modules\Settings\Pages
  */
-class Roles extends Container
+class Roles extends Container implements Module
 {
     use Page;
     /**
@@ -46,7 +46,7 @@ class Roles extends Container
     ];
 
     /**
-     * Roles constructor.
+     * Roles constructor
      */
     public function __construct()
     {
@@ -55,7 +55,8 @@ class Roles extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            60
         );
 
         add_action(
@@ -94,7 +95,7 @@ class Roles extends Container
     }
 
     /**
-     * Check required capability for this role to have user access.
+     * Check required capability for this role to have user access
      *
      * @param $part
      *
@@ -235,9 +236,9 @@ class Roles extends Container
      * @param $part
      * @param $roles
      * @param $settings
-     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
+     * @param \VisualComposer\Helpers\Access\Role $roleAccess
      */
-    private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
+    private function parseRole($role, $part, $roles, $settings, Role $roleAccess)
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';

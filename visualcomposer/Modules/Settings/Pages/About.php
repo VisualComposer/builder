@@ -2,16 +2,16 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About
- * @package VisualComposer\Modules\Settings\Pages
  */
-class About extends Container
+class About extends Container implements Module
 {
     use Page;
     /**
@@ -32,7 +32,7 @@ class About extends Container
     protected $tabs;
 
     /**
-     * About constructor.
+     * About constructor
      */
     public function __construct()
     {
@@ -41,7 +41,8 @@ class About extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            70
         );
 
         $this->setTabs(
@@ -110,11 +111,11 @@ class About extends Container
      * Render page
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    protected function beforeRender(Request $request, CurrentUserAccess $currentUserAccess)
+    protected function beforeRender(Request $request, CurrentUser $currentUserAccess)
     {
         $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vcv-general-tab')
                                                  ->get()

@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Hub */
-if (vcapp('settingsPageAuthorization')->isAuthorized()) {
+if (vcapp('SettingsPagesAuthorization')->isAuthorized()) {
     $view = 'authorized-state';
 } else {
     $view = 'unauthorized-state';

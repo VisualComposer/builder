@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Framework\Illuminate\Support\Traits;
 
 use ReflectionFunction;
@@ -7,7 +8,6 @@ use ReflectionParameter;
 
 /**
  * Class Container
- * @package VisualComposer\Framework\Illuminate\Support\Traits
  */
 trait Container
 {
@@ -22,7 +22,7 @@ trait Container
     }
 
     /**
-     * Get all dependencies for a given method.
+     * Get all dependencies for a given method
      *
      * @param  callable|string $callback
      * @param  array $parameters
@@ -42,7 +42,7 @@ trait Container
     }
 
     /**
-     * Get the proper reflection instance for the given callback.
+     * Get the proper reflection instance for the given callback
      *
      * @param  callable|string $callback
      *
@@ -50,7 +50,9 @@ trait Container
      */
     protected function getCallReflector($callback)
     {
-        if (is_string($callback) && strpos($callback, '::') !== false) {
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
+        if (is_string($callback) && $strHelper->contains($callback, '::')) {
             $callback = explode('::', $callback);
         }
 
@@ -62,11 +64,13 @@ trait Container
     }
 
     /**
-     * Get the dependency for the given call parameter.
+     * Get the dependency for the given call parameter
      *
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
      * @param  array $dependencies
+     *
+     * @param $assoc
      *
      * @return mixed
      */

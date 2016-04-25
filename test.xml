@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1461425469">
+  <project timestamp="1461425469">
+    <package name="VisualComposer\Helpers\Access">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Access/CurrentUser.php">
+        <class name="CurrentUser" namespace="VisualComposer\Helpers\Access">
+          <metrics complexity="18" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="41" elements="48" coveredelements="48"/>
+        </class>
+        <line num="23" type="method" name="part" visibility="public" complexity="4" crap="4" count="13"/>
+        <line num="25" type="stmt" count="13"/>
+        <line num="26" type="stmt" count="2"/>
+        <line num="28" type="stmt" count="13"/>
+        <line num="30" type="stmt" count="13"/>
+        <line num="31" type="stmt" count="13"/>
+        <line num="33" type="stmt" count="13"/>
+        <line num="35" type="stmt" count="13"/>
+        <line num="45" type="method" name="wpMulti" visibility="public" complexity="5" crap="5" count="4"/>
+        <line num="47" type="stmt" count="4"/>
+        <line num="48" type="stmt" count="4"/>
+        <line num="50" type="stmt" count="4"/>
+        <line num="51" type="stmt" count="4"/>
+        <line num="52" type="stmt" count="4"/>
+        <line num="53" type="stmt" count="4"/>
+        <line num="55" type="stmt" count="4"/>
+        <line num="56" type="stmt" count="4"/>
+        <line num="57" type="stmt" count="4"/>
+        <line num="58" type="stmt" count="4"/>
+        <line num="59" type="stmt" count="4"/>
+        <line num="60" type="stmt" count="4"/>
+        <line num="63" type="stmt" count="4"/>
+        <line num="66" type="stmt" count="4"/>
+        <line num="74" type="method" name="wpAny" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="76" type="stmt" count="4"/>
+        <line num="77" type="stmt" count="4"/>
+        <line num="78" type="stmt" count="4"/>
+        <line num="81" type="stmt" count="4"/>
+        <line num="89" type="method" name="wpAll" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="91" type="stmt" count="4"/>
+        <line num="92" type="stmt" count="4"/>
+        <line num="93" type="stmt" count="4"/>
+        <line num="96" type="stmt" count="4"/>
+        <line num="106" type="method" name="getCapRule" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="108" type="stmt" count="4"/>
+        <line num="110" type="stmt" count="4"/>
+        <line num="119" type="method" name="setCapRule" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="121" type="stmt" count="3"/>
+        <line num="123" type="stmt" count="3"/>
+        <line num="124" type="stmt" count="3"/>
+        <line num="129" type="method" name="getRole" visibility="public" complexity="3" crap="3" count="12"/>
+        <line num="131" type="stmt" count="12"/>
+        <line num="132" type="stmt" count="1"/>
+        <line num="133" type="stmt" count="1"/>
+        <line num="134" type="stmt" count="1"/>
+        <line num="135" type="stmt" count="1"/>
+        <line num="136" type="stmt" count="1"/>
+        <line num="139" type="stmt" count="12"/>
+        <metrics loc="141" ncloc="89" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="41" elements="48" coveredelements="48"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Access/Role.php">
+        <class name="Role" namespace="VisualComposer\Helpers\Access">
+          <metrics complexity="50" methods="20" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="89" coveredstatements="66" elements="109" coveredelements="78"/>
+        </class>
+        <line num="50" type="method" name="part" visibility="public" complexity="3" crap="3.02" count="12"/>
+        <line num="52" type="stmt" count="12"/>
+        <line num="53" type="stmt" count="9"/>
+        <line num="55" type="stmt" count="12"/>
+        <line num="57" type="stmt" count="12"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="61" type="stmt" count="12"/>
+        <line num="62" type="stmt" count="12"/>
+        <line num="64" type="stmt" count="12"/>
+        <line num="74" type="method" name="who" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="76" type="stmt" count="6"/>
+        <line num="78" type="stmt" count="6"/>
+        <line num="84" type="method" name="getRoleName" visibility="public" complexity="1" crap="1" count="14"/>
+        <line num="86" type="stmt" count="14"/>
+        <line num="94" type="method" name="setRoleName" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="96" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="0"/>
+        <line num="103" type="method" name="getPart" visibility="public" complexity="1" crap="1" count="18"/>
+        <line num="105" type="stmt" count="18"/>
+        <line num="113" type="method" name="getState" visibility="public" complexity="3" crap="3" count="18"/>
+        <line num="115" type="stmt" count="18"/>
+        <line num="116" type="stmt" count="18"/>
+        <line num="117" type="stmt" count="18"/>
+        <line num="118" type="stmt" count="9"/>
+        <line num="121" type="stmt" count="18"/>
+        <line num="136" type="method" name="setState" visibility="public" complexity="2" crap="2" count="9"/>
+        <line num="138" type="stmt" count="9"/>
+        <line num="139" type="stmt" count="9"/>
+        <line num="140" type="stmt" count="9"/>
+        <line num="152" type="method" name="can" visibility="public" complexity="12" crap="13.77" count="16"/>
+        <line num="154" type="stmt" count="16"/>
+        <line num="155" type="stmt" count="16"/>
+        <line num="156" type="stmt" count="0"/>
+        <line num="158" type="stmt" count="16"/>
+        <line num="159" type="stmt" count="0"/>
+        <line num="160" type="stmt" count="16"/>
+        <line num="162" type="stmt" count="16"/>
+        <line num="163" type="stmt" count="0"/>
+        <line num="164" type="stmt" count="16"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="168" type="stmt" count="0"/>
+        <line num="170" type="stmt" count="16"/>
+        <line num="172" type="stmt" count="16"/>
+        <line num="173" type="stmt" count="16"/>
+        <line num="174" type="stmt" count="16"/>
+        <line num="175" type="stmt" count="16"/>
+        <line num="176" type="stmt" count="10"/>
+        <line num="177" type="stmt" count="9"/>
+        <line num="178" type="stmt" count="6"/>
+        <line num="179" type="stmt" count="6"/>
+        <line num="180" type="stmt" count="16"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="185" type="stmt" count="16"/>
+        <line num="186" type="stmt" count="16"/>
+        <line num="187" type="stmt" count="16"/>
+        <line num="190" type="stmt" count="16"/>
+        <line num="197" type="method" name="canAny" visibility="public" complexity="2" crap="2" count="11"/>
+        <line num="199" type="stmt" count="11"/>
+        <line num="200" type="stmt" count="11"/>
+        <line num="201" type="stmt" count="11"/>
+        <line num="204" type="stmt" count="11"/>
+        <line num="211" type="method" name="canAll" visibility="public" complexity="2" crap="2" count="11"/>
+        <line num="213" type="stmt" count="11"/>
+        <line num="214" type="stmt" count="11"/>
+        <line num="215" type="stmt" count="11"/>
+        <line num="218" type="stmt" count="11"/>
+        <line num="228" type="method" name="getCapRule" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="230" type="stmt" count="2"/>
+        <line num="232" type="stmt" count="2"/>
+        <line num="241" type="method" name="setCapRule" visibility="public" complexity="2" crap="2" count="6"/>
+        <line num="243" type="stmt" count="6"/>
+        <line num="244" type="stmt" count="6"/>
+        <line num="245" type="stmt" count="6"/>
+        <line num="250" type="method" name="getAllCaps" visibility="public" complexity="6" crap="42" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="253" type="stmt" count="0"/>
+        <line num="254" type="stmt" count="0"/>
+        <line num="255" type="stmt" count="0"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="257" type="stmt" count="0"/>
+        <line num="258" type="stmt" count="0"/>
+        <line num="259" type="stmt" count="0"/>
+        <line num="260" type="stmt" count="0"/>
+        <line num="266" type="stmt" count="0"/>
+        <line num="273" type="method" name="getRole" visibility="public" complexity="3" crap="3.07" count="12"/>
+        <line num="275" type="stmt" count="12"/>
+        <line num="276" type="stmt" count="1"/>
+        <line num="277" type="stmt" count="0"/>
+        <line num="279" type="stmt" count="1"/>
+        <line num="282" type="stmt" count="12"/>
+        <line num="288" type="method" name="getStateKey" visibility="public" complexity="1" crap="1" count="18"/>
+        <line num="290" type="stmt" count="18"/>
+        <line num="298" type="method" name="checkState" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="300" type="stmt" count="4"/>
+        <line num="301" type="stmt" count="4"/>
+        <line num="304" type="stmt" count="4"/>
+        <line num="310" type="method" name="checkStateAny" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="312" type="stmt" count="4"/>
+        <line num="313" type="stmt" count="4"/>
+        <line num="314" type="stmt" count="4"/>
+        <line num="317" type="stmt" count="4"/>
+        <line num="324" type="method" name="__toString" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="326" type="stmt" count="0"/>
+        <line num="334" type="method" name="updateMergedCaps" visibility="public" complexity="2" crap="2.15" count="16"/>
+        <line num="336" type="stmt" count="16"/>
+        <line num="337" type="stmt" count="0"/>
+        <line num="340" type="stmt" count="16"/>
+        <line num="346" type="method" name="getMergedCaps" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="348" type="stmt" count="0"/>
+        <metrics loc="350" ncloc="219" classes="1" methods="20" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="89" coveredstatements="66" elements="109" coveredelements="78"/>
+      </file>
+    </package>
+    <package name="VisualComposer\Helpers\Access\Traits">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Access/Traits/Access.php">
+        <class name="Access" namespace="VisualComposer\Helpers\Access\Traits">
+          <metrics complexity="22" methods="11" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="46" elements="58" coveredelements="56"/>
+        </class>
+        <line num="21" type="method" name="getValidAccess" visibility="public" complexity="1" crap="1" count="32"/>
+        <line num="23" type="stmt" count="32"/>
+        <line num="31" type="method" name="setValidAccess" visibility="public" complexity="1" crap="1" count="32"/>
+        <line num="33" type="stmt" count="32"/>
+        <line num="35" type="stmt" count="32"/>
+        <line num="47" type="method" name="checkMulti" visibility="public" complexity="5" crap="5" count="15"/>
+        <line num="49" type="stmt" count="15"/>
+        <line num="50" type="stmt" count="15"/>
+        <line num="52" type="stmt" count="15"/>
+        <line num="53" type="stmt" count="15"/>
+        <line num="54" type="stmt" count="15"/>
+        <line num="55" type="stmt" count="13"/>
+        <line num="57" type="stmt" count="15"/>
+        <line num="58" type="stmt" count="15"/>
+        <line num="59" type="stmt" count="15"/>
+        <line num="60" type="stmt" count="15"/>
+        <line num="61" type="stmt" count="15"/>
+        <line num="64" type="stmt" count="15"/>
+        <line num="67" type="stmt" count="15"/>
+        <line num="77" type="method" name="get" visibility="public" complexity="2" crap="2" count="31"/>
+        <line num="79" type="stmt" count="31"/>
+        <line num="80" type="stmt" count="31"/>
+        <line num="81" type="stmt" count="31"/>
+        <line num="84" type="stmt" count="31"/>
+        <line num="90" type="method" name="reset" visibility="public" complexity="1" crap="1" count="32"/>
+        <line num="92" type="stmt" count="32"/>
+        <line num="94" type="stmt" count="32"/>
+        <line num="105" type="method" name="validateDie" visibility="public" complexity="4" crap="4.05" count="2"/>
+        <line num="107" type="stmt" count="2"/>
+        <line num="108" type="stmt" count="2"/>
+        <line num="109" type="stmt" count="2"/>
+        <line num="110" type="stmt" count="2"/>
+        <line num="111" type="stmt" count="2"/>
+        <line num="113" type="stmt" count="0"/>
+        <line num="117" type="stmt" count="2"/>
+        <line num="125" type="method" name="check" visibility="public" complexity="2" crap="2" count="13"/>
+        <line num="127" type="stmt" count="13"/>
+        <line num="128" type="stmt" count="13"/>
+        <line num="129" type="stmt" count="13"/>
+        <line num="131" type="stmt" count="13"/>
+        <line num="132" type="stmt" count="13"/>
+        <line num="135" type="stmt" count="13"/>
+        <line num="143" type="method" name="checkAny" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="145" type="stmt" count="2"/>
+        <line num="146" type="stmt" count="2"/>
+        <line num="147" type="stmt" count="2"/>
+        <line num="150" type="stmt" count="2"/>
+        <line num="158" type="method" name="checkAll" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="160" type="stmt" count="2"/>
+        <line num="161" type="stmt" count="2"/>
+        <line num="162" type="stmt" count="2"/>
+        <line num="165" type="stmt" count="2"/>
+        <line num="173" type="method" name="checkAdminNonce" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="176" type="stmt" count="6"/>
+        <line num="179" type="stmt" count="6"/>
+        <line num="187" type="method" name="checkPublicNonce" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="190" type="stmt" count="6"/>
+        <line num="193" type="stmt" count="6"/>
+        <metrics loc="195" ncloc="123" classes="1" methods="11" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="47" coveredstatements="46" elements="58" coveredelements="56"/>
+      </file>
+    </package>
+    <package name="VisualComposer\Helpers">
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Core.php">
+        <class name="Core" namespace="VisualComposer\Helpers">
+          <metrics complexity="4" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="5" elements="7" coveredelements="5"/>
+        </class>
+        <line num="22" type="method" name="isNetworkPlugin" visibility="public" complexity="4" crap="4.07" count="1"/>
+        <line num="24" type="stmt" count="1"/>
+        <line num="25" type="stmt" count="1"/>
+        <line num="26" type="stmt" count="0"/>
+        <line num="27" type="stmt" count="1"/>
+        <line num="28" type="stmt" count="1"/>
+        <line num="31" type="stmt" count="1"/>
+        <metrics loc="33" ncloc="22" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="5" elements="7" coveredelements="5"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Data.php">
+        <class name="Data" namespace="VisualComposer\Helpers">
+          <metrics complexity="10" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="18" coveredelements="18"/>
+        </class>
+        <line num="20" type="method" name="arraySearch" visibility="public" complexity="5" crap="5" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <line num="23" type="stmt" count="1"/>
+        <line num="25" type="stmt" count="1"/>
+        <line num="26" type="stmt" count="1"/>
+        <line num="27" type="stmt" count="1"/>
+        <line num="28" type="stmt" count="1"/>
+        <line num="32" type="stmt" count="1"/>
+        <line num="42" type="method" name="arraySearchKey" visibility="public" complexity="5" crap="5" count="1"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="49" type="stmt" count="1"/>
+        <line num="50" type="stmt" count="1"/>
+        <line num="51" type="stmt" count="1"/>
+        <line num="53" type="stmt" count="1"/>
+        <line num="58" type="stmt" count="1"/>
+        <metrics loc="60" ncloc="42" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="16" elements="18" coveredelements="18"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/File.php">
+        <class name="File" namespace="VisualComposer\Helpers">
+          <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+        </class>
+        <line num="17" type="method" name="getContents" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="19" type="stmt" count="0"/>
+        <line num="28" type="method" name="setContents" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="30" type="stmt" count="0"/>
+        <metrics loc="32" ncloc="18" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Nonce.php">
+        <class name="Nonce" namespace="VisualComposer\Helpers">
+          <metrics complexity="6" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
+        </class>
+        <line num="15" type="method" name="user" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="17" type="stmt" count="4"/>
+        <line num="23" type="method" name="admin" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="25" type="stmt" count="4"/>
+        <line num="33" type="method" name="verifyUser" visibility="public" complexity="2" crap="2" count="6"/>
+        <line num="35" type="stmt" count="6"/>
+        <line num="43" type="method" name="verifyAdmin" visibility="public" complexity="2" crap="2" count="6"/>
+        <line num="45" type="stmt" count="6"/>
+        <metrics loc="47" ncloc="28" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Options.php">
+        <class name="Options" namespace="VisualComposer\Helpers">
+          <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="5" coveredelements="0"/>
+        </class>
+        <line num="18" type="method" name="get" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="20" type="stmt" count="0"/>
+        <line num="29" type="method" name="set" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="31" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <metrics loc="35" ncloc="20" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="5" coveredelements="0"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Request.php">
+        <class name="Request" namespace="VisualComposer\Helpers">
+          <metrics complexity="11" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="15" elements="20" coveredelements="18"/>
+        </class>
+        <line num="24" type="method" name="exists" visibility="public" complexity="4" crap="4" count="1"/>
+        <line num="26" type="stmt" count="1"/>
+        <line num="28" type="stmt" count="1"/>
+        <line num="30" type="stmt" count="1"/>
+        <line num="31" type="stmt" count="1"/>
+        <line num="32" type="stmt" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="42" type="method" name="setData" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="44" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="55" type="method" name="input" visibility="public" complexity="4" crap="4.13" count="2"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="60" type="stmt" count="2"/>
+        <line num="61" type="stmt" count="2"/>
+        <line num="64" type="stmt" count="1"/>
+        <line num="74" type="method" name="__get" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="76" type="stmt" count="1"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="80" type="stmt" count="1"/>
+        <metrics loc="82" ncloc="51" classes="1" methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="15" elements="20" coveredelements="18"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Str.php">
+        <class name="Str" namespace="VisualComposer\Helpers">
+          <metrics complexity="42" methods="18" coveredmethods="17" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="60" elements="83" coveredelements="77"/>
+        </class>
+        <line num="39" type="method" name="camel" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="41" type="stmt" count="1"/>
+        <line num="42" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="56" type="method" name="contains" visibility="public" complexity="4" crap="4" count="7"/>
+        <line num="58" type="stmt" count="7"/>
+        <line num="59" type="stmt" count="7"/>
+        <line num="60" type="stmt" count="7"/>
+        <line num="64" type="stmt" count="7"/>
+        <line num="75" type="method" name="endsWith" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="78" type="stmt" count="1"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="83" type="stmt" count="1"/>
+        <line num="94" type="method" name="finish" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="96" type="stmt" count="1"/>
+        <line num="98" type="stmt" count="1"/>
+        <line num="109" type="method" name="is" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="111" type="stmt" count="1"/>
+        <line num="112" type="stmt" count="1"/>
+        <line num="115" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="122" type="stmt" count="1"/>
+        <line num="132" type="method" name="length" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="134" type="stmt" count="1"/>
+        <line num="146" type="method" name="limit" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="148" type="stmt" count="1"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="152" type="stmt" count="1"/>
+        <line num="162" type="method" name="lower" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="176" type="method" name="words" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="180" type="stmt" count="1"/>
+        <line num="181" type="stmt" count="1"/>
+        <line num="184" type="stmt" count="1"/>
+        <line num="195" type="method" name="parseCallback" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="197" type="stmt" count="1"/>
+        <line num="209" type="method" name="random" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="211" type="stmt" count="1"/>
+        <line num="213" type="stmt" count="1"/>
+        <line num="214" type="stmt" count="1"/>
+        <line num="215" type="stmt" count="1"/>
+        <line num="216" type="stmt" count="1"/>
+        <line num="219" type="stmt" count="1"/>
+        <line num="231" type="method" name="randomBytes" visibility="public" complexity="6" crap="10.50" count="2"/>
+        <line num="233" type="stmt" count="2"/>
+        <line num="234" type="stmt" count="1"/>
+        <line num="237" type="stmt" count="2"/>
+        <line num="238" type="stmt" count="2"/>
+        <line num="239" type="stmt" count="0"/>
+        <line num="240" type="stmt" count="0"/>
+        <line num="241" type="stmt" count="0"/>
+        <line num="242" type="stmt" count="0"/>
+        <line num="245" type="stmt" count="0"/>
+        <line num="248" type="stmt" count="2"/>
+        <line num="260" type="method" name="quickRandom" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="262" type="stmt" count="1"/>
+        <line num="263" type="stmt" count="1"/>
+        <line num="266" type="stmt" count="1"/>
+        <line num="268" type="stmt" count="1"/>
+        <line num="278" type="method" name="upper" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="280" type="stmt" count="1"/>
+        <line num="290" type="method" name="title" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="292" type="stmt" count="1"/>
+        <line num="303" type="method" name="snake" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="305" type="stmt" count="1"/>
+        <line num="307" type="stmt" count="1"/>
+        <line num="308" type="stmt" count="1"/>
+        <line num="311" type="stmt" count="1"/>
+        <line num="312" type="stmt" count="1"/>
+        <line num="315" type="stmt" count="1"/>
+        <line num="326" type="method" name="startsWith" visibility="public" complexity="4" crap="4" count="1"/>
+        <line num="328" type="stmt" count="1"/>
+        <line num="329" type="stmt" count="1"/>
+        <line num="330" type="stmt" count="1"/>
+        <line num="334" type="stmt" count="1"/>
+        <line num="344" type="method" name="studly" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="346" type="stmt" count="2"/>
+        <line num="348" type="stmt" count="2"/>
+        <line num="349" type="stmt" count="1"/>
+        <line num="352" type="stmt" count="2"/>
+        <line num="354" type="stmt" count="2"/>
+        <metrics loc="356" ncloc="189" classes="1" methods="18" coveredmethods="17" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="60" elements="83" coveredelements="77"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Templates.php">
+        <class name="Templates" namespace="VisualComposer\Helpers">
+          <metrics complexity="3" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="12" elements="14" coveredelements="12"/>
+        </class>
+        <line num="23" type="method" name="render" visibility="public" complexity="3" crap="3.00" count="1"/>
+        <line num="25" type="stmt" count="1"/>
+        <line num="26" type="stmt" count="1"/>
+        <line num="29" type="stmt" count="1"/>
+        <line num="31" type="stmt" count="1"/>
+        <line num="33" type="stmt" count="1"/>
+        <line num="35" type="stmt" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="37" type="stmt" count="1"/>
+        <line num="43" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="51" type="stmt" count="1"/>
+        <metrics loc="53" ncloc="37" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="12" elements="14" coveredelements="12"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Token.php">
+        <class name="Token" namespace="VisualComposer\Helpers">
+          <metrics complexity="12" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="66" coveredstatements="0" elements="72" coveredelements="0"/>
+        </class>
+        <line num="19" type="method" name="isRegistred" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="21" type="stmt" count="0"/>
+        <line num="22" type="stmt" count="0"/>
+        <line num="30" type="method" name="registerSite" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="35" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="0"/>
+        <line num="37" type="stmt" count="0"/>
+        <line num="38" type="stmt" count="0"/>
+        <line num="39" type="stmt" count="0"/>
+        <line num="40" type="stmt" count="0"/>
+        <line num="42" type="stmt" count="0"/>
+        <line num="52" type="method" name="generateToken" visibility="public" complexity="4" crap="20" count="0"/>
+        <line num="54" type="stmt" count="0"/>
+        <line num="55" type="stmt" count="0"/>
+        <line num="58" type="stmt" count="0"/>
+        <line num="59" type="stmt" count="0"/>
+        <line num="60" type="stmt" count="0"/>
+        <line num="61" type="stmt" count="0"/>
+        <line num="62" type="stmt" count="0"/>
+        <line num="66" type="stmt" count="0"/>
+        <line num="68" type="stmt" count="0"/>
+        <line num="69" type="stmt" count="0"/>
+        <line num="71" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="0"/>
+        <line num="86" type="method" name="saveToken" visibility="private" complexity="1" crap="2" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="0"/>
+        <line num="94" type="stmt" count="0"/>
+        <line num="95" type="stmt" count="0"/>
+        <line num="96" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="0"/>
+        <line num="98" type="stmt" count="0"/>
+        <line num="99" type="stmt" count="0"/>
+        <line num="102" type="stmt" count="0"/>
+        <line num="110" type="method" name="getToken" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="112" type="stmt" count="0"/>
+        <line num="113" type="stmt" count="0"/>
+        <line num="114" type="stmt" count="0"/>
+        <line num="116" type="stmt" count="0"/>
+        <line num="119" type="stmt" count="0"/>
+        <line num="127" type="method" name="refreshToken" visibility="private" complexity="3" crap="12" count="0"/>
+        <line num="129" type="stmt" count="0"/>
+        <line num="130" type="stmt" count="0"/>
+        <line num="131" type="stmt" count="0"/>
+        <line num="133" type="stmt" count="0"/>
+        <line num="134" type="stmt" count="0"/>
+        <line num="135" type="stmt" count="0"/>
+        <line num="136" type="stmt" count="0"/>
+        <line num="137" type="stmt" count="0"/>
+        <line num="140" type="stmt" count="0"/>
+        <line num="142" type="stmt" count="0"/>
+        <line num="143" type="stmt" count="0"/>
+        <line num="144" type="stmt" count="0"/>
+        <line num="145" type="stmt" count="0"/>
+        <line num="146" type="stmt" count="0"/>
+        <line num="147" type="stmt" count="0"/>
+        <line num="148" type="stmt" count="0"/>
+        <line num="149" type="stmt" count="0"/>
+        <line num="150" type="stmt" count="0"/>
+        <line num="151" type="stmt" count="0"/>
+        <line num="152" type="stmt" count="0"/>
+        <line num="153" type="stmt" count="0"/>
+        <line num="154" type="stmt" count="0"/>
+        <line num="157" type="stmt" count="0"/>
+        <line num="162" type="stmt" count="0"/>
+        <metrics loc="164" ncloc="116" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="66" coveredstatements="0" elements="72" coveredelements="0"/>
+      </file>
+      <file name="C:\web\Apache24\vhosts\wp-test.dev\wp-content\plugins\vc-five\visualcomposer\Helpers/Url.php">
+        <class name="Url" namespace="VisualComposer\Helpers">
+          <metrics complexity="4" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="8" elements="12" coveredelements="10"/>
+        </class>
+        <line num="20" type="method" name="assetUrl" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="22" type="stmt" count="1"/>
+        <line num="32" type="method" name="to" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="34" type="stmt" count="3"/>
+        <line num="44" type="method" name="ajax" visibility="public" complexity="2" crap="2.01" count="1"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="50" type="stmt" count="1"/>
+        <line num="51" type="stmt" count="1"/>
+        <line num="52" type="stmt" count="0"/>
+        <line num="55" type="stmt" count="1"/>
+        <metrics loc="57" ncloc="31" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="8" elements="12" coveredelements="10"/>
+      </file>
+    </package>
+    <metrics files="13" loc="1605" ncloc="985" classes="13" methods="81" coveredmethods="57" conditionals="0" coveredconditionals="0" statements="377" coveredstatements="273" elements="458" coveredelements="330"/>
+  </project>
+</coverage>

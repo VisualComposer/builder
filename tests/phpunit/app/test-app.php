@@ -17,11 +17,11 @@ class AppTest extends WP_UnitTestCase
 
     public function testModuleEvents()
     {
-        $this->assertTrue(is_object(vcapp('eventsHelper')));
+        $this->assertTrue(is_object(vcapp('EventsHelper')));
         /**
          * @var $events VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
          */
-        $events = vcapp('eventsHelper');
+        $events = vcapp('EventsHelper');
         $called = false;
         $events->listen(
             'test',
@@ -39,7 +39,7 @@ class AppTest extends WP_UnitTestCase
         /**
          * @var $events VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
          */
-        $events = vcapp('eventsHelper');
+        $events = vcapp('EventsHelper');
         $called = false;
         $evInstance = false;
         $events->listen(
@@ -74,7 +74,7 @@ class AppTest extends WP_UnitTestCase
             $this->assertTrue(is_object($events));
             $this->assertTrue(method_exists($events, 'fire'));
             $this->assertTrue(method_exists($events, 'listen'));
-            $this->assertEquals($events, vcapp('eventsHelper'));
+            $this->assertEquals($events, vcapp('EventsHelper'));
             $this->assertEquals($app0, $app1, 'it should be same instances');
             $this->assertEquals($app1, $app2, 'it should be same instances');
             $this->assertEquals($app2, $app3, 'it should be same instances');
@@ -84,8 +84,8 @@ class AppTest extends WP_UnitTestCase
             $this->assertEquals($app2, vcapp(), 'it should be same instances');
             $this->assertEquals($app3, vcapp(), 'it should be same instances');
             $this->assertEquals($app4, vcapp(), 'it should be same instances');
-            $this->assertEquals($app1, vcapp()->make('app'), 'it should be same instances');
-            $this->assertEquals($app1, vcapp('app'), 'it should be same instances');
+            $this->assertEquals($app1, vcapp()->make('App'), 'it should be same instances');
+            $this->assertEquals($app1, vcapp('App'), 'it should be same instances');
             $called = true;
         };
 

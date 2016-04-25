@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 $tabs = [];
-foreach (vcapp('settings')->getPages() as $tab) {
+foreach (vcapp('SettingsController')->getPages() as $tab) {
     $tabs[] = [$tab['slug'] . '-tab', $tab['title']];
 }
 
@@ -15,7 +15,7 @@ vcview(
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('roleAccessHelper')->who($role)->part($part),
+        'controller' => vchelper('AccessRole')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => $tabs,
         'options' => [

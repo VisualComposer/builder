@@ -1,15 +1,16 @@
-<?php namespace VisualComposer\Framework\Illuminate\Contracts\Foundation;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Contracts\Foundation;
 
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container;
 
 /**
  * Interface Application
- * @package VisualComposer\Framework\Illuminate\Contracts\Foundation
  */
 interface Application extends Container
 {
     /**
-     * Boot the application's service providers.
+     * Boot the application's service providers
      *
      * @return void
      */

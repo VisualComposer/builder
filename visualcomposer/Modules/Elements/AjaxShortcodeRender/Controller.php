@@ -2,17 +2,17 @@
 
 namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
-use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller
- * @package VisualComposer\Modules\Elements\AjaxShortcodeRender
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
-     * Controller constructor.
+     * Controller constructor
      */
     public function __construct()
     {
@@ -26,7 +26,7 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\Request $request
      */
     private function ajaxShortcodeRender(Request $request)
     {

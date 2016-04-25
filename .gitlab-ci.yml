@@ -1,0 +1,23 @@
+image: wpbakery/ci-wordpress
+
+before_script:
+  - composer install
+
+testHelpers:
+  script:
+    - phpunit --configuration=ci/phpunit-helpers.xml
+    - php ci/coverage-test.php
+  tags:
+    - docker
+
+#test2:
+#  script:
+#    - phpunit --config=ci/phpunit-2.xml
+#  tags:
+#    - docker
+#
+#test3:
+#  script:
+#    - phpunit --config=ci/phpunit-3.xml
+#  tags:
+#    - docker

@@ -3,8 +3,8 @@
 if (!defined('ABSPATH')) {
     die('-1');
 }
-/** @var VisualComposer\Helpers\Generic\Url $urlHelper */
-$urlHelper = vcapp('urlHelper');
+/** @var VisualComposer\Helpers\Url $urlHelper */
+$urlHelper = vchelper('Url');
 
 ?>
 <div class="vcv-welcome-tab changelog">

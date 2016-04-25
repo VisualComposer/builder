@@ -15,8 +15,12 @@ if (empty($_REQUEST['vcv-action'])) {
 }
 
 $requestAction = $_REQUEST['vcv-action'];
-if (strpos($requestAction, ':nonce') !== false) {
-    if (empty($_REQUEST['vcv-nonce']) || !vcapp('nonceHelper')->verifyUser($_REQUEST['vcv-nonce'])) {
+/** @var \VisualComposer\Helpers\Str $strHelper */
+$strHelper = vchelper('Str');
+/** @var \VisualComposer\Helpers\Nonce $nonceHelper */
+$nonceHelper = vchelper('Nonce');
+if ($strHelper->contains($requestAction, ':nonce')) {
+    if (empty($_REQUEST['vcv-nonce']) || !$nonceHelper->verifyUser($_REQUEST['vcv-nonce'])) {
         die(json_encode(
             [
                 'status' => 'fail',
@@ -24,9 +28,9 @@ if (strpos($requestAction, ':nonce') !== false) {
             ]
         ));
     }
-} elseif (strpos($requestAction, ':adminNonce') !== false) {
+} elseif ($strHelper->contains($requestAction, ':adminNonce')) {
     if (empty($_REQUEST['vcv-nonce'])
-        || !vcapp('nonceHelper')->verifyAdmin(
+        || !$nonceHelper->verifyAdmin(
             $_REQUEST['vcv-nonce']
         )
     ) {

@@ -1,6 +1,5 @@
 <?php
 /**
- * @var $page VisualComposer\Modules\Settings\Pages\Page
  * @var $Roles VisualComposer\Modules\Settings\Pages\Roles
  */
 if (!defined('ABSPATH')) {

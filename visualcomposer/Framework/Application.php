@@ -1,29 +1,36 @@
-<?php namespace VisualComposer\Framework;
+<?php
+
+namespace VisualComposer\Framework;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 
 /**
  * Class Application
- * @package VisualComposer\Framework
  */
 class Application extends Container implements ApplicationContract
 {
     /**
-     * The available container bindings and their respective load methods.
+     * The available container bindings and their respective load methods
      *
      * @var array
      */
-    public $availableBindings = [
+    protected $availableBindings = [
+        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'EventsHelper' => 'registerEventBindings',
+        'VisualComposer\Framework\Illuminate\Contracts\Filters\Dispatcher' => 'registerFilterBindings',
+        'FiltersHelper' => 'registerFilterBindings',
     ];
     /**
-     * The service binding methods that have been executed.
+     * The service binding methods that have been executed
      *
      * @var array
      */
     protected $ranServiceBinders = [];
     /**
-     * The loaded service providers.
+     * The loaded service providers
      *
      * @var array
      */
@@ -31,7 +38,7 @@ class Application extends Container implements ApplicationContract
     protected $basePath;
 
     /**
-     * Create a new Lumen application instance.
+     * Create a new Lumen application instance
      *
      * @param  string|null $basePath
      */
@@ -42,15 +49,13 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Bootstrap the application container.
-     *
-     * @return void
+     * Bootstrap the application container
      */
     protected function bootstrapContainer()
     {
         static::setInstance($this);
 
-        $this->instance('app', $this);
+        $this->instance('App', $this);
 
         $this->registerContainerAliases();
     }
@@ -64,7 +69,41 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Resolve the given type from the container.
+     * Register container bindings for the application
+     *
+     * @return $this
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'EventsHelper',
+            function ($app) {
+                return (new EventsDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application
+     *
+     * @return $this
+     */
+    protected function registerFilterBindings()
+    {
+        $this->singleton(
+            'FiltersHelper',
+            function ($app) {
+                return (new FiltersDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Resolve the given type from the container
      *
      * @param  string $abstract
      * @param  array $parameters
@@ -85,9 +124,7 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Register the core container aliases.
-     *
-     * @return void
+     * Register the core container aliases
      */
     protected function registerContainerAliases()
     {
