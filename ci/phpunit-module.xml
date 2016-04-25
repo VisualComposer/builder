@@ -8,14 +8,17 @@
         convertWarningsToExceptions="true"
 >
     <testsuites>
-        <testsuite name="Helpers test">
-            <directory prefix="test-" suffix=".php">../tests/phpunit/helpers</directory>
+        <testsuite name="Modules test">
+            <directory prefix="test-" suffix=".php">../tests/phpunit/modules</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../visualcomposer/Helpers</directory>
+            <directory suffix=".php">../visualcomposer/Modules</directory>
+            <exclude>
+                <file>../visualcomposer/Modules/System/Loader.php</file>
+            </exclude>
         </whitelist>
     </filter>
 

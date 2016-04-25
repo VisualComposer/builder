@@ -121,6 +121,7 @@ class Token extends Container implements Helper
 
     /**
      * @param \VisualComposer\Helpers\Options $options
+     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return bool
      */
