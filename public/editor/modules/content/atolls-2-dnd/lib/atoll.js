@@ -20,7 +20,7 @@ var Atoll = function(id, options) {
   this.init();
 };
 Atoll.prototype.init = function() {
-  this.el.setAttribute('draggable', 'true');
+  this.el && this.el.setAttribute('draggable', 'true');
   return this;
 };
 // @todo remove jquery offset with more optimized;
