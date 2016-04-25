@@ -20,6 +20,6 @@
     </filter>
 
     <logging>
-        <log type="coverage-clover" target="../test.coverage"/>
+        <log type="coverage-clover" showUncoveredFiles="true" target="../test.coverage"/>
     </logging>
 </phpunit>
