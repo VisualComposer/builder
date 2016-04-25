@@ -450,7 +450,7 @@
         <class name="Token" namespace="VisualComposer\Helpers">
           <metrics complexity="12" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="66" coveredstatements="0" elements="72" coveredelements="0"/>
         </class>
-        <line num="19" type="method" name="isRegistred" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="19" type="method" name="isRegistered" visibility="public" complexity="1" crap="2" count="0"/>
         <line num="21" type="stmt" count="0"/>
         <line num="22" type="stmt" count="0"/>
         <line num="30" type="method" name="registerSite" visibility="public" complexity="1" crap="2" count="0"/>

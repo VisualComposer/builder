@@ -50,8 +50,8 @@ class Authorization extends Container implements Module
 
     protected function beforeRender(Token $tokenHelper)
     {
-        /** @see \VisualComposer\Helpers\Token::isRegistred */
-        if (!vcapp()->call([$tokenHelper, 'isRegistred'])) {
+        /** @see \VisualComposer\Helpers\Token::isRegistered */
+        if (!vcapp()->call([$tokenHelper, 'isRegistered'])) {
             /** @var Url $urlHelper */
             $urlHelper = vchelper('Url');
             $url = $urlHelper->ajax(['vcv-action' => 'api']);

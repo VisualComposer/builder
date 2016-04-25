@@ -16,10 +16,10 @@ class Token extends Container implements Helper
      *
      * @return bool
      */
-    public function isRegistred(Options $options)
+    public function isRegistered(Options $options)
     {
         return !!$options->get(
-            'site-registred'
+            'site-registered'
         );
     }
 
@@ -30,7 +30,7 @@ class Token extends Container implements Helper
     public function registerSite($body, Options $options)
     {
         $options->set(
-            'site-registred',
+            'site-registered',
             1
         )->set(
             'site-id',
