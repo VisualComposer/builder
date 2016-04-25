@@ -1,6 +1,7 @@
 var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
+var babel = require('babel-core');
 
 var args = process.argv.slice(2);
 var elementPath = args[0];
@@ -14,7 +15,7 @@ fs.lstat(elementDir, function(err, stats) {
   if (!err && stats.isDirectory()) {
     // Settings
     var settingsFile = path.resolve(elementDir, 'settings.json');
-    var settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : false;
+    var settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : {};
     var settings = JSON.parse(settingsString);
     if(!settings.tag || !settings.tag.value) {
       console.log('Error, wrong tag in settings');
@@ -24,6 +25,14 @@ fs.lstat(elementDir, function(err, stats) {
       console.log('Error, wrong name in settings');
       process.exit(1);
     }
+    // JSX Component
+    var componentFile = path.resolve(elementDir, 'Template.jsx');
+    var componentString = fs.existsSync(componentFile) ?  babel.transformFileSync(componentFile) : '';
+    console.log(componentString.code);
+    if(!componentString.length) {
+      console.log('Error, wrong Template.jsx file.');
+      process.exit(1);
+    }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
       settings: function() {return settingsString + ''},
       Component: function() {return 'function(){}';},
@@ -31,7 +40,7 @@ fs.lstat(elementDir, function(err, stats) {
       cssSettings: function() {return '{}'; },
       editorSettings: function() {return "null";}
     });
-    console.log(template);
+    // console.log(template);
     // fs.writeFileSync(path.join(path.basename(elementDir), settings.tag.value + '.js'), template);
   } else {
     console.log('Directory "' + elementDir + '" does not exist!');
