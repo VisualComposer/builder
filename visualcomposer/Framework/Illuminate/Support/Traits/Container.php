@@ -7,7 +7,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 
 /**
- * Class Container
+ * Class Container.
  */
 trait Container
 {
@@ -22,7 +22,7 @@ trait Container
     }
 
     /**
-     * Get all dependencies for a given method
+     * Get all dependencies for a given method.
      *
      * @param  callable|string $callback
      * @param  array $parameters
@@ -42,7 +42,7 @@ trait Container
     }
 
     /**
-     * Get the proper reflection instance for the given callback
+     * Get the proper reflection instance for the given callback.
      *
      * @param  callable|string $callback
      *
@@ -64,7 +64,7 @@ trait Container
     }
 
     /**
-     * Get the dependency for the given call parameter
+     * Get the dependency for the given call parameter.
      *
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
@@ -91,7 +91,7 @@ trait Container
                 $dependencies[] = $parameter->getDefaultValue();
             }
         } else {
-            // first need check for type
+            // first need check for type.
             // first($parameters) == $parameter
             /// if yes -> use [+unset]
             // if no -> inject/default

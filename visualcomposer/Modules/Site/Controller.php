@@ -11,7 +11,7 @@ use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
@@ -25,7 +25,7 @@ class Controller extends Container implements Module
     protected $event;
 
     /**
-     * PageFrontController constructor
+     * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      */
@@ -90,7 +90,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output less.js script to page header
+     * Output less.js script to page header.
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
@@ -100,7 +100,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output used assets
+     * Output used assets.
      *
      * @param \VisualComposer\Helpers\Templates $templatesHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper

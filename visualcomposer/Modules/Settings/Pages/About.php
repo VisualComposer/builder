@@ -9,7 +9,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class About
+ * Class About.
  */
 class About extends Container implements Module
 {
@@ -32,7 +32,7 @@ class About extends Container implements Module
     protected $tabs;
 
     /**
-     * About constructor
+     * About constructor.
      */
     public function __construct()
     {
@@ -108,7 +108,7 @@ class About extends Container implements Module
     }
 
     /**
-     * Render page
+     * Render page.
      *
      * @param Request $request
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess

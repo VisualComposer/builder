@@ -6,12 +6,12 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
     /**
-     * Controller constructor
+     * Controller constructor.
      */
     public function __construct()
     {

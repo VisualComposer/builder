@@ -5,8 +5,8 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Helper methods related to data manipulation
- * Class Data
+ * Helper methods related to data manipulation.
+ * Class Data.
  */
 class Data implements Helper
 {

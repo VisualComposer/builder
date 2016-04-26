@@ -5,23 +5,23 @@ namespace VisualComposer\Framework;
 use VisualComposer\Application as ApplicationVc;
 
 /**
- * Class Autoload
+ * Class Autoload.
  */
 class Autoload
 {
     /**
-     * Used in bitwise comparison
+     * Used in bitwise comparison.
      */
     const CLASS_START = 1;
     /**
-     * Used in bitwise comparison
+     * Used in bitwise comparison.
      */
     const CLASS_START_STRING = 2;
     /** @var  ApplicationVc */
     private $app;
 
     /**
-     * Autoload constructor
+     * Autoload constructor.
      *
      * @param \VisualComposer\Application $app
      */
@@ -117,7 +117,7 @@ DATA;
     }
 
     /**
-     * Shuffles and array with keys
+     * Shuffles and array with keys.
      *
      * @param $array
      *

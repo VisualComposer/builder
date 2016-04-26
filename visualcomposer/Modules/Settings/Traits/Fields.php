@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Settings\Traits;
 
 /**
- * Class Fields
+ * Trait Fields.
  */
 trait Fields
 {

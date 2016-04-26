@@ -6,31 +6,31 @@ use RuntimeException;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Str
+ * Class Str.
  */
 class Str implements Helper
 {
     /**
-     * The cache of snake-cased words
+     * The cache of snake-cased words.
      *
      * @var array
      */
     protected static $snakeCache = [];
     /**
-     * The cache of camel-cased words
+     * The cache of camel-cased words.
      *
      * @var array
      */
     protected static $camelCache = [];
     /**
-     * The cache of studly-cased words
+     * The cache of studly-cased words.
      *
      * @var array
      */
     protected static $studlyCache = [];
 
     /**
-     * Convert a value to camel case
+     * Convert a value to camel case.
      *
      * @param  string $value
      *
@@ -46,7 +46,7 @@ class Str implements Helper
     }
 
     /**
-     * Determine if a given string contains a given substring
+     * Determine if a given string contains a given substring.
      *
      * @param  string $haystack
      * @param  string|array $needles
@@ -65,7 +65,7 @@ class Str implements Helper
     }
 
     /**
-     * Determine if a given string ends with a given substring
+     * Determine if a given string ends with a given substring.
      *
      * @param  string $haystack
      * @param  string|array $needles
@@ -84,7 +84,7 @@ class Str implements Helper
     }
 
     /**
-     * Cap a string with a single instance of a given value
+     * Cap a string with a single instance of a given value.
      *
      * @param  string $value
      * @param  string $cap
@@ -99,7 +99,7 @@ class Str implements Helper
     }
 
     /**
-     * Determine if a given string matches a given pattern
+     * Determine if a given string matches a given pattern.
      *
      * @param  string $pattern
      * @param  string $value
@@ -116,14 +116,14 @@ class Str implements Helper
 
         // Asterisks are translated into zero-or-more regular expression wildcards
         // to make it convenient to check if the strings starts with the given
-        // pattern such as "library/*", making any string check convenient
+        // pattern such as "library/*", making any string check convenient.
         $pattern = str_replace('\*', '.*', $pattern) . '\z';
 
         return (bool)preg_match('#^' . $pattern . '#', $value);
     }
 
     /**
-     * Return the length of the given string
+     * Return the length of the given string.
      *
      * @param  string $value
      *
@@ -135,7 +135,7 @@ class Str implements Helper
     }
 
     /**
-     * Limit the number of characters in a string
+     * Limit the number of characters in a string.
      *
      * @param  string $value
      * @param  int $limit
@@ -153,7 +153,7 @@ class Str implements Helper
     }
 
     /**
-     * Convert the given string to lower-case
+     * Convert the given string to lower-case.
      *
      * @param  string $value
      *
@@ -165,7 +165,7 @@ class Str implements Helper
     }
 
     /**
-     * Limit the number of words in a string
+     * Limit the number of words in a string.
      *
      * @param  string $value
      * @param  int $words
@@ -185,7 +185,7 @@ class Str implements Helper
     }
 
     /**
-     * Parse a Class@method - style callback into class and method
+     * Parse a Class@method - style callback into class and method.
      *
      * @param  string $callback
      * @param  string $default
@@ -198,7 +198,7 @@ class Str implements Helper
     }
 
     /**
-     * Generate a more truly "random" alpha-numeric string
+     * Generate a more truly "random" alpha-numeric string.
      *
      * @param  int $length
      *
@@ -220,7 +220,7 @@ class Str implements Helper
     }
 
     /**
-     * Generate a more truly "random" bytes
+     * Generate a more truly "random" bytes.
      *
      * @param  int $length
      *
@@ -249,9 +249,9 @@ class Str implements Helper
     }
 
     /**
-     * Generate a "random" alpha-numeric string
+     * Generate a "random" alpha-numeric string.
      *
-     * Should not be considered sufficient for cryptography, etc
+     * Should not be considered sufficient for cryptography, etc.
      *
      * @param  int $length
      *
@@ -269,7 +269,7 @@ class Str implements Helper
     }
 
     /**
-     * Convert the given string to upper-case
+     * Convert the given string to upper-case.
      *
      * @param  string $value
      *
@@ -281,7 +281,7 @@ class Str implements Helper
     }
 
     /**
-     * Convert the given string to title case
+     * Convert the given string to title case.
      *
      * @param  string $value
      *
@@ -293,7 +293,7 @@ class Str implements Helper
     }
 
     /**
-     * Convert a string to snake case
+     * Convert a string to snake case.
      *
      * @param  string $value
      * @param  string $delimiter
@@ -316,7 +316,7 @@ class Str implements Helper
     }
 
     /**
-     * Determine if a given string starts with a given substring
+     * Determine if a given string starts with a given substring.
      *
      * @param  string $haystack
      * @param  string|array $needles
@@ -335,7 +335,7 @@ class Str implements Helper
     }
 
     /**
-     * Convert a value to studly caps case
+     * Convert a value to studly caps case.
      *
      * @param  string $value
      *

@@ -5,7 +5,7 @@ namespace VisualComposer\Framework\Illuminate\Container;
 use Exception;
 
 /**
- * Class BindingResolutionException
+ * Class BindingResolutionException.
  */
 class BindingResolutionException extends Exception
 {

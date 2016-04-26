@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Options
+ * Class Options.
  */
 class Options implements Helper
 {

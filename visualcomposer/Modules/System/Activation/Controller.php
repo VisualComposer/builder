@@ -7,12 +7,12 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
     /**
-     * Controller constructor
+     * Controller constructor.
      */
     public function __construct()
     {

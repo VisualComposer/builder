@@ -4,17 +4,17 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    exit; // Exit if accessed directly.
 }
 
 /**
- * Plugin requirements in driver WordPress
- * Class VcvCoreRequirements
+ * Plugin requirements in driver WordPress.
+ * Class VcvCoreRequirements.
  */
 abstract class VcvCoreRequirements
 {
     /**
-     * Perform system check for requirements
+     * Perform system check for requirements.
      */
     public static function coreChecks()
     {

@@ -5,12 +5,12 @@ namespace VisualComposer\Framework\Illuminate\Contracts\Container;
 use Closure;
 
 /**
- * Interface Container
+ * Interface Container.
  */
 interface Container
 {
     /**
-     * Determine if the given abstract type has been bound
+     * Determine if the given abstract type has been bound.
      *
      * @param  string $abstract
      *
@@ -19,7 +19,7 @@ interface Container
     public function bound($abstract);
 
     /**
-     * Alias a type to a different name
+     * Alias a type to a different name.
      *
      * @param  string $abstract
      * @param  string $alias
@@ -29,7 +29,7 @@ interface Container
     public function alias($abstract, $alias);
 
     /**
-     * Assign a set of tags to a given binding
+     * Assign a set of tags to a given binding.
      *
      * @param  array|string $abstracts
      * @param  array|mixed ...$tags
@@ -37,7 +37,7 @@ interface Container
     public function tag($abstracts, $tags);
 
     /**
-     * Resolve all of the bindings for a given tag
+     * Resolve all of the bindings for a given tag.
      *
      * @param  array $tag
      *
@@ -46,7 +46,7 @@ interface Container
     public function tagged($tag);
 
     /**
-     * Register a binding with the container
+     * Register a binding with the container.
      *
      * @param  string|array $abstract
      * @param  \Closure|string|null $concrete
@@ -55,7 +55,7 @@ interface Container
     public function bind($abstract, $concrete = null, $shared = false);
 
     /**
-     * Register a binding if it hasn't already been registered
+     * Register a binding if it hasn't already been registered.
      *
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
@@ -64,7 +64,7 @@ interface Container
     public function bindIf($abstract, $concrete = null, $shared = false);
 
     /**
-     * Register a shared binding in the container
+     * Register a shared binding in the container.
      *
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
@@ -72,7 +72,7 @@ interface Container
     public function singleton($abstract, $concrete = null);
 
     /**
-     * "Extend" an abstract type in the container
+     * "Extend" an abstract type in the container.
      *
      * @param  string $abstract
      * @param  \Closure $closure
@@ -82,7 +82,7 @@ interface Container
     public function extend($abstract, Closure $closure);
 
     /**
-     * Register an existing instance as shared in the container
+     * Register an existing instance as shared in the container.
      *
      * @param  string $abstract
      * @param  mixed $instance
@@ -90,7 +90,7 @@ interface Container
     public function instance($abstract, $instance);
 
     /**
-     * Define a contextual binding
+     * Define a contextual binding.
      *
      * @param  string $concrete
      *
@@ -99,7 +99,7 @@ interface Container
     public function when($concrete);
 
     /**
-     * Resolve the given type from the container
+     * Resolve the given type from the container.
      *
      * @param  string $abstract
      * @param  array $parameters
@@ -109,7 +109,7 @@ interface Container
     public function make($abstract, $parameters = []);
 
     /**
-     * Call the given Closure / class@method and inject its dependencies
+     * Call the given Closure / class@method and inject its dependencies.
      *
      * @param  callable|string $callback
      * @param  array $parameters
@@ -120,7 +120,7 @@ interface Container
     public function call($callback, array $parameters = [], $defaultMethod = null);
 
     /**
-     * Determine if the given abstract type has been resolved
+     * Determine if the given abstract type has been resolved.
      *
      * @param  string $abstract
      *
@@ -129,7 +129,7 @@ interface Container
     public function resolved($abstract);
 
     /**
-     * Register a new resolving callback
+     * Register a new resolving callback.
      *
      * @param  string $abstract
      * @param  \Closure $callback
@@ -137,7 +137,7 @@ interface Container
     public function resolving($abstract, Closure $callback = null);
 
     /**
-     * Register a new after resolving callback
+     * Register a new after resolving callback.
      *
      * @param  string $abstract
      * @param  \Closure $callback

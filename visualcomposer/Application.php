@@ -6,15 +6,15 @@ use VisualComposer\Framework\Application as ApplicationFactory;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
 /**
- * Main plugin instance which controls modules and helpers
- * Provides Inner and Outer API with vcapp() helper
+ * Main plugin instance which controls modules and helpers.
+ * Provides Inner and Outer API with vcapp() helper.
  *
- * Class Application
+ * Class Application.
  */
 class Application extends ApplicationFactory implements ApplicationContract
 {
     /**
-     * Create a new Application instance
+     * Create a new Application instance.
      *
      * @overrides parent::__construct()
      *
@@ -27,7 +27,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         parent::__construct($basePath);
 
         /**
-         * Add action for init state
+         * Add action for init state.
          */
         add_action(
             'init',
@@ -44,8 +44,8 @@ class Application extends ApplicationFactory implements ApplicationContract
     }
 
     /**
-     * Bootstraps registred modules( also creates an instance )
-     * And saves helpers as singletons
+     * Bootstraps registred modules( also creates an instance ).
+     * And saves helpers as singletons.
      *
      * @return $this
      */
@@ -57,7 +57,7 @@ class Application extends ApplicationFactory implements ApplicationContract
     }
 
     /**
-     * @param $pattern - file pattern to search
+     * @param $pattern - file pattern to search.
      * @param int $flags
      *
      * @return array
@@ -91,7 +91,7 @@ class Application extends ApplicationFactory implements ApplicationContract
     }
 
     /**
-     * Get plugin dir path + custom dir
+     * Get plugin dir path + custom dir.
      *
      * @param $path
      *
@@ -103,22 +103,22 @@ class Application extends ApplicationFactory implements ApplicationContract
     }
 
     /**
-     * Register the core container aliases
-     * Used in Dependency Injection
+     * Register the core container aliases.
+     * Used in Dependency Injection.
      * @see \docs\php\DependencyInjection.md
      */
     protected function registerContainerAliases()
     {
         parent::registerContainerAliases();
         $this->aliases = [
-            // Inner bindings
+            // Inner bindings.
             'VisualComposer\Application' => 'App',
             'VisualComposer\Framework\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'EventsHelper',
-            // Outer bindings
+            // Outer bindings.
             'Autoload' => 'VisualComposer\Framework\Autoload',
         ];
     }

@@ -12,7 +12,7 @@ use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
@@ -34,7 +34,7 @@ class Controller extends Container implements Module
     private $error = null;
 
     /**
-     * LicenseController constructor
+     * Controller constructor.
      *
      * @param Request $request
      */
@@ -67,7 +67,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get license page  url
+     * Get license page url.
      *
      * @param \VisualComposer\Modules\Settings\Pages\License $licensePage
      *
@@ -79,7 +79,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output notice
+     * Output notice.
      *
      * @param string $message
      * @param bool $success
@@ -96,7 +96,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Show error
+     * Show error.
      *
      * @param string $error
      */
@@ -114,7 +114,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output last error
+     * Output last error.
      */
     private function renderLastError()
     {
@@ -123,7 +123,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output successful activation message
+     * Output successful activation message.
      */
     private function renderActivatedSuccess()
     {
@@ -132,7 +132,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Output successful deactivation message
+     * Output successful deactivation message.
      */
     private function renderDeactivatedSuccess()
     {
@@ -141,11 +141,11 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Finish pending activation/deactivation
+     * Finish pending activation/deactivation.
      *
-     * 1) Make API call to support portal
-     * 2) Receive success status and license key
-     * 3) Set new license key
+     * 1) Make API call to support portal.
+     * 2) Receive success status and license key.
+     * 3) Set new license key.
      *
      * @param bool $activation
      * @param string $userToken
@@ -242,9 +242,9 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Check license key from remote
+     * Check license key from remote.
      *
-     * Function is used by support portal to check if VC w/ specific license is still installed
+     * Function is used by support portal to check if VC w/ specific license is still installed.
      *
      * @param Request $request
      */
@@ -262,7 +262,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Generate action URL
+     * Generate action URL.
      *
      * @return string
      */
@@ -289,7 +289,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Generate action URL
+     * Generate action URL.
      *
      * @return string
      */
@@ -320,7 +320,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Start activation process and output redirect URL as JSON
+     * Start activation process and output redirect URL as JSON.
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
@@ -342,7 +342,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Start deactivation process and output redirect URL as JSON
+     * Start deactivation process and output redirect URL as JSON.
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
@@ -363,7 +363,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Set license key
+     * Set license key.
      *
      * @param string $licenseKey
      * @param \VisualComposer\Helpers\Options $options
@@ -374,7 +374,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get license key
+     * Get license key.
      *
      * @param \VisualComposer\Helpers\Options $options
      *
@@ -386,7 +386,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Check if specified license key is valid
+     * Check if specified license key is valid.
      *
      * @param string $licenseKey
      *
@@ -399,9 +399,9 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Set up license activation notice if needed
+     * Set up license activation notice if needed.
      *
-     * Don't show notice on dev environment
+     * Don't show notice on dev environment.
      *
      * @param \VisualComposer\Helpers\Core $core
      */
@@ -429,14 +429,14 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Check if current enviroment is dev
+     * Check if current enviroment is dev.
      *
      * Environment is considered dev if host is:
-     * - ip address
-     * - tld is local, dev, wp, test, example, localhost or invalid
-     * - no tld (localhost, custom hosts)
+     * - ip address.
+     * - tld is local, dev, wp, test, example, localhost or invalid.
+     * - no tld (localhost, custom hosts).
      *
-     * @param string $host Hostname to check. If null, use HTTP_HOST
+     * @param string $host Hostname to check. If null, use HTTP_HOST.
      *
      * @return bool
      */
@@ -459,7 +459,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Render license activation notice
+     * Render license activation notice.
      *
      * @param \VisualComposer\Helpers\Options $options
      */
@@ -477,7 +477,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get license key token
+     * Get license key token.
      *
      * @param \VisualComposer\Helpers\Options $options
      *
@@ -489,7 +489,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Set license key token
+     * Set license key token.
      *
      * @param string $token
      * @param \VisualComposer\Helpers\Options $options
@@ -500,11 +500,11 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Return new license key token
+     * Return new license key token.
      *
-     * Token is used to change license key from remote location
+     * Token is used to change license key from remote location.
      *
-     * Format is: timestamp|20-random-characters
+     * Format is: timestamp|20-random-characters.
      *
      * @param \VisualComposer\Helpers\Str $strHelper
      *
@@ -518,7 +518,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Generate and set new license key token
+     * Generate and set new license key token.
      *
      * @return string
      */
@@ -534,10 +534,10 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Check if specified license key token is valid
+     * Check if specified license key token is valid.
      *
-     * @param string $tokenToCheck SHA1 hashed token
-     * @param int $ttlInSeconds Time to live in seconds. Default = 20min
+     * @param string $tokenToCheck SHA1 hashed token.
+     * @param int $ttlInSeconds Time to live in seconds. Default = 20min.
      *
      * @return bool
      */
@@ -560,10 +560,10 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Check if license key format is valid
+     * Check if license key format is valid.
      *
-     * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
-     * where x is any hexadecimal digit and y is one of 8, 9, A, or B
+     * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.
+     * where x is any hexadecimal digit and y is one of 8, 9, A, or B.
      *
      * @param string $licenseKey
      *

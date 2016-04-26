@@ -7,7 +7,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class License
+ * Class License.
  */
 class License extends Container implements Module
 {
@@ -22,7 +22,7 @@ class License extends Container implements Module
     protected $templatePath = 'settings/pages/license/index';
 
     /**
-     * License constructor
+     * License constructor.
      */
     public function __construct()
     {

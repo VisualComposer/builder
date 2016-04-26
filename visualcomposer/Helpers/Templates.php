@@ -5,20 +5,20 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Helper methods related to templates
- * Class Templates
+ * Helper methods related to templates.
+ * Class Templates.
  */
 class Templates implements Helper
 {
     /**
-     * Render template
+     * Render template.
      *
      * @param string $_path Path to view to render. Must be relative to /visualcomposer/resources/views/
-     *   Extension ".php" can be ommited
-     * @param array $_args Arguments to pass to view
-     * @param bool $_echo If false, only return results
+     *   Extension ".php" can be ommited.
+     * @param array $_args Arguments to pass to view.
+     * @param bool $_echo If false, only return results.
      *
-     * @return string Rendered view
+     * @return string Rendered view.
      */
     public function render($_path, $_args = [], $_echo = true)
     {

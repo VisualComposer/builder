@@ -11,7 +11,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
@@ -33,7 +33,7 @@ class Controller extends Container implements Module
     protected $file;
 
     /**
-     * Controller constructor
+     * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Request $request
@@ -65,7 +65,7 @@ class Controller extends Container implements Module
             }
         );
 
-        // Save compiled less into one css bundle
+        // Save compiled less into one css bundle.
         add_action(
             'vcv:ajax:loader:saveCssBundle:adminNonce',
             function () {
@@ -106,8 +106,8 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Called every time post is permanently deleted
-     * Remove list of associated assets
+     * Called every time post is permanently deleted.
+     * Remove list of associated assets.
      *
      * @param int $postId Post ID
      */
@@ -130,7 +130,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Save compiled less into one css bundle
+     * Save compiled less into one css bundle.
      */
     public function saveCssBundleHook()
     {
@@ -160,10 +160,10 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Generate (save to fs and update db) scripts bundle
-     * Old files are deleted
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
      *
-     * @return bool|string URL to generated bundle
+     * @return bool|string URL to generated bundle.
      */
     private function generateScriptsBundle()
     {
@@ -214,12 +214,12 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Generate (save to fs and update db) scripts bundle
-     * Old files are deleted
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
      *
-     * @param string $contents CSS contents to save
+     * @param string $contents CSS contents to save.
      *
-     * @return bool|string URL to generated bundle
+     * @return bool|string URL to generated bundle.
      */
     private function generateStylesBundle($contents)
     {
@@ -285,7 +285,7 @@ class Controller extends Container implements Module
 
     /**
      * @param int $postId
-     * @param string $assetType scripts|styles
+     * @param string $assetType scripts|styles.
      * @param string[] $postAssets
      */
     private function updatePostAssets($postId, $assetType, $postAssets)
@@ -305,7 +305,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Remove all files by extension in asset-bundles directory
+     * Remove all files by extension in asset-bundles directory.
      *
      * @param string $extension
      */

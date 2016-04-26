@@ -37,16 +37,27 @@ VcCake
 ```
 
 ##PHP
-We use PSR-2 Code style and codesniffer is configured in ruleset.xml to check PSR2 rules
+We use PSR-2 Code style and codesniffer is configured in ruleset.xml to check PSR2 rules.
 http://www.php-fig.org/psr/psr-2/
 
 Side notes:
+
 - You MUST use short array syntax ```[]```
 - You MUST never use php short open tag, even for ```<?=$something ?>```, use ```<?php echo $something; ?>```
 - Any statement MUST end with semicolon; even if it is single line method like ```<?php echo $something; ?>```
 - Spaces within brackets ONLY if key is variable or expression like ```$data[ $test ]```
-- Use spaces not tabs [PSR1]
-- Use `phpcs` command to check for codeStyle issues in PHP files
+- Use spaces not tabs [PSR1].
+- Use `phpcs` command to check for codeStyle issues in PHP files.
+
+Comments:
+
+- Uppercase sentence with dot at end.
+
+    1) Inline comments //[space]TODO: Any description.
+`// TODO:`
+
+    2) PHPdocs comments with ```.``` at end.
+`* @todo Some description.`
 
 ##Less/Css
 

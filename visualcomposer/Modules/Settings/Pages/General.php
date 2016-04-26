@@ -9,7 +9,7 @@ use VisualComposer\Modules\Settings\Traits\Fields;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class General
+ * Class General.
  */
 class General extends Container implements Module
 {
@@ -41,7 +41,7 @@ class General extends Container implements Module
     ];
 
     /**
-     * General constructor
+     * General constructor.
      */
     public function __construct()
     {
@@ -82,7 +82,7 @@ class General extends Container implements Module
     }
 
     /**
-     * Page: General Settings
+     * Page: General Settings.
      */
     public function buildPage()
     {
@@ -92,7 +92,7 @@ class General extends Container implements Module
             ]
         );
 
-        // Disable responsive content elements
+        // Disable responsive content elements.
         $fieldCallback = function ($data) {
             /** @see \VisualComposer\Modules\Settings\Pages\General::disableResponsiveFieldCallback */
             return $this->call('disableResponsiveFieldCallback', [$data]);
@@ -107,7 +107,7 @@ class General extends Container implements Module
             ]
         );
 
-        // Google fonts subsets
+        // Google fonts subsets.
         $sanitizeCallback = function ($data) {
             /** @see \VisualComposer\Modules\Settings\Pages\General::sanitizeGoogleFontsSubsetsFieldCallback */
             return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', [$data]);
@@ -161,7 +161,7 @@ class General extends Container implements Module
     }
 
     /**
-     * Not responsive checkbox callback function
+     * Not responsive checkbox callback function.
      *
      * @param \VisualComposer\Helpers\Options $options
      */
@@ -201,7 +201,7 @@ class General extends Container implements Module
     }
 
     /**
-     * Google fonts subsets callback
+     * Google fonts subsets callback.
      *
      * @param \VisualComposer\Helpers\Options $options
      */

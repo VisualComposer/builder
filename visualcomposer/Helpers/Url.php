@@ -5,13 +5,13 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Helper API methods related to make Url for plugin directory
- * Class Url
+ * Helper API methods related to make Url for plugin directory.
+ * Class Url.
  */
 class Url implements Helper
 {
     /**
-     * Helper method assetUrl for plugin assets folder
+     * Helper method assetUrl for plugin assets folder.
      *
      * @param $path
      *
@@ -23,7 +23,7 @@ class Url implements Helper
     }
 
     /**
-     * Url to whole plugin folder
+     * Url to whole plugin folder.
      *
      * @param $path
      *
@@ -35,7 +35,7 @@ class Url implements Helper
     }
 
     /**
-     * Url to whole plugin folder
+     * Url to whole plugin folder.
      *
      * @param $query
      *

@@ -9,12 +9,12 @@ use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
     /**
-     * PageEditable constructor
+     * Controller constructor.
      */
     public function __construct()
     {
@@ -92,6 +92,6 @@ class Controller extends Container implements Module
                 );
             },
             9999
-        ); // after all the_post actions ended
+        ); // after all the_post actions ended.
     }
 }

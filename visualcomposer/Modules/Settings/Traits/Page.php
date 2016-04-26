@@ -5,7 +5,7 @@ namespace VisualComposer\Modules\Settings\Traits;
 use VisualComposer\Application;
 
 /**
- * Class Page
+ * Trait Page.
  */
 trait Page
 {
@@ -29,7 +29,7 @@ trait Page
     /**
      * @param mixed $slug
      *
-     * @return self
+     * @return $this
      */
     public function setSlug($slug)
     {
@@ -49,7 +49,7 @@ trait Page
     /**
      * @param string $title
      *
-     * @return self
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -69,7 +69,7 @@ trait Page
     /**
      * @param mixed $templatePath
      *
-     * @return self
+     * @return $this
      */
     public function setTemplatePath($templatePath)
     {
@@ -89,7 +89,7 @@ trait Page
     /**
      * @param mixed $templateArgs
      *
-     * @return self
+     * @return $this
      */
     public function setTemplateArgs($templateArgs)
     {
@@ -106,7 +106,7 @@ trait Page
     }
 
     /**
-     * Render page
+     * Render page.
      */
     public function render()
     {

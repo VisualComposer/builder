@@ -7,7 +7,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Token
+ * Class Token.
  */
 class Token extends Container implements Helper
 {
@@ -137,7 +137,7 @@ class Token extends Container implements Helper
                     'redirect_uri' => $urlHelper->ajax(['vcv-action' => 'api']),
                     'client_id' => $options->get('site-id'),
                     'refresh_token' => $refreshToken,
-                ]
+                ],
             ]
         );
         if (is_array($result) && 200 == $result['response']['code']) {

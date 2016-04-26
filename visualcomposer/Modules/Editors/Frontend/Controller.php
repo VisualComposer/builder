@@ -9,12 +9,12 @@ use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
     /**
-     * Frontend constructor
+     * Frontend constructor.
      */
     public function __construct()
     {

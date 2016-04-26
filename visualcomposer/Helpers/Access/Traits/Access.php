@@ -6,7 +6,7 @@ use VisualComposer\Application;
 use VisualComposer\Helpers\Nonce;
 
 /**
- * Class Access
+ * Class Access.
  */
 trait Access
 {
@@ -26,7 +26,7 @@ trait Access
     /**
      * @param mixed $validAccess
      *
-     * @return self
+     * @return $this
      */
     public function setValidAccess($validAccess)
     {
@@ -36,13 +36,13 @@ trait Access
     }
 
     /**
-     * Check multi access settings by method inside class object
+     * Check multi access settings by method inside class object.
      *
      * @param $callback callable
      * @param $valid
      * @param $argsList
      *
-     * @return self
+     * @return $this
      */
     public function checkMulti($callback, $valid, $argsList)
     {
@@ -68,7 +68,7 @@ trait Access
     }
 
     /**
-     * Get current validation state and reset it to true. ( should be never called twice )
+     * Get current validation state and reset it to true. ( should be never called twice ).
      *
      * @param bool $reset
      *
@@ -95,11 +95,11 @@ trait Access
     }
 
     /**
-     * Call die() function with message if access is invalid
+     * Call die() function with message if access is invalid.
      *
      * @param string $message
      *
-     * @return self
+     * @return $this
      * @throws \Exception
      */
     public function validateDie($message = '')
@@ -120,7 +120,7 @@ trait Access
     /**
      * @param $func
      *
-     * @return self
+     * @return $this
      */
     public function check($func)
     {
@@ -136,9 +136,9 @@ trait Access
     }
 
     /**
-     * Any of provided rules should be valid
+     * Any of provided rules should be valid.
      *
-     * @return self
+     * @return $this
      */
     public function checkAny()
     {
@@ -151,9 +151,9 @@ trait Access
     }
 
     /**
-     * All provided rules should be valid
+     * All provided rules should be valid.
      *
-     * @return self
+     * @return $this
      */
     public function checkAll()
     {

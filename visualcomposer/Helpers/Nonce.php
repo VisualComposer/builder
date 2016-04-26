@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Nonce
+ * Class Nonce.
  */
 class Nonce implements Helper
 {

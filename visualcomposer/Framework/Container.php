@@ -7,14 +7,14 @@ use ReflectionMethod;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 
 /**
- * Class Container
+ * Class Container.
  */
 abstract class Container
 {
     use ContainerTrait;
 
     /**
-     * Call the given callback and inject its dependencies
+     * Call the given callback and inject its dependencies.
      *
      * @param  $method
      * @param  array $parameters

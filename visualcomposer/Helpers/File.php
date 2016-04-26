@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class File
+ * Class File.
  */
 class File implements Helper
 {

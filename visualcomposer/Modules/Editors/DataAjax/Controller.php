@@ -8,7 +8,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
@@ -22,7 +22,7 @@ class Controller extends Container implements Module
     protected $event;
 
     /**
-     * Controller constructor
+     * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
      * @param \VisualComposer\Helpers\Request $request
@@ -50,7 +50,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get post content
+     * Get post content.
      */
     public function getData()
     {
@@ -67,7 +67,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Save post content and used assets
+     * Save post content and used assets.
      */
     public function setData()
     {

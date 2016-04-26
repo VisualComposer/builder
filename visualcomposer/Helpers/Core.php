@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Core
+ * Class Core.
  */
 class Core implements Helper
 {
@@ -15,7 +15,7 @@ class Core implements Helper
     private $isNetworkPlugin = null;
 
     /**
-     * Check if this is network plugin
+     * Check if this is network plugin.
      *
      * @return bool
      */

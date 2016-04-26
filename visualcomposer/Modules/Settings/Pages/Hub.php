@@ -8,7 +8,7 @@ use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class Hub
+ * Class Hub.
  */
 class Hub extends Container implements Module
 {
@@ -23,7 +23,7 @@ class Hub extends Container implements Module
     protected $templatePath = 'settings/pages/hub/index';
 
     /**
-     * Authorization constructor
+     * Hub constructor.
      */
     public function __construct()
     {

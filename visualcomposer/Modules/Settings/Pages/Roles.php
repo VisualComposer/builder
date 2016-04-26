@@ -9,7 +9,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class Roles
+ * Class Roles.
  */
 class Roles extends Container implements Module
 {
@@ -46,7 +46,7 @@ class Roles extends Container implements Module
     ];
 
     /**
-     * Roles constructor
+     * Roles constructor.
      */
     public function __construct()
     {
@@ -85,7 +85,7 @@ class Roles extends Container implements Module
     }
 
     /**
-     * Get list of parts
+     * Get list of parts.
      *
      * @return mixed|void
      */
@@ -95,7 +95,7 @@ class Roles extends Container implements Module
     }
 
     /**
-     * Check required capability for this role to have user access
+     * Check required capability for this role to have user access.
      *
      * @param $part
      *
@@ -216,7 +216,7 @@ class Roles extends Container implements Module
     }
 
     /**
-     * Save roles
+     * Save roles.
      *
      * @param Request $request
      */
@@ -242,7 +242,7 @@ class Roles extends Container implements Module
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';
-        $roles->use_db = false; // Disable saving in DB on every cap change
+        $roles->use_db = false; // Disable saving in DB on every cap change.
         foreach ($settings as $key => $value) {
             if ('_state' === $key) {
                 $stateValue = in_array(
@@ -260,7 +260,7 @@ class Roles extends Container implements Module
                 }
             }
         }
-        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
+        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB.
         $roles->add_cap($role, $partKey, $stateValue);
     }
 }

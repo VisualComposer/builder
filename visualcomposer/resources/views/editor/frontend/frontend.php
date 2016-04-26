@@ -18,7 +18,7 @@ $nonceHelper = vchelper('Nonce');
         echo $urlHelper->to(
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>"/>
-    <?php /** @todo add jquery into bundle.js */ ?>
+    <?php /** @todo add jquery into bundle.js. */ ?>
 </head>
 <body>
 <script>

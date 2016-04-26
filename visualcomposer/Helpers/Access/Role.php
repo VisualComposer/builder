@@ -6,26 +6,26 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Helpers\Access\Traits\Access as AccessFactory;
 
 /**
- * Available by vchelper('AccessRole')
- * Provides API for specific role for checks & access
+ * Available by vchelper('AccessRole').
+ * Provides API for specific role for checks & access.
  *
- * Class Access
+ * Class Access.
  */
 class Role implements Helper
 {
     use AccessFactory;
     /**
-     * Current RoleName (administrator/contributor..)
+     * Current RoleName (administrator/contributor..).
      * @var string
      */
     protected $roleName;
     /**
-     * Current get_role(from RoleName)
+     * Current get_role(from RoleName).
      * @var \WP_Role
      */
     protected $role;
     /**
-     * Current working part of access system
+     * Current working part of access system.
      * @var string
      */
     protected $part;
@@ -65,11 +65,11 @@ class Role implements Helper
     }
 
     /**
-     * Set role to get access to data
+     * Set role to get access to data.
      *
      * @param $roleName
      *
-     * @return self
+     * @return $this
      */
     public function who($roleName)
     {
@@ -87,7 +87,7 @@ class Role implements Helper
     }
 
     /**
-     * Set role name
+     * Set role name.
      *
      * @param $roleName
      */
@@ -97,7 +97,8 @@ class Role implements Helper
     }
 
     /**
-     * Get part for role
+     * Get part for role.
+     *
      * @return bool
      */
     public function getPart()
@@ -106,7 +107,7 @@ class Role implements Helper
     }
 
     /**
-     * Get state of the Vc access rules part
+     * Get state of the Vc access rules part.
      *
      * @return mixed;
      */
@@ -122,16 +123,14 @@ class Role implements Helper
     }
 
     /**
-     * Set state for full part
+     * Set state for full part.
      *
      * State can have 3 values:
      * true - all allowed under this part;
      * false - all disabled under this part;
-     * string|'custom' - custom settings. It means that need to check exact capability
+     * string|'custom' - custom settings. It means that need to check exact capability.
      *
      * @param bool $value
-     *
-     * @return bool
      */
     public function setState($value = true)
     {
@@ -140,13 +139,13 @@ class Role implements Helper
     }
 
     /**
-     * Can user do what he doo
-     * Any rule has three types of state: true, false, string
+     * Can user do what he doo.
+     * Any rule has three types of state: true, false, string.
      *
      * @param string $rule
      * @param bool|true $checkState
      *
-     * @return static
+     * @return $this
      * @throws \Exception
      */
     public function can($rule = '', $checkState = true)
@@ -191,8 +190,10 @@ class Role implements Helper
     }
 
     /**
-     * Can user do what he do
-     * Any rule has three types of state: true,false, string
+     * Can user do what he do.
+     * Any rule has three types of state: true,false, string.
+     *
+     * @return $this
      */
     public function canAny()
     {
@@ -205,8 +206,8 @@ class Role implements Helper
     }
 
     /**
-     * Can user do what he do
-     * Any rule has three types of state: true,false, string
+     * Can user do what he do.
+     * Any rule has three types of state: true,false, string.
      */
     public function canAll()
     {
@@ -219,7 +220,7 @@ class Role implements Helper
     }
 
     /**
-     * Get capability for role
+     * Get capability for role.
      *
      * @param $rule
      *
@@ -233,19 +234,23 @@ class Role implements Helper
     }
 
     /**
-     * Add capability to role
+     * Add capability to role.
      *
      * @param $rule
      * @param bool $value
+     *
+     * @return $this
      */
     public function setCapRule($rule, $value = true)
     {
         $roleRule = $this->getStateKey() . '/' . $rule;
         $this->getRole() && $this->getRole()->add_cap($roleRule, $value);
+
+        return $this;
     }
 
     /**
-     * Get all capability for this part
+     * Get all capability for this part.
      */
     public function getAllCaps()
     {
@@ -318,7 +323,8 @@ class Role implements Helper
     }
 
     /**
-     * Return access value
+     * Return access value.
+     *
      * @return string
      */
     public function __toString()

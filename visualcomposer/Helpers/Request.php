@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Request
+ * Class Request.
  */
 class Request implements Helper
 {
@@ -15,7 +15,7 @@ class Request implements Helper
     protected $data = null;
 
     /**
-     * Determine if the request contains a given input item key
+     * Determine if the request contains a given input item key.
      *
      * @param  string|array $key
      *
@@ -45,7 +45,7 @@ class Request implements Helper
     }
 
     /**
-     * Retrieve an input item from the request
+     * Retrieve an input item from the request.
      *
      * @param  string $key
      * @param  mixed $default
@@ -65,7 +65,7 @@ class Request implements Helper
     }
 
     /**
-     * Get an input element from the request
+     * Get an input element from the request.
      *
      * @param  string $key
      *

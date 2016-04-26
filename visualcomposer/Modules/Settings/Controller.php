@@ -13,7 +13,7 @@ use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 class Controller extends Container implements Module
 {
@@ -73,9 +73,9 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get main page slug
-     * This determines what page is opened when user clicks 'Visual Composer' in settings menu
-     * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
+     * Get main page slug.
+     * This determines what page is opened when user clicks 'Visual Composer' in settings menu.
+     * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened.
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
@@ -164,7 +164,7 @@ class Controller extends Container implements Module
         $pages = $this->getPages();
         $page = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($page) {
-            // pages can define different layout, by setting 'layout' key/value
+            // pages can define different layout, by setting 'layout' key/value.
             if (isset($page['layout'])) {
                 $layout = $page['layout'];
             }
@@ -180,7 +180,7 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Init settings page
+     * Init settings page.
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      */

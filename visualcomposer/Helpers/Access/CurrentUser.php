@@ -7,9 +7,9 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 use VisualComposer\Helpers\Access\Role as AccessFactory;
 
 /**
- * Available by vchelper('AccessCurrentUser')
- * Provides API to check access for current logged in used
- * Class Access
+ * Available by vchelper('AccessCurrentUser').
+ * Provides API to check access for current logged in used.
+ * Class Access.
  */
 class CurrentUser extends AccessFactory implements Helper
 {
@@ -26,11 +26,11 @@ class CurrentUser extends AccessFactory implements Helper
             $this->reset();
         }
         $this->part = $part;
-        // we also check for user "logged_in" status
+        // we also check for user "logged_in" status.
         $isUserLoggedIn = function_exists('is_user_logged_in')
             && is_user_logged_in(
             ); // TODO: fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
-        $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level
+        $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level.
 
         return $this;
     }
@@ -67,7 +67,7 @@ class CurrentUser extends AccessFactory implements Helper
     }
 
     /**
-     * Check Wordpress capability. Should be valid one cap at least
+     * Check Wordpress capability. Should be valid one cap at least.
      *
      * @return $this
      */
@@ -82,7 +82,7 @@ class CurrentUser extends AccessFactory implements Helper
     }
 
     /**
-     * Check Wordpress capability. Should be valid all caps
+     * Check Wordpress capability. Should be valid all caps.
      *
      * @return $this
      */
@@ -97,7 +97,7 @@ class CurrentUser extends AccessFactory implements Helper
     }
 
     /**
-     * Get capability for current user
+     * Get capability for current user.
      *
      * @param $rule
      *
@@ -111,7 +111,7 @@ class CurrentUser extends AccessFactory implements Helper
     }
 
     /**
-     * Add capability to role
+     * Add capability to role.
      *
      * @param $rule
      * @param bool $value

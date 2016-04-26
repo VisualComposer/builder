@@ -12,7 +12,7 @@
  */
 
 /**
- * Check for direct call file
+ * Check for direct call file.
  */
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Skip loading when installing
+ * Skip loading when installing.
  *
  * @see wp_installing
  */
@@ -30,7 +30,7 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
 }
 
 /**
- * Check for plugin conflict
+ * Check for plugin conflict.
  */
 if (defined('VCV_VERSION')) {
     wp_die('It seems that other version of Visual Composer is active. Please deactivate it before use this version');
@@ -62,7 +62,7 @@ define('VCV_PLUGIN_FULL_PATH', __FILE__);
  */
 define('VCV_PLUGIN_DIRNAME', dirname(VCV_PLUGIN_BASE_NAME));
 /**
- * Plugin core prefix for options/meta and etc
+ * Plugin core prefix for options/meta and etc.
  */
 define('VCV_PREFIX', 'vcv-');
 if (!defined('VCV_DEBUG')) {
@@ -74,11 +74,11 @@ if (!defined('VCV_DEBUG_AUTOLOAD_RANDOM')) {
 
 // Used in requirements.php
 /**
- * Minimal required PHP version
+ * Minimal required PHP version.
  */
 define('VCV_REQUIRED_PHP_VERSION', '5.4');
 /**
- * Minimal required WordPress version
+ * Minimal required WordPress version.
  */
 define('VCV_REQUIRED_BLOG_VERSION', '4.1');
 if (!defined('VCV_AJAX_REQUEST')) {
@@ -86,13 +86,13 @@ if (!defined('VCV_AJAX_REQUEST')) {
 }
 
 /**
- * Check PHP version
- * Check WordPress version
- * PHP 5.1 parse-able (no parse error)
+ * Check PHP version.
+ * Check WordPress version.
+ * PHP 5.1 parse-able (no parse error).
  */
 require_once __DIR__ . '/visualcomposer/Requirements.php';
 
-// !! PHP 5.4 Required under this line (parse error otherwise)
+// !! PHP 5.4 Required under this line (parse error otherwise).
 
-// Bootstrap the system
+// Bootstrap the system.
 require __DIR__ . '/bootstrap/autoload.php';
