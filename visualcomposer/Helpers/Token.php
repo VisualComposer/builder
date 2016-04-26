@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Helpers;
 
-// @todo fix BUG @error
+// TODO: fix BUG @error
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
@@ -63,15 +63,15 @@ class Token extends Container implements Helper
                 ],
             ]
         );
+
         if (is_array($result) && 200 == $result['response']['code']) {
-            //
             $body = json_decode($result['body']);
             if ($body->access_token) {
                 /** @see \VisualComposer\Helpers\Token::saveToken */
                 return $this->call('saveToken', [$body]);
             }
         } else {
-            // @todo @error
+            // TODO: handle error
         }
 
         return false;
@@ -131,11 +131,13 @@ class Token extends Container implements Helper
         $result = wp_remote_post(
             'http://test.account.visualcomposer.io/token',
             [
-                'grant_type' => 'refresh_token',
-                'client_secret' => $options->get('site-secret'),
-                'redirect_uri' => $urlHelper->ajax(['vcv-action' => 'api']),
-                'client_id' => $options->get('site-id'),
-                'refresh_token' => $refreshToken,
+                'body' => [
+                    'grant_type' => 'refresh_token',
+                    'client_secret' => $options->get('site-secret'),
+                    'redirect_uri' => $urlHelper->ajax(['vcv-action' => 'api']),
+                    'client_id' => $options->get('site-id'),
+                    'refresh_token' => $refreshToken,
+                ]
             ]
         );
         if (is_array($result) && 200 == $result['response']['code']) {
@@ -157,7 +159,7 @@ class Token extends Container implements Helper
 
             return $body->access_token;
         } else {
-            // @todo @error
+            // TODO: handle error
         }
 
         return false;
