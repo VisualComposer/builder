@@ -124,6 +124,6 @@ $editableRoles = get_editable_roles();
     submit_button(__('Save Changes', 'vc5'), 'primary', 'submit_btn', true, $submitButtonAttributes);
 
     ?>
-    <?php /* @todo change id in JS from #vcv_settings-roles-action to #settings-save-roles-btn */ ?>
+    <?php /** @todo change id in JS from #vcv_settings-roles-action to #settings-save-roles-btn */ ?>
     <input type="hidden" name="action" value="vcv_roles_settings_save" id="vcv-settings-save-roles-btn"/>
 </form>

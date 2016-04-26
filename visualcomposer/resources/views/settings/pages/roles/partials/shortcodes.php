@@ -13,7 +13,7 @@ vcview(
         'controller' => vchelper('AccessRole')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => [],
-        // @todo add shortcodes
+        // TODO: add shortcodes
         'ignoreCapabilities' => [
             'vc_gitem',
             'vc_gitem_animated_block',
@@ -27,7 +27,7 @@ vcview(
             'vc_posts_grid',
         ],
         'categories' => [],
-        // @todo add shortcodes
+        // TODO: add shortcodes
         'capTypes' => [
             [
                 'all',

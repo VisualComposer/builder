@@ -298,7 +298,7 @@ class Controller extends Container implements Module
         if ($postAssets) {
             $assets[ $postId ] = $postAssets;
         } else {
-            unset($assets[ $postId ]); // @todo check for isset??
+            unset($assets[ $postId ]); // TODO: check for isset??
         }
 
         $this->options->set($assetType, $assets);
@@ -317,7 +317,7 @@ class Controller extends Container implements Module
         if ($extension) {
             $extension = '.' . $extension;
         }
-        // @todo probably need to use rglob
+        // TODO: probably need to use rglob
         /** @see \VisualComposer\Application::rglob */
         $files = glob($destinationDir . '/*' . $extension);
         if (is_array($files)) {

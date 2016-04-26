@@ -29,7 +29,7 @@ class CurrentUser extends AccessFactory implements Helper
         // we also check for user "logged_in" status
         $isUserLoggedIn = function_exists('is_user_logged_in')
             && is_user_logged_in(
-            ); // @todo fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
+            ); // TODO: fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
         $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level
 
         return $this;

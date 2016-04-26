@@ -28,7 +28,7 @@ $nonceHelper = vchelper('Nonce');
 </script>
 <script type="text/javascript" src="<?php echo $urlHelper->to(
     'public/dist/wp.bundle.js?' . uniqid()
-); /* @todo: use assets folder */ ?>"></script>
+); /** @todo: use assets folder */ ?>"></script>
 <iframe src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
     width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
 </body>

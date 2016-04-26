@@ -44,8 +44,8 @@ if ($strHelper->contains($requestAction, ':nonce')) {
 }
 
 /**
- * @todo: 1) check access [authorized, permission, guest]
- * @todo: 2) sanitize input
+ * @todo 1) check access [authorized, permission, guest]
+ * @todo 2) sanitize input
  */
 do_action('vcv:ajax:loader');
 do_action('vcv:ajax:loader:' . $requestAction);

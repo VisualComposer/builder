@@ -39,7 +39,7 @@ abstract class Container
         );
 
         if ($inner) {
-            // @todo check for correct
+            // TODO: check for correct
             $reflectionMethod = new ReflectionMethod($this, $method);
             $reflectionMethod->setAccessible(true);
 

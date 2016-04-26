@@ -40,7 +40,7 @@ class Controller extends Container implements Module
      */
     public function __construct(Request $request)
     {
-        // @todo this is not valid. we should use register_activation_callback.
+        // TODO: this is not valid. we should use register_activation_callback.
         if ($request->exists('activate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
             $this->call('finishActivationDeactivation', [true, $request->input('activate')]);

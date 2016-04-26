@@ -64,7 +64,7 @@ class Authorization extends Container implements Module
                 /** @see \VisualComposer\Helpers\Token::registerSite */
                 vcapp()->call([$tokenHelper, 'registerSite'], [$body]);
             } else {
-                // @todo @error
+                // TODO: @error
             }
         }
     }

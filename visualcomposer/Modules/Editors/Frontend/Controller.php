@@ -21,7 +21,7 @@ class Controller extends Container implements Module
         add_action(
             'vcv:ajax:loader:frontend',
             function () {
-                // @todo check access
+                // TODO: check access
                 /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */
                 $this->call('renderEditorBase');
             }
