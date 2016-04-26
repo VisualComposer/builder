@@ -16,6 +16,10 @@ class File implements Helper
      */
     public function getContents($filePath)
     {
+        if (!is_file($filePath)) {
+            return false;
+        }
+
         return file_get_contents($filePath);
     }
 
