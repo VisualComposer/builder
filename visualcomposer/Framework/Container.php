@@ -48,4 +48,12 @@ abstract class Container
             return call_user_func_array($func, $dependencies);
         }
     }
+
+    /**
+     * @param $data
+     */
+    public function terminate($data)
+    {
+        die($data);
+    }
 }

@@ -28,12 +28,12 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $request
      */
-    private function ajaxShortcodeRender(Request $request)
+    public function ajaxShortcodeRender(Request $request)
     {
         // @todo add _nonce, check access
         $content = do_shortcode($request->input('vcv-shortcode-string'));
         wp_print_head_scripts();
         wp_print_footer_scripts();
-        die($content);
+        $this->terminate($content);
     }
 }

@@ -79,7 +79,7 @@ class Controller extends Container implements Module
     /**
      * @param $postId
      */
-    private function setPostDataHook($postId)
+    public function setPostDataHook($postId)
     {
         $this->updatePostAssets(
             $postId,
@@ -93,7 +93,16 @@ class Controller extends Container implements Module
         );
         $this->generateScriptsBundle();
         $styleBundles = $this->getStyleBundles();
-        wp_send_json_success(['styleBundles' => $styleBundles]);
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => true,
+                    'data' => [
+                        'styleBundles' => $styleBundles,
+                    ],
+                ]
+            )
+        );
     }
 
     /**
@@ -102,7 +111,7 @@ class Controller extends Container implements Module
      *
      * @param int $postId Post ID
      */
-    private function deletePostAssetsHook($postId)
+    public function deletePostAssetsHook($postId)
     {
         foreach ([
             'scripts',
@@ -123,16 +132,31 @@ class Controller extends Container implements Module
     /**
      * Save compiled less into one css bundle
      */
-    private function saveCssBundleHook()
+    public function saveCssBundleHook()
     {
         $contents = $this->request->input('vcv-contents');
 
         $bundleUrl = $this->generateStylesBundle($contents);
 
         if ($bundleUrl === false) {
-            wp_send_json_error();
+            $this->terminate(
+                json_encode(
+                    [
+                        'success' => false,
+                    ]
+                )
+            );
         }
-        wp_send_json_success(['filename' => $bundleUrl]);
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => true,
+                    'data' => [
+                        'filename' => $bundleUrl,
+                    ],
+                ]
+            )
+        );
     }
 
     /**
@@ -293,7 +317,8 @@ class Controller extends Container implements Module
         if ($extension) {
             $extension = '.' . $extension;
         }
-
+        // @todo probably need to use rglob
+        /** @see \VisualComposer\Application::rglob */
         $files = glob($destinationDir . '/*' . $extension);
         if (is_array($files)) {
             foreach ($files as $file) {

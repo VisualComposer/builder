@@ -84,7 +84,7 @@ class Controller extends Container implements Module
      * @return string
      * @throws \Exception
      */
-    private function getMainPageSlug(
+    public function getMainPageSlug(
         CurrentUser $currentUserAccess,
         About $aboutPage,
         General $generalPage

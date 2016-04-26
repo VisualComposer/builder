@@ -21,9 +21,9 @@ class Controller extends Container implements Module
         add_action(
             'template_redirect',
             function () {
-                /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::isPageEditable */
+                /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
                 if ($this->call('isPageEditable')) {
-                    /** @see \VisualComposer\Modules\Editors\Frontend\PageEditable::buildPageEditable */
+                    /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
                     $this->call('buildPageEditable');
                 }
             }
@@ -36,7 +36,7 @@ class Controller extends Container implements Module
      *
      * @return bool
      */
-    private function isPageEditable(Request $request, Nonce $nonce)
+    public function isPageEditable(Request $request, Nonce $nonce)
     {
         return ($request->exists('vcv-editable')
             && $request->exists('vcv-nonce')
@@ -46,7 +46,7 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Url $url
      */
-    private function buildPageEditable(Url $url)
+    public function buildPageEditable(Url $url)
     {
         add_action(
             'the_post',
