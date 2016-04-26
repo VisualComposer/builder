@@ -50,4 +50,4 @@ public/dist/
 composer.lock
 cache/*
 !cache/.gitkeep
-test.coverage
+test-coverage.xml

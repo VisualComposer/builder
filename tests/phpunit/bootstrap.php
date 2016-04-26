@@ -18,3 +18,32 @@ tests_add_filter(
 );
 
 require $testsDir . '/phpunit/includes/bootstrap.php';
+
+/**
+ * @param $mockableClass
+ *
+ * @return \VisualComposer\Framework\Application
+ */
+function vc_create_module_mock($mockableClass)
+{
+    /** @var $mock \VisualComposer\Framework\Application */
+    $temporaryClass = substr(
+            str_shuffle(
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            ),
+            0,
+            50
+        ) . (rand(1000, 9999));
+
+    $code = "
+        class $temporaryClass extends $mockableClass {
+            public function call(\$method, array \$parameters = []) {
+                return parent::call(\$method, \$parameters);
+            }
+        }
+        \$mock = vcapp()->make('$temporaryClass');
+    ";
+    eval($code);
+
+    return $mock;
+}
