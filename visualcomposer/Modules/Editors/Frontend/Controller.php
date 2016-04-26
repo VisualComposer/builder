@@ -33,7 +33,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Templates $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
      */
-    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
+    public function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
         global $post;
         $sourceId = (int)$request->input('vcv-source-id');

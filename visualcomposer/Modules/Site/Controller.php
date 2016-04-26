@@ -94,7 +94,7 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
-    private function appendScript(Url $urlHelper)
+    public function appendScript(Url $urlHelper)
     {
         echo '<script src="' . $urlHelper->to('node_modules/less/dist/less.js') . '" data-async="true"></script>';
     }

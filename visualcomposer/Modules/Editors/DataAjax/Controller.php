@@ -52,7 +52,7 @@ class Controller extends Container implements Module
     /**
      * Get post content
      */
-    private function getData()
+    public function getData()
     {
         $data = '';
         $sourceId = $this->request->input('vcv-source-id');
@@ -69,7 +69,7 @@ class Controller extends Container implements Module
     /**
      * Save post content and used assets
      */
-    private function setData()
+    public function setData()
     {
         $data = $this->request->input('vcv-data');
         $content = $this->request->input('vcv-content');
@@ -89,8 +89,20 @@ class Controller extends Container implements Module
                     $data,
                 ]
             );
-            die(json_encode(['status' => 'ok']));
+            $this->terminate(
+                json_encode(
+                    [
+                        'success' => true,
+                    ]
+                )
+            );
         }
-        die(json_encode(['status' => 'fail']));
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => false,
+                ]
+            )
+        );
     }
 }
