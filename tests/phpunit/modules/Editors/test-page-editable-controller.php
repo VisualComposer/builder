@@ -41,11 +41,8 @@ class PageEditableControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(
-                1,
-                preg_match('/' . $pattern . '/', $output),
-                'Failed to find `' . $pattern . '` in generated output'
-            );
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 
@@ -56,6 +53,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
         $nonceHelper = vchelper('Nonce');
+
         $requestHelper->setData(
             [
                 'vcv-editable' => 1,
@@ -85,11 +83,8 @@ class PageEditableControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(
-                1,
-                preg_match('/' . $pattern . '/', $output),
-                'Failed to find `' . $pattern . '` in generated output: "' . $output . '"'
-            );
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 }

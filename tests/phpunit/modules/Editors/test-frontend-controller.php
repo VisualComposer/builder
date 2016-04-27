@@ -39,7 +39,8 @@ class FrontendControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), 'Failed to find `' . $pattern . '` in generated output');
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 
