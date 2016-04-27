@@ -8,7 +8,7 @@ class LicenseControllerTest extends WP_UnitTestCase
     public function testProperties()
     {
         /** @var $module \VisualComposer\Modules\License\Controller */
-        $module = vcapp('LicenseController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\License\Controller');
 
         $prop = new ReflectionProperty($module, 'licenseKeyOption');
         $prop->setAccessible(true);
@@ -26,7 +26,7 @@ class LicenseControllerTest extends WP_UnitTestCase
     public function testIsActivated()
     {
         /** @var $module \VisualComposer\Modules\License\Controller */
-        $module = vcapp('LicenseController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\License\Controller');
 
         /** @var \VisualComposer\Helpers\Options $optionsHelper */
         $optionsHelper = vchelper('Options');
