@@ -16,6 +16,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">../visualcomposer/Framework</directory>
+            <exclude>
+                <file>../visualcomposer/Modules/System/Loader.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
