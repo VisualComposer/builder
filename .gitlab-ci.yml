@@ -3,13 +3,6 @@ image: wpbakery/ci-wordpress
 before_script:
   - composer install
 
-testApp:
-  script:
-    - phpunit --configuration=ci/phpunit-app.xml
-    - php ci/coverage-test.php
-  tags:
-    - docker
-
 testFramework:
   script:
     - phpunit --configuration=ci/phpunit-framework.xml

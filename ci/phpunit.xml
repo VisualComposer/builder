@@ -18,6 +18,7 @@
             <directory suffix=".php">../visualcomposer</directory>
             <exclude>
                 <file>../visualcomposer/Modules/System/Loader.php</file>
+                <directory suffix=".php">../visualcomposer/resources</directory>
             </exclude>
         </whitelist>
     </filter>
