@@ -1,6 +1,6 @@
 <?php
 
-class AssetsManagerTest extends WP_UnitTestCase
+class AssetsManagerControllerTest extends WP_UnitTestCase
 {
     public function test_setPostDataHook()
     {
