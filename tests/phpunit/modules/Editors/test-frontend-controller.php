@@ -8,16 +8,10 @@ class FrontendControllerTest extends WP_UnitTestCase
     public function testRenderEditorBase()
     {
         /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
-        $module = vcapp('EditorsFrontendController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
 
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
-
-        /** @var \VisualComposer\Helpers\Templates $templatesHelper */
-        $templatesHelper = vchelper('Templates');
-
-        /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
-        $nonceHelper = vchelper('Nonce');
 
         // Create test post.
         $this->post = new WP_UnitTest_Factory_For_Post($this);
@@ -25,7 +19,7 @@ class FrontendControllerTest extends WP_UnitTestCase
         $requestHelper->setData(['vcv-source-id' => $post_id]);
 
         ob_start();
-        $module->renderEditorBase($requestHelper, $templatesHelper, $nonceHelper);
+        vcapp()->call([$module, 'renderEditorBase']);
         $output = ob_get_contents();
         ob_end_clean();
 
@@ -39,7 +33,8 @@ class FrontendControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), 'Failed to find `' . $pattern . '` in generated output');
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 

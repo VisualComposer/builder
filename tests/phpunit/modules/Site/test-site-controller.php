@@ -5,11 +5,10 @@ class SiteControllerTest extends WP_UnitTestCase
     public function testAppendScript()
     {
         /** @var $module \VisualComposer\Modules\Site\Controller */
-        $module = vcapp('SiteController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\Site\Controller');
 
         ob_start();
-        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
-        vcapp()->call($module, 'appendScript');
+        vcapp()->call([$module, 'appendScript']);
         $output = ob_get_contents();
         ob_end_clean();
 

@@ -27,7 +27,7 @@ class Controller extends Container implements Module
     /**
      * @var string
      */
-    static protected $activationHost = 'http://vc-account.dev';
+    static protected $activationHost = 'https://account.visualcomposer.io';
     /**
      * @var string
      */

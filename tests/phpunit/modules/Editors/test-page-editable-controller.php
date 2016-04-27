@@ -19,7 +19,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
     public function testBuildPageEditable()
     {
         /** @var $module \VisualComposer\Modules\Editors\PageEditable\Controller */
-        $module = vcapp('EditorsPageEditableController');
+        $module = vc_create_module_mock('\VisualComposer\Modules\Editors\PageEditable\Controller');
 
         vcapp()->call([$module, 'buildPageEditable']);
 
@@ -41,11 +41,8 @@ class PageEditableControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(
-                1,
-                preg_match('/' . $pattern . '/', $output),
-                'Failed to find `' . $pattern . '` in generated output'
-            );
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 
@@ -56,6 +53,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
         $nonceHelper = vchelper('Nonce');
+
         $requestHelper->setData(
             [
                 'vcv-editable' => 1,
@@ -67,7 +65,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
         do_action('template_redirect');
         global $post;
         $post = get_post($this->post);
-        setup_postdata($post); // this will trigger the_post action
+        setup_postdata($post); // This will trigger the_post action.
 
         ob_start();
         the_content();
@@ -85,11 +83,8 @@ class PageEditableControllerTest extends WP_UnitTestCase
         ];
 
         foreach ($patterns as $pattern) {
-            $this->assertEquals(
-                1,
-                preg_match('/' . $pattern . '/', $output),
-                'Failed to find `' . $pattern . '` in generated output: "' . $output . '"'
-            );
+            $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
+            $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
     }
 }
