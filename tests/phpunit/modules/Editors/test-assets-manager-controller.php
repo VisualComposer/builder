@@ -2,7 +2,7 @@
 
 class AssetsManagerControllerTest extends WP_UnitTestCase
 {
-    public function test_setPostDataHook()
+    public function testSetPostDataHook()
     {
         //$module = vcapp('EditorsAssetsManagerController');
         //$reflectionMethod = new ReflectionMethod($module, 'setPostDataHook');

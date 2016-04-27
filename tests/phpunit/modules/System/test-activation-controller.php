@@ -2,7 +2,7 @@
 
 class ActivationControllerTest extends WP_UnitTestCase
 {
-    public function test_setVersion()
+    public function testSetVersion()
     {
         /** @var $module \VisualComposer\Modules\System\Activation\Controller */
         $module = vcapp('SystemActivationController');
@@ -17,7 +17,7 @@ class ActivationControllerTest extends WP_UnitTestCase
         $this->assertEquals(VCV_VERSION, $optionsHelper->get('version'));
     }
 
-    public function test_setVersion_viaMock()
+    public function testSetVersionViaMock()
     {
         /** @var $mock \VisualComposer\Modules\System\Activation\Controller|\VisualComposer\Application */
         $mock = vc_create_module_mock('\VisualComposer\Modules\System\Activation\Controller');
