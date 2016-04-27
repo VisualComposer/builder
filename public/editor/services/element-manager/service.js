@@ -71,11 +71,10 @@ class Element {
 }
 
 addService('element-manager', {
-  get(id) {
-    var element = new Element(id);
-    return element.buildElement();
+  get(tag) {
+    return elementSettings.get(tag);
   },
-  addElement(settings, componentCallback, cssSettings, javascriptCallback) {
+  add(settings, componentCallback, cssSettings, javascriptCallback) {
     elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback);
   }
 });

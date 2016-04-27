@@ -26,8 +26,9 @@
       "data": "colors"
     }
   },
-  "edit-form-tabs": {
+  "edit-form": {
     "type": "group",
-    "access": ""
+    "access": "public",
+    "value": ["color"]
   }
 }

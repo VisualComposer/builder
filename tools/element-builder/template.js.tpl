@@ -1,4 +1,5 @@
-vcCake.getService('element-manager').addElement(
+import {getService} from 'vc-cake';
+getService('element-manager').add(
   {{ settings() }},
   // Component callback
   function() {

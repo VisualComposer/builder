@@ -1,4 +1,4 @@
-import {_} from 'lodash';
+import _ from 'lodash';
 
 const items = {};
 export default {
@@ -14,10 +14,6 @@ export default {
     delete items[tag];
   },
   get(tag) {
-    var attributeElement = item[tag];
-    if (attributeElement) {
-      return attributeElement;
-    }
-    throw new Error('Error! element settings list doesn\'t exist.');
+    return items[tag] || null;
   }
 };
