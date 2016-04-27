@@ -67,7 +67,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
         do_action('template_redirect');
         global $post;
         $post = get_post($this->post);
-        setup_postdata($post); // this will trigger the_post action
+        setup_postdata($post); // This will trigger the_post action.
 
         ob_start();
         the_content();
