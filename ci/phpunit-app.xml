@@ -7,10 +7,9 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
 >
-
     <testsuites>
-        <testsuite name="Whole project">
-            <directory prefix="test-" suffix=".php">../tests/phpunit</directory>
+        <testsuite name="App">
+            <directory prefix="test-" suffix=".php">../tests/phpunit/app</directory>
         </testsuite>
     </testsuites>
 

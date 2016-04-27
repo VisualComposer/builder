@@ -7,16 +7,15 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
 >
-
     <testsuites>
-        <testsuite name="Whole project">
-            <directory prefix="test-" suffix=".php">../tests/phpunit</directory>
+        <testsuite name="Framework">
+            <directory prefix="test-" suffix=".php">../tests/phpunit/framework</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../visualcomposer</directory>
+            <directory suffix=".php">../visualcomposer/Framework</directory>
         </whitelist>
     </filter>
 
