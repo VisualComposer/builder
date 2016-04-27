@@ -123,7 +123,7 @@ DATA;
      *
      * @return array
      */
-    private function shuffleAssoc($array)
+    public function shuffleAssoc($array)
     {
         $keys = array_keys($array);
 
@@ -141,7 +141,7 @@ DATA;
      *
      * @return bool
      */
-    private function isHelper($implements)
+    public function isHelper($implements)
     {
         return in_array(
             $implements,
@@ -158,7 +158,7 @@ DATA;
      *
      * @return bool
      */
-    private function isModule($implements)
+    public function isModule($implements)
     {
         return in_array(
             $implements,
@@ -281,7 +281,7 @@ DATA;
      *
      * @return mixed
      */
-    private function getHelperName($data)
+    public function getHelperName($data)
     {
         return str_replace(
             [
@@ -300,7 +300,7 @@ DATA;
      *
      * @return mixed
      */
-    private function getModuleName($data)
+    public function getModuleName($data)
     {
         return str_replace(
             [
