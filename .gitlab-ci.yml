@@ -1,0 +1,26 @@
+image: wpbakery/ci-wordpress
+
+before_script:
+  - composer install
+
+testFramework:
+  script:
+    - phpunit --configuration=ci/phpunit-framework.xml
+    - php ci/coverage-test.php
+  tags:
+    - docker
+
+testHelpers:
+  script:
+    - phpunit --configuration=ci/phpunit-helpers.xml
+    - php ci/coverage-test.php
+  tags:
+    - docker
+
+testModules:
+  script:
+    - phpunit --configuration=ci/phpunit-modules.xml
+    - php ci/coverage-test.php
+  tags:
+    - docker
+

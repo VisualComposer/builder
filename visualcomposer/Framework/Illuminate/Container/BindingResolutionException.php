@@ -1,10 +1,11 @@
-<?php namespace VisualComposer\Framework\Illuminate\Container;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Container;
 
 use Exception;
 
 /**
- * Class BindingResolutionException
- * @package VisualComposer\Framework\Illuminate\Container
+ * Class BindingResolutionException.
  */
 class BindingResolutionException extends Exception
 {

@@ -3,17 +3,17 @@
 namespace VisualComposer\Modules\Editors\DataAjax;
 
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
- * @package VisualComposer\Modules\Editors\DataAjax
+ * Class Controller.
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
-     * @var \VisualComposer\Helpers\Generic\Request
+     * @var \VisualComposer\Helpers\Request
      */
     protected $request;
     /**
@@ -25,7 +25,7 @@ class Controller extends Container
      * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
-     * @param \VisualComposer\Helpers\Generic\Request $request
+     * @param \VisualComposer\Helpers\Request $request
      */
     public function __construct(Dispatcher $event, Request $request)
     {
@@ -50,15 +50,15 @@ class Controller extends Container
     }
 
     /**
-     * Get post content
+     * Get post content.
      */
-    private function getData()
+    public function getData()
     {
         $data = '';
         $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
-            // @todo: access checks
-            // @todo: fix react components if there is empty page content
+            // TODO: access checks
+            // TODO: fix react components if there is empty page content
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
 
             $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
@@ -67,17 +67,17 @@ class Controller extends Container
     }
 
     /**
-     * Save post content and used assets
+     * Save post content and used assets.
      */
-    private function setData()
+    public function setData()
     {
         $data = $this->request->input('vcv-data');
         $content = $this->request->input('vcv-content');
         $sourceId = $this->request->input('vcv-source-id');
         if (is_numeric($sourceId)) {
-            // @todo: save elements on page
+            // TODO: save elements on page
             $post = get_post($sourceId);
-            $post->post_content = stripslashes($content); // @todo: check for stripslashes - maybe not needed!
+            $post->post_content = stripslashes($content); // TODO: check for stripslashes - maybe not needed!
             wp_update_post($post);
             // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vcv:pageContent' => $data ]
             update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
@@ -89,8 +89,20 @@ class Controller extends Container
                     $data,
                 ]
             );
-            die(json_encode(['status' => 'ok']));
+            $this->terminate(
+                json_encode(
+                    [
+                        'success' => true,
+                    ]
+                )
+            );
         }
-        die(json_encode(['status' => 'fail']));
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => false,
+                ]
+            )
+        );
     }
 }

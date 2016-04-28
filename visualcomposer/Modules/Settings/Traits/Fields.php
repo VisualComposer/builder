@@ -1,6 +1,10 @@
 <?php
+
 namespace VisualComposer\Modules\Settings\Traits;
 
+/**
+ * Trait Fields.
+ */
 trait Fields
 {
     /**

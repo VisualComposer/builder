@@ -2,19 +2,19 @@
 
 namespace VisualComposer\Modules\License;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Core;
-use VisualComposer\Helpers\Generic\Data;
-use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Core;
+use VisualComposer\Helpers\Str;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
- * @package VisualComposer\Modules\License
+ * Class Controller.
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var string
@@ -27,20 +27,20 @@ class Controller extends Container
     /**
      * @var string
      */
-    static protected $activationHost = 'http://vc-account.dev';
+    static protected $activationHost = 'https://account.visualcomposer.io';
     /**
      * @var string
      */
     private $error = null;
 
     /**
-     * LicenseController constructor.
+     * Controller constructor.
      *
      * @param Request $request
      */
     public function __construct(Request $request)
     {
-        // @todo this is not valid. we should use register_activation_callback..
+        // TODO: this is not valid. we should use register_activation_callback.
         if ($request->exists('activate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
             $this->call('finishActivationDeactivation', [true, $request->input('activate')]);
@@ -67,7 +67,7 @@ class Controller extends Container
     }
 
     /**
-     * Get license page  url
+     * Get license page url.
      *
      * @param \VisualComposer\Modules\Settings\Pages\License $licensePage
      *
@@ -79,7 +79,7 @@ class Controller extends Container
     }
 
     /**
-     * Output notice
+     * Output notice.
      *
      * @param string $message
      * @param bool $success
@@ -96,7 +96,7 @@ class Controller extends Container
     }
 
     /**
-     * Show error
+     * Show error.
      *
      * @param string $error
      */
@@ -114,7 +114,7 @@ class Controller extends Container
     }
 
     /**
-     * Output last error
+     * Output last error.
      */
     private function renderLastError()
     {
@@ -123,7 +123,7 @@ class Controller extends Container
     }
 
     /**
-     * Output successful activation message
+     * Output successful activation message.
      */
     private function renderActivatedSuccess()
     {
@@ -132,7 +132,7 @@ class Controller extends Container
     }
 
     /**
-     * Output successful deactivation message
+     * Output successful deactivation message.
      */
     private function renderDeactivatedSuccess()
     {
@@ -141,11 +141,11 @@ class Controller extends Container
     }
 
     /**
-     * Finish pending activation/deactivation
+     * Finish pending activation/deactivation.
      *
-     * 1) Make API call to support portal
-     * 2) Receive success status and license key
-     * 3) Set new license key
+     * 1) Make API call to support portal.
+     * 2) Receive success status and license key.
+     * 3) Set new license key.
      *
      * @param bool $activation
      * @param string $userToken
@@ -242,9 +242,9 @@ class Controller extends Container
     }
 
     /**
-     * Check license key from remote
+     * Check license key from remote.
      *
-     * Function is used by support portal to check if VC w/ specific license is still installed
+     * Function is used by support portal to check if VC w/ specific license is still installed.
      *
      * @param Request $request
      */
@@ -262,7 +262,7 @@ class Controller extends Container
     }
 
     /**
-     * Generate action URL
+     * Generate action URL.
      *
      * @return string
      */
@@ -289,7 +289,7 @@ class Controller extends Container
     }
 
     /**
-     * Generate action URL
+     * Generate action URL.
      *
      * @return string
      */
@@ -320,13 +320,13 @@ class Controller extends Container
     }
 
     /**
-     * Start activation process and output redirect URL as JSON
+     * Start activation process and output redirect URL as JSON.
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function startActivationResponse(CurrentUserAccess $currentUserAccess)
+    private function startActivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->reset()->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part(
             'settings'
@@ -342,13 +342,13 @@ class Controller extends Container
     }
 
     /**
-     * Start deactivation process and output redirect URL as JSON
+     * Start deactivation process and output redirect URL as JSON.
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function startDeactivationResponse(CurrentUserAccess $currentUserAccess)
+    private function startDeactivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
                           ->can('vcv-license-tab')->validateDie();
@@ -363,10 +363,10 @@ class Controller extends Container
     }
 
     /**
-     * Set license key
+     * Set license key.
      *
      * @param string $licenseKey
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function setLicenseKey($licenseKey, Options $options)
     {
@@ -374,9 +374,9 @@ class Controller extends Container
     }
 
     /**
-     * Get license key
+     * Get license key.
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
@@ -386,7 +386,7 @@ class Controller extends Container
     }
 
     /**
-     * Check if specified license key is valid
+     * Check if specified license key is valid.
      *
      * @param string $licenseKey
      *
@@ -399,11 +399,11 @@ class Controller extends Container
     }
 
     /**
-     * Set up license activation notice if needed
+     * Set up license activation notice if needed.
      *
-     * Don't show notice on dev environment
+     * Don't show notice on dev environment.
      *
-     * @param \VisualComposer\Helpers\Generic\Core $core
+     * @param \VisualComposer\Helpers\Core $core
      */
     private function setupReminder(Core $core)
     {
@@ -429,14 +429,14 @@ class Controller extends Container
     }
 
     /**
-     * Check if current enviroment is dev
+     * Check if current enviroment is dev.
      *
      * Environment is considered dev if host is:
-     * - ip address
-     * - tld is local, dev, wp, test, example, localhost or invalid
-     * - no tld (localhost, custom hosts)
+     * - ip address.
+     * - tld is local, dev, wp, test, example, localhost or invalid.
+     * - no tld (localhost, custom hosts).
      *
-     * @param string $host Hostname to check. If null, use HTTP_HOST
+     * @param string $host Hostname to check. If null, use HTTP_HOST.
      *
      * @return bool
      */
@@ -459,9 +459,9 @@ class Controller extends Container
     }
 
     /**
-     * Render license activation notice
+     * Render license activation notice.
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function renderLicenseActivationNotice(Options $options)
     {
@@ -477,9 +477,9 @@ class Controller extends Container
     }
 
     /**
-     * Get license key token
+     * Get license key token.
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
@@ -489,10 +489,10 @@ class Controller extends Container
     }
 
     /**
-     * Set license key token
+     * Set license key token.
      *
      * @param string $token
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function setLicenseKeyToken($token, Options $options)
     {
@@ -500,25 +500,25 @@ class Controller extends Container
     }
 
     /**
-     * Return new license key token
+     * Return new license key token.
      *
-     * Token is used to change license key from remote location
+     * Token is used to change license key from remote location.
      *
-     * Format is: timestamp|20-random-characters
+     * Format is: timestamp|20-random-characters.
      *
-     * @param \VisualComposer\Helpers\Generic\Data $data
+     * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return string
      */
-    private function generateLicenseKeyToken(Data $data)
+    private function generateLicenseKeyToken(Str $strHelper)
     {
-        $token = time() . '|' . $data->randomString(20);
+        $token = time() . '|' . $strHelper->quickRandom(20);
 
         return $token;
     }
 
     /**
-     * Generate and set new license key token
+     * Generate and set new license key token.
      *
      * @return string
      */
@@ -534,10 +534,10 @@ class Controller extends Container
     }
 
     /**
-     * Check if specified license key token is valid
+     * Check if specified license key token is valid.
      *
-     * @param string $tokenToCheck SHA1 hashed token
-     * @param int $ttlInSeconds Time to live in seconds. Default = 20min
+     * @param string $tokenToCheck SHA1 hashed token.
+     * @param int $ttlInSeconds Time to live in seconds. Default = 20min.
      *
      * @return bool
      */
@@ -560,9 +560,9 @@ class Controller extends Container
     }
 
     /**
-     * Check if license key format is valid
+     * Check if license key format is valid.
      *
-     * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+     * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.
      * where x is any hexadecimal digit and y is one of 8, 9, A, or B.
      *
      * @param string $licenseKey

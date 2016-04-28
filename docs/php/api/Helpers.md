@@ -1,30 +1,27 @@
 #Helpers
-Generic and WordPress helpers located in ./visualcomposer/Helpers
+Helpers located in ./visualcomposer/Helpers
 
 ##Helpers usage
-- `vcapp('templateHelper')`, `vcapp('requestHelper')` - by vcapp() function call
-- `public function myMethod( \VisualComposer\Helpers\Generic\Url $urlHelper,
-    \VisualComposer\Helpers\WordPress\Nonce $nonceHelper)` - by Method dependency injection
+- `vchelper('Templates')`, `vchelper('Request')` - by vchelper() function call
+- `public function myMethod( \VisualComposer\Helpers\Url $urlHelper,
+    \VisualComposer\Helpers\Nonce $nonceHelper)` - by Method dependency injection
 
 ##Helpers information
-- Generic:
-	- `\VisualComposer\Helpers\Generic\Core` - helpers for plugin core
-	- `\VisualComposer\Helpers\Generic\Templates` - helper to render template
-	- `\VisualComposer\Helpers\Generic\Data` - helper to process given $data (e.g. arraySearch)
-	- `\VisualComposer\Helpers\Generic\Request` - helper to get `$_GET, $_POST, $_REQUEST` data
-	    by `->input()` and `->exists()` methods
-	- `\VisualComposer\Helpers\Generic\Url` - helper to get url for assets or plugin URL
-- WordPress:
-	- `\VisualComposer\Helpers\WordPress\File` - helper to get/set file contents [@todo improve]
-	- `\VisualComposer\Helpers\WordPress\Nonce` - helper to create/check admin/user Nonces
-	- `\VisualComposer\Helpers\WordPress\Options` - helper to get/set wp option (get_option,update_option)
+- `\VisualComposer\Helpers\Core` - helpers for plugin core
+- `\VisualComposer\Helpers\Templates` - helper to render template
+- `\VisualComposer\Helpers\Data` - helper to process given $data (e.g. arraySearch)
+- `\VisualComposer\Helpers\Request` - helper to get `$_GET, $_POST, $_REQUEST` data
+    by `->input()` and `->exists()` methods
+- `\VisualComposer\Helpers\Url` - helper to get url for assets or plugin URL
+- `\VisualComposer\Helpers\File` - helper to get/set file contents [@todo improve]
+- `\VisualComposer\Helpers\Nonce` - helper to create/check admin/user Nonces
+- `\VisualComposer\Helpers\Options` - helper to get/set wp option (get_option,update_option)
 	
 ##New helper creation
 - Location: `visualcomposer/Helpers/*`
+- Implements: __ALL helpers MUST implement \VisualComposer\Framework\Illumiate\Support\Helper__ interface
 - Naming:
 	- prefer to use CamelCase for any Helper or Module
-	- put Generic helper into visualcomposer/Helpers/Generic folder
-	- put Modules helpers into visualcomposer/Helpers/Modules folder
 - Registration:
 	- Add helperName=>helperNameSpace/Class into `./visualcomposer/Application.php` $helpers variable
 

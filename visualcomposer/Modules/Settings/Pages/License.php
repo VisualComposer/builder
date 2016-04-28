@@ -3,13 +3,13 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class License
- * @package VisualComposer\Modules\Settings\Pages
+ * Class License.
  */
-class License extends Container
+class License extends Container implements Module
 {
     use Page;
     /**
@@ -31,7 +31,8 @@ class License extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            30
         );
     }
 

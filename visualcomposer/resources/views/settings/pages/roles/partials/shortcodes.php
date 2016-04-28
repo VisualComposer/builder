@@ -10,10 +10,10 @@ vcview(
         'part' => $part,
         'role' => $role,
         'paramsPrefix' => 'vc_roles[' . $role . '][' . $part . ']',
-        'controller' => vcapp('roleAccessHelper')->who($role)->part($part),
+        'controller' => vchelper('AccessRole')->who($role)->part($part),
         'customValue' => 'custom',
         'capabilities' => [],
-        // @todo add shortcodes
+        // TODO: add shortcodes
         'ignoreCapabilities' => [
             'vc_gitem',
             'vc_gitem_animated_block',
@@ -27,7 +27,7 @@ vcview(
             'vc_posts_grid',
         ],
         'categories' => [],
-        // @todo add shortcodes
+        // TODO: add shortcodes
         'capTypes' => [
             [
                 'all',

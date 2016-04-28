@@ -1,10 +1,11 @@
-<?php namespace VisualComposer\Framework\Illuminate\Contracts\Container;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Contracts\Container;
 
 use Closure;
 
 /**
- * Interface Container
- * @package VisualComposer\Framework\Illuminate\Contracts\Container
+ * Interface Container.
  */
 interface Container
 {

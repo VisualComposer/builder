@@ -3,19 +3,19 @@
 namespace VisualComposer\Modules\Settings;
 
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Data;
-use VisualComposer\Helpers\Generic\Url;
-use VisualComposer\Helpers\Generic\Access\CurrentUser\Access as CurrentUserAccess;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Data;
+use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
- * @package VisualComposer\Modules\Settings
+ * Class Controller.
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var null
@@ -73,19 +73,19 @@ class Controller extends Container
     }
 
     /**
-     * Get main page slug
-     * This determines what page is opened when user clicks 'Visual Composer' in settings menu
-     * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened
+     * Get main page slug.
+     * This determines what page is opened when user clicks 'Visual Composer' in settings menu.
+     * If user user has administrator privileges, 'General' page is opened, if not, 'About' is opened.
      *
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
      *
      * @return string
      * @throws \Exception
      */
-    private function getMainPageSlug(
-        CurrentUserAccess $currentUserAccess,
+    public function getMainPageSlug(
+        CurrentUser $currentUserAccess,
         About $aboutPage,
         General $generalPage
     ) {
@@ -101,7 +101,7 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     private function addMenuPage(Url $urlHelper)
     {
@@ -117,11 +117,11 @@ class Controller extends Container
     }
 
     /**
-     * @param \VisualComposer\Helpers\Generic\Access\CurrentUser\Access $currentUserAccess
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    private function addSubmenuPages(CurrentUserAccess $currentUserAccess)
+    private function addSubmenuPages(CurrentUser $currentUserAccess)
     {
         if (!$currentUserAccess->wpAny('manage_options')->get()) {
             return;
@@ -154,7 +154,7 @@ class Controller extends Container
 
     /**
      * @param Request $request
-     * @param \VisualComposer\Helpers\Generic\Data $data
+     * @param \VisualComposer\Helpers\Data $data
      */
     private function renderPage(Request $request, Data $data)
     {
@@ -164,7 +164,7 @@ class Controller extends Container
         $pages = $this->getPages();
         $page = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($page) {
-            // pages can define different layout, by setting 'layout' key/value
+            // pages can define different layout, by setting 'layout' key/value.
             if (isset($page['layout'])) {
                 $layout = $page['layout'];
             }
@@ -180,9 +180,9 @@ class Controller extends Container
     }
 
     /**
-     * Init settings page
+     * Init settings page.
      *
-     * @param \VisualComposer\Helpers\Generic\Url $urlHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     private function initAdmin(Url $urlHelper)
     {

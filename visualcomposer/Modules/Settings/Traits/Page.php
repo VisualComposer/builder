@@ -2,13 +2,10 @@
 
 namespace VisualComposer\Modules\Settings\Traits;
 
-    /**
-     * Class Page
-     * @package VisualComposer\Modules\Settings\Pages
-     */
+use VisualComposer\Application;
+
 /**
- * Class Page
- * @package VisualComposer\Modules\Settings
+ * Trait Page.
  */
 trait Page
 {
@@ -32,7 +29,7 @@ trait Page
     /**
      * @param mixed $slug
      *
-     * @return self
+     * @return $this
      */
     public function setSlug($slug)
     {
@@ -52,7 +49,7 @@ trait Page
     /**
      * @param string $title
      *
-     * @return self
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -72,7 +69,7 @@ trait Page
     /**
      * @param mixed $templatePath
      *
-     * @return self
+     * @return $this
      */
     public function setTemplatePath($templatePath)
     {
@@ -92,7 +89,7 @@ trait Page
     /**
      * @param mixed $templateArgs
      *
-     * @return self
+     * @return $this
      */
     public function setTemplateArgs($templateArgs)
     {
@@ -109,13 +106,15 @@ trait Page
     }
 
     /**
-     * Render page
+     * Render page.
      */
     public function render()
     {
-        /** @var $this IgnoreMethod */
-        /** @ignore ->call() is available [phpStorm] bug */
-        /** @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender */
+        /**
+         * @var $this Application|\VisualComposer\Framework\Container
+         * @see \VisualComposer\Framework\Container::call
+         * @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender
+         */
         $this->call('beforeRender');
         /** @var $this Page */
         $args = array_merge(

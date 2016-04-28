@@ -1,11 +1,14 @@
-<?php namespace VisualComposer\Framework;
+<?php
+
+namespace VisualComposer\Framework;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
+use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
+use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 
 /**
- * Class Application
- * @package VisualComposer\Framework
+ * Class Application.
  */
 class Application extends Container implements ApplicationContract
 {
@@ -14,7 +17,11 @@ class Application extends Container implements ApplicationContract
      *
      * @var array
      */
-    public $availableBindings = [
+    protected $availableBindings = [
+        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'EventsHelper' => 'registerEventBindings',
+        'VisualComposer\Framework\Illuminate\Contracts\Filters\Dispatcher' => 'registerFilterBindings',
+        'FiltersHelper' => 'registerFilterBindings',
     ];
     /**
      * The service binding methods that have been executed.
@@ -43,14 +50,12 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Bootstrap the application container.
-     *
-     * @return void
      */
     protected function bootstrapContainer()
     {
         static::setInstance($this);
 
-        $this->instance('app', $this);
+        $this->instance('App', $this);
 
         $this->registerContainerAliases();
     }
@@ -61,6 +66,40 @@ class Application extends Container implements ApplicationContract
     public function boot()
     {
 
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerEventBindings()
+    {
+        $this->singleton(
+            'EventsHelper',
+            function ($app) {
+                return (new EventsDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerFilterBindings()
+    {
+        $this->singleton(
+            'FiltersHelper',
+            function ($app) {
+                return (new FiltersDispatcher($app));
+            }
+        );
+
+        return $this;
     }
 
     /**
@@ -86,8 +125,6 @@ class Application extends Container implements ApplicationContract
 
     /**
      * Register the core container aliases.
-     *
-     * @return void
      */
     protected function registerContainerAliases()
     {

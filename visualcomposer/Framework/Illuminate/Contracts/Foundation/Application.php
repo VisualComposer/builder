@@ -1,10 +1,11 @@
-<?php namespace VisualComposer\Framework\Illuminate\Contracts\Foundation;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Contracts\Foundation;
 
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container;
 
 /**
- * Interface Application
- * @package VisualComposer\Framework\Illuminate\Contracts\Foundation
+ * Interface Application.
  */
 interface Application extends Container
 {

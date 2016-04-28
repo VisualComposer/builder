@@ -1,13 +1,14 @@
-<?php namespace VisualComposer\Framework\Illuminate\Events;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Events;
 
 use VisualComposer\Framework\Illuminate\Container\Container;
-use VisualComposer\Framework\Illuminate\Support\Str;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
+use VisualComposer\Helpers\Str;
 
 /**
- * Class Dispatcher
- * @package VisualComposer\Framework\Illuminate\Events
+ * Class Dispatcher.
  */
 class Dispatcher implements DispatcherContract
 {
@@ -63,15 +64,17 @@ class Dispatcher implements DispatcherContract
      *
      * @param  string|array $events
      * @param  mixed $listener
-     * @param  int $priority
+     * @param  int $weight
      */
-    public function listen($events, $listener, $priority = 0)
+    public function listen($events, $listener, $weight = 0)
     {
+        /** @var Str $strHelper */
+        $strHelper = vchelper('Str');
         foreach ((array)$events as $event) {
-            if (Str::contains($event, '*')) {
+            if ($strHelper->contains($event, '*')) {
                 $this->setupWildcardListen($event, $listener);
             } else {
-                $this->listeners[ $event ][ $priority ][] = $listener;
+                $this->listeners[ $event ][ $weight ][] = $listener;
 
                 unset($this->sorted[ $event ]);
             }
@@ -265,9 +268,10 @@ class Dispatcher implements DispatcherContract
     protected function getWildcardListeners($eventName)
     {
         $wildcards = [];
-
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
         foreach ($this->wildcards as $key => $listeners) {
-            if (Str::is($key, $eventName)) {
+            if ($strHelper->is($key, $eventName)) {
                 $wildcards = array_merge($wildcards, $listeners);
             }
         }
@@ -276,7 +280,7 @@ class Dispatcher implements DispatcherContract
     }
 
     /**
-     * Sort the listeners for a given event by priority.
+     * Sort the listeners for a given event by weight.
      *
      * @param  string $eventName
      *
@@ -286,11 +290,11 @@ class Dispatcher implements DispatcherContract
     {
         $this->sorted[ $eventName ] = [];
 
-        // If listeners exist for the given event, we will sort them by the priority
+        // If listeners exist for the given event, we will sort them by the weight
         // so that we can call them in the correct order. We will cache off these
         // sorted event listeners so we do not have to re-sort on every events.
         if (isset($this->listeners[ $eventName ])) {
-            krsort($this->listeners[ $eventName ]);
+            ksort($this->listeners[ $eventName ]);
 
             $this->sorted[ $eventName ] = call_user_func_array(
                 'array_merge',
@@ -318,8 +322,10 @@ class Dispatcher implements DispatcherContract
      */
     public function forgetPushed()
     {
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
         foreach ($this->listeners as $key => $value) {
-            if (Str::endsWith($key, '_pushed')) {
+            if ($strHelper->endsWith($key, '_pushed')) {
                 $this->forget($key);
             }
         }

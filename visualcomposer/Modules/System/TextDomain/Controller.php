@@ -3,12 +3,12 @@
 namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
- * Class Controller
- * @package VisualComposer\Modules\System\TextDomain
+ * Class Controller.
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * Controller constructor.
@@ -27,7 +27,7 @@ class Controller extends Container
     /**
      *
      */
-    private function setDomain()
+    public function setDomain()
     {
         load_plugin_textdomain('vc5', false, VCV_PLUGIN_DIRNAME . '/languages');
     }

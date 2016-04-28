@@ -1,10 +1,11 @@
-<?php namespace VisualComposer\Framework\Illuminate\Container;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Container;
 
 use VisualComposer\Framework\Illuminate\Contracts\Container\ContextualBindingBuilder as Contract;
 
 /**
- * Class ContextualBindingBuilder
- * @package VisualComposer\Framework\Illuminate\Container
+ * Class ContextualBindingBuilder.
  */
 class ContextualBindingBuilder implements Contract
 {

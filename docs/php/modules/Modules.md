@@ -6,25 +6,22 @@ Modules is system main logic, they controls proccess flow and determines actions
 - List:
 
 	    // system s & subs
-	    'activation' => 'VisualComposer\Modules\System\Activation\Controller',
-	    'textDomain' => 'VisualComposer\Modules\System\TextDomain\Controller',
+	    'SystemActivationController' => 'VisualComposer\Modules\System\Activation\Controller',
+	    'SystemTextDomainController' => 'VisualComposer\Modules\System\TextDomain\Controller',
 	    // Editors s & subs
-	    'assetsManager' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
-	    'dataAjax' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
-	    'frontendEditor' => 'VisualComposer\Modules\Editors\Frontend\Frontend',
-	    'pageEditable' => 'VisualComposer\Modules\Editors\Frontend\PageEditable',
+	    'EditorsAssetsManagerController' => 'VisualComposer\Modules\Editors\AssetsManager\Controller',
+	    'EditorsDataAjaxController' => 'VisualComposer\Modules\Editors\DataAjax\Controller',
+	    'EditorsFrontendController' => 'VisualComposer\Modules\Editors\Frontend\Controller',
+	    'EditorsPageEditableController' => 'VisualComposer\Modules\Editors\PageEditable\Controller',
 	    // Live/Public
-	    'live' => 'VisualComposer\Modules\Live\Controller',
+	    'SiteController' => 'VisualComposer\Modules\Site\Controller',
 	    // Elements
-	    'ajaxElementRender' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
+	    'ElementsAjaxShortcodeRenderController' => 'VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller',
 	    // License
-	    'license' => 'VisualComposer\Modules\License\Controller',
+	    'LicenseController' => 'VisualComposer\Modules\License\Controller',
 	    // Settings & Settings Pages
-	    'settings' => 'VisualComposer\Modules\Settings\Controller',
-	    'settingsPageGeneral' => 'VisualComposer\Modules\Settings\Pages\General',
-	    'settingsPageLicense' => 'VisualComposer\Modules\Settings\Pages\License',
-	    'settingsPageRoles' => 'VisualComposer\Modules\Settings\Pages\Roles',
-	    'settingsPageAbout' => 'VisualComposer\Modules\Settings\Pages\About',
+	    'SettingsController' => 'VisualComposer\Modules\Settings\Controller',
+	    ...
 
 ##Modules descriptions
 - All modules should be determine description inside phpDocBlocks on top of Controller
@@ -34,6 +31,7 @@ Modules is system main logic, they controls proccess flow and determines actions
 - Location:
 	- ./visualcomposer/Modules/*
 	- e.g. ./visualcomposer/Modules/SaveManager/Controller.php
+- Implements: __all modules MUST implement \VisualComposer\Framework\Illuminate\Support\Module__ interface
 - Registration:
 	- Add a moduleName=>moduleNameSpace/Controller into file `visualcomposer/Application.php` $modules variable
 	- moduleName __SHOULD__ be simillar to namespace without "module" prefix
@@ -49,14 +47,14 @@ Modules is system main logic, they controls proccess flow and determines actions
 
 ##Controller methods and injections:
 - All helpers and modules registred in system have dependency injection feature
-	* You are able to use it in `__construct()` by default like: `public function __construct( \VisualComposer\Helpers\Generic\Request $request, \VisualComposer\Helpers\Generic\Templates $templates )`
+	* You are able to use it in `__construct()` by default like: `public function __construct( \VisualComposer\Helpers\Request $request, \VisualComposer\Helpers\Templates $templates )`
 	* Using of dependency injection will return same object always
 - All helpers and modules can be accessed by `vcapp()` function call:
 	* `vcapp()` itself returns VisualComposer\Application instance
-	* `vcapp('helperNameHelper')` returns VisualComposer\Helpers\... singleton instance
-	* `vcapp('moduleName')` return VisualComposer\Modules\... singleton instance
+	* `vcapp('HelperNameHelper')` returns VisualComposer\Helpers\... singleton instance
+	* `vcapp('ModuleName')` return VisualComposer\Modules\... singleton instance
 	
-- Methods injection also is available simillar like in Laravel : `public function myMethod( \VisualComposer\Helpers\Generic\Request $request, \VisualComposer\Helpers\Generic\Templates $templates )`
+- Methods injection also is available simillar like in Laravel : `public function myMethod( \VisualComposer\Helpers\Request $request, \VisualComposer\Helpers\Templates $templates )`
 	* Note: That myMethod should be called by `$this->call('methodName', $args=[] );`
 	* Note: Methods can be also private
 
@@ -67,9 +65,9 @@ Modules is system main logic, they controls proccess flow and determines actions
 ##Resources like views(templates) usage:
 - Location: `visualcomposer/resources/views`
 - Views path __MUST__ be simillar to the module path ( e.g. visualcomposer/resources/views/saveManager/template.php )
-- Template can be rendered by `\VisualComposer\Helpers\Generic\Templates` helper:
-	* `vcapp('templatesHelper')`
-	* method/DI injection like: `public function __construct( \VisualComposer\Helpers\Generic\Templates $templatesHelper )`
+- Template can be rendered by `\VisualComposer\Helpers\Templates` helper:
+	* `vcapp('TemplatesHelper')`
+	* method/DI injection like: `public function __construct( \VisualComposer\Helpers\Templates $templatesHelper )`
 	* e.g: `$templatesHelpers->render( $relativePathToTemplate, $args=[], $doEcho = true)`;
 	
 ##Best practices:

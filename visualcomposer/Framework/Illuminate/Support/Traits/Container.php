@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Framework\Illuminate\Support\Traits;
 
 use ReflectionFunction;
@@ -6,8 +7,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 
 /**
- * Class Container
- * @package VisualComposer\Framework\Illuminate\Support\Traits
+ * Class Container.
  */
 trait Container
 {
@@ -50,7 +50,9 @@ trait Container
      */
     protected function getCallReflector($callback)
     {
-        if (is_string($callback) && strpos($callback, '::') !== false) {
+        /** @var \VisualComposer\Helpers\Str $strHelper */
+        $strHelper = vchelper('Str');
+        if (is_string($callback) && $strHelper->contains($callback, '::')) {
             $callback = explode('::', $callback);
         }
 
@@ -67,6 +69,8 @@ trait Container
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
      * @param  array $dependencies
+     *
+     * @param $assoc
      *
      * @return mixed
      */
@@ -87,7 +91,7 @@ trait Container
                 $dependencies[] = $parameter->getDefaultValue();
             }
         } else {
-            // first need check for type
+            // first need check for type.
             // first($parameters) == $parameter
             /// if yes -> use [+unset]
             // if no -> inject/default

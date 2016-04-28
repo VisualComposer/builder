@@ -3,15 +3,14 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Curl\Curl;
-use VisualComposer\Helpers\Generic\Token;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class Hub
- * @package VisualComposer\Modules\Settings\Pages
+ * Class Hub.
  */
-class Hub extends Container
+class Hub extends Container implements Module
 {
     use Page;
     /**
@@ -24,7 +23,7 @@ class Hub extends Container
     protected $templatePath = 'settings/pages/hub/index';
 
     /**
-     * Authorization constructor.
+     * Hub constructor.
      */
     public function __construct()
     {
@@ -33,34 +32,9 @@ class Hub extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Hub::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            50
         );
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Generic\Token $tokenHelper
-     * @param \VisualComposer\Framework\Curl\Curl $curl
-     *
-     * @return array
-     */
-    public function getDataFromHub(Token $tokenHelper, Curl $curl)
-    {
-        $token = $tokenHelper->getToken();
-        if ($token) {
-            // post to the API to get token
-            $response = json_decode(
-                $curl->newRequest('get', 'http://test.account.visualcomposer.io/api/elements')->setHeaders(
-                    [
-                        'Authorization' => 'Bearer ' . $token,
-                        'Accept' => 'application/vnd.vc.v1+json',
-                    ]
-                )->send()->body
-            );
-
-            return $response;
-        } else {
-            return ['status' => 'failed', 'message' => 'invalid token&code'];
-        }
     }
 
     /**

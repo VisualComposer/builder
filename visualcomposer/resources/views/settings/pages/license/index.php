@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-if (vcapp('license')->isActivated()) {
+if (vcapp('LicenseController')->isActivated()) {
     $view = 'activated-state';
 } else {
     $view = 'deactivated-state';

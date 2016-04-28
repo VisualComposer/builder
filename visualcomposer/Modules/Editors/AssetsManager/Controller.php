@@ -3,32 +3,32 @@
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
 use VisualComposer\Application;
-use VisualComposer\Helpers\WordPress\Options;
-use VisualComposer\Helpers\WordPress\File;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\File;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
-use VisualComposer\Helpers\Generic\Request;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
- * Class Controller
- * @package VisualComposer\Modules\Editors\AssetsManager
+ * Class Controller.
  */
-class Controller extends Container
+class Controller extends Container implements Module
 {
     /**
      * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
     /**
-     * @var \VisualComposer\Helpers\Generic\Request
+     * @var \VisualComposer\Helpers\Request
      */
     protected $request;
     /**
-     * @var \VisualComposer\Helpers\WordPress\Options
+     * @var \VisualComposer\Helpers\Options
      */
     protected $options;
     /**
-     * @var \VisualComposer\Helpers\WordPress\File
+     * @var \VisualComposer\Helpers\File
      */
     protected $file;
 
@@ -36,9 +36,9 @@ class Controller extends Container
      * Controller constructor.
      *
      * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
-     * @param \VisualComposer\Helpers\Generic\Request $request
-     * @param \VisualComposer\Helpers\WordPress\Options $optionsHelper
-     * @param \VisualComposer\Helpers\WordPress\File $fileHelper
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\File $fileHelper
      */
     public function __construct(Dispatcher $event, Request $request, Options $optionsHelper, File $fileHelper)
     {
@@ -65,7 +65,7 @@ class Controller extends Container
             }
         );
 
-        // Save compiled less into one css bundle
+        // Save compiled less into one css bundle.
         add_action(
             'vcv:ajax:loader:saveCssBundle:adminNonce',
             function () {
@@ -79,7 +79,7 @@ class Controller extends Container
     /**
      * @param $postId
      */
-    private function setPostDataHook($postId)
+    public function setPostDataHook($postId)
     {
         $this->updatePostAssets(
             $postId,
@@ -93,16 +93,25 @@ class Controller extends Container
         );
         $this->generateScriptsBundle();
         $styleBundles = $this->getStyleBundles();
-        wp_send_json_success(['styleBundles' => $styleBundles]);
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => true,
+                    'data' => [
+                        'styleBundles' => $styleBundles,
+                    ],
+                ]
+            )
+        );
     }
 
     /**
-     * Called every time post is permanently deleted
-     * Remove list of associated assets
+     * Called every time post is permanently deleted.
+     * Remove list of associated assets.
      *
      * @param int $postId Post ID
      */
-    private function deletePostAssetsHook($postId)
+    public function deletePostAssetsHook($postId)
     {
         foreach ([
             'scripts',
@@ -121,25 +130,40 @@ class Controller extends Container
     }
 
     /**
-     * Save compiled less into one css bundle
+     * Save compiled less into one css bundle.
      */
-    private function saveCssBundleHook()
+    public function saveCssBundleHook()
     {
         $contents = $this->request->input('vcv-contents');
 
         $bundleUrl = $this->generateStylesBundle($contents);
 
         if ($bundleUrl === false) {
-            wp_send_json_error();
+            $this->terminate(
+                json_encode(
+                    [
+                        'success' => false,
+                    ]
+                )
+            );
         }
-        wp_send_json_success(['filename' => $bundleUrl]);
+        $this->terminate(
+            json_encode(
+                [
+                    'success' => true,
+                    'data' => [
+                        'filename' => $bundleUrl,
+                    ],
+                ]
+            )
+        );
     }
 
     /**
-     * Generate (save to fs and update db) scripts bundle
-     * Old files are deleted
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
      *
-     * @return bool|string URL to generated bundle
+     * @return bool|string URL to generated bundle.
      */
     private function generateScriptsBundle()
     {
@@ -165,11 +189,10 @@ class Controller extends Container
 
             $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
-
+            /** @var $app Application */
+            $app = vcapp();
             if (!is_file($bundle)) {
                 $contents = '';
-                /** @var $app Application */
-                $app = vcapp();
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
@@ -191,12 +214,12 @@ class Controller extends Container
     }
 
     /**
-     * Generate (save to fs and update db) scripts bundle
-     * Old files are deleted
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
      *
-     * @param string $contents CSS contents to save
+     * @param string $contents CSS contents to save.
      *
-     * @return bool|string URL to generated bundle
+     * @return bool|string URL to generated bundle.
      */
     private function generateStylesBundle($contents)
     {
@@ -240,11 +263,11 @@ class Controller extends Container
         }
 
         $bundles = [];
+        /** @var Application $app */
+        $app = vcapp();
         foreach ($list as $element => $files) {
             $contents = '';
             if (is_array($files)) {
-                /** @var Application $app */
-                $app = vcapp();
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
@@ -262,7 +285,7 @@ class Controller extends Container
 
     /**
      * @param int $postId
-     * @param string $assetType scripts|styles
+     * @param string $assetType scripts|styles.
      * @param string[] $postAssets
      */
     private function updatePostAssets($postId, $assetType, $postAssets)
@@ -275,14 +298,14 @@ class Controller extends Container
         if ($postAssets) {
             $assets[ $postId ] = $postAssets;
         } else {
-            unset($assets[ $postId ]); // @todo check for isset??
+            unset($assets[ $postId ]); // TODO: check for isset??
         }
 
         $this->options->set($assetType, $assets);
     }
 
     /**
-     * Remove all files by extension in asset-bundles directory
+     * Remove all files by extension in asset-bundles directory.
      *
      * @param string $extension
      */
@@ -294,7 +317,8 @@ class Controller extends Container
         if ($extension) {
             $extension = '.' . $extension;
         }
-
+        // TODO: probably need to use rglob
+        /** @see \VisualComposer\Application::rglob */
         $files = glob($destinationDir . '/*' . $extension);
         if (is_array($files)) {
             foreach ($files as $file) {

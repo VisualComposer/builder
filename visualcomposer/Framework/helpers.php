@@ -9,7 +9,7 @@ if (!function_exists('vcapp')) {
      * @param  string $make
      * @param  array $parameters
      *
-     * @return mixed|\VisualComposer\Application
+     * @return \VisualComposer\Application|mixed
      */
     function vcapp($make = null, $parameters = [])
     {
@@ -18,6 +18,21 @@ if (!function_exists('vcapp')) {
         }
 
         return Container::getInstance()->make($make, $parameters);
+    }
+}
+
+if (!function_exists('vchelper')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param  string $name
+     * @param  array $parameters
+     *
+     * @return mixed|\VisualComposer\Application
+     */
+    function vchelper($name, $parameters = [])
+    {
+        return vcapp($name . 'Helper', $parameters);
     }
 }
 
@@ -33,7 +48,7 @@ if (!function_exists('vcevent')) {
      */
     function vcevent($event, $payload = [], $halt = false)
     {
-        return vcapp('eventsHelper')->fire($event, $payload, $halt);
+        return vchelper('Events')->fire($event, $payload, $halt);
     }
 }
 
@@ -47,6 +62,6 @@ if (!function_exists('vcview')) {
      */
     function vcview($path, $args = [], $echo = true)
     {
-        return vcapp('templatesHelper')->render($path, $args, $echo);
+        return vchelper('Templates')->render($path, $args, $echo);
     }
 }

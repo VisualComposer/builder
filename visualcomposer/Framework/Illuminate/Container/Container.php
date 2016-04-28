@@ -1,4 +1,6 @@
-<?php namespace VisualComposer\Framework\Illuminate\Container;
+<?php
+
+namespace VisualComposer\Framework\Illuminate\Container;
 
 use Closure;
 use ArrayAccess;
@@ -8,10 +10,10 @@ use ReflectionParameter;
 use InvalidArgumentException;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 use VisualComposer\Framework\Illuminate\Contracts\Container\Container as ContainerContract;
+use VisualComposer\Helpers\Str;
 
 /**
- * Class Container
- * @package VisualComposer\Framework\Illuminate\Container
+ * Class Container.
  */
 class Container implements ArrayAccess, ContainerContract
 {
@@ -258,11 +260,13 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string $abstract
      * @param  \Closure|string|null $concrete
      *
-     * @return void
+     * @return $this
      */
     public function singleton($abstract, $concrete = null)
     {
         $this->bind($abstract, $concrete, true);
+
+        return $this;
     }
 
     /**
@@ -404,11 +408,13 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string $abstract
      * @param  string $alias
      *
-     * @return void
+     * @return $this
      */
     public function alias($abstract, $alias)
     {
         $this->aliases[ $alias ] = $abstract;
+
+        return $this;
     }
 
     /**
@@ -540,8 +546,10 @@ class Container implements ArrayAccess, ContainerContract
         if (!is_string($callback)) {
             return false;
         }
+        /** @var Str $strHelper */
+        $strHelper = vchelper('Str');
 
-        return strpos($callback, '@') !== false;
+        return $strHelper->contains($callback, '@');
     }
 
     /**
@@ -740,7 +748,7 @@ class Container implements ArrayAccess, ContainerContract
 
         // Once we have all the constructor's parameters we can create each of the
         // dependency instances and then use the reflection instances to make a
-        // new instance of this class, injecting the created dependencies in.
+        // new instance of this class, injecting the created dependencies in
         $parameters = $this->keyParametersByArgument(
             $dependencies,
             $parameters

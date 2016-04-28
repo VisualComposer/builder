@@ -7,7 +7,7 @@ Plugin/Helpers/Module API
 
 
 ##Inner Events usage
-- $eventManager can be accessed by `vcapp('eventsHelper')` or
+- $eventManager can be accessed by `vcapp('EventsHelper')` or
 - `\VisualComposer\Framework\Illuminate\Contracts\Dispatcher $eventManager` have methods `listen` and `fire`
 	- Use inner events manager for inner Modules
 	- This events CAN be used by 3rd plugins
@@ -32,7 +32,7 @@ Plugin/Helpers/Module API
 
 	    public function __construct()
         {
-            $this->event = vcapp('eventsHelper'); // vcapp('\VisualComposer\Framework\Illuminate\Contracts\Dispatcher');
+            $this->event = vcapp('EventsHelper'); // vcapp('\VisualComposer\Framework\Illuminate\Contracts\Dispatcher');
     
             $this->event->listen(
                 'vcv:postAjax:setPostData',

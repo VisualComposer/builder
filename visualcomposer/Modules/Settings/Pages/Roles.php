@@ -2,16 +2,16 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\Generic\Request;
-use VisualComposer\Helpers\Generic\Access\Role\Access;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Access\Role;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class Roles
- * @package VisualComposer\Modules\Settings\Pages
+ * Class Roles.
  */
-class Roles extends Container
+class Roles extends Container implements Module
 {
     use Page;
     /**
@@ -55,7 +55,8 @@ class Roles extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            60
         );
 
         add_action(
@@ -84,7 +85,7 @@ class Roles extends Container
     }
 
     /**
-     * Get list of parts
+     * Get list of parts.
      *
      * @return mixed|void
      */
@@ -215,7 +216,7 @@ class Roles extends Container
     }
 
     /**
-     * Save roles
+     * Save roles.
      *
      * @param Request $request
      */
@@ -235,13 +236,13 @@ class Roles extends Container
      * @param $part
      * @param $roles
      * @param $settings
-     * @param \VisualComposer\Helpers\Generic\Access\Role\Access $roleAccess
+     * @param \VisualComposer\Helpers\Access\Role $roleAccess
      */
-    private function parseRole($role, $part, $roles, $settings, Access $roleAccess)
+    private function parseRole($role, $part, $roles, $settings, Role $roleAccess)
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';
-        $roles->use_db = false; // Disable saving in DB on every cap change
+        $roles->use_db = false; // Disable saving in DB on every cap change.
         foreach ($settings as $key => $value) {
             if ('_state' === $key) {
                 $stateValue = in_array(
@@ -259,7 +260,7 @@ class Roles extends Container
                 }
             }
         }
-        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB
+        $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB.
         $roles->add_cap($role, $partKey, $stateValue);
     }
 }

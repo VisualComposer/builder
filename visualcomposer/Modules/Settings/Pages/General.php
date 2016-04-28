@@ -2,16 +2,16 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Helpers\WordPress\Options;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Fields;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
- * Class General
- * @package VisualComposer\Modules\Settings\Pages
+ * Class General.
  */
-class General extends Container
+class General extends Container implements Module
 {
     use Fields;
     use Page;
@@ -52,7 +52,8 @@ class General extends Container
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
                 return $this->call('addPage', [$pages]);
-            }
+            },
+            20
         );
 
         add_action(
@@ -81,7 +82,7 @@ class General extends Container
     }
 
     /**
-     * Page: General Settings
+     * Page: General Settings.
      */
     public function buildPage()
     {
@@ -91,7 +92,7 @@ class General extends Container
             ]
         );
 
-        // Disable responsive content elements
+        // Disable responsive content elements.
         $fieldCallback = function ($data) {
             /** @see \VisualComposer\Modules\Settings\Pages\General::disableResponsiveFieldCallback */
             return $this->call('disableResponsiveFieldCallback', [$data]);
@@ -106,7 +107,7 @@ class General extends Container
             ]
         );
 
-        // Google fonts subsets
+        // Google fonts subsets.
         $sanitizeCallback = function ($data) {
             /** @see \VisualComposer\Modules\Settings\Pages\General::sanitizeGoogleFontsSubsetsFieldCallback */
             return $this->call('sanitizeGoogleFontsSubsetsFieldCallback', [$data]);
@@ -160,7 +161,9 @@ class General extends Container
     }
 
     /**
-     * Not responsive checkbox callback function
+     * Not responsive checkbox callback function.
+     *
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function disableResponsiveFieldCallback(Options $options)
     {
@@ -198,9 +201,9 @@ class General extends Container
     }
 
     /**
-     * Google fonts subsets callback
+     * Google fonts subsets callback.
      *
-     * @param \VisualComposer\Helpers\WordPress\Options $options
+     * @param \VisualComposer\Helpers\Options $options
      */
     private function googleFontsSubsetsFieldCallback(Options $options)
     {

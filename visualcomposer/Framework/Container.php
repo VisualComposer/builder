@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Framework;
 
 use BadMethodCallException;
@@ -6,8 +7,7 @@ use ReflectionMethod;
 use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTrait;
 
 /**
- * Class Container
- * @package VisualComposer\Framework
+ * Class Container.
  */
 abstract class Container
 {
@@ -39,7 +39,7 @@ abstract class Container
         );
 
         if ($inner) {
-            // @todo check for correct
+            // TODO: check for correct
             $reflectionMethod = new ReflectionMethod($this, $method);
             $reflectionMethod->setAccessible(true);
 
@@ -47,5 +47,13 @@ abstract class Container
         } else {
             return call_user_func_array($func, $dependencies);
         }
+    }
+
+    /**
+     * @param $data
+     */
+    public function terminate($data)
+    {
+        die($data);
     }
 }
