@@ -111,8 +111,8 @@ trait Page
     public function render()
     {
         /**
-         * @var $this Application|\VisualComposer\Framework\Container
-         * @see \VisualComposer\Framework\Container::call
+         * @var $this Application|\VisualComposer\Framework\ContainerInnerInner
+         * @see \VisualComposer\Framework\ContainerInner::call
          * @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender
          */
         $this->call('beforeRender');

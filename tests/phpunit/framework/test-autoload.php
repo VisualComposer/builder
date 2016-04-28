@@ -83,4 +83,63 @@ class AutoloadTest extends WP_UnitTestCase
         $this->assertFalse($app->isModule(''));
         $this->assertFalse($app->isModule('Helper'));
     }
+
+    public function testGetName()
+    {
+        /** @var \VisualComposer\Framework\Autoload $app */
+        $app = vcapp('Autoload');
+
+        /** @see \VisualComposer\Helpers\Str */
+        /** @see \VisualComposer\Helpers\Token */
+        /** @see \VisualComposer\Modules\Site\Controller */
+        /** @see \VisualComposer\Modules\License\Controller */
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller */
+
+        $this->assertEquals(
+            'StrHelper',
+            $app->getHelperName(
+                [
+                    'namespace' => 'VisualComposer\Helpers',
+                    'class' => 'Str',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'TokenHelper',
+            $app->getHelperName(
+                [
+                    'namespace' => 'VisualComposer\Helpers',
+                    'class' => 'Token',
+                ]
+            )
+        );
+
+        $this->assertEquals(
+            'SiteController',
+            $app->getModuleName(
+                [
+                    'namespace' => 'VisualComposer\Modules\Site',
+                    'class' => 'Controller',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'LicenseController',
+            $app->getModuleName(
+                [
+                    'namespace' => 'VisualComposer\Modules\License',
+                    'class' => 'Controller',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'EditorsPageEditableController',
+            $app->getModuleName(
+                [
+                    'namespace' => 'VisualComposer\Modules\Editors\PageEditable',
+                    'class' => 'Controller',
+                ]
+            )
+        );
+    }
 }

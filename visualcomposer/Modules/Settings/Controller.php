@@ -10,12 +10,12 @@ use VisualComposer\Helpers\Url;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends ContainerInner implements Module
 {
     /**
      * @var null

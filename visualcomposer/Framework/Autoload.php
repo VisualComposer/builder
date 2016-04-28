@@ -19,6 +19,7 @@ class Autoload
     const CLASS_START_STRING = 2;
     /** @var  ApplicationVc */
     private $app;
+    protected $components = null;
 
     /**
      * Autoload constructor.
@@ -80,6 +81,9 @@ DATA;
      */
     public function getComponents()
     {
+        if (!is_null($this->components)) {
+            return $this->components;
+        }
         $components = $this->app->rglob($this->app->path('visualcomposer/*/*.php'));
         $all = [
             'helpers' => [],
@@ -109,9 +113,9 @@ DATA;
         if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
             $all['helpers'] = $this->shuffleAssoc($all['helpers']);
             $all['modules'] = $this->shuffleAssoc($all['modules']);
-
-            return $all;
         }
+
+        $this->components = $all;
 
         return $all;
     }
@@ -175,7 +179,7 @@ DATA;
      *
      * @return array|mixed
      */
-    public function checkTokens($tokens)
+    protected function checkTokens($tokens)
     {
         $data = [
             'start' => [

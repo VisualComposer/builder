@@ -2,13 +2,6 @@
 
 class AppTest extends WP_UnitTestCase
 {
-    public function testCoreApi()
-    {
-        $app = vcapp();
-        $this->assertTrue(is_object($app));
-        $this->assertEquals($app, vcapp(), 'vcapp should return same object');
-    }
-
     public function testBootstrap()
     {
         $this->assertTrue((bool)did_action('vcv:load'), 'vcv:load action must be called');

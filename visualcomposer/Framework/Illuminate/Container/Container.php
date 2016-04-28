@@ -1227,4 +1227,12 @@ class Container implements ArrayAccess, ContainerContract
     {
         $this[ $key ] = $value;
     }
+
+    /**
+     * @param $data
+     */
+    public function terminate($data)
+    {
+        die($data);
+    }
 }

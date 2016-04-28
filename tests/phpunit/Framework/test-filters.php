@@ -1,8 +1,30 @@
 <?php
 
-class TestFilters extends WP_UnitTestCase
+class FiltersTest extends WP_UnitTestCase
 {
-    public function test_simple_filters()
+    public function testFilterUntil()
+    {
+        /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
+        $helper = vchelper('Filters');
+        $helper->listen(
+            'test-filter',
+            function ($value) {
+                return $value + 1;
+            }
+        );
+        $helper->listen(
+            'test-filter',
+            function ($value) {
+                return $value + 2;
+            }
+        );
+
+        $this->assertEquals(1, $helper->until('test-filter', 0));
+        $this->assertEquals(3, $helper->fire('test-filter', 0));
+        $helper->forget('test-filter');
+    }
+
+    public function testSimpleFiltering()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
         $helper = vchelper('Filters');
@@ -245,11 +267,7 @@ class TestFilters extends WP_UnitTestCase
         // -100 abs
         // 100
         $this->assertEquals(100, $value);
-        /*$this->assertFalse((bool)($value & 1), $value);
-        $this->assertFalse((bool)($value & 2), $value);
-        $this->assertFalse((bool)($value & 4), $value);
-        $this->assertTrue((bool)($value & 8), $value);
-        $this->assertFalse((bool)($value & 16), $value);*/
+
         $helper->forget('test-filter');
     }
 }

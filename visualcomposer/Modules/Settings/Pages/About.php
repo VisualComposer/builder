@@ -5,13 +5,13 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About.
  */
-class About extends Container implements Module
+class About extends ContainerInner implements Module
 {
     use Page;
     /**

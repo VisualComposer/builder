@@ -409,7 +409,7 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
     }
 }
 
-class  MyTestModule extends \VisualComposer\Framework\Container
+class  MyTestModule extends \VisualComposer\Framework\ContainerInner
 {
     /**
      * Call the given callback and inject its dependencies.

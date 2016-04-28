@@ -9,7 +9,7 @@ use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTra
 /**
  * Class Container.
  */
-abstract class Container
+abstract class ContainerInner
 {
     use ContainerTrait;
 

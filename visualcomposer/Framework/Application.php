@@ -22,6 +22,8 @@ class Application extends Container implements ApplicationContract
         'EventsHelper' => 'registerEventBindings',
         'VisualComposer\Framework\Illuminate\Contracts\Filters\Dispatcher' => 'registerFilterBindings',
         'FiltersHelper' => 'registerFilterBindings',
+        'VisualComposer\Framework\Autoload' => 'registerAutoloadBindings',
+        'Autoload' => 'registerAutoloadBindings',
     ];
     /**
      * The service binding methods that have been executed.
@@ -96,6 +98,23 @@ class Application extends Container implements ApplicationContract
             'FiltersHelper',
             function ($app) {
                 return (new FiltersDispatcher($app));
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return $this
+     */
+    protected function registerAutoloadBindings()
+    {
+        $this->singleton(
+            'Autoload',
+            function ($app) {
+                return (new Autoload($app));
             }
         );
 

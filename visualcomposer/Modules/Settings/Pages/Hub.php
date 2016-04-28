@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -10,7 +10,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Hub.
  */
-class Hub extends Container implements Module
+class Hub extends ContainerInner implements Module
 {
     use Page;
     /**

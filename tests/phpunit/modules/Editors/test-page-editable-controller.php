@@ -19,7 +19,7 @@ class PageEditableControllerTest extends WP_UnitTestCase
     public function testBuildPageEditable()
     {
         /** @var $module \VisualComposer\Modules\Editors\PageEditable\Controller */
-        $module = vc_create_module_mock('\VisualComposer\Modules\Editors\PageEditable\Controller');
+        $module = vcapp('EditorsPageEditableController');
 
         vcapp()->call([$module, 'buildPageEditable']);
 
