@@ -1,4 +1,4 @@
-export default class ElementAttribute {
+export default class {
   constructor(name, component, settings) {
     this.name = name;
     this.component = component;

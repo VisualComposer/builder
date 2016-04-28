@@ -48,7 +48,7 @@ class Element {
 }
 
 
-addService('pastry-cook', {
+addService('cook', {
   get(tag) {
     return new Element(tag);
   },

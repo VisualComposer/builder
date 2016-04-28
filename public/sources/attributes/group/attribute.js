@@ -1,5 +1,4 @@
-import vcCake from 'vc-cake';
-import Component from './Component';
-var attributeService = vcCake.getService('pastry-cook').attributes;
+import {getService} from 'vc-cake';
+var attributeService = getService('cook').attributes;
 
 attributeService.add('group');

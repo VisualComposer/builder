@@ -1,5 +1,5 @@
-import vcCake from 'vc-cake';
+import {getService} from 'vc-cake';
 import Component from './Component';
-var attributeService = vcCake.getService('pastry-cook').attributes;
+var attributeService = getService('cook').attributes;
 
 attributeService.add('checkbox', Component);
