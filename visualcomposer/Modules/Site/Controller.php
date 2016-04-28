@@ -77,7 +77,7 @@ class Controller extends ContainerInner implements Module
                     'vcv-source-id' => get_the_ID(),
                 ]
             );
-            $link .= ' <a href="' . $url . '">' . __('Edit with VC5', 'vc5') . '</a>';
+            $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
             if (!self::$jsScriptRendered) {
                 /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
                 $link .= $this->call('outputScripts');
@@ -96,7 +96,8 @@ class Controller extends ContainerInner implements Module
      */
     public function appendScript(Url $urlHelper)
     {
-        echo '<script src="' . $urlHelper->to('node_modules/less/dist/less.js') . '" data-async="true"></script>';
+        echo '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+            . '" data-async="true"></script>';
     }
 
     /**
