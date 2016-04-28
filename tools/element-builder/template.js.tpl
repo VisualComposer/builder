@@ -1,10 +1,8 @@
 import {getService} from 'vc-cake';
-getService('element-manager').add(
+getService('cook').add(
   {{ settings() }},
   // Component callback
-  function() {
-    {{ Component() }}
-  },
+  {{ Component() }},
   // css settings // css for element
   {{ cssSettings() }},
   // javascript callback

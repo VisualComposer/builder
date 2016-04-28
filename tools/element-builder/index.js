@@ -44,7 +44,7 @@ fs.lstat(elementDir, function(err, stats) {
     }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
       settings: function() {return settingsString + ''},
-      Component: function() {return componentString.code;},
+      Component: function() {return 'function() {}';},
       jsCallback: function() {return 'function(){}';},
       cssSettings: function() {return cssSettingsString + ''; },
       editorJsSettings: function() {return "null";}

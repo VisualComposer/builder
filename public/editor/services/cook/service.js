@@ -1,21 +1,18 @@
 import {getService, addService} from 'vc-cake';
 import {default as elementSettings} from './lib/element-settings';
-
-const documentManager = getService('document');
-const attributesManager = getService('attributes');
+import {default as AttributeManager} from './lib/attribute-manager';
 class Element {
-  constructor(id) {
+  constructor(tag) {
     this.element = {};
-    this.data = documentManager.get(id);
-    if (!this.data || !this.data.tag) {
-      throw new Error('Wrong element id: ' + id);
-    }
+    this.tag = tag;
+    this.buildAttributes();
+    return this.element;
   }
   /**
   * Build attributes to map setters and getter to element data.
   */
   buildAttributes() {
-    var settings = elementSettings.get(this.data.tag);
+    var settings = elementSettings.get(this.tag);
     // var groups = {};
     Object.keys(settings).forEach(function(key) {
         let option = settings[key];
@@ -45,36 +42,33 @@ class Element {
             get: getter(this.element, key),
             set: setter(this.element, key)
           });
-        } else if ('group' === option.access) {
-          var groupGetter =  function() {
-            return function() {
-                return {
-
-                };
-            };
-          };
-          Object.defineProperty(settings, key, {
-            enumerable: false,
-            configurable: false,
-            writable: false,
-            get: groupGetter
-          });
         }
       });
   }
-
-  buildElement() {
-    this.buildAttributes();
-    return this.element;
-  }
-
 }
 
-addService('element-manager', {
+
+addService('pastry-cook', {
   get(tag) {
-    return elementSettings.get(tag);
+    return new Element(tag);
   },
   add(settings, componentCallback, cssSettings, javascriptCallback) {
     elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback);
+  },
+  attributes: {
+    add(name, component, settings) {
+      AttributeManager.add(name, component,
+        _.defaults(('object' === typeof settings ? settings : {}), {setter: null, getter: null}));
+    },
+    remove(name) {
+      delete AttributeManager.items[name];
+    },
+    get(name) {
+      var attributeElement = AttributeManager.get(name);
+      if (attributeElement) {
+        return attributeElement;
+      }
+      throw new Error('Error! attribute type doesn\'t exist.');
+    }
   }
 });

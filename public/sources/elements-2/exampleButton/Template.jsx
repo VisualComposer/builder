@@ -1,4 +1,4 @@
-import {Component} from 'react';
+// import {Component} from 'react';
 export class ExampleButton extends Component {
   render() {
     let {key, content, ...other} = this.props;

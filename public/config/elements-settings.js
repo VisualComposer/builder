@@ -3,12 +3,12 @@ module.exports = [
   "tag": {
     "type": "string",
     "access": "system",
-    "value": "Button"
+    "value": "exampleButton"
   },
   "name": {
     "type": "string",
     "access": "system",
-    "value": "Button 1.0"
+    "value": "Example Button 1.0"
   },
   "category": {
     "type": "array",
@@ -27,8 +27,9 @@ module.exports = [
       "data": "colors"
     }
   },
-  "edit-form-tabs": {
+  "edit-form": {
     "type": "group",
-    "access": ""
+    "access": "public",
+    "value": ["color"]
   }
 }];
