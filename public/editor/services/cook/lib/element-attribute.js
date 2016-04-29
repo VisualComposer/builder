@@ -16,19 +16,26 @@ export default class {
     this.getter = getter;
   }
 
-  getValue(element, key) {
-    return this.getter ? this.getter(element, key, this.settings) : element[key];
-  }
-
-  setValue(element, key, value) {
-    if (this.setter) {
-      element = this.setter(element, key, value, this.settings);
-    } else {
-      element[key] = value;
+  getValue(data, key) {
+    if ('undefined' === typeof data[key] && 'undefined' !== typeof this.settings.value) {
+      data[key] = this.settings.value;
     }
-    return element;
+    return this.getter ? this.getter(data, key, this.settings) : this.getRawValue(data, key);
   }
 
+  setValue(data, key, value) {
+    if ('public' === this.settings.access) {
+      return this.setter ? this.setter(data, key, value, this.settings) : this.setRawValue(data, key);
+    }
+    return data;
+  }
+  setRawValue(data, key, value) {
+    data[key] = value;
+    return data;
+  }
+  getRawValue(data, key) {
+    return data[key];
+  }
   getField() {
     return this.component;
   }

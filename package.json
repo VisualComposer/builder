@@ -44,6 +44,7 @@
     "webpack-sources": "^0.1.0"
   },
   "dependencies": {
+    "babel-plugin-lodash": "^2.3.0",
     "babel-plugin-rewire": "*",
     "bootstrap": "^3.3.5",
     "bootstrap-webpack": "0.0.5",
