@@ -33,7 +33,7 @@ class Templates implements Helper
         extract($_args);
 
         $_path = apply_filters(
-            'vcv:helpers:templates:render',
+            'vcv:helpers:templates:render:path',
             $_app->path('visualcomposer/resources/views/' . ltrim($_path, '/\\')),
             $_path,
             $_args,

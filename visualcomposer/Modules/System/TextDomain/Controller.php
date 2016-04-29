@@ -2,13 +2,13 @@
 
 namespace VisualComposer\Modules\System\TextDomain;
 
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends ContainerInner implements Module
 {
     /**
      * Controller constructor.

@@ -62,6 +62,7 @@ if (!function_exists('vcview')) {
      */
     function vcview($path, $args = [], $echo = true)
     {
+        /** @see \VisualComposer\Helpers\Templates::render */
         return vchelper('Templates')->render($path, $args, $echo);
     }
 }

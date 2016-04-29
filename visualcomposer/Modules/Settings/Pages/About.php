@@ -5,13 +5,13 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About.
  */
-class About extends Container implements Module
+class About extends ContainerInner implements Module
 {
     use Page;
     /**
@@ -82,7 +82,7 @@ class About extends Container implements Module
     public function setTabs($tabs)
     {
         $this->tabs = apply_filters(
-            'vcv:settings:page:about:tabs',
+            'vcv:settings:page:about:tabs', // TODO: Maybe remove this hook.
             $tabs
         );
 
@@ -111,7 +111,7 @@ class About extends Container implements Module
      * Render page.
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */

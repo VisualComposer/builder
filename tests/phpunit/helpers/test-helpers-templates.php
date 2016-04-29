@@ -14,7 +14,7 @@ class HelpersTemplatesTest extends WP_UnitTestCase
         $this->assertTrue(method_exists($helper, 'render'), 'render method should exists');
 
         add_filter(
-            'vcv:helpers:templates:render',
+            'vcv:helpers:templates:render:path',
             function ($path) {
                 if (strpos($path, 'test-helpers.php') > 0) {
                     return __DIR__ . '/template-for-test.php';

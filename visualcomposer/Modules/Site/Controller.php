@@ -8,12 +8,12 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends ContainerInner implements Module
 {
     /**
      * @var bool
@@ -77,13 +77,12 @@ class Controller extends Container implements Module
                     'vcv-source-id' => get_the_ID(),
                 ]
             );
-            $link .= ' <a href="' . $url . '">' . __('Edit with VC5', 'vc5') . '</a>';
+            $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
             if (!self::$jsScriptRendered) {
                 /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
                 $link .= $this->call('outputScripts');
                 self::$jsScriptRendered = true;
             }
-
         }
 
         return $link;
@@ -96,7 +95,8 @@ class Controller extends Container implements Module
      */
     public function appendScript(Url $urlHelper)
     {
-        echo '<script src="' . $urlHelper->to('node_modules/less/dist/less.js') . '" data-async="true"></script>';
+        echo '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+            . '" data-async="true"></script>';
     }
 
     /**

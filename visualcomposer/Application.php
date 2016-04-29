@@ -51,6 +51,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function boot()
     {
+        parent::boot();
         do_action('vcv:boot', $this);
 
         return $this;
@@ -118,8 +119,7 @@ class Application extends ApplicationFactory implements ApplicationContract
             'VisualComposer\Framework\Illuminate\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'EventsHelper',
-            // Outer bindings.
-            'Autoload' => 'VisualComposer\Framework\Autoload',
+            'VisualComposer\Framework\Autoload' => 'Autoload',
         ];
     }
 }

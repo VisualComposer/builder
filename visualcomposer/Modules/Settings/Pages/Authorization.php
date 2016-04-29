@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -13,7 +13,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Authorization.
  */
-class Authorization extends Container implements Module
+class Authorization extends ContainerInner implements Module
 {
     use Page;
     /**
@@ -64,7 +64,8 @@ class Authorization extends Container implements Module
                 /** @see \VisualComposer\Helpers\Token::registerSite */
                 vcapp()->call([$tokenHelper, 'registerSite'], [$body]);
             } else {
-                // TODO: @error
+                // TODO: Handle error.
+                throw new \Exception('HTTP request for registering app failed.');
             }
         }
     }

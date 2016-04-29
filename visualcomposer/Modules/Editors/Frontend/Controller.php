@@ -6,12 +6,12 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends ContainerInner implements Module
 {
     /**
      * Frontend constructor.
@@ -22,7 +22,7 @@ class Controller extends Container implements Module
             'vcv:ajax:loader:frontend',
             function () {
                 // TODO: check access
-                /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */
+                /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
                 $this->call('renderEditorBase');
             }
         );

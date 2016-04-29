@@ -8,19 +8,11 @@ class LicenseControllerTest extends WP_UnitTestCase
     public function testProperties()
     {
         /** @var $module \VisualComposer\Modules\License\Controller */
-        $module = vc_create_module_mock('\VisualComposer\Modules\License\Controller');
+        $module = vcapp('LicenseController');
 
-        $prop = new ReflectionProperty($module, 'licenseKeyOption');
-        $prop->setAccessible(true);
-        $this->assertEquals('license_key', $prop->getvalue($module));
-
-        $prop = new ReflectionProperty($module, 'licenseKeyTokenOption');
-        $prop->setAccessible(true);
-        $this->assertEquals('license_key_token', $prop->getvalue($module));
-
-        $prop = new ReflectionProperty($module, 'activationHost');
-        $prop->setAccessible(true);
-        $this->assertEquals('https://account.visualcomposer.io', $prop->getvalue($module));
+        $this->assertEquals('license_key', $module->getLicenseKeyOption());
+        $this->assertEquals('license_key_token', $module->getLicenseKeyTokenOption());
+        $this->assertEquals('https://account.visualcomposer.io', $module->getActivationHost());
     }
 
     public function testIsActivated()

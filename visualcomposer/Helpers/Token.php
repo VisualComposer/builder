@@ -3,13 +3,13 @@
 namespace VisualComposer\Helpers;
 
 // TODO: fix BUG @error
-use VisualComposer\Framework\Container;
+use VisualComposer\Framework\ContainerInner;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Token.
  */
-class Token extends Container implements Helper
+class Token extends ContainerInner implements Helper
 {
     /**
      * @param \VisualComposer\Helpers\Options $options
@@ -71,7 +71,8 @@ class Token extends Container implements Helper
                 return $this->call('saveToken', [$body]);
             }
         } else {
-            // TODO: handle error
+            // TODO: Handle error.
+            throw new \Exception('HTTP request for getting token failed.');
         }
 
         return false;
@@ -123,6 +124,8 @@ class Token extends Container implements Helper
      * @param \VisualComposer\Helpers\Options $options
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
+     * @throws \Exception
+     *
      * @return bool
      */
     private function refreshToken(Options $options, Url $urlHelper)
@@ -159,7 +162,8 @@ class Token extends Container implements Helper
 
             return $body->access_token;
         } else {
-            // TODO: handle error
+            // TODO: Handle error.
+            throw new \Exception('HTTP request for refreshing token failed.');
         }
 
         return false;

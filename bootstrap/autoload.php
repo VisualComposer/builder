@@ -14,5 +14,15 @@ define('VCV_START', microtime(true));
  *
  **/
 require __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
-require_once __DIR__ . '/app.php';
+
+function vcv_boot()
+{
+    require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
+    require_once __DIR__ . '/app.php';
+}
+
+if (defined('VCV_PHPUNIT') && VCV_PHPUNIT) {
+    add_action('vcv:phpunit:ready', 'vcv_boot');
+} else {
+    vcv_boot();
+}

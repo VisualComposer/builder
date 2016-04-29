@@ -9,7 +9,7 @@ use VisualComposer\Framework\Illuminate\Support\Traits\Container as ContainerTra
 /**
  * Class Container.
  */
-abstract class Container
+abstract class ContainerInner
 {
     use ContainerTrait;
 
@@ -51,9 +51,15 @@ abstract class Container
 
     /**
      * @param $data
+     *
+     * @throws \DiedException
      */
     public function terminate($data)
     {
+        if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
+            throw new \DiedException($data);
+        }
+
         die($data);
     }
 }
