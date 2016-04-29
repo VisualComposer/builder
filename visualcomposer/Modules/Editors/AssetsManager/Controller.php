@@ -127,6 +127,8 @@ class Controller extends ContainerInner implements Module
 
             $this->options->set($assetType, $assets);
         }
+
+        return $this;
     }
 
     /**

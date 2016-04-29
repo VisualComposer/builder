@@ -20,6 +20,15 @@ tests_add_filter(
 require $testsDir . '/phpunit/includes/bootstrap.php';
 
 /**
+ * Class DiedException
+ *
+ * When unittests are run, instead of die(), this exception is thrown
+ */
+class DiedException extends Exception
+{
+}
+
+/**
  * @param $mockableClass
  *
  * @return \VisualComposer\Framework\Application

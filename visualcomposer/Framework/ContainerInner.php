@@ -51,9 +51,15 @@ abstract class ContainerInner
 
     /**
      * @param $data
+     *
+     * @throws \DiedException
      */
     public function terminate($data)
     {
+        if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
+            throw new \DiedException($data);
+        }
+
         die($data);
     }
 }
