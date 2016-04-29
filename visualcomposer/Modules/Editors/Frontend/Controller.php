@@ -22,7 +22,7 @@ class Controller extends ContainerInner implements Module
             'vcv:ajax:loader:frontend',
             function () {
                 // TODO: check access
-                /** @see \VisualComposer\Modules\Editors\Frontend\Frontend::renderEditorBase */
+                /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
                 $this->call('renderEditorBase');
             }
         );

@@ -43,9 +43,6 @@ class FrontendControllerTest extends WP_UnitTestCase
      */
     public function testRenderEditorBaseAction()
     {
-        /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
-        $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
-
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
 

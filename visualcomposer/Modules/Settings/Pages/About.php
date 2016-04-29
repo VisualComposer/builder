@@ -82,7 +82,7 @@ class About extends ContainerInner implements Module
     public function setTabs($tabs)
     {
         $this->tabs = apply_filters(
-            'vcv:settings:page:about:tabs',
+            'vcv:settings:page:about:tabs', // TODO: Maybe remove this hook.
             $tabs
         );
 
@@ -111,7 +111,7 @@ class About extends ContainerInner implements Module
      * Render page.
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */

@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Framework;
 
-use VisualComposer\Framework\Illuminate\Container\Container;
+use VisualComposer\Framework\Illuminate\Container\Container as ContainerContract;
 use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
 use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
@@ -10,7 +10,7 @@ use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 /**
  * Class Application.
  */
-class Application extends Container implements ApplicationContract
+class Application extends ContainerContract implements ApplicationContract
 {
     /**
      * The available container bindings and their respective load methods.
