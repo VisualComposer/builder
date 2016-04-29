@@ -2,14 +2,14 @@
 
 namespace VisualComposer\Modules\License;
 
-use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Core;
-use VisualComposer\Helpers\Str;
-use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Modules\Settings\Pages\License;
 use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Core;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Str;
+use VisualComposer\Modules\Settings\Pages\License;
 
 /**
  * Class Controller.
@@ -20,14 +20,17 @@ class Controller extends ContainerInner implements Module
      * @var string
      */
     static protected $licenseKeyOption = 'license_key';
+
     /**
      * @var string
      */
     static protected $licenseKeyTokenOption = 'license_key_token';
+
     /**
      * @var string
      */
     static protected $activationHost = 'https://account.visualcomposer.io';
+
     /**
      * @var string
      */
@@ -64,6 +67,30 @@ class Controller extends ContainerInner implements Module
                 $this->call('startDeactivationResponse');
             }
         );
+    }
+
+    /**
+     * @return string
+     */
+    public static function getLicenseKeyOption()
+    {
+        return self::$licenseKeyOption;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getLicenseKeyTokenOption()
+    {
+        return self::$licenseKeyTokenOption;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getActivationHost()
+    {
+        return self::$activationHost;
     }
 
     /**
@@ -162,9 +189,9 @@ class Controller extends ContainerInner implements Module
         }
 
         if ($activation) {
-            $url = self::$activationHost . '/finish-license-activation';
+            $url = self::getActivationHost() . '/finish-license-activation';
         } else {
-            $url = self::$activationHost . '/finish-license-deactivation';
+            $url = self::getActivationHost(). '/finish-license-deactivation';
         }
 
         $params = ['body' => ['token' => $userToken]];
@@ -275,13 +302,14 @@ class Controller extends ContainerInner implements Module
 
         /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
+        // TODO: Fix is_multisite() js_composer issue.
         $redirectUrl = esc_url(
             is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage)
         );
 
         return sprintf(
             '%s/activate-license?token=%s&url=%s&redirect=%s',
-            self::$activationHost,
+            self::getActivationHost(),
             $token,
             $url,
             $redirectUrl
@@ -305,13 +333,14 @@ class Controller extends ContainerInner implements Module
 
         /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
+        // TODO: Fix is_multisite() js_composer issue.
         $redirectUrl = esc_url(
             is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage)
         );
 
         return sprintf(
             '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s',
-            self::$activationHost,
+            self::getActivationHost(),
             $licenseKey,
             $token,
             $url,
@@ -351,7 +380,7 @@ class Controller extends ContainerInner implements Module
     private function startDeactivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
-                          ->can('vcv-license-tab')->validateDie();
+            ->can('vcv-license-tab')->validateDie();
 
         /** @see \VisualComposer\Modules\License\Controller::generateDeactivationUrl */
         $response = [
@@ -370,7 +399,7 @@ class Controller extends ContainerInner implements Module
      */
     private function setLicenseKey($licenseKey, Options $options)
     {
-        $options->set(self::$licenseKeyOption, $licenseKey);
+        $options->set(self::getLicenseKeyOption(), $licenseKey);
     }
 
     /**
@@ -382,7 +411,7 @@ class Controller extends ContainerInner implements Module
      */
     private function getLicenseKey(Options $options)
     {
-        return $options->get(self::$licenseKeyOption);
+        return $options->get(self::getLicenseKeyOption());
     }
 
     /**
@@ -485,7 +514,7 @@ class Controller extends ContainerInner implements Module
      */
     private function getLicenseKeyToken(Options $options)
     {
-        return $options->get(self::$licenseKeyTokenOption);
+        return $options->get(self::getLicenseKeyTokenOption());
     }
 
     /**
@@ -496,7 +525,7 @@ class Controller extends ContainerInner implements Module
      */
     private function setLicenseKeyToken($token, Options $options)
     {
-        $options->set(self::$licenseKeyTokenOption, $token);
+        $options->set(self::getLicenseKeyTokenOption(), $token);
     }
 
     /**
