@@ -1,4 +1,4 @@
-import {lodash} from 'vc-cake';
+import lodash from 'lodash';
 import {addService} from 'vc-cake';
 import {default as elementSettings} from './lib/element-settings';
 import {default as attributeManager} from './lib/attribute-manager';
@@ -8,8 +8,6 @@ class Element {
     this.data = data;
     Object.defineProperty(this, 'settings', {
       enumerable: false,
-      configurable: false,
-      writable: false,
       get: function() {
         if(!this.settings) {
           this.settings = attributeManager.get(this.data.tag);
