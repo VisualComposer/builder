@@ -83,7 +83,6 @@ class Controller extends ContainerInner implements Module
                 $link .= $this->call('outputScripts');
                 self::$jsScriptRendered = true;
             }
-
         }
 
         return $link;

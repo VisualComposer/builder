@@ -64,7 +64,8 @@ class Authorization extends ContainerInner implements Module
                 /** @see \VisualComposer\Helpers\Token::registerSite */
                 vcapp()->call([$tokenHelper, 'registerSite'], [$body]);
             } else {
-                // TODO: @error
+                // TODO: Handle error.
+                throw new \Exception('HTTP request for registering app failed.');
             }
         }
     }
