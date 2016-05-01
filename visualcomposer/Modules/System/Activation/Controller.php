@@ -4,12 +4,12 @@ namespace VisualComposer\Modules\System\Activation;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 
 /**
  * Class Controller.
  */
-class Controller extends ContainerInner implements Module
+class Controller extends Container implements Module
 {
     /**
      * Controller constructor.

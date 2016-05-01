@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\License;
 
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Core;
@@ -14,7 +14,7 @@ use VisualComposer\Modules\Settings\Pages\License;
 /**
  * Class Controller.
  */
-class Controller extends ContainerInner implements Module
+class Controller extends Container implements Module
 {
     /**
      * @var string

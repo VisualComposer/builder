@@ -4,14 +4,14 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Fields;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class General.
  */
-class General extends ContainerInner implements Module
+class General extends Container implements Module
 {
     use Fields;
     use Page;

@@ -5,13 +5,13 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\Role;
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Roles.
  */
-class Roles extends ContainerInner implements Module
+class Roles extends Container implements Module
 {
     use Page;
     /**
