@@ -84,6 +84,9 @@ define('VCV_REQUIRED_BLOG_VERSION', '4.1');
 if (!defined('VCV_AJAX_REQUEST')) {
     define('VCV_AJAX_REQUEST', 'vcv-ajax');
 }
+if (!defined('VCV_LAZY_LOAD')) {
+    define('VCV_LAZY_LOAD', false);
+}
 
 /**
  * Check PHP version.

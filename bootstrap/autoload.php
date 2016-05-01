@@ -15,14 +15,15 @@ define('VCV_START', microtime(true));
  **/
 require __DIR__ . '/../vendor/autoload.php';
 
-function vcv_boot()
+function vcboot()
 {
     require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
     require_once __DIR__ . '/app.php';
+    return vcapp();
 }
 
-if (defined('VCV_PHPUNIT') && VCV_PHPUNIT) {
-    add_action('vcv:phpunit:ready', 'vcv_boot');
+if (VCV_LAZY_LOAD) {
+    add_action('vcv:bootstrap:lazyload', 'vcboot');
 } else {
-    vcv_boot();
+    vcboot();
 }

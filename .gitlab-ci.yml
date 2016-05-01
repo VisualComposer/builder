@@ -3,7 +3,54 @@ image: wpbakery/ci-wordpress
 before_script:
   - composer install
 
+stages:
+  - codestyle
+  - tests
+
+testPluginpCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml plugin-wordpress.php
+  tags:
+    - docker
+
+testBootstrapCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml bootstrap
+  tags:
+    - docker
+
+testFrameworkCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml visualcomposer/Framework
+  tags:
+    - docker
+
+testHelpersCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml visualcomposer/Helpers
+  tags:
+    - docker
+
+testModulesCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml visualcomposer/Modules
+  tags:
+    - docker
+
+testApplicationCS:
+  stage: codestyle
+  script:
+    - phpcs --standard=ci/ruleset.xml visualcomposer/Application.php visualcomposer/Requirements.php
+  tags:
+    - docker
+
 testFramework:
+  stage: tests
   script:
     - phpunit --configuration=ci/phpunit-framework.xml
     - php ci/coverage-test.php
@@ -11,6 +58,7 @@ testFramework:
     - docker
 
 testHelpers:
+  stage: tests
   script:
     - phpunit --configuration=ci/phpunit-helpers.xml
     - php ci/coverage-test.php
@@ -18,6 +66,7 @@ testHelpers:
     - docker
 
 testModules:
+  stage: tests
   script:
     - phpunit --configuration=ci/phpunit-modules.xml
     - php ci/coverage-test.php

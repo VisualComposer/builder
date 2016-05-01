@@ -1,6 +1,7 @@
 <?php
 
 define('VCV_PHPUNIT', true);
+define('VCV_LAZY_LOAD', true);
 define('VCV_DIE_EXCEPTION', true);
 define('VCV_DEBUG', true);
 define('VCV_DEBUG_AUTOLOAD_RANDOM', true);
@@ -56,3 +57,10 @@ function vc_create_module_mock($mockableClass)
 
     return $mock;
 }
+
+add_action(
+    'vcv:phpunit:ready',
+    function () {
+        do_action('vcv:bootstrap:lazyload');
+    }
+);
