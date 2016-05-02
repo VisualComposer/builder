@@ -6,23 +6,37 @@ import {default as attributeManager} from './lib/attribute-manager';
 class Element {
   constructor(data) {
     this.data = data;
-    Object.defineProperty(this, 'settings', {
-      enumerable: false,
-      get: function() {
-        if(!this.settings) {
-          this.settings = attributeManager.get(this.data.tag);
-        }
-        return this.settings;
-      }.bind(this)
-    });
+    /*    Object.defineProperty(this, 'settings', {
+     enumerable: false,
+     get: function() {
+     if (!this.elementSettings) {
+     this.elementSettings = elementSettings.get(this.data.tag);
+     }
+     return this.elementSettings;
+     }
+     });*/
   }
-  get(k){
-    let attributeSettings = attributeManager.get(k);
-    return attributeSettings.getValue(this.data, k);
+
+  get(k) {
+    let attributeType = this.getAttributeType(k);
+    return attributeType ? attributeType.getValue(this.data, k) : undefined;
   }
-  set(k, v){
-    let attributeSettings = attributeManager.get(k);
-    return attributeSettings.setValue(this.data, k, v);
+
+  set(k, v) {
+    let attributeSettings = this.getAttributeType(k);
+    return attributeSettings ? attributeSettings.setValue(this.data, k, v) : undefined;
+  }
+
+  getAttributeType(k) {
+    let attributeSettings = elementSettings.getAttributeType(this.data.tag, k);
+    if (!attributeSettings.type) {
+      throw new Error('No type settings for element attribute ' + k + ' in ' + this.data.tag);
+    }
+    let attributeType = attributeManager.get(attributeSettings.type);
+    if (!attributeType) {
+      throw new Error('No attribute type settings for ' + k + ' in ' + this.data.tag);
+    }
+    return attributeType;
   }
 }
 
@@ -51,5 +65,8 @@ addService('cook', {
       }
       throw new Error('Error! attribute type doesn\'t exist.');
     }
+  },
+  list: {
+    all: elementSettings.items
   }
 });

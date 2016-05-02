@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import lodash from 'lodash';
 
 const items = {};
 export default {
   add(settings, componentCallback, cssSettings, javascriptCallback) {
     items[settings.tag.value] = {
-      settings: _.defaults(settings, {tag: null, getter: null}),
+      settings: lodash.defaults(settings, {tag: null, getter: null}),
       component: componentCallback,
       cssSettings: cssSettings,
       javascript: javascriptCallback
@@ -15,5 +15,11 @@ export default {
   },
   get(tag) {
     return items[tag] || null;
+  },
+  getAttributeType: function(tag, key) {
+    let settings = items[tag].settings[key];
+  }
+  getAll: function() {
+    return 
   }
 };
