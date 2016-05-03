@@ -9,28 +9,25 @@ class Element {
   }
 
   get(k) {
-    let attributeType = this.getAttributeType(k);
-    return attributeType ? attributeType.getValue(this.data, k) : undefined;
+    let {type, settings} = this.getAttributeType(k);
+    return type ? type.getValue(settings, this.data, k) : undefined;
   }
 
   set(k, v) {
-    let attributeSettings = this.getAttributeType(k);
-    if('public' !== attributeSettings.access) {
-      throw new Error('Attribute ' + k + ' not writable. It is protected.');
-    }
-    return attributeSettings ? attributeSettings.setValue(this.data, k, v) : undefined;
+    let {type, settings} = this.getAttributeType(k);
+    return type ? type.setValue(settings, this.data, k, v) : undefined;
   }
 
   getAttributeType(k) {
-    let attributeSettings = elementSettings.getAttributeType(this.data.tag, k);
-    if (!attributeSettings.type) {
+    let settings = elementSettings.getAttributeType(this.data.tag, k);
+    if (!settings.type) {
       throw new Error('No type settings for element attribute ' + k + ' in ' + this.data.tag);
     }
-    let attributeType = attributeManager.get(attributeSettings.type);
-    if (!attributeType) {
+    let type = attributeManager.get(settings.type);
+    if (!type) {
       throw new Error('No attribute type settings for ' + k + ' in ' + this.data.tag);
     }
-    return attributeType;
+    return {type: type, settings: settings};
   }
 }
 
