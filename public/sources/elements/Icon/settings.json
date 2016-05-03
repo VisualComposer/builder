@@ -1092,10 +1092,10 @@
     }
   },
   "custom": {
-      "type": "string",
-      "access": "public",
-      "value": "",
-      "title": "custom class"
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "custom class"
   },
   "relatedTo": {
     "type": "string",

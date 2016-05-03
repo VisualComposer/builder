@@ -22,7 +22,7 @@ Example usage
 // home.html
 <div class="fancybox-me"><h2>Ain't this a fancy box?</h2></div>
 
-// main.js (1)
+// node-main.js (1)
 var $ = require('jquery');
 require('fancybox')($); <------- (2)
 

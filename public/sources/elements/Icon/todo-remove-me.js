@@ -1,1 +1,1 @@
-console.log( 'Additional script for Icon works' );
+console.log('Additional script for Icon works');

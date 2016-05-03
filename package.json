@@ -1,5 +1,5 @@
 {
-  "name": "vc-v",
+  "name": "vcwb",
   "version": "1.0.0",
   "description": "",
   "main": "index.php",
@@ -7,6 +7,7 @@
     "test": "jest",
     "start": "node server.js",
     "build-module": "node ./tools/module-builder/index.js",
+    "build-element": "node ./tools/element-builder/index.js",
     "lint": "eslint . --ext .js --ext .jsx"
   },
   "author": "@vv",
@@ -29,6 +30,7 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
     "mkdirp": "^0.5.1",
+    "node-minify": "1.3.7",
     "react-hot-loader": "^1.3.0",
     "react-transform-catch-errors": "^1.0.0",
     "redbox-react": "^1.2.0",
@@ -36,11 +38,13 @@
     "resolve-url-loader": "^1.4.3",
     "style-loader": "^0.8.0",
     "swig": "^1.4.2",
+    "uglifyjs": "^2.4.10",
     "url-loader": "^0.5.5",
     "webpack-dev-server": "^1.12.1",
     "webpack-sources": "^0.1.0"
   },
   "dependencies": {
+    "babel-plugin-lodash": "^2.3.0",
     "babel-plugin-rewire": "*",
     "bootstrap": "^3.3.5",
     "bootstrap-webpack": "0.0.5",
