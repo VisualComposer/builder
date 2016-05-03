@@ -19,7 +19,7 @@ module.exports = React.createClass({
    *
    * and are returned as first variant (array of objects)
    *
-   * @param options Object
+   * @param {object} options - normalize options.
    * @returns Object
    */
   normalizeOptions: function(options) {
@@ -54,7 +54,7 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    console.log('render select');
+    console.log('render dropdown');
     // TODO: change key to something unique
     var optionElements = [<option key="-1"></option>],
       options = this.options;
