@@ -14,4 +14,6 @@ $(document).ready(function(){
     });
   });
 });
+require('./sources/elements-2/exampleButton/exampleButton');
+
 window.app = vcCake;
