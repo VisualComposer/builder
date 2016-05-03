@@ -1,29 +1,35 @@
-var vcCake = require('vc-cake');
-var React = require( 'react' );
-var classNames = require( 'classnames' );
+var React = require('react');
+var classNames = require('classnames');
 
+var TreeLayout = require('./tree-layout');
+var EditElement = require('./edit-element/form');
 
-var TreeLayout = require( './tree-layout' );
-var TreeContent = require( './tree-content' );
-
-require( '../css/tree-view/init.less' );
+require('../css/tree-view/init.less');
 
 var TreeView = React.createClass({
-  getInitialState: function () {
+  getInitialState: function() {
     return {
-      contentExpand: true,
-      treeContentCount: 0
+      treeContentCount: 0,
+      elementId: false
     }
   },
-  componentDidMount: function () {
-
+  componentDidMount: function() {
+    this.props.api
+      .reply('app:edit', function(id) {
+        this.setState({elementId: id});
+      }.bind(this))
+      .on('hide', function() {
+        this.setState({elementId: false});
+      }.bind(this))
+      .on('form:hide', function(){
+        this.setState({elementId: false});
+      }.bind(this));
   },
-
-  render: function () {
-    var treeViewClasses = classNames( {
+  render: function() {
+    var treeViewClasses = classNames({
       "vc-ui-tree-view-container": true,
-      "vc-ui-tree-view-o-content-expand": this.state.contentExpand
-    } );
+      "vc-ui-tree-view-o-content-expand": false !== this.state.elementId
+    });
     return (
       <div id="vc-ui-tree-view-container">
         <div className={treeViewClasses}>
@@ -31,7 +37,7 @@ var TreeView = React.createClass({
             <TreeLayout api={this.props.api}/>
           </div>
           <div className="vc-ui-tree-view-content">
-            <TreeContent api={this.props.api}/>
+            <EditElement id={this.state.elementId} api={this.props.api}/>
           </div>
         </div>
       </div>

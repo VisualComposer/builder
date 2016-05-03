@@ -61,8 +61,9 @@ var ActionsManager = {
       var type = actionData.options.type;
       var value = actionData.options.value;
 
-      var Setter = require('../../../sources/attributes/' + type + '/Setter');
-      Setter(props.editElement, key, value);
+      // var Setter = require('../../../sources/attributes/' + type + '/Setter');
+      // Setter(props.editElement, key, value);
+      props.editElement[key] = value;
     }
   }
 };

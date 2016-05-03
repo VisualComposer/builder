@@ -1,43 +1,46 @@
 {
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Button 1.0"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Button"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "content": {
-        "type": "textarea",
-        "access": "public",
-        "value": "Button",
-        "title": "Title"
-    },
-    "test": {
-        "type": "string",
-        "access": "public",
-        "value": "ninja",
-        "title": "Test"
-    },
-    "iconComponent": {
-        "type": "component",
-        "access": "public",
-        "value": "",
-        "title": "",
-        "settings": {
-          "component": "icon"
-        }
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Buttons", "Semantics"]
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Button 1.0"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Button"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "content": {
+    "type": "textarea",
+    "access": "public",
+    "value": "Button",
+    "title": "Title"
+  },
+  "test": {
+    "type": "string",
+    "access": "public",
+    "value": "ninja",
+    "title": "Test"
+  },
+  "iconComponent": {
+    "type": "component",
+    "access": "public",
+    "value": "",
+    "title": "",
+    "settings": {
+      "component": "icon"
     }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Buttons",
+      "Semantics"
+    ]
+  }
 }

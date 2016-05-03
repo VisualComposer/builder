@@ -99,301 +99,328 @@ module.exports = [
     "value": ""
   }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Button Group 1.0"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "BtnGroup"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button Groups"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Buttons"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Button Group 1.0"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "BtnGroup"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Button Groups"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Buttons"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Button 1.0"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Button"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "content": {
-        "type": "textarea",
-        "access": "public",
-        "value": "Button",
-        "title": "Title"
-    },
-    "test": {
-        "type": "string",
-        "access": "public",
-        "value": "ninja",
-        "title": "Test"
-    },
-    "iconComponent": {
-        "type": "component",
-        "access": "public",
-        "value": "",
-        "title": "",
-        "settings": {
-          "component": "icon"
-        }
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Buttons", "Semantics"]
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Button 1.0"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Button"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "content": {
+    "type": "textarea",
+    "access": "public",
+    "value": "Button",
+    "title": "Title"
+  },
+  "test": {
+    "type": "string",
+    "access": "public",
+    "value": "ninja",
+    "title": "Test"
+  },
+  "iconComponent": {
+    "type": "component",
+    "access": "public",
+    "value": "",
+    "title": "",
+    "settings": {
+      "component": "icon"
     }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Buttons",
+      "Semantics"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Buttons group"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "ButtonsGroup"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Button Groups"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Buttons"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Buttons group"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "ButtonsGroup"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Button Groups"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Buttons"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Call To Action"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "CallToAction"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "buttonComponent": {
-        "type": "component",
-        "access": "public",
-        "value": "",
-        "settings": {
-          "component": "button"
-        }
-    },
-    "content": {
-        "type": "textarea",
-        "access": "public",
-        "value": "Cta",
-        "title": "Title"
-    },
-    "iconComponent": {
-      "type": "component",
-      "access": "public",
-      "value": "",
-      "title": "Custom Icon",
-      "settings": {
-        "component": "icon"
-      }
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["CTA"]
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Call To Action"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "CallToAction"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "buttonComponent": {
+    "type": "component",
+    "access": "public",
+    "value": "",
+    "settings": {
+      "component": "button"
     }
+  },
+  "content": {
+    "type": "textarea",
+    "access": "public",
+    "value": "Cta",
+    "title": "Title"
+  },
+  "iconComponent": {
+    "type": "component",
+    "access": "public",
+    "value": "",
+    "title": "Custom Icon",
+    "settings": {
+      "component": "icon"
+    }
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "CTA"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Column"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Column"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "width": {
-        "type": "textarea",
-        "access": "public",
-        "value": "12",
-        "title": "Width"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Columns"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
-    },
-    "strongRelation": {
-      "type": "string",
-      "access": "system",
-      "value": true
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Column"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Column"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "width": {
+    "type": "textarea",
+    "access": "public",
+    "value": "12",
+    "title": "Width"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Columns"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "strongRelation": {
+    "type": "string",
+    "access": "system",
+    "value": true
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Flex Column"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "FlexColumn"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Columns"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
-    },
-    "strongRelation": {
-      "type": "string",
-      "access": "system",
-      "value": true
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Flex Column"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "FlexColumn"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Columns"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  },
+  "strongRelation": {
+    "type": "string",
+    "access": "system",
+    "value": true
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Flex Row"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "FlexRow"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Rows"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Columns"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Flex Row"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "FlexRow"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Rows"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Columns"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Header 1.0"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Header"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "inline"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Header",
-        "title": "Title"
-    },
-    "param_tag": {
-        "type": "string",
-        "access": "public",
-        "value": "h2",
-        "title": "Tag"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Headings", "Semantics"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Header 1.0"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Header"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "inline"
+  },
+  "content": {
+    "type": "innerhtml",
+    "access": "public",
+    "value": "Header",
+    "title": "Title"
+  },
+  "param_tag": {
+    "type": "string",
+    "access": "public",
+    "value": "h2",
+    "title": "Tag"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Headings",
+      "Semantics"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Heading"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Heading"
-    },
-    "icon": {
-        "type": "string",
-        "access": "system",
-        "value": "Heading"
-    },
-    "content": {
-        "type": "innerhtml",
-        "access": "public",
-        "value": "Boris says Да or Not."
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "block"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Headings", "Semantics"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Heading"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Heading"
+  },
+  "icon": {
+    "type": "string",
+    "access": "system",
+    "value": "Heading"
+  },
+  "content": {
+    "type": "innerhtml",
+    "access": "public",
+    "value": "Boris says Да or Not."
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "block"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Headings",
+      "Semantics"
+    ]
+  }
 },{
   "name": {
     "type": "string",
@@ -1488,10 +1515,10 @@ module.exports = [
     }
   },
   "custom": {
-      "type": "string",
-      "access": "public",
-      "value": "",
-      "title": "custom class"
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "title": "custom class"
   },
   "relatedTo": {
     "type": "string",
@@ -1563,57 +1590,63 @@ module.exports = [
     ]
   }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Row"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Row"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Rows"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": ["Grid Columns"]
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Row"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Row"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Rows"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Grid Columns"
+    ]
+  }
 },{
-    "name": {
-        "type": "string",
-        "access": "system",
-        "value": "Section"
-    },
-    "tag": {
-        "type": "string",
-        "access": "system",
-        "value": "Section"
-    },
-    "type": {
-        "type": "string",
-        "access": "system",
-        "value": "container"
-    },
-    "relatedTo": {
-      "type": "string",
-      "access": "system",
-      "value": ["Sections"]
-    },
-    "children": {
-      "type": "string",
-      "access": "system",
-      "value": "*"
-    }
+  "name": {
+    "type": "string",
+    "access": "system",
+    "value": "Section"
+  },
+  "tag": {
+    "type": "string",
+    "access": "system",
+    "value": "Section"
+  },
+  "type": {
+    "type": "string",
+    "access": "system",
+    "value": "container"
+  },
+  "relatedTo": {
+    "type": "string",
+    "access": "system",
+    "value": [
+      "Sections"
+    ]
+  },
+  "children": {
+    "type": "string",
+    "access": "system",
+    "value": "*"
+  }
 },{
   "name": {
     "type": "string",
@@ -2056,6 +2089,6 @@ module.exports = [
     "type": "string",
     "access": "public",
     "value": "Url",
-    "title": "Title, required"
+    "title": "Title"
   }
 }];
