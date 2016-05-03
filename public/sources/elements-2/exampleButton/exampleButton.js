@@ -3,17 +3,17 @@ getService('cook').add(
   {
   "tag": {
     "type": "string",
-    "access": "system",
+    "access": "protected",
     "value": "exampleButton"
   },
   "name": {
     "type": "string",
-    "access": "system",
+    "access": "protected",
     "value": "Example Button 1.0"
   },
   "category": {
     "type": "array",
-    "access": "system",
+    "access": "protected",
     "value": [
       "General",
       "Buttons"
@@ -30,12 +30,23 @@ getService('cook').add(
   },
   "edit-form": {
     "type": "group",
-    "access": "public",
+    "access": "protected",
     "value": ["color"]
   }
 },
   // Component callback
-  function() {},
+  function() {var React = require('react');
+return React.createClass({
+  templateJs: function(data, settings) {
+    return data;
+  },
+  render: function() {
+    var data = this.templateJs(this.props.data, this.props.settings);
+    return <button type="button" className="vce-example-button vc-example-button-{data.shape}" key={key}>
+      {data.content}
+    </button>;
+  }
+});},
   // css settings // css for element
   {},
   // javascript callback

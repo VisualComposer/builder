@@ -28,8 +28,8 @@ fs.lstat(elementDir, function(err, stats) {
     }
     // JSX Component
     var componentFile = path.resolve(elementDir, 'Template.jsx');
-    var componentString = fs.existsSync(componentFile) ?  babel.transformFileSync(componentFile, {retainLines: false}) : '';
-    if(!componentString.code && componentString.code.length) {
+    var componentString = fs.existsSync(componentFile) ?  fs.readFileSync(componentFile) : '';
+    if(!componentString && componentString.length) {
       console.log('Error, wrong Template.jsx file.');
       process.exit(1);
     }
@@ -44,7 +44,7 @@ fs.lstat(elementDir, function(err, stats) {
     }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
       settings: function() {return settingsString + ''},
-      Component: function() {return 'function() {}';},
+      Component: function() {return 'function() {' + componentString + '}';},
       jsCallback: function() {return 'function(){}';},
       cssSettings: function() {return cssSettingsString + ''; },
       editorJsSettings: function() {return "null";}
