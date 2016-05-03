@@ -1,5 +1,6 @@
-module.exports = [
-{
+import {getService} from 'vc-cake';
+getService('cook').add(
+  {
   "tag": {
     "type": "string",
     "access": "system",
@@ -32,4 +33,13 @@ module.exports = [
     "access": "public",
     "value": ["color"]
   }
-}];
+},
+  // Component callback
+  function() {},
+  // css settings // css for element
+  {},
+  // javascript callback
+  function(){},
+  // editor js
+ null
+);

@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/main',
+    node: './public/node-main',
     wp: './public/wp-main',
     app: []
   },
@@ -27,7 +27,7 @@ module.exports = {
         'content/storage',
         'content/layout',
         'content/editor-controls',
-        'content/frame-based-dnd',
+        // 'content/frame-based-dnd',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
@@ -46,8 +46,7 @@ module.exports = {
         'document',
         'local-storage',
         'element',
-        'element-manager',
-        'attributes',
+        'cook',
         'rules-manager',
         'shared',
         'time-machine',
@@ -67,8 +66,8 @@ module.exports = {
       modules: [
         'content/storage',
         'content/layout',
-        'content/editor-controls-iframe',
-        'content/atolls-dnd',
+        // 'content/editor-controls-iframe',
+        // 'content/atolls-dnd',
         'content/wordpress/assets',
         'content/wordpress/data-layout',
         'ui/navbar',
@@ -89,7 +88,7 @@ module.exports = {
         'document',
         'wordpress-storage',
         'element',
-        'attributes',
+        'cook',
         'rules-manager',
         'shared',
         'time-machine',

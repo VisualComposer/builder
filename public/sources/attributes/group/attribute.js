@@ -1,5 +1,4 @@
 import {getService} from 'vc-cake';
-import Component from './Component';
 var attributeService = getService('cook').attributes;
 
-attributeService.add('textarea', Component);
+attributeService.add('group');
