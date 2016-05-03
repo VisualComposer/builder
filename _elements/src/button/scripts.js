@@ -61,7 +61,7 @@ var exports = {
             {
                 "label": "Big",
                 "value": "lg"
-            },
+            }
         ]
     }
 };

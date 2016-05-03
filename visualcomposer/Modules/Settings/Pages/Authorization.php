@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
@@ -13,7 +13,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Authorization.
  */
-class Authorization extends ContainerInner implements Module
+class Authorization extends Container implements Module
 {
     use Page;
     /**

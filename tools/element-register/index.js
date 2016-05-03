@@ -11,7 +11,7 @@ var args = process.argv.slice(2);
 var elementPath = args[0];
 var elementDir = false;
 
-if (!elementPath || !(elementDir = path.resolve(process.cwd(), elementPath))) {
+if (!elementPath || !(elementDir = path.join(process.cwd(), elementPath))) {
     console.log('Wrong element path');
     process.exit(1);
 }
@@ -19,10 +19,8 @@ if (!elementPath || !(elementDir = path.resolve(process.cwd(), elementPath))) {
 fs.lstat(elementDir, function(err, stats) {
 
     // Get template file
-    var templateFile = path.resolve(elementDir, '/template.tpl');
+    var templateFile = path.join(elementDir, '/template.tpl');
     var template = fs.existsSync(templateFile) ? fs.readFileSync(templateFile) : '';
-
-
 
     if(!template) {
         console.log('Template file is empty');
@@ -40,7 +38,7 @@ fs.lstat(elementDir, function(err, stats) {
     cssTemplateSrc = cssTemplateSrc.join(' ');
     var cssTemplate = handlebars.compile(cssTemplateSrc);
 
-    var scriptsFile = path.resolve(elementDir, 'scripts.js');
+    var scriptsFile = path.join(elementDir, 'scripts.js');
     var scriptsData = require(scriptsFile);
 
     // get css classes for config

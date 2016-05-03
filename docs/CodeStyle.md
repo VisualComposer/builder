@@ -39,6 +39,9 @@ Side notes:
 - Spaces within brackets ONLY if key is variable or expression like ```$data[ $test ]```
 - Use spaces not tabs [PSR1].
 - Use `phpcs` command to check for codeStyle issues in PHP files.
+- `RUN pear install PHP_CodeSniffer`
+- `phpcs --standard=ci/ruleset.xml`
+
 
 Comments:
 
