@@ -18,10 +18,9 @@ Collector.prototype.apply = function(compiler) {
       if (settings.modules) {
         ModulesCollector.buildFile(prefix, settings.modules);
       }
-      if(settings.attributes) {
-        AttributesCollector.buildFile(prefix, settings.attributes);
-      }
-     });
+
+      AttributesCollector.buildFile(prefix);
+    });
   });
 };
 
