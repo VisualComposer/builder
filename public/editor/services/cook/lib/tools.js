@@ -1,16 +1,8 @@
-import {elementSettings}  from './element-settings';
-import {accessors} from './accessors';
-
-export function buildAttributes(element) {
-  let data = {};
-  return data;
-}
-export function buildGroup(tag, groupKey, element) {
-  let data = {};
-  let settings = elementSettings.get(tag);
-  if (settings[groupKey] && 'group' === settings[groupKey].access) {
-    let access = settings[groupKey].access;
-    data = accessors[access](groupKey, settings, element);
-  }
-  return data;
+export function buildSettingsObject(settings) {
+  return Object.keys(settings).reduce((data, k) => {
+    console.log(k);
+    console.log(settings[k]);
+    data[k] = settings[k].value || undefined;
+    return data;
+  }, {});
 }

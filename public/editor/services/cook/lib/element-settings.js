@@ -4,7 +4,7 @@ const items = {};
 export default {
   add(settings, componentCallback, cssSettings, javascriptCallback) {
     items[settings.tag.value] = {
-      settings: lodash.defaults(settings, {tag: null, getter: null}),
+      settings: lodash.defaults(settings, {tag: null}),
       component: componentCallback,
       cssSettings: cssSettings,
       javascript: javascriptCallback
@@ -16,8 +16,16 @@ export default {
   get(tag) {
     return items[tag] || null;
   },
-  getAttributeType: function(tag, key) {
+  getAttributeType(tag, key) {
     let settings = items[tag].settings[key];
     return settings || undefined;
+  },
+  all() {
+    return items;
+  },
+  list() {
+    return Object.keys(items).map((k) => {
+      return items[k];
+    });
   }
 };

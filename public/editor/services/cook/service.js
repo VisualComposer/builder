@@ -2,13 +2,14 @@ import lodash from 'lodash';
 import {addService} from 'vc-cake';
 import {default as elementSettings} from './lib/element-settings';
 import {default as attributeManager} from './lib/attribute-manager';
-
+import {default as elementComponent} from './lib/element-component';
+import {buildSettingsObject} from './lib/tools';
 class Element {
   constructor(data) {
     this.data = data;
   }
 
-  get(k) {
+  get(k) { // 'editform:general:fields'
     let {type, settings} = this.getAttributeType(k);
     return type ? type.getValue(settings, this.data, k) : undefined;
   }
@@ -28,6 +29,12 @@ class Element {
       throw new Error('No attribute type settings for ' + k + ' in ' + this.data.tag);
     }
     return {type: type, settings: settings};
+  }
+
+  render() {
+    if (!elementComponent.has(this.data.tag)) {
+      throw new Error();
+    }
   }
 }
 
@@ -58,6 +65,22 @@ addService('cook', {
     }
   },
   list: {
-    all: elementSettings.items
+    settings(orderBy = ['name'], order = ['asc']) {
+      var list = elementSettings.list();
+      return lodash.sortByOrder(list.map((item) => {
+        return buildSettingsObject(item.settings);
+      }), orderBy, order);
+    }
+  },
+  elementComponent: {
+    add(name, Component) {
+      elementComponent.add(name, Component);
+    },
+    get(name) {
+      return elementComponent.get(name);
+    },
+    has(name) {
+      return elementComponent.has(name);
+    }
   }
 });

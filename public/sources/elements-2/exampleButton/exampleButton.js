@@ -35,8 +35,8 @@ getService('cook').add(
   }
 },
   // Component callback
-  function() {var React = require('react');
-return React.createClass({
+  function() {
+    React.createClass({
   templateJs: function(data, settings) {
     return data;
   },
