@@ -13,4 +13,4 @@ export function buildGroup(tag, groupKey, element) {
     data = accessors[access](groupKey, settings, element);
   }
   return data;
-};
+}

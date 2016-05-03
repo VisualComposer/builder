@@ -8,7 +8,7 @@ export default {
       component: componentCallback,
       cssSettings: cssSettings,
       javascript: javascriptCallback
-    }
+    };
   },
   remove(tag) {
     delete items[tag];
