@@ -18,8 +18,6 @@ export default {
   },
   getAttributeType: function(tag, key) {
     let settings = items[tag].settings[key];
-  }
-  getAll: function() {
-    return 
+    return settings || undefined;
   }
 };

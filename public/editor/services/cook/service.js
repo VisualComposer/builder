@@ -6,15 +6,6 @@ import {default as attributeManager} from './lib/attribute-manager';
 class Element {
   constructor(data) {
     this.data = data;
-    /*    Object.defineProperty(this, 'settings', {
-     enumerable: false,
-     get: function() {
-     if (!this.elementSettings) {
-     this.elementSettings = elementSettings.get(this.data.tag);
-     }
-     return this.elementSettings;
-     }
-     });*/
   }
 
   get(k) {
@@ -24,6 +15,9 @@ class Element {
 
   set(k, v) {
     let attributeSettings = this.getAttributeType(k);
+    if('public' !== attributeSettings.access) {
+      throw new Error('Attribute ' + k + ' not writable. It is protected.');
+    }
     return attributeSettings ? attributeSettings.setValue(this.data, k, v) : undefined;
   }
 
