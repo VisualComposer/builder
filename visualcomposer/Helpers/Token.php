@@ -3,13 +3,13 @@
 namespace VisualComposer\Helpers;
 
 // TODO: fix BUG @error
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Class Token.
  */
-class Token extends ContainerInner implements Helper
+class Token extends Container implements Helper
 {
     /**
      * @param \VisualComposer\Helpers\Options $options

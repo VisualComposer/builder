@@ -3,92 +3,91 @@
  * @link https://github.com/JedWatson/react-select
  */
 
-var React = require( 'react' );
-var Select = require( 'react-select' );
-var ParamMixin = require( '../param-mixin' );
-var Setter = require( './Setter' );
+var React = require('react');
+var Select = require('react-select');
+var ParamMixin = require('../param-mixin');
 
-require( '../../../../node_modules/react-select/dist/react-select.min.css' );
 
-module.exports = React.createClass( {
-	mixins: [ ParamMixin ],
-	setter: Setter,
+require('../../../../node_modules/react-select/dist/react-select.min.css');
 
-	componentWillMount: function () {
-		let settings = this.props.settings.getSettings(),
-			options = settings.options ? settings.options : [];
+module.exports = React.createClass({
+  mixins: [ParamMixin],
 
-		this.options = this.normalizeOptions( options );
-	},
+  componentWillMount: function() {
+    let settings = this.props.settings.getSettings(),
+      options = settings.options ? settings.options : [];
 
-	/**
-	 * Convert options into standardized form
-	 *
-	 * Options can be passed as:
-	 * - Array of objects: [ { value: 'LV', label: 'Latvia' }, { value: 'LT', label: 'Lithuania' }, { value: 'EE', label: 'Estonia' } ]
-	 * - Object: { 'LV': 'Latvia', 'LT': 'Lithuania', 'EE': 'Estonia' }
-	 * - Array: [ 'Latvia', 'Lithuania', 'Estonia' ]
-	 *
-	 * and are returned as first variant (array of objects)
-	 *
-	 * @param options Object
-	 * @returns Object
-	 */
-	normalizeOptions: function ( options ) {
-		var isArray = Object.prototype.toString.call( options ) === '[object Array]',
-			normalizedOptions = [];
+    this.options = this.normalizeOptions(options);
+  },
 
-		if ( ! options ) {
-			return normalizedOptions;
-		}
+  /**
+   * Convert options into standardized form
+   *
+   * Options can be passed as:
+   * - Array of objects: [ { value: 'LV', label: 'Latvia' }, { value: 'LT', label: 'Lithuania' }, { value: 'EE', label: 'Estonia' } ]
+   * - Object: { 'LV': 'Latvia', 'LT': 'Lithuania', 'EE': 'Estonia' }
+   * - Array: [ 'Latvia', 'Lithuania', 'Estonia' ]
+   *
+   * and are returned as first variant (array of objects)
+   *
+   * @param options Object
+   * @returns Object
+   */
+  normalizeOptions: function(options) {
+    var isArray = Object.prototype.toString.call(options) === '[object Array]',
+      normalizedOptions = [];
 
-		for ( let key in options ) {
-			let item;
+    if (!options) {
+      return normalizedOptions;
+    }
 
-			if ( ! options.hasOwnProperty( key ) ) {
-				continue;
-			}
+    for (let key in options) {
+      let item;
 
-			if ( typeof(options[ key ]) === 'string' ) {
-				if ( isArray ) {
-					item = { value: options[ key ], label: options[ key ] };
-				} else {
-					item = { value: key, label: options[ key ] }
-				}
-			} else {
-				item = { value: options[ key ].value, label: options[ key ].label };
-			}
+      if (!options.hasOwnProperty(key)) {
+        continue;
+      }
 
-			normalizedOptions.push( item );
-		}
+      if (typeof(options[key]) === 'string') {
+        if (isArray) {
+          item = {value: options[key], label: options[key]};
+        } else {
+          item = {value: key, label: options[key]}
+        }
+      } else {
+        item = {value: options[key].value, label: options[key].label};
+      }
 
-		return normalizedOptions;
-	},
+      normalizedOptions.push(item);
+    }
 
-	onChange: function ( selected ) {
-		let value = selected ? selected.value : null;
+    return normalizedOptions;
+  },
 
-		this.setState( {
-			value: value
-		} );
+  onChange: function(selected) {
+    let value = selected ? selected.value : null;
 
-		this.updateElement( value );
-	},
+    this.setState({
+      value: value
+    });
 
-	render: function () {
-		let value = this.state.value;
+    this.updateElement(value);
+  },
 
-		return (
-			<div>
-				<label>{this.props.settings.getTitle()}</label>
+  render: function() {
+    let value = this.state.value;
 
-				<Select
-					ref={this.props.name + 'Component'}
-					onChange={this.onChange}
-					options={this.options}
-					value={value}
-				/>
-			</div>
-		);
-	}
-} );
+    return (
+      <div>
+        <label>{this.props.settings.getTitle()}</label>
+
+        <Select
+          ref={this.props.name + 'Component'}
+          onChange={this.onChange}
+          options={this.options}
+          value={value}
+        />
+      </div>
+    );
+  }
+});

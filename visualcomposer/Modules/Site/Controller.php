@@ -8,12 +8,12 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
 use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Framework\ContainerInner;
+use VisualComposer\Framework\Container;
 
 /**
  * Class Controller.
  */
-class Controller extends ContainerInner implements Module
+class Controller extends Container implements Module
 {
     /**
      * @var bool

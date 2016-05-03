@@ -23,7 +23,7 @@ var Element = React.createClass({
     },
     clickEdit: function(e) {
       e.preventDefault();
-      this.props.api.request('app:edit', this.props.element);
+      this.props.api.request('app:edit', this.props.element.id);
     },
     clickDelete: function(e) {
       e.preventDefault();

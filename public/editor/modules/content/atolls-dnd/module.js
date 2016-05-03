@@ -4,7 +4,8 @@ vcCake.add('content-atolls-dnd', function(api) {
   require('./css/module.less');
   var AtollsDnD = require('./lib/atolls-dnd');
   var ModuleDnd = function(api) {
-    this.layoutAPI = api.module('content-layout');
+    this.api = api;
+    this.layoutAPI = this.api.module('content-layout');
     this.atolls = false;
     this.init();
   };
@@ -13,7 +14,9 @@ vcCake.add('content-atolls-dnd', function(api) {
       this.atolls = new AtollsDnD(document.querySelector('[data-vcv-module="content-layout"]'), {
         radius: 350,
         cancelMove: true,
-        moveCallback: this.move.bind(this)
+        moveCallback: this.move.bind(this),
+        startCallback: this.start.bind(this),
+        endCallback: this.end.bind(this)
       });
       this.atolls.init();
     }
@@ -32,7 +35,13 @@ vcCake.add('content-atolls-dnd', function(api) {
     this.atolls.removeItem(id);
   };
   ModuleDnd.prototype.move = function(id, action, related) {
-    api.request('data:move', id, {action: action, related: related});
+    this.api.request('data:move', id, {action: action, related: related});
+  };
+  ModuleDnd.prototype.start = function() {
+    this.api.module('content-editor-controls').do('enableControls', false);
+  };
+  ModuleDnd.prototype.end = function() {
+    this.api.module('content-editor-controls').do('enableControls', true);
   };
   new ModuleDnd(api);
 });

@@ -21,11 +21,15 @@ var dataStore = {
   getChildren: function(id) {
     return documentData
       .valueSeq()
-      .filter((el)=> {return el.get('parent') === id;})
-      .sortBy((el) => {return el.get('order');});
+      .filter((el)=> {
+        return el.get('parent') === id;
+      })
+      .sortBy((el) => {
+        return el.get('order');
+      });
   },
   getLastOrderIndex: function(id) {
-    var lastObj =  this.getChildren(id).last();
+    var lastObj = this.getChildren(id).last();
     return lastObj ? lastObj.get('order') + 1 : 0;
   },
   moveUp: function() {
@@ -37,8 +41,10 @@ var dataStore = {
       return el.get('id') !== element.get('id') &&
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order');
-    }).map((el) => {return el.get('id');}).toJS();
-    keys.forEach(function(elId){
+    }).map((el) => {
+      return el.get('id');
+    }).toJS();
+    keys.forEach(function(elId) {
       var obj = documentData.get(elId);
       obj = obj.set('order', obj.get('order') + step);
       documentData = documentData.set(elId, obj);
@@ -59,7 +65,9 @@ var api = {
   },
   delete: function(id) {
     documentData = documentData.delete(id);
-    dataStore.getChildren(id).forEach((el) => {this.delete(el.get('id'));}, this);
+    dataStore.getChildren(id).forEach((el) => {
+      this.delete(el.get('id'));
+    }, this);
     return id;
   },
   update: function(id, data) {
@@ -68,7 +76,8 @@ var api = {
     return obj.toJS();
   },
   get: function(id) {
-    return documentData.get(id).toJS();
+    var item = documentData.get(id);
+    return item ? item.toJS() : null;
   },
   children: function(id) {
     return dataStore.getChildren(id).toJS();
@@ -79,7 +88,7 @@ var api = {
       var item = documentData.get(id);
       if (item) {
         var order = items.indexOf(item.get('id'));
-        item  = item.withMutations(function(map) {
+        item = item.withMutations(function(map) {
           map
             .set('parent', parentId)
             .set('order', order);
@@ -128,12 +137,14 @@ var api = {
       if ('undefined' !== typeof parent) {
         map.set('parent', parent);
       } else {
-        dataStore.cloneIndex  += 0.1;
+        dataStore.cloneIndex += 0.1;
         map.set('order', map.get('order') + dataStore.cloneIndex);
       }
     });
     documentData = documentData.set(cloneId, clone);
-    dataStore.getChildren(obj.get('id')).forEach(el => {this.clone(el.get('id'), cloneId);}, this);
+    dataStore.getChildren(obj.get('id')).forEach(el => {
+      this.clone(el.get('id'), cloneId);
+    }, this);
     return clone.toJS();
   },
   all: function() {
