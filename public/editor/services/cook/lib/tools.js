@@ -1,8 +1,6 @@
 import {elementSettings}  from './element-settings';
 import {accessors} from './accessors';
 
-const attributeManager = vcCake.get('attributes');
-
 export function buildAttributes(element) {
   let data = {};
   return data;
