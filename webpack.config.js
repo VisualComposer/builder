@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/main',
+    node: './public/node-main',
     wp: './public/wp-main',
     app: []
   },
@@ -27,14 +27,14 @@ module.exports = {
         'content/storage',
         'content/layout',
         'content/editor-controls',
-        'content/atolls-dnd',
+        // 'content/frame-based-dnd',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
         'ui/add-template',
         'ui/tree-layout',
         'ui/undo-redo',
-        'ui/edit-element',
+        // 'ui/edit-element',
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
@@ -46,18 +46,28 @@ module.exports = {
         'document',
         'local-storage',
         'element',
+        'cook',
         'rules-manager',
         'shared',
         'time-machine',
         'utils'
+      ],
+      attributes: [
+        'autosuggest',
+        'checkbox',
+        'component',
+        'innerhtml',
+        'select',
+        'string',
+        'textarea'
       ]
     },
     wp: {
       modules: [
         'content/storage',
         'content/layout',
-        'content/editor-controls-iframe',
-        //'content/atolls-dnd',
+        // 'content/editor-controls-iframe',
+        // 'content/atolls-dnd',
         'content/wordpress/assets',
         'content/wordpress/data-layout',
         'ui/navbar',
@@ -66,7 +76,7 @@ module.exports = {
         'ui/add-template',
         'ui/tree-layout',
         'ui/undo-redo',
-        'ui/edit-element',
+        // 'ui/edit-element',
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
@@ -78,25 +88,36 @@ module.exports = {
         'document',
         'wordpress-storage',
         'element',
+        'cook',
         'rules-manager',
         'shared',
         'time-machine',
         'utils'
+      ],
+      attributes: [
+        'autosuggest',
+        'checkbox',
+        'component',
+        'innerhtml',
+        'select',
+        'string',
+        'textarea'
       ]
     },
   },
   module: {
     loaders: [
-      {   test: /\.js$/,
+      {
+        test: /\.js$/,
         loaders: ['react-hot', 'babel'],
         exclude: /node_modules/
       },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
-      { test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') }, // use ! to chain loaders
-      { test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]' }, // inline base64 URLs for <=8k images, direct URLs for the rest
-      { test: /\.woff(2)?(\?.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]' },
-      { test: /\.(ttf|eot|svg)(\?.+)?$/, loader: 'file-loader?name=/fonts/[name].[ext]?[hash]' },
-      { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' },
+      {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader')},
+      {test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')}, // use ! to chain loaders
+      {test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]'}, // inline base64 URLs for <=8k images, direct URLs for the rest
+      {test: /\.woff(2)?(\?.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]'},
+      {test: /\.(ttf|eot|svg)(\?.+)?$/, loader: 'file-loader?name=/fonts/[name].[ext]?[hash]'},
+      {test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery'},
       // { test: require.resolve("react"), loader: "expose?React" },
       // { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" } // @todo remove on production
     ]

@@ -89,8 +89,6 @@ vcCake.add('ui-edit-element', function(api) {
         console.log('save callback called');
         this.closeModal();
       }).bind(this);
-      // api.request('data:update', cb);
-
       this.closeImmediately && cb();
     },
     toggleVisible: function(key, visible) {

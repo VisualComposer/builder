@@ -16,9 +16,9 @@ var SettingsCollector = {
     this.writeToFile(content.replace(/,$/, '];'));
   },
   writeToFile: function(content) {
-    fs.writeFileSync(path.join(this.elementsDirectory, 'elements-settings.js'), content);
+    fs.writeFileSync(path.join(config.publicDir, config.configPath, 'elements-settings.js'), content);
   }
 };
-SettingsCollector.elementsDirectory = path.join(config.publicDir, 'sources/elements');
+SettingsCollector.elementsDirectory = path.join(config.publicDir, config.elementsPath);
 
 module.exports = SettingsCollector;

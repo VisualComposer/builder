@@ -42,6 +42,6 @@
     "type": "string",
     "access": "public",
     "value": "Url",
-    "title": "Title, required"
+    "title": "Title"
   }
 }

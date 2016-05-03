@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
 var React = require('react');
-
+var attributesService = vcCake.getService('attributes');
 var classNames = require('classnames');
 var RulesManager = vcCake.getService('rules-manager');
 
@@ -105,12 +105,13 @@ var EditFormElement = React.createClass({
     //console.log( 'EditFormElement getInitialState called' );
     return {};
   },
-  getComponent: function(type) {
-    return require('../../../../../sources/attributes/' + type + '/Component');
+  getComponent: function(paramSettings) {
+    return attributesService.get(type).getField();
   },
-  getValue: function(element, type, key) {
-    var Getter = require('../../../../../sources/attributes/' + type + '/Getter');
-    return Getter(element, key); // todo fix maxlength/class/style names with prefix-postfix and fix default value
+  getValue: function(element, key, param) {
+    var type = paramSettings.getType().toLowerCase();
+
+    return attributesService.get(type).getValue(element, key);
   },
   render: function() {
     var { paramKey, isVisible, paramSettings, editElement } = this.props;
@@ -118,9 +119,8 @@ var EditFormElement = React.createClass({
       'vc-v-form-row',
       isVisible ? 'vc-rules-manager-visible' : 'vc-rules-manager-hidden'
     );
-    var type = paramSettings.getType().toLowerCase();
     var ComponentView = this.getComponent(type);
-    var paramValue = this.getValue(editElement, type, paramKey);
+    var paramValue = this.getValue(editElement, paramKey, paramSettings);
 
     return (
       <div className={formRowClasses}>

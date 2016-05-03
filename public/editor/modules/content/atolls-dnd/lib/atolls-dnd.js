@@ -15,7 +15,9 @@ var Builder = function(container, options) {
   this.options = _.defaults(options, {
     radius: 20,
     cancelMove: false,
-    moveCallback: function(){}
+    moveCallback: function(){},
+    startCallback: function(){},
+    endCallback: function(){}
   });
 };
 Builder.prototype.init = function() {
@@ -129,12 +131,18 @@ Builder.prototype.handleDragStart = function(e) {
   this.watchMouse();
   this.showHover();
   this.renderControls();
+  if ('function' === typeof this.options.startCallback) {
+    this.options.startCallback(this.dragingElement);
+  }
 };
 Builder.prototype.handleDragEnd = function() {
   this.dragingElement = null;
   this.forgetMouse();
   this.hideControls();
   this.hideHover();
+  if ('function' === typeof this.options.endCallback) {
+    this.options.endCallback(this.dragingElement);
+  }
 };
 /**
  * Global Constructor
