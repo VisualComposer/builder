@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-const items = {};
+let items = {};
 export default {
   add(settings, componentCallback, cssSettings, javascriptCallback) {
     items[settings.tag.value] = {

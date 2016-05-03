@@ -20,7 +20,7 @@ getService('cook').add(
     ]
   },
   "color": {
-    "type": "dropdown",
+    "type": "string",
     "access": "public",
     "value": "red",
     "title": "Color",
