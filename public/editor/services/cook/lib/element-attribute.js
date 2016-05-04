@@ -27,7 +27,12 @@ export default class {
     if ('public' !== settings.access) {
       throw new Error('Attribute ' + key + ' not writable. It is protected.');
     }
-    return this.setter ? this.setter(data, key, value, settings) : this.setRawValue(data, key, value);
+    if (this.setter) {
+      let data = this.setter(data, key, value, settings);
+    } else {
+      this.setRawValue(data, key, value);
+    }
+    return data;
   }
 
   setRawValue(data, key, value) {
