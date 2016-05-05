@@ -25,6 +25,7 @@ vcCake.add('ui-tree-layout', function(api) {
     render: function() {
       return <div
         style={this.state.treeViewExpand ? {opacity: 1, visibility: 'visible'} : {opacity: 0, visibility: 'hidden'}}>
+        <TreeView api={api}/>
       </div>;
     }
   });

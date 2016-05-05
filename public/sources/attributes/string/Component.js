@@ -1,18 +1,15 @@
 import React from 'react';
 
-export class Component extends React.Component {
+export default class StringComponent extends React.Component {
   render() {
-    console.log('render string', this.props);
-    var {settings, name} = this.props;
-    var {value} = this.state;
+    var {fieldKey, settings, value} = this.props;
     return (
       <div className="vc_ui-form-group">
-        <label className="vc_ui-form-group-heading">{settings.getTitle()}</label>
+        <label className="vc_ui-form-group-heading">{fieldKey}</label>
         <input
           className="vc_ui-form-input"
           type="text"
-          onChange={this.handleChange}
-          ref={name + 'Component'}
+          ref={fieldKey + 'Component'}
           value={value}/>
       </div>);
   }

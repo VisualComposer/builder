@@ -15,11 +15,16 @@ getService('cook').add(
     "type": "string",
     "access": "public",
     "value": "red",
-    "title": "Color",
     "options": {
-      "data": "colors"
+      "data": "colors",
+      "title": "Color",
     }
-  }
+  },
+    "google": {
+      "type": "string",
+      "access": "public",
+      "value": "search"
+    }
 },
   // Component callback
   function(component) {

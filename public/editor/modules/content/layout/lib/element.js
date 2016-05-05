@@ -23,7 +23,7 @@ var Element = React.createClass({
   },
   render: function() {
     let element = cook.get(this.props.element);
-    return element.render()
+    return element.render();
   }
 });
 module.exports = Element;
