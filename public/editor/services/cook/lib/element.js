@@ -4,14 +4,14 @@ import {createElement} from 'react';
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
 import {default as elementComponent} from './element-component';
-import {createKey} from './tools';
+import {createKey, buildSettingsObject} from './tools';
 
 export default class Element {
   constructor(data) {
-    let {id, parent, attr} = data;
-    Element.id = id || createKey();
+    let {id = createKey(), parent = false, ...attr} = data;
+    Element.id = id;
     Element.parent = parent;
-    Element.data = data;
+    Element.data = attr;
     Element.settings = elementSettings.get(Element.data.tag).settings;
     Element.getAttributeType = function(k) {
       let data = {type: false, settings: false};
@@ -33,6 +33,7 @@ export default class Element {
         return elementComponent.has(Element.data.tag);
       }
     };
+    Element.scope = 'value';
   }
 
   get(k) {
@@ -53,10 +54,11 @@ export default class Element {
       elementSettings.get(Element.data.tag).component(Element.component);
     }
     let Component = Element.component.get();
-    let attr = this.toJS();
-    attr.key = Element.id;
-    attr.id = Element.id;
-    return createElement(Component, attr);
+    let props = this.toJS();
+    props.key = Element.id;
+    props.id = Element.id;
+    props['data-vc-element'] = Element.id;
+    return createElement(Component, props);
   }
   static create(tag) {
     return new Element({tag: tag});
@@ -72,5 +74,19 @@ export default class Element {
     for (let k of Object.keys(Element.settings)) {
       yield [k, this.get(k)];
     }
+  }
+  field(k) {
+    let {type, settings} = Element.getAttributeType(k);
+    return createElement(type.component, {fieldKey: k, settings: settings, value: type.getRawValue(Element.data, k)});
+  }
+  publicKeys() {
+    let data = [];
+    for (let k of Object.keys(Element.settings)) {
+      var attrSettings = Element.settings[k];
+      if ('public' === attrSettings.access) {
+        data.push(k);
+      }
+    }
+    return data;
   }
 }

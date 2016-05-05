@@ -15,11 +15,16 @@ getService('cook').add(
     "type": "string",
     "access": "public",
     "value": "red",
-    "title": "Color",
     "options": {
-      "data": "colors"
+      "data": "colors",
+      "title": "Color",
     }
-  }
+  },
+    "google": {
+      "type": "string",
+      "access": "public",
+      "value": "search"
+    }
 },
   // Component callback
   function(component) {
@@ -27,10 +32,10 @@ getService('cook').add(
     component.add(React.createClass({
       render: function() {
         // import settings vars
-        var {tag, name, color, key, id, ...other} = this.props;
+        var {tag, name, color, id, ...other} = this.props;
 
         // import template
-        return <button type="button" className="color-{color}" key={key}>
+        return <button type="button" className="color-{color}" {...other}>
               {tag}
             </button>;
       }

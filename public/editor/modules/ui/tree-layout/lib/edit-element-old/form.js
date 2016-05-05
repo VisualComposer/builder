@@ -4,7 +4,8 @@ var ReactDom = require('react-dom');
 
 var classNames = require('classnames');
 var TreeContentTab = require('./tab');
-var cook = vcCake.getService('cook');
+var ElementComponents = vcCake.getService('element').components;
+var EditFormElement = require('./edit-form-element');
 require('../../css/tree-view/init.less');
 
 var TreeContent = React.createClass({
@@ -110,6 +111,10 @@ var TreeContent = React.createClass({
       }
     }
   },
+  getSettings: function() {
+    var element = this.getElement();
+    return ElementComponents.get(element.tag);
+  },
   getElement: function() {
     return this.props.api.getService('document').get(this.props.id);
   },
@@ -118,10 +123,36 @@ var TreeContent = React.createClass({
     console.log(this.element);
   },
   getForm: function() {
-    var element = cook.get(this.getElement());
-    let returnList = element.publicKeys().map(function(k) {
-      return element.field(k);
-    });
+    console.log('getForm called');
+    var settings = this.getSettings();
+    var returnList = [];
+    var settingsKeys = Object.keys(settings);
+    if (settingsKeys.length) {
+      returnList = settingsKeys.map(function(key) {
+        var paramSettings = settings[key];
+        if ('public' === paramSettings.getAccess()) {
+          var isVisible = typeof this.state['editFormElementsVisible' + key] !== 'undefined' ? this.state['editFormElementsVisible' + key] : true;
+          return (
+            <EditFormElement
+              key={['vc-v-edit-form-element-' , key]}
+              paramSettings={paramSettings}
+              editElement={this.element}
+              paramKey={key}
+              toggleVisible={this.toggleVisible}
+              isVisible={isVisible}
+              onSaveItemsAdd={this.onSaveItemsAdd}
+              onCancelItemsAdd={this.onCancelItemsAdd}
+              onValidateItemsAdd={this.onValidateItemsAdd}
+              closeModal={this.closeModal}
+              updateElement={this.updateElement}
+            />
+          );
+        }
+      }, this).filter(i=>i);
+    }
+    if (!returnList.length) {
+      this.closeImmediately = true;
+    }
     return returnList;
   },
   closeForm: function() {
@@ -158,17 +189,17 @@ var TreeContent = React.createClass({
         container: ".vc-ui-editor-tabs",
         ref: (ref) => context.tabsBD[tab.id] = ref,
         changeActive: context.changeActiveTab
-      };
+      }
     }
     this.element = this.props.api.getService('document').get(this.props.id);
-    var elementSettings = this.element ? cook.get({tag: this.element.tag}) : null;
+    var elementSettings = this.element ? ElementComponents.get(this.element.tag) : null;
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">
           <div className="vc-ui-tree-content-title-bar">
             <i className="vc-ui-tree-content-title-icon vc-ui-icon vc-ui-icon-bug"></i>
             <h3 className="vc-ui-tree-content-title">
-              {elementSettings ? elementSettings.get('name') : null}
+              {elementSettings ? elementSettings.name.toString() : null}
             </h3>
             <nav className="vc-ui-tree-content-title-controls">
               <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span
