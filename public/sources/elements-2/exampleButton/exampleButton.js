@@ -24,6 +24,39 @@ getService('cook').add(
       "type": "string",
       "access": "public",
       "value": "search"
+    },
+    "google2": {
+      "type": "dropdown",
+      "access": "public",
+      "value": "something",
+      "options": {
+        "values": [
+          {
+            "value": "",
+            "label": "None"
+          },
+          {
+            "value": "1",
+            "label": "One"
+          },
+          {
+            "value": "2",
+            "label": "Two"
+          },
+          {
+            "value": "3",
+            "label": "Three"
+          },
+          {
+            "value": "4",
+            "label": "Four"
+          },
+          {
+            "value": "5",
+            "label": "Five"
+          }
+        ]
+      }
     }
 },
   // Component callback
