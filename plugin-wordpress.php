@@ -68,9 +68,6 @@ define('VCV_PREFIX', 'vcv-');
 if (!defined('VCV_DEBUG')) {
     define('VCV_DEBUG', false);
 }
-if (!defined('VCV_DEBUG_AUTOLOAD_RANDOM')) {
-    define('VCV_DEBUG_AUTOLOAD_RANDOM', false);
-}
 
 // Used in requirements.php
 /**

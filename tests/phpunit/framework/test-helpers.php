@@ -12,9 +12,9 @@ class FrameworkHelpersTest extends WP_UnitTestCase
     public function testVcEvent()
     {
         /**
-         * @var $events VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+         * @var $events VisualComposer\Helpers\Events
          */
-        $events = vchelper('Events');
+        $events = vcapp('VisualComposer\Helpers\Events');
         $called = false;
         $events->listen(
             'test',
@@ -42,20 +42,17 @@ class FrameworkHelpersTest extends WP_UnitTestCase
 
             return $realpath;
         };
-        add_filter(
+        /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $filterHelper */
+        $filterHelper = vchelper('Filters');
+        $filterHelper->listen(
             'vcv:helpers:templates:render:path',
             $callback
         );
-        ob_start();
-        vcview('');
-        $content = ob_get_clean();
+        $content = vcview('');
         $this->assertEquals('This is template for test!', $content);
 
-        ob_start();
-        $returnValue = vcview('', ['data' => ' DATA!']);
-        $content = ob_get_clean();
+        $content = vcview('', ['data' => ' DATA!']);
         $this->assertEquals('This is template for test! DATA!', $content);
-        $this->assertEquals($returnValue, $content);
-        remove_filter('vcv:helpers:templates:render:path', $callback);
+        $filterHelper->forget('vcv:helpers:templates:render:path');
     }
 }

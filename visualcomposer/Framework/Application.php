@@ -3,14 +3,13 @@
 namespace VisualComposer\Framework;
 
 use VisualComposer\Framework\Illuminate\Container\Container as ContainerContract;
-use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use VisualComposer\Framework\Illuminate\Filters\Dispatcher as FiltersDispatcher;
 use VisualComposer\Framework\Illuminate\Events\Dispatcher as EventsDispatcher;
 
 /**
  * Class Application.
  */
-class Application extends ContainerContract implements ApplicationContract
+class Application extends ContainerContract
 {
     /**
      * The available container bindings and their respective load methods.
@@ -18,9 +17,9 @@ class Application extends ContainerContract implements ApplicationContract
      * @var array
      */
     protected $availableBindings = [
-        'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'registerEventBindings',
+        'VisualComposer\Helpers\Events' => 'registerEventBindings',
         'EventsHelper' => 'registerEventBindings',
-        'VisualComposer\Framework\Illuminate\Contracts\Filters\Dispatcher' => 'registerFilterBindings',
+        'VisualComposer\Helpers\Filters' => 'registerFilterBindings',
         'FiltersHelper' => 'registerFilterBindings',
         'VisualComposer\Framework\Autoload' => 'registerAutoloadBindings',
         'Autoload' => 'registerAutoloadBindings',

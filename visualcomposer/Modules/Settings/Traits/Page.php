@@ -127,6 +127,6 @@ trait Page
             ]
         );
 
-        return vcview($this->getTemplatePath(), $args, false);
+        return vcview($this->getTemplatePath(), $args);
     }
 }

@@ -18,7 +18,7 @@ class Token extends Container implements Helper
      */
     public function isRegistered(Options $options)
     {
-        return !!$options->get(
+        return (bool)$options->get(
             'site-registered'
         );
     }
@@ -26,6 +26,8 @@ class Token extends Container implements Helper
     /**
      * @param $body
      * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return bool
      */
     public function registerSite($body, Options $options)
     {
@@ -39,6 +41,8 @@ class Token extends Container implements Helper
             'site-secret',
             $body['client_secret']
         );
+
+        return true;
     }
 
     /**
@@ -48,6 +52,7 @@ class Token extends Container implements Helper
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return bool|string
+     * @throws \Exception
      */
     public function generateToken($code, Options $options, Url $urlHelper)
     {
@@ -63,7 +68,6 @@ class Token extends Container implements Helper
                 ],
             ]
         );
-
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
@@ -144,23 +148,24 @@ class Token extends Container implements Helper
             ]
         );
         if (is_array($result) && 200 == $result['response']['code']) {
-            //
             $body = json_decode($result['body']);
-            $options->set(
-                'page-auth-state',
-                1
-            )->set(
-                'page-auth-token',
-                $body->access_token
-            )->set(
-                'page-auth-refresh-token',
-                $body->refresh_token
-            )->set(
-                'page-auth-token-ttl',
-                current_time('timestamp')
-            );
+            if ($body->access_token) {
+                $options->set(
+                    'page-auth-state',
+                    1
+                )->set(
+                    'page-auth-token',
+                    $body->access_token
+                )->set(
+                    'page-auth-refresh-token',
+                    $body->refresh_token
+                )->set(
+                    'page-auth-token-ttl',
+                    current_time('timestamp')
+                );
 
-            return $body->access_token;
+                return $body->access_token;
+            }
         } else {
             // TODO: Handle error.
             throw new \Exception('HTTP request for refreshing token failed.');

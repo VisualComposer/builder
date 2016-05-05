@@ -8,7 +8,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         return (bool)$value;
     }
 
-    public function test_part_capabilities()
+    public function testPartCapabilities()
     {
         wp_set_current_user(1);
 
@@ -62,7 +62,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
     }
 
-    public function test_part_capabilities_for_empty_can_canany_canall()
+    public function testPartCapabilitiesForEmptyCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -133,7 +133,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_disabled_can_canany_canall()
+    public function testPartCapabilitiesForDisabledCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -240,7 +240,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_custom_can_canany_canall()
+    public function testPartCapabilitiesForCustomCanCananyCanall()
     {
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users')->setState(
             'custom'

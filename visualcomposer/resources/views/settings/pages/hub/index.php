@@ -10,4 +10,4 @@ if (vcapp('SettingsPagesAuthorization')->isAuthorized()) {
 } else {
     $view = 'unauthorized-state';
 }
-vcview('settings/pages/hub/partials/' . $view, ['controller' => $controller]);
+echo vcview('settings/pages/hub/partials/' . $view, ['controller' => $controller]);

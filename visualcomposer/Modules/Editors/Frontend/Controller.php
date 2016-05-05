@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Editors\Frontend;
 
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Request;
@@ -15,15 +16,16 @@ class Controller extends Container implements Module
 {
     /**
      * Frontend constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
-        add_action(
-            'vcv:ajax:loader:frontend',
+        $filterHelper->listen(
+            'vcv:ajax:frontend',
             function () {
-                // TODO: check access
                 /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
-                $this->call('renderEditorBase');
+                return $this->call('renderEditorBase');
             }
         );
     }
@@ -32,15 +34,14 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Templates $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
+     *
+     * @return string
      */
-    public function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
+    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
-        global $post;
         $sourceId = (int)$request->input('vcv-source-id');
-
-        $post = get_post($sourceId);
-        setup_postdata($post);
-
+        $this->setupPost($sourceId);
+        
         $link = get_permalink($sourceId);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
@@ -49,11 +50,26 @@ class Controller extends Container implements Module
         ];
 
         $editableLink = $link . $question . http_build_query($query);
-        $templates->render(
-            'editor/frontend/frontend',
+
+        return $templates->render(
+            'editor/frontend/frontend.php',
             [
                 'editableLink' => $editableLink,
             ]
         );
+    }
+
+    /**
+     * @param $sourceId
+     *
+     * @return \WP_Post
+     */
+    private function setupPost($sourceId)
+    {
+        global $post;
+        $post = get_post($sourceId);
+        setup_postdata($post);
+
+        return $post;
     }
 }

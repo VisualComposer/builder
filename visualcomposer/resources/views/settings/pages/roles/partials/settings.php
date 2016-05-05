@@ -9,7 +9,7 @@ foreach (vcapp('SettingsController')->getPages() as $tab) {
     $tabs[] = [$tab['slug'] . '-tab', $tab['title']];
 }
 
-vcview(
+echo vcview(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,

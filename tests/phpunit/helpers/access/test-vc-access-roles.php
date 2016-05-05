@@ -13,7 +13,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         $this->assertEquals(vchelper('AccessRole'), vcapp('AccessRoleHelper'));
     }
 
-    public function test_role_access_get()
+    public function testRoleAccessGet()
     {
         $role_access = vcapp('VisualComposer\Helpers\Access\Role');
 
@@ -34,7 +34,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     }
 
-    public function test_role_access_validate_die()
+    public function testRoleAccessValidateDie()
     {
         $role_access = vcapp('VisualComposer\Helpers\Access\Role');
         // validateDie and setValidAccess tests
@@ -60,7 +60,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         }
     }
 
-    public function test_check_admin_nonce()
+    public function testCheckAdminNonce()
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyAdmin(vcapp('NonceHelper')->admin()));
         $this->assertTrue(
@@ -84,7 +84,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_check_public_nonce()
+    public function testCheckPublicNonce()
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyUser(vcapp('NonceHelper')->user()));
         $this->assertTrue(
@@ -114,7 +114,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         return (bool)$value;
     }
 
-    public function test_check_method()
+    public function testCheckMethod()
     {
         // custom validators:
         $this->assertTrue(
@@ -338,7 +338,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_current_role_access()
+    public function testCurrentRoleAccess()
     {
         $this->assertEquals(
             'administrator',
@@ -358,7 +358,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_states()
+    public function testStates()
     {
         $this->assertNull(
             vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->getState()
@@ -406,7 +406,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     }
 
-    public function test_part_check_state()
+    public function testPartCheckState()
     {
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkState(null)->get(
@@ -435,7 +435,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities()
+    public function testPartCapabilities()
     {
         wp_set_current_user(1);
 
@@ -475,7 +475,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     }
 
-    public function test_part_capabilities_for_empty_can_canany_canall()
+    public function testPartCapabilitiesForEmptyCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -556,7 +556,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_disabled_can_canany_canall()
+    public function testPartCapabilitiesForDisabledCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -637,7 +637,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_custom_can_canany_canall()
+    public function testPartCapabilitiesForCustomCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -862,7 +862,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState(null);
     }
 
-    public function test_part_validation()
+    public function testPartValidation()
     {
         wp_set_current_user(1);
 

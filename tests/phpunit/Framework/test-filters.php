@@ -2,28 +2,6 @@
 
 class FiltersTest extends WP_UnitTestCase
 {
-    public function testFilterUntil()
-    {
-        /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
-        $helper = vchelper('Filters');
-        $helper->listen(
-            'test-filter',
-            function ($value) {
-                return $value + 1;
-            }
-        );
-        $helper->listen(
-            'test-filter',
-            function ($value) {
-                return $value + 2;
-            }
-        );
-
-        $this->assertEquals(1, $helper->until('test-filter', 0));
-        $this->assertEquals(3, $helper->fire('test-filter', 0));
-        $helper->forget('test-filter');
-    }
-
     public function testSimpleFiltering()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
@@ -69,10 +47,10 @@ class FiltersTest extends WP_UnitTestCase
         $helper->forget('test-filter');
     }
 
-    public function test_filters_weight()
+    public function testFiltersWeight()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
-        $helper = vchelper('Filters');
+        $helper = vcapp('VisualComposer\Helpers\Filters');
         $helper->listen(
             'test-filter',
             function ($value) {
@@ -119,7 +97,7 @@ class FiltersTest extends WP_UnitTestCase
         $helper->forget('test-filter');
     }
 
-    public function test_filters_weight_random()
+    public function testFiltersWeightRandom()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
         $helper = vchelper('Filters');
@@ -159,7 +137,7 @@ class FiltersTest extends WP_UnitTestCase
             101
         );
 
-        $value = $helper->fire('test-filter', 0);
+        $value = vcfilter('test-filter', 0);
         $this->assertEquals(16, $value);
         $this->assertFalse((bool)($value & 1), $value);
         $this->assertFalse((bool)($value & 2), $value);
@@ -169,7 +147,7 @@ class FiltersTest extends WP_UnitTestCase
         $helper->forget('test-filter');
     }
 
-    public function test_filters_weight_shuffle()
+    public function testFiltersWeightShuffle()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
         $helper = vchelper('Filters');
@@ -209,7 +187,7 @@ class FiltersTest extends WP_UnitTestCase
             10
         );
 
-        $value = $helper->fire('test-filter', 0);
+        $value = vcfilter('test-filter', 0);
         $this->assertEquals(8, $value);
         $this->assertFalse((bool)($value & 1), $value);
         $this->assertFalse((bool)($value & 2), $value);
@@ -219,7 +197,7 @@ class FiltersTest extends WP_UnitTestCase
         $helper->forget('test-filter');
     }
 
-    public function test_filters_value_passing()
+    public function testFiltersValuePassing()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
         $helper = vchelper('Filters');

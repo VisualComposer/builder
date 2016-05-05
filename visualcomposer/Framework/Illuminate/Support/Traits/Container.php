@@ -24,7 +24,7 @@ trait Container
     /**
      * Get all dependencies for a given method.
      *
-     * @param  callable|string $callback
+     * @param  \ReflectionFunctionAbstract $callback
      * @param  array $parameters
      *
      * @return array
@@ -34,7 +34,7 @@ trait Container
         $dependencies = [];
         $assoc = $this->hasStringKeys($parameters);
 
-        foreach ($this->getCallReflector($callback)->getParameters() as $key => $parameter) {
+        foreach ($callback->getParameters() as $key => $parameter) {
             $this->addDependencyForCallParameter($parameter, $parameters, $dependencies, $assoc);
         }
 

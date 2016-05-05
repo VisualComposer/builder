@@ -2,27 +2,6 @@
 
 class AutoloadTest extends WP_UnitTestCase
 {
-    public function testShuffleAssoc()
-    {
-        /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
-        $data = [
-            'test' => 1,
-            'test2' => 2,
-            'test3' => 3,
-            'test4' => 4,
-            'test5' => 5,
-            'test6' => 6,
-            'test7' => 7,
-            'test8' => 8,
-            'test9' => 9,
-            'test10' => 10,
-        ];
-        $shuffled = $app->shuffleAssoc($data);
-        $this->assertEquals($data, $shuffled);
-        $this->assertNotEquals(array_keys($data), array_keys($shuffled));
-    }
-
     public function testGetComponents()
     {
         /** @var \VisualComposer\Framework\Autoload $app */
@@ -56,6 +35,8 @@ class AutoloadTest extends WP_UnitTestCase
         $app = vcapp('Autoload');
         $components = $app->getComponents();
         $this->assertTrue($app->initComponents($components));
+        $this->assertFalse($app->initComponents(false));
+        $this->assertTrue($app->useCache());
     }
 
     public function testIsHelper()

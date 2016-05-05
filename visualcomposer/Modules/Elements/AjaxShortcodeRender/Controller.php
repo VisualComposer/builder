@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
@@ -13,14 +14,16 @@ class Controller extends Container implements Module
 {
     /**
      * Controller constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
-        add_action(
-            'vcv:ajax:loader:elements:ajaxShortcodeRender',
+        $filterHelper->listen(
+            'vcv:ajax:elements:ajaxShortcodeRender',
             function () {
                 /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
-                $this->call('ajaxShortcodeRender');
+                return $this->call('ajaxShortcodeRender');
             }
         );
     }
@@ -28,12 +31,14 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $request
      */
-    public function ajaxShortcodeRender(Request $request)
+    private function ajaxShortcodeRender(Request $request)
     {
-        // TODO: add _nonce, check access
-        $content = do_shortcode($request->input('vcv-shortcode-string'));
+        ob_start();
+        echo do_shortcode($request->input('vcv-shortcode-string'));
         wp_print_head_scripts();
         wp_print_footer_scripts();
-        $this->terminate($content);
+        $response = ob_get_clean();
+
+        return $response;
     }
 }

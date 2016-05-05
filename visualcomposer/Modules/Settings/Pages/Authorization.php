@@ -2,6 +2,8 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
+use Exception;
+use VisualComposer\Framework\Application;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
@@ -17,6 +19,10 @@ class Authorization extends Container implements Module
 {
     use Page;
     /**
+     * @var \VisualComposer\Framework\Application
+     */
+    protected $app;
+    /**
      * @var string
      */
     protected $slug = 'vcv-auth';
@@ -27,9 +33,12 @@ class Authorization extends Container implements Module
 
     /**
      * Authorization constructor.
+     *
+     * @param \VisualComposer\Framework\Application $app
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
         add_filter(
             'vcv:settings:getPages',
             function ($pages) {
@@ -51,7 +60,7 @@ class Authorization extends Container implements Module
     protected function beforeRender(Token $tokenHelper)
     {
         /** @see \VisualComposer\Helpers\Token::isRegistered */
-        if (!vcapp()->call([$tokenHelper, 'isRegistered'])) {
+        if (!$this->app->call([$tokenHelper, 'isRegistered'])) {
             /** @var Url $urlHelper */
             $urlHelper = vchelper('Url');
             $url = $urlHelper->ajax(['vcv-action' => 'api']);
@@ -62,10 +71,10 @@ class Authorization extends Container implements Module
             if (is_array($result) && 200 === $result['response']['code']) {
                 $body = json_decode($result['body'], true);
                 /** @see \VisualComposer\Helpers\Token::registerSite */
-                vcapp()->call([$tokenHelper, 'registerSite'], [$body]);
+                $this->app->call([$tokenHelper, 'registerSite'], [$body]);
             } else {
                 // TODO: Handle error.
-                throw new \Exception('HTTP request for registering app failed.');
+                throw new Exception('HTTP request for registering app failed.');
             }
         }
     }
@@ -97,7 +106,7 @@ class Authorization extends Container implements Module
         if ($request->exists('code')) {
             // post to the API to get token
             /** @see \VisualComposer\Helpers\Token::generateToken */
-            $token = vcapp()->call([$tokenHelper, 'generateToken'], [$request->input('code')]);
+            $token = $this->app->call([$tokenHelper, 'generateToken'], [$request->input('code')]);
             if ($token) {
                 wp_redirect(self_admin_url('admin.php?page=vcv-auth'));
             } else {

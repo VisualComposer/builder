@@ -4,7 +4,6 @@ define('VCV_PHPUNIT', true);
 define('VCV_LAZY_LOAD', true);
 define('VCV_DIE_EXCEPTION', true);
 define('VCV_DEBUG', true);
-define('VCV_DEBUG_AUTOLOAD_RANDOM', true);
 $testsDir = getenv('WP_TESTS_DIR');
 if (!$testsDir) {
     $testsDir = '/tmp/wordpress-tests-lib';
@@ -19,15 +18,6 @@ tests_add_filter(
 );
 
 require $testsDir . '/phpunit/includes/bootstrap.php';
-
-/**
- * Class DiedException
- *
- * When unittests are run, instead of die(), this exception is thrown
- */
-class DiedException extends Exception
-{
-}
 
 /**
  * @param $mockableClass

@@ -28,7 +28,7 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Options $options
      */
-    public function setVersion(Options $options)
+    private function setVersion(Options $options)
     {
         $options->set('version', VCV_VERSION);
     }

@@ -4,7 +4,7 @@ use VisualComposer\Helpers\Nonce;
 
 class VcAccessUsersTest extends WP_UnitTestCase
 {
-    public function test_user_access_validate_die()
+    public function testUserAccessValidateDie()
     {
         $this->assertEquals(
             vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->getRoleName(),
@@ -34,7 +34,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         }
     }
 
-    public function test_user_access_get()
+    public function testUserAccessGet()
     {
         $user_access = vcapp('VisualComposer\Helpers\Access\CurrentUser');
 
@@ -54,7 +54,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         $this->assertTrue($user_access->get());
     }
 
-    public function test_check_admin_nonce()
+    public function testCheckAdminNonce()
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyAdmin(vcapp('NonceHelper')->admin()));
         $this->assertTrue(
@@ -79,7 +79,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_check_public_nonce()
+    public function testCheckPublicNonce()
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyUser(vcapp('NonceHelper')->user()));
         $this->assertTrue(
@@ -110,7 +110,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         return (bool)$value;
     }
 
-    public function test_check_method()
+    public function testCheckMethod()
     {
         // custom validators:
         $this->assertTrue(
@@ -334,7 +334,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_current_user_access()
+    public function testCurrentUserAccess()
     {
         wp_set_current_user(1);
         $user_access = vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset();
@@ -378,7 +378,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_states()
+    public function testStates()
     {
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->can()->get()
@@ -432,7 +432,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
     }
 
-    public function test_wp_any_all()
+    public function testWpAnyAll()
     {
         wp_set_current_user(1);
 
@@ -479,7 +479,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_wp_any_all_in_parts()
+    public function testWpAnyAllInParts()
     {
         wp_set_current_user(1);
 
@@ -538,7 +538,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_check_state()
+    public function testPartCheckState()
     {
         wp_set_current_user(1);
 
@@ -569,7 +569,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities()
+    public function testPartCapabilities()
     {
         wp_set_current_user(1);
 
@@ -613,7 +613,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
     }
 
-    public function test_part_capabilities_for_empty_can_canany_canall()
+    public function testPartCapabilitiesForEmptyCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -694,7 +694,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_disabled_can_canany_canall()
+    public function testPartCapabilitiesForDisabledCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -775,7 +775,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         );
     }
 
-    public function test_part_capabilities_for_custom_can_canany_canall()
+    public function testPartCapabilitiesForCustomCanCananyCanall()
     {
         wp_set_current_user(1);
 
@@ -1002,7 +1002,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->setState(null);
     }
 
-    public function test_part_validation()
+    public function testPartValidation()
     {
         wp_set_current_user(1);
 

@@ -13,28 +13,26 @@ use VisualComposer\Modules\Settings\Pages\License;
 
 /**
  * Class Controller.
+ * @DISABLED
  */
-class Controller extends Container implements Module
+class Controller extends Container
 {
     /**
      * @var string
      */
     static protected $licenseKeyOption = 'license_key';
-
     /**
      * @var string
      */
     static protected $licenseKeyTokenOption = 'license_key_token';
-
     /**
      * @var string
      */
     static protected $activationHost = 'https://account.visualcomposer.io';
-
     /**
-     * @var string
+     * @var array
      */
-    private $error = null;
+    private $errors = [];
 
     /**
      * Controller constructor.
@@ -45,13 +43,14 @@ class Controller extends Container implements Module
     {
         // TODO: this is not valid. we should use register_activation_callback.
         if ($request->exists('activate')) {
-            /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
-            $this->call('finishActivationDeactivation', [true, $request->input('activate')]);
+            /** @see \VisualComposer\Modules\License\Controller::finishActivation */
+            $this->call('finishActivation', [true, $request->input('activate')]);
         } elseif ($request->exists('deactivate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivationDeactivation */
-            $this->call('finishActivationDeactivation', [false, $request->input('deactivate')]);
+            $this->call('finishDeactivation', [false, $request->input('deactivate')]);
         }
 
+        // TODO: Move to Loader.php ajax.
         add_action(
             'wp_ajax_vcv:getActivationUrl',
             function () {
@@ -60,11 +59,20 @@ class Controller extends Container implements Module
             }
         );
 
+        // TODO: Move to Loader.php ajax.
         add_action(
             'wp_ajax_vcv:getDeactivationUrl',
             function () {
                 /** @see \VisualComposer\Modules\License\Controller::startDeactivationResponse */
                 $this->call('startDeactivationResponse');
+            }
+        );
+
+        add_action(
+            'admin_notices',
+            function () {
+                /** @see \VisualComposer\Modules\License\Controller::renderNotices */
+                echo $this->call('renderNotices');
             }
         );
     }
@@ -109,17 +117,15 @@ class Controller extends Container implements Module
      * Output notice.
      *
      * @param string $message
-     * @param bool $success
+     * @param string $view
+     *
+     * @return string
      */
-    private function renderNotice($message, $success = true)
+    private function renderNotices($message, $view)
     {
         $args = ['message' => $message];
 
-        if ($success) {
-            vcview('settings/partials/notice-success', $args);
-        } else {
-            vcview('settings/partials/notice-error', $args);
-        }
+        return vcview($view, $args);
     }
 
     /**
@@ -127,17 +133,9 @@ class Controller extends Container implements Module
      *
      * @param string $error
      */
-    private function renderError($error)
+    private function addError($error)
     {
-        $this->error = $error;
-
-        add_action(
-            'admin_notices',
-            function () {
-                /** @see \VisualComposer\Modules\License\Controller::renderLastError */
-                $this->call('renderLastError');
-            }
-        );
+        $this->errors[] = $error;
     }
 
     /**
@@ -146,7 +144,7 @@ class Controller extends Container implements Module
     private function renderLastError()
     {
         /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        $this->call('renderNotice', [$this->error, false]);
+        return $this->call('renderNotice', [$this->error, false]);
     }
 
     /**
@@ -155,7 +153,7 @@ class Controller extends Container implements Module
     private function renderActivatedSuccess()
     {
         /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
+        return $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
     }
 
     /**
@@ -164,7 +162,50 @@ class Controller extends Container implements Module
     private function renderDeactivatedSuccess()
     {
         /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
+        return $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
+    }
+
+    /**
+     * Finish pending activation/deactivation.
+     *
+     * 1) Make API call to support portal.
+     * 2) Receive success status and license key.
+     * 3) Set new license key.
+     *
+     * @param bool $activation
+     * @param string $userToken
+     *
+     * @return bool
+     */
+    private function finishActivation($activation, $userToken)
+    {
+        /** @see \VisualComposer\Modules\License\Controller::isValidToken */
+        if (!$this->call('isValidToken', [$userToken])) {
+            $this->addError(__('Token is not valid or has expired', 'vc5'));
+
+            return false;
+        }
+
+        $response = $this->sendActivation($userToken);
+
+        $status = $this->responseStatus($response);
+
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
+        $this->call('setLicenseKeyToken', ['']);
+        if ($status) {
+            if (!isset($json['license_key']) || !$this->isValidFormat($json['license_key'])) {
+                $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+
+                return false;
+            }
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
+            $this->call('setLicenseKey', [$json['license_key']]);
+
+            // add ActiovationSuccessMessage
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -188,11 +229,7 @@ class Controller extends Container implements Module
             return false;
         }
 
-        if ($activation) {
-            $url = self::getActivationHost() . '/finish-license-activation';
-        } else {
-            $url = self::getActivationHost(). '/finish-license-deactivation';
-        }
+        $url = self::getActivationHost() . '/finish-license-deactivation';
 
         $params = ['body' => ['token' => $userToken]];
 
@@ -200,13 +237,13 @@ class Controller extends Container implements Module
 
         if (is_wp_error($response)) {
             /** @var $response \WP_Error */
-            $this->renderError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
+            $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
 
             return false;
         }
 
         if ($response['response']['code'] !== 200) {
-            $this->renderError(__(sprintf('Server did not respond with OK: %s', $response['response']['code']), 'vc5'));
+            $this->addError(__(sprintf('Server did not respond with OK: %s', $response['response']['code']), 'vc5'));
 
             return false;
         }
@@ -214,13 +251,13 @@ class Controller extends Container implements Module
         $json = json_decode($response['body'], true);
 
         if (!$json || !isset($json['status'])) {
-            $this->renderError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+            $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
 
             return false;
         }
 
         if (!$json['status']) {
-            $this->renderError(__('Something went wrong. Please contact us for support.', 'vc5'));
+            $this->addError(__('Something went wrong. Please contact us for support.', 'vc5'));
 
             return false;
         }
@@ -380,7 +417,7 @@ class Controller extends Container implements Module
     private function startDeactivationResponse(CurrentUser $currentUserAccess)
     {
         $currentUserAccess->checkAdminNonce()->validateDie()->wpAny('manage_options')->validateDie()->part('settings')
-            ->can('vcv-license-tab')->validateDie();
+                          ->can('vcv-license-tab')->validateDie();
 
         /** @see \VisualComposer\Modules\License\Controller::generateDeactivationUrl */
         $response = [
@@ -440,6 +477,7 @@ class Controller extends Container implements Module
             return;
         }
 
+        // TODO: Fix cookie.
         $showActivationReminder = !$this->isActivated()
             && empty($_COOKIE['vcvhideactivationmsg'])
             && !($core->isNetworkPlugin() && is_network_admin());
@@ -452,7 +490,7 @@ class Controller extends Container implements Module
             'admin_notices',
             function () {
                 /** @see \VisualComposer\Modules\License\Controller::renderLicenseActivationNotice */
-                $this->call('renderLicenseActivationNotice');
+                echo $this->call('renderLicenseActivationNotice');
             }
         );
     }
@@ -477,8 +515,9 @@ class Controller extends Container implements Module
 
         $chunks = explode('.', $host);
 
+        $domains = ['local', 'dev', 'wp', 'test', 'example', 'localhost', 'invalid'];
         if (1 === count($chunks)
-            || in_array(end($chunks), ['local', 'dev', 'wp', 'test', 'example', 'localhost', 'invalid'])
+            || in_array(end($chunks), $domains)
             || (preg_match('/^[0-9\.]+$/', $host))
         ) {
             return true;
@@ -494,10 +533,12 @@ class Controller extends Container implements Module
      */
     private function renderLicenseActivationNotice(Options $options)
     {
+        // TODO: Fix key prefix.
         $options->set('vc5_license_activation_notified', 'yes');
 
         /** @see \VisualComposer\Modules\License\Controller::getLicensePage */
         $licensePage = $this->call('getLicensePage');
+        // TODO: Fix \is_multisite() function call.
         $redirectUrl = is_multisite() ? network_admin_url($licensePage) : admin_url($licensePage);
 
         $redirectUrl = wp_nonce_url(esc_url(($redirectUrl)));
@@ -581,7 +622,8 @@ class Controller extends Container implements Module
 
         $chunks = explode('|', $token);
 
-        if (intval($chunks[0]) < (time() - $ttlInSeconds)) {
+        $diff = time() - $ttlInSeconds;
+        if (intval($chunks[0]) < $diff) {
             return false;
         }
 
@@ -603,5 +645,53 @@ class Controller extends Container implements Module
         $pattern = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
 
         return (bool)preg_match($pattern, $licenseKey);
+    }
+
+    /**
+     * @param $userToken
+     *
+     * @return mixed
+     */
+    private function sendActivation($userToken)
+    {
+        $url = self::getActivationHost() . '/finish-license-activation';
+
+        $params = ['body' => ['token' => $userToken]];
+
+        $response = wp_remote_post($url, $params);
+
+        return $response;
+    }
+
+    /**
+     * @param $response
+     *
+     * @return bool
+     */
+    private function responseStatus($response)
+    {
+        $status = true;
+        if (is_wp_error($response)) {
+            /** @var $response \WP_Error */
+            $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
+            $status = false;
+        } else if ($response['response']['code'] !== 200) {
+            $this->addError(__(sprintf('Server did not respond with OK: %s', $response['response']['code']), 'vc5'));
+            $status = false;
+        } else {
+            $json = json_decode($response['body'], true);
+
+            if (!$json || !isset($json['status'])) {
+                $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+                $status = false;
+            }
+
+            if (!$json['status']) {
+                $this->addError(__('Something went wrong. Please contact us for support.', 'vc5'));
+                $status = false;
+            }
+        }
+
+        return $status;
     }
 }
