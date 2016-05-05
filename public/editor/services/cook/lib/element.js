@@ -56,6 +56,7 @@ export default class Element {
     let attr = this.toJS();
     attr.key = Element.id;
     attr.id = Element.id;
+    attr['data-vc-element'] = Element.id;
     return createElement(Component, attr);
   }
   static create(tag) {
