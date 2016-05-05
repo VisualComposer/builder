@@ -13,7 +13,7 @@ export default {
   remove(tag) {
     delete items[tag];
   },
-  get(tag) {
+  get(tag, type) {
     return items[tag] || null;
   },
   getAttributeType(tag, key) {

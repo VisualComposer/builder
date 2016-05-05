@@ -25,11 +25,12 @@ export default class {
 
   setValue(settings, data, key, value) {
     if ('public' !== settings.access) {
-      throw new Error('Attribute ' + key + ' not writable. It is protected.');
+      console && console.error('Attribute ' + key + ' not writable. It is protected.');
+      return data;
     }
     if (this.setter) {
       let data = this.setter(data, key, value, settings);
-    } else {
+    } else if (settings.value !== value) {
       this.setRawValue(data, key, value);
     }
     return data;

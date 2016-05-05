@@ -5,7 +5,7 @@ vcCake.add('ui-add-element', function(api) {
   var React = require('react');
   var ReactDOM = require('react-dom');
   var Modal = require('react-modal');
-  var ElementComponents = vcCake.getService('element').components;
+  var cook = vcCake.getService('cook');
   var ElementControl = require('./lib/element-control');
   require('./css/module.less');
   const customStyles = {
@@ -49,8 +49,8 @@ vcCake.add('ui-add-element', function(api) {
       this.setState({modalIsOpen: false});
     },
     render: function() {
-      var components = this.state.modalIsOpen ? ElementComponents.getElementsList() : {};
-      var dependencies = "*";
+      var elements = this.state.modalIsOpen ? cook.list.settings() : [];
+      // var dependencies = "*";
       api.actions.setParent(this.state.parent);
       // get dependencies
       if (this.state.modalIsOpen) {
@@ -76,22 +76,22 @@ vcCake.add('ui-add-element', function(api) {
             </div>
             <div className="modal-body">
               <ul className="vc_v-modal-content">
-                { Object.keys(components).map(function(key) {
-                    var component = components[key];
+                { elements.map(function(component) {
                     // check relations
+                    /*
                     if ("*" === dependencies) {
-                      if (component.strongRelation && component.strongRelation.toString()) {
+                      if (component.strongRelation) {
                         return false;
                       }
                     } else if (dependencies.length) {
                       let allowed = false;
                       // check by tag name
-                      if (dependencies.indexOf(component.tag.toString()) > -1) {
+                      if (dependencies.indexOf(component.tag) > -1) {
                         allowed = true;
                       }
                       // check by relatedTo
                       if (component.relatedTo) {
-                        component.relatedTo.toString().map(function(relation) {
+                        component.relatedTo.map(function(relation) {
                           if (dependencies.indexOf(relation) > -1) {
                             allowed = true;
                           }
@@ -101,16 +101,14 @@ vcCake.add('ui-add-element', function(api) {
                         return false;
                       }
                     }
-
+                    */
                     return (function() {
-                      if (undefined === component.manageable || true == component.manageable) {
                         return <ElementControl
                           api={api}
-                          key={'vc-element-control-' + component.tag.toString()}
-                          tag={component.tag.toString()}
-                          name={component.name.toString()}
+                          key={'vc-element-control-' + component.tag}
+                          tag={component.tag}
+                          name={component.name}
                           icon={component.icon ? component.icon.toString() : ''}/>;
-                      }
                     })()
                   }
                 )}

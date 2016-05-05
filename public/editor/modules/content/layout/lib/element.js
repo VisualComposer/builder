@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake');
 var React = require('react');
-var ElementComponents = vcCake.getService('element').components;
+var cook = vcCake.getService('cook');
 require('../css/element.less');
 
 var Element = React.createClass({
@@ -12,8 +12,8 @@ var Element = React.createClass({
   },
   getContent: function(content) {
     var documentData = vcCake.getService('document');
-    var ElementComponent = ElementComponents.get(this.props.element); // optimize
-    if ('container' == ElementComponent.type) {
+    var ElementComponent = cook.get(this.props.element); // optimize
+    if ('container' == ElementComponent.get('type')) {
       let elementsList = documentData.children(this.props.element.id).map(function(element) {
         return <Element element={element} key={element.id} api={this.props.api}/>;
       }, this);
@@ -21,34 +21,13 @@ var Element = React.createClass({
     }
     return content;
   },
-  getElementAttributes: function() {
-    let element = this.props.element;
-    let ElementComponent = ElementComponents.get(element);
-    var atts = {};
-    Object.keys(ElementComponent).map(function(key) {
-      let option = ElementComponent[key];
-      let value = vcCake.getService('element').attributes.getElementValue(key, option, element);
-      if ('undefined' !== typeof(value) && null !== value) {
-        atts[key] = value;
-      }
-    }, this);
-    return atts;
-  },
   render: function() {
-    var element = this.props.element;
-    var ElementComponent = ElementComponents.get(element);
-    var ElementView = ElementComponents.getElement(element);
-    var elementAttributes = this.getElementAttributes();
+    let element = ElementComponents.get(this.props.element);
+    let ElementView = ElementComponents.getElement(element);
+    let attributes = ElementComponent.toJS();
     return React.createElement(ElementView, {
-      editor: {
-        'data-vc-element': element.id,
-        'data-vc-element-type': ElementComponent.type.toString(),
-        'data-vc-mutable-element': ElementComponent.mutable ? ElementComponent.mutable.toString() : '',
-        'data-vc-editable': 'true',
-        'data-vc-name': ElementComponent.name.toString()
-      },
-      ...elementAttributes,
-      content: this.getContent(elementAttributes.content)
+      ...attributes,
+      content: this.getContent(attributes.content)
     });
   }
 });

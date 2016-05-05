@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import {default as lodash} from 'lodash';
 import {addService} from 'vc-cake';
 
 import {default as elementComponent} from './lib/element-component';
@@ -30,15 +30,15 @@ addService('cook', {
       if (attributeElement) {
         return attributeElement;
       }
-      throw new Error('Error! attribute type doesn\'t exist.');
+      return null;
     }
   },
   list: {
-    settings(orderBy = ['name'], order = ['asc']) {
+    settings(sortSelector = ['name']) {
       var list = elementSettings.list();
-      return lodash.sortByOrder(list.map((item) => {
+      return lodash.sortBy(list.map((item) => {
         return buildSettingsObject(item.settings);
-      }), orderBy, order);
+      }), sortSelector);
     }
   },
   elementComponent: {

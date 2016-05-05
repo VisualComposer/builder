@@ -11,14 +11,6 @@ getService('cook').add(
     "access": "protected",
     "value": "Example Button 1.0"
   },
-  "category": {
-    "type": "array",
-    "access": "protected",
-    "value": [
-      "General",
-      "Buttons"
-    ]
-  },
   "color": {
     "type": "string",
     "access": "public",
@@ -27,11 +19,6 @@ getService('cook').add(
     "options": {
       "data": "colors"
     }
-  },
-  "edit-form": {
-    "type": "group",
-    "access": "protected",
-    "value": ["color"]
   }
 },
   // Component callback

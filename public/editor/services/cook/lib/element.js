@@ -1,34 +1,36 @@
+
+require("babel-polyfill");
+
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
 
 export default class Element {
   constructor(data) {
     Element.data = data;
+    Element.settings = elementSettings.get(Element.data.tag).settings;
+    Element.getAttributeType = function(k) {
+      let data = {type: false, settings: false};
+      let attrSettings = this.settings[k];
+      if (attrSettings && attrSettings.type) {
+        data.settings = attrSettings;
+        data.type = attributeManager.get(attrSettings.type) || false;
+      }
+      
+      return data;
+    };
   }
 
   get(k) {
-    let {type, settings} = this.getAttributeType(k);
-    return type ? type.getValue(settings, Element.data, k) : undefined;
+    let {type, settings} = Element.getAttributeType(k);
+    return type && settings ? type.getValue(settings, Element.data, k) : undefined;
   }
 
   set(k, v) {
-    let {type, settings} = this.getAttributeType(k);
-    if (type) {
+    let {type, settings} = Element.getAttributeType(k);
+    if (type && settings) {
       Element.data = type.setValue(settings, Element.data, k, v);
     }
     return Element.data[k];
-  }
-
-  getAttributeType(k) {
-    let settings = elementSettings.getAttributeType(Element.data.tag, k);
-    if (!settings || !settings.type) {
-      throw new Error('No type settings for element attribute ' + k + ' in ' + Element.data.tag);
-    }
-    let type = attributeManager.get(settings.type);
-    if (!type) {
-      throw new Error('No attribute type settings for ' + k + ' in ' + Element.data.tag);
-    }
-    return {type: type, settings: settings};
   }
 
   render() {
@@ -36,9 +38,19 @@ export default class Element {
       throw new Error();
     }
   }
-
-  toJS(selector) {
-    return Element.data;
+  static create(tag) {
+    return new Element({tag: tag});
   }
-
+  toJS() {
+    let data = {};
+    for(let k of Object.keys(Element.settings)) {
+      data[k] = this.get(k);
+    }
+    return data;
+  }
+  *[Symbol.iterator]() {
+    for(let k of Object.keys(Element.settings)) {
+      yield [k, this.get(k)];
+    }
+  }
 }
