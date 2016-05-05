@@ -8,10 +8,10 @@ import {createKey} from './tools';
 
 export default class Element {
   constructor(data) {
-    let {id, parent, attr} = data;
-    Element.id = id || createKey();
+    let {id = createKey(), parent = false, ...attr} = data;
+    Element.id = id;
     Element.parent = parent;
-    Element.data = data;
+    Element.data = attr;
     Element.settings = elementSettings.get(Element.data.tag).settings;
     Element.getAttributeType = function(k) {
       let data = {type: false, settings: false};
