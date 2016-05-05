@@ -22,18 +22,20 @@ getService('cook').add(
   }
 },
   // Component callback
-  function() {
-    React.createClass({
-  templateJs: function(data, settings) {
-    return data;
+  function(component) {
+    var React = require('react');
+    component.add(React.createClass({
+      render: function() {
+        // import settings vars
+        var {tag, name, color, key, id, ...other} = this.props;
+
+        // import template
+        return <button type="button" className="color-{color}" key={key}>
+              {tag}
+            </button>;
+      }
+    }));
   },
-  render: function() {
-    var data = this.templateJs(this.props.data, this.props.settings);
-    return <button type="button" className="vce-example-button vc-example-button-{data.shape}" key={key}>
-      {data.content}
-    </button>;
-  }
-});},
   // css settings // css for element
   {},
   // javascript callback

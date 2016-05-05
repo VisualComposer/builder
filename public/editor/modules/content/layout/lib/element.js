@@ -22,13 +22,8 @@ var Element = React.createClass({
     return content;
   },
   render: function() {
-    let element = ElementComponents.get(this.props.element);
-    let ElementView = ElementComponents.getElement(element);
-    let attributes = ElementComponent.toJS();
-    return React.createElement(ElementView, {
-      ...attributes,
-      content: this.getContent(attributes.content)
-    });
+    let element = cook.get(this.props.element);
+    return element.render()
   }
 });
 module.exports = Element;

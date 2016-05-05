@@ -1,7 +1,6 @@
 import {default as lodash} from 'lodash';
 import {addService} from 'vc-cake';
 
-import {default as elementComponent} from './lib/element-component';
 import {buildSettingsObject} from './lib/tools';
 import {default as elementSettings} from './lib/element-settings';
 import {default as attributeManager} from './lib/attribute-manager';
@@ -39,17 +38,6 @@ addService('cook', {
       return lodash.sortBy(list.map((item) => {
         return buildSettingsObject(item.settings);
       }), sortSelector);
-    }
-  },
-  elementComponent: {
-    add(name, Component) {
-      elementComponent.add(name, Component);
-    },
-    get(name) {
-      return elementComponent.get(name);
-    },
-    has(name) {
-      return elementComponent.has(name);
     }
   }
 });

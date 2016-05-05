@@ -1,11 +1,16 @@
-
-require("babel-polyfill");
+require('babel-polyfill');
+import {createElement} from 'react';
 
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
+import {default as elementComponent} from './element-component';
+import {createKey} from './tools';
 
 export default class Element {
   constructor(data) {
+    let {id, parent, attr} = data;
+    Element.id = id || createKey();
+    Element.parent = parent;
     Element.data = data;
     Element.settings = elementSettings.get(Element.data.tag).settings;
     Element.getAttributeType = function(k) {
@@ -15,8 +20,18 @@ export default class Element {
         data.settings = attrSettings;
         data.type = attributeManager.get(attrSettings.type) || false;
       }
-      
       return data;
+    };
+    Element.component = {
+      add(Component) {
+        elementComponent.add(Element.data.tag, Component);
+      },
+      get() {
+        return elementComponent.get(Element.data.tag);
+      },
+      has() {
+        return elementComponent.has(Element.data.tag);
+      }
     };
   }
 
@@ -34,22 +49,27 @@ export default class Element {
   }
 
   render() {
-    if (!elementComponent.has(ElementObject.data.tag)) {
-      throw new Error();
+    if (!Element.component.has()) {
+      elementSettings.get(Element.data.tag).component(Element.component);
     }
+    let Component = Element.component.get();
+    let attr = this.toJS();
+    attr.key = Element.id;
+    attr.id = Element.id;
+    return createElement(Component, attr);
   }
   static create(tag) {
     return new Element({tag: tag});
   }
   toJS() {
     let data = {};
-    for(let k of Object.keys(Element.settings)) {
+    for (let k of Object.keys(Element.settings)) {
       data[k] = this.get(k);
     }
     return data;
   }
   *[Symbol.iterator]() {
-    for(let k of Object.keys(Element.settings)) {
+    for (let k of Object.keys(Element.settings)) {
       yield [k, this.get(k)];
     }
   }

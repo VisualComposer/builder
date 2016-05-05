@@ -5,5 +5,4 @@ vcCake.start(function() {
   require('./config/node-modules');
 });
 require('./sources/elements-2/exampleButton/exampleButton');
-
 window.app = vcCake;
