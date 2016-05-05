@@ -7,7 +7,45 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
 
     public function setUp()
     {
-        $this->container = new MyTestModule();
+        parent::setUp();
+        $this->container = vcapp('MyTestModule');
+    }
+
+    public function testDIContainerCall()
+    {
+        $obj = new stdClass();
+        $obj->data = 1;
+
+        $obj2 = new stdClass();
+        $this->assertTrue($this->container->call('pr', [0, $obj]));
+        $this->assertTrue($this->container->call('pr', [0, $obj, []]));
+        $this->assertFalse($this->container->call('pr', [0, $obj2, []]));
+        $this->assertFalse($this->container->call('pr', [0, $obj, false]));
+
+        $this->assertTrue($this->container->call('pr', [1, $obj, ['test']]));
+        $this->assertTrue($this->container->call('pr', [2, $obj, ['test', 'test2'],]));
+        $this->assertFalse($this->container->call('pr', [2, $obj2, ['test', 'test2'],]));
+
+        $this->assertTrue($this->container->call('pb', [0, $obj]));
+        $this->assertTrue($this->container->call('pb', [0, $obj, []]));
+        $this->assertFalse($this->container->call('pb', [0, $obj2, []]));
+        $this->assertFalse($this->container->call('pb', [0, $obj, false]));
+
+        $this->assertTrue($this->container->call('pb', [1, $obj, ['test']]));
+        $this->assertTrue($this->container->call('pb', [2, $obj, ['test', 'test2']]));
+        $this->assertFalse($this->container->call('pb', [2, $obj2, ['test', 'test2']]));
+    }
+
+    public function testDIContainerCallAssoc()
+    {
+        $obj = new stdClass();
+        $obj->data = 1;
+
+        $obj2 = new stdClass();
+        $this->assertTrue($this->container->call('pr', ['data' => 0, 'obj2' => $obj]));
+        $this->assertTrue($this->container->call('pr', ['data' => 0, 'obj2' => $obj, 'test' => []]));
+        $this->assertTrue($this->container->call('pb', ['data' => 1, 'obj2' => $obj, 'test' => ['test']]));
+        $this->assertFalse($this->container->call('pb', ['data' => 2, 'obj2' => $obj2, 'test' => ['test', 'test2']]));
     }
 
     public function testEmpty()
@@ -422,5 +460,15 @@ class  MyTestModule extends \VisualComposer\Framework\Container
     public function call($method, array $parameters = [])
     {
         return parent::call($method, $parameters);
+    }
+
+    private function pr(\VisualComposer\Helpers\Options $options, $data, stdClass $obj2, $test = [])
+    {
+        return is_numeric($data) && is_array($test) && count($test) == $data && isset($obj2->data);
+    }
+
+    public function pb(\VisualComposer\Helpers\Options $options, $data, stdClass $obj2, $test = [])
+    {
+        return is_numeric($data) && is_array($test) && count($test) == $data && isset($obj2->data);
     }
 }

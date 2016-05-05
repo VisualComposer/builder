@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
@@ -12,11 +13,13 @@ class Controller extends Container implements Module
 {
     /**
      * Controller constructor.
+     *
+     * @param \VisualComposer\Helpers\Events $eventHelper
      */
-    public function __construct()
+    public function __construct(Events $eventHelper)
     {
-        add_action(
-            'init',
+        $eventHelper->listen(
+            'vcv:inited',
             function () {
                 /** @see \VisualComposer\Modules\System\TextDomain\Controller::setDomain */
                 $this->call('setDomain');
@@ -27,8 +30,9 @@ class Controller extends Container implements Module
     /**
      *
      */
-    public function setDomain()
+    private function setDomain()
     {
+        // TODO: Add languages.
         load_plugin_textdomain('vc5', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }

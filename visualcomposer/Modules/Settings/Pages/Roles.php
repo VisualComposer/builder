@@ -103,6 +103,7 @@ class Roles extends Container implements Module
      */
     public function getPartCapability($part)
     {
+        // TODO: Remove this check.
         return 'settings' !== $part ? [
             'edit_posts',
             'edit_pages',
@@ -123,6 +124,7 @@ class Roles extends Container implements Module
             $has = $wpRole->has_cap($caps);
         } elseif (is_array($caps)) {
             $i = 0;
+            // TODO: Check out of bounds.
             while (false === $has && $i < count($caps)) {
                 $has = $this->hasRoleCapability($role, $caps[ $i++ ]);
             }

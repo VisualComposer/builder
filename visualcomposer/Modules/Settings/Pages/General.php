@@ -169,7 +169,7 @@ class General extends Container implements Module
     {
         $checked = $options->get('not_responsive_css', false);
 
-        vcview(
+        return vcview(
             'settings/pages/general/partials/disable-responsive',
             [
                 'checked' => $checked,
@@ -223,7 +223,7 @@ class General extends Container implements Module
             ];
         }
 
-        vcview(
+        return vcview(
             'settings/pages/general/partials/google-fonts-subsets',
             [
                 'subsets' => $subsets,

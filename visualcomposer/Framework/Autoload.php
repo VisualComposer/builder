@@ -110,34 +110,10 @@ DATA;
                 }
             }
         }
-        if (defined('VCV_DEBUG') && VCV_DEBUG && defined('VCV_DEBUG_AUTOLOAD_RANDOM') && VCV_DEBUG_AUTOLOAD_RANDOM) {
-            $all['helpers'] = $this->shuffleAssoc($all['helpers']);
-            $all['modules'] = $this->shuffleAssoc($all['modules']);
-        }
 
         $this->components = $all;
 
         return $all;
-    }
-
-    /**
-     * Shuffles and array with keys.
-     *
-     * @param $array
-     *
-     * @return array
-     */
-    public function shuffleAssoc($array)
-    {
-        $keys = array_keys($array);
-
-        shuffle($keys);
-        $new = [];
-        foreach ($keys as $key) {
-            $new[ $key ] = $array[ $key ];
-        }
-
-        return $new;
     }
 
     /**
@@ -265,7 +241,7 @@ DATA;
     /**
      * @return bool
      */
-    protected function useCache()
+    public function useCache()
     {
         $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
         if (file_exists($filename)) {

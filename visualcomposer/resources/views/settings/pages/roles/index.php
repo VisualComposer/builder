@@ -84,7 +84,7 @@ $editableRoles = get_editable_roles();
 
                                 foreach ($validRoles as $part) {
                                     $view = str_replace('_', '-', $part);
-                                    vcview(
+                                    echo vcview(
                                         'settings/pages/roles/partials/' . $view,
                                         [
                                             'part' => $part,

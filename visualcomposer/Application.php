@@ -3,7 +3,6 @@
 namespace VisualComposer;
 
 use VisualComposer\Framework\Application as ApplicationFactory;
-use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as ApplicationContract;
 
 /**
  * Main plugin instance which controls modules and helpers.
@@ -11,7 +10,7 @@ use VisualComposer\Framework\Illuminate\Contracts\Foundation\Application as Appl
  *
  * Class Application.
  */
-class Application extends ApplicationFactory implements ApplicationContract
+class Application extends ApplicationFactory
 {
     /**
      * Create a new Application instance.
@@ -32,7 +31,7 @@ class Application extends ApplicationFactory implements ApplicationContract
         add_action(
             'init',
             function () {
-                do_action('vcv:inited', $this);
+                vcevent('vcv:inited', $this);
                 if (isset($_REQUEST[ VCV_AJAX_REQUEST ])) {
                     /** @noinspection PhpIncludeInspection */
                     require_once $this->path('visualcomposer/Modules/System/Loader.php');
@@ -40,7 +39,6 @@ class Application extends ApplicationFactory implements ApplicationContract
                 }
             }
         );
-        do_action('vcv:load', $this);
     }
 
     /**
@@ -65,7 +63,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function rglob($pattern, $flags = 0)
     {
-        $files = glob(apply_filters('vcv:application:rglob', $pattern), $flags);
+        $files = glob($pattern, $flags);
         foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
             $files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
         }
@@ -82,10 +80,12 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function addComponent($componentName, $componentController, $make = true)
     {
-        $this->singleton($componentController);
-        $this->alias($componentController, $componentName);
-        if ($make) {
-            $this->make($componentController);
+        if (!$this->bound($componentController)) {
+            $this->singleton($componentController);
+            $this->alias($componentController, $componentName);
+            if ($make) {
+                $this->make($componentController);
+            }
         }
 
         return $this;
@@ -100,7 +100,7 @@ class Application extends ApplicationFactory implements ApplicationContract
      */
     public function path($path = '')
     {
-        return apply_filters('vcv:application:path', $this->basePath . ltrim($path, '\//'), $path, $this);
+        return $this->basePath . ltrim($path, '\//');
     }
 
     /**
@@ -118,8 +118,11 @@ class Application extends ApplicationFactory implements ApplicationContract
             'VisualComposer\Framework\Illuminate\Contracts\Foundation\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'App',
-            'VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher' => 'EventsHelper',
+            'VisualComposer\Helpers\Events' => 'EventsHelper',
+            'VisualComposer\Helpers\Filters' => 'FiltersHelper',
             'VisualComposer\Framework\Autoload' => 'Autoload',
         ];
+
+        return $this;
     }
 }

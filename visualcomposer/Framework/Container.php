@@ -34,32 +34,20 @@ abstract class Container
         }
 
         $dependencies = $this->getMethodDependencies(
-            $func,
+            $this->getCallReflector($func),
             $parameters
         );
 
         if ($inner) {
-            // TODO: check for correct
             $reflectionMethod = new ReflectionMethod($this, $method);
-            $reflectionMethod->setAccessible(true);
+            if (!is_callable($func)) {
+                // TODO: Check for correct.
+                $reflectionMethod->setAccessible(true);
+            }
 
             return $reflectionMethod->invokeArgs($this, $dependencies);
         } else {
             return call_user_func_array($func, $dependencies);
         }
-    }
-
-    /**
-     * @param $data
-     *
-     * @throws \DiedException
-     */
-    public function terminate($data)
-    {
-        if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
-            throw new \DiedException($data);
-        }
-
-        die($data);
     }
 }

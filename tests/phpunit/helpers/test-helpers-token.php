@@ -4,80 +4,71 @@ class HelpersTokenTest extends WP_UnitTestCase
 {
     public function testTokenHelper()
     {
-        /**
-         * @var $helper VisualComposer\Helpers\Token
-         */
-        $helper = vcapp('VisualComposer\Helpers\Token');
+        /** @var $helper VisualComposer\Helpers\Token */
+        $helper = vchelper('Token');
 
         $this->assertTrue(is_object($helper), 'Token helper should be an object');
     }
 
     public function testIsRegisteredAndRegisterSite()
     {
-        /**
-         * @var $helper VisualComposer\Helpers\Token
-         */
-        $helper = vcapp('VisualComposer\Helpers\Token');
+        /** @var $helper \VisualComposer\Helpers\Token */
+        $helper = vchelper('Token');
 
-        /**
-         * @var $helper VisualComposer\Helpers\Options
-         */
-        $optionsHelper = vcapp('VisualComposer\Helpers\Options');
+        /** @var $optionsHelper \VisualComposer\Helpers\Options */
+        $optionsHelper = vchelper('Options');
 
         $this->assertFalse($helper->isRegistered($optionsHelper));
 
         $body = ['client_id' => 'foo', 'client_secret' => 'bar'];
         $ret = $helper->registerSite($body, $optionsHelper);
-        $this->assertNull($ret);
+        $this->assertTrue($ret);
 
         $this->assertTrue($helper->isRegistered($optionsHelper));
     }
 
     public function testTokenLifecycle()
     {
-        /**
-         * @var $helper VisualComposer\Helpers\Token
-         */
-        $helper = vcapp('VisualComposer\Helpers\Token');
+        /** @var $helper VisualComposer\Helpers\Token */
+        $helper = vchelper('Token');
+        /** @var $optionsHelper VisualComposer\Helpers\Options */
+        $optionsHelper = vchelper('Options');
 
-        /**
-         * @var $helper VisualComposer\Helpers\Options
-         */
-        $optionsHelper = vcapp('VisualComposer\Helpers\Options');
-
-        /**
-         * @var $helper VisualComposer\Helpers\Url
-         */
-        $urlHelper = vcapp('VisualComposer\Helpers\Url');
-
+        remove_all_filters('pre_http_request');
         add_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest'], 10, 3);
 
         $this->assertFalse($optionsHelper->get('page-auth-token'));
         $this->assertFalse($optionsHelper->get('page-auth-refresh-token'));
 
         $code = 'test-code';
-        $access_token = $helper->generateToken($code, $optionsHelper, $urlHelper);
-        $this->assertEquals('test-access-token-1', $access_token);
+        $accessToken = vcapp()->call([$helper, 'generateToken'], [$code]);
+        $this->assertEquals('test-access-token-1', $accessToken);
 
         $this->assertEquals('test-access-token-1', $helper->getToken($optionsHelper));
 
-        // force token to be expired
+        remove_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest']);
+    }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function testTokenLifeCycleException()
+    {
+        /** @var $helper VisualComposer\Helpers\Token */
+        $helper = vchelper('Token');
+        /** @var $optionsHelper VisualComposer\Helpers\Options */
+        $optionsHelper = vchelper('Options');
+
+        // Test failed http request.
+        // Force token to be expired.
         $optionsHelper->set('page-auth-token-ttl', '-1');
-
-        $this->assertEquals('test-access-token-2', $helper->getToken($optionsHelper));
-
-        // test failed http request
-
-        remove_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest'], 10, 3);
 
         add_filter('pre_http_request', '__return_true', 100);
 
-        // force token tp be expired
-        $optionsHelper->set('page-auth-token-ttl', '-1');
-
+        $code = 'test-code';
         $this->assertFalse($helper->getToken($optionsHelper));
-        $this->assertFalse($helper->generateToken($code, $optionsHelper, $urlHelper));
+        $this->assertFalse(vcapp()->call([$helper, 'generateToken'], [$code]));
+        remove_filter('pre_http_request', '__return_true');
     }
 
     /**
@@ -89,6 +80,7 @@ class HelpersTokenTest extends WP_UnitTestCase
      * @param bool $false
      * @param array|null $args
      * @param string|null $url
+     *
      * @return mixed False, to continue request as is, true to block it and array to change it
      */
     public function overrideGenerateTokenRequest($false, $args = null, $url = null)
@@ -107,20 +99,23 @@ class HelpersTokenTest extends WP_UnitTestCase
                 break;
 
             default:
-                // should not happen
+                // Should not happen.
                 $access_token = 'test-access-token-?';
                 $refresh_token = 'test-refresh-token-?';
         }
 
-        return [
+        $response = [
             'response' => [
-                'code' => 200
+                'code' => 200,
             ],
-            'body' => json_encode([
-                'access_token' => $access_token,
-                'refresh_token' => $refresh_token
-            ])
+            'body' => json_encode(
+                [
+                    'access_token' => $access_token,
+                    'refresh_token' => $refresh_token,
+                ]
+            ),
         ];
-    }
 
+        return $response;
+    }
 }

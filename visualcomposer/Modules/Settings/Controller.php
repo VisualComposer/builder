@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Settings;
 
-use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Data;
@@ -11,6 +11,7 @@ use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Framework\Container;
+use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Controller.
@@ -35,9 +36,9 @@ class Controller extends Container implements Module
     protected $layout = 'default';
 
     /**
-     * @param Dispatcher $event
+     * @param Events $event
      */
-    public function __construct(Dispatcher $event)
+    public function __construct(Events $event)
     {
         add_action(
             'admin_init',
@@ -89,6 +90,7 @@ class Controller extends Container implements Module
         About $aboutPage,
         General $generalPage
     ) {
+        // TODO: Fix \is_multisite() function same issue in js_composer.
         $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($generalPage->getSlug())->get()
             || (is_multisite()
                 && !is_main_site());
@@ -143,7 +145,7 @@ class Controller extends Container implements Module
                     $page['slug'],
                     function () {
                         /** @see \VisualComposer\Modules\Settings\Controller::renderPage */
-                        $this->call('renderPage');
+                        echo $this->call('renderPage');
                     }
                 );
             }
@@ -155,6 +157,8 @@ class Controller extends Container implements Module
     /**
      * @param Request $request
      * @param \VisualComposer\Helpers\Data $data
+     *
+     * @return string
      */
     private function renderPage(Request $request, Data $data)
     {
@@ -168,15 +172,20 @@ class Controller extends Container implements Module
             if (isset($page['layout'])) {
                 $layout = $page['layout'];
             }
-            vcview(
+            /** @var Page $controller */
+            $controller = $page['controller'];
+
+            return vcview(
                 'settings/layouts/' . $layout,
                 [
-                    'content' => $page['controller']->render(),
+                    'content' => $controller->render(),
                     'tabs' => $pages,
                     'activeSlug' => $page['slug'],
                 ]
             );
         }
+
+        return '';
     }
 
     /**

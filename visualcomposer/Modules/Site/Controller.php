@@ -6,7 +6,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 
@@ -20,23 +20,23 @@ class Controller extends Container implements Module
      */
     protected static $jsScriptRendered = false;
     /**
-     * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+     * @var \VisualComposer\Helpers\Events
      */
     protected $event;
 
     /**
      * Controller constructor.
      *
-     * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Helpers\Events $event
      */
-    public function __construct(Dispatcher $event)
+    public function __construct(Events $event)
     {
         $this->event = $event;
         add_action(
             'wp_head',
             function () {
                 /** @see \VisualComposer\Modules\Site\Controller::appendScript */
-                $this->call('appendScript');
+                echo $this->call('appendScript');
             }
         );
 
@@ -78,11 +78,12 @@ class Controller extends Container implements Module
                 ]
             );
             $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
-            if (!self::$jsScriptRendered) {
-                /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
-                $link .= $this->call('outputScripts');
-                self::$jsScriptRendered = true;
-            }
+            // TODO: output scripts.
+            //if (!self::$jsScriptRendered) {
+            /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
+            //   $link .= $this->call('outputScripts');
+            //   self::$jsScriptRendered = true;
+            //}
         }
 
         return $link;
@@ -92,11 +93,13 @@ class Controller extends Container implements Module
      * Output less.js script to page header.
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @return string
      */
     public function appendScript(Url $urlHelper)
     {
-        echo '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
-            . '" data-async="true"></script>';
+        return '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+        . '" data-async="true"></script>';
     }
 
     /**
@@ -107,12 +110,12 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function outputScripts(Templates $templatesHelper, Options $optionsHelper)
+    public function outputScripts(Templates $templatesHelper, Options $optionsHelper)
     {
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
         $stylesBundle = $optionsHelper->get('stylesBundle');
         $args = compact('scriptsBundle', 'stylesBundle');
 
-        return $templatesHelper->render('site/frontend-scripts-styles', $args, false);
+        return $templatesHelper->render('site/frontend-scripts-styles', $args);
     }
 }

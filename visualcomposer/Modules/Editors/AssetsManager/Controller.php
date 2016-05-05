@@ -6,7 +6,7 @@ use VisualComposer\Application;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\File;
-use VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher;
+use VisualComposer\Helpers\Filters as FilterDispather;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
@@ -16,9 +16,9 @@ use VisualComposer\Framework\Container;
 class Controller extends Container implements Module
 {
     /**
-     * @var \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+     * @var \VisualComposer\Helpers\Filters
      */
-    protected $event;
+    protected $filter;
     /**
      * @var \VisualComposer\Helpers\Request
      */
@@ -35,51 +35,68 @@ class Controller extends Container implements Module
     /**
      * Controller constructor.
      *
-     * @param \VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $event
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      */
-    public function __construct(Dispatcher $event, Request $request, Options $optionsHelper, File $fileHelper)
-    {
-        $this->event = $event;
+    public function __construct(
+        FilterDispather $filterHelper,
+        Request $request,
+        Options $optionsHelper,
+        File $fileHelper
+    ) {
+        $this->filter = $filterHelper;
         $this->request = $request;
         $this->options = $optionsHelper;
         $this->file = $fileHelper;
 
-        $this->event->listen(
+        $this->filter->listen(
             'vcv:postAjax:setPostData',
-            function () {
-                $args = func_get_args();
+            function ($response, $payload) {
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::setPostDataHook */
-                $this->call('setPostDataHook', $args);
+                $data = $this->call('setPostDataHook', [$payload['sourceId']]);
+                if ($data) {
+                    $response['data'] = $data;
+                } else {
+                    $response['status'] = false;
+                }
+
+                return $response;
+            }
+        );
+
+        // Save compiled less into one css bundle.
+        $this->filter->listen(
+            'vcv:ajax:saveCssBundle:adminNonce',
+            function ($response, $payload) {
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
+                $data = $this->call('saveCssBundleHook', [$payload['sourceId']]);
+                if ($data) {
+                    $response['data'] = $data;
+                } else {
+                    $response['status'] = false;
+                }
+
+                return $response;
             }
         );
 
         add_action(
             'before_delete_post',
-            function () {
-                $args = func_get_args();
+            function ($postId) {
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
-                $this->call('deletePostAssetsHook', $args);
-            }
-        );
-
-        // Save compiled less into one css bundle.
-        add_action(
-            'vcv:ajax:loader:saveCssBundle:adminNonce',
-            function () {
-                $args = func_get_args();
-                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
-                $this->call('saveCssBundleHook', $args);
+                return $this->call('deletePostAssetsHook', [$postId]);
             }
         );
     }
 
     /**
      * @param $postId
+     *
+     * @return array
      */
-    public function setPostDataHook($postId)
+    private function setPostDataHook($postId)
     {
         $this->updatePostAssets(
             $postId,
@@ -93,16 +110,10 @@ class Controller extends Container implements Module
         );
         $this->generateScriptsBundle();
         $styleBundles = $this->getStyleBundles();
-        $this->terminate(
-            json_encode(
-                [
-                    'success' => true,
-                    'data' => [
-                        'styleBundles' => $styleBundles,
-                    ],
-                ]
-            )
-        );
+
+        return [
+            'styleBundles' => $styleBundles,
+        ];
     }
 
     /**
@@ -110,8 +121,10 @@ class Controller extends Container implements Module
      * Remove list of associated assets.
      *
      * @param int $postId Post ID
+     *
+     * @return $this
      */
-    public function deletePostAssetsHook($postId)
+    private function deletePostAssetsHook($postId)
     {
         foreach ([
             'scripts',
@@ -128,37 +141,23 @@ class Controller extends Container implements Module
             $this->options->set($assetType, $assets);
         }
 
-        return $this;
+        return true;
     }
 
     /**
      * Save compiled less into one css bundle.
      */
-    public function saveCssBundleHook()
+    private function saveCssBundleHook()
     {
         $contents = $this->request->input('vcv-contents');
 
         $bundleUrl = $this->generateStylesBundle($contents);
 
-        if ($bundleUrl === false) {
-            $this->terminate(
-                json_encode(
-                    [
-                        'success' => false,
-                    ]
-                )
-            );
+        if ($bundleUrl) {
+            return ['filename' => $bundleUrl];
         }
-        $this->terminate(
-            json_encode(
-                [
-                    'success' => true,
-                    'data' => [
-                        'filename' => $bundleUrl,
-                    ],
-                ]
-            )
-        );
+
+        return false;
     }
 
     /**
@@ -289,6 +288,8 @@ class Controller extends Container implements Module
      * @param int $postId
      * @param string $assetType scripts|styles.
      * @param string[] $postAssets
+     *
+     * @return array|mixed
      */
     private function updatePostAssets($postId, $assetType, $postAssets)
     {
@@ -304,12 +305,16 @@ class Controller extends Container implements Module
         }
 
         $this->options->set($assetType, $assets);
+
+        return $assets;
     }
 
     /**
      * Remove all files by extension in asset-bundles directory.
      *
      * @param string $extension
+     *
+     * @return array
      */
     private function deleteAssetsBundles($extension = '')
     {
@@ -319,13 +324,15 @@ class Controller extends Container implements Module
         if ($extension) {
             $extension = '.' . $extension;
         }
-        // TODO: probably need to use rglob
-        /** @see \VisualComposer\Application::rglob */
-        $files = glob($destinationDir . '/*' . $extension);
+        /** @var Application $app */
+        $app = vcapp();
+        $files = $app->rglob($destinationDir . '/*' . $extension);
         if (is_array($files)) {
             foreach ($files as $file) {
                 unlink($file);
             }
         }
+
+        return $files;
     }
 }

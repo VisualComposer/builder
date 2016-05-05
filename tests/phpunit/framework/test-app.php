@@ -4,7 +4,6 @@ class AppTest extends WP_UnitTestCase
 {
     public function testBootstrap()
     {
-        $this->assertTrue((bool)did_action('vcv:load'), 'vcv:load action must be called');
         $this->assertTrue((bool)did_action('vcv:boot'), 'vcv:boot action must be called');
     }
 
@@ -12,7 +11,7 @@ class AppTest extends WP_UnitTestCase
     {
         $this->assertTrue(is_object(vcapp('EventsHelper')));
         /**
-         * @var $events VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+         * @var $events VisualComposer\Helpers\Events
          */
         $events = vcapp('EventsHelper');
         $called = false;
@@ -30,14 +29,14 @@ class AppTest extends WP_UnitTestCase
     public function testModuleEventsDependencyInjection()
     {
         /**
-         * @var $events VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher
+         * @var $events VisualComposer\Helpers\Events
          */
         $events = vcapp('EventsHelper');
         $called = false;
         $evInstance = false;
         $events->listen(
             'test',
-            function (\VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $inst) use (
+            function (\VisualComposer\Helpers\Events $inst) use (
                 &$called,
                 &$evInstance
             ) {
@@ -59,8 +58,7 @@ class AppTest extends WP_UnitTestCase
         $func = function (
             VisualComposer\Application $app0,
             VisualComposer\Framework\Application $app1,
-            VisualComposer\Framework\Illuminate\Contracts\Foundation\Application $app2,
-            VisualComposer\Framework\Illuminate\Contracts\Events\Dispatcher $events,
+            VisualComposer\Helpers\Events $events,
             VisualComposer\Framework\Illuminate\Container\Container $app3,
             VisualComposer\Framework\Illuminate\Contracts\Container\Container $app4
         ) use (&$called) {
@@ -69,12 +67,9 @@ class AppTest extends WP_UnitTestCase
             $this->assertTrue(method_exists($events, 'listen'));
             $this->assertEquals($events, vcapp('EventsHelper'));
             $this->assertEquals($app0, $app1, 'it should be same instances');
-            $this->assertEquals($app1, $app2, 'it should be same instances');
-            $this->assertEquals($app2, $app3, 'it should be same instances');
             $this->assertEquals($app3, $app4, 'it should be same instances');
             $this->assertEquals($app0, vcapp(), 'it should be same instances');
             $this->assertEquals($app1, vcapp(), 'it should be same instances');
-            $this->assertEquals($app2, vcapp(), 'it should be same instances');
             $this->assertEquals($app3, vcapp(), 'it should be same instances');
             $this->assertEquals($app4, vcapp(), 'it should be same instances');
             $this->assertEquals($app1, vcapp()->make('App'), 'it should be same instances');

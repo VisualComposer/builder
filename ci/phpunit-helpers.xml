@@ -13,17 +13,4 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../visualcomposer/Helpers</directory>
-            <exclude>
-                <file>../visualcomposer/Modules/System/Loader.php</file>
-                <directory suffix=".php">../visualcomposer/resources</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <logging>
-        <log type="coverage-clover" showUncoveredFiles="true" target="../test-coverage.xml"/>
-    </logging>
 </phpunit>

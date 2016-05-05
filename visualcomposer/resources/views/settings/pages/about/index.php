@@ -50,7 +50,7 @@ if (!defined('ABSPATH')) {
             data-size="large">Tweet</a>
     </p>
     <?php
-    vcview(
+    echo vcview(
         'settings/pages/about/partials/tabs',
         [
             'activeTabSlug' => $activeTabSlug,
@@ -61,7 +61,7 @@ if (!defined('ABSPATH')) {
 
     foreach ($tabs as $tab) :
         if ($tab['slug'] === $activeTabSlug) {
-            vcview($tab['view']);
+            echo vcview($tab['view']);
         }
     endforeach;
     ?>

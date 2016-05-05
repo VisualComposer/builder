@@ -55,6 +55,7 @@ class Controller extends Container implements Module
                 add_filter(
                     'the_content',
                     function () use ($url) {
+                        // TODO: Use view.
                         return '
 <script>
         (function () {

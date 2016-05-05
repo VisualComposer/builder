@@ -45,25 +45,23 @@ class About extends Container implements Module
             70
         );
 
-        $this->setTabs(
+        $this->tabs = [
             [
-                [
-                    'slug' => 'vcv-main',
-                    'title' => __('What\'s New', 'vc5'),
-                    'view' => 'settings/pages/about/partials/main',
-                ],
-                [
-                    'slug' => 'vcv-faq',
-                    'title' => __('FAQ', 'vc5'),
-                    'view' => 'settings/pages/about/partials/faq',
-                ],
-                [
-                    'slug' => 'vcv-resources',
-                    'title' => __('Resources', 'vc5'),
-                    'view' => 'settings/pages/about/partials/resources',
-                ],
-            ]
-        );
+                'slug' => 'vcv-main',
+                'title' => __('What\'s New', 'vc5'),
+                'view' => 'settings/pages/about/partials/main',
+            ],
+            [
+                'slug' => 'vcv-faq',
+                'title' => __('FAQ', 'vc5'),
+                'view' => 'settings/pages/about/partials/faq',
+            ],
+            [
+                'slug' => 'vcv-resources',
+                'title' => __('Resources', 'vc5'),
+                'view' => 'settings/pages/about/partials/resources',
+            ],
+        ];
     }
 
     /**
@@ -72,21 +70,6 @@ class About extends Container implements Module
     public function getTabs()
     {
         return $this->tabs;
-    }
-
-    /**
-     * @param $tabs
-     *
-     * @return $this
-     */
-    public function setTabs($tabs)
-    {
-        $this->tabs = apply_filters(
-            'vcv:settings:page:about:tabs', // TODO: Maybe remove this hook.
-            $tabs
-        );
-
-        return $this;
     }
 
     /**
@@ -117,6 +100,7 @@ class About extends Container implements Module
      */
     protected function beforeRender(Request $request, CurrentUser $currentUserAccess)
     {
+        // TODO: Fix same issue as \is_multisite().
         $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vcv-general-tab')
                                                  ->get()
             && (!is_multisite() || !is_main_site());

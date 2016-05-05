@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     die('-1');
 }
 
-vcview(
+echo vcview(
     'settings/pages/roles/partials/part',
     [
         'part' => $part,

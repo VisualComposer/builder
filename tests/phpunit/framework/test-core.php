@@ -15,7 +15,5 @@ class CoreTest extends WP_UnitTestCase
         // Used in requirements.php
         $this->assertTrue(defined('VCV_REQUIRED_PHP_VERSION'));
         $this->assertTrue(defined('VCV_REQUIRED_BLOG_VERSION'));
-
-        $this->assertTrue(defined('VCV_START'));
     }
 }
