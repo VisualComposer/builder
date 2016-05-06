@@ -77,7 +77,7 @@ export default class Element {
   }
   field(k) {
     let {type, settings} = Element.getAttributeType(k);
-    return createElement(type.component, {fieldKey: k, settings: settings, value: type.getRawValue(Element.data, k)});
+    return createElement(type.component, {fieldKey: k, options: settings.options, value: type.getRawValue(Element.data, k)});
   }
   publicKeys() {
     let data = [];

@@ -18,6 +18,11 @@ module.exports = [
     "options": {
       "data": "colors"
     }
+  },
+  "google": {
+    "type": "string",
+    "access": "public",
+    "value": "search"
   }
 },{
   "tag": {

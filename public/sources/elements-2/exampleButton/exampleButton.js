@@ -21,9 +21,42 @@ getService('cook').add(
     }
   },
     "google": {
-      "type": "string",
+      "type": "htmleditor",
       "access": "public",
-      "value": "search"
+      "value": "<h2>Test</h2><p>Hi my name is Pavel!</p>"
+    },
+    "google2": {
+      "type": "dropdown",
+      "access": "public",
+      "value": "something",
+      "options": {
+        "values": [
+          {
+            "value": "",
+            "label": "None"
+          },
+          {
+            "value": "1",
+            "label": "One"
+          },
+          {
+            "value": "2",
+            "label": "Two"
+          },
+          {
+            "value": "3",
+            "label": "Three"
+          },
+          {
+            "value": "4",
+            "label": "Four"
+          },
+          {
+            "value": "5",
+            "label": "Five"
+          }
+        ]
+      }
     }
 },
   // Component callback
