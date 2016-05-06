@@ -90,6 +90,19 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: require.resolve('tinymce/tinymce'),
+        loaders: [
+          'imports?this=>window',
+          'exports?window.tinymce'
+        ]
+      },
+      {
+        test: /tinymce\/(themes|plugins)\//,
+        loaders: [
+          'imports?this=>window'
+        ]
+      },
+      {
         test: /\.js$/,
         loaders: ['react-hot', 'babel'],
         exclude: /node_modules/

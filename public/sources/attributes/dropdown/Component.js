@@ -16,6 +16,8 @@ export default class Component extends React.Component {
   }
 
   render() {
+    console.log({renderDropdownAttribute: this.props});
+
     var {fieldKey, value} = this.props;
     return (
       <div className="vc_ui-form-group">
