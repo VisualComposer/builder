@@ -1,6 +1,10 @@
 var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
+var React = require('react');
+var babel = require('babel-core');
+
+
 
 var args = process.argv.slice(2);
 var elementPath = args[0];
@@ -48,19 +52,7 @@ fs.lstat(elementDir, function(err, stats) {
       console.log('Error, wrong Template.jsx file.');
       process.exit(1);
     }
-    // Css settings
-    // Settings
-    var cssSettingsFile = path.resolve(elementDir, 'css.json');
-    var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}';
-    var cssSettings = JSON.parse(cssSettingsString);
-    if (!cssSettings) {
-      console.log('Error, wrong css settings');
-      process.exit(1);
-    }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
-      settings: function() {
-        return settingsString + '';
-      },
       variables: function() {
         return variables;
       },
@@ -69,18 +61,18 @@ fs.lstat(elementDir, function(err, stats) {
       },
       template: function() {
         return templateString;
-      },
-      jsCallback: function() {
-        return 'function(){}';
-      },
-      cssSettings: function() {
-        return cssSettingsString + '';
-      },
-      editorJsSettings: function() {
-        return 'null';
       }
     });
-    fs.writeFileSync(path.join(elementDir, settings.tag.value + '.js'), template);
+
+    template = babel.transform(template).code;
+    //console.log(template);
+    //eval('var Component = ' + template);
+    //console.log(Component);
+
+    //console.log(Component);
+
+
+    fs.writeFileSync(path.join(elementDir, 'Component.js'), template);
   } else {
     console.log('Directory "${elementDir}" does not exist!');
     process.exit(1);
