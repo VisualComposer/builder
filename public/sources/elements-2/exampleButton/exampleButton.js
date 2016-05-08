@@ -21,9 +21,9 @@ getService('cook').add(
     }
   },
     "google": {
-      "type": "string",
+      "type": "htmleditor",
       "access": "public",
-      "value": "search"
+      "value": "<h2>Test</h2><p>Hi my name is Pavel!</p>"
     },
     "google2": {
       "type": "dropdown",

@@ -26,74 +26,78 @@ module.exports = [
   }
 },{
   "tag": {
-    "access": "private",
-    "value": "iconButton",
-    "type": "string"
+    "type": "string",
+    "access": "protected",
+    "value": "iconButton"
   },
   "name": {
     "type": "string",
     "access": "protected",
     "value": "Icon Button 1.0"
   },
-  "title": {
-    "access": "protected",
+  "buttonTitle": {
+    "type": "string",
+    "access": "public",
     "value": "Icon Button v1.0.0",
-    "type": "string"
+    "options": {
+      "label": "Button text"
+    }
   },
   "style": {
+    "type": "dropdown",
     "access": "public",
     "value": "round",
-    "type": "dropdpown",
-    "options": [
-      {
-        "label": "Flat",
-        "value": "flat"
-      },
-      {
-        "label": "Round",
-        "value": "round"
-      },
-      {
-        "label": "Rounded",
-        "value": "rounded"
-      }
-    ]
+    "options": {
+      "label": "Style",
+      "values": [
+        {
+          "label": "Flat",
+          "value": "flat"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        }
+      ]
+    }
   },
   "color": {
+    "type": "dropdown",
     "access": "public",
     "value": "blue",
-    "type": "dropdpown",
-    "options": [
-      {
-        "label": "Blue",
-        "value": "blue"
-      },
-      {
-        "label": "Black",
-        "value": "black"
-      }
-    ]
+    "options": {
+      "label": "Color",
+      "data": "colors"
+    }
   },
   "iconSize": {
+    "type": "dropdown",
     "access": "public",
     "value": "sm",
-    "type": "dropdpown",
-    "options": [
-      {
-        "label": "Small",
-        "value": "sm"
-      },
-      {
-        "label": "normal",
-        "value": "md"
-      },
-      {
-        "label": "Big",
-        "value": "lg"
-      }
-    ]
+    "options": {
+      "label": "Icon Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "normal",
+          "value": "md"
+        },
+        {
+          "label": "Big",
+          "value": "lg"
+        }
+      ]
+    }
   }
-},{
+}
+,{
   "tag": {
     "access": "private",
     "value": "reactButton",

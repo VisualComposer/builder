@@ -1,7 +1,8 @@
 import React from 'react';
 
-export default class StringComponent extends React.Component {
+export default class Component extends React.Component {
   render() {
+    console.log({renderStringAttribute: this.props});
     var {fieldKey, settings, value} = this.props;
     return (
       <div className="vc_ui-form-group">
