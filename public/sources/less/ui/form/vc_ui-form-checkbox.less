@@ -1,0 +1,97 @@
+.vc_ui-form-checkbox {
+  @content-padding: 2em;
+  @checkbox-size: .83em;
+
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: @content-padding;
+  padding-right: @content-padding/2;
+  position: relative;
+
+  .vc_ui-form-checkbox-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: block;
+    width: @vcui-form-checkbox-size;
+    height: @vcui-form-checkbox-size;
+    font-size: 1em;
+    user-select: none;
+    background-color: @vcui-form-input-background;
+    background-image: none;
+    border: 1px solid @vcui-form-input-border-color;
+    border-radius: @vcui-form-border-radius;
+    outline: none;
+    transition-property: all;
+    transition-duration: @vcui-form-transition-duration;
+    transition-timing-function: ease-in-out;
+    text-align: center;
+    color: @vcui-form-checkbox-color;
+  }
+
+  &:hover {
+    .vc_ui-form-checkbox-indicator {
+      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    }
+  }
+
+  > input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    &:focus {
+      + .vc_ui-form-checkbox-indicator {
+        animation: vc_ui-form-blink @vcui-form-transition-duration * 2 ease-out;
+      }
+    }
+
+    + .vc_ui-form-checkbox-indicator {
+      &::before {
+        opacity: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition-property: opacity;
+        transition-duration: @vcui-form-transition-duration;
+        transition-timing-function: ease-in-out;
+
+        content: "✓";
+        //font-family: "vc_ui-icons";
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        speak: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: @checkbox-size;
+      }
+    }
+    &:checked {
+      + .vc_ui-form-checkbox-indicator {
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:disabled,
+    &[disabled] {
+      + .vc_ui-form-checkbox-indicator {
+        background-color: @vcui-form-input-disabled-background;
+        border-color: @vcui-form-input-border-color;
+        color: @vcui-form-input-disabled-color;
+        cursor: not-allowed;
+      }
+    }
+
+  }
+
+  + .vc_ui-form-helper {
+    margin-left: @content-padding;
+  }
+}

@@ -25,7 +25,7 @@ export default class Component extends Attribute {
         <label className="vc_ui-form-group-heading">{fieldKey}</label>
         <select
           value={value}
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           className="vc_ui-form-dropdown"
         >
           {this.selectChilds}

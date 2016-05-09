@@ -23,7 +23,7 @@ export default class Component extends Attribute {
             skin: false,
             menubar: false
           }}
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           content={value}/>
       </div>);
   }

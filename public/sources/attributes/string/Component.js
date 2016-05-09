@@ -12,7 +12,7 @@ export default class Component extends Attribute {
         <input
           className="vc_ui-form-input"
           type="text"
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           defaultValue={value}/>
       </div>);
   }

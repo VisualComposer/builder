@@ -9,7 +9,7 @@ export default class Component extends Attribute {
         <label className="vc_ui-form-group-heading">{this.props.settings.getTitle()}</label>
         <textarea
           className="vc_ui-form-input"
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           ref={this.props.name + 'Component'}
           value={this.state.value}/>
       </div>);

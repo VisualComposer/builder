@@ -25,7 +25,7 @@ export default class Component extends Attribute {
       let checked = currentValues.indexOf(value) !== -1 ? "checked" : "";
       optionElements.push(
         <label key={value} className="vc_ui-form-checkbox">
-          <input type='checkbox' name={name} onChange={this.handleChange.bind(this)} checked={checked} value={value}/>
+          <input type='checkbox' name={name} onChange={this.handleChange} checked={checked} value={value}/>
           <span className="vc_ui-form-checkbox-indicator"></span>
           {values[key].label}
         </label>

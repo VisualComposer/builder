@@ -3,6 +3,7 @@ export default class Attribute extends React.Component {
   constructor(props) {
     super(props);
     this.state = {value: props.value};
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {

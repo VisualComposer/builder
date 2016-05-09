@@ -7,7 +7,6 @@ var TreeContentTab = require('./tab');
 var cook = vcCake.getService('cook');
 require('../../css/tree-view/init.less');
 
-
 var TreeContent = React.createClass({
   tabsBD: {},
   options: {
