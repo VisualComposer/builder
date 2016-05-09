@@ -1,8 +1,6 @@
 var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
-var React = require('react');
-require('node-jsx').install({extension: '.jsx'})
 
 var args = process.argv.slice(2);
 var elementPath = args[0];
@@ -13,7 +11,6 @@ if (!elementPath || !(elementDir = path.resolve(process.cwd(), elementPath))) {
 }
 
 fs.lstat(elementDir, function(err, stats) {
-  "use strict";
   if (!err && stats.isDirectory()) {
     // Settings
     var settingsFile = path.resolve(elementDir, 'settings.json');
@@ -36,7 +33,7 @@ fs.lstat(elementDir, function(err, stats) {
         varData[variable] = settings[variable].value;
       }
     }
-    var variables = 'console.log(this);' + "\n" + 'let [' + varNames.join(', ') + ', id, ...other] = this.props;';
+    var variables = 'var {' + varNames.join(', ') + ', id, ...other} = this.props;';
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js');
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : '';
@@ -51,21 +48,6 @@ fs.lstat(elementDir, function(err, stats) {
       console.log('Error, wrong Template.jsx file.');
       process.exit(1);
     }
-    let componentTemplateFile = path.join(__dirname, 'react-component.js.tpl');
-    let componentTemplate = swig.renderFile(componentTemplateFile, {
-      variables: function() {
-        return variables;
-      },
-      template: function() {
-        return templateString;
-      },
-    });
-    var componentFilePath = path.join(elementDir, settings.tag.value + 'ReactComponent.jsx');
-    fs.writeFileSync(componentFilePath, componentTemplate);
-    let Component = require(componentFilePath);
-    let ComponentELement = React.createElement(Component, varData);
-    console.log(ComponentELement);
-    process.exit(1);
     // Css settings
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json');
