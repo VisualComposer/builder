@@ -1,5 +1,5 @@
 require('babel-polyfill');
-import {createElement} from 'react';
+import React from 'react';
 
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
@@ -61,7 +61,7 @@ export default class Element {
     props.key = Element.id;
     props.id = Element.id;
     props['data-vc-element'] = Element.id;
-    return createElement(Component, props);
+    return React.createElement(Component, props);
   }
   static create(tag) {
     return new Element({tag: tag});
@@ -80,12 +80,27 @@ export default class Element {
   }
   field(k, updater) {
     let {type, settings} = Element.getAttributeType(k);
-    return createElement(type.component, {
-      fieldKey: k, 
-      options: settings.options, 
-      value: type.getRawValue(Element.data, k),
-      updater: updater
-    });
+    let Component = type.component;
+    let label = '';
+    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
+      label = (<label className="vc_ui-form-group-heading">{settings.options.label}</label>);
+    }
+    let description = '';
+    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.description) === 'string') {
+      description = (<p className="vc_ui-form-helper">{settings.options.description}</p>);
+    }
+    return (
+      <div className="vc_ui-form-group">
+        {label}
+        <Component
+          fieldKey={k}
+          options={settings.options}
+          value={type.getRawValue(Element.data, k)}
+          updater={updater}
+        />
+        {description}
+      </div>
+    );
   }
   publicKeys() {
     let data = [];

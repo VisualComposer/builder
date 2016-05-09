@@ -17,20 +17,16 @@ export default class Component extends Attribute {
   }
 
   render() {
-    // TODO: Fix title.
     let {fieldKey} = this.props;
     let {value} = this.state;
     return (
-      <div className="vc_ui-form-group">
-        <label className="vc_ui-form-group-heading">{fieldKey}</label>
-        <select
-          value={value}
-          onChange={this.handleChange}
-          className="vc_ui-form-dropdown"
-        >
-          {this.selectChilds}
-        </select>
-      </div>
+      <select
+        value={value}
+        onChange={this.handleChange}
+        className="vc_ui-form-dropdown"
+      >
+        {this.selectChilds}
+      </select>
     );
   }
 }

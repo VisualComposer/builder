@@ -16,7 +16,8 @@ getService('cook').add(
     "access": "public",
     "value": "red",
     "options": {
-      "label": "Color"
+      "label": "Color",
+      "description": "it should work"
     }
   },
   "select": {

@@ -13,18 +13,15 @@ export default class Component extends Attribute {
   }
 
   render() {
-    // TODO: fix title.
     let {value} = this.state;
     return (
-      <div className="vc_ui-form-group">
-        <label className="vc_ui-form-group-heading">Title</label>
-        <Editor
-          config={{
+      <Editor
+        config={{
             skin: false,
             menubar: false
           }}
-          onChange={this.handleChange}
-          content={value}/>
-      </div>);
+        onChange={this.handleChange}
+        content={value}/>
+    );
   }
 }

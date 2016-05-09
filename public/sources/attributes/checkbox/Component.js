@@ -31,11 +31,6 @@ export default class Component extends Attribute {
         </label>
       );
     }
-    return (
-      <div ref={this.props.name + 'Component'} value={this.state.value} className="vc_ui-form-group">
-        <div className="vc_ui-form-group-heading">Checkbox</div>
-        {optionElements}
-      </div>
-    );
+    return (<div>optionElements</div>);
   }
 }
