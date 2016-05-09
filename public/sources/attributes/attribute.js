@@ -1,7 +1,7 @@
 import React from 'react';
 export default class Attribute extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {value: props.value};
   }
 
