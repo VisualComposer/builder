@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "node server.js",
     "build-module": "node ./tools/module-builder/index.js",
-    "build-element": "node ./tools/element-builder/index.js",
+    "build-element": "node --harmony ./tools/element-builder/index",
     "lint": "eslint . --ext .js --ext .jsx"
   },
   "author": "@vv",
@@ -33,6 +33,7 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
     "mkdirp": "^0.5.1",
+    "node-jsx": "^0.13.3",
     "node-minify": "1.3.7",
     "react-hot-loader": "^1.3.0",
     "react-transform-catch-errors": "^1.0.0",
