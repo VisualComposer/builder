@@ -4,24 +4,26 @@ import Editor from 'react-tinymce';
 import 'tinymce/themes/modern/theme';
 import 'tinymce/skins/lightgray/skin.min.css';
 import 'tinymce/skins/lightgray/content.min.css';
+import Attribute from '../attribute';
 
-export default class Component extends React.Component {
-  componentDidMount() {
-    console.log({htmlEditorComponentDidMount: this.refs});
+export default class Component extends Attribute {
+  handleChange(event) {
+    event.target.value = event.target.getContent();
+    super.handleChange(event);
   }
 
   render() {
-    console.log({renderHtmlEditorAttribute: this.props});
-    let {value} = this.props;
+    // TODO: fix title.
+    let {value} = this.state;
     return (
       <div className="vc_ui-form-group">
         <label className="vc_ui-form-group-heading">Title</label>
         <Editor
-          ref='TextAreaComponent'
           config={{
             skin: false,
             menubar: false
           }}
+          onChange={this.handleChange.bind(this)}
           content={value}/>
       </div>);
   }

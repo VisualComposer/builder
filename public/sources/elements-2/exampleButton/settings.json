@@ -10,17 +10,37 @@
     "value": "Example Button 1.0"
   },
   "color": {
-    "type": "dropdown",
+    "type": "color",
     "access": "public",
     "value": "red",
-    "title": "Color",
     "options": {
-      "data": "colors"
+      "label": "Color"
     }
   },
-  "google": {
-    "type": "string",
+  "select": {
+    "type": "dropdown",
     "access": "public",
-    "value": "search"
+    "value": "3",
+    "options": {
+      "label": "Select",
+      "values": [
+        {
+          "label": "First value",
+          "value": "1"
+        },
+        {
+          "label": "Second value",
+          "value": "2"
+        },
+        {
+          "label": "Third value",
+          "value": "3"
+        },
+        {
+          "label": "Four value",
+          "value": "4"
+        }
+      ]
+    }
   }
 }

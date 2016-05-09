@@ -12,65 +12,53 @@ getService('cook').add(
     "value": "Example Button 1.0"
   },
   "color": {
-    "type": "string",
+    "type": "color",
     "access": "public",
     "value": "red",
     "options": {
-      "data": "colors",
-      "title": "Color",
+      "label": "Color"
     }
   },
-    "google": {
-      "type": "htmleditor",
-      "access": "public",
-      "value": "<h2>Test</h2><p>Hi my name is Pavel!</p>"
-    },
-    "google2": {
-      "type": "dropdown",
-      "access": "public",
-      "value": "something",
-      "options": {
-        "values": [
-          {
-            "value": "",
-            "label": "None"
-          },
-          {
-            "value": "1",
-            "label": "One"
-          },
-          {
-            "value": "2",
-            "label": "Two"
-          },
-          {
-            "value": "3",
-            "label": "Three"
-          },
-          {
-            "value": "4",
-            "label": "Four"
-          },
-          {
-            "value": "5",
-            "label": "Five"
-          }
-        ]
-      }
+  "select": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "3",
+    "options": {
+      "label": "Select",
+      "values": [
+        {
+          "label": "First value",
+          "value": "1"
+        },
+        {
+          "label": "Second value",
+          "value": "2"
+        },
+        {
+          "label": "Third value",
+          "value": "3"
+        },
+        {
+          "label": "Four value",
+          "value": "4"
+        }
+      ]
     }
+  }
 },
   // Component callback
   function(component) {
     var React = require('react');
     component.add(React.createClass({
       render: function() {
-        // import settings vars
-        var {tag, name, color, id, ...other} = this.props;
-
+		// import variables
+		var {tag, name, color, select, id, ...other} = this.props;
+        // import template js
+        
         // import template
-        return <button type="button" className="color-{color}" {...other}>
-              {tag}
-            </button>;
+        return <button type="button" className="vce-{tag} button-color-{color}" {...other}>
+    Test
+</button>;
       }
     }));
   },
@@ -79,5 +67,5 @@ getService('cook').add(
   // javascript callback
   function(){},
   // editor js
- null
+  null
 );
