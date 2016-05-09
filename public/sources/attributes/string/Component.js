@@ -1,8 +1,8 @@
 import React from 'react';
+import Attribute from '../attribute';
 
-export default class Component extends React.Component {
+export default class Component extends Attribute {
   render() {
-    console.log({renderStringAttribute: this.props});
     var {fieldKey, settings, value} = this.props;
     return (
       <div className="vc_ui-form-group">
@@ -11,7 +11,8 @@ export default class Component extends React.Component {
           className="vc_ui-form-input"
           type="text"
           ref={fieldKey + 'Component'}
-          value={value}/>
+          onChange={this.handleChange.bind(this)}
+          defaultValue={value}/>
       </div>);
   }
 }

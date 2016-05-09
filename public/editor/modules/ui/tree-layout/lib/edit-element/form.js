@@ -1,11 +1,12 @@
 var vcCake = require('vc-cake');
 var React = require('react');
 var ReactDom = require('react-dom');
-
+var lodash = require('lodash');
 var classNames = require('classnames');
 var TreeContentTab = require('./tab');
 var cook = vcCake.getService('cook');
 require('../../css/tree-view/init.less');
+
 
 var TreeContent = React.createClass({
   tabsBD: {},
@@ -26,6 +27,9 @@ var TreeContent = React.createClass({
     };
   },
   componentDidMount: function() {
+    this.props.api.reply('element:set', (key, value) =>{
+      this.props.element.set(key, value);
+    }.bind(this));
     window.addEventListener("resize", this.refreshTabs);
     setTimeout(this.refreshTabs, 100);
 
@@ -74,7 +78,7 @@ var TreeContent = React.createClass({
   },
 
   refreshTabs: function() {
-    if (false === this.props.id) {
+    if (false === this.props.element) {
       return false;
     }
     // get tabs line width
@@ -110,19 +114,11 @@ var TreeContent = React.createClass({
       }
     }
   },
-  getElement: function() {
-    return this.props.api.getService('document').get(this.props.id);
-  },
-  updateElement: function(element) {
-    this.element = element;
-    console.log(this.element);
-  },
   getForm: function() {
-    var element = cook.get(this.getElement());
-    let returnList = element.publicKeys().map(function(k) {
-      return element.field(k);
-    });
-    return returnList;
+    return this.props.element.publicKeys().map((k) => {
+      let updater = lodash.curry(function(callback, event, key, value){ callback(event, key, value); });
+      return this.props.element.field(k, updater(this.props.api.request, 'element:set'));
+    }.bind(this));
   },
   closeForm: function() {
     this.props.api.notify('form:hide', false);
@@ -131,6 +127,8 @@ var TreeContent = React.createClass({
     this.props.api.notify('hide', false);
   },
   saveForm: function() {
+    var element = this.props.element;
+    this.props.api.request('data:update', element.get('id'), element.toJS());
     this.closeForm();
   },
   render: function() {
@@ -139,7 +137,7 @@ var TreeContent = React.createClass({
     let treeContentClasses = classNames({
       "vc-ui-tree-content": true
     });
-    if(false === this.props.id) {
+    if(false === this.props.element) {
       return <div className={treeContentClasses}></div>;
     }
     let dropdownClasses = classNames({
@@ -160,8 +158,7 @@ var TreeContent = React.createClass({
         changeActive: context.changeActiveTab
       };
     }
-    this.element = this.props.api.getService('document').get(this.props.id);
-    var elementSettings = this.element ? cook.get({tag: this.element.tag}) : null;
+    var elementSettings = this.props.element;
     return (
       <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">

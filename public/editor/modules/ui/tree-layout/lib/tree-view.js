@@ -1,8 +1,11 @@
+var vcCake = require('vc-cake');
 var React = require('react');
 var classNames = require('classnames');
 
 var TreeLayout = require('./tree-layout');
 var EditElement = require('./edit-element/form');
+
+const cook = vcCake.getService('cook');
 
 require('../css/tree-view/init.less');
 
@@ -26,6 +29,12 @@ var TreeView = React.createClass({
       }.bind(this));
   },
   render: function() {
+    if(this.state.elementId) {
+      var data = this.props.api.getService('document').get(this.state.elementId);
+      var element = cook.get(data);
+    } else {
+      var element = false;
+    }
     var treeViewClasses = classNames({
       "vc-ui-tree-view-container": true,
       "vc-ui-tree-view-o-content-expand": false !== this.state.elementId
@@ -37,7 +46,7 @@ var TreeView = React.createClass({
             <TreeLayout api={this.props.api}/>
           </div>
           <div className="vc-ui-tree-view-content">
-            <EditElement id={this.state.elementId} api={this.props.api}/>
+            <EditElement element={element} api={this.props.api}/>
           </div>
         </div>
       </div>

@@ -37,6 +37,9 @@ export default class Element {
   }
 
   get(k) {
+    if('id' == k) {
+      return Element.id;
+    }
     let {type, settings} = Element.getAttributeType(k);
     return type && settings ? type.getValue(settings, Element.data, k) : undefined;
   }
@@ -75,9 +78,14 @@ export default class Element {
       yield [k, this.get(k)];
     }
   }
-  field(k) {
+  field(k, updater) {
     let {type, settings} = Element.getAttributeType(k);
-    return createElement(type.component, {fieldKey: k, options: settings.options, value: type.getRawValue(Element.data, k)});
+    return createElement(type.component, {
+      fieldKey: k, 
+      options: settings.options, 
+      value: type.getRawValue(Element.data, k),
+      updater: updater
+    });
   }
   publicKeys() {
     let data = [];
