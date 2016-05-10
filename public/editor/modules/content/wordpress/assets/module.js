@@ -15,6 +15,7 @@ vcCake.add('content-wordpress-assets', function(api) {
       assetManager.addStyles(elementTag, assetManager.cache.styles[elementTag]);
     }
   });
+  /*
   api.reply('data:remove', function(id) {
     let document = vcCake.getService('document').all();
     let assetTypes = ['scripts', 'styles'];
@@ -35,5 +36,5 @@ vcCake.add('content-wordpress-assets', function(api) {
 
       assetManager.assets[assetTypes[i]] = assets;
     }
-  });
+  });*/
 });

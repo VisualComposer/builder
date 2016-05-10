@@ -9,7 +9,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends Container /*implements Module*/
 {
     /**
      * Controller constructor.

@@ -1,14 +1,44 @@
 var vcCake = require('vc-cake');
 var assetManager = vcCake.getService('asset-manager');
 var $ = require('jquery');
+
+var defaultContent = {
+  "responseText": JSON.stringify(
+    {
+      "611bc1c9": {
+        "tag": "exampleButton",
+        "name": "Example Button 1.0",
+        "color": "red",
+        "select": "4",
+        "id": "611bc1c9",
+        "parent": false,
+        "order": 0
+      },
+      "611bc1c8": {
+        "tag": "exampleButton",
+        "name": "Example Button 1.0",
+        "color": "red",
+        "select": "4",
+        "id": "611bc1c8",
+        "parent": false,
+        "order": 1
+      }
+    }
+  )
+}
 var wordpressStorage = {
   dataKey: 'vcData',
   getItem: function(callback) {
-    this.ajaxPost( {
-      "vcv-action": 'getData:adminNonce',
-      "vcv-nonce": window.vcvNonce,
-      "vcv-source-id": window.vcvSourceID
-    }, callback.bind(this) );
+    callback(defaultContent);
+    return;
+    // FEATURE TOOGLE.
+    if (false) {
+      this.ajaxPost({
+        "vcv-action": 'getData:adminNonce',
+        "vcv-nonce": window.vcvNonce,
+        "vcv-source-id": window.vcvSourceID
+      }, callback.bind(this));
+    }
   },
   ajaxPost: function ( data, successCallback, failureCallback ) {
     var request = new XMLHttpRequest();
@@ -26,6 +56,7 @@ var wordpressStorage = {
     request.send( $.param( data ) );
   },
   update: function(data) {
+    return false; // FEATURE TOGGLE.
     var content = document.getElementsByClassName( 'vc-v-layouts-clean-html' )[ 0 ].innerHTML.replace(
       /\s+data\-reactid="[^"]+"/,
       '' ),

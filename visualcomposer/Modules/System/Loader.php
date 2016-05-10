@@ -44,5 +44,9 @@ if ($strHelper->contains($requestAction, ':nonce')) {
 $response = vcfilter('vcv:ajax', '');
 $response = vcfilter('vcv:ajax:' . $requestAction, $response);
 
-echo json_encode($response);
+if (is_string($response)) {
+    echo $response;
+} else {
+    echo json_encode($response);
+}
 

@@ -25,10 +25,10 @@ vcCake.add('storage', function(api) {
     } else {
       documentData.moveBefore(id, data.related);
     }
-    api.request('data:changed', documentData.children('false'));
+    api.request('data:changed', documentData.children(false));
   });
   api.reply('data:reset', function(content) {
     documentData.reset(content || {});
-    api.request('data:changed', documentData.children('false'), 'reset');
+    api.request('data:changed', documentData.children(false), 'reset');
   });
 });

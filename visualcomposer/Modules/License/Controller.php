@@ -15,7 +15,7 @@ use VisualComposer\Modules\Settings\Pages\License;
  * Class Controller.
  * @DISABLED
  */
-class Controller extends Container
+class Controller extends Container /*implements Module*/
 {
     /**
      * @var string

@@ -16,7 +16,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends Container /*implements Module*/
 {
     /**
      * @var null
