@@ -28,7 +28,7 @@ fs.lstat(elementDir, function(err, stats) {
     var varNames = [];
     var varData = {};
     for (let variable in settings) {
-      if (settings[variable].hasOwnProperty('value')) {
+      if (settings[variable].hasOwnProperty('value') && 'public' === settings[variable].access) {
         varNames.push(variable);
         varData[variable] = settings[variable].value;
       }

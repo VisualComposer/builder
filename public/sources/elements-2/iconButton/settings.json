@@ -14,7 +14,8 @@
     "access": "public",
     "value": "Icon Button v1.0.0",
     "options": {
-      "label": "Button text"
+      "label": "Button text",
+      "description": "Add button text"
     }
   },
   "style": {
@@ -40,12 +41,11 @@
     }
   },
   "color": {
-    "type": "dropdown",
+    "type": "color",
     "access": "public",
     "value": "blue",
     "options": {
-      "label": "Color",
-      "data": "colors"
+      "label": "Color"
     }
   },
   "iconSize": {
@@ -68,6 +68,56 @@
           "value": "lg"
         }
       ]
+    }
+  },
+  "toggle": {
+    "type": "toggle",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Toggle",
+      "value": "visible",
+      "description": "Toggle switch"
+    }
+  },
+  "checkboxes": {
+    "type": "checkbox",
+    "access": "public",
+    "value": "sm",
+    "options": {
+      "label": "Multiple Checkbox",
+      "values": [
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "normal",
+          "value": "md"
+        },
+        {
+          "label": "Big",
+          "value": "lg"
+        }
+      ]
+    }
+  },
+  "editor": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "red",
+    "options": {
+      "label": "HTML Editor 1",
+      "description": "it should work"
+    }
+  },
+  "otherEditor": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "red",
+    "options": {
+      "label": "HTML Editor 2",
+      "description": "it should work too"
     }
   }
 }
