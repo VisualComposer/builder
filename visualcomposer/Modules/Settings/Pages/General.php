@@ -11,7 +11,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class General.
  */
-class General extends Container implements Module
+class General extends Container/* implements Module*/
 {
     use Fields;
     use Page;

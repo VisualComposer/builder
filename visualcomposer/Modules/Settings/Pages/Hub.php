@@ -10,7 +10,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Hub.
  */
-class Hub extends Container implements Module
+class Hub extends Container/* implements Module*/
 {
     use Page;
     /**
