@@ -64,7 +64,7 @@
   "requireDollarBeforejQueryAssignment": true,
   "validateIndentation": 2,
   "validateParameterSeparator": ", ",
-  "validateQuoteMarks": { "mark": "'", "escape": true },
+  "validateQuoteMarks": { "mark": "'", "escape": true, "ignoreJSX": true },
 
   "disallowSpacesInAnonymousFunctionExpression": {
     "beforeOpeningRoundBrace": true
