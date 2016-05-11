@@ -1,0 +1,35 @@
+// Textual inputs (text, password, datetime, number, email, textarea)
+.vc_ui-form-input-color {
+  background-color: @vcui-form-input-background;
+  background-image: none;
+  border: 1px solid @vcui-form-input-border-color;
+  border-radius: @vcui-form-border-radius;
+  color: @vcui-form-controls-color;
+  font-size: @vcui-form-font-size-base;
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 2.5em;
+  outline: none;
+  padding: @vcui-form-input-padding;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+  &:hover,
+  &:focus {
+    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+  }
+  &:focus {
+    animation: vc_ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
+    outline: none;
+    #make-vc_ui-form > .focus-blink-shadow();
+  }
+  &:disabled,
+  &[disabled],
+  &[readonly] {
+    background-color: @vcui-form-input-disabled-background;
+    border-color: @vcui-form-input-border-color;
+    color: @vcui-form-input-disabled-color;
+    cursor: not-allowed;
+  }
+}

@@ -6,8 +6,8 @@ getService('cook').add(
     var React = require('react');
     component.add(React.createClass({
       render: function() {
-		// import variables
-		{{ variables() }}
+        // import variables
+        {{ variables() }}
         // import template js
         {{ templateJs() }}
         // import template

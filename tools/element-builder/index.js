@@ -28,12 +28,13 @@ fs.lstat(elementDir, function(err, stats) {
     var varNames = [];
     var varData = {};
     for (let variable in settings) {
-      if (settings[variable].hasOwnProperty('value')) {
+      if (settings[variable].hasOwnProperty('value') && 'public' === settings[variable].access) {
         varNames.push(variable);
         varData[variable] = settings[variable].value;
       }
     }
-    var variables = 'var {' + varNames.join(', ') + ', id, ...other} = this.props;';
+    var varString = varNames.join(', ');
+    var variables = 'var {' + varString + (varString.length ? ', ' : '') + 'id, ...other} = this.props;';
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js');
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : '';

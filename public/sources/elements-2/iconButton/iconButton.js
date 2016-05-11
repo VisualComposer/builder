@@ -16,7 +16,8 @@ getService('cook').add(
     "access": "public",
     "value": "Icon Button v1.0.0",
     "options": {
-      "label": "Button text"
+      "label": "Button text",
+      "description": "Add button text"
     }
   },
   "style": {
@@ -42,13 +43,11 @@ getService('cook').add(
     }
   },
   "color": {
-    "type": "dropdown",
+    "type": "color",
     "access": "public",
     "value": "blue",
     "options": {
-      "label": "Color",
-      "data": "colors",
-      "title": "Color"
+      "label": "Color"
     }
   },
   "iconSize": {
@@ -72,6 +71,56 @@ getService('cook').add(
         }
       ]
     }
+  },
+  "toggle": {
+    "type": "toggle",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Toggle",
+      "value": "visible",
+      "description": "Toggle switch"
+    }
+  },
+  "checkboxes": {
+    "type": "checkbox",
+    "access": "public",
+    "value": "sm",
+    "options": {
+      "label": "Multiple Checkbox",
+      "values": [
+        {
+          "label": "Small",
+          "value": "sm"
+        },
+        {
+          "label": "normal",
+          "value": "md"
+        },
+        {
+          "label": "Big",
+          "value": "lg"
+        }
+      ]
+    }
+  },
+  "editor": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "red",
+    "options": {
+      "label": "HTML Editor 1",
+      "description": "it should work"
+    }
+  },
+  "otherEditor": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "red",
+    "options": {
+      "label": "HTML Editor 2",
+      "description": "it should work too"
+    }
   }
 }
 ,
@@ -81,7 +130,7 @@ getService('cook').add(
     component.add(React.createClass({
       render: function() {
 		// import variables
-		var {tag, name, buttonTitle, style, color, iconSize, id, ...other} = this.props;
+		var {buttonTitle, style, color, iconSize, toggle, checkboxes, editor, otherEditor, id, ...other} = this.props;
         // import template js
         var buttonClass = 'vc-button';
 if (color) {
@@ -93,8 +142,8 @@ if (style) {
 var iconClass = 'vc-icon vc-icon-size-' + iconSize;
 var iconContent = '♘';
         // import template
-        return <button type="button" className="{buttonClass}" {...other}>
-  <i className="{iconClass}">{iconContent}</i> {buttonTitle}
+        return <button type="button" className={buttonClass} {...other}>
+  <i className={iconClass}>{iconContent}</i> {buttonTitle}
 </button>
 ;
       }
