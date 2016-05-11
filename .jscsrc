@@ -84,7 +84,7 @@
   "disallowSpacesInCallExpression": true,
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideParentheses": true,
-  "disallowTrailingWhitespace": true,
+  "disallowTrailingWhitespace": false,
 
   "jsDoc": {
     "checkRedundantAccess": true,
