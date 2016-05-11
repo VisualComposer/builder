@@ -7,7 +7,7 @@
     max-width: 1200px;
 }
 
-.vcv-dashboard-header {
+.vcv-dashboard-header, .vcv-dashboard-bottom {
     text-align: center;
     width: 70%;
     margin: 0 auto;
@@ -20,7 +20,7 @@
     line-height: 1;
 }
 
-.vcv-dashboard-header p {
+.vcv-dashboard-header p, .vcv-dashboard-bottom p {
     font-size: 20px;
     color: rgb(121, 121, 121);
     line-height: 1.5;
@@ -60,6 +60,7 @@
     .vcv-dashboard-header h1 {
         font-size: 26px;
     }
+
     .vcv-dashboard-header p {
         font-size: 16px;
     }

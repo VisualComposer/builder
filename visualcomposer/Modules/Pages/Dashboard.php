@@ -36,6 +36,7 @@ class Dashboard extends Container implements Module
                     'vcv-dashboard',
                     function () use ($urlHelper) {
                         $dashboardImage = $urlHelper->assetUrl('images/dashboard/dashboard.png');
+                        $slackImage = $urlHelper->assetUrl('images/dashboard/slack.png');
                         $css = $urlHelper->assetUrl(
                             'styles/dashboard/dashboard.css'
                         );
@@ -65,6 +66,10 @@ class Dashboard extends Container implements Module
             <p>See examples of existing elements and read step by step tutorials which will help you get started instantly.</p>
             <button class="button button-primary button-large">See Examples</button>
         </div>
+    </div>
+    <div class="vcv-dashboard-bottom">
+        <p>Have questions or feedback? We are here to communicate with you at any point of your Visual Composer experience.</p>
+        <a target="_blank" href="https://vcdevs.slack.com/messages/general/details/"><img src="$slackImage" /></a>
     </div>
 </div>
 HTML;
