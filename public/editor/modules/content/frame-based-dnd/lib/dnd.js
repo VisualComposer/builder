@@ -1,10 +1,10 @@
-var vcCake = require('vc-cake');
 var Item = require('./item');
 var $ = require('jquery');
 /**
- * Drag&drop builder
- * @param container
- * @param options
+ * Drag&drop builder.
+ *
+ * @param {string} container DOMNode to use as container
+ * @param {Object} options Settings for Dnd builder to define how it should interact with layout
  * @constructor
  */
 var Builder = function(container, options) {
@@ -16,7 +16,6 @@ var Builder = function(container, options) {
   this.frame = null;
   this.position = null;
   this.options = _.defaults(options, {
-    radius: 20,
     cancelMove: false,
     moveCallback: function() {
     },
@@ -34,7 +33,7 @@ Builder.prototype.initContainer = function() {
   this.container.addEventListener('drag', this.handleDrag.bind(this), false);
 };
 Builder.prototype.addItem = function(id) {
-  this.items[id] = new Item(id, this.options)
+  this.items[id] = new Item(id)
     .on('dragstart', this.handleDragStart.bind(this))
     .on('dragend', this.handleDragEnd.bind(this));
 };
@@ -102,19 +101,15 @@ Builder.prototype.checkItems = function(point) {
       top: offset.top,
       left: offset.left
     }, function(result, value, key) {
-      return result + key + ':' + value + 'px;'
+      return result + key + ':' + value + 'px;';
     }, ''));
     this.currentElement = element.getAttribute('data-vc-element');
 
     var positionY = point.y - (rect.top + rect.height / 2);
     var positionX = point.x - (rect.left + rect.width / 2);
-    console.log(rect.height / 2);
-    console.log(offset.top);
-    console.log(offset.top + rect.height / 2);
-    console.log('X:' + positionX + ' ratio: ' + Math.abs(positionX) / rect.width);
-    console.log('Y:' + positionY + ' ratio: ' + Math.abs(positionY) / rect.height);
-    if(
-      'container' === element.getAttribute('data-vc-element-type') &&
+    var containerAttribute = element.getAttribute('data-vcv-dropzone');
+    if (
+      null !== containerAttribute && containerAttribute.length &&
       $(element).find('[data-vc-element]').length == 0 &&
       Math.abs(positionY) / rect.height < 0.3
     ) {
@@ -136,8 +131,7 @@ Builder.prototype.handleDrag = function(e) {
   this.frame && this.checkItems({x: e.clientX, y: e.clientY});
 };
 /**
- *
- * @param {object} e
+ * @param {object} e Handled event
  */
 Builder.prototype.handleDragStart = function(e) {
   if (e.stopPropagation) {

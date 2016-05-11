@@ -1,13 +1,12 @@
 var $ = require('jquery');
 /**
  * Item for DOM element
- * @param el  DOM element;
+ *
  * @constructor
+ * @param {string} id Id of item
  */
-var Item = function(id, options) {
+var Item = function(id) {
   this.id = id;
-  this.options = _.defaults(options, {
-  });
   this.el = document.querySelector('[data-vc-element="' + this.id + '"]');
   this.$el = $(this.el);
   this.init();

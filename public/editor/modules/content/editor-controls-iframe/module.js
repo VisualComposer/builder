@@ -59,5 +59,3 @@ vcCake.add('ui-editor-controls', function(api) {
   };
   new EditorControls();
 });
-
-

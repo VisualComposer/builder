@@ -34,7 +34,7 @@ fs.lstat(elementDir, function(err, stats) {
       }
     }
     var varString = varNames.join(', ');
-    var variables = 'var {' + varString + (varString.length ? ', ' : '') + 'id, ...other} = this.props;';
+    var variables = 'var {' + varString + (varString.length ? ', ' : '') + 'id, content, ...other} = this.props;';
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js');
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : '';
@@ -49,6 +49,13 @@ fs.lstat(elementDir, function(err, stats) {
       console.log('Error, wrong Template.jsx file.');
       process.exit(1);
     }
+    if ((templateString + '').match(/data\-vcv\-dropzone/)) {
+      settings.type = {
+        access: 'protected',
+        type: 'string',
+        value: 'container'
+      };
+    }
     // Css settings
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json');
@@ -60,7 +67,7 @@ fs.lstat(elementDir, function(err, stats) {
     }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
       settings: function() {
-        return settingsString + '';
+        return JSON.stringify(settings);
       },
       variables: function() {
         return variables;

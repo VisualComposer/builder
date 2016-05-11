@@ -4,7 +4,7 @@ import React from 'react';
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
 import {default as elementComponent} from './element-component';
-import {createKey, buildSettingsObject} from './tools';
+import {createKey} from './tools';
 
 export default class Element {
   constructor(data) {
@@ -52,7 +52,7 @@ export default class Element {
     return Element.data[k];
   }
 
-  render() {
+  render(content) {
     if (!Element.component.has()) {
       elementSettings.get(Element.data.tag).component(Element.component);
     }
@@ -61,6 +61,7 @@ export default class Element {
     props.key = Element.id;
     props.id = Element.id;
     props['data-vc-element'] = Element.id;
+    props.content = content;
     return React.createElement(Component, props);
   }
   static create(tag) {

@@ -12,10 +12,10 @@ var Element = React.createClass({
   },
   getContent: function(content) {
     var documentData = vcCake.getService('document');
-    var ElementComponent = cook.get(this.props.element); // optimize
-    if ('container' == ElementComponent.get('type')) {
-      let elementsList = documentData.children(this.props.element.id).map(function(element) {
-        return <Element element={element} key={element.id} api={this.props.api}/>;
+    var currentElement = cook.get(this.props.element); // optimize
+    if ('container' === currentElement.get('type')) {
+      let elementsList = documentData.children(currentElement.get('id')).map(function(childElement) {
+        return <Element element={childElement} key={childElement.id} api={this.props.api}/>;
       }, this);
       return elementsList;
     }
@@ -23,7 +23,7 @@ var Element = React.createClass({
   },
   render: function() {
     let element = cook.get(this.props.element);
-    return element.render();
+    return element.render(this.getContent());
   }
 });
 module.exports = Element;

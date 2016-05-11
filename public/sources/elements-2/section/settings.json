@@ -1,0 +1,12 @@
+{
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "section"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Section"
+  }
+}

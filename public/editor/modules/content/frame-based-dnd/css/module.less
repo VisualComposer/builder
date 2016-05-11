@@ -1,20 +1,3 @@
-.vcv-atolls-hover {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  width: 100%;
-  height: 0;
-  display: none;
-  background-color: rgba(255, 255, 255, 0.6);
-  display: block;
-  opacity: 0;
-  transition: opacity .3s ease;
-  &.vcv-visible {
-    height: 100%;
-    opacity: 0.4;
-  }
-}
 .vcv-drag-helper {
   position: absolute;
   z-index: 10003;
@@ -71,3 +54,4 @@
     }
   }
 }
+@import "fix";
