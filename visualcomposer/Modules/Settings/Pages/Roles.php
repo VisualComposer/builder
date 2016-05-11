@@ -11,7 +11,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Roles.
  */
-class Roles extends Container implements Module
+class Roles extends Container/* implements Module*/
 {
     use Page;
     /**

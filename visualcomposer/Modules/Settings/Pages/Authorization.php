@@ -15,7 +15,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Authorization.
  */
-class Authorization extends Container implements Module
+class Authorization extends Container/* implements Module*/
 {
     use Page;
     /**
