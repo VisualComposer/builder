@@ -33,7 +33,8 @@ fs.lstat(elementDir, function(err, stats) {
         varData[variable] = settings[variable].value;
       }
     }
-    var variables = 'var {' + varNames.join(', ') + ', id, ...other} = this.props;';
+    var varString = varNames.join(', ');
+    var variables = 'var {' + varString + (varString.length ? ', ' : '') + 'id, ...other} = this.props;';
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js');
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : '';
