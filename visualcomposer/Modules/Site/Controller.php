@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Site;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Url;
@@ -61,6 +62,7 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return string
      * @throws \Exception
@@ -68,8 +70,12 @@ class Controller extends Container implements Module
     private function addEditPostLink(
         $link,
         CurrentUser $currentUserAccess,
-        Url $urlHelper
+        Url $urlHelper,
+        Request $requestHelper
     ) {
+        if ($requestHelper->exists('vcv-editable')) {
+            return '';
+        }
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
             $url = $urlHelper->ajax(
                 [
