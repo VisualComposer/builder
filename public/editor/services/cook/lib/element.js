@@ -1,5 +1,6 @@
 require('babel-polyfill');
 import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 import {default as elementSettings} from './element-settings';
 import {default as attributeManager} from './attribute-manager';
@@ -102,6 +103,9 @@ export default class Element {
         {description}
       </div>
     );
+  }
+  renderHTML(content) {
+    return renderToStaticMarkup(this.render(content))
   }
   publicKeys() {
     let data = [];
