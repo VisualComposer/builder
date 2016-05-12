@@ -8,14 +8,16 @@ import Attribute from '../attribute';
 
 export default class Component extends Attribute {
   handleChange(event) {
-    event.target.value = event.target.getContent();
-    super.handleChange(event);
+    var value = event.target.getContent();
+    super.handleChange(event, value);
   }
 
   render() {
+    let {fieldKey} = this.props;
     let {value} = this.state;
     return (
       <Editor
+        key={fieldKey}
         config={{
             skin: false,
             menubar: false

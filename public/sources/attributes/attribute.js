@@ -6,11 +6,14 @@ export default class Attribute extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    if ('function' === typeof this.props.updater) {
-      this.props.updater(this.props.fieldKey, event.target.value);
+  handleChange(event, value) {
+    if (typeof (value) === 'undefined') {
+      value = event.target.value;
     }
-    this.setState({value: event.target.value});
+    if ('function' === typeof this.props.updater) {
+      this.props.updater(this.props.fieldKey, value);
+    }
+    this.setState({value: value});
   }
 
   render() {

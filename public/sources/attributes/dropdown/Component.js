@@ -21,6 +21,7 @@ export default class Component extends Attribute {
     let {value} = this.state;
     return (
       <select
+        key={fieldKey}
         value={value}
         onChange={this.handleChange}
         className="vc_ui-form-dropdown"

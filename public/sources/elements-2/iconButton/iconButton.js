@@ -75,10 +75,9 @@ getService('cook').add(
   "toggle": {
     "type": "toggle",
     "access": "public",
-    "value": "",
+    "value": false,
     "options": {
       "label": "Toggle",
-      "value": "visible",
       "description": "Toggle switch"
     }
   },

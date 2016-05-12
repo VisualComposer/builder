@@ -3,12 +3,14 @@ import Attribute from '../attribute';
 
 export default class Component extends Attribute {
   render() {
+    let {fieldKey} = this.props;
+    let {value} = this.state;
     return (
       <textarea
+        key={fieldKey}
         className="vc_ui-form-input"
         onChange={this.handleChange}
-        ref={this.props.name + 'Component'}
-        value={this.state.value}/>
+        value={value}/>
     );
   }
 }
