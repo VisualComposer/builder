@@ -1,4 +1,0 @@
-{
-  // here comes the rules
-}
-
