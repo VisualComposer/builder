@@ -76,15 +76,15 @@ HTML;
                         echo $template;
                     }
                 );
-
+                $user = wp_get_current_user();
                 global $submenu;
                 $submenu['vcv-dashboard'][] = [
                     'Build elements',
-                    'manage_options',
-                    'http://test.hubpen.visualcomposer.io/wp-login/254a8957e9603b280e82ddd612a568f7',
+                    'edit_posts',
+                    'http://test.hubpen.visualcomposer.io/wp-login/' . sha1($user->data->user_login),
                 ];
-                $submenu['vcv-dashboard'][] = ['Documentation', 'manage_options', '/docs'];
-                $submenu['vcv-dashboard'][] = ['Try editor', 'manage_options', '/edit'];
+                $submenu['vcv-dashboard'][] = ['Documentation', 'edit_posts', '/docs'];
+                $submenu['vcv-dashboard'][] = ['Try editor', 'edit_posts', '/edit'];
             }
         );
 
