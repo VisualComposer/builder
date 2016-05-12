@@ -31,21 +31,19 @@ class Dashboard extends Container implements Module
                 $urlToEditor = 'http://test.hubpen.visualcomposer.io/wp-login/' . sha1($user->data->user_login);
 
                 $examplesPage = $urlToEditor . '?redirect=examples';
-                $createPage = $urlToEditor . '?redirect=create';
                 add_submenu_page(
                     'vcv-dashboard',
                     'Dashboard',
                     'Dashboard',
                     'edit_posts',
                     'vcv-dashboard',
-                    function () use ($urlHelper, $examplesPage, $createPage) {
+                    function () use ($urlHelper, $urlToEditor, $examplesPage) {
                         $dashboardImage = $urlHelper->assetUrl('images/dashboard/dashboard.png');
                         $slackImage = $urlHelper->assetUrl('images/dashboard/slack.png');
                         $css = $urlHelper->assetUrl(
                             'styles/dashboard/dashboard.css'
                         );
                         wp_enqueue_style('vcv:pages:dashboard', $css);
-                        //<link rel="stylesheet" id="about-css" href="$css" type="text/css" media="all">
 
                         $template = <<<HTML
 <div class="vcv-dashboard">
@@ -63,7 +61,7 @@ class Dashboard extends Container implements Module
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
             <p>Access development environment to create new or adapt existing Visual Composer elements via online editor or upload mechanism.</p>
-            <a href="$createPage" target="_blank" class="button button-primary button-large">Create Element</a>
+            <a href="$urlToEditor" target="_blank" class="button button-primary button-large">Create Element</a>
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
@@ -83,12 +81,12 @@ HTML;
                 );
                 global $submenu;
                 $submenu['vcv-dashboard'][] = [
-                    'Build elements',
+                    'Create Element',
                     'edit_posts',
-                    $createPage,
+                    $urlToEditor,
                 ];
-                $submenu['vcv-dashboard'][] = ['Documentation', 'edit_posts', $examplesPage];
-                $submenu['vcv-dashboard'][] = ['Try editor', 'edit_posts', '/edit'];
+                $submenu['vcv-dashboard'][] = ['See Examples', 'edit_posts', $examplesPage];
+                $submenu['vcv-dashboard'][] = ['Open Editor', 'edit_posts', '/edit'];
             }
         );
 
