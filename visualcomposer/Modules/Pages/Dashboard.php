@@ -43,7 +43,11 @@ class Dashboard extends Container implements Module
                         $css = $urlHelper->assetUrl(
                             'styles/dashboard/dashboard.css'
                         );
+                        $js = $urlHelper->assetUrl(
+                            'scripts/dashboard/dashboard.js'
+                        );
                         wp_enqueue_style('vcv:pages:dashboard', $css);
+                        wp_enqueue_script('vcv:pages:dashboard', $js, ['jquery']);
 
                         $template = <<<HTML
 <div class="vcv-dashboard">
@@ -56,7 +60,7 @@ class Dashboard extends Container implements Module
         <div class="vcv-part">
             <h2>Try New Visual Composer Editor</h2>
             <p>Check new Visual Composer editor and access your newly developed elements. Experience the speed and live editing mode.</p>
-            <a href="/edit" class="button button-primary button-large">Open Editor</a>
+            <a href="/edit" target="_blank" class="button button-primary button-large">Open Editor</a>
         </div>
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
@@ -65,7 +69,8 @@ class Dashboard extends Container implements Module
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
-            <p>See examples of existing elements and read step by step tutorials which will help you get started instantly.</p>
+            <p>See examples of existing content elements and read step by step tutorials which will help you get 
+            started instantly.</p>
             <a href="$examplesPage" target="_blank" class="button button-primary button-large">See 
             Examples</a>
         </div>

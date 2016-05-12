@@ -13,6 +13,10 @@
     margin: 0 auto;
 }
 
+.vcv-dashboard-bottom {
+    margin-top: 40px;
+}
+
 .vcv-dashboard-header h1 {
     margin-top: 80px;
     font-size: 44px;
@@ -43,6 +47,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    padding-bottom: 36px;
 }
 
 .vcv-dashboard-body .vcv-part p {
