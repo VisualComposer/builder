@@ -32,7 +32,7 @@ class Dashboard extends Container implements Module
                     'vcv-dashboard',
                     'Dashboard',
                     'Dashboard',
-                    'manage_options',
+                    'edit_posts',
                     'vcv-dashboard',
                     function () use ($urlHelper) {
                         $dashboardImage = $urlHelper->assetUrl('images/dashboard/dashboard.png');
