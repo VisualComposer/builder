@@ -3,7 +3,7 @@ var assetManager = vcCake.getService('asset-manager');
 var $ = require('jquery');
 
 var defaultContent = {
-  "responseText": JSON.stringify(
+  "responseText": "" /* JSON.stringify(
     {
       "611bc1c9": {
         "tag": "exampleButton",
@@ -24,7 +24,7 @@ var defaultContent = {
         "order": 1
       }
     }
-  )
+  )*/
 }
 var wordpressStorage = {
   dataKey: 'vcData',
