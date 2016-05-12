@@ -49,6 +49,4 @@ public/dist/
 /vendor
 .env
 composer.lock
-cache/*
-!cache/.gitkeep
 test-coverage.xml
