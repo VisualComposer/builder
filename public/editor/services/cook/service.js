@@ -1,17 +1,20 @@
 import {default as lodash} from 'lodash';
-import {addService} from 'vc-cake';
+import {addService, getService} from 'vc-cake';
 
 import {buildSettingsObject} from './lib/tools';
 import {default as elementSettings} from './lib/element-settings';
 import {default as attributeManager} from './lib/attribute-manager';
 import {default as Element} from './lib/element';
 
+const documentManager = getService('document');
+
 addService('cook', {
   get(data) {
-    if ('object' !== typeof data || !data.tag) {
-      throw new Error('Cook: wrong data to get element!');
-    }
-    return data.tag ? new Element(data) : undefined;
+    return data && data.tag ? new Element(data) : undefined;
+  },
+  getById(id) {
+    let data = documentManager.get(id);
+    return null !== data ? this.get(data) : undefined;
   },
   add(settings, componentCallback, cssSettings, javascriptCallback) {
     elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback);
