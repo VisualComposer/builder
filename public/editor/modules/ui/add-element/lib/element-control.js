@@ -21,7 +21,7 @@ module.exports = React.createClass({
       className = classNames('glyphicon', this.props.icon);
     }
 
-    return <li key={this.props.key}>
+    return <li>
       <a onClick={this.addElement}>
         { this.props.icon ? <span className={className}></span> : null}
         {this.props.name}
