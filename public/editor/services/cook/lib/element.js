@@ -1,67 +1,70 @@
-require('babel-polyfill');
 import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
 
+import {renderToStaticMarkup} from 'react-dom/server';
 import {default as elementSettings} from './element-settings';
-import {default as attributeManager} from './attribute-manager';
 import {default as elementComponent} from './element-component';
-import {createKey} from './tools';
+import {createKey, getAttributeType} from './tools';
+
+const elData = Symbol('element data');
+const elComponent = Symbol('element component');
 
 export default class Element {
   constructor(data) {
     let {id = createKey(), parent = false, ...attr} = data;
-    Element.id = id;
-    Element.parent = parent;
-    Element.data = attr;
-    Element.settings = elementSettings.get(Element.data.tag).settings;
-    Element.getAttributeType = function(k) {
-      let data = {type: false, settings: false};
-      let attrSettings = this.settings[k];
-      if (attrSettings && attrSettings.type) {
-        data.settings = attrSettings;
-        data.type = attributeManager.get(attrSettings.type) || false;
+    // Split on separate symbols
+    Object.defineProperty(this, elData, {
+      writable: true,
+      value: {
+        id: id,
+        parent: parent,
+        data: attr,
+        settings: elementSettings.get(data.tag).settings,
+        getAttributeType: function(k) {
+          return getAttributeType(k, this.settings);
+        }
       }
-      return data;
-    };
-    Element.component = {
-      add(Component) {
-        elementComponent.add(Element.data.tag, Component);
-      },
-      get() {
-        return elementComponent.get(Element.data.tag);
-      },
-      has() {
-        return elementComponent.has(Element.data.tag);
+    });
+    Object.defineProperty(this, elComponent, {
+      value: {
+        tag: data.tag,
+        add(Component) {
+          elementComponent.add(this.tag, Component);
+        },
+        get() {
+          return elementComponent.get(this.tag);
+        },
+        has() {
+          return elementComponent.has(this.tag);
+        }
       }
-    };
-    Element.scope = 'value';
+    });
   }
 
   get(k) {
     if('id' == k) {
-      return Element.id;
+      return this[elData].id;
     }
-    let {type, settings} = Element.getAttributeType(k);
-    return type && settings ? type.getValue(settings, Element.data, k) : undefined;
+    let {type, settings} = this[elData].getAttributeType(k);
+    return type && settings ? type.getValue(settings, this[elData].data, k) : undefined;
   }
 
   set(k, v) {
-    let {type, settings} = Element.getAttributeType(k);
+    let {type, settings} = this[elData].getAttributeType(k);
     if (type && settings) {
-      Element.data = type.setValue(settings, Element.data, k, v);
+      this[elData].data = type.setValue(settings, this[elData].data, k, v);
     }
-    return Element.data[k];
+    return this[elData].data[k];
   }
 
   render(content) {
-    if (!Element.component.has()) {
-      elementSettings.get(Element.data.tag).component(Element.component);
+    if (!this[elComponent].has()) {
+      elementSettings.get(this[elComponent].tag).component(this[elComponent]);
     }
-    let Component = Element.component.get();
+    let Component = this[elComponent].get();
     let props = this.toJS();
-    props.key = Element.id;
-    props.id = Element.id;
-    props['data-vc-element'] = Element.id;
+    props.key = this[elData].id;
+    props.id = this[elData].id;
+    props['data-vc-element'] = this[elData].id;
     props.content = content;
     return React.createElement(Component, props);
   }
@@ -70,18 +73,13 @@ export default class Element {
   }
   toJS() {
     let data = {};
-    for (let k of Object.keys(Element.settings)) {
+    for (let k of Object.keys(this[elData].settings)) {
       data[k] = this.get(k);
     }
     return data;
   }
-  *[Symbol.iterator]() {
-    for (let k of Object.keys(Element.settings)) {
-      yield [k, this.get(k)];
-    }
-  }
   field(k, updater) {
-    let {type, settings} = Element.getAttributeType(k);
+    let {type, settings} = this[elData].getAttributeType(k);
     let Component = type.component;
     let label = '';
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
@@ -97,7 +95,7 @@ export default class Element {
         <Component
           fieldKey={k}
           options={settings.options}
-          value={type.getRawValue(Element.data, k)}
+          value={type.getRawValue(this[elData].data, k)}
           updater={updater}
         />
         {description}
@@ -105,16 +103,19 @@ export default class Element {
     );
   }
   renderHTML(content) {
-    return renderToStaticMarkup(this.render())
+    return renderToStaticMarkup(this.render(content))
   }
   publicKeys() {
     let data = [];
-    for (let k of Object.keys(Element.settings)) {
-      var attrSettings = Element.settings[k];
+    for (let k of Object.keys(this[elData].settings)) {
+      var attrSettings = this[elData].settings[k];
       if ('public' === attrSettings.access) {
         data.push(k);
       }
     }
     return data;
+  }
+  getElement() {
+    return this[elData];
   }
 }
