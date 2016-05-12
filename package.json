@@ -77,7 +77,7 @@
     "react-tinymce": "^0.5.1",
     "simply-deferred": "^3.0.0",
     "tinymce": "^4.3.12",
-    "vc-cake": "^0.2.2",
+    "vc-cake": "^0.2.3",
     "webpack": "^1.13.0"
   },
   "babel": {
