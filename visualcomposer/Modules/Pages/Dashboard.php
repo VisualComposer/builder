@@ -27,6 +27,8 @@ class Dashboard extends Container implements Module
                 $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 
                 add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, -10);
+                $user = wp_get_current_user();
+                $urlToEditor = 'http://test.hubpen.visualcomposer.io/wp-login/' . sha1($user->data->user_login);
 
                 add_submenu_page(
                     'vcv-dashboard',
@@ -34,7 +36,7 @@ class Dashboard extends Container implements Module
                     'Dashboard',
                     'edit_posts',
                     'vcv-dashboard',
-                    function () use ($urlHelper) {
+                    function () use ($urlHelper, $urlToEditor) {
                         $dashboardImage = $urlHelper->assetUrl('images/dashboard/dashboard.png');
                         $slackImage = $urlHelper->assetUrl('images/dashboard/slack.png');
                         $css = $urlHelper->assetUrl(
@@ -54,17 +56,18 @@ class Dashboard extends Container implements Module
         <div class="vcv-part">
             <h2>Try New Visual Composer Editor</h2>
             <p>Check new Visual Composer editor and access your newly developed elements. Experience the speed and live editing mode.</p>
-            <button class="button button-primary button-large">Open Editor</button>
+            <a href="/edit" class="button button-primary button-large">Open Editor</a>
         </div>
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
             <p>Access development environment to create new or adapt existing Visual Composer elements via online editor or upload mechanism.</p>
-            <button class="button button-primary button-large">Create Element</button>
+            <a href="$urlToEditor" target="_blank" class="button button-primary button-large">Create Element</a>
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
             <p>See examples of existing elements and read step by step tutorials which will help you get started instantly.</p>
-            <button class="button button-primary button-large">See Examples</button>
+            <a href="http://test.hubpen.visualcomposer.io/examples" target="_blank" class="button button-primary button-large">See 
+            Examples</a>
         </div>
     </div>
     <div class="vcv-dashboard-bottom">
@@ -76,12 +79,11 @@ HTML;
                         echo $template;
                     }
                 );
-                $user = wp_get_current_user();
                 global $submenu;
                 $submenu['vcv-dashboard'][] = [
                     'Build elements',
                     'edit_posts',
-                    'http://test.hubpen.visualcomposer.io/wp-login/' . sha1($user->data->user_login),
+                    $urlToEditor,
                 ];
                 $submenu['vcv-dashboard'][] = ['Documentation', 'edit_posts', '/docs'];
                 $submenu['vcv-dashboard'][] = ['Try editor', 'edit_posts', '/edit'];
