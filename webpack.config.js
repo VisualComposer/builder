@@ -102,8 +102,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
-        exclude: /node_modules/
+        loader: 'babel',
+        exclude: /node_modules/,
+        query: {
+          // https://github.com/babel/babel-loader#options
+          cacheDirectory: true
+        }
       },
       {test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader')},
       {test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')}, // use ! to chain loaders.

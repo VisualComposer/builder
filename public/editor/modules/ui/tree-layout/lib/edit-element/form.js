@@ -26,7 +26,7 @@ var TreeContent = React.createClass({
     };
   },
   componentDidMount: function() {
-    this.props.api.reply('element:set', (key, value) =>{
+    this.props.api.reply('element:set', function(key, value) {
       this.props.element.set(key, value);
     }.bind(this));
     window.addEventListener("resize", this.refreshTabs);
@@ -114,10 +114,10 @@ var TreeContent = React.createClass({
     }
   },
   getForm: function() {
-    return this.props.element.publicKeys().map((k) => {
+    return this.props.element.publicKeys().map(((k) => {
       let updater = lodash.curry(function(callback, event, key, value){ callback(event, key, value); });
       return this.props.element.field(k, updater(this.props.api.request, 'element:set'));
-    }.bind(this));
+    }).bind(this));
   },
   closeForm: function() {
     this.props.api.notify('form:hide', false);
