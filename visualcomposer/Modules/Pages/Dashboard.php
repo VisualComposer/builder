@@ -26,7 +26,7 @@ class Dashboard extends Container implements Module
                 $urlHelper = vchelper('Url');
                 $iconUrl = $urlHelper->assetUrl('images/logo/16x16.png');
 
-                add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
+                add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, -10);
 
                 add_submenu_page(
                     'vcv-dashboard',
