@@ -30,13 +30,15 @@ class Dashboard extends Container implements Module
                 $user = wp_get_current_user();
                 $urlToEditor = 'http://test.hubpen.visualcomposer.io/wp-login/' . sha1($user->data->user_login);
 
+                $examplesPage = $urlToEditor . '?redirect=examples';
+                $createPage = $urlToEditor . '?redirect=create';
                 add_submenu_page(
                     'vcv-dashboard',
                     'Dashboard',
                     'Dashboard',
                     'edit_posts',
                     'vcv-dashboard',
-                    function () use ($urlHelper, $urlToEditor) {
+                    function () use ($urlHelper, $examplesPage, $createPage) {
                         $dashboardImage = $urlHelper->assetUrl('images/dashboard/dashboard.png');
                         $slackImage = $urlHelper->assetUrl('images/dashboard/slack.png');
                         $css = $urlHelper->assetUrl(
@@ -61,18 +63,18 @@ class Dashboard extends Container implements Module
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
             <p>Access development environment to create new or adapt existing Visual Composer elements via online editor or upload mechanism.</p>
-            <a href="$urlToEditor" target="_blank" class="button button-primary button-large">Create Element</a>
+            <a href="$createPage" target="_blank" class="button button-primary button-large">Create Element</a>
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
             <p>See examples of existing elements and read step by step tutorials which will help you get started instantly.</p>
-            <a href="http://test.hubpen.visualcomposer.io/examples" target="_blank" class="button button-primary button-large">See 
+            <a href="$examplesPage" target="_blank" class="button button-primary button-large">See 
             Examples</a>
         </div>
     </div>
     <div class="vcv-dashboard-bottom">
         <p>Have questions or feedback? We are here to communicate with you at any point of your Visual Composer experience.</p>
-        <a target="_blank" href="https://vcdevs.slack.com/messages/general/details/"><img src="$slackImage" /></a>
+        <a href="https://vcdevs.slack.com/messages/general/details/" target="_blank"><img src="$slackImage" /></a>
     </div>
 </div>
 HTML;
@@ -83,9 +85,9 @@ HTML;
                 $submenu['vcv-dashboard'][] = [
                     'Build elements',
                     'edit_posts',
-                    $urlToEditor,
+                    $createPage,
                 ];
-                $submenu['vcv-dashboard'][] = ['Documentation', 'edit_posts', '/docs'];
+                $submenu['vcv-dashboard'][] = ['Documentation', 'edit_posts', $examplesPage];
                 $submenu['vcv-dashboard'][] = ['Try editor', 'edit_posts', '/edit'];
             }
         );
