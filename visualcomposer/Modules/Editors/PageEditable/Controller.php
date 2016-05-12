@@ -24,6 +24,7 @@ class Controller extends Container implements Module
                 /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
                 if ($this->call('isPageEditable')) {
                     /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
+                    add_filter('show_admin_bar', '__return_false');
                     $this->call('buildPageEditable');
                 }
             }
