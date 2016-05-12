@@ -158,8 +158,7 @@ var TreeContent = React.createClass({
       };
     }
     var elementSettings = this.props.element;
-    return (
-      <div className={treeContentClasses}>
+    return <div className={treeContentClasses}>
         <div className="vc-ui-tree-content-header">
           <div className="vc-ui-tree-content-title-bar">
             <i className="vc-ui-tree-content-title-icon vc-ui-icon vc-ui-icon-bug"></i>
@@ -253,8 +252,7 @@ var TreeContent = React.createClass({
               className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-save"></i></span></a>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 });
 

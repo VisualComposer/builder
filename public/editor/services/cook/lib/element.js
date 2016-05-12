@@ -105,7 +105,7 @@ export default class Element {
     );
   }
   renderHTML(content) {
-    return renderToStaticMarkup(this.render(content))
+    return renderToStaticMarkup(this.render())
   }
   publicKeys() {
     let data = [];

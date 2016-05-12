@@ -13,8 +13,8 @@ var Collector = {
     var path = join(config.publicDir, config.attributePath);
     var files = fs.readdirSync(path);
     var content = "" +
-      "var getService = require('vc-cake').getService;\n" +
-      "var attributeService = getService('cook').attributes;\n" +
+      "import {getService} from 'vc-cake';\n" +
+      "const attributeService = getService('cook').attributes;\n" +
       "\n";
     files.forEach((attribute)=> {
       var filePath = join(path, attribute);
@@ -30,12 +30,19 @@ var Collector = {
           var isSetterExists = fs.existsSync(setterPath);
 
           var attributeRelativePath = join('..', config.attributePath, attribute);
-          content += uf("attributeService.add('%s', require('%s'), {\n", attribute, join(attributeRelativePath, 'Component').replace(/\\/g, '/'));
+          content += uf("import {default as %sComponent} from '%s';\n", attribute, join(attributeRelativePath, 'Component'));
           if (isGetterExists) {
-            content += uf("getter: require('%s'),\n", join(attributeRelativePath, 'Getter').replace(/\\/g, '/'));
+            content += uf("import {default as %sGetter} from '%s';\n", attribute, join(attributeRelativePath, 'Getter'));
           }
           if (isSetterExists) {
-            content += uf("setter: require('%s')\n", join(attributeRelativePath, 'Setter').replace(/\\/g, '/'));
+            content += uf("import {default as %sSetter} from '%s';\n", attribute, join(attributeRelativePath, 'Setter'));
+          }
+          content += uf("attributeService.add('%s', %sComponent, {\n", attribute, attribute);
+          if (isGetterExists) {
+            content += uf("getter: %sGetter,\n", attribute);
+          }
+          if (isSetterExists) {
+            content += uf("setter: %sSetter\n", attribute);
           }
           content += uf("});\n");
         }
