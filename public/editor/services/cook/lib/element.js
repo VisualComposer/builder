@@ -92,7 +92,7 @@ export default class Element {
       description = (<p className="vc_ui-form-helper">{settings.options.description}</p>);
     }
     return (
-      <div className="vc_ui-form-group">
+      <div className="vc_ui-form-group" key={'form-group-' + k}>
         {label}
         <Component
           fieldKey={k}
