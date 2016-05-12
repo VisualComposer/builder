@@ -43,7 +43,11 @@ class Dashboard extends Container implements Module
                         $css = $urlHelper->assetUrl(
                             'styles/dashboard/dashboard.css'
                         );
+                        $js = $urlHelper->assetUrl(
+                            'scripts/dashboard/dashboard.js'
+                        );
                         wp_enqueue_style('vcv:pages:dashboard', $css);
+                        wp_enqueue_script('vcv:pages:dashboard', $js, ['jquery']);
 
                         $template = <<<HTML
 <div class="vcv-dashboard">
@@ -65,7 +69,8 @@ class Dashboard extends Container implements Module
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
-            <p>See examples of existing elements and read step by step tutorials which will help you get started instantly.</p>
+            <p>See examples of existing content elements and read step by step tutorials which will help you get 
+            started instantly.</p>
             <a href="$examplesPage" target="_blank" class="button button-primary button-large">See 
             Examples</a>
         </div>
