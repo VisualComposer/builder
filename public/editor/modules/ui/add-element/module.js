@@ -16,7 +16,7 @@ vcCake.add('ui-add-element', function(api) {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      border: '0',
+      border: '0px',
       background: 'transparent'
     }
   };
