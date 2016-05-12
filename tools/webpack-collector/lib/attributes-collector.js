@@ -30,12 +30,12 @@ var Collector = {
           var isSetterExists = fs.existsSync(setterPath);
 
           var attributeRelativePath = join('..', config.attributePath, attribute);
-          content += uf("import {default as %sComponent} from '%s';\n", attribute, join(attributeRelativePath, 'Component'));
+          content += uf("import {default as %sComponent} from '%s';\n", attribute, join(attributeRelativePath, 'Component').replace(/\\/g,'/'));
           if (isGetterExists) {
-            content += uf("import {default as %sGetter} from '%s';\n", attribute, join(attributeRelativePath, 'Getter'));
+            content += uf("import {default as %sGetter} from '%s';\n", attribute, join(attributeRelativePath, 'Getter').replace(/\\/g,'/'));
           }
           if (isSetterExists) {
-            content += uf("import {default as %sSetter} from '%s';\n", attribute, join(attributeRelativePath, 'Setter'));
+            content += uf("import {default as %sSetter} from '%s';\n", attribute, join(attributeRelativePath, 'Setter').replace(/\\/g,'/'));
           }
           content += uf("attributeService.add('%s', %sComponent, {\n", attribute, attribute);
           if (isGetterExists) {
