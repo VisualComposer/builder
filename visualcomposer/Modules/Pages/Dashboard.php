@@ -60,7 +60,7 @@ class Dashboard extends Container implements Module
         <div class="vcv-part">
             <h2>Try New Visual Composer Editor</h2>
             <p>Check new Visual Composer editor and access your newly developed elements. Experience the speed and live editing mode.</p>
-            <a href="/edit" class="button button-primary button-large">Open Editor</a>
+            <a href="/edit" target="_blank" class="button button-primary button-large">Open Editor</a>
         </div>
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
