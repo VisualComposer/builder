@@ -5,7 +5,7 @@ vcCake.add('ui-layout-control', function(api){
     render: function() {
       return  <dl className="vc-ui-navbar-dropdown vc-ui-navbar-dropdown-linear vc-ui-navbar-hidden-sm vc-ui-pull-end">
         <dt className="vc-ui-navbar-dropdown-trigger vc-ui-navbar-control" title="Desktop">
-          <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-desktop"></i></span>
+          <span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-desktop"></i><span>Desktop control</span></span>
         </dt>
         <dd className="vc-ui-navbar-dropdown-content">
           <div className="vc-ui-navbar-controls-group">
