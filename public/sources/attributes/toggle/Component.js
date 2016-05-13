@@ -2,10 +2,11 @@ import React from 'react';
 import Attribute from '../attribute';
 export default class Component extends Attribute {
   handleChange(event) {
+    var value = event.target.value;
     if (!event.target.checked) {
-      event.target.value = '';
+      value = '';
     }
-    super.handleChange(event);
+    this.setFieldValue(value);
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React from 'react';
-
+import {format} from 'util';
 import {renderToStaticMarkup} from 'react-dom/server';
+
 import {default as elementSettings} from './element-settings';
 import {default as elementComponent} from './element-component';
 import {createKey, getAttributeType} from './tools';
@@ -82,6 +83,12 @@ export default class Element {
     let {type, settings} = this[elData].getAttributeType(k);
     let Component = type.component;
     let label = '';
+    if(!settings) {
+      throw new Error(format('Wrong attribute %s', k));
+    }
+    if(!type) {
+      throw new Error(format('Wrong type of attribute %s', k));
+    }
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
       label = (<label className="vc_ui-form-group-heading">{settings.options.label}</label>);
     }

@@ -12,8 +12,8 @@ export default class Component extends Attribute {
     } else {
       values.splice(values.indexOf(value), 1);
     }
-    event.target.value = values.join(',');
-    super.handleChange(event);
+    var value = values.join(',');
+    this.setFieldValue(value);
   }
 
   render() {

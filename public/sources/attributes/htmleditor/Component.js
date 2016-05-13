@@ -9,7 +9,7 @@ import Attribute from '../attribute';
 export default class Component extends Attribute {
   handleChange(event) {
     var value = event.target.getContent();
-    super.handleChange(event, value);
+    this.setFieldValue(value);
   }
 
   render() {
