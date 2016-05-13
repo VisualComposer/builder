@@ -1,11 +1,13 @@
 import React from 'react';
 import Attribute from '../attribute';
-
+require('./media-editor');
 export default class Component extends Attribute {
   openLibrary() {
     alert(1);
   }
-
+  componentWillMount() {
+    // require('./media-editor');
+  }
   render() {
     let {value} = this.state;
     let style = {

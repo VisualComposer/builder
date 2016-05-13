@@ -675,7 +675,7 @@ class Controller extends Container /*implements Module*/
             /** @var $response \WP_Error */
             $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
             $status = false;
-        } else if ($response['response']['code'] !== 200) {
+        } elseif ($response['response']['code'] !== 200) {
             $this->addError(__(sprintf('Server did not respond with OK: %s', $response['response']['code']), 'vc5'));
             $status = false;
         } else {

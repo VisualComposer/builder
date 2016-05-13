@@ -2,6 +2,7 @@ var vcCake = require('vc-cake');
 require('./css/module.less');
 vcCake.add('frame-based-dnd', function(api) {
   var DnD = require('./lib/dnd');
+  var documentDOM;
   var ModuleDnd = function(api) {
     this.api = api;
     this.layoutAPI = this.api.module('content-layout');
@@ -9,13 +10,19 @@ vcCake.add('frame-based-dnd', function(api) {
   };
   ModuleDnd.prototype.buildItems = function() {
     if (!this.items) {
-      this.items = new DnD(document.querySelector('[data-vcv-module="content-layout"]'), {
+      if(!documentDOM && $('#vcv-editor-iframe').get(0)) {
+        documentDOM = $('#vcv-editor-iframe').get(0).contentWindow.document;
+      } else {
+        documentDOM = document;
+      }
+      this.items = new DnD(documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
         radius: 350,
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this)
       });
+      console.log(documentDOM.querySelector('[data-vcv-module="content-layout"]'));
       this.items.init();
     }
   };
