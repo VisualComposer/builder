@@ -84,7 +84,7 @@ getService('cook').add(
   "checkboxes": {
     "type": "checkbox",
     "access": "public",
-    "value": "sm",
+    "value": ["sm"],
     "options": {
       "label": "Multiple Checkbox",
       "values": [

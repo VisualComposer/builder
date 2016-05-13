@@ -3,27 +3,20 @@ import Attribute from '../attribute';
 export default class Component extends Attribute {
   handleChange(event) {
     let value = event.target.value;
-    let values = [];
-    if (typeof this.state.value === 'string' && this.state.value) {
-      values = this.state.value.split(',');
-    }
+    var values = this.state.value;
     if (event.target.checked) {
       values.push(value);
     } else {
       values.splice(values.indexOf(value), 1);
     }
-    value = values.join(',');
-    this.setFieldValue(value);
+    this.setFieldValue(values);
   }
 
   render() {
     let {fieldKey} = this.props;
     let optionElements = [];
     let values = this.props.options.values;
-    let currentValues = [];
-    if (typeof this.state.value === 'string' && this.state.value) {
-      currentValues = this.state.value.split(',');
-    }
+    let currentValues = this.state.value;
     for (let key in values) {
       let value = values[key].value;
       let checked = currentValues.indexOf(value) !== -1 ? "checked" : "";
