@@ -1,0 +1,21 @@
+{
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "textBlock"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Text block"
+  },
+  "output": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<p>Put your HTML</p>",
+    "options": {
+      "label": "Content",
+      "description": "Content for text block"
+    }
+  }
+}

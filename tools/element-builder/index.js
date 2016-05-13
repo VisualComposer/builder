@@ -57,6 +57,14 @@ fs.lstat(elementDir, function(err, stats) {
       };
     }
     // Css settings
+    //file
+    var cssFile = path.resolve(elementDir + '/css', settings.tag.value + '.css');
+    var cssExists = fs.existsSync(cssFile);
+    if (!cssExists) {
+      console.log('Error, css file should be provided');
+      process.exit(1);
+    }
+    cssFile = "require( './css/" + settings.tag.value + ".css' );";
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json');
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}';
@@ -80,6 +88,9 @@ fs.lstat(elementDir, function(err, stats) {
       },
       jsCallback: function() {
         return 'function(){}';
+      },
+      cssFile: function() {
+        return cssFile + '';
       },
       cssSettings: function() {
         return cssSettingsString + '';

@@ -7,5 +7,6 @@ vcCake.start(function() {
 
 require('./sources/elements-2/iconButton/iconButton');
 require('./sources/elements-2/section/section');
-
+require('./sources/elements-2/textBlock/textBlock');
+require('./sources/elements-2/button/button');
 window.app = vcCake;

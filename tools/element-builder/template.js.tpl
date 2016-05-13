@@ -4,6 +4,7 @@ getService('cook').add(
   // Component callback
   function(component) {
     var React = require('react');
+	{{ cssFile() }}
     component.add(React.createClass({
       render: function() {
         // import variables

@@ -2,25 +2,28 @@ import React from 'react';
 import Attribute from '../attribute';
 export default class Component extends Attribute {
   handleChange(event) {
-    let values = this.state.value;
-    let targetValue = event.target.value;
-    values = values.split(',');
-    if (event.target.checked) {
-      // If checked add value
-      values.push(targetValue);
-    } else {
-      // Else remove from list
-      values.splice(values.indexOf(targetValue), 1);
+    let value = event.target.value;
+    let values = [];
+    if (typeof this.state.value === 'string' && this.state.value) {
+      values = this.state.value.split(',');
     }
-    var value = values.join(',');
-    super.handleChange(event, value);
+    if (event.target.checked) {
+      values.push(value);
+    } else {
+      values.splice(values.indexOf(value), 1);
+    }
+    event.target.value = values.join(',');
+    super.handleChange(event);
   }
 
   render() {
     let {fieldKey} = this.props;
     let optionElements = [];
     let values = this.props.options.values;
-    let currentValues = (this.state.value || "").split(',');
+    let currentValues = [];
+    if (typeof this.state.value === 'string' && this.state.value) {
+      currentValues = this.state.value.split(',');
+    }
     for (let key in values) {
       let value = values[key].value;
       let checked = currentValues.indexOf(value) !== -1 ? "checked" : "";
