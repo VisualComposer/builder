@@ -36,7 +36,7 @@ export default class Component extends Attribute {
       );
     }
     return (
-      <div key={fieldKey}>
+      <div>
         {optionElements}
       </div>);
   }
