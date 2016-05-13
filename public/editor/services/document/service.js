@@ -32,9 +32,6 @@ var dataStore = {
     var lastObj = this.getChildren(id).last();
     return lastObj ? lastObj.get('order') + 1 : 0;
   },
-  moveUp: function() {
-
-  },
   moveDownAfter: function(id, step) {
     var element = documentData.get(id);
     var keys = documentData.valueSeq().filter((el) => {
@@ -71,7 +68,7 @@ var api = {
     return id;
   },
   update: function(id, data) {
-    var obj = documentData.get(id).mergeDeep(data);
+    var obj = documentData.get(id).merge(data);
     documentData = documentData.set(id, obj);
     return obj.toJS();
   },
