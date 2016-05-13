@@ -1,0 +1,15 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Row"
+  },
+  "background": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Background color"
+    }
+  }
+}

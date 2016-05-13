@@ -2,8 +2,8 @@
 
 namespace VisualComposer\Modules\Pages;
 
-use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Url;
 
 /**
@@ -53,30 +53,45 @@ class Dashboard extends Container implements Module
 <div class="vcv-dashboard">
     <div class="vcv-dashboard-header">
         <h1>Welcome to New Visual Composer</h1>
-        <p>Congratulations! You have been invited to participate in an exclusive Visual Composer demo for developers. Within this demo you will be able to discover the process to create new content elements and preview them in Visual Composer editor.</p>
+        <p>
+            Congratulations! You have been invited to participate in an exclusive Visual Composer demo for developers.
+            Within this demo you will be able to discover the process to create new content elements and preview them
+            in Visual Composer editor.
+        </p>
         <img src="$dashboardImage" />
     </div>
     <div class="vcv-dashboard-body wp-clearfix">
         <div class="vcv-part">
             <h2>Try New Visual Composer Editor</h2>
-            <p>Check new Visual Composer editor and access your newly developed elements. Experience the speed and live editing mode.</p>
+            <p>
+                Check new Visual Composer editor and access your newly developed elements. Experience the speed and
+                live editing mode.
+            </p>
             <a href="/edit" target="_blank" class="button button-primary button-large">Open Editor</a>
         </div>
         <div class="vcv-part">
             <h2>Develop Content Elements</h2>
-            <p>Access development environment to create new or adapt existing Visual Composer elements via online editor or upload mechanism.</p>
+            <p>
+                Access development environment to create new or adapt existing Visual Composer elements via online
+                editor or upload mechanism.
+            </p>
             <a href="$urlToEditor" target="_blank" class="button button-primary button-large">Create Element</a>
         </div>
         <div class="vcv-part">
             <h2>Guide and Examples</h2>
-            <p>See examples of existing content elements and read step by step tutorials which will help you get 
-            started instantly.</p>
+            <p>
+                See examples of existing content elements and read step by step tutorials which will help you get
+                started instantly.
+            </p>
             <a href="$examplesPage" target="_blank" class="button button-primary button-large">See 
             Examples</a>
         </div>
     </div>
     <div class="vcv-dashboard-bottom">
-        <p>Have questions or feedback? We are here to communicate with you at any point of your Visual Composer experience.</p>
+        <p>
+            Have questions or feedback? We are here to communicate with you at any point of your Visual Composer
+            experience.
+        </p>
         <a href="https://vcdevs.slack.com/messages/general/details/" target="_blank"><img src="$slackImage" /></a>
     </div>
 </div>

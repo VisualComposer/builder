@@ -1,0 +1,22 @@
+// Styles for Column
+//-----------------------------------------
+.vce-col {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 100%;
+  width: 100%;
+  min-height: 1em;
+  padding-left:  (@gutter / 2);
+  padding-right: (@gutter / 2);
+}
+
+.vce-col- {
+  &auto {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    width: 0;
+  }
+}
+
+#vce-column > .make-grid(12);

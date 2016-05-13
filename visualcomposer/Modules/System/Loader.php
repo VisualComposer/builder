@@ -49,4 +49,3 @@ if (is_string($response)) {
 } else {
     echo json_encode($response);
 }
-
