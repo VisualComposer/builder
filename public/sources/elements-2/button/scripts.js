@@ -21,5 +21,5 @@ if (backgroundColor) {
 }
 
 if (showIcon) {
-  classes += ' vce-button--icon-state-' + showIcon;
+  classes += ' vce-button--icon-state-visible';
 }

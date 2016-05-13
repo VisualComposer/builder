@@ -12,7 +12,7 @@ export default class Component extends Attribute {
     } else {
       values.splice(values.indexOf(value), 1);
     }
-    var value = values.join(',');
+    value = values.join(',');
     this.setFieldValue(value);
   }
 

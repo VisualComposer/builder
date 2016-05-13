@@ -334,10 +334,9 @@
   "showIcon": {
     "type": "toggle",
     "access": "public",
-    "value": "",
+    "value": false,
     "options": {
       "label": "Show arrow",
-      "value": "visible",
       "description": "Show arrow on button"
     }
   }
