@@ -55,7 +55,7 @@ vcCake.add('ui-add-element', function(api) {
       // get dependencies
       if (this.state.modalIsOpen) {
         let activeNode = api.actions.getParent();
-        let nodeData = activeNode ? ElementComponents.get(activeNode) : {};
+        let nodeData = activeNode ? cook.getById(activeNode) : {};
 
         if (Object.getOwnPropertyNames(nodeData).length && nodeData.children) {
           dependencies = nodeData.children.toString();
