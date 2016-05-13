@@ -1,3 +1,5 @@
+'use strict';
+
 var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
