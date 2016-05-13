@@ -1,5 +1,5 @@
-var iframeOffsetTop = 62;
-var iframeOffsetLeft = 5;
+var iframeOffsetTop = 61;
+var iframeOffsetLeft = 0;
 
 function ControlsHandler() {
   this.$currentElement = undefined;
@@ -159,7 +159,7 @@ ControlsHandler.prototype.drawControls = function() {
     $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-' + i + '"/>');
     $controlElement.appendTo(this.$controlsList);
     var elementId = elemenstsTree[i][0].getAttribute('data-vc-element');
-    var elementType = elemenstsTree[i][0].getAttribute('data-vc-element-type');
+    var isElementContainer = 'true' === elemenstsTree[ i ][0].getAttribute('data-vcv-dropzone');
 
     // add dropdown trigger
     $('<dt class="vc-ui-outline-control-dropdown-trigger vc-ui-outline-control">' +
@@ -174,7 +174,7 @@ ControlsHandler.prototype.drawControls = function() {
 
 
     // add button
-    if ('container' === elementType) {
+    if (isElementContainer) {
       $controlAction = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId + '"/>');
       $('<span  class="vc-ui-outline-control-content">' +
         '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-add-thin" ></i>' +

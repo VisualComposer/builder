@@ -11,7 +11,7 @@ const elComponent = Symbol('element component');
 
 export default class Element {
   constructor(data) {
-    let {id = createKey(), parent = false, ...attr} = data;
+    let {id = createKey(), parent = false, order, ...attr} = data;
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
@@ -19,6 +19,7 @@ export default class Element {
         id: id,
         parent: parent,
         data: attr,
+        order: order,
         settings: elementSettings.get(data.tag).settings,
         getAttributeType: function(k) {
           return getAttributeType(k, this.settings);
@@ -42,8 +43,8 @@ export default class Element {
   }
 
   get(k) {
-    if('id' == k) {
-      return this[elData].id;
+    if(['id', 'parent', 'order'].indexOf(k) > -1) {
+      return this[elData][k];
     }
     let {type, settings} = this[elData].getAttributeType(k);
     return type && settings ? type.getValue(settings, this[elData].data, k) : undefined;
@@ -77,6 +78,9 @@ export default class Element {
     for (let k of Object.keys(this[elData].settings)) {
       data[k] = this.get(k);
     }
+    data.id = this[elData].id;
+    data.parent = this[elData].parent;
+    data.order = this[elData].order;
     return data;
   }
   field(k, updater) {
@@ -121,8 +125,5 @@ export default class Element {
       }
     }
     return data;
-  }
-  getElement() {
-    return this[elData];
   }
 }

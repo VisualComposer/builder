@@ -6,6 +6,7 @@
 $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
+wp_enqueue_media();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -26,6 +27,11 @@ $nonceHelper = vchelper('Nonce');
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>
+
+<?php do_action('admin_footer'); ?>
+<?php wp_print_styles(); ?>
+<?php wp_print_scripts(); ?>
+
 <script type="text/javascript" src="<?php echo $urlHelper->to(
     'public/dist/wp.bundle.js?' . uniqid()
 ); /** @todo: use assets folder */ ?>"></script>

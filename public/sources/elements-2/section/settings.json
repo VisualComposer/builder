@@ -8,5 +8,12 @@
     "type": "string",
     "access": "protected",
     "value": "Section"
+  },
+  "bgimage": {
+    "type": "attachimage",
+    "access": "public",
+    "options": {
+      "label": "Background Image"
+    }
   }
 }
