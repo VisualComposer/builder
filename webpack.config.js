@@ -56,7 +56,7 @@ module.exports = {
       modules: [
         'content/storage',
         'content/layout',
-        // 'content/editor-controls-iframe',
+        'content/editor-controls-iframe',
         // 'content/atolls-dnd',
         'content/wordpress/assets',
         'content/wordpress/data-layout',

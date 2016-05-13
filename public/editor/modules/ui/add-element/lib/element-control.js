@@ -11,7 +11,6 @@ module.exports = React.createClass({
   addElement: function(e) {
     e.preventDefault();
     var document = this.props.api.getService('document');
-    console.log(this.props.api.actions.getParent());
     var data = cook.get({tag: this.props.tag, parent: this.props.api.actions.getParent()});
     this.props.api.request('data:add', data.toJS());
   },

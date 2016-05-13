@@ -1,5 +1,5 @@
-var iframeOffsetTop = 62;
-var iframeOffsetLeft = 5;
+var iframeOffsetTop = 61;
+var iframeOffsetLeft = 0;
 
 function ControlsHandler() {
   this.$currentElement = undefined;
