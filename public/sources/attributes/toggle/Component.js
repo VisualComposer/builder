@@ -1,9 +1,9 @@
 import React from 'react';
 import Attribute from '../attribute';
 export default class Component extends Attribute {
-  handleChange(event, value) {
+  handleChange(event) {
     var value = event.target.checked;
-    super.handleChange(event, value);
+    this.setFieldValue(value);
   }
 
   render() {

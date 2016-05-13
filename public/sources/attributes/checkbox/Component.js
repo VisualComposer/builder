@@ -13,7 +13,7 @@ export default class Component extends Attribute {
       values.splice(values.indexOf(targetValue), 1);
     }
     var value = values.join(',');
-    super.handleChange(event, value);
+    this.setFieldValue(value);
   }
 
   render() {
