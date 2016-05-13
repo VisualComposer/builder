@@ -2,7 +2,20 @@ var swig = require('swig');
 var path = require('path');
 var fs = require('fs');
 
-var args = process.argv.slice(2);
+var args = [], namedArgs = {};
+// get named args
+process.argv.slice(2).forEach(function(value) {
+  if (0 === value.indexOf('--')) {
+    var namedData = value.split('=');
+    if (namedData.length !== 2) {
+      console.log('Wrong named parameter');
+      process.exit(1);
+    }
+    namedArgs[namedData[0]] = namedData[1];
+  } else {
+    args.push(value);
+  }
+});
 var elementPath = args[0];
 var elementDir = false;
 if (!elementPath || !(elementDir = path.resolve(process.cwd(), elementPath))) {
@@ -16,10 +29,13 @@ fs.lstat(elementDir, function(err, stats) {
     var settingsFile = path.resolve(elementDir, 'settings.json');
     var settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}';
     var settings = JSON.parse(settingsString);
-    if (!settings.tag || !settings.tag.value) {
-      console.log('Error, wrong tag in settings');
-      process.exit(1);
-    }
+    // generate settings tag
+    settings.tag = {
+      access: 'protected',
+      type: 'string',
+      value: namedArgs.hasOwnProperty('--uuid') ? namedArgs['--uuid'] : generateUUID()
+    };
+
     if (!settings.name.value) {
       console.log('Error, wrong name in settings');
       process.exit(1);
@@ -58,13 +74,12 @@ fs.lstat(elementDir, function(err, stats) {
     }
     // Css settings
     //file
-    var cssFile = path.resolve(elementDir + '/css', settings.tag.value + '.css');
+    var cssFile = path.resolve(elementDir + '/css', 'styles.css');
     var cssExists = fs.existsSync(cssFile);
-    if (!cssExists) {
-      console.log('Error, css file should be provided');
-      process.exit(1);
+    var cssRelativeFile = '';
+    if (cssExists) {
+      cssRelativeFile = "require( './css/styles.css' );";
     }
-    cssFile = "require( './css/" + settings.tag.value + ".css' );";
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json');
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}';
@@ -90,7 +105,7 @@ fs.lstat(elementDir, function(err, stats) {
         return 'function(){}';
       },
       cssFile: function() {
-        return cssFile + '';
+        return cssRelativeFile + '';
       },
       cssSettings: function() {
         return cssSettingsString + '';
@@ -99,9 +114,24 @@ fs.lstat(elementDir, function(err, stats) {
         return 'null';
       }
     });
-    fs.writeFileSync(path.join(elementDir, settings.tag.value + '.js'), template);
+
+    if (namedArgs.hasOwnProperty('--output') && 'file' === namedArgs['--output']) {
+      fs.writeFileSync(path.join(elementDir, 'element.js'), template);
+      process.exit(1);
+    }
+    process.stdout.write(template);
   } else {
     console.log('Directory "${elementDir}" does not exist!');
     process.exit(1);
   }
 });
+
+function generateUUID() {
+  var d = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = (d + Math.random() * 16) % 16 | 0;
+    d = Math.floor(d / 16);
+    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+  return uuid;
+}
