@@ -166,16 +166,16 @@ var TreeContent = React.createClass({
               {elementSettings ? elementSettings.get('name') : null}
             </h3>
             <nav className="vc-ui-tree-content-title-controls">
-              <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span
+              <a className="vc-ui-tree-content-title-control" href="#" title="document-alt-stroke bug"><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-document-alt-stroke"></i></span></a>
-              <a className="vc-ui-tree-content-title-control" href="#" title="title bug" disabled=""><span
+              <a className="vc-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled=""><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-heart-stroke"></i></span></a>
-              <a className="vc-ui-tree-content-title-control" href="#" title="title bug"><span
+              <a className="vc-ui-tree-content-title-control" href="#" title="settings bug"><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-cog"></i></span></a>
-              <a className="vc-ui-tree-content-title-control" href="#" title="title bug" onClick={this.closeTreeView}><span
+              <a className="vc-ui-tree-content-title-control" href="#" title="close" onClick={this.closeTreeView}><span
                 className="vc-ui-tree-content-title-control-content"><i
                 className="vc-ui-tree-content-title-control-icon vc-ui-icon vc-ui-icon-close"></i></span></a>
             </nav>
