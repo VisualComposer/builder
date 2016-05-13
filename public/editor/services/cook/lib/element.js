@@ -90,7 +90,7 @@ export default class Element {
       throw new Error(format('Wrong type of attribute %s', k));
     }
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
-      label = (<label className="vc_ui-form-group-heading">{settings.options.label}</label>);
+      label = (<span className="vc_ui-form-group-heading">{settings.options.label}</span>);
     }
     let description = '';
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.description) === 'string') {
