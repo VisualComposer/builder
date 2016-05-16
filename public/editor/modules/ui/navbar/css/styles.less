@@ -15,6 +15,7 @@
     background-color: @bg-base-hover;
   }
 }
+
 .vc-ui-navbar-logo-title {
   display: none;
 }
@@ -30,8 +31,6 @@
   transition-duration: @vc-ui-transition-duration;
   transition-timing-function: @vc-ui-transition-timing-function;
 }
-
-
 
 .vc-ui-navbar-overlay {
   position: fixed;
@@ -89,7 +88,6 @@
   }
 }
 
-
 .vc-ui-navbar {
   font-family: 'Roboto', sans-serif;
   font-size: @text-size-base;
@@ -126,6 +124,7 @@
   position: relative;
   opacity: .5;
 }
+
 .vc-ui-navbar-drag-handler-icon {
   position: absolute;
   top: 50%;
@@ -164,12 +163,14 @@
     cursor: not-allowed;
   }
 }
+
 .vc-ui-navbar-control-content {
   white-space: nowrap;
   span {
     //border: 1px solid red;
   }
 }
+
 .vc-ui-navbar-control-icon {
   font-size: 1em;
   height: 1em;
@@ -214,7 +215,7 @@
     flex-direction: column;
   }
   //&:not(.vc-ui-active),
-  &:not(:hover){
+  &:not(:hover) {
     .vc-ui-navbar-dropdown-content {
       visibility: hidden;
       opacity: 0;
@@ -226,6 +227,7 @@
     }
   }
 }
+
 .vc-ui-navbar-dropdown-content {
   background-color: @bg-dropdown;
   min-width: @dropdown-size;
@@ -243,6 +245,7 @@
     }
   }
 }
+
 .vc-ui-navbar-dropdown {
   &.vc-ui-pull-end {
     .vc-ui-navbar-dropdown-content {
@@ -267,15 +270,15 @@
   }
 }
 
-
 //== show/hide labels
-.vc-ui-navbar-hide-labels{
+.vc-ui-navbar-hide-labels {
   .vc-ui-navbar-control-content {
     > span {
       display: none;
     }
   }
 }
+
 .vc-ui-navbar-show-labels {
   .vc-ui-navbar-control-content {
     > span {
@@ -293,7 +296,6 @@
     background-color: @bg-success;
   }
 }
-
 
 //== badges
 .vc-ui-navbar-control {
@@ -327,7 +329,6 @@
   }
 }
 
-
 //== responsiveness
 @media (max-width: 768px) {
   .vc-ui-navbar-hidden-sm {
@@ -336,11 +337,11 @@
 }
 
 // navbar positions
-.vc-ui-navbar-position-top &{
+.vc-ui-navbar-position-top & {
 
 }
 
-.vc-ui-navbar-position-bottom &{
+.vc-ui-navbar-position-bottom & {
   .vc-ui-navbar-container {
     top: auto;
     bottom: 0;
@@ -351,7 +352,7 @@
   }
 }
 
-.vc-ui-navbar-position-left &{
+.vc-ui-navbar-position-left & {
   .vc-ui-navbar-container {
     right: auto;
     bottom: 0;
@@ -392,7 +393,7 @@
   }
 }
 
-.vc-ui-navbar-position-right &{
+.vc-ui-navbar-position-right & {
   .vc-ui-navbar-container {
     left: auto;
     bottom: 0;
