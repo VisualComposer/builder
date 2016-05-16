@@ -1,20 +1,18 @@
-var vcCake = require('vc-cake');
-var React = require('react');
-require('../css/html-layout.less');
-var Element = require('./element');
+var React = require('react')
+require('../css/html-layout.less')
+var Element = require('./element')
 
 var Layout = React.createClass({
-  render: function() {
-    let documentData = vcCake.getService('document');
-    let elementsList;
+  render: function () {
+    let elementsList
     if (this.props.data) {
-      elementsList = this.props.data.map(function(element) {
+      elementsList = this.props.data.map(function (element) {
         return <Element element={element} key={element.id} api={this.props.api}/>
-      }, this);
+      }, this)
     }
     return (<div className="vc-v-layouts-html" data-vcv-module="content-layout">
       {elementsList}
-    </div>);
+    </div>)
   }
-});
-module.exports = Layout;
+})
+module.exports = Layout
