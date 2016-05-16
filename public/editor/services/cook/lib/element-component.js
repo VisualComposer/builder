@@ -1,24 +1,24 @@
-let items = {};
-const notFound = function() {
-  throw new Error('Element Component: ' + name + ' not found.');
-};
+let items = {}
+const notFound = function (name) {
+  throw new Error('Element Component: ' + name + ' not found.')
+}
 export default {
-  add(name, Component) {
-    items[name] = Component;
+  add (name, Component) {
+    items[ name ] = Component
   },
-  get(name) {
+  get (name) {
     if (!this.has(name)) {
-      notFound();
+      notFound(name)
     }
-    return items[name];
+    return items[ name ]
   },
-  has(name) {
-    return !!items[name];
+  has (name) {
+    return !!items[ name ]
   },
-  remove(name) {
+  remove (name) {
     if (!this.has(name)) {
-      notFound();
+      notFound(name)
     }
-    return delete items[name];
+    return delete items[ name ]
   }
-};
+}

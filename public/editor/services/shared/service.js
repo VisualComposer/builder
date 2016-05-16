@@ -1,15 +1,15 @@
 var SharedLibrary = {
   data: {},
-  addData: function(key, value) {
-    this.data[key] = value;
+  addData: function (key, value) {
+    this.data[ key ] = value
   },
-  getData: function(key) {
-    return this.data[key];
+  getData: function (key) {
+    return this.data[ key ]
   },
-  getAllData: function() {
-    return this.data;
+  getAllData: function () {
+    return this.data
   }
-};
+}
 
 SharedLibrary.addData('colors', {
   'Blue': 'blue',
@@ -29,7 +29,7 @@ SharedLibrary.addData('colors', {
   'Sandy brown': 'sandy_brown',
   'Purple': 'purple',
   'White': 'white'
-});
+})
 
 SharedLibrary.addData('colors-dashed', {
   'Blue': 'blue',
@@ -49,7 +49,7 @@ SharedLibrary.addData('colors-dashed', {
   'Sandy brown': 'sandy-brown',
   'Purple': 'purple',
   'White': 'white'
-});
-var vcCake = require('vc-cake');
+})
+var vcCake = require('vc-cake')
 
-vcCake.addService('shared-library', SharedLibrary);
+vcCake.addService('shared-library', SharedLibrary)
