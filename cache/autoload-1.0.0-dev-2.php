@@ -96,12 +96,6 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
       'make' => true,
     ),
-    'PagesDashboard' => 
-    array (
-      'name' => 'PagesDashboard',
-      'abstract' => 'VisualComposer\\Modules\\Pages\\Dashboard',
-      'make' => true,
-    ),
     'SiteController' => 
     array (
       'name' => 'SiteController',
