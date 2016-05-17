@@ -5,7 +5,6 @@
 printf "Running phpcs...\n"
 FILES_PHP=$(git diff --name-only --cached --relative | grep '\.php\?$')
 if [ "$FILES_PHP" != "" ]; then
-    printf "!= zero"
     for FILE in $FILES_PHP
     do
       OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
