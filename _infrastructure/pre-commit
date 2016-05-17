@@ -3,14 +3,26 @@
 ### RUN PHP CODE SNIFFER AND ABORT ON ANY WARNING OR ERROR
 
 printf "Running phpcs...\n"
+FILES_PHP=$(git diff --name-only --cached --relative | grep '\.php\?$')
+if [ "$FILES_PHP" != "" ]; then
+    printf "!= zero"
+    for FILE in $FILES_PHP
+    do
+      OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
+      if [ $? -ne 0 ]
+      then
+      	printf "[PHP] Code style verification failed. Aborting Commit!\n"
+      	printf "$OUTPUT\n"
+      	exit 1
+      fi
+    done
+fi
 
-OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs phpcs --standard=ci/ruleset.xml visualcomposer/ && git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
-
-# Check last return code (#?).
-printf "$OUTPUT\n"
+printf "Running standard...\n"
+OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 if [ $? -ne 0 ]
 then
-	printf "Code style verification failed. Aborting Commit!\n"
+	printf "[JS] Code style verification failed. Aborting Commit!\n"
 	printf "$OUTPUT\n"
 	exit 1
 fi
