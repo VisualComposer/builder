@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: ["error", "prefer-double"], jsx-no-bind: 0 */
+/*eslint jsx-quotes: [2, "prefer-double"], jsx-no-bind: 0 */
 import React from 'react'
 import Attribute from '../attribute'
 require('./media-editor')

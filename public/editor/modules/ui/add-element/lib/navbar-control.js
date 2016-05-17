@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 vcCake.add('ui-add-element', function (api) {
   var React = require('react')

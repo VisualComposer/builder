@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 var React = require('react')
 var ReactDOM = require('react-dom')
 // var TreeElement = require( '../layouts/tree/TreeLayout' )

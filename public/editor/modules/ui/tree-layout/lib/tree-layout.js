@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 var React = require('react')
 require('../css/tree/init.less')

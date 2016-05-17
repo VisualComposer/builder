@@ -139,7 +139,7 @@ var api = {
       }
     })
     documentData = documentData.set(cloneId, clone)
-    dataStore.getChildren(obj.get('id')).forEach(el => {
+    dataStore.getChildren(obj.get('id')).forEach((el) => {
       this.clone(el.get('id'), cloneId)
     }, this)
     return clone.toJS()

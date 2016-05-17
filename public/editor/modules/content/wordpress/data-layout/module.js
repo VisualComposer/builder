@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 require('./css/module.less')
 vcCake.add('content-wordpress-data-layout', function (api) {
