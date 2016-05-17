@@ -2,18 +2,14 @@
 
 ### RUN PHP CODE SNIFFER AND ABORT ON ANY WARNING OR ERROR
 
-NOCOLOR='\033[0m'
-YELLOW='\033[0;33m'
-RED='\033[0;31m'
+printf "Running phpcs...\n"
 
-printf "${YELLOW}Running phpcs...${NOCOLOR}\n"
-
-OUTPUT=`phpcs --standard=ci/ruleset.xml visualcomposer/`
+OUTPUT=`phpcs --standard=ci/ruleset.xml visualcomposer/ && git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 
 # Check last return code (#?).
-if [ $? == 1 ]
+if [ $? -ne 0 ]
 then
-	printf "${RED}Code style verification failed. Aborting Commit!${NOCOLOR}\n"
+	printf "Code style verification failed. Aborting Commit!\n"
 	printf "$OUTPUT\n"
 	exit 1
 fi
