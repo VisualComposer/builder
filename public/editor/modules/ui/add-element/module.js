@@ -56,7 +56,7 @@ vcCake.add('ui-add-element', function (api) {
         api.actions.setParent(this.state.parent)
       }
       // Hardcode TODO: remove after mvp (task #133398003440855)
-      var isRow = false;
+      var isRow = false
       if (api.actions.getParent()) {
         isRow = cook.getById(api.actions.getParent()).get('name') === 'Row'
       }
