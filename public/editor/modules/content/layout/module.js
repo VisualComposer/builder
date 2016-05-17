@@ -6,6 +6,7 @@ vcCake.add('content-layout', function (api) {
   : document.getElementById('vcv-editor')
   var React = require('react')
   var ReactDOM = require('react-dom')
+  var HtmlLayout = require('./lib/html-layout')
   var DataChanged = {
     componentDidMount: function () {
       api.reply('data:changed', function (data) {
