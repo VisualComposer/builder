@@ -37,7 +37,7 @@ fs.lstat(elementDir, function (err, stats) {
         varData[ variable ] = settings[ variable ].value
       }
     }
-    var variables = 'let {' + varNames.join(', ') + ', id, ...other} = this.props;'
+    var variables = 'let {' + varNames.join(', ') + ', id} = this.props;'
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js')
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
@@ -56,6 +56,9 @@ fs.lstat(elementDir, function (err, stats) {
     let componentTemplate = swig.renderFile(componentTemplateFile, {
       variables: function () {
         return variables
+      },
+      templateJs: function () {
+        return javascriptString
       },
       template: function () {
         return templateString
