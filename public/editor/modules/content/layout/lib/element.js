@@ -4,6 +4,10 @@ var cook = vcCake.getService('cook')
 require('../css/element.less')
 
 var Element = React.createClass({
+  propTypes: {
+    element: React.PropTypes.object.isRequired,
+    api: React.PropTypes.object.isRequired
+  },
   componentDidMount: function () {
     this.props.api.notify('element:mount', this.props.element.id)
   },
@@ -15,7 +19,7 @@ var Element = React.createClass({
     var currentElement = cook.get(this.props.element) // optimize
     if (currentElement.get('type') === 'container') {
       let elementsList = documentData.children(currentElement.get('id')).map(function (childElement) {
-        return <Element element={childElement} key={childElement.id} api={this.props.api}/>
+        return <Element element={childElement} key={childElement.id} api={this.props.api} />
       }, this)
       return elementsList
     }

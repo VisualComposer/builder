@@ -1,3 +1,4 @@
+/*global $*/
 function ControlsHandler () {
   this.$currentElement = undefined
   this.sliceSize = 3
@@ -7,7 +8,7 @@ function ControlsHandler () {
   this.$controlsList = null
 }
 
-ControlsHandler.prototype.showOutline = function($el) {
+ControlsHandler.prototype.showOutline = function ($el) {
   if ($el.data('vcElement') === undefined) {
     $el = $el.closest('[data-vc-element]')
   }
@@ -22,7 +23,7 @@ ControlsHandler.prototype.showOutline = function($el) {
   return this
 }
 
-ControlsHandler.prototype.hideOutline = function() {
+ControlsHandler.prototype.hideOutline = function () {
   var outlines = this.getOutlines()
   for (var i in outlines) {
     outlines[ i ].css({
@@ -38,14 +39,14 @@ ControlsHandler.prototype.hideOutline = function() {
   return this
 }
 
-ControlsHandler.prototype.getElementsTree = function() {
+ControlsHandler.prototype.getElementsTree = function () {
   if (!this.elementsTree.length) {
     this.updateElementsTree()
   }
   return this.elementsTree
 }
 
-ControlsHandler.prototype.updateElementsTree = function() {
+ControlsHandler.prototype.updateElementsTree = function () {
   var _this = this
 
   this.clearElementsTree()
@@ -55,7 +56,7 @@ ControlsHandler.prototype.updateElementsTree = function() {
   }
 
   this.elementsTree.push(this.$currentElement)
-  this.$currentElement.parents('[data-vc-element]').each(function() {
+  this.$currentElement.parents('[data-vc-element]').each(function () {
     _this.elementsTree.push($(this))
   })
   this.elementsTree = this.elementsTree.slice(0, this.sliceSize)
@@ -64,13 +65,13 @@ ControlsHandler.prototype.updateElementsTree = function() {
   return this
 }
 
-ControlsHandler.prototype.clearElementsTree = function() {
+ControlsHandler.prototype.clearElementsTree = function () {
   this.elementsTree = []
 
   return this
 }
 
-ControlsHandler.prototype.getOutlines = function() {
+ControlsHandler.prototype.getOutlines = function () {
   // Here comes wrapper for controls
   var controlsWrapper = document.getElementById('vc-ui-controls-container')
   if (this.outlines.length < this.sliceSize) {
@@ -87,10 +88,10 @@ ControlsHandler.prototype.getOutlines = function() {
   return this.outlines
 }
 
-ControlsHandler.prototype.drawOutlines = function() {
-  var outlines = this.getOutlines(),
-    elemenstsTree = this.getElementsTree(),
-    posLeft, posTop, width, height
+ControlsHandler.prototype.drawOutlines = function () {
+  let outlines = this.getOutlines()
+  let elemenstsTree = this.getElementsTree()
+  let posLeft, posTop, width, height
 
   for (var i in outlines) {
     if (elemenstsTree[ i ] === undefined) {
@@ -112,15 +113,13 @@ ControlsHandler.prototype.drawOutlines = function() {
       })
     }
   }
-
   this.setControlsPosition()
-
   return this
 }
 
-ControlsHandler.prototype.drawControls = function() {
-  var elemenstsTree = this.getElementsTree(),
-      $controlElement, $dropdownContent, $controlAction
+ControlsHandler.prototype.drawControls = function () {
+  let elemenstsTree = this.getElementsTree()
+  let $controlElement, $dropdownContent, $controlAction
   if (!this.$controlsContainer) {
     // Here comes wrapper for controls
     var controlsWrapper = $('#vc-ui-controls-container')
@@ -155,7 +154,7 @@ ControlsHandler.prototype.drawControls = function() {
     $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-' + i + '"/>')
     $controlElement.appendTo(this.$controlsList)
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
-    var isElementContainer = 'true' === elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-dropzone')
+    var isElementContainer = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-dropzone') === 'true'
     // add dropdown trigger
     $('<dt class="vc-ui-outline-control-dropdown-trigger vc-ui-outline-control">' +
       '<span  class="vc-ui-outline-control-content" title="' + elemenstsTree[ i ][ 0 ].getAttribute('data-vc-name') + '">' +
@@ -211,7 +210,7 @@ ControlsHandler.prototype.drawControls = function() {
   this.setControlsPosition()
 }
 
-ControlsHandler.prototype.removeControls = function() {
+ControlsHandler.prototype.removeControls = function () {
   if (this.$controlsContainer) {
     this.$controlsContainer.remove()
     this.$controlsContainer = null
@@ -221,7 +220,7 @@ ControlsHandler.prototype.removeControls = function() {
   return this
 }
 
-ControlsHandler.prototype.setControlsPosition = function() {
+ControlsHandler.prototype.setControlsPosition = function () {
   var posTop, posLeft, width
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {

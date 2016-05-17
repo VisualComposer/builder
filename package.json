@@ -7,8 +7,7 @@
     "test": "jest",
     "start": "node server.js",
     "build-module": "node ./tools/module-builder/index.js",
-    "build-element": "node --harmony ./tools/element-builder/index",
-    "lint": "eslint . --ext .js --ext .jsx"
+    "build-element": "node --harmony ./tools/element-builder/index"
   },
   "author": "@vv",
   "license": "",
@@ -105,5 +104,10 @@
         }
       }
     }
+  },
+  "standard": {
+    "ignore": [
+      "public/elements-2/"
+    ]
   }
 }

@@ -1,3 +1,4 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "tinymce" }]*/
 import React from 'react'
 import tinymce from 'tinymce/tinymce'
 import Editor from 'react-tinymce'
