@@ -1,6 +1,6 @@
 var React = require('react');
 
-var data = React.createClass({
+module.exports = React.createClass({
 render: function() {
 // import variables
 {{ variables() }}
@@ -10,4 +10,3 @@ render: function() {
 return {{ template() }};
 }
 });
-console.log('data: ',data);
