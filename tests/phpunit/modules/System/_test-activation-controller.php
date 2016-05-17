@@ -1,6 +1,7 @@
 <?php
+namespace Tests\PhpUnit\Modules\System;
 
-class ActivationControllerTest extends WP_UnitTestCase
+class ActivationControllerTest extends \WP_UnitTestCase
 {
     public function testSetVersion()
     {

@@ -2,20 +2,16 @@
 
 ### RUN PHPUNIT TESTS BEFORE PUSH
 
-NOCOLOR='\033[0m'
-YELLOW='\033[0;33m'
-RED='\033[0;31m'
-
-printf "${YELLOW}Running phpunit tests...${NOCOLOR}\n"
+printf "Running phpunit tests...\n"
 
 OUTPUT=`phpunit --configuration=ci/phpunit.xml`
 
 # Check last return code (#?).
-if [ $? == 1 ]
+if [ $? -ne 0 ]
 then
 	# quotes preserve formatting
 	printf "$OUTPUT\n"
-	printf "${RED}ABORTING!!!${NOCOLOR}\n"
+	printf "ABORTING!!!\n"
 	exit 1
 fi
 

@@ -1,6 +1,7 @@
 <?php
+namespace Tests\PhpUnit\Modules\System;
 
-class DomainControllerTest extends WP_UnitTestCase
+class DomainControllerTest extends \WP_UnitTestCase
 {
     public function testLocale()
     {
