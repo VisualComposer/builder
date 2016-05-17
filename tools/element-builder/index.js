@@ -87,7 +87,7 @@ fs.lstat(elementDir, function(err, stats) {
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}';
     var cssSettings = JSON.parse(cssSettingsString);
     if (!cssSettings) {
-      console.log('errorError, wrong css settings');
+      console.error('Error, wrong css settings');
       process.exit(1);
     }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
