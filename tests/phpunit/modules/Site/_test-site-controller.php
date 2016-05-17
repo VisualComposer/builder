@@ -1,6 +1,7 @@
 <?php
+namespace Tests\PhpUnit\Modules\Site;
 
-class SiteControllerTest extends WP_UnitTestCase
+class SiteControllerTest extends \WP_UnitTestCase
 {
     public function testAppendScript()
     {

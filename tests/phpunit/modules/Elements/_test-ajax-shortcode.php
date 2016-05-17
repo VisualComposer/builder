@@ -1,6 +1,7 @@
 <?php
+namespace Tests\PhpUnit\Modules\Elements;
 
-class AjaxShortcodeTest extends WP_UnitTestCase
+class AjaxShortcodeTest extends \WP_UnitTestCase
 {
     public function testRender()
     {
