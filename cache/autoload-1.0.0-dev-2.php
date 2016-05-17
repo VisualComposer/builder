@@ -84,12 +84,6 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Editors\\AssetsManager\\Controller',
       'make' => true,
     ),
-    'EditorsDataAjaxController' => 
-    array (
-      'name' => 'EditorsDataAjaxController',
-      'abstract' => 'VisualComposer\\Modules\\Editors\\DataAjax\\Controller',
-      'make' => true,
-    ),
     'EditorsFrontendController' => 
     array (
       'name' => 'EditorsFrontendController',
@@ -100,12 +94,6 @@ return array (
     array (
       'name' => 'EditorsPageEditableController',
       'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
-      'make' => true,
-    ),
-    'PagesDashboard' => 
-    array (
-      'name' => 'PagesDashboard',
-      'abstract' => 'VisualComposer\\Modules\\Pages\\Dashboard',
       'make' => true,
     ),
     'SiteController' => 

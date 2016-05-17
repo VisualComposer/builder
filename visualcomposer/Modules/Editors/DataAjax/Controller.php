@@ -10,7 +10,7 @@ use VisualComposer\Framework\Container;
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends Container /* implements Module */
 {
     /**
      * @var \VisualComposer\Helpers\Request
