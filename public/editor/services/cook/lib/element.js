@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
 import React from 'react'
 import {format} from 'util'
 import {renderToStaticMarkup} from 'react-dom/server'

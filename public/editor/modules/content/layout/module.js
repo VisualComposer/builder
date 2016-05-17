@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
 var vcCake = require('vc-cake')
 vcCake.add('content-layout', function (api) {
   var $ = require('jquery')
@@ -25,7 +26,7 @@ vcCake.add('content-layout', function (api) {
       var data = this.state.data
       return (
         <div className="vc-editor-here">
-          <HtmlLayout data={data} api={api}/>
+          <HtmlLayout data={data} api={api} />
         </div>
       )
     }

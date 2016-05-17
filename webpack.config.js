@@ -4,7 +4,7 @@ var Collector = require('./tools/webpack-collector');
 // var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',

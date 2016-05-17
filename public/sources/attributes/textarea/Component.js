@@ -9,7 +9,7 @@ export default class Component extends Attribute {
       <textarea
         className="vc_ui-form-input"
         onChange={this.handleChange}
-        value={value}/>
+        value={value} />
     )
   }
 }
