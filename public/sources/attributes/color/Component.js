@@ -1,15 +1,16 @@
-import React from 'react';
-import Attribute from '../attribute';
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
+import React from 'react'
+import Attribute from '../attribute'
 
 export default class Component extends Attribute {
   render() {
-    let {value} = this.state;
+    let {value} = this.state
     return (
       <input
         className="vc_ui-form-input-color"
         type="color"
         onChange={this.handleChange}
         defaultValue={value}/>
-    );
+    )
   }
 }
