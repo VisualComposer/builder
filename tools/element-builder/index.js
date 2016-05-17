@@ -10,7 +10,7 @@ process.argv.slice(2).forEach(function(value) {
   if (0 === value.indexOf('--')) {
     var namedData = value.split('=');
     if (namedData.length !== 2) {
-      console.log('Wrong named parameter');
+      console.error('Wrong named parameter');
       process.exit(1);
     }
     namedArgs[namedData[0]] = namedData[1];
@@ -21,7 +21,7 @@ process.argv.slice(2).forEach(function(value) {
 var elementPath = args[0];
 var elementDir = false;
 if (!elementPath || !(elementDir = path.resolve(process.cwd(), elementPath))) {
-  console.log('Wrong element path');
+  console.error('Wrong element path');
   process.exit(1);
 }
 
@@ -37,9 +37,9 @@ fs.lstat(elementDir, function(err, stats) {
       type: 'string',
       value: namedArgs.hasOwnProperty('--uuid') ? namedArgs['--uuid'] : generateUUID()
     };
-
+    // check settings type name
     if (!settings.name.value) {
-      console.log('Error, wrong name in settings');
+      console.error('Error, wrong name in settings');
       process.exit(1);
     }
     // create vars from settings
@@ -57,14 +57,14 @@ fs.lstat(elementDir, function(err, stats) {
     var javascriptFile = path.resolve(elementDir, 'scripts.js');
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : '';
     if (!javascriptString && javascriptString.length) {
-      console.log('Error, wrong scripts.js file.');
+      console.error('Error, wrong scripts.js file.');
       process.exit(1);
     }
     // JSX Component
     var templateFile = path.resolve(elementDir, 'Template.jsx');
     var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile) : '';
     if (!templateString && templateString.length) {
-      console.log('Error, wrong Template.jsx file.');
+      console.error('Error, wrong Template.jsx file.');
       process.exit(1);
     }
     if ((templateString + '').match(/data\-vcv\-dropzone/)) {
@@ -87,7 +87,7 @@ fs.lstat(elementDir, function(err, stats) {
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}';
     var cssSettings = JSON.parse(cssSettingsString);
     if (!cssSettings) {
-      console.log('Error, wrong css settings');
+      console.log('errorError, wrong css settings');
       process.exit(1);
     }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
@@ -123,7 +123,7 @@ fs.lstat(elementDir, function(err, stats) {
     }
     process.stdout.write(template);
   } else {
-    console.log('Directory "${elementDir}" does not exist!');
+    console.error('Directory "${elementDir}" does not exist!');
     process.exit(1);
   }
 });
