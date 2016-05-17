@@ -1,24 +1,28 @@
-import React from 'react';
+import React from 'react'
 export default class Attribute extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {value: props.value};
-    this.handleChange = this.handleChange.bind(this);
+  constructor (props) {
+    super(props)
+    this.state = { value: props.value }
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(event) {
-    this.setFieldValue(event.target.value);
+  handleChange (event) {
+    this.setFieldValue(event.target.value)
   }
 
-  setFieldValue(value) {
-    if ('function' === typeof this.props.updater) {
-      this.props.updater(this.props.fieldKey, value);
+  setFieldValue (value) {
+    if (typeof this.props.updater === 'function') {
+      this.props.updater(this.props.fieldKey, value)
     }
-    this.setState({value: value});
+    this.setState({ value: value })
   }
 
-  render() {
-    let {fieldKey, settings, value} = this.props;
-    return <div/>;
+  render () {
+    return <div />
   }
+}
+Attribute.propTypes = {
+  fieldKey: React.PropTypes.string.isRequired,
+  value: React.PropTypes.object,
+  updater: React.PropTypes.func
 }
