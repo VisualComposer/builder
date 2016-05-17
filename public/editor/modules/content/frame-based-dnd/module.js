@@ -4,6 +4,8 @@ require('./css/module.less')
 vcCake.add('frame-based-dnd', function (api) {
   var DnD = require('./lib/dnd')
   var documentDOM
+  var offsetTop
+  var offsetLeft
   var ModuleDnd = function (api) {
     this.api = api
     this.layoutAPI = this.api.module('content-layout')
@@ -13,6 +15,7 @@ vcCake.add('frame-based-dnd', function (api) {
     if (!this.items) {
       if (!documentDOM && $('#vcv-editor-iframe').get(0)) {
         documentDOM = $('#vcv-editor-iframe').get(0).contentWindow.document
+        offsetTop = $('#vcv-editor-iframe').offset().top
       } else {
         documentDOM = document
       }
@@ -21,9 +24,11 @@ vcCake.add('frame-based-dnd', function (api) {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
-        endCallback: this.end.bind(this)
+        endCallback: this.end.bind(this),
+        document: documentDOM,
+        offsetTop: offsetTop,
+        offsetLeft: offsetLeft
       })
-      console.log(documentDOM.querySelector('[data-vcv-module="content-layout"]'))
       this.items.init()
     }
   }
@@ -41,7 +46,9 @@ vcCake.add('frame-based-dnd', function (api) {
     this.items.removeItem(id)
   }
   ModuleDnd.prototype.move = function (id, action, related) {
-    this.api.request('data:move', id, { action: action, related: related })
+    if (id && related) {
+      this.api.request('data:move', id, { action: action, related: related })
+    }
   }
   ModuleDnd.prototype.start = function () {
     this.api.module('content-editor-controls').do('enableControls', false)

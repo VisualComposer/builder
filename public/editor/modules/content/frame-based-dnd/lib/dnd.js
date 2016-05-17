@@ -23,7 +23,10 @@ var Builder = function (container, options) {
     startCallback: function () {
     },
     endCallback: function () {
-    }
+    },
+    document: document,
+    offsetTop: 0,
+    offsetLeft: 0
   })
 }
 Builder.prototype.init = function () {
@@ -33,8 +36,8 @@ Builder.prototype.init = function () {
 Builder.prototype.initContainer = function () {
   this.container.addEventListener('drag', this.handleDrag.bind(this), false)
 }
-Builder.prototype.addItem = function (id, documentDOM) {
-  this.items[ id ] = new Item(id, documentDOM)
+Builder.prototype.addItem = function (id) {
+  this.items[ id ] = new Item(id, this.options.document)
     .on('dragstart', this.handleDragStart.bind(this))
     .on('dragend', this.handleDragEnd.bind(this))
 }
@@ -54,9 +57,9 @@ Builder.prototype.forgetMouse = function () {
  * Helper
  */
 Builder.prototype.buildHelper = function () {
-  this.helper = document.createElement('div')
+  this.helper = this.options.document.createElement('div')
   this.helper.classList.add('vcv-drag-helper')
-  document.body.appendChild(this.helper)
+  this.options.document.body.appendChild(this.helper)
 }
 Builder.prototype.getHelper = function () {
   this.helper.classList.add('vcv-visible')
@@ -74,8 +77,8 @@ Builder.prototype.createFrame = function () {
 }
 Builder.prototype.removeFrame = function () {
   this.frame = null
-  var frame = document.getElementById('vcv-dnd-frame')
-  frame && document.body.removeChild(frame)
+  var frame = this.options.document.getElementById('vcv-dnd-frame')
+  frame && this.options.document.body.removeChild(frame)
 }
 /**
  * Menage items
@@ -91,7 +94,7 @@ Builder.prototype.hideControls = function () {
 
 }
 Builder.prototype.checkItems = function (point) {
-  var element = document.elementFromPoint(point.x, point.y)
+  var element = this.options.document.elementFromPoint(point.x, point.y)
   this.frame.className = ''
   if (element && element.getAttribute('data-vc-element')) {
     var rect = element.getBoundingClientRect()
@@ -99,11 +102,11 @@ Builder.prototype.checkItems = function (point) {
     this.frame.setAttribute('style', _.reduce({
       width: rect.width,
       height: rect.height,
-      top: offset.top,
-      left: offset.left
+      top: offset.top + this.options.offsetTop,
+      left: offset.left + this.options.offsetLeft
     }, function (result, value, key) {
-      return result + key + ':' + value + 'px'
-    }, ''))
+      return result + key + ':' + value + 'px;'
+    }, ' '))
     this.currentElement = element.getAttribute('data-vc-element')
     var positionY = point.y - (rect.top + rect.height / 2)
     var positionX = point.x - (rect.left + rect.width / 2)
