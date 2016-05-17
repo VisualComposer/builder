@@ -4,9 +4,10 @@
 
 printf "Running phpcs...\n"
 
-OUTPUT=`phpcs --standard=ci/ruleset.xml visualcomposer/ && git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
+OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs phpcs --standard=ci/ruleset.xml visualcomposer/ && git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 
 # Check last return code (#?).
+printf "$OUTPUT\n"
 if [ $? -ne 0 ]
 then
 	printf "Code style verification failed. Aborting Commit!\n"

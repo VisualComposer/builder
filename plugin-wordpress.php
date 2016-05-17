@@ -33,7 +33,7 @@ if (defined('WP_INSTALLING') && WP_INSTALLING) {
  * Check for plugin conflict.
  */
 if (defined('VCV_VERSION')) {
-    wp_die('It seems that other version of Visual Composer is active. Please deactivate it before use this version');
+wp_die('It seems that other version of Visual Composer is active. Please deactivate it before use this version');
 }
 
 /**
