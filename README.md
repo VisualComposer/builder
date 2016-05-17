@@ -10,7 +10,7 @@ When you create file with jsx content at first line of file add:
 
 ### Installation instruction
 ``` sh
-$ npm install standard -g 
+$ npm install standard -g
 $ npm install -g eslint eslint-config-standard eslint-plugin-standard eslint-plugin-promise  eslint-config-standard-react eslint-config-standard-jsx eslint-plugin-react
 ```
 
@@ -24,6 +24,12 @@ This is standalone editor via node server with webpack dev-server support.
 # npm install webpack -g
 # npm install webpack-dev-server -g
 $ npm install
+```
+
+### Install local githooks
+```sh
+$ cd _infrastructure
+$ ./install-hooks
 ```
 
 ### Start watcher

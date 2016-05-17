@@ -1,0 +1,21 @@
+#!/bin/bash
+
+### RUN PHP CODE SNIFFER AND ABORT ON ANY WARNING OR ERROR
+
+NOCOLOR='\033[0m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+
+printf "${YELLOW}Running phpcs...${NOCOLOR}\n"
+
+OUTPUT=`phpcs --standard=ci/ruleset.xml visualcomposer/`
+
+# Check last return code (#?).
+if [ $? == 1 ]
+then
+	printf "${RED}Code style verification failed. Aborting Commit!${NOCOLOR}\n"
+	printf "$OUTPUT\n"
+	exit 1
+fi
+
+exit 0

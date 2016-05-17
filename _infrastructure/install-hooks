@@ -1,0 +1,10 @@
+cp pre-commit ../.git/hooks/ && cp pre-push ../.git/hooks/;
+
+# Check last return code (#?).
+if [ $? == 1 ]
+then
+	echo "Something went wrong."
+	exit 1
+fi
+
+echo "Done. Installed pre-commit and pre-push hooks."
