@@ -1,5 +1,20 @@
 # Visual Composer 5.0 (Сurry)
 
+## Javascript Code Style
+
+Use standardJS to validate CC.
+When you create file with jsx content at first line of file add:
+```
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
+```
+
+### Installation instruction
+``` sh
+$ npm install standard -g 
+$ npm install -g eslint eslint-config-standard eslint-plugin-standard eslint-plugin-promise  eslint-config-standard-react eslint-config-standard-jsx eslint-plugin-react
+```
+
+
 ## Javascript demo editor
 This is standalone editor via node server with webpack dev-server support.
 

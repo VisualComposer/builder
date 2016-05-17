@@ -1,1 +1,1 @@
-require('./lib/navbar-control');
+require('./lib/navbar-control')

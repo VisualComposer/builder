@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
 var vcCake = require('vc-cake')
 require('./css/module.less')
 vcCake.add('content-wordpress-data-layout', function (api) {
@@ -25,7 +26,7 @@ vcCake.add('content-wordpress-data-layout', function (api) {
         let document = vcCake.getService('document')
         elementsList = this.state.data.map(function (element) {
           let data = document.children(element.id)
-          return <Element element={element} data={data} key={element.id} api={api}/>
+          return <Element element={element} data={data} key={element.id} api={api} />
         })
       }
       return (<div className="vc-v-layouts-clean-html">
@@ -38,7 +39,7 @@ vcCake.add('content-wordpress-data-layout', function (api) {
   wrapper.setAttribute('id', 'vc-wp-data-layout')
   document.body.appendChild(wrapper)
   ReactDOM.render(
-    <Layout/>,
+    <Layout />,
     wrapper
   )
 })
