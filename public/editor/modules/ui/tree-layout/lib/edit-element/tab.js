@@ -5,7 +5,7 @@ var classNames = require('classnames')
 
 var TreeContentTab = React.createClass({
   propTypes: {
-    container: React.PropTypes.object,
+    container: React.PropTypes.string,
     changeActive: React.PropTypes.func,
     id: React.PropTypes.string.isRequired,
     title: React.PropTypes.string,

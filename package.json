@@ -107,7 +107,9 @@
   },
   "standard": {
     "ignore": [
-      "public/elements-2/"
+      "public/sources/elements-2/",
+      "tests/",
+      "tools/"
     ]
   }
 }

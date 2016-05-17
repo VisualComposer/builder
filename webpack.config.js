@@ -1,8 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var Collector = require('./tools/webpack-collector');
+var path = require('path')
+var webpack = require('webpack')
+var Collector = require('./tools/webpack-collector')
 // var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   devtool: 'source-map',
   entry: {
@@ -84,7 +84,7 @@ module.exports = {
         'time-machine',
         'utils'
       ]
-    },
+    }
   },
   module: {
     loaders: [
@@ -115,9 +115,9 @@ module.exports = {
       {test: /\.(png|jpe?g|gif)$/, loader: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]'}, // inline base64 URLs for <=8k images, direct URLs for the rest.
       {test: /\.woff(2)?(\?.+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]'},
       {test: /\.(ttf|eot|svg)(\?.+)?$/, loader: 'file-loader?name=/fonts/[name].[ext]?[hash]'},
-      {test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery'},
+      {test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery'}
       // { test: require.resolve("react"), loader: "expose?React" },
       // { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" } // TODO: Remove on production.
     ]
   }
-};
+}

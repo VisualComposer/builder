@@ -9,7 +9,7 @@ require('../../css/tree-view/init.less')
 var TreeContent = React.createClass({
   propTypes: {
     api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired
+    element: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.bool])
   },
   tabsBD: {},
   options: {

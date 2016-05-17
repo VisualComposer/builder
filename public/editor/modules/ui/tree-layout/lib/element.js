@@ -6,8 +6,8 @@ var classNames = require('classnames')
 
 var Element = React.createClass({
   propTypes: {
-    element: React.PropTypes.object.isRequired,
-    data: React.PropTypes.object,
+    element: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.bool]),
+    data: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]),
     api: React.PropTypes.object.isRequired,
     level: React.PropTypes.number
   },

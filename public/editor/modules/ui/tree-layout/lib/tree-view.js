@@ -40,6 +40,7 @@ var TreeView = React.createClass({
     }
     var treeViewClasses = classNames({
       'vc-ui-tree-view-container': true,
+
       'vc-ui-tree-view-o-content-expand': this.state.elementId !== false
     })
     return (

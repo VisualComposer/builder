@@ -1,4 +1,5 @@
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
+import React from 'react'
 import Attribute from '../attribute'
 export default class Component extends Attribute {
   handleChange (event) {

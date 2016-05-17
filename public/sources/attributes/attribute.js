@@ -23,6 +23,6 @@ export default class Attribute extends React.Component {
 }
 Attribute.propTypes = {
   fieldKey: React.PropTypes.string.isRequired,
-  value: React.PropTypes.object,
+  value: React.PropTypes.node,
   updater: React.PropTypes.func
 }
