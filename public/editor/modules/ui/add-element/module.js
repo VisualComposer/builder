@@ -55,6 +55,11 @@ vcCake.add('ui-add-element', function (api) {
       if (this.state.modalIsOpen) {
         api.actions.setParent(this.state.parent)
       }
+      // Hardcode TODO: remove after mvp (task #133398003440855)
+      var isRow = false;
+      if (api.actions.getParent()) {
+        isRow = cook.getById(api.actions.getParent()).get('name') === 'Row'
+      }
 
       return (<Modal
         isOpen={this.state.modalIsOpen}
@@ -70,6 +75,14 @@ vcCake.add('ui-add-element', function (api) {
             <div className="modal-body">
               <ul className="vc_v-modal-content">
                 {elements.map(function (component) {
+                  // Hardcode TODO: remove after mvp (task #133398003440855)
+                  if (!isRow && component.name === 'Column') {
+                    return false
+                  }
+                  if (isRow && component.name !== 'Column') {
+                    return false
+                  }
+
                   return (function () {
                     return <ElementControl
                       api={api}
