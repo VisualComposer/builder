@@ -31,13 +31,13 @@ fs.lstat(elementDir, function (err, stats) {
     // create vars from settings
     var varNames = []
     var varData = {}
-    for (let variable in settings) {
+    for (var variable in settings) {
       if (settings[ variable ].hasOwnProperty('value')) {
         varNames.push(variable)
         varData[ variable ] = settings[ variable ].value
       }
     }
-    var variables = 'let {' + varNames.join(', ') + ', id} = this.props'
+    var variables = 'var {' + varNames.join(', ') + ', id} = this.props'
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js')
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
@@ -61,8 +61,8 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong template.jsx file.')
       process.exit(1)
     }
-    let componentTemplateFile = path.join(__dirname, 'template.js.tpl')
-    let componentTemplate = swig.renderFile(componentTemplateFile, {
+    var componentTemplateFile = path.join(__dirname, 'template.js.tpl')
+    var componentTemplate = swig.renderFile(componentTemplateFile, {
       variables: function () {
         return variables
       },
@@ -77,16 +77,22 @@ fs.lstat(elementDir, function (err, stats) {
     var componentFilePath = path.join(elementDir, 'previewComponent.jsx')
     fs.writeFileSync(componentFilePath, componentTemplate)
     // Render element
-    let Component = require(componentFilePath)
-    let ComponentElement = React.createElement(Component, varData)
+    try {
+      var Component = require(componentFilePath)
+      var ComponentElement = React.createElement(Component, varData)
+      var RenderComponentElement = ReactDom.renderToStaticMarkup(ComponentElement)
+    } catch (err) {
+      console.log(err.stack)
+      RenderComponentElement = '<p style="color: firebrick">Error while compiling template</p>'
+    }
     // get html template
-    let htmlTemplateFile = path.join(__dirname, 'template.html.tpl')
-    let htmlTemplate = swig.renderFile(htmlTemplateFile, {
+    var htmlTemplateFile = path.join(__dirname, 'template.html.tpl')
+    var htmlTemplate = swig.renderFile(htmlTemplateFile, {
       cssFile: function () {
         return cssRelativeFile + ''
       },
       renderedElement: function () {
-        return ReactDom.renderToStaticMarkup(ComponentElement)
+        return RenderComponentElement
       }
     })
     // write preview to file
