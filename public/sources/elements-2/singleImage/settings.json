@@ -1,0 +1,19 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Single Image"
+  },
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": {
+      "ids": [],
+      "urls": []
+    },
+    "options": {
+      "label": "Image",
+      "multiple": false
+    }
+  }
+}
