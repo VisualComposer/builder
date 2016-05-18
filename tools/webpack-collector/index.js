@@ -1,6 +1,7 @@
 var ServicesCollector = require('./lib/services-collector')
 var ModulesCollector = require('./lib/modules-collector')
 var AttributesCollector = require('./lib/attributes-collector')
+var ElementsCollector = require('./lib/elements-collector')
 var Collector = function () {
 }
 Collector.prototype.apply = function (compiler) {
@@ -18,6 +19,7 @@ Collector.prototype.apply = function (compiler) {
       }
 
       AttributesCollector.buildFile(prefix)
+      ElementsCollector.buildFile(prefix)
     })
   })
 }

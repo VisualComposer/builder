@@ -12,8 +12,13 @@
   "bgimage": {
     "type": "attachimage",
     "access": "public",
+    "value": {
+      "ids": [],
+      "urls": []
+    },
     "options": {
-      "label": "Background Image"
+      "label": "Background Image",
+      "multiple": false
     }
   }
 }

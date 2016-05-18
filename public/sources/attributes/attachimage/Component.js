@@ -1,22 +1,81 @@
-/*eslint jsx-quotes: [2, "prefer-double"], jsx-no-bind: 0 */
+/*eslint jsx-no-bind: 0 */
 import React from 'react'
 import Attribute from '../attribute'
-require('./media-editor')
+import './css/data.less'
+import lodash from 'lodash'
+
 export default class Component extends Attribute {
+  constructor (props) {
+    super(props)
+    this.mediaUploader = null
+  }
+
   openLibrary () {
-    window.alert(1)
+    this.mediaUploader.open()
   }
 
   componentWillMount () {
-    // require('./media-editor')
+    // Create the media uploader.
+    this.mediaUploader = window.wp.media({
+      title: 'Add images',
+      // Tell the modal to show only images.
+      library: {
+        type: 'image',
+        query: false
+      },
+      button: {
+        text: 'Add image'
+      },
+      multiple: !!this.props.options.multiple
+    })
+    // Create a callback when the uploader is called
+    this.mediaUploader.on('select', this.onMediaSelect.bind(this))
+    this.mediaUploader.on('open', this.onMediaOpen.bind(this))
+  }
+
+  onMediaSelect () {
+    var selection
+    selection = this.mediaUploader.state().get('selection')
+    this.setState({ value: { ids: [], urls: [] } })
+    selection.map(this.mediaAttachmentParse.bind(this))
+  }
+
+  mediaAttachmentParse (attachment) {
+    attachment = attachment.toJSON()
+    var ids = lodash.compact(this.state.value.ids)
+    var urls = lodash.compact(this.state.value.urls)
+    ids.push(attachment.id)
+    urls.push(attachment.sizes.full.url)
+    this.setFieldValue({
+      ids: ids,
+      urls: urls
+    })
+  }
+
+  onMediaOpen () {
+    var selection = this.mediaUploader.state().get('selection')
+    var ids = this.state.value.ids
+    ids.forEach(function (id) {
+      var attachment = window.wp.media.attachment(id)
+      attachment.fetch()
+      if (attachment) {
+        selection.add([ attachment ])
+      }
+    })
   }
 
   render () {
     let { value } = this.state
-    return <div className="vcv-attach-image">
-      <input className="vc_ui-form-input" type="hidden" onChange={this.handleChange} defaultValue={value} />
+    let { fieldKey } = this.props
+    var images = []
+    value.urls.forEach(function (url) {
+      images.push(<img key={fieldKey + ':' + url} src={url} className='thumbnail' />)
+    })
+
+    return <div className='vcv-attach-image'>
+      <div className='vcv-image-preview'>{images}</div>
       <a onClick={this.openLibrary.bind(this)}>
-        <i className="vc-ui-icon vc-ui-icon-add" />
+        <i className='vc-ui-icon vc-ui-icon-add' />
       </a>
     </div>
   }

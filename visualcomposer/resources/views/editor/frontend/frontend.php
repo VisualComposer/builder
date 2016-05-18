@@ -19,22 +19,28 @@ wp_enqueue_media();
         echo $urlHelper->to(
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>"/>
-    <?php /** @todo add jquery into bundle.js. */ ?>
+    <?php
+    /** @todo add jquery into bundle.js. */
+    wp_print_head_scripts();
+    do_action('embed_head');
+    ?>
 </head>
 <body>
+
+<script type="text/javascript" src="<?php echo $urlHelper->to(
+    'public/dist/wp.bundle.js?' . uniqid()
+); /** @todo: use assets folder */ ?>"></script>
 <script>
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>
 
-<?php do_action('admin_footer'); ?>
-<?php wp_print_styles(); ?>
-<?php wp_print_scripts(); ?>
+<?php
+do_action('wp_footer');
+wp_print_footer_scripts();
+?>
 
-<script type="text/javascript" src="<?php echo $urlHelper->to(
-    'public/dist/wp.bundle.js?' . uniqid()
-); /** @todo: use assets folder */ ?>"></script>
 <iframe src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
     width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
 </body>

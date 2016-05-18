@@ -1,14 +1,12 @@
-import {getService} from 'vc-cake';
-getService('cook').add(
-  {"tag":{"access":"protected","type":"string","value":"23ac9a41-33c4-4558-987d-670a549b10aa"},"name":{"type":"string","access":"protected","value":"Icon Button 1.0"},"buttonTitle":{"type":"string","access":"public","value":"Icon Button v1.0.0","options":{"label":"Button text","description":"Add button text"}},"style":{"type":"dropdown","access":"public","value":"round","options":{"label":"Style","values":[{"label":"Flat","value":"flat"},{"label":"Round","value":"round"},{"label":"Rounded","value":"rounded"}]}},"color":{"type":"color","access":"public","value":"blue","options":{"label":"Color"}},"iconSize":{"type":"dropdown","access":"public","value":"sm","options":{"label":"Icon Size","values":[{"label":"Small","value":"sm"},{"label":"normal","value":"md"},{"label":"Big","value":"lg"}]}},"toggle":{"type":"toggle","access":"public","value":false,"options":{"label":"Toggle","description":"Toggle switch"}},"checkboxes":{"type":"checkbox","access":"public","value":"sm","options":{"label":"Multiple Checkbox","values":[{"label":"Small","value":"sm"},{"label":"normal","value":"md"},{"label":"Big","value":"lg"}]}},"editor":{"type":"htmleditor","access":"public","value":"red","options":{"label":"HTML Editor 1","description":"it should work"}},"otherEditor":{"type":"htmleditor","access":"public","value":"red","options":{"label":"HTML Editor 2","description":"it should work too"}}},
+window.vcvAddElement(
+  {"tag":{"access":"protected","type":"string","value":"8589ede6-ab6a-44e2-bf6f-c469b253cc15"},"name":{"type":"string","access":"protected","value":"Icon Button 1.0"},"buttonTitle":{"type":"string","access":"public","value":"Icon Button v1.0.0","options":{"label":"Button text","description":"Add button text"}},"style":{"type":"dropdown","access":"public","value":"round","options":{"label":"Style","values":[{"label":"Flat","value":"flat"},{"label":"Round","value":"round"},{"label":"Rounded","value":"rounded"}]}},"color":{"type":"color","access":"public","value":"blue","options":{"label":"Color"}},"iconSize":{"type":"dropdown","access":"public","value":"sm","options":{"label":"Icon Size","values":[{"label":"Small","value":"sm"},{"label":"normal","value":"md"},{"label":"Big","value":"lg"}]}},"toggle":{"type":"toggle","access":"public","value":false,"options":{"label":"Toggle","description":"Toggle switch"}},"checkboxes":{"type":"checkbox","access":"public","value":["sm"],"options":{"label":"Multiple Checkbox","values":[{"label":"Small","value":"sm"},{"label":"normal","value":"md"},{"label":"Big","value":"lg"}]}},"editor":{"type":"htmleditor","access":"public","value":"red","options":{"label":"HTML Editor 1","description":"it should work"}},"otherEditor":{"type":"htmleditor","access":"public","value":"red","options":{"label":"HTML Editor 2","description":"it should work too"}}},
   // Component callback
   function(component) {
-    var React = require('react');
 	
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {buttonTitle, style, color, iconSize, toggle, checkboxes, editor, otherEditor, id, content, ...other} = this.props;
+        var {buttonTitle, style, color, iconSize, toggle, checkboxes, editor, otherEditor, id, content, ...other} = this.props
         // import template js
         var buttonClass = 'vc-button';
 if (color) {
