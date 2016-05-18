@@ -61,7 +61,7 @@ fs.lstat(elementDir, function(err, stats) {
       process.exit(1);
     }
     // JSX Component
-    var templateFile = path.resolve(elementDir, 'Template.jsx');
+    var templateFile = path.resolve(elementDir, 'template.jsx');
     var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile) : '';
     if (!templateString && templateString.length) {
       console.error('Error, wrong Template.jsx file.');
