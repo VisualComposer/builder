@@ -1,6 +1,6 @@
 import {getService} from 'vc-cake';
 getService('cook').add(
-  {"tag":{"access":"protected","type":"string","value":"828447be-52fe-48b2-935e-1b900253a140"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
+  {"tag":{"access":"protected","type":"string","value":"993129d3-00e7-4527-8bdb-217300f5e02c"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
   // Component callback
   function(component) {
     var React = require('react');
@@ -8,7 +8,7 @@ getService('cook').add(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {bgimage, id, content, ...other} = this.props;
+        var {bgimage, id, content, ...other} = this.props
         // import template js
         var images = []
 bgimage.urls.forEach(function (url) {
