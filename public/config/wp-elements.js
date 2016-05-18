@@ -1,0 +1,7 @@
+import {default as buttonElement} from '../sources/elements-2/button/element'
+import {default as columnElement} from '../sources/elements-2/column/element'
+import {default as iconButtonElement} from '../sources/elements-2/iconButton/element'
+import {default as rowElement} from '../sources/elements-2/row/element'
+import {default as sectionElement} from '../sources/elements-2/section/element'
+import {default as singleImageElement} from '../sources/elements-2/singleImage/element'
+import {default as textBlockElement} from '../sources/elements-2/textBlock/element'

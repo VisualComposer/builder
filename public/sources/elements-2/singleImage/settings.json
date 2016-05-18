@@ -15,5 +15,39 @@
       "label": "Image",
       "multiple": false
     }
+  },
+  "style": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Style",
+      "values": [
+        {
+          "label": "Default",
+          "value": ""
+        },
+        {
+          "label": "Rounded",
+          "valye": "vc_box_rounded"
+        },
+        {
+          "label": "Border",
+          "valye": "vc_box_border"
+        },
+        {
+          "label": "Outline",
+          "valye": "vc_box_outline"
+        },
+        {
+          "label": "Shadow",
+          "valye": "vc_box_shadow"
+        },
+        {
+          "label": "Round",
+          "valye": "vc_box_circle"
+        }
+      ]
+    }
   }
 }

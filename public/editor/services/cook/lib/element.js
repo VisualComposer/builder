@@ -13,6 +13,7 @@ const elComponent = Symbol('element component')
 export default class Element {
   constructor (data) {
     let { id = createKey(), parent = false, order, ...attr } = data
+    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(data.tag) : false
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
@@ -21,7 +22,7 @@ export default class Element {
         parent: parent,
         data: attr,
         order: order,
-        settings: elementSettings.get(data.tag).settings,
+        settings: elSettings && elSettings.settings ? elSettings.settings : {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
