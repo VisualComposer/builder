@@ -95,6 +95,7 @@ Builder.prototype.hideControls = function () {
 }
 Builder.prototype.checkItems = function (point) {
   var element = this.options.document.elementFromPoint(point.x, point.y)
+
   if (element && !element.getAttribute('data-vc-element')) {
     element = $(element).parents('[data-vc-element]').get(0)
   }
@@ -102,41 +103,60 @@ Builder.prototype.checkItems = function (point) {
   if (!isElement) {
     return false
   }
-  var notContainer = this.dragingElement.getAttribute('type') !== 'container'
-  // var isValidColumn = this.dragingElement.getAttribute('name') === 'Column' && ['Row', 'Column'].includes(element.getAttribute('name'))
-  var isValidContainer = (this.dragingElement.getAttribute('type') === 'container' && !$(element).parents('[data-vc-element]').length)
-  this.frame.className = ''
-  if (notContainer || isValidContainer) {
-    var rect = element.getBoundingClientRect()
-    var offset = $(element).offset()
-    this.frame.setAttribute('style', _.reduce({
-      width: rect.width,
-      height: rect.height,
-      top: offset.top + this.options.offsetTop,
-      left: offset.left + this.options.offsetLeft
-    }, (result, value, key) => {
-      return result + key + ':' + value + 'px;'
-    }, ' '))
-    this.currentElement = element.getAttribute('data-vc-element')
-    var positionY = point.y - (rect.top + rect.height / 2)
-    var positionX = point.x - (rect.left + rect.width / 2)
-    var containerAttribute = element.getAttribute('data-vcv-dropzone')
-    if (
-      notContainer &&
-      containerAttribute !== null && containerAttribute.length &&
-      $(element).find('[data-vc-element]').length === 0 &&
-      Math.abs(positionY) / rect.height < 0.3
-    ) {
-      this.position = 'append'
-      this.frame.classList.add('vcv-dnd-frame-center')
-    } else if (Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
-      this.position = positionX > 0 ? 'after' : 'before'
-      this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'right' : 'left'))
-    } else {
-      this.position = positionY > 0 ? 'after' : 'before'
-      this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'bottom' : 'top'))
-    }
+  if (this.dragingElement.getAttribute('name') !== 'Column' && element.getAttribute('name') !== 'Row') {
+    this.redrawFrame(element, point, {
+      onlyAppend: element.getAttribute('name') === 'Column'
+    })
+  } else if (this.dragingElement.getAttribute('name') === 'Column' && element.getAttribute('name') === 'Row') {
+    this.redrawFrame(element, point, {onlyAppend: true})
+  } else if (this.dragingElement.getAttribute('name') === 'Column' && element.getAttribute('name') === 'Column') {
+    this.redrawFrame(element, point, {disableAppend: true})
   }
+}
+Builder.prototype.redrawFrame = function (element, point, settings) {
+  this.currentElement = element.getAttribute('data-vc-element')
+  this.frame.className = ''
+  settings = _.defaults(settings || {}, {
+    disableAppend: false,
+    onlyAppend: false
+  })
+  var rect = element.getBoundingClientRect()
+  var offset = $(element).offset()
+  var positionY = point.y - (rect.top + rect.height / 2)
+  var positionX = point.x - (rect.left + rect.width / 2)
+  var isContainer = element.getAttribute('type') === 'container'
+
+  this.setFrameStyle(rect, offset)
+  if (
+    settings.disableAppend === false &&
+    isContainer &&
+    $(element).find('[data-vc-element]').length === 0 &&
+    Math.abs(positionY) / rect.height < 0.3
+  ) {
+    this.setPosition('append')
+    this.frame.classList.add('vcv-dnd-frame-center')
+  } else if (settings.onlyAppend === false && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
+    this.setPosition(positionX > 0 ? 'after' : 'before')
+    this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'right' : 'left'))
+  } else if (settings.onlyAppend === false) {
+    this.setPosition(positionY > 0 ? 'after' : 'before')
+    this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'bottom' : 'top'))
+  }
+}
+Builder.prototype.setPosition = function (position) {
+  this.position = position
+}
+Builder.prototype.setFrameStyle = function (rect, offset) {
+  this.frame.setAttribute('style', _.reduce({
+    width: rect.width,
+    height: rect.height,
+    top: offset.top + this.options.offsetTop,
+    left: offset.left + this.options.offsetLeft},
+    function (result, value, key) {
+      return result + key + ':' + value + 'px;'
+    },
+    ''
+  ))
 }
 /**
  * Drag handlers
