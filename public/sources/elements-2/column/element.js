@@ -1,9 +1,7 @@
-import {getService} from 'vc-cake';
-getService('cook').add(
-  {"name":{"type":"string","access":"protected","value":"Column"},"background":{"type":"color","access":"public","value":"","options":{"label":"Background color"}},"size":{"type":"dropdown","access":"public","value":"auto","options":{"label":"Column width","values":[{"label":"Auto","value":"auto"},{"label":"1 : 12","value":"1-12"},{"label":"2 : 12","value":"2-12"},{"label":"3 : 12","value":"3-12"},{"label":"4 : 12","value":"4-12"},{"label":"5 : 12","value":"5-12"},{"label":"6 : 12","value":"6-12"},{"label":"7 : 12","value":"7-12"},{"label":"8 : 12","value":"8-12"},{"label":"9 : 12","value":"9-12"},{"label":"10 : 12","value":"10-12"},{"label":"11 : 12","value":"11-12"},{"label":"12 : 12","value":"12-12"}]}},"tag":{"access":"protected","type":"string","value":"86ac9c3c-049b-4a54-8c2c-b4d0f13ed8a1"},"type":{"access":"protected","type":"string","value":"container"}},
+window.vcvAddElement(
+  {"name":{"type":"string","access":"protected","value":"Column"},"background":{"type":"color","access":"public","value":"","options":{"label":"Background color"}},"size":{"type":"dropdown","access":"public","value":"auto","options":{"label":"Column width","values":[{"label":"Auto","value":"auto"},{"label":"1 : 12","value":"1-12"},{"label":"2 : 12","value":"2-12"},{"label":"3 : 12","value":"3-12"},{"label":"4 : 12","value":"4-12"},{"label":"5 : 12","value":"5-12"},{"label":"6 : 12","value":"6-12"},{"label":"7 : 12","value":"7-12"},{"label":"8 : 12","value":"8-12"},{"label":"9 : 12","value":"9-12"},{"label":"10 : 12","value":"10-12"},{"label":"11 : 12","value":"11-12"},{"label":"12 : 12","value":"12-12"}]}},"tag":{"access":"protected","type":"string","value":"3254e27e-49f8-4af6-993f-9f8b49f019ea"},"type":{"access":"protected","type":"string","value":"container"}},
   // Component callback
   function(component) {
-    var React = require('react');
 	require( './styles.css' )
     component.add(React.createClass({
       render: function() {

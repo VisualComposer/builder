@@ -1,9 +1,7 @@
-import {getService} from 'vc-cake';
-getService('cook').add(
-  {"tag":{"access":"protected","type":"string","value":"993129d3-00e7-4527-8bdb-217300f5e02c"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
+window.vcvAddElement(
+  {"tag":{"access":"protected","type":"string","value":"ea957fab-0988-4aae-b8ec-fb638f16198b"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
   // Component callback
   function(component) {
-    var React = require('react');
 	
     component.add(React.createClass({
       render: function() {
