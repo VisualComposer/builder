@@ -19,7 +19,7 @@ Collector.prototype.apply = function (compiler) {
       }
 
       AttributesCollector.buildFile(prefix)
-      ElementsCollector.buildFile(prefix)
+      ElementsCollector.buildFile()
     })
   })
 }

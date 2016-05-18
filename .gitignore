@@ -44,7 +44,7 @@ public/*.bundle.js
 public/config/*-modules.js
 public/config/*-services.js
 public/config/*-attributes.js
-public/config/*-elements.js
+public/config/elements.js
 public/config/element-settings.js
 public/dist/
 /vendor

@@ -17,4 +17,4 @@ window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
 window.React = require('react')
 
-require('./config/node-elements')
+require('./config/elements')

@@ -5,9 +5,9 @@ var config = require('./settings')
 
 var Collector = {
   directory: '',
-  buildFile (prefix) {
+  buildFile () {
     var content = Collector.getElements()
-    Collector.writeToFile(prefix, content)
+    Collector.writeToFile(content)
   },
   getElements () {
     var path = join(config.publicDir, config.elementsPath)
@@ -28,8 +28,8 @@ var Collector = {
     })
     return content
   },
-  writeToFile(prefix, content) {
-    fs.writeFileSync(join(config.publicDir, config.configPath, uf('%s-elements.js', prefix)), content)
+  writeToFile(content) {
+    fs.writeFileSync(join(config.publicDir, config.configPath, uf('elements.js')), content)
   }
 }
 
