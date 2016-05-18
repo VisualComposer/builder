@@ -13,12 +13,8 @@ $(document).ready(function () {
     })
   })
 })
-
-require('./sources/elements-2/iconButton/element')
-require('./sources/elements-2/textBlock/element')
-require('./sources/elements-2/button/element')
-require('./sources/elements-2/row/element')
-require('./sources/elements-2/column/element')
-
 window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
+window.React = require('react')
+
+require('./config/node-elements')
