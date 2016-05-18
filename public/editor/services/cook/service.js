@@ -19,6 +19,9 @@ addService('cook', {
   add (settings, componentCallback, cssSettings, javascriptCallback) {
     elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback)
   },
+  getTagByName (name) {
+    return elementSettings.findTagByName(name)
+  },
   attributes: {
     add (name, component, settings) {
       attributeManager.add(name, component,
