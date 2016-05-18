@@ -108,6 +108,7 @@
   "standard": {
     "ignore": [
       "public/sources/elements-2/",
+      "public/config/",
       "tests/",
       "tools/"
     ]
