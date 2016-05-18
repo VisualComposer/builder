@@ -21,3 +21,4 @@ require('./sources/elements-2/row/element')
 require('./sources/elements-2/column/element')
 
 window.app = vcCake
+window.vcvAddElement = vcCake.getService('cook').add
