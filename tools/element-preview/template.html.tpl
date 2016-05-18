@@ -423,13 +423,35 @@
 			-webkit-appearance: button; /* 1 */
 			font: inherit; /* 2 */
 		}
-		body {
+
+		.vcv-preview-container {
 			padding: 1em;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-ms-flex-wrap: nowrap;
+			flex-wrap: nowrap;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			min-height: 100vh;
+			box-sizing: border-box;
 		}
 	</style>
 	{{ cssFile() }}
 </head>
 <body>
-	{{ renderedElement() }}
+	<div class="vcv-preview-container">
+		<div class="vcv-preview-box">
+			{{ renderedElement() }}
+		</div>
+	</div>
 </body>
 </html>
