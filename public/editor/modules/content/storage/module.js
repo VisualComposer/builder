@@ -1,8 +1,15 @@
 var vcCake = require('vc-cake')
+const cook = vcCake.getService('cook')
 vcCake.add('storage', function (api) {
   var documentData = api.getService('document')
   api.reply('data:add', function (element) {
-    documentData.create(element)
+    let data = documentData.create(element)
+    if (data.name === 'Row') {
+      let columnData = cook.get({tag: cook.getTagByName('Column'), parent: data.id})
+      if (columnData) {
+        documentData.create(columnData.toJS())
+      }
+    }
     api.request('data:changed', documentData.children(false), 'add')
   })
   api.reply('data:remove', function (id) {
