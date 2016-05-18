@@ -1,7 +1,7 @@
 /* ----------------------------------------------
  * Button
  * ---------------------------------------------- */
-@import "../resources/fonts/linearicons/linearicons.css";
+@import "public/linearicons.css";
 .vce-button {
   font-size: 16px;
   padding: 17px 32px;
@@ -22,8 +22,12 @@ button.vce-button {
   text-decoration: none;
   vertical-align: middle;
   white-space: normal;
-  touch-action: manipulation;
-  user-select: none;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   transition: all 0.2s ease-in-out;
 }
 .vce-button:hover,
