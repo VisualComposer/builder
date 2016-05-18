@@ -77,8 +77,8 @@ Builder.prototype.createFrame = function () {
 }
 Builder.prototype.removeFrame = function () {
   this.frame = null
-  var frame = this.options.document.getElementById('vcv-dnd-frame')
-  frame && this.options.document.body.removeChild(frame)
+  var frame = document.getElementById('vcv-dnd-frame')
+  frame && document.body.removeChild(frame)
 }
 /**
  * Menage items
