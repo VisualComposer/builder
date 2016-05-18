@@ -96,7 +96,10 @@ Builder.prototype.hideControls = function () {
 Builder.prototype.checkItems = function (point) {
   var element = this.options.document.elementFromPoint(point.x, point.y)
   this.frame.className = ''
-  if (element && element.getAttribute('data-vc-element')) {
+  if (element && element.getAttribute('data-vc-element') &&
+    element.getAttribute('data-vc-element') !== this.dragingElementId &&
+    !$(element).parents('[data-vc-element=' + this.dragingElementId + ']').length
+    ) {
     var rect = element.getBoundingClientRect()
     var offset = $(element).offset()
     this.frame.setAttribute('style', _.reduce({
@@ -141,10 +144,11 @@ Builder.prototype.handleDragStart = function (e) {
     e.stopPropagation()
   }
   this.dragingElement = e.currentTarget
+  this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
   if (e.dataTransfer) {
     e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
     e.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be droppable
-    e.dataTransfer.setData('Text', this.dragingElement.getAttribute('data-vc-element')) // required otherwise doesn't work
+    e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
     this.hideHelper()
   }
   this.watchMouse()

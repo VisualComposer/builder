@@ -9,7 +9,6 @@ vcCake.add('frame-based-dnd', function (api) {
   var ModuleDnd = function (api) {
     this.api = api
     this.layoutAPI = this.api.module('content-layout')
-    this.items = false
   }
   ModuleDnd.prototype.buildItems = function () {
     if (!this.items) {
