@@ -95,11 +95,18 @@ Builder.prototype.hideControls = function () {
 }
 Builder.prototype.checkItems = function (point) {
   var element = this.options.document.elementFromPoint(point.x, point.y)
+  if (element && !element.getAttribute('data-vc-element')) {
+    element = $(element).parents('[data-vc-element]').get(0)
+  }
+  var isElement = element && element.getAttribute('data-vc-element') !== this.dragingElementId
+  if (!isElement) {
+    return false
+  }
+  var notContainer = this.dragingElement.getAttribute('type') !== 'container'
+  // var isValidColumn = this.dragingElement.getAttribute('name') === 'Column' && ['Row', 'Column'].includes(element.getAttribute('name'))
+  var isValidContainer = (this.dragingElement.getAttribute('type') === 'container' && !$(element).parents('[data-vc-element]').length)
   this.frame.className = ''
-  if (element && element.getAttribute('data-vc-element') &&
-    element.getAttribute('data-vc-element') !== this.dragingElementId &&
-    !$(element).parents('[data-vc-element=' + this.dragingElementId + ']').length
-    ) {
+  if (notContainer || isValidContainer) {
     var rect = element.getBoundingClientRect()
     var offset = $(element).offset()
     this.frame.setAttribute('style', _.reduce({
@@ -107,7 +114,7 @@ Builder.prototype.checkItems = function (point) {
       height: rect.height,
       top: offset.top + this.options.offsetTop,
       left: offset.left + this.options.offsetLeft
-    }, function (result, value, key) {
+    }, (result, value, key) => {
       return result + key + ':' + value + 'px;'
     }, ' '))
     this.currentElement = element.getAttribute('data-vc-element')
@@ -115,6 +122,7 @@ Builder.prototype.checkItems = function (point) {
     var positionX = point.x - (rect.left + rect.width / 2)
     var containerAttribute = element.getAttribute('data-vcv-dropzone')
     if (
+      notContainer &&
       containerAttribute !== null && containerAttribute.length &&
       $(element).find('[data-vc-element]').length === 0 &&
       Math.abs(positionY) / rect.height < 0.3
