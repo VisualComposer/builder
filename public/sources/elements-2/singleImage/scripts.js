@@ -1,1 +1,1 @@
-var url = image && image.urls.length ? image.urls[0] : 'https://static.pexels.com/photos/1440/city-road-street-buildings.jpg'
+var url = image && image.urls.length ? image.urls[0] : 'http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png'
