@@ -12,7 +12,7 @@ var Collector = {
   getElements () {
     var path = join(config.publicDir, config.elementsPath)
     var files = fs.readdirSync(path)
-    var content = '';
+    var content = ''
     files.forEach((element) => {
       var filePath = join(path, element)
       var stats = fs.lstatSync(filePath)
