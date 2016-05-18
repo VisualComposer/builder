@@ -103,22 +103,24 @@ Builder.prototype.checkItems = function (point) {
   if (!isElement) {
     return false
   }
-  if (this.dragingElement.getAttribute('name') !== 'Column' && element.getAttribute('name') !== 'Row') {
+  if (this.dragingElement.getAttribute('name') === 'Column') {
     this.redrawFrame(element, point, {
-      onlyAppend: element.getAttribute('name') === 'Column'
+      allowBeforeAfter: element.getAttribute('name') === 'Column',
+      allowAppend: element.getAttribute('name') === 'Row'
     })
-  } else if (this.dragingElement.getAttribute('name') === 'Column' && element.getAttribute('name') === 'Row') {
-    this.redrawFrame(element, point, {onlyAppend: true})
-  } else if (this.dragingElement.getAttribute('name') === 'Column' && element.getAttribute('name') === 'Column') {
-    this.redrawFrame(element, point, {disableAppend: true})
+  } else {
+    this.redrawFrame(element, point, {
+      allowBeforeAfter: element.getAttribute('name') !== 'Column',
+      allowAppend: element.getAttribute('name') !== 'Row'
+    })
   }
 }
 Builder.prototype.redrawFrame = function (element, point, settings) {
   this.currentElement = element.getAttribute('data-vc-element')
   this.frame.className = ''
   settings = _.defaults(settings || {}, {
-    disableAppend: false,
-    onlyAppend: false
+    allowAppend: true,
+    allowBeforeAfter: true
   })
   var rect = element.getBoundingClientRect()
   var offset = $(element).offset()
@@ -127,18 +129,19 @@ Builder.prototype.redrawFrame = function (element, point, settings) {
   var isContainer = element.getAttribute('type') === 'container'
 
   this.setFrameStyle(rect, offset)
+  this.position = null
   if (
-    settings.disableAppend === false &&
+    settings.allowAppend === true &&
     isContainer &&
     $(element).find('[data-vc-element]').length === 0 &&
     Math.abs(positionY) / rect.height < 0.3
   ) {
     this.setPosition('append')
     this.frame.classList.add('vcv-dnd-frame-center')
-  } else if (settings.onlyAppend === false && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
+  } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
     this.setPosition(positionX > 0 ? 'after' : 'before')
     this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'right' : 'left'))
-  } else if (settings.onlyAppend === false) {
+  } else if (settings.allowBeforeAfter === true) {
     this.setPosition(positionY > 0 ? 'after' : 'before')
     this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'bottom' : 'top'))
   }
@@ -197,7 +200,7 @@ Builder.prototype.handleDragEnd = function (e) {
     this.options.endCallback(this.dragingElement)
   }
   if (typeof this.options.moveCallback === 'function') {
-    this.options.moveCallback(
+    this.position && this.options.moveCallback(
       this.dragingElement.getAttribute('data-vc-element'),
       this.position,
       this.currentElement
