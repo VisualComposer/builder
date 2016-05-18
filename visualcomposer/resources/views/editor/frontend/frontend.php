@@ -25,7 +25,7 @@ wp_enqueue_media();
     do_action('embed_head');
     ?>
 </head>
-<body>
+<body style="overflow: hidden;">
 
 <script type="text/javascript" src="<?php echo $urlHelper->to(
     'public/dist/wp.bundle.js?' . uniqid()

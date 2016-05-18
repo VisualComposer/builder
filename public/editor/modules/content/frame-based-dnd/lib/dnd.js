@@ -77,8 +77,8 @@ Builder.prototype.createFrame = function () {
 }
 Builder.prototype.removeFrame = function () {
   this.frame = null
-  var frame = this.options.document.getElementById('vcv-dnd-frame')
-  frame && this.options.document.body.removeChild(frame)
+  var frame = document.getElementById('vcv-dnd-frame')
+  frame && document.body.removeChild(frame)
 }
 /**
  * Menage items
@@ -153,13 +153,19 @@ Builder.prototype.setFrameStyle = function (rect, offset) {
   this.frame.setAttribute('style', _.reduce({
     width: rect.width,
     height: rect.height,
-    top: offset.top + this.options.offsetTop,
-    left: offset.left + this.options.offsetLeft},
+    top: offset.top + this.depositionTop(),
+    left: offset.left + this.depositionLeft()},
     function (result, value, key) {
       return result + key + ':' + value + 'px;'
     },
     ''
   ))
+}
+Builder.prototype.depositionTop = function () {
+  return this.options.offsetTop - this.options.document.body.scrollTop
+}
+Builder.prototype.depositionLeft = function () {
+  return this.options.offsetLeft - this.options.document.body.scrollLeft
 }
 /**
  * Drag handlers
