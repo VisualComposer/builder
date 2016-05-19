@@ -127,7 +127,7 @@ var TreeContent = React.createClass({
   saveForm: function () {
     var element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS())
-    this.closeForm()
+    this.closeTreeView()
   },
   render: function () {
     let { activeTab, visibleTabs, hiddenTabs } = this.state
