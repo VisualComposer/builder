@@ -1,9 +1,8 @@
 var vcCake = require('vc-cake')
-var Immutable = require('immutable')
-var documentData = Immutable.Map({})
+const Immutable = require('immutable')
+let documentData = Immutable.Map({})
 
 var dataStore = {
-  cloneIndex: 0.1,
   createKey: function () {
     var i, random
     var uuid = ''
@@ -126,22 +125,22 @@ var api = {
     })
     documentData = documentData.set(obj.get('id'), obj)
   },
-  clone: function (id, parent) {
+  clone: function (id, parent, unChangeOrder) {
     var obj = documentData.get(id)
     var cloneId = dataStore.createKey()
     var clone = obj.withMutations(function (map) {
       map.set('id', cloneId)
       if (typeof parent !== 'undefined') {
         map.set('parent', parent)
-      } else {
-        dataStore.cloneIndex += 0.1
-        map.set('order', map.get('order') + dataStore.cloneIndex)
       }
     })
     documentData = documentData.set(cloneId, clone)
     dataStore.getChildren(obj.get('id')).forEach((el) => {
-      this.clone(el.get('id'), cloneId)
+      this.clone(el.get('id'), cloneId, true)
     }, this)
+    if (unChangeOrder !== true) {
+      this.moveAfter(cloneId, id)
+    }
     return clone.toJS()
   },
   all: function () {
