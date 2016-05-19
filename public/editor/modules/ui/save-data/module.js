@@ -1,4 +1,5 @@
 var vcCake = require('vc-cake')
+const cook = vcCake.getService('cook')
 const reWrapDefaultContent = function (data) {
   let newData = {}
   Object.keys(data).forEach((k) => {
