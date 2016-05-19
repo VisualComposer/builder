@@ -1,8 +1,8 @@
 var vcCake = require('vc-cake')
 const Immutable = require('immutable')
-let documentData = Immutable.Map({})
 
-var dataStore = {
+let dataStore = {
+  data: Immutable.fromJS({}),
   createKey: function () {
     var i, random
     var uuid = ''
@@ -18,7 +18,7 @@ var dataStore = {
     return uuid
   },
   getChildren: function (id) {
-    return documentData
+    return dataStore.data
       .valueSeq()
       .filter((el) => {
         return el.get('parent') === id
@@ -32,8 +32,8 @@ var dataStore = {
     return lastObj ? lastObj.get('order') + 1 : 0
   },
   moveDownAfter: function (id, step) {
-    var element = documentData.get(id)
-    var keys = documentData.valueSeq().filter((el) => {
+    var element = dataStore.data.get(id)
+    var keys = dataStore.data.valueSeq().filter((el) => {
       return el.get('id') !== element.get('id') &&
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order')
@@ -41,9 +41,9 @@ var dataStore = {
       return el.get('id')
     }).toJS()
     keys.forEach(function (elId) {
-      var obj = documentData.get(elId)
+      var obj = dataStore.data.get(elId)
       obj = obj.set('order', obj.get('order') + step)
-      documentData = documentData.set(elId, obj)
+      dataStore.data = dataStore.data.set(elId, obj)
     }, this)
   }
 }
@@ -56,23 +56,23 @@ var api = {
       parent: data.parent || false,
       order: dataStore.getLastOrderIndex(data.parent || false)
     })
-    documentData = documentData.set(id, obj)
+    dataStore.data = dataStore.data.set(id, obj)
     return obj.toJS()
   },
   delete: function (id) {
-    documentData = documentData.delete(id)
+    dataStore.data = dataStore.data.delete(id)
     dataStore.getChildren(id).forEach((el) => {
       this.delete(el.get('id'))
     }, this)
     return id
   },
   update: function (id, data) {
-    var obj = documentData.get(id).merge(data)
-    documentData = documentData.set(id, obj)
+    var obj = dataStore.data.get(id).merge(data)
+    dataStore.data = dataStore.data.set(id, obj)
     return obj.toJS()
   },
   get: function (id) {
-    var item = documentData.get(id)
+    var item = dataStore.data.get(id)
     return item ? item.toJS() : null
   },
   children: function (id) {
@@ -81,7 +81,7 @@ var api = {
   resort: function (parentId, items) {
     parentId = dataStore.filterId(parentId)
     items.forEach(function (id) {
-      var item = documentData.get(id)
+      var item = dataStore.data.get(id)
       if (item) {
         var order = items.indexOf(item.get('id'))
         item = item.withMutations(function (map) {
@@ -89,44 +89,47 @@ var api = {
             .set('parent', parentId)
             .set('order', order)
         })
-        documentData = documentData.set(id, item)
+        dataStore.data = dataStore.data.set(id, item)
       }
     }, this)
   },
   moveBefore: function (id, beforeId) {
-    var obj = documentData.get(id)
-    var before = documentData.get(beforeId)
+    var obj = dataStore.data.get(id)
+    var before = dataStore.data.get(beforeId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', before.get('order'))
         .set('parent', before.get('parent'))
     })
-    documentData = documentData.set(obj.get('id'), obj)
+    dataStore.data = dataStore.data.set(obj.get('id'), obj)
     dataStore.moveDownAfter(obj.get('id'), 1)
   },
   moveAfter: function (id, afterId) {
-    var obj = documentData.get(id)
-    var after = documentData.get(afterId)
+    var obj = dataStore.data.get(id)
+    var after = dataStore.data.get(afterId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', after.get('order'))
         .set('parent', after.get('parent'))
     })
-    documentData = documentData.set(obj.get('id'), obj)
+    dataStore.data = dataStore.data.set(obj.get('id'), obj)
     dataStore.moveDownAfter(after.get('id'), 1)
   },
   appendTo: function (id, parentId) {
-    var obj = documentData.get(id)
-    var parent = documentData.get(parentId)
+    var obj = dataStore.data.get(id)
+    var parent = dataStore.data.get(parentId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', dataStore.getLastOrderIndex())
         .set('parent', parent.get('id'))
     })
-    documentData = documentData.set(obj.get('id'), obj)
+    dataStore.data = dataStore.data.set(obj.get('id'), obj)
   },
   clone: function (id, parent, unChangeOrder) {
-    var obj = documentData.get(id)
+    var obj = dataStore.data.get(id)
+    if (!obj) {
+      return false
+    }
     var cloneId = dataStore.createKey()
     var clone = obj.withMutations(function (map) {
       map.set('id', cloneId)
@@ -134,7 +137,7 @@ var api = {
         map.set('parent', parent)
       }
     })
-    documentData = documentData.set(cloneId, clone)
+    dataStore.data = dataStore.data.set(cloneId, clone)
     dataStore.getChildren(obj.get('id')).forEach((el) => {
       this.clone(el.get('id'), cloneId, true)
     }, this)
@@ -144,10 +147,10 @@ var api = {
     return clone.toJS()
   },
   all: function () {
-    return documentData.toJS()
+    return dataStore.data.toJS()
   },
   reset: function (data) {
-    documentData = Immutable.fromJS(data)
+    dataStore.data = Immutable.fromJS(data)
   }
 }
 
