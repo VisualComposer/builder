@@ -19,6 +19,7 @@ wp_enqueue_media();
         echo $urlHelper->to(
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>"/>
+    <link rel="stylesheet" property="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <?php
     /** @todo add jquery into bundle.js. */
     wp_print_head_scripts();
