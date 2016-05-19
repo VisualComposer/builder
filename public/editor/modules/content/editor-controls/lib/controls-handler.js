@@ -158,7 +158,7 @@ ControlsHandler.prototype.drawControls = function () {
     // add dropdown trigger
     $('<dt class="vc-ui-outline-control-dropdown-trigger vc-ui-outline-control">' +
       '<span  class="vc-ui-outline-control-content" title="' + elemenstsTree[ i ][ 0 ].getAttribute('data-vc-name') + '">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-bug"></i>' +
+      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-cog"></i>' +
       '</span>' +
       '</dt>').appendTo($controlElement)
 

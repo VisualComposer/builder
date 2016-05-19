@@ -43,7 +43,7 @@ var Layout = React.createClass({
         <div className="vc-ui-tree-layout-actions">
           <a className="vc-ui-tree-layout-action" href="#" title="Add Element" onClick={this.handleAddElement}><span
             className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-add"></i><span>Add element</span></span></a>
-          <a className="vc-ui-tree-layout-action" href="#" title="Template"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-template"></i><span>Template</span></span></a>
+          <a className="vc-ui-tree-layout-action" href="#" disabled title="Template"><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-template"></i><span>Template</span></span></a>
         </div>
       </div>
     )

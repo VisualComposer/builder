@@ -215,7 +215,8 @@
     flex-direction: column;
   }
   //&:not(.vc-ui-active),
-  &:not(:hover) {
+  &:not(:hover),
+  &[disabled]{
     .vc-ui-navbar-dropdown-content {
       visibility: hidden;
       opacity: 0;
@@ -224,6 +225,13 @@
   &:hover {
     .vc-ui-navbar-dropdown-trigger {
       background-color: @bg-dropdown;
+    }
+  }
+  &[disabled] {
+    &:hover {
+      .vc-ui-navbar-dropdown-trigger {
+        background-color: transparent;
+      }
     }
   }
 }
