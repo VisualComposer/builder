@@ -238,7 +238,7 @@ var TreeContent = React.createClass({
 
       <div className="vc-ui-tree-content-footer">
         <div className="vc-ui-tree-layout-actions">
-          <a className="vc-ui-tree-layout-action" href="#" title="Close" onClick={this.closeForm}><span
+          <a className="vc-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}><span
             className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-close"></i><span>Close</span></span></a>
           <a className="vc-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}><span className="vc-ui-tree-layout-action-content"><i className="vc-ui-tree-layout-action-icon vc-ui-icon vc-ui-icon-save"></i><span>Save</span></span></a>
         </div>
