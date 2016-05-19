@@ -7,10 +7,12 @@ $(document).ready(function () {
   $('#vcv-editor-iframe').load(function () {
     var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
-    $('#vcv-editor-iframe').height($(window).height() - 61)
     vcCake.env('platform', 'wordpress').start(function () {
       require('./config/wp-modules')
     })
+  })
+  $(window).on('load resize', function () {
+    $('#vcv-editor-iframe').height($(window).height() - 61)
   })
 })
 window.app = vcCake
