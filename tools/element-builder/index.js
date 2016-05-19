@@ -81,9 +81,10 @@ fs.lstat(elementDir, function (err, stats) {
     var cssFile = path.resolve(elementDir, cssFileName)
     var cssExists = fs.existsSync(cssFile)
     var cssRelativeFile = ''
-    /*if (cssExists) {
-      cssRelativeFile = "require( './" + cssFileName + "' )"
-    }*/
+    if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
+        cssRelativeFile = "require( './" + cssFileName + "' )"
+    }
+
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json')
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}'
