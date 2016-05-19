@@ -20,6 +20,10 @@ wp_enqueue_media();
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>"/>
     <link rel="stylesheet" property="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" property="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css
+
+" />
+
     <?php
     /** @todo add jquery into bundle.js. */
     wp_print_head_scripts();
