@@ -1,5 +1,5 @@
 window.vcvAddElement(
-  {"tag":{"access":"protected","type":"string","value":"ea957fab-0988-4aae-b8ec-fb638f16198b"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
+  {"tag":{"access":"protected","type":"string","value":"64f4992c-0756-4598-8e59-2030f6ad45a3"},"name":{"type":"string","access":"protected","value":"Section"},"bgimage":{"type":"attachimage","access":"public","value":{"ids":[],"urls":[]},"options":{"label":"Background Image","multiple":false}},"type":{"access":"protected","type":"string","value":"container"}},
   // Component callback
   function(component) {
 	
