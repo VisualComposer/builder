@@ -69,7 +69,7 @@ vcCake.add('ui-add-element', function (api) {
           <div className="modal-content">
             <div className="modal-header">
               <button type="button" className="close" onClick={this.closeModal}><span
-                aria-hidden="true">&times</span></button>
+                aria-hidden="true">&times;</span></button>
               <h4 className="modal-title">Add element</h4>
             </div>
             <div className="modal-body">

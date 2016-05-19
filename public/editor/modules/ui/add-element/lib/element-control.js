@@ -24,8 +24,10 @@ module.exports = React.createClass({
 
     return <li>
       <a onClick={this.addElement}>
-        {this.props.icon ? <span className={className}></span> : null}
-        {this.props.name}
+        <span>
+          {this.props.icon ? <span className={className}></span> : null}
+          {this.props.name}
+        </span>
       </a>
     </li>
   }
