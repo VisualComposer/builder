@@ -1,4 +1,5 @@
 var vcCake = require('vc-cake')
+var cook = vcCake.getService('cook')
 const reWrapDefaultContent = function (data) {
   let newData = {}
   Object.keys(data).forEach((k) => {
@@ -12,7 +13,7 @@ vcCake.add('ui-local-storage', function (api) {
   api.reply('start', function () {
     var localStorage = vcCake.getService('local-storage')
     var timeMachine = vcCake.getService('time-machine')
-    var data = localStorage.get();
+    var data = localStorage.get()
     data = reWrapDefaultContent(data)
     timeMachine.setZeroState(data)
     api.request('data:reset', data)
