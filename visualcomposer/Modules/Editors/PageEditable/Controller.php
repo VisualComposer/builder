@@ -44,20 +44,19 @@ class Controller extends Container implements Module
             && $nonce->verifyAdmin($request->input('vcv-nonce')));
     }
 
-    /**
-     * @param \VisualComposer\Helpers\Url $url
-     */
-    public function buildPageEditable(Url $url)
+    public function buildPageEditable()
     {
         add_action(
             'the_post',
-            function () use ($url) {
+            function () {
                 remove_all_filters('the_content');
                 add_filter(
                     'the_content',
-                    function () use ($url) {
+                    function () {
+                        $url = vchelper('Url');
+                        $filter = vchelper('Filters');
                         // TODO: Use view.
-                        return '
+                        return $filter->fire('vcv:pageEditable:content', '
 <script>
         (function () {
             function vcvLoadJsCssFile( filename, filetype ) {
@@ -89,7 +88,7 @@ class Controller extends Container implements Module
                 \'css\' );
         })();
     </script>
-    <div id="vcv-editor">Loading...</div>';
+    <div id="vcv-editor">Loading...</div>');
                     }
                 );
             },
