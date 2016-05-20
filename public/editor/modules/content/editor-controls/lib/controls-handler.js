@@ -139,7 +139,7 @@ ControlsHandler.prototype.drawControls = function () {
 
   // add tree layout button
   if (elemenstsTree.length < this.$currentElement.parents('[data-vc-element]').length) {
-    $controlElement = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="layout:tree"/>')
+    $controlElement = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="tree-layout:show"/>')
     $('<span  class="vc-ui-outline-control-content">' +
       '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-more-dots" ></i>' +
       '</span>').appendTo($controlElement)
