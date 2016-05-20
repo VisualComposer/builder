@@ -2,9 +2,7 @@
 var vcCake = require('vc-cake')
 vcCake.add('content-layout', function (api) {
   var $ = require('jquery')
-  var domContainer = vcCake.env('platform') === 'wordpress'
-  ? $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
-  : document.getElementById('vcv-editor')
+  var domContainer = $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
   var React = require('react')
   var ReactDOM = require('react-dom')
   var HtmlLayout = require('./lib/html-layout')

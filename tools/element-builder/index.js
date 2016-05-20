@@ -31,6 +31,10 @@ fs.lstat(elementDir, function (err, stats) {
     // Settings
     var settingsFile = path.resolve(elementDir, 'settings.json')
     var settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
+    // Update all related attributes
+    if (namedArgs.hasOwnProperty('--root-url') && namedArgs[ '--root-url' ].length) {
+      settingsString = settingsString.replace(/public\//, namedArgs[ '--root-url' ] + '/public/')
+    }
     var settings = JSON.parse(settingsString)
     // generate settings tag
     settings.tag = {
