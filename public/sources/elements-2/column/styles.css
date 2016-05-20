@@ -12,6 +12,7 @@
   min-height: 1em;
   padding-left: 15px;
   padding-right: 15px;
+  box-sizing: border-box;
 }
 @media (min-width: 768px) {
   .vce-col-auto {
