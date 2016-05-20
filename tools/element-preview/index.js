@@ -82,8 +82,10 @@ fs.lstat(elementDir, function (err, stats) {
       var ComponentElement = React.createElement(Component, varData)
       var RenderComponentElement = ReactDom.renderToStaticMarkup(ComponentElement)
     } catch (err) {
-      console.log(err.stack)
-      RenderComponentElement = '<p style="color: firebrick">Error while compiling template</p>'
+      // remove unnecessary temp file
+      fs.unlink(componentFilePath)
+      console.error(err)
+      process.exit(1)
     }
     // get html template
     var htmlTemplateFile = path.join(__dirname, 'template.html.tpl')
