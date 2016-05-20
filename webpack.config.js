@@ -6,7 +6,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
   devtool: 'source-map',
   entry: {
-    node: './public/node-main',
     wp: './public/wp-main',
     app: []
   },
@@ -22,35 +21,6 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   vc: {
-    node: {
-      modules: [
-        'content/storage',
-        'content/layout',
-        'content/editor-controls',
-        'content/frame-based-dnd',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/add-element',
-        'ui/add-template',
-        'ui/tree-layout',
-        'ui/undo-redo',
-        'ui/layout-control',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/save-data'
-      ],
-      services: [
-        'actions-manager',
-        'asset-manager',
-        'document',
-        'local-storage',
-        'cook',
-        'rules-manager',
-        'shared',
-        'time-machine',
-        'utils'
-      ]
-    },
     wp: {
       modules: [
         'content/storage',

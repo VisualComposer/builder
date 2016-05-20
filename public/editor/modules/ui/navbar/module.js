@@ -42,9 +42,6 @@ vcCake.add('ui-navbar', function (api) {
     },
     handleNavbarDragging: function (e) {
       let { navbarSize, navbarNewPosition, windowSize } = e.eventData
-
-      console.log(windowSize)
-
       switch (navbarNewPosition) {
         case 'top':
           if (e.eventData.navPosY - navbarSize.height / 2 < navbarSize.height &&
