@@ -37,6 +37,9 @@ vcCake.add('ui-add-element', function (api) {
         .on('show', function (parent) {
           this.setState({ modalIsOpen: true, parent: parent })
         }.bind(this))
+        .on('hide', () => {
+          this.closeModal()
+        })
         .reply('app:add', function (parent) {
           this.setState({ modalIsOpen: true, parent: parent })
         }.bind(this))

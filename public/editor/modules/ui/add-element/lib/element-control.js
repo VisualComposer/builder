@@ -14,6 +14,7 @@ module.exports = React.createClass({
     e.preventDefault()
     var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS())
+    this.props.api.notify('hide', true)
   },
   render: function () {
     var className

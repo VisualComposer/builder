@@ -22,7 +22,7 @@ vcCake.add('ui-tree-layout', function (api) {
         .reply('app:edit', function () {
           api.notify('show')
         })
-        .reply('tree-layout:show', () => {api.notify('show')})
+        .reply('tree-layout:show', () => { api.notify('show') })
     },
     render: function () {
       return <div
