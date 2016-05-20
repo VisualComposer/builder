@@ -9,9 +9,8 @@
   padding-left:  (@gutter / 2);
   padding-right: (@gutter / 2);
 }
-
-.vce-col- {
-  &auto {
+@media (min-width: @vcv-float-breakpoint) {
+  .vce-col-auto {
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0;
