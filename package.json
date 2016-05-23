@@ -66,6 +66,7 @@
     "less": "^2.7.1",
     "lodash": "^4.12.0",
     "medium-editor": "^5.12.0",
+    "normalize-url": "^1.5.2",
     "normalize.css": "^4.1.1",
     "react": "^15.0.2",
     "react-dnd": "^2.0.2",
