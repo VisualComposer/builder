@@ -5,7 +5,7 @@ vcCake.add('ui-brand-logo', function (api) {
   var Control = React.createClass({
     render: function () {
       return <a className="vc-ui-navbar-logo" title="Visual Composer"
-        href="http://vc.wpbakery.com/?utm_campaign=VCplugin&amputm_source=vc_user&amputm_medium=frontend_editor"
+        href="http://alpha.visualcomposer.io/wp-admin/?amputm_medium=frontend_editor"
         target="_blank">
         <span className="vc-ui-navbar-logo-title">Visual Composer</span>
       </a>
