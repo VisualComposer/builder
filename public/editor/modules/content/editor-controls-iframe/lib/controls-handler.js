@@ -102,11 +102,10 @@ ControlsHandler.prototype.drawOutlines = function () {
         'display': 'none'
       })
     } else {
-      posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement.closest('body').scrollTop()
+      posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[0].ownerDocument.defaultView.pageYOffset
       posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft
       width = elemenstsTree[ i ].outerWidth()
       height = elemenstsTree[ i ].outerHeight()
-
       outlines[ i ].css({
         'top': posTop,
         'left': posLeft,
@@ -230,10 +229,9 @@ ControlsHandler.prototype.setControlsPosition = function () {
   var posTop, posLeft, width
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
-    posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement.closest('body').scrollTop()
+    posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
     posLeft = this.$currentElement.offset().left + iframeOffsetLeft
     width = this.$currentElement.outerWidth()
-
     this.$controlsContainer.css({
       'top': posTop,
       'left': posLeft,
