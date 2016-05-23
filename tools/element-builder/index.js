@@ -3,6 +3,7 @@
 var swig = require('swig')
 var path = require('path')
 var fs = require('fs')
+const normalizeUrl = require('normalize-url')
 
 var args = []
 var namedArgs = {}
@@ -32,9 +33,6 @@ fs.lstat(elementDir, function (err, stats) {
     var settingsFile = path.resolve(elementDir, 'settings.json')
     var settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
     // Update all related attributes
-    if (namedArgs.hasOwnProperty('--root-url') && namedArgs[ '--root-url' ].length) {
-      settingsString = settingsString.replace(/public\//, namedArgs[ '--root-url' ] + '/public/')
-    }
     var settings = JSON.parse(settingsString)
     // generate settings tag
     settings.tag = {
@@ -125,7 +123,10 @@ fs.lstat(elementDir, function (err, stats) {
         return 'null'
       }
     })
-
+    if (namedArgs.hasOwnProperty('--root-url') && namedArgs[ '--root-url' ].length) {
+      const rootUrl = normalizeUrl(namedArgs[ '--root-url' ] + '/public') + '/'
+      template = template.toString().replace(/(("|'))\/?public\//g, '$1' + rootUrl)
+    }
     if (namedArgs.hasOwnProperty('--output') && namedArgs[ '--output' ] === 'file') {
       fs.writeFileSync(path.join(elementDir, 'element.js'), template)
       process.exit(1)
