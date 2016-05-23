@@ -7,10 +7,7 @@
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": {
-      "ids": [],
-      "urls": []
-    },
+    "value": "http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png",
     "options": {
       "label": "Image",
       "multiple": false

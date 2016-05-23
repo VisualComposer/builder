@@ -8,6 +8,9 @@ export default class Component extends Attribute {
   constructor (props) {
     super(props)
     this.mediaUploader = null
+    if (!lodash.isObject(props.value)) {
+      this.state.value = { ids: [], urls: [] }
+    }
   }
 
   openLibrary () {
