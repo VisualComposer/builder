@@ -78,7 +78,7 @@ fs.lstat(elementDir, function (err, stats) {
       }
     }
     // put other in end of string
-    templateString = templateString.replace(/(<[^>/]+)/i, '$1 {...other}')
+    templateString = templateString.replace(/(\/>|>)/i, ' {...other}$1')
     // Css settings
     // file
     var cssFileName = 'styles.css'
