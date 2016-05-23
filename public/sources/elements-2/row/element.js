@@ -17,10 +17,10 @@ if (!!background) {
 
 
         // import template
-        return <div className="vce-row" {...other} data-vcv-dropzone="true" style={inlineStyle}>
+        return (<div className="vce-row" data-vcv-dropzone="true" style={inlineStyle} {...other}>
   {content}
 </div>
-;
+);
       }
     }));
   },

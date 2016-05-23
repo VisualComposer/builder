@@ -34,7 +34,7 @@ if (showIcon) {
   classes += ' vce-button--icon-state-visible';
 }
         // import template
-        return <button className={classes} {...other}>
+        return (<button className={classes} {...other}>
   {buttonText}
   {(() => {
     if (showIcon) {
@@ -42,7 +42,7 @@ if (showIcon) {
     }
   })()}
 </button>
-;
+);
       }
     }));
   },

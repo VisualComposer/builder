@@ -67,7 +67,7 @@ fs.lstat(elementDir, function (err, stats) {
     }
     // JSX Component
     var templateFile = path.resolve(elementDir, 'template.jsx')
-    var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile) : ''
+    var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile, 'utf8') : ''
     if (!templateString && templateString.length) {
       console.error('Error, wrong Template.jsx file.')
       process.exit(1)
@@ -79,6 +79,8 @@ fs.lstat(elementDir, function (err, stats) {
         value: 'container'
       }
     }
+    // put other in end of string
+    templateString = templateString.replace(/(<[^>/]+)/i, '$1 {...other}')
     // Css settings
     // file
     var cssFileName = 'styles.css'
@@ -86,7 +88,7 @@ fs.lstat(elementDir, function (err, stats) {
     var cssExists = fs.existsSync(cssFile)
     var cssRelativeFile = ''
     if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
-        cssRelativeFile = "require( './" + cssFileName + "' )"
+      cssRelativeFile = "require( './" + cssFileName + "' )"
     }
 
     // Settings

@@ -1,4 +1,4 @@
-<button className={classes} {...other}>
+<button className={classes}>
   {buttonText}
   {(() => {
     if (showIcon) {

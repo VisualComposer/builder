@@ -10,8 +10,8 @@ window.vcvAddElement(
         // import template js
         
         // import template
-        return <div className='vce-text-block' {...other}><div dangerouslySetInnerHTML={{__html:output}} /></div>
-;
+        return (<div className='vce-text-block' {...other}><div dangerouslySetInnerHTML={{__html:output}} /></div>
+);
       }
     }));
   },

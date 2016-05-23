@@ -18,10 +18,10 @@ if (style) {
 var iconClass = 'vc-icon vc-icon-size-' + iconSize;
 var iconContent = '♘';
         // import template
-        return <button type="button" className={buttonClass} {...other}>
+        return (<button type="button" className={buttonClass} {...other}>
   <i className={iconClass}>{iconContent}</i> {buttonTitle}
 </button>
-;
+);
       }
     }));
   },

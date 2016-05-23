@@ -7,6 +7,6 @@ render: function() {
 // import template js
 {{ templateJs() }}
 // import template
-return {{ template() }}
+return ({{ template() }})
 }
 })

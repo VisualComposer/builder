@@ -19,10 +19,10 @@ var columnClasses = 'vce-col' + ' vce-col-' + size;
 
 
         // import template
-        return <div className={columnClasses} {...other} data-vcv-dropzone="true" style={inlineStyle}>
+        return (<div className={columnClasses} data-vcv-dropzone="true" style={inlineStyle} {...other}>
   {content}
 </div>
-;
+);
       }
     }));
   },
