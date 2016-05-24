@@ -77,10 +77,15 @@ export default class Element {
     return new Element({ tag: tag })
   }
 
-  toJS () {
+  toJS (rawData) {
     let data = {}
     for (let k of Object.keys(this[ elData ].settings)) {
-      data[ k ] = this.get(k)
+      if (rawData) {
+        let { type } = this[ elData ].getAttributeType(k)
+        data[ k ] = type.getRawValue(this[ elData ].data, k)
+      } else {
+        data[ k ] = this.get(k)
+      }
     }
     data.id = this[ elData ].id
     data.parent = this[ elData ].parent
