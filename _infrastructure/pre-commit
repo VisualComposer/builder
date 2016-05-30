@@ -2,28 +2,33 @@
 
 ### RUN PHP CODE SNIFFER AND ABORT ON ANY WARNING OR ERROR
 
-printf "Running phpcs...\n"
+NOCOLOR='\033[0m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+
+printf "${YELLOW}Running phpcs...${NOCOLOR}\n"
+
 FILES_PHP=$(git diff --name-only --cached --relative | grep '\.php\?$')
 if [ "$FILES_PHP" != "" ]; then
     for FILE in $FILES_PHP
     do
-      OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
-      if [ $? -ne 0 ]
-      then
-      	printf "[PHP] Code style verification failed. Aborting Commit!\n"
-      	printf "$OUTPUT\n"
-      	exit 1
-      fi
+        OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
+        if [ $? -ne 0 ]
+        then
+            printf "Code style verification in $FILE failed. Aborting Commit!\n"
+            printf "$OUTPUT\n"
+            exit 1
+        fi
     done
 fi
 
-printf "Running standard...\n"
+### RUN STANDARD
+
+printf "${YELLOW}Running standard...${NOCOLOR}\n"
 OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 if [ $? -ne 0 ]
 then
-	printf "[JS] Code style verification failed. Aborting Commit!\n"
-	printf "$OUTPUT\n"
-	exit 1
+    printf "[JS] Code style verification failed. Aborting Commit!\n"
+    printf "$OUTPUT\n"
+    exit 1
 fi
-
-exit 0

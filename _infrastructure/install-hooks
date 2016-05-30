@@ -1,10 +1,15 @@
-cp pre-commit ../.git/hooks/ && cp pre-push ../.git/hooks/;
+#!/bin/bash
 
-# Check last return code (#?).
-if [ $? == 1 ]
-then
-	echo "Something went wrong."
-	exit 1
-fi
+declare -a hooks=("commit-msg" "pre-commit" "pre-push")
 
-echo "Done. Installed pre-commit and pre-push hooks."
+for hook in "${hooks[@]}"
+do
+    cp $hook ../.git/hooks/
+
+    if [ $? == 1 ]; then
+        printf "Something went wrong. Failed to install $hook hook\n"
+        exit 1
+    else
+        printf "Installed $hook hook.\n"
+    fi
+done
