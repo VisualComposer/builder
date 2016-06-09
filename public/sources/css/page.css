@@ -7,6 +7,10 @@ body {
     color: #555;
 }
 
+img {
+  max-width: 100%!important;
+}
+
 h1, .h1,
 h2, .h2,
 h3, .h3,
@@ -59,7 +63,7 @@ h6, .h6 {
     color: #fff;
 }
 
-.blog-nav .active:after {
+.blog-nav-item .active:after {
     position: absolute;
     bottom: 0;
     left: 50%;

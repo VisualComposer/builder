@@ -9,7 +9,7 @@
     & when not (@type-name = '') {
       .vc-ui-outline-type-@{type-name} {
         &.vc-ui-outline {
-          .create-outline-type(@color: @color);
+          #vc-ui-outline-controls > .create-outline-type(@color: @color);
         }
       }
     }

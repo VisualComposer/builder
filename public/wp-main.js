@@ -1,4 +1,5 @@
 var vcCake = require('vc-cake')
+require('./sources/less/bootstrap/init.less')
 require('./config/wp-services')
 require('./config/wp-attributes')
 var $ = require('expose?$!jquery')

@@ -1,4 +1,5 @@
 var vcCake = require('vc-cake')
+require('./sources/less/bootstrap/init.less')
 require('./config/node-services')
 require('./config/node-attributes')
 var $ = require('expose?$!jquery')
