@@ -9,7 +9,7 @@ require('../../css/tree-view/init.less')
 var TreeContent = React.createClass({
   propTypes: {
     api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.bool])
+    element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ])
   },
   tabsBD: {},
   options: {
@@ -22,7 +22,8 @@ var TreeContent = React.createClass({
       visibleTabs: [
         {
           id: 'content-tab-' + 1,
-          title: 'General'
+          title: 'General',
+          pinned: false
         }
       ],
       hiddenTabs: []
@@ -58,9 +59,17 @@ var TreeContent = React.createClass({
       tabsCount = 1
     }
     this.setState(function (prevState) {
-      while (tabsCount > 0) {
-        prevState.hiddenTabs.unshift(prevState.visibleTabs.pop())
-        tabsCount--
+      for (let i = prevState.visibleTabs.length - 1; i >= 0; i--) {
+        let tab = prevState.visibleTabs[ i ]
+        if (tab.pinned) {
+          continue
+        }
+        tab.originalPositionFromEnd = prevState.visibleTabs.length - i
+        prevState.visibleTabs.splice(i, 1)
+        prevState.hiddenTabs.unshift(tab)
+        if (--tabsCount === 0) {
+          break
+        }
       }
       return prevState
     })
@@ -71,7 +80,9 @@ var TreeContent = React.createClass({
     }
     this.setState(function (prevState) {
       while (tabsCount > 0) {
-        prevState.visibleTabs.push(prevState.hiddenTabs.shift())
+        let tab = prevState.hiddenTabs.shift()
+        let position = prevState.visibleTabs.length - tab.originalPositionFromEnd + 1
+        prevState.visibleTabs.splice(position, 0, tab)
         tabsCount--
       }
       return prevState
@@ -85,8 +96,11 @@ var TreeContent = React.createClass({
     // get tabs line width
     let $tabsLine = ReactDom.findDOMNode(this).querySelector('.vc-ui-editor-tabs')
     let $freeSpaceEl = $tabsLine.querySelector('.vc-ui-editor-tabs-free-space')
+    let visibleAndUnpinnedTabs = this.state.visibleTabs.filter(function (tab) {
+      return !tab.pinned
+    })
     // if there is no space move tab from visible to hidden tabs
-    if ($freeSpaceEl.offsetWidth === 0 && this.state.visibleTabs.length > 0) {
+    if ($freeSpaceEl.offsetWidth === 0 && visibleAndUnpinnedTabs.length > 0) {
       this.options.forceRefresh = true
       this.putTabToDrop()
       return
