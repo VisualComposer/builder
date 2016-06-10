@@ -1,13 +1,15 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
+require('./css/module.less')
+
 vcCake.add('ui-brand-logo', function (api) {
   var React = require('react')
   var Control = React.createClass({
     render: function () {
-      return <a className="vc-ui-navbar-logo" title="Visual Composer"
+      return <a className="vcv-ui-navbar-logo" title="Visual Composer"
         href="http://alpha.visualcomposer.io/wp-admin/?amputm_medium=frontend_editor"
         target="_blank">
-        <span className="vc-ui-navbar-logo-title">Visual Composer</span>
+        <span className="vcv-ui-navbar-logo-title">Visual Composer</span>
       </a>
     }
   })
