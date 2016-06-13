@@ -37,7 +37,7 @@ var Layout = React.createClass({
   render: function () {
     return (
       <div className="vcv-ui-tree-layout-container">
-        <ul className="vcv-ui-tree-layout">
+        <ul ref="scrollable" className="vcv-ui-tree-layout">
           {this.getElements()}
         </ul>
         <div className="vcv-ui-tree-layout-actions">

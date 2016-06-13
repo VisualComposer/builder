@@ -70,6 +70,7 @@
     "normalize-url": "^1.5.2",
     "normalize.css": "^4.1.1",
     "postcss-loader": "^0.9.1",
+    "perfect-scrollbar": "^0.6.11",
     "react": "^15.0.2",
     "react-dnd": "^2.0.2",
     "react-dnd-html5-backend": "^2.0.2",
