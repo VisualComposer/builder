@@ -34,7 +34,7 @@ $ ./install-hooks
 
 ### Start watcher
 ```sh
-$ webpack --progress --colors --watch
+$ webpack && webpack --progress --colors --watch
 ```
 
 ### Start Demo server
