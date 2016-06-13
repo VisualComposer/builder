@@ -1,4 +1,3 @@
-/* global $ */
 var vcCake = require('vc-cake')
 vcCake.add('tree-view-dnd', function (api) {
   var DnD = require('./../frame-based-dnd/lib/dnd')
