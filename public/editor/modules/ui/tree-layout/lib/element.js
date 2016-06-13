@@ -48,6 +48,12 @@ var Element = React.createClass({
     }
     return ''
   },
+  componentDidMount: function () {
+    this.props.api.notify('element:mount', this.props.element.id)
+  },
+  componentWillUnmount: function () {
+    this.props.api.notify('element:unmount', this.props.element.id)
+  },
   render: function () {
     var element = cook.get(this.props.element)
     var treeChildClass = classNames({
@@ -65,7 +71,7 @@ var Element = React.createClass({
       <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}><i className="vcv-ui-icon vcv-ui-icon-close-thin" /></a>
       <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}><i className="vcv-ui-icon vcv-ui-icon-copy" /></a>
     </span>
-    return <li className={treeChildClass}>
+    return <li className={treeChildClass} data-vc-element={this.props.element.id} type={element.get('type')} name={element.get('name')}>
       <div className="vcv-ui-tree-layout-control" style={{paddingLeft: this.props.level + 1 + 'em'}}>
         <div className="vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler"><i
           className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" /></div>

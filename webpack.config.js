@@ -29,6 +29,7 @@ module.exports = {
         'content/layout',
         'content/editor-controls-iframe',
         'content/frame-based-dnd',
+        'content/tree-view-dnd',
         'ui/navbar',
         'ui/brand-logo',
         'ui/add-element',
