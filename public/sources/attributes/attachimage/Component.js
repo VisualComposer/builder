@@ -78,7 +78,7 @@ export default class Component extends Attribute {
     return <div className='vcv-attach-image'>
       <div className='vcv-image-preview'>{images}</div>
       <a onClick={this.openLibrary.bind(this)}>
-        <i className='vc-ui-icon vc-ui-icon-add' />
+        <i className='vcv-ui-icon vcv-ui-icon-add' />
       </a>
     </div>
   }

@@ -3611,7 +3611,7 @@
     "showQuickUse2": true,
     "showSVGs": true,
     "fontPref": {
-      "prefix": "vc-ui-icon-",
+      "prefix": "vcv-ui-icon-",
       "metadata": {
         "fontFamily": "VC-Icons",
         "majorVersion": 1,
@@ -3630,7 +3630,7 @@
       "cssVarsFormat": "less",
       "showSelector": true,
       "selector": "class",
-      "classSelector": ".vc-ui-icon",
+      "classSelector": ".vcv-ui-icon",
       "showMetrics": true,
       "showMetadata": true,
       "showVersion": true

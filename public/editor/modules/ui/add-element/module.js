@@ -89,7 +89,7 @@ vcCake.add('ui-add-element', function (api) {
                   return (function () {
                     return <ElementControl
                       api={api}
-                      key={'vc-element-control-' + component.tag}
+                      key={'vcv-element-control-' + component.tag}
                       tag={component.tag}
                       name={component.name}
                       icon={component.icon ? component.icon.toString() : ''} />
@@ -105,7 +105,7 @@ vcCake.add('ui-add-element', function (api) {
 
   // Here comes wrapper for navbar
   var wrapper = document.createElement('div')
-  wrapper.setAttribute('id', 'vc-ui-add-element-wrapper')
+  wrapper.setAttribute('id', 'vcv-ui-add-element-wrapper')
   document.body.appendChild(wrapper)
   ReactDOM.render(
     <Component />,

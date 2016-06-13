@@ -1,5 +1,5 @@
 // Loaders
-.vc-ui-wp-spinner {
+.vcv-ui-wp-spinner {
   margin: 0;
   padding: 0;
   height: 1em;
@@ -20,10 +20,10 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    animation: vc-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+    animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
   }
 
-  &.vc-ui-wp-spinner-lg {
+  &.vcv-ui-wp-spinner-lg {
     &::before {
       height: @wp-spinner-base-size * 1.3;
       width: @wp-spinner-base-size * 1.3;
@@ -31,7 +31,7 @@
   }
 }
 
-@keyframes vc-ui-wp-spinner-animation {
+@keyframes vcv-ui-wp-spinner-animation {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }

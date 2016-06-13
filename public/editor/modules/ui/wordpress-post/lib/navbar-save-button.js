@@ -23,17 +23,17 @@ vcCake.add('ui-save-data', function (api) {
     },
     render: function () {
       var saveButtonClasses = classNames({
-        'vc-ui-navbar-control': true,
-        'vc-ui-state-success': this.state.saved
+        'vcv-ui-navbar-control': true,
+        'vcv-ui-state--success': this.state.saved
       })
       var saveIconClasses = classNames({
-        'vc-ui-navbar-control-icon': true,
-        'vc-ui-wp-spinner': this.state.saving,
-        'vc-ui-icon': !this.state.saving,
-        'vc-ui-icon-save': !this.state.saving
+        'vcv-ui-navbar-control-icon': true,
+        'vcv-ui-wp-spinner': this.state.saving,
+        'vcv-ui-icon': !this.state.saving,
+        'vcv-ui-icon-save': !this.state.saving
       })
-      return (<div className="vc-ui-navbar-controls-group vc-ui-pull-end">
-        <a className={saveButtonClasses} title="Save" onClick={this.clickSaveData}><span className="vc-ui-navbar-control-content">
+      return (<div className="vcv-ui-navbar-controls-group vcv-ui-pull-end">
+        <a className={saveButtonClasses} title="Save" onClick={this.clickSaveData}><span className="vcv-ui-navbar-control-content">
           <i className={saveIconClasses}></i><span>Save</span>
         </span></a>
       </div>)

@@ -50,13 +50,13 @@ var TreeContentTab = React.createClass({
     let { title, active } = this.props
 
     var tabClasses = classNames({
-      'vc-ui-editor-tab': true,
-      'vc-ui-active': active
+      'vcv-ui-editor-tab': true,
+      'vcv-ui-active': active
     })
 
     return (
       <a className={tabClasses} href="#" onClick={this.clickHandler}><span
-        className="vc-ui-editor-tab-content"><span>{title}</span></span></a>
+        className="vcv-ui-editor-tab-content"><span>{title}</span></span></a>
     )
   }
 })

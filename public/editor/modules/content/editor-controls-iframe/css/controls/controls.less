@@ -1,52 +1,50 @@
 //== Controls
 //.vc_ui-editor-controls-container 
-.vc-ui-outline-controls-container {
+.vcv-ui-outline-controls-container {
   position: absolute;
   z-index: @controls-z-index;
   pointer-events: none;
 }
 
-.vc-ui-outline-controls {
-  font-family: @text-font-family;
-  font-size: @text-size-base;
-  line-height: @text-size-base;
+.vcv-ui-outline-controls {
+  font-size: @controls-text-size-base;
+  line-height: @controls-text-size-base;
 
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-
   pointer-events: all;
   position: absolute;
   right: 0;
   bottom: 100%;
-  margin: -@outline-size/2;
-  padding-bottom: @outline-size + 1;
+  margin: -@controls-outline-size/2;
+  padding-bottom: @controls-outline-size + 1;
 
   > * {
     flex-grow: 0;
     flex-shrink: 0;
     &:not(:last-child) {
-      margin-right: @space-size;
+      margin-right: @controls-space-size;
     }
   }
 }
 
-.vc-ui-outline-control {
+.vcv-ui-outline-control {
   padding: 0;
   border-radius: @control-border-radius;
   overflow: hidden;
   min-width: @control-size;
   min-height: @control-size;
   text-decoration: none;
-  color: @text-color-base;
-  background-color: @background-color-base;
+  color: @controls-text-color-base;
+  background-color: @controls-background-color-base;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
   text-align: center;
   cursor: pointer;
-  transition: all @vc-ui-transition-duration @vc-ui-transition-timing-function;
+  transition: all @transition-duration @transition-timing-function;
 
   &[disabled] {
     opacity: .5;
@@ -54,7 +52,7 @@
   }
 }
 
-.vc-ui-outline-control-content {
+.vcv-ui-outline-control-content {
   white-space: nowrap;
 
   display: flex;
@@ -68,7 +66,7 @@
 
 }
 
-.vc-ui-outline-control-icon {
+.vcv-ui-outline-control-icon {
   position: relative;
   width: @control-size;
   height: @control-size;
@@ -82,12 +80,12 @@
   }
 }
 
-.vc-ui-outline-control-label {
+.vcv-ui-outline-control-label {
 
 }
 
 //== Dropdown
-.vc-ui-outline-control-dropdown {
+.vcv-ui-outline-control-dropdown {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -99,39 +97,39 @@
     flex-shrink: 0;
   }
   &:not(:hover) {
-    .vc-ui-outline-control-dropdown-content {
+    .vcv-ui-outline-control-dropdown-content {
       visibility: hidden;
       opacity: 0;
     }
   }
 }
 
-.vc-ui-outline-control-dropdown-trigger {
+.vcv-ui-outline-control-dropdown-trigger {
   line-height: inherit;
   margin: 0;
   padding: 0;
   display: block;
 }
 
-.vc-ui-outline-control-dropdown-content {
+.vcv-ui-outline-control-dropdown-content {
   display: block;
   line-height: inherit;
-  margin: @space-size 0 0 0;
+  margin: @controls-space-size 0 0 0;
   padding: 0;
-  min-width: @dropdown-size;
+  min-width: @controls-dropdown-size;
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: @dropdown-zindex;
+  z-index: @controls-dropdown-zindex;
   visibility: visible;
   opacity: 1;
-  transition: visibility 0s, opacity @vc-ui-transition-duration @vc-ui-transition-timing-function;
-  .vc-ui-outline-control {
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+  .vcv-ui-outline-control {
     text-align: left;
     padding-left: @gold-value;
     padding-right: @gold-value;
     &:hover {
-      background-color: darken(@background-color-base, 7%);
+      background-color: darken(@controls-background-color-base, 7%);
     }
     &:not(:first-child):not(:last-child) {
       border-radius: 0;
@@ -145,44 +143,44 @@
       border-top-right-radius: 0;
     }
   }
-  .vc-ui-outline-control-icon {
+  .vcv-ui-outline-control-icon {
     left: -@gold-value/2;
   }
 }
 
 //== Control Types
 //== base color
-#vc-ui-outline-controls > .create-type(base, @text-color-base, @control-color-base);
+#vcv-ui-outline-controls > .create-type(base, @controls-text-color-base, @control-color-base);
 //== section color
-#vc-ui-outline-controls > .create-type(section, @text-color-base, @control-color-section);
+#vcv-ui-outline-controls > .create-type(section, @controls-text-color-base, @control-color-section);
 //== row color
-#vc-ui-outline-controls > .create-type(row, @text-color-base, @control-color-row);
+#vcv-ui-outline-controls > .create-type(row, @controls-text-color-base, @control-color-row);
 //== column color
-#vc-ui-outline-controls > .create-type(column, @text-color-base, @control-color-column);
+#vcv-ui-outline-controls > .create-type(column, @controls-text-color-base, @control-color-column);
 //== element color
-#vc-ui-outline-controls > .create-type(element, @text-color-base, @control-color-element);
+#vcv-ui-outline-controls > .create-type(element, @controls-text-color-base, @control-color-element);
 
 //== todo: refactor, color is based on react components
-#vc-ui-outline-controls > .create-type(index-0, @text-color-base, @control-color-row);
-#vc-ui-outline-controls > .create-type(index-1, @text-color-base, @control-color-column);
-#vc-ui-outline-controls > .create-type(index-2, @text-color-base, @control-color-element);
+#vcv-ui-outline-controls > .create-type(index-0, @controls-text-color-base, @control-color-row);
+#vcv-ui-outline-controls > .create-type(index-1, @controls-text-color-base, @control-color-column);
+#vcv-ui-outline-controls > .create-type(index-2, @controls-text-color-base, @control-color-element);
 
 //== Options
-.vc-ui-outline-controls-container {
+.vcv-ui-outline-controls-container {
   //== inner controls
-  &.vc-ui-controls-o-inset {
-    .vc-ui-outline-controls {
-      right: @inset-space-size;
+  &.vcv-ui-controls-o-inset {
+    .vcv-ui-outline-controls {
+      right: @controls-inset-space-size;
       bottom: auto;
-      top: @inset-space-size;
+      top: @controls-inset-space-size;
       margin: 0;
-      padding-bottom: @outline-size;
+      padding-bottom: @controls-outline-size;
     }
   }
 
   //== controls from left side
-  &.vc-ui-controls-o-controls-left {
-    .vc-ui-outline-controls {
+  &.vcv-ui-controls-o-controls-left {
+    .vcv-ui-outline-controls {
       right: auto;
       left: 0;
     }
@@ -191,20 +189,20 @@
 }
 
 //== Dropdown options
-.vc-ui-outline-control-dropdown {
+.vcv-ui-outline-control-dropdown {
   //== dropdown from right side
-  &.vc-ui-outline-control-dropdown-o-drop-right {
-    .vc-ui-outline-control-dropdown-content {
+  &.vcv-ui-outline-control-dropdown-o-drop-right {
+    .vcv-ui-outline-control-dropdown-content {
       left: auto;
       right: 0;
     }
   }
   //== dropdown from top
-  &.vc-ui-outline-control-dropdown-o-drop-up {
-    .vc-ui-outline-control-dropdown-content {
+  &.vcv-ui-outline-control-dropdown-o-drop-up {
+    .vcv-ui-outline-control-dropdown-content {
       top: auto;
       bottom: 100%;
-      margin: 0 0 @space-size 0;
+      margin: 0 0 @controls-space-size 0;
     }
   }
 }

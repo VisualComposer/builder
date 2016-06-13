@@ -103,14 +103,14 @@ vcCake.add('ui-navbar', function (api) {
         <div id="vc-navbar-container">
           {(() => {
             if (showOverlay) {
-              return <div className="vc-ui-navbar-overlay"></div>
+              return <div className="vcv-ui-navbar-overlay"></div>
             }
           })()}
           {(() => {
             if (isDragging) {
-              let guidelineClasses = [ 'vc-ui-navbar-guideline', 'vc-ui-navbar-guideline-' + navbarPosition ]
+              let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + navbarPosition ]
               if (showGuideline) {
-                guidelineClasses.push('vc-ui-navbar-guideline-is-visible')
+                guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
               }
               guidelineClasses = guidelineClasses.join(' ')
               return <div className={guidelineClasses}></div>

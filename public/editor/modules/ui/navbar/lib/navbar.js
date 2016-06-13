@@ -69,7 +69,7 @@ var Navbar = React.createClass({
     moveStartEvent.initEvent('vc.ui.navbar.drag-start', true, true)
     e.target.dispatchEvent(moveStartEvent)
 
-    document.body.classList.add('vc-ui-navbar-is-dragging')
+    document.body.classList.add('vcv-ui-navbar-is-dragging')
     document.addEventListener('mousemove', this.handleDragging)
     document.addEventListener('mouseup', this.handleDragEnd)
 
@@ -80,7 +80,7 @@ var Navbar = React.createClass({
     let moveEndEvent = document.createEvent('Event')
     moveEndEvent.initEvent('vc.ui.navbar.drag-end', true, true)
     e.target.dispatchEvent(moveEndEvent)
-    document.body.classList.remove('vc-ui-navbar-is-dragging')
+    document.body.classList.remove('vcv-ui-navbar-is-dragging')
     document.removeEventListener('mousemove', this.handleDragging)
     document.removeEventListener('mouseup', this.handleDragEnd)
 
@@ -199,17 +199,17 @@ var Navbar = React.createClass({
     }
 
     let navbarContainerClasses = classNames({
-      'vc-ui-navbar-container': true,
-      'vc-ui-navbar-is-detached': isDetached
+      'vcv-ui-navbar-container': true,
+      'vcv-ui-navbar-is-detached': isDetached
     })
 
-    document.body.classList.add('vc-ui-has-navbar')
-    document.body.classList.add('vc-ui-navbar-position-' + navbarPosition)
+    document.body.classList.add('vcv-ui-has-navbar')
+    document.body.classList.add('vcv-ui-navbar-position--' + navbarPosition)
     return (
       <div className={navbarContainerClasses} style={navBarStyle}>
-        <nav className="vc-ui-navbar vc-ui-navbar-hide-labels">
-          <div className="vc-ui-navbar-drag-handler" onMouseDown={this.handleDragStart}><i
-            className="vc-ui-navbar-drag-handler-icon vc-ui-icon vc-ui-icon-drag-dots"></i></div>
+        <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
+          <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}><i
+            className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i></div>
           {this.buildControls()}
         </nav>
       </div>

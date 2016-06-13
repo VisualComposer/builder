@@ -1,8 +1,8 @@
 //== Tree view styles
-.vc-ui-tree-view-container {
+.vcv-ui-tree-view-container {
   position: fixed;
   top: 0;
-  height: @initial-height;
+  height: @tree-initial-height;
   left: 0;
 
   display: flex;
@@ -10,15 +10,15 @@
   flex-wrap: nowrap;
 
   font-family: 'Roboto', sans-serif;
-  font-size: @text-size-base;
-  color: @text-color-base;
-  background-color: @bg-base;
+  font-size: @tree-text-size-base;
+  color: @tree-text-color-base;
+  background-color: @tree-bg-base;
   z-index: @tree-view-zindex;
 }
 
 //== tree view
-.vc-ui-tree-view-layout {
-  width: @initial-width;
+.vcv-ui-tree-view-layout {
+  width: @tree-initial-width;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
 }
 
 //== content
-.vc-ui-tree-view-content {
+.vcv-ui-tree-view-content {
   flex-grow: 1;
   width: 0;
   display: flex;
@@ -34,8 +34,8 @@
   flex-wrap: nowrap;
 }
 
-.vc-ui-tree-view-container:not(.vc-ui-tree-view-o-content-expand) {
-  .vc-ui-tree-view-content {
+.vcv-ui-tree-view-container:not(.vcv-ui-tree-view-o-content-expand) {
+  .vcv-ui-tree-view-content {
     display: none;
   }
 }
@@ -43,8 +43,8 @@
 // Options
 
 //== expand content
-.vc-ui-tree-view-o-content-expand {
-  &.vc-ui-tree-view-container {
+.vcv-ui-tree-view-o-content-expand {
+  &.vcv-ui-tree-view-container {
     right: 0;
   }
 }

@@ -1,0 +1,25 @@
+/* ===================================
+ * Visual composer Badges styles
+ * =================================== */
+&[class*=vcv-ui-badge-] {
+  &::after {
+    content: '';
+    display: block;
+    height: @badge-size;
+    width: @badge-size;
+    border-radius: 50%;
+    position: absolute;
+    top: -.5em;
+    right: -.5em
+  }
+}
+&.vcv-ui-badge-warning {
+  &::after {
+    background-color: @badge-state-color-warning;
+  }
+}
+&.vcv-ui-badge-success {
+  &::after {
+    background-color: @badge-state-color-success;
+  }
+}

@@ -76,14 +76,14 @@ ControlsHandler.prototype.clearElementsTree = function () {
 
 ControlsHandler.prototype.getOutlines = function () {
   // Here comes wrapper for controls
-  var controlsWrapper = document.getElementById('vc-ui-controls-container')
+  var controlsWrapper = document.getElementById('vcv-ui-controls-container')
   if (this.outlines.length < this.sliceSize) {
     var $outline
-    $(controlsWrapper).find('.vc-ui-outline').remove()
+    $(controlsWrapper).find('.vcv-ui-outline').remove()
     this.outlines = []
     for (var i in this.getElementsTree()) {
       // todo: refactor, color is based on react component
-      $outline = $('<svg class="vc-ui-outline vc-ui-outline-type-index-' + i + '"></svg>')
+      $outline = $('<svg class="vcv-ui-outline vcv-ui-outline-type-index-' + i + '"></svg>')
       this.outlines.push($outline)
       $outline.appendTo(controlsWrapper)
     }
@@ -126,16 +126,16 @@ ControlsHandler.prototype.drawControls = function () {
   let $controlElement, $dropdownContent, $controlAction
   if (!this.$controlsContainer) {
     // Here comes wrapper for controls
-    var controlsWrapper = $('#vc-ui-controls-container')
-    /* vc-ui-controls-o-inset for inset controls
-     * vc-ui-controls-o-controls-left to stick controls to left side
+    var controlsWrapper = $('#vcv-ui-controls-container')
+    /* vcv-ui-controls-o-inset for inset controls
+     * vcv-ui-controls-o-controls-left to stick controls to left side
      */
-    this.$controlsContainer = $('<div class="vc-ui-outline-controls-container"/>')
+    this.$controlsContainer = $('<div class="vcv-ui-outline-controls-container"/>')
     this.$controlsContainer.appendTo(controlsWrapper)
   }
 
   if (!this.$controlsList) {
-    this.$controlsList = $('<nav class="vc-ui-outline-controls" />')
+    this.$controlsList = $('<nav class="vcv-ui-outline-controls" />')
     this.$controlsList.appendTo(this.$controlsContainer)
   }
 
@@ -143,71 +143,71 @@ ControlsHandler.prototype.drawControls = function () {
 
   // add tree layout button
   if (elemenstsTree.length < this.$currentElement.parents('[data-vc-element]').length) {
-    $controlElement = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="tree-layout:show"/>')
-    $('<span  class="vc-ui-outline-control-content">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-more-dots" ></i>' +
+    $controlElement = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="tree-layout:show"/>')
+    $('<span  class="vcv-ui-outline-control-content">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-more-dots" ></i>' +
       '</span>').appendTo($controlElement)
     $controlElement.appendTo(this.$controlsList)
   }
 
   // add elements controld in dropdown
   for (var i in elemenstsTree) {
-    /* vc-ui-outline-control-dropdown-o-drop-up to open dropdown up
-     * vc-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
+    /* vcv-ui-outline-control-dropdown-o-drop-up to open dropdown up
+     * vcv-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
      */
-    $controlElement = $('<dl class="vc-ui-outline-control-dropdown vc-ui-outline-control-type-index-' + i + '"/>')
+    $controlElement = $('<dl class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' + i + '"/>')
     $controlElement.appendTo(this.$controlsList)
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
     var isElementContainer = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-dropzone') === 'true'
 
     // add dropdown trigger
-    $('<dt class="vc-ui-outline-control-dropdown-trigger vc-ui-outline-control">' +
-      '<span  class="vc-ui-outline-control-content" title="' + elemenstsTree[ i ][ 0 ].getAttribute('data-vc-name') + '">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-cog"></i>' +
+    $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
+      '<span  class="vcv-ui-outline-control-content" title="' + elemenstsTree[ i ][ 0 ].getAttribute('data-vc-name') + '">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>' +
       '</span>' +
       '</dt>').appendTo($controlElement)
 
     // add dropdown content
-    $dropdownContent = $('<dd class="vc-ui-outline-control-dropdown-content"/>')
+    $dropdownContent = $('<dd class="vcv-ui-outline-control-dropdown-content"/>')
     $dropdownContent.appendTo($controlElement)
 
     // add button
     if (isElementContainer) {
-      $controlAction = $('<a href="#" class="vc-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId + '"/>')
-      $('<span  class="vc-ui-outline-control-content">' +
-        '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-add-thin" ></i>' +
-        '<span class="vc-ui-outline-control-label" >Add</span>' +
+      $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId + '"/>')
+      $('<span  class="vcv-ui-outline-control-content">' +
+        '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-add-thin" ></i>' +
+        '<span class="vcv-ui-outline-control-label" >Add</span>' +
         '</span>').appendTo($controlAction)
       $controlAction.appendTo($dropdownContent)
     }
 
     // edit button
-    $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+    $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="app:edit"' +
       ' data-vc-element-id="' + elementId + '"/>')
-    $('<span  class="vc-ui-outline-control-content">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-edit" ></i>' +
-      '<span class="vc-ui-outline-control-label" >Edit</span>' +
+    $('<span  class="vcv-ui-outline-control-content">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit" ></i>' +
+      '<span class="vcv-ui-outline-control-label" >Edit</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
 
     // clone button
-    $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+    $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="data:clone"' +
       ' data-vc-element-id="' + elementId + '"/>')
-    $('<span  class="vc-ui-outline-control-content">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-copy" ></i>' +
-      '<span class="vc-ui-outline-control-label" >Clone</span>' +
+    $('<span  class="vcv-ui-outline-control-content">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-copy" ></i>' +
+      '<span class="vcv-ui-outline-control-label" >Clone</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
 
     // remove button
-    $controlAction = $('<a href="#" class="vc-ui-outline-control"' +
+    $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="data:remove"' +
       ' data-vc-element-id="' + elementId + '"/>')
-    $('<span  class="vc-ui-outline-control-content">' +
-      '<i class="vc-ui-outline-control-icon vc-ui-icon vc-ui-icon-close-thin" ></i>' +
-      '<span class="vc-ui-outline-control-label" >Remove</span>' +
+    $('<span  class="vcv-ui-outline-control-content">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-close-thin" ></i>' +
+      '<span class="vcv-ui-outline-control-label" >Remove</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
   }

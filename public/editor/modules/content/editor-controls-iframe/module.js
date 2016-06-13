@@ -34,14 +34,14 @@ vcCake.add('ui-editor-controls', function (api) {
     }
 
     var controlsWrapper = document.createElement('div')
-    controlsWrapper.setAttribute('id', 'vc-ui-controls-container')
+    controlsWrapper.setAttribute('id', 'vcv-ui-controls-container')
     editorWrapper.appendChild(controlsWrapper)
 
     api.reply('start', function () {
       var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
       $(iframeDocument).on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame)
       $(iframeDocument).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame)
-      $(document).on('mousemove hover', '.vc-ui-outline-controls-container', function (e) {
+      $(document).on('mousemove hover', '.vcv-ui-outline-controls-container', function (e) {
         e.stopPropagation()
       })
       $(document).on('click', '[data-vc-control-event]', function (e) {

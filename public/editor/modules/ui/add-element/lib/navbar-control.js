@@ -8,9 +8,9 @@ vcCake.add('ui-add-element', function (api) {
       api.notify('show', false)
     },
     render: function () {
-      return <a className="vc-ui-navbar-control" href="#" title="Add Element" onClick={this.handleClick}>
-        <span className="vc-ui-navbar-control-content">
-          <i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-add"></i>
+      return <a className="vcv-ui-navbar-control" href="#" title="Add Element" onClick={this.handleClick}>
+        <span className="vcv-ui-navbar-control-content">
+          <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add"></i>
           <span>Add Element</span>
         </span>
       </a>

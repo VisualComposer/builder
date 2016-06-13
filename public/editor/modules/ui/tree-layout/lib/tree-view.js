@@ -39,17 +39,17 @@ var TreeView = React.createClass({
       element = cook.get(data)
     }
     var treeViewClasses = classNames({
-      'vc-ui-tree-view-container': true,
+      'vcv-ui-tree-view-container': true,
 
-      'vc-ui-tree-view-o-content-expand': this.state.elementId !== false
+      'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false
     })
     return (
-      <div id="vc-ui-tree-view-container">
+      <div id="vcv-ui-tree-view-container">
         <div className={treeViewClasses}>
-          <div className="vc-ui-tree-view-layout">
+          <div className="vcv-ui-tree-view-layout">
             <TreeLayout api={this.props.api} />
           </div>
-          <div className="vc-ui-tree-view-content">
+          <div className="vcv-ui-tree-view-content">
             <EditElement element={element} api={this.props.api} />
           </div>
         </div>

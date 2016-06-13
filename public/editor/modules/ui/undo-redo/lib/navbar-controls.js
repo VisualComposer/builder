@@ -28,9 +28,9 @@ vcCake.add('ui-undo-redo', function (api) {
       api.request('data:reset', timeMachine.redo())
     },
     render: function () {
-      return <div className="vc-ui-navbar-controls-group vc-ui-navbar-hidden-sm">
-        <a className="vc-ui-navbar-control" href="#" title="Undo" disabled={this.state.undoDisabled} onClick={this.handleUndo}><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-undo"></i><span>Undo</span></span></a>
-        <a className="vc-ui-navbar-control" href="#" title="Redo" disabled={this.state.redoDisabled} onClick={this.handleRedo}><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-redo"></i><span>Redo</span></span></a>
+      return <div className="vcv-ui-navbar-controls-group vcv-ui-navbar-hidden-sm">
+        <a className="vcv-ui-navbar-control" href="#" title="Undo" disabled={this.state.undoDisabled} onClick={this.handleUndo}><span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo"></i><span>Undo</span></span></a>
+        <a className="vcv-ui-navbar-control" href="#" title="Redo" disabled={this.state.redoDisabled} onClick={this.handleRedo}><span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo"></i><span>Redo</span></span></a>
       </div>
     }
   })

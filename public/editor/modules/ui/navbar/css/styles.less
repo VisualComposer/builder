@@ -1,91 +1,9 @@
 /* ===================================
- * Visual composer Global styles
- * related to Navbar
- * =================================== */
-
-// navbar positions
-.vc-ui-navbar-position-left {
-  padding-left: @navbar-size;
-  .vc-ui-navbar-controls-group {
-    flex-direction: column;
-  }
-}
-
-.vc-ui-navbar-position-right {
-  padding-right: @navbar-size;
-  .vc-ui-navbar-controls-group {
-    flex-direction: column;
-  }
-}
-
-.vc-ui-navbar-position-bottom {
-  padding-bottom: @navbar-size;
-}
-
-.vc-ui-navbar-position-top {
-  padding-top: @navbar-size;
-}
-
-.vc-ui-has-navbar {
-  transition-property: padding;
-  transition-duration: @vc-ui-transition-duration;
-  transition-timing-function: @vc-ui-transition-timing-function;
-}
-
-.vc-ui-navbar-is-dragging {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  padding: 0;
-  .vc-ui-navbar {
-    pointer-events: none;
-  }
-  .vc-ui-navbar-container {
-    cursor: move;
-    transition-property: top, left, bottom, right;
-    transition-duration: 0s;
-    transition-timing-function: ease-out;
-  }
-}
-
-/* ===================================
  * Visual composer Navbar styles
  * =================================== */
 
-//== logo
-.vc-ui-navbar-logo {
-  background: data-uri('image/png;base64', '../resourses/img/VC-Logo-small.png') 50% 50% no-repeat;
-  min-width: @navbar-size;
-  min-height: @navbar-size;
-  padding: @gold-value;
-  color: inherit;
-  text-decoration: none;
-  order: -10;
-  &:hover {
-    background-color: @bg-base-hover;
-  }
-}
-
-.vc-ui-navbar-logo-title {
-  display: none;
-}
-
-//== navbar
-.vc-ui-navbar-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  //bottom: 0;
-  transition-property: opacity, top, left, bottom, right;
-  transition-duration: @vc-ui-transition-duration;
-  transition-timing-function: @vc-ui-transition-timing-function;
-  z-index: @navbar-zindex;
-}
-
-.vc-ui-navbar-overlay {
+//== overlay TODO: move to separate module or remove overlay at all
+.vcv-ui-navbar-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -96,68 +14,32 @@
   cursor: move;
 }
 
-.vc-ui-navbar-guideline {
+//== navbar
+.vcv-ui-navbar-container {
   position: fixed;
-  transition-property: height, width;
-  transition-duration: @vc-ui-transition-duration;
-  transition-timing-function: @vc-ui-transition-timing-function;
-  background-color: @bg-base;
-  box-shadow: inset 0 0 10px 1px @bg-base-hover;
-  &-top {
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    &.vc-ui-navbar-guideline-is-visible {
-      height: 5px;
-    }
-  }
-  &-bottom {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    &.vc-ui-navbar-guideline-is-visible {
-      height: 5px;
-    }
-  }
-  &-left {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    &.vc-ui-navbar-guideline-is-visible {
-      width: 5px;
-    }
-  }
-  &-right {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 0;
-    &.vc-ui-navbar-guideline-is-visible {
-      width: 5px;
-    }
-  }
+  top: 0;
+  left: 0;
+  right: 0;
+  transition-property: opacity, top, left, bottom, right;
+  transition-duration: @transition-duration;
+  transition-timing-function: @transition-timing-function;
+  z-index: @navbar-z-index;
 }
 
-.vc-ui-navbar {
-  font-family: 'Roboto', sans-serif;
-  font-size: @text-size-base;
-  color: @text-color-base;
-  background-color: @bg-base;
-  height: @navbar-size;
-  width: 100%;
+.vcv-ui-navbar {
+  font-size: @navbar-text-size-base;
+  color: @navbar-text-color-base;
+  background-color: @navbar-bg-base;
+  min-height: @navbar-size;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  //flex-direction: column;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
     order: -1;
   }
-  > .vc-ui-pull-end {
+  > .vcv-ui-pull-end {
     order: 1;
   }
   &::after {
@@ -167,37 +49,12 @@
   }
 }
 
-//== drag handler
-.vc-ui-navbar-drag-handler {
-  order: -100;
-  cursor: move;
-  min-height: @gold-value;
-  min-width: @gold-value;
-  user-select: none;
-  position: relative;
-  opacity: .5;
-}
-
-.vc-ui-navbar-drag-handler-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-//== delimeter
-.vc-ui-navbar-control-separator {
-  min-height: 1px;
-  min-width: 1px;
-  background-color: @separator-color;
-}
-
 //== controls
-.vc-ui-navbar-control {
-  padding: @gold-value;
+.vcv-ui-navbar-control {
+  padding: @navbar-gold-value;
   min-width: @navbar-size;
   min-height: @navbar-size;
-  color: @text-color-base;
+  color: @navbar-text-color-base;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -205,10 +62,9 @@
   justify-content: center;
   text-align: center;
   cursor: pointer;
-  transition: all @vc-ui-transition-duration @vc-ui-transition-timing-function;
-  &:hover,
-  &.vc-ui-navbar-control-active {
-    background-color: @bg-base-hover;
+  transition: all @transition-duration @transition-timing-function;
+  &:hover {
+    background-color: @navbar-bg-base-hover;
   }
   &[disabled] {
     background-color: transparent;
@@ -217,14 +73,14 @@
   }
 }
 
-.vc-ui-navbar-control-content {
+.vcv-ui-navbar-control-content {
   white-space: nowrap;
   span {
-    //border: 1px solid red;
+
   }
 }
 
-.vc-ui-navbar-control-icon {
+.vcv-ui-navbar-control-icon {
   font-size: 1em;
   height: 1em;
   width: 1.25em;
@@ -239,12 +95,12 @@
     transform: translate(-50%, -50%);
   }
   + span {
-    margin-left: @gold-value;
+    margin-left: @navbar-gold-value;
   }
 }
 
 //== Controls group
-.vc-ui-navbar-controls-group {
+.vcv-ui-navbar-controls-group {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -255,250 +111,124 @@
 }
 
 //== dropdown
-.vc-ui-navbar-dropdown {
+.vcv-ui-navbar-dropdown {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   position: relative;
+  margin: 0;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
   }
-  .vc-ui-navbar-controls-group {
+  .vcv-ui-navbar-controls-group {
     flex-direction: column;
   }
-  //&:not(.vc-ui-active),
-  &:not(:hover),
-  &[disabled]{
-    .vc-ui-navbar-dropdown-content {
-      visibility: hidden;
-      opacity: 0;
-    }
-  }
   &:hover {
-    .vc-ui-navbar-dropdown-trigger {
-      background-color: @bg-dropdown;
+    .vcv-ui-navbar-dropdown-content {
+      transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+      visibility: visible;
+      opacity: 1;
+    }
+    .vcv-ui-navbar-dropdown-trigger {
+      background-color: @navbar-bg-dropdown;
     }
   }
   &[disabled] {
-    &:hover {
-      .vc-ui-navbar-dropdown-trigger {
-        background-color: transparent;
-      }
+    .vcv-ui-navbar-dropdown-content {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .vcv-ui-navbar-dropdown-trigger {
+      background-color: transparent;
+      opacity: .5;
+      cursor: not-allowed;
     }
   }
-}
 
-.vc-ui-navbar-dropdown-content {
-  background-color: @bg-dropdown;
-  min-width: @dropdown-size;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: @dropdown-zindex;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s, opacity @vc-ui-transition-duration @vc-ui-transition-timing-function;
-  .vc-ui-navbar-control {
-    text-align: left;
-    &:hover {
-      background-color: @bg-dropdown-hover;
-    }
-  }
-}
-
-.vc-ui-navbar-dropdown {
-  &.vc-ui-pull-end {
-    .vc-ui-navbar-dropdown-content {
+  &.vcv-ui-pull-end {
+    .vcv-ui-navbar-dropdown-content {
       left: auto;
       right: 0;
     }
   }
 }
 
-//== linear dropdown
-.vc-ui-navbar-dropdown-linear {
-  .vc-ui-navbar-dropdown-content {
-    min-width: 100%;
-    .vc-ui-navbar-control {
-      min-height: 0;
-      min-width: 0;
-      padding: @gold-value * .75;
+.vcv-ui-navbar-dropdown-content {
+  background-color: @navbar-bg-dropdown;
+  min-width: @navbar-dropdown-size;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: @navbar-dropdown-z-index;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
+  .vcv-ui-navbar-control {
+    text-align: left;
+    &:hover,
+    &.vcv-ui-state--active {
+      background-color: @navbar-bg-dropdown-hover;
     }
-  }
-  .vc-ui-navbar-control {
-    text-align: center;
   }
 }
 
+//== delimeter
+.vcv-ui-navbar-control-separator {
+  min-height: 1px;
+  min-width: 1px;
+  display: block;
+  background-color: @navbar-separator-color;
+}
+
+//== drag handler
+.vcv-ui-navbar-drag-handler {
+  order: -100;
+ }
+
 //== show/hide labels
-.vc-ui-navbar-hide-labels {
-  .vc-ui-navbar-control-content {
+.vcv-ui-navbar-hide-labels {
+  .vcv-ui-navbar-control {
+    text-align: center;
+  }
+  .vcv-ui-navbar-control-content {
     > span {
       display: none;
     }
   }
 }
 
-.vc-ui-navbar-show-labels {
-  .vc-ui-navbar-control-content {
+.vcv-ui-navbar-show-labels {
+  .vcv-ui-navbar-control {
+    text-align: left;
+  }
+  .vcv-ui-navbar-control-content {
     > span {
       display: inline;
     }
   }
 }
 
+//== linear dropdown
+.vcv-ui-navbar-dropdown-linear {
+  .vcv-ui-navbar-dropdown-content {
+    min-width: 100%;
+    .vcv-ui-navbar-control {
+      min-height: 0;
+      min-width: 0;
+      padding: @gold-value * .75;
+    }
+  }
+}
+
 //== states
-.vc-ui-navbar-control {
-  &.vc-ui-state-active {
-    background-color: @bg-base-hover;
+.vcv-ui-navbar-control {
+  &.vcv-ui-state--active {
+    background-color: @color-base-active;
   }
-  &.vc-ui-state-success {
-    background-color: @bg-success;
-  }
-}
-
-//== badges
-.vc-ui-navbar-control {
-  &[class*=vc-ui-badge-] {
-    .vc-ui-navbar-control-icon {
-      &::after {
-        content: '';
-        display: block;
-        height: @badge-size;
-        width: @badge-size;
-        border-radius: 50%;
-        position: absolute;
-        top: -.5em;
-        right: -.5em
-      }
-    }
-  }
-  &.vc-ui-badge-warning {
-    .vc-ui-navbar-control-icon {
-      &::after {
-        background-color: @bg-warning;
-      }
-    }
-  }
-  &.vc-ui-badge-success {
-    .vc-ui-navbar-control-icon {
-      &::after {
-        background-color: @bg-success;
-      }
-    }
+  &.vcv-ui-state--success {
+    background-color: @state-color-success;
   }
 }
-
-//== responsiveness
-@media (max-width: 768px) {
-  .vc-ui-navbar-hidden-sm {
-    display: none;
-  }
-}
-
-// navbar positions
-.vc-ui-navbar-position-top & {
-
-}
-
-.vc-ui-navbar-position-bottom & {
-  .vc-ui-navbar-container {
-    top: auto;
-    bottom: 0;
-  }
-  .vc-ui-navbar-dropdown-content {
-    top: auto;
-    bottom: 100%;
-  }
-}
-
-.vc-ui-navbar-position-left & {
-  .vc-ui-navbar-container {
-    right: auto;
-    bottom: 0;
-  }
-  .vc-ui-navbar {
-    width: @navbar-size;
-    height: 100%;
-    flex-direction: column;
-  }
-  .vc-ui-navbar-dropdown-content {
-    top: 0;
-    bottom: auto;
-    left: 100%;
-    right: auto;
-  }
-  .vc-ui-navbar-dropdown {
-    &.vc-ui-pull-end {
-      .vc-ui-navbar-dropdown-content {
-        top: auto;
-        bottom: 0;
-        left: 100%;
-        right: auto;
-      }
-    }
-  }
-  .vc-ui-navbar-dropdown-linear {
-    .vc-ui-navbar-controls-group {
-      flex-direction: row;
-    }
-    .vc-ui-navbar-dropdown-content {
-      min-width: 0;
-      min-height: 100%;
-      display: flex;
-    }
-  }
-  .vc-ui-navbar-drag-handler-icon {
-    transform: translate(-50%, -50%) rotate(-90deg);
-  }
-}
-
-.vc-ui-navbar-position-right & {
-  .vc-ui-navbar-container {
-    left: auto;
-    bottom: 0;
-  }
-  .vc-ui-navbar {
-    width: @navbar-size;
-    height: 100%;
-    flex-direction: column;
-  }
-  .vc-ui-navbar-dropdown-content {
-    top: 0;
-    bottom: auto;
-    left: auto;
-    right: 100%;
-  }
-  .vc-ui-navbar-dropdown {
-    &.vc-ui-pull-end {
-      .vc-ui-navbar-dropdown-content {
-        top: auto;
-        bottom: 0;
-        right: 100%;
-        left: auto;
-      }
-    }
-  }
-  .vc-ui-navbar-dropdown-linear {
-    .vc-ui-navbar-controls-group {
-      flex-direction: row;
-    }
-    .vc-ui-navbar-dropdown-content {
-      min-width: 0;
-      min-height: 100%;
-      display: flex;
-    }
-  }
-  .vc-ui-navbar-drag-handler-icon {
-    transform: translate(-50%, -50%) rotate(-90deg);
-  }
-}
-
-.vc-ui-navbar-container.vc-ui-navbar-is-detached {
-  left: auto;
-  right: auto;
-  top: auto;
-  bottom: auto;
-}
-

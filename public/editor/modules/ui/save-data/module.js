@@ -3,8 +3,8 @@ const cook = vcCake.getService('cook')
 const reWrapDefaultContent = function (data) {
   let newData = {}
   Object.keys(data).forEach((k) => {
-    newData[k] = data[k]
-    newData[k].tag = cook.getTagByName(newData[k].name)
+    newData[ k ] = data[ k ]
+    newData[ k ].tag = cook.getTagByName(newData[ k ].name)
   })
   return newData
 }
@@ -35,3 +35,5 @@ if (false) {
   })
   require('./lib/navbar-save-button')
 }
+require('./lib/navbar-dropdown-control')
+

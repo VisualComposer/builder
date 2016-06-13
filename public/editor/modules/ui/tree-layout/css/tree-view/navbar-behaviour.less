@@ -1,22 +1,22 @@
 // Different navbar positions
 
 //== left
-.vc-ui-navbar-position-left {
-  .vc-ui-tree-view-container {
+.vcv-ui-navbar-position--left {
+  .vcv-ui-tree-view-container {
     top: 0;
     bottom: 0;
     right: auto;
     left: 60px;
     height: auto;
   }
-  .vc-ui-tree-view-o-content-expand {
-    width: @initial-height; // change this with JS
+  .vcv-ui-tree-view-o-content-expand {
+    width: @tree-initial-height; // change this with JS
   }
 }
 
 //== right
-.vc-ui-navbar-position-right {
-  .vc-ui-tree-view-container {
+.vcv-ui-navbar-position--right {
+  .vcv-ui-tree-view-container {
     top: 0;
     bottom: 0;
     right: 60px;
@@ -24,34 +24,34 @@
     height: auto;
     justify-content: flex-end;
   }
-  .vc-ui-tree-view-content {
+  .vcv-ui-tree-view-content {
     order: -1;
   }
-  .vc-ui-tree-view-o-content-expand {
-    width: @initial-height; // change this with JS
+  .vcv-ui-tree-view-o-content-expand {
+    width: @tree-initial-height; // change this with JS
   }
 }
 
 //== bottom
-.vc-ui-navbar-position-bottom {
-  .vc-ui-tree-view-container {
+.vcv-ui-navbar-position--bottom {
+  .vcv-ui-tree-view-container {
     top: auto;
     bottom: 60px;
     left: 0;
   }
-  .vc-ui-tree-view-o-content-expand {
+  .vcv-ui-tree-view-o-content-expand {
     right: 0;
   }
 }
 
 //== top
-.vc-ui-navbar-position-top {
-  .vc-ui-tree-view-container {
+.vcv-ui-navbar-position--top {
+  .vcv-ui-tree-view-container {
     top: 60px;
     left: 0;
     bottom: auto;
   }
-  .vc-ui-tree-view-o-content-expand {
+  .vcv-ui-tree-view-o-content-expand {
     right: 0;
   }
 }

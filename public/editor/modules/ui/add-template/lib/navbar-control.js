@@ -7,7 +7,7 @@ vcCake.add('ui-add-template', function (api) {
       e && e.preventDefault()
     },
     render: function () {
-      return (<a className="vc-ui-navbar-control" onClick={this.handleClick} disabled title="Template"><span className="vc-ui-navbar-control-content"><i className="vc-ui-navbar-control-icon vc-ui-icon vc-ui-icon-template"></i><span>Template</span></span></a>
+      return (<a className="vcv-ui-navbar-control" onClick={this.handleClick} disabled title="Template"><span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-template"></i><span>Template</span></span></a>
       )
     }
   })

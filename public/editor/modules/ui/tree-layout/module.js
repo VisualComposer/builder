@@ -33,7 +33,7 @@ vcCake.add('ui-tree-layout', function (api) {
   })
   // Here comes wrapper for navbar
   var wrapper = document.createElement('div')
-  wrapper.setAttribute('id', 'vc-ui-tree-layout-wrapper')
+  wrapper.setAttribute('id', 'vcv-ui-tree-layout-wrapper')
   document.getElementById('vc-editor-container').appendChild(wrapper)
   ReactDOM.render(
     <Component />,

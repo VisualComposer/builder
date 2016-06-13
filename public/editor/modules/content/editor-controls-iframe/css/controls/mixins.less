@@ -1,15 +1,15 @@
 //== Constols mixins
-#vc-ui-outline-controls {
+#vcv-ui-outline-controls {
 
   //== Create outline type
   .create-outline-type(@type-name: ''; @color) {
     & when (@type-name = '') {
-      box-shadow: inset 0 0 0 @outline-size/2 @color, 0 0 0 @outline-size/2 @color;
+      box-shadow: inset 0 0 0 @controls-outline-size/2 @color, 0 0 0 @controls-outline-size/2 @color;
     }
     & when not (@type-name = '') {
-      .vc-ui-outline-type-@{type-name} {
-        &.vc-ui-outline {
-          #vc-ui-outline-controls > .create-outline-type(@color: @color);
+      .vcv-ui-outline-type-@{type-name} {
+        &.vcv-ui-outline {
+          #vcv-ui-outline-controls > .create-outline-type(@color: @color);
         }
       }
     }
@@ -17,18 +17,18 @@
 
   //== Create type
   .create-type(@type-name, @text, @background) {
-    .vc-ui-outline-control-type-@{type-name} {
-      &.vc-ui-outline-control {
+    .vcv-ui-outline-control-type-@{type-name} {
+      &.vcv-ui-outline-control {
         color: @text;
         background-color: @background;
       }
-      &.vc-ui-outline-control-dropdown {
-        .vc-ui-outline-control {
+      &.vcv-ui-outline-control-dropdown {
+        .vcv-ui-outline-control {
           color: @text;
           background-color: @background;
         }
-        .vc-ui-outline-control-dropdown-content {
-          .vc-ui-outline-control {
+        .vcv-ui-outline-control-dropdown-content {
+          .vcv-ui-outline-control {
             &:hover {
               background-color: darken(@background, 7%);
             }
