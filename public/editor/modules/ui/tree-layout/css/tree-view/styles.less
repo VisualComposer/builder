@@ -9,7 +9,6 @@
   flex-direction: row;
   flex-wrap: nowrap;
 
-  font-family: 'Roboto', sans-serif;
   font-size: @tree-text-size-base;
   color: @tree-text-color-base;
   background-color: @tree-bg-base;
@@ -20,9 +19,7 @@
 .vcv-ui-tree-view-layout {
   width: @tree-initial-width;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  overflow: auto;
 }
 
 //== content

@@ -67,8 +67,8 @@ var Element = React.createClass({
     </span>
     return <li className={treeChildClass}>
       <div className="vcv-ui-tree-layout-control" style={{paddingLeft: this.props.level + 1 + 'em'}}>
-        <div className="vcv-ui-tree-layout-control-drag-handler"><i
-          className="vcv-ui-tree-layout-control-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" /></div>
+        <div className="vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler"><i
+          className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" /></div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
           <span className="vcv-ui-tree-layout-control-icon">

@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  min-height: 1em; // dirty ff flexbox bug fix
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -25,6 +26,7 @@
   color: @tree-content-text;
   background-color: @tree-content-bg;
   padding: (@tree-content-gutter / 2) @tree-content-gutter;
+  min-height: 1em; // dirty ff flexbox bug fix
   overflow: auto;
 }
 
@@ -213,7 +215,7 @@
 
 //== Tabs content
 .vcv-ui-editor-plates-container {
-
+  overflow: auto;
 }
 
 .vcv-ui-editor-plates {

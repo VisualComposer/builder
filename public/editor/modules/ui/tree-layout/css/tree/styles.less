@@ -5,15 +5,9 @@
 //== Tree Layout styles styles
 .vcv-ui-tree-layout-container {
   flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
 }
 
 .vcv-ui-tree-layout {
-  flex-grow: 1;
-  flex-shrink: 1;
-  overflow: auto;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -21,15 +15,16 @@
 
 // Actions
 .vcv-ui-tree-layout-actions {
-  flex-grow: 0;
-  flex-shrink: 0;
   overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  border-bottom: 1px solid @tree-separator-color;
+  min-height: @tree-control-height;
+  padding-left: 1px;
   .vcv-ui-tree-layout-action-content {
     span {
-      margin-left: 18px;
+      margin-left: @tree-gold-value;
       display: none;
     }
   }
@@ -43,7 +38,7 @@
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  padding: @gold-value;
+  padding: @tree-gold-value / 2;
   text-align: center;
   cursor: pointer;
   transition: all @transition-duration @transition-timing-function;
@@ -51,7 +46,7 @@
   flex-shrink: 1;
 
   margin-left: -1px;
-  border-width: 1px 0 0 1px;
+  border-width: 0 1px 0;
   border-style: solid;
   border-color: @tree-separator-color;
 
@@ -164,19 +159,13 @@
   left: 0;
   top: 0;
   bottom: 0;
-  cursor: move;
-  width: 1em;
+  min-width: 1em;
+  min-height: 1em;
   opacity: .2;
-  user-select: none;
   transition: opacity @transition-duration @transition-timing-function;
-}
-
-.vcv-ui-tree-layout-control-drag-handler-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: .9em;
+  .vcv-ui-drag-handler-icon {
+    font-size: .9em;
+  }
 }
 
 .vcv-ui-tree-layout-control {
