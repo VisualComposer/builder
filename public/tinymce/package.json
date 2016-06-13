@@ -1,0 +1,82 @@
+{
+  "_args": [
+    [
+      {
+        "name": "tinymce",
+        "raw": "tinymce@^4.3.12",
+        "rawSpec": "^4.3.12",
+        "scope": null,
+        "spec": ">=4.3.12 <5.0.0",
+        "type": "range"
+      },
+      "C:\\web\\data\\vc-five"
+    ]
+  ],
+  "_from": "tinymce@>=4.3.12 <5.0.0",
+  "_id": "tinymce@4.3.13",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/tinymce",
+  "_nodeVersion": "5.11.1",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/tinymce-4.3.13.tgz_1465389487608_0.7176297463010997"
+  },
+  "_npmUser": {
+    "email": "is-accounts@ephox.com",
+    "name": "ephox"
+  },
+  "_npmVersion": "3.8.6",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "tinymce",
+    "raw": "tinymce@^4.3.12",
+    "rawSpec": "^4.3.12",
+    "scope": null,
+    "spec": ">=4.3.12 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-4.3.13.tgz",
+  "_shasum": "0066241bb6bed429d7c55806812c3e2a566107a1",
+  "_shrinkwrap": null,
+  "_spec": "tinymce@^4.3.12",
+  "_where": "C:\\web\\data\\vc-five",
+  "bugs": {
+    "url": "http://www.tinymce.com/develop/bugtracker.php"
+  },
+  "dependencies": {},
+  "description": "Web based JavaScript HTML WYSIWYG editor control.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "0066241bb6bed429d7c55806812c3e2a566107a1",
+    "tarball": "https://registry.npmjs.org/tinymce/-/tinymce-4.3.13.tgz"
+  },
+  "keywords": [
+    "editor",
+    "wysiwyg",
+    "tinymce",
+    "richtext",
+    "javascript",
+    "html"
+  ],
+  "license": "LGPL-2.1",
+  "maintainers": [
+    {
+      "email": "is-accounts@ephox.com",
+      "name": "ephox"
+    },
+    {
+      "email": "spocke@moxiecode.com",
+      "name": "spocke"
+    }
+  ],
+  "name": "tinymce",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {},
+  "version": "4.3.13"
+}

@@ -1,5 +1,6 @@
 var vcCake = require('vc-cake')
 var React = require('react')
+var ReactDOM = require('react-dom')
 var cook = vcCake.getService('cook')
 require('../css/element.less')
 
@@ -10,6 +11,25 @@ var Element = React.createClass({
   },
   componentDidMount: function () {
     this.props.api.notify('element:mount', this.props.element.id)
+    this.tinyMce()
+  },
+  tinyMce: function () {
+    var innerTinymce = window.jQuery('#vcv-editor-iframe').get(0).contentWindow.tinymce
+    if (ReactDOM.findDOMNode(this).querySelector('.editable')) {
+      innerTinymce.init({
+        target: ReactDOM.findDOMNode(this).querySelector('.editable'),
+        inline: true,
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify',
+        setup: function (editor) {
+          editor.on('change', function (e) {
+            let element = cook.get(this.props.element)
+            element.set('output', editor.getContent())
+            this.props.api.request('data:update', element.get('id'), element.toJS(true))
+          }.bind(this))
+        }.bind(this),
+        menubar: false
+      })
+    }
   },
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)
