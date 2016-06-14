@@ -55,8 +55,11 @@ var TreeContentTab = React.createClass({
     })
 
     return (
-      <a className={tabClasses} href="#" onClick={this.clickHandler}><span
-        className="vcv-ui-editor-tab-content"><span>{title}</span></span></a>
+      <a className={tabClasses} href="#" onClick={this.clickHandler}>
+        <span className="vcv-ui-editor-tab-content">
+          <span>{title}</span>
+        </span>
+      </a>
     )
   }
 })

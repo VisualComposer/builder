@@ -91,7 +91,6 @@
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  padding-left: @tree-content-gutter - floor(@tree-tab-space / 2 );
   padding-right: @tree-content-gutter - ceil(@tree-tab-space / 2 );
   > * {
     flex-grow: 0;
@@ -125,6 +124,17 @@
     background-color: transparent;
     opacity: .5;
     cursor: not-allowed;
+  }
+}
+
+.vcv-ui-editor-tab-toggle-tree {
+  border-left: 1px solid @tree-separator-color;
+  min-width: @tree-tab-icon-min-width;
+  border-radius: 0;
+  background: none;
+
+  &:hover {
+    background: none;
   }
 }
 

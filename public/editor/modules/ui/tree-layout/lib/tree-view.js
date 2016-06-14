@@ -21,6 +21,7 @@ var TreeView = React.createClass({
   getInitialState: function () {
     return {
       treeContentCount: 0,
+      treeHidden: false,
       elementId: false
     }
   },
@@ -35,6 +36,15 @@ var TreeView = React.createClass({
       .on('form:hide', function () {
         this.setState({ elementId: false })
       }.bind(this))
+      .on('tree:toggle', function () {
+        this.setState({ treeHidden: !this.state.treeHidden })
+      }.bind(this))
+      .on('tree:show', function () {
+        this.setState({ treeHidden: false })
+      }.bind(this))
+      .on('tree:hide', function () {
+        this.setState({ treeHidden: true })
+      }.bind(this))
     this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
   },
   render: function () {
@@ -43,15 +53,18 @@ var TreeView = React.createClass({
       var data = this.props.api.getService('document').get(this.state.elementId)
       element = cook.get(data)
     }
-    var treeViewClasses = classNames({
+    let treeViewClasses = classNames({
       'vcv-ui-tree-view-container': true,
-
       'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false
+    })
+    let treeViewLayoutClasses = classNames({
+      'vcv-ui-tree-view-layout': true,
+      'vcv-hidden': this.state.treeHidden
     })
     return (
       <div id="vcv-ui-tree-view-container">
         <div className={treeViewClasses}>
-          <div ref="scrollable" className="vcv-ui-tree-view-layout">
+          <div ref="scrollable" className={treeViewLayoutClasses}>
             <TreeLayout api={this.props.api} />
           </div>
           <div className="vcv-ui-tree-view-content">

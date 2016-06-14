@@ -13,10 +13,11 @@ vcCake.add('ui-tree-layout', function (api) {
     componentDidMount: function () {
       api.on('show', function () {
         this.setState({ menuExpand: true })
+        api.notify('tree:show')
       }.bind(this))
-        .on('hide', function () {
-          this.setState({ menuExpand: false })
-        }.bind(this))
+      .on('hide', function () {
+        this.setState({ menuExpand: false })
+      }.bind(this))
     },
     toggleTreeView: function (e) {
       e.preventDefault()
@@ -31,8 +32,12 @@ vcCake.add('ui-tree-layout', function (api) {
         'vcv-ui-navbar-control': true,
         'vcv-ui-navbar-control-active': this.state.menuExpand
       })
-      return <a className={controlClass} href="#" title="Tree View" onClick={this.toggleTreeView}><span
-        className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers"></i><span>Tree View</span></span></a>
+      return <a className={controlClass} href="#" title="Tree View" onClick={this.toggleTreeView}>
+        <span className="vcv-ui-navbar-control-content">
+          <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers"></i>
+          <span>Tree View</span>
+        </span>
+      </a>
     }
   })
   api.module('ui-navbar').do('addElement', 'Tree layout', Control, 'left')

@@ -208,8 +208,9 @@ var Navbar = React.createClass({
     return (
       <div className={navbarContainerClasses} style={navBarStyle}>
         <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
-          <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}><i
-            className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i></div>
+          <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}>
+            <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i>
+          </div>
           {this.buildControls()}
         </nav>
       </div>

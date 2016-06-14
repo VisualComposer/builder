@@ -141,6 +141,10 @@ var TreeContent = React.createClass({
   closeTreeView: function () {
     this.props.api.notify('hide', false)
   },
+  toggleTreeView: function (e) {
+    e.preventDefault()
+    this.props.api.notify('tree:toggle')
+  },
   saveForm: function () {
     var element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
@@ -183,17 +187,40 @@ var TreeContent = React.createClass({
             {elementSettings ? elementSettings.get('name') : null}
           </h3>
           <nav className="vcv-ui-tree-content-title-controls">
-            <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug"><span
-              className="vcv-ui-tree-content-title-control-content"><i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i></span></a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled=""><span className="vcv-ui-tree-content-title-control-content"><i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i></span></a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug"><span className="vcv-ui-tree-content-title-control-content"><i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i></span></a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="close" onClick={this.closeTreeView}><span className="vcv-ui-tree-content-title-control-content"><i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-close"></i></span></a>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
+              <span className="vcv-ui-tree-content-title-control-content">
+                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
+              </span>
+            </a>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
+              <span className="vcv-ui-tree-content-title-control-content">
+                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
+              </span>
+            </a>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
+              <span className="vcv-ui-tree-content-title-control-content">
+                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
+              </span>
+            </a>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="close" onClick={this.closeTreeView}>
+              <span className="vcv-ui-tree-content-title-control-content">
+                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-close"></i>
+              </span>
+            </a>
           </nav>
         </div>
       </div>
 
       <div className="vcv-ui-editor-tabs-container">
         <nav className="vcv-ui-editor-tabs">
+
+          <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
+            onClick={this.toggleTreeView}>
+            <span className="vcv-ui-editor-tab-content">
+              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
+            </span>
+          </a>
+
           {visibleTabs.map((tab, i) => {
             let { ...tabProps } = getTabProps(tab, activeTab, this)
             return (
@@ -255,9 +282,18 @@ var TreeContent = React.createClass({
 
       <div className="vcv-ui-tree-content-footer">
         <div className="vcv-ui-tree-layout-actions">
-          <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}><span
-            className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i><span>Close</span></span></a>
-          <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}><span className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i><span>Save</span></span></a>
+          <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
+            <span className="vcv-ui-tree-layout-action-content">
+              <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i>
+              <span>Close</span>
+            </span>
+          </a>
+          <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}>
+            <span className="vcv-ui-tree-layout-action-content">
+              <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i>
+              <span>Save</span>
+            </span>
+          </a>
         </div>
       </div>
     </div>
