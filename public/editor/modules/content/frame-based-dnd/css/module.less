@@ -31,12 +31,13 @@
   }
 }
 
-@vcv-dnd-frame-border-color: red;
-@vcv-dnd-frame-border-width: 4px;
+@vcv-dnd-frame-border-color: rgba(70, 115, 189, .5);
+@vcv-dnd-frame-border-width: 2px;
 #vcv-dnd-frame {
   pointer-events: none;
   position: absolute;
   z-index: 10999;
+  opacity: 0;
   &.vcv-dnd-frame- {
     &top {
       border-top: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
@@ -53,6 +54,10 @@
     &center {
       border: 3px solid @vcv-dnd-frame-border-color;
     }
+  }
+  &.vcv-js-show {
+    transition: opacity .5s;
+    opacity: 1;
   }
 }
 

@@ -115,6 +115,7 @@
     "ignore": [
       "public/sources/elements-2/",
       "public/config/",
+      "public/tinymce",
       "tests/",
       "tools/"
     ]

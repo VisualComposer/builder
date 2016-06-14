@@ -116,6 +116,9 @@ Builder.prototype.checkItems = function (point) {
   }
 }
 Builder.prototype.redrawFrame = function (element, point, settings) {
+  if (this.currentElement === element.getAttribute('data-vc-element')) {
+    return false
+  }
   this.currentElement = element.getAttribute('data-vc-element')
   this.frame.className = ''
   settings = _.defaults(settings || {}, {
@@ -145,6 +148,9 @@ Builder.prototype.redrawFrame = function (element, point, settings) {
     this.setPosition(positionY > 0 ? 'after' : 'before')
     this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'bottom' : 'top'))
   }
+  window.setTimeout(function () {
+    this.frame && this.frame.classList.add('vcv-js-show')
+  }.bind(this), 0)
 }
 Builder.prototype.setPosition = function (position) {
   this.position = position
@@ -154,7 +160,8 @@ Builder.prototype.setFrameStyle = function (rect, offset) {
     width: rect.width,
     height: rect.height,
     top: offset.top + this.depositionTop(),
-    left: offset.left + this.depositionLeft()},
+    left: offset.left + this.depositionLeft()
+  },
     function (result, value, key) {
       return result + key + ':' + value + 'px;'
     },
