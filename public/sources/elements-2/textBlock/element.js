@@ -1,7 +1,8 @@
 window.vcvAddElement(
-  {"tag":{"access":"protected","type":"string","value":"2103f019-72d9-44cc-8ff0-05c49c7e6521"},"name":{"type":"string","access":"protected","value":"Text block"},"output":{"type":"htmleditor","access":"public","value":"<p>Put your HTML</p>","options":{"label":"Content","description":"Content for text block"}}},
+  {"tag":{"access":"protected","type":"string","value":"b0ad438b-6778-4aa7-bbc6-714bf52f23ae"},"name":{"type":"string","access":"protected","value":"Text block"},"output":{"type":"htmleditor","access":"public","value":"<p>Put your HTML</p>","options":{"label":"Content","description":"Content for text block"}}},
   // Component callback
   function(component) {
+	
     component.add(React.createClass({
       render: function() {
         // import variables
@@ -9,7 +10,9 @@ window.vcvAddElement(
         // import template js
         
         // import template
-        return (<div className='vce-text-block' {...other}><div className="editable" dangerouslySetInnerHTML={{__html:output}} /></div>
+        return (<div className='vce-text-block' {...other}>
+  <div className='editable' data-vc-editable-param='output' dangerouslySetInnerHTML={{__html:output}} />
+</div>
 );
       }
     }));
