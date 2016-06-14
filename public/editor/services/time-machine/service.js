@@ -2,13 +2,19 @@ var vcCake = require('vc-cake')
 var TimeMachine = {
   stack: [],
   stackPosition: 0,
+  stackHash: '',
   zeroState: {},
   add: function (data) {
+    // Do not store same data again
+    if (this.stackHash === JSON.stringify(data)) {
+      return
+    }
     if (this.can('redo')) {
       this.stack = this.stack.slice(0, this.stackPosition)
     }
     this.stack.push(data)
     this.stackPosition = this.stack.length
+    this.stackHash = JSON.stringify(this.get())
   },
   can: function (what) {
     var result = false
@@ -22,16 +28,19 @@ var TimeMachine = {
   undo: function () {
     if (this.can('undo')) {
       this.stackPosition -= 1
+      this.stackHash = JSON.stringify(this.get())
     }
   },
   redo: function () {
     if (this.can('redo')) {
       this.stackPosition += 1
+      this.stackHash = JSON.stringify(this.get())
     }
   },
   set: function (index) {
     if (this.stackPosition < index) {
       this.stack = this.stack.slice(index - this.stackPosition)
+      this.stackHash = JSON.stringify(this.get())
       return true
     }
     return false
@@ -45,6 +54,7 @@ var TimeMachine = {
   },
   setZeroState: function (data) {
     this.zeroState = data
+    this.stackHash = JSON.stringify(this.get())
   }
 }
 var Module = module.exports = {
