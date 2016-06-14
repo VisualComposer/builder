@@ -1,9 +1,11 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
+import Control from './control'
 var React = require('react')
 var ReactDOM = require('react-dom')
 // var TreeElement = require( '../layouts/tree/TreeLayout' )
 // var AddElementModal = require( './add-element/AddElement.js' )
 var classNames = require('classnames')
+
 require('../css/module.less')
 var navbarControls = []
 
@@ -35,7 +37,8 @@ var Navbar = React.createClass({
         right: false,
         bottom: false,
         left: false
-      }
+      },
+      visibilityList: {}
     }
   },
   componentWillMount: function () {
@@ -49,9 +52,23 @@ var Navbar = React.createClass({
       this.setState({ controlsCount: count })
     }.bind(this))
   },
+  /**
+   * Handler for position visibility for controls in navbar
+   * @param key
+   * @param visible
+   */
+  setControlVisibility: function (key, visible = true) {
+    var visibilityList = this.state.visibilityList
+    visibilityList[ key ] = visible
+    this.setState({ visibilityList: visibilityList })
+  },
   buildControls: function () {
-    return navbarControls.map(function (value) {
-      return React.createElement(value.icon, { key: 'Navbar:' + value.name })
+    return navbarControls.map((value) => {
+      return React.createElement(Control, {
+        key: 'Navbar:' + value.name,
+        value: value,
+        visibilityHandler: this.setControlVisibility
+      })
     })
   },
   handleDragStart (e) {
