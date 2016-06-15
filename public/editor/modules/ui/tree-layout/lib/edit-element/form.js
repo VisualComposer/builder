@@ -5,8 +5,8 @@ var lodash = require('lodash')
 var classNames = require('classnames')
 var TreeContentTab = require('./tab')
 require('../../css/tree-view/init.less')
-var PerfectScrollbar = require('perfect-scrollbar')
-var ReactDOM = require('react-dom')
+// var PerfectScrollbar = require('perfect-scrollbar')
+// var ReactDOM = require('react-dom')
 
 var TreeContent = React.createClass({
   propTypes: {
@@ -44,7 +44,7 @@ var TreeContent = React.createClass({
     window.removeEventListener('resize', this.refreshTabs)
   },
   componentDidUpdate: function (prevProps, prevState) {
-    this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
+    // this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
     if (this.options.forceRefresh === true) {
       this.options.forceRefresh = false
       this.refreshTabs()

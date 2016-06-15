@@ -4,14 +4,12 @@
 @z-index-base: 2000;
 @gold-value: 16px;
 
-
 //=========================================
 // Transition and animation
 //=========================================
 
 @transition-duration: .2s;
 @transition-timing-function: ease-in-out;
-
 
 //=========================================
 // Fonts and typography
@@ -26,7 +24,6 @@
 @text-color-base: #fff;
 @text-color-alternative: @text-color-base;
 @text-color-inverted: @text-color-root;
-
 
 //=========================================
 // Colors and states
@@ -48,3 +45,29 @@
 @state-color-warning: #fdb713;
 @state-color-warning-hover: darken(@state-color-warning, 7%);
 
+//=========================================
+// Media breakpoints
+//=========================================
+//=========================================
+// Grid Breakpoints
+// note: for media queries use mobile-first approach.
+//  Than means use @media (min-width: @vcv-media-xs)
+//=========================================
+
+// Extra small size (.vcv-media--xs)
+@vcv-media-xs: 0;
+
+// Small size (.vcv-media--sm)
+@vcv-media-sm: 400px;
+
+// Medium size (.vcv-media--md)
+@vcv-media-md: 800px;
+
+// Large size (.vcv-media--lg)
+@vcv-media-lg: 1200px;
+
+// Extra Large size (.vcv-media--xl)
+@vcv-media-xl: 1600px;
+
+// Mobile breakpoint
+@vcv-media-breakpoint: @vcv-media-md;

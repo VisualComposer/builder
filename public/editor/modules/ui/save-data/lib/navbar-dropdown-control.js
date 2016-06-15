@@ -1,12 +1,12 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
-var PerfectScrollbar = require('perfect-scrollbar')
-var ReactDOM = require('react-dom')
+// var PerfectScrollbar = require('perfect-scrollbar')
+// var ReactDOM = require('react-dom')
 vcCake.add('ui-navbar-dropdown-controls', function (api) {
   var React = require('react')
   var Control = React.createClass({
     componentDidMount: function () {
-      this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
+      // this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
     },
     render: function () {
       return <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end" disabled>
