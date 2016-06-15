@@ -3,6 +3,8 @@
   position: fixed;
   top: 0;
   height: @tree-initial-height;
+  min-height: @tree-min-height;
+  max-height: @tree-max-height;
   left: 0;
 
   display: flex;
@@ -18,6 +20,8 @@
 //== tree view
 .vcv-ui-tree-view-layout {
   width: @tree-initial-width;
+  min-width: @tree-min-width;
+  max-width: @tree-max-width;
   flex-shrink: 0;
   overflow: auto;
   position: relative;
@@ -48,6 +52,9 @@
 .vcv-ui-tree-view-o-content-expand {
   &.vcv-ui-tree-view-container {
     right: 0;
+  }
+  .vcv-ui-tree-view-layout {
+    max-width: @tree-max-width-content;
   }
 }
 
