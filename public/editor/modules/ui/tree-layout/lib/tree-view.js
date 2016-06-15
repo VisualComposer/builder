@@ -67,9 +67,11 @@ var TreeView = React.createClass({
           <div ref="scrollable" className={treeViewLayoutClasses}>
             <TreeLayout api={this.props.api} />
           </div>
+          <div className="resizer resizer-x resizer-tree-view-layout"></div>
           <div className="vcv-ui-tree-view-content">
             <EditElement element={element} api={this.props.api} />
           </div>
+          <div className="resizer resizer-y resizer-tree-view-container"></div>
         </div>
       </div>
     )
