@@ -1,0 +1,80 @@
+// Mixins for grid
+//-----------------------------------------
+#vcv-ui-grid {
+
+  //== make hidden visibility state
+  .make-visibility--hidden() {
+    .vcv-ui-visibility--hidden {
+      display: none !important;
+    }
+  }
+  .make-visibility--hidden(@breakpoint) when (@breakpoint = xs) {
+    .vcv-ui-visibility--hidden-@{breakpoint} {
+      &:extend(.vcv-ui-visibility--hidden);
+    }
+  }
+  .make-visibility--hidden(@breakpoint) {
+    .vcv-ui-visibility--hidden-@{breakpoint} {
+      @media-width: 'vcv-media-@{breakpoint}';
+      @media (min-width: @@media-width) {
+        display: none !important;
+      }
+      .vcv-media--@{breakpoint} & {
+        &:extend(.vcv-ui-visibility--hidden);
+      }
+    }
+  }
+  .make-visibility--hidden-only(@breakpoint) {
+    .vcv-ui-visibility--hidden-@{breakpoint}-only {
+      @media-width: 'vcv-media-@{breakpoint}';
+      @media (min-width: @@media-width) {
+        display: none !important;
+      }
+      .vcv-media--@{breakpoint} & {
+        &:extend(.vcv-ui-visibility--hidden);
+      }
+    }
+  }
+  .make-visibility--hidden-only(@breakpoint, @next-breakpoint) {
+    .vcv-ui-visibility--hidden-@{breakpoint}-only {
+      @media-width: 'vcv-media-@{breakpoint}';
+      @max-media-width: 'vcv-media-@{breakpoint}-max';
+      @media (min-width: @@media-width) and (max-width: @@max-media-width) {
+        display: none !important;
+      }
+      .vcv-media--@{breakpoint}:not(.vcv-media--@{next-breakpoint}) & {
+        &:extend(.vcv-ui-visibility--hidden);
+      }
+    }
+  }
+
+  //== make grid column
+  .calc-grid-column(@index, @grid-columns, @breakpoint) when (@index > 0) {
+    .vcv-ui-col--@{breakpoint}-@{index} {
+      @media-width: 'vcv-media-@{breakpoint}';
+      @media (min-width: @@media-width) {
+        flex-basis: percentage((@index / @grid-columns));
+        width: percentage((@index / @grid-columns));
+      }
+      .vcv-media--@{breakpoint} & {
+        &.col {
+          flex-basis: percentage((@index / @grid-columns));
+          width: percentage((@index / @grid-columns));
+        }
+      }
+    }
+  }
+
+  //== make columns
+  .loop-grid-columns(@index, @grid-columns, @breakpoint) when (@index >= 0) {
+    #vcv-ui-grid > .calc-grid-column(@index, @grid-columns, @breakpoint);
+    // next iteration
+    #vcv-ui-grid > .loop-grid-columns((@index - 1), @grid-columns, @breakpoint);
+  }
+
+  // Create grid for specific class
+  .make-grid-columns(@grid-columns, @breakpoint) {
+    #vcv-ui-grid > .loop-grid-columns(@grid-columns, @grid-columns, @breakpoint);
+  }
+
+}
