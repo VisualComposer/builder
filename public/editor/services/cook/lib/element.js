@@ -5,6 +5,7 @@ import {renderToStaticMarkup} from 'react-dom/server'
 
 import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
+
 import {createKey, getAttributeType} from './tools'
 
 const elData = Symbol('element data')
@@ -96,6 +97,9 @@ export default class Element {
   field (k, updater) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     let Component = type.component
+    if (!Component) {
+      return null
+    }
     let label = ''
     if (!settings) {
       throw new Error(format('Wrong attribute %s', k))
@@ -137,5 +141,31 @@ export default class Element {
       }
     }
     return data
+  }
+
+  /**
+   * Get all fields as groups: if group in group
+   * Lazy list
+   *
+   * @param keys
+   */
+  relatedTo (keys) {
+    var group = this.get('relatedTo')
+    if (group && group.has && group.has(keys)) {
+      return true
+    }
+    return false
+  }
+
+  /**
+   * Get container for value from group
+   * @returns [] - list of
+   */
+  containerFor () {
+    var group = this.get('containerFor')
+    if (group && group.each) {
+      return group.each()
+    }
+    return []
   }
 }
