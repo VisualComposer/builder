@@ -11,8 +11,8 @@ const cook = vcCake.getService('cook')
 require('../css/tree-view/init.less')
 
 require('./css/perfect-scrollbar.css')
-var PerfectScrollbar = require('perfect-scrollbar')
-var ReactDOM = require('react-dom')
+// var PerfectScrollbar = require('perfect-scrollbar')
+// var ReactDOM = require('react-dom')
 
 var TreeView = React.createClass({
   propTypes: {
@@ -45,7 +45,7 @@ var TreeView = React.createClass({
       .on('tree:hide', function () {
         this.setState({ treeHidden: true })
       }.bind(this))
-    this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
+    // this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
   },
   render: function () {
     let element = false

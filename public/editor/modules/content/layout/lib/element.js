@@ -1,6 +1,6 @@
 var vcCake = require('vc-cake')
 var React = require('react')
-var ReactDOM = require('react-dom')
+// var ReactDOM = require('react-dom')
 var cook = vcCake.getService('cook')
 require('../css/element.less')
 
