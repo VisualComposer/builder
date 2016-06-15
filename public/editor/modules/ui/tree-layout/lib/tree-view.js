@@ -72,6 +72,7 @@ var TreeView = React.createClass({
             <EditElement element={element} api={this.props.api} />
           </div>
           <div className="resizer resizer-y resizer-tree-view-container"></div>
+          <div className="resizer resizer-xy resizer-tree-view"></div>
         </div>
       </div>
     )

@@ -29,7 +29,7 @@ export default class Resizer {
   }
 
   destroy () {
-    this.stopDrag()
+    this.stopResize()
     this.settings.$resizer.off('mousedown.resizer')
     this.settings.resizerAppend && this.settings.$resizer.remove()
     this.settings.$overlay.remove()
@@ -39,13 +39,13 @@ export default class Resizer {
     this.settings.overlayClasses && this.settings.$overlay.addClass(this.settings.overlayClasses)
     this.settings.$overlay.appendTo('body')
     $(document)
-      .on('mousemove.resizer', this.doDrag.bind(this))
-      .on('mouseup.resizer', this.stopDrag.bind(this))
+      .on('mousemove.resizer', this.doResize.bind(this))
+      .on('mouseup.resizer', this.stopResize.bind(this))
   }
 
-  doDrag (e) {
+  doResize (e) {
     if (!e || e.which !== 1) {
-      this.stopDrag()
+      this.stopResize()
       return
     }
     let offset = this.$target.offset()
@@ -61,7 +61,7 @@ export default class Resizer {
     this.settings.callback && this.settings.callback(e)
   }
 
-  stopDrag () {
+  stopResize () {
     this.settings.$overlay.detach()
     $(document)
       .off('mousemove.resizer')
