@@ -20,7 +20,7 @@ export default class Component extends Attribute {
     let currentValues = this.state.value
     for (let key in values) {
       let value = values[ key ].value
-      let checked = currentValues.indexOf(value) !== -1 ? 'checked' : ''
+      let checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       optionElements.push(
         <label key={fieldKey + ':' + key + ':' + value} className="vc_ui-form-checkbox">
           <input type="checkbox" onChange={this.handleChange} checked={checked} value={value} />
