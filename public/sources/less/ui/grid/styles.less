@@ -1,0 +1,62 @@
+/* ===================================
+ * Visual composer editor grid styles
+ * =================================== */
+
+//== row
+.vcv-ui-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+//== column
+.vcv-ui-col {
+  box-sizing: border-box;
+  &,
+  .vcv-media--xs &,
+  .vcv-media--sm &,
+  .vcv-media--md &,
+  .vcv-media--lg &,
+  .vcv-media--xl & {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+}
+//== create columns breakpoints
+#vcv-ui-grid > .make-grid-columns(@grid-column-count, xs);
+#vcv-ui-grid > .make-grid-columns(@grid-column-count, sm);
+#vcv-ui-grid > .make-grid-columns(@grid-column-count, md);
+#vcv-ui-grid > .make-grid-columns(@grid-column-count, lg);
+#vcv-ui-grid > .make-grid-columns(@grid-column-count, xl);
+
+//== column gap
+.vcv-ui-row-gap--md {
+  &.vcv-ui-row {
+    margin-left: -@grid-gap-md/2;
+    margin-right: -@grid-gap-md/2;
+  }
+  > .vcv-ui-col {
+    padding-left: @grid-gap-md/2;
+    padding-right: @grid-gap-md/2;
+  }
+}
+
+//== order
+.vcv-ui-row-order--reverse {
+  flex-direction: row-reverse;
+}
+
+//== visibility
+#vcv-ui-grid > .make-visibility--hidden();
+#vcv-ui-grid > .make-visibility--hidden(xs);
+#vcv-ui-grid > .make-visibility--hidden(sm);
+#vcv-ui-grid > .make-visibility--hidden(md);
+#vcv-ui-grid > .make-visibility--hidden(lg);
+#vcv-ui-grid > .make-visibility--hidden(xl);
+
+#vcv-ui-grid > .make-visibility--hidden-only(xs, sm);
+#vcv-ui-grid > .make-visibility--hidden-only(sm, md);
+#vcv-ui-grid > .make-visibility--hidden-only(md, lg);
+#vcv-ui-grid > .make-visibility--hidden-only(lg, xl);
+#vcv-ui-grid > .make-visibility--hidden-only(xl);
+
