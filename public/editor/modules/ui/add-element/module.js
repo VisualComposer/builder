@@ -1,26 +1,18 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
+var classNames = require('classnames')
+
 require('./lib/navbar-control')
 
+import lodash from 'lodash'
 vcCake.add('ui-add-element', function (api) {
   var React = require('react')
   var ReactDOM = require('react-dom')
-  var Modal = require('react-modal')
   var cook = vcCake.getService('cook')
   var ElementControl = require('./lib/element-control')
-  require('./css/module.less')
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      border: 0,
-      background: 'transparent'
-    }
-  }
+
+  require('./css/init.less')
+
   var currentParentElement = false
   api.addAction('setParent', function (parent) {
     currentParentElement = parent
@@ -30,76 +22,85 @@ vcCake.add('ui-add-element', function (api) {
   })
   var Component = React.createClass({
     getInitialState: function () {
-      return { modalIsOpen: false, parent: false }
+      return {
+        isWindowOpen: false,
+        parent: false
+      }
     },
     componentWillMount: function () {
       api
         .on('show', function (parent) {
-          this.setState({ modalIsOpen: true, parent: parent })
+          this.setState({ isWindowOpen: true, parent: parent })
         }.bind(this))
         .on('hide', () => {
-          this.closeModal()
+          this.setState({ isWindowOpen: false })
         })
         .reply('app:add', function (parent) {
-          this.setState({ modalIsOpen: true, parent: parent })
+          this.setState({ isWindowOpen: true, parent: parent })
         }.bind(this))
     },
-    openModal: function (e) {
-      e && e.preventDefault()
-      this.setState({ modalIsOpen: true })
-    },
-    closeModal: function (e) {
-      e && e.preventDefault()
-      this.setState({ modalIsOpen: false })
-    },
     render: function () {
-      var elements = this.state.modalIsOpen ? cook.list.settings() : []
+      var elements = this.state.isWindowOpen ? cook.list.settings() : []
+      var elementsGrouped = lodash.groupBy(elements,
+        (element) => {
+          return element.category || 'Content'
+        })
       api.actions.setParent(this.state.parent)
-      if (this.state.modalIsOpen) {
+      if (this.state.isWindowOpen) {
         api.actions.setParent(this.state.parent)
       }
-      // Hardcode TODO: remove after mvp (task #133398003440855)
+      // TODO: Remove after mvp [#133398003440855].
       var isRow = false
       if (api.actions.getParent()) {
         isRow = cook.getById(api.actions.getParent()).get('name') === 'Row'
       }
 
-      return (<Modal
-        isOpen={this.state.modalIsOpen}
-        onRequestClose={this.closeModal}
-        style={customStyles}>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button type="button" className="close" onClick={this.closeModal}><span
-                aria-hidden="true">&times;</span></button>
-              <h4 className="modal-title">Add element</h4>
-            </div>
-            <div className="modal-body">
-              <ul className="vc_v-modal-content">
-                {elements.map(function (component) {
-                  // Hardcode TODO: remove after mvp (task #133398003440855)
-                  if (!isRow && component.name === 'Column') {
-                    return false
-                  }
-                  if (isRow && component.name !== 'Column') {
-                    return false
-                  }
+      var elementsGroupedOutput = []
+      lodash.each(elementsGrouped, (items, key) => {
+        var itemsOutput = []
+        items.map((element) => {
+          itemsOutput.push(<li>{element.name}</li>)
+        })
+        elementsGroupedOutput.push(<li><span>{key}</span>
+          <ul>{itemsOutput}</ul>
+        </li>)
+      })
 
-                  return (function () {
-                    return <ElementControl
-                      api={api}
-                      key={'vcv-element-control-' + component.tag}
-                      tag={component.tag}
-                      name={component.name}
-                      icon={component.icon ? component.icon.toString() : ''} />
-                  })()
-                })}
-              </ul>
-            </div>
+      var elementsOutput = []
+      elements.map(function (component) {
+        // TODO: Remove after mvp [#133398003440855].
+        if (!isRow && component.name === 'Column') {
+          return false
+        }
+        if (isRow && component.name !== 'Column') {
+          return false
+        }
+
+        elementsOutput.push(<ElementControl
+          api={api}
+          key={'vcv-element-control-' + component.tag}
+          tag={component.tag}
+          name={component.name}
+          icon={component.icon ? component.icon.toString() : ''} />
+        )
+      })
+
+      let classes = classNames({
+        'vcv-ui-add-element-container': true,
+        'vcv-ui-add-element-layout-hidden': !this.state.isWindowOpen
+      })
+
+      return (<div id="vcv-ui-add-element-container">
+        <div className={classes}>
+          <div className="vcv-ui-add-element-content">
+            <ul className="vcv-ui-add-element-list">
+              {elementsOutput}
+            </ul>
           </div>
+          <div className="resizer resizer-y resizer-add-element-container"></div>
+          <div className="resizer resizer-xy resizer-add-element"></div>
         </div>
-      </Modal>)
+      </div>)
     }
   })
 

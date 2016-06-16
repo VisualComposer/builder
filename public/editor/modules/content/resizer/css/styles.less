@@ -1,0 +1,24 @@
+.vcv-ui-resizer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: @resizer-size;
+  height: @resizer-size;
+  margin: -@resizer-size;
+  cursor: nw-resize;
+}
+
+.vcv-ui-resizer-x {
+  cursor: e-resize;
+}
+
+.vcv-ui-resizer-y {
+  cursor: n-resize;
+}
+
+.vcv-ui-resizer-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: @resizer-overlay-z-index;
+}

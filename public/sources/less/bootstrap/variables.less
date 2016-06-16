@@ -48,7 +48,6 @@
 //=========================================
 // Media breakpoints
 //=========================================
-//=========================================
 // Grid Breakpoints
 // note: for media queries use mobile-first approach.
 //  Than means use @media (min-width: @vcv-media-xs)
@@ -56,18 +55,28 @@
 
 // Extra small size (.vcv-media--xs)
 @vcv-media-xs: 0;
+@vcv-media-xs-min: @vcv-media-xs;
+@vcv-media-xs-max: (@vcv-media-sm - 1);
 
 // Small size (.vcv-media--sm)
 @vcv-media-sm: 400px;
+@vcv-media-sm-min: @vcv-media-sm;
+@vcv-media-sm-max: (@vcv-media-md - 1);
 
 // Medium size (.vcv-media--md)
 @vcv-media-md: 800px;
+@vcv-media-md-min: @vcv-media-md;
+@vcv-media-md-max: (@vcv-media-lg - 1);
 
 // Large size (.vcv-media--lg)
 @vcv-media-lg: 1200px;
+@vcv-media-lg-min: @vcv-media-lg;
+@vcv-media-lg-max: (@vcv-media-xl - 1);
 
 // Extra Large size (.vcv-media--xl)
 @vcv-media-xl: 1600px;
+@vcv-media-xl-min: @vcv-media-xl;
 
 // Mobile breakpoint
 @vcv-media-breakpoint: @vcv-media-md;
+@vcv-media-breakpoint-max: @vcv-media-breakpoint -1;

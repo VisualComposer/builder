@@ -4,6 +4,11 @@
     "access": "protected",
     "value": "button"
   },
+  "category": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
   "name": {
     "type": "string",
     "access": "protected",
