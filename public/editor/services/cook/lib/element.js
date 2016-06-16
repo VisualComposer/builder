@@ -53,6 +53,10 @@ export default class Element {
     return type && settings ? type.getValue(settings, this[ elData ].data, k) : undefined
   }
 
+  settings (k) {
+    return this[ elData ].getAttributeType(k)
+  }
+
   set (k, v) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
@@ -118,6 +122,7 @@ export default class Element {
       <div className="vc_ui-form-group" key={'form-group-' + k}>
         {label}
         <Component
+          key={k + this.get('id')}
           fieldKey={k}
           options={settings.options}
           value={type.getRawValue(this[elData].data, k)}
@@ -165,6 +170,30 @@ export default class Element {
     var group = this.get('containerFor')
     if (group && group.each) {
       return group.each()
+    }
+    return []
+  }
+
+  editFormTabs () {
+    var group = this.get('editFormTabs')
+    if (group && group.each) {
+      return group.each(this.editFormTabsIterator.bind(this))
+    }
+    return []
+  }
+
+  editFormTabsIterator (item) {
+    return {
+      key: item,
+      value: this.get(item),
+      data: this.settings(item)
+    }
+  }
+
+  editFormTabParams (tabName) {
+    var group = this.get(tabName)
+    if (group && group.each) {
+      return group.each(this.editFormTabsIterator.bind(this))
     }
     return []
   }

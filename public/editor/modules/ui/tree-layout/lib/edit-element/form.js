@@ -1,63 +1,78 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
-var React = require('react')
-var ReactDOM = require('react-dom')
-var lodash = require('lodash')
-var classNames = require('classnames')
-var TreeContentTab = require('./tab')
-require('../../css/tree-view/init.less')
-// var PerfectScrollbar = require('perfect-scrollbar')
-// var ReactDOM = require('react-dom')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import lodash from 'lodash'
+import classNames from 'classnames'
+import TreeContentTab from './tab'
+import '../../css/tree-view/init.less'
 
-var TreeContent = React.createClass({
-  propTypes: {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ])
-  },
-  tabsBD: {},
-  options: {
-    forceRefresh: false
-  },
+// import PerfectScrollbar from 'perfect-scrollbar'
 
-  getInitialState: function () {
-    return {
-      activeTab: 'content-tab-1',
-      visibleTabs: [
-        {
-          id: 'content-tab-' + 1,
-          title: 'General',
-          pinned: false
-        }
-      ],
-      hiddenTabs: []
+class TreeForm extends React.Component {
+
+  constructor () {
+    super()
+    this.state = {
+      activeTabIndex: 0,
+      allTabs: [],
+      visibleTabs: [],
+      hiddenTabs: [],
+      forceRefresh: false
     }
-  },
-  componentDidMount: function () {
+  }
+
+  componentDidMount () {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
-    window.addEventListener('resize', this.refreshTabs)
-    setTimeout(this.refreshTabs, 100)
+    window.addEventListener('resize', this.refreshTabs.bind(this))
+    setTimeout(this.refreshTabs.bind(this), 100)
+    this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
+  }
 
-    this.props.api.module('ui-navbar').on('resize', this.refreshTabs)
-  },
-  componentWillUnmount: function () {
-    window.removeEventListener('resize', this.refreshTabs)
-  },
-  componentDidUpdate: function (prevProps, prevState) {
-    // this.refs.scrollable && PerfectScrollbar.initialize(ReactDOM.findDOMNode(this.refs.scrollable))
-    if (this.options.forceRefresh === true) {
-      this.options.forceRefresh = false
-      this.refreshTabs()
-    }
-  },
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.refreshTabs.bind(this))
+  }
 
-  changeActiveTab: function (tabId) {
+  componentDidUpdate (prevProps, prevState) {
+    this.refreshTabs()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    var allTabs = this.tabsFromProps(nextProps)
     this.setState({
-      activeTab: tabId
+      allTabs: allTabs.slice(),
+      visibleTabs: [],
+      hiddenTabs: allTabs.slice(),
+      activeTabIndex: 0
     })
-  },
+  }
 
-  putTabToDrop: function (tabsCount) {
+  tabsFromProps (props) {
+    let tabs = []
+    if (props.element) {
+      props.element.editFormTabs().map((tab, index) => {
+        let tabsData = {
+          id: tab.key,
+          index: index,
+          title: tab.data.settings.options.label,
+          pinned: tab.data.settings.options.pinned || false,
+          params: props.element.editFormTabParams(tab.key)
+        }
+        tabs.push(tabsData)
+      })
+    }
+
+    return tabs
+  }
+
+  changeActiveTab (tabIndex) {
+    this.setState({
+      activeTabIndex: tabIndex
+    })
+  }
+
+  putTabToDrop (tabsCount) {
     if (!tabsCount) {
       tabsCount = 1
     }
@@ -76,8 +91,9 @@ var TreeContent = React.createClass({
       }
       return prevState
     })
-  },
-  popTabFromDrop: function (tabsCount) {
+  }
+
+  popTabFromDrop (tabsCount) {
     if (!tabsCount) {
       tabsCount = 1
     }
@@ -90,9 +106,9 @@ var TreeContent = React.createClass({
       }
       return prevState
     })
-  },
+  }
 
-  refreshTabs: function () {
+  refreshTabs () {
     if (this.props.element === false) {
       return false
     }
@@ -104,7 +120,7 @@ var TreeContent = React.createClass({
     })
     // if there is no space move tab from visible to hidden tabs
     if ($freeSpaceEl.offsetWidth === 0 && visibleAndUnpinnedTabs.length > 0) {
-      this.options.forceRefresh = true
+      this.setState({ forceRefresh: true })
       this.putTabToDrop()
       return
     }
@@ -114,11 +130,11 @@ var TreeContent = React.createClass({
       let tabsCount = 0
 
       while (freeSpace > 0 && tabsCount < this.state.hiddenTabs.length) {
-        let lastTabId = this.state.hiddenTabs[ tabsCount ].id
-        let lastTab = this.tabsBD[ lastTabId ]
+        let lastTabIndex = this.state.hiddenTabs[ tabsCount ].index
+        let lastTab = this.state.allTabs[ lastTabIndex ]
 
-        if (lastTab && (lastTab.getRealWidth() + 5 < freeSpace)) {
-          freeSpace -= lastTab.getRealWidth()
+        if (lastTab && (lastTab.ref.getRealWidth() + 5 < freeSpace)) {
+          freeSpace -= lastTab.ref.getRealWidth()
           tabsCount++
         } else {
           freeSpace = 0
@@ -128,55 +144,119 @@ var TreeContent = React.createClass({
         this.popTabFromDrop(tabsCount)
       }
     }
-  },
-  getForm: function () {
-    return this.props.element.publicKeys().map(function (k) {
-      let updater = lodash.curry(function (callback, event, key, value) { callback(event, key, value) })
-      return this.props.element.field(k, updater(this.props.api.request, 'element:set'))
-    }.bind(this))
-  },
-  closeForm: function () {
+  }
+
+  getForm (tabs, tabIndex) {
+    return tabs[ tabIndex ].params.map(this.getFormParamField.bind(this))
+  }
+
+  getFormParamField (param) {
+    let updater = lodash.curry((callback, event, key, value) => { callback(event, key, value) })
+    return this.props.element.field(param.key, updater(this.props.api.request, 'element:set'))
+  }
+
+  closeForm () {
     this.props.api.notify('form:hide', false)
-  },
-  closeTreeView: function () {
+  }
+
+  closeTreeView () {
     this.props.api.notify('hide', false)
-  },
-  toggleTreeView: function (e) {
-    e.preventDefault()
+  }
+
+  toggleTreeView (e) {
+    e && e.preventDefault && e.preventDefault()
     this.props.api.notify('tree:toggle')
-  },
-  saveForm: function () {
+  }
+
+  saveForm () {
     var element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
     this.closeTreeView()
-  },
-  render: function () {
-    let { activeTab, visibleTabs, hiddenTabs } = this.state
+  }
 
+  getTabProps (tab, activeTabIndex) {
+    return {
+      key: tab.id,
+      id: tab.id,
+      index: tab.index,
+      title: tab.title,
+      active: (activeTabIndex === tab.index),
+      container: '.vcv-ui-editor-tabs',
+      ref: (ref) => {
+        this.state.allTabs[ tab.index ].ref = ref
+      },
+      changeActive: this.changeActiveTab.bind(this)
+    }
+  }
+
+  render () {
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
+
     if (this.props.element === false) {
       return <div className={treeContentClasses}></div>
     }
+
+    let { activeTabIndex, visibleTabs, hiddenTabs } = this.state
+
     let dropdownClasses = classNames({
       'vcv-ui-editor-tab-dropdown': true,
       'vcv-ui-active': !!hiddenTabs.filter(function (value) {
-        return value.id === activeTab
+        return value.index === activeTabIndex
       }).length
     })
 
-    function getTabProps (tab, activeTab, context) {
-      return {
-        key: tab.id,
-        id: tab.id,
-        title: tab.title,
-        active: (activeTab === tab.id),
-        container: '.vcv-ui-editor-tabs',
-        ref: (ref) => { context.tabsBD[ tab.id ] = ref },
-        changeActive: context.changeActiveTab
-      }
+    var visibleTabsHeaderOutput = []
+    lodash.each(visibleTabs, (tab, i) => {
+      let { ...tabProps } = this.getTabProps(tab, activeTabIndex)
+      visibleTabsHeaderOutput.push(
+        <TreeContentTab {...tabProps} />
+      )
+    })
+    var hiddenTabsHeaderOutput = ''
+    if (hiddenTabs.length) {
+      var hiddenTabsHeader = []
+      lodash.each(hiddenTabs, (tab, i) => {
+        let { ...tabProps } = this.getTabProps(tab, activeTabIndex)
+        hiddenTabsHeader.push(
+          <TreeContentTab {...tabProps} />
+        )
+      })
+      hiddenTabsHeaderOutput = (
+        <dl className={dropdownClasses}>
+          <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
+            <span className="vcv-ui-editor-tab-content">
+              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots"></i>
+            </span>
+          </dt>
+          <dd className="vcv-ui-editor-tab-dropdown-content">
+            {hiddenTabsHeader}
+          </dd>
+        </dl>
+      )
     }
+    var visibleTabsContentOutput = []
+    lodash.each(visibleTabs, (tab, index) => {
+      let plateClass = 'vcv-ui-editor-plate'
+      if (tab.index === activeTabIndex) {
+        plateClass += ' vcv-ui-active'
+      }
+      visibleTabsContentOutput.push(<div key={'plate' + tab.id} className={plateClass}>
+        {this.getForm(visibleTabs, index)}
+      </div>)
+    })
+
+    var hiddenTabsContentOutput = []
+    lodash.each(hiddenTabs, (tab) => {
+      let plateClass = 'vcv-ui-editor-plate'
+      if (tab.index === activeTabIndex) {
+        plateClass += ' vcv-ui-active'
+      }
+      visibleTabsContentOutput.push(<div key={'plate' + tab.id} className={plateClass}>
+        {this.getForm(hiddenTabs, tab.index)}
+      </div>)
+    })
 
     var elementSettings = this.props.element
     return <div className={treeContentClasses}>
@@ -213,69 +293,23 @@ var TreeContent = React.createClass({
 
       <div className="vcv-ui-editor-tabs-container">
         <nav className="vcv-ui-editor-tabs">
-
           <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
             onClick={this.toggleTreeView}>
             <span className="vcv-ui-editor-tab-content">
               <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
             </span>
           </a>
-
-          {visibleTabs.map((tab, i) => {
-            let { ...tabProps } = getTabProps(tab, activeTab, this)
-            return (
-              <TreeContentTab {...tabProps} />
-            )
-          })
-          }
-          {(() => {
-            if (hiddenTabs.length) {
-              return <dl className={dropdownClasses}>
-                <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
-                  <span className="vcv-ui-editor-tab-content">
-                    <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots"></i>
-                  </span>
-                </dt>
-                <dd className="vcv-ui-editor-tab-dropdown-content">
-                  {hiddenTabs.map((tab, i) => {
-                    let { ...tabProps } = getTabProps(tab, activeTab, this)
-                    return (
-                      <TreeContentTab {...tabProps} />
-                    )
-                  })
-                  }
-                </dd>
-              </dl>
-            }
-          })()}
+          {visibleTabsHeaderOutput}
+          {hiddenTabsHeaderOutput}
           <span className="vcv-ui-editor-tabs-free-space"></span>
         </nav>
       </div>
 
       <div ref="scrollable" className="vcv-ui-tree-content-section">
-
         <div className="vcv-ui-editor-plates-container">
           <div className="vcv-ui-editor-plates">
-            {visibleTabs.map((tab, i) => {
-              let plateClass = 'vcv-ui-editor-plate'
-              if (tab.id === this.state.activeTab) {
-                plateClass += ' vcv-ui-active'
-              }
-              return (<div key={'plate' + tab.id} className={plateClass}>
-                {this.getForm()}
-              </div>)
-            }, this)
-            }
-            {hiddenTabs.map((tab, i) => {
-              let plateClass = 'vcv-ui-editor-plate'
-              if (tab.id === this.state.activeTab) {
-                plateClass += ' vcv-ui-active'
-              }
-              return (<div key={'plate' + tab.id} className={plateClass}>
-                tab content {tab.id}
-              </div>)
-            }, this)
-            }
+            {visibleTabsContentOutput}
+            {hiddenTabsContentOutput}
           </div>
         </div>
       </div>
@@ -298,5 +332,11 @@ var TreeContent = React.createClass({
       </div>
     </div>
   }
-})
-module.exports = TreeContent
+}
+/*
+TreeForm.propTypes = {
+  api: React.PropTypes.object.isRequired,
+  element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ])
+}*/
+
+module.exports = TreeForm

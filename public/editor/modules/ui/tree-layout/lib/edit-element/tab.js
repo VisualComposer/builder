@@ -8,6 +8,7 @@ var TreeContentTab = React.createClass({
     container: React.PropTypes.string,
     changeActive: React.PropTypes.func,
     id: React.PropTypes.string.isRequired,
+    index: React.PropTypes.number.isRequired,
     title: React.PropTypes.string,
     active: React.PropTypes.bool
   },
@@ -43,7 +44,7 @@ var TreeContentTab = React.createClass({
   },
 
   clickHandler: function () {
-    this.props.changeActive(this.props.id)
+    this.props.changeActive(this.props.index)
   },
 
   render: function () {
