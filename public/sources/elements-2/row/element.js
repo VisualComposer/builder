@@ -1,8 +1,8 @@
 window.vcvAddElement(
-  {"name":{"type":"string","access":"protected","value":"Row"},"category":{"type":"string","access":"protected","value":"Content"},"background":{"type":"color","access":"public","value":"","options":{"label":"Background color"}},"tag":{"access":"protected","type":"string","value":"0337ccac-fe49-41a2-8a69-2bca05ebfd58"},"type":{"access":"protected","type":"string","value":"container"}},
+  {"name":{"type":"string","access":"protected","value":"Row"},"category":{"type":"string","access":"protected","value":"Content"},"background":{"type":"color","access":"public","value":"","options":{"label":"Background color"}},"tag":{"access":"protected","type":"string","value":"bdde2e55-cefb-427d-b3cd-4e7c143fffd1"},"type":{"access":"protected","type":"string","value":"container"}},
   // Component callback
   function(component) {
-	
+	require( './styles.css' )
     component.add(React.createClass({
       render: function() {
         // import variables
