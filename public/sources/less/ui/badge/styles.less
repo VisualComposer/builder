@@ -23,3 +23,24 @@
     background-color: @badge-state-color-success;
   }
 }
+
+&[class*=vcv-ui-text-badge-] {
+  &::before {
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+    height: @badge-size;
+    width: @badge-size;
+    border-radius: 50%;
+  }
+}
+&.vcv-ui-text-badge-warning {
+  &::before {
+    background-color: @badge-state-color-warning;
+  }
+}
+&.vcv-ui-text-badge-success {
+  &::before {
+    background-color: @badge-state-color-success;
+  }
+}

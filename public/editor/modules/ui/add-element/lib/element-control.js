@@ -17,11 +17,25 @@ module.exports = React.createClass({
     this.props.api.notify('hide', true)
   },
   render: function () {
-    let classes = classNames('vcv-ui-add-element-element')
+    let nameClasses = classNames({
+      'vcv-ui-add-element-element-name': true,
+      'vcv-ui-text-badge-success': true,
+      'vcv-ui-text-badge-warning': false
+    })
 
-    return <li>
-      <a className={classes} onClick={this.addElement}>
-        <span>
+    return <li className='vcv-ui-add-element-list-item'>
+      <a className='vcv-ui-add-element-element' onClick={this.addElement}>
+        <span className='vcv-ui-add-element-element-content'>
+          <img src='https://placehold.it/100x100'
+            className='vcv-ui-add-element-element-main vcv-ui-add-element-element-image'
+            height='100'
+            width='100'
+            alt='' />
+          <span className='vcv-ui-add-element-element-main vcv-ui-add-element-add'>
+            +
+          </span>
+        </span>
+        <span className={nameClasses}>
           {this.props.name}
         </span>
       </a>

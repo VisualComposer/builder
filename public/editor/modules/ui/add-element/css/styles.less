@@ -29,10 +29,75 @@
   display: none;
 }
 
+.vcv-ui-add-element-list-container {
+  //background-color: @add-element-bg-content;
+  //padding: 20px;
+  flex: 1;
+}
+
 .vcv-ui-add-element-list {
-  //TODO
+  list-style: none;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 0;
+  margin: -(@add-element-element-gap/2);
+}
+
+.vcv-ui-add-element-list-item {
+  width: @add-element-element-width;
+  margin: (@add-element-element-gap/2);
 }
 
 .vcv-ui-add-element-element {
-  //TODO
+  color: @add-element-text-color-element;
+  width: @add-element-element-width;
+  cursor: pointer;
+  display: block;
+
+  &:hover {
+    .vcv-ui-add-element-add {
+      opacity: 1;
+    }
+  }
+}
+
+.vcv-ui-add-element-element-content {
+  position: relative;
+  display: block;
+  height: @add-element-element-height;
+}
+
+.vcv-ui-add-element-element-main {
+  position: absolute;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.vcv-ui-add-element-add {
+  background-color: rgba(0, 0, 0, .7);
+  line-height: @add-element-element-height;
+  transition: opacity .2s;
+  text-align: center;
+  color: #fff;
+  opacity: 0;
+}
+
+.vcv-ui-add-element-element-name {
+  @lineHeight: 16px;
+
+  &[class*=vcv-ui-text-badge-] {
+    &:before {
+      margin-right: 5px;
+    }
+  }
+
+  line-height: @lineHeight;
+  height: @lineHeight * 2;
+  text-align: center;
+  overflow: hidden;
+  margin: 10px 0;
+  display: block;
 }
