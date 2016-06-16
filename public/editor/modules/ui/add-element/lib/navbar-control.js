@@ -2,13 +2,36 @@
 var vcCake = require('vc-cake')
 vcCake.add('ui-add-element', function (api) {
   var React = require('react')
+  var classNames = require('classnames')
   var Control = React.createClass({
-    handleClick: function (e) {
+    getInitialState: function () {
+      return {
+        isWindowOpen: false
+      }
+    },
+    componentDidMount: function () {
+      api.on('show', function () {
+        this.setState({ isWindowOpen: true })
+        api.notify('tree:show')
+      }.bind(this))
+      .on('hide', function () {
+        this.setState({ isWindowOpen: false })
+      }.bind(this))
+    },
+    toggleAddElement: function (e) {
       e && e.preventDefault()
-      api.notify('show', false)
+      if (this.state.isWindowOpen) {
+        api.notify('hide')
+      } else {
+        api.notify('show')
+      }
     },
     render: function () {
-      return <a className="vcv-ui-navbar-control" href="#" title="Add Element" onClick={this.handleClick}>
+      let controlClass = classNames({
+        'vcv-ui-navbar-control': true,
+        'vcv-ui-navbar-control-active': this.state.isWindowOpen
+      })
+      return <a className={controlClass} href="#" title="Add Element" onClick={this.toggleAddElement}>
         <span className="vcv-ui-navbar-control-content">
           <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add"></i>
           <span>Add Element</span>

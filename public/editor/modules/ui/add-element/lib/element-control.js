@@ -17,16 +17,11 @@ module.exports = React.createClass({
     this.props.api.notify('hide', true)
   },
   render: function () {
-    var className
-
-    if (this.props.icon) {
-      className = classNames('glyphicon', this.props.icon)
-    }
+    let classes = classNames('vcv-ui-add-element-element')
 
     return <li>
-      <a onClick={this.addElement}>
+      <a className={classes} onClick={this.addElement}>
         <span>
-          {this.props.icon ? <span className={className}></span> : null}
           {this.props.name}
         </span>
       </a>

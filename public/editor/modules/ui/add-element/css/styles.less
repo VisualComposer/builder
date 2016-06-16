@@ -1,0 +1,38 @@
+.vcv-ui-add-element-container {
+  position: fixed;
+  top: 0;
+  height: @add-element-initial-height;
+  min-height: @add-element-min-height;
+  max-height: @add-element-max-height;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  font-size: @add-element-text-size-base;
+  color: @add-element-text-color-base;
+  background-color: @add-element-bg-base;
+  z-index: @add-element-zindex;
+}
+
+.vcv-ui-add-element-content {
+  flex-grow: 1;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.vcv-ui-add-element-layout-hidden {
+  display: none;
+}
+
+.vcv-ui-add-element-list {
+  //TODO
+}
+
+.vcv-ui-add-element-element {
+  //TODO
+}
