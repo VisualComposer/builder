@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import lodash from 'lodash'
-import '../css/resizer.less'
 
 export default class Resizer {
   constructor ($target, settings) {
@@ -15,8 +14,8 @@ export default class Resizer {
       resizeY: true,
       callback: false,
       resizerTarget: $target,
-      resizerClasses: 'resizer',
-      overlayClasses: 'resizer-overlay',
+      resizerClasses: 'vcv-ui-resizer',
+      overlayClasses: 'vcv-ui-resizer-overlay',
       resizerAppend: true,
       $resizer: $('<div></div>'),
       $overlay: $('<div></div>')

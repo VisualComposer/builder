@@ -1,0 +1,21 @@
+.vcv-ui-resizer-tree-view-layout {
+  width: @resizer-tree-view-size;
+  height: 100%;
+  right: -@resizer-tree-view-size;
+  margin: 0 0 0 -@resizer-tree-view-size;
+  z-index: @resizer-tree-view-z-index;
+  position: relative;
+}
+
+.vcv-ui-resizer-tree-view-container {
+  width: 100%;
+  height: @resizer-tree-view-size;
+  bottom: -@resizer-tree-view-size;
+  margin: 0;
+  z-index: @resizer-tree-view-z-index;
+  position: absolute;
+}
+
+.vcv-ui-resizer-tree-view-layout-hidden {
+  display: none;
+}
