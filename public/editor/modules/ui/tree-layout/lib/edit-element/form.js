@@ -1,6 +1,6 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var React = require('react')
-var ReactDom = require('react-dom')
+var ReactDOM = require('react-dom')
 var lodash = require('lodash')
 var classNames = require('classnames')
 var TreeContentTab = require('./tab')
@@ -97,7 +97,7 @@ var TreeContent = React.createClass({
       return false
     }
     // get tabs line width
-    let $tabsLine = ReactDom.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
+    let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
     let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
     let visibleAndUnpinnedTabs = this.state.visibleTabs.filter(function (tab) {
       return !tab.pinned
