@@ -9,6 +9,11 @@
     "access": "protected",
     "value": "Icon Button 1.0"
   },
+  "category": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
   "buttonTitle": {
     "type": "string",
     "access": "public",

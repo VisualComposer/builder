@@ -4,6 +4,11 @@
     "access": "protected",
     "value": "Row"
   },
+  "category": {
+    "type": "string",
+    "access": "protected",
+    "value": "Content"
+  },
   "background": {
     "type": "color",
     "access": "public",

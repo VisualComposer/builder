@@ -55,7 +55,7 @@ var TreeView = React.createClass({
     }
     let treeViewClasses = classNames({
       'vcv-ui-tree-view-container': true,
-      'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false,
+      'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false
     })
     let treeViewLayoutClasses = classNames({
       'vcv-ui-tree-view-layout': true,

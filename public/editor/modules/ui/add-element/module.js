@@ -2,6 +2,7 @@
 var vcCake = require('vc-cake')
 require('./lib/navbar-control')
 
+import lodash from 'lodash'
 vcCake.add('ui-add-element', function (api) {
   var React = require('react')
   var ReactDOM = require('react-dom')
@@ -54,6 +55,10 @@ vcCake.add('ui-add-element', function (api) {
     },
     render: function () {
       var elements = this.state.modalIsOpen ? cook.list.settings() : []
+      var elementsGrouped = lodash.groupBy(elements,
+        (element) => {
+          return element.category || 'Content'
+        })
       api.actions.setParent(this.state.parent)
       if (this.state.modalIsOpen) {
         api.actions.setParent(this.state.parent)
@@ -63,6 +68,37 @@ vcCake.add('ui-add-element', function (api) {
       if (api.actions.getParent()) {
         isRow = cook.getById(api.actions.getParent()).get('name') === 'Row'
       }
+
+      var elementsGroupedOutput = []
+
+      lodash.each(elementsGrouped, (items, key) => {
+        var itemsOutput = []
+        items.map((element) => {
+          itemsOutput.push(<li>{element.name}</li>)
+        })
+        elementsGroupedOutput.push(<li><span>{key}</span>
+          <ul>{itemsOutput}</ul>
+        </li>)
+      })
+
+      var elementsOutput = []
+      elements.map(function (component) {
+        // Hardcode TODO: remove after mvp (task #133398003440855)
+        if (!isRow && component.name === 'Column') {
+          return false
+        }
+        if (isRow && component.name !== 'Column') {
+          return false
+        }
+
+        elementsOutput.push(<ElementControl
+          api={api}
+          key={'vcv-element-control-' + component.tag}
+          tag={component.tag}
+          name={component.name}
+          icon={component.icon ? component.icon.toString() : ''} />
+        )
+      })
 
       return (<Modal
         isOpen={this.state.modalIsOpen}
@@ -76,25 +112,11 @@ vcCake.add('ui-add-element', function (api) {
               <h4 className="modal-title">Add element</h4>
             </div>
             <div className="modal-body">
+              <ul>
+                {elementsGroupedOutput}
+              </ul>
               <ul className="vc_v-modal-content">
-                {elements.map(function (component) {
-                  // Hardcode TODO: remove after mvp (task #133398003440855)
-                  if (!isRow && component.name === 'Column') {
-                    return false
-                  }
-                  if (isRow && component.name !== 'Column') {
-                    return false
-                  }
-
-                  return (function () {
-                    return <ElementControl
-                      api={api}
-                      key={'vcv-element-control-' + component.tag}
-                      tag={component.tag}
-                      name={component.name}
-                      icon={component.icon ? component.icon.toString() : ''} />
-                  })()
-                })}
+                {elementsOutput}
               </ul>
             </div>
           </div>

@@ -9,6 +9,11 @@
     "access": "protected",
     "value": "Text block"
   },
+  "category": {
+    "type": "string",
+    "access": "protected",
+    "value": "Content"
+  },
   "output": {
     "type": "htmleditor",
     "access": "public",

@@ -4,6 +4,11 @@
     "access": "protected",
     "value": "Single Image"
   },
+  "category": {
+    "type": "string",
+    "access": "protected",
+    "value": "Content"
+  },
   "image": {
     "type": "attachimage",
     "access": "public",
