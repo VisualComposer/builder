@@ -4,6 +4,7 @@ var classNames = require('classnames')
 
 require('./lib/navbar-control')
 
+import lodash from 'lodash'
 vcCake.add('ui-add-element', function (api) {
   var React = require('react')
   var ReactDOM = require('react-dom')
@@ -40,6 +41,10 @@ vcCake.add('ui-add-element', function (api) {
     },
     render: function () {
       var elements = this.state.isWindowOpen ? cook.list.settings() : []
+      var elementsGrouped = lodash.groupBy(elements,
+        (element) => {
+          return element.category || 'Content'
+        })
       api.actions.setParent(this.state.parent)
       if (this.state.isWindowOpen) {
         api.actions.setParent(this.state.parent)
@@ -49,6 +54,17 @@ vcCake.add('ui-add-element', function (api) {
       if (api.actions.getParent()) {
         isRow = cook.getById(api.actions.getParent()).get('name') === 'Row'
       }
+
+      var elementsGroupedOutput = []
+      lodash.each(elementsGrouped, (items, key) => {
+        var itemsOutput = []
+        items.map((element) => {
+          itemsOutput.push(<li>{element.name}</li>)
+        })
+        elementsGroupedOutput.push(<li><span>{key}</span>
+          <ul>{itemsOutput}</ul>
+        </li>)
+      })
 
       var elementsOutput = []
       elements.map(function (component) {

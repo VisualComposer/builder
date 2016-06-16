@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 import $ from 'jquery'
-import './css/resizer-tree-view.less'
+import './css/module.less'
 import Resizer from './lib/resizer'
 
 vcCake.add('resizer', function (api) {
@@ -8,7 +8,7 @@ vcCake.add('resizer', function (api) {
     // Width resizer
     var $target, $resizer
     $target = $('.vcv-ui-tree-view-layout', '#vcv-ui-tree-layout-wrapper')
-    $resizer = $('.resizer-tree-view-layout', '#vcv-ui-tree-layout-wrapper')
+    $resizer = $('.vcv-ui-resizer-tree-view-layout', '#vcv-ui-tree-layout-wrapper')
     var xResizer = initResize($target, {
       resizeY: false,
       resizerClasses: false,
@@ -18,7 +18,7 @@ vcCake.add('resizer', function (api) {
 
     // Height resizer
     $target = $('.vcv-ui-tree-view-container', '#vcv-ui-tree-layout-wrapper')
-    $resizer = $('.resizer-tree-view-container', '#vcv-ui-tree-layout-wrapper')
+    $resizer = $('.vcv-ui-resizer-tree-view-container', '#vcv-ui-tree-layout-wrapper')
     var yResizer = initResize($target, {
       resizeX: false,
       resizerClasses: false,
@@ -27,7 +27,7 @@ vcCake.add('resizer', function (api) {
     })
 
     // XY resizer
-    $resizer = $('.resizer-tree-view', '#vcv-ui-tree-layout-wrapper')
+    $resizer = $('.vcv-ui-resizer-tree-view', '#vcv-ui-tree-layout-wrapper')
     initResize($resizer, {
       resizeX: false,
       resizeY: false,

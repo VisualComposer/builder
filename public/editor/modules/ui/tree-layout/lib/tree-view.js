@@ -55,25 +55,32 @@ var TreeView = React.createClass({
     }
     let treeViewClasses = classNames({
       'vcv-ui-tree-view-container': true,
-      'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false,
-      'vcv-ui-tree-view-layout-hidden': this.state.treeHidden
+      'vcv-ui-tree-view-o-content-expand': this.state.elementId !== false
     })
     let treeViewLayoutClasses = classNames({
       'vcv-ui-tree-view-layout': true,
       'vcv-hidden': this.state.treeHidden
     })
+
+    let treeViewLayoutResizerClasses = classNames({
+      'vcv-ui-resizer': true,
+      'vcv-ui-resizer-x': true,
+      'vcv-ui-resizer-tree-view-layout': true,
+      'vcv-ui-resizer-tree-view-layout-hidden': this.state.treeHidden
+    })
+
     return (
       <div id="vcv-ui-tree-view-container">
         <div className={treeViewClasses}>
           <div ref="scrollable" className={treeViewLayoutClasses}>
             <TreeLayout api={this.props.api} />
           </div>
-          <div className="resizer resizer-x resizer-tree-view-layout"></div>
+          <div className={treeViewLayoutResizerClasses}></div>
           <div className="vcv-ui-tree-view-content">
             <EditElement element={element} api={this.props.api} />
           </div>
-          <div className="resizer resizer-y resizer-tree-view-container"></div>
-          <div className="resizer resizer-xy resizer-tree-view"></div>
+          <div className="vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-container"></div>
+          <div className="vcv-ui-resizer vcv-ui-resizer-xy vcv-ui-resizer-tree-view"></div>
         </div>
       </div>
     )
