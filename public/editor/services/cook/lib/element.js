@@ -118,6 +118,7 @@ export default class Element {
       <div className="vc_ui-form-group" key={'form-group-' + k}>
         {label}
         <Component
+          key={k + this.get('id')}
           fieldKey={k}
           options={settings.options}
           value={type.getRawValue(this[elData].data, k)}
