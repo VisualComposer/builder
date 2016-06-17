@@ -54,7 +54,7 @@
   display: block;
 
   &:hover {
-    .vcv-ui-add-element-add {
+    .vcv-ui-add-element-overlay {
       opacity: 1;
     }
   }
@@ -66,10 +66,21 @@
   height: @add-element-element-height;
 }
 
+.vcv-ui-add-element-image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
 .vcv-ui-add-element-overlay {
+  transition: opacity @transition-duration @transition-timing-function;
+  background-color: @add-element-bg-overlay;
   color: @color-inverted;
   position: absolute;
   overflow: hidden;
+  opacity: 0;
   bottom: 0;
   right: 0;
   left: 0;
@@ -77,22 +88,16 @@
 }
 
 .vcv-ui-add-element-add {
-  transition: opacity @transition-duration @transition-timing-function;
-  background-color: @add-element-bg-overlay;
   line-height: @add-element-element-height;
-  opacity: 0;
 }
 
 .vcv-ui-add-element-edit {
-  transition: opacity @transition-duration @transition-timing-function;
+  height: @add-element-element-height;
   flex-direction: column;
-  pointer-events: none;
   display: flex;
-  opacity: 0;
 }
 
 .vcv-ui-add-element-move {
-  background-color: @add-element-bg-overlay;
   position: relative;
   cursor: move;
   flex: 1;
@@ -116,7 +121,7 @@
 .vcv-ui-add-element-element-name {
   @lineHeight: 16px;
 
-  [class*=vcv-ui-badge-] {
+  .vcv-ui-add-element-badge {
     position: relative;
 
     &::after {
@@ -133,26 +138,4 @@
   padding: 0 .75em;
   margin: 10px 0;
   display: block;
-}
-
-//== behaviors
-
-.vcv-ui-add-element-editable {
-  .vcv-ui-add-element-element {
-    .vcv-ui-add-element-add {
-      pointer-events: none;
-    }
-    .vcv-ui-add-element-edit {
-      pointer-events: auto;
-    }
-
-    &:hover {
-      .vcv-ui-add-element-add {
-        opacity: 0;
-      }
-      .vcv-ui-add-element-edit {
-        opacity: 1;
-      }
-    }
-  }
 }

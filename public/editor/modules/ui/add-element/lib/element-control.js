@@ -30,22 +30,25 @@ module.exports = React.createClass({
   },
   render: function () {
     let nameClasses = classNames({
-      'vcv-ui-badge-success': true,
-      'vcv-ui-badge-warning': false
+      'vcv-ui-add-element-badge vcv-ui-badge-success': true,
+      'vcv-ui-add-element-badge vcv-ui-badge-warning': false
     })
+
+    // Possible overlays:
+
+    // <span className="vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add"></span>
+
+    // <span className='vcv-ui-add-element-edit'>
+    //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
+    //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
+    // </span>
 
     return <li className='vcv-ui-add-element-list-item'>
       <a className='vcv-ui-add-element-element' onClick={this.addElement}>
         <span className='vcv-ui-add-element-element-content'>
-          <img src='https://placehold.it/100x100'
-            className='vcv-ui-add-element-overlay vcv-ui-add-element-element-image'
-            height='100'
-            width='100'
-            alt='' />
-          <span className='vcv-ui-add-element-overlay vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
-          <span className='vcv-ui-add-element-overlay vcv-ui-add-element-edit'>
-            <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
-            <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
+          <img className='vcv-ui-add-element-element-image' src='https://placehold.it/100x100' alt='' />
+          <span className='vcv-ui-add-element-overlay'>
+            <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
           </span>
         </span>
         <span className='vcv-ui-add-element-element-name'>
