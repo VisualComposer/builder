@@ -23,7 +23,7 @@ module.exports = React.createClass({
   ellipsize: function () {
     let element = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-element-name')
     let wordArray = element.innerHTML.split(' ')
-    while (element.scrollHeight > element.offsetHeight) {
+    while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
       wordArray.pop()
       element.innerHTML = wordArray.join(' ') + '...'
     }
