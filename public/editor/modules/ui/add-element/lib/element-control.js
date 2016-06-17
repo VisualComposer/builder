@@ -1,6 +1,7 @@
 var vcCake = require('vc-cake')
 var cook = vcCake.getService('cook')
 var React = require('react')
+var ReactDOM = require('react-dom')
 var classNames = require('classnames')
 
 module.exports = React.createClass({
@@ -10,11 +11,22 @@ module.exports = React.createClass({
     api: React.PropTypes.object.isRequired,
     icon: React.PropTypes.string
   },
+  componentDidMount: function () {
+    this.ellipsize()
+  },
   addElement: function (e) {
     e.preventDefault()
     var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
+  },
+  ellipsize: function () {
+    let element = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-element-name')
+    let wordArray = element.innerHTML.split(' ')
+    while (element.scrollHeight > element.offsetHeight) {
+      wordArray.pop()
+      element.innerHTML = wordArray.join(' ') + '...'
+    }
   },
   render: function () {
     let nameClasses = classNames({
