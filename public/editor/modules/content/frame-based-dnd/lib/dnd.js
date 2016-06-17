@@ -23,6 +23,7 @@ var Builder = function (container, options) {
   this.currentElement = null
   this.frame = null
   this.position = null
+  this.linePosition = null
   this.options = _.defaults(options, {
     cancelMove: false,
     moveCallback: function () {
@@ -116,79 +117,66 @@ Builder.prototype.checkItems = function (point) {
   let element = cook.get(data)
   let parentData = getService('document').get(parentId)
   let parentElement = cook.get(parentData)
-  // console.log('parent: ' + parentElement.get('name'))
-  // console.log('hover: ' + element.get('name'))
   if (element) {
     this.redrawFrame(DOMelement, point, {
       allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
-      allowAppend: element.containerFor() ? this.dragingElementObject.relatedTo(element.containerFor()) : false
+      allowAppend: element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
     })
   }
-
-  /* if (this.dragingElement.getAttribute('name') === 'Column') {
-   this.redrawFrame(element, point, {
-   allowBeforeAfter: element.getAttribute('name') === 'Column',
-   allowAppend: element.getAttribute('name') === 'Row'
-   })
-   } else {
-   this.redrawFrame(element, point, {
-   allowBeforeAfter: element.getAttribute('name') !== 'Column',
-   allowAppend: element.getAttribute('name') !== 'Row'
-   })
-   } */
+}
+Builder.prototype.isSameElementPosition = function (element, position) {
+  return this.currentElement === element.getAttribute('data-vc-element') && this.linePosition === position
+}
+Builder.prototype.setFrameSettings = function (rect, offset, cssClass) {
+  this.frame.className = ''
+  this.setFrameStyle(rect, offset)
+  this.frame.classList.add(cssClass)
 }
 Builder.prototype.redrawFrame = function (element, point, settings) {
-  if (this.currentElement === element.getAttribute('data-vc-element')) {
-    return false
-  }
-  this.currentElement = element.getAttribute('data-vc-element')
-  this.frame.className = ''
+  let position, linePosition
   settings = _.defaults(settings || {}, {
     allowAppend: true,
     allowBeforeAfter: true
   })
-  var rect = element.getBoundingClientRect()
-  var offset = $(element).offset()
-  var positionY = point.y - (rect.top + rect.height / 2)
-  var positionX = point.x - (rect.left + rect.width / 2)
-  var isContainer = element.getAttribute('type') === 'container'
-
-  this.setFrameStyle(rect, offset)
-  this.position = null
-  if (
-    settings.allowAppend === true &&
-    isContainer &&
-    $(element).find('[data-vc-element]').length === 0 &&
-    Math.abs(positionY) / rect.height < 0.3
-  ) {
-    this.setPosition('append')
-    this.frame.classList.add('vcv-dnd-frame-center')
+  let rect = element.getBoundingClientRect()
+  let offset = $(element).offset()
+  let positionY = point.y - (rect.top + rect.height / 2)
+  let positionX = point.x - (rect.left + rect.width / 2)
+  if (settings.allowAppend === true) {
+    position = 'append'
+    linePosition = 'center'
   } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
-    this.setPosition(positionX > 0 ? 'after' : 'before')
-    this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'right' : 'left'))
+    position = positionX > 0 ? 'after' : 'before'
+    linePosition = position === 'after' ? 'right' : 'left'
   } else if (settings.allowBeforeAfter === true) {
-    this.setPosition(positionY > 0 ? 'after' : 'before')
-    this.frame.classList.add('vcv-dnd-frame-' + (this.position === 'after' ? 'bottom' : 'top'))
+    position = positionY > 0 ? 'after' : 'before'
+    linePosition = position === 'after' ? 'bottom' : 'top'
   }
-  window.setTimeout(function () {
-    this.frame && this.frame.classList.add('vcv-js-show')
-  }.bind(this), 0)
+  if (!this.isSameElementPosition(element, linePosition)) {
+    this.currentElement = element.getAttribute('data-vc-element')
+    this.setPosition(position)
+    this.setLinePosition(linePosition)
+    this.setFrameSettings(rect, offset, 'vcv-dnd-frame-' + linePosition)
+    window.setTimeout(function () {
+      this.frame && this.frame.classList.add('vcv-js-show')
+    }.bind(this), 0)
+  }
 }
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
+Builder.prototype.setLinePosition = function (linePosition) {
+  this.linePosition = linePosition
+}
 Builder.prototype.setFrameStyle = function (rect, offset) {
   this.frame.setAttribute('style', _.reduce({
-      width: rect.width,
-      height: rect.height,
-      top: offset.top + this.depositionTop(),
-      left: offset.left + this.depositionLeft()
-    },
-    function (result, value, key) {
-      return result + key + ':' + value + 'px;'
-    },
-    ''
-  ))
+    width: rect.width,
+    height: rect.height,
+    top: offset.top + this.depositionTop(),
+    left: offset.left + this.depositionLeft()
+  }, function (result, value, key) {
+    return result + key + ':' + value + 'px;'
+  }, ''))
 }
 Builder.prototype.depositionTop = function () {
   return this.options.offsetTop - this.options.document.body.scrollTop
@@ -248,6 +236,7 @@ Builder.prototype.handleDragEnd = function (e) {
   this.currentElement = null
   this.dragingElementObject = null
   this.position = null
+  this.linePosition = null
 }
 /**
  * Global Constructor
