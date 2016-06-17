@@ -19,6 +19,9 @@ export default class Component extends Attribute {
 
   componentWillMount () {
     // Create the media uploader.
+    if (typeof window.wp === 'undefined') {
+      return false
+    }
     this.mediaUploader = window.wp.media({
       title: 'Add images',
       // Tell the modal to show only images.
@@ -72,13 +75,13 @@ export default class Component extends Attribute {
     let { fieldKey } = this.props
     var images = []
     value.urls.forEach(function (url) {
-      images.push(<img key={fieldKey + ':' + url} src={url} className='thumbnail' />)
+      images.push(<img key={fieldKey + ':' + url} src={url} className='thumbnail'/>)
     })
 
     return <div className='vcv-attach-image'>
       <div className='vcv-image-preview'>{images}</div>
       <a onClick={this.openLibrary.bind(this)}>
-        <i className='vcv-ui-icon vcv-ui-icon-add' />
+        <i className='vcv-ui-icon vcv-ui-icon-add'/>
       </a>
     </div>
   }

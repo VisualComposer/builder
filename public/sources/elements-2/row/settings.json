@@ -16,5 +16,15 @@
     "options": {
       "label": "Background color"
     }
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": ["General"]
+  },
+  "containerFor": {
+    "type": "group",
+    "access": "protected",
+    "value": ["Column"]
   }
 }

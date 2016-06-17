@@ -5,7 +5,7 @@ var Collector = require('./tools/webpack-collector')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var autoprefixer = require('autoprefixer')
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',

@@ -78,5 +78,15 @@
         }
       ]
     }
+  },
+  "containerFor": {
+    "type": "group",
+    "access": "protected",
+    "value": ["General"]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": ["Column"]
   }
 }

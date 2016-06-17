@@ -1,6 +1,8 @@
-var Item = require('./item')
-var $ = require('jquery')
-var _ = require('lodash')
+import {getService} from 'vc-cake'
+import Item from './item'
+const cook = getService('cook')
+const $ = require('jquery')
+const _ = require('lodash')
 /**
  * Drag&drop builder.
  *
@@ -9,10 +11,15 @@ var _ = require('lodash')
  * @constructor
  */
 var Builder = function (container, options) {
+  /**
+   * Container to work with
+   * @type {DOMNode}
+   */
   this.container = container
   this.items = {}
   this.hover = ''
   this.dragingElement = null
+  this.dragingElementObject = null
   this.currentElement = null
   this.frame = null
   this.position = null
@@ -94,26 +101,41 @@ Builder.prototype.hideControls = function () {
 
 }
 Builder.prototype.checkItems = function (point) {
-  var element = this.options.document.elementFromPoint(point.x, point.y)
+  let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
 
-  if (element && !element.getAttribute('data-vc-element')) {
-    element = $(element).parents('[data-vc-element]').get(0)
+  if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
+    DOMelement = $(DOMelement).closest('[data-vc-element]')
   }
-  var isElement = element && element.getAttribute('data-vc-element') !== this.dragingElementId
+  let isElement = DOMelement && DOMelement.getAttribute && DOMelement.getAttribute('data-vc-element') !== this.dragingElementId
   if (!isElement) {
     return false
   }
-  if (this.dragingElement.getAttribute('name') === 'Column') {
-    this.redrawFrame(element, point, {
-      allowBeforeAfter: element.getAttribute('name') === 'Column',
-      allowAppend: element.getAttribute('name') === 'Row'
-    })
-  } else {
-    this.redrawFrame(element, point, {
-      allowBeforeAfter: element.getAttribute('name') !== 'Column',
-      allowAppend: element.getAttribute('name') !== 'Row'
+  let id = DOMelement.getAttribute('data-vc-element')
+  let parentId = $(DOMelement).parents('[data-vc-element]:first').attr('data-vc-element')
+  let data = getService('document').get(id)
+  let element = cook.get(data)
+  let parentData = getService('document').get(parentId)
+  let parentElement = cook.get(parentData)
+  // console.log('parent: ' + parentElement.get('name'))
+  // console.log('hover: ' + element.get('name'))
+  if (element) {
+    this.redrawFrame(DOMelement, point, {
+      allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
+      allowAppend: element.containerFor() ? this.dragingElementObject.relatedTo(element.containerFor()) : false
     })
   }
+
+  /* if (this.dragingElement.getAttribute('name') === 'Column') {
+   this.redrawFrame(element, point, {
+   allowBeforeAfter: element.getAttribute('name') === 'Column',
+   allowAppend: element.getAttribute('name') === 'Row'
+   })
+   } else {
+   this.redrawFrame(element, point, {
+   allowBeforeAfter: element.getAttribute('name') !== 'Column',
+   allowAppend: element.getAttribute('name') !== 'Row'
+   })
+   } */
 }
 Builder.prototype.redrawFrame = function (element, point, settings) {
   if (this.currentElement === element.getAttribute('data-vc-element')) {
@@ -157,11 +179,11 @@ Builder.prototype.setPosition = function (position) {
 }
 Builder.prototype.setFrameStyle = function (rect, offset) {
   this.frame.setAttribute('style', _.reduce({
-    width: rect.width,
-    height: rect.height,
-    top: offset.top + this.depositionTop(),
-    left: offset.left + this.depositionLeft()
-  },
+      width: rect.width,
+      height: rect.height,
+      top: offset.top + this.depositionTop(),
+      left: offset.left + this.depositionLeft()
+    },
     function (result, value, key) {
       return result + key + ':' + value + 'px;'
     },
@@ -195,6 +217,9 @@ Builder.prototype.handleDragStart = function (e) {
     e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
     this.hideHelper()
   }
+  let data = getService('document').get(this.dragingElementId)
+  this.dragingElementObject = cook.get(data)
+
   this.watchMouse()
   this.createFrame()
   this.renderControls()
@@ -221,6 +246,7 @@ Builder.prototype.handleDragEnd = function (e) {
   }
   this.dragingElement = null
   this.currentElement = null
+  this.dragingElementObject = null
   this.position = null
 }
 /**

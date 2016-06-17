@@ -344,5 +344,10 @@
       "label": "Show arrow",
       "description": "Show arrow on button"
     }
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": ["General"]
   }
 }

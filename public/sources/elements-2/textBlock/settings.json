@@ -99,5 +99,10 @@
       "editFormTab2",
       "editFormTab1"
     ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": ["General"]
   }
 }

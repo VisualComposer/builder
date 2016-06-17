@@ -12,9 +12,10 @@ vcCake.add('frame-based-dnd', function (api) {
   }
   ModuleDnd.prototype.buildItems = function () {
     if (!this.items) {
-      if (!documentDOM && $('#vcv-editor-iframe').get(0)) {
-        documentDOM = $('#vcv-editor-iframe').get(0).contentWindow.document
-        offsetTop = $('#vcv-editor-iframe').offset().top
+      var iframe = $('#vcv-editor-iframe')
+      if (!documentDOM && iframe.get(0)) {
+        documentDOM = iframe.get(0).contentWindow.document
+        offsetTop = iframe.offset().top
       } else {
         documentDOM = document
       }

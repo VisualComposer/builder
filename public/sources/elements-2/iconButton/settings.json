@@ -123,5 +123,10 @@
       "label": "HTML Editor 2",
       "description": "it should work too"
     }
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": ["General"]
   }
 }
