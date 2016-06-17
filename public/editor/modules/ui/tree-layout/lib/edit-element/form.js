@@ -13,11 +13,10 @@ class TreeForm extends React.Component {
   constructor () {
     super()
     this.state = {
-      activeTabIndex: 0,
       allTabs: [],
-      visibleTabs: [],
-      hiddenTabs: [],
-      forceRefresh: false
+      activeTabIndex: 0,
+      visibleTabsIndexes: [],
+      hiddenTabsIndexes: []
     }
   }
 
@@ -26,42 +25,40 @@ class TreeForm extends React.Component {
       this.props.element.set(key, value)
     }.bind(this))
     window.addEventListener('resize', this.refreshTabs.bind(this))
-    setTimeout(this.refreshTabs.bind(this), 100)
     this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.refreshTabs.bind(this))
+    window.removeEventListener('resize', this.refreshTabs)
   }
 
   componentDidUpdate (prevProps, prevState) {
+    // TODO: Make performance checks
     this.refreshTabs()
   }
 
   componentWillReceiveProps (nextProps) {
-    var allTabs = this.tabsFromProps(nextProps)
+    let allTabs = this.tabsFromProps(nextProps)
     this.setState({
       allTabs: allTabs.slice(),
-      visibleTabs: [],
-      hiddenTabs: allTabs.slice(),
+      visibleTabsIndexes: [],
+      hiddenTabsIndexes: lodash.map(lodash.keys(allTabs), (i) => { return parseInt(i) }),
       activeTabIndex: 0
     })
   }
 
   tabsFromProps (props) {
     let tabs = []
-    if (props.element) {
-      props.element.editFormTabs().map((tab, index) => {
-        let tabsData = {
-          id: tab.key,
-          index: index,
-          title: tab.data.settings.options.label,
-          pinned: tab.data.settings.options.pinned || false,
-          params: props.element.editFormTabParams(tab.key)
-        }
-        tabs.push(tabsData)
-      })
-    }
+    props.element.editFormTabs().map((tab, index) => {
+      let tabsData = {
+        id: tab.key,
+        index: index,
+        title: tab.data.settings.options.label,
+        pinned: tab.data.settings.options.pinned || false,
+        params: props.element.editFormTabParams(tab.key)
+      }
+      tabs.push(tabsData)
+    })
 
     return tabs
   }
@@ -77,18 +74,19 @@ class TreeForm extends React.Component {
       tabsCount = 1
     }
     this.setState(function (prevState) {
-      for (let i = prevState.visibleTabs.length - 1; i >= 0; i--) {
-        let tab = prevState.visibleTabs[ i ]
+      for (let i = 0; i < prevState.visibleTabsIndexes.length - 1; i++) {
+        let tabIndex = prevState.visibleTabsIndexes[ i ]
+        let tab = prevState.allTabs[ tabIndex ]
         if (tab.pinned) {
           continue
         }
-        tab.originalPositionFromEnd = prevState.visibleTabs.length - i
-        prevState.visibleTabs.splice(i, 1)
-        prevState.hiddenTabs.unshift(tab)
-        if (--tabsCount === 0) {
+        prevState.visibleTabsIndexes.splice(i, 1)
+        prevState.hiddenTabsIndexes.unshift(tabIndex)
+        if (i > tabsCount - 1) {
           break
         }
       }
+
       return prevState
     })
   }
@@ -98,42 +96,42 @@ class TreeForm extends React.Component {
       tabsCount = 1
     }
     this.setState(function (prevState) {
-      while (tabsCount > 0) {
-        let tab = prevState.hiddenTabs.shift()
-        let position = prevState.visibleTabs.length - tab.originalPositionFromEnd + 1
-        prevState.visibleTabs.splice(position, 0, tab)
-        tabsCount--
+      let i = 0
+      while (i < tabsCount) {
+        let tabIndex = prevState.hiddenTabsIndexes.pop()
+        let position = prevState.visibleTabsIndexes.length - 1
+        prevState.visibleTabsIndexes.splice(position, 0, tabIndex)
+        i++
       }
       return prevState
     })
   }
 
+  getVisibleAndUnpinnedTabs () {
+    return this.state.visibleTabsIndexes.filter((tabIndex) => {
+      let tab = this.state.allTabs[ tabIndex ]
+      return !tab.pinned
+    })
+  }
+
   refreshTabs () {
-    if (this.props.element === false) {
-      return false
-    }
     // get tabs line width
     let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
     let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
-    let visibleAndUnpinnedTabs = this.state.visibleTabs.filter(function (tab) {
-      return !tab.pinned
-    })
+    let freeSpace = $freeSpaceEl.offsetWidth
+    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
     // if there is no space move tab from visible to hidden tabs
-    if ($freeSpaceEl.offsetWidth === 0 && visibleAndUnpinnedTabs.length > 0) {
-      this.setState({ forceRefresh: true })
+    if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
       this.putTabToDrop()
       return
     }
     // if we have free space move tab from hidden tabs to visible
-    if (this.state.hiddenTabs.length > 0) {
-      let freeSpace = $freeSpaceEl.offsetWidth
+    if (this.state.hiddenTabsIndexes.length > 0) {
       let tabsCount = 0
-
-      while (freeSpace > 0 && tabsCount < this.state.hiddenTabs.length) {
-        let lastTabIndex = this.state.hiddenTabs[ tabsCount ].index
+      while (freeSpace > 0 && tabsCount < this.state.hiddenTabsIndexes.length) {
+        let lastTabIndex = this.state.hiddenTabsIndexes[ tabsCount ]
         let lastTab = this.state.allTabs[ lastTabIndex ]
-
-        if (lastTab && (lastTab.ref.getRealWidth() + 5 < freeSpace)) {
+        if (lastTab.ref.getRealWidth() + 5 < freeSpace) {
           freeSpace -= lastTab.ref.getRealWidth()
           tabsCount++
         } else {
@@ -146,8 +144,8 @@ class TreeForm extends React.Component {
     }
   }
 
-  getForm (tabs, tabIndex) {
-    return tabs[ tabIndex ].params.map(this.getFormParamField.bind(this))
+  getForm (tabIndex) {
+    return this.state.allTabs[ tabIndex ].params.map(this.getFormParamField.bind(this))
   }
 
   getFormParamField (param) {
@@ -169,12 +167,13 @@ class TreeForm extends React.Component {
   }
 
   saveForm () {
-    var element = this.props.element
+    let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
     this.closeTreeView()
   }
 
-  getTabProps (tab, activeTabIndex) {
+  getTabProps (tabIndex, activeTabIndex) {
+    let tab = this.state.allTabs[ tabIndex ]
     return {
       key: tab.id,
       id: tab.id,
@@ -190,38 +189,29 @@ class TreeForm extends React.Component {
   }
 
   render () {
-    let treeContentClasses = classNames({
-      'vcv-ui-tree-content': true
-    })
-
-    if (this.props.element === false) {
-      return <div className={treeContentClasses}></div>
-    }
-
-    let { activeTabIndex, visibleTabs, hiddenTabs } = this.state
-
-    let dropdownClasses = classNames({
-      'vcv-ui-editor-tab-dropdown': true,
-      'vcv-ui-active': !!hiddenTabs.filter(function (value) {
-        return value.index === activeTabIndex
-      }).length
-    })
-
+    let { activeTabIndex, visibleTabsIndexes, hiddenTabsIndexes } = this.state
     var visibleTabsHeaderOutput = []
-    lodash.each(visibleTabs, (tab, i) => {
-      let { ...tabProps } = this.getTabProps(tab, activeTabIndex)
+    lodash.each(visibleTabsIndexes, (tabIndex) => {
+      let { ...tabProps } = this.getTabProps(tabIndex, activeTabIndex)
       visibleTabsHeaderOutput.push(
         <TreeContentTab {...tabProps} />
       )
     })
     var hiddenTabsHeaderOutput = ''
-    if (hiddenTabs.length) {
+    if (hiddenTabsIndexes.length) {
       var hiddenTabsHeader = []
-      lodash.each(hiddenTabs, (tab, i) => {
-        let { ...tabProps } = this.getTabProps(tab, activeTabIndex)
+      lodash.each(hiddenTabsIndexes, (tabIndex) => {
+        let { ...tabProps } = this.getTabProps(tabIndex, activeTabIndex)
         hiddenTabsHeader.push(
           <TreeContentTab {...tabProps} />
         )
+      })
+
+      let dropdownClasses = classNames({
+        'vcv-ui-editor-tab-dropdown': true,
+        'vcv-ui-active': !!hiddenTabsIndexes.filter(function (value) {
+          return value === activeTabIndex
+        }).length
       })
       hiddenTabsHeaderOutput = (
         <dl className={dropdownClasses}>
@@ -237,34 +227,38 @@ class TreeForm extends React.Component {
       )
     }
     var visibleTabsContentOutput = []
-    lodash.each(visibleTabs, (tab, index) => {
+    lodash.each(visibleTabsIndexes, (tabIndex) => {
       let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
+      if (tabIndex === activeTabIndex) {
         plateClass += ' vcv-ui-active'
       }
-      visibleTabsContentOutput.push(<div key={'plate' + tab.id} className={plateClass}>
-        {this.getForm(visibleTabs, index)}
+      visibleTabsContentOutput.push(<div key={'plate-visible' + this.state.allTabs[tabIndex].id} className={plateClass}>
+        {this.getForm(tabIndex)}
       </div>)
     })
 
     var hiddenTabsContentOutput = []
-    lodash.each(hiddenTabs, (tab) => {
+    lodash.each(hiddenTabsIndexes, (tabIndex) => {
       let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
+      if (tabIndex === activeTabIndex) {
         plateClass += ' vcv-ui-active'
       }
-      visibleTabsContentOutput.push(<div key={'plate' + tab.id} className={plateClass}>
-        {this.getForm(hiddenTabs, tab.index)}
+      visibleTabsContentOutput.push(<div key={'plate-hidden' + this.state.allTabs[tabIndex].id} className={plateClass}>
+        {this.getForm(tabIndex)}
       </div>)
     })
 
-    var elementSettings = this.props.element
+    let treeContentClasses = classNames({
+      'vcv-ui-tree-content': true
+    })
+
+    let element = this.props.element
     return <div className={treeContentClasses}>
       <div className="vcv-ui-tree-content-header">
         <div className="vcv-ui-tree-content-title-bar">
           <i className="vcv-ui-tree-content-title-icon vcv-ui-icon vcv-ui-icon-bug"></i>
           <h3 className="vcv-ui-tree-content-title">
-            {elementSettings ? elementSettings.get('name') : null}
+            {element ? element.get('name') : null}
           </h3>
           <nav className="vcv-ui-tree-content-title-controls">
             <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
@@ -282,7 +276,8 @@ class TreeForm extends React.Component {
                 <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
               </span>
             </a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="close" onClick={this.closeTreeView}>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="close"
+              onClick={this.closeTreeView.bind(this)}>
               <span className="vcv-ui-tree-content-title-control-content">
                 <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-close"></i>
               </span>
@@ -294,7 +289,7 @@ class TreeForm extends React.Component {
       <div className="vcv-ui-editor-tabs-container">
         <nav className="vcv-ui-editor-tabs">
           <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
-            onClick={this.toggleTreeView}>
+            onClick={this.toggleTreeView.bind(this)}>
             <span className="vcv-ui-editor-tab-content">
               <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
             </span>
@@ -316,13 +311,13 @@ class TreeForm extends React.Component {
 
       <div className="vcv-ui-tree-content-footer">
         <div className="vcv-ui-tree-layout-actions">
-          <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
+          <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView.bind(this)}>
             <span className="vcv-ui-tree-layout-action-content">
               <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i>
               <span>Close</span>
             </span>
           </a>
-          <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}>
+          <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm.bind(this)}>
             <span className="vcv-ui-tree-layout-action-content">
               <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i>
               <span>Save</span>
@@ -333,10 +328,10 @@ class TreeForm extends React.Component {
     </div>
   }
 }
-/*
+
 TreeForm.propTypes = {
   api: React.PropTypes.object.isRequired,
-  element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ])
-}*/
+  element: React.PropTypes.object.isRequired
+}
 
 module.exports = TreeForm
