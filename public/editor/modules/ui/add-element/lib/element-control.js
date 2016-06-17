@@ -30,9 +30,8 @@ module.exports = React.createClass({
   },
   render: function () {
     let nameClasses = classNames({
-      'vcv-ui-add-element-element-name': true,
-      'vcv-ui-text-badge-success': true,
-      'vcv-ui-text-badge-warning': false
+      'vcv-ui-badge-success': true,
+      'vcv-ui-badge-warning': false
     })
 
     return <li className='vcv-ui-add-element-list-item'>
@@ -49,8 +48,10 @@ module.exports = React.createClass({
             <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
           </span>
         </span>
-        <span className={nameClasses}>
-          {this.props.name}
+        <span className='vcv-ui-add-element-element-name'>
+          <span className={nameClasses}>
+            {this.props.name}
+          </span>
         </span>
       </a>
     </li>

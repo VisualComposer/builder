@@ -116,15 +116,21 @@
 .vcv-ui-add-element-element-name {
   @lineHeight: 16px;
 
-  &[class*=vcv-ui-text-badge-] {
-    &:before {
-      margin-right: 5px;
+  [class*=vcv-ui-badge-] {
+    position: relative;
+
+    &::after {
+      left: -.75em;
+      right: auto;
+      top: .4em;
     }
   }
 
   line-height: @lineHeight;
   height: @lineHeight * 2;
+  position: relative;
   overflow: hidden;
+  padding: 0 .75em;
   margin: 10px 0;
   display: block;
 }
