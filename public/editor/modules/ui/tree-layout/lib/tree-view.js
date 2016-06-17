@@ -69,6 +69,11 @@ var TreeView = React.createClass({
       'vcv-ui-resizer-tree-view-layout-hidden': this.state.treeHidden
     })
 
+    let treeViewContent = ''
+    if (element) {
+      treeViewContent = <EditElement element={element} api={this.props.api} />
+    }
+
     return (
       <div id="vcv-ui-tree-view-container">
         <div className={treeViewClasses}>
@@ -77,7 +82,7 @@ var TreeView = React.createClass({
           </div>
           <div className={treeViewLayoutResizerClasses}></div>
           <div className="vcv-ui-tree-view-content">
-            <EditElement elementId={this.state.elementId} element={element} api={this.props.api} />
+            {treeViewContent}
           </div>
           <div className="vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-container"></div>
           <div className="vcv-ui-resizer vcv-ui-resizer-xy vcv-ui-resizer-tree-view"></div>

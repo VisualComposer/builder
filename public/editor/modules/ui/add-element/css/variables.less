@@ -1,4 +1,4 @@
-// import bootstrap variables
+//== import bootstrap variables
 @import (reference) "../../../../../sources/less/bootstrap/variables";
 
 //== add element variables
@@ -6,10 +6,23 @@
 @add-element-min-height: 250px;
 @add-element-max-height: calc(~"100% - 60px - 5px");
 @add-element-zindex: 1200;
+@add-element-preview-zindex: 10;
+@add-element-preview-line-height: 18px;
+@add-element-preview-max-lines: 2;
 
 //== text
 @add-element-text-size-base: @text-size-base;
 @add-element-text-color-base: @text-color-base;
+@add-element-text-color-element: @color-base;
 
 //== colors
+@add-element-bg-overlay: rgba(0, 0, 0, .5);
 @add-element-bg-base: @color-alternative;
+@add-element-bg-content: @color-inverted;
+@add-element-bg-remove: #f46172;
+@add-element-preview-bg-base: @color-base;
+
+//== element
+@add-element-element-gap: 30px;
+@add-element-element-width: 100px;
+@add-element-element-height: 100px;

@@ -28,7 +28,7 @@
     "access": "public",
     "value": "<p>Put your HTML</p>",
     "options": {
-      "label": "Content",
+      "label": "Output2",
       "description": "Content for text block"
     }
   },
@@ -37,7 +37,7 @@
     "access": "public",
     "value": "<p>Put your HTML</p>",
     "options": {
-      "label": "Content",
+      "label": "Output3",
       "description": "Content for text block"
     }
   },
@@ -46,7 +46,7 @@
     "access": "public",
     "value": "<p>Put your HTML</p>",
     "options": {
-      "label": "Content",
+      "label": "Output4",
       "description": "Content for text block"
     }
   },
@@ -55,7 +55,7 @@
     "access": "public",
     "value": "<p>Put your HTML</p>",
     "options": {
-      "label": "Content",
+      "label": "Output5",
       "description": "Content for text block"
     }
   },
@@ -64,7 +64,7 @@
     "access": "public",
     "value": "<p>Put your HTML</p>",
     "options": {
-      "label": "Content",
+      "label": "Output6",
       "description": "Content for text block"
     }
   },

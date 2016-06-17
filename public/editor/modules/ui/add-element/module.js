@@ -93,9 +93,15 @@ vcCake.add('ui-add-element', function (api) {
       return (<div id="vcv-ui-add-element-container">
         <div className={classes}>
           <div className="vcv-ui-add-element-content">
-            <ul className="vcv-ui-add-element-list">
-              {elementsOutput}
-            </ul>
+            <div>TODO: Search</div>
+            <div>TODO: Tabs</div>
+            <div className="vcv-ui-tree-content-section">
+              <div className="vcv-ui-add-element-list-container">
+                <ul className="vcv-ui-add-element-list">
+                  {elementsOutput}
+                </ul>
+              </div>
+            </div>
           </div>
           <div className="resizer resizer-y resizer-add-element-container"></div>
           <div className="resizer resizer-xy resizer-add-element"></div>
