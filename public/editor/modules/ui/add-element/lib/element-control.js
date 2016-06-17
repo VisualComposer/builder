@@ -27,12 +27,14 @@ module.exports = React.createClass({
       <a className='vcv-ui-add-element-element' onClick={this.addElement}>
         <span className='vcv-ui-add-element-element-content'>
           <img src='https://placehold.it/100x100'
-            className='vcv-ui-add-element-element-main vcv-ui-add-element-element-image'
+            className='vcv-ui-add-element-overlay vcv-ui-add-element-element-image'
             height='100'
             width='100'
             alt='' />
-          <span className='vcv-ui-add-element-element-main vcv-ui-add-element-add'>
-            +
+          <span className='vcv-ui-add-element-overlay vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+          <span className='vcv-ui-add-element-overlay vcv-ui-add-element-edit'>
+            <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
+            <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
           </span>
         </span>
         <span className={nameClasses}>

@@ -30,8 +30,6 @@
 }
 
 .vcv-ui-add-element-list-container {
-  //background-color: @add-element-bg-content;
-  //padding: 20px;
   flex: 1;
 }
 
@@ -51,6 +49,7 @@
 .vcv-ui-add-element-element {
   color: @add-element-text-color-element;
   width: @add-element-element-width;
+  text-align: center;
   cursor: pointer;
   display: block;
 
@@ -67,7 +66,8 @@
   height: @add-element-element-height;
 }
 
-.vcv-ui-add-element-element-main {
+.vcv-ui-add-element-overlay {
+  color: @color-inverted;
   position: absolute;
   overflow: hidden;
   height: 100%;
@@ -77,12 +77,40 @@
 }
 
 .vcv-ui-add-element-add {
-  background-color: rgba(0, 0, 0, .7);
+  transition: opacity @transition-duration @transition-timing-function;
+  background-color: @add-element-bg-overlay;
   line-height: @add-element-element-height;
-  transition: opacity .2s;
-  text-align: center;
-  color: #fff;
   opacity: 0;
+}
+
+.vcv-ui-add-element-edit {
+  transition: opacity @transition-duration @transition-timing-function;
+  flex-direction: column;
+  pointer-events: none;
+  display: flex;
+  opacity: 0;
+}
+
+.vcv-ui-add-element-move {
+  background-color: @add-element-bg-overlay;
+  position: relative;
+  cursor: move;
+  flex: 1;
+
+  &::before {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+}
+
+.vcv-ui-add-element-remove {
+  @height: 30px;
+
+  background-color: @add-element-bg-remove;
+  line-height: @height;
+  height: @height;
 }
 
 .vcv-ui-add-element-element-name {
@@ -96,8 +124,29 @@
 
   line-height: @lineHeight;
   height: @lineHeight * 2;
-  text-align: center;
   overflow: hidden;
   margin: 10px 0;
   display: block;
+}
+
+//== behaviors
+
+.vcv-ui-add-element-editable {
+  .vcv-ui-add-element-element {
+    .vcv-ui-add-element-add {
+      pointer-events: none;
+    }
+    .vcv-ui-add-element-edit {
+      pointer-events: auto;
+    }
+
+    &:hover {
+      .vcv-ui-add-element-add {
+        opacity: 0;
+      }
+      .vcv-ui-add-element-edit {
+        opacity: 1;
+      }
+    }
+  }
 }
