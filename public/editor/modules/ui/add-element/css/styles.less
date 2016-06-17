@@ -49,11 +49,16 @@
 .vcv-ui-add-element-element {
   color: @add-element-text-color-element;
   width: @add-element-element-width;
+  position: relative;
   text-align: center;
   cursor: pointer;
   display: block;
 
   &:hover {
+    .vcv-ui-add-element-preview-container {
+      opacity: 1;
+    }
+
     .vcv-ui-add-element-overlay {
       opacity: 1;
     }
@@ -138,4 +143,38 @@
   padding: 0 .75em;
   margin: 10px 0;
   display: block;
+}
+
+//== preview
+
+.vcv-ui-add-element-preview-container {
+  transition: opacity @transition-duration @transition-timing-function;
+  z-index: @add-element-preview-zindex;
+  pointer-events: none;
+  position: absolute;
+  width: 520px;
+  opacity: 0;
+  left: 100%;
+  margin: 0;
+  top: 0;
+}
+
+.vcv-ui-add-element-preview-image {
+  max-height: 240px;
+  display: block;
+  width: 100%;
+}
+
+.vcv-ui-add-element-preview-caption {
+  background-color: @add-element-preview-bg-base;
+  color: @add-element-text-color-base;
+  font-style: italic;
+  text-align: left;
+  padding: 20px;
+}
+
+.vcv-ui-add-element-preview-text {
+  max-height: @add-element-preview-line-height * @add-element-preview-max-lines;
+  line-height: @add-element-preview-line-height;
+  overflow: hidden;
 }

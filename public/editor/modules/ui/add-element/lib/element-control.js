@@ -56,6 +56,16 @@ module.exports = React.createClass({
             {this.props.name}
           </span>
         </span>
+        <figure className='vcv-ui-add-element-preview-container'>
+          <img className='vcv-ui-add-element-preview-image' src='https://placehold.it/520x240' alt='' />
+          <figcaption className='vcv-ui-add-element-preview-caption'>
+            <div className='vcv-ui-add-element-preview-text'>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet assumenda dolores eos error
+              magnam magni maxime minima modi omnis placeat quia reiciendis repellendus rerum tempora temporibus,
+              ut vel veritatis.
+            </div>
+          </figcaption>
+        </figure>
       </a>
     </li>
   }
