@@ -30,20 +30,21 @@
 }
 
 .vcv-ui-add-element-list-container {
+  margin-bottom: @add-element-element-gap;
   flex: 1;
 }
 
 .vcv-ui-add-element-list {
+  margin: 0 -(@add-element-element-gap/2) -@add-element-element-gap -(@add-element-element-gap/2);
   list-style: none;
   flex-wrap: wrap;
   display: flex;
   padding: 0;
-  margin: -(@add-element-element-gap/2);
 }
 
 .vcv-ui-add-element-list-item {
+  margin: 0 (@add-element-element-gap/2) @add-element-element-gap (@add-element-element-gap/2);
   width: @add-element-element-width;
-  margin: (@add-element-element-gap/2);
 }
 
 .vcv-ui-add-element-element {
