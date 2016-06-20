@@ -56,7 +56,7 @@
 
   &:hover {
     .vcv-ui-add-element-preview-container {
-      opacity: 1;
+      display: block;
     }
 
     .vcv-ui-add-element-overlay {
@@ -148,12 +148,11 @@
 //== preview
 
 .vcv-ui-add-element-preview-container {
-  transition: opacity @transition-duration @transition-timing-function;
   z-index: @add-element-preview-zindex;
   pointer-events: none;
   position: absolute;
+  display: none;
   width: 520px;
-  opacity: 0;
   left: 100%;
   margin: 0;
   top: 0;
