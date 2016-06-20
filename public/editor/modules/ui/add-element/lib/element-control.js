@@ -11,8 +11,13 @@ module.exports = React.createClass({
     api: React.PropTypes.object.isRequired,
     icon: React.PropTypes.string
   },
+  getInitialState: function () {
+    return {
+      previewRendered: false
+    }
+  },
   componentDidMount: function () {
-    this.ellipsize()
+    this.ellipsize('.vcv-ui-add-element-element-name')
   },
   addElement: function (e) {
     e.preventDefault()
@@ -20,13 +25,29 @@ module.exports = React.createClass({
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
   },
-  ellipsize: function () {
-    let element = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-element-name')
+  showPreview: function (e) {
+    let preview = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-preview-container')
+
+    // TODO: Add logic to position preview according to free space.
+
+    preview.style.display = 'block'
+    if (!this.state.previewRendered) {
+      this.ellipsize('.vcv-ui-add-element-preview-text')
+      this.setState({ previewRendered: true })
+    }
+  },
+  hidePreview: function (e) {
+    let preview = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-preview-container')
+    preview.style.display = 'none'
+  },
+  ellipsize: function (selector) {
+    let element = ReactDOM.findDOMNode(this).querySelector(selector)
     let wordArray = element.innerHTML.split(' ')
     while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
       wordArray.pop()
       element.innerHTML = wordArray.join(' ') + '...'
     }
+    return this
   },
   render: function () {
     let nameClasses = classNames({
@@ -44,7 +65,10 @@ module.exports = React.createClass({
     // </span>
 
     return <li className='vcv-ui-add-element-list-item'>
-      <a className='vcv-ui-add-element-element' onClick={this.addElement}>
+      <a className='vcv-ui-add-element-element'
+        onClick={this.addElement}
+        onMouseEnter={this.showPreview}
+        onMouseLeave={this.hidePreview}>
         <span className='vcv-ui-add-element-element-content'>
           <img className='vcv-ui-add-element-element-image' src='https://placehold.it/100x100' alt='' />
           <span className='vcv-ui-add-element-overlay'>
