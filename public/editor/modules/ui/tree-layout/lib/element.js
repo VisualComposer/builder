@@ -6,14 +6,15 @@ var classNames = require('classnames')
 
 var Element = React.createClass({
   propTypes: {
-    element: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.bool]),
-    data: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]),
+    element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
+    data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
     api: React.PropTypes.object.isRequired,
     level: React.PropTypes.number
   },
   getInitialState: function () {
     return {
       childExpand: true,
+      elementId: false,
       hasChild: false
     }
   },
@@ -50,31 +51,73 @@ var Element = React.createClass({
   },
   componentDidMount: function () {
     this.props.api.notify('element:mount', this.props.element.id)
+
+    this.props.api
+      .reply('app:edit', function (id) {
+        this.setState({ elementId: id })
+      }.bind(this))
+      .on('hide', function () {
+        this.setState({ elementId: false })
+      }.bind(this))
+      .on('form:hide', function () {
+        this.setState({ elementId: false })
+      }.bind(this))
   },
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)
   },
   render: function () {
-    var element = cook.get(this.props.element)
-    var treeChildClass = classNames({
+    let element = cook.get(this.props.element)
+
+    let treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false
     })
-    var child = element.get('type') === 'container' ? this.getContent() : '' // yes == not === it is required :P
+
+    let child = element.get('type') === 'container' ? this.getContent() : ''
+
     this.state.hasChild = !!child
-    var addChildControl = element.get('type') === 'container' ? <a className="vcv-ui-tree-layout-control-action" title="Add" onClick={this.clickAddChild}><i className="vcv-ui-icon vcv-ui-icon-add-thin"></i></a> : false
-    var expandTrigger = this.state.hasChild ? <i className="vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand" onClick={this.clickChildExpand} /> : ''
-    var childControls = <span className="vcv-ui-tree-layout-control-actions">
+
+    let addChildControl = false
+    if (element.get('type') === 'container') {
+      addChildControl = <a className="vcv-ui-tree-layout-control-action" title="Add" onClick={this.clickAddChild}>
+        <i className="vcv-ui-icon vcv-ui-icon-add-thin"></i>
+      </a>
+    }
+
+    let expandTrigger = ''
+    if (this.state.hasChild) {
+      expandTrigger = (
+        <i className="vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand"
+          onClick={this.clickChildExpand} />
+      )
+    }
+
+    let childControls = <span className="vcv-ui-tree-layout-control-actions">
       {addChildControl}
-      <a className="vcv-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}><i className="vcv-ui-icon vcv-ui-icon-edit" /></a>
-      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}><i className="vcv-ui-icon vcv-ui-icon-close-thin" /></a>
-      <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}><i className="vcv-ui-icon vcv-ui-icon-copy" /></a>
+      <a className="vcv-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}>
+        <i className="vcv-ui-icon vcv-ui-icon-edit" />
+      </a>
+      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
+        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
+      </a>
+      <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}>
+        <i className="vcv-ui-icon vcv-ui-icon-copy" />
+      </a>
     </span>
-    return <li className={treeChildClass} data-vc-element={this.props.element.id} type={element.get('type')} name={element.get('name')}>
-      <div className="vcv-ui-tree-layout-control" style={{paddingLeft: this.props.level + 1 + 'em'}}>
-        <div className="vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler"><i
-          className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" /></div>
+
+    let controlClasses = classNames({
+      'vcv-ui-tree-layout-control': true,
+      'active': this.props.element.id === this.state.elementId
+    })
+
+    return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}
+      name={element.get('name')}>
+      <div className={controlClasses} style={{paddingLeft: this.props.level + 1 + 'em'}}>
+        <div className="vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler">
+          <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" />
+        </div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
           <span className="vcv-ui-tree-layout-control-icon">
