@@ -122,16 +122,6 @@
 .vcv-ui-add-element-element-name {
   @lineHeight: 16px;
 
-  .vcv-ui-add-element-badge {
-    position: relative;
-
-    &::after {
-      left: -.75em;
-      right: auto;
-      top: .4em;
-    }
-  }
-
   line-height: @lineHeight;
   max-height: @lineHeight * 2;
   position: relative;
@@ -139,6 +129,16 @@
   padding: 0 .75em;
   margin: 10px 0;
   display: block;
+}
+
+.vcv-ui-add-element-badge {
+  position: relative;
+
+  &::after {
+    left: -.75em;
+    right: auto;
+    top: .4em;
+  }
 }
 
 //== preview
