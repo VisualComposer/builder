@@ -1,5 +1,5 @@
 /*global $*/
-var iframeOffsetTop = 61
+var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
 
 function ControlsHandler () {

@@ -113,7 +113,7 @@ vcCake.add('ui-add-element', function (api) {
   // Here comes wrapper for navbar
   var wrapper = document.createElement('div')
   wrapper.setAttribute('id', 'vcv-ui-add-element-wrapper')
-  document.body.appendChild(wrapper)
+  document.getElementById('vcv-editor-end').appendChild(wrapper)
   ReactDOM.render(
     <Component />,
     wrapper

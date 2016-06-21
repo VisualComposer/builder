@@ -124,10 +124,7 @@ vcCake.add('ui-navbar', function (api) {
   module.exports = (NavbarContainer)
 
 // Here comes wrapper for navbar
-  var editorWrapper = document.createElement('div')
-  editorWrapper.setAttribute('id', 'vc-editor-container')
-  document.body.appendChild(editorWrapper)
-
+  var editorWrapper = document.querySelector('#vcv-editor-header')
   ReactDOM.render(
     <NavbarContainer />,
     editorWrapper
