@@ -220,8 +220,8 @@ var Navbar = React.createClass({
       'vcv-ui-navbar-is-detached': isDetached
     })
 
-    document.body.classList.add('vcv-ui-has-navbar')
-    document.body.classList.add('vcv-ui-navbar-position--' + navbarPosition)
+    document.body.classList.add('vcv-layout-placement')
+    document.body.classList.add('vcv-layout-placement--' + navbarPosition)
     return (
       <div className={navbarContainerClasses} style={navBarStyle}>
         <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">

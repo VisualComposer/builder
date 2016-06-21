@@ -1,0 +1,88 @@
+/* ===================================
+ * Visual composer layout placement
+ * =================================== */
+
+.vcv-layout-placement {
+  &.vcv-layout-placement--top {
+    // default placement
+  }
+  //== bottom
+  &.vcv-layout-placement--bottom {
+    .vcv-layout {
+      flex-direction: column-reverse;
+    }
+    .vcv-layout-bar {
+      flex-direction: column-reverse;
+    }
+    .vcv-layout-bar-content {
+      top: auto;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+    }
+  }
+  //== left
+  &.vcv-layout-placement--start {
+    .vcv-layout {
+      flex-direction: row;
+    }
+    .vcv-layout-bar {
+      flex-direction: row;
+    }
+    .vcv-layout-bar-content {
+      flex-direction: column;
+      top: 0;
+      bottom: 0;
+      left: 100%;
+      right: auto;
+    }
+  }
+  //== Right
+  &.vcv-layout-placement--end {
+    .vcv-layout {
+      flex-direction: row-reverse;
+    }
+    .vcv-layout-bar {
+      flex-direction: row-reverse;
+    }
+    .vcv-layout-bar-content {
+      top: 0;
+      bottom: 0;
+      left: auto;
+      right: 100%;
+    }
+  }
+  //== Detached
+  &.vcv-layout-placement--detached {
+    .vcv-layout {
+      //flex-direction: row;
+    }
+    .vcv-layout-bar {
+      flex-direction: row;
+      position: fixed;
+      top: 5vh;
+      left: 5vw;
+    }
+    .vcv-layout-bar-content {
+      flex-direction: column;
+      position: relative;
+      top: auto;
+      bottom: auto;
+      left: auto;
+      right: auto;
+    }
+  }
+  //== Behaviout
+  &.vcv-layout-placement--top,
+  &.vcv-layout-placement--bottom {
+    .vcv-layout-bar-content {
+      width: auto!important;
+    }
+  }
+  &.vcv-layout-placement--start,
+  &.vcv-layout-placement--end {
+    .vcv-layout-bar-content {
+      height: auto!important;
+    }
+  }
+}

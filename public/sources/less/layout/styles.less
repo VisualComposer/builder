@@ -15,15 +15,6 @@
   flex: 1 1 auto;
   display: flex;
   flex-flow: column nowrap;
-  //&.reverse {
-  //  flex-direction: column-reverse;
-  //}
-  //&.side {
-  //  flex-direction: row;
-  //  &.reverse {
-  //    flex-direction: row-reverse;
-  //  }
-  //}
 }
 .vcv-layout-content {
   flex: 1 1 auto;
@@ -67,80 +58,22 @@
   flex-flow: column nowrap;
   position: relative;
   z-index: @editor-zindex;
-  //.reverse & {
-  //  flex-direction: column-reverse;
-  //}
-  //.side & {
-  //  flex-direction: row;
-  //}
-  //.side.reverse & {
-  //  flex-direction: row-reverse;
-  //}
 }
 .vcv-layout-bar-header {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
 }
 .vcv-layout-bar-content {
   display: flex;
   flex-flow: row nowrap;
-
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-
-  //.side & {
-  //  flex-direction: column;
-  //}
+  flex: 1 1 auto;
 }
 .vcv-layout-bar-content-start {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
 }
 .vcv-layout-bar-content-end {
   flex: 1 1 auto;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.layout {
-  &:not(.side):not(.detatche) {
-    border: 10px dotted yellow;
-    .editor-layout {
-      width: auto!important;
-    }
-  }
-  &.side:not(.detatche) {
-    .editor-layout {
-      height: auto!important;
-    }
-  }
-}
-
-
-
-
-
-//== detatched
-.layout.detatche {
-  .editor-container {
-    //border: 10px solid red;
-    position: fixed;
-    top: 5vh;
-    left: 5vw;
-    flex-direction: row;
-  }
-  .editor-layout {
-    flex-direction: column;
-  }
 }

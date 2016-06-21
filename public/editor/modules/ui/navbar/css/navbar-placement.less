@@ -1,17 +1,14 @@
-// navbar positions
-
-//== position top (default)
-.vcv-ui-navbar-position--top {
-  padding-top: @navbar-size;
-}
-
+//// navbar positions
+//
+////== position top (default)
+//.vcv-ui-navbar-position--top {
+//  //padding-top: @navbar-size;
+//}
+//
 //== position bottom
-.vcv-ui-navbar-position--bottom {
-  padding-bottom: @navbar-size;
-  .vcv-ui-navbar-container {
-    top: auto;
-    bottom: 0;
-  }
+//.vcv-ui-navbar-position--bottom
+.vcv-layout-placement--bottom {
+  //padding-bottom: @navbar-size;
   .vcv-ui-navbar-dropdown-content {
     top: auto;
     bottom: 100%;
@@ -19,14 +16,13 @@
 }
 
 //== position left
-.vcv-ui-navbar-position--left {
-  padding-left: @navbar-size;
+//.vcv-ui-navbar-position--left
+.vcv-layout-placement--start {
+  #vc-navbar-container,
   .vcv-ui-navbar-container {
-    right: auto;
-    bottom: 0;
+    height: 100%;
   }
   .vcv-ui-navbar {
-    min-width: @navbar-size;
     height: 100%;
     flex-direction: column;
   }
@@ -70,14 +66,13 @@
 }
 
 //== position right
-.vcv-ui-navbar-position--right {
-  padding-right: @navbar-size;
+//.vcv-ui-navbar-position--right
+.vcv-layout-placement--end {
+  #vc-navbar-container,
   .vcv-ui-navbar-container {
-    left: auto;
-    bottom: 0;
+    height: 100%;
   }
   .vcv-ui-navbar {
-    min-width: @navbar-size;
     height: 100%;
     flex-direction: column;
   }
@@ -102,6 +97,55 @@
         bottom: 0;
         right: 100%;
         left: auto;
+      }
+    }
+  }
+  .vcv-ui-navbar-dropdown-trigger {
+    width: 100%;
+  }
+  .vcv-ui-navbar-dropdown-linear {
+    .vcv-ui-navbar-controls-group {
+      flex-direction: row;
+    }
+    .vcv-ui-navbar-dropdown-content {
+      min-width: 0;
+      min-height: 100%;
+      display: flex;
+    }
+  }
+}
+
+//== position detached
+.vcv-layout-placement--detached {
+  #vc-navbar-container,
+  .vcv-ui-navbar-container {
+    height: 100%;
+  }
+  .vcv-ui-navbar {
+    height: 100%;
+    flex-direction: column;
+  }
+  .vcv-ui-navbar-controls-group {
+    flex-direction: column;
+  }
+  .vcv-ui-navbar-drag-handler {
+    .vcv-ui-drag-handler-icon {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+  }
+  .vcv-ui-navbar-dropdown-content {
+    top: 0;
+    bottom: auto;
+    left: 100%;
+    right: auto;
+  }
+  .vcv-ui-navbar-dropdown {
+    &.vcv-ui-pull-end {
+      .vcv-ui-navbar-dropdown-content {
+        top: auto;
+        bottom: 0;
+        left: 100%;
+        right: auto;
       }
     }
   }
