@@ -10,13 +10,16 @@ vcCake.add('ui-add-element', function (api) {
       }
     },
     componentDidMount: function () {
-      api.on('show', function () {
-        this.setState({ isWindowOpen: true })
-        api.notify('tree:show')
-      }.bind(this))
-      .on('hide', function () {
-        this.setState({ isWindowOpen: false })
-      }.bind(this))
+      api
+        .on('show', function () {
+          this.setState({ isWindowOpen: true })
+        }.bind(this))
+        .on('hide', function () {
+          this.setState({ isWindowOpen: false })
+        }.bind(this))
+        .reply('tree-layout:hide', () => {
+          this.setState({ isWindowOpen: false })
+        })
     },
     toggleAddElement: function (e) {
       e && e.preventDefault()

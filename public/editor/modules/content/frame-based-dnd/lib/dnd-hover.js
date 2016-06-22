@@ -48,6 +48,7 @@ Builder.prototype.addItem = function (id) {
   this.items[ id ] = new Item(id, this.options.document)
     .on('dragstart', this.handleDragStart.bind(this))
     .on('dragend', this.handleDragEnd.bind(this))
+    .on('mouseover', this.handleHover.bind(this))
 }
 Builder.prototype.removeItem = function (id) {
   this.items[ id ]
@@ -56,10 +57,10 @@ Builder.prototype.removeItem = function (id) {
   delete this.items[ id ]
 }
 Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  // this.container.addEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
 }
 Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  // this.container.removeEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
 }
 /**
  * Helper
@@ -183,6 +184,11 @@ Builder.prototype.depositionTop = function () {
 Builder.prototype.depositionLeft = function () {
   return this.options.offsetLeft - this.options.document.body.scrollLeft
 }
+Builder.prototype.handleHover = function (e) {
+  if (this.frame) {
+    console.log(e.currentTarget)
+  }
+}
 /**
  * Drag handlers
  */
@@ -208,7 +214,7 @@ Builder.prototype.handleDragStart = function (e) {
   let data = getService('document').get(this.dragingElementId)
   this.dragingElementObject = cook.get(data)
 
-  this.watchMouse()
+  // this.watchMouse()
   this.createFrame()
   this.renderControls()
   if (typeof this.options.startCallback === 'function') {
@@ -219,7 +225,7 @@ Builder.prototype.handleDragEnd = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
-  this.forgetMouse()
+  // this.forgetMouse()
   this.hideControls()
   this.removeFrame()
   if (typeof this.options.endCallback === 'function') {

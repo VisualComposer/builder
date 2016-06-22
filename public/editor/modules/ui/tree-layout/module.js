@@ -19,10 +19,11 @@ vcCake.add('ui-tree-layout', function (api) {
         .on('hide', function () {
           this.setState({ treeViewExpand: false })
         }.bind(this))
-        .reply('app:edit', function () {
+        .reply('tree-layout:show-content', () => {
+          api.notify('content:show')
           api.notify('show')
         })
-        .reply('tree-layout:show', () => { api.notify('show') })
+        .reply('tree-layout:hide', () => { api.notify('hide') })
     },
     render: function () {
       return <div

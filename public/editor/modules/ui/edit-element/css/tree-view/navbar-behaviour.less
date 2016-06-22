@@ -1,0 +1,57 @@
+// Different navbar positions
+
+//== left
+.vcv-ui-navbar-position--left {
+  .vcv-ui-tree-view-container {
+    top: 0;
+    bottom: 0;
+    right: auto;
+    left: 60px;
+    height: auto;
+  }
+  .vcv-ui-tree-view-o-content-expand {
+    width: @tree-initial-height; // change this with JS
+  }
+}
+
+//== right
+.vcv-ui-navbar-position--right {
+  .vcv-ui-tree-view-container {
+    top: 0;
+    bottom: 0;
+    right: 60px;
+    left: auto;
+    height: auto;
+    justify-content: flex-end;
+  }
+  .vcv-ui-tree-view-content {
+    order: -1;
+  }
+  .vcv-ui-tree-view-o-content-expand {
+    width: @tree-initial-height; // change this with JS
+  }
+}
+
+//== bottom
+.vcv-ui-navbar-position--bottom {
+  .vcv-ui-tree-view-container {
+    top: auto;
+    bottom: 60px;
+    left: 0;
+  }
+  .vcv-ui-tree-view-o-content-expand {
+    right: 0;
+  }
+}
+
+//== top
+.vcv-ui-navbar-position--top {
+  .vcv-ui-tree-view-container {
+    top: 60px;
+    left: 0;
+    bottom: auto;
+  }
+  .vcv-ui-tree-view-o-content-expand {
+    right: 0;
+  }
+}

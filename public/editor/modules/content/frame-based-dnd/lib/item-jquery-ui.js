@@ -1,9 +1,11 @@
 var $ = require('jquery')
+require('jquery-ui')
 /**
  * Item for DOM element
- * @param id
- * @param documentDOM
+ *
  * @constructor
+ * @param {string} id Id of item
+ * @param {oject} document dom
  */
 var Item = function (id, documentDOM) {
   this.id = id
@@ -12,15 +14,18 @@ var Item = function (id, documentDOM) {
   this.init()
 }
 Item.prototype.init = function () {
-  this.el.setAttribute('draggable', 'true')
+  this.$el.draggable({
+    helper: 'clone',
+    iframeFix: true
+  })
   return this
 }
-Item.prototype.on = function (event, callback, capture) {
-  this.el.addEventListener(event, callback, !!capture)
+Item.prototype.on = function (event, callback) {
+  this.$el.on(event, callback)
   return this
 }
-Item.prototype.off = function (event, callback, capture) {
-  this.el.removeEventListener(event, callback, !!capture)
+Item.prototype.off = function (event, callback) {
+  this.$el.off(event, callback)
   return this
 }
 module.exports = Item
