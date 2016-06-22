@@ -160,12 +160,10 @@ class Categories extends React.Component {
         icon={element.icon ? element.icon.toString() : ''} />)
     })
 
-    return <div className="vcv-ui-tree-content-section">
-      <div className="vcv-ui-add-element-list-container">
-        <ul className="vcv-ui-add-element-list">
-          {itemsOutput}
-        </ul>
-      </div>
+    return <div className="vcv-ui-add-element-list-container">
+      <ul className="vcv-ui-add-element-list">
+        {itemsOutput}
+      </ul>
     </div>
   }
 
