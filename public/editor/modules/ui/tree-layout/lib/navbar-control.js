@@ -31,7 +31,7 @@ vcCake.add('ui-tree-layout', function (api) {
         this.setState({ controlActive: true })
         api.notify('tree:show')
         api.notify('content:hide')
-        api.request('tree-layout:show')
+        api.request('show')
       }
     },
     render: function () {

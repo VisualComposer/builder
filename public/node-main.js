@@ -14,9 +14,6 @@ $(document).ready(function () {
     })
   })
   $('#vcv-editor-iframe').attr('src', '/page.html')
-  $(window).on('load resize', function () {
-    $('#vcv-editor-iframe').height($(window).height() - 61)
-  })
 })
 
 window.app = vcCake

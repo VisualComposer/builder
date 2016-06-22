@@ -26,13 +26,7 @@ vcCake.add('ui-editor-controls', function (api) {
   }
 
   var EditorControls = function () {
-    var editorWrapper = document.getElementById('vc-editor-container')
-    if (!editorWrapper) {
-      editorWrapper = document.createElement('div')
-      editorWrapper.setAttribute('id', 'vc-editor-container')
-      document.body.appendChild(editorWrapper)
-    }
-
+    var editorWrapper = document.getElementById('vcv-editor-iframe-overlay')
     var controlsWrapper = document.createElement('div')
     controlsWrapper.setAttribute('id', 'vcv-ui-controls-container')
     editorWrapper.appendChild(controlsWrapper)
