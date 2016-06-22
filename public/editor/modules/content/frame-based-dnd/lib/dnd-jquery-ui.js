@@ -1,5 +1,5 @@
 import {getService} from 'vc-cake'
-import Item from './item'
+import Item from './item-jquery-ui'
 const cook = getService('cook')
 const $ = require('jquery')
 const _ = require('lodash')
@@ -39,27 +39,29 @@ var Builder = function (container, options) {
 }
 Builder.prototype.init = function () {
   this.initContainer()
-  this.buildHelper()
+  // this.buildHelper()
 }
 Builder.prototype.initContainer = function () {
-  this.container.addEventListener('drag', this.handleDrag.bind(this), false)
+  // this.container.addEventListener('drag', this.handleDrag.bind(this), false)
 }
 Builder.prototype.addItem = function (id) {
   this.items[ id ] = new Item(id, this.options.document)
     .on('dragstart', this.handleDragStart.bind(this))
-    .on('dragend', this.handleDragEnd.bind(this))
+    .on('drag', this.handleDrag.bind(this))
+    .on('dragstop', this.handleDragEnd.bind(this))
 }
 Builder.prototype.removeItem = function (id) {
   this.items[ id ]
     .off('dragstart', this.handleDragStart.bind(this))
-    .off('dragend', this.handleDragEnd.bind(this))
+    .off('drag', this.handleDrag.bind(this))
+    .off('dragstop', this.handleDragEnd.bind(this))
   delete this.items[ id ]
 }
 Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  this.container.addEventListener('drag', this.handleDrag.bind(this), false)
 }
 Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  this.container.removeEventListener('drag', this.handleDrag.bind(this), false)
 }
 /**
  * Helper
@@ -192,23 +194,26 @@ Builder.prototype.handleDrag = function (e) {
 /**
  * @param {object} e Handled event
  */
-Builder.prototype.handleDragStart = function (e) {
+Builder.prototype.handleDragStart = function (e, ui) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
+  if (ui.helper) {
+    ui.helper.css('pointer-events', 'none')
+  }
   this.dragingElement = e.currentTarget
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
-  if (e.dataTransfer) {
-    e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.dropEffect = 'none'
-    e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
-    this.hideHelper()
-  }
+  /*if (e.dataTransfer) {
+   e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
+   e.dataTransfer.effectAllowed = 'copy'
+   e.dataTransfer.dropEffect = 'none'
+   e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
+   this.hideHelper()
+   }*/
   let data = getService('document').get(this.dragingElementId)
   this.dragingElementObject = cook.get(data)
 
-  this.watchMouse()
+  // this.watchMouse()
   this.createFrame()
   this.renderControls()
   if (typeof this.options.startCallback === 'function') {
@@ -219,7 +224,7 @@ Builder.prototype.handleDragEnd = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
-  this.forgetMouse()
+  // this.forgetMouse()
   this.hideControls()
   this.removeFrame()
   if (typeof this.options.endCallback === 'function') {

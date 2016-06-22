@@ -1,0 +1,60 @@
+//== Tree view styles
+.vcv-ui-tree-view-container {
+  position: fixed;
+  top: 0;
+  height: @tree-initial-height;
+  min-height: @tree-min-height;
+  max-height: @tree-max-height;
+  left: 0;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  font-size: @tree-text-size-base;
+  color: @tree-text-color-base;
+  background-color: @tree-bg-base;
+  z-index: @tree-view-zindex;
+}
+
+//== tree view
+.vcv-ui-tree-view-layout {
+  width: @tree-initial-width;
+  min-width: @tree-min-width;
+  max-width: @tree-max-width;
+  flex-shrink: 0;
+  overflow: auto;
+  position: relative;
+
+  &.vcv-hidden {
+    display: none;
+  }
+}
+
+//== content
+.vcv-ui-tree-view-content {
+  flex-grow: 1;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.vcv-ui-tree-view-container:not(.vcv-ui-tree-view-o-content-expand) {
+  .vcv-ui-tree-view-content {
+    display: none;
+  }
+}
+
+// Options
+
+//== expand content
+.vcv-ui-tree-view-o-content-expand {
+  &.vcv-ui-tree-view-container {
+    right: 0;
+  }
+  .vcv-ui-tree-view-layout {
+    max-width: @tree-max-width-content;
+  }
+}
+

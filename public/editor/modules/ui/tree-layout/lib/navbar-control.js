@@ -6,31 +6,38 @@ vcCake.add('ui-tree-layout', function (api) {
   var Control = React.createClass({
     getInitialState: function () {
       return {
-        menuExpand: false,
+        controlActive: false,
         data: []
       }
     },
     componentDidMount: function () {
-      api.on('show', function () {
-        this.setState({ menuExpand: true })
-        api.notify('tree:show')
-      }.bind(this))
-      .on('hide', function () {
-        this.setState({ menuExpand: false })
-      }.bind(this))
+      api
+        .on('hide', function () {
+          this.setState({ controlActive: false })
+        }.bind(this))
+        .reply('tree-layout:hide', () => {
+          this.setState({ controlActive: false })
+        })
+        .reply('tree-layout:show', () => {
+          this.setState({ controlActive: true })
+        })
     },
     toggleTreeView: function (e) {
       e.preventDefault()
-      if (this.state.menuExpand) {
-        api.notify('hide')
+      if (this.state.controlActive) {
+        this.setState({ controlActive: false })
+        api.request('tree-layout:hide')
       } else {
-        api.notify('show')
+        this.setState({ controlActive: true })
+        api.notify('tree:show')
+        api.notify('content:hide')
+        api.request('show')
       }
     },
     render: function () {
       let controlClass = classNames({
         'vcv-ui-navbar-control': true,
-        'vcv-ui-navbar-control-active': this.state.menuExpand
+        'vcv-ui-navbar-control-active': this.state.controlActive
       })
       return <a className={controlClass} href="#" title="Tree View" onClick={this.toggleTreeView}>
         <span className="vcv-ui-navbar-control-content">

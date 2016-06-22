@@ -1,80 +1,27 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
-var vcCake = require('vc-cake')
-var classNames = require('classnames')
-
+import vcCake from 'vc-cake'
+import {default as AddElement} from './lib/add-element'
 require('./lib/navbar-control')
+require('./css/init.less')
 
-vcCake.add('ui-add-element', function (api) {
-  var React = require('react')
-  var ReactDOM = require('react-dom')
-  var cook = vcCake.getService('cook')
-  var Categories = require('./lib/categories')
-
-  require('./css/init.less')
-
-  var currentParentElement = false
-  api.addAction('setParent', function (parent) {
+vcCake.add('ui-add-element', (api) => {
+  let currentParentElement = false
+  api.addAction('setParent', (parent) => {
     currentParentElement = parent
   })
-  api.addAction('getParent', function () {
+  api.addAction('getParent', () => {
     return currentParentElement
   })
-  var Component = React.createClass({
-    getInitialState: function () {
-      return {
-        isWindowOpen: false,
-        parent: false
-      }
-    },
-    componentWillMount: function () {
-      api
-        .on('show', function (parent) {
-          this.setState({ isWindowOpen: true, parent: parent })
-        }.bind(this))
-        .on('hide', () => {
-          this.setState({ isWindowOpen: false })
-        })
-        .reply('app:add', function (parent) {
-          this.setState({ isWindowOpen: true, parent: parent })
-        }.bind(this))
-    },
-    render: function () {
-      var elements = this.state.isWindowOpen ? cook.list.settings() : []
-
-      api.actions.setParent(this.state.parent)
-      if (this.state.isWindowOpen) {
-        api.actions.setParent(this.state.parent)
-      }
-
-      let classes = classNames({
-        'vcv-ui-add-element-container': true,
-        'vcv-ui-add-element-layout-hidden': !this.state.isWindowOpen
-      })
-
-      let content = <Categories elements={elements} api={api} />
-
-      return (<div id="vcv-ui-add-element-container">
-        <div className={classes}>
-          <div className="vcv-ui-add-element-content">
-            <div>TODO: Search</div>
-
-            {content}
-
-            <div>Footer</div>
-          </div>
-          <div className="resizer resizer-y resizer-add-element-container"></div>
-          <div className="resizer resizer-xy resizer-add-element"></div>
-        </div>
-      </div>)
-    }
+  api.reply('app:add', (parent = null) => {
+    api.notify('show', parent)
+  }).on('hide', () => {
+    api.module('ui-tree-layout').do('setContent', null)
+    api.request('tree-layout:hide')
+  }).on('show', (parent = null) => {
+    api.module('ui-tree-layout').do('setContent', AddElement, {
+      api: api,
+      parent: parent
+    })
+    api.request('tree-layout:show-content')
   })
-
-  // Wrapper for navbar.
-  var wrapper = document.createElement('div')
-  wrapper.setAttribute('id', 'vcv-ui-add-element-wrapper')
-  document.getElementById('vcv-editor-end').appendChild(wrapper)
-  ReactDOM.render(
-    <Component />,
-    wrapper
-  )
 })
