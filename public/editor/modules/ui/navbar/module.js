@@ -40,7 +40,7 @@ vcCake.add('ui-navbar', function (api) {
       })
     },
     handleNavbarDragging: function (e) {
-      let { windowSize, navPosY, navPosX, navbarPosition } = e.eventDataļ
+      let { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
       var navSize = 60
       var navSizeSide = 60 * 2
       if (navbarPosition === 'detached') {
