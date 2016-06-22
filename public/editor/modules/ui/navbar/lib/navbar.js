@@ -21,7 +21,6 @@ var Navbar = React.createClass({
       isDragging: false,
       isDetached: false,
       navbarPosition: 'top',
-      navbarNewPosition: undefined,
       navPosX: 0,
       navPosY: 0,
       windowSize: {
@@ -77,8 +76,7 @@ var Navbar = React.createClass({
       navbarSize: {
         height: ReactDOM.findDOMNode(this).offsetHeight,
         width: ReactDOM.findDOMNode(this).offsetWidth
-      },
-      navbarNewPosition: this.state.navbarPosition
+      }
     })
 
     let moveStartEvent = document.createEvent('Event')
@@ -115,11 +113,15 @@ var Navbar = React.createClass({
           top: false,
           bottom: false
         },
+        navbarSize: {
+          height: ReactDOM.findDOMNode(this).offsetHeight,
+          width: ReactDOM.findDOMNode(this).offsetWidth
+        },
         navPosX: e.clientX,
-        navPosY: e.clientY,
-        navbarNewPosition: this.state.navbarPosition
+        navPosY: e.clientY
       }
 
+      // get move direction
       if (previousState.navPosX > e.clientX) {
         newStates.moveDirection.left = true
       } else if (previousState.navPosX < e.clientX) {
@@ -131,6 +133,25 @@ var Navbar = React.createClass({
         newStates.moveDirection.bottom = true
       }
 
+      // get new position
+      let navSize = 60 * 0.5
+      let navSizeSide = 60
+
+      if (newStates.navPosY < navSize) {
+        // if nav is on top
+        newStates.navbarPosition = 'top'
+      } else if (this.state.windowSize.height - navSize < newStates.navPosY) {
+        // if nav is on bottom
+        newStates.navbarPosition = 'bottom'
+      } else if (newStates.navPosX < navSizeSide) {
+        // if nav is on left
+        newStates.navbarPosition = 'left'
+      } else if (this.state.windowSize.width - navSizeSide < newStates.navPosX) {
+        // if nav is on right
+        newStates.navbarPosition = 'right'
+      } else {
+        newStates.navbarPosition = 'detached'
+      }
       return newStates
     })
 
@@ -143,87 +164,41 @@ var Navbar = React.createClass({
     this.props.api.notify('resize')
   },
   render: function () {
-    let { isDragging, navPosX, navPosY, navbarPosition, navbarNewPosition, moveDirection, navbarSize, windowSize } = this.state
+    let { isDragging, navPosX, navPosY, navbarPosition, navbarSize } = this.state
     let navBarStyle = {}
     let isDetached
 
     if (isDragging) {
       isDetached = false
       navBarStyle.opacity = 0.5
-
-      switch (navbarNewPosition) {
-        case 'top':
-          navBarStyle.top = navPosY - navbarSize.height / 2
-          if (navBarStyle.top > navbarSize.height) {
-            isDetached = true
-          }
-          if (moveDirection.bottom && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
-            navBarStyle.top = 0
-          }
-          if (moveDirection.top && navPosY - navbarSize.height / 2 < navbarSize.height / 2) {
-            navBarStyle.top = 0
-          }
-          if (isDetached) {
-            navBarStyle.left = navPosX - 7
-          }
-          break
-        case 'left':
-          navBarStyle.left = navPosX - navbarSize.width / 2
-          if (navBarStyle.left > navbarSize.width) {
-            isDetached = true
-          }
-          if (moveDirection.right && navPosX - navbarSize.width / 2 < navbarSize.width / 2) {
-            navBarStyle.left = 0
-          }
-          if (moveDirection.left && navPosX - navbarSize.width / 2 < navbarSize.width / 2) {
-            navBarStyle.left = 0
-          }
-          if (isDetached) {
-            navBarStyle.top = navPosY - 7
-          }
-          break
-        case 'bottom':
-          navBarStyle.bottom = windowSize.height - (navPosY + navbarSize.height / 2)
-          if (navBarStyle.bottom > navbarSize.height) {
-            isDetached = true
-          }
-          if (moveDirection.bottom && windowSize.height - (navPosY + navbarSize.height / 2) < navbarSize.height / 2) {
-            navBarStyle.bottom = 0
-          }
-          if (moveDirection.top && windowSize.height - (navPosY + navbarSize.height / 2) < navbarSize.height / 2) {
-            navBarStyle.bottom = 0
-          }
-          if (isDetached) {
-            navBarStyle.left = navPosX - 7
-          }
-          break
-        case 'right':
-          navBarStyle.right = windowSize.width - (navPosX + navbarSize.width / 2)
-          if (navBarStyle.right > navbarSize.width) {
-            isDetached = true
-          }
-          if (moveDirection.left && windowSize.width - (navPosX + navbarSize.width / 2) < navbarSize.width / 2) {
-            navBarStyle.right = 0
-          }
-          if (moveDirection.right && windowSize.width - (navPosX + navbarSize.width / 2) < navbarSize.width / 2) {
-            navBarStyle.right = 0
-          }
-          if (isDetached) {
-            navBarStyle.top = navPosY - 7
-          }
-          break
-      }
     }
+
+    if (navbarPosition === 'detached') {
+      navBarStyle.top = navPosY - 7 + 'px'
+      navBarStyle.left = navPosX - navbarSize.width / 2 + 'px'
+    }
+
+    let navBarStyleString = []
+    for (let prop in navBarStyle) {
+      navBarStyleString.push(prop + ': ' + navBarStyle[ prop ])
+    }
+    navBarStyleString = navBarStyleString.join('; ')
+    document.body.querySelector('.vcv-layout-bar').style.cssText = navBarStyleString
 
     let navbarContainerClasses = classNames({
       'vcv-ui-navbar-container': true,
       'vcv-ui-navbar-is-detached': isDetached
     })
 
+    for (let i = 0; i < document.body.classList.length; i++) {
+      if (document.body.classList.item(i).search('vcv-layout-placement--') === 0) {
+        document.body.classList.remove(document.body.classList.item(i))
+      }
+    }
     document.body.classList.add('vcv-layout-placement')
     document.body.classList.add('vcv-layout-placement--' + navbarPosition)
     return (
-      <div className={navbarContainerClasses} style={navBarStyle}>
+      <div className={navbarContainerClasses}>
         <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
           <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}>
             <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i>

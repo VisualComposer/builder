@@ -1,25 +1,36 @@
+//.vcv-layout-placement--detached { // TODO: rewrite this in more elegant way
+//  .vcv-ui-navbar-container {
+//    position: fixed;
+//  }
+//  #vc-navbar-container,
+//  .vcv-ui-navbar-container {
+//    height: auto;
+//  }
+//}
 
-.vcv-ui-has-navbar {
-  transition-property: padding;
-  transition-duration: @transition-duration;
-  transition-timing-function: @transition-timing-function;
+.vcv-ui-navbar-is-dragging {
+  user-select: none;
+  //&:not(.vcv-layout-placement--detached) {
+  //  .vcv-ui-navbar-container {
+  //    position: relative;
+  //  }
+  //}
+
+  .vcv-ui-navbar-container {
+    > *:not(.vcv-ui-navbar-drag-handler) {
+      pointer-events: none;
+    }
+    //position: fixed;
+    //cursor: move;
+    //transition-property: top, left, bottom, right;
+    //transition-duration: 0s;
+    //transition-timing-function: ease-out;
+  }
 }
 
 .vcv-ui-navbar-is-dragging {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  padding: 0;
-  .vcv-ui-navbar {
-    pointer-events: none;
-  }
-  .vcv-ui-navbar-container {
-    cursor: move;
-    transition-property: top, left, bottom, right;
-    transition-duration: 0s;
-    transition-timing-function: ease-out;
+  .vcv-layout-bar-content {
+    //display: none;
   }
 }
 
@@ -30,6 +41,7 @@
   transition-timing-function: @transition-timing-function;
   background-color: @navbar-bg-base;
   box-shadow: inset 0 0 10px 1px @navbar-bg-base-hover;
+  z-index: -1;
   &-top {
     top: 0;
     left: 0;

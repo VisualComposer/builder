@@ -11,7 +11,7 @@ vcCake.add('ui-navbar', function (api) {
       return {
         showOverlay: false,
         showGuideline: false,
-        navbarPosition: 'top',
+        guidelinePosition: 'top',
         isDragging: false
       }
     },
@@ -30,8 +30,7 @@ vcCake.add('ui-navbar', function (api) {
     handleNavbarDragStart: function (e) {
       this.setState({
         isDragging: true,
-        showOverlay: true,
-        navbarPosition: e.eventData.navbarNewPosition
+        showOverlay: true
       })
     },
     handleNavbarDragEnd: function (e) {
@@ -41,74 +40,60 @@ vcCake.add('ui-navbar', function (api) {
       })
     },
     handleNavbarDragging: function (e) {
-      let { navbarSize, navbarNewPosition, windowSize } = e.eventData
-      switch (navbarNewPosition) {
-        case 'top':
-          if (e.eventData.navPosY - navbarSize.height / 2 < navbarSize.height &&
-            e.eventData.navPosY - navbarSize.height / 2 >= navbarSize.height / 2) {
-            this.setState({
-              showGuideline: true
-            })
-          } else {
-            this.setState({
-              showGuideline: false
-            })
-          }
-          break
-
-        case 'left':
-          if (e.eventData.navPosX - navbarSize.width / 2 < navbarSize.width &&
-            e.eventData.navPosX - navbarSize.width / 2 >= navbarSize.width / 2) {
-            this.setState({
-              showGuideline: true
-            })
-          } else {
-            this.setState({
-              showGuideline: false
-            })
-          }
-          break
-
-        case 'bottom':
-          if (windowSize.height - (e.eventData.navPosY + navbarSize.height / 2) < navbarSize.height &&
-            windowSize.height - (e.eventData.navPosY + navbarSize.height / 2) >= navbarSize.height / 2) {
-            this.setState({
-              showGuideline: true
-            })
-          } else {
-            this.setState({
-              showGuideline: false
-            })
-          }
-          break
-        case 'right':
-          if (windowSize.height - (e.eventData.navPosX + navbarSize.width / 2) < navbarSize.width &&
-            windowSize.height - (e.eventData.navPosX - navbarSize.width / 2) >= navbarSize.width / 2) {
-            this.setState({
-              showGuideline: true
-            })
-          } else {
-            this.setState({
-              showGuideline: false
-            })
-          }
-          break
+      let { windowSize, navPosY, navPosX, navbarPosition } = e.eventDataļ
+      var navSize = 60
+      var navSizeSide = 60 * 2
+      if (navbarPosition === 'detached') {
+        // if nav is on top
+        if (navPosY < navSize) {
+          this.setState({
+            showGuideline: true,
+            guidelinePosition: 'top'
+          })
+          return
+        }
+        // if nav is on bottom
+        if (windowSize.height - navSize < navPosY) {
+          this.setState({
+            showGuideline: true,
+            guidelinePosition: 'bottom'
+          })
+          return
+        }
+        // if nav is on left
+        if (navPosX < navSizeSide) {
+          this.setState({
+            showGuideline: true,
+            guidelinePosition: 'left'
+          })
+          return
+        }
+        // if nav is on right
+        if (windowSize.width - navSizeSide < navPosX) {
+          this.setState({
+            showGuideline: true,
+            guidelinePosition: 'right'
+          })
+          return
+        }
       }
+      this.setState({
+        showGuideline: false
+      })
     },
 
     render: function () {
-      let { showOverlay, navbarPosition, isDragging, showGuideline } = this.state
-
+      let { showOverlay, guidelinePosition, isDragging, showGuideline } = this.state
       return (
         <div id="vc-navbar-container">
           {(() => {
             if (showOverlay) {
-              return <div className="vcv-ui-navbar-overlay"></div>
+              return <div className="vcv-ui-navbar-drag-overlay"></div>
             }
           })()}
           {(() => {
             if (isDragging) {
-              let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + navbarPosition ]
+              let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
               if (showGuideline) {
                 guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
               }

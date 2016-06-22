@@ -22,7 +22,7 @@
     }
   }
   //== left
-  &.vcv-layout-placement--start {
+  &.vcv-layout-placement--left {
     .vcv-layout {
       flex-direction: row;
     }
@@ -38,7 +38,7 @@
     }
   }
   //== Right
-  &.vcv-layout-placement--end {
+  &.vcv-layout-placement--right {
     .vcv-layout {
       flex-direction: row-reverse;
     }
@@ -60,8 +60,6 @@
     .vcv-layout-bar {
       flex-direction: row;
       position: fixed;
-      top: 5vh;
-      left: 5vw;
     }
     .vcv-layout-bar-content {
       flex-direction: column;
@@ -79,8 +77,8 @@
       width: auto!important;
     }
   }
-  &.vcv-layout-placement--start,
-  &.vcv-layout-placement--end {
+  &.vcv-layout-placement--left,
+  &.vcv-layout-placement--right {
     .vcv-layout-bar-content {
       height: auto!important;
     }
