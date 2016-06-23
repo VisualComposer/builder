@@ -20,6 +20,7 @@ class Categories extends React.Component {
   }
 
   componentDidMount () {
+    this.setStateForTabs()
     window.addEventListener('resize', this.refreshTabs.bind(this))
     this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
   }
@@ -33,8 +34,9 @@ class Categories extends React.Component {
     this.refreshTabs()
   }
 
-  componentWillReceiveProps (nextProps) {
-    let allTabs = this.tabsFromProps(nextProps)
+  componentWillReceiveProps (nextProps) {}
+  setStateForTabs () {
+    let allTabs = this.tabsFromProps(this.props)
 
     this.setState({
       allTabs: allTabs.slice(),
@@ -43,11 +45,9 @@ class Categories extends React.Component {
       activeTabIndex: 0
     })
   }
-
   tabsFromProps (props) {
     let tabs = []
     let index = 0
-
     let categories = lodash.groupBy(props.elements, (element) => {
       return element.category || 'Content'
     })
