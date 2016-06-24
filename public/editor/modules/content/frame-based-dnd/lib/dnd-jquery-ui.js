@@ -203,7 +203,7 @@ Builder.prototype.handleDragStart = function (e, ui) {
   }
   this.dragingElement = e.currentTarget
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
-  /*if (e.dataTransfer) {
+  /* if (e.dataTransfer) {
    e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
    e.dataTransfer.effectAllowed = 'copy'
    e.dataTransfer.dropEffect = 'none'

@@ -79,7 +79,7 @@ var TreeView = React.createClass({
       <div id="vcv-ui-tree-view-container">
         <div className={treeViewClasses}>
           <div ref="scrollable" className={treeViewLayoutClasses}>
-            <TreeLayout api={this.props.api}/>
+            <TreeLayout api={this.props.api} />
           </div>
           <div className={treeViewLayoutResizerClasses}></div>
           <div className="vcv-ui-tree-view-content">

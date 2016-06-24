@@ -70,6 +70,14 @@
   left: 0;
   right: 0;
   flex: 1 1 auto;
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+  visibility: visible;
+  opacity: 1;
+  &:not(.vcv-layout-bar-content--visible) {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
+  }
 }
 .vcv-layout-bar-content-start {
   flex: 0 0 auto;
