@@ -1,6 +1,18 @@
 /* ===================================
  * Visual composer Tree layout styles
  * =================================== */
+//== tree view
+.vcv-ui-tree-view-layout {
+  height: 100%;
+  font-size: @tree-text-size-base;
+  color: @tree-text-color-base;
+  background-color: @tree-bg-base;
+  border-right: 1px solid @tree-separator-color;
+
+  &.vcv-hidden {
+    display: none;
+  }
+}
 //== Tree Layout styles styles
 .vcv-ui-tree-layout-container {
   flex-grow: 1;

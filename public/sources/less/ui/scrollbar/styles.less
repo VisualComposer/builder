@@ -1,0 +1,50 @@
+/* ===================================
+ * Visual composer editor scroll styles
+ * =================================== */
+
+.vcv-ui-scroll-container {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  //overflow: hidden;
+  overflow: auto;
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  //position: relative;
+  //&::after {
+  //  content: '';
+  //  position: absolute;
+  //  top: 0;
+  //  bottom: 0;
+  //  right: 4px;
+  //  width: 4px;
+  //  background: @scroll-color;
+  //  border-radius: 5px;
+  //  visibility: hidden;
+  //  opacity: 0;
+  //  pointer-events: none;
+  //}
+  //&:hover {
+  //  &::after {
+  //    opacity: 1;
+  //    visibility: visible;
+  //  }
+  //}
+}
+
+.vcv-ui-scroll {
+  box-sizing: content-box;
+  //overflow-y: auto;
+  //overflow-x: hidden;
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  //margin-right: -@scroll-indent;
+  //padding-right: @scroll-indent;
+}
+
+.vcv-ui-scroll-content {
+  box-sizing: border-box;
+  flex: 1 1 100%;
+}

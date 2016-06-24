@@ -73,6 +73,7 @@
   transition: visibility 0s, opacity @transition-duration @transition-timing-function;
   visibility: visible;
   opacity: 1;
+  pointer-events: none;
   &:not(.vcv-layout-bar-content--visible) {
     visibility: hidden;
     opacity: 0;
@@ -81,7 +82,9 @@
 }
 .vcv-layout-bar-content-start {
   flex: 0 0 auto;
+  pointer-events: all;
 }
 .vcv-layout-bar-content-end {
-  flex: 1 1 auto;
+  flex: 1 1 100%;
+  pointer-events: all;
 }

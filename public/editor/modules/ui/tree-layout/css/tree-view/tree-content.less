@@ -17,14 +17,15 @@
 }
 
 .vcv-ui-tree-content-section {
-  flex-grow: 1;
-  flex-shrink: 1;
+  flex: 1 1 0;
   color: @tree-content-text;
   background-color: @tree-content-bg;
   padding: (@tree-content-gutter / 2) @tree-content-gutter;
   min-height: 1em; // dirty ff flexbox bug fix
-  overflow: auto;
+  //overflow: auto;
   position: relative;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 //== title controls
