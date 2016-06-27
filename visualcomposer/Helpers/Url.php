@@ -43,7 +43,8 @@ class Url implements Helper
      */
     public function ajax($query = [])
     {
-        $query[ VCV_AJAX_REQUEST ] = '1';
+        $ajax = [VCV_AJAX_REQUEST => 1];
+        $query = $ajax + $query;
         $url = get_site_url();
         $q = '?';
         /** @var Str $strHelper */

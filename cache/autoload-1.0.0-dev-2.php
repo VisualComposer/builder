@@ -102,12 +102,6 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Settings\\Controller',
       'make' => true,
     ),
-    'SettingsPagesAuthorization' => 
-    array (
-      'name' => 'SettingsPagesAuthorization',
-      'abstract' => 'VisualComposer\\Modules\\Settings\\Pages\\Authorization',
-      'make' => true,
-    ),
     'SiteController' => 
     array (
       'name' => 'SiteController',
