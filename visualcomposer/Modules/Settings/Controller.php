@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Settings;
 
 use VisualComposer\Helpers\Events;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Url;

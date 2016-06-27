@@ -130,6 +130,6 @@ class Authorization extends Container implements Module
         /** @var Options $optionsHelper */
         $optionsHelper = vchelper('Options');
 
-        return $optionsHelper->get('page-auth-state', 0) > 0;
+        return (int)$optionsHelper->get('page-auth-state', 0) > 0;
     }
 }

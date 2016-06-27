@@ -244,7 +244,7 @@ class Roles extends Container/* implements Module*/
     /**
      * @param $role
      * @param $part
-     * @param $roles
+     * @param $roles \WP_Roles
      * @param $settings
      * @param \VisualComposer\Helpers\Access\Role $roleAccess
      */

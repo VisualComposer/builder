@@ -115,12 +115,16 @@ class CurrentUser extends AccessFactory implements Helper
      *
      * @param $rule
      * @param bool $value
+     *
+     * @return $this
      */
     public function setCapRule($rule, $value = true)
     {
         $roleRule = $this->getStateKey() . '/' . $rule;
 
         wp_get_current_user()->add_cap($roleRule, $value);
+
+        return $this;
     }
 
     /**

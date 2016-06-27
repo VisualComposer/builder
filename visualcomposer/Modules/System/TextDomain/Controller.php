@@ -4,7 +4,8 @@ namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Events;
-use VisualComposer\Framework\Illuminate\Support\Module;
+
+//use VisualComposer\Framework\Illuminate\Support\Module;
 
 /**
  * Class Controller.

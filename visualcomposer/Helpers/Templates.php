@@ -2,7 +2,6 @@
 
 namespace VisualComposer\Helpers;
 
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
@@ -15,7 +14,7 @@ class Templates implements Helper
      * Render template.
      *
      * @param string $_path Path to view to render. Must be relative to /visualcomposer/resources/views/
-     *   Extension ".php" can be ommited.
+     *   Extension ".php" can be omitted.
      * @param array $_args Arguments to pass to view.
      *
      * @return string Rendered view.
