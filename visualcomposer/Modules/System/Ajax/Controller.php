@@ -67,14 +67,18 @@ class Controller extends Container implements Module
 
     private function validateNonce($requestAction, Request $requestHelper, Str $strHelper, Nonce $nonceHelper)
     {
-        if ($strHelper->contains($requestAction, ':nonce')) {
-            if (!$nonceHelper->verifyUser($requestHelper->input('vcv-nonce'))) {
-                return false;
-            }
-        } elseif ($strHelper->contains($requestAction, ':adminNonce')) {
-            if (!$nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'))) {
-                return false;
-            }
+        if ($strHelper->contains($requestAction, ':nonce')
+            && !$nonceHelper->verifyUser(
+                $requestHelper->input('vcv-nonce')
+            )
+        ) {
+            return false;
+        } elseif ($strHelper->contains($requestAction, ':adminNonce')
+            && !$nonceHelper->verifyAdmin(
+                $requestHelper->input('vcv-nonce')
+            )
+        ) {
+            return false;
         }
 
         return true;
