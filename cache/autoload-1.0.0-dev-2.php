@@ -102,5 +102,11 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Site\\Controller',
       'make' => true,
     ),
+    'SystemAjaxController' => 
+    array (
+      'name' => 'SystemAjaxController',
+      'abstract' => 'VisualComposer\\Modules\\System\\Ajax\\Controller',
+      'make' => true,
+    ),
   ),
 );
