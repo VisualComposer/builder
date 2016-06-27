@@ -44,7 +44,8 @@ class Controller extends Container implements Module
             define('VCV_AJAX_REQUEST_CALL', true);
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
             $response = $this->call('parseRequest');
-            die($this->renderResponse($response));
+            $output = $this->renderResponse($response);
+            die($output);
         }
     }
 

@@ -2,7 +2,8 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\Illuminate\Support\Module;
+/*use VisualComposer\Framework\Illuminate\Support\Module;*/
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
@@ -14,18 +15,22 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class About extends Container/* implements Module*/
 {
     use Page;
+
     /**
      * @var string
      */
     protected $slug = 'vcv-about';
+
     /**
      * @var string
      */
     protected $defaultTabSlug = 'vcv-main';
+
     /**
      * @var string
      */
     protected $templatePath = 'settings/pages/about/index';
+
     /**
      * @var array
      */
@@ -33,10 +38,12 @@ class About extends Container/* implements Module*/
 
     /**
      * About constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
-        add_filter(
+        $filterHelper->listen(
             'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
@@ -102,7 +109,7 @@ class About extends Container/* implements Module*/
     {
         // TODO: Fix same issue as \is_multisite().
         $hasAccessToSettings = $currentUserAccess->wpAny('manage_options')->part('settings')->can('vcv-general-tab')
-                                                 ->get()
+                ->get()
             && (!is_multisite() || !is_main_site());
         $args = [
             'tabs' => $this->getTabs(),

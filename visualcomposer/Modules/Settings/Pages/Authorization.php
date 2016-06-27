@@ -6,6 +6,7 @@ use Exception;
 use VisualComposer\Framework\Application;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Options;
@@ -15,17 +16,20 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Authorization.
  */
-class Authorization extends Container/* implements Module*/
+class Authorization extends Container implements Module
 {
     use Page;
+
     /**
      * @var \VisualComposer\Framework\Application
      */
     protected $app;
+
     /**
      * @var string
      */
     protected $slug = 'vcv-auth';
+
     /**
      * @var string
      */
@@ -35,11 +39,12 @@ class Authorization extends Container/* implements Module*/
      * Authorization constructor.
      *
      * @param \VisualComposer\Framework\Application $app
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Filters $filterHelper)
     {
         $this->app = $app;
-        add_filter(
+        $filterHelper->listen(
             'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
@@ -48,11 +53,11 @@ class Authorization extends Container/* implements Module*/
             40
         );
 
-        add_action(
-            'vcv:ajax:loader:api',
+        $filterHelper->listen(
+            'vcv:ajax:api',
             function () {
                 /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
-                $this->call('handleApiRequest');
+                return $this->call('handleApiRequest');
             }
         );
     }
@@ -99,7 +104,7 @@ class Authorization extends Container/* implements Module*/
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Token $tokenHelper
      *
-     * @internal param \VisualComposer\Helpers\Options $options
+     * @return bool
      */
     private function handleApiRequest(Request $request, Token $tokenHelper)
     {
@@ -108,11 +113,13 @@ class Authorization extends Container/* implements Module*/
             /** @see \VisualComposer\Helpers\Token::generateToken */
             $token = $this->app->call([$tokenHelper, 'generateToken'], [$request->input('code')]);
             if ($token) {
-                wp_redirect(self_admin_url('admin.php?page=vcv-auth'));
+                wp_redirect(self_admin_url('admin.php?page=' . $this->slug));
             } else {
-                wp_redirect(self_admin_url('admin.php?page=vcv-auth&failed=true'));
+                wp_redirect(self_admin_url('admin.php?page=' . $this->slug . '&failed=true'));
             }
         }
+
+        return true;
     }
 
     /**
