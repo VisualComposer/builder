@@ -10,7 +10,7 @@ vcCake.add('ui-layout-bar', function (api) {
           <div className='vcv-layout-bar-header' id='vcv-editor-header'>
 
           </div>
-          <BarContent />
+          <BarContent api={api} />
         </div>
       )
     }
