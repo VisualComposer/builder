@@ -1,6 +1,7 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 require('./lib/navbar-control')
+
 vcCake.add('ui-tree-layout', function (api) {
   var React = require('react')
   var ReactDOM = require('react-dom')
