@@ -3,6 +3,7 @@ var vcCake = require('vc-cake')
 var React = require('react')
 var classNames = require('classnames')
 require('../css/tree/init.less')
+require('../css/tree-view/init.less')
 var Element = require('./element.js')
 var DataChanged = {
   componentDidMount: function () {
