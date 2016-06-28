@@ -32,11 +32,6 @@ class Application extends ApplicationFactory
             'init',
             function () {
                 vcevent('vcv:inited', $this);
-                if (isset($_REQUEST[ VCV_AJAX_REQUEST ])) {
-                    /** @noinspection PhpIncludeInspection */
-                    require_once $this->path('visualcomposer/Modules/System/Loader.php');
-                    die;
-                }
             }
         );
     }

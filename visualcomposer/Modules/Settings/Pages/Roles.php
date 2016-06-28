@@ -2,7 +2,8 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\Role;
 use VisualComposer\Framework\Container;
@@ -14,22 +15,27 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Roles extends Container/* implements Module*/
 {
     use Page;
+
     /**
      * @var string
      */
     protected $slug = 'vcv-roles';
+
     /**
      * @var string
      */
     protected $templatePath = 'settings/pages/roles/index';
+
     /**
      * @var bool
      */
     protected $postTypes = false;
+
     /**
      * @var bool
      */
     protected $excludedPostTypes = false;
+
     /**
      * @var array
      */
@@ -47,10 +53,12 @@ class Roles extends Container/* implements Module*/
 
     /**
      * Roles constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
-        add_filter(
+        $filterHelper->listen(
             'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
@@ -236,7 +244,7 @@ class Roles extends Container/* implements Module*/
     /**
      * @param $role
      * @param $part
-     * @param $roles
+     * @param $roles \WP_Roles
      * @param $settings
      * @param \VisualComposer\Helpers\Access\Role $roleAccess
      */

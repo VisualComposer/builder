@@ -16,20 +16,23 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Controller.
  */
-class Controller extends Container /*implements Module*/
+class Controller extends Container implements Module
 {
     /**
      * @var null
      */
     protected $pages = null;
+
     /**
      * @var string
      */
     protected $optionGroup = 'vcv-settings';
+
     /**
      * @var string
      */
     protected $pageSlug = 'vcv-settings';
+
     /**
      * @var string
      */
@@ -222,7 +225,7 @@ class Controller extends Container /*implements Module*/
     public function getPages()
     {
         if (is_null($this->pages)) {
-            $this->pages = apply_filters('vcv:settings:getPages', []);
+            $this->pages = vcfilter('vcv:settings:getPages', []);
         }
 
         return $this->pages;

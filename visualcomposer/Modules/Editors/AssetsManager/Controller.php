@@ -6,7 +6,7 @@ use VisualComposer\Application;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\File;
-use VisualComposer\Helpers\Filters as FilterDispather;
+use VisualComposer\Helpers\Filters as FilterDispatcher;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
@@ -19,14 +19,17 @@ class Controller extends Container implements Module
      * @var \VisualComposer\Helpers\Filters
      */
     protected $filter;
+
     /**
      * @var \VisualComposer\Helpers\Request
      */
     protected $request;
+
     /**
      * @var \VisualComposer\Helpers\Options
      */
     protected $options;
+
     /**
      * @var \VisualComposer\Helpers\File
      */
@@ -41,7 +44,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\File $fileHelper
      */
     public function __construct(
-        FilterDispather $filterHelper,
+        FilterDispatcher $filterHelper,
         Request $request,
         Options $optionsHelper,
         File $fileHelper

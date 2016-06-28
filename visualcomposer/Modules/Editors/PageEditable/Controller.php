@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Editors\PageEditable;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Url;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 
@@ -55,40 +54,47 @@ class Controller extends Container implements Module
                     function () {
                         $url = vchelper('Url');
                         $filter = vchelper('Filters');
+
                         // TODO: Use view.
-                        return $filter->fire('vcv:pageEditable:content', '
+                        return $filter->fire(
+                            'vcv:pageEditable:content',
+                            <<<'TAG'
+
 <script>
         (function () {
             function vcvLoadJsCssFile( filename, filetype ) {
                 var fileRef;
-                filename = filename.replace( /\s/g, \'%20\' );
+                filename = filename.replace( /\s/g, '%20' );
 
-                if ( \'js\' === filetype ) {
-                    fileRef = document.createElement( \'script\' );
-                    fileRef.setAttribute( \'type\', \'text/javascript\' );
-                    fileRef.setAttribute( \'src\', filename );
-                } else if ( \'css\' === filetype ) {
-                    fileRef = document.createElement( \'link\' );
-                    if ( filename.substr( - 5, 5 ) === \'.less\' ) {
-                        fileRef.setAttribute( \'rel\', \'stylesheet/less\' );
+                if ( 'js' === filetype ) {
+                    fileRef = document.createElement( 'script' );
+                    fileRef.setAttribute( 'type', 'text/javascript' );
+                    fileRef.setAttribute( 'src', filename );
+                } else if ( 'css' === filetype ) {
+                    fileRef = document.createElement( 'link' );
+                    if ( filename.substr( - 5, 5 ) === '.less' ) {
+                        fileRef.setAttribute( 'rel', 'stylesheet/less' );
                     } else {
-                        fileRef.setAttribute( \'rel\', \'stylesheet\' );
+                        fileRef.setAttribute( 'rel', 'stylesheet' );
                     }
 
-                    fileRef.setAttribute( \'type\', \'text/css\' );
-                    fileRef.setAttribute( \'href\', filename );
+                    fileRef.setAttribute( 'type', 'text/css' );
+                    fileRef.setAttribute( 'href', filename );
                 }
-                if ( \'undefined\' !== typeof fileRef ) {
-                    document.getElementsByTagName( \'head\' )[ 0 ].appendChild(
+                if ( 'undefined' !== typeof fileRef ) {
+                    document.getElementsByTagName( 'head' )[ 0 ].appendChild(
                         fileRef );
                 }
             }
 
-            vcvLoadJsCssFile( \'' . $url->to('public/dist/wp.bundle.css?' . uniqid()) . '\',
+            vcvLoadJsCssFile( '
+TAG
+                            . $url->to('public/dist/wp.bundle.css?' . uniqid()) . '\',
                 \'css\' );
         })();
     </script>
-    <div id="vcv-editor">Loading...</div>');
+    <div id="vcv-editor">Loading...</div>'
+                        );
                     }
                 );
             },

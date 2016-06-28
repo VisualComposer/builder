@@ -96,10 +96,22 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
       'make' => true,
     ),
+    'SettingsController' => 
+    array (
+      'name' => 'SettingsController',
+      'abstract' => 'VisualComposer\\Modules\\Settings\\Controller',
+      'make' => true,
+    ),
     'SiteController' => 
     array (
       'name' => 'SiteController',
       'abstract' => 'VisualComposer\\Modules\\Site\\Controller',
+      'make' => true,
+    ),
+    'SystemAjaxController' => 
+    array (
+      'name' => 'SystemAjaxController',
+      'abstract' => 'VisualComposer\\Modules\\System\\Ajax\\Controller',
       'make' => true,
     ),
   ),

@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
 use VisualComposer\Helpers\Filters;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
@@ -30,6 +30,8 @@ class Controller extends Container /*implements Module*/
 
     /**
      * @param \VisualComposer\Helpers\Request $request
+     *
+     * @return string
      */
     private function ajaxShortcodeRender(Request $request)
     {

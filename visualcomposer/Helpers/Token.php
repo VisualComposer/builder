@@ -2,7 +2,6 @@
 
 namespace VisualComposer\Helpers;
 
-// TODO: fix BUG @error
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
