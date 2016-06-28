@@ -8,7 +8,7 @@ const Atoll = require('./atoll')
  * @param options
  * @constructor
  */
-let Builder = function (container, options) {
+const Builder = function (container, options) {
   this.container = container
   this.atolls = {}
   this.hover = ''
@@ -21,30 +21,36 @@ let Builder = function (container, options) {
   })
 }
 Builder.prototype.init = function () {
-  this.initContainer()
+  // this.initContainer()
   this.buildHelper()
-  this.buildHover()
+  // this.buildHover()
 }
 Builder.prototype.initContainer = function () {
   this.container.addEventListener('drag', this.handleDrag.bind(this), false)
 }
 Builder.prototype.addItem = function (id) {
   this.atolls[ id ] = new Atoll(id, this.options)
-    .on('dragstart', this.handleDragStart.bind(this))
-    .on('dragend', this.handleDragEnd.bind(this))
-    .on('mouseover', this.handleDrag.bind(this))
+    // .on('dragstart', this.handleDragStart.bind(this))
+    // .on('dragend', this.handleDragEnd.bind(this))
+    // .on('mouseover', this.handleDrag.bind(this))
+    .on('mousedown', this.handleDragStart.bind(this))
+    .on('mouseup', this.handleDragEnd.bind(this))
 }
 Builder.prototype.removeItem = function (id) {
   this.atolls[ id ]
-    .off('dragstart', this.handleDragStart.bind(this))
-    .off('dragend', this.handleDragEnd.bind(this))
+    // .off('dragstart', this.handleDragStart.bind(this))
+    // .off('dragend', this.handleDragEnd.bind(this))
+    .off('mousedown', this.handleDragStart.bind(this))
+    .off('mouseup', this.handleDragEnd.bind(this))
   delete this.atolls[ id ]
 }
 Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('dragover', this.handleDrag.bind(this), false)
+  this.container.addEventListener('mousemove', this.handleDrag, false)
 }
 Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('dragover', this.handleDrag.bind(this), false)
+  console.log('forget mouse')
+  console.log(this.container)
+  this.container.removeEventListener('mousemove', this.handleDrag, false)
 }
 /**
  * Helper
@@ -112,6 +118,7 @@ Builder.prototype.hideControls = function () {
  * Drag handlers
  */
 Builder.prototype.handleDrag = function (e) {
+  console.log(this)
   console.log(e)
   // this.checkControls({ x: e.clientX, y: e.clientY })
 }
@@ -123,22 +130,24 @@ Builder.prototype.handleDragStart = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
+  console.log('start')
   this.dragingElement = e.currentTarget
-  if (e.dataTransfer) {
+  /*if (e.dataTransfer) {
     e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
     e.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
     e.dataTransfer.setData('Text', e.currentTarget.getAttribute('data-vc-element')) // required otherwise doesn't work
     this.hideHelper()
-  }
+  }*/
   this.watchMouse()
-  this.showHover()
+  // this.showHover()
   this.renderControls()
 }
 Builder.prototype.handleDragEnd = function () {
+  console.log('end')
   this.dragingElement = null
   this.forgetMouse()
   this.hideControls()
-  this.hideHover()
+  // this.hideHover()
 }
 /**
  * Global Constructor

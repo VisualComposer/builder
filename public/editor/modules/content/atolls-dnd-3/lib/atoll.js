@@ -23,7 +23,8 @@ var Atoll = function (id, options) {
   this.init()
 }
 Atoll.prototype.init = function () {
-  this.el.setAttribute('draggable', 'true')
+  this.el.setAttribute('data-vcv-draggable', 'true')
+  // this.el.setAttribute('draggable', 'true')
   return this
 }
 // @todo remove jquery offset with more optimized
@@ -99,7 +100,6 @@ Atoll.prototype.setControls = function () {
 Atoll.prototype.checkControls = function (radius, center) {
   this.controls.forEach(function (control) {
     var rect = control.getRect()
-    console.log(center)
     var distance = Math.sqrt(Math.pow(Math.abs(center.y - rect.top), 2) + Math.pow(Math.abs(center.x - rect.left), 2))
     var rate = distance / radius
     if (rate <= 0.10) {
@@ -134,11 +134,11 @@ Atoll.prototype.createControl = function (position) {
     .setPosition(cord)
     .setDropPosition(dropPosition)
     .add(document.body)
-  control
+  /*control
     .on('dragenter', this.controlHandleDragEnter.bind(this))
     .on('dragleave', this.controlHandleDragLeave.bind(this))
     .on('dragover', this.controlHandleDragOver.bind(this))
-    .on('drop', this.controlHandleDropOver.bind(this))
+    .on('drop', this.controlHandleDropOver.bind(this))*/
   return control
 }
 Atoll.prototype.controlHandleDragEnter = function (e) {
