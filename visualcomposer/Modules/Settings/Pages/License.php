@@ -3,7 +3,8 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -12,10 +13,12 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class License extends Container/* implements Module*/
 {
     use Page;
+
     /**
      * @var string
      */
     protected $slug = 'vcv-license';
+
     /**
      * @var string
      */
@@ -23,10 +26,12 @@ class License extends Container/* implements Module*/
 
     /**
      * License constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
-        add_filter(
+        $filterHelper->listen(
             'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */

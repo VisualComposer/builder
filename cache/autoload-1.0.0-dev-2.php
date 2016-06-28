@@ -96,6 +96,12 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Editors\\PageEditable\\Controller',
       'make' => true,
     ),
+    'SettingsController' => 
+    array (
+      'name' => 'SettingsController',
+      'abstract' => 'VisualComposer\\Modules\\Settings\\Controller',
+      'make' => true,
+    ),
     'SiteController' => 
     array (
       'name' => 'SiteController',

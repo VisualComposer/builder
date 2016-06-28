@@ -2,8 +2,8 @@
 
 namespace VisualComposer\Modules\Editors\DataAjax;
 
-use VisualComposer\Helpers\Filters as FilterDispather;
-use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Filters as FilterDispatcher;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
@@ -16,6 +16,7 @@ class Controller extends Container /* implements Module */
      * @var \VisualComposer\Helpers\Request
      */
     protected $request;
+
     /**
      * @var \VisualComposer\Helpers\Filters
      */
@@ -27,7 +28,7 @@ class Controller extends Container /* implements Module */
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    public function __construct(FilterDispather $filterHelper, Request $requestHelper)
+    public function __construct(FilterDispatcher $filterHelper, Request $requestHelper)
     {
         $this->filter = $filterHelper;
         $this->request = $requestHelper;

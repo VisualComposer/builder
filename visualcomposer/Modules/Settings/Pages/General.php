@@ -2,7 +2,8 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -15,18 +16,22 @@ class General extends Container/* implements Module*/
 {
     use Fields;
     use Page;
+
     /**
      * @var string
      */
     protected $slug = 'vcv-general';
+
     /**
      * @var string
      */
     protected $templatePath = 'settings/pages/general/index';
+
     /**
      * @var array
      */
     private $googleFontsSubsetsExcluded = [];
+
     /**
      * @var array
      */
@@ -42,12 +47,14 @@ class General extends Container/* implements Module*/
 
     /**
      * General constructor.
+     *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct()
+    public function __construct(Filters $filterHelper)
     {
         $this->optionGroup = 'vcv-general';
         $this->optionSlug = 'vcv-general';
-        add_filter(
+        $filterHelper->listen(
             'vcv:settings:getPages',
             function ($pages) {
                 /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
@@ -164,6 +171,8 @@ class General extends Container/* implements Module*/
      * Not responsive checkbox callback function.
      *
      * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return mixed|string
      */
     private function disableResponsiveFieldCallback(Options $options)
     {
@@ -204,6 +213,8 @@ class General extends Container/* implements Module*/
      * Google fonts subsets callback.
      *
      * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return mixed|string
      */
     private function googleFontsSubsetsFieldCallback(Options $options)
     {

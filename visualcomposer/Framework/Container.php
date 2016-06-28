@@ -40,7 +40,7 @@ abstract class Container
 
         if ($inner) {
             $reflectionMethod = new ReflectionMethod($this, $method);
-            if (!is_callable($func)) {
+            if (!$reflectionMethod->isPublic()) {
                 // TODO: Check for correct.
                 $reflectionMethod->setAccessible(true);
             }
