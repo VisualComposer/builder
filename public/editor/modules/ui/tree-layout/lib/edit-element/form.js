@@ -256,7 +256,7 @@ class TreeForm extends React.Component {
       <div className="vcv-ui-editor-tabs-container">
         <nav className="vcv-ui-editor-tabs">
           <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
-            onClick={this.toggleTreeView.bind(this)}>
+            onClick={this.toggleTreeView}>
             <span className="vcv-ui-editor-tab-content">
               <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
             </span>

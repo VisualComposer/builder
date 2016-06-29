@@ -12,36 +12,26 @@ vcCake.add('ui-tree-view', function (api) {
     },
     componentDidMount: function () {
       api
-        .on('show', function () {
+        .reply('bar-content-start:show', function () {
           this.setState({ controlActive: true })
         }.bind(this))
-        .on('hide', function () {
+        .reply('bar-content-start:hide', function () {
           this.setState({ controlActive: false })
         }.bind(this))
-        .reply('tree-view:hide', () => {
-          this.setState({ controlActive: false })
-        })
-        .reply('tree-view:show', () => {
-          this.setState({ controlActive: true })
-        })
     },
     toggleTreeView: function (e) {
       e && e.preventDefault()
       if (this.state.controlActive) {
         api.notify('hide')
-        // api.request('tree-view:hide')
       } else {
         api.notify('show')
-        // api.request('tree-view:show')
-        // api.notify('tree:show')
-        // api.notify('content:hide')
-        // api.notify('show')
       }
     },
     render: function () {
       let controlClass = classNames({
         'vcv-ui-navbar-control': true,
-        'vcv-ui-state--active': this.state.controlActive
+        'vcv-ui-toggle--inactive': !this.state.controlActive,
+        'vcv-ui-toggle--active': this.state.controlActive
       })
       return <a className={controlClass} href="#" title="Tree View" onClick={this.toggleTreeView}>
         <span className="vcv-ui-navbar-control-content">

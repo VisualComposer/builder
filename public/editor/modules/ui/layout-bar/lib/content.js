@@ -17,18 +17,23 @@ var BarContent = React.createClass({
       })
       if (isVisible) {
         this.props.api.notify('start:show')
+        this.props.api.request('bar-content-start:show')
       } else {
         this.props.api.notify('start:hide')
+        this.props.api.request('bar-content-start:hide')
       }
     })
     this.props.api.addAction('setEndContentVisible', (isVisible) => {
       this.setState({
         hasEndContent: isVisible
       })
+      // notify local events
       if (isVisible) {
         this.props.api.notify('end:show')
+        this.props.api.request('bar-content-end:show')
       } else {
         this.props.api.notify('end:hide')
+        this.props.api.request('bar-content-end:hide')
       }
     })
   },
