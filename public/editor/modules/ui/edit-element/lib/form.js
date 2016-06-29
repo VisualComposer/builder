@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-import '../css/tree-view/init.less'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 
@@ -169,15 +168,6 @@ class TreeForm extends React.Component {
     this.props.api.notify('hide', false)
   }
 
-  toggleTreeView (e) {
-    e && e.preventDefault()
-    if (this.state.treeViewActive) {
-      this.props.api.module('ui-layout-bar').do('setStartContentVisible', false)
-    } else {
-      this.props.api.module('ui-layout-bar').do('setStartContentVisible', true)
-    }
-  }
-
   saveForm () {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
@@ -268,12 +258,6 @@ class TreeForm extends React.Component {
       <div className={treeContentClasses}>
         <div className="vcv-ui-editor-tabs-container">
           <nav className="vcv-ui-editor-tabs">
-            <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
-              onClick={this.toggleTreeView.bind(this)}>
-              <span className="vcv-ui-editor-tab-content">
-                <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
-              </span>
-            </a>
             {visibleTabsHeaderOutput}
             {hiddenTabsHeaderOutput}
             <span className="vcv-ui-editor-tabs-free-space"></span>

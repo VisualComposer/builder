@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ClassNames from 'classnames'
 var BarContentStart = React.createClass({
@@ -25,6 +26,9 @@ var BarContentStart = React.createClass({
       .on('start:hide', function () {
         this.setState({ showContent: false })
       }.bind(this))
+      .on('start:toggle', function () {
+        this.setState({ showContent: !this.state.showContent })
+      }.bind(this))
   },
   render () {
     let content = null
@@ -36,7 +40,7 @@ var BarContentStart = React.createClass({
       'vcv-ui-state--visible': this.state.showContent
     })
     return (
-      <div className={contentClasses} id='vcv-editor-start'>
+      <div className={contentClasses} id="vcv-editor-start">
         {content}
       </div>
     )

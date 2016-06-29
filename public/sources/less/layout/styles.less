@@ -85,6 +85,7 @@
 .vcv-layout-bar-content-start {
   flex: 0 0 auto;
   pointer-events: all;
+  position: relative;
   &:not(.vcv-ui-state--visible){
     display: none;
   }
@@ -92,7 +93,50 @@
 .vcv-layout-bar-content-end {
   flex: 1 1 100%;
   pointer-events: all;
+  position: relative;
   &:not(.vcv-ui-state--visible){
     display: none;
+  }
+}
+
+
+.vcv-layout-bar-content-toggle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: @editor-layout-content-toggle-size;
+  width: @editor-layout-content-toggle-size;
+  color: @editor-layout-content-toggle-color;
+  transition: all @transition-duration @transition-timing-function;
+}
+.vcv-layout-bar-content-toggle-icon {
+  &::before {
+    font-size: 1.25em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.vcv-layout-bar-content-start {
+  &:not(.vcv-ui-state--visible){
+    +.vcv-layout-bar-content-end {
+      .vcv-layout-bar-content-toggle {
+        opacity: .5;
+        &:hover {
+          opacity: .6;
+        }
+      }
+    }
+  }
+  &.vcv-ui-state--visible{
+    +.vcv-layout-bar-content-end {
+      .vcv-layout-bar-content-toggle {
+        opacity: 1;
+        &:hover {
+          opacity: .9;
+        }
+      }
+    }
   }
 }

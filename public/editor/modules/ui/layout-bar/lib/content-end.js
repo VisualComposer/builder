@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ClassNames from 'classnames'
 var BarContentEnd = React.createClass({
@@ -26,6 +27,9 @@ var BarContentEnd = React.createClass({
         this.setState({ showContent: false })
       }.bind(this))
   },
+  toggleStartContent () {
+    this.props.api.notify('start:toggle')
+  },
   render () {
     let content = null
     if (this.state.contentComponent) {
@@ -36,7 +40,10 @@ var BarContentEnd = React.createClass({
       'vcv-ui-state--visible': this.state.showContent
     })
     return (
-      <div className={contentClasses} id='vcv-editor-end'>
+      <div className={contentClasses} id="vcv-editor-end">
+        <a className="vcv-layout-bar-content-toggle" href="#" title="Toggle tree view" onClick={this.toggleStartContent}>
+          <i className="vcv-layout-bar-content-toggle-icon vcv-ui-icon vcv-ui-icon-layers"></i>
+        </a>
         {content}
       </div>
     )
