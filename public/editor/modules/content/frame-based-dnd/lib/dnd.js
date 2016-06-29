@@ -1,5 +1,6 @@
 import {getService} from 'vc-cake'
 import Item from './item'
+import Frame from './frame'
 const cook = getService('cook')
 const $ = require('jquery')
 const _ = require('lodash')
@@ -39,27 +40,36 @@ var Builder = function (container, options) {
 }
 Builder.prototype.init = function () {
   this.initContainer()
-  this.buildHelper()
+  // this.buildHelper()
 }
 Builder.prototype.initContainer = function () {
-  this.container.addEventListener('drag', this.handleDrag.bind(this), false)
+  // this.container.addEventListener('mousedown', this.handleDragStart.bind(this), false)
+  this.handleDragFunction = this.handleDrag.bind(this)
+  this.handleDragStartFunction = this.handleDragStart.bind(this)
+  this.handleDragEndFunction = this.handleDragEnd.bind(this)
 }
 Builder.prototype.addItem = function (id) {
   this.items[ id ] = new Item(id, this.options.document)
-    .on('dragstart', this.handleDragStart.bind(this))
-    .on('dragend', this.handleDragEnd.bind(this))
+    .on('mousedown', this.handleDragStartFunction)
+  // .on('mouseup', this.handleDragEndFunction)
+    // .on('mouseup', this.handleDragEnd.bind(this))
+    // .on('dragstart', this.handleDragStart.bind(this))
+    // .on('dragend', this.handleDragEnd.bind(this))
 }
 Builder.prototype.removeItem = function (id) {
   this.items[ id ]
-    .off('dragstart', this.handleDragStart.bind(this))
-    .off('dragend', this.handleDragEnd.bind(this))
+    .off('mousedown', this.handleDragStartFunction)
+    // .off('mouseup', this.handleDragEndFunction)
+    // .off('dragstart', this.handleDragStart.bind(this))
+    // .off('dragend', this.handleDragEnd.bind(this))
   delete this.items[ id ]
 }
 Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  // this.container.addEventListener('mousemove', this.handleDrag, false)
+  this.options.document.body.addEventListener('mousemove', this.handleDragFunction, false)
 }
 Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('drag', _.debounce(this.handleDrag.bind(this), 150), false)
+  this.options.document.body.removeEventListener('mousemove', this.handleDragFunction, false)
 }
 /**
  * Helper
@@ -79,28 +89,16 @@ Builder.prototype.hideHelper = function () {
   }.bind(this))
 }
 Builder.prototype.createFrame = function () {
-  this.frame = document.createElement('svg')
-  this.frame.id = 'vcv-dnd-frame'
-  document.body.appendChild(this.frame)
+  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
 }
 Builder.prototype.removeFrame = function () {
+  this.frame.remove()
   this.frame = null
-  var frame = document.getElementById('vcv-dnd-frame')
-  frame && document.body.removeChild(frame)
 }
 /**
  * Menage items
  */
-Builder.prototype.renderControls = function () {
-  _.defer(function () {
-    Object.keys(this.items).forEach(function (key) {
 
-    }, this)
-  }.bind(this))
-}
-Builder.prototype.hideControls = function () {
-
-}
 Builder.prototype.checkItems = function (point) {
   let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
   if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
@@ -116,73 +114,24 @@ Builder.prototype.checkItems = function (point) {
   let element = cook.get(data)
   let parentData = getService('document').get(parentId)
   let parentElement = cook.get(parentData)
-  if (element) {
-    this.redrawFrame(DOMelement, point, {
-      allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
-      allowAppend: element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
-    })
+  if (!element) {
+    return false
   }
-}
-Builder.prototype.isSameElementPosition = function (element, position) {
-  return this.currentElement === element.getAttribute('data-vc-element') && this.linePosition === position
-}
-Builder.prototype.setFrameSettings = function (rect, offset, cssClass) {
-  this.frame.className = ''
-  this.setFrameStyle(rect, offset)
-  this.frame.classList.add(cssClass)
-}
-Builder.prototype.redrawFrame = function (element, point, settings) {
-  let position, linePosition
-  settings = _.defaults(settings || {}, {
-    allowAppend: true,
-    allowBeforeAfter: true
+  let position = this.frame.redraw(DOMelement, point, {
+    allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
+    allowAppend: element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
   })
-  let rect = element.getBoundingClientRect()
-  let offset = $(element).offset()
-  let positionY = point.y - (rect.top + rect.height / 2)
-  let positionX = point.x - (rect.left + rect.width / 2)
-  if (settings.allowAppend === true) {
-    position = 'append'
-    linePosition = 'center'
-  } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
-    position = positionX > 0 ? 'after' : 'before'
-    linePosition = position === 'after' ? 'right' : 'left'
-  } else if (settings.allowBeforeAfter === true) {
-    position = positionY > 0 ? 'after' : 'before'
-    linePosition = position === 'after' ? 'bottom' : 'top'
-  }
-  if (!this.isSameElementPosition(element, linePosition)) {
-    this.currentElement = element.getAttribute('data-vc-element')
+  if (position) {
     this.setPosition(position)
-    this.setLinePosition(linePosition)
-    this.setFrameSettings(rect, offset, 'vcv-dnd-frame-' + linePosition)
-    window.setTimeout(function () {
-      this.frame && this.frame.classList.add('vcv-js-show')
-    }.bind(this), 0)
+    this.currentElement = DOMelement.getAttribute('data-vc-element')
+    this.frame.setCurrentElement(this.currentElement)
   }
 }
+
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
-Builder.prototype.setLinePosition = function (linePosition) {
-  this.linePosition = linePosition
-}
-Builder.prototype.setFrameStyle = function (rect, offset) {
-  this.frame.setAttribute('style', _.reduce({
-    width: rect.width,
-    height: rect.height,
-    top: offset.top + this.depositionTop(),
-    left: offset.left + this.depositionLeft()
-  }, function (result, value, key) {
-    return result + key + ':' + value + 'px;'
-  }, ''))
-}
-Builder.prototype.depositionTop = function () {
-  return this.options.offsetTop - this.options.document.body.scrollTop
-}
-Builder.prototype.depositionLeft = function () {
-  return this.options.offsetLeft - this.options.document.body.scrollLeft
-}
+
 /**
  * Drag handlers
  */
@@ -198,29 +147,30 @@ Builder.prototype.handleDragStart = function (e) {
   }
   this.dragingElement = e.currentTarget
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
-  if (e.dataTransfer) {
+  if (this.dragingElementId === null) {
+    return false
+  }
+  /* if (e.dataTransfer) {
     e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.dropEffect = 'none'
     e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
     this.hideHelper()
-  }
+  }*/
   let data = getService('document').get(this.dragingElementId)
   this.dragingElementObject = cook.get(data)
-
   this.watchMouse()
   this.createFrame()
-  this.renderControls()
   if (typeof this.options.startCallback === 'function') {
     this.options.startCallback(this.dragingElement)
   }
+  this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.handleDragEnd = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
   this.forgetMouse()
-  this.hideControls()
   this.removeFrame()
   if (typeof this.options.endCallback === 'function') {
     this.options.endCallback(this.dragingElement)
@@ -237,6 +187,7 @@ Builder.prototype.handleDragEnd = function (e) {
   this.dragingElementObject = null
   this.position = null
   this.linePosition = null
+  this.options.document.removeEventListener('mouseup', this.handDragEndFunction, false)
 }
 /**
  * Global Constructor

@@ -12,7 +12,7 @@ var Item = function (id, documentDOM) {
   this.init()
 }
 Item.prototype.init = function () {
-  this.el.setAttribute('draggable', 'true')
+  // this.el.setAttribute('draggable', 'true')
   return this
 }
 Item.prototype.on = function (event, callback, capture) {
