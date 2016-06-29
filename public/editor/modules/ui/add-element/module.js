@@ -18,11 +18,13 @@ vcCake.add('ui-add-element', (api) => {
     api.notify('show', parent)
   }).on('hide', () => {
     api.module('ui-layout-bar').do('setEndContent', null)
+    api.module('ui-layout-bar').do('setEndContentVisible', false)
     api.request('tree-view:hide')
   }).on('show', (parent = null) => {
     api.module('ui-layout-bar').do('setEndContent', AddElement, {
       api: api,
       parent: parent
     })
+    api.module('ui-layout-bar').do('setEndContentVisible', true)
   })
 })

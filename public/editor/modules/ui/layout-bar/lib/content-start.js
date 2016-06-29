@@ -1,4 +1,5 @@
 import React from 'react'
+import ClassNames from 'classnames'
 var BarContentStart = React.createClass({
   propTypes: {
     api: React.PropTypes.object.isRequired
@@ -7,7 +8,7 @@ var BarContentStart = React.createClass({
     return {
       contentComponent: null,
       contentProps: {},
-      contentHidden: true
+      showContent: false
     }
   },
   componentDidMount () {
@@ -17,22 +18,25 @@ var BarContentStart = React.createClass({
         contentProps: props
       })
     })
-    // TODO: rewrite to use states for smooth show/hide
     this.props.api
-      .on('content:show', () => {
-        this.setState({ contentHidden: false })
-      })
-      .on('content:hide', () => {
-        this.setState({ contentHidden: true })
-      })
+      .on('start:show', function () {
+        this.setState({ showContent: true })
+      }.bind(this))
+      .on('start:hide', function () {
+        this.setState({ showContent: false })
+      }.bind(this))
   },
   render () {
     let content = null
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
+    let contentClasses = ClassNames({
+      'vcv-layout-bar-content-start': true,
+      'vcv-ui-state--visible': this.state.showContent
+    })
     return (
-      <div className='vcv-layout-bar-content-start' id='vcv-editor-start'>
+      <div className={contentClasses} id='vcv-editor-start'>
         {content}
       </div>
     )

@@ -22,25 +22,13 @@ var Layout = React.createClass({
     api: React.PropTypes.object.isRequired
   },
   mixins: [ DataChanged ],
-  getInitialState () {
-    return {
-      treeHidden: true
-    }
-  },
   componentDidMount: function () {
-    // Chane react component state
-    this.props.api.addAction('setContent', (Component, props = {}) => {
-      this.setState({
-        contentComponent: Component,
-        contentProps: props
-      })
-    })
     this.props.api
       .on('show', function () {
-        this.setState({ treeHidden: false })
+        this.props.api.module('ui-layout-bar').do('setStartContentVisible', true)
       }.bind(this))
       .on('hide', function () {
-        this.setState({ treeHidden: true })
+        this.props.api.module('ui-layout-bar').do('setStartContentVisible', false)
       }.bind(this))
   },
   getElements: function () {
@@ -60,10 +48,10 @@ var Layout = React.createClass({
       'vcv-ui-state--hidden': this.state.treeHidden
     })
     return (
-      <div className="vcv-ui-scroll-container">
-        <div className="vcv-ui-scroll">
-          <div className="vcv-ui-scroll-content">
-            <div className={treeViewClasses}>
+      <div className={treeViewClasses}>
+        <div className="vcv-ui-scroll-container">
+          <div className="vcv-ui-scroll">
+            <div className="vcv-ui-scroll-content">
               <ul ref="scrollable" className="vcv-ui-tree-layout">
                 {this.getElements()}
               </ul>

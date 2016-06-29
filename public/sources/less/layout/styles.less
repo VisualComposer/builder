@@ -78,16 +78,21 @@
   right: 0;
   flex: 1 1 auto;
   pointer-events: none;
+  &:not(.vcv-ui-state--visible){
+    display: none;
+  }
 }
 .vcv-layout-bar-content-start {
   flex: 0 0 auto;
-  > * {
-    pointer-events: all;
+  pointer-events: all;
+  &:not(.vcv-ui-state--visible){
+    display: none;
   }
 }
 .vcv-layout-bar-content-end {
   flex: 1 1 100%;
-  > * {
-    pointer-events: all;
+  pointer-events: all;
+  &:not(.vcv-ui-state--visible){
+    display: none;
   }
 }
