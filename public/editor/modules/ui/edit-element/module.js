@@ -11,7 +11,6 @@ vcCake.add('ui-edit-element', function (api) {
   }).on('hide', () => {
     api.module('ui-layout-bar').do('setEndContent', null)
     api.module('ui-layout-bar').do('setEndContentVisible', false)
-    api.request('tree-view:hide')
   }).on('show', (id) => {
     let data = doc.get(id)
     let element = cook.get(data)
@@ -20,6 +19,5 @@ vcCake.add('ui-edit-element', function (api) {
       api: api
     })
     api.module('ui-layout-bar').do('setEndContentVisible', true)
-    // api.request('tree-layout:show-content')
   })
 })

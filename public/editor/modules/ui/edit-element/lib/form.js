@@ -16,7 +16,8 @@ class TreeForm extends React.Component {
       allTabs: [],
       activeTabIndex: 0,
       visibleTabsIndexes: [],
-      hiddenTabsIndexes: []
+      hiddenTabsIndexes: [],
+      treeViewActive: false
     }
   }
 
@@ -24,6 +25,13 @@ class TreeForm extends React.Component {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
+    this.props.api
+      .reply('bar-content-start:show', function () {
+        this.setState({ treeViewActive: true })
+      }.bind(this))
+      .reply('bar-content-start:hide', function () {
+        this.setState({ treeViewActive: false })
+      }.bind(this))
     window.addEventListener('resize', this.refreshTabs.bind(this))
     this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
   }
@@ -162,8 +170,12 @@ class TreeForm extends React.Component {
   }
 
   toggleTreeView (e) {
-    e && e.preventDefault && e.preventDefault()
-    this.props.api.notify('tree:toggle')
+    e && e.preventDefault()
+    if (this.state.treeViewActive) {
+      this.props.api.module('ui-layout-bar').do('setStartContentVisible', false)
+    } else {
+      this.props.api.module('ui-layout-bar').do('setStartContentVisible', true)
+    }
   }
 
   saveForm () {
@@ -256,7 +268,8 @@ class TreeForm extends React.Component {
       <div className={treeContentClasses}>
         <div className="vcv-ui-editor-tabs-container">
           <nav className="vcv-ui-editor-tabs">
-            <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view" onClick={this.toggleTreeView.bind(this)}>
+            <a className="vcv-ui-editor-tab vcv-ui-editor-tab-toggle-tree" href="#" title="Toggle tree view"
+              onClick={this.toggleTreeView.bind(this)}>
               <span className="vcv-ui-editor-tab-content">
                 <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-layers"></i>
               </span>
@@ -281,7 +294,8 @@ class TreeForm extends React.Component {
                 <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
               </span>
             </a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="close" onClick={this.closeTreeView.bind(this)}>
+            <a className="vcv-ui-tree-content-title-control" href="#" title="close"
+              onClick={this.closeTreeView.bind(this)}>
               <span className="vcv-ui-tree-content-title-control-content">
                 <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-close"></i>
               </span>

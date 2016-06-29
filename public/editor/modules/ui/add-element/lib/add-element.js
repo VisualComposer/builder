@@ -22,7 +22,6 @@ class AddElement extends React.Component {
     return (<div id="vcv-ui-add-element-container">
       <div className={classes}>
         <div className="vcv-ui-add-element-content">
-          <div>TODO: Search</div>
           {content}
         </div>
         <div className="resizer resizer-y resizer-add-element-container"></div>

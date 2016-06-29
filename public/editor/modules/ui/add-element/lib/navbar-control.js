@@ -17,9 +17,6 @@ vcCake.add('ui-add-element', function (api) {
         .on('hide', function () {
           this.setState({ isWindowOpen: false })
         }.bind(this))
-        .reply('tree-view:hide', () => {
-          this.setState({ isWindowOpen: false })
-        })
     },
     toggleAddElement: function (e) {
       e && e.preventDefault()
