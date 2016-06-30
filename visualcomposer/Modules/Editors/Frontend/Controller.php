@@ -8,6 +8,7 @@ use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Url;
 
 /**
  * Class Controller.
@@ -41,7 +42,7 @@ class Controller extends Container implements Module
     {
         $sourceId = (int)$request->input('vcv-source-id');
         $this->setupPost($sourceId);
-        
+
         $link = get_permalink($sourceId);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
@@ -71,5 +72,17 @@ class Controller extends Container implements Module
         setup_postdata($post);
 
         return $post;
+    }
+
+    public function getFrontendUrl($postId, Url $urlHelper)
+    {
+        $url = $urlHelper->ajax(
+            [
+                'vcv-action' => 'frontend',
+                'vcv-source-id' => $postId,
+            ]
+        );
+
+        return $url;
     }
 }

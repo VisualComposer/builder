@@ -84,6 +84,18 @@ return array (
       'abstract' => 'VisualComposer\\Modules\\Editors\\AssetsManager\\Controller',
       'make' => true,
     ),
+    'EditorsDataAjaxController' => 
+    array (
+      'name' => 'EditorsDataAjaxController',
+      'abstract' => 'VisualComposer\\Modules\\Editors\\DataAjax\\Controller',
+      'make' => true,
+    ),
+    'EditorsEditPostLinksController' => 
+    array (
+      'name' => 'EditorsEditPostLinksController',
+      'abstract' => 'VisualComposer\\Modules\\Editors\\EditPostLinks\\Controller',
+      'make' => true,
+    ),
     'EditorsFrontendController' => 
     array (
       'name' => 'EditorsFrontendController',

@@ -3,14 +3,14 @@
 namespace VisualComposer\Modules\Editors\DataAjax;
 
 use VisualComposer\Helpers\Filters as FilterDispatcher;
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 
 /**
  * Class Controller.
  */
-class Controller extends Container /* implements Module */
+class Controller extends Container implements Module
 {
     /**
      * @var \VisualComposer\Helpers\Request
