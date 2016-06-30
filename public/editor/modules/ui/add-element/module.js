@@ -15,6 +15,7 @@ vcCake.add('ui-add-element', (api) => {
   })
   // add actions to api:add event
   api.reply('app:add', (parent = null) => {
+    api.actions.setParent(parent)
     api.notify('show', parent)
   }).on('hide', () => {
     api.module('ui-layout-bar').do('setEndContent', null)
