@@ -147,6 +147,9 @@ Builder.prototype.handleDragStart = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
   }
+  if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
+    return false
+  }
   this.dragingElement = e.currentTarget
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
   if (this.dragingElementId === null) {

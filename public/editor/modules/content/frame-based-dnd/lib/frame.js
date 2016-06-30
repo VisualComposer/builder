@@ -24,10 +24,11 @@ Frame.prototype.remove = function () {
   document.body.removeChild(this.el)
 }
 Frame.prototype.depositionTop = function () {
-  return this.options.offsetTop - this.options.document.body.scrollTop
+  console.log(this.options.document.body.scrollTop)
+  return this.options.offsetTop - (this.options.document.documentElement.scrollTop || this.options.document.body.scrollTop)
 }
 Frame.prototype.depositionLeft = function () {
-  return this.options.offsetLeft - this.options.document.body.scrollLeft
+  return this.options.offsetLeft - (this.options.document.documentElement.scrollLeft || this.options.document.body.scrollLeft)
 }
 Frame.prototype.setCurrentElement = function (element) {
   this.currentElement = element
