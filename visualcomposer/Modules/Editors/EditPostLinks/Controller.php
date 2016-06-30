@@ -6,49 +6,43 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
  */
 class Controller extends Container implements Module
 {
+    use WpFiltersActions;
+
     /**
      * Controller constructor.
      */
     public function __construct()
     {
-        add_action(
+        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminBarEditLink */
+        $this->wpAction(
             'admin_bar_menu',
-            function ($wpAdminBar) {
-                /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminBarEditLink */
-                return $this->call('adminBarEditLink', ['wpAdminBar' => $wpAdminBar]);
-            },
+            'adminBarEditLink',
             1000
         );
 
-        add_filter(
+        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::addEditPostLink */
+        $this->wpFilter(
             'edit_post_link',
-            function ($link) {
-                /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::addEditPostLink */
-                return $this->call('addEditPostLink', ['link' => $link]);
-            }
+            'addEditPostLink'
         );
 
         /** Admin pages */
         if (is_admin()) {
-            add_filter(
+            /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
+            $this->wpFilter(
                 'page_row_actions',
-                function ($actions) {
-                    /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
-                    return $this->call('adminRowLinks', ['actions' => $actions]);
-                }
+                'adminRowLinks'
             );
-            add_filter(
+            $this->wpFilter(
                 'post_row_actions',
-                function ($actions) {
-                    /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
-                    return $this->call('adminRowLinks', ['actions' => $actions]);
-                }
+                'adminRowLinks'
             );
         }
     }

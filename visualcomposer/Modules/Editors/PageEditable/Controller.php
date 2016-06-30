@@ -6,29 +6,35 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
  */
 class Controller extends Container implements Module
 {
+    use WpFiltersActions;
+
     /**
      * Controller constructor.
      */
     public function __construct()
     {
-        add_action(
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::templateRedirect */
+        $this->wpAction(
             'template_redirect',
-            function () {
-                /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
-                if ($this->call('isPageEditable')) {
-                    /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
-                    add_filter('show_admin_bar', '__return_false');
-                    $this->call('buildPageEditable');
-                }
-            }
+            'templateRedirect'
         );
+    }
+
+    private function templateRedirect()
+    {
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
+        if ($this->call('isPageEditable')) {
+            /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
+            $this->wpFilter('show_admin_bar', '__return_false');
+            $this->call('buildPageEditable');
+        }
     }
 
     /**
@@ -37,70 +43,30 @@ class Controller extends Container implements Module
      *
      * @return bool
      */
-    public function isPageEditable(Request $request, Nonce $nonce)
+    private function isPageEditable(Request $request, Nonce $nonce)
     {
         return ($request->exists('vcv-editable')
             && $request->exists('vcv-nonce')
             && $nonce->verifyAdmin($request->input('vcv-nonce')));
     }
 
-    public function buildPageEditable()
+    private function buildPageEditable()
     {
-        add_action(
+        $this->wpAction(
             'the_post',
+            'addTheContentFilteringForPost',
+            9999 // Do with high weight - when all other actions is done
+        );
+    }
+
+    private function addTheContentFilteringForPost()
+    {
+        remove_all_filters('the_content');
+        $this->wpFilter(
+            'the_content',
             function () {
-                remove_all_filters('the_content');
-                add_filter(
-                    'the_content',
-                    function () {
-                        /** @var Url $url */
-                        $url = vchelper('Url');
-                        $filter = vchelper('Filters');
-                        $linkToTinymce = $url->to('public/tinymce/tinymce.js');
-                        // TODO: Use view.
-                        return $filter->fire(
-                            'vcv:pageEditable:content',
-                            <<<TAG
-<script src="$linkToTinymce"></script>
-<script>
-        (function () {
-            function vcvLoadJsCssFile( filename, filetype ) {
-                var fileRef;
-                filename = filename.replace( /\s/g, '%20' );
-
-                if ( 'js' === filetype ) {
-                    fileRef = document.createElement( 'script' );
-                    fileRef.setAttribute( 'type', 'text/javascript' );
-                    fileRef.setAttribute( 'src', filename );
-                } else if ( 'css' === filetype ) {
-                    fileRef = document.createElement( 'link' );
-                    if ( filename.substr( - 5, 5 ) === '.less' ) {
-                        fileRef.setAttribute( 'rel', 'stylesheet/less' );
-                    } else {
-                        fileRef.setAttribute( 'rel', 'stylesheet' );
-                    }
-
-                    fileRef.setAttribute( 'type', 'text/css' );
-                    fileRef.setAttribute( 'href', filename );
-                }
-                if ( 'undefined' !== typeof fileRef ) {
-                    document.getElementsByTagName( 'head' )[ 0 ].appendChild(
-                        fileRef );
-                }
+                return vcview('editor/pageEditable/pageEditable.php');
             }
-
-            vcvLoadJsCssFile( '
-TAG
-                            . $url->to('public/dist/wp.bundle.css?' . uniqid()) . '\',
-                \'css\' );
-        })();
-    </script>
-    <div id="vcv-editor">Loading...</div>'
-                        );
-                    }
-                );
-            },
-            9999
-        ); // after all the_post actions ended.
+        );
     }
 }
