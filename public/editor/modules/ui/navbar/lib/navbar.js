@@ -164,9 +164,10 @@ var Navbar = React.createClass({
     this.props.api.notify('resize')
   },
   render: function () {
-    let { isDragging, navPosX, navPosY, navbarPosition, navbarSize } = this.state
+    let { isDragging, navPosX, navPosY, navbarPosition } = this.state
     let navBarStyle = {}
     let isDetached
+    let navSizeDetached = 60
 
     if (isDragging) {
       isDetached = false
@@ -174,8 +175,8 @@ var Navbar = React.createClass({
     }
 
     if (navbarPosition === 'detached') {
-      navBarStyle.top = navPosY - 7 + 'px'
-      navBarStyle.left = navPosX - navbarSize.width / 2 + 'px'
+      navBarStyle.top = navPosY - navSizeDetached / 2 + 'px'
+      navBarStyle.left = navPosX - 7 + 'px'
     }
 
     let navBarStyleString = []
