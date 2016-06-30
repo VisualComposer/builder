@@ -24,7 +24,6 @@ Frame.prototype.remove = function () {
   document.body.removeChild(this.el)
 }
 Frame.prototype.depositionTop = function () {
-  console.log(this.options.document.body.scrollTop)
   return this.options.offsetTop - (this.options.document.documentElement.scrollTop || this.options.document.body.scrollTop)
 }
 Frame.prototype.depositionLeft = function () {

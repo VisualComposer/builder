@@ -9,10 +9,9 @@ var Item = function (id, documentDOM) {
   this.id = id
   this.el = documentDOM.querySelector('[data-vc-element="' + this.id + '"]')
   this.$el = $(this.el)
-  this.init()
 }
 Item.prototype.init = function () {
-  // this.el.setAttribute('draggable', 'true')
+  //  this.el.setAttribute('draggable', 'true')
   return this
 }
 Item.prototype.on = function (event, callback, capture) {
