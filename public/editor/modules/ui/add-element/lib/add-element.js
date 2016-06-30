@@ -8,10 +8,6 @@ var cook = vcCake.getService('cook')
 class AddElement extends React.Component {
   render () {
     var elements = cook.list.settings() || []
-/*    this.props.api.actions.setParent(this.state.parent)
-    if (this.state.isWindowOpen) {
-      this.props.api.actions.setParent(this.state.parent)
-    }*/
     let content = <Categories elements={elements} api={this.props.api} />
 
     return (
