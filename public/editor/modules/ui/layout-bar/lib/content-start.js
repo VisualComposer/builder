@@ -19,15 +19,19 @@ class BarContentStart extends React.Component {
       })
     })
     this.props.api
-      .on('start:show', function () {
+      .reply('bar-content-start:show', () => {
         this.setState({ showContent: true })
-      }.bind(this))
-      .on('start:hide', function () {
+      })
+      .reply('bar-content-start:hide', () => {
         this.setState({ showContent: false })
-      }.bind(this))
-      .on('start:toggle', function () {
-        this.setState({ showContent: !this.state.showContent })
-      }.bind(this))
+      })
+      .reply('bar-content-start:toggle', () => {
+        if (this.state.showContent) {
+          this.props.api.request('bar-content-start:hide')
+        } else {
+          this.props.api.request('bar-content-start:show')
+        }
+      })
   }
 
   render () {

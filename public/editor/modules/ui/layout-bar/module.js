@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import BarContent from './lib/content'
 import BarHeader from './lib/header'
 
-vcCake.add('ui-layout-bar', function (api) {
+vcCake.add('ui-layout-bar', (api) => {
   class LayoutBar extends React.Component {
     render () {
       return (
