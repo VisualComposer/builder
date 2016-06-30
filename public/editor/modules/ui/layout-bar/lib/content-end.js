@@ -19,16 +19,16 @@ class BarContentEnd extends React.Component {
       })
     })
     this.props.api
-      .on('end:show', function () {
+      .reply('bar-content-end:show', () => {
         this.setState({ showContent: true })
-      }.bind(this))
-      .on('end:hide', function () {
+      })
+      .reply('bar-content-end:hide', () => {
         this.setState({ showContent: false })
-      }.bind(this))
+      })
   }
 
   toggleStartContent () {
-    this.props.api.notify('start:toggle')
+    this.props.api.request('bar-content-start:toggle')
   }
 
   render () {

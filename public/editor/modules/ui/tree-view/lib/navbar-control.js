@@ -12,20 +12,15 @@ vcCake.add('ui-tree-view', function (api) {
     },
     componentDidMount: function () {
       api
-        .reply('bar-content-start:show', function () {
+        .reply('bar-content-start:show', () => {
           this.setState({ controlActive: true })
-        }.bind(this))
-        .reply('bar-content-start:hide', function () {
+        })
+        .reply('bar-content-start:hide', () => {
           this.setState({ controlActive: false })
-        }.bind(this))
+        })
     },
     toggleTreeView: function (e) {
-      e && e.preventDefault()
-      if (this.state.controlActive) {
-        api.notify('hide')
-      } else {
-        api.notify('show')
-      }
+      api.request('bar-content-start:toggle')
     },
     render: function () {
       let controlClass = classNames({
