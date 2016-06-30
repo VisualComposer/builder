@@ -92,8 +92,10 @@ Builder.prototype.createFrame = function () {
   this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
 }
 Builder.prototype.removeFrame = function () {
-  this.frame.remove()
-  this.frame = null
+  if (this.frame !== null) {
+    this.frame.remove()
+    this.frame = null
+  }
 }
 /**
  * Menage items
@@ -102,7 +104,7 @@ Builder.prototype.removeFrame = function () {
 Builder.prototype.checkItems = function (point) {
   let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
   if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
-    DOMelement = $(DOMelement).closest('[data-vc-element]')
+    DOMelement = $(DOMelement).closest('[data-vc-element]').get(0)
   }
   let isElement = DOMelement && DOMelement.getAttribute && DOMelement.getAttribute('data-vc-element') !== this.dragingElementId
   if (!isElement) {
