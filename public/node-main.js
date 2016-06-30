@@ -6,14 +6,19 @@ const $ = require('expose?$!jquery')
 
 $(document).ready(function () {
   require('./sources/css/wordpress.less')
-  $('#vcv-editor-iframe').load(function () {
+  var $iframe = $('#vcv-editor-iframe')
+  $iframe.load(function () {
     let iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
+    // Disable iframe clicks
+    $('a', iframeDocument).each(function () {
+      $(this).attr('target', '_blank')
+    })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'node').start(function () {
       require('./config/node-modules')
     })
   })
-  $('#vcv-editor-iframe').attr('src', '/page.html')
+  $iframe.attr('src', '/page.html')
 })
 
 window.app = vcCake

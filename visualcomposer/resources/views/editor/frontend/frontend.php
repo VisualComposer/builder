@@ -19,11 +19,6 @@ wp_enqueue_media();
         echo $urlHelper->to(
             'public/dist/wp.bundle.css?' . uniqid()
         ) ?>" />
-    <link rel="stylesheet" property="stylesheet" type="text/css"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <link rel="stylesheet" property="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css
-
-" />
 
     <?php
     /** @todo add jquery into bundle.js. */
@@ -54,7 +49,8 @@ wp_print_footer_scripts();
         </div>
         <div class="vcv-layout-content">
             <div class="vcv-layout-iframe-container">
-                <iframe sandbox="allow-scripts allow-same-origin" class="vcv-layout-iframe" src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
+                <iframe sandbox="allow-scripts allow-same-origin" class="vcv-layout-iframe"
+                    src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
                     frameborder="0" scrolling="auto"></iframe>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
             </div>

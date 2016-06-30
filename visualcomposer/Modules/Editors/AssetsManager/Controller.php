@@ -9,12 +9,15 @@ use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Filters as FilterDispatcher;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
  */
 class Controller extends Container implements Module
 {
+    use WpFiltersActions;
+
     /**
      * @var \VisualComposer\Helpers\Filters
      */
@@ -85,12 +88,10 @@ class Controller extends Container implements Module
             }
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
+        $this->wpFilter(
             'before_delete_post',
-            function ($postId) {
-                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
-                return $this->call('deletePostAssetsHook', [$postId]);
-            }
+            'deletePostAssetsHook'
         );
     }
 

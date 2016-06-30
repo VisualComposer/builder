@@ -7,8 +7,6 @@
 	<link rel="stylesheet" href="/dist/node.bundle.css">
 	<link rel="stylesheet"
 			href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
-	<!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
-	<!--integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
 </head>
 <body>
 <div id="vcv-editor"></div>
@@ -21,7 +19,7 @@
 		</div>
 		<div class="vcv-layout-content">
 			<div class="vcv-layout-iframe-container">
-				<iframe class="vcv-layout-iframe" id="vcv-editor-iframe" frameborder="0" scrolling="auto"></iframe>
+				<iframe sandbox="allow-scripts allow-same-origin" class="vcv-layout-iframe" id="vcv-editor-iframe" frameborder="0" scrolling="auto"></iframe>
 				<div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
 			</div>
 		</div>
@@ -29,9 +27,7 @@
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-		crossorigin="anonymous"></script>
+
 <!-- Latest compiled and minified JavaScript -->
 </body>
 </html>

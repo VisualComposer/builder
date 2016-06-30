@@ -5,8 +5,9 @@ require('./config/wp-attributes')
 var $ = require('expose?$!jquery')
 $(document).ready(function () {
   require('./sources/css/wordpress.less')
-  $('#vcv-editor-iframe').load(function () {
-    var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
+  var $iframe = $('#vcv-editor-iframe')
+  $iframe.load(function () {
+    var iframeDocument = $iframe.get(0).contentWindow.document
     // Disable iframe clicks
     $('a', iframeDocument).each(function () {
       $(this).attr('target', '_blank')
@@ -15,9 +16,6 @@ $(document).ready(function () {
     vcCake.env('platform', 'wordpress').start(function () {
       require('./config/wp-modules')
     })
-  })
-  $(window).on('load resize', function () {
-    $('#vcv-editor-iframe').height($(window).height() - 61)
   })
 })
 window.app = vcCake
