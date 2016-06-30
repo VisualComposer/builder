@@ -6,6 +6,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Url;
 
 /**
  * Class Controller.
@@ -52,14 +53,15 @@ class Controller extends Container implements Module
                 add_filter(
                     'the_content',
                     function () {
+                        /** @var Url $url */
                         $url = vchelper('Url');
                         $filter = vchelper('Filters');
-
+                        $linkToTinymce = $url->to('public/tinymce/tinymce.js');
                         // TODO: Use view.
                         return $filter->fire(
                             'vcv:pageEditable:content',
-                            <<<'TAG'
-
+                            <<<TAG
+<script src="$linkToTinymce"></script>
 <script>
         (function () {
             function vcvLoadJsCssFile( filename, filetype ) {

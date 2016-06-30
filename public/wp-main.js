@@ -16,9 +16,6 @@ $(document).ready(function () {
       require('./config/wp-modules')
     })
   })
-  $(window).on('load resize', function () {
-    $('#vcv-editor-iframe').height($(window).height() - 61)
-  })
 })
 window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
