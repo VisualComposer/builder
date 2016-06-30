@@ -1,7 +1,6 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 var React = require('react')
-var classNames = require('classnames')
 require('../css/tree/init.less')
 require('../css/tree-view/init.less')
 var Element = require('./element.js')
@@ -22,15 +21,6 @@ var Layout = React.createClass({
     api: React.PropTypes.object.isRequired
   },
   mixins: [ DataChanged ],
-  componentDidMount: function () {
-    this.props.api
-      .on('show', function () {
-        this.props.api.module('ui-layout-bar').do('setStartContentVisible', true)
-      }.bind(this))
-      .on('hide', function () {
-        this.props.api.module('ui-layout-bar').do('setStartContentVisible', false)
-      }.bind(this))
-  },
   getElements: function () {
     let elementsList
     let document = vcCake.getService('document')
@@ -43,12 +33,8 @@ var Layout = React.createClass({
     return elementsList
   },
   render: function () {
-    let treeViewClasses = classNames({
-      'vcv-ui-tree-layout-container': true,
-      'vcv-ui-state--hidden': this.state.treeHidden
-    })
     return (
-      <div className={treeViewClasses}>
+      <div className="vcv-ui-tree-layout-container">
         <div className="vcv-ui-scroll-container">
           <div className="vcv-ui-scroll">
             <div className="vcv-ui-scroll-content">

@@ -20,6 +20,7 @@ class Controller extends Container implements Module
      * @var bool
      */
     protected static $jsScriptRendered = false;
+
     /**
      * @var \VisualComposer\Helpers\Events
      */
@@ -47,52 +48,6 @@ class Controller extends Container implements Module
                 wp_enqueue_script('jquery');
             }
         );
-
-        add_filter(
-            'edit_post_link',
-            function ($link) {
-                /** @see \VisualComposer\Modules\Site\Controller::addEditPostLink */
-                return $this->call('addEditPostLink', ['link' => $link]);
-            }
-        );
-    }
-
-    /**
-     * @param $link
-     *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @return string
-     * @throws \Exception
-     */
-    private function addEditPostLink(
-        $link,
-        CurrentUser $currentUserAccess,
-        Url $urlHelper,
-        Request $requestHelper
-    ) {
-        if ($requestHelper->exists('vcv-editable')) {
-            return '';
-        }
-        if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
-            $url = $urlHelper->ajax(
-                [
-                    'vcv-action' => 'frontend',
-                    'vcv-source-id' => get_the_ID(),
-                ]
-            );
-            $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
-            // TODO: output scripts.
-            //if (!self::$jsScriptRendered) {
-            /** @see \VisualComposer\Modules\Site\Controller::outputScripts */
-            //   $link .= $this->call('outputScripts');
-            //   self::$jsScriptRendered = true;
-            //}
-        }
-
-        return $link;
     }
 
     /**

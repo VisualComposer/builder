@@ -7,6 +7,10 @@ $(document).ready(function () {
   require('./sources/css/wordpress.less')
   $('#vcv-editor-iframe').load(function () {
     var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
+    // Disable iframe clicks
+    $('a', iframeDocument).each(function () {
+      $(this).attr('target', '_blank')
+    })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'wordpress').start(function () {
       require('./config/wp-modules')
