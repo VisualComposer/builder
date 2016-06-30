@@ -7,12 +7,17 @@ const cook = vcCake.getService('cook')
 
 vcCake.add('ui-edit-element', function (api) {
   api.reply('app:edit', function (id) {
+    api.notify('show', id)
+  }).on('hide', () => {
+    api.module('ui-layout-bar').do('setEndContent', null)
+    api.module('ui-layout-bar').do('setEndContentVisible', false)
+  }).on('show', (id) => {
     let data = doc.get(id)
     let element = cook.get(data)
-    api.module('ui-tree-layout').do('setContent', TreeForm, {
+    api.module('ui-layout-bar').do('setEndContent', TreeForm, {
       element: element,
       api: api
     })
-    api.request('tree-layout:show-content')
+    api.module('ui-layout-bar').do('setEndContentVisible', true)
   })
 })

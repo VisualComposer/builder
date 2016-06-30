@@ -17,9 +17,6 @@ vcCake.add('ui-add-element', function (api) {
         .on('hide', function () {
           this.setState({ isWindowOpen: false })
         }.bind(this))
-        .reply('tree-layout:hide', () => {
-          this.setState({ isWindowOpen: false })
-        })
     },
     toggleAddElement: function (e) {
       e && e.preventDefault()
@@ -32,7 +29,7 @@ vcCake.add('ui-add-element', function (api) {
     render: function () {
       let controlClass = classNames({
         'vcv-ui-navbar-control': true,
-        'vcv-ui-navbar-control-active': this.state.isWindowOpen
+        'vcv-ui-state--active': this.state.isWindowOpen
       })
       return <a className={controlClass} href="#" title="Add Element" onClick={this.toggleAddElement}>
         <span className="vcv-ui-navbar-control-content">
