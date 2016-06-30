@@ -1,15 +1,17 @@
 import React from 'react'
 import ClassNames from 'classnames'
-var BarContent = React.createClass({
-  propTypes: {
-    api: React.PropTypes.object.isRequired
-  },
-  getInitialState () {
-    return {
+import BarContentStart from './content-start'
+import BarContentEnd from './content-end'
+
+class BarContent extends React.Component {
+  constructor () {
+    super()
+    this.state = {
       hasStartContent: false,
       hasEndContent: false
     }
-  },
+  }
+
   componentDidMount () {
     this.props.api.addAction('setStartContentVisible', (isVisible) => {
       this.setState({
@@ -36,10 +38,9 @@ var BarContent = React.createClass({
         this.props.api.request('bar-content-end:hide')
       }
     })
-  },
-  render: function () {
-    let BarContentStart = require('./content-start')
-    let BarContentEnd = require('./content-end')
+  }
+
+  render () {
     let layoutClasses = ClassNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': this.state.hasStartContent || this.state.hasEndContent
@@ -51,5 +52,10 @@ var BarContent = React.createClass({
       </div>
     )
   }
-})
+}
+
+BarContent.propTypes = {
+  api: React.PropTypes.object.isRequired
+}
+
 module.exports = BarContent
