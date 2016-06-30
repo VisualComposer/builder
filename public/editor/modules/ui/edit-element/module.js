@@ -1,7 +1,6 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import vcCake from 'vc-cake'
 const TreeForm = require('./lib/form')
-
 const doc = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
