@@ -121,7 +121,7 @@ Builder.prototype.handleDrag = function (e) {
 Builder.prototype.handleDragStart = function (e) {
   if (e.stopPropagation) {
     e.stopPropagation()
-    e.preventDefault()
+    // e.preventDefault()
   }
   if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
     return false
