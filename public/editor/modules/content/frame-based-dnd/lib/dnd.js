@@ -26,7 +26,6 @@ var Builder = function (container, options) {
   this.currentElement = null
   this.frame = null
   this.position = null
-  this.linePosition = null
   this.options = _.defaults(options, {
     cancelMove: false,
     moveCallback: function () {
@@ -49,20 +48,13 @@ Builder.prototype.addItem = function (id) {
   this.items[ id ] = new Item(id, this.options.document)
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
+    .on('mousedown', this.handleDragFunction)
 }
 Builder.prototype.removeItem = function (id) {
   this.items[ id ]
     .off('mousedown', this.handleDragStartFunction)
+    .off('mousedown', this.handleDragFunction)
   delete this.items[ id ]
-}
-Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('mousemove', this.handleDragFunction, false)
-}
-Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('mousemove', this.handleDragFunction, false)
-}
-Builder.prototype.createFrame = function () {
-  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
 }
 Builder.prototype.removeFrame = function () {
   if (this.frame !== null) {
@@ -106,34 +98,14 @@ Builder.prototype.checkItems = function (point) {
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
-
-/**
- * Drag handlers
- */
-Builder.prototype.handleDrag = function (e) {
-  let point = { x: e.clientX, y: e.clientY }
-  this.helper && this.helper.setPosition(point)
-  this.frame && this.checkItems(point)
-}
-/**
- * @param {object} e Handled event
- */
-Builder.prototype.handleDragStart = function (e) {
-  if (e.stopPropagation) {
-    e.stopPropagation()
-    // e.preventDefault()
-  }
-  if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
-    return false
-  }
-  this.dragingElement = e.currentTarget
+Builder.prototype.start = function (DOMNode) {
+  this.dragingElement = DOMNode
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
   if (this.dragingElementId === null) {
     return false
   }
   // Creat helper/clone of element
   this.helper = new Helper(this.dragingElement)
-  this.helper.setPosition({x: e.clientX, y: e.clientY})
   // Add css class for body to enable visual setings for all document
   this.options.document.body.classList.add('vcv-dragstart')
   let data = getService('document').get(this.dragingElementId)
@@ -147,11 +119,8 @@ Builder.prototype.handleDragStart = function (e) {
   // Set callback on dragend
   this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
-Builder.prototype.handleDragEnd = function (e) {
-  if (e.stopPropagation) {
-    e.stopPropagation()
-  }
-  // REmove helper
+Builder.prototype.end = function () {
+  // Remove helper
   this.helper && this.helper.remove()
   // Remove css class for body
   this.options.document.body.classList.remove('vcv-dragstart')
@@ -177,6 +146,47 @@ Builder.prototype.handleDragEnd = function (e) {
   // Set callback on dragend
   this.options.document.removeEventListener('mouseup', this.handDragEndFunction, false)
 }
+Builder.prototype.check = function (point) {
+  this.helper && this.helper.setPosition(point)
+  this.frame && this.checkItems(point)
+}
+
+// Mouse events
+Builder.prototype.watchMouse = function () {
+  this.container.addEventListener('mousemove', this.handleDragFunction, false)
+}
+Builder.prototype.forgetMouse = function () {
+  this.container.removeEventListener('mousemove', this.handleDragFunction, false)
+}
+Builder.prototype.createFrame = function () {
+  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
+}
+/**
+ * Drag handlers
+ */
+Builder.prototype.handleDrag = function (e) {
+  this.check({ x: e.clientX, y: e.clientY })
+}
+/**
+ * @param {object} e Handled event
+ */
+Builder.prototype.handleDragStart = function (e) {
+  if (e.stopPropagation) {
+    e.stopPropagation()
+    // e.preventDefault()
+  }
+  if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
+    return false
+  }
+  this.start(e.currentTarget)
+}
+Builder.prototype.handleDragEnd = function (e) {
+  if (e.stopPropagation) {
+    e.stopPropagation()
+  }
+  this.end()
+}
+
 /**
  * Global Constructor
  * @type {Builder}

@@ -1,6 +1,3 @@
-// import jQuery from 'jquery'
-// import lodash from 'lodash'
-
 export default class Helper {
   constructor (DOMNode) {
     this.clone = DOMNode.cloneNode(true)
