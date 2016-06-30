@@ -11,15 +11,16 @@ wp_enqueue_media();
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
-    <link rel="profile" href="http://gmpg.org/xfn/11"/>
-    <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>"/>
+    <link rel="profile" href="http://gmpg.org/xfn/11" />
+    <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <title><?php __('Frontend editor', 'vc5'); /** @todo use more informative title */ ?></title>
     <link rel="stylesheet" property="stylesheet" type="text/css"
         href="<?php
         echo $urlHelper->to(
             'public/dist/wp.bundle.css?' . uniqid()
-        ) ?>"/>
-    <link rel="stylesheet" property="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        ) ?>" />
+    <link rel="stylesheet" property="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" property="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css
 
 " />
@@ -46,7 +47,19 @@ do_action('wp_footer');
 wp_print_footer_scripts();
 ?>
 
-<iframe src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
-    width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
+<div class="vcv-layout-container">
+    <div class="vcv-layout" id="vcv-layout">
+        <div class="vcv-layout-header" id="vcv-layout-header">
+
+        </div>
+        <div class="vcv-layout-content">
+            <div class="vcv-layout-iframe-container">
+                <iframe class="vcv-layout-iframe" src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
+                    frameborder="0" scrolling="auto"></iframe>
+                <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
