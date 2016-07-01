@@ -66,7 +66,7 @@ class Controller extends Container implements Module
         }
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
             $url = vcapp()->call(
-                ['\VisualComposer\Modules\Editors\FrontendController', 'getFrontendUrl'],
+                ['\VisualComposer\Modules\Editors\Frontend\Controller', 'getFrontendUrl'],
                 ['postId' => get_the_ID()]
             );
             $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
