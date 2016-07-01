@@ -109,7 +109,7 @@ var Element = React.createClass({
 
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
-      'vcv-ui-active': this.props.element.id === this.state.elementId
+      'vcv-ui-state--active': this.props.element.id === this.state.elementId
     })
 
     return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}

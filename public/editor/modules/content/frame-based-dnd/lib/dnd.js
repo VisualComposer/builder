@@ -1,6 +1,8 @@
 import {getService} from 'vc-cake'
 import Item from './item'
 import Frame from './frame'
+import Helper from './helper'
+
 const cook = getService('cook')
 const $ = require('jquery')
 const _ = require('lodash')
@@ -24,7 +26,6 @@ var Builder = function (container, options) {
   this.currentElement = null
   this.frame = null
   this.position = null
-  this.linePosition = null
   this.options = _.defaults(options, {
     cancelMove: false,
     moveCallback: function () {
@@ -39,61 +40,27 @@ var Builder = function (container, options) {
   })
 }
 Builder.prototype.init = function () {
-  this.initContainer()
-  // this.buildHelper()
-}
-Builder.prototype.initContainer = function () {
-  // this.container.addEventListener('mousedown', this.handleDragStart.bind(this), false)
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)
   this.handleDragEndFunction = this.handleDragEnd.bind(this)
 }
 Builder.prototype.addItem = function (id) {
   this.items[ id ] = new Item(id, this.options.document)
+    .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
-  // .on('mouseup', this.handleDragEndFunction)
-    // .on('mouseup', this.handleDragEnd.bind(this))
-    // .on('dragstart', this.handleDragStart.bind(this))
-    // .on('dragend', this.handleDragEnd.bind(this))
+    .on('mousedown', this.handleDragFunction)
 }
 Builder.prototype.removeItem = function (id) {
   this.items[ id ]
     .off('mousedown', this.handleDragStartFunction)
-    // .off('mouseup', this.handleDragEndFunction)
-    // .off('dragstart', this.handleDragStart.bind(this))
-    // .off('dragend', this.handleDragEnd.bind(this))
+    .off('mousedown', this.handleDragFunction)
   delete this.items[ id ]
 }
-Builder.prototype.watchMouse = function () {
-  // this.container.addEventListener('mousemove', this.handleDrag, false)
-  this.options.document.body.addEventListener('mousemove', this.handleDragFunction, false)
-}
-Builder.prototype.forgetMouse = function () {
-  this.options.document.body.removeEventListener('mousemove', this.handleDragFunction, false)
-}
-/**
- * Helper
- */
-Builder.prototype.buildHelper = function () {
-  this.helper = this.options.document.createElement('div')
-  this.helper.classList.add('vcv-drag-helper')
-  this.options.document.body.appendChild(this.helper)
-}
-Builder.prototype.getHelper = function () {
-  this.helper.classList.add('vcv-visible')
-  return this.helper
-}
-Builder.prototype.hideHelper = function () {
-  _.defer(function () {
-    this.helper.classList.remove('vcv-visible')
-  }.bind(this))
-}
-Builder.prototype.createFrame = function () {
-  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
-}
 Builder.prototype.removeFrame = function () {
-  this.frame.remove()
-  this.frame = null
+  if (this.frame !== null) {
+    this.frame.remove()
+    this.frame = null
+  }
 }
 /**
  * Menage items
@@ -102,7 +69,7 @@ Builder.prototype.removeFrame = function () {
 Builder.prototype.checkItems = function (point) {
   let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
   if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
-    DOMelement = $(DOMelement).closest('[data-vc-element]')
+    DOMelement = $(DOMelement).closest('[data-vc-element]').get(0)
   }
   let isElement = DOMelement && DOMelement.getAttribute && DOMelement.getAttribute('data-vc-element') !== this.dragingElementId
   if (!isElement) {
@@ -131,45 +98,33 @@ Builder.prototype.checkItems = function (point) {
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
-
-/**
- * Drag handlers
- */
-Builder.prototype.handleDrag = function (e) {
-  this.frame && this.checkItems({ x: e.clientX, y: e.clientY })
-}
-/**
- * @param {object} e Handled event
- */
-Builder.prototype.handleDragStart = function (e) {
-  if (e.stopPropagation) {
-    e.stopPropagation()
-  }
-  this.dragingElement = e.currentTarget
+Builder.prototype.start = function (DOMNode) {
+  this.dragingElement = DOMNode
   this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
   if (this.dragingElementId === null) {
     return false
   }
-  /* if (e.dataTransfer) {
-    e.dataTransfer.setDragImage(this.getHelper(), 20, 20)
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.dropEffect = 'none'
-    e.dataTransfer.setData('Text', this.dragingElementId) // required otherwise doesn't work
-    this.hideHelper()
-  }*/
+  // Creat helper/clone of element
+  this.helper = new Helper(this.dragingElement)
+  // Add css class for body to enable visual setings for all document
+  this.options.document.body.classList.add('vcv-dragstart')
   let data = getService('document').get(this.dragingElementId)
   this.dragingElementObject = cook.get(data)
+
   this.watchMouse()
   this.createFrame()
   if (typeof this.options.startCallback === 'function') {
     this.options.startCallback(this.dragingElement)
   }
+  // Set callback on dragend
   this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
-Builder.prototype.handleDragEnd = function (e) {
-  if (e.stopPropagation) {
-    e.stopPropagation()
-  }
+Builder.prototype.end = function () {
+  // Remove helper
+  this.helper && this.helper.remove()
+  // Remove css class for body
+  this.options.document.body.classList.remove('vcv-dragstart')
+
   this.forgetMouse()
   this.removeFrame()
   if (typeof this.options.endCallback === 'function') {
@@ -186,9 +141,52 @@ Builder.prototype.handleDragEnd = function (e) {
   this.currentElement = null
   this.dragingElementObject = null
   this.position = null
-  this.linePosition = null
+  this.helper = null
+
+  // Set callback on dragend
   this.options.document.removeEventListener('mouseup', this.handDragEndFunction, false)
 }
+Builder.prototype.check = function (point) {
+  this.helper && this.helper.setPosition(point)
+  this.frame && this.checkItems(point)
+}
+
+// Mouse events
+Builder.prototype.watchMouse = function () {
+  this.container.addEventListener('mousemove', this.handleDragFunction, false)
+}
+Builder.prototype.forgetMouse = function () {
+  this.container.removeEventListener('mousemove', this.handleDragFunction, false)
+}
+Builder.prototype.createFrame = function () {
+  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
+}
+/**
+ * Drag handlers
+ */
+Builder.prototype.handleDrag = function (e) {
+  this.check({ x: e.clientX, y: e.clientY })
+}
+/**
+ * @param {object} e Handled event
+ */
+Builder.prototype.handleDragStart = function (e) {
+  if (e.stopPropagation) {
+    e.stopPropagation()
+    // e.preventDefault()
+  }
+  if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
+    return false
+  }
+  this.start(e.currentTarget)
+}
+Builder.prototype.handleDragEnd = function (e) {
+  if (e.stopPropagation) {
+    e.stopPropagation()
+  }
+  this.end()
+}
+
 /**
  * Global Constructor
  * @type {Builder}

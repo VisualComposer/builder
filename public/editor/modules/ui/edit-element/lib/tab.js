@@ -52,7 +52,7 @@ var TreeContentTab = React.createClass({
 
     var tabClasses = classNames({
       'vcv-ui-editor-tab': true,
-      'vcv-ui-active': active
+      'vcv-ui-state--active': active
     })
 
     return (

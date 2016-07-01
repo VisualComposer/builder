@@ -1,13 +1,15 @@
 /* global $ */
-var vcCake = require('vc-cake')
+import Api from './lib/api'
+import vcCake from 'vc-cake'
+import DnD from './lib/dnd'
+
 require('./css/module.less')
-vcCake.add('frame-based-dnd', function (api) {
-  var DnD = require('./lib/dnd')
+vcCake.add('content-frame-based-dnd', function (api) {
   var documentDOM
   var offsetTop
   var offsetLeft
-  var ModuleDnd = function (api) {
-    this.api = api
+  var ModuleDnd = function (moduleApi) {
+    this.api = moduleApi
     this.layoutAPI = this.api.module('content-layout')
   }
   ModuleDnd.prototype.buildItems = function () {
@@ -30,6 +32,7 @@ vcCake.add('frame-based-dnd', function (api) {
         offsetLeft: offsetLeft
       })
       this.items.init()
+      this.dndApi = new Api(this.items, this.api)
     }
   }
   ModuleDnd.prototype.init = function () {
