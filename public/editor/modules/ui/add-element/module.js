@@ -28,6 +28,7 @@ vcCake.add('ui-add-element', (api) => {
       api.actions.setParent(null)
       api.module('ui-layout-bar').do('setEndContent', null)
       api.module('ui-layout-bar').do('setEndContentVisible', false)
+      api.request('bar-content-start:hide')
     })
     .on('show', (parent = null) => {
       api.actions.setParent(parent)
