@@ -2,10 +2,10 @@
 
 namespace VisualComposer\Modules\Settings;
 
-use VisualComposer\Helpers\Events;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Data;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
@@ -18,6 +18,8 @@ use VisualComposer\Modules\Settings\Traits\Page;
  */
 class Controller extends Container/* implements Module*/
 {
+    use WpFiltersActions;
+
     /**
      * @var null
      */
@@ -38,41 +40,30 @@ class Controller extends Container/* implements Module*/
      */
     protected $layout = 'default';
 
-    /**
-     * @param Events $event
-     */
-    public function __construct(Events $event)
+    public function __construct()
     {
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Controller::initAdmin */
+        $this->wpAddAction(
             'admin_init',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Controller::initAdmin */
-                $this->call('initAdmin');
-            }
+            'initAdmin'
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
+        $this->wpAddAction(
             'admin_menu',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
-                return $this->call('addMenuPage');
-            }
+            'addMenuPage'
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
+        $this->wpAddAction(
             'network_admin_menu',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Controller::addMenuPage */
-                return $this->call('addMenuPage');
-            }
+            'addMenuPage'
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Controller::addSubmenuPages */
+        $this->wpAddAction(
             'vcv:settings:mainPage:menuPageBuild',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Controller::addSubmenuPages */
-                $this->call('addSubmenuPages');
-            }
+            'addSubmenuPages'
         );
     }
 

@@ -21,7 +21,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::templateRedirect */
-        $this->wpAction(
+        $this->wpAddAction(
             'template_redirect',
             'templateRedirect'
         );
@@ -32,7 +32,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
         if ($this->call('isPageEditable')) {
             /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
-            $this->wpFilter('show_admin_bar', '__return_false');
+            $this->wpAddFilter('show_admin_bar', '__return_false');
             $this->call('buildPageEditable');
         }
     }
@@ -52,7 +52,7 @@ class Controller extends Container implements Module
 
     private function buildPageEditable()
     {
-        $this->wpAction(
+        $this->wpAddAction(
             'the_post',
             'addTheContentFilteringForPost',
             9999 // Do with high weight - when all other actions is done
@@ -62,7 +62,7 @@ class Controller extends Container implements Module
     private function addTheContentFilteringForPost()
     {
         remove_all_filters('the_content');
-        $this->wpFilter(
+        $this->wpAddFilter(
             'the_content',
             function () {
                 return vcview('editor/pageEditable/pageEditable.php');

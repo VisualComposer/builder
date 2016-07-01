@@ -2,12 +2,12 @@
 
 namespace VisualComposer\Modules\Editors\Frontend;
 
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
 /**
@@ -15,19 +15,17 @@ use VisualComposer\Helpers\Url;
  */
 class Controller extends Container implements Module
 {
+    use EventsFilters;
+
     /**
      * Frontend constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
+        $this->addFilter(
             'vcv:ajax:frontend',
-            function () {
-                /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
-                return $this->call('renderEditorBase');
-            }
+            'renderEditorBase'
         );
     }
 
