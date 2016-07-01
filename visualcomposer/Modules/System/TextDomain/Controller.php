@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\System\TextDomain;
 
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Events;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 //use VisualComposer\Framework\Illuminate\Support\Module;
 
@@ -12,19 +12,17 @@ use VisualComposer\Helpers\Events;
  */
 class Controller extends Container /*implements Module*/
 {
+    use EventsFilters;
+
     /**
      * Controller constructor.
-     *
-     * @param \VisualComposer\Helpers\Events $eventHelper
      */
-    public function __construct(Events $eventHelper)
+    public function __construct()
     {
-        $eventHelper->listen(
+        /** @see \VisualComposer\Modules\System\TextDomain\Controller::setDomain */
+        $this->addEvent(
             'vcv:inited',
-            function () {
-                /** @see \VisualComposer\Modules\System\TextDomain\Controller::setDomain */
-                $this->call('setDomain');
-            }
+            'setDomain'
         );
     }
 

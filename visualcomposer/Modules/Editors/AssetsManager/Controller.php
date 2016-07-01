@@ -89,7 +89,7 @@ class Controller extends Container implements Module
         );
 
         /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
-        $this->wpFilter(
+        $this->wpAddFilter(
             'before_delete_post',
             'deletePostAssetsHook'
         );

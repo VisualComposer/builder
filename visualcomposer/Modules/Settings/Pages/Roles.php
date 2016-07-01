@@ -3,10 +3,11 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 //use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\Role;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -15,6 +16,8 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Roles extends Container/* implements Module*/
 {
     use Page;
+    use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * @var string
@@ -53,26 +56,20 @@ class Roles extends Container/* implements Module*/
 
     /**
      * Roles constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
+        $this->addFilter(
             'vcv:settings:getPages',
-            function ($pages) {
-                /** @see \VisualComposer\Modules\Settings\Pages\Roles::addPage */
-                return $this->call('addPage', [$pages]);
-            },
+            'addPage',
             60
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
+        $this->wpAddAction(
             'wp_ajax_vcv:rolesSettingsSave',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
-                $this->call('saveSettings');
-            }
+            'saveSettings'
         );
     }
 

@@ -3,9 +3,10 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 //use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -16,6 +17,8 @@ class General extends Container/* implements Module*/
 {
     use Fields;
     use Page;
+    use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * @var string
@@ -47,28 +50,23 @@ class General extends Container/* implements Module*/
 
     /**
      * General constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
         $this->optionGroup = 'vcv-general';
         $this->optionSlug = 'vcv-general';
-        $filterHelper->listen(
+
+        /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
+        $this->addFilter(
             'vcv:settings:getPages',
-            function ($pages) {
-                /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
-                return $this->call('addPage', [$pages]);
-            },
+            'addPage',
             20
         );
 
-        add_action(
+        /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
+        $this->wpAddAction(
             'vcv:settings:initAdmin:page:' . $this->getSlug(),
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
-                $this->call('buildPage');
-            }
+            'buildPage'
         );
     }
 

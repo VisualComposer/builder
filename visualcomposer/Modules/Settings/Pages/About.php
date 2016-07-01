@@ -3,10 +3,10 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 /*use VisualComposer\Framework\Illuminate\Support\Module;*/
-use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -15,6 +15,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class About extends Container/* implements Module*/
 {
     use Page;
+    use EventsFilters;
 
     /**
      * @var string
@@ -38,17 +39,13 @@ class About extends Container/* implements Module*/
 
     /**
      * About constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
+        $this->addFilter(
             'vcv:settings:getPages',
-            function ($pages) {
-                /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-                return $this->call('addPage', [$pages]);
-            },
+            'addPage',
             70
         );
 

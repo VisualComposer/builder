@@ -5,11 +5,11 @@ namespace VisualComposer\Modules\Settings\Pages;
 use Exception;
 use VisualComposer\Framework\Application;
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Filters;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -19,6 +19,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Authorization extends Container/* implements Module */
 {
     use Page;
+    use EventsFilters;
 
     /**
      * @var \VisualComposer\Framework\Application
@@ -39,27 +40,23 @@ class Authorization extends Container/* implements Module */
      * Authorization constructor.
      *
      * @param \VisualComposer\Framework\Application $app
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Application $app, Filters $filterHelper)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $filterHelper->listen(
+
+        /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
+        $this->addFilter(
             'vcv:settings:getPages',
-            function ($pages) {
-                /** @see \VisualComposer\Modules\Settings\Pages\Authorization::addPage */
-                return $this->call('addPage', [$pages]);
-            },
+            'addPage',
             40
         );
 
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
+        /*$this->addFilter(
             'vcv:ajax:api',
-            function () {
-                /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
-                return $this->call('handleApiRequest');
-            }
-        );
+            'handleApiRequest'
+        );*/
     }
 
     protected function beforeRender(Token $tokenHelper)

@@ -2,8 +2,6 @@
 
 namespace VisualComposer\Modules\Settings\Traits;
 
-use VisualComposer\Application;
-
 /**
  * Trait Page.
  */
@@ -111,7 +109,7 @@ trait Page
     public function render()
     {
         /**
-         * @var $this Application|\VisualComposer\Framework\Container
+         * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
          * @see \VisualComposer\Framework\Container::call
          * @see \VisualComposer\Modules\Settings\Traits\Page::beforeRender
          */

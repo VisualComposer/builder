@@ -2,12 +2,16 @@
 
 namespace VisualComposer\Helpers\Traits;
 
-trait WpFiltersActions
-{
-    private function wpAddFilter($filterName, $methodCallback, $weight = 10, $argsCount = 100)
-    {
+use VisualComposer\Helpers\Events;
+use VisualComposer\Helpers\Filters;
 
-        add_filter(
+trait EventsFilters
+{
+    private function addFilter($filterName, $methodCallback, $weight = 0)
+    {
+        /** @var Filters $filterHelper */
+        $filterHelper = vchelper('Filters');
+        $filterHelper->listen(
             $filterName,
             function () use ($methodCallback) {
                 $args = func_get_args();
@@ -18,15 +22,16 @@ trait WpFiltersActions
                  */
                 return $this->call($methodCallback, $args);
             },
-            $weight,
-            $argsCount
+            $weight
         );
     }
 
-    private function wpAddAction($actionName, $methodCallback, $weight = 10, $argsCount = 100)
+    private function addEvent($eventName, $methodCallback, $weight = 0)
     {
-        add_action(
-            $actionName,
+        /** @var Events $filter */
+        $eventHelper = vchelper('Events');
+        $eventHelper->listen(
+            $eventName,
             function () use ($methodCallback) {
                 $args = func_get_args();
 
@@ -36,8 +41,7 @@ trait WpFiltersActions
                  */
                 return $this->call($methodCallback, $args);
             },
-            $weight,
-            $argsCount
+            $weight
         );
     }
 }

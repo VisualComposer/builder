@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
 //use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -13,6 +13,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class License extends Container/* implements Module*/
 {
     use Page;
+    use EventsFilters;
 
     /**
      * @var string
@@ -26,17 +27,13 @@ class License extends Container/* implements Module*/
 
     /**
      * License constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
+        $this->addFilter(
             'vcv:settings:getPages',
-            function ($pages) {
-                /** @see \VisualComposer\Modules\Settings\Pages\License::addPage */
-                return $this->call('addPage', [$pages]);
-            },
+            'addPage',
             30
         );
     }

@@ -2,29 +2,27 @@
 
 namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
-use VisualComposer\Helpers\Filters;
 //use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Class Controller.
  */
 class Controller extends Container /*implements Module*/
 {
+    use EventsFilters;
+
     /**
      * Controller constructor.
-     *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      */
-    public function __construct(Filters $filterHelper)
+    public function __construct()
     {
-        $filterHelper->listen(
+        /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
+        $this->addFilter(
             'vcv:ajax:elements:ajaxShortcodeRender',
-            function () {
-                /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
-                return $this->call('ajaxShortcodeRender');
-            }
+            'ajaxShortcodeRender'
         );
     }
 

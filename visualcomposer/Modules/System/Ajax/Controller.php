@@ -3,21 +3,21 @@ namespace VisualComposer\Modules\System\Ajax;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class Controller extends Container implements Module
 {
-    public function __construct(Events $eventHelper)
+    use EventsFilters;
+
+    public function __construct()
     {
-        $eventHelper->listen(
+        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
+        $this->addEvent(
             'vcv:inited',
-            function () {
-                /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
-                $this->call('listenAjax');
-            }
+            'listenAjax'
         );
     }
 

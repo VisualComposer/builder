@@ -3,12 +3,10 @@
 namespace VisualComposer\Modules\Site;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Helpers\Events;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
 
 /**
@@ -16,6 +14,8 @@ use VisualComposer\Framework\Container;
  */
 class Controller extends Container implements Module
 {
+    use WpFiltersActions;
+
     /**
      * @var bool
      */
@@ -28,21 +28,16 @@ class Controller extends Container implements Module
 
     /**
      * Controller constructor.
-     *
-     * @param \VisualComposer\Helpers\Events $event
      */
-    public function __construct(Events $event)
+    public function __construct()
     {
-        $this->event = $event;
-        add_action(
+        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
+        $this->wpAddAction(
             'wp_head',
-            function () {
-                /** @see \VisualComposer\Modules\Site\Controller::appendScript */
-                echo $this->call('appendScript');
-            }
+            'appendScript'
         );
 
-        add_action(
+        $this->wpAddAction(
             'wp_enqueue_scripts',
             function () {
                 wp_enqueue_script('jquery');
@@ -59,8 +54,8 @@ class Controller extends Container implements Module
      */
     public function appendScript(Url $urlHelper)
     {
-        return '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
-        . '" data-async="true"></script>';
+        echo '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+            . '" data-async="true"></script>';
     }
 
     /**

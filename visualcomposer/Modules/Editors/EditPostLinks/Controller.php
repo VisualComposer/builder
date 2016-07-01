@@ -21,14 +21,14 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminBarEditLink */
-        $this->wpAction(
+        $this->wpAddAction(
             'admin_bar_menu',
             'adminBarEditLink',
             1000
         );
 
         /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::addEditPostLink */
-        $this->wpFilter(
+        $this->wpAddFilter(
             'edit_post_link',
             'addEditPostLink'
         );
@@ -36,11 +36,11 @@ class Controller extends Container implements Module
         /** Admin pages */
         if (is_admin()) {
             /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
-            $this->wpFilter(
+            $this->wpAddFilter(
                 'page_row_actions',
                 'adminRowLinks'
             );
-            $this->wpFilter(
+            $this->wpAddFilter(
                 'post_row_actions',
                 'adminRowLinks'
             );
