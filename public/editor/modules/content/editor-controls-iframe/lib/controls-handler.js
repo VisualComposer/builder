@@ -1,7 +1,8 @@
 /*global $*/
+import {getService} from 'vc-cake'
+const documentManager = getService('document')
 var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
-
 function ControlsHandler () {
   this.$currentElement = undefined
   this.sliceSize = 3
@@ -159,10 +160,10 @@ ControlsHandler.prototype.drawControls = function () {
     $controlElement.appendTo(this.$controlsList)
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
     var isElementContainer = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-dropzone') === 'true'
-
+    var elemenentData = documentManager.get(elementId) || {}
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
-      '<span  class="vcv-ui-outline-control-content" title="' + elemenstsTree[ i ][ 0 ].getAttribute('data-vc-name') + '">' +
+      '<span  class="vcv-ui-outline-control-content" title="' + elemenentData.name + '" >' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>' +
       '</span>' +
       '</dt>').appendTo($controlElement)
@@ -170,6 +171,14 @@ ControlsHandler.prototype.drawControls = function () {
     // add dropdown content
     $dropdownContent = $('<dd class="vcv-ui-outline-control-dropdown-content"/>')
     $dropdownContent.appendTo($controlElement)
+
+    $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-drag-helper="' + elementId + '"/>')
+    $('<span  class="vcv-ui-outline-control-content">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-move" ></i>' +
+      '<span class="vcv-ui-outline-control-label" >' + elemenentData.name + '</span>' +
+      '</span>').appendTo($controlAction)
+    $controlAction.on('dragstart', function (e) { e.preventDefault() })
+    $controlAction.appendTo($dropdownContent)
 
     // add button
     if (isElementContainer) {

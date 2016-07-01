@@ -11,36 +11,79 @@ module.exports = React.createClass({
     api: React.PropTypes.object.isRequired,
     icon: React.PropTypes.string
   },
-  getInitialState: function () {
+  getInitialState () {
     return {
-      previewRendered: false
+      previewVisible: false,
+      previewStyle: {}
     }
   },
-  componentDidMount: function () {
+  componentDidMount () {
     this.ellipsize('.vcv-ui-add-element-element-name')
+    this.ellipsize('.vcv-ui-add-element-preview-text')
   },
-  addElement: function (e) {
+  addElement (e) {
     e.preventDefault()
     var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
   },
-  showPreview: function (e) {
-    let preview = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-preview-container')
+  showPreview (e) {
+    this.updatePreviewPosition()
+    this.setState({
+      previewVisible: true
+    })
+  },
+  hidePreview (e) {
+    this.setState({
+      previewVisible: false
+    })
+  },
+  updatePreviewPosition () {
+    let element = ReactDOM.findDOMNode(this)
+    let trigger = element.querySelector('.vcv-ui-add-element-element-content')
+    let preview = element.querySelector('.vcv-ui-add-element-preview-container')
 
-    // TODO: Add logic to position preview according to free space.
-
-    preview.style.display = 'block'
-    if (!this.state.previewRendered) {
-      this.ellipsize('.vcv-ui-add-element-preview-text')
-      this.setState({ previewRendered: true })
+    let triggerSizes = trigger.getBoundingClientRect()
+    let previewSizes = preview.getBoundingClientRect()
+    let windowSize = {
+      height: window.innerHeight,
+      width: window.innerWidth
     }
+
+    let middleX = false
+    // default position
+    let posX = triggerSizes.left + triggerSizes.width
+    let posY = triggerSizes.top
+    // position if no place to show on a right side
+    if (posX + previewSizes.width > windowSize.width) {
+      posX = triggerSizes.left - previewSizes.width
+    }
+    // align center if no place to show on left or right
+    if (posX < 0) {
+      middleX = true
+      posX = (windowSize.width - previewSizes.width) / 2
+      posY = triggerSizes.top + triggerSizes.height
+    }
+    // position if no place to show on bottom
+    if (posY + previewSizes.height > windowSize.height) {
+      if (middleX) {
+        posY = triggerSizes.top - previewSizes.height
+      } else {
+        posY = triggerSizes.top + triggerSizes.height - previewSizes.height
+      }
+    }
+    // align middle if no place to show on top or bottom
+    if (posY < 0) {
+      posY = (windowSize.height - previewSizes.height) / 2
+    }
+    this.setState({
+      previewStyle: {
+        left: posX,
+        top: posY
+      }
+    })
   },
-  hidePreview: function (e) {
-    let preview = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-add-element-preview-container')
-    preview.style.display = 'none'
-  },
-  ellipsize: function (selector) {
+  ellipsize (selector) {
     let element = ReactDOM.findDOMNode(this).querySelector(selector)
     let wordArray = element.innerHTML.split(' ')
     while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
@@ -49,12 +92,16 @@ module.exports = React.createClass({
     }
     return this
   },
-  render: function () {
+  render () {
     let nameClasses = classNames({
       'vcv-ui-add-element-badge vcv-ui-badge-success': true,
       'vcv-ui-add-element-badge vcv-ui-badge-warning': false
     })
 
+    let previewClasses = classNames({
+      'vcv-ui-add-element-preview-container': true,
+      'vcv-ui-state--visible': this.state.previewVisible
+    })
     // Possible overlays:
 
     // <span className="vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add"></span>
@@ -80,7 +127,7 @@ module.exports = React.createClass({
             {this.props.name}
           </span>
         </span>
-        <figure className='vcv-ui-add-element-preview-container'>
+        <figure className={previewClasses} style={this.state.previewStyle}>
           <img className='vcv-ui-add-element-preview-image' src='https://placehold.it/520x240' alt='' />
           <figcaption className='vcv-ui-add-element-preview-caption'>
             <div className='vcv-ui-add-element-preview-text'>

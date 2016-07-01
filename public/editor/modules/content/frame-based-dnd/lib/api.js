@@ -5,10 +5,10 @@ export default class API {
     this.init()
   }
   init () {
-    this.api.addAction('startDraging', this.start.bind(this))
+    this.api.addAction('startDragging', this.start.bind(this))
   }
-  start (DOMNode) {
-    console.log('start dragging')
+  start (DOMNode, point) {
     this.dnd.start(DOMNode)
+    point && this.dnd.check(point)
   }
 }

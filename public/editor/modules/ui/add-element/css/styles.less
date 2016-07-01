@@ -143,12 +143,19 @@
 .vcv-ui-add-element-preview-container {
   z-index: @add-element-preview-zindex;
   pointer-events: none;
-  position: absolute;
-  display: none;
+  position: fixed;
+  display: block;
   width: 520px;
-  left: 100%;
   margin: 0;
-  top: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
+
+  &.vcv-ui-state--visible {
+    transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .vcv-ui-add-element-preview-image {
