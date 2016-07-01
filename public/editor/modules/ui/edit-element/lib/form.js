@@ -211,7 +211,7 @@ class TreeForm extends React.Component {
 
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
-        'vcv-ui-active': !!hiddenTabsIndexes.filter(function (value) {
+        'vcv-ui-state--active': !!hiddenTabsIndexes.filter(function (value) {
           return value === activeTabIndex
         }).length
       })
@@ -232,7 +232,7 @@ class TreeForm extends React.Component {
     lodash.each(visibleTabsIndexes, (tabIndex) => {
       let plateClass = 'vcv-ui-editor-plate'
       if (tabIndex === activeTabIndex) {
-        plateClass += ' vcv-ui-active'
+        plateClass += ' vcv-ui-state--active'
       }
       visibleTabsContentOutput.push(<div key={'plate-visible' + this.state.allTabs[tabIndex].id} className={plateClass}>
         {this.getForm(tabIndex)}
@@ -243,7 +243,7 @@ class TreeForm extends React.Component {
     lodash.each(hiddenTabsIndexes, (tabIndex) => {
       let plateClass = 'vcv-ui-editor-plate'
       if (tabIndex === activeTabIndex) {
-        plateClass += ' vcv-ui-active'
+        plateClass += ' vcv-ui-state--active'
       }
       visibleTabsContentOutput.push(<div key={'plate-hidden' + this.state.allTabs[tabIndex].id} className={plateClass}>
         {this.getForm(tabIndex)}

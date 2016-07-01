@@ -13,18 +13,27 @@ vcCake.add('ui-add-element', (api) => {
   api.addAction('getParent', () => {
     return currentParentElement
   })
-  // add actions to api:add event
-  api.reply('app:add', (parent = null) => {
-    api.actions.setParent(parent)
-    api.notify('show', parent)
-  }).on('hide', () => {
-    api.module('ui-layout-bar').do('setEndContent', null)
-    api.module('ui-layout-bar').do('setEndContentVisible', false)
-  }).on('show', (parent = null) => {
-    api.module('ui-layout-bar').do('setEndContent', AddElement, {
-      api: api,
-      parent: parent
+  // subscribe to global events
+  api
+    .reply('app:add', (parent = null) => {
+      api.actions.setParent(parent)
+      api.notify('show', parent)
     })
-    api.module('ui-layout-bar').do('setEndContentVisible', true)
-  })
+    .reply('data:add', () => {
+      api.notify('hide')
+    })
+
+  // subscribe to local events
+  api
+    .on('hide', () => {
+      api.module('ui-layout-bar').do('setEndContent', null)
+      api.module('ui-layout-bar').do('setEndContentVisible', false)
+    })
+    .on('show', (parent = null) => {
+      api.module('ui-layout-bar').do('setEndContent', AddElement, {
+        api: api,
+        parent: parent
+      })
+      api.module('ui-layout-bar').do('setEndContentVisible', true)
+    })
 })

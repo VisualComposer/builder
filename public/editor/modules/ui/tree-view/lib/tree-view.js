@@ -21,6 +21,11 @@ var Layout = React.createClass({
     api: React.PropTypes.object.isRequired
   },
   mixins: [ DataChanged ],
+  componentDidMount () {
+    this.props.api.reply('data:add', () => {
+      this.props.api.request('bar-content-start:hide')
+    })
+  },
   getElements: function () {
     let elementsList
     let document = vcCake.getService('document')

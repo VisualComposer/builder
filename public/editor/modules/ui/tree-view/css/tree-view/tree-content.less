@@ -86,7 +86,7 @@
   &:hover {
     background-color: @tree-tab-bg-hover;
   }
-  &.vcv-ui-active {
+  &.vcv-ui-state--active {
     background-color: @tree-tab-bg-active;
     color: @tree-tab-color-active;
   }
@@ -145,7 +145,7 @@
       opacity: 1;
     }
   }
-  &.vcv-ui-active {
+  &.vcv-ui-state--active {
     .vcv-ui-editor-tab-dropdown-trigger {
       background-color: @tree-tab-bg-active;
       color: @tree-tab-color-active;
@@ -177,7 +177,7 @@
     border-radius: 0;
     margin: 0;
     &:hover,
-    &.vcv-ui-active {
+    &.vcv-ui-state--active {
       background-color: @tree-tab-bg-hover;
       color: @tree-tab-color;
     }
@@ -196,7 +196,7 @@
 }
 
 .vcv-ui-editor-plate {
-  &:not(.vcv-ui-active) {
+  &:not(.vcv-ui-state--active) {
     display: none;
   }
 }
