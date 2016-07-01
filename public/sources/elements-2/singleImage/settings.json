@@ -52,6 +52,24 @@
       ]
     }
   },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "image",
+      "style"
+    ],
+    "options": {
+      "label": "Element"
+    }
+  },
+  "editFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1"
+    ]
+  },
   "relatedTo": {
     "type": "group",
     "access": "protected",

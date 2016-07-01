@@ -124,6 +124,39 @@
       "description": "it should work too"
     }
   },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonTitle",
+      "style",
+      "color",
+      "iconSize",
+      "checkboxes"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "editFormTab2": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editor",
+      "otherEditor"
+    ],
+    "options": {
+      "label": "Editors"
+    }
+  },
+  "editFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab2",
+      "editFormTab1"
+    ]
+  },
   "relatedTo": {
     "type": "group",
     "access": "protected",

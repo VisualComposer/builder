@@ -11,19 +11,19 @@ vcCake.add('ui-add-element', function (api) {
     },
     componentDidMount: function () {
       api
-        .on('show', function () {
+        .on('show', () => {
           this.setState({ isWindowOpen: true })
-        }.bind(this))
-        .on('hide', function () {
+        })
+        .on('hide', () => {
           this.setState({ isWindowOpen: false })
-        }.bind(this))
+        })
     },
     toggleAddElement: function (e) {
       e && e.preventDefault()
       if (this.state.isWindowOpen) {
         api.notify('hide')
       } else {
-        api.notify('show')
+        api.request('app:add', api.actions.getParent())
       }
     },
     render: function () {

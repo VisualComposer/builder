@@ -345,6 +345,30 @@
       "description": "Show arrow on button"
     }
   },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "name",
+      "buttonText",
+      "textColor",
+      "borderColor",
+      "backgroundColor",
+      "style",
+      "shape",
+      "showIcon"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "editFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1"
+    ]
+  },
   "relatedTo": {
     "type": "group",
     "access": "protected",
