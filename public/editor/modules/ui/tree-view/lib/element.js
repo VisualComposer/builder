@@ -14,7 +14,7 @@ var Element = React.createClass({
   getInitialState: function () {
     return {
       childExpand: true,
-      elementId: false,
+      elementId: null,
       hasChild: false
     }
   },
@@ -53,15 +53,21 @@ var Element = React.createClass({
     this.props.api.notify('element:mount', this.props.element.id)
 
     this.props.api
-      .reply('app:edit', function (id) {
+      .reply('app:edit', (id) => {
         this.setState({ elementId: id })
-      }.bind(this))
-      .on('hide', function () {
-        this.setState({ elementId: false })
-      }.bind(this))
-      .on('form:hide', function () {
-        this.setState({ elementId: false })
-      }.bind(this))
+      })
+      .reply('app:add', (id) => {
+        this.setState({ elementId: id })
+      })
+      .reply('bar-content-end:hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('form:hide', () => {
+        this.setState({ elementId: null })
+      })
   },
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)

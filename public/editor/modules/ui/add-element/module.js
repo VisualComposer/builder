@@ -6,7 +6,7 @@ require('./css/init.less')
 
 vcCake.add('ui-add-element', (api) => {
   // get get Parrent
-  let currentParentElement = false
+  let currentParentElement = null
   api.addAction('setParent', (parent) => {
     currentParentElement = parent
   })
@@ -16,7 +16,6 @@ vcCake.add('ui-add-element', (api) => {
   // subscribe to global events
   api
     .reply('app:add', (parent = null) => {
-      api.actions.setParent(parent)
       api.notify('show', parent)
     })
     .reply('data:add', () => {
@@ -26,10 +25,12 @@ vcCake.add('ui-add-element', (api) => {
   // subscribe to local events
   api
     .on('hide', () => {
+      api.actions.setParent(null)
       api.module('ui-layout-bar').do('setEndContent', null)
       api.module('ui-layout-bar').do('setEndContentVisible', false)
     })
     .on('show', (parent = null) => {
+      api.actions.setParent(parent)
       api.module('ui-layout-bar').do('setEndContent', AddElement, {
         api: api,
         parent: parent

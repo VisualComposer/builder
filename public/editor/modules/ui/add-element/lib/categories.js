@@ -17,16 +17,16 @@ class Categories extends React.Component {
       visibleTabsIndexes: [],
       hiddenTabsIndexes: []
     }
+    this.handleResize = this.handleResize.bind(this)
   }
 
   componentDidMount () {
-    this.setStateForTabs()
-    window.addEventListener('resize', this.refreshTabs.bind(this))
-    this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
+    this.setStateForTabs(this.props)
+    window.addEventListener('resize', this.handleResize)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.refreshTabs)
+    window.removeEventListener('resize', this.handleResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -34,9 +34,16 @@ class Categories extends React.Component {
     this.refreshTabs()
   }
 
-  componentWillReceiveProps (nextProps) {}
-  setStateForTabs () {
-    let allTabs = this.tabsFromProps(this.props)
+  componentWillReceiveProps (nextProps) {
+    // this.setStateForTabs(nextProps)
+  }
+
+  handleResize (e) {
+    this.refreshTabs()
+  }
+
+  setStateForTabs (props) {
+    let allTabs = this.tabsFromProps(props)
 
     this.setState({
       allTabs: allTabs.slice(),
@@ -45,6 +52,7 @@ class Categories extends React.Component {
       activeTabIndex: 0
     })
   }
+
   tabsFromProps (props) {
     let tabs = []
     let index = 0

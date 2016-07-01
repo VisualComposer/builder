@@ -15,28 +15,23 @@ class TreeForm extends React.Component {
       allTabs: [],
       activeTabIndex: 0,
       visibleTabsIndexes: [],
-      hiddenTabsIndexes: [],
-      treeViewActive: false
+      hiddenTabsIndexes: []
     }
+    this.handleResize = this.handleResize.bind(this)
+    this.saveForm = this.saveForm.bind(this)
+    this.closeTreeView = this.closeTreeView.bind(this)
   }
 
   componentDidMount () {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
-    this.props.api
-      .reply('bar-content-start:show', function () {
-        this.setState({ treeViewActive: true })
-      }.bind(this))
-      .reply('bar-content-start:hide', function () {
-        this.setState({ treeViewActive: false })
-      }.bind(this))
-    window.addEventListener('resize', this.refreshTabs.bind(this))
-    this.props.api.module('ui-navbar').on('resize', this.refreshTabs.bind(this))
+    this.setStateForTabs(this.props)
+    window.addEventListener('resize', this.handleResize)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.refreshTabs)
+    window.removeEventListener('resize', this.handleResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -45,7 +40,15 @@ class TreeForm extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let allTabs = this.tabsFromProps(nextProps)
+    // this.setStateForTabs(nextProps)
+  }
+
+  handleResize (e) {
+    this.refreshTabs()
+  }
+
+  setStateForTabs (props) {
+    let allTabs = this.tabsFromProps(props)
     this.setState({
       allTabs: allTabs.slice(),
       visibleTabsIndexes: [],
@@ -160,12 +163,8 @@ class TreeForm extends React.Component {
     return this.props.element.field(param.key, updater(this.props.api.request, 'element:set'))
   }
 
-  closeForm () {
-    this.props.api.notify('form:hide', false)
-  }
-
   closeTreeView () {
-    this.props.api.notify('hide', false)
+    this.props.api.notify('hide')
   }
 
   saveForm () {
@@ -278,12 +277,6 @@ class TreeForm extends React.Component {
                 <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
               </span>
             </a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="close"
-              onClick={this.closeTreeView.bind(this)}>
-              <span className="vcv-ui-tree-content-title-control-content">
-                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-close"></i>
-              </span>
-            </a>
           </nav>
         </div>
 
@@ -306,13 +299,13 @@ class TreeForm extends React.Component {
 
         <div className="vcv-ui-tree-content-footer">
           <div className="vcv-ui-tree-layout-actions">
-            <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView.bind(this)}>
+            <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
               <span className="vcv-ui-tree-layout-action-content">
                 <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i>
                 <span>Close</span>
               </span>
             </a>
-            <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm.bind(this)}>
+            <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}>
               <span className="vcv-ui-tree-layout-action-content">
                 <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i>
                 <span>Save</span>
