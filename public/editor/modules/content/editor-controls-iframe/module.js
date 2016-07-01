@@ -38,6 +38,13 @@ vcCake.add('ui-editor-controls', function (api) {
       $(document).on('mousemove hover', '.vcv-ui-outline-controls-container', function (e) {
         e.stopPropagation()
       })
+      $(document).on('mousedown', '[data-vc-drag-helper]', function (e) {
+        var id = $(this).data('vcDragHelper')
+        var DOMNode = id ? $(iframeDocument).find('[data-vc-element="' + id + '"]') : null
+        if (DOMNode.length) {
+          api.module('content-frame-based-dnd').do('startDragging', DOMNode.get(0), {x: e.clientX, y: e.clientY})
+        }
+      })
       $(document).on('click', '[data-vc-control-event]', function (e) {
         var $el = $(e.currentTarget)
         var event = $el.data('vcControlEvent')
