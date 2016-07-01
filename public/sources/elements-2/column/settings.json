@@ -79,6 +79,24 @@
       ]
     }
   },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "background",
+      "size"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "editFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1"
+    ]
+  },
   "containerFor": {
     "type": "group",
     "access": "protected",

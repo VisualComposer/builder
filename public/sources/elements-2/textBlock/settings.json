@@ -77,7 +77,7 @@
       "output3"
     ],
     "options": {
-      "label": "Tab1"
+      "label": "Options"
     }
   },
   "editFormTab2": {
@@ -89,7 +89,7 @@
       "output6"
     ],
     "options": {
-      "label": "Tab2"
+      "label": "Other options"
     }
   },
   "editFormTabs": {
