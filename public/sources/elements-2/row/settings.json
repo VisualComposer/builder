@@ -17,6 +17,23 @@
       "label": "Background color"
     }
   },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "background"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "editFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1"
+    ]
+  },
   "relatedTo": {
     "type": "group",
     "access": "protected",

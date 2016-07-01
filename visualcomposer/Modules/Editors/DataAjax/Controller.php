@@ -44,7 +44,7 @@ class Controller extends Container implements Module
         if (is_numeric($sourceId)) {
             // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-            $data = !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content;
+            $data = $postMeta; /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
         }
 
         return $data;
@@ -60,7 +60,7 @@ class Controller extends Container implements Module
      */
     private function setData(FilterDispatcher $filterHelper, Request $requestHelper)
     {
-        $data = $requestHelper->input('vcv-data');
+        $data = json_decode(rawurldecode($requestHelper->input('vcv-data')));
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
