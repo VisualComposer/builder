@@ -1,6 +1,8 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ClassNames from 'classnames'
+import Resizer from '../../../content/resizer/component/resizer'
+
 class BarContentEnd extends React.Component {
   constructor () {
     super()
@@ -46,6 +48,11 @@ class BarContentEnd extends React.Component {
           <i className="vcv-layout-bar-content-toggle-icon vcv-ui-icon vcv-ui-icon-layers"></i>
         </a>
         {content}
+        <Resizer params={{
+            resizeX: false,
+            resizerTarget: '.vcv-layout-bar-content',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-y'
+          }} />
       </div>
     )
   }

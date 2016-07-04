@@ -1,13 +1,13 @@
-.vcv-ui-resizer-tree-view-layout {
+.vcv-ui-resizer-tree-view-x, .vcv-ui-resizer-tree-view-detached-x {
   width: @resizer-tree-view-size;
   height: 100%;
   right: -@resizer-tree-view-size;
   margin: 0 0 0 -@resizer-tree-view-size;
   z-index: @resizer-tree-view-z-index;
-  position: relative;
+  // position: relative;
 }
 
-.vcv-ui-resizer-tree-view-container {
+.vcv-ui-resizer-tree-view-y {
   width: 100%;
   height: @resizer-tree-view-size;
   bottom: -@resizer-tree-view-size;
@@ -16,6 +16,17 @@
   position: absolute;
 }
 
-.vcv-ui-resizer-tree-view-layout-hidden {
-  display: none;
+.vcv-layout-placement:not(.vcv-layout-placement--detached) {
+  .vcv-ui-resizer-tree-view-detached-x, .vcv-ui-resizer-tree-view-detached-xy {
+    display: none;
+  }
+}
+
+.vcv-layout-placement--detached {
+  .vcv-ui-resizer-tree-view-x, .vcv-ui-resizer-tree-view-xy {
+    display: none;
+  }
+  .vcv-ui-resizer-tree-view-detached-x, .vcv-ui-resizer-tree-view-detached-xy {
+    display: block;
+  }
 }

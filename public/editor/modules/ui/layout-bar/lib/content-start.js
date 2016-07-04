@@ -1,6 +1,8 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ClassNames from 'classnames'
+import Resizer from '../../../content/resizer/component/resizer'
+
 class BarContentStart extends React.Component {
   constructor () {
     super()
@@ -46,6 +48,21 @@ class BarContentStart extends React.Component {
     return (
       <div className={contentClasses} id="vcv-editor-start">
         {content}
+        <Resizer params={{
+          resizeY: false,
+          resizerTarget: '#vcv-editor-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-x vcv-ui-resizer-tree-view-x'
+        }} />
+        <Resizer params={{
+          resizeX: false,
+          resizerTarget: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-y'
+        }} />
+        <Resizer params={{
+          resizerTargetX: '#vcv-editor-start',
+          resizerTargetY: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-tree-view-xy'
+        }} />
       </div>
     )
   }
