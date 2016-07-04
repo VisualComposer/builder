@@ -54,10 +54,10 @@ vcCake.add('content-frame-based-dnd', function (api) {
     }
   }
   ModuleDnd.prototype.start = function () {
-    this.api.module('content-editor-controls').do('enableControls', false)
+    this.api.module('content-editor-controls-iframe').do('disableControls', true)
   }
   ModuleDnd.prototype.end = function () {
-    this.api.module('content-editor-controls').do('enableControls', true)
+    this.api.module('content-editor-controls-iframe').do('disableControls', false)
   }
   var dnd = new ModuleDnd(api)
   dnd.init()
