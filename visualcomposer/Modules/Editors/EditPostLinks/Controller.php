@@ -66,7 +66,7 @@ class Controller extends Container implements Module
         }
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
             $url = vcapp()->call(
-                ['\VisualComposer\Modules\Editors\Frontend\Controller', 'getFrontendUrl'],
+                [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
                 ['postId' => get_the_ID()]
             );
             $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
@@ -87,7 +87,7 @@ class Controller extends Container implements Module
 
         if (is_singular()) {
             $url = vcapp()->call(
-                ['\VisualComposer\Modules\Editors\Frontend\Controller', 'getFrontendUrl'],
+                [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
                 ['postId' => get_the_ID()]
             );
             $wpAdminBar->add_menu(
@@ -102,7 +102,7 @@ class Controller extends Container implements Module
     private function adminRowLinks($actions)
     {
         $url = vcapp()->call(
-            ['\VisualComposer\Modules\Editors\Frontend\Controller', 'getFrontendUrl'],
+            [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
             ['postId' => get_the_ID()]
         );
 
