@@ -5,21 +5,20 @@ var ElementsCollector = require('./lib/elements-collector')
 var Collector = function () {
 }
 Collector.prototype.apply = function (compiler) {
-  compiler.plugin('run', function (params) {
+  compiler.plugin('compile', function () {
     console.log('Collect elements')
     console.log('Collect services/modules/attributes')
-    Object.keys(params.options.vc).forEach(function (prefix) {
+    Object.keys(this.options.vc).forEach(function (prefix) {
       console.log('Build data for ' + prefix)
-      var settings = params.options.vc[ prefix ]
+      var settings = this.options.vc[ prefix ]
       if (settings.services) {
         ServicesCollector.buildFile(prefix, settings.services)
       }
       if (settings.modules) {
         ModulesCollector.buildFile(prefix, settings.modules)
       }
-
       AttributesCollector.buildFile(prefix)
-    })
+    }.bind(this))
     ElementsCollector.buildFile()
   })
 }
