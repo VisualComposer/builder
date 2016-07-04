@@ -21,6 +21,11 @@ vcCake.add('ui-add-element', (api) => {
     .reply('data:add', () => {
       api.notify('hide')
     })
+    .reply('data:remove', (id) => {
+      if (id === api.actions.getParent()) {
+        api.notify('hide')
+      }
+    })
 
   // subscribe to local events
   api
@@ -28,7 +33,6 @@ vcCake.add('ui-add-element', (api) => {
       api.actions.setParent(null)
       api.module('ui-layout-bar').do('setEndContent', null)
       api.module('ui-layout-bar').do('setEndContentVisible', false)
-      api.request('bar-content-start:hide')
     })
     .on('show', (parent = null) => {
       api.actions.setParent(parent)

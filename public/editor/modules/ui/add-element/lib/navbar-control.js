@@ -17,11 +17,15 @@ vcCake.add('ui-add-element', function (api) {
         .on('hide', () => {
           this.setState({ isWindowOpen: false })
         })
+        .reply('app:edit', () => {
+          this.setState({ isWindowOpen: false })
+        })
     },
     toggleAddElement: function (e) {
       e && e.preventDefault()
       if (this.state.isWindowOpen) {
         api.notify('hide')
+        api.request('bar-content-start:hide')
       } else {
         api.request('app:add', api.actions.getParent())
       }
