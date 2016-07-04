@@ -5,19 +5,19 @@ import DnD from './lib/dnd'
 
 require('./css/module.less')
 vcCake.add('content-frame-based-dnd', function (api) {
-  var documentDOM
-  var offsetTop
-  var offsetLeft
-  var ModuleDnd = function (moduleApi) {
+  let documentDOM
+  let offsetLeft
+  let iframe
+  let ModuleDnd = function (moduleApi) {
     this.api = moduleApi
     this.layoutAPI = this.api.module('content-layout')
+    this.navbarAPI = this.api.module('ui-navbar')
   }
   ModuleDnd.prototype.buildItems = function () {
     if (!this.items) {
-      var iframe = $('#vcv-editor-iframe')
+      iframe = $('#vcv-editor-iframe')
       if (!documentDOM && iframe.get(0)) {
         documentDOM = iframe.get(0).contentWindow.document
-        offsetTop = iframe.offset().top
       } else {
         documentDOM = document
       }
@@ -28,12 +28,19 @@ vcCake.add('content-frame-based-dnd', function (api) {
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
         document: documentDOM,
-        offsetTop: offsetTop,
+        offsetTop: this.getOffsetTop(),
         offsetLeft: offsetLeft
       })
       this.items.init()
       this.dndApi = new Api(this.items, this.api)
+      this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
     }
+  }
+  ModuleDnd.prototype.getOffsetTop = function () {
+    return iframe ? iframe.offset().top : 0
+  }
+  ModuleDnd.prototype.updateOffsetTop = function () {
+    this.items.option('offsetTop', this.getOffsetTop())
   }
   ModuleDnd.prototype.init = function () {
     this.layoutAPI
