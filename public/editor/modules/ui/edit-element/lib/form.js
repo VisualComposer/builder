@@ -165,6 +165,7 @@ class TreeForm extends React.Component {
 
   closeTreeView () {
     this.props.api.notify('hide')
+    this.props.api.request('bar-content-start:hide')
   }
 
   saveForm () {
