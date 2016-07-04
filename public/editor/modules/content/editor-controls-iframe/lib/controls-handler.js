@@ -12,7 +12,7 @@ function ControlsHandler () {
   this.$controlsList = null
 }
 
-ControlsHandler.prototype.showOutline = function ($el) {
+ControlsHandler.prototype.showOutline = function ($el, hideControls) {
   if ($el.data('vcElement') === undefined) {
     $el = $el.closest('[data-vc-element]')
   }
@@ -21,7 +21,7 @@ ControlsHandler.prototype.showOutline = function ($el) {
     this.$currentElement = $el
     this.updateElementsTree()
     this.drawOutlines()
-    this.drawControls()
+    hideControls !== true && this.drawControls()
   }
 
   return this

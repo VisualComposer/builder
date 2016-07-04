@@ -2,19 +2,22 @@ var vcCake = require('vc-cake')
 var ControlsTrigger = {}
 
 require('./css/controls/init.less')
-vcCake.add('ui-editor-controls', function (api) {
+vcCake.add('content-editor-controls-iframe', function (api) {
   var $ = require('jquery')
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js')
-  var showControls = true
-  api.addAction('enableControls', function (state) {
-    showControls = !!state
-    if (!showControls) {
-      controlsHandler.hideOutline()
+  var hideControls = false
+  api.addAction('disableControls', function (state) {
+    hideControls = !!state
+    if (hideControls) {
+      controlsHandler.removeControls()
     }
+  })
+  api.addAction('hideFrame', function (state) {
+    controlsHandler.hideOutline()
   })
   ControlsTrigger.triggerShowFrame = function (e) {
     e.stopPropagation()
-    showControls && controlsHandler.showOutline($(e.currentTarget))
+    controlsHandler.showOutline($(e.currentTarget), hideControls)
   }
 
   ControlsTrigger.triggerHideFrame = function () {
@@ -22,7 +25,7 @@ vcCake.add('ui-editor-controls', function (api) {
   }
 
   ControlsTrigger.triggerRedrawFrame = function () {
-    showControls && controlsHandler.drawOutlines()
+    controlsHandler.drawOutlines()
   }
 
   var EditorControls = function () {
@@ -42,6 +45,7 @@ vcCake.add('ui-editor-controls', function (api) {
         var id = $(this).data('vcDragHelper')
         var DOMNode = id ? $(iframeDocument).find('[data-vc-element="' + id + '"]') : null
         if (DOMNode.length) {
+          controlsHandler.removeControls()
           api.module('content-frame-based-dnd').do('startDragging', DOMNode.get(0), {x: e.clientX, y: e.clientY})
         }
       })
