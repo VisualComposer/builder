@@ -57,6 +57,7 @@ vcCake.add('content-frame-based-dnd', function (api) {
     this.api.module('content-editor-controls-iframe').do('disableControls', true)
   }
   ModuleDnd.prototype.end = function () {
+    this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
   }
   var dnd = new ModuleDnd(api)

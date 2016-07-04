@@ -12,6 +12,9 @@ vcCake.add('content-editor-controls-iframe', function (api) {
       controlsHandler.removeControls()
     }
   })
+  api.addAction('hideFrame', function (state) {
+    controlsHandler.hideOutline()
+  })
   ControlsTrigger.triggerShowFrame = function (e) {
     e.stopPropagation()
     controlsHandler.showOutline($(e.currentTarget), hideControls)
