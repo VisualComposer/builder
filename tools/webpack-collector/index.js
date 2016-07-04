@@ -5,7 +5,7 @@ var ElementsCollector = require('./lib/elements-collector')
 var Collector = function () {
 }
 Collector.prototype.apply = function (compiler) {
-  compiler.plugin('compile', function () {
+  compiler.plugin('run', function (params, callback) {
     console.log('Collect elements')
     console.log('Collect services/modules/attributes')
     Object.keys(this.options.vc).forEach(function (prefix) {
@@ -20,6 +20,7 @@ Collector.prototype.apply = function (compiler) {
       AttributesCollector.buildFile(prefix)
     }.bind(this))
     ElementsCollector.buildFile()
+    callback()
   })
 }
 
