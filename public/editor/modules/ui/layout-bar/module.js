@@ -12,14 +12,52 @@ vcCake.add('ui-layout-bar', (api) => {
         <div className='vcv-layout-bar'>
           <BarHeader api={api} />
           <BarContent api={api} />
+
           <Resizer params={{
-            resizeY: false,
-            resizerTarget: '.vcv-layout-bar-content',
-            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-x vcv-ui-resizer-tree-view-detached-x'
+            resizeTop: true,
+            resizerTargetTop: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top'
           }} />
           <Resizer params={{
-            resizerTarget: '.vcv-layout-bar-content',
-            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-tree-view-detached-xy'
+            resizeBottom: true,
+            resizerTargetBottom: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom'
+          }} />
+
+          <Resizer params={{
+            resizeLeft: true,
+            resizeTop: true,
+            resizerTarget: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top'
+          }} />
+          <Resizer params={{
+            resizeLeft: true,
+            resizerTargetLeft: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left'
+          }} />
+          <Resizer params={{
+            resizeLeft:true,
+            resizeBottom: true,
+            resizerTarget: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom'
+          }} />
+
+          <Resizer params={{
+            resizeRight: true,
+            resizeTop: true,
+            resizerTarget: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top'
+          }} />
+          <Resizer params={{
+            resizeRight: true,
+            resizerTargetRight: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right'
+          }} />
+          <Resizer params={{
+            resizeRight: true,
+            resizeBottom: true,
+            resizerTarget: '.vcv-layout-bar',
+            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom'
           }} />
         </div>
       )

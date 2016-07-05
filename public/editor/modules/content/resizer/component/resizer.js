@@ -9,12 +9,16 @@ class Resizer extends React.Component {
 
     this.state = {
       resizerOptions: lodash.defaults(data.params, {
-        resizeX: true,
-        resizeY: true,
+        resizeTop: false,
+        resizeBottom: false,
+        resizeLeft: false,
+        resizeRight: false,
         callback: false,
         resizerTarget: '',
-        resizerTargetX: '',
-        resizerTargetY: '',
+        resizerTargetTop: '',
+        resizerTargetBottom: '',
+        resizerTargetLeft: '',
+        resizerTargetRight: '',
         resizerClasses: 'vcv-ui-resizer',
         overlayClasses: 'vcv-ui-resizer-overlay',
         $overlay: $('<div></div>')
@@ -23,61 +27,90 @@ class Resizer extends React.Component {
   }
 
   componentDidMount () {
-    $(this.refs.resizer).on('mousedown.vcv-resizer', this.bindDrag.bind(this))
-    this.$target = this.state.resizerOptions.resizerTarget ? $(this.state.resizerOptions.resizerTarget) : false
-    this.$targetX = this.state.resizerOptions.resizerTargetX ? $(this.state.resizerOptions.resizerTargetX) : false
-    this.$targetY = this.state.resizerOptions.resizerTargetY ? $(this.state.resizerOptions.resizerTargetY) : false
+    $(this.refs.resizer)
+      .on('mousedown.vcv-resizer', this.bindDrag.bind(this))
+      .on('touchstart.vcv-resizer', this.bindDrag.bind(this))
+      .on('dragstart.vcv-resizer', function (e) {
+        e && e.preventDefault && e.preventDefault()
+        return false
+      })
+
+    let $target = this.state.resizerOptions.resizerTarget ? $(this.state.resizerOptions.resizerTarget) : false
+    this.$targetTop = this.state.resizerOptions.resizerTargetTop ? $(this.state.resizerOptions.resizerTargetTop) : $target
+    this.$targetBottom = this.state.resizerOptions.resizerTargetBottom ? $(this.state.resizerOptions.resizerTargetBottom) : $target
+    this.$targetLeft = this.state.resizerOptions.resizerTargetLeft ? $(this.state.resizerOptions.resizerTargetLeft) : $target
+    this.$targetRight = this.state.resizerOptions.resizerTargetRight ? $(this.state.resizerOptions.resizerTargetRight) : $target
   }
 
   componentWillUnmount () {
     this.stopResize()
-    $(this.refs.resizer).off('mousedown.vcv-resizer')
-    this.state.resizerOptions.remove()
+    $(this.refs.resizer).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
+    this.state.resizerOptions.$overlay.remove()
   }
 
-  bindDrag () {
+  bindDrag (e) {
+    this.startClientX = this.getClientX(e)
+    this.startClientY = this.getClientY(e)
+    // Disable highlighting while dragging
+    if (e.stopPropagation) {
+      e.stopPropagation()
+    }
+    if (e.preventDefault) {
+      e.preventDefault()
+    }
+    e.cancelBubble = true
+    e.returnValue = false
     this.state.resizerOptions.overlayClasses && this.state.resizerOptions.$overlay.addClass(this.state.resizerOptions.overlayClasses)
     this.state.resizerOptions.$overlay.appendTo('body')
     $(document)
       .on('mousemove.vcv-resizer', this.doResize.bind(this))
       .on('mouseup.vcv-resizer', this.stopResize.bind(this))
+      .on('touchmove.vcv-resizer', this.doResize.bind(this))
+      .on('touchend.vcv-resizer', this.stopResize.bind(this))
+  }
+
+  getClientX (e) {
+    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[ 0 ].clientX : e.clientX
+  }
+
+  getClientY (e) {
+    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[ 0 ].clientY : e.clientY
   }
 
   doResize (e) {
-    if (!e || e.which !== 1) {
+    if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
+      var clientX = this.getClientX(e)
+      var clientY = this.getClientY(e)
+      var offsetX = this.startClientX - clientX
+      var offsetY = this.startClientY - clientY
+      var w, h
+      if (this.state.resizerOptions.resizeTop) {
+        h = parseInt(this.$targetTop.css('height'))
+        h = h + (offsetY) + 'px'
+        this.$targetTop.css('height', h)
+        this.startClientY = clientY
+      } else if (this.state.resizerOptions.resizeBottom) {
+        h = parseInt(this.$targetBottom.css('height'))
+        h = h - (offsetY) + 'px'
+        this.$targetBottom.css('height', h)
+        this.startClientY = clientY
+      }
+      if (this.state.resizerOptions.resizeRight) {
+        w = parseInt(this.$targetRight.css('width'))
+        w = w - (offsetX) + 'px'
+        this.$targetRight.css('width', w)
+        this.startClientX = clientX
+      } else if (this.state.resizerOptions.resizeLeft) {
+        w = parseInt(this.$targetLeft.css('width'))
+        w = w + (offsetX) + 'px'
+        this.$targetLeft.css('width', w)
+        this.startClientX = clientX
+      }
+      e.resizerSettings = this.state.resizerOptions
+      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
+    } else {
       this.stopResize()
-      return
     }
-    //    let offset; // this.$targetX.offset()
-    let offset, $target
-    if (this.$target) {
-      $target = this.$target
-      offset = this.$target.offset()
-    }
-    if (this.state.resizerOptions.resizeY) {
-      if (this.$targetY) {
-        $target = this.$targetY
-        offset = this.$targetY.offset()
-      }
-
-      if (offset) {
-        $target.css('height', e.pageY - offset.top + 'px')
-      }
-    }
-    if (this.state.resizerOptions.resizeX) {
-      if (this.$targetX) {
-        $target = this.$targetX
-        offset = this.$targetX.offset()
-      }
-
-      if (offset) {
-        $target.css('width', e.pageX - offset.left + 'px')
-      }
-    }
-
-    e.relatedTarget = $target
-    e.resizerSettings = this.state.resizerOptions
-    this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
   }
 
   stopResize () {
@@ -85,10 +118,12 @@ class Resizer extends React.Component {
     $(document)
       .off('mousemove.vcv-resizer')
       .off('mouseup.vcv-resizer')
+      .off('touchmove.vcv-resizer')
+      .off('touchend.vcv-resizer')
   }
 
   render () {
-    return <div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>
+    return (<div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>)
   }
 }
 

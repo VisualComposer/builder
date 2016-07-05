@@ -44,15 +44,34 @@ class BarContentEnd extends React.Component {
     })
     return (
       <div className={contentClasses} id="vcv-editor-end">
-        <a className="vcv-layout-bar-content-toggle" href="#" title="Toggle tree view" onClick={this.toggleStartContent.bind(this)}>
+        <a className="vcv-layout-bar-content-toggle" href="#" title="Toggle tree view"
+          onClick={this.toggleStartContent.bind(this)}>
           <i className="vcv-layout-bar-content-toggle-icon vcv-ui-icon vcv-ui-icon-layers"></i>
         </a>
         {content}
         <Resizer params={{
-            resizeX: false,
-            resizerTarget: '.vcv-layout-bar-content',
-            resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-y'
-          }} />
+          resizeBottom: true,
+          resizerTargetBottom: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-end-bottom'
+        }} />
+
+        <Resizer params={{
+          resizeRight: true,
+          resizerTargetRight: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-end-right'
+        }} />
+
+        <Resizer params={{
+          resizeLeft: true,
+          resizerTargetLeft: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-end-left'
+        }} />
+
+        <Resizer params={{
+          resizeTop: true,
+          resizerTargetTop: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-end-top'
+        }} />
       </div>
     )
   }

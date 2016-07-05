@@ -45,23 +45,117 @@ class BarContentStart extends React.Component {
       'vcv-layout-bar-content-start': true,
       'vcv-ui-state--visible': this.state.showContent
     })
+
+    /*
+
+
+
+
+     <Resizer params={{
+     resizerTargetX: '.vcv-layout-bar',
+     resizerTargetY: '.vcv-layout-bar-content-start',
+     resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-right-bottom'
+     }} />
+     <Resizer params={{
+     resizerTargetX: '.vcv-layout-bar',
+     resizerTargetY: '.vcv-layout-bar-content-start',
+     resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom'
+     }} />
+
+     */
     return (
       <div className={contentClasses} id="vcv-editor-start">
         {content}
         <Resizer params={{
-          resizeY: false,
-          resizerTarget: '#vcv-editor-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-x vcv-ui-resizer-tree-view-x'
+          resizeRight: true,
+          resizerTargetRight: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-start-right'
         }} />
         <Resizer params={{
-          resizeX: false,
-          resizerTarget: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-y vcv-ui-resizer-tree-view-y'
+          resizeBottom: true,
+          resizerTargetBottom: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-start-bottom'
         }} />
         <Resizer params={{
-          resizerTargetX: '#vcv-editor-start',
-          resizerTargetY: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-tree-view-xy'
+          resizeRight: true,
+          resizeBottom: true,
+          resizerTargetRight: '.vcv-layout-bar-content-start',
+          resizerTargetBottom: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-start-right-bottom'
+        }} />
+
+        <Resizer params={{
+          resizeRight: true,
+          resizerTargetRight: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-right'
+        }} />
+        <Resizer params={{
+          resizeBottom: true,
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-bottom'
+        }} />
+        <Resizer params={{
+          resizeRight: true,
+          resizeBottom: true,
+          resizerTargetRight: '.vcv-layout-bar-content',
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-right-bottom'
+        }} />
+
+        <Resizer params={{
+          resizeLeft: true,
+          resizerTargetLeft: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-left'
+        }} />
+        <Resizer params={{
+          resizeBottom: true,
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-bottom'
+        }} />
+        <Resizer params={{
+          resizeLeft: true,
+          resizeBottom: true,
+          resizerTargetLeft: '.vcv-layout-bar-content',
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-left-bottom'
+        }} />
+
+        <Resizer params={{
+          resizeTop: true,
+          resizerTargetTop: '.vcv-layout-bar-content',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-top'
+        }} />
+        <Resizer params={{
+          resizeRight: true,
+          resizerTargetRight: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-right'
+        }} />
+        <Resizer params={{
+          resizeTop: true,
+          resizeRight: true,
+          resizerTargetTop: '.vcv-layout-bar-content',
+          resizerTargetRight: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-right-top'
+        }} />
+
+        <Resizer params={{
+          resizeBottom: true,
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-bottom'
+        }} />
+        <Resizer params={{
+          resizeLeft: true,
+          resizeBottom: true,
+          resizerTargetLeft: '.vcv-layout-bar',
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom'
+        }} />
+        <Resizer params={{
+          resizeRight: true,
+          resizeBottom: true,
+          resizerTargetRight: '.vcv-layout-bar',
+          resizerTargetBottom: '.vcv-layout-bar-content-start',
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-right-bottom'
         }} />
       </div>
     )
