@@ -39,6 +39,9 @@ var Builder = function (container, options) {
     offsetLeft: 0
   })
 }
+Builder.prototype.option = function (name, value) {
+  this.options[name] = value
+}
 Builder.prototype.init = function () {
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)

@@ -102,6 +102,7 @@ var Navbar = React.createClass({
     this.setState({
       isDragging: false
     })
+    this.props.api.notify('positionChanged')
   },
 
   handleDragging (e) {
