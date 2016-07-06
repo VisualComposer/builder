@@ -36,7 +36,7 @@ vcCake.add('ui-layout-bar', (api) => {
             resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left'
           }} />
           <Resizer params={{
-            resizeLeft:true,
+            resizeLeft: true,
             resizeBottom: true,
             resizerTarget: '.vcv-layout-bar',
             resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom'

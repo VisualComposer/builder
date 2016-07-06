@@ -46,23 +46,6 @@ class BarContentStart extends React.Component {
       'vcv-ui-state--visible': this.state.showContent
     })
 
-    /*
-
-
-
-
-     <Resizer params={{
-     resizerTargetX: '.vcv-layout-bar',
-     resizerTargetY: '.vcv-layout-bar-content-start',
-     resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-right-bottom'
-     }} />
-     <Resizer params={{
-     resizerTargetX: '.vcv-layout-bar',
-     resizerTargetY: '.vcv-layout-bar-content-start',
-     resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom'
-     }} />
-
-     */
     return (
       <div className={contentClasses} id="vcv-editor-start">
         {content}
