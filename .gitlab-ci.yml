@@ -2,7 +2,7 @@ image: wpbakery/ci-wordpress
 
 stages:
   - codestyle
-  - tests
+  - test
 
 testJavascriptCS:
   image: wpbakery/standardjs
@@ -61,7 +61,7 @@ testApplicationCS:
     - docker
 
 testFramework:
-  stage: tests
+  stage: test
   script:
     - composer install
     - phpunit --configuration=ci/phpunit-framework-coverage.xml
@@ -70,7 +70,7 @@ testFramework:
     - docker
 
 testHelpers:
-  stage: tests
+  stage: test
   script:
     - composer install
     - phpunit --configuration=ci/phpunit-helpers-coverage.xml
@@ -79,7 +79,7 @@ testHelpers:
     - docker
 
 testModules:
-  stage: tests
+  stage: test
   script:
     - composer install
     - phpunit --configuration=ci/phpunit-modules-coverage.xml
