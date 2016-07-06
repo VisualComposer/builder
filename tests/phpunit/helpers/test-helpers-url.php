@@ -53,7 +53,7 @@ class HelpersUrlTest extends WP_UnitTestCase
 
         $this->assertEquals(rtrim(get_site_url(), '/\\') . '/?vcv-ajax=1', $helper->ajax(), 'ajax should return url');
 
-        $this->assertEquals(rtrim(get_site_url(), '/\\') . '/?test=1&vcv-ajax=1', $helper->ajax(['test' => 1]), 'ajax should return url');
+        $this->assertEquals(rtrim(get_site_url(), '/\\') . '/?vcv-ajax=1&test=1', $helper->ajax(['test' => 1]), 'ajax should return url');
     }
 
 
