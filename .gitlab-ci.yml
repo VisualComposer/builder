@@ -13,49 +13,49 @@ testJavascriptCS:
     - docker
 
 testPluginpCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml plugin-wordpress.php
   tags:
     - docker
 
 testBootstrapCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml bootstrap
   tags:
     - docker
 
 testFrameworkCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Framework
   tags:
     - docker
 
 testHelpersCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Helpers
   tags:
     - docker
 
 testModulesCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Modules
   tags:
     - docker
 
 testApplicationCS:
+  image: wpbakery/phpcs
   stage: codestyle
   script:
-    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Application.php visualcomposer/Requirements.php
   tags:
     - docker
