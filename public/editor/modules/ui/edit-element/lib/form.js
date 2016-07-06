@@ -9,8 +9,8 @@ import TreeContentTab from './tab'
 
 class TreeForm extends React.Component {
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       allTabs: [],
       activeTabIndex: 0,

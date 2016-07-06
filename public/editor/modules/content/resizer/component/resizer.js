@@ -4,11 +4,11 @@ import lodash from 'lodash'
 import '../css/module.less'
 
 class Resizer extends React.Component {
-  constructor (data) {
-    super()
+  constructor (props) {
+    super(props)
 
     this.state = {
-      resizerOptions: lodash.defaults(data.params, {
+      resizerOptions: lodash.defaults(props.params, {
         resizeTop: false,
         resizeBottom: false,
         resizeLeft: false,

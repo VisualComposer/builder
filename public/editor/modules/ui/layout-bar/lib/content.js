@@ -4,8 +4,8 @@ import BarContentStart from './content-start'
 import BarContentEnd from './content-end'
 
 class BarContent extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       hasStartContent: false,
       hasEndContent: false

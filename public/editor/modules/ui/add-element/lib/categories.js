@@ -9,8 +9,8 @@ import '../css/init.less'
 
 class Categories extends React.Component {
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       allTabs: [],
       activeTabIndex: 0,

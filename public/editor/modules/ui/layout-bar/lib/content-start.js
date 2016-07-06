@@ -4,8 +4,8 @@ import ClassNames from 'classnames'
 import Resizer from '../../../content/resizer/component/resizer'
 
 class BarContentStart extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       contentComponent: null,
       contentProps: {},
