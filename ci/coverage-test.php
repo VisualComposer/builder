@@ -19,9 +19,9 @@ if (file_exists($filePath)) {
         foreach ($project->package as $package) {
             $packages[] = (string)$package->attributes()->name;
             foreach ($package->file as $file) {
-                $total = (float)$file->metrics->attributes()->elements;
+                $total = (float)$file->metrics->attributes()->statements;
                 if ($total > 0) {
-                    $covered = (float)$file->metrics->attributes()->coveredelements;
+                    $covered = (float)$file->metrics->attributes()->coveredstatements;
                     $coveredCoeff = $covered / $total;
                     if ($coveredCoeff < CI_MIN_COVERAGE) {
                         echo PHP_EOL;
@@ -36,8 +36,8 @@ if (file_exists($filePath)) {
                 $files[] = (string)$file->attributes()->name;
             }
         }
-        $projectCovered = (float)$project->metrics->attributes()->coveredelements;
-        $projectElements = (float)$project->metrics->attributes()->elements;
+        $projectCovered = (float)$project->metrics->attributes()->coveredstatements;
+        $projectElements = (float)$project->metrics->attributes()->statements;
         $totalCoverage = $projectCovered / $projectElements;
         echo '(' . round($totalCoverage * 100, 3) . ')% total covered';
     }
