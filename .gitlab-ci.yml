@@ -1,8 +1,5 @@
 image: wpbakery/ci-wordpress
 
-before_script:
-  - composer install
-
 stages:
   - codestyle
   - tests
@@ -18,6 +15,7 @@ testJavascriptCS:
 testPluginpCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml plugin-wordpress.php
   tags:
     - docker
@@ -25,6 +23,7 @@ testPluginpCS:
 testBootstrapCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml bootstrap
   tags:
     - docker
@@ -32,6 +31,7 @@ testBootstrapCS:
 testFrameworkCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Framework
   tags:
     - docker
@@ -39,6 +39,7 @@ testFrameworkCS:
 testHelpersCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Helpers
   tags:
     - docker
@@ -46,6 +47,7 @@ testHelpersCS:
 testModulesCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Modules
   tags:
     - docker
@@ -53,6 +55,7 @@ testModulesCS:
 testApplicationCS:
   stage: codestyle
   script:
+    - composer install
     - phpcs --standard=ci/ruleset.xml visualcomposer/Application.php visualcomposer/Requirements.php
   tags:
     - docker
@@ -60,7 +63,8 @@ testApplicationCS:
 testFramework:
   stage: tests
   script:
-    - phpunit --configuration=ci/phpunit-framework.xml
+    - composer install
+    - phpunit --configuration=ci/phpunit-framework-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
@@ -68,7 +72,8 @@ testFramework:
 testHelpers:
   stage: tests
   script:
-    - phpunit --configuration=ci/phpunit-helpers.xml
+    - composer install
+    - phpunit --configuration=ci/phpunit-helpers-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
@@ -76,7 +81,8 @@ testHelpers:
 testModules:
   stage: tests
   script:
-    - phpunit --configuration=ci/phpunit-modules.xml
+    - composer install
+    - phpunit --configuration=ci/phpunit-modules-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
