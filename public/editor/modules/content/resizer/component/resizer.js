@@ -83,12 +83,17 @@ class Resizer extends React.Component {
       var clientY = this.getClientY(e)
       var offsetX = this.startClientX - clientX
       var offsetY = this.startClientY - clientY
-      var w, h
+      var w, h, top, left
       if (this.state.resizerOptions.resizeTop) {
         h = parseInt(this.$targetTop.css('height'))
         h = h + (offsetY) + 'px'
         this.$targetTop.css('height', h)
         this.startClientY = clientY
+        if (this.$targetTop.css('position') === 'fixed') {
+          top = parseInt(this.$targetTop.css('top'))
+          top = top - offsetY + 'px'
+          this.$targetTop.css('top', top)
+        }
       } else if (this.state.resizerOptions.resizeBottom) {
         h = parseInt(this.$targetBottom.css('height'))
         h = h - (offsetY) + 'px'
@@ -105,6 +110,11 @@ class Resizer extends React.Component {
         w = w + (offsetX) + 'px'
         this.$targetLeft.css('width', w)
         this.startClientX = clientX
+        if (this.$targetLeft.css('position') === 'fixed') {
+          left = parseInt(this.$targetLeft.css('left'))
+          left = left - offsetX + 'px'
+          this.$targetLeft.css('left', left)
+        }
       }
       e.resizerSettings = this.state.resizerOptions
       this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
