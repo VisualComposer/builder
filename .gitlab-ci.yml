@@ -7,6 +7,14 @@ stages:
   - codestyle
   - tests
 
+testJavascriptCS:
+  image: wpbakery/standardjs
+  stage: codestyle
+  script:
+    - standard
+  tags:
+    - docker
+
 testPluginpCS:
   stage: codestyle
   script:
