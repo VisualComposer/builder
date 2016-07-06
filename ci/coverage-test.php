@@ -26,7 +26,7 @@ if (file_exists($filePath)) {
                     if ($coveredCoeff < CI_MIN_COVERAGE) {
                         echo PHP_EOL;
                         $fileName = (string)$file->attributes()->name;
-                        echo 'File: (' . str_replace($microPath, '', $fileName) . ') ('.(round(
+                        echo 'File: (' . str_replace($microPath, '', $fileName) . ') (' . (round(
                                 $coveredCoeff * 100,
                                 3
                             )) . '%) covered, atleast required ' . (CI_MIN_COVERAGE * 100) . '%' . PHP_EOL;
@@ -36,6 +36,10 @@ if (file_exists($filePath)) {
                 $files[] = (string)$file->attributes()->name;
             }
         }
+        $projectCovered = (float)$project->metrics->attributes()->coveredelements;
+        $projectElements = (float)$project->metrics->attributes()->elements;
+        $totalCoverage = $projectCovered / $projectElements;
+        echo '(' . round($totalCoverage * 100, 3) . ')% total covered';
     }
 
 } else {
