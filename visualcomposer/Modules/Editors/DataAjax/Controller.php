@@ -69,7 +69,8 @@ class Controller extends Container implements Module
             if ($post) {
                 $post->post_content = $content;
                 wp_update_post($post);
-                // In WordPress 4.4 + update_post_meta called if we use $post->meta_input = [ 'vcv:pageContent' => $data ]
+                // In WordPress 4.4 + update_post_meta called if we use
+                // $post->meta_input = [ 'vcv:pageContent' => $data ]
                 update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
                 $response = $filterHelper->fire(
                     'vcv:postAjax:setPostData',
