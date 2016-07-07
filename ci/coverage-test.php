@@ -39,7 +39,7 @@ if (file_exists($filePath)) {
         $projectCovered = (float)$project->metrics->attributes()->coveredstatements;
         $projectElements = (float)$project->metrics->attributes()->statements;
         $totalCoverage = $projectCovered / $projectElements;
-        echo '(' . round($totalCoverage * 100, 3) . ')% total covered' . "\n";
+        echo '(' . round($totalCoverage * 100, 3) . '%) total covered' . "\n";
     }
 
 } else {
