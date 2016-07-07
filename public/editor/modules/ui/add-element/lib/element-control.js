@@ -9,7 +9,10 @@ module.exports = React.createClass({
     tag: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     api: React.PropTypes.object.isRequired,
-    icon: React.PropTypes.string
+    meta_icon: React.PropTypes.string,
+    meta_thumbnail: React.PropTypes.string,
+    meta_preview: React.PropTypes.string,
+    meta_preview_description: React.PropTypes.string
   },
   getInitialState () {
     return {
@@ -92,6 +95,13 @@ module.exports = React.createClass({
     }
     return this
   },
+  getPublicPath (file) {
+    let path = '/sources/elements-2/' + this.props.tag + '/public'
+    if (file) {
+      path += '/' + file
+    }
+    return path
+  },
   render () {
     let nameClasses = classNames({
       'vcv-ui-add-element-badge vcv-ui-badge-success': true,
@@ -117,7 +127,7 @@ module.exports = React.createClass({
         onMouseEnter={this.showPreview}
         onMouseLeave={this.hidePreview}>
         <span className='vcv-ui-add-element-element-content'>
-          <img className='vcv-ui-add-element-element-image' src='https://placehold.it/100x100' alt='' />
+          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)} alt='' />
           <span className='vcv-ui-add-element-overlay'>
             <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
           </span>
@@ -128,12 +138,10 @@ module.exports = React.createClass({
           </span>
         </span>
         <figure className={previewClasses} style={this.state.previewStyle}>
-          <img className='vcv-ui-add-element-preview-image' src='https://placehold.it/520x240' alt='' />
+          <img className='vcv-ui-add-element-preview-image' src={this.getPublicPath(this.props.meta_preview)} alt='' />
           <figcaption className='vcv-ui-add-element-preview-caption'>
             <div className='vcv-ui-add-element-preview-text'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet assumenda dolores eos error
-              magnam magni maxime minima modi omnis placeat quia reiciendis repellendus rerum tempora temporibus,
-              ut vel veritatis.
+              {this.props.meta_preview_description}
             </div>
           </figcaption>
         </figure>

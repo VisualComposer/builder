@@ -164,7 +164,10 @@ class Categories extends React.Component {
         key={'vcv-element-control-' + element.tag}
         tag={element.tag}
         name={element.name}
-        icon={element.icon ? element.icon.toString() : ''} />)
+        meta_icon={element.meta_icon}
+        meta_thumbnail={element.meta_thumbnail}
+        meta_preview={element.meta_preview}
+        meta_preview_description={element.meta_preview_description} />)
     })
 
     return <div className="vcv-ui-add-element-list-container">
