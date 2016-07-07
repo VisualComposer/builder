@@ -2,27 +2,39 @@
  * Visual composer layout placement
  * =================================== */
 
-.vcv-layout-placement {
-  &.vcv-layout-placement--top {
+.vcv-layout-dock {
+  &.vcv-layout-dock--top {
     // default placement
+    &.vcv-layout-dock--unlock {
+      .vcv-layout-bar-content {
+        position: absolute;
+        top: 100%;
+        bottom: auto;
+        left: 0;
+        right: 0;
+      }
+    }
   }
   //== bottom
-  &.vcv-layout-placement--bottom {
+  &.vcv-layout-dock--bottom {
     .vcv-layout {
       flex-direction: column-reverse;
     }
     .vcv-layout-bar {
       flex-direction: column-reverse;
     }
-    .vcv-layout-bar-content {
-      top: auto;
-      bottom: 100%;
-      left: 0;
-      right: 0;
+    &.vcv-layout-dock--unlock {
+      .vcv-layout-bar-content {
+        position: absolute;
+        top: auto;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+      }
     }
   }
   //== left
-  &.vcv-layout-placement--left {
+  &.vcv-layout-dock--left {
     .vcv-layout {
       flex-direction: row;
     }
@@ -31,10 +43,15 @@
     }
     .vcv-layout-bar-content {
       flex-direction: column;
-      top: 0;
-      bottom: 0;
-      left: 100%;
-      right: auto;
+    }
+    &.vcv-layout-dock--unlock {
+      .vcv-layout-bar-content {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 100%;
+        right: auto;
+      }
     }
     .vcv-layout-bar-content-start {
       flex-grow: 0;
@@ -48,7 +65,7 @@
     }
   }
   //== Right
-  &.vcv-layout-placement--right {
+  &.vcv-layout-dock--right {
     .vcv-layout {
       flex-direction: row-reverse;
     }
@@ -57,10 +74,15 @@
     }
     .vcv-layout-bar-content {
       flex-direction: column;
-      top: 0;
-      bottom: 0;
-      left: auto;
-      right: 100%;
+    }
+    &.vcv-layout-dock--unlock {
+      .vcv-layout-bar-content {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: auto;
+        right: 100%;
+      }
     }
     .vcv-layout-bar-content-start {
       flex-grow: 0;
@@ -73,8 +95,9 @@
       }
     }
   }
+
   //== Detached
-  &.vcv-layout-placement--detached {
+  &.vcv-layout-dock--detached {
     .vcv-layout {
       //flex-direction: row;
 
@@ -83,14 +106,10 @@
       flex-direction: column;
       position: fixed;
       min-width: @editor-layout-bar-min-width;
+      box-shadow: @editor-layout-bar-shadow;
     }
     .vcv-layout-bar-content {
       flex-direction: column;
-      position: relative;
-      top: auto;
-      bottom: auto;
-      left: auto;
-      right: auto;
     }
     .vcv-layout-bar-content-start {
       flex-grow: 0;
@@ -103,9 +122,20 @@
       }
     }
   }
+
+  // Not detached
+  &:not(.vcv-layout-dock--detached) {
+    .vcv-layout-bar-header {
+      z-index: @editor-layout-bar-header-zindex;
+    }
+    .vcv-layout-bar-content {
+      box-shadow: @editor-layout-bar-shadow;
+    }
+  }
+
   //== Behaviour
-  &.vcv-layout-placement--top,
-  &.vcv-layout-placement--bottom {
+  &.vcv-layout-dock--top,
+  &.vcv-layout-dock--bottom {
     .vcv-layout-bar-content {
       width: auto !important;
     }
@@ -113,8 +143,8 @@
       height: auto !important;
     }
   }
-  &.vcv-layout-placement--left,
-  &.vcv-layout-placement--right {
+  &.vcv-layout-dock--left,
+  &.vcv-layout-dock--right {
     .vcv-layout-bar-content {
       height: auto !important;
     }
@@ -122,13 +152,13 @@
       width: 100% !important;
     }
   }
-  &.vcv-layout-placement--detached {
+  &.vcv-layout-dock--detached {
     .vcv-layout-bar-content-start {
       width: 100% !important;
     }
   }
 
-  &:not(.vcv-layout-placement--detached) {
+  &:not(.vcv-layout-dock--detached) {
     .vcv-layout-bar {
       width: auto !important;
       height: auto !important;
@@ -155,10 +185,11 @@
     min-height: @editor-layout-content-end-min-height;
     min-width: @editor-layout-content-end-min-width;
   }
-  &.vcv-layout-placement--detached {
+  &.vcv-layout-dock--detached {
     .vcv-layout-bar-content {
       width: auto !important;
       min-height: @editor-layout-content-min-height + @editor-layout-content-end-min-height;
     }
   }
 }
+

@@ -11,6 +11,7 @@ class BarContentStart extends React.Component {
       contentProps: {},
       showContent: false
     }
+    this.resizeCallback = this.resizeCallback.bind(this)
   }
 
   componentDidMount () {
@@ -34,6 +35,14 @@ class BarContentStart extends React.Component {
           this.props.api.request('bar-content-start:show')
         }
       })
+  }
+
+  resizeCallback (e) {
+    if (e && e.direction) {
+      if (e.direction === 'left') {
+        this.props.api.request('navbar:resizeLeft', e.offsetX)
+      }
+    }
   }
 
   render () {
@@ -131,7 +140,8 @@ class BarContentStart extends React.Component {
           resizeBottom: true,
           resizerTargetLeft: '.vcv-layout-bar',
           resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom'
+          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom',
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeRight: true,
