@@ -4,6 +4,7 @@ stages:
   - codestyle
   - build
   - test
+  - deploy
 
 codestyle:js:
   image: wpbakery/standardjs
@@ -101,3 +102,10 @@ test:php:helpers:
 #  tags:
 #    - docker
 
+deploy:test:alpha:
+  image: wpbakery/ci-deployer
+  stage: deploy
+  script:
+    - cd ci/deploy/test && dep deploy test
+  tags:
+   - docker
