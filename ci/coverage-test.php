@@ -29,7 +29,7 @@ if (file_exists($filePath)) {
                         echo 'File: (' . str_replace($microPath, '', $fileName) . ') (' . (round(
                                 $coveredCoeff * 100,
                                 3
-                            )) . '%) covered, atleast required ' . (CI_MIN_COVERAGE * 100) . '%' . PHP_EOL;
+                            )) . '%) covered, at least required ' . (CI_MIN_COVERAGE * 100) . '%' . PHP_EOL;
                         $exit = 1;
                     }
                 }
@@ -39,11 +39,11 @@ if (file_exists($filePath)) {
         $projectCovered = (float)$project->metrics->attributes()->coveredstatements;
         $projectElements = (float)$project->metrics->attributes()->statements;
         $totalCoverage = $projectCovered / $projectElements;
-        echo '(' . round($totalCoverage * 100, 3) . ')% total covered';
+        echo '(' . round($totalCoverage * 100, 3) . ')% total covered' . "\n";
     }
 
 } else {
-    echo 'File: ' . $filePath . ' doesnt exists!';
+    echo 'File: ' . $filePath . ' doesn\'t exists!';
     $exit = 2;
 }
 

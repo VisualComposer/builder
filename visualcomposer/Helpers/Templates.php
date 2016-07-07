@@ -22,7 +22,9 @@ class Templates implements Helper
      */
     public function render($_path, $_args = [])
     {
-        if (strtolower(substr($_path, -4, 4)) !== '.php') {
+        /** @var Str $strHelper */
+        $strHelper = vchelper('Str');
+        if ($strHelper->lower(substr($_path, -4, 4)) !== '.php') {
             $_path .= '.php';
         }
         /** @var \VisualComposer\Application $_app */

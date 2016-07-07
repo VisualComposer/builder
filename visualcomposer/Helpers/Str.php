@@ -16,12 +16,14 @@ class Str implements Helper
      * @var array
      */
     protected static $snakeCache = [];
+
     /**
      * The cache of camel-cased words.
      *
      * @var array
      */
     protected static $camelCache = [];
+
     /**
      * The cache of studly-cased words.
      *
@@ -162,90 +164,6 @@ class Str implements Helper
     public function lower($value)
     {
         return mb_strtolower($value);
-    }
-
-    /**
-     * Limit the number of words in a string.
-     *
-     * @param  string $value
-     * @param  int $words
-     * @param  string $end
-     *
-     * @return string
-     */
-    public function words($value, $words = 100, $end = '...')
-    {
-        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
-
-        if (!isset($matches[0]) || strlen($value) === strlen($matches[0])) {
-            return $value;
-        }
-
-        return rtrim($matches[0]) . $end;
-    }
-
-    /**
-     * Parse a Class@method - style callback into class and method.
-     *
-     * @param  string $callback
-     * @param  string $default
-     *
-     * @return array
-     */
-    public function parseCallback($callback, $default)
-    {
-        return $this->contains($callback, '@') ? explode('@', $callback, 2) : [$callback, $default];
-    }
-
-    /**
-     * Generate a more truly "random" alpha-numeric string.
-     *
-     * @param  int $length
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function random($length = 16)
-    {
-        $string = '';
-
-        while (($len = strlen($string)) < $length) {
-            $size = $length - $len;
-            $bytes = $this->randomBytes($size);
-            $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
-        }
-
-        return $string;
-    }
-
-    /**
-     * Generate a more truly "random" bytes.
-     *
-     * @param  int $length
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function randomBytes($length = 16)
-    {
-        if (intval($length) < 1) {
-            return '';
-        }
-
-        if (function_exists('random_bytes')) {
-            $bytes = random_bytes($length);
-        } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            $bytes = openssl_random_pseudo_bytes($length, $strong);
-            if ($bytes === false || $strong === false) {
-                throw new RuntimeException('Unable to generate random string.');
-            }
-        } else {
-            throw new RuntimeException('OpenSSL extension is required for PHP 5 users.');
-        }
-
-        return $bytes;
     }
 
     /**

@@ -190,88 +190,6 @@ class HelpersStrTest extends WP_UnitTestCase
         $this->assertEquals('', $helper->lower(''));
     }
 
-    public function testWords()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $value = 'The quick brown fox! Jumps over the lazy dog.';
-
-        $this->assertTrue(method_exists($helper, 'words'));
-
-        $this->assertEquals('The quick...', $helper->words($value, 2));
-
-        $this->assertEquals('The quick--', $helper->words($value, 2, '--'));
-
-        $this->assertEquals('The quick brown fox!...', $helper->words($value, 4));
-
-        $this->assertEquals($value, $helper->words($value, 999));
-
-        $this->assertEquals('', $helper->words(null));
-
-        $this->assertEquals('', $helper->words(''));
-    }
-
-    public function testParseCallback()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $this->assertTrue(method_exists($helper, 'parseCallback'));
-
-        $this->assertEquals(['Class', 'method'], $helper->parseCallback('Class@method', 'default'));
-
-        $this->assertEquals(['Class', 'method@foobar'], $helper->parseCallback('Class@method@foobar', 'default'));
-
-        $this->assertEquals(['', 'default'], $helper->parseCallback('', 'default'));
-
-        $this->assertEquals([null, ''], $helper->parseCallback(null, ''));
-    }
-
-    public function testRandom()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $this->assertTrue(method_exists($helper, 'random'));
-
-        $this->assertEquals(16, strlen($helper->random()));
-
-        $this->assertEquals(10, strlen($helper->random(10)));
-
-        $this->assertNotEquals($helper->random(), $helper->random());
-
-        $this->assertEquals('', $helper->random(0));
-
-        $this->assertEquals('', $helper->random(-10));
-    }
-
-    public function testRandomBytes()
-    {
-        /**
-         * @var $helper VisualComposer\Helpers\Str
-         */
-        $helper = vcapp('VisualComposer\Helpers\Str');
-
-        $this->assertTrue(method_exists($helper, 'randomBytes'));
-
-        $this->assertEquals(16, strlen($helper->randomBytes()));
-
-        $this->assertEquals(10, strlen($helper->randomBytes(10)));
-
-        $this->assertNotEquals($helper->randomBytes(), $helper->randomBytes());
-
-        $this->assertEquals('', $helper->randomBytes(0));
-
-        $this->assertEquals('', $helper->randomBytes(-10));
-    }
-
     public function testQuickRandom()
     {
         /**
@@ -387,5 +305,4 @@ class HelpersStrTest extends WP_UnitTestCase
 
         $this->assertEquals('', $helper->studly(''));
     }
-
 }

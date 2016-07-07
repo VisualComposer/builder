@@ -78,12 +78,13 @@ testHelpers:
   tags:
     - docker
 
-testModules:
-  stage: test
-  script:
-    - composer install
-    - phpunit --configuration=ci/phpunit-modules-coverage.xml
-    - php ci/coverage-test.php
-  tags:
-    - docker
+# Disabled while not ready module tests
+#testModules:
+#  stage: test
+#  script:
+#    - composer install
+#    - phpunit --configuration=ci/phpunit-modules-coverage.xml
+#    - php ci/coverage-test.php
+#  tags:
+#    - docker
 
