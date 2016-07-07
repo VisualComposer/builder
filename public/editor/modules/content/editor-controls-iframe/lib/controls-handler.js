@@ -157,12 +157,17 @@ ControlsHandler.prototype.drawControls = function () {
     /* vcv-ui-outline-control-dropdown-o-drop-up to open dropdown up
      * vcv-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
      */
-    $controlElement = $('<dl class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' + i + '"/>')
-    $controlElement.appendTo(this.$controlsList)
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
-    var isElementContainer = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-dropzone') === 'true'
-    var elementData = documentManager.get(elementId) || {}
-    var elementObject = cook.get(elementData)
+    var elementObject = cook.get(documentManager.get(elementId))
+    var controlColorIndex = 2
+    var isElementContainer = elementObject.containerFor().length > 0
+    if (elementObject && isElementContainer) {
+      controlColorIndex = elementObject.containerFor().indexOf('Column') > -1 ? 0 : 1
+    }
+    $controlElement = $('<dl class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+      controlColorIndex + '"/>')
+    $controlElement.appendTo(this.$controlsList)
+
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
       '<span  class="vcv-ui-outline-control-content" title="' + elementObject.get('name') + '" >' +
