@@ -130,7 +130,6 @@ LayoutBar.propTypes = {
 
 vcCake.add('ui-layout-bar', (api) => {
   let layoutHeader = document.querySelector('#vcv-layout-header')
-  console.log(api)
   ReactDOM.render(
     <LayoutBar api={api} />,
     layoutHeader
