@@ -92,6 +92,16 @@ test:php:helpers:
   dependencies:
     - test:php:build
 
+deploy:test:alpha:
+  image: wpbakery/ci-deployer
+  stage: deploy
+  script:
+    - cd ci/deploy/test && dep deploy test
+  tags:
+   - docker
+
+
+
 # Disabled while not ready module tests
 #test:php:modules:
 #  stage: test
@@ -101,11 +111,3 @@ test:php:helpers:
 #    - php ci/coverage-test.php
 #  tags:
 #    - docker
-
-deploy:test:alpha:
-  image: wpbakery/ci-deployer
-  stage: deploy
-  script:
-    - cd ci/deploy/test && dep deploy test
-  tags:
-   - docker
