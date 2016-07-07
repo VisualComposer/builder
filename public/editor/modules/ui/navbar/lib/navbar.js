@@ -198,12 +198,13 @@ var Navbar = React.createClass({
     })
 
     for (let i = 0; i < document.body.classList.length; i++) {
-      if (document.body.classList.item(i).search('vcv-layout-placement--') === 0) {
+      if (document.body.classList.item(i).search('vcv-layout-dock--') === 0) {
         document.body.classList.remove(document.body.classList.item(i))
       }
     }
-    document.body.classList.add('vcv-layout-placement')
-    document.body.classList.add('vcv-layout-placement--' + navbarPosition)
+    document.body.classList.add('vcv-layout-dock--unlock')
+    document.body.classList.add('vcv-layout-dock')
+    document.body.classList.add('vcv-layout-dock--' + navbarPosition)
     return (
       <div className={navbarContainerClasses}>
         <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
