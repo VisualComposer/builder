@@ -128,11 +128,21 @@
     .vcv-layout-bar-header {
       z-index: @editor-layout-bar-header-zindex;
     }
-    .vcv-layout-bar-content {
-      box-shadow: @editor-layout-bar-shadow;
-    }
-  }
 
+    .vcv-layout-bar {
+      &:not(.vcv-ui-content-end--visible) {
+        .vcv-layout-bar-content-start {
+          box-shadow: @editor-layout-bar-shadow;
+        }
+      }
+      &.vcv-ui-content-end--visible {
+        .vcv-layout-bar-content {
+          box-shadow: @editor-layout-bar-shadow;
+        }
+      }
+    }
+
+  }
   //== Behaviour
   &.vcv-layout-dock--top,
   &.vcv-layout-dock--bottom {
