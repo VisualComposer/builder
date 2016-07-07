@@ -2,6 +2,7 @@ image: wpbakery/ci-wordpress
 
 stages:
   - codestyle
+  - build
   - test
 
 codestyle:js:
@@ -61,7 +62,7 @@ codestyle:php:application:
     - docker
 
 test:php:build:
-  stage: test
+  stage: build
   script:
     - composer install
   artifacts:
