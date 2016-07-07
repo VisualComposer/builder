@@ -83,41 +83,44 @@ class Resizer extends React.Component {
       var clientY = this.getClientY(e)
       var offsetX = this.startClientX - clientX
       var offsetY = this.startClientY - clientY
-      var w, h, top, left
+      var w, h
+      e.offsetX = offsetX
+      e.offsetY = offsetY
+      e.$targetTop = this.$targetTop
+      e.$targetBottom = this.$targetBottom
+      e.$targetLeft = this.$targetLeft
+      e.$targetRight = this.$targetRight
+
       if (this.state.resizerOptions.resizeTop) {
         h = parseInt(this.$targetTop.css('height'))
         h = h + (offsetY) + 'px'
         this.$targetTop.css('height', h)
         this.startClientY = clientY
-        if (this.$targetTop.css('position') === 'fixed') {
-          top = parseInt(this.$targetTop.css('top'))
-          top = top - offsetY + 'px'
-          this.$targetTop.css('top', top)
-        }
+        e.direction = 'top'
+        this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
       } else if (this.state.resizerOptions.resizeBottom) {
         h = parseInt(this.$targetBottom.css('height'))
         h = h - (offsetY) + 'px'
         this.$targetBottom.css('height', h)
         this.startClientY = clientY
+        e.direction = 'bottom'
+        this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
       }
       if (this.state.resizerOptions.resizeRight) {
         w = parseInt(this.$targetRight.css('width'))
         w = w - (offsetX) + 'px'
         this.$targetRight.css('width', w)
         this.startClientX = clientX
+        e.direction = 'right'
+        this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
       } else if (this.state.resizerOptions.resizeLeft) {
         w = parseInt(this.$targetLeft.css('width'))
         w = w + (offsetX) + 'px'
         this.$targetLeft.css('width', w)
         this.startClientX = clientX
-        if (this.$targetLeft.css('position') === 'fixed') {
-          left = parseInt(this.$targetLeft.css('left'))
-          left = left - offsetX + 'px'
-          this.$targetLeft.css('left', left)
-        }
+        e.direction = 'left'
+        this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
       }
-      e.resizerSettings = this.state.resizerOptions
-      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
     } else {
       this.stopResize()
     }

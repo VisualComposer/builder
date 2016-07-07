@@ -50,6 +50,15 @@ var Navbar = React.createClass({
     this.props.api.on('build', function (count) {
       this.setState({ controlsCount: count })
     }.bind(this))
+
+    this.props.api.reply('navbar:resizeTop', (offsetY) => {
+      console.log('test resizeTop')
+      this.setState({ navPosY: this.state.navPosY - offsetY })
+    })
+    this.props.api.reply('navbar:resizeLeft', (offsetX) => {
+      console.log('test resizeLeft')
+      this.setState({ navPosX: this.state.navPosX - offsetX })
+    })
   },
   /**
    * Handler for position visibility for controls in navbar
@@ -166,13 +175,13 @@ var Navbar = React.createClass({
   },
   render: function () {
     let { isDragging, navPosX, navPosY, navbarPosition } = this.state
-    let navBarStyle = {}
+    let navBarStyle = {
+    }
     let isDetached
     let navSizeDetached = 60
 
     if (isDragging) {
       isDetached = false
-      navBarStyle.opacity = 0.5
     }
 
     if (navbarPosition === 'detached') {
@@ -181,11 +190,10 @@ var Navbar = React.createClass({
     }
 
     let navBarStyleString = []
+    let targetStyle = document.body.querySelector('.vcv-layout-bar').style
     for (let prop in navBarStyle) {
-      navBarStyleString.push(prop + ': ' + navBarStyle[ prop ])
+      targetStyle[ prop ] = navBarStyle[ prop ]
     }
-    navBarStyleString = navBarStyleString.join('; ')
-    document.body.querySelector('.vcv-layout-bar').style.cssText = navBarStyleString
 
     let navbarContainerClasses = classNames({
       'vcv-ui-navbar-container': true,
