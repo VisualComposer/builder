@@ -96,7 +96,7 @@ deploy:test:alpha:
   image: wpbakery/ci-deployer
   stage: deploy
   script:
-    - cd ci/deploy/test && dep deploy test
+    - cd ci/deploy/test && dep -p deploy test
   tags:
    - docker
 
