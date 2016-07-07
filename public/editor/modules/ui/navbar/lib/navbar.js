@@ -52,11 +52,9 @@ var Navbar = React.createClass({
     }.bind(this))
 
     this.props.api.reply('navbar:resizeTop', (offsetY) => {
-      console.log('test resizeTop')
       this.setState({ navPosY: this.state.navPosY - offsetY })
     })
     this.props.api.reply('navbar:resizeLeft', (offsetX) => {
-      console.log('test resizeLeft')
       this.setState({ navPosX: this.state.navPosX - offsetX })
     })
   },
@@ -189,7 +187,6 @@ var Navbar = React.createClass({
       navBarStyle.left = navPosX - 7 + 'px'
     }
 
-    let navBarStyleString = []
     let targetStyle = document.body.querySelector('.vcv-layout-bar').style
     for (let prop in navBarStyle) {
       targetStyle[ prop ] = navBarStyle[ prop ]
