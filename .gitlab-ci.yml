@@ -4,7 +4,7 @@ stages:
   - codestyle
   - test
 
-testJavascriptCS:
+codestyle:js:
   image: wpbakery/standardjs
   stage: codestyle
   script:
@@ -12,7 +12,7 @@ testJavascriptCS:
   tags:
     - docker
 
-testPluginpCS:
+codestyle:php:pluginFile:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -20,7 +20,7 @@ testPluginpCS:
   tags:
     - docker
 
-testBootstrapCS:
+codestyle:php:bootstrap:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -28,7 +28,7 @@ testBootstrapCS:
   tags:
     - docker
 
-testFrameworkCS:
+codestyle:php:framework:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -36,7 +36,7 @@ testFrameworkCS:
   tags:
     - docker
 
-testHelpersCS:
+codestyle:php:helpers:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -44,7 +44,7 @@ testHelpersCS:
   tags:
     - docker
 
-testModulesCS:
+codestyle:php:modules:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -52,7 +52,7 @@ testModulesCS:
   tags:
     - docker
 
-testApplicationCS:
+codestyle:php:application:
   image: wpbakery/phpcs
   stage: codestyle
   script:
@@ -60,26 +60,38 @@ testApplicationCS:
   tags:
     - docker
 
-testFramework:
+test:php:build:
   stage: test
   script:
     - composer install
+  artifacts:
+    paths:
+      - vendor/
+  tags:
+    - docker
+
+test:php:framework:
+  stage: test
+  script:
     - phpunit --configuration=ci/phpunit-framework-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
+  dependencies:
+    - test:php:build
 
-testHelpers:
+test:php:helpers:
   stage: test
   script:
-    - composer install
     - phpunit --configuration=ci/phpunit-helpers-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
+  dependencies:
+    - test:php:build
 
 # Disabled while not ready module tests
-#testModules:
+#test:php:modules:
 #  stage: test
 #  script:
 #    - composer install
