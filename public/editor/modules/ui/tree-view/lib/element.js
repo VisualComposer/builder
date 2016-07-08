@@ -73,7 +73,7 @@ var Element = React.createClass({
     this.props.api.notify('element:unmount', this.props.element.id)
   },
   getPublicPath (file) {
-    let defaultPath = window.vcvPluginUrl + 'sources/elements-2/' + this.props.element.tag + '/public'
+    let defaultPath = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.element.tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + this.props.element.tag + '"]')
     if ($element) {
       defaultPath = $element.dataset.vcElementUrl + '/public'
