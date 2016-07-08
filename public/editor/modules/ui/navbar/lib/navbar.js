@@ -1,18 +1,17 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import Control from './control'
-var React = require('react')
-var ReactDOM = require('react-dom')
-var classNames = require('classnames')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 
 require('../css/module.less')
 var navbarControls = []
 
-var Navbar = React.createClass({
-  propTypes: {
-    api: React.PropTypes.object.isRequired
-  },
-  getInitialState: function () {
-    return {
+export class Navbar extends React.Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
       controlsCount: 0,
       saving: false,
       saved: false,
@@ -36,14 +35,43 @@ var Navbar = React.createClass({
         left: false
       }
     }
-  },
-  componentWillMount: function () {
-    this.props.api.addAction('addElement', (name, Icon) => {
-      navbarControls.push({ name: name, icon: Icon })
+    this.refreshControls = this.refreshControls.bind(this)
+    this.handleDragStart = this.handleDragStart.bind(this)
+    this.handleDragEnd = this.handleDragEnd.bind(this)
+    this.handleDragging = this.handleDragging.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.api.addAction('addElement', (name, Icon, options = {}) => {
+      if (!options.hasOwnProperty('pin') || typeof options.pin !== 'string') {
+        options.pin = false
+      }
+
+      // set default visibility
+      let isControlVisible
+      switch (options.pin) {
+        case 'visible':
+          isControlVisible = true
+          break
+        case 'hidden':
+          isControlVisible = false
+          break
+        default:
+          isControlVisible = true
+      }
+
+      navbarControls.push({
+        index: navbarControls.length,
+        name: name,
+        icon: Icon,
+        pin: options.pin,
+        isVisible: isControlVisible
+      })
       this.props.api.notify('build', navbarControls.length)
     })
-  },
-  componentDidMount: function () {
+  }
+
+  componentDidMount () {
     this.props.api
       .on('build', (count) => {
         this.setState({ controlsCount: count })
@@ -54,32 +82,91 @@ var Navbar = React.createClass({
       .reply('navbar:resizeLeft', (offsetX) => {
         this.setState({ navPosX: this.state.navPosX - offsetX })
       })
-  },
-  /**
-   * Handler for position visibility for controls in navbar
-   * @param key
-   * @param visible
-   */
-  // setControlVisibility: function (key, visible = true) {
-  //   var visibilityList = this.state.visibilityList
-  //   visibilityList[ key ] = visible
-  //   this.setState({ visibilityList: visibilityList })
-  // },
-  buildControls: function () {
-    return navbarControls.map((value, index) => {
-      let control = React.createElement(Control, {
+
+    // window.addEventListener('resize', this.refreshControls)
+  }
+
+  componentWillUnmount () {
+    // window.removeEventListener('resize', this.refreshControls)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevState.navbarPosition !== this.state.navbarPosition) {
+      this.props.api.notify('positionChanged', this.state.navbarPosition)
+      // console.log(this.state.controlsCount)
+      this.refreshControls()
+    }
+  }
+
+  refreshControls () {
+    // navbarControls[ 1 ].isVisible = !navbarControls[ 1 ].isVisible
+    // console.log(1, navbarControls[ 1 ].isVisible)
+    // console.log(this.getVisibleControls())
+    //
+  }
+
+  getVisibleControls () {
+    return navbarControls.filter((control) => {
+      if (control.isVisible) {
+        return true
+      }
+    })
+  }
+
+  getHiddenControls () {
+    return navbarControls.filter((control) => {
+      return !control.isVisible
+    })
+  }
+
+  buildVisibleControls () {
+    let controls = this.getVisibleControls()
+    if (!controls.length) {
+      return
+    }
+    return controls.map((value) => {
+      return React.createElement(Control, {
         api: this.props.api,
         key: 'Navbar:' + value.name,
         value: value,
         container: '.vcv-ui-navbar',
         ref: (ref) => {
-          navbarControls[ index ].ref = ref
+          navbarControls[ value.index ].ref = ref
         }
-        // visibilityHandler: this.setControlVisibility
       })
-      return control
     })
-  },
+  }
+
+  buildHiddenControls () {
+    let controls = this.getHiddenControls()
+    if (!controls.length) {
+      return
+    }
+    let hiddenControls = controls.map((value) => {
+      return React.createElement(Control, {
+        api: this.props.api,
+        key: 'Navbar:' + value.name,
+        value: value,
+        container: '.vcv-ui-navbar',
+        ref: (ref) => {
+          navbarControls[ value.index ].ref = ref
+        }
+      })
+    })
+
+    return (
+      <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end">
+        <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
+          <span className="vcv-ui-navbar-control-content"><i
+            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+        </dt>
+        <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
+          {hiddenControls}
+        </dd>
+      </dl>
+    )
+  }
+
   handleDragStart (e) {
     e && e.preventDefault()
     if (e.nativeEvent.which !== 1) {
@@ -103,7 +190,7 @@ var Navbar = React.createClass({
     document.addEventListener('mouseup', this.handleDragEnd)
 
     this.handleDragging(e.nativeEvent)
-  },
+  }
 
   handleDragEnd (e) {
     let moveEndEvent = document.createEvent('Event')
@@ -116,13 +203,7 @@ var Navbar = React.createClass({
     this.setState({
       isDragging: false
     })
-  },
-
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.navbarPosition !== this.state.navbarPosition) {
-      this.props.api.notify('positionChanged', this.state.navbarPosition)
-    }
-  },
+  }
 
   handleDragging (e) {
     this.setState(function (previousState) {
@@ -192,11 +273,9 @@ var Navbar = React.createClass({
     movingEvent.eventData = this.state
     movingEvent.initEvent('vc.ui.navbar.dragging', true, true)
     e.target.dispatchEvent(movingEvent)
-  },
-  btnClickHandler: function () {
-    this.props.api.notify('resize')
-  },
-  render: function () {
+  }
+
+  render () {
     let { isDragging, navPosX, navPosY, navbarPosition } = this.state
     let navBarStyle = {}
     let isDetached
@@ -235,11 +314,17 @@ var Navbar = React.createClass({
           <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}>
             <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i>
           </div>
-          {this.buildControls()}
-          <div className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer" onMouseDown={this.handleDragStart}></div>
+          {this.buildVisibleControls()}
+          {this.buildHiddenControls()}
+          <div className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer"
+            onMouseDown={this.handleDragStart}></div>
         </nav>
       </div>
     )
   }
-})
+}
+
+Navbar.propTypes = {
+  api: React.PropTypes.object.isRequired
+}
 module.exports = Navbar

@@ -13,5 +13,5 @@ vcCake.add('ui-brand-logo', function (api) {
       </a>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Get link', Control, 'header')
+  api.module('ui-navbar').do('addElement', 'Get link', Control)
 })

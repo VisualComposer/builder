@@ -11,5 +11,5 @@ vcCake.add('ui-add-template', function (api) {
       )
     }
   })
-  api.module('ui-navbar').do('addElement', 'Add template', Control, 'left')
+  api.module('ui-navbar').do('addElement', 'Add template', Control, {pin: 'visible'})
 })

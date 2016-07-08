@@ -36,6 +36,6 @@ vcCake.add('ui-tree-view', function (api) {
       </a>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Tree layout', Control, 'left')
+  api.module('ui-navbar').do('addElement', 'Tree layout', Control)
 })
 
