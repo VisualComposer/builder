@@ -96,11 +96,15 @@ module.exports = React.createClass({
     return this
   },
   getPublicPath (file) {
-    let path = '/sources/elements-2/' + this.props.tag + '/public'
-    if (file) {
-      path += '/' + file
+    let defaultPath = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.tag + '/public'
+    let $element = document.querySelector('[data-vc-element-script="' + this.props.tag + '"]')
+    if ($element) {
+      defaultPath = $element.dataset.vcElementUrl + '/public'
     }
-    return path
+    if (file) {
+      defaultPath += '/' + file
+    }
+    return defaultPath
   },
   render () {
     let nameClasses = classNames({
@@ -127,7 +131,8 @@ module.exports = React.createClass({
         onMouseEnter={this.showPreview}
         onMouseLeave={this.hidePreview}>
         <span className='vcv-ui-add-element-element-content'>
-          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)} alt='' />
+          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)}
+            alt='' />
           <span className='vcv-ui-add-element-overlay'>
             <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
           </span>

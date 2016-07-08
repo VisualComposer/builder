@@ -58,6 +58,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
         controlsHandler.hideOutline()
       })
       $(document).on('scroll resize', ControlsTrigger.triggerRedrawFrame)
+      $(window).on('resize', ControlsTrigger.triggerRedrawFrame)
       $(iframeDocument).on('scroll resize', ControlsTrigger.triggerRedrawFrame)
     })
     return controlsHandler
