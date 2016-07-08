@@ -60,7 +60,21 @@
     opacity: 1;
   }
 }
-
+#vcv-dnd-smart-line {
+  pointer-events: none;
+  position: absolute;
+  z-index: 10999;
+  background-color: @vcv-dnd-frame-border-color;
+  opacity: 0;
+  &.vcv-js-show {
+    transition: opacity .5s;
+    opacity: 1;
+  }
+  &.vcv-dnd-smart-line-frame {
+    border: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color;
+    background-color: transparent;
+  }
+}
 body.vcv-dragstart {
   cursor: move;
 }

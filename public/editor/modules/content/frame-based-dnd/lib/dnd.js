@@ -1,6 +1,6 @@
 import {getService} from 'vc-cake'
 import Item from './item'
-import Frame from './frame'
+import SmartLine from './smart-line'
 import Helper from './helper'
 
 const cook = getService('cook')
@@ -24,7 +24,7 @@ var Builder = function (container, options) {
   this.dragingElement = null
   this.dragingElementObject = null
   this.currentElement = null
-  this.frame = null
+  this.placeholder = null
   this.position = null
   this.options = _.defaults(options, {
     cancelMove: false,
@@ -59,10 +59,10 @@ Builder.prototype.removeItem = function (id) {
     .off('mousedown', this.handleDragFunction)
   delete this.items[ id ]
 }
-Builder.prototype.removeFrame = function () {
-  if (this.frame !== null) {
-    this.frame.remove()
-    this.frame = null
+Builder.prototype.removePlaceholder = function () {
+  if (this.placeholder !== null) {
+    this.placeholder.remove()
+    this.placeholder = null
   }
 }
 /**
@@ -87,14 +87,14 @@ Builder.prototype.checkItems = function (point) {
   if (!element) {
     return false
   }
-  let position = this.frame.redraw(DOMelement, point, {
+  let position = this.placeholder.redraw(DOMelement, point, {
     allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
-    allowAppend: element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
+    allowAppend: !$(DOMelement).find('[data-vc-element]').length && element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
   })
   if (position) {
     this.setPosition(position)
     this.currentElement = DOMelement.getAttribute('data-vc-element')
-    this.frame.setCurrentElement(this.currentElement)
+    this.placeholder.setCurrentElement(this.currentElement)
   }
 }
 
@@ -115,7 +115,7 @@ Builder.prototype.start = function (DOMNode) {
   this.dragingElementObject = cook.get(data)
 
   this.watchMouse()
-  this.createFrame()
+  this.createPlaceholder()
   if (typeof this.options.startCallback === 'function') {
     this.options.startCallback(this.dragingElement)
   }
@@ -129,7 +129,7 @@ Builder.prototype.end = function () {
   this.options.document.body.classList.remove('vcv-dragstart')
 
   this.forgetMouse()
-  this.removeFrame()
+  this.removePlaceholder()
   if (typeof this.options.endCallback === 'function') {
     this.options.endCallback(this.dragingElement)
   }
@@ -151,7 +151,7 @@ Builder.prototype.end = function () {
 }
 Builder.prototype.check = function (point) {
   this.helper && this.helper.setPosition(point)
-  this.frame && this.checkItems(point)
+  this.placeholder && this.checkItems(point)
 }
 
 // Mouse events
@@ -161,8 +161,8 @@ Builder.prototype.watchMouse = function () {
 Builder.prototype.forgetMouse = function () {
   this.container.removeEventListener('mousemove', this.handleDragFunction, false)
 }
-Builder.prototype.createFrame = function () {
-  this.frame = new Frame(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
+Builder.prototype.createPlaceholder = function () {
+  this.placeholder = new SmartLine(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
 }
 /**
  * Drag handlers

@@ -12,6 +12,7 @@ export default class Helper {
     this.clone.style.height = rect.height + 'px'
     this.clone.style.transition = 'none'
     this.clone.style.marginTop = '-' + rect.height / 2 + 'px'
+    this.clone.setAttribute('data-vcv-dnd-helper', true)
     this.clone.style.marginLeft = '-' + rect.width / 2 + 'px'
   }
   setPosition (point) {
