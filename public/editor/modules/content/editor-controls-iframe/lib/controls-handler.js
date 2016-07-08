@@ -173,7 +173,7 @@ ControlsHandler.prototype.drawControls = function () {
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
     var isElementContainer = controlColorIndex < 2
-    $controlElement = $('<dl data-vc-element-controls="' + elementId +'" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+    $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
 

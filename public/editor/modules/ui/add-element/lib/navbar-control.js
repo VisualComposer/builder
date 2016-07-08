@@ -27,7 +27,7 @@ vcCake.add('ui-add-element', function (api) {
         api.notify('hide')
         api.request('bar-content-start:hide')
       } else {
-        api.request('app:add', api.actions.getParent())
+        api.request('app:add', null)
       }
     },
     render: function () {
@@ -43,5 +43,5 @@ vcCake.add('ui-add-element', function (api) {
       </a>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Add element', Control, 'left')
+  api.module('ui-navbar').do('addElement', 'Add element', Control, { pin: 'visible' })
 })

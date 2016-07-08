@@ -26,5 +26,5 @@ vcCake.add('ui-wordpress-post', function (api) {
       </dl>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Manage post version', Control, 'right')
+  api.module('ui-navbar').do('addElement', 'Manage post version', Control)
 })

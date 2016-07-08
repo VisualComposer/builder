@@ -19,12 +19,12 @@ export default class Control extends React.Component {
     this.setState({
       realSize: this.getRealSize()
     })
-    this.props.api.on('positionChanged', (position) => {
-      this.setState({
-        navbarPosition: position,
-        realSize: this.getRealSize()
-      })
-    })
+    // this.props.api.on('positionChanged', (position) => {
+    //   this.setState({
+    //     navbarPosition: position,
+    //     realSize: this.getRealSize()
+    //   })
+    // })
   }
 
   getRealSize () {

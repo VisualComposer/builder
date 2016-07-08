@@ -14,9 +14,9 @@ var NavbarContainer = React.createClass({
     }
   },
   componentDidMount: function () {
-    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart, false)
-    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd, false)
-    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging, false)
+    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
+    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
+    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
   },
 
   componentWillUnmount: function () {
