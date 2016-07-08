@@ -8,6 +8,7 @@ module.exports = React.createClass({
   propTypes: {
     tag: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
+    element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired,
     meta_icon: React.PropTypes.string,
     meta_thumbnail: React.PropTypes.string,
@@ -95,18 +96,8 @@ module.exports = React.createClass({
     }
     return this
   },
-  getPublicPath (file) {
-    let defaultPath = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.tag + '/public'
-    let $element = document.querySelector('[data-vc-element-script="' + this.props.tag + '"]')
-    if ($element) {
-      defaultPath = $element.dataset.vcElementUrl + '/public'
-    }
-    if (file) {
-      defaultPath += '/' + file
-    }
-    return defaultPath
-  },
   render () {
+    let element = cook.get(this.props.element)
     let nameClasses = classNames({
       'vcv-ui-add-element-badge vcv-ui-badge-success': true,
       'vcv-ui-add-element-badge vcv-ui-badge-warning': false
@@ -124,14 +115,15 @@ module.exports = React.createClass({
     //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-
+    let publicPathThumbnail = element.getPublicPath(this.props.meta_thumbnail)
+    let publicPathPreview = element.getPublicPath(this.props.meta_preview)
     return <li className='vcv-ui-add-element-list-item'>
       <a className='vcv-ui-add-element-element'
         onClick={this.addElement}
         onMouseEnter={this.showPreview}
         onMouseLeave={this.hidePreview}>
         <span className='vcv-ui-add-element-element-content'>
-          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)}
+          <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
             alt='' />
           <span className='vcv-ui-add-element-overlay'>
             <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
@@ -143,7 +135,7 @@ module.exports = React.createClass({
           </span>
         </span>
         <figure className={previewClasses} style={this.state.previewStyle}>
-          <img className='vcv-ui-add-element-preview-image' src={this.getPublicPath(this.props.meta_preview)} alt='' />
+          <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
           <figcaption className='vcv-ui-add-element-preview-caption'>
             <div className='vcv-ui-add-element-preview-text'>
               {this.props.meta_preview_description}

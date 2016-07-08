@@ -7,6 +7,7 @@ import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
 
 import {createKey, getAttributeType} from './tools'
+import vcCake from 'vc-cake'
 
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
@@ -196,5 +197,22 @@ export default class Element {
       return group.each(this.editFormTabsIterator.bind(this))
     }
     return []
+  }
+
+  getPublicPath (file) {
+    let path
+    if (vcCake.env('platform') === 'node') {
+      path = window.vcvPluginUrl + 'sources/elements-2/' + this.get('tag') + '/public'
+    } else {
+      path = window.vcvPluginUrl + 'public/sources/elements-2/' + this.get('tag') + '/public'
+    }
+    let $element = document.querySelector('[data-vc-element-script="' + this.get('tag') + '"]')
+    if ($element) {
+      path = $element.dataset.vcElementUrl + '/public'
+    }
+    if (file) {
+      path += '/' + file
+    }
+    return path
   }
 }

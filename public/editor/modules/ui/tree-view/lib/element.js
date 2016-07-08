@@ -72,20 +72,8 @@ var Element = React.createClass({
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)
   },
-  getPublicPath (file) {
-    let defaultPath = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.element.tag + '/public'
-    let $element = document.querySelector('[data-vc-element-script="' + this.props.element.tag + '"]')
-    if ($element) {
-      defaultPath = $element.dataset.vcElementUrl + '/public'
-    }
-    if (file) {
-      defaultPath += '/' + file
-    }
-    return defaultPath
-  },
   render: function () {
     let element = cook.get(this.props.element)
-
     let treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
@@ -128,6 +116,8 @@ var Element = React.createClass({
       'vcv-ui-tree-layout-control': true,
       'vcv-ui-state--active': this.props.element.id === this.state.elementId
     })
+    
+    let publicPath = element.getPublicPath(element.get('meta_icon'))
 
     return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}
       name={element.get('name')}>
@@ -137,7 +127,7 @@ var Element = React.createClass({
         </div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
-          <img src={this.getPublicPath(element.get('meta_icon'))} className="vcv-ui-tree-layout-control-icon" alt="" />
+          <img src={publicPath} className="vcv-ui-tree-layout-control-icon" alt="" />
           <span className="vcv-ui-tree-layout-control-label">
             <span>{element.get('name')}</span>
           </span>

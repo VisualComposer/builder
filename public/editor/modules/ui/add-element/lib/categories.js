@@ -162,6 +162,7 @@ class Categories extends React.Component {
       itemsOutput.push(<ElementControl
         api={this.props.api}
         key={'vcv-element-control-' + element.tag}
+        element={element}
         tag={element.tag}
         name={element.name}
         meta_icon={element.meta_icon}
