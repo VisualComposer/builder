@@ -172,6 +172,7 @@ ControlsHandler.prototype.drawControls = function () {
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
+    var iconPath = elementObject.getPublicPath(elementObject.get('meta_icon'))
     var isElementContainer = controlColorIndex < 2
     $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
@@ -187,7 +188,7 @@ ControlsHandler.prototype.drawControls = function () {
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
       '<span  class="vcv-ui-outline-control-content" title="' + elementObject.get('name') + '" >' +
-      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>' +
+      '<img src="' + iconPath + '" class="vcv-ui-outline-control-icon" alt="" />' +
       '</span>' +
       '</dt>').appendTo($controlElement)
 
