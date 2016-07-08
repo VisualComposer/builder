@@ -65,12 +65,22 @@ Builder.prototype.removePlaceholder = function () {
     this.placeholder = null
   }
 }
+/*Builder.prototype.findValidParent = function (element, parentElement) {
+  let element
+  if (parentElement) {
+    parentParentElement = cook.get(getService('document').get(parentElement.get(parentElement.get('parent'))))
+    if(parentParentElement ) {
+
+    }
+  }
+}*/
 /**
  * Menage items
  */
 
 Builder.prototype.checkItems = function (point) {
   let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
+
   if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
     DOMelement = $(DOMelement).closest('[data-vc-element]').get(0)
   }
@@ -79,21 +89,31 @@ Builder.prototype.checkItems = function (point) {
     return false
   }
   let id = DOMelement.getAttribute('data-vc-element')
-  let parentId = $(DOMelement).parents('[data-vc-element]:first').attr('data-vc-element')
   let data = getService('document').get(id)
   let element = cook.get(data)
-  let parentData = getService('document').get(parentId)
-  let parentElement = cook.get(parentData)
   if (!element) {
     return false
   }
+  let parentId = element.get('parent')
+  let parentData = getService('document').get(parentId)
+  let parentElement = cook.get(parentData)
+  let rect = DOMelement.getBoundingClientRect()
+  /*if (rect.top - point.y < 6) {
+    let newId = this.findValidParent(element, parentElement)
+    if (newId) {
+      id = newId
+      DOMelement = this.options.document.querySelector('[data-vc-element="' + id + '"]')
+    }
+  }*/
+  // Parent node
+
   let position = this.placeholder.redraw(DOMelement, point, {
     allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
     allowAppend: !$(DOMelement).find('[data-vc-element]').length && element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
   })
   if (position) {
     this.setPosition(position)
-    this.currentElement = DOMelement.getAttribute('data-vc-element')
+    this.currentElement = id
     this.placeholder.setCurrentElement(this.currentElement)
   }
 }
