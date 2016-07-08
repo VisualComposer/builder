@@ -13,6 +13,7 @@ class LayoutBar extends React.Component {
       hasStartContent: false,
       hasEndContent: false
     }
+    this.resizeCallback = this.resizeCallback.bind(this)
   }
 
   componentDidMount () {
@@ -65,13 +66,13 @@ class LayoutBar extends React.Component {
           resizeTop: true,
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeBottom: true,
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
 
         <Resizer params={{
@@ -80,13 +81,13 @@ class LayoutBar extends React.Component {
           resizerTargetLeft: '.vcv-layout-bar',
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeLeft: true,
           resizerTargetLeft: '.vcv-layout-bar',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeLeft: true,
@@ -94,7 +95,7 @@ class LayoutBar extends React.Component {
           resizerTargetLeft: '.vcv-layout-bar',
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
 
         <Resizer params={{
@@ -103,13 +104,13 @@ class LayoutBar extends React.Component {
           resizerTargetRight: '.vcv-layout-bar',
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeRight: true,
           resizerTargetRight: '.vcv-layout-bar',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
         <Resizer params={{
           resizeRight: true,
@@ -117,7 +118,7 @@ class LayoutBar extends React.Component {
           resizerTargetRight: '.vcv-layout-bar',
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom',
-          callback: this.resizeCallback.bind(this)
+          callback: this.resizeCallback
         }} />
       </div>
     )

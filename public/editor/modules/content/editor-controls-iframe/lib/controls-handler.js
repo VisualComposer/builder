@@ -83,9 +83,8 @@ ControlsHandler.prototype.getOutlines = function () {
     var $outline
     $(controlsWrapper).find('.vcv-ui-outline').remove()
     this.outlines = []
-    for (var i in this.getElementsTree()) {
-      // todo: refactor, color is based on react component
-      $outline = $('<svg class="vcv-ui-outline vcv-ui-outline-type-index-' + i + '"></svg>')
+    while (this.getElementsTree().length >= this.outlines.length) {
+      $outline = $('<svg class="vcv-ui-outline"></svg>')
       this.outlines.push($outline)
       $outline.appendTo(controlsWrapper)
     }
@@ -97,13 +96,16 @@ ControlsHandler.prototype.drawOutlines = function () {
   let outlines = this.getOutlines()
   let elemenstsTree = this.getElementsTree()
   let posLeft, posTop, width, height
-
   for (var i in outlines) {
     if (elemenstsTree[ i ] === undefined) {
       outlines[ i ].css({
         'display': 'none'
       })
     } else {
+      var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
+      var elementObject = this.getElement(elementId)
+      var controlColorIndex = this.getElementColorIndex(elementObject)
+
       posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[0].ownerDocument.defaultView.pageYOffset
       posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft
       width = elemenstsTree[ i ].outerWidth()
@@ -115,6 +117,8 @@ ControlsHandler.prototype.drawOutlines = function () {
         'height': height,
         'display': ''
       })
+      outlines[i].attr('data-vc-outline-element-id', elementId)
+      outlines[i].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
     }
   }
 
@@ -122,7 +126,16 @@ ControlsHandler.prototype.drawOutlines = function () {
 
   return this
 }
-
+ControlsHandler.prototype.getElement = function (id) {
+  return cook.get(documentManager.get(id))
+}
+ControlsHandler.prototype.getElementColorIndex = function (element) {
+  var colorIndex = 2
+  if (element && element.containerFor().length > 0) {
+    colorIndex = element.containerFor().indexOf('Column') > -1 ? 0 : 1
+  }
+  return colorIndex
+}
 ControlsHandler.prototype.drawControls = function () {
   let elemenstsTree = this.getElementsTree()
   let $controlElement, $dropdownContent, $controlAction
@@ -151,23 +164,26 @@ ControlsHandler.prototype.drawControls = function () {
       '</span>').appendTo($controlElement)
     $controlElement.appendTo(this.$controlsList)
   }
-
   // add elements controld in dropdown
   for (var i in elemenstsTree) {
     /* vcv-ui-outline-control-dropdown-o-drop-up to open dropdown up
      * vcv-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
      */
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
-    var elementObject = cook.get(documentManager.get(elementId))
-    var controlColorIndex = 2
-    var isElementContainer = elementObject.containerFor().length > 0
-    if (elementObject && isElementContainer) {
-      controlColorIndex = elementObject.containerFor().indexOf('Column') > -1 ? 0 : 1
-    }
-    $controlElement = $('<dl class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+    var elementObject = this.getElement(elementId)
+    var controlColorIndex = this.getElementColorIndex(elementObject)
+    var isElementContainer = controlColorIndex < 2
+    $controlElement = $('<dl data-vc-element-controls="' + elementId +'" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
 
+    $controlElement.hover((e) => {
+      var id = $(e.currentTarget).data('vcElementControls')
+      $('[data-vc-outline-element-id=' + id + ']').addClass('vcv-js-highlight')
+    }, (e) => {
+      var id = $(e.currentTarget).data('vcElementControls')
+      $('[data-vc-outline-element-id=' + id + ']').removeClass('vcv-js-highlight')
+    })
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
       '<span  class="vcv-ui-outline-control-content" title="' + elementObject.get('name') + '" >' +

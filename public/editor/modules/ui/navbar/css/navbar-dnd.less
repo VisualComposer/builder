@@ -1,36 +1,19 @@
-//.vcv-layout-placement--detached { // TODO: rewrite this in more elegant way
-//  .vcv-ui-navbar-container {
-//    position: fixed;
-//  }
-//  #vc-navbar-container,
-//  .vcv-ui-navbar-container {
-//    height: auto;
-//  }
-//}
-
 .vcv-ui-navbar-is-dragging {
   user-select: none;
-  //&:not(.vcv-layout-placement--detached) {
-  //  .vcv-ui-navbar-container {
-  //    position: relative;
-  //  }
-  //}
 
   .vcv-ui-navbar-container {
     > *:not(.vcv-ui-navbar-drag-handler) {
       pointer-events: none;
     }
-    //position: fixed;
-    //cursor: move;
-    //transition-property: top, left, bottom, right;
-    //transition-duration: 0s;
-    //transition-timing-function: ease-out;
   }
 }
 
 .vcv-ui-navbar-is-dragging {
   .vcv-layout-bar-content {
     //display: none;
+  }
+  .vcv-layout-bar {
+    opacity: .6;
   }
 }
 

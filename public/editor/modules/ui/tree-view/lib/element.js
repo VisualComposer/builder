@@ -22,19 +22,19 @@ var Element = React.createClass({
     this.setState({ childExpand: !this.state.childExpand })
   },
   clickAddChild: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('app:add', this.props.element.id)
   },
   clickClone: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('data:clone', this.props.element.id)
   },
   clickEdit: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('app:edit', this.props.element.id)
   },
   clickDelete: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('data:remove', this.props.element.id)
   },
   getContent: function () {

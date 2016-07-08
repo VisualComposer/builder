@@ -25,7 +25,7 @@ module.exports = React.createClass({
     this.ellipsize('.vcv-ui-add-element-preview-text')
   },
   addElement (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
