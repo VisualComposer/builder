@@ -25,7 +25,7 @@ module.exports = React.createClass({
     this.ellipsize('.vcv-ui-add-element-preview-text')
   },
   addElement (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
@@ -96,11 +96,15 @@ module.exports = React.createClass({
     return this
   },
   getPublicPath (file) {
-    let path = '/sources/elements-2/' + this.props.tag + '/public'
-    if (file) {
-      path += '/' + file
+    let defaultPath = window.vcvPluginUrl + 'sources/elements-2/' + this.props.tag + '/public'
+    let $element = document.querySelector('[data-vc-element-script="' + this.props.tag + '"]')
+    if ($element) {
+      defaultPath = $element.dataset.vcElementUrl + '/public'
     }
-    return path
+    if (file) {
+      defaultPath += '/' + file
+    }
+    return defaultPath
   },
   render () {
     let nameClasses = classNames({
@@ -127,7 +131,8 @@ module.exports = React.createClass({
         onMouseEnter={this.showPreview}
         onMouseLeave={this.hidePreview}>
         <span className='vcv-ui-add-element-element-content'>
-          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)} alt='' />
+          <img className='vcv-ui-add-element-element-image' src={this.getPublicPath(this.props.meta_thumbnail)}
+            alt='' />
           <span className='vcv-ui-add-element-overlay'>
             <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
           </span>

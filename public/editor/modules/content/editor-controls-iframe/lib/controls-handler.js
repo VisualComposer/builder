@@ -106,7 +106,7 @@ ControlsHandler.prototype.drawOutlines = function () {
       var elementObject = this.getElement(elementId)
       var controlColorIndex = this.getElementColorIndex(elementObject)
 
-      posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[0].ownerDocument.defaultView.pageYOffset
+      posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
       posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft
       width = elemenstsTree[ i ].outerWidth()
       height = elemenstsTree[ i ].outerHeight()
@@ -117,8 +117,8 @@ ControlsHandler.prototype.drawOutlines = function () {
         'height': height,
         'display': ''
       })
-      outlines[i].attr('data-vc-outline-element-id', elementId)
-      outlines[i].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
+      outlines[ i ].attr('data-vc-outline-element-id', elementId)
+      outlines[ i ].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
     }
   }
 
@@ -173,7 +173,7 @@ ControlsHandler.prototype.drawControls = function () {
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
     var isElementContainer = controlColorIndex < 2
-    $controlElement = $('<dl data-vc-element-controls="' + elementId +'" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+    $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
 
@@ -258,7 +258,27 @@ ControlsHandler.prototype.removeControls = function () {
 }
 
 ControlsHandler.prototype.setControlsPosition = function () {
-  var posTop, posLeft, width
+  var posTop, posLeft, width, inViewPort
+  inViewPort = true
+
+  var elementInViewport = function (el) {
+    var top = el.offsetTop
+    var left = el.offsetLeft
+    var width = el.offsetWidth
+    var height = el.offsetHeight
+    let innerEl = el.offsetParent
+    while (innerEl) {
+      top += innerEl.offsetTop
+      left += innerEl.offsetLeft
+      innerEl = innerEl.offsetParent
+    }
+    return (
+      top >= window.pageYOffset &&
+      left >= window.pageXOffset &&
+      (top + height) <= (window.pageYOffset + window.innerHeight) &&
+      (left + width) <= (window.pageXOffset + window.innerWidth)
+    )
+  }
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
@@ -269,6 +289,8 @@ ControlsHandler.prototype.setControlsPosition = function () {
       'left': posLeft,
       'width': width
     })
+    inViewPort = elementInViewport(this.$controlsList.find('.vcv-ui-outline-control-dropdown-content').get(0))
+    this.$controlsList.find('.vcv-ui-outline-control-dropdown').toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', !inViewPort)
   } else {
     this.removeControls()
   }

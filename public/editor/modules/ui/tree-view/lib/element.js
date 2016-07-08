@@ -22,19 +22,19 @@ var Element = React.createClass({
     this.setState({ childExpand: !this.state.childExpand })
   },
   clickAddChild: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('app:add', this.props.element.id)
   },
   clickClone: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('data:clone', this.props.element.id)
   },
   clickEdit: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('app:edit', this.props.element.id)
   },
   clickDelete: function (e) {
-    e.preventDefault()
+    e && e.preventDefault()
     this.props.api.request('data:remove', this.props.element.id)
   },
   getContent: function () {
@@ -71,6 +71,17 @@ var Element = React.createClass({
   },
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)
+  },
+  getPublicPath (file) {
+    let defaultPath = window.vcvPluginUrl + 'sources/elements-2/' + this.props.element.tag + '/public'
+    let $element = document.querySelector('[data-vc-element-script="' + this.props.element.tag + '"]')
+    if ($element) {
+      defaultPath = $element.dataset.vcElementUrl + '/public'
+    }
+    if (file) {
+      defaultPath += '/' + file
+    }
+    return defaultPath
   },
   render: function () {
     let element = cook.get(this.props.element)
@@ -126,9 +137,7 @@ var Element = React.createClass({
         </div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
-          <span className="vcv-ui-tree-layout-control-icon">
-            <i className="vcv-ui-icon vcv-ui-icon-bug" />
-          </span>
+          <img src={this.getPublicPath(element.get('meta_icon'))} className="vcv-ui-tree-layout-control-icon" alt="" />
           <span className="vcv-ui-tree-layout-control-label">
             <span>{element.get('name')}</span>
           </span>

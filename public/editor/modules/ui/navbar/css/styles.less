@@ -43,11 +43,6 @@
   > .vcv-ui-pull-end {
     order: 1;
   }
-  &::after {
-    content: '';
-    flex-shrink: 1;
-    flex-grow: 1;
-  }
 }
 
 //== controls
@@ -189,8 +184,11 @@
 //== drag handler
 .vcv-ui-navbar-drag-handler {
   order: -100;
- }
-
+}
+.vcv-ui-navbar-controls-spacer {
+  order: 0;
+  flex: 1 1 auto;
+}
 //== show/hide labels
 .vcv-ui-navbar-hide-labels {
   .vcv-ui-navbar-control {
