@@ -96,7 +96,8 @@ module.exports = React.createClass({
     return this
   },
   getPublicPath (file) {
-    let path = '/sources/elements-2/' + this.props.tag + '/public'
+    let path = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.tag + '/public'
+    //
     if (file) {
       path += '/' + file
     }

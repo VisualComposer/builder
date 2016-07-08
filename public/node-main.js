@@ -23,6 +23,7 @@ $(document).ready(function () {
 
 window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
+window.vcvPluginUrl = '/'
 window.React = require('react')
 
 require('./config/elements')

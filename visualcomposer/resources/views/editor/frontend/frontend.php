@@ -35,6 +35,7 @@ wp_enqueue_media();
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
+    window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
 </script>
 
 <?php
