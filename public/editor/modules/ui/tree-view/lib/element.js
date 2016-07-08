@@ -116,7 +116,7 @@ var Element = React.createClass({
       'vcv-ui-tree-layout-control': true,
       'vcv-ui-state--active': this.props.element.id === this.state.elementId
     })
-    
+
     let publicPath = element.getPublicPath(element.get('meta_icon'))
 
     return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}
