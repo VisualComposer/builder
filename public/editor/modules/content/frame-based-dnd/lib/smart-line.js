@@ -102,13 +102,34 @@ SmartLine.prototype.redraw = function (element, point, settings) {
         linePoint.y = elRects.b.top - elRects.t.bottom > 0 ? elRects.t.bottom + (elRects.b.top - elRects.t.bottom) / 2 : elRects.t.bottom
       }
     } else if (position === 'before') {
+      // Default
       lineWidth = rect.width
       linePoint.x = rect.left
       linePoint.y = rect.top
+      let nextSubling = $element.next(':not([data-vcv-dnd-helper])').get(0)
+      if (nextSubling) {
+        subRect = nextSubling.getBoundingClientRect()
+        if (subRect.left !== rect.left) {
+          lineWidth = 2
+          lineHeight = rect.height
+          linePoint.x = rect.left
+          linePoint.y = rect.top
+        }
+      }
     } else {
       lineWidth = rect.width
       linePoint.x = rect.left
       linePoint.y = rect.bottom
+      let prevSubling = $element.prev(':not([data-vcv-dnd-helper])').get(0)
+      if (prevSubling) {
+        subRect = prevSubling.getBoundingClientRect()
+        if (subRect.left !== rect.left) {
+          lineWidth = 2
+          lineHeight = rect.height
+          linePoint.x = rect.right
+          linePoint.y = rect.top
+        }
+      }
     }
   }
   if (position && !this.isSameElementPosition(linePoint)) {

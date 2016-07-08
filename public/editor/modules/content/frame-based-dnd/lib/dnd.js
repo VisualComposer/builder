@@ -156,10 +156,10 @@ Builder.prototype.check = function (point) {
 
 // Mouse events
 Builder.prototype.watchMouse = function () {
-  this.container.addEventListener('mousemove', this.handleDragFunction, false)
+  this.options.document.body.addEventListener('mousemove', this.handleDragFunction, false)
 }
 Builder.prototype.forgetMouse = function () {
-  this.container.removeEventListener('mousemove', this.handleDragFunction, false)
+  this.options.document.body.removeEventListener('mousemove', this.handleDragFunction, false)
 }
 Builder.prototype.createPlaceholder = function () {
   this.placeholder = new SmartLine(_.pick(this.options, 'document', 'offsetLeft', 'offsetTop'))
