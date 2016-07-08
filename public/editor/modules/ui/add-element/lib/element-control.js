@@ -99,7 +99,7 @@ module.exports = React.createClass({
     let defaultPath = window.vcvPluginUrl + 'public/sources/elements-2/' + this.props.tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + this.props.tag + '"]')
     if ($element) {
-      defaultPath = $element.dataset.dataVcElementUrl + '/public'
+      defaultPath = $element.dataset.vcElementUrl + '/public'
     }
     if (file) {
       defaultPath += '/' + file
