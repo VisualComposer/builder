@@ -40,9 +40,9 @@ module.exports = {
         'ui/add-template',
         'ui/tree-view',
         'ui/undo-redo',
+        'ui/navbar-separator',
         'ui/layout-control',
         'ui/settings',
-        'ui/navbar-separator',
         'ui/save-data'
       ],
       services: [
@@ -76,9 +76,9 @@ module.exports = {
         'ui/add-template',
         'ui/tree-view',
         'ui/undo-redo',
+        'ui/navbar-separator',
         'ui/layout-control',
         'ui/settings',
-        'ui/navbar-separator',
         'ui/wordpress-post'
       ],
       services: [

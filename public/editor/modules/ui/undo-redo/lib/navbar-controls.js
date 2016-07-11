@@ -34,5 +34,5 @@ vcCake.add('ui-undo-redo', function (api) {
       </div>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Undo/Redo', Control, { pin: 'visible' })
+  api.module('ui-navbar').do('addElement', 'Undo/Redo', Control)
 })
