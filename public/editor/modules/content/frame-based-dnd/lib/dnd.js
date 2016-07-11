@@ -65,7 +65,7 @@ Builder.prototype.removePlaceholder = function () {
     this.placeholder = null
   }
 }
-/*Builder.prototype.findValidParent = function (element, parentElement) {
+/* Builder.prototype.findValidParent = function (element, parentElement) {
   let element
   if (parentElement) {
     parentParentElement = cook.get(getService('document').get(parentElement.get(parentElement.get('parent'))))
@@ -97,8 +97,8 @@ Builder.prototype.checkItems = function (point) {
   let parentId = element.get('parent')
   let parentData = getService('document').get(parentId)
   let parentElement = cook.get(parentData)
-  let rect = DOMelement.getBoundingClientRect()
-  /*if (rect.top - point.y < 6) {
+  // let rect = DOMelement.getBoundingClientRect()
+  /* if (rect.top - point.y < 6) {
     let newId = this.findValidParent(element, parentElement)
     if (newId) {
       id = newId

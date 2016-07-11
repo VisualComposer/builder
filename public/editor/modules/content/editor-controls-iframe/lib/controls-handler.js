@@ -107,7 +107,7 @@ ControlsHandler.prototype.drawOutlines = function () {
       var controlColorIndex = this.getElementColorIndex(elementObject)
 
       posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
-      posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft
+      posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
       width = elemenstsTree[ i ].outerWidth()
       height = elemenstsTree[ i ].outerHeight()
       outlines[ i ].css({
@@ -259,10 +259,9 @@ ControlsHandler.prototype.removeControls = function () {
 }
 
 ControlsHandler.prototype.setControlsPosition = function () {
-  var posTop, posLeft, width, inViewPort
-  inViewPort = true
+  var posTop, posLeft
 
-  var elementInViewport = function (el) {
+  var getDrop = function (el) {
     var top = el.offsetTop
     var left = el.offsetLeft
     var width = el.offsetWidth
@@ -273,25 +272,26 @@ ControlsHandler.prototype.setControlsPosition = function () {
       left += innerEl.offsetLeft
       innerEl = innerEl.offsetParent
     }
-    return (
-      top >= window.pageYOffset &&
-      left >= window.pageXOffset &&
-      (top + height) <= (window.pageYOffset + window.innerHeight) &&
-      (left + width) <= (window.pageXOffset + window.innerWidth)
-    )
+    return {
+      dropUp: top >= window.pageYOffset && (top + height) <= (window.pageYOffset + window.innerHeight),
+      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + window.innerWidth)
+    }
   }
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
-    posLeft = this.$currentElement.offset().left + iframeOffsetLeft
-    width = this.$currentElement.outerWidth()
+    posLeft = this.$currentElement.offset().left + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
+    if (posLeft + this.$controlsContainer.get(0).clientWidth > this.$currentElement[ 0 ].ownerDocument.defaultView.outerWidth) {
+      posLeft = this.$currentElement[ 0 ].ownerDocument.defaultView.outerWidth - this.$controlsContainer.get(0).clientWidth
+    }
     this.$controlsContainer.css({
       'top': posTop,
-      'left': posLeft,
-      'width': width
+      'left': posLeft
     })
-    inViewPort = elementInViewport(this.$controlsList.find('.vcv-ui-outline-control-dropdown-content').get(0))
-    this.$controlsList.find('.vcv-ui-outline-control-dropdown').toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', !inViewPort)
+    var { dropRight, dropUp } = getDrop(this.$controlsList.find('.vcv-ui-outline-control-dropdown-content').get(0))
+    this.$controlsList.find('.vcv-ui-outline-control-dropdown')
+      .toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', !dropRight)
+      .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', !dropUp)
   } else {
     this.removeControls()
   }

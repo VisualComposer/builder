@@ -36,17 +36,18 @@ vcCake.add('content-editor-controls-iframe', function (api) {
 
     api.reply('start', function () {
       var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
-      $(iframeDocument).on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame)
-      $(iframeDocument).on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame)
+      var $iframeDocument = $(iframeDocument)
+      $iframeDocument.on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame)
+      $iframeDocument.on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame)
       $(document).on('mousemove hover', '.vcv-ui-outline-controls-container', function (e) {
         e.stopPropagation()
       })
       $(document).on('mousedown', '[data-vc-drag-helper]', function (e) {
         var id = $(this).data('vcDragHelper')
-        var DOMNode = id ? $(iframeDocument).find('[data-vc-element="' + id + '"]') : null
+        var DOMNode = id ? $iframeDocument.find('[data-vc-element="' + id + '"]') : null
         if (DOMNode.length) {
           controlsHandler.removeControls()
-          api.module('content-frame-based-dnd').do('startDragging', DOMNode.get(0), {x: e.clientX, y: e.clientY})
+          api.module('content-frame-based-dnd').do('startDragging', DOMNode.get(0), { x: e.clientX, y: e.clientY })
         }
       })
       $(document).on('click', '[data-vc-control-event]', function (e) {
@@ -59,7 +60,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
       })
       $(document).on('scroll resize', ControlsTrigger.triggerRedrawFrame)
       $(window).on('resize', ControlsTrigger.triggerRedrawFrame)
-      $(iframeDocument).on('scroll resize', ControlsTrigger.triggerRedrawFrame)
+      $iframeDocument.on('scroll resize', ControlsTrigger.triggerRedrawFrame)
     })
     return controlsHandler
   }
