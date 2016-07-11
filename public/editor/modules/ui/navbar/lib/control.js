@@ -14,17 +14,15 @@ export default class Control extends React.Component {
   }
 
   componentDidMount () {
-    // Here specify event like window resize but based on vc-cake events to enable trigger this.checkVisibility
-    // this.checkVisibility()
     this.setState({
       realSize: this.getRealSize()
     })
-    // this.props.api.on('positionChanged', (position) => {
-    //   this.setState({
-    //     navbarPosition: position,
-    //     realSize: this.getRealSize()
-    //   })
-    // })
+    this.props.api.on('positionChanged', (position) => {
+      this.setState({
+        navbarPosition: position,
+        realSize: this.getRealSize()
+      })
+    })
   }
 
   getRealSize () {
@@ -42,20 +40,10 @@ export default class Control extends React.Component {
     realSize.height += parseInt(style.marginLeft) + parseInt(style.marginRight)
 
     $tempEl.remove()
-    // console.log('getrealsize', realSize)
     return realSize
   }
 
-  // checkVisibility () {
-  //   if (this.props.visibilityHandler) {
-  //     // Check visibility by DOM element
-  //     let visible = true
-  //     this.props.visibilityHandler(this.props.value.name, visible)
-  //   }
-  // }
-
   render () {
-    // console.log(this.props, this.state)
     let value = this.props.value
     return React.createElement(value.icon, { value: value })
   }
