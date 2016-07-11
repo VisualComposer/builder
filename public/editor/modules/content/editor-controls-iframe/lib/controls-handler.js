@@ -259,7 +259,7 @@ ControlsHandler.prototype.removeControls = function () {
 }
 
 ControlsHandler.prototype.setControlsPosition = function () {
-  var posTop, posLeft, $controlDropdown
+  var posTop, posLeft, outerWidth
 
   var getDrop = function (el) {
     var top = el.offsetTop
@@ -281,19 +281,22 @@ ControlsHandler.prototype.setControlsPosition = function () {
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
     posLeft = this.$currentElement.offset().left + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
-    if (posLeft + this.$controlsList.get(0).clientWidth > this.$currentElement[ 0 ].ownerDocument.defaultView.outerWidth) {
-      posLeft = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
+    outerWidth = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
+    if (posLeft > outerWidth) {
+      posLeft = outerWidth
     }
     this.$controlsContainer.css({
       'top': posTop,
       'left': posLeft
     })
-    $controlDropdown = this.$controlsList.find('.vcv-ui-outline-control-dropdown')
-      .removeClass('vcv-ui-outline-control-dropdown-o-drop-right vcv-ui-outline-control-dropdown-o-drop-up')
-    var { dropRight, dropUp } = getDrop(this.$controlsList.find('.vcv-ui-outline-control-dropdown-content').get(0))
-    $controlDropdown
-      .toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', !dropRight)
-      .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', !dropUp)
+    this.$controlsList.find('.vcv-ui-outline-control-dropdown').each((index, item) => {
+      let $controlDropdown = $(item).removeClass('vcv-ui-outline-control-dropdown-o-drop-right vcv-ui-outline-control-dropdown-o-drop-up')
+      let $content = $controlDropdown.find('.vcv-ui-outline-control-dropdown-content')
+      let { dropRight, dropUp } = getDrop($content.get(0))
+      $controlDropdown
+        .toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', !dropRight)
+        .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', !dropUp)
+    })
   } else {
     this.removeControls()
   }
