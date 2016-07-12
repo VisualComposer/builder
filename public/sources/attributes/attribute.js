@@ -7,7 +7,7 @@ export default class Attribute extends React.Component {
   }
 
   handleChange (event) {
-    this.setFieldValue(event.target.value)
+    this.setFieldValue(event.currentTarget.value)
   }
 
   setFieldValue (value) {

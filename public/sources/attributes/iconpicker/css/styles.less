@@ -1,0 +1,199 @@
+@import 'font-awesome-4.6.3/css/font-awesome.min.css';
+
+.vcv-ui-param-iconpicker-wrapper {
+  padding: 0;
+  border: 0;
+  font-size: 16px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+  /* Display */
+  display: block;
+  vertical-align: middle;
+  text-align: left;
+  margin: 0 0 4px;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  &:before,
+  &:after,
+  *,
+  *:before,
+  *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  /* Icon selector */
+  .vcv-ui-param-iconpicker-selector {
+    border: 1px solid #c6c6c6;
+    display: flex;
+    width: 100px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    &.vcv-ui-param-iconpicker-popup--hidden {
+      border-radius: 3px;
+    }
+  }
+
+  /* Selected icon container */
+  .vcv-ui-param-iconpicker-selected-icon {
+    text-align: center;
+
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    flex: 6;
+
+    /* Selected icon */
+    i {
+      color: #404040;
+    }
+  }
+
+  /* Selector open button */
+  .vcv-ui-param-iconpicker-selector-button {
+    text-align: center;
+
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    flex: 4;
+
+    cursor: pointer;
+    background-color: #f4f4f4;
+    border-left: 1px solid #e1e1e1;
+    color: #999;
+
+    /* Selector open button hover */
+    &:hover {
+      background-color: #f1f1f1;
+      i {
+        color: #999;
+      }
+    }
+
+    /* Selector open button icon */
+    i {
+      color: #aaa;
+    }
+  }
+
+  /* IconPicker Popup */
+  .vcv-ui-param-iconpicker-popup {
+    display: none;
+    padding: 5px;
+    margin-top: -1px;
+
+    background-color: #fefefe;
+    border: 1px solid #c6c6c6;
+
+    &.vcv-ui-state--visible {
+      display: block;
+    }
+  }
+
+  .vcv-ui-param-iconpicker-icons-search-input,
+  .vcv-ui-param-iconpicker-icon-category-select {
+    line-height: 20px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 12px;
+    border: 1px solid #c6c6c6;
+    color: #404040;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .vcv-ui-param-iconpicker-icon-category-select {
+    height: 40px;
+
+    option {
+      padding: 10px;
+    }
+  }
+
+  /* Search input placeholder */
+  input::-webkit-input-placeholder,
+  input:-moz-placeholder,
+  input::-moz-placeholder,
+  input:-ms-input-placeholder {
+    text-transform: uppercase;
+    color: #ddd !important;
+  }
+
+  /* Search and cancel icon */
+  .vcv-ui-param-iconpicker-search {
+    position: relative;
+
+    i {
+      position: absolute;
+      right: 10px;
+      top: 30%;
+      cursor: pointer;
+      color: #eee;
+    }
+  }
+
+  /* Icon Container inside Popup */
+  .vcv-ui-param-iconpicker-icons-container {
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 5px;
+    overflow: auto;
+    max-height: 300px;
+    transition: 1s height ease-in-out;
+
+    background-color: #fff;
+    border: 1px solid #c6c6c6;
+
+    /* Single icon box */
+    .vcv-ui-param-iconpicker-icon-box {
+      display: inline-block;
+      margin: 2px;
+      width: 60px;
+      line-height: 42px;
+      text-align: center;
+      cursor: pointer;
+      vertical-align: top;
+      height: 40px;
+      border: 1px solid #efefef;
+
+      /* Single icon box hover */
+      &:hover {
+        background-color: #f6f6f6;
+      }
+      /* Currently selected icon color */
+      &.vcv-ui-param-iconpicker-icon-active {
+        background-color: #2ea2cc;
+        color: #fff;
+        border: 1px solid #298cba;
+
+        &:hover {
+          background-color: #2ea2cc;
+          color: #fff;
+          border: 1px solid #298cba;
+        }
+      }
+
+      // TODO
+      .fip-block-icon {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  /* No icons found */
+  .vcv-ui-param-iconpicker-error {
+    color: #f00;
+  }
+
+}
