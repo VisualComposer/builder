@@ -1,0 +1,114 @@
+@import "./variables";
+
+.vcv-ui-design-options-container {
+  display: flex;
+}
+
+.vcv-ui-design-options-css-box {
+  margin-right: 25px;
+}
+
+.vcv-ui-design-options-other {
+  flex: 1;
+}
+
+.vcv-ui-design-options {
+  height: 315px;
+  width: 315px;
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+.vcv-ui-design-options-box {
+  position: relative;
+  padding: @onionPadding;
+  margin: auto;
+  height: 100%;
+}
+
+.vcv-ui-design-options-label {
+  font-size: @labelFontSize;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+.vcv-ui-design-options-margins-box {
+  border: 1px dashed @marginsBorderColor;
+  background: @marginsBackgroundColor;
+}
+
+.vcv-ui-design-options-borders-box {
+  border: 1px solid @bordersBorderColor;
+  background: @bordersBackgroundColor;
+}
+
+.vcv-ui-design-options-paddings-box {
+  border: 1px solid @paddingsBorderColor;
+  background: @paddingsBackgroundColor;
+}
+
+.vcv-ui-design-options-logo {
+  border: 1px solid @paddingsBorderColor;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-align: center;
+  height: @logo_h;
+  width: @logo_w;
+  display: flex;
+  left: 50%;
+  top: 50%;
+}
+
+.vcv-ui-design-options-input {
+  position: absolute;
+  text-align: center;
+  height: @input_h;
+  width: @input_w;
+}
+
+.vcv-ui-design-options-input-top {
+  top: (@onionPadding - @input_h)/2;
+  margin-left: -(@input_w/2);
+  left: 50%;
+}
+
+.vcv-ui-design-options-input-right {
+  right: (@onionPadding - @input_w)/2;
+  margin-top: -(@input_h/2);
+  top: 50%;
+}
+
+.vcv-ui-design-options-input-bottom {
+  bottom: (@onionPadding - @input_h)/2;
+  margin-left: -(@input_w/2);
+  left: 50%;
+}
+
+.vcv-ui-design-options-input-left {
+  left: (@onionPadding - @input_w)/2;
+  margin-top: -(@input_h/2);
+  top: 50%;
+}
+
+.vcv-ui-design-options-simplified {
+  .vcv-ui-design-options-input {
+    display: none;
+  }
+  .vcv-ui-design-options-input-top {
+    display: inline-block;
+    margin-left: 0;
+    left: 5px;
+    top: 21px;
+  }
+}

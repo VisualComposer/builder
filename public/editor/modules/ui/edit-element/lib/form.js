@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
+import DesignOptions from './design-options'
+import {getService} from 'vc-cake'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 
@@ -15,7 +17,8 @@ class TreeForm extends React.Component {
       allTabs: [],
       activeTabIndex: 0,
       visibleTabsIndexes: [],
-      hiddenTabsIndexes: []
+      hiddenTabsIndexes: [],
+      designOptions: {}
     }
     this.handleResize = this.handleResize.bind(this)
     this.saveForm = this.saveForm.bind(this)
@@ -27,6 +30,9 @@ class TreeForm extends React.Component {
       this.props.element.set(key, value)
     }.bind(this))
     this.setStateForTabs(this.props)
+    this.setState({
+      designOptions: getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
+    })
     window.addEventListener('resize', this.handleResize)
   }
 
@@ -70,6 +76,15 @@ class TreeForm extends React.Component {
       tabs.push(tabsData)
     })
 
+    tabs.push({
+      id: 'editFormTabDesignOptions',
+      index: tabs.length,
+      title: 'Design Options',
+      pinned: false,
+      type: 'design-options',
+      params: []
+    })
+
     return tabs
   }
 
@@ -77,6 +92,10 @@ class TreeForm extends React.Component {
     this.setState({
       activeTabIndex: tabIndex
     })
+  }
+
+  changeDesignOption (designOptions) {
+    this.setState({ designOptions: designOptions })
   }
 
   putTabToDrop (tabsCount) {
@@ -155,7 +174,15 @@ class TreeForm extends React.Component {
   }
 
   getForm (tabIndex) {
-    return this.state.allTabs[ tabIndex ].params.map(this.getFormParamField.bind(this))
+    let tab = this.state.allTabs[ tabIndex ]
+    if (tab.type && tab.type === 'design-options') {
+      let props = {
+        changeDesignOption: this.changeDesignOption.bind(this),
+        values: this.state.designOptions
+      }
+      return <DesignOptions {...props} />
+    }
+    return tab.params.map(this.getFormParamField.bind(this))
   }
 
   getFormParamField (param) {
@@ -171,6 +198,7 @@ class TreeForm extends React.Component {
   saveForm () {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
+    getService('asset-manager').addDesignOption(element.get('id'), this.state.designOptions)
     this.closeTreeView()
   }
 
