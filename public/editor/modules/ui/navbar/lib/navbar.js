@@ -40,6 +40,7 @@ export class Navbar extends React.Component {
     this.handleDragStart = this.handleDragStart.bind(this)
     this.handleDragEnd = this.handleDragEnd.bind(this)
     this.handleDragging = this.handleDragging.bind(this)
+    this.handleElementResize = this.handleElementResize.bind(this)
   }
 
   componentWillMount () {
@@ -83,11 +84,41 @@ export class Navbar extends React.Component {
       .reply('navbar:resizeLeft', (offsetX) => {
         this.setState({ navPosX: this.state.navPosX - offsetX })
       })
-    window.addEventListener('resize', this.refreshControls)
+    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
+  }
+
+  handleElementResize () {
+    this.refreshControls()
+  }
+
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    var obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.refreshControls)
+    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -150,8 +181,7 @@ export class Navbar extends React.Component {
     return (
       <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich">
         <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
-          <span className="vcv-ui-navbar-control-content"><i
-            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+          <span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
         </dt>
         <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
           {hiddenControls}

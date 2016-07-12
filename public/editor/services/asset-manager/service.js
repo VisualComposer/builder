@@ -7,6 +7,7 @@ vcCake.addService('asset-manager', {
    * @param {Object}
    */
   assets: {
+    designOptions: {},
     scripts: {},
     styles: {}
   },
@@ -19,6 +20,13 @@ vcCake.addService('asset-manager', {
   cache: {
     scripts: {},
     styles: {}
+  },
+
+  /**
+   * @return {Object}
+   */
+  getDesignOptions: function () {
+    return this.getAssets('designOptions')
   },
 
   /**
@@ -64,6 +72,14 @@ vcCake.addService('asset-manager', {
     }
 
     this.assets[ assetType ][ element ].push(filepath)
+  },
+
+  /**
+   * @param {string} elementId Element's ID
+   * @param {object} value
+   */
+  addDesignOption: function (elementId, value) {
+    this.assets[ 'designOptions' ][ elementId ] = value
   },
 
   /**
