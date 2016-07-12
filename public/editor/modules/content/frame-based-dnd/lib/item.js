@@ -1,17 +1,16 @@
-var $ = require('jquery')
+let $ = require('jquery')
 /**
  * Item for DOM element
  * @param id
  * @param documentDOM
  * @constructor
  */
-var Item = function (id, documentDOM) {
+const Item = function (id, documentDOM) {
   this.id = id
   this.el = documentDOM.querySelector('[data-vc-element="' + this.id + '"]')
   this.$el = $(this.el)
 }
 Item.prototype.init = function () {
-  //  this.el.setAttribute('draggable', 'true')
   return this
 }
 Item.prototype.on = function (event, callback, capture) {

@@ -53,7 +53,7 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
 SmartLine.prototype.clearStyle = function () {
   this.el.classList.remove('vcv-dnd-smart-line-frame')
 }
-SmartLine.prototype.redraw = function (element, point, settings) {
+SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
   let $element = $(element)
   let subElement

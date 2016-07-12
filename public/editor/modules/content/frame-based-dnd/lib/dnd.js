@@ -1,11 +1,10 @@
-import {getService} from 'vc-cake'
 import Item from './item'
 import SmartLine from './smart-line'
 import Helper from './helper'
+import DOMElement from './dom-element'
+import $ from 'jquery'
+import _ from 'lodash'
 
-const cook = getService('cook')
-const $ = require('jquery')
-const _ = require('lodash')
 /**
  * Drag&drop builder.
  *
@@ -36,7 +35,8 @@ var Builder = function (container, options) {
     },
     document: document,
     offsetTop: 0,
-    offsetLeft: 0
+    offsetLeft: 0,
+    boundariesGap: 6
   })
 }
 Builder.prototype.option = function (name, value) {
@@ -65,56 +65,39 @@ Builder.prototype.removePlaceholder = function () {
     this.placeholder = null
   }
 }
-/* Builder.prototype.findValidParent = function (element, parentElement) {
-  let element
-  if (parentElement) {
-    parentParentElement = cook.get(getService('document').get(parentElement.get(parentElement.get('parent'))))
-    if(parentParentElement ) {
-
-    }
+Builder.prototype.findValidParent = function (domElement) {
+  if (this.dragingElement.isChild(domElement)) {
+    return domElement
+  } else if (domElement.hasParent()) {
+    return this.findValidParent(domElement.parent())
   }
-}*/
+  return null
+}
 /**
  * Menage items
  */
 
 Builder.prototype.checkItems = function (point) {
-  let DOMelement = this.options.document.elementFromPoint(point.x, point.y)
-
-  if (DOMelement && !DOMelement.getAttribute('data-vc-element')) {
-    DOMelement = $(DOMelement).closest('[data-vc-element]').get(0)
+  let DOMNode = this.options.document.elementFromPoint(point.x, point.y)
+  if (DOMNode && !DOMNode.getAttribute('data-vc-element')) {
+    DOMNode = $(DOMNode).closest('[data-vc-element]').get(0)
   }
-  let isElement = DOMelement && DOMelement.getAttribute && DOMelement.getAttribute('data-vc-element') !== this.dragingElementId
-  if (!isElement) {
+  let domElement = new DOMElement(DOMNode, this.options.document)
+  if (domElement.isElement() && domElement.equals(this.dragingElement)) {
     return false
   }
-  let id = DOMelement.getAttribute('data-vc-element')
-  let data = getService('document').get(id)
-  let element = cook.get(data)
-  if (!element) {
-    return false
+  let parentDomElement = domElement.parent()
+  if (parentDomElement.isNearBoundaries(point, this.options.boundariesGap)) {
+    domElement = this.findValidParent(parentDomElement.parent())
   }
-  let parentId = element.get('parent')
-  let parentData = getService('document').get(parentId)
-  let parentElement = cook.get(parentData)
-  // let rect = DOMelement.getBoundingClientRect()
-  /* if (rect.top - point.y < 6) {
-    let newId = this.findValidParent(element, parentElement)
-    if (newId) {
-      id = newId
-      DOMelement = this.options.document.querySelector('[data-vc-element="' + id + '"]')
-    }
-  }*/
-  // Parent node
-
-  let position = this.placeholder.redraw(DOMelement, point, {
-    allowBeforeAfter: !parentElement || this.dragingElementObject.relatedTo(parentElement.containerFor()),
-    allowAppend: !$(DOMelement).find('[data-vc-element]').length && element.containerFor().length ? this.dragingElementObject.relatedTo(element.containerFor()) : false
+  let position = this.placeholder.redraw(domElement.node, point, {
+    allowBeforeAfter: !parentDomElement.isElement() || this.dragingElement.isChild(parentDomElement),
+    allowAppend: domElement.data.containerFor().length ? this.dragingElement.isChild(domElement) : false
   })
   if (position) {
     this.setPosition(position)
-    this.currentElement = id
-    this.placeholder.setCurrentElement(this.currentElement)
+    this.currentElement = domElement.id
+    this.placeholder.setCurrentElement(domElement.id)
   }
 }
 
@@ -122,17 +105,15 @@ Builder.prototype.setPosition = function (position) {
   this.position = position
 }
 Builder.prototype.start = function (DOMNode) {
-  this.dragingElement = DOMNode
-  this.dragingElementId = this.dragingElement.getAttribute('data-vc-element')
-  if (this.dragingElementId === null) {
+  this.dragingElement = new DOMElement(DOMNode, this.options.document)
+  if (!this.dragingElement.isElement()) {
+    this.dragingElement = null
     return false
   }
   // Creat helper/clone of element
-  this.helper = new Helper(this.dragingElement)
+  this.helper = new Helper(this.dragingElement.node)
   // Add css class for body to enable visual setings for all document
   this.options.document.body.classList.add('vcv-dragstart')
-  let data = getService('document').get(this.dragingElementId)
-  this.dragingElementObject = cook.get(data)
 
   this.watchMouse()
   this.createPlaceholder()
@@ -155,14 +136,13 @@ Builder.prototype.end = function () {
   }
   if (typeof this.options.moveCallback === 'function') {
     this.position && this.options.moveCallback(
-      this.dragingElement.getAttribute('data-vc-element'),
+      this.dragingElement.id,
       this.position,
       this.currentElement
     )
   }
   this.dragingElement = null
   this.currentElement = null
-  this.dragingElementObject = null
   this.position = null
   this.helper = null
 
