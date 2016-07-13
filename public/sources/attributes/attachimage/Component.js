@@ -14,6 +14,10 @@ export default class Component extends Attribute {
   }
 
   openLibrary () {
+    if (!this.mediaUploader) {
+      console.error('Media uploader not found. Make sure you are running this on WordPress.')
+      return
+    }
     this.mediaUploader.open()
   }
 
