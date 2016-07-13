@@ -30,7 +30,6 @@ class Categories extends React.Component {
 
   componentDidMount () {
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-    this.handleElementResize()
   }
 
   componentWillUnmount () {
