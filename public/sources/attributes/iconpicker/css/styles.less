@@ -1,28 +1,28 @@
 @import 'font-awesome-4.6.3/css/font-awesome.min.css';
+@import 'vcv-linecons/font.less';
+@import 'vcv-entypo/font.less';
+@import 'vcv-monosocial-1.10/font.less';
+@import 'typicons-2.0.7/font.less';
+@import 'openiconic-1.1.1/font.less';
 
 .vcv-ui-param-iconpicker-wrapper {
   padding: 0;
   border: 0;
   font-size: 16px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
   /* Display */
+  box-sizing: border-box;
   display: block;
+  margin: 0 0 4px;
   vertical-align: middle;
   text-align: left;
-  margin: 0 0 4px;
-
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  user-select: none;
 
   &:before,
   &:after,
   *,
   *:before,
   *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
 
@@ -33,7 +33,10 @@
     width: 100px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    &.vcv-ui-param-iconpicker-popup--hidden {
+
+  }
+  &.vcv-ui-param-iconpicker-popup--hidden {
+    .vcv-ui-param-iconpicker-selector {
       border-radius: 3px;
     }
   }
@@ -83,29 +86,23 @@
 
   /* IconPicker Popup */
   .vcv-ui-param-iconpicker-popup {
-    display: none;
     padding: 5px;
     margin-top: -1px;
 
     background-color: #fefefe;
     border: 1px solid #c6c6c6;
-
-    &.vcv-ui-state--visible {
-      display: block;
-    }
   }
 
   .vcv-ui-param-iconpicker-icons-search-input,
   .vcv-ui-param-iconpicker-icon-category-select {
+    width: 100%;
     line-height: 20px;
     padding: 10px;
-    width: 100%;
     margin-bottom: 5px;
     font-size: 12px;
+
     border: 1px solid #c6c6c6;
     color: #404040;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
     box-shadow: none;
     outline: none;
   }
