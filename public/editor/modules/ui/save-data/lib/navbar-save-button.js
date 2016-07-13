@@ -1,5 +1,7 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
+require('../../../../../sources/less/ui/loader/init.less')
+
 vcCake.add('ui-save-data', function (api) {
   var React = require('react')
   var classNames = require('classnames')
