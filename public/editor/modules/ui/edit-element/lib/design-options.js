@@ -15,6 +15,8 @@ var DesignOptions = React.createClass({
     return {
       backgroundColor: '',
       borderColor: '',
+      borderStyle: '',
+      borderRadius: '',
       simplified: false,
       marginTop: '',
       marginRight: '',
@@ -31,10 +33,17 @@ var DesignOptions = React.createClass({
     }
   },
 
+  componentWillMount () {
+    this.initBorderStyles()
+    this.initBorderRadiuses()
+  },
+
   componentDidMount: function () {
     this.setState({
       backgroundColor: this.getValue('backgroundColor'),
       borderColor: this.getValue('borderColor'),
+      borderStyle: this.getValue('borderStyle'),
+      borderRadius: this.getValue('borderRadius'),
       simplified: this.getValue('simplified'),
       marginTop: this.getValue('marginTop'),
       marginRight: this.getValue('marginRight'),
@@ -49,6 +58,59 @@ var DesignOptions = React.createClass({
       paddingBottom: this.getValue('paddingBottom'),
       paddingLeft: this.getValue('paddingLeft')
     })
+  },
+
+  initBorderStyles: function () {
+    let borderStyles = []
+    let borderStyleValues = [
+      { value: '', label: 'Default' },
+      { value: 'solid', label: 'Solid' },
+      { value: 'dotted', label: 'Dotted' },
+      { value: 'dashed', label: 'Dashed' },
+      { value: 'none', label: 'None' },
+      { value: 'hidden', label: 'Hidden' },
+      { value: 'double', label: 'Double' },
+      { value: 'groove', label: 'Groove' },
+      { value: 'ridge', label: 'Ridge' },
+      { value: 'inset', label: 'Inset' },
+      { value: 'outset', label: 'Outset' },
+      { value: 'initial', label: 'Initial' },
+      { value: 'inherit', label: 'Inherit' }
+    ]
+
+    for (let i = 0, len = borderStyleValues.length; i < len; i++) {
+      let value = borderStyleValues[ i ].value
+      let label = borderStyleValues[ i ].label
+      borderStyles.push(<option key={'borderStyle:' + value} value={value}>{label}</option>)
+    }
+
+    this.borderStyles = borderStyles
+  },
+
+  initBorderRadiuses: function () {
+    let borderRadiuses = []
+    let borderRadiusValues = [
+      { value: '', label: 'None' },
+      { value: '1px', label: '1px' },
+      { value: '2px', label: '2px' },
+      { value: '3px', label: '3px' },
+      { value: '4px', label: '4px' },
+      { value: '5px', label: '5px' },
+      { value: '10px', label: '10px' },
+      { value: '15px', label: '15px' },
+      { value: '20px', label: '20px' },
+      { value: '25px', label: '25px' },
+      { value: '30px', label: '30px' },
+      { value: '35px', label: '35px' }
+    ]
+
+    for (let i = 0, len = borderRadiusValues.length; i < len; i++) {
+      let value = borderRadiusValues[ i ].value
+      let label = borderRadiusValues[ i ].label
+      borderRadiuses.push(<option key={'borderRadius:' + value} value={value}>{label}</option>)
+    }
+
+    this.borderRadiuses = borderRadiuses
   },
 
   changeBoxInput: function (e) {
@@ -81,6 +143,18 @@ var DesignOptions = React.createClass({
   changeBorderColor: function (e) {
     this.changeState({
       borderColor: e.target.value
+    })
+  },
+
+  changeBorderStyle: function (e) {
+    this.changeState({
+      borderStyle: e.target.value
+    })
+  },
+
+  changeBorderRadius: function (e) {
+    this.changeState({
+      borderRadius: e.target.value
     })
   },
 
@@ -170,6 +244,32 @@ var DesignOptions = React.createClass({
               type="color"
               value={this.state.borderColor}
               onChange={this.changeBorderColor} />
+          </div>
+
+          <div className="vc_ui-form-group">
+            <span className="vc_ui-form-group-heading">
+              Border style
+            </span>
+            <select
+              name="borderStyle"
+              className="vc_ui-form-dropdown"
+              value={this.state.borderStyle}
+              onChange={this.changeBorderStyle}>
+              {this.borderStyles}
+            </select>
+          </div>
+
+          <div className="vc_ui-form-group">
+            <span className="vc_ui-form-group-heading">
+              Border radius
+            </span>
+            <select
+              name="borderRadius"
+              className="vc_ui-form-dropdown"
+              value={this.state.borderRadius}
+              onChange={this.changeBorderRadius}>
+              {this.borderRadiuses}
+            </select>
           </div>
 
           <div className="vc_ui-form-group">
