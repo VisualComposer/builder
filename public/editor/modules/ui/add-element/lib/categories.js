@@ -7,50 +7,69 @@ import CategoryTab from './category-tab'
 import ElementControl from './element-control'
 import '../css/init.less'
 
+let allTabs = []
+
 class Categories extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      allTabs: [],
-      activeTabIndex: 0,
-      visibleTabsIndexes: [],
-      hiddenTabsIndexes: []
+      tabsCount: 0,
+      visibleTabsCount: 0,
+      activeTabIndex: 0
     }
-    this.handleResize = this.handleResize.bind(this)
+    this.handleElementResize = this.handleElementResize.bind(this)
+  }
+
+  componentWillMount () {
+    allTabs = this.tabsFromProps(this.props)
+    this.setState({
+      tabsCount: allTabs.length
+    })
   }
 
   componentDidMount () {
-    this.setStateForTabs(this.props)
-    window.addEventListener('resize', this.handleResize)
+    // this.setStateForTabs(this.props)
+    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    this.handleElementResize()
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.handleResize)
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    // TODO: Check performance.
-    this.refreshTabs()
+    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
   componentWillReceiveProps (nextProps) {
     // this.setStateForTabs(nextProps)
   }
 
-  handleResize (e) {
-    this.refreshTabs()
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    var obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
   }
 
-  setStateForTabs (props) {
-    let allTabs = this.tabsFromProps(props)
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
 
-    this.setState({
-      allTabs: allTabs.slice(),
-      visibleTabsIndexes: [],
-      hiddenTabsIndexes: lodash.map(lodash.keys(allTabs), (i) => { return parseInt(i) }),
-      activeTabIndex: 0
-    })
+  handleElementResize (e) {
+    this.refreshTabs()
   }
 
   tabsFromProps (props) {
@@ -61,16 +80,15 @@ class Categories extends React.Component {
     })
     for (let title in categories) {
       let tab = {
-        id: title, // TODO: Should it be more unique?
+        id: title + index, // TODO: Should it be more unique?
         index: index++,
         title: title,
         elements: categories[ title ],
+        isVisible: true,
         pinned: false // TODO: Actual logic.
-
       }
       tabs.push(tab)
     }
-
     return tabs
   }
 
@@ -80,48 +98,25 @@ class Categories extends React.Component {
     })
   }
 
-  putTabToDrop (tabsCount) {
-    if (!tabsCount) {
-      tabsCount = 1
-    }
-    this.setState(function (prevState) {
-      for (let i = 0; i < prevState.visibleTabsIndexes.length - 1; i++) {
-        let tabIndex = prevState.visibleTabsIndexes[ i ]
-        let tab = prevState.allTabs[ tabIndex ]
-        if (tab.pinned) {
-          continue
-        }
-        prevState.visibleTabsIndexes.splice(i, 1)
-        prevState.hiddenTabsIndexes.unshift(tabIndex)
-        if (i > tabsCount - 1) {
-          break
-        }
+  getVisibleTabs () {
+    return allTabs.filter((tab) => {
+      if (tab.isVisible) {
+        return true
       }
-
-      return prevState
     })
   }
 
-  popTabFromDrop (tabsCount) {
-    if (!tabsCount) {
-      tabsCount = 1
-    }
-    this.setState(function (prevState) {
-      let i = 0
-      while (i < tabsCount) {
-        let tabIndex = prevState.hiddenTabsIndexes.pop()
-        let position = prevState.visibleTabsIndexes.length - 1
-        prevState.visibleTabsIndexes.splice(position, 0, tabIndex)
-        i++
-      }
-      return prevState
+  getHiddenTabs () {
+    let tabs = allTabs.filter((tab) => {
+      return !tab.isVisible
     })
+    tabs.reverse()
+    return tabs
   }
 
   getVisibleAndUnpinnedTabs () {
-    return this.state.visibleTabsIndexes.filter((tabIndex) => {
-      let tab = this.state.allTabs[ tabIndex ]
-      return !tab.pinned
+    return this.getVisibleTabs().filter((tab) => {
+      return tab.isVisible && !tab.pinned
     })
   }
 
@@ -129,36 +124,45 @@ class Categories extends React.Component {
     let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
     let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
     let freeSpace = $freeSpaceEl.offsetWidth
-    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
 
     // If there is no space move tab from visible to hidden tabs.
+    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
-      this.putTabToDrop()
+      let lastTab = visibleAndUnpinnedTabs.pop()
+      allTabs[ lastTab.index ].isVisible = false
+      this.setState({
+        visibleTabsCount: this.getVisibleTabs().length
+      })
+      this.refreshTabs()
       return
     }
 
     // If we have free space move tab from hidden tabs to visible.
-    if (this.state.hiddenTabsIndexes.length > 0) {
-      let tabsCount = 0
-      while (freeSpace > 0 && tabsCount < this.state.hiddenTabsIndexes.length) {
-        let lastTabIndex = this.state.hiddenTabsIndexes[ tabsCount ]
-        let lastTab = this.state.allTabs[ lastTabIndex ]
-        if (lastTab.ref.getRealWidth() + 5 < freeSpace) {
-          freeSpace -= lastTab.ref.getRealWidth()
-          tabsCount++
-        } else {
-          freeSpace = 0
+    let hiddenTabs = this.getHiddenTabs()
+    if (hiddenTabs.length) {
+      // if it is las hidden tab than add dropdown width to free space
+      if (hiddenTabs.length === 1) {
+        let dropdown = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tab-dropdown')
+        freeSpace += dropdown.offsetWidth
+      }
+      while (freeSpace > 0 && hiddenTabs.length) {
+        let lastTab = hiddenTabs.pop()
+        let controlsSize = lastTab.ref.getRealWidth()
+        freeSpace -= controlsSize
+        if (freeSpace > 0) {
+          allTabs[ lastTab.index ].isVisible = true
         }
       }
-      if (tabsCount) {
-        this.popTabFromDrop(tabsCount)
-      }
+      this.setState({
+        visibleTabsCount: this.getVisibleTabs().length
+      })
+      return
     }
   }
 
   getRenderedElements (tabIndex) {
     let itemsOutput = []
-    this.state.allTabs[ tabIndex ].elements.map((element) => {
+    allTabs[ tabIndex ].elements.map((element) => {
       itemsOutput.push(<ElementControl
         api={this.props.api}
         key={'vcv-element-control-' + element.tag}
@@ -179,7 +183,7 @@ class Categories extends React.Component {
   }
 
   getTabProps (tabIndex, activeTabIndex) {
-    let tab = this.state.allTabs[ tabIndex ]
+    let tab = allTabs[ tabIndex ]
 
     return {
       key: tab.id,
@@ -189,8 +193,8 @@ class Categories extends React.Component {
       active: (activeTabIndex === tab.index),
       container: '.vcv-ui-editor-tabs',
       ref: (ref) => {
-        if (this.state.allTabs[ tab.index ]) {
-          this.state.allTabs[ tab.index ].ref = ref
+        if (allTabs[ tab.index ]) {
+          allTabs[ tab.index ].ref = ref
         }
       },
       changeActive: this.changeActiveTab.bind(this)
@@ -198,19 +202,19 @@ class Categories extends React.Component {
   }
 
   render () {
-    let { activeTabIndex, visibleTabsIndexes, hiddenTabsIndexes } = this.state
+    let { activeTabIndex } = this.state
     var visibleTabsHeaderOutput = []
-    lodash.each(visibleTabsIndexes, (tabIndex) => {
-      let { ...tabProps } = this.getTabProps(tabIndex, activeTabIndex)
+    lodash.each(this.getVisibleTabs(), (tab) => {
+      let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
       visibleTabsHeaderOutput.push(
         <CategoryTab {...tabProps} />
       )
     })
     var hiddenTabsHeaderOutput = ''
-    if (hiddenTabsIndexes.length) {
+    if (this.getHiddenTabs().length) {
       var hiddenTabsHeader = []
-      lodash.each(hiddenTabsIndexes, (tabIndex) => {
-        let { ...tabProps } = this.getTabProps(tabIndex, activeTabIndex)
+      lodash.each(this.getHiddenTabs(), (tab) => {
+        let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
         hiddenTabsHeader.push(
           <CategoryTab {...tabProps} />
         )
@@ -218,8 +222,8 @@ class Categories extends React.Component {
 
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
-        'vcv-ui-state--active': !!hiddenTabsIndexes.filter(function (value) {
-          return value === activeTabIndex
+        'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
+          return tab.index === activeTabIndex
         }).length
       })
       hiddenTabsHeaderOutput = (
@@ -236,24 +240,24 @@ class Categories extends React.Component {
       )
     }
     var visibleTabsContentOutput = []
-    lodash.each(visibleTabsIndexes, (tabIndex) => {
+    lodash.each(this.getVisibleTabs(), (tab) => {
       let plateClass = 'vcv-ui-editor-plate'
-      if (tabIndex === activeTabIndex) {
+      if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + this.state.allTabs[tabIndex].id} className={plateClass}>
-        {this.getRenderedElements(tabIndex)}
+      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[tab.index].id} className={plateClass}>
+        {this.getRenderedElements(tab.index)}
       </div>)
     })
 
     var hiddenTabsContentOutput = []
-    lodash.each(hiddenTabsIndexes, (tabIndex) => {
+    lodash.each(this.getHiddenTabs(), (tab) => {
       let plateClass = 'vcv-ui-editor-plate'
-      if (tabIndex === activeTabIndex) {
+      if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + this.state.allTabs[tabIndex].id} className={plateClass}>
-        {this.getRenderedElements(tabIndex)}
+      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[tab.index].id} className={plateClass}>
+        {this.getRenderedElements(tab.index)}
       </div>)
     })
 

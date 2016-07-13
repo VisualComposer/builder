@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 require('../css/module.less')
-var navbarControls = []
+let navbarControls = []
 
 export class Navbar extends React.Component {
 
@@ -85,6 +85,7 @@ export class Navbar extends React.Component {
         this.setState({ navPosX: this.state.navPosX - offsetX })
       })
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
+    this.handleElementResize()
   }
 
   handleElementResize () {
