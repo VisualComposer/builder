@@ -2,6 +2,7 @@
 var React = require('react')
 var classNames = require('classnames')
 import lodash from 'lodash'
+import AttachImage from '../../../../../sources/attributes/attachimage/Component'
 
 require('../css/styles.less')
 
@@ -13,6 +14,7 @@ var DesignOptions = React.createClass({
 
   getInitialState: function () {
     return {
+      backgroundImage: { ids: [], urls: [] },
       backgroundColor: '',
       borderColor: '',
       borderStyle: '',
@@ -36,10 +38,9 @@ var DesignOptions = React.createClass({
   componentWillMount () {
     this.initBorderStyles()
     this.initBorderRadiuses()
-  },
 
-  componentDidMount: function () {
     this.setState({
+      backgroundImage: this.getValue('backgroundImage'),
       backgroundColor: this.getValue('backgroundColor'),
       borderColor: this.getValue('borderColor'),
       borderStyle: this.getValue('borderStyle'),
@@ -134,6 +135,12 @@ var DesignOptions = React.createClass({
     })
   },
 
+  changeBackgroundImage: function (fieldKey, value) {
+    this.changeState({
+      backgroundImage: value
+    })
+  },
+
   changeBackgroundColor: function (e) {
     this.changeState({
       backgroundColor: e.target.value
@@ -187,6 +194,15 @@ var DesignOptions = React.createClass({
       'vcv-ui-design-options-simplified': this.state.simplified
     })
 
+    let backgroundImageProps = {
+      updater: this.changeBackgroundImage,
+      fieldKey: 'backgroundImage',
+      value: this.state.backgroundImage,
+      options: {
+        multiple: false
+      }
+    }
+
     return (
       <div className="vcv-ui-design-options-container">
 
@@ -226,7 +242,7 @@ var DesignOptions = React.createClass({
 
           <div className="vc_ui-form-group">
             <label className="vc_ui-form-checkbox">
-              <input type="checkbox" onClick={this.toggleSimplifyControls} checked={this.state.simplified} />
+              <input type="checkbox" onClick={this.toggleSimplifyControls} defaultChecked={this.state.simplified} />
               <span className="vc_ui-form-checkbox-indicator"></span>
               Simplify controls
             </label>
@@ -281,6 +297,13 @@ var DesignOptions = React.createClass({
               type="color"
               value={this.state.backgroundColor}
               onChange={this.changeBackgroundColor} />
+          </div>
+
+          <div className="vc_ui-form-group">
+            <span className="vc_ui-form-group-heading">
+              Background image
+            </span>
+            <AttachImage {...backgroundImageProps} />
           </div>
 
         </div>
