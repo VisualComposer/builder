@@ -22,7 +22,27 @@ var CategoryTab = React.createClass({
       realWidth: this.getRealWidth()
     })
   },
-
+  getClosest (el, selector) {
+    var matchesFn;
+    // find vendor prefix
+    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
+      if (typeof document.body[ fn ] === 'function') {
+        matchesFn = fn
+        return true
+      }
+      return false
+    })
+    var parent
+    // traverse parents
+    while (el) {
+      parent = el.parentElement
+      if (parent && parent[ matchesFn ](selector)) {
+        return parent
+      }
+      el = parent
+    }
+    return null
+  },
   getRealWidth: function () {
     let realWidth = this.state.realWidth
 
@@ -30,9 +50,16 @@ var CategoryTab = React.createClass({
       let $el = ReactDOM.findDOMNode(this)
       let $tempEl = $el.cloneNode(true)
       $tempEl.style.position = 'fixed'
-      $el.closest(this.props.container).appendChild($tempEl)
+      let container
+      if ($el.closest === undefined) {
+        container = this.getClosest($el, this.props.container)
+      } else {
+        container = $el.closest(this.props.container)
+      }
+      container.appendChild($tempEl)
       realWidth = $tempEl.offsetWidth
       if (realWidth === 0) {
+        $tempEl.remove()
         return undefined
       }
       let style = window.getComputedStyle($tempEl, null)

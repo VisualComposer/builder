@@ -29,17 +29,12 @@ class Categories extends React.Component {
   }
 
   componentDidMount () {
-    // this.setStateForTabs(this.props)
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
     this.handleElementResize()
   }
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    // this.setStateForTabs(nextProps)
   }
 
   addResizeListener (element, fn) {
