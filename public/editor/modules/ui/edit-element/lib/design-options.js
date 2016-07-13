@@ -16,6 +16,7 @@ var DesignOptions = React.createClass({
     return {
       backgroundImage: { ids: [], urls: [] },
       backgroundColor: '',
+      backgroundStyle: '',
       borderColor: '',
       borderStyle: '',
       borderRadius: '',
@@ -36,12 +37,14 @@ var DesignOptions = React.createClass({
   },
 
   componentWillMount () {
+    this.initBackgroundStyles()
     this.initBorderStyles()
     this.initBorderRadiuses()
 
     this.setState({
       backgroundImage: this.getValue('backgroundImage'),
       backgroundColor: this.getValue('backgroundColor'),
+      backgroundStyle: this.getValue('backgroundStyle'),
       borderColor: this.getValue('borderColor'),
       borderStyle: this.getValue('borderStyle'),
       borderRadius: this.getValue('borderRadius'),
@@ -59,6 +62,25 @@ var DesignOptions = React.createClass({
       paddingBottom: this.getValue('paddingBottom'),
       paddingLeft: this.getValue('paddingLeft')
     })
+  },
+
+  initBackgroundStyles: function () {
+    let backgroundStyles = []
+    let backgroundStyleValues = [
+      { value: '', label: 'Default' },
+      { value: 'cover', label: 'Cover' },
+      { value: 'contain', label: 'Contain' },
+      { value: 'no-repeat', label: 'No Repeat' },
+      { value: 'repeat', label: 'Repeat' }
+    ]
+
+    for (let i = 0, len = backgroundStyleValues.length; i < len; i++) {
+      let value = backgroundStyleValues[ i ].value
+      let label = backgroundStyleValues[ i ].label
+      backgroundStyles.push(<option key={'borderStyle:' + value} value={value}>{label}</option>)
+    }
+
+    this.backgroundStyles = backgroundStyles
   },
 
   initBorderStyles: function () {
@@ -150,6 +172,12 @@ var DesignOptions = React.createClass({
   changeBorderColor: function (e) {
     this.changeState({
       borderColor: e.target.value
+    })
+  },
+
+  changeBackgroundStyle: function (e) {
+    this.changeState({
+      backgroundStyle: e.target.value
     })
   },
 
@@ -304,6 +332,19 @@ var DesignOptions = React.createClass({
               Background image
             </span>
             <AttachImage {...backgroundImageProps} />
+          </div>
+
+          <div className="vc_ui-form-group">
+            <span className="vc_ui-form-group-heading">
+              Background style
+            </span>
+            <select
+              name="backgroundStyle"
+              className="vc_ui-form-dropdown"
+              value={this.state.backgroundStyle}
+              onChange={this.changeBackgroundStyle}>
+              {this.backgroundStyles}
+            </select>
           </div>
 
         </div>
