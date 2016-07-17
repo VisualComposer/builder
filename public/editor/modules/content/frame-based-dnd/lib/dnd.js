@@ -71,7 +71,13 @@ Builder.prototype.findValidParent = function (domElement) {
   } else if (domElement.hasParent()) {
     return this.findValidParent(domElement.parent())
   }
-  return null
+  return new DOMElement()
+}
+Builder.allowParent = function (parentDomElement) {
+  return this.dragingElement.isChild(parentDomElement)
+}
+Builder.allowAsContainer = function (domElement) {
+  return domElement.isElement() && domElement.data.containerFor().length ? this.dragingElement.isChild(domElement) : false
 }
 /**
  * Menage items
@@ -89,10 +95,14 @@ Builder.prototype.checkItems = function (point) {
   let parentDomElement = domElement.parent()
   if (parentDomElement.isNearBoundaries(point, this.options.boundariesGap)) {
     domElement = this.findValidParent(parentDomElement.parent())
+    parentDomElement = domElement.parent()
+  }
+  if (!domElement.isElement()) {
+    return false
   }
   let position = this.placeholder.redraw(domElement.node, point, {
-    allowBeforeAfter: !parentDomElement.isElement() || this.dragingElement.isChild(parentDomElement),
-    allowAppend: domElement.data.containerFor().length ? this.dragingElement.isChild(domElement) : false
+    allowBeforeAfter: this.allowParent(parentDomElement),
+    allowAppend: this.allowAsContainer(domElement)
   })
   if (position) {
     this.setPosition(position)
