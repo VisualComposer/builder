@@ -62,7 +62,7 @@ codestyle:php:application:
   tags:
     - docker
 
-test:php:build:
+build:php:
   stage: build
   script:
     - composer install
@@ -80,7 +80,7 @@ test:php:framework:
   tags:
     - docker
   dependencies:
-    - test:php:build
+    - build:php
 
 test:php:helpers:
   stage: test
@@ -90,7 +90,7 @@ test:php:helpers:
   tags:
     - docker
   dependencies:
-    - test:php:build
+    - build:php
 
 deploy:test:alpha:
   image: wpbakery/ci-deployer
