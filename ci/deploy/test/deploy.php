@@ -3,7 +3,6 @@
 // All Deployer recipes are based on `recipe/common.php`.
 require 'recipe/symfony.php';
 
-
 server('test', 'test.hubpen.visualcomposer.io', 22)
     ->user(getenv('CI_DEPLOY_USER'))
     ->password(getenv('CI_DEPLOY_PASSWORD'))
@@ -25,6 +24,7 @@ task(
         run('npm install --loglevel=error');
         run('composer install --no-dev --prefer-dist --no-progress');
         run('webpack');
+        run('echo \'' . getenv('CI_DEPLOY_PASSWORD') . '\' | sudo -S service apache2 restart');
     }
 )->desc('Install npm, composer and bower packages');
 
