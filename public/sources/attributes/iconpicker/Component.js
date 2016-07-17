@@ -1,13 +1,24 @@
 import React from 'react'
 import Attribute from '../attribute'
-import lodash from 'lodash'
-import './css/styles.less'
 import classNames from 'classnames'
-import fontawesomeIcons from './lib/font-awesome-4.6.3'
+import './css/styles.less'
 
-let allIcons = Symbol('all icons')
-let allCategories = Symbol('all categories')
-export default class Component extends Attribute {
+let autobind = [
+  'search',
+  'category',
+  'togglePopup'
+]
+
+let iconsSets = {
+  fontawesome: require('./lib/font-awesome-4.6.3'),
+  lineicons: require('./lib/lineicons-13.07-48'),
+  entypo: require('./lib/entypo-13.07-411'),
+  monosocial: require('./lib/monosocial-1.10-101'),
+  typicons: require('./lib/typicons-2.0.7'),
+  openiconic: require('./lib/openiconic-1.1.1')
+}
+
+class Iconpicker extends Attribute {
   constructor (props) {
     super(props)
     this.state = {
@@ -17,93 +28,61 @@ export default class Component extends Attribute {
       value: props.value
     }
 
-    this.search = this.search.bind(this)
-    this.category = this.category.bind(this)
-    this.togglePopup = this.togglePopup.bind(this)
-
-    Object.defineProperty(this, allIcons, {
-      value: {
-        data: [],
-        set: () => {
-          let iconsIds = []
-          let icons = []
-          lodash.each(fontawesomeIcons, (categoryIcons, category) => {
-            if (category.indexOf('New') > -1) {
-              return
-            }
-            lodash.each(categoryIcons, (icon) => {
-              if (iconsIds.indexOf(icon.id) > -1) {
-                return
-              }
-              iconsIds.push(icon.id)
-              icons.push(icon)
-            })
-          })
-          this[ allIcons ].data = icons
-        }
-      }
-    })
-
-    Object.defineProperty(this, allCategories, {
-      value: {
-        data: [],
-        set: () => {
-          let categories = []
-          lodash.each(fontawesomeIcons, (icons, category) => {
-            categories.push(<option value={category}>{category}</option>)
-          })
-          this[ allCategories ].data = categories
-        }
-      }
+    autobind.forEach((key) => {
+      this[ key ] = this[ key ].bind(this)
     })
   }
 
-  get allIcons () {
-    if (this[ allIcons ].data.length) {
-      return this[ allIcons ].data
-    } else {
-      this[ allIcons ].set()
-    }
-
-    return this[ allIcons ].data
+  get type () {
+    let { options } = this.props
+    return options && options.type ? options.type : Iconpicker.DEFAULT_ICON_SET
   }
 
-  get categories () {
-    if (this[ allCategories ].data.length) {
-      return this[ allCategories ].data
+  filteredIcons () {
+    let { category, search } = this.state
+    let icons = []
+    let iconsIds = []
+
+    let addIcons = (categoryIcons) => {
+      categoryIcons.forEach((icon) => {
+        if (iconsIds.indexOf(icon.id) > -1) {
+          return
+        }
+        iconsIds.push(icon.id)
+        icons.push(icon)
+      })
+    }
+    if (category) {
+      addIcons(iconsSets[ this.type ][ category ])
     } else {
-      this[ allCategories ].set()
+      if (Array.isArray(iconsSets[ this.type ])) {
+        addIcons(iconsSets[ this.type ])
+      } else {
+        Object.keys(iconsSets[ this.type ]).forEach((category) => {
+          addIcons(iconsSets[ this.type ][ category ])
+        })
+      }
     }
 
-    return this[ allCategories ].data
-  }
-
-  get icons () {
-    let icons = this.allIcons
-    if (this.state.category) {
-      icons = fontawesomeIcons[ this.state.category ]
-    }
-    if (this.state.search) {
-      icons = icons.filter(i => {
-        return i.title.toLowerCase().indexOf(this.state.search) > -1
+    if (search) {
+      icons = icons.filter(icon => {
+        return icon.title.toLowerCase().indexOf(search) > -1
       })
     }
     return icons
   }
 
-  get popupContent () {
-    let popupContent
-    let categories = this.categories
-    let icons = this.icons
-
+  iconsContent () {
+    let { value } = this.state
     let iconsContent = []
-    lodash.each(icons, (icon) => {
+    this.filteredIcons().forEach((icon) => {
       let iconClasses = classNames({
         'vcv-ui-param-iconpicker-icon-box': true,
-        'vcv-ui-param-iconpicker-icon-active': icon.id === this.state.value
+        'vcv-ui-param-iconpicker-icon-active': icon.id === value
       })
       iconsContent.push(
         <span
+          key={icon.id}
           className={iconClasses}
           value={icon.id}
           onClick={this.handleChange}
@@ -113,41 +92,67 @@ export default class Component extends Attribute {
         </span>
       )
     })
+    return iconsContent
+  }
+
+  categoriesContent () {
+    let categories = []
+    if (!Array.isArray(iconsSets[ this.type ])) {
+      Object.keys(iconsSets[ this.type ]).forEach((category) => {
+        categories.push(<option key={category} value={category}>{category}</option>)
+      })
+    }
+    return categories
+  }
+
+  popupContent () {
+    let { search, category } = this.state
+    let content
+    let categories = this.categoriesContent()
+    let iconsContent = this.iconsContent()
     if (!iconsContent.length) {
       iconsContent.push(<div className='vcv-ui-param-iconpicker-error'><span>No icons round</span></div>)
     }
 
     let popupClasses = classNames({
-      'vcv-ui-param-iconpicker-popup': true,
-      'vcv-ui-state--visible': this.state.popupOpen
+      'vcv-ui-param-iconpicker-popup': true
     })
 
-    popupContent = (
-      <div className={popupClasses}>
-        <div className='vcv-ui-param-iconpicker-search'>
-          <input type='text' value={this.state.search} onChange={this.search} placeholder='Search Icon'
-            className='vcv-ui-param-iconpicker-icons-search-input' /><i className='fa fa-search' />
-        </div>
+    let categoriesContent = ''
+    if (categories.length) {
+      categoriesContent = (
         <div className='vcv-ui-param-iconpicker-category'>
-          <select onChange={this.category} value={this.state.category}
+          <select onChange={this.category} value={category}
             className='vcv-ui-param-iconpicker-icon-category-select'>
-            <option value=''>From all categories</option>
+            <option key='all' value=''>From all categories</option>
             {categories}
           </select>
         </div>
+      )
+    }
+
+    content = (
+      <div className={popupClasses}>
+        <div className='vcv-ui-param-iconpicker-search'>
+          <input type='text' value={search} onChange={this.search} placeholder='Search Icon'
+            className='vcv-ui-param-iconpicker-icons-search-input' /><i className='fa fa-search' />
+        </div>
+        {categoriesContent}
         <div className='vcv-ui-param-iconpicker-icons-container'>
           {iconsContent}
         </div>
       </div>
     )
 
-    return popupContent
+    return content
   }
 
   togglePopup (e) {
     e && e.preventDefault && e.preventDefault()
     this.setState({
-      popupOpen: !this.state.popupOpen
+      popupOpen: !this.state.popupOpen,
+      search: '',
+      category: ''
     })
   }
 
@@ -171,32 +176,36 @@ export default class Component extends Attribute {
   }
 
   render () {
+    let { value, popupOpen } = this.state
+
+    let selectedIconClasses = classNames({
+      'vcv-ui-param-iconpicker-icon-empty': !value
+    }, value)
+
     let selectorToggleClasses = classNames({
       'fa': true,
-      'fa-arrow-up': this.state.popupOpen,
-      'fa-arrow-down': !this.state.popupOpen
+      'fa-arrow-up': popupOpen,
+      'fa-arrow-down': !popupOpen
     })
 
     let selectorClasses = classNames({
-      'vcv-ui-param-iconpicker-selector': true,
-      'vcv-ui-param-iconpicker-popup--hidden': !this.state.popupOpen
+      'vcv-ui-param-iconpicker-selector': true
     })
 
     let popupContent = ''
-    if (this.state.popupOpen) {
-      popupContent = this.popupContent
+    if (popupOpen) {
+      popupContent = this.popupContent()
     }
 
-    let selectedIconClasses = classNames({
-      'fa': true,
-      'vcv-ui-param-iconpicker-icon-empty': !this.state.value
-    }, this.state.value)
-
+    let wrapperClasses = classNames({
+      'vcv-ui-param-iconpicker-wrapper': true,
+      'vcv-ui-param-iconpicker-popup--hidden': !popupOpen
+    })
     return (
-      <div className='vcv-ui-param-iconpicker-wrapper'>
+      <div className={wrapperClasses}>
         <div className='vcv-ui-param-iconpicker-selector-wrapper'>
           <div className={selectorClasses}>
-            <span className='vcv-ui-param-iconpicker-selected-icon'> <i className={selectedIconClasses} /> </span>
+            <span className='vcv-ui-param-iconpicker-selected-icon'><i className={selectedIconClasses} /></span>
             <span className='vcv-ui-param-iconpicker-selector-button' onClick={this.togglePopup}><i
               className={selectorToggleClasses} /></span>
           </div>
@@ -206,3 +215,7 @@ export default class Component extends Attribute {
     )
   }
 }
+
+Iconpicker.DEFAULT_ICON_SET = 'fontawesome'
+
+module.exports = Iconpicker

@@ -1,5 +1,8 @@
 <div>
-  <span>Icon element</span>
-  <span dangerouslySetInnerHTML={{__html:icon}}></span>
-  <span className={icon}></span>
+  <span className={fontawesomeIcons}></span>
+  <span className={lineIcons}></span>
+  <span className={entypoIcons}></span>
+  <span className={monosocialIcons}></span>
+  <span className={typiconsIcons}></span>
+  <span className={openiconicIcons}></span>
 </div>

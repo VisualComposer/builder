@@ -40,7 +40,6 @@ class TreeForm extends React.Component {
       designOptions: getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
     })
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-    this.handleElementResize()
   }
 
   componentWillUnmount () {
