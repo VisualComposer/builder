@@ -5,4 +5,5 @@
   <span className={monosocialIcons}></span>
   <span className={typiconsIcons}></span>
   <span className={openiconicIcons}></span>
+  <span className={materialIcons}></span>
 </div>

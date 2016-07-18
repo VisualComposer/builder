@@ -103,6 +103,16 @@
       "type": "openiconic"
     }
   },
+  "materialIcons": {
+    "type": "iconpicker",
+    "access": "public",
+    "value": "vcv-ui-icon-material vcv-ui-icon-material-add_alert",
+    "options": {
+      "label": "material icons",
+      "description": "Select the icon",
+      "type": "material"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -112,7 +122,8 @@
       "entypoIcons",
       "monosocialIcons",
       "typiconsIcons",
-      "openiconicIcons"
+      "openiconicIcons",
+      "materialIcons"
     ],
     "options": {
       "label": "Options"

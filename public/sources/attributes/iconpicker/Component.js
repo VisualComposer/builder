@@ -15,7 +15,8 @@ let iconsSets = {
   entypo: require('./lib/entypo-13.07-411'),
   monosocial: require('./lib/monosocial-1.10-101'),
   typicons: require('./lib/typicons-2.0.7'),
-  openiconic: require('./lib/openiconic-1.1.1')
+  openiconic: require('./lib/openiconic-1.1.1'),
+  material: require('./lib/material-845')
 }
 
 class Iconpicker extends Attribute {
