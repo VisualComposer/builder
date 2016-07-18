@@ -18,7 +18,6 @@ vcCake.add('content-tree-view-dnd', function (api) {
     }
   }
   ModuleDnd.prototype.init = function () {
-    console.log(this.layoutAPI)
     this.layoutAPI
       .on('element:mount', this.add.bind(this))
       .on('element:unmount', this.remove.bind(this))

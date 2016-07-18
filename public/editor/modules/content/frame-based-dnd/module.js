@@ -11,7 +11,6 @@ vcCake.add('content-frame-based-dnd', function (api) {
   let ModuleDnd = function (moduleApi) {
     this.api = moduleApi
     this.layoutAPI = this.api.module('content-layout')
-    this.navbarAPI = this.api.module('ui-navbar')
   }
   ModuleDnd.prototype.buildItems = function () {
     if (!this.items) {
