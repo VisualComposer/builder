@@ -104,11 +104,11 @@ var Element = React.createClass({
       <a className="vcv-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}>
         <i className="vcv-ui-icon vcv-ui-icon-edit" />
       </a>
-      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
-        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
-      </a>
       <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}>
         <i className="vcv-ui-icon vcv-ui-icon-copy" />
+      </a>
+      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
+        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
       </a>
     </span>
 
