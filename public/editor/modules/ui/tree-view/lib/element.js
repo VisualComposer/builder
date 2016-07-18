@@ -18,6 +18,12 @@ var Element = React.createClass({
       hasChild: false
     }
   },
+  componentDidMount: function () {
+    this.props.api.notify('element:mount', this.props.element.id)
+  },
+  componentWillUnmount: function () {
+    this.props.api.notify('element:unmount', this.props.element.id)
+  },
   clickChildExpand: function () {
     this.setState({ childExpand: !this.state.childExpand })
   },

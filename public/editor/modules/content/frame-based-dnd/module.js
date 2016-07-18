@@ -22,7 +22,6 @@ vcCake.add('content-frame-based-dnd', function (api) {
         documentDOM = document
       }
       this.items = new DnD(documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
-        radius: 350,
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
@@ -62,10 +61,12 @@ vcCake.add('content-frame-based-dnd', function (api) {
   }
   ModuleDnd.prototype.start = function () {
     this.api.module('content-editor-controls-iframe').do('disableControls', true)
+    document.body.classList.add('vcv-no-select')
   }
   ModuleDnd.prototype.end = function () {
     this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
+    document.body.classList.remove('vcv-no-select')
   }
   var dnd = new ModuleDnd(api)
   dnd.init()
