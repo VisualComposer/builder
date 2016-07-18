@@ -9,6 +9,7 @@ import {getService} from 'vc-cake'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
+let designOptions = {}
 
 class TreeForm extends React.Component {
 
@@ -17,8 +18,7 @@ class TreeForm extends React.Component {
     this.state = {
       tabsCount: 0,
       visibleTabsCount: 0,
-      activeTabIndex: 0,
-      designOptions: {}
+      activeTabIndex: 0
     }
     this.handleElementResize = this.handleElementResize.bind(this)
     this.saveForm = this.saveForm.bind(this)
@@ -36,9 +36,7 @@ class TreeForm extends React.Component {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
-    this.setState({
-      designOptions: getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
-    })
+    designOptions = getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
@@ -109,8 +107,8 @@ class TreeForm extends React.Component {
     })
   }
 
-  changeDesignOption (designOptions) {
-    this.setState({ designOptions: designOptions })
+  changeDesignOption (newDesignOptions) {
+    designOptions = newDesignOptions
   }
 
   getVisibleTabs () {
@@ -181,7 +179,7 @@ class TreeForm extends React.Component {
     if (tab.type && tab.type === 'design-options') {
       let props = {
         changeDesignOption: this.changeDesignOption.bind(this),
-        values: this.state.designOptions
+        values: designOptions
       }
       return <DesignOptions {...props} />
     }
@@ -201,7 +199,7 @@ class TreeForm extends React.Component {
   saveForm () {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
-    getService('asset-manager').addDesignOption(element.get('id'), this.state.designOptions)
+    getService('asset-manager').addDesignOption(element.get('id'), designOptions)
     this.closeTreeView()
   }
 
