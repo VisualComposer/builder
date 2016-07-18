@@ -280,6 +280,9 @@ ControlsHandler.prototype.setControlsPosition = function () {
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
+    if (posTop < 0) {
+      posTop = 41 // TODO: Vasiliy find a better way to position with fixed style
+    }
     posLeft = this.$currentElement.offset().left + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
     outerWidth = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
     if (posLeft > outerWidth) {
