@@ -281,8 +281,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
     var inset = false
-    // TODO: Variable for posTop
-    if (posTop < 41) {
+    if (posTop < this.$controlsList.outerHeight()) {
       inset = true
       posTop = 0
     }
