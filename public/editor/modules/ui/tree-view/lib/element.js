@@ -18,6 +18,12 @@ var Element = React.createClass({
       hasChild: false
     }
   },
+  componentDidMount: function () {
+    this.props.api.notify('element:mount', this.props.element.id)
+  },
+  componentWillUnmount: function () {
+    this.props.api.notify('element:unmount', this.props.element.id)
+  },
   clickChildExpand: function () {
     this.setState({ childExpand: !this.state.childExpand })
   },
@@ -104,11 +110,11 @@ var Element = React.createClass({
       <a className="vcv-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}>
         <i className="vcv-ui-icon vcv-ui-icon-edit" />
       </a>
-      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
-        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
-      </a>
       <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}>
         <i className="vcv-ui-icon vcv-ui-icon-copy" />
+      </a>
+      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
+        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
       </a>
     </span>
 

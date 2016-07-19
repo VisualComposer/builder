@@ -1,25 +1,18 @@
-var vcCake = require('vc-cake')
-vcCake.add('tree-view-dnd', function (api) {
-  var DnD = require('./../frame-based-dnd/lib/dnd')
-  var documentDOM
-  var offsetTop
-  var offsetLeft
-  var ModuleDnd = function (api) {
+import vcCake from 'vc-cake'
+vcCake.add('content-tree-view-dnd', function (api) {
+  const DnD = require('./../frame-based-dnd/lib/dnd')
+  const ModuleDnd = function (api) {
     this.api = api
-    this.layoutAPI = this.api.module('ui-tree-layout')
+    this.layoutAPI = this.api.module('ui-tree-view')
   }
   ModuleDnd.prototype.buildItems = function () {
     if (!this.items) {
-      documentDOM = document
-      this.items = new DnD(documentDOM.querySelector('.vcv-ui-tree-layout'), {
-        radius: 350,
+      this.items = new DnD(document.querySelector('.vcv-ui-tree-layout'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
-        document: documentDOM,
-        offsetTop: offsetTop,
-        offsetLeft: offsetLeft
+        document: document
       })
       this.items.init()
     }
@@ -31,7 +24,7 @@ vcCake.add('tree-view-dnd', function (api) {
   }
   ModuleDnd.prototype.add = function (id) {
     this.buildItems()
-    this.items.addItem(id, documentDOM)
+    this.items.addItem(id, document)
   }
   ModuleDnd.prototype.remove = function (id) {
     this.buildItems()
@@ -44,9 +37,12 @@ vcCake.add('tree-view-dnd', function (api) {
   }
   ModuleDnd.prototype.start = function () {
     this.api.module('content-editor-controls').do('enableControls', false)
+    document.body.classList.add('vcv-no-select')
   }
   ModuleDnd.prototype.end = function () {
+    this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls').do('enableControls', true)
+    document.body.classList.remove('vcv-no-select')
   }
   var dnd = new ModuleDnd(api)
   dnd.init()
