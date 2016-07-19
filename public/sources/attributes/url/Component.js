@@ -81,13 +81,27 @@ export default class Component extends Attribute {
   render () {
     return (
       <div>
-        <button onClick={this.open}>
-          Select URL
-        </button>
 
-        <b>URL:</b> {this.state.value.url}
-        &nbsp;
-        <b>Title:</b> {this.state.value.title}
+        <div className="vcv-ui-form-link">
+          <button className="vcv-ui-button vcv-ui-form-link-button" onClick={this.open}>
+            <i className="vcv-ui-icon vcv-ui-icon-link"></i>
+            Select URL
+          </button>
+          <div className="vcv-ui-form-link-data">
+            <span
+              className="vcv-ui-form-link-title"
+              data-vc-link-title="Title: "
+              title={this.state.value.title}>
+              {this.state.value.title}
+            </span>
+            <span
+              className="vcv-ui-form-link-title"
+              data-vc-link-title="Url: "
+              title={this.state.value.url}>
+              {this.state.value.url}
+            </span>
+          </div>
+        </div>
 
         <Modal
           show={this.state.isWindowOpen}
@@ -135,8 +149,8 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <button onClick={this.cancel}>Cancel</button>
-          <button onClick={this.save}>OK</button>
+          <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
+          <button className="vcv-ui-button vcv-ui-button-action" onClick={this.save}>OK</button>
 
         </Modal>
 

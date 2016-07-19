@@ -1,0 +1,245 @@
+@import "../../../fonts/VC-Icons/style.less";
+
+.vcv-ui-button {
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  position: relative;
+  -webkit-transition-property: color, background, border, opacity, -webkit-transform;
+  transition-property: color, background, border, opacity, transform;
+  -webkit-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+  outline: none;
+  font-weight: 400;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 21px;
+  padding-right: 21px;
+  font-size: @vcui-button-font-size;
+
+  &:hover,
+  &:focus {
+    border: 1px solid transparent;
+  }
+
+  &.vcv-ui-button-shape-rounded {
+    border-radius: 3px;
+  }
+
+  &.vcv-ui-button-default {
+    color: #fff;
+    background-color: #bcbcbc;
+  }
+
+  &.vcv-ui-button-default:hover,
+  &.vcv-ui-button-default:focus {
+    background-color: #afafaf;
+  }
+
+  &.vcv-ui-button-success {
+    color: #fff;
+    background-color: #7bcd2d;
+  }
+
+  &.vcv-ui-button-success:hover,
+  &.vcv-ui-button-success:focus {
+    background-color: #73c02a;
+  }
+
+  &.vcv-ui-button-danger {
+    color: #fff;
+    background-color: #ff7877;
+  }
+
+  &.vcv-ui-button-danger:hover,
+  &.vcv-ui-button-danger:focus {
+    background-color: #ff5f5e;
+  }
+
+  &.vcv-ui-button-action {
+    color: #fff;
+    background-color: #305288;
+  }
+
+  &.vcv-ui-button-action:hover,
+  &.vcv-ui-button-action:focus {
+    background-color: #2c4b7d;
+  }
+
+  &.vcv-ui-button-info {
+    color: #fff;
+    background-color: #00aeee;
+  }
+
+  &.vcv-ui-button-info:hover,
+  &.vcv-ui-button-info:focus {
+    background-color: #00a3df;
+  }
+
+  &.vcv-ui-button-success {
+    color: #fff;
+    background-color: #7bcd2d;
+  }
+
+  &.vcv-ui-button-success:hover,
+  &.vcv-ui-button-success:focus {
+    background-color: #73c02a;
+  }
+
+  &.vcv-ui-button-warning {
+    color: #fff;
+    background-color: #feb710;
+  }
+
+  &.vcv-ui-button-warning:hover,
+  &.vcv-ui-button-warning:focus {
+    background-color: #feb201;
+  }
+
+  &[disabled]:not(.vcv-ui-button-undisabled) {
+    color: #f3f3f3;
+    background-color: #d8d8d8;
+    cursor: not-allowed;
+  }
+
+  &[disabled]:not(.vcv-ui-button-undisabled) {
+    color: #f3f3f3;
+    background-color: #d8d8d8;
+    cursor: not-allowed;
+  }
+
+  &[disabled]:not(.vcv-ui-button-undisabled):hover,
+  &[disabled]:not(.vcv-ui-button-undisabled):focus {
+    background-color: #d8d8d8;
+  }
+
+  &vcv-ui-button-size-sm {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 21px;
+    padding-right: 21px;
+    font-size: 14px;
+  }
+
+  .vcv-ui-button-message {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+  }
+
+  .vcv-ui-button-message.vcv-ui-button-message-default {
+    color: #a3a3a3;
+  }
+
+  .vcv-ui-button-message.vcv-ui-button-message-success {
+    color: #628f38;
+  }
+
+  .vcv-ui-button-message.vcv-ui-button-message-danger {
+    color: #ec5857;
+  }
+
+  .vcv-ui-button-message.vcv-ui-button-message-action {
+    color: #31486d;
+  }
+
+  &.vcv-ui-form-link-button {
+    color: #707070;
+    background-color: #eaeaea;
+    border-color: #d1d1d1;
+  }
+
+  &.vcv-ui-form-link-button:hover,
+  &.vcv-ui-form-link-button:focus {
+    background-color: #ddd;
+  }
+
+  &.vcv-ui-form-link-button {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.5;
+    border-radius: 3px;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+}
+
+.vcv-ui-form-link {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+  .vcv-ui-form-link-data {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    font-size: 13px;
+  }
+
+  .vcv-ui-form-link-title {
+    color: #9a9a9a;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 14px;
+  }
+
+  .vcv-ui-form-link-title {
+    &::before {
+      content: attr(data-vc-link-title);
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .vcv-ui-icon-link {
+    font-size: 1.3em;
+    line-height: 10px;
+    vertical-align: middle;
+    margin-right: 7px;
+  }
+
+}
