@@ -335,7 +335,7 @@ class TreeForm extends React.Component {
           <div className="vcv-ui-tree-layout-actions">
             <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
               <span className="vcv-ui-tree-layout-action-content">
-                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i>
+                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
                 <span>Close</span>
               </span>
             </a>
