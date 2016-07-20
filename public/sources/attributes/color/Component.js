@@ -7,7 +7,7 @@ export default class Component extends Attribute {
     let {value} = this.state
     return (
       <input
-        className="vc_ui-form-input-color"
+        className="vcv-ui-form-input-color"
         type="color"
         onChange={this.handleChange}
         defaultValue={value} />

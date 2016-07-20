@@ -9,11 +9,11 @@ export default class Component extends Attribute {
 
   render () {
     let checked = (this.state.value) ? 'checked' : ''
-    return (<label className="vc_ui-form-switch">
+    return (<label className="vcv-ui-form-switch">
       <input type="checkbox" onChange={this.handleChange} checked={checked} />
-      <span className="vc_ui-form-switch-indicator" />
-      <span className="vc_ui-form-switch-label" data-vc-switch-on="on" />
-      <span className="vc_ui-form-switch-label" data-vc-switch-off="off" />
+      <span className="vcv-ui-form-switch-indicator" />
+      <span className="vcv-ui-form-switch-label" data-vc-switch-on="on" />
+      <span className="vcv-ui-form-switch-label" data-vc-switch-off="off" />
     </label>)
   }
 }

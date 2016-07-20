@@ -7,5 +7,5 @@ vcCake.add('ui-navbar-separator', function (api) {
       return <span className="vcv-ui-navbar-control-separator vcv-ui-pull-end"></span>
     }
   })
-  api.module('ui-navbar').do('addElement', 'Separator', Control)
+  api.module('ui-navbar').do('addElement', 'Separator', Control, {pin: 'visible'})
 })

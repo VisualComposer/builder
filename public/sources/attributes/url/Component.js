@@ -182,9 +182,9 @@ export default class Component extends Attribute {
 
           <a style={closeStyle} onClick={this.cancel}>X</a>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
-              URL
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
+             URL
             </span>
             <String
               fieldKey="url"
@@ -193,9 +193,9 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
-              Link text
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
+             Link text
             </span>
             <String
               fieldKey="title"
@@ -203,9 +203,9 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
-              Open link in a new tab
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
+             Open link in a new tab
             </span>
             <Toggle
               fieldKey="targetBlank"
@@ -213,9 +213,9 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
-              Add nofollow option to link
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
+             Add nofollow option to link
             </span>
             <Toggle
               fieldKey="relNofollow"
@@ -223,8 +223,8 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Link to existing content
             </span>
             {this.renderExistingPosts()}

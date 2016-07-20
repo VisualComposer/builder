@@ -217,7 +217,7 @@ var DesignOptions = React.createClass({
 
   render: function () {
     var cssBoxClasses = classNames({
-      'vc_ui-form-group': true,
+      'vcv-ui-form-group': true,
       'vcv-ui-design-options': true,
       'vcv-ui-design-options-simplified': this.state.simplified
     })
@@ -235,8 +235,8 @@ var DesignOptions = React.createClass({
       <div className="vcv-ui-design-options-container">
 
         <div className="vcv-ui-design-options-css-box">
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               CSS box
             </span>
           </div>
@@ -268,10 +268,10 @@ var DesignOptions = React.createClass({
             </div>
           </div>
 
-          <div className="vc_ui-form-group">
-            <label className="vc_ui-form-checkbox">
+          <div className="vcv-ui-form-group">
+            <label className="vcv-ui-form-checkbox">
               <input type="checkbox" onClick={this.toggleSimplifyControls} defaultChecked={this.state.simplified} />
-              <span className="vc_ui-form-checkbox-indicator"></span>
+              <span className="vcv-ui-form-checkbox-indicator"></span>
               Simplify controls
             </label>
           </div>
@@ -279,8 +279,8 @@ var DesignOptions = React.createClass({
 
         <div className="vcv-ui-design-options-other">
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Border color
             </span>
             <input
@@ -290,34 +290,34 @@ var DesignOptions = React.createClass({
               onChange={this.changeBorderColor} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Border style
             </span>
             <select
               name="borderStyle"
-              className="vc_ui-form-dropdown"
+              className="vcv-ui-form-dropdown"
               value={this.state.borderStyle}
               onChange={this.changeBorderStyle}>
               {this.borderStyles}
             </select>
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Border radius
             </span>
             <select
               name="borderRadius"
-              className="vc_ui-form-dropdown"
+              className="vcv-ui-form-dropdown"
               value={this.state.borderRadius}
               onChange={this.changeBorderRadius}>
               {this.borderRadiuses}
             </select>
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Background color
             </span>
             <input
@@ -327,20 +327,20 @@ var DesignOptions = React.createClass({
               onChange={this.changeBackgroundColor} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Background image
             </span>
             <AttachImage {...backgroundImageProps} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
               Background style
             </span>
             <select
               name="backgroundStyle"
-              className="vc_ui-form-dropdown"
+              className="vcv-ui-form-dropdown"
               value={this.state.backgroundStyle}
               onChange={this.changeBackgroundStyle}>
               {this.backgroundStyles}

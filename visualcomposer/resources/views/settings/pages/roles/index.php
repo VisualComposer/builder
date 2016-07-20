@@ -47,7 +47,7 @@ $editableRoles = get_editable_roles();
 
                 <?php if (count($validRoles) > 0) : ?>
                     <div
-                        class="vc_wp-accordion-panel vc_ui-settings-roles-role<?php echo !isset($next) ? ' vc_active'
+                        class="vc_wp-accordion-panel vcv-ui-settings-roles-role<?php echo !isset($next) ? ' vc_active'
                             : '' ?>"
                         data-vc-unique-id="<?php echo esc_attr($uniqueId) ?>"
                         data-vc-content=".vc_wp-accordion-panel-body"
@@ -103,7 +103,7 @@ $editableRoles = get_editable_roles();
         </div>
     </div>
 
-    <span class="vc_settings-spinner vc_ui-wp-spinner" style="display: none;" id="vc_wp-spinner"></span>
+    <span class="vc_settings-spinner vcv-ui-wp-spinner" style="display: none;" id="vc_wp-spinner"></span>
 
     <?php
 

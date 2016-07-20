@@ -22,9 +22,9 @@ export default class Component extends Attribute {
       let value = values[ key ].value
       let checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       optionElements.push(
-        <label key={fieldKey + ':' + key + ':' + value} className="vc_ui-form-checkbox">
+        <label key={fieldKey + ':' + key + ':' + value} className="vcv-ui-form-checkbox">
           <input type="checkbox" onChange={this.handleChange} checked={checked} value={value} />
-          <span className="vc_ui-form-checkbox-indicator"></span>
+          <span className="vcv-ui-form-checkbox-indicator"></span>
           {values[ key ].label}
         </label>
       )

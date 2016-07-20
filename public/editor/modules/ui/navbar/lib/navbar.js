@@ -77,6 +77,7 @@ export class Navbar extends React.Component {
     this.props.api
       .on('build', (count) => {
         this.setState({ controlsCount: count })
+        this.handleElementResize()
       })
       .reply('navbar:resizeTop', (offsetY) => {
         this.setState({ navPosY: this.state.navPosY - offsetY })

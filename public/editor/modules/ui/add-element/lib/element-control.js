@@ -143,7 +143,7 @@ module.exports = React.createClass({
   render () {
     let element = cook.get(this.props.element)
     let nameClasses = classNames({
-      'vcv-ui-add-element-badge vcv-ui-badge-success': true,
+      'vcv-ui-add-element-badge vcv-ui-badge-success': false,
       'vcv-ui-add-element-badge vcv-ui-badge-warning': false
     })
 

@@ -113,14 +113,14 @@ export default class Element {
       throw new Error(format('Wrong type of attribute %s', k))
     }
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
-      label = (<span className="vc_ui-form-group-heading">{settings.options.label}</span>)
+      label = (<span className="vcv-ui-form-group-heading">{settings.options.label}</span>)
     }
     let description = ''
     if (typeof (settings.options) !== 'undefined' && typeof (settings.options.description) === 'string') {
-      description = (<p className="vc_ui-form-helper">{settings.options.description}</p>)
+      description = (<p className="vcv-ui-form-helper">{settings.options.description}</p>)
     }
     return (
-      <div className="vc_ui-form-group" key={'form-group-' + k}>
+      <div className="vcv-ui-form-group" key={'form-group-' + k}>
         {label}
         <Component
           key={k + this.get('id')}
