@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\Attributes\Url;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class Controller extends Container implements Module
@@ -20,16 +21,22 @@ class Controller extends Container implements Module
     }
 
     /**
-     * Get list of 100 most recent posts and pages.
+     * Get list of 20 most recent posts and pages with ability to search.
      *
      * @todo Add user permissions check.
+     *
+     * @param Request $request
+     *
      * @return array
      */
-    private function posts()
+    private function posts(Request $request)
     {
+        $search = $request->input('vcv-search');
+
         $args = [
-            'posts_per_page' => 100,
+            'posts_per_page' => 20,
             'post_type' => ['post', 'page'],
+            's' => $search,
         ];
 
         $posts = get_posts($args);

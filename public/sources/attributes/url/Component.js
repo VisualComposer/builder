@@ -40,6 +40,8 @@ export default class Component extends Attribute {
       'renderExistingPosts',
       'handlePostSelection',
       'handleInputChange',
+      'onSearchChange',
+      'performSearch',
       'cancel',
       'open',
       'save'
@@ -56,6 +58,8 @@ export default class Component extends Attribute {
     autobind.forEach((key) => {
       this[ key ] = this[ key ].bind(this)
     })
+
+    this.delayedSearch = lodash.debounce(this.performSearch, 800)
   }
 
   ajaxPost (data, successCallback, failureCallback) {
@@ -74,11 +78,11 @@ export default class Component extends Attribute {
     request.send($.param(data))
   }
 
-  loadPosts () {
-    console.log('load posts')
+  loadPosts (search) {
     let that = this
     this.ajaxPost({
       'vcv-action': 'attribute:linkSelector:getPosts',
+      'vcv-search': search,
       'vcv-nonce': window.vcvNonce
     }, function (request) {
       let posts = JSON.parse(request.response || '{}')
@@ -149,6 +153,16 @@ export default class Component extends Attribute {
     return (<ul className="vcv-ui-selectable-posts-list-container">
       {items}
     </ul>)
+  }
+
+  onSearchChange (e) {
+    e.persist()
+    this.delayedSearch(e)
+  }
+
+  performSearch (e) {
+    let keyword = e.target.value
+    this.loadPosts(keyword)
   }
 
   render () {
@@ -227,6 +241,12 @@ export default class Component extends Attribute {
             <span className="vcv-ui-form-group-heading">
               Link to existing content
             </span>
+            <input
+              type="search"
+              className="vcv-ui-form-input"
+              onChange={this.onSearchChange}
+              placeholder="Search posts, pages..."
+            />
             {this.renderExistingPosts()}
           </div>
 
