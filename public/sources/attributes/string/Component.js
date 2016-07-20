@@ -10,7 +10,7 @@ export default class Component extends Attribute {
         className="vcv-ui-form-input"
         type="text"
         onChange={this.handleChange}
-        defaultValue={value} />
+        value={value} />
     )
   }
 }

@@ -7,6 +7,8 @@ import String from '../string/Component'
 import Toggle from '../toggle/Component'
 import './css/styles.less'
 
+var $ = require('jquery')
+
 if (typeof Object.assign !== 'function') {
   Object.assign = function (target) {
     'use strict'
@@ -35,34 +37,78 @@ export default class Component extends Attribute {
     super(props)
 
     let autobind = [
+      'renderExistingPosts',
+      'handlePostSelection',
       'handleInputChange',
+      'onSearchChange',
+      'performSearch',
       'cancel',
       'open',
       'save'
     ]
-    console.log('props.value', props.value)
+
     if (!lodash.isObject(props.value)) {
       this.state.value = { url: '', title: '', targetBlank: false, relNofollow: false }
     }
 
-    this.unsavedStateValue = {}
-    Object.assign(this.unsavedStateValue, this.state.value)
-
+    this.state.unsavedValue = this.state.value
     this.state.isWindowOpen = false
+    this.state.posts = null
 
     autobind.forEach((key) => {
       this[ key ] = this[ key ].bind(this)
     })
+
+    this.delayedSearch = lodash.debounce(this.performSearch, 800)
+  }
+
+  ajaxPost (data, successCallback, failureCallback) {
+    var request = new window.XMLHttpRequest()
+    request.open('POST', window.vcvAjaxUrl, true)
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    request.onload = function () {
+      if (request.status >= 200 && request.status < 400) {
+        successCallback.call(this, request)
+      } else {
+        if (typeof failureCallback === 'function') {
+          failureCallback.call(this, request)
+        }
+      }
+    }.bind(this)
+    request.send($.param(data))
+  }
+
+  loadPosts (search) {
+    let that = this
+    this.ajaxPost({
+      'vcv-action': 'attribute:linkSelector:getPosts',
+      'vcv-search': search,
+      'vcv-nonce': window.vcvNonce
+    }, function (request) {
+      let posts = JSON.parse(request.response || '{}')
+      that.setState({ posts: posts })
+    })
   }
 
   open () {
-    Object.assign(this.unsavedStateValue, this.state.value)
-    this.setState({ isWindowOpen: true })
+    let unsavedValue = {}
+    Object.assign(unsavedValue, this.state.value)
+
+    this.setState({
+      unsavedValue: unsavedValue,
+      isWindowOpen: true
+    })
+
+    if (this.state.posts === null) {
+      this.loadPosts()
+    }
   }
 
   hide () {
-    this.unsavedStateValue = {}
-    this.setState({ isWindowOpen: false })
+    this.setState({
+      isWindowOpen: false,
+      unsavedValue: {}
+    })
   }
 
   cancel () {
@@ -70,12 +116,53 @@ export default class Component extends Attribute {
   }
 
   save () {
-    this.setFieldValue(this.unsavedStateValue)
+    this.setFieldValue(this.state.unsavedValue)
     this.hide()
   }
 
   handleInputChange (fieldKey, value) {
-    this.unsavedStateValue[ fieldKey ] = value
+    let state = this.state.unsavedValue
+    state[ fieldKey ] = value
+
+    this.setState({ unsavedValue: state })
+  }
+
+  handlePostSelection (e) {
+    e.preventDefault()
+
+    this.urlInput.setFieldValue(e.target.href)
+  }
+
+  renderExistingPosts () {
+    let that = this
+    let items = []
+
+    if (!this.state.posts) {
+      return
+    }
+
+    this.state.posts.map((post) => {
+      items.push(<li key={'vcv-selectable-post-url-' + post.id} className="vcv-ui-selectable-posts-list-item">
+        <a href={post.url} onClick={that.handlePostSelection}>
+          {post.title}
+        </a>
+      </li>
+      )
+    })
+
+    return (<ul className="vcv-ui-selectable-posts-list-container">
+      {items}
+    </ul>)
+  }
+
+  onSearchChange (e) {
+    e.persist()
+    this.delayedSearch(e)
+  }
+
+  performSearch (e) {
+    let keyword = e.target.value
+    this.loadPosts(keyword)
   }
 
   render () {
@@ -115,7 +202,8 @@ export default class Component extends Attribute {
             </span>
             <String
               fieldKey="url"
-              value={this.state.value.url}
+              ref={(c) => { this.urlInput = c }}
+              value={this.state.unsavedValue.url}
               updater={this.handleInputChange} />
           </div>
 
@@ -125,7 +213,7 @@ export default class Component extends Attribute {
             </span>
             <String
               fieldKey="title"
-              value={this.state.value.title}
+              value={this.state.unsavedValue.title}
               updater={this.handleInputChange} />
           </div>
 
@@ -135,7 +223,7 @@ export default class Component extends Attribute {
             </span>
             <Toggle
               fieldKey="targetBlank"
-              value={this.state.value.targetBlank}
+              value={this.state.unsavedValue.targetBlank}
               updater={this.handleInputChange} />
           </div>
 
@@ -145,8 +233,21 @@ export default class Component extends Attribute {
             </span>
             <Toggle
               fieldKey="relNofollow"
-              value={this.state.value.relNofollow}
+              value={this.state.unsavedValue.relNofollow}
               updater={this.handleInputChange} />
+          </div>
+
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
+              Link to existing content
+            </span>
+            <input
+              type="search"
+              className="vcv-ui-form-input"
+              onChange={this.onSearchChange}
+              placeholder="Search posts, pages..."
+            />
+            {this.renderExistingPosts()}
           </div>
 
           <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
