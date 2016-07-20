@@ -22,7 +22,10 @@ ControlsHandler.prototype.showOutline = function ($el, hideControls) {
     this.$currentElement = $el
     this.updateElementsTree()
     this.drawOutlines()
-    hideControls !== true && this.drawControls()
+    this.setTimer()
+    if (hideControls !== true) {
+      this.drawControls()
+    }
   }
 
   return this
@@ -244,8 +247,19 @@ ControlsHandler.prototype.drawControls = function () {
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
   }
-
   this.setControlsPosition()
+}
+
+ControlsHandler.prototype.setTimer = function () {
+  this.clearTimer()
+  this.timer = window.setInterval(this.drawOutlines.bind(this), 300)
+}
+
+ControlsHandler.prototype.clearTimer = function () {
+  if (this.timer) {
+    window.clearInterval(this.timer)
+    this.timer = null
+  }
 }
 
 ControlsHandler.prototype.removeControls = function () {
@@ -253,6 +267,7 @@ ControlsHandler.prototype.removeControls = function () {
     this.$controlsContainer.remove()
     this.$controlsContainer = null
     this.$controlsList = null
+    this.clearTimer()
   }
 
   return this
