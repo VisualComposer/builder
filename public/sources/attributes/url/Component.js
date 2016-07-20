@@ -109,8 +109,8 @@ export default class Component extends Attribute {
 
           <a style={closeStyle} onClick={this.cancel}>X</a>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
              URL
             </span>
             <String
@@ -119,8 +119,8 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
              Link text
             </span>
             <String
@@ -129,8 +129,8 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
              Open link in a new tab
             </span>
             <Toggle
@@ -139,8 +139,8 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vc_ui-form-group">
-            <span className="vc_ui-form-group-heading">
+          <div className="vcv-ui-form-group">
+            <span className="vcv-ui-form-group-heading">
              Add nofollow option to link
             </span>
             <Toggle

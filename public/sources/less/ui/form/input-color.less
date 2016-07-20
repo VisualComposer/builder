@@ -1,5 +1,5 @@
 // Textual inputs (text, password, datetime, number, email, textarea)
-.vc_ui-form-input-color {
+.vcv-ui-form-input-color {
   background-color: @vcui-form-input-background;
   background-image: none;
   border: 1px solid @vcui-form-input-border-color;
@@ -17,12 +17,12 @@
   width: 100%;
   &:hover,
   &:focus {
-    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
   }
   &:focus {
-    animation: vc_ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
+    animation: vcv-ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
     outline: none;
-    #make-vc_ui-form > .focus-blink-shadow();
+    #make-vcv-ui-form > .focus-blink-shadow();
   }
   &:disabled,
   &[disabled],

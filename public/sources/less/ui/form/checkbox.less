@@ -1,4 +1,4 @@
-.vc_ui-form-checkbox {
+.vcv-ui-form-checkbox {
   @content-padding: 2em;
   @checkbox-size: .83em;
 
@@ -9,7 +9,7 @@
   padding-right: @content-padding/2;
   position: relative;
 
-  .vc_ui-form-checkbox-indicator {
+  .vcv-ui-form-checkbox-indicator {
     position: absolute;
     top: 50%;
     left: 0;
@@ -32,8 +32,8 @@
   }
 
   &:hover {
-    .vc_ui-form-checkbox-indicator {
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    .vcv-ui-form-checkbox-indicator {
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
   }
 
@@ -42,12 +42,12 @@
     position: absolute;
     z-index: -1;
     &:focus {
-      + .vc_ui-form-checkbox-indicator {
-        animation: vc_ui-form-blink @vcui-form-transition-duration * 2 ease-out;
+      + .vcv-ui-form-checkbox-indicator {
+        animation: vcv-ui-form-blink @vcui-form-transition-duration * 2 ease-out;
       }
     }
 
-    + .vc_ui-form-checkbox-indicator {
+    + .vcv-ui-form-checkbox-indicator {
       &::before {
         opacity: 0;
         position: absolute;
@@ -59,7 +59,7 @@
         transition-timing-function: ease-in-out;
 
         content: "✓";
-        //font-family: "vc_ui-icons";
+        //font-family: "vcv-ui-icons";
         font-style: normal;
         font-weight: normal;
         font-variant: normal;
@@ -72,7 +72,7 @@
       }
     }
     &:checked {
-      + .vc_ui-form-checkbox-indicator {
+      + .vcv-ui-form-checkbox-indicator {
         &::before {
           opacity: 1;
         }
@@ -81,7 +81,7 @@
 
     &:disabled,
     &[disabled] {
-      + .vc_ui-form-checkbox-indicator {
+      + .vcv-ui-form-checkbox-indicator {
         background-color: @vcui-form-input-disabled-background;
         border-color: @vcui-form-input-border-color;
         color: @vcui-form-input-disabled-color;
@@ -91,7 +91,7 @@
 
   }
 
-  + .vc_ui-form-helper {
+  + .vcv-ui-form-helper {
     margin-left: @content-padding;
   }
 }

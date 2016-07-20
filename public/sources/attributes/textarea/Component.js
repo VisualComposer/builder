@@ -7,7 +7,7 @@ export default class Component extends Attribute {
     let {value} = this.state
     return (
       <textarea
-        className="vc_ui-form-input"
+        className="vcv-ui-form-input"
         onChange={this.handleChange}
         value={value} />
     )
