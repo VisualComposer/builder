@@ -79,14 +79,15 @@ class Resizer extends React.Component {
 
   doResize (e) {
     if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
+      let $window = $(window)
       var clientX = this.getClientX(e)
       var clientY = this.getClientY(e)
       var offsetX = this.startClientX - clientX
       var offsetY = this.startClientY - clientY
 
-      // console.log(e, this)
-      // console.log(this.getClientX(e),this.getClientY(e))
-      // console.log(this.startClientX, this.startClientY)
+      if (clientX < 0 || clientX > $window.width() || clientY < 0 || clientY > $window.height()) {
+        return
+      }
 
       var w, h, oldW, oldH, doResize
       e.offsetX = offsetX
@@ -100,7 +101,7 @@ class Resizer extends React.Component {
         oldH = parseInt(this.$targetTop.css('height'))
         h = oldH + offsetY + 'px'
         this.$targetTop.css('height', h)
-        doResize = (window.getComputedStyle(this.$targetTop[0]).height === h)
+        doResize = (window.getComputedStyle(this.$targetTop[ 0 ]).height === h)
         if (doResize) {
           this.startClientY = clientY
           e.direction = 'top'
@@ -112,7 +113,7 @@ class Resizer extends React.Component {
         oldH = parseInt(this.$targetBottom.css('height'))
         h = oldH - (offsetY) + 'px'
         this.$targetBottom.css('height', h)
-        doResize = (window.getComputedStyle(this.$targetBottom[0]).height === h)
+        doResize = (window.getComputedStyle(this.$targetBottom[ 0 ]).height === h)
         if (doResize) {
           this.startClientY = clientY
           e.direction = 'bottom'
@@ -125,7 +126,7 @@ class Resizer extends React.Component {
         oldW = parseInt(this.$targetRight.css('width'))
         w = oldW - (offsetX) + 'px'
         this.$targetRight.css('width', w)
-        doResize = (window.getComputedStyle(this.$targetRight[0]).width === w)
+        doResize = (window.getComputedStyle(this.$targetRight[ 0 ]).width === w)
         if (doResize) {
           this.startClientX = clientX
           e.direction = 'right'
@@ -137,7 +138,7 @@ class Resizer extends React.Component {
         oldW = parseInt(this.$targetLeft.css('width'))
         w = oldW + (offsetX) + 'px'
         this.$targetLeft.css('width', w)
-        doResize = (window.getComputedStyle(this.$targetLeft[0]).width === w)
+        doResize = (window.getComputedStyle(this.$targetLeft[ 0 ]).width === w)
         if (doResize) {
           this.startClientX = clientX
           e.direction = 'left'
