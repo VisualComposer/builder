@@ -20,6 +20,23 @@ var Element = React.createClass({
   },
   componentDidMount: function () {
     this.props.api.notify('element:mount', this.props.element.id)
+
+    this.props.api
+      .reply('app:edit', (id) => {
+        this.setState({ elementId: id })
+      })
+      .reply('app:add', (id) => {
+        this.setState({ elementId: id })
+      })
+      .reply('bar-content-end:hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('form:hide', () => {
+        this.setState({ elementId: null })
+      })
   },
   componentWillUnmount: function () {
     this.props.api.notify('element:unmount', this.props.element.id)
@@ -54,29 +71,6 @@ var Element = React.createClass({
       return <ul className="vcv-ui-tree-layout-node">{elementsList}</ul>
     }
     return ''
-  },
-  componentDidMount: function () {
-    this.props.api.notify('element:mount', this.props.element.id)
-
-    this.props.api
-      .reply('app:edit', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('app:add', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('form:hide', () => {
-        this.setState({ elementId: null })
-      })
-  },
-  componentWillUnmount: function () {
-    this.props.api.notify('element:unmount', this.props.element.id)
   },
   render: function () {
     let element = cook.get(this.props.element)
