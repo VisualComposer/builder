@@ -100,10 +100,10 @@ class Resizer extends React.Component {
         oldH = parseInt(this.$targetTop.css('height'))
         h = oldH + offsetY + 'px'
         this.$targetTop.css('height', h)
-        this.startClientY = clientY
-        e.direction = 'top'
         doResize = (window.getComputedStyle(this.$targetTop[0]).height === h)
         if (doResize) {
+          this.startClientY = clientY
+          e.direction = 'top'
           this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
         } else {
           this.$targetTop.css('height', oldH)
@@ -112,10 +112,10 @@ class Resizer extends React.Component {
         oldH = parseInt(this.$targetBottom.css('height'))
         h = oldH - (offsetY) + 'px'
         this.$targetBottom.css('height', h)
-        this.startClientY = clientY
-        e.direction = 'bottom'
         doResize = (window.getComputedStyle(this.$targetBottom[0]).height === h)
         if (doResize) {
+          this.startClientY = clientY
+          e.direction = 'bottom'
           this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
         } else {
           this.$targetBottom.css('height', oldH)
@@ -125,10 +125,10 @@ class Resizer extends React.Component {
         oldW = parseInt(this.$targetRight.css('width'))
         w = oldW - (offsetX) + 'px'
         this.$targetRight.css('width', w)
-        this.startClientX = clientX
-        e.direction = 'right'
         doResize = (window.getComputedStyle(this.$targetRight[0]).width === w)
         if (doResize) {
+          this.startClientX = clientX
+          e.direction = 'right'
           this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
         } else {
           this.$targetRight.css('width', oldW)
@@ -137,10 +137,10 @@ class Resizer extends React.Component {
         oldW = parseInt(this.$targetLeft.css('width'))
         w = oldW + (offsetX) + 'px'
         this.$targetLeft.css('width', w)
-        this.startClientX = clientX
-        e.direction = 'left'
         doResize = (window.getComputedStyle(this.$targetLeft[0]).width === w)
         if (doResize) {
+          this.startClientX = clientX
+          e.direction = 'left'
           this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
         } else {
           this.$targetLeft.css('width', oldW)
