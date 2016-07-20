@@ -29,6 +29,10 @@ export class Navbar extends React.Component {
         height: undefined,
         width: undefined
       },
+      navbarPositionFix: {
+        top: undefined,
+        left: undefined
+      },
       moveDirection: {
         top: false,
         right: false,
@@ -253,16 +257,27 @@ export class Navbar extends React.Component {
     }
   }
 
-  handleDragStart (e) {
+  handleDragStart (e, dragWithHandler = true) {
     e && e.preventDefault()
     if (e.nativeEvent.which !== 1) {
-      return false
+      return
     }
+
+    // if stacked than can't drag on empty space
+    if (!dragWithHandler && this.state.navbarPosition !== 'detached') {
+      return
+    }
+
+    let navbarPosition = ReactDOM.findDOMNode(this).getBoundingClientRect()
     this.setState({
       isDragging: true,
       navbarSize: {
         height: ReactDOM.findDOMNode(this).offsetHeight,
         width: ReactDOM.findDOMNode(this).offsetWidth
+      },
+      navbarPositionFix: {
+        top: e.nativeEvent.clientY - navbarPosition.top,
+        left: e.nativeEvent.clientX - navbarPosition.left
       }
     })
 
@@ -362,18 +377,17 @@ export class Navbar extends React.Component {
   }
 
   render () {
-    let { isDragging, navPosX, navPosY, navbarPosition } = this.state
+    let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
-    let navSizeDetached = 60
 
     if (isDragging) {
       isDetached = false
     }
 
     if (navbarPosition === 'detached') {
-      navBarStyle.top = navPosY - navSizeDetached / 2 + 'px'
-      navBarStyle.left = navPosX - 7 + 'px'
+      navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
+      navBarStyle.left = navPosX - navbarPositionFix.left + 'px'
     }
 
     let targetStyle = document.body.querySelector('.vcv-layout-bar').style
@@ -403,7 +417,7 @@ export class Navbar extends React.Component {
           {this.buildVisibleControls()}
           {this.buildHiddenControls()}
           <div className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer"
-            onMouseDown={this.handleDragStart}></div>
+            onMouseDown={(e) => this.handleDragStart(e, false)}></div>
         </nav>
       </div>
     )
