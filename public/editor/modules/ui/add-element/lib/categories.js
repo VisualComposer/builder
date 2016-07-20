@@ -272,14 +272,14 @@ class Categories extends React.Component {
         <div className="vcv-ui-scroll-container">
           <div className="vcv-ui-scroll">
             <div className="vcv-ui-scroll-content">
-
-              <div className="vcv-ui-editor-plates-container">
-                <div className="vcv-ui-editor-plates">
-                  {visibleTabsContentOutput}
-                  {hiddenTabsContentOutput}
+              <div className="vcv-ui-tree-content-section-inner">
+                <div className="vcv-ui-editor-plates-container">
+                  <div className="vcv-ui-editor-plates">
+                    {visibleTabsContentOutput}
+                    {hiddenTabsContentOutput}
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
