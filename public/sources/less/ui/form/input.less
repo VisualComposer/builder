@@ -1,5 +1,5 @@
 // Textual inputs (text, password, datetime, number, email, textarea)
-.vc_ui-form-input {
+.vcv-ui-form-input {
   background-color: @vcui-form-input-background;
   background-image: none;
   border: 1px solid @vcui-form-input-border-color;
@@ -16,12 +16,12 @@
   width: 100%;
   &:hover,
   &:focus {
-    #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
   }
   &:focus {
-    animation: vc_ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
+    animation: vcv-ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
     outline: none;
-    #make-vc_ui-form > .focus-blink-shadow();
+    #make-vcv-ui-form > .focus-blink-shadow();
   }
   &::placeholder {
     color: @vcui-form-input-placeholder-color;
@@ -37,18 +37,18 @@
   }
 }
 
-textarea.vc_ui-form-input {
+textarea.vcv-ui-form-input {
   overflow: auto;
   resize: vertical;
   height: 10em;
 }
 
-.vc_ui-form-input-group {
+.vcv-ui-form-input-group {
   display: flex;
   padding-left: 1px;
 
   // input
-  .vc_ui-form-input {
+  .vcv-ui-form-input {
     flex-grow: 1;
     min-width: 50%;
     width: auto;
@@ -69,8 +69,8 @@ textarea.vc_ui-form-input {
   }
 
   // addon
-  .vc_ui-form-input-group-addon {
-    &:extend(.vc_ui-form-input);
+  .vcv-ui-form-input-group-addon {
+    &:extend(.vcv-ui-form-input);
     background: @vcui-form-input-disabled-background;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,7 +88,7 @@ textarea.vc_ui-form-input {
   }
 
   // button
-  .vc_ui-form-input-group-button {
+  .vcv-ui-form-input-group-button {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

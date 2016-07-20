@@ -122,7 +122,7 @@
 .vc_visible {
   display: block;
 }
-.vc_ui-wp-spinner {
+.vcv-ui-wp-spinner {
   margin: 0;
   padding: 0;
   height: 1em;
@@ -132,7 +132,7 @@
   opacity: .7;
   position: relative;
 }
-.vc_ui-wp-spinner::before {
+.vcv-ui-wp-spinner::before {
   content: '';
   display: block;
   height: 16px;
@@ -145,14 +145,14 @@
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  -webkit-animation: vc_ui-wp-spinner-animation 1.08s linear infinite;
-          animation: vc_ui-wp-spinner-animation 1.08s linear infinite;
+  -webkit-animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+          animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
 }
-.vc_ui-wp-spinner.vc_ui-wp-spinner-lg::before {
+.vcv-ui-wp-spinner.vcv-ui-wp-spinner-lg::before {
   height: 20.8px;
   width: 20.8px;
 }
-@-webkit-keyframes vc_ui-wp-spinner-animation {
+@-webkit-keyframes vcv-ui-wp-spinner-animation {
   from {
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
             transform: translate(-50%, -50%) rotate(0deg);
@@ -162,7 +162,7 @@
             transform: translate(-50%, -50%) rotate(360deg);
   }
 }
-@keyframes vc_ui-wp-spinner-animation {
+@keyframes vcv-ui-wp-spinner-animation {
   from {
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
             transform: translate(-50%, -50%) rotate(0deg);
@@ -201,12 +201,12 @@
   opacity: 0.4;
   filter: alpha(opacity=40);
 }
-.vc_settings .vc_settings-tab-content .vc_ui-wp-spinner {
+.vc_settings .vc_settings-tab-content .vcv-ui-wp-spinner {
   height: 25px;
   width: 25px;
   float: left;
 }
-.vc_settings .vc_settings-tab-content .vc_ui-wp-spinner::before {
+.vc_settings .vc_settings-tab-content .vcv-ui-wp-spinner::before {
   height: 20px;
   width: 20px;
 }
@@ -1551,7 +1551,7 @@
 .vc_settings .vc_icon-vc-gitem-post-categories {
   background-position: 0 -1760px;
 }
-.vc_settings .vc_ui-settings-roles-dropdown {
+.vc_settings .vcv-ui-settings-roles-dropdown {
   min-width: 200px;
 }
 .vc_settings .vc_role-custom-settings {
@@ -1566,28 +1566,28 @@
 .vc_settings [data-vc-roles-filter-value=".js-category-deprecated"] .vc_wp-form-table .js-category-deprecated {
   display: table-row;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_opened .widget-top {
+.vc_settings .vcv-ui-settings-roles-role .vc_opened .widget-top {
   cursor: default;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_opened .widget-top a.widget-action:after {
+.vc_settings .vcv-ui-settings-roles-role .vc_opened .widget-top a.widget-action:after {
   content: '\f142';
   cursor: pointer;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_wp-accordion-panel-body {
+.vc_settings .vcv-ui-settings-roles-role .vc_wp-accordion-panel-body {
   padding: 0 10px;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_wp-form-table .vc_hidden {
+.vc_settings .vcv-ui-settings-roles-role .vc_wp-form-table .vc_hidden {
   display: none;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_element-icon {
+.vc_settings .vcv-ui-settings-roles-role .vc_element-icon {
   float: left;
   margin-right: 0.8em;
 }
-.vc_settings .vc_ui-settings-roles-role .vc_element-description {
+.vc_settings .vcv-ui-settings-roles-role .vc_element-description {
   font-size: 11px;
   display: block;
 }
-.vc_settings .vc_ui-settings-roles-role .widget .widget-top {
+.vc_settings .vcv-ui-settings-roles-role .widget .widget-top {
   cursor: pointer;
 }
 .vc_wp-settings {
@@ -1738,20 +1738,20 @@
 .vc_wp-accordion .vc_animating .vc_wp-accordion-panel-body {
   display: block;
 }
-.vc_general.vc_ui-tabs-line {
+.vc_general.vcv-ui-tabs-line {
   padding: 0;
   margin: 0;
   list-style: none;
 }
-.vc_general.vc_ui-tabs-line > li {
+.vc_general.vcv-ui-tabs-line > li {
   float: left;
   margin: 0;
   padding: 0;
 }
-.vc_general.vc_ui-tabs-line > .vc_ui-tabs-line-dropdown-toggle {
+.vc_general.vcv-ui-tabs-line > .vcv-ui-tabs-line-dropdown-toggle {
   float: right;
 }
-.vc_general.vc_ui-tabs-line .vc_ui-tabs-line-trigger {
+.vc_general.vcv-ui-tabs-line .vcv-ui-tabs-line-trigger {
   box-sizing: border-box;
   display: block;
   text-transform: none;
@@ -1781,44 +1781,44 @@
           user-select: none;
   text-align: left;
 }
-.vc_general.vc_ui-tabs-line .vc_ui-tabs-line-trigger:hover,
-.vc_general.vc_ui-tabs-line .vc_ui-tabs-line-trigger:focus {
+.vc_general.vcv-ui-tabs-line .vcv-ui-tabs-line-trigger:hover,
+.vc_general.vcv-ui-tabs-line .vcv-ui-tabs-line-trigger:focus {
   border: 1px solid transparent;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.vc_general.vc_ui-tabs-line .vc_ui-tabs-line-trigger:active {
+.vc_general.vcv-ui-tabs-line .vcv-ui-tabs-line-trigger:active {
   box-shadow: none;
 }
-.vc_general.vc_ui-tabs-line > .vc_active > .vc_ui-tabs-line-trigger {
+.vc_general.vcv-ui-tabs-line > .vc_active > .vcv-ui-tabs-line-trigger {
   background-color: #fff;
   color: #5e5e5e;
   cursor: default;
 }
-.vc_general.vc_ui-tabs-line::after {
+.vc_general.vcv-ui-tabs-line::after {
   content: "";
   display: table;
   clear: both;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown-toggle {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown-toggle {
   position: absolute;
   float: right;
   visibility: hidden;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown-toggle.vc_visible {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown-toggle.vc_visible {
   visibility: visible;
   position: relative;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown-toggle > .vc_ui-tabs-line-trigger::after {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown-toggle > .vcv-ui-tabs-line-trigger::after {
   content: '. . .';
   font-weight: 600;
   display: inline;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown-toggle.vc_active > .vc_ui-tabs-line-trigger {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown-toggle.vc_active > .vcv-ui-tabs-line-trigger {
   background-color: rgba(0, 0, 0, 0.1);
   color: inherit;
   cursor: pointer;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown {
   position: absolute;
   z-index: 1010;
   top: 100%;
@@ -1839,38 +1839,38 @@
   background: #f5f5f5;
   border: 1px solid #dbdbdb;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown li {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown li {
   margin: 0;
   padding: 0;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown.vc_active,
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown.vc_animating {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown.vc_active,
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown.vc_animating {
   display: block;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown .vc_ui-tabs-line-trigger {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown .vcv-ui-tabs-line-trigger {
   padding: 10px 10px;
   border-radius: 0;
   font-size: 12px;
   color: #5e5e5e;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown .vc_ui-tabs-line-trigger:hover {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown .vcv-ui-tabs-line-trigger:hover {
   background-color: #eaeaea;
 }
-.vc_ui-tabs-line .vc_ui-tabs-line-dropdown .vc_active .vc_ui-tabs-line-trigger {
+.vcv-ui-tabs-line .vcv-ui-tabs-line-dropdown .vc_active .vcv-ui-tabs-line-trigger {
   background-color: #eaeaea;
   cursor: default;
 }
-.vc_ui-tabs-line {
+.vcv-ui-tabs-line {
   opacity: 1;
   -webkit-transition: opacity 0.2s ease-in-out;
           transition: opacity 0.2s ease-in-out;
 }
-.vc_ui-tabs-line.vc_initializing {
+.vcv-ui-tabs-line.vc_initializing {
   -webkit-transition: opacity 0ms;
           transition: opacity 0ms;
   opacity: 0;
 }
-.vc_ui-tabs-line.vc_initializing > li:not(:first-child):not(.vc_ui-tabs-line-dropdown-toggle) {
+.vcv-ui-tabs-line.vc_initializing > li:not(:first-child):not(.vcv-ui-tabs-line-dropdown-toggle) {
   position: absolute;
   visibility: hidden;
 }
@@ -2010,13 +2010,13 @@
   border-left: 1px solid #176898;
 }
 /* Tabs line */
-.vc_wp-settings .vc_ui-tabs-line {
+.vc_wp-settings .vcv-ui-tabs-line {
   margin-left: 0;
   margin-right: 0;
   position: relative;
   top: 1px;
 }
-.vc_wp-settings .vc_ui-tabs-line > .vc_active > .vc_ui-tabs-line-trigger {
+.vc_wp-settings .vcv-ui-tabs-line > .vc_active > .vcv-ui-tabs-line-trigger {
   border-top-color: #e5e5e5;
   border-left-color: #e5e5e5;
   border-right-color: #e5e5e5;

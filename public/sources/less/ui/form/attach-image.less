@@ -1,5 +1,5 @@
 
-.vc_ui-form-attach-image {
+.vcv-ui-form-attach-image {
   @gap: 10px;
   margin: 0 -@gap/2;
 
@@ -30,12 +30,12 @@
     margin-left: @gap/2;
     &:hover,
     &:focus {
-      #make-vc_ui-form > .property-darken-color(color, @vcui-form-input-border-color);
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
     &::after {
-      &:extend(.vc_ui-icon);
-      content: "\e069"; // .vc_ui-icon-add-thin
+      &:extend(.vcv-ui-icon);
+      content: "\e069"; // .vcv-ui-icon-add-thin
       position: absolute;
       top: 50%;
       left: 50%;
@@ -135,23 +135,23 @@
     transition-timing-function: ease-in-out;
   }
 
-  .vc_ui-sortable-handle {
+  .vcv-ui-sortable-handle {
     @color: #fff;
     color: @color;
     cursor: move;
     &:hover,
     &:focus {
-      #make-vc_ui-form > .property-darken-color(color, @color);
+      #make-vcv-ui-form > .property-darken-color(color, @color);
     }
   }
 
-  .vc_ui-edit-handle {
+  .vcv-ui-edit-handle {
     @color: #fff;
     color: @color;
     cursor: pointer;
     &:hover,
     &:focus {
-      #make-vc_ui-form > .property-darken-color(color, @color);
+      #make-vcv-ui-form > .property-darken-color(color, @color);
     }
   }
 
@@ -159,15 +159,15 @@
     color: @vcui-attach-image-remove-color;
     &:hover,
     &:focus {
-      #make-vc_ui-form > .property-darken-color(color, @vcui-attach-image-remove-color);
+      #make-vcv-ui-form > .property-darken-color(color, @vcui-attach-image-remove-color);
     }
   }
 
-  &.vc_ui-form-attach-image-o-single {
-    .vc_ui-sortable-handle {
+  &.vcv-ui-form-attach-image-o-single {
+    .vcv-ui-sortable-handle {
       display: none;
     }
-    &:not(.vc_ui-empty) {
+    &:not(.vcv-ui-empty) {
       .gallery_widget_add_images {
         //display: none;
       }
