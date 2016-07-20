@@ -41,12 +41,14 @@ var Collector = {
         } else {
           content += uf("attributeService.add('%s', null, {\n", attribute)
         }
+        var gettersSetters = []
         if (isGetterExists) {
-          content += uf("getter: %sGetter,\n", attribute)
+          gettersSetters.push(uf("getter: %sGetter", attribute))
         }
         if (isSetterExists) {
-          content += uf("setter: %sSetter\n", attribute)
+          gettersSetters.push(uf("setter: %sSetter", attribute))
         }
+        content += gettersSetters.join(',')
         content += uf("})\n")
       }
     })
