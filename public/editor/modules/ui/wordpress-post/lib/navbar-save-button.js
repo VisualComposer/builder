@@ -39,5 +39,5 @@ vcCake.add('ui-save-data', function (api) {
       </div>)
     }
   })
-  api.module('ui-navbar').do('addElement', 'Save post', Control)
+  api.module('ui-navbar').do('addElement', 'Save post', Control, { pin: 'visible' })
 })
