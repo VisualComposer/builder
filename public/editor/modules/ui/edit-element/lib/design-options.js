@@ -193,12 +193,6 @@ var DesignOptions = React.createClass({
   },
 
   render: function () {
-    var cssBoxClasses = classNames({
-      'vcv-ui-form-group': true,
-      'vcv-ui-design-options': true,
-      'vcv-ui-design-options-simplified': this.state.simplified
-    })
-
     let backgroundImageProps = {
       updater: this.changeBackgroundImage,
       fieldKey: 'backgroundImage',
@@ -207,6 +201,19 @@ var DesignOptions = React.createClass({
         multiple: false
       }
     }
+
+    let cssBoxClasses = classNames({
+      'vcv-ui-form-group': true,
+      'vcv-ui-design-options': true,
+      'vcv-ui-design-options-simplified': this.state.simplified
+    })
+
+    let isBorderSpecified = !!(
+      parseInt(this.state.borderTop) ||
+      parseInt(this.state.borderRight) ||
+      parseInt(this.state.borderBottom) ||
+      parseInt(this.state.borderLeft)
+    )
 
     return (
       <div className="vcv-ui-design-options-container">
@@ -266,30 +273,6 @@ var DesignOptions = React.createClass({
 
           <div className="vcv-ui-form-group">
             <span className="vcv-ui-form-group-heading">
-              Border color
-            </span>
-            <input
-              name="borderColor"
-              type="color"
-              value={this.state.borderColor}
-              onChange={this.changeBorderColor} />
-          </div>
-
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-              Border style
-            </span>
-            <select
-              name="borderStyle"
-              className="vcv-ui-form-dropdown"
-              value={this.state.borderStyle}
-              onChange={this.changeBorderStyle}>
-              {this.borderStyles}
-            </select>
-          </div>
-
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
               Background color
             </span>
             <input
@@ -318,8 +301,33 @@ var DesignOptions = React.createClass({
                 onChange={this.changeBackgroundStyle}>
                 {this.backgroundStyles}
               </select>
-            </div>
-          }
+            </div>}
+
+          {isBorderSpecified &&
+            <div className="vcv-ui-form-group">
+              <span className="vcv-ui-form-group-heading">
+                Border style
+              </span>
+              <select
+                name="borderStyle"
+                className="vcv-ui-form-dropdown"
+                value={this.state.borderStyle}
+                onChange={this.changeBorderStyle}>
+                {this.borderStyles}
+              </select>
+            </div>}
+
+          {isBorderSpecified &&
+            <div className="vcv-ui-form-group">
+              <span className="vcv-ui-form-group-heading">
+                Border color
+              </span>
+              <input
+                name="borderColor"
+                type="color"
+                value={this.state.borderColor}
+                onChange={this.changeBorderColor} />
+            </div>}
 
         </div>
 
