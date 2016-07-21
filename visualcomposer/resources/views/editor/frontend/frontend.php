@@ -28,7 +28,7 @@ wp_enqueue_media();
     do_action('embed_head');
     ?>
 </head>
-<body>
+<body class="vcv-wb-editor">
 
 <script type="text/javascript" src="<?php echo $urlHelper->to(
     'public/dist/wp.bundle.js?' . uniqid()
