@@ -19,7 +19,7 @@ var DesignOptions = React.createClass({
       backgroundStyle: '',
       borderColor: '',
       borderStyle: '',
-      simplified: false,
+      simplified: true,
       borderTopRightRadius: '',
       borderBottomRightRadius: '',
       borderBottomLeftRadius: '',
@@ -177,7 +177,7 @@ var DesignOptions = React.createClass({
   },
 
   getValue: function (name) {
-    return (this.props.values && this.props.values[ name ]) ? this.props.values[ name ] : ''
+    return (this.props.values && this.props.values[ name ]) ? this.props.values[ name ] : this.state[ name ]
   },
 
   renderInput: function (name, position) {
