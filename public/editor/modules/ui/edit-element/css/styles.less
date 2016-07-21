@@ -37,8 +37,21 @@
 .vcv-ui-design-options-label {
   font-size: @labelFontSize;
   position: absolute;
-  left: 5px;
-  top: 5px;
+  margin-left: -65px;
+  text-align: right;
+  width: 45px;
+  left: 50%;
+  top: 15px;
+
+  &.vcv-ui-design-options-label-top-right {
+    right: @input_w + 9px;
+    left: auto;
+  }
+}
+
+.vcv-ui-design-options-radiuses-box {
+  border: 1px dashed @marginsBorderColor;
+  background: @marginsBackgroundColor;
 }
 
 .vcv-ui-design-options-margins-box {
@@ -101,14 +114,33 @@
   top: 50%;
 }
 
+.vcv-ui-design-options-input-top-right {
+  top: (@onionPadding - @input_h)/2;
+  right: (@onionPadding - @input_w)/2;
+}
+
+.vcv-ui-design-options-input-bottom-right {
+  right: (@onionPadding - @input_w)/2;
+  bottom: (@onionPadding - @input_h)/2;
+}
+
+.vcv-ui-design-options-input-bottom-left {
+  bottom: (@onionPadding - @input_h)/2;
+  left: (@onionPadding - @input_w)/2;
+}
+
+.vcv-ui-design-options-input-top-left {
+  top: (@onionPadding - @input_h)/2;
+  left: (@onionPadding - @input_w)/2;
+}
+
 .vcv-ui-design-options-simplified {
-  .vcv-ui-design-options-input {
+  .vcv-ui-design-options-input-bottom-right,
+  .vcv-ui-design-options-input-bottom-left,
+  .vcv-ui-design-options-input-top-left,
+  .vcv-ui-design-options-input-right,
+  .vcv-ui-design-options-input-bottom,
+  .vcv-ui-design-options-input-left {
     display: none;
-  }
-  .vcv-ui-design-options-input-top {
-    display: inline-block;
-    margin-left: 0;
-    left: 5px;
-    top: 21px;
   }
 }
