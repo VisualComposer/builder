@@ -7,6 +7,8 @@ $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
 wp_enqueue_media();
+/** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
+$frontendModule = vcapp('EditorsFrontendController');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -38,6 +40,7 @@ wp_enqueue_media();
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+    window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
 </script>
 
 <?php

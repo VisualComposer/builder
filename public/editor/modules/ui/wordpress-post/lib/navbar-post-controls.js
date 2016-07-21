@@ -1,3 +1,4 @@
+/*eslint no-extra-bind: "off"*/
 var vcCake = require('vc-cake')
 var React = require('react')
 var classNames = require('classnames')
@@ -6,21 +7,25 @@ require('../../../../../sources/less/ui/loader/init.less')
 class WordPressPostSaveControl extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      saving: false
-    }
+    this.state = window.vcvPostData
+    this.state.saving = false
+    this.state.saved = false
   }
 
   clickSaveData () {
     this.setState({ 'saving': true })
-    setTimeout((() => {
+    setTimeout(
+      (() => {
         this.setState({ 'saving': false })
         this.setState({ 'saved': true })
-      }).bind(this), 500
+      }).bind(this),
+      500
     )
-    setTimeout((() => {
+    setTimeout(
+      (() => {
         this.setState({ 'saved': false })
-      }).bind(this), 5000
+      }).bind(this),
+      5000
     )
     this.props.api.notify('save')
   }
@@ -37,10 +42,10 @@ class WordPressPostSaveControl extends React.Component {
       'vcv-ui-icon-save': !this.state.saving
     })
     return (
-      <div className="vcv-ui-navbar-controls-group vcv-ui-pull-end">
-        <a className={saveButtonClasses} title="Save" onClick={this.clickSaveData.bind(this)}><span
-          className="vcv-ui-navbar-control-content">
-          <i className={saveIconClasses}></i><span>Save</span>
+      <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
+        <a className={saveButtonClasses} title='Save & Publish' onClick={this.clickSaveData.bind(this)}><span
+          className='vcv-ui-navbar-control-content'>
+          <i className={saveIconClasses}></i><span>Save & Publish</span>
         </span></a>
       </div>
     )
@@ -62,22 +67,22 @@ class WordPressAdminControl extends React.Component {
       this.state.status !== 'private'
     ) {
       saveDraftButton = (
-        <a className="vcv-ui-navbar-control" href={this.state.permalink} title="Save Draft"><span
-          className="vcv-ui-navbar-control-content">Save Draft</span></a>
+        <a className='vcv-ui-navbar-control' href={this.state.permalink} title='Save Draft'><span
+          className='vcv-ui-navbar-control-content'>Save Draft</span></a>
       )
     }
 
     var viewButton = ''
     if (this.state.status === 'publish') {
       viewButton = (
-        <a className="vcv-ui-navbar-control" href={this.state.permalink} title="View Page"><span
-          className="vcv-ui-navbar-control-content">View Page</span></a>
+        <a className='vcv-ui-navbar-control' href={this.state.permalink} title='View Page'><span
+          className='vcv-ui-navbar-control-content'>View Page</span></a>
       )
     }
     var previewText = this.state.status === 'publish' ? 'Preview Changes' : 'Preview'
     var previewButton = (
-      <a className="vcv-ui-navbar-control" href={this.state.previewUrl} title={previewText}><span
-        className="vcv-ui-navbar-control-content">{previewText}</span></a>
+      <a className='vcv-ui-navbar-control' href={this.state.previewUrl} title={previewText}><span
+        className='vcv-ui-navbar-control-content'>{previewText}</span></a>
     )
 
     return (
@@ -92,7 +97,7 @@ class WordPressAdminControl extends React.Component {
 
 vcCake.add('ui-wordpress-navbar-wp-admin',
   (api) => {
-    api.module('ui-navbar').do('addElement', 'Wordpress Post Save Button', <WordPressPostSaveControl api={api} />,
+    api.module('ui-navbar').do('addElement', 'Post Save Control', WordPressPostSaveControl,
       {
         pin: 'visible'
       }
@@ -104,4 +109,3 @@ vcCake.add('ui-wordpress-navbar-wp-admin',
     )
   }
 )
-

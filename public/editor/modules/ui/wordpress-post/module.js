@@ -2,21 +2,13 @@ const vcCake = require('vc-cake')
 // const cook = vcCake.getService('cook')
 const storage = vcCake.getService('wordpress-storage')
 const documentData = vcCake.getService('document')
-/* const reWrapDefaultContent = function (data) {
-  let newData = {}
-  Object.keys(data).forEach((k) => {
-    newData[ k ] = data[ k ]
-    newData[ k ].tag = cook.getTagByName(newData[ k ].name)
-  })
-  return newData
-} */
+
 vcCake.add('ui-wp-load', function (api) {
   api.reply('start', function () {
     storage.get(function (request) {
       var data = JSON.parse(request.responseText || '{}')
       if (data) {
         // Todo fix saving ( empty Name, params all undefined toJS function)
-        // data = reWrapDefaultContent(data)
         var timeMachine = vcCake.getService('time-machine')
         timeMachine.setZeroState(data)
         api.request('data:reset', data)
@@ -30,5 +22,4 @@ vcCake.add('ui-save-data', function (api) {
     storage.save(documentData.all())
   })
 })
-// require('./lib/navbar-dropdown-control')
-require('./lib/navbar-save-button')
+require('./lib/navbar-post-controls')
