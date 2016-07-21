@@ -19,8 +19,11 @@ var DesignOptions = React.createClass({
       backgroundStyle: '',
       borderColor: '',
       borderStyle: '',
-      borderRadius: '',
-      simplified: false,
+      simplified: true,
+      borderTopRightRadius: '',
+      borderBottomRightRadius: '',
+      borderBottomLeftRadius: '',
+      borderTopLeftRadius: '',
       marginTop: '',
       marginRight: '',
       marginBottom: '',
@@ -39,7 +42,6 @@ var DesignOptions = React.createClass({
   componentWillMount () {
     this.initBackgroundStyles()
     this.initBorderStyles()
-    this.initBorderRadiuses()
 
     this.setState({
       backgroundImage: this.getValue('backgroundImage'),
@@ -47,8 +49,11 @@ var DesignOptions = React.createClass({
       backgroundStyle: this.getValue('backgroundStyle'),
       borderColor: this.getValue('borderColor'),
       borderStyle: this.getValue('borderStyle'),
-      borderRadius: this.getValue('borderRadius'),
       simplified: this.getValue('simplified'),
+      borderTopRightRadius: this.getValue('borderTopRightRadius'),
+      borderBottomRightRadius: this.getValue('borderBottomRightRadius'),
+      borderBottomLeftRadius: this.getValue('borderBottomLeftRadius'),
+      borderTopLeftRadius: this.getValue('borderTopLeftRadius'),
       marginTop: this.getValue('marginTop'),
       marginRight: this.getValue('marginRight'),
       marginBottom: this.getValue('marginBottom'),
@@ -110,32 +115,6 @@ var DesignOptions = React.createClass({
     this.borderStyles = borderStyles
   },
 
-  initBorderRadiuses: function () {
-    let borderRadiuses = []
-    let borderRadiusValues = [
-      { value: '', label: 'None' },
-      { value: '1px', label: '1px' },
-      { value: '2px', label: '2px' },
-      { value: '3px', label: '3px' },
-      { value: '4px', label: '4px' },
-      { value: '5px', label: '5px' },
-      { value: '10px', label: '10px' },
-      { value: '15px', label: '15px' },
-      { value: '20px', label: '20px' },
-      { value: '25px', label: '25px' },
-      { value: '30px', label: '30px' },
-      { value: '35px', label: '35px' }
-    ]
-
-    for (let i = 0, len = borderRadiusValues.length; i < len; i++) {
-      let value = borderRadiusValues[ i ].value
-      let label = borderRadiusValues[ i ].label
-      borderRadiuses.push(<option key={'borderRadius:' + value} value={value}>{label}</option>)
-    }
-
-    this.borderRadiuses = borderRadiuses
-  },
-
   changeBoxInput: function (e) {
     this.changeState({
       [e.target.name]: e.target.value
@@ -145,6 +124,10 @@ var DesignOptions = React.createClass({
   toggleSimplifyControls: function (e) {
     this.changeState({
       simplified: e.target.checked,
+      borderTopRightRadius: this.state.borderTopRightRadius,
+      borderBottomRightRadius: this.state.borderTopRightRadius,
+      borderBottomLeftRadius: this.state.borderTopRightRadius,
+      borderTopLeftRadius: this.state.borderTopRightRadius,
       marginRight: this.state.marginTop,
       marginBottom: this.state.marginTop,
       marginLeft: this.state.marginTop,
@@ -187,12 +170,6 @@ var DesignOptions = React.createClass({
     })
   },
 
-  changeBorderRadius: function (e) {
-    this.changeState({
-      borderRadius: e.target.value
-    })
-  },
-
   changeState: function (state) {
     let newState = lodash.merge(this.state, state)
     this.replaceState(newState)
@@ -200,7 +177,7 @@ var DesignOptions = React.createClass({
   },
 
   getValue: function (name) {
-    return (this.props.values && this.props.values[ name ]) ? this.props.values[ name ] : ''
+    return (this.props.values && this.props.values[ name ]) ? this.props.values[ name ] : this.state[ name ]
   },
 
   renderInput: function (name, position) {
@@ -212,7 +189,7 @@ var DesignOptions = React.createClass({
       className={classes}
       name={name}
       onChange={this.changeBoxInput}
-      value={this.state[name]} />
+      value={this.state[ name ]} />
   },
 
   render: function () {
@@ -243,19 +220,26 @@ var DesignOptions = React.createClass({
 
           <div className={cssBoxClasses}>
             <div className="vcv-ui-design-options-box vcv-ui-design-options-margins-box">
-              <label className="vcv-ui-design-options-label">margin</label>
+              <label className="vcv-ui-design-options-label">Margin</label>
+              <label className="vcv-ui-design-options-label vcv-ui-design-options-label-top-right">Radius</label>
+
+              {this.renderInput('borderTopRightRadius', 'top-right')}
+              {this.renderInput('borderBottomRightRadius', 'bottom-right')}
+              {this.renderInput('borderBottomLeftRadius', 'bottom-left')}
+              {this.renderInput('borderTopLeftRadius', 'top-left')}
+
               {this.renderInput('marginTop', 'top')}
               {this.renderInput('marginRight', 'right')}
               {this.renderInput('marginBottom', 'bottom')}
               {this.renderInput('marginLeft', 'left')}
               <div className="vcv-ui-design-options-box vcv-ui-design-options-borders-box">
-                <label className="vcv-ui-design-options-label">border</label>
+                <label className="vcv-ui-design-options-label">Border</label>
                 {this.renderInput('borderTop', 'top')}
                 {this.renderInput('borderRight', 'right')}
                 {this.renderInput('borderBottom', 'bottom')}
                 {this.renderInput('borderLeft', 'left')}
                 <div className="vcv-ui-design-options-box vcv-ui-design-options-paddings-box">
-                  <label className="vcv-ui-design-options-label">padding</label>
+                  <label className="vcv-ui-design-options-label">Padding</label>
                   {this.renderInput('paddingTop', 'top')}
                   {this.renderInput('paddingRight', 'right')}
                   {this.renderInput('paddingBottom', 'bottom')}
@@ -265,6 +249,7 @@ var DesignOptions = React.createClass({
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
 
@@ -300,19 +285,6 @@ var DesignOptions = React.createClass({
               value={this.state.borderStyle}
               onChange={this.changeBorderStyle}>
               {this.borderStyles}
-            </select>
-          </div>
-
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-              Border radius
-            </span>
-            <select
-              name="borderRadius"
-              className="vcv-ui-form-dropdown"
-              value={this.state.borderRadius}
-              onChange={this.changeBorderRadius}>
-              {this.borderRadiuses}
             </select>
           </div>
 

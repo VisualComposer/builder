@@ -54,6 +54,7 @@ export default class Component extends Attribute {
     this.state.unsavedValue = this.state.value
     this.state.isWindowOpen = false
     this.state.posts = null
+    this.shouldRenderExistingPosts = !!window.vcvAjaxUrl
 
     autobind.forEach((key) => {
       this[ key ] = this[ key ].bind(this)
@@ -99,7 +100,7 @@ export default class Component extends Attribute {
       isWindowOpen: true
     })
 
-    if (this.state.posts === null) {
+    if (this.shouldRenderExistingPosts && this.state.posts === null) {
       this.loadPosts()
     }
   }
@@ -153,6 +154,25 @@ export default class Component extends Attribute {
     return (<ul className="vcv-ui-selectable-posts-list-container">
       {items}
     </ul>)
+  }
+
+  renderExistingPostsBlock () {
+    if (!this.shouldRenderExistingPosts) {
+      return
+    }
+
+    return (<div className="vcv-ui-form-group">
+      <span className="vcv-ui-form-group-heading">
+        Link to existing content
+      </span>
+      <input
+        type="search"
+        className="vcv-ui-form-input"
+        onChange={this.onSearchChange}
+        placeholder="Search posts, pages..."
+      />
+      {this.renderExistingPosts()}
+    </div>)
   }
 
   onSearchChange (e) {
@@ -237,18 +257,7 @@ export default class Component extends Attribute {
               updater={this.handleInputChange} />
           </div>
 
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-              Link to existing content
-            </span>
-            <input
-              type="search"
-              className="vcv-ui-form-input"
-              onChange={this.onSearchChange}
-              placeholder="Search posts, pages..."
-            />
-            {this.renderExistingPosts()}
-          </div>
+          {this.renderExistingPostsBlock()}
 
           <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
           <button className="vcv-ui-button vcv-ui-button-action" onClick={this.save}>OK</button>
