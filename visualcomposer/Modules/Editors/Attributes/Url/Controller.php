@@ -47,6 +47,7 @@ class Controller extends Container implements Module
                 'id' => $post->ID,
                 'title' => $post->post_title,
                 'url' => get_permalink($post->ID),
+                'type' => $post->post_type,
             ];
         }
 
