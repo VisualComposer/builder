@@ -252,7 +252,7 @@ ControlsHandler.prototype.drawControls = function () {
 
 ControlsHandler.prototype.setTimer = function () {
   this.clearTimer()
-  this.timer = window.setInterval(this.drawOutlines.bind(this), 300)
+  this.timer = window.setInterval(this.drawOutlines.bind(this), 200)
 }
 
 ControlsHandler.prototype.clearTimer = function () {
