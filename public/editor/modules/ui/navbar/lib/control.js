@@ -73,7 +73,7 @@ export default class Control extends React.Component {
 
   render () {
     let value = this.props.value
-    return React.createElement(value.icon, { value: value })
+    return React.createElement(value.icon, { value: value, api: this.props.api })
   }
 }
 Control.propTypes = {
