@@ -14,6 +14,8 @@ wp_enqueue_media();
     <link rel="profile" href="http://gmpg.org/xfn/11" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <title><?php __('Frontend editor', 'vc5'); /** @todo use more informative title */ ?></title>
+    <link rel="stylesheet"
+        href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <link rel="stylesheet" property="stylesheet" type="text/css"
         href="<?php
         echo $urlHelper->to(
@@ -26,7 +28,7 @@ wp_enqueue_media();
     do_action('embed_head');
     ?>
 </head>
-<body style="overflow: hidden;">
+<body>
 
 <script type="text/javascript" src="<?php echo $urlHelper->to(
     'public/dist/wp.bundle.js?' . uniqid()
