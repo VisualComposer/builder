@@ -306,18 +306,20 @@ var DesignOptions = React.createClass({
             <AttachImage {...backgroundImageProps} />
           </div>
 
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-              Background style
-            </span>
-            <select
-              name="backgroundStyle"
-              className="vcv-ui-form-dropdown"
-              value={this.state.backgroundStyle}
-              onChange={this.changeBackgroundStyle}>
-              {this.backgroundStyles}
-            </select>
-          </div>
+          {(this.state.backgroundImage.ids.length > 0) &&
+            <div className="vcv-ui-form-group">
+              <span className="vcv-ui-form-group-heading">
+                Background style
+              </span>
+              <select
+                name="backgroundStyle"
+                className="vcv-ui-form-dropdown"
+                value={this.state.backgroundStyle}
+                onChange={this.changeBackgroundStyle}>
+                {this.backgroundStyles}
+              </select>
+            </div>
+          }
 
         </div>
 
