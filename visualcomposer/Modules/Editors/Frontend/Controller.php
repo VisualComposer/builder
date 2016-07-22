@@ -65,9 +65,11 @@ class Controller extends Container implements Module
      */
     private function setupPost($sourceId)
     {
-        global $post;
+        global $post_type, $post_type_object, $post;
         $post = get_post($sourceId);
         setup_postdata($post);
+        $post_type = $post->post_type;
+        $post_type_object = get_post_type_object($post_type);
 
         return $post;
     }
@@ -82,5 +84,26 @@ class Controller extends Container implements Module
         );
 
         return $url;
+    }
+
+    public function getPostData()
+    {
+        global $post_type, $post_type_object, $post;
+        $data = [];
+
+        $data['id'] = get_the_ID();
+        $data['status'] = $post->post_status;
+
+        $permalink = get_permalink();
+        if (!$permalink) {
+            $permalink = '';
+        }
+        $previewUrl = get_preview_post_link($post);
+        $viewable = is_post_type_viewable($post_type_object);
+        $data['permalink'] = $permalink;
+        $data['previewUrl'] = $previewUrl;
+        $data['viewable'] = $viewable;
+
+        return $data;
     }
 }

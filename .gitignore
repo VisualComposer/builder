@@ -51,3 +51,6 @@ public/dist/
 .env
 composer.lock
 test-coverage.xml
+
+cache/*
+!cache/.gitkeep

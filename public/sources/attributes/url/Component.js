@@ -1,11 +1,12 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import lodash from 'lodash'
-import Modal, {closeStyle} from 'simple-react-modal'
+import Modal from 'simple-react-modal'
 import Attribute from '../attribute'
 import String from '../string/Component'
-import Toggle from '../toggle/Component'
+import Checkbox from '../checkbox/Component'
 import './css/styles.less'
+import './css/modal.less'
 
 var $ = require('jquery')
 
@@ -123,6 +124,12 @@ export default class Component extends Attribute {
 
   handleInputChange (fieldKey, value) {
     let state = this.state.unsavedValue
+
+    // Checkboxes return either ["1"] or []. Cast to boolean.
+    if ([ 'targetBlank', 'relNofollow' ].indexOf(fieldKey) !== -1) {
+      value = value.length > 0
+    }
+
     state[ fieldKey ] = value
 
     this.setState({ unsavedValue: state })
@@ -138,14 +145,16 @@ export default class Component extends Attribute {
     let that = this
     let items = []
 
-    if (!this.state.posts) {
-      return
+    if (!this.state.posts || !this.state.posts.length) {
+      return <div className="vcv-ui-form-no-content">
+        There is no content with such term found.
+      </div>
     }
 
     this.state.posts.map((post) => {
       items.push(<li key={'vcv-selectable-post-url-' + post.id} className="vcv-ui-selectable-posts-list-item">
         <a href={post.url} onClick={that.handlePostSelection}>
-          {post.title}
+          {post.title} / {post.type}
         </a>
       </li>
       )
@@ -162,14 +171,14 @@ export default class Component extends Attribute {
     }
 
     return (<div className="vcv-ui-form-group">
-      <span className="vcv-ui-form-group-heading">
-        Link to existing content
-      </span>
+      <p className="vcv-ui-form-helper">
+        Or link to existing content
+      </p>
       <input
         type="search"
         className="vcv-ui-form-input"
         onChange={this.onSearchChange}
-        placeholder="Search posts, pages..."
+        placeholder="Search existing content"
       />
       {this.renderExistingPosts()}
     </div>)
@@ -212,9 +221,18 @@ export default class Component extends Attribute {
 
         <Modal
           show={this.state.isWindowOpen}
+          className="vcv-ui-modal"
+          containerClassName="vcv-ui-modal-container"
           onClose={this.cancel}>
 
-          <a style={closeStyle} onClick={this.cancel}>X</a>
+          <header>
+            <h1>Insert or Edit Link</h1>
+            <a className="vcv-ui-modal-close" onClick={this.cancel}>X</a>
+          </header>
+
+          <p className="vcv-ui-form-helper">
+            Enter the destination URL
+          </p>
 
           <div className="vcv-ui-form-group">
             <span className="vcv-ui-form-group-heading">
@@ -229,38 +247,39 @@ export default class Component extends Attribute {
 
           <div className="vcv-ui-form-group">
             <span className="vcv-ui-form-group-heading">
-             Link text
+             Title
             </span>
             <String
               fieldKey="title"
               value={this.state.unsavedValue.title}
               updater={this.handleInputChange} />
+            <p className="vcv-ui-form-helper">
+              Title attribute will be displayed on link hover
+            </p>
           </div>
 
           <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-             Open link in a new tab
-            </span>
-            <Toggle
+            <Checkbox
               fieldKey="targetBlank"
-              value={this.state.unsavedValue.targetBlank}
+              options={{ values: [{ label: 'Open link in a new tab', value: '1' }] }}
+              value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
               updater={this.handleInputChange} />
           </div>
 
           <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-             Add nofollow option to link
-            </span>
-            <Toggle
+            <Checkbox
               fieldKey="relNofollow"
-              value={this.state.unsavedValue.relNofollow}
+              options={{ values: [{ label: 'Add nofollow option to link', value: '1' }] }}
+              value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
               updater={this.handleInputChange} />
           </div>
 
           {this.renderExistingPostsBlock()}
 
-          <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
-          <button className="vcv-ui-button vcv-ui-button-action" onClick={this.save}>OK</button>
+          <footer>
+            <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
+            <button className="vcv-ui-button vcv-ui-button-action" onClick={this.save}>OK</button>
+          </footer>
 
         </Modal>
 

@@ -66,7 +66,7 @@ define('VCV_PLUGIN_DIRNAME', dirname(VCV_PLUGIN_BASE_NAME));
  */
 define('VCV_PREFIX', 'vcv-');
 if (!defined('VCV_DEBUG')) {
-    define('VCV_DEBUG', false);
+    define('VCV_DEBUG', true); // TODO: Fix autoload
 }
 
 // Used in requirements.php
