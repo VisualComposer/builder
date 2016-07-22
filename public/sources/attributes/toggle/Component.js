@@ -7,6 +7,10 @@ export default class Component extends Attribute {
     this.setFieldValue(value)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({ value: nextProps.value })
+  }
+
   render () {
     let checked = (this.state.value) ? 'checked' : ''
     return (<label className="vcv-ui-form-switch">

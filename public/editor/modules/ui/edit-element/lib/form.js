@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-import DesignOptions from './design-options'
+import DesignOptions from './design-options/design-options'
 import {getService} from 'vc-cake'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
