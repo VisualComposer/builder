@@ -1,7 +1,6 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 var vcCake = require('vc-cake')
 var React = require('react')
-var classNames = require('classnames')
 require('../css/tree/init.less')
 require('../css/tree-view/init.less')
 var Element = require('./element.js')
@@ -10,18 +9,10 @@ var DataChanged = {
     this.props.api.reply('data:changed', function (data) {
       this.setState({ data: data })
     }.bind(this))
-    this.props.api
-      .reply('app:add', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('app:edit', (id) => {
-        this.setState({ elementId: id })
-      })
   },
   getInitialState: function () {
     return {
-      data: [],
-      elementId: null
+      data: []
     }
   }
 }
@@ -48,11 +39,7 @@ var Layout = React.createClass({
   },
 
   handleAddElement () {
-    // if (this.state.elementId) {
-    //   this.props.api.module('ui-layout-bar').do('setEndContentVisible', false)
-    // } else {
     this.props.api.request('app:add', null)
-    // }
   },
 
   getElementsOutput () {
@@ -69,10 +56,6 @@ var Layout = React.createClass({
   },
 
   render: function () {
-    let addElementControlClasses = classNames({
-      'vcv-ui-tree-layout-action': true,
-      'vcv-ui-state--active': !this.state.elementId
-    })
     return (
       <div className="vcv-ui-tree-layout-container">
         <div className="vcv-ui-scroll-container">
@@ -80,7 +63,7 @@ var Layout = React.createClass({
             <div className="vcv-ui-scroll-content">
               {this.getElementsOutput()}
               <div className="vcv-ui-tree-layout-actions">
-                <a className={addElementControlClasses} href="#" title="Add Element" onClick={this.handleAddElement}><span
+                <a className="vcv-ui-tree-layout-action" href="#" title="Add Element" onClick={this.handleAddElement}><span
                   className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add"></i><span>Add element</span></span></a>
                 <a className="vcv-ui-tree-layout-action" href="#" disabled title="Template"><span className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template"></i><span>Template</span></span></a>
               </div>

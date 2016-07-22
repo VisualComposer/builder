@@ -16,18 +16,15 @@
 }
 
 //== navbar
+#vc-navbar-container,
 .vcv-ui-navbar-container {
-  //position: fixed;
-  //top: 0;
-  //left: 0;
-  //right: 0;
-  //transition-property: opacity, top, left, bottom, right;
-  //transition-duration: @transition-duration;
-  //transition-timing-function: @transition-timing-function;
-  //z-index: @navbar-z-index;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 0 auto;
 }
 
 .vcv-ui-navbar {
+  flex: 1 0 auto;
   font-size: @navbar-text-size-base;
   color: @navbar-text-color-base;
   background-color: @navbar-bg-base;
