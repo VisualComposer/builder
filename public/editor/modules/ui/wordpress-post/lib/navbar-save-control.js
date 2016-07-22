@@ -3,39 +3,74 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
-let PostData = vcCake.getService('wordpress-post-data')
+
+const PostData = vcCake.getService('wordpress-post-data')
+const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 class WordPressPostSaveControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       saving: false,
-      saved: false
+      status: ''
+    }
+    this.timer = false
+  }
+
+  componentDidMount () {
+    this.props.api.reply('wordpress:data:saved', (
+      (data) => {
+        let status = data.status === 'success' ? 'success' : 'error'
+        this.setState({
+          saving: false,
+          status: status
+        })
+        this.clearTimer()
+        this.timer = setTimeout(
+          (() => {
+            this.setState({
+              saving: false,
+              status: ''
+            })
+          }).bind(this),
+          SAVED_TIMEOUT
+        )
+      }).bind(this)
+    )
+    this.props.api.reply('wordpress:data:saving', (
+      (options) => {
+        this.clickSaveData({ options: options })
+      }).bind(this)
+    )
+  }
+
+  clearTimer () {
+    if (this.timer) {
+      window.clearTimeout(this.timer)
+      this.timer = false
     }
   }
 
-  clickSaveData () {
-    this.setState({ 'saving': true })
-    setTimeout(
-      (() => {
-        this.setState({ 'saving': false })
-        this.setState({ 'saved': true })
-      }).bind(this),
-      500
-    )
-    setTimeout(
-      (() => {
-        this.setState({ 'saved': false })
-      }).bind(this),
-      5000
-    )
-    this.props.api.request('wordpress:save')
+  clickSaveData (e) {
+    e && e.preventDefault && e.preventDefault()
+    if (this.state.saving) {
+      return
+    }
+    this.setState({
+      saving: true,
+      status: ''
+    })
+    // Check Save option from other modules
+    this.props.api.request('wordpress:save', {
+      options: e ? e.options : {}
+    })
   }
 
   render () {
     let saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
-      'vcv-ui-state--success': this.state.saved
+      'vcv-ui-state--success': this.state.status === 'success',
+      'vcv-ui-state--error': this.state.status === 'error'
     })
     let saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
@@ -53,7 +88,11 @@ class WordPressPostSaveControl extends React.Component {
 
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
-        <a className={saveButtonClasses} title={saveText} onClick={this.clickSaveData.bind(this)}><span
+        <a
+          className={saveButtonClasses}
+          title={saveText}
+          onClick={this.clickSaveData.bind(this)}
+        ><span
           className='vcv-ui-navbar-control-content'>
           <i className={saveIconClasses}></i><span>{saveText}</span>
         </span></a>

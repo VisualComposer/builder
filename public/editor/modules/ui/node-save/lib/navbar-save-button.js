@@ -22,7 +22,7 @@ class Control extends React.Component {
     setTimeout(() => {
       _this.setState({ 'saved': false })
     }, 5000)
-    this.props.api.notify('save')
+    this.props.api.request('node:save')
   }
 
   render () {

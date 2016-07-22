@@ -1,17 +1,24 @@
 import vcCake from 'vc-cake'
 
-const storage = vcCake.getService('wordpress-storage')
-
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
-    storage.get((request) => {
-      let data = JSON.parse(request.responseText || '{}')
-      if (data) {
+    api.request('wordpress:load')
+  })
+
+  api.reply('wordpress:data:loaded', (data) => {
+    let elements, timeMachine
+    let { status, request } = data
+
+    if (status === 'success') {
+      elements = JSON.parse(request.responseText || '{}')
+      if (elements) {
         // Todo fix saving ( empty Name, params all undefined toJS function)
-        let timeMachine = vcCake.getService('time-machine')
-        timeMachine.setZeroState(data)
-        api.request('data:reset', data)
+        timeMachine = vcCake.getService('time-machine')
+        timeMachine.setZeroState(elements)
+        api.request('data:reset', elements)
       }
-    })
+    } else {
+      window.console && window.console.error && window.console.error('Failed to load wordpress:data:loaded', data)
+    }
   })
 })

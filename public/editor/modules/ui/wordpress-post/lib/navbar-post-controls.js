@@ -2,21 +2,25 @@
 
 import vcCake from 'vc-cake'
 import React from 'react'
-let PostData = vcCake.getService('wordpress-post-data')
+
+const PostData = vcCake.getService('wordpress-post-data')
 
 class WordPressAdminControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.props.api.reply('wordpress:saved', () => {
-      this.forceUpdate()
-    })
+  saveDraft (e) {
+    e && e.preventDefault && e.preventDefault()
+    this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
   render () {
     let saveDraftButton = ''
     if (PostData.isDraft()) {
       saveDraftButton = (
-        <a className='vcv-ui-navbar-control' href={PostData.permalink()} title='Save Draft'><span
+        <a
+          className='vcv-ui-navbar-control'
+          href={PostData.permalink()}
+          title='Save Draft'
+          onClick={this.saveDraft.bind(this)}
+        ><span
           className='vcv-ui-navbar-control-content'>Save Draft</span></a>
       )
     }
