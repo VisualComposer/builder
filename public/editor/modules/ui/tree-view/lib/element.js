@@ -127,7 +127,7 @@ var Element = React.createClass({
         </div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
-          <img src={publicPath} className="vcv-ui-tree-layout-control-icon" alt="" />
+          <i className="vcv-ui-tree-layout-control-icon"><img src={publicPath} className="vcv-ui-icon" alt="" /></i>
           <span className="vcv-ui-tree-layout-control-label">
             <span>{element.get('name')}</span>
           </span>

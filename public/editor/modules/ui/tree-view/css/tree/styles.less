@@ -12,6 +12,7 @@
   flex-grow: 1;
   height: 100%;
   font-size: @tree-text-size-base;
+  line-height: 1;
   color: @tree-text-color-base;
   background-color: @tree-bg-base;
   border-right: 1px solid @tree-separator-color;
@@ -33,13 +34,12 @@
 
 // Actions
 .vcv-ui-tree-layout-actions {
+  font-size: @tree-action-icon-size;
   overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border-top: 1px solid @tree-separator-color;
-  margin-top: -1px;
-  min-height: @tree-control-height;
+  flex: 0 0 auto;
   .vcv-ui-tree-layout-action-content {
     span {
       margin-left: @tree-gold-value;
@@ -56,15 +56,13 @@
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  padding: @tree-gold-value / 2;
+  padding: @tree-gold-value;
   text-align: center;
   cursor: pointer;
   transition: all @transition-duration @transition-timing-function;
   flex-grow: 1;
   flex-shrink: 1;
-
-  margin-right: -1px;
-  border-width: 0 1px 0 0;
+  border-width: 1px 1px 0 0;
   border-style: solid;
   border-color: @tree-separator-color;
 
@@ -84,14 +82,12 @@
 }
 
 .vcv-ui-tree-layout-action-icon {
-  font-size: 1em;
-  height: 1em;
-  width: 1.25em;
+  height: @tree-action-icon-size;
+  width: @tree-action-icon-size;
   display: inline-block;
   vertical-align: middle;
   position: relative;
   &::before {
-    font-size: 1.25em;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -102,7 +98,6 @@
 //== Message
 .vcv-ui-tree-layout-messages {
   flex: 1 1 auto;
-  border-bottom: 1px solid @tree-separator-color;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -110,6 +105,9 @@
   color: @tree-message-color-base;
   text-align: center;
   font-style: italic;
+  > * {
+    flex: 1 1 100%;
+  }
 }
 .vcv-ui-tree-layout-message {
   padding: @tree-gold-value / 2 1em;
@@ -159,8 +157,21 @@
 }
 
 .vcv-ui-tree-layout-control-icon {
-  width: 1.2em;
-  height: 1.2em;
+  position: relative;
+  width: @tree-control-icon-size;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: @tree-control-icon-size;
+    width: @tree-control-icon-size;
+    height: @tree-control-icon-size;
+  }
 }
 
 //== control actions
@@ -182,7 +193,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.2em;
+    font-size: @tree-control-action-size;
   }
 }
 
