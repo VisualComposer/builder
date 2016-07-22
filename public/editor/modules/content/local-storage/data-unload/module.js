@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 import $ from 'jquery'
 
-vcCake.add('content-wordpress-data-unload', (api) => {
+vcCake.add('content-local-storage-data-unload', (api) => {
   let initialStart = true
   let unload = {
     setDataChanged: () => {
@@ -18,5 +18,5 @@ vcCake.add('content-wordpress-data-unload', (api) => {
     }
   }
   api.reply('data:changed', unload.setDataChanged)
-  api.reply('wordpress:data:saved', unload.unsetDataChanged)
+  api.reply('node:save', unload.unsetDataChanged)
 })

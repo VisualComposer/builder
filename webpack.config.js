@@ -33,6 +33,7 @@ module.exports = {
         'content/inline-editable',
         'content/local-storage/data-load',
         'content/local-storage/data-save',
+        'content/local-storage/data-unload',
         // 'content/resizer',
         'ui/layout-bar',
         'ui/navbar',
