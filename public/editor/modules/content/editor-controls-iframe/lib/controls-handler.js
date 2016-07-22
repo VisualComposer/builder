@@ -22,6 +22,7 @@ ControlsHandler.prototype.showOutline = function ($el, hideControls) {
     this.$currentElement = $el
     this.updateElementsTree()
     this.drawOutlines()
+    this.setControlsPosition()
     this.setTimer()
     if (hideControls !== true) {
       this.drawControls()
@@ -124,8 +125,6 @@ ControlsHandler.prototype.drawOutlines = function () {
       outlines[ i ].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
     }
   }
-
-  this.setControlsPosition()
 
   return this
 }
