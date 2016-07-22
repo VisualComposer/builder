@@ -6,6 +6,16 @@ import React from 'react'
 const PostData = vcCake.getService('wordpress-post-data')
 
 class WordPressAdminControl extends React.Component {
+  componentDidMount () {
+    this.props.api.reply('wordpress:data:saved', (
+        (data) => {
+          // Call the forceUpdate when saved
+          this.forceUpdate()
+        }
+      ).bind(this)
+    )
+  }
+
   saveDraft (e) {
     e && e.preventDefault && e.preventDefault()
     this.props.api.request('wordpress:data:saving', { draft: true })

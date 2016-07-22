@@ -10,12 +10,15 @@ const documentData = vcCake.getService('document')
 class SaveController {
   constructor (props) {
     this.props = props
-    this.props.api.reply('wordpress:save', (() => {
-      this.save(documentData.all())
+    this.props.api.reply('wordpress:save', ((options) => {
+      options = $.extend({}, {
+        elements: documentData.all()
+      }, options)
+      this.save(options)
     }).bind(this))
 
-    this.props.api.reply('wordpress:load', (() => {
-      this.load()
+    this.props.api.reply('wordpress:load', ((data) => {
+      this.load(data)
     }).bind(this))
   }
 
@@ -62,6 +65,11 @@ class SaveController {
   }
 
   saveSuccess (request) {
+    let data = JSON.parse(request.responseText || '{}')
+    if (data.postData) {
+      window.vcvPostData = data.postData
+    }
+
     this.props.api.request('wordpress:data:saved', {
       status: 'success',
       request: request
@@ -75,10 +83,11 @@ class SaveController {
     })
   }
 
-  load () {
+  load (data) {
     this.ajax(
       {
-        'vcv-action': 'getData:adminNonce'
+        'vcv-action': 'getData:adminNonce',
+        'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
       this.loadSuccess.bind(this),
       this.loadFailed.bind(this)

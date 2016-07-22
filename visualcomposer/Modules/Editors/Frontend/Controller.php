@@ -63,7 +63,7 @@ class Controller extends Container implements Module
      *
      * @return \WP_Post
      */
-    private function setupPost($sourceId)
+    public function setupPost($sourceId)
     {
         global $post_type, $post_type_object, $post;
         $post = get_post($sourceId);
