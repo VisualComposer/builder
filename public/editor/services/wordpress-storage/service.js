@@ -30,7 +30,7 @@ var wordpressStorage = {
     request.send($.param(data))
   },
   update: function (data) {
-    var content = document.getElementsByClassName('vc-v-layouts-clean-html')[ 0 ].innerHTML.replace(
+    var content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data\-reactid="[^"]+"/,
       '')
     var scripts = assetManager.getAssets('scripts')

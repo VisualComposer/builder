@@ -1,11 +1,14 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
-var vcCake = require('vc-cake')
-var React = require('react')
-var cook = vcCake.getService('cook')
-var Element = React.createClass({
-  render: function () {
+import vcCake from 'vc-cake'
+import React from 'react'
+let cook = vcCake.getService('cook')
+class Element extends React.Component {
+  render () {
     let element = cook.get(this.props.element)
     return element.render()
   }
-})
+}
+Element.propTypes = {
+  element: React.PropTypes.object
+}
+
 module.exports = Element
