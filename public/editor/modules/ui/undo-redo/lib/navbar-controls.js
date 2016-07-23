@@ -6,6 +6,9 @@ vcCake.add('ui-undo-redo', function (api) {
     componentWillMount: function () {
       api.on('added', this.checkControls)
     },
+    componentWillUnmount: function () {
+      api.off('added', this.checkControls)
+    },
     checkControls: function () {
       var timeMachine = vcCake.getService('time-machine')
       this.setState({

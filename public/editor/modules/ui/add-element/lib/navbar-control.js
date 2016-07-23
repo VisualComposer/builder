@@ -9,7 +9,7 @@ vcCake.add('ui-add-element', function (api) {
         isWindowOpen: false
       }
     },
-    componentDidMount: function () {
+    componentWillMount: function () {
       api
         .on('show', () => {
           this.setState({ isWindowOpen: true })
@@ -18,6 +18,18 @@ vcCake.add('ui-add-element', function (api) {
           this.setState({ isWindowOpen: false })
         })
         .reply('app:edit', () => {
+          this.setState({ isWindowOpen: false })
+        })
+    },
+    componentWillUnmount: function () {
+      api
+        .off('show', () => {
+          this.setState({ isWindowOpen: true })
+        })
+        .off('hide', () => {
+          this.setState({ isWindowOpen: false })
+        })
+        .forget('app:edit', () => {
           this.setState({ isWindowOpen: false })
         })
     },
