@@ -44,75 +44,20 @@
     "access": "protected",
     "value": "icon.png"
   },
-  "fontawesomeIcons": {
+  "icon": {
     "type": "iconpicker",
     "access": "public",
     "value": "fa fa-heart",
     "options": {
-      "label": "Fontawesome icons",
+      "label": "Icons",
       "description": "Select the icon"
-    }
-  },
-  "lineIcons": {
-    "type": "iconpicker",
-    "access": "public",
-    "value": "vcv-ui-icon-lineicons vcv-ui-icon-lineicons-heart",
-    "options": {
-      "label": "Line icons",
-      "description": "Select the icon",
-      "type": "lineicons"
-    }
-  },
-  "entypoIcons": {
-    "type": "iconpicker",
-    "access": "public",
-    "value": "vcv-ui-icon-entypo vcv-ui-icon-entypo-heart",
-    "options": {
-      "label": "Entypo icons",
-      "description": "Select the icon",
-      "type": "entypo"
-    }
-  },
-  "monosocialIcons": {
-    "type": "iconpicker",
-    "access": "public",
-    "value": "vcv-ui-icon-monosocial vcv-ui-icon-monosocial-heart",
-    "options": {
-      "label": "Monosocial icons",
-      "description": "Select the icon",
-      "type": "monosocial"
-    }
-  },
-  "typiconsIcons": {
-    "type": "iconpicker",
-    "access": "public",
-    "value": "typcn typcn-heart",
-    "options": {
-      "label": "Typicons icons",
-      "description": "Select the icon",
-      "type": "typicons"
-    }
-  },
-  "openiconicIcons": {
-    "type": "iconpicker",
-    "access": "public",
-    "value": "vcv-ui-icon-openiconic vcv-ui-icon-openiconic-heart",
-    "options": {
-      "label": "openiconic icons",
-      "description": "Select the icon",
-      "type": "openiconic"
     }
   },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "fontawesomeIcons",
-      "lineIcons",
-      "entypoIcons",
-      "monosocialIcons",
-      "typiconsIcons",
-      "openiconicIcons"
+      "icon"
     ],
     "options": {
       "label": "Options"

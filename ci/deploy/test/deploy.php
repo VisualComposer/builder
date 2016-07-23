@@ -1,8 +1,7 @@
 <?php
 
 // All Deployer recipes are based on `recipe/common.php`.
-require 'recipe/symfony.php';
-
+require 'recipe/common.php';
 
 server('test', 'test.hubpen.visualcomposer.io', 22)
     ->user(getenv('CI_DEPLOY_USER'))
@@ -13,7 +12,15 @@ server('test', 'test.hubpen.visualcomposer.io', 22)
 set('repository', 'git@ci.visualcomposer.io:vcb/vcb.git');
 env('branch', 'master');
 
-set('http_user', 'webuser');
+set('http_user', getenv('CI_DEPLOY_USER'));
+
+set(
+    'shared_dirs',
+    [
+        'node_modules',
+        'vendor',
+    ]
+);
 
 /**
  * Override default 'deploy:vendors' task that installs only composer packages
@@ -22,11 +29,18 @@ task(
     'deploy:vendors',
     function () {
         cd('{{release_path}}');
-        run('npm install --loglevel=error');
-        run('composer install --no-dev --prefer-dist --no-progress');
+        run('npm update --loglevel=error');
+        run('composer update --no-dev --prefer-dist --no-progress');
         run('webpack');
     }
 )->desc('Install npm, composer and bower packages');
+
+task(
+    'restart',
+    function () {
+        run('echo \'' . getenv('CI_DEPLOY_PASSWORD') . '\' | sudo -S service apache2 restart');
+    }
+);
 
 task(
     'deploy',
@@ -39,5 +53,6 @@ task(
         'deploy:writable',
         'deploy:symlink',
         'cleanup',
+        'restart',
     ]
 )->desc('Deploy your project');

@@ -20,12 +20,15 @@
   flex: 1 1 0;
   color: @tree-content-text;
   background-color: @tree-content-bg;
-  padding: (@tree-content-gutter / 2) @tree-content-gutter;
   min-height: 1em; // dirty ff flexbox bug fix
   //overflow: auto;
   position: relative;
   display: flex;
   flex-flow: column nowrap;
+}
+
+.vcv-ui-tree-content-section-inner {
+  padding: @tree-content-gutter;
 }
 
 //== title controls
@@ -49,7 +52,7 @@
 
 //== Tree tabs
 .vcv-ui-editor-tabs-container {
-  margin-top: 8px;
+  margin-top: @tree-tab-spacer;
   display: flex;
   padding-left: @tree-content-gutter * 3;
 }
@@ -69,12 +72,11 @@
 }
 
 .vcv-ui-editor-tab {
-  padding: @tree-gold-value;
+  padding: @tree-tab-padding;
   color: @tree-tab-color;
   background-color: @tree-tab-bg;
   border-radius: @tree-tab-border-radius @tree-tab-border-radius 0 0;
   margin: 0 ceil(@tree-tab-space / 2) 0 floor(@tree-tab-space / 2);
-  min-width: @tree-tab-min-width;
   text-decoration: none;
   display: flex;
   flex-direction: column;

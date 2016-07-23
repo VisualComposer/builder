@@ -73,10 +73,10 @@ Builder.prototype.findValidParent = function (domElement) {
   }
   return new DOMElement()
 }
-Builder.allowParent = function (parentDomElement) {
+Builder.prototype.allowParent = function (parentDomElement) {
   return this.dragingElement.isChild(parentDomElement)
 }
-Builder.allowAsContainer = function (domElement) {
+Builder.prototype.allowAsContainer = function (domElement) {
   return domElement.isElement() && domElement.data.containerFor().length ? this.dragingElement.isChild(domElement) : false
 }
 /**

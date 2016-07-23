@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import './css/styles.less'
 
 let autobind = [
+  'iconSet',
   'search',
   'category',
   'togglePopup'
@@ -15,7 +16,8 @@ let iconsSets = {
   entypo: require('./lib/entypo-13.07-411'),
   monosocial: require('./lib/monosocial-1.10-101'),
   typicons: require('./lib/typicons-2.0.7'),
-  openiconic: require('./lib/openiconic-1.1.1')
+  openiconic: require('./lib/openiconic-1.1.1'),
+  material: require('./lib/material-845')
 }
 
 class Iconpicker extends Attribute {
@@ -24,6 +26,7 @@ class Iconpicker extends Attribute {
     this.state = {
       search: '',
       category: '',
+      iconSet: 'fontawesome',
       popupOpen: false,
       value: props.value
     }
@@ -33,13 +36,8 @@ class Iconpicker extends Attribute {
     })
   }
 
-  get type () {
-    let { options } = this.props
-    return options && options.type ? options.type : Iconpicker.DEFAULT_ICON_SET
-  }
-
   filteredIcons () {
-    let { category, search } = this.state
+    let { category, search, iconSet } = this.state
     let icons = []
     let iconsIds = []
 
@@ -53,13 +51,13 @@ class Iconpicker extends Attribute {
       })
     }
     if (category) {
-      addIcons(iconsSets[ this.type ][ category ])
+      addIcons(iconsSets[ iconSet ][ category ])
     } else {
-      if (Array.isArray(iconsSets[ this.type ])) {
-        addIcons(iconsSets[ this.type ])
+      if (Array.isArray(iconsSets[ iconSet ])) {
+        addIcons(iconsSets[ iconSet ])
       } else {
-        Object.keys(iconsSets[ this.type ]).forEach((category) => {
-          addIcons(iconsSets[ this.type ][ category ])
+        Object.keys(iconsSets[ iconSet ]).forEach((category) => {
+          addIcons(iconsSets[ iconSet ][ category ])
         })
       }
     }
@@ -97,16 +95,17 @@ class Iconpicker extends Attribute {
 
   categoriesContent () {
     let categories = []
-    if (!Array.isArray(iconsSets[ this.type ])) {
-      Object.keys(iconsSets[ this.type ]).forEach((category) => {
-        categories.push(<option key={category} value={category}>{category}</option>)
+    let { iconSet } = this.state
+    if (iconSet && typeof iconsSets[ iconSet ] !== 'undefined' && !Array.isArray(iconsSets[ iconSet ])) {
+      Object.keys(iconsSets[ iconSet ]).forEach((category) => {
+        categories.push(<option key={'innerCategory' + category} value={category}>{category}</option>)
       })
     }
     return categories
   }
 
   popupContent () {
-    let { search, category } = this.state
+    let { search, category, iconSet } = this.state
     let content
     let categories = this.categoriesContent()
     let iconsContent = this.iconsContent()
@@ -123,7 +122,7 @@ class Iconpicker extends Attribute {
       categoriesContent = (
         <div className='vcv-ui-param-iconpicker-category'>
           <select onChange={this.category} value={category}
-            className='vcv-ui-param-iconpicker-icon-category-select'>
+            className='vcv-ui-param-iconpicker-icon-dropdown-select'>
             <option key='all' value=''>From all categories</option>
             {categories}
           </select>
@@ -131,8 +130,26 @@ class Iconpicker extends Attribute {
       )
     }
 
+    let iconsSetContent = ''
+    if (Object.keys(iconsSets).length) {
+      let innerSetContent = []
+      Object.keys(iconsSets).forEach((i) => {
+        let name = i.charAt(0).toUpperCase() + i.slice(1)
+        innerSetContent.push(<option key={'inner' + i} value={i}>{name}</option>)
+      })
+      iconsSetContent = (
+        <div className='vcv-ui-param-iconpicker-set'>
+          <select onChange={this.iconSet} value={iconSet}
+            className='vcv-ui-param-iconpicker-icon-dropdown-select'>
+            {innerSetContent}
+          </select>
+        </div>
+      )
+    }
+
     content = (
       <div className={popupClasses}>
+        {iconsSetContent}
         <div className='vcv-ui-param-iconpicker-search'>
           <input type='text' value={search} onChange={this.search} placeholder='Search Icon'
             className='vcv-ui-param-iconpicker-icons-search-input' /><i className='fa fa-search' />
@@ -166,6 +183,14 @@ class Iconpicker extends Attribute {
   category (e) {
     this.setState({
       category: e.currentTarget.value,
+      search: ''
+    })
+  }
+
+  iconSet (e) {
+    this.setState({
+      iconSet: e.currentTarget.value,
+      category: '',
       search: ''
     })
   }

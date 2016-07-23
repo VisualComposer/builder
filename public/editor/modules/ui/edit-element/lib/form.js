@@ -4,11 +4,12 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-import DesignOptions from './design-options'
+import DesignOptions from './design-options/design-options'
 import {getService} from 'vc-cake'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
+let designOptions = {}
 
 class TreeForm extends React.Component {
 
@@ -17,8 +18,7 @@ class TreeForm extends React.Component {
     this.state = {
       tabsCount: 0,
       visibleTabsCount: 0,
-      activeTabIndex: 0,
-      designOptions: {}
+      activeTabIndex: 0
     }
     this.handleElementResize = this.handleElementResize.bind(this)
     this.saveForm = this.saveForm.bind(this)
@@ -36,9 +36,7 @@ class TreeForm extends React.Component {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
-    this.setState({
-      designOptions: getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
-    })
+    designOptions = getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
@@ -109,8 +107,8 @@ class TreeForm extends React.Component {
     })
   }
 
-  changeDesignOption (designOptions) {
-    this.setState({ designOptions: designOptions })
+  changeDesignOption (newDesignOptions) {
+    designOptions = newDesignOptions
   }
 
   getVisibleTabs () {
@@ -181,7 +179,7 @@ class TreeForm extends React.Component {
     if (tab.type && tab.type === 'design-options') {
       let props = {
         changeDesignOption: this.changeDesignOption.bind(this),
-        values: this.state.designOptions
+        values: designOptions
       }
       return <DesignOptions {...props} />
     }
@@ -201,7 +199,7 @@ class TreeForm extends React.Component {
   saveForm () {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
-    getService('asset-manager').addDesignOption(element.get('id'), this.state.designOptions)
+    getService('asset-manager').addDesignOption(element.get('id'), designOptions)
     this.closeTreeView()
   }
 
@@ -288,6 +286,24 @@ class TreeForm extends React.Component {
       'vcv-ui-tree-content': true
     })
 
+      // <nav className="vcv-ui-tree-content-title-controls">
+      // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
+      // <span className="vcv-ui-tree-content-title-control-content">
+      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
+      // </span>
+      // </a>
+      // <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
+      // <span className="vcv-ui-tree-content-title-control-content">
+      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
+      // </span>
+      // </a>
+      // <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
+      // <span className="vcv-ui-tree-content-title-control-content">
+      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
+      // </span>
+      // </a>
+      // </nav>
+
     return <div className="vcv-ui-tree-view-content">
       <div className={treeContentClasses}>
         <div className="vcv-ui-editor-tabs-container">
@@ -296,37 +312,20 @@ class TreeForm extends React.Component {
             {hiddenTabsHeaderOutput}
             <span className="vcv-ui-editor-tabs-free-space"></span>
           </nav>
-          <nav className="vcv-ui-tree-content-title-controls">
-            <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
-              <span className="vcv-ui-tree-content-title-control-content">
-                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
-              </span>
-            </a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
-              <span className="vcv-ui-tree-content-title-control-content">
-                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
-              </span>
-            </a>
-            <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
-              <span className="vcv-ui-tree-content-title-control-content">
-                <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
-              </span>
-            </a>
-          </nav>
         </div>
 
         <div ref="scrollable" className="vcv-ui-tree-content-section">
           <div className="vcv-ui-scroll-container">
             <div className="vcv-ui-scroll">
               <div className="vcv-ui-scroll-content">
-
-                <div className="vcv-ui-editor-plates-container">
-                  <div className="vcv-ui-editor-plates">
-                    {visibleTabsContentOutput}
-                    {hiddenTabsContentOutput}
+                <div className="vcv-ui-tree-content-section-inner">
+                  <div className="vcv-ui-editor-plates-container">
+                    <div className="vcv-ui-editor-plates">
+                      {visibleTabsContentOutput}
+                      {hiddenTabsContentOutput}
+                    </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -336,7 +335,7 @@ class TreeForm extends React.Component {
           <div className="vcv-ui-tree-layout-actions">
             <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
               <span className="vcv-ui-tree-layout-action-content">
-                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close"></i>
+                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
                 <span>Close</span>
               </span>
             </a>

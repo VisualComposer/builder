@@ -1,8 +1,8 @@
-.vc_ui-form-link {
+.vcv-ui-form-link {
   display: flex;
   align-items: center;
 
-  .vc_ui-form-link-data {
+  .vcv-ui-form-link-data {
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
@@ -10,7 +10,7 @@
     flex-basis: 0;
     font-size: @vcui-link-button-helper-font-size;
   }
-  .vc_ui-form-link-title {
+  .vcv-ui-form-link-title {
     color: @vcui-form-helper-color;
     display: inline-block;
     vertical-align: middle;
@@ -23,17 +23,17 @@
       content: attr(data-vc-link-title);
     }
   }
-  .vc_ui-form-link-title:empty {
+  .vcv-ui-form-link-title:empty {
     display: none;
   }
 
   // Button behaviour
-  .vc_ui-button-form-control {
+  .vcv-ui-button-form-control {
     flex-shrink: 0;
     outline: none;
     box-shadow: none;
     &:focus {
-      animation: vc_ui-form-blink @vcui-form-transition-duration * 2 ease-out;
+      animation: vcv-ui-form-blink @vcui-form-transition-duration * 2 ease-out;
     }
     &:disabled,
     &[disabled] {
@@ -44,7 +44,7 @@
   }
 
   // Icon behaviour
-  .vc_ui-icon {
+  .vcv-ui-icon {
     font-size: 1.3em;
     line-height: @vcui-link-button-font-size;
     vertical-align: middle;

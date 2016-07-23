@@ -1,6 +1,6 @@
 // range input
 
-.vc_ui-form-range {
+.vcv-ui-form-range {
   @range-shadow: inset 0 6px 6px -6px  fade(#000, 10%);
 
   // webkit
@@ -16,7 +16,7 @@
   &:focus {
     &::-webkit-slider-runnable-track,
     &::-webkit-slider-thumb {
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
   }
   &:disabled,
@@ -40,7 +40,7 @@
   &:focus {
     &::-moz-range-track,
     &::-moz-range-thumb {
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
   }
   &:disabled,
@@ -69,7 +69,7 @@
     border: 1px solid @vcui-form-input-border-color;
     border-radius: @vcui-form-border-radius;
     box-shadow: @range-shadow;
-    #make-vc_ui-form > .property-darken-color(background-color, @vcui-form-input-background);
+    #make-vcv-ui-form > .property-darken-color(background-color, @vcui-form-input-background);
   }
   &::-ms-thumb {
     .make-input-thumb();
@@ -84,7 +84,7 @@
     &::-ms-fill-lower,
     &::-ms-fill-upper,
     &::-ms-thumb {
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
   }
   &:disabled,
@@ -120,10 +120,10 @@
     border-radius: @vcui-form-border-radius;
     box-shadow: @range-shadow;
     margin: ceil((@vcui-form-range-thumb-size - @vcui-form-range-track-size) / 2) 0;
-    #make-vc_ui-form > .property-darken-color(background-color, @vcui-form-input-background);
+    #make-vcv-ui-form > .property-darken-color(background-color, @vcui-form-input-background);
   }
   .make-input-track-disabled() {
-    #make-vc_ui-form > .property-darken-color(background-color, @vcui-form-input-disabled-background);
+    #make-vcv-ui-form > .property-darken-color(background-color, @vcui-form-input-disabled-background);
     border-color: @vcui-form-input-border-color;
   }
   .make-input-thumb() {

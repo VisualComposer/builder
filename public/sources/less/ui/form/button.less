@@ -1,0 +1,121 @@
+.vcv-ui-button {
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  user-select: none;
+  text-decoration: none;
+  position: relative;
+  transition-property: color, background, border, opacity, transform;
+  transition-duration: @vcui-form-transition-duration;
+  transition-timing-function: ease-in-out;
+  outline: none;
+  font-weight: 400;
+  padding: 14px 21px;
+  font-size: @vcui-button-font-size;
+
+  &:hover,
+  &:focus {
+    border: 1px solid transparent;
+  }
+
+  &.vcv-ui-button-default {
+    color: @vcui-button-default-color;
+    background-color: @vcui-button-default-background;
+  }
+
+  &.vcv-ui-button-default:hover,
+  &.vcv-ui-button-default:focus {
+    background-color: @vcui-button-default-background-hover;
+  }
+
+  &.vcv-ui-button-action {
+    color: @vcui-button-action-color;
+    background-color: @vcui-button-action-background;
+  }
+
+  &.vcv-ui-button-action:hover,
+  &.vcv-ui-button-action:focus {
+    background-color: @vcui-button-action-background-hover;
+  }
+
+  &[disabled]:not(.vcv-ui-button-undisabled) {
+    color: @vcui-button-disabled-color;
+    background-color: @vcui-button-disabled-background;
+    cursor: not-allowed;
+  }
+
+  &[disabled]:not(.vcv-ui-button-undisabled):hover,
+  &[disabled]:not(.vcv-ui-button-undisabled):focus {
+    background-color: @vcui-button-disabled-background-hover;
+  }
+
+  &.vcv-ui-form-link-button {
+    color: @vcui-button-link-color;
+    background-color: @vcui-button-link-background;
+    border-color: @vcui-button-link-border-color;
+  }
+
+  &.vcv-ui-form-link-button:hover,
+  &.vcv-ui-form-link-button:focus {
+    background-color: @vcui-button-link-background-hover;
+  }
+
+  &.vcv-ui-form-link-button {
+    padding: 11px 14px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.5;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+}
+
+.vcv-ui-form-link {
+  display: flex;
+  align-items: center;
+
+  .vcv-ui-form-link-data {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    font-size: 13px;
+  }
+
+  .vcv-ui-form-link-title {
+    color: #9a9a9a;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 14px;
+  }
+
+  .vcv-ui-form-link-title {
+    &::before {
+      content: attr(data-vc-link-title);
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .vcv-ui-icon-link {
+    font-size: 1.3em;
+    line-height: 10px;
+    vertical-align: middle;
+    margin-right: 7px;
+  }
+
+}

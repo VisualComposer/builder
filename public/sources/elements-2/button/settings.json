@@ -44,6 +44,19 @@
     "access": "protected",
     "value": "icon.png"
   },
+  "buttonUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Button URL"
+    }
+  },
   "buttonText": {
     "type": "string",
     "access": "public",
@@ -380,6 +393,7 @@
     "access": "protected",
     "value": [
       "name",
+      "buttonUrl",
       "buttonText",
       "textColor",
       "borderColor",
@@ -402,6 +416,8 @@
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
+    "value": [
+      "General"
+    ]
   }
 }

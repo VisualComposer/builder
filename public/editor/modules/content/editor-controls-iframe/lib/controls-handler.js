@@ -22,7 +22,11 @@ ControlsHandler.prototype.showOutline = function ($el, hideControls) {
     this.$currentElement = $el
     this.updateElementsTree()
     this.drawOutlines()
-    hideControls !== true && this.drawControls()
+    this.setControlsPosition()
+    this.setTimer()
+    if (hideControls !== true) {
+      this.drawControls()
+    }
   }
 
   return this
@@ -121,8 +125,6 @@ ControlsHandler.prototype.drawOutlines = function () {
       outlines[ i ].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
     }
   }
-
-  this.setControlsPosition()
 
   return this
 }
@@ -244,8 +246,19 @@ ControlsHandler.prototype.drawControls = function () {
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
   }
-
   this.setControlsPosition()
+}
+
+ControlsHandler.prototype.setTimer = function () {
+  this.clearTimer()
+  this.timer = window.setInterval(this.drawOutlines.bind(this), 200)
+}
+
+ControlsHandler.prototype.clearTimer = function () {
+  if (this.timer) {
+    window.clearInterval(this.timer)
+    this.timer = null
+  }
 }
 
 ControlsHandler.prototype.removeControls = function () {
@@ -253,6 +266,7 @@ ControlsHandler.prototype.removeControls = function () {
     this.$controlsContainer.remove()
     this.$controlsContainer = null
     this.$controlsList = null
+    this.clearTimer()
   }
 
   return this
@@ -280,6 +294,11 @@ ControlsHandler.prototype.setControlsPosition = function () {
 
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
+    var inset = false
+    if (posTop < this.$controlsList.outerHeight()) {
+      inset = true
+      posTop = 0
+    }
     posLeft = this.$currentElement.offset().left + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
     outerWidth = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
     if (posLeft > outerWidth) {
@@ -288,7 +307,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
     this.$controlsContainer.css({
       'top': posTop,
       'left': posLeft
-    })
+    }).toggleClass('vcv-ui-controls-o-inset', inset)
     this.$controlsList.find('.vcv-ui-outline-control-dropdown').each((index, item) => {
       let $controlDropdown = $(item).removeClass('vcv-ui-outline-control-dropdown-o-drop-right vcv-ui-outline-control-dropdown-o-drop-up')
       let $content = $controlDropdown.find('.vcv-ui-outline-control-dropdown-content')

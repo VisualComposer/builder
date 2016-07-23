@@ -63,6 +63,9 @@
         }
       }
     }
+    .vcv-layout-bar-content-toggle {
+      top: 8px;
+    }
   }
   //== Right
   &.vcv-layout-dock--right {
@@ -94,13 +97,15 @@
         }
       }
     }
+    .vcv-layout-bar-content-toggle {
+      top: 8px;
+    }
   }
 
   //== Detached
   &.vcv-layout-dock--detached {
     .vcv-layout {
       //flex-direction: row;
-
     }
     .vcv-layout-bar {
       flex-direction: column;
@@ -120,6 +125,9 @@
           flex-grow: 1;
         }
       }
+    }
+    .vcv-layout-bar-content-toggle {
+      top: 8px;
     }
   }
 
@@ -166,14 +174,17 @@
     .vcv-layout-bar-content-start {
       width: 100% !important;
     }
+    .vcv-layout-bar-content {
+      width: auto !important;
+     }
   }
 
   &:not(.vcv-layout-dock--detached) {
     .vcv-layout-bar {
       width: auto !important;
       height: auto !important;
-      left: 0 !important;
-      top: 0 !important;
+      left: auto!important;
+      top: auto !important;
     }
   }
   //vcv-layout-bar
@@ -196,8 +207,11 @@
     min-width: @editor-layout-content-end-min-width;
   }
   &.vcv-layout-dock--detached {
+    .vcv-layout-bar {
+      width: @editor-layout-content-width;
+      min-width: @editor-layout-content-min-width;
+    }
     .vcv-layout-bar-content {
-      width: auto !important;
       min-height: @editor-layout-content-min-height + @editor-layout-content-end-min-height;
     }
   }

@@ -1,11 +1,11 @@
 // Color Picker
-.vc_ui-form-colorpicker {
+.vcv-ui-form-colorpicker {
   position: relative;
 }
 
 // Color picker
 
-.vc_ui-color-picker {
+.vcv-ui-color-picker {
   display: block;
   width: @vcui-color-picker-width;
 
@@ -26,7 +26,7 @@
 
     &:hover,
     &:focus {
-      #make-vc_ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
     }
 
     &::before,
@@ -57,7 +57,7 @@
       background-repeat: repeat;
     }
 
-    .vc_ui-icon {
+    .vcv-ui-icon {
       position: absolute;
       border: inherit;
       border-radius: inherit;
@@ -77,7 +77,7 @@
         transform: translate(-50%, -50%);
       }
       &:hover {
-        #make-vc_ui-form > .property-darken-color(background-color, @vcui-color-picker-background);
+        #make-vcv-ui-form > .property-darken-color(background-color, @vcui-color-picker-background);
       }
     }
   }
@@ -101,7 +101,7 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
-    .vc_ui-icon {
+    .vcv-ui-icon {
       visibility: visible;
       display: block;
       width: @button-size;
@@ -111,17 +111,17 @@
   }
 
   // form group behaviour
-  .vc_ui-form-input-group {
+  .vcv-ui-form-input-group {
     box-sizing: border-box;
     width: 75%;
     display: inline-flex;
   }
-  .vc_ui-form-input-group-button {
+  .vcv-ui-form-input-group-button {
     overflow: visible;
   }
 
   .wp-color-result:not(.wp-picker-open) {
-    ~ .vc_ui-form-input-group {
+    ~ .vcv-ui-form-input-group {
       display: none;
     }
     ~ .wp-picker-holder {
@@ -130,7 +130,7 @@
   }
 
   // Alpha chanel
-  .vc_ui-color-picker-alpha-container {
+  .vcv-ui-color-picker-alpha-container {
     padding: 10px; // based on iris-picker position
     > label {
       display: block;

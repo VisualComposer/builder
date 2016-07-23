@@ -32,29 +32,59 @@ module.exports = React.createClass({
     this.props.api.notify('hide', true)
   },
   showPreview (e) {
-    this.updatePreviewPosition()
-    this.setState({
-      previewVisible: true
-    })
+    if (this.updatePreviewPosition()) {
+      this.setState({
+        previewVisible: true
+      })
+    }
   },
   hidePreview (e) {
     this.setState({
       previewVisible: false
     })
   },
+  getClosest (el, selector) {
+    var matchesFn;
+    // find vendor prefix
+    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
+      if (typeof document.body[ fn ] === 'function') {
+        matchesFn = fn
+        return true
+      }
+      return false
+    })
+    var parent
+    // traverse parents
+    while (el) {
+      parent = el.parentElement
+      if (parent && parent[ matchesFn ](selector)) {
+        return parent
+      }
+      el = parent
+    }
+    return null
+  },
   updatePreviewPosition () {
     let element = ReactDOM.findDOMNode(this)
+
+    let container
+    if (element.closest === undefined) {
+      container = this.getClosest(element, '.vcv-ui-add-element-list')
+    } else {
+      container = element.closest('.vcv-ui-add-element-list')
+    }
+    let firstElement = container.querySelector('.vcv-ui-add-element-list-item')
     let trigger = element.querySelector('.vcv-ui-add-element-element-content')
     let preview = element.querySelector('.vcv-ui-add-element-preview-container')
 
     let triggerSizes = trigger.getBoundingClientRect()
+    let firsElementSize = firstElement.getBoundingClientRect()
     let previewSizes = preview.getBoundingClientRect()
     let windowSize = {
       height: window.innerHeight,
       width: window.innerWidth
     }
 
-    let middleX = false
     // default position
     let posX = triggerSizes.left + triggerSizes.width
     let posY = triggerSizes.top
@@ -62,30 +92,44 @@ module.exports = React.createClass({
     if (posX + previewSizes.width > windowSize.width) {
       posX = triggerSizes.left - previewSizes.width
     }
-    // align center if no place to show on left or right
+    // position if no place to show on left side (move position down)
     if (posX < 0) {
-      middleX = true
-      posX = (windowSize.width - previewSizes.width) / 2
+      posX = triggerSizes.left
       posY = triggerSizes.top + triggerSizes.height
     }
+    // position if no place to show on right side
+    if (posX + previewSizes.width > windowSize.width) {
+      posX = triggerSizes.left + triggerSizes.width - previewSizes.width
+    }
+    // position if no place from left and right
+    if (posX < 0) {
+      posX = firsElementSize.left
+    }
+    // don't show if window size is smaller than preview
+    if (posX + previewSizes.width > windowSize.width) {
+      return false
+    }
+
     // position if no place to show on bottom
     if (posY + previewSizes.height > windowSize.height) {
-      if (middleX) {
+      posY = triggerSizes.top + triggerSizes.height - previewSizes.height
+      // position if preview is above element
+      if (posX === triggerSizes.left || posX === firsElementSize.left) {
         posY = triggerSizes.top - previewSizes.height
-      } else {
-        posY = triggerSizes.top + triggerSizes.height - previewSizes.height
       }
     }
-    // align middle if no place to show on top or bottom
+    // don't show if window size is smaller than preview
     if (posY < 0) {
-      posY = (windowSize.height - previewSizes.height) / 2
+      return false
     }
+
     this.setState({
       previewStyle: {
         left: posX,
         top: posY
       }
     })
+    return true
   },
   ellipsize (selector) {
     let element = ReactDOM.findDOMNode(this).querySelector(selector)
@@ -99,7 +143,7 @@ module.exports = React.createClass({
   render () {
     let element = cook.get(this.props.element)
     let nameClasses = classNames({
-      'vcv-ui-add-element-badge vcv-ui-badge-success': true,
+      'vcv-ui-add-element-badge vcv-ui-badge-success': false,
       'vcv-ui-add-element-badge vcv-ui-badge-warning': false
     })
 

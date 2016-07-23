@@ -1,4 +1,4 @@
-.vc_ui-form-switch {
+.vcv-ui-form-switch {
   font-size: @vcui-form-switch-font-size;
   font-weight: 600;
   text-transform: uppercase;
@@ -16,7 +16,7 @@
     opacity: 0;
   }
 
-  .vc_ui-form-switch-label {
+  .vcv-ui-form-switch-label {
     display: block;
     text-align: center;
     &::before,
@@ -57,7 +57,7 @@
     }
   }
   > input {
-    ~ .vc_ui-form-switch-label {
+    ~ .vcv-ui-form-switch-label {
       &::after {
         opacity: 0;
       }
@@ -78,7 +78,7 @@
       }
     }
   }
-  .vc_ui-form-switch-indicator {
+  .vcv-ui-form-switch-indicator {
     position: absolute;
     //visibility: hidden;
     left: 0;
@@ -108,7 +108,7 @@
   }
   > input {
     &:checked {
-      ~ .vc_ui-form-switch-indicator {
+      ~ .vcv-ui-form-switch-indicator {
         background-color: @vcui-form-switch-on-background;
         &::before {
           left: 0;
@@ -117,7 +117,7 @@
       }
     }
     &:not(:checked) {
-      ~ .vc_ui-form-switch-indicator {
+      ~ .vcv-ui-form-switch-indicator {
         background-color: @vcui-form-switch-off-background;
         &::before {
           left: 100%;
@@ -129,7 +129,7 @@
   &:hover {
     > input {
       &:checked {
-        ~ .vc_ui-form-switch-indicator {
+        ~ .vcv-ui-form-switch-indicator {
           & when (lightness(@vcui-form-switch-on-background) > 70%) {
             background-color: darken(@vcui-form-switch-on-background, 5%);
           }
@@ -139,7 +139,7 @@
         }
       }
       &:not(:checked) {
-        ~ .vc_ui-form-switch-indicator {
+        ~ .vcv-ui-form-switch-indicator {
           & when (lightness(@vcui-form-switch-off-background) > 70%) {
             background-color: darken(@vcui-form-switch-off-background, 5%);
           }
@@ -154,7 +154,7 @@
   &:hover > input {
     &:disabled,
     &[disabled] {
-      ~ .vc_ui-form-switch-indicator {
+      ~ .vcv-ui-form-switch-indicator {
         background-color: @vcui-form-input-disabled-background;
         border: 1px solid @vcui-form-input-border-color;
         cursor: not-allowed;
@@ -162,7 +162,7 @@
           border: inherit;
         }
       }
-      ~ .vc_ui-form-switch-label {
+      ~ .vcv-ui-form-switch-label {
         cursor: not-allowed;
         color: @vcui-form-input-disabled-color;
       }

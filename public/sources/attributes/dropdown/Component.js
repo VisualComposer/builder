@@ -23,7 +23,7 @@ export default class Component extends Attribute {
       <select
         value={value}
         onChange={this.handleChange}
-        className="vc_ui-form-dropdown">
+        className="vcv-ui-form-dropdown">
         {this.selectChilds}
       </select>
     )

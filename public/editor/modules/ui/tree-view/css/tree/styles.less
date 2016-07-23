@@ -12,10 +12,13 @@
   flex-grow: 1;
   height: 100%;
   font-size: @tree-text-size-base;
+  line-height: 1;
   color: @tree-text-color-base;
   background-color: @tree-bg-base;
   border-right: 1px solid @tree-separator-color;
   border-bottom: 1px solid @tree-separator-color;
+  display: flex;
+  flex-flow: column nowrap;
   &.vcv-ui-state--hidden {
     display: none;
   }
@@ -26,17 +29,17 @@
   padding: 0;
   list-style: none;
   position: relative;
+  flex: 1 0 auto;
 }
 
 // Actions
 .vcv-ui-tree-layout-actions {
+  font-size: @tree-action-icon-size;
   overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border-bottom: 1px solid @tree-separator-color;
-  min-height: @tree-control-height;
-  padding-left: 1px;
+  flex: 0 0 auto;
   .vcv-ui-tree-layout-action-content {
     span {
       margin-left: @tree-gold-value;
@@ -53,18 +56,17 @@
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  padding: @tree-gold-value / 2;
+  padding: @tree-gold-value;
   text-align: center;
   cursor: pointer;
   transition: all @transition-duration @transition-timing-function;
   flex-grow: 1;
   flex-shrink: 1;
-
-  margin-left: -1px;
-  border-width: 0 1px 0;
+  border-width: 1px 1px 0 0;
   border-style: solid;
   border-color: @tree-separator-color;
 
+  &.vcv-ui-state--active,
   &:hover {
     background-color: @tree-bg-base-hover;
   }
@@ -80,19 +82,38 @@
 }
 
 .vcv-ui-tree-layout-action-icon {
-  font-size: 1em;
-  height: 1em;
-  width: 1.25em;
+  height: @tree-action-icon-size;
+  width: @tree-action-icon-size;
   display: inline-block;
   vertical-align: middle;
   position: relative;
   &::before {
-    font-size: 1.25em;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
   }
+}
+
+//== Message
+.vcv-ui-tree-layout-messages {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  line-height: 1.7;
+  color: @tree-message-color-base;
+  text-align: center;
+  font-style: italic;
+  > * {
+    flex: 1 1 100%;
+  }
+}
+.vcv-ui-tree-layout-message {
+  padding: @tree-gold-value / 2 1em;
+  margin: 0;
+  min-height: @tree-control-height;
+
 }
 
 //== Controls
@@ -136,8 +157,21 @@
 }
 
 .vcv-ui-tree-layout-control-icon {
-  width: 1em;
+  position: relative;
+  width: @tree-control-icon-size;
   height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: @tree-control-icon-size;
+    width: @tree-control-icon-size;
+    height: @tree-control-icon-size;
+  }
 }
 
 //== control actions
@@ -159,6 +193,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    font-size: @tree-control-action-size;
   }
 }
 
@@ -201,10 +236,6 @@
 }
 
 .vcv-ui-tree-layout-node-child {
-  position: relative;
-}
-
-.vc_ui-tree-child-col { // temp style: todo: remove this
   position: relative;
 }
 

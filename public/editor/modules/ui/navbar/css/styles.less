@@ -16,18 +16,15 @@
 }
 
 //== navbar
+#vc-navbar-container,
 .vcv-ui-navbar-container {
-  //position: fixed;
-  //top: 0;
-  //left: 0;
-  //right: 0;
-  //transition-property: opacity, top, left, bottom, right;
-  //transition-duration: @transition-duration;
-  //transition-timing-function: @transition-timing-function;
-  //z-index: @navbar-z-index;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 0 auto;
 }
 
 .vcv-ui-navbar {
+  flex: 1 0 auto;
   font-size: @navbar-text-size-base;
   color: @navbar-text-color-base;
   background-color: @navbar-bg-base;
@@ -150,6 +147,10 @@
   }
 }
 
+.vcv-ui-navbar-dropdown-trigger {
+  width: 100%;
+}
+
 .vcv-ui-navbar-dropdown-content {
   background-color: @navbar-bg-dropdown;
   min-width: @navbar-dropdown-size;
@@ -230,7 +231,22 @@
     background-color: @color-base-active;
   }
   &.vcv-ui-state--success {
-    background-color: @state-color-success;
+    background-color: @navbar-bg-success;
+    //&:hover {
+    //  background-color: @navbar-bg-success-hover;
+    //}
+  }
+  &.vcv-ui-state--warning {
+    background-color: @navbar-bg-warning;
+    //&:hover {
+    //  background-color: @navbar-bg-warning-hover;
+    //}
+  }
+  &.vcv-ui-state--error {
+    background-color: @navbar-bg-error;
+    //&:hover {
+    //  background-color: @navbar-bg-error-hover;
+    //}
   }
   &.vcv-ui-toggle--inactive {
     opacity: .5;

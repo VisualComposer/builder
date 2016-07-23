@@ -1,5 +1,4 @@
 //== Controls
-//.vc_ui-editor-controls-container 
 .vcv-ui-outline-controls-container {
   position: absolute;
   z-index: @controls-z-index;
@@ -126,7 +125,7 @@
   transition: visibility 0s, opacity @transition-duration @transition-timing-function;
   .vcv-ui-outline-control {
     text-align: left;
-    padding-left: @gold-value;
+    padding-left: @gold-value / 2;
     padding-right: @gold-value;
     &:hover {
       background-color: darken(@controls-background-color-base, 7%);

@@ -18,6 +18,29 @@ var Element = React.createClass({
       hasChild: false
     }
   },
+  componentDidMount: function () {
+    this.props.api.notify('element:mount', this.props.element.id)
+
+    this.props.api
+      .reply('app:edit', (id) => {
+        this.setState({ elementId: id })
+      })
+      .reply('app:add', (id) => {
+        this.setState({ elementId: id })
+      })
+      .reply('bar-content-end:hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('hide', () => {
+        this.setState({ elementId: null })
+      })
+      .on('form:hide', () => {
+        this.setState({ elementId: null })
+      })
+  },
+  componentWillUnmount: function () {
+    this.props.api.notify('element:unmount', this.props.element.id)
+  },
   clickChildExpand: function () {
     this.setState({ childExpand: !this.state.childExpand })
   },
@@ -48,29 +71,6 @@ var Element = React.createClass({
       return <ul className="vcv-ui-tree-layout-node">{elementsList}</ul>
     }
     return ''
-  },
-  componentDidMount: function () {
-    this.props.api.notify('element:mount', this.props.element.id)
-
-    this.props.api
-      .reply('app:edit', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('app:add', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('form:hide', () => {
-        this.setState({ elementId: null })
-      })
-  },
-  componentWillUnmount: function () {
-    this.props.api.notify('element:unmount', this.props.element.id)
   },
   render: function () {
     let element = cook.get(this.props.element)
@@ -104,11 +104,11 @@ var Element = React.createClass({
       <a className="vcv-ui-tree-layout-control-action" title="Edit" onClick={this.clickEdit}>
         <i className="vcv-ui-icon vcv-ui-icon-edit" />
       </a>
-      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
-        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
-      </a>
       <a className="vcv-ui-tree-layout-control-action" title="Clone" onClick={this.clickClone}>
         <i className="vcv-ui-icon vcv-ui-icon-copy" />
+      </a>
+      <a className="vcv-ui-tree-layout-control-action" title="Delete" onClick={this.clickDelete}>
+        <i className="vcv-ui-icon vcv-ui-icon-close-thin" />
       </a>
     </span>
 
@@ -127,7 +127,7 @@ var Element = React.createClass({
         </div>
         <div className="vcv-ui-tree-layout-control-content">
           {expandTrigger}
-          <img src={publicPath} className="vcv-ui-tree-layout-control-icon" alt="" />
+          <i className="vcv-ui-tree-layout-control-icon"><img src={publicPath} className="vcv-ui-icon" alt="" /></i>
           <span className="vcv-ui-tree-layout-control-label">
             <span>{element.get('name')}</span>
           </span>
