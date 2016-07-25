@@ -319,7 +319,13 @@ var DesignOptions = React.createClass({
         }
       })
     } else {
-      newState[ 'all' ] = this.state[ this.state.device ]
+      Devices.getAll().map((device) => {
+        if (device.strid === 'all') {
+          newState[ device.strid ] = this.state[ this.state.device ]
+        } else {
+          newState[ device.strid ] = null
+        }
+      })
     }
 
     this.changeState(newState)
