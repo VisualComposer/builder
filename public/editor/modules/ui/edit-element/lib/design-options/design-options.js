@@ -297,13 +297,13 @@ var DesignOptions = React.createClass({
       value={this.state[ this.state.device ][ name ]} />
   },
 
-  handleDeviceChange: function (value) {
+  changeDevice: function (value) {
     this.changeState({
       device: value
     })
   },
 
-  handleDeviceTypesChange: function (e) {
+  changeDeviceType: function (e) {
     // First device is always "all", so we choose 2nd.
     let device = (e.target.value === 'all' ? 'all' : Devices.getAll()[ 1 ].strid)
 
@@ -331,7 +331,7 @@ var DesignOptions = React.createClass({
     this.changeState(newState)
   },
 
-  handleShowOnDeviceChange: function (fieldKey, show) {
+  changeShowOnDevice: function (fieldKey, show) {
     let deviceState = this.state[ this.state.device ]
 
     deviceState.showOnDevice = show
@@ -371,7 +371,7 @@ var DesignOptions = React.createClass({
           <tbody>
             <tr>
               <td width="50%">
-                <select onChange={this.handleDeviceTypesChange} value={this.state.deviceTypes}>
+                <select onChange={this.changeDeviceType} value={this.state.deviceTypes}>
                   <option value="all">All devices</option>
                   <option value="custom">Custom device settings</option>
                 </select>
@@ -380,14 +380,14 @@ var DesignOptions = React.createClass({
                   <Toggle
                     value={this.state[ this.state.device ].showOnDevice}
                     fieldKey="showOnDevice"
-                    updater={this.handleShowOnDeviceChange}
+                    updater={this.changeShowOnDevice}
                   />
                 }
 
               </td>
               <td width="50%">
                 {this.state.deviceTypes === 'custom' &&
-                  <Devices value={this.state.device} onChange={this.handleDeviceChange} />
+                  <Devices value={this.state.device} onChange={this.changeDevice} />
                 }
               </td>
             </tr>
