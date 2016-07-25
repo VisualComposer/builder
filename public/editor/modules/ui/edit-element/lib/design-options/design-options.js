@@ -167,6 +167,24 @@ var DesignOptions = React.createClass({
     this.borderStyles = borderStyles
   },
 
+  validateBoxInput: function (e) {
+    let value = e.target.value
+    let units = ['px', 'em', 'rem', '%']
+    let re = new RegExp('^-?\\d+(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+
+    if (value === '' || value.match(re)) {
+      return
+    }
+
+    let deviceState = this.state[ this.state.device ]
+
+    deviceState[ e.target.name ] = ''
+
+    this.changeState({
+      [this.state.device]: deviceState
+    })
+  },
+
   changeBoxInput: function (e) {
     let deviceState = this.state[ this.state.device ]
 
@@ -270,11 +288,12 @@ var DesignOptions = React.createClass({
     var classes = classNames([ 'vcv-ui-design-options-input', 'vcv-ui-design-options-input-' + position ])
 
     return <input
-      type="number"
+      type="text"
       placeholder="-"
       className={classes}
       name={name}
       onChange={this.changeBoxInput}
+      onBlur={this.validateBoxInput}
       value={this.state[ this.state.device ][ name ]} />
   },
 
