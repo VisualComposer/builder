@@ -1,25 +1,18 @@
-const vcCake = require('vc-cake')
-// const cook = vcCake.getService('cook')
-const storage = vcCake.getService('wordpress-storage')
-const documentData = vcCake.getService('document')
+import vcCake from 'vc-cake'
+import WordPressPostSaveControl from './lib/navbar-save-control'
+import WordPressAdminControls from './lib/navbar-post-controls'
 
-vcCake.add('ui-wp-load', function (api) {
-  api.reply('start', function () {
-    storage.get(function (request) {
-      var data = JSON.parse(request.responseText || '{}')
-      if (data) {
-        // Todo fix saving ( empty Name, params all undefined toJS function)
-        var timeMachine = vcCake.getService('time-machine')
-        timeMachine.setZeroState(data)
-        api.request('data:reset', data)
-      }
-    })
-  })
+import '../../../../sources/less/ui/loader/init.less'
+
+vcCake.add('ui-wordpress-post', (api) => {
+  api.module('ui-navbar').do('addElement', 'Post Save Control', WordPressPostSaveControl,
+    {
+      pin: 'visible'
+    }
+  )
+  api.module('ui-navbar').do('addElement', 'Wordpress Admin Controls', WordPressAdminControls,
+    {
+      pin: 'hidden'
+    }
+  )
 })
-// FEATURE TOGGLE.
-vcCake.add('ui-save-data', function (api) {
-  api.on('save', function () {
-    storage.save(documentData.all())
-  })
-})
-require('./lib/navbar-post-controls')

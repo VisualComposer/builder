@@ -31,6 +31,9 @@ module.exports = {
         'content/frame-based-dnd',
         'content/tree-view-dnd',
         'content/inline-editable',
+        'content/local-storage/data-load',
+        'content/local-storage/data-save',
+        'content/local-storage/data-unload',
         // 'content/resizer',
         'ui/layout-bar',
         'ui/navbar',
@@ -43,7 +46,7 @@ module.exports = {
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
-        'ui/save-data'
+        'ui/node-save'
       ],
       services: [
         'actions-manager',
@@ -65,6 +68,9 @@ module.exports = {
         'content/frame-based-dnd',
         'content/wordpress/assets',
         'content/wordpress/data-layout',
+        'content/wordpress/data-load',
+        'content/wordpress/data-save',
+        'content/wordpress/data-unload',
         'content/tree-view-dnd',
         'content/inline-editable',
         // 'content/resizer',
@@ -85,7 +91,7 @@ module.exports = {
         'actions-manager',
         'asset-manager',
         'document',
-        'wordpress-storage',
+        'wordpress-post-data',
         'cook',
         'rules-manager',
         'shared',
@@ -128,7 +134,7 @@ module.exports = {
       // { test: require.resolve("jquery"), loader: "expose?$!expose?jQuery" } // TODO: Remove on production.
     ]
   },
-  postcss: function () {
+  postcss: () => {
     return [ autoprefixer ]
   }
 }

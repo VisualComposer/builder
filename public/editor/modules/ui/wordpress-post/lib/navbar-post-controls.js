@@ -1,88 +1,61 @@
 /*eslint no-extra-bind: "off"*/
-var vcCake = require('vc-cake')
-var React = require('react')
-var classNames = require('classnames')
-require('../../../../../sources/less/ui/loader/init.less')
 
-class WordPressPostSaveControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = window.vcvPostData
-    this.state.saving = false
-    this.state.saved = false
-  }
+import vcCake from 'vc-cake'
+import React from 'react'
 
-  clickSaveData () {
-    this.setState({ 'saving': true })
-    setTimeout(
-      (() => {
-        this.setState({ 'saving': false })
-        this.setState({ 'saved': true })
-      }).bind(this),
-      500
-    )
-    setTimeout(
-      (() => {
-        this.setState({ 'saved': false })
-      }).bind(this),
-      5000
-    )
-    this.props.api.notify('save')
-  }
-
-  render () {
-    var saveButtonClasses = classNames({
-      'vcv-ui-navbar-control': true,
-      'vcv-ui-state--success': this.state.saved
-    })
-    var saveIconClasses = classNames({
-      'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-wp-spinner': this.state.saving,
-      'vcv-ui-icon': !this.state.saving,
-      'vcv-ui-icon-save': !this.state.saving
-    })
-    return (
-      <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
-        <a className={saveButtonClasses} title='Save & Publish' onClick={this.clickSaveData.bind(this)}><span
-          className='vcv-ui-navbar-control-content'>
-          <i className={saveIconClasses}></i><span>Save & Publish</span>
-        </span></a>
-      </div>
-    )
-  }
-}
+const PostData = vcCake.getService('wordpress-post-data')
 
 class WordPressAdminControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = window.vcvPostData
+  componentDidMount () {
+    this.props.api.reply('wordpress:data:saved', (
+        (data) => {
+          // Call the forceUpdate when saved
+          this.forceUpdate()
+        }
+      ).bind(this)
+    )
+  }
+
+  saveDraft (e) {
+    e && e.preventDefault && e.preventDefault()
+    this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
   render () {
-    var saveDraftButton = ''
-    if (
-      this.state.status !== 'publish' &&
-      this.state.status !== 'future' &&
-      this.state.status !== 'pending' &&
-      this.state.status !== 'private'
-    ) {
+    let saveDraftButton = ''
+    if (PostData.isDraft()) {
       saveDraftButton = (
-        <a className='vcv-ui-navbar-control' href={this.state.permalink} title='Save Draft'><span
+        <a
+          className='vcv-ui-navbar-control'
+          href={PostData.permalink()}
+          title='Save Draft'
+          onClick={this.saveDraft.bind(this)}
+        ><span
           className='vcv-ui-navbar-control-content'>Save Draft</span></a>
       )
     }
 
-    var viewButton = ''
-    if (this.state.status === 'publish') {
+    let viewButton = ''
+    if (PostData.isPublished()) {
       viewButton = (
-        <a className='vcv-ui-navbar-control' href={this.state.permalink} title='View Page'><span
+        <a className='vcv-ui-navbar-control' href={PostData.permalink()} title='View Page' target='_blank'><span
           className='vcv-ui-navbar-control-content'>View Page</span></a>
       )
     }
-    var previewText = this.state.status === 'publish' ? 'Preview Changes' : 'Preview'
-    var previewButton = (
-      <a className='vcv-ui-navbar-control' href={this.state.previewUrl} title={previewText}><span
+    let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
+    let previewButton = (
+      <a className='vcv-ui-navbar-control' href={PostData.previewUrl()} title={previewText}><span
         className='vcv-ui-navbar-control-content'>{previewText}</span></a>
+    )
+
+    let backendEditorButton = (
+      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor'><span
+        className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
+    )
+
+    let wordpressDashboardButton = (
+      <a className='vcv-ui-navbar-control' href={PostData.adminDashboardUrl()} title='WordPress Dashboard'><span
+        className='vcv-ui-navbar-control-content'>WordPress Dashboard</span></a>
     )
 
     return (
@@ -90,22 +63,14 @@ class WordPressAdminControl extends React.Component {
         {saveDraftButton}
         {previewButton}
         {viewButton}
+        {backendEditorButton}
+        {wordpressDashboardButton}
       </div>
     )
   }
 }
+WordPressAdminControl.propTypes = {
+  api: React.PropTypes.object.isRequired
+}
 
-vcCake.add('ui-wordpress-navbar-wp-admin',
-  (api) => {
-    api.module('ui-navbar').do('addElement', 'Post Save Control', WordPressPostSaveControl,
-      {
-        pin: 'visible'
-      }
-    )
-    api.module('ui-navbar').do('addElement', 'Wordpress Admin Controls', WordPressAdminControl,
-      {
-        pin: 'hidden'
-      }
-    )
-  }
-)
+module.exports = WordPressAdminControl

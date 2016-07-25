@@ -44,7 +44,10 @@ class Controller extends Container implements Module
         if (is_numeric($sourceId)) {
             // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-            $data = $postMeta; /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
+            if (!empty($postMeta)) {
+                $data = $postMeta;
+                /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
+            }
         }
 
         return $data;
@@ -60,7 +63,7 @@ class Controller extends Container implements Module
      */
     private function setData(FilterDispatcher $filterHelper, Request $requestHelper)
     {
-        $data = json_decode(rawurldecode($requestHelper->input('vcv-data')));
+        $data = json_decode(rawurldecode($requestHelper->input('vcv-data')), true);
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
@@ -68,14 +71,23 @@ class Controller extends Container implements Module
             $post = get_post($sourceId);
             if ($post) {
                 $post->post_content = $content;
+                if (isset($data['draft']) && $post->post_status !== 'publish') {
+                    $post->post_status = 'draft';
+                } else {
+                    $post->post_status = 'publish';
+                }
                 wp_update_post($post);
                 // In WordPress 4.4 + update_post_meta called if we use
                 // $post->meta_input = [ 'vcv:pageContent' => $data ]
-                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
+                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data['elements']);
+                /** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
+                $frontendModule = vcapp('EditorsFrontendController');
+                $frontendModule->setupPost($sourceId);
                 $response = $filterHelper->fire(
                     'vcv:postAjax:setPostData',
                     [
-                        'success' => true,
+                        'status' => true,
+                        'postData' => $frontendModule->getPostData(),
                     ],
                     [
                         'sourceId' => $sourceId,
@@ -89,7 +101,7 @@ class Controller extends Container implements Module
         }
 
         return [
-            'success' => false,
+            'status' => false,
         ];
     }
 }

@@ -960,8 +960,8 @@ body .mce-abs-layout-item, .mce-abs-end {
 }
 
 .mce-btn.mce-active, .mce-btn.mce-active:hover {
-  background-color: #dbdbdb;
-  border-color: #ccc
+  background-color: darken(#203251,10%);
+  border: none;
 }
 
 .mce-btn:active {

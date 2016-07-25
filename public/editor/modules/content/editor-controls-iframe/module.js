@@ -26,6 +26,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
 
   ControlsTrigger.triggerRedrawFrame = function () {
     controlsHandler.drawOutlines()
+    controlsHandler.setControlsPosition()
     controlsHandler.setTimer()
   }
 

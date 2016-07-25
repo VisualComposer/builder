@@ -63,7 +63,7 @@ class Controller extends Container implements Module
      *
      * @return \WP_Post
      */
-    private function setupPost($sourceId)
+    public function setupPost($sourceId)
     {
         global $post_type, $post_type_object, $post;
         $post = get_post($sourceId);
@@ -88,7 +88,7 @@ class Controller extends Container implements Module
 
     public function getPostData()
     {
-        global $post_type, $post_type_object, $post;
+        global $post_type_object, $post;
         $data = [];
 
         $data['id'] = get_the_ID();
@@ -103,6 +103,10 @@ class Controller extends Container implements Module
         $data['permalink'] = $permalink;
         $data['previewUrl'] = $previewUrl;
         $data['viewable'] = $viewable;
+        // TODO: Add access checks for post types
+        $data['canPublish'] = current_user_can($post_type_object->cap->publish_posts);
+        $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
+        $data['adminDashboardUrl'] = self_admin_url('index.php');
 
         return $data;
     }
