@@ -1,23 +1,26 @@
 /*eslint no-unused-vars: [2, { "varsIgnorePattern": "tinymce" }]*/
 import React from 'react'
 import tinymce from 'tinymce/tinymce'
-import Editor from 'react-tinymce'
+import TinyMceEditor from 'react-tinymce'
 import 'tinymce/themes/modern/theme'
 import './css/skin.css'
 import './css/content.css'
 import Attribute from '../attribute'
+import lodash from 'lodash'
 
 export default class Component extends Attribute {
   handleChange (event) {
-    var value = event.target.getContent()
+    let value = event.target.getContent()
     this.setFieldValue(value)
   }
 
   render () {
     let { value } = this.state
+    let { options } = this.props
+    let tinymceConfig = lodash.extend({}, { skin: false, menubar: false }, options.tinymce)
     return (
-      <Editor
-        config={{skin: false, menubar: false}}
+      <TinyMceEditor
+        config={tinymceConfig}
         onChange={this.handleChange}
         content={value} />
     )

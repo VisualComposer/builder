@@ -18,7 +18,7 @@ vcCake.add('inline-editable', function (api) {
           innerTinymce.init({
             target: el,
             inline: true,
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify',
+            toolbar: 'bold italic | alignleft aligncenter alignright alignjustify',
             setup: function (editor) {
               dragHandler(editor)
               changeHandler(editor, id)

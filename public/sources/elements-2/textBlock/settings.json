@@ -53,11 +53,25 @@
       "description": "Content for text block"
     }
   },
+  "outputInline": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<p>Put your HTML</p>",
+    "options": {
+      "label": "Content",
+      "description": "Content for text block",
+      "tinymce": {
+        "inline": true,
+        "toolbar": "bold italic | alignleft aligncenter alignright alignjustify"
+      }
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "output"
+      "output",
+      "outputInline"
     ],
     "options": {
       "label": "Options"
