@@ -394,126 +394,128 @@ var DesignOptions = React.createClass({
           </tbody>
         </table>
 
-        <div className="vcv-ui-design-options-container">
+        {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+          <div className="vcv-ui-design-options-container">
 
-          <div className="vcv-ui-design-options-css-box">
-            <div className="vcv-ui-form-group">
-              <span className="vcv-ui-form-group-heading">
-                CSS box
-              </span>
-            </div>
+            <div className="vcv-ui-design-options-css-box">
+              <div className="vcv-ui-form-group">
+                <span className="vcv-ui-form-group-heading">
+                  CSS box
+                </span>
+              </div>
 
-            <div className={cssBoxClasses}>
-              <div className="vcv-ui-design-options-box vcv-ui-design-options-margins-box">
-                <label className="vcv-ui-design-options-label">Margin</label>
-                <label className="vcv-ui-design-options-label vcv-ui-design-options-label-top-right">Radius</label>
+              <div className={cssBoxClasses}>
+                <div className="vcv-ui-design-options-box vcv-ui-design-options-margins-box">
+                  <label className="vcv-ui-design-options-label">Margin</label>
+                  <label className="vcv-ui-design-options-label vcv-ui-design-options-label-top-right">Radius</label>
 
-                {this.renderInput('borderTopRightRadius', 'top-right')}
-                {this.renderInput('borderBottomRightRadius', 'bottom-right')}
-                {this.renderInput('borderBottomLeftRadius', 'bottom-left')}
-                {this.renderInput('borderTopLeftRadius', 'top-left')}
+                  {this.renderInput('borderTopRightRadius', 'top-right')}
+                  {this.renderInput('borderBottomRightRadius', 'bottom-right')}
+                  {this.renderInput('borderBottomLeftRadius', 'bottom-left')}
+                  {this.renderInput('borderTopLeftRadius', 'top-left')}
 
-                {this.renderInput('marginTop', 'top')}
-                {this.renderInput('marginRight', 'right')}
-                {this.renderInput('marginBottom', 'bottom')}
-                {this.renderInput('marginLeft', 'left')}
-                <div className="vcv-ui-design-options-box vcv-ui-design-options-borders-box">
-                  <label className="vcv-ui-design-options-label">Border</label>
-                  {this.renderInput('borderTop', 'top')}
-                  {this.renderInput('borderRight', 'right')}
-                  {this.renderInput('borderBottom', 'bottom')}
-                  {this.renderInput('borderLeft', 'left')}
-                  <div className="vcv-ui-design-options-box vcv-ui-design-options-paddings-box">
-                    <label className="vcv-ui-design-options-label">Padding</label>
-                    {this.renderInput('paddingTop', 'top')}
-                    {this.renderInput('paddingRight', 'right')}
-                    {this.renderInput('paddingBottom', 'bottom')}
-                    {this.renderInput('paddingLeft', 'left')}
-                    <div className="vcv-ui-design-options-logo">
-                      <img src={require('../../images/logo.png')} />
+                  {this.renderInput('marginTop', 'top')}
+                  {this.renderInput('marginRight', 'right')}
+                  {this.renderInput('marginBottom', 'bottom')}
+                  {this.renderInput('marginLeft', 'left')}
+                  <div className="vcv-ui-design-options-box vcv-ui-design-options-borders-box">
+                    <label className="vcv-ui-design-options-label">Border</label>
+                    {this.renderInput('borderTop', 'top')}
+                    {this.renderInput('borderRight', 'right')}
+                    {this.renderInput('borderBottom', 'bottom')}
+                    {this.renderInput('borderLeft', 'left')}
+                    <div className="vcv-ui-design-options-box vcv-ui-design-options-paddings-box">
+                      <label className="vcv-ui-design-options-label">Padding</label>
+                      {this.renderInput('paddingTop', 'top')}
+                      {this.renderInput('paddingRight', 'right')}
+                      {this.renderInput('paddingBottom', 'bottom')}
+                      {this.renderInput('paddingLeft', 'left')}
+                      <div className="vcv-ui-design-options-logo">
+                        <img src={require('../../images/logo.png')} />
+                      </div>
                     </div>
                   </div>
-                </div>
 
+                </div>
+              </div>
+
+              <div className="vcv-ui-form-group">
+                <label className="vcv-ui-form-checkbox">
+                  <input
+                    type="checkbox"
+                    onChange={this.toggleSimplifyControls}
+                    checked={this.state[ this.state.device ].simplified}
+                  />
+                  <span className="vcv-ui-form-checkbox-indicator"></span>
+                  Simplify controls
+                </label>
               </div>
             </div>
 
-            <div className="vcv-ui-form-group">
-              <label className="vcv-ui-form-checkbox">
-                <input
-                  type="checkbox"
-                  onChange={this.toggleSimplifyControls}
-                  checked={this.state[ this.state.device ].simplified}
-                />
-                <span className="vcv-ui-form-checkbox-indicator"></span>
-                Simplify controls
-              </label>
-            </div>
-          </div>
+            <div className="vcv-ui-design-options-other">
 
-          <div className="vcv-ui-design-options-other">
-
-            <div className="vcv-ui-form-group">
-              <span className="vcv-ui-form-group-heading">
-                Background color
-              </span>
-              <input
-                name="backgroundColor"
-                type="color"
-                value={this.state[ this.state.device ].backgroundColor}
-                onChange={this.changeBackgroundColor} />
-            </div>
-
-            <div className="vcv-ui-form-group">
-              <span className="vcv-ui-form-group-heading">
-                Background image
-              </span>
-              <AttachImage {...backgroundImageProps} />
-            </div>
-
-            {(this.state[ this.state.device ].backgroundImage.ids.length > 0) &&
               <div className="vcv-ui-form-group">
                 <span className="vcv-ui-form-group-heading">
-                  Background style
-                </span>
-                <select
-                  name="backgroundStyle"
-                  className="vcv-ui-form-dropdown"
-                  value={this.state[ this.state.device ].backgroundStyle}
-                  onChange={this.changeBackgroundStyle}>
-                  {this.backgroundStyles}
-                </select>
-              </div>}
-
-            {isBorderSpecified &&
-              <div className="vcv-ui-form-group">
-                <span className="vcv-ui-form-group-heading">
-                  Border style
-                </span>
-                <select
-                  name="borderStyle"
-                  className="vcv-ui-form-dropdown"
-                  value={this.state[ this.state.device ].borderStyle}
-                  onChange={this.changeBorderStyle}>
-                  {this.borderStyles}
-                </select>
-              </div>}
-
-            {isBorderSpecified &&
-              <div className="vcv-ui-form-group">
-                <span className="vcv-ui-form-group-heading">
-                  Border color
+                  Background color
                 </span>
                 <input
-                  name="borderColor"
+                  name="backgroundColor"
                   type="color"
-                  value={this.state[ this.state.device ].borderColor}
-                  onChange={this.changeBorderColor} />
-              </div>}
+                  value={this.state[ this.state.device ].backgroundColor}
+                  onChange={this.changeBackgroundColor} />
+              </div>
+
+              <div className="vcv-ui-form-group">
+                <span className="vcv-ui-form-group-heading">
+                  Background image
+                </span>
+                <AttachImage {...backgroundImageProps} />
+              </div>
+
+              {(this.state[ this.state.device ].backgroundImage.ids.length > 0) &&
+                <div className="vcv-ui-form-group">
+                  <span className="vcv-ui-form-group-heading">
+                    Background style
+                  </span>
+                  <select
+                    name="backgroundStyle"
+                    className="vcv-ui-form-dropdown"
+                    value={this.state[ this.state.device ].backgroundStyle}
+                    onChange={this.changeBackgroundStyle}>
+                    {this.backgroundStyles}
+                  </select>
+                </div>}
+
+              {isBorderSpecified &&
+                <div className="vcv-ui-form-group">
+                  <span className="vcv-ui-form-group-heading">
+                    Border style
+                  </span>
+                  <select
+                    name="borderStyle"
+                    className="vcv-ui-form-dropdown"
+                    value={this.state[ this.state.device ].borderStyle}
+                    onChange={this.changeBorderStyle}>
+                    {this.borderStyles}
+                  </select>
+                </div>}
+
+              {isBorderSpecified &&
+                <div className="vcv-ui-form-group">
+                  <span className="vcv-ui-form-group-heading">
+                    Border color
+                  </span>
+                  <input
+                    name="borderColor"
+                    type="color"
+                    value={this.state[ this.state.device ].borderColor}
+                    onChange={this.changeBorderColor} />
+                </div>}
+
+            </div>
 
           </div>
-
-        </div>
+        }
       </div>
     )
   }
