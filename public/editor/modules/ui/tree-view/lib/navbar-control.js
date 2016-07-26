@@ -25,7 +25,7 @@ vcCake.add('ui-tree-view', function (api) {
     render: function () {
       let controlClass = classNames({
         'vcv-ui-navbar-control': true,
-        'vcv-ui-pull-end': true
+        'vcv-ui-state--active': this.state.controlActive
       })
       return <a className={controlClass} href="#" title="Tree View" onClick={this.toggleTreeView}>
         <span className="vcv-ui-navbar-control-content">
