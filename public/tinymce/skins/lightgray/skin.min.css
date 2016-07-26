@@ -13,7 +13,7 @@
   float: none;
   position: static;
   width: auto;
-  height: 36px;
+  height: 100%;
   white-space: nowrap;
   cursor: inherit;
   -webkit-tap-highlight-color: transparent;
@@ -25,6 +25,10 @@
   box-sizing: content-box;
   direction: ltr;
   max-width: none
+}
+
+.mce-tooltip {
+  height: 20px;
 }
 
 .mce-widget button {
@@ -176,7 +180,7 @@ div.mce-tinymce-inline {
   width: 100% !important;
   top: 0 !important;
   left: 0 !important;
-  height: 36px !important;
+  height: 40px !important;
   position: fixed !important;
 }
 
@@ -368,7 +372,7 @@ div.mce-tinymce-inline {
 
 .mce-container, .mce-container-body {
   display: block;
-  height: 36px !important;
+  height: 40px !important;
 }
 
 .mce-autoscroll {
@@ -949,7 +953,7 @@ body .mce-abs-layout-item, .mce-abs-end {
 
 .mce-btn:hover, .mce-btn:focus {
   color: #333;
-  background-color: #e3e3e3;
+  background-color: transparent;
 }
 
 .mce-btn.mce-disabled button, .mce-btn.mce-disabled:hover button {
@@ -960,13 +964,13 @@ body .mce-abs-layout-item, .mce-abs-end {
 }
 
 .mce-btn.mce-active, .mce-btn.mce-active:hover {
-  background-color: darken(#203251,10%);
+  background-color: #121b2c; /* darken(#203251,10%); */
   border: none;
 }
 
 .mce-btn:active {
-  background-color: #e0e0e0;
-  border-color: #ccc
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .mce-btn button {
