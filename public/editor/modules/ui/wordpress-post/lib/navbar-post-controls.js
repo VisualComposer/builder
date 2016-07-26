@@ -44,12 +44,12 @@ class WordPressAdminControl extends React.Component {
     }
     let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
     let previewButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.previewUrl()} title={previewText}><span
+      <a className='vcv-ui-navbar-control' href={PostData.previewUrl()} title={previewText} target='_blank' disabled><span
         className='vcv-ui-navbar-control-content'>{previewText}</span></a>
     )
 
     let backendEditorButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor'><span
+      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor' disabled><span
         className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
 
