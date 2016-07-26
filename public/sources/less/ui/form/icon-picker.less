@@ -1,0 +1,64 @@
+.vcv-check-new-form-elements {
+  margin: 3rem auto;
+  width: 50vw;
+}
+
+
+.vcv-ui-form-iconpicker {
+
+}
+
+.vcv-ui-form-iconpicker-content {
+  &:extend(.vcv-ui-form-input);
+  margin-top: @vcui-form-iconpicker-content-space;
+  padding: 0;
+  display: none;
+  &.vcv-ui-form-state--active {
+    display: block;
+  }
+}
+
+.vcv-ui-form-iconpicker-content-heading {
+  padding: @vcui-form-iconpicker-heading-padding;
+  background-color: @vcui-form-iconpicker-heading-background;
+  border-bottom: 1px solid @vcui-form-iconpicker-border-color;
+  > * {
+    margin-bottom: @vcui-form-iconpicker-heading-space / 2;
+  }
+}
+.vcv-ui-form-iconpicker-options {
+  //border: 1px solid green;
+  display: flex;
+  flex-flow: row wrap;
+  max-height: @vcui-form-iconpicker-options-height;
+  overflow: auto;
+}
+.vcv-ui-form-iconpicker-option {
+  border: 1px solid @vcui-form-iconpicker-border-color;
+  border-right: 0;
+  border-bottom: 0;
+  flex: 1 1 @vcui-form-iconpicker-option-width;
+  height: @vcui-form-iconpicker-option-height;
+  width: @vcui-form-iconpicker-option-width;
+  font-size: @vcui-form-iconpicker-option-font-size;
+  position: relative;
+  margin-top: -1px;
+  margin-left: -1px;
+  color: @vcui-form-iconpicker-option-color;
+  background-color: transparent;
+  cursor: pointer;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &:hover,
+  &.vcv-ui-form-state--active{
+    color: @vcui-form-iconpicker-option-color-hover;
+    background-color: @vcui-form-iconpicker-option-background-hover;
+  }
+}

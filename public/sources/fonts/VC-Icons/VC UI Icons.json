@@ -11,7 +11,7 @@
           "order": 29,
           "id": 18,
           "prevSize": 32,
-          "code": 59676,
+          "code": 9662,
           "name": "expand",
           "tempChar": ""
         },
@@ -19,7 +19,7 @@
           "order": 28,
           "id": 17,
           "prevSize": 32,
-          "code": 59660,
+          "code": 10005,
           "name": "add-thin",
           "tempChar": ""
         },
@@ -27,7 +27,7 @@
           "order": 34,
           "id": 16,
           "prevSize": 32,
-          "code": 59661,
+          "code": 10007,
           "name": "close-thin",
           "tempChar": ""
         },
@@ -35,7 +35,7 @@
           "order": 30,
           "id": 15,
           "prevSize": 32,
-          "code": 59663,
+          "code": 128455,
           "name": "copy",
           "tempChar": ""
         },
@@ -43,7 +43,7 @@
           "order": 25,
           "id": 14,
           "prevSize": 32,
-          "code": 59664,
+          "code": 9998,
           "name": "edit",
           "tempChar": ""
         },
@@ -51,7 +51,7 @@
           "order": 24,
           "id": 13,
           "prevSize": 32,
-          "code": 59675,
+          "code": 128458,
           "name": "paste",
           "tempChar": ""
         },
@@ -59,7 +59,7 @@
           "order": 12,
           "id": 3,
           "prevSize": 32,
-          "code": 59648,
+          "code": 8801,
           "name": "mobile-menu",
           "tempChar": ""
         },
@@ -68,14 +68,14 @@
           "id": 10,
           "name": "desktop",
           "prevSize": 32,
-          "code": 59649,
+          "code": 128250,
           "tempChar": ""
         },
         {
           "order": 14,
           "id": 4,
           "prevSize": 32,
-          "code": 59650,
+          "code": 128241,
           "name": "mobile-portrait",
           "tempChar": ""
         },
@@ -83,7 +83,7 @@
           "order": 15,
           "id": 9,
           "prevSize": 32,
-          "code": 59651,
+          "code": 128242,
           "name": "mobile-landscape",
           "tempChar": ""
         },
@@ -91,7 +91,7 @@
           "order": 16,
           "id": 7,
           "prevSize": 32,
-          "code": 59652,
+          "code": 128435,
           "name": "tablet-portrait",
           "tempChar": ""
         },
@@ -99,7 +99,7 @@
           "order": 17,
           "id": 6,
           "prevSize": 32,
-          "code": 59653,
+          "code": 128187,
           "name": "tablet-landscape",
           "tempChar": ""
         },
@@ -107,7 +107,7 @@
           "order": 18,
           "id": 8,
           "prevSize": 32,
-          "code": 59654,
+          "code": 128240,
           "name": "template",
           "tempChar": ""
         },
@@ -115,7 +115,7 @@
           "order": 19,
           "id": 5,
           "prevSize": 32,
-          "code": 59655,
+          "code": 10004,
           "name": "save",
           "tempChar": ""
         },
@@ -123,7 +123,7 @@
           "order": 20,
           "id": 12,
           "prevSize": 32,
-          "code": 59656,
+          "code": 10133,
           "name": "add",
           "tempChar": ""
         },
@@ -131,7 +131,7 @@
           "order": 21,
           "id": 1,
           "prevSize": 32,
-          "code": 59657,
+          "code": 10134,
           "name": "remove",
           "tempChar": ""
         },
@@ -139,7 +139,7 @@
           "order": 22,
           "id": 11,
           "prevSize": 32,
-          "code": 59658,
+          "code": 10006,
           "name": "close",
           "tempChar": ""
         },
@@ -147,7 +147,7 @@
           "order": 31,
           "id": 19,
           "prevSize": 32,
-          "code": 59677,
+          "code": 8943,
           "name": "more-dots",
           "tempChar": ""
         },
@@ -155,7 +155,7 @@
           "order": 23,
           "id": 0,
           "prevSize": 32,
-          "code": 59659,
+          "code": 8942,
           "name": "drag-dots",
           "tempChar": ""
         }
@@ -437,11 +437,19 @@
       "selection": [
         {
           "order": 1,
+          "id": 1,
+          "name": "search",
+          "prevSize": 32,
+          "code": 8981,
+          "tempChar": ""
+        },
+        {
+          "order": 1,
           "id": 0,
           "prevSize": 32,
-          "code": 59674,
+          "code": 128028,
           "name": "bug",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -452,15 +460,31 @@
         "designer": "Dave Gandy",
         "license": "Custom",
         "licenseURL": "http://fortawesome.github.io/Font-Awesome/license/",
-        "iconsHash": 572558962,
+        "iconsHash": 1137311338,
         "importSize": {
-          "width": 26,
-          "height": 28
+          "width": 30,
+          "height": 32
         }
       },
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 1,
+          "paths": [
+            "M658.286 475.429q0-105.714-75.143-180.857t-180.857-75.143-180.857 75.143-75.143 180.857 75.143 180.857 180.857 75.143 180.857-75.143 75.143-180.857zM950.857 950.857q0 29.714-21.714 51.429t-51.429 21.714q-30.857 0-51.429-21.714l-196-195.429q-102.286 70.857-228 70.857-81.714 0-156.286-31.714t-128.571-85.714-85.714-128.571-31.714-156.286 31.714-156.286 85.714-128.571 128.571-85.714 156.286-31.714 156.286 31.714 128.571 85.714 85.714 128.571 31.714 156.286q0 125.714-70.857 228l196 196q21.143 21.143 21.143 51.429z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "width": 951,
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "search"
+          ],
+          "grid": 14
+        },
         {
           "id": 0,
           "paths": [
@@ -568,7 +592,7 @@
           "id": 19,
           "order": 3,
           "prevSize": 32,
-          "code": 59662,
+          "code": 128736,
           "name": "cog",
           "tempChar": ""
         },
@@ -596,7 +620,7 @@
           "id": 25,
           "order": 33,
           "prevSize": 32,
-          "code": 59678,
+          "code": 9825,
           "name": "heart-stroke",
           "tempChar": ""
         },
@@ -612,7 +636,7 @@
           "id": 28,
           "order": 32,
           "prevSize": 32,
-          "code": 59679,
+          "code": 128459,
           "name": "document-alt-stroke",
           "tempChar": ""
         },
@@ -660,7 +684,7 @@
           "id": 37,
           "order": 6,
           "prevSize": 32,
-          "code": 59665,
+          "code": 128279,
           "name": "link",
           "tempChar": ""
         },
@@ -672,7 +696,7 @@
           "id": 39,
           "order": 7,
           "prevSize": 32,
-          "code": 59666,
+          "code": 10019,
           "name": "move",
           "tempChar": ""
         },
@@ -748,7 +772,7 @@
           "order": 4,
           "id": 172,
           "prevSize": 32,
-          "code": 59667,
+          "code": 10558,
           "name": "undo",
           "tempChar": ""
         },
@@ -756,7 +780,7 @@
           "id": 57,
           "order": 2,
           "prevSize": 32,
-          "code": 59668,
+          "code": 10559,
           "name": "redo",
           "tempChar": ""
         },
@@ -1048,7 +1072,7 @@
           "id": 129,
           "order": 11,
           "prevSize": 32,
-          "code": 59669,
+          "code": 10000,
           "name": "pen-alt-fill",
           "tempChar": ""
         },
@@ -1068,7 +1092,7 @@
           "id": 133,
           "order": 8,
           "prevSize": 32,
-          "code": 59670,
+          "code": 128397,
           "name": "eyedropper",
           "tempChar": ""
         },
@@ -1080,7 +1104,7 @@
           "id": 135,
           "order": 5,
           "prevSize": 32,
-          "code": 59671,
+          "code": 128471,
           "name": "layers",
           "tempChar": ""
         },
@@ -1136,7 +1160,7 @@
           "id": 148,
           "order": 10,
           "prevSize": 32,
-          "code": 59672,
+          "code": 128274,
           "name": "lock-stroke",
           "tempChar": ""
         },
@@ -1148,7 +1172,7 @@
           "id": 150,
           "order": 9,
           "prevSize": 32,
-          "code": 59673,
+          "code": 128275,
           "name": "unlock-stroke",
           "tempChar": ""
         },
@@ -3616,7 +3640,7 @@
       "metadata": {
         "fontFamily": "VC-Icons",
         "majorVersion": 1,
-        "minorVersion": 0
+        "minorVersion": 3
       },
       "metrics": {
         "emSize": 1024,
