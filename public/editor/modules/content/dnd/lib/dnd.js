@@ -36,19 +36,24 @@ var Builder = function (container, options) {
     document: document,
     offsetTop: 0,
     offsetLeft: 0,
-    boundariesGap: 6
+    boundariesGap: 6,
+    rootContainerFor: ['RootElements']
   })
 }
 Builder.prototype.option = function (name, value) {
   this.options[name] = value
 }
 Builder.prototype.init = function () {
+  let rootId = 'vcv-content-root'
+  this.items[rootId] = new Item(rootId, this.container, {
+    containerFor: this.options.rootContainerFor
+  })
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)
   this.handleDragEndFunction = this.handleDragEnd.bind(this)
 }
 Builder.prototype.addItem = function (id) {
-  this.items[ id ] = new Item(id, this.options.document)
+  this.items[ id ] = new Item(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'))
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
     .on('mousedown', this.handleDragFunction)
@@ -85,8 +90,8 @@ Builder.prototype.allowAsContainer = function (domElement) {
 
 Builder.prototype.checkItems = function (point) {
   let DOMNode = this.options.document.elementFromPoint(point.x, point.y)
-  if (DOMNode && !DOMNode.getAttribute('data-vc-element')) {
-    DOMNode = $(DOMNode).closest('[data-vc-element]').get(0)
+  if (DOMNode && !DOMNode.getAttribute('data-vcv-dnd-element')) {
+    DOMNode = $(DOMNode).closest('[data-vcv-dnd-element]').get(0)
   }
   let domElement = new DOMElement(DOMNode, this.options.document)
   if (domElement.isElement() && domElement.equals(this.dragingElement)) {
@@ -120,7 +125,7 @@ Builder.prototype.start = function (DOMNode) {
     this.dragingElement = null
     return false
   }
-  // Creat helper/clone of element
+  // Create helper/clone of element
   this.helper = new Helper(this.dragingElement.node)
   // Add css class for body to enable visual setings for all document
   this.options.document.body.classList.add('vcv-dragstart')

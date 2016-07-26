@@ -5,7 +5,7 @@ const documentManager = getService('document')
 
 export default class DOMElement {
   constructor (DOMNode, documentDOM) {
-    let id = DOMNode ? DOMNode.getAttribute('data-vc-element') : null
+    let id = DOMNode ? DOMNode.getAttribute('data-vcv-dnd-element') : null
     if (id) {
       Object.defineProperties(this, {
         'node': {
@@ -17,7 +17,7 @@ export default class DOMElement {
         'id': {
           configurable: false,
           enumerable: false,
-          value: DOMNode.getAttribute('data-vc-element'),
+          value: DOMNode.getAttribute('data-vcv-dnd-element'),
           writable: false
         },
         'data': {
@@ -40,7 +40,7 @@ export default class DOMElement {
       return new DOMElement()
     }
     let id = this.data.get('parent')
-    let DOMNode = this.documentDOM.querySelector('[data-vc-element="' + id + '"]')
+    let DOMNode = this.documentDOM.querySelector('[data-vcv-dnd-element="' + id + '"]')
     return new DOMElement(DOMNode, this.documentDOM)
   }
   hasParent () {

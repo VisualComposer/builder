@@ -1,10 +1,10 @@
-/* global $ */
 import Api from './lib/api'
 import vcCake from 'vc-cake'
 import DnD from './lib/dnd'
+import $ from 'jquery'
 
 require('./css/module.less')
-vcCake.add('content-frame-based-dnd', function (api) {
+vcCake.add('content-dnd', function (api) {
   let documentDOM
   let offsetLeft
   let iframe

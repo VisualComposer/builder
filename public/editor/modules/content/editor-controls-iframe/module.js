@@ -49,7 +49,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
         var DOMNode = id ? $iframeDocument.find('[data-vc-element="' + id + '"]') : null
         if (DOMNode.length) {
           controlsHandler.removeControls()
-          api.module('content-frame-based-dnd').do('startDragging', DOMNode.get(0), { x: e.clientX, y: e.clientY })
+          api.module('content-dnd').do('startDragging', DOMNode.get(0), { x: e.clientX, y: e.clientY })
         }
       })
       $(document).on('click', '[data-vc-control-event]', function (e) {

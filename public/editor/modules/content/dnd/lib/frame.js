@@ -41,7 +41,7 @@ Frame.prototype.setLinePosition = function (position) {
   this.linePosition = position
 }
 Frame.prototype.isSameElementPosition = function (element, position) {
-  return this.currentElement === element.getAttribute('data-vc-element') && this.linePosition === position
+  return this.currentElement === element.getAttribute('data-vcv-dnd-element') && this.linePosition === position
 }
 Frame.prototype.setStyle = function (rect, offset) {
   this.el.setAttribute('style', _.reduce({
