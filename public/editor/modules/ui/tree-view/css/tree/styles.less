@@ -29,7 +29,6 @@
   padding: 0;
   list-style: none;
   position: relative;
-  flex: 1 0 auto;
 }
 
 // Actions
@@ -62,7 +61,7 @@
   transition: all @transition-duration @transition-timing-function;
   flex-grow: 1;
   flex-shrink: 1;
-  border-width: 1px 1px 0 0;
+  border-width: 0 1px 1px 0;
   border-style: solid;
   border-color: @tree-separator-color;
 
@@ -113,7 +112,6 @@
   padding: @tree-gold-value / 2 1em;
   margin: 0;
   min-height: @tree-control-height;
-
 }
 
 //== Controls
@@ -272,5 +270,13 @@
 .vcv-ui-tree-layout-node-state-draft {
   &.vcv-ui-tree-layout-node-child {
     opacity: .6;
+  }
+}
+
+//== tree view controls behaviour
+.vcv-ui-tree-layout-container {
+  .vcv-ui-tree-layout-action {
+    padding: @tree-gold-value / 2;
+    min-height: @tree-control-height;
   }
 }
