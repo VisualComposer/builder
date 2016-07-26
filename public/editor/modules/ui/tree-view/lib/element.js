@@ -118,10 +118,11 @@ var Element = React.createClass({
     })
 
     let publicPath = element.getPublicPath(element.get('meta_icon'))
+    let space = 0.8
 
     return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}
       name={element.get('name')}>
-      <div className={controlClasses} style={{paddingLeft: this.props.level + 1 + 'em'}}>
+      <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
         <div className="vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler">
           <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" />
         </div>

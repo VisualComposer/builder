@@ -75,8 +75,8 @@ class Iconpicker extends Attribute {
     let iconsContent = []
     this.filteredIcons().forEach((icon) => {
       let iconClasses = classNames({
-        'vcv-ui-param-iconpicker-icon-box': true,
-        'vcv-ui-param-iconpicker-icon-active': icon.id === value
+        'vcv-ui-form-iconpicker-option': true,
+        'vcv-ui-form-state--active': icon.id === value
       })
       iconsContent.push(
         <span
@@ -110,23 +110,21 @@ class Iconpicker extends Attribute {
     let categories = this.categoriesContent()
     let iconsContent = this.iconsContent()
     if (!iconsContent.length) {
-      iconsContent.push(<div className='vcv-ui-param-iconpicker-error'><span>No icons round</span></div>)
+      iconsContent.push(<div className='vcv-ui-form-iconpicker-error'>No icons found</div>)
     }
 
     let popupClasses = classNames({
-      'vcv-ui-param-iconpicker-popup': true
+      'vcv-ui-form-iconpicker-content': true,
+      'vcv-ui-form-state--active': this.state.popupOpen
     })
 
     let categoriesContent = ''
     if (categories.length) {
       categoriesContent = (
-        <div className='vcv-ui-param-iconpicker-category'>
-          <select onChange={this.category} value={category}
-            className='vcv-ui-param-iconpicker-icon-dropdown-select'>
-            <option key='all' value=''>From all categories</option>
-            {categories}
-          </select>
-        </div>
+        <select onChange={this.category} value={category} className='vcv-ui-form-dropdown'>
+          <option key='all' value=''>From all categories</option>
+          {categories}
+        </select>
       )
     }
 
@@ -138,24 +136,25 @@ class Iconpicker extends Attribute {
         innerSetContent.push(<option key={'inner' + i} value={i}>{name}</option>)
       })
       iconsSetContent = (
-        <div className='vcv-ui-param-iconpicker-set'>
-          <select onChange={this.iconSet} value={iconSet}
-            className='vcv-ui-param-iconpicker-icon-dropdown-select'>
-            {innerSetContent}
-          </select>
-        </div>
+        <select onChange={this.iconSet} value={iconSet} className='vcv-ui-form-dropdown'>
+          {innerSetContent}
+        </select>
       )
     }
 
     content = (
       <div className={popupClasses}>
-        {iconsSetContent}
-        <div className='vcv-ui-param-iconpicker-search'>
-          <input type='text' value={search} onChange={this.search} placeholder='Search Icon'
-            className='vcv-ui-param-iconpicker-icons-search-input' /><i className='fa fa-search' />
+        <div className='vcv-ui-form-iconpicker-content-heading'>
+          {iconsSetContent}
+          <div className='vcv-ui-input-search'>
+            <input type='search' value={search} onChange={this.search} placeholder='Search Icon' className='vcv-ui-form-input' />
+            <label className='vcv-ui-form-input-search-addon'>
+              <i className='vcv-ui-icon vcv-ui-icon-search' />
+            </label>
+          </div>
+          {categoriesContent}
         </div>
-        {categoriesContent}
-        <div className='vcv-ui-param-iconpicker-icons-container'>
+        <div className='vcv-ui-form-iconpicker-options'>
           {iconsContent}
         </div>
       </div>
@@ -197,6 +196,7 @@ class Iconpicker extends Attribute {
 
   handleChange (e) {
     this.togglePopup()
+    e.currentTarget.value = e.currentTarget.attributes.value.textContent
     super.handleChange(e)
   }
 
@@ -207,14 +207,10 @@ class Iconpicker extends Attribute {
       'vcv-ui-param-iconpicker-icon-empty': !value
     }, value)
 
-    let selectorToggleClasses = classNames({
-      'fa': true,
-      'fa-arrow-up': popupOpen,
-      'fa-arrow-down': !popupOpen
-    })
-
     let selectorClasses = classNames({
-      'vcv-ui-param-iconpicker-selector': true
+      'vcv-ui-form-dropdown': true,
+      'vcv-ui-form-dropdown-style--inline': true,
+      'vcv-ui-form-state--focus': popupOpen
     })
 
     let popupContent = ''
@@ -223,16 +219,13 @@ class Iconpicker extends Attribute {
     }
 
     let wrapperClasses = classNames({
-      'vcv-ui-param-iconpicker-wrapper': true,
-      'vcv-ui-param-iconpicker-popup--hidden': !popupOpen
+      'vcv-ui-form-iconpicker': true
     })
     return (
       <div className={wrapperClasses}>
-        <div className='vcv-ui-param-iconpicker-selector-wrapper'>
-          <div className={selectorClasses}>
-            <span className='vcv-ui-param-iconpicker-selected-icon'><i className={selectedIconClasses} /></span>
-            <span className='vcv-ui-param-iconpicker-selector-button' onClick={this.togglePopup}><i
-              className={selectorToggleClasses} /></span>
+        <div className='vcv-ui-form-iconpicker'>
+          <div className={selectorClasses} onClick={this.togglePopup}>
+            <i className={selectedIconClasses} />
           </div>
           {popupContent}
         </div>

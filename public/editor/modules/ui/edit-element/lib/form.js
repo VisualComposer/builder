@@ -200,7 +200,6 @@ class TreeForm extends React.Component {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
     getService('asset-manager').addDesignOption(element.get('id'), designOptions)
-    this.closeTreeView()
   }
 
   getTabProps (tabIndex, activeTabIndex) {
@@ -333,12 +332,6 @@ class TreeForm extends React.Component {
 
         <div className="vcv-ui-tree-content-footer">
           <div className="vcv-ui-tree-layout-actions">
-            <a className="vcv-ui-tree-layout-action" href="#" title="Close" onClick={this.closeTreeView}>
-              <span className="vcv-ui-tree-layout-action-content">
-                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
-                <span>Close</span>
-              </span>
-            </a>
             <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}>
               <span className="vcv-ui-tree-layout-action-content">
                 <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i>

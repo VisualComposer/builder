@@ -71,8 +71,15 @@ class BarContentEnd extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  toggleStartContent () {
+  toggleStartContent (e) {
+    e && e.preventDefault()
     this.props.api.request('bar-content-start:toggle')
+  }
+
+  closeContent (e) {
+    e && e.preventDefault()
+    this.props.api.request('bar-content-start:hide')
+    this.props.api.request('bar-content-end:hide')
   }
 
   render () {
@@ -94,6 +101,10 @@ class BarContentEnd extends React.Component {
         <a className="vcv-layout-bar-content-toggle" href="#" title="Toggle tree view"
           onClick={this.toggleStartContent.bind(this)}>
           <i className="vcv-layout-bar-content-toggle-icon vcv-ui-icon vcv-ui-icon-layers"></i>
+        </a>
+        <a className="vcv-layout-bar-content-hide" href="#" title="Close"
+          onClick={this.closeContent.bind(this)}>
+          <i className="vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
         </a>
         {content}
         <Resizer params={{

@@ -27,6 +27,10 @@
   max-width: none
 }
 
+.mce-tooltip {
+  height: 20px;
+}
+
 .mce-widget button {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

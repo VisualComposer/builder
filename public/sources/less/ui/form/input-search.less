@@ -1,0 +1,42 @@
+.vcv-ui-input-search {
+  position: relative;
+  .vcv-ui-form-input-search-addon {
+    display: block;
+    background: transparent;
+    color: @vcui-form-input-placeholder-color;
+    font-size: @vcui-form-font-size-base;
+    padding: @vcui-form-input-padding;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    > * {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &:first-child {
+      left: 0;
+      > * {
+        left: @vcui-form-search-addon-padding;
+      }
+    }
+    &:last-child {
+      right: 0;
+      > * {
+        right: @vcui-form-search-addon-padding;
+      }
+    }
+  }
+  .vcv-ui-form-input {
+    &:not(:first-child) {
+      padding-left: @vcui-form-search-addon-size;
+    }
+    &:not(:last-child) {
+      padding-right: @vcui-form-search-addon-size;
+    }
+  }
+}
