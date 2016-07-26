@@ -62,11 +62,6 @@ var Layout = React.createClass({
           <div className="vcv-ui-scroll">
             <div className="vcv-ui-scroll-content">
               {this.getElementsOutput()}
-              <div className="vcv-ui-tree-layout-actions">
-                <a className="vcv-ui-tree-layout-action" href="#" title="Add Element" onClick={this.handleAddElement}><span
-                  className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add"></i><span>Add element</span></span></a>
-                <a className="vcv-ui-tree-layout-action" href="#" disabled title="Template"><span className="vcv-ui-tree-layout-action-content"><i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template"></i><span>Template</span></span></a>
-              </div>
             </div>
           </div>
         </div>
