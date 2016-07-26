@@ -20,6 +20,9 @@ vcCake.add('ui-add-element', function (api) {
         .reply('app:edit', () => {
           this.setState({ isWindowOpen: false })
         })
+        .reply('bar-content-end:hide', () => {
+          this.setState({ isWindowOpen: false })
+        })
     },
     componentWillUnmount: function () {
       api
@@ -33,21 +36,16 @@ vcCake.add('ui-add-element', function (api) {
           this.setState({ isWindowOpen: false })
         })
     },
-    toggleAddElement: function (e) {
+    handleAddElement: function (e) {
       e && e.preventDefault()
-      if (this.state.isWindowOpen) {
-        api.notify('hide')
-        api.request('bar-content-start:hide')
-      } else {
-        api.request('app:add', null)
-      }
+      api.request('app:add', null)
     },
     render: function () {
       let controlClass = classNames({
         'vcv-ui-navbar-control': true,
         'vcv-ui-state--active': this.state.isWindowOpen
       })
-      return <a className={controlClass} href="#" title="Add Element" onClick={this.toggleAddElement}>
+      return <a className={controlClass} href="#" title="Add Element" onClick={this.handleAddElement}>
         <span className="vcv-ui-navbar-control-content">
           <i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add"></i>
           <span>Add Element</span>
