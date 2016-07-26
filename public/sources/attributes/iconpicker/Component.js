@@ -197,6 +197,7 @@ class Iconpicker extends Attribute {
 
   handleChange (e) {
     this.togglePopup()
+    e.currentTarget.value = e.currentTarget.attributes.value.textContent
     super.handleChange(e)
   }
 
