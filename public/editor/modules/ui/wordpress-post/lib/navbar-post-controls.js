@@ -49,8 +49,8 @@ class WordPressAdminControl extends React.Component {
     )
 
     let backendEditorButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor'><span
-        className='vcv-ui-navbar-control-content' disabled>Backend Editor</span></a>
+      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor' disabled><span
+        className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
 
     let wordpressDashboardButton = (
