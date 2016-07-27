@@ -17,7 +17,11 @@ export default class Component extends Attribute {
   render () {
     let { value } = this.state
     let { options } = this.props
-    let tinymceConfig = lodash.extend({}, { skin: false, menubar: false }, options.tinymce)
+    let tinymceConfig = lodash.extend({}, {
+      toolbar: [
+        'styleselect | bold italic | link image | alignleft aligncenter alignright'
+      ], skin: false, menubar: false
+    }, options.tinymce)
     return (
       <TinyMceEditor
         config={tinymceConfig}
