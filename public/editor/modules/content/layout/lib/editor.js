@@ -3,7 +3,7 @@
 import React from 'react'
 import HtmlLayout from './html-layout'
 
-class Editor extends React.Component {
+class LayoutEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -28,8 +28,8 @@ class Editor extends React.Component {
     )
   }
 }
-Editor.propTypes = {
+LayoutEditor.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = Editor
+module.exports = LayoutEditor

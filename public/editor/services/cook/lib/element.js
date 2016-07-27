@@ -12,7 +12,7 @@ import vcCake from 'vc-cake'
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
-export default class Element {
+export default class CookElement {
   constructor (data) {
     let { id = createKey(), parent = false, order, ...attr } = data
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(data.tag) : false
@@ -70,17 +70,17 @@ export default class Element {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elComponent ].tag).component(this[ elComponent ])
     }
-    let Component = this[ elComponent ].get()
+    let ElementToRender = this[ elComponent ].get()
     let props = this.toJS()
     props.key = this[ elData ].id
     props.id = this[ elData ].id
     props[ 'data-vc-element' ] = this[ elData ].id
     props.content = content
-    return React.createElement(Component, props)
+    return <ElementToRender {...props} />
   }
 
   static create (tag) {
-    return new Element({ tag: tag })
+    return new CookElement({ tag: tag })
   }
 
   toJS (rawData) {
