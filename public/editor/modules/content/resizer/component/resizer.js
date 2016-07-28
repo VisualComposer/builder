@@ -30,7 +30,7 @@ class Resizer extends React.Component {
     $(this.refs.resizer)
       .on('mousedown.vcv-resizer', this.bindDrag.bind(this))
       .on('touchstart.vcv-resizer', this.bindDrag.bind(this))
-      .on('dragstart.vcv-resizer', function (e) {
+      .on('dragstart.vcv-resizer', (e) => {
         e && e.preventDefault && e.preventDefault()
         return false
       })
@@ -80,16 +80,15 @@ class Resizer extends React.Component {
   doResize (e) {
     if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
       let $window = $(window)
-      var clientX = this.getClientX(e)
-      var clientY = this.getClientY(e)
-      var offsetX = this.startClientX - clientX
-      var offsetY = this.startClientY - clientY
+      let clientX = this.getClientX(e)
+      let clientY = this.getClientY(e)
+      let offsetX = this.startClientX - clientX
+      let offsetY = this.startClientY - clientY
 
       if (clientX < 0 || clientX > $window.width() || clientY < 0 || clientY > $window.height()) {
         return
       }
 
-      var w, h, oldW, oldH, doResize
       e.offsetX = offsetX
       e.offsetY = offsetY
       e.$targetTop = this.$targetTop
@@ -98,58 +97,90 @@ class Resizer extends React.Component {
       e.$targetRight = this.$targetRight
 
       if (this.state.resizerOptions.resizeTop) {
-        oldH = parseInt(this.$targetTop.css('height'))
-        h = oldH + offsetY + 'px'
-        this.$targetTop.css('height', h)
-        doResize = (window.getComputedStyle(this.$targetTop[ 0 ]).height === h)
-        if (doResize) {
-          this.startClientY = clientY
-          e.direction = 'top'
-          this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
-        } else {
-          this.$targetTop.css('height', oldH)
-        }
+        this.resizeTop(offsetY, clientY, e)
       } else if (this.state.resizerOptions.resizeBottom) {
-        oldH = parseInt(this.$targetBottom.css('height'))
-        h = oldH - (offsetY) + 'px'
-        this.$targetBottom.css('height', h)
-        doResize = (window.getComputedStyle(this.$targetBottom[ 0 ]).height === h)
-        if (doResize) {
-          this.startClientY = clientY
-          e.direction = 'bottom'
-          this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
-        } else {
-          this.$targetBottom.css('height', oldH)
-        }
+        this.resizeBottom(offsetY, clientY, e)
       }
       if (this.state.resizerOptions.resizeRight) {
-        oldW = parseInt(this.$targetRight.css('width'))
-        w = oldW - (offsetX) + 'px'
-        this.$targetRight.css('width', w)
-        doResize = (window.getComputedStyle(this.$targetRight[ 0 ]).width === w)
-        if (doResize) {
-          this.startClientX = clientX
-          e.direction = 'right'
-          this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
-        } else {
-          this.$targetRight.css('width', oldW)
-        }
+        this.resizeRight(offsetX, clientX, e)
       } else if (this.state.resizerOptions.resizeLeft) {
-        oldW = parseInt(this.$targetLeft.css('width'))
-        w = oldW + (offsetX) + 'px'
-        this.$targetLeft.css('width', w)
-        doResize = (window.getComputedStyle(this.$targetLeft[ 0 ]).width === w)
-        if (doResize) {
-          this.startClientX = clientX
-          e.direction = 'left'
-          this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
-        } else {
-          this.$targetLeft.css('width', oldW)
-        }
+        this.resizeLeft(offsetX, clientX, e)
       }
     } else {
       this.stopResize()
     }
+  }
+
+  resizeLeft (offsetX, clientX, e) {
+    let oldW, w, doResize
+
+    oldW = parseInt(this.$targetLeft.css('width'))
+    w = oldW + (offsetX) + 'px'
+    this.$targetLeft.css('width', w)
+    doResize = (window.getComputedStyle(this.$targetLeft[ 0 ]).width === w)
+    if (doResize) {
+      this.startClientX = clientX
+      e.direction = 'left'
+      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
+    } else {
+      this.$targetLeft.css('width', oldW)
+    }
+
+    return doResize
+  }
+
+  resizeRight (offsetX, clientX, e) {
+    let oldW, w, doResize
+
+    oldW = parseInt(this.$targetRight.css('width'))
+    w = oldW - (offsetX) + 'px'
+    this.$targetRight.css('width', w)
+    doResize = (window.getComputedStyle(this.$targetRight[ 0 ]).width === w)
+    if (doResize) {
+      this.startClientX = clientX
+      e.direction = 'right'
+      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
+    } else {
+      this.$targetRight.css('width', oldW)
+    }
+
+    return doResize
+  }
+
+  resizeBottom (offsetY, clientY, e) {
+    let oldH, h, doResize
+
+    oldH = parseInt(this.$targetBottom.css('height'))
+    h = oldH - (offsetY) + 'px'
+    this.$targetBottom.css('height', h)
+    doResize = (window.getComputedStyle(this.$targetBottom[ 0 ]).height === h)
+    if (doResize) {
+      this.startClientY = clientY
+      e.direction = 'bottom'
+      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
+    } else {
+      this.$targetBottom.css('height', oldH)
+    }
+
+    return doResize
+  }
+
+  resizeTop (offsetY, clientY, e) {
+    let oldH, h, doResize
+
+    oldH = parseInt(this.$targetTop.css('height'))
+    h = oldH + offsetY + 'px'
+    this.$targetTop.css('height', h)
+    doResize = (window.getComputedStyle(this.$targetTop[ 0 ]).height === h)
+    if (doResize) {
+      this.startClientY = clientY
+      e.direction = 'top'
+      this.state.resizerOptions.callback && this.state.resizerOptions.callback(e)
+    } else {
+      this.$targetTop.css('height', oldH)
+    }
+
+    return doResize
   }
 
   stopResize () {
@@ -164,6 +195,9 @@ class Resizer extends React.Component {
   render () {
     return (<div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>)
   }
+}
+Resizer.propTypes = {
+  props: React.PropTypes.object.isRequired
 }
 
 module.exports = Resizer
