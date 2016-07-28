@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import TreeContentTab from './tab'
 import DesignOptions from './design-options/design-options'
 import {getService} from 'vc-cake'
+import {format} from 'util'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
@@ -51,7 +52,7 @@ class TreeForm extends React.Component {
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    var obj = element.__resizeTrigger__ = document.createElement('object')
+    let obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
@@ -78,17 +79,17 @@ class TreeForm extends React.Component {
 
   tabsFromProps (props) {
     let tabs = []
-    props.element.editFormTabs().map((tab, index) => {
+    this.editFormTabs().map((tab, index) => {
       let tabsData = {
         id: tab.key,
         index: index,
         title: tab.data.settings.options.label,
         isVisible: true,
         pinned: tab.data.settings.options.pinned || false,
-        params: props.element.editFormTabParams(tab.key)
+        params: this.editFormTabParams(tab.key)
       }
       tabs.push(tabsData)
-    })
+    }, this)
 
     tabs.push({
       id: 'editFormTabDesignOptions',
@@ -111,6 +112,30 @@ class TreeForm extends React.Component {
 
   changeDesignOption (newDesignOptions) {
     designOptions = newDesignOptions
+  }
+
+  editFormTabs () {
+    const group = this.props.element.get('editFormTabs')
+    if (group && group.each) {
+      return group.each(this.editFormTabsIterator.bind(this))
+    }
+    return []
+  }
+
+  editFormTabsIterator (item) {
+    return {
+      key: item,
+      value: this.props.element.get(item),
+      data: this.props.element.settings(item)
+    }
+  }
+
+  editFormTabParams (tabName) {
+    const group = this.props.element.get(tabName)
+    if (group && group.each) {
+      return group.each(this.editFormTabsIterator.bind(this))
+    }
+    return []
   }
 
   getVisibleTabs () {
@@ -190,7 +215,7 @@ class TreeForm extends React.Component {
 
   getFormParamField (param) {
     let updater = lodash.curry((callback, event, key, value) => { callback(event, key, value) })
-    return this.props.element.field(param.key, updater(this.props.api.request, 'element:set'))
+    return this.field(this.props.element, param.key, updater(this.props.api.request, 'element:set'))
   }
 
   closeTreeView () {
@@ -232,18 +257,54 @@ class TreeForm extends React.Component {
     }
   }
 
+  field (element, key, updater) {
+    let { type, settings } = element.settings(key)
+    let AttributeComponent = type.component
+    if (!AttributeComponent) {
+      return null
+    }
+    let label = ''
+    if (!settings) {
+      throw new Error(format('Wrong attribute %s', key))
+    }
+    const { options } = settings
+    if (!type) {
+      throw new Error(format('Wrong type of attribute %s', key))
+    }
+    if (options && typeof (options.label) === 'string') {
+      label = (<span className="vcv-ui-form-group-heading">{options.label}</span>)
+    }
+    let description = ''
+    if (options && typeof (options.description) === 'string') {
+      description = (<p className="vcv-ui-form-helper">{options.description}</p>)
+    }
+    return (
+      <div className="vcv-ui-form-group" key={'form-group-' + key}>
+        {label}
+        <AttributeComponent
+          key={'attribute-' + key + element.get('id')}
+          fieldKey={key}
+          options={options}
+          value={type.getRawValue(element.data, key)}
+          updater={updater}
+        />
+        {description}
+      </div>
+    )
+  }
+
   render () {
     let { activeTabIndex } = this.state
-    var visibleTabsHeaderOutput = []
+    let visibleTabsHeaderOutput = []
     lodash.each(this.getVisibleTabs(), (tab) => {
       let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
       visibleTabsHeaderOutput.push(
         <TreeContentTab {...tabProps} />
       )
     })
-    var hiddenTabsHeaderOutput = ''
+    let hiddenTabsHeaderOutput = ''
     if (this.getHiddenTabs().length) {
-      var hiddenTabsHeader = []
+      let hiddenTabsHeader = []
       lodash.each(this.getHiddenTabs(), (tab) => {
         let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
         hiddenTabsHeader.push(
@@ -270,24 +331,24 @@ class TreeForm extends React.Component {
         </dl>
       )
     }
-    var visibleTabsContentOutput = []
+    let visibleTabsContentOutput = []
     lodash.each(this.getVisibleTabs(), (tab) => {
       let plateClass = 'vcv-ui-editor-plate'
       if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[tab.index].id} className={plateClass}>
+      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
         {this.getForm(tab.index)}
       </div>)
     })
 
-    var hiddenTabsContentOutput = []
+    let hiddenTabsContentOutput = []
     lodash.each(this.getHiddenTabs(), (tab) => {
       let plateClass = 'vcv-ui-editor-plate'
       if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[tab.index].id} className={plateClass}>
+      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[ tab.index ].id} className={plateClass}>
         {this.getForm(tab.index)}
       </div>)
     })
@@ -306,23 +367,23 @@ class TreeForm extends React.Component {
       'vcv-ui-icon-save': !this.state.saving
     })
 
-      // <nav className="vcv-ui-tree-content-title-controls">
-      // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
-      // <span className="vcv-ui-tree-content-title-control-content">
-      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
-      // </span>
-      // </a>
-      // <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
-      // <span className="vcv-ui-tree-content-title-control-content">
-      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
-      // </span>
-      // </a>
-      // <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
-      // <span className="vcv-ui-tree-content-title-control-content">
-      // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
-      // </span>
-      // </a>
-      // </nav>
+    // <nav className="vcv-ui-tree-content-title-controls">
+    // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
+    // <span className="vcv-ui-tree-content-title-control-content">
+    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
+    // </span>
+    // </a>
+    // <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
+    // <span className="vcv-ui-tree-content-title-control-content">
+    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
+    // </span>
+    // </a>
+    // <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
+    // <span className="vcv-ui-tree-content-title-control-content">
+    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
+    // </span>
+    // </a>
+    // </nav>
 
     return <div className="vcv-ui-tree-view-content">
       <div className={treeContentClasses}>
@@ -355,7 +416,7 @@ class TreeForm extends React.Component {
           <div className="vcv-ui-tree-layout-actions">
             <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
               <span className="vcv-ui-tree-layout-action-content">
-                <i className={saveIconClasses} ></i><span>Save</span>
+                <i className={saveIconClasses}></i><span>Save</span>
               </span>
             </a>
           </div>

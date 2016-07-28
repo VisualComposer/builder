@@ -1,7 +1,6 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import vcCake from 'vc-cake'
-import {format} from 'util'
 import {renderToStaticMarkup} from 'react-dom/server'
 
 import {default as elementSettings} from './element-settings'
@@ -60,6 +59,10 @@ class CookElement {
     return this[ elData ].getAttributeType(k)
   }
 
+  get data () {
+    return this[ elData ].data
+  }
+
   set (k, v) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
@@ -106,42 +109,6 @@ class CookElement {
     return data
   }
 
-  field (k, updater) {
-    let { type, settings } = this[ elData ].getAttributeType(k)
-    let AttributeComponent = type.component
-    if (!AttributeComponent) {
-      return null
-    }
-    let label = ''
-    if (!settings) {
-      throw new Error(format('Wrong attribute %s', k))
-    }
-    const { options } = settings
-    if (!type) {
-      throw new Error(format('Wrong type of attribute %s', k))
-    }
-    if (options && typeof (options.label) === 'string') {
-      label = (<span className="vcv-ui-form-group-heading">{options.label}</span>)
-    }
-    let description = ''
-    if (options && typeof (options.description) === 'string') {
-      description = (<p className="vcv-ui-form-helper">{options.description}</p>)
-    }
-    return (
-      <div className="vcv-ui-form-group" key={'form-group-' + k}>
-        {label}
-        <AttributeComponent
-          key={'attribute-' + k + this.get('id')}
-          fieldKey={k}
-          options={options}
-          value={type.getRawValue(this[ elData ].data, k)}
-          updater={updater}
-        />
-        {description}
-      </div>
-    )
-  }
-
   renderHTML (content) {
     return renderToStaticMarkup(this.render(content))
   }
@@ -168,30 +135,6 @@ class CookElement {
     const group = this.get('containerFor')
     if (group && group.each) {
       return group.each()
-    }
-    return []
-  }
-
-  editFormTabs () {
-    const group = this.get('editFormTabs')
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
-    }
-    return []
-  }
-
-  editFormTabsIterator (item) {
-    return {
-      key: item,
-      value: this.get(item),
-      data: this.settings(item)
-    }
-  }
-
-  editFormTabParams (tabName) {
-    const group = this.get(tabName)
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
     }
     return []
   }
