@@ -140,17 +140,6 @@ export default class CookElement {
     return renderToStaticMarkup(this.render(content))
   }
 
-  publicKeys () {
-    let data = []
-    for (let k of Object.keys(this[ elData ].settings)) {
-      var attrSettings = this[ elData ].settings[ k ]
-      if (attrSettings.access === 'public') {
-        data.push(k)
-      }
-    }
-    return data
-  }
-
   /**
    * Get all fields as groups: if group in group
    * Lazy list
