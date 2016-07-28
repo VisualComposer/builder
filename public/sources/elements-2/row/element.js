@@ -6,7 +6,9 @@ window.vcvAddElement(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {background, id, content, ...other} = this.props
+        var {id, content, atts, editor} = this.props
+var {background} = atts
+
         // import template js
         var inlineStyle = {};
 if (!!background) {
@@ -17,7 +19,7 @@ if (!!background) {
 
 
         // import template
-        return (<div className="vce-row" data-vcv-dropzone="true" style={inlineStyle} {...other}>
+        return (<div className="vce-row" data-vcv-dropzone="true" style={inlineStyle} {...editor}>
   {content}
 </div>
 );

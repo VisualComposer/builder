@@ -73,11 +73,16 @@ class CookElement {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
     let ElementToRender = this[ elComponent ].get()
-    let props = this.toJS()
+    let props = {}
+    let editorProps = {}
+    let atts = this.toJS()
     props.key = this[ elData ].id
     props.id = this[ elData ].id
-    props[ 'data-vc-element' ] = this[ elData ].id
+    editorProps[ 'data-vc-element' ] = this[ elData ].id
+    props.editor = editorProps
+    props.atts = atts
     props.content = content
+
     return <ElementToRender {...props} />
   }
 
