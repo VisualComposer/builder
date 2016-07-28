@@ -162,11 +162,7 @@ class Categories extends React.Component {
         key={'vcv-element-control-' + element.tag}
         element={element}
         tag={element.tag}
-        name={element.name}
-        meta_icon={element.meta_icon}
-        meta_thumbnail={element.meta_thumbnail}
-        meta_preview={element.meta_preview}
-        meta_preview_description={element.meta_preview_description} />)
+        name={element.name} />)
     })
 
     return <div className="vcv-ui-add-element-list-container">
@@ -239,7 +235,7 @@ class Categories extends React.Component {
       if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[tab.index].id} className={plateClass}>
+      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
         {this.getRenderedElements(tab.index)}
       </div>)
     })
@@ -250,7 +246,7 @@ class Categories extends React.Component {
       if (tab.index === activeTabIndex) {
         plateClass += ' vcv-ui-state--active'
       }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[tab.index].id} className={plateClass}>
+      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[ tab.index ].id} className={plateClass}>
         {this.getRenderedElements(tab.index)}
       </div>)
     })

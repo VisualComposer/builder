@@ -201,20 +201,4 @@ export default class CookElement {
     return []
   }
 
-  getPublicPath (file) {
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources/elements-2/' + this.get('tag') + '/public'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources/elements-2/' + this.get('tag') + '/public'
-    }
-    let $element = document.querySelector('[data-vc-element-script="' + this.get('tag') + '"]')
-    if ($element) {
-      path = $element.dataset.vcElementUrl + '/public'
-    }
-    if (file) {
-      path += '/' + file
-    }
-    return path
-  }
 }

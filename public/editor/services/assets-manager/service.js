@@ -123,5 +123,22 @@ vcCake.addService('assets-manager', {
     for (let i = 0, len = files.length; i < len; i++) {
       this.addStyle(element, files[ i ])
     }
+  },
+  getPublicPath: (tag, file) => {
+    let path
+    if (vcCake.env('platform') === 'node') {
+      path = window.vcvPluginUrl + 'sources/elements-2/' + tag + '/public'
+    } else {
+      path = window.vcvPluginUrl + 'public/sources/elements-2/' + tag + '/public'
+    }
+    let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
+    if ($element) {
+      path = $element.dataset.vcElementUrl + '/public'
+    }
+    if (file) {
+      path += '/' + file
+    }
+
+    return path
   }
 })
