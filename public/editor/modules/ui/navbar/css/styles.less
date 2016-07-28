@@ -55,7 +55,9 @@
   justify-content: center;
   text-align: center;
   cursor: pointer;
-  transition: all @transition-duration @transition-timing-function;
+  transition-timing-function: @transition-timing-function;
+  transition-duration: @transition-duration;
+  transition-property: color, background-color;
   &:hover {
     background-color: @navbar-bg-base-hover;
   }

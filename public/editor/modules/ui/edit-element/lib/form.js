@@ -18,7 +18,9 @@ class TreeForm extends React.Component {
     this.state = {
       tabsCount: 0,
       visibleTabsCount: 0,
-      activeTabIndex: 0
+      activeTabIndex: 0,
+      saving: false,
+      saved: false
     }
     this.handleElementResize = this.handleElementResize.bind(this)
     this.saveForm = this.saveForm.bind(this)
@@ -200,6 +202,15 @@ class TreeForm extends React.Component {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
     getService('asset-manager').addDesignOption(element.get('id'), designOptions)
+    let _this = this
+    _this.setState({ 'saving': true })
+    setTimeout(() => {
+      _this.setState({ 'saving': false })
+      _this.setState({ 'saved': true })
+      setTimeout(() => {
+        _this.setState({ 'saved': false })
+      }, 1000)
+    }, 500)
   }
 
   getTabProps (tabIndex, activeTabIndex) {
@@ -284,6 +295,16 @@ class TreeForm extends React.Component {
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
+    let saveButtonClasses = classNames({
+      'vcv-ui-tree-layout-action': true,
+      'vcv-ui-state--success': this.state.saved
+    })
+    let saveIconClasses = classNames({
+      'vcv-ui-tree-layout-action-icon': true,
+      'vcv-ui-wp-spinner': this.state.saving,
+      'vcv-ui-icon': !this.state.saving,
+      'vcv-ui-icon-save': !this.state.saving
+    })
 
       // <nav className="vcv-ui-tree-content-title-controls">
       // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
@@ -332,10 +353,9 @@ class TreeForm extends React.Component {
 
         <div className="vcv-ui-tree-content-footer">
           <div className="vcv-ui-tree-layout-actions">
-            <a className="vcv-ui-tree-layout-action" href="#" title="Save" onClick={this.saveForm}>
+            <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
               <span className="vcv-ui-tree-layout-action-content">
-                <i className="vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save"></i>
-                <span>Save</span>
+                <i className={saveIconClasses} ></i><span>Save</span>
               </span>
             </a>
           </div>

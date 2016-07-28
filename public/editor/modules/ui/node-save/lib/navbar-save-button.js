@@ -10,6 +10,7 @@ class Control extends React.Component {
       saving: false,
       saved: false
     }
+    this.clickSaveData = this.clickSaveData.bind(this)
   }
 
   clickSaveData () {
@@ -18,10 +19,11 @@ class Control extends React.Component {
     setTimeout(() => {
       _this.setState({ 'saving': false })
       _this.setState({ 'saved': true })
+      setTimeout(() => {
+        _this.setState({ 'saved': false })
+      }, 1000)
     }, 500)
-    setTimeout(() => {
-      _this.setState({ 'saved': false })
-    }, 5000)
+
     this.props.api.request('node:save')
   }
 
@@ -39,7 +41,7 @@ class Control extends React.Component {
 
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
-        <a className={saveButtonClasses} title='Save' onClick={this.clickSaveData.bind(this)}><span
+        <a className={saveButtonClasses} title='Save' onClick={this.clickSaveData}><span
           className='vcv-ui-navbar-control-content'>
           <i className={saveIconClasses}></i><span>Save</span>
         </span></a>
