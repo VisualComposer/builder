@@ -48,6 +48,7 @@ module.exports = {
         'ui/node-save'
       ],
       services: [
+        'utils',
         'actions-manager',
         'asset-manager',
         'document',
@@ -55,8 +56,7 @@ module.exports = {
         'cook',
         'rules-manager',
         'shared',
-        'time-machine',
-        'utils'
+        'time-machine'
       ]
     },
     wp: {
@@ -86,6 +86,7 @@ module.exports = {
         'ui/wordpress-post'
       ],
       services: [
+        'utils',
         'actions-manager',
         'asset-manager',
         'document',
@@ -93,8 +94,7 @@ module.exports = {
         'cook',
         'rules-manager',
         'shared',
-        'time-machine',
-        'utils'
+        'time-machine'
       ]
     }
   },

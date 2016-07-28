@@ -6,8 +6,10 @@ import {renderToStaticMarkup} from 'react-dom/server'
 import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
 
-import {createKey, getAttributeType} from './tools'
+import {getAttributeType} from './tools'
 import vcCake from 'vc-cake'
+
+const createKey = vcCake.getService('utils').createKey
 
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
@@ -126,7 +128,7 @@ export default class CookElement {
           key={k + this.get('id')}
           fieldKey={k}
           options={settings.options}
-          value={type.getRawValue(this[elData].data, k)}
+          value={type.getRawValue(this[ elData ].data, k)}
           updater={updater}
         />
         {description}
