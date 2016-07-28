@@ -55,7 +55,7 @@ module.exports = {
         'local-storage',
         'cook',
         'rules-manager',
-        'shared',
+        'shared-library',
         'time-machine'
       ]
     },
@@ -93,7 +93,7 @@ module.exports = {
         'wordpress-post-data',
         'cook',
         'rules-manager',
-        'shared',
+        'shared-library',
         'time-machine'
       ]
     }

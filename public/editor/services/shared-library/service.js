@@ -1,17 +1,20 @@
-var SharedLibrary = {
-  data: {},
-  addData: function (key, value) {
-    this.data[ key ] = value
+import vcCake from 'vc-cake'
+
+let data = {}
+
+const SharedLibrary = {
+  add: (key, value) => {
+    data[ key ] = value
   },
-  getData: function (key) {
-    return this.data[ key ]
+  get: (key) => {
+    return data[ key ]
   },
-  getAllData: function () {
-    return this.data
+  all: () => {
+    return data
   }
 }
 
-SharedLibrary.addData('colors', {
+SharedLibrary.add('colors', {
   'Blue': 'blue',
   'Turquoise': 'turquoise',
   'Pink': 'pink',
@@ -31,7 +34,7 @@ SharedLibrary.addData('colors', {
   'White': 'white'
 })
 
-SharedLibrary.addData('colors-dashed', {
+SharedLibrary.add('colors-dashed', {
   'Blue': 'blue',
   'Turquoise': 'turquoise',
   'Pink': 'pink',
@@ -50,6 +53,5 @@ SharedLibrary.addData('colors-dashed', {
   'Purple': 'purple',
   'White': 'white'
 })
-var vcCake = require('vc-cake')
 
 vcCake.addService('shared-library', SharedLibrary)
