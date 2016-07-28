@@ -50,7 +50,7 @@ module.exports = {
       services: [
         'utils',
         'actions-manager',
-        'asset-manager',
+        'assets-manager',
         'document',
         'local-storage',
         'cook',
@@ -88,7 +88,7 @@ module.exports = {
       services: [
         'utils',
         'actions-manager',
-        'asset-manager',
+        'assets-manager',
         'document',
         'wordpress-post-data',
         'cook',

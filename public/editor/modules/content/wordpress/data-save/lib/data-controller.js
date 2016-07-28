@@ -4,7 +4,7 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import {PropTypes} from 'react'
 
-const assetManager = vcCake.getService('asset-manager')
+const assetManager = vcCake.getService('assets-manager')
 const documentData = vcCake.getService('document')
 
 class SaveController {

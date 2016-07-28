@@ -1,6 +1,7 @@
-var path = require('path')
-var vcCake = require('vc-cake')
-vcCake.addService('asset-manager', {
+import path from 'path'
+import vcCake from 'vc-cake'
+
+vcCake.addService('assets-manager', {
   /**
    * Up-to-date list of all assets
    *

@@ -4,7 +4,7 @@ var vcCake = require('vc-cake')
  * Get all unique elements on page (their tag names) and remove all orphaned assets
  */
 vcCake.add('content-wordpress-assets', function (api) {
-  var assetManager = vcCake.getService('asset-manager')
+  var assetManager = vcCake.getService('assets-manager')
   api.reply('data:add', function (element) {
     let elementTag = element.tag
     if (typeof assetManager.cache.scripts[ elementTag ] !== 'undefined') {

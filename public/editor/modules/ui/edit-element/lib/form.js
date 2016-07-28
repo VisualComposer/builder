@@ -38,7 +38,7 @@ class TreeForm extends React.Component {
     this.props.api.reply('element:set', function (key, value) {
       this.props.element.set(key, value)
     }.bind(this))
-    designOptions = getService('asset-manager').getDesignOptions()[ this.props.element.get('id') ]
+    designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
@@ -201,7 +201,7 @@ class TreeForm extends React.Component {
   saveForm () {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
-    getService('asset-manager').addDesignOption(element.get('id'), designOptions)
+    getService('assets-manager').addDesignOption(element.get('id'), designOptions)
     let _this = this
     _this.setState({ 'saving': true })
     setTimeout(() => {
