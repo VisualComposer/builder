@@ -103,31 +103,32 @@ class CookElement {
 
   field (k, updater) {
     let { type, settings } = this[ elData ].getAttributeType(k)
-    let Component = type.component
-    if (!Component) {
+    let AttributeComponent = type.component
+    if (!AttributeComponent) {
       return null
     }
     let label = ''
     if (!settings) {
       throw new Error(format('Wrong attribute %s', k))
     }
+    const { options } = settings
     if (!type) {
       throw new Error(format('Wrong type of attribute %s', k))
     }
-    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
-      label = (<span className="vcv-ui-form-group-heading">{settings.options.label}</span>)
+    if (options && typeof (options.label) === 'string') {
+      label = (<span className="vcv-ui-form-group-heading">{options.label}</span>)
     }
     let description = ''
-    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.description) === 'string') {
-      description = (<p className="vcv-ui-form-helper">{settings.options.description}</p>)
+    if (options && typeof (options.description) === 'string') {
+      description = (<p className="vcv-ui-form-helper">{options.description}</p>)
     }
     return (
       <div className="vcv-ui-form-group" key={'form-group-' + k}>
         {label}
-        <Component
-          key={k + this.get('id')}
+        <AttributeComponent
+          key={'attribute-' + k + this.get('id')}
           fieldKey={k}
-          options={settings.options}
+          options={options}
           value={type.getRawValue(this[ elData ].data, k)}
           updater={updater}
         />
@@ -147,7 +148,7 @@ class CookElement {
    * @param keys
    */
   relatedTo (keys) {
-    var group = this.get('relatedTo')
+    const group = this.get('relatedTo')
     if (group && group.has && group.has(keys)) {
       return true
     }
@@ -159,7 +160,7 @@ class CookElement {
    * @returns [] - list of
    */
   containerFor () {
-    var group = this.get('containerFor')
+    const group = this.get('containerFor')
     if (group && group.each) {
       return group.each()
     }
@@ -167,7 +168,7 @@ class CookElement {
   }
 
   editFormTabs () {
-    var group = this.get('editFormTabs')
+    const group = this.get('editFormTabs')
     if (group && group.each) {
       return group.each(this.editFormTabsIterator.bind(this))
     }
@@ -183,7 +184,7 @@ class CookElement {
   }
 
   editFormTabParams (tabName) {
-    var group = this.get(tabName)
+    const group = this.get(tabName)
     if (group && group.each) {
       return group.each(this.editFormTabsIterator.bind(this))
     }
