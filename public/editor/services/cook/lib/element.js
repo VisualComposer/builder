@@ -15,6 +15,8 @@ const elComponent = Symbol('element component')
 class CookElement {
   constructor (data) {
     let { id = createKey(), parent = false, tag, order, ...attr } = data
+    attr.tag = tag
+    attr.id = id
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
     Object.defineProperty(this, elData, {

@@ -2,8 +2,8 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import '../css/element.less'
 
-let cook = vcCake.getService('cook')
-let documentData = vcCake.getService('document')
+const cook = vcCake.getService('cook')
+const documentData = vcCake.getService('document')
 
 class LayoutElement extends React.Component {
 
@@ -16,9 +16,9 @@ class LayoutElement extends React.Component {
   }
 
   getContent (content) {
-    let currentElement = cook.get(this.props.element) // optimize
+    const currentElement = cook.get(this.props.element) // optimize
     if (currentElement.get('type') === 'container') {
-      let elementsList = documentData.children(currentElement.get('id')).map(function (childElement) {
+      let elementsList = documentData.children(currentElement.get('id')).map((childElement) => {
         return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
       }, this)
       return elementsList
@@ -27,7 +27,8 @@ class LayoutElement extends React.Component {
   }
 
   render () {
-    let element = cook.get(this.props.element)
+    const element = cook.get(this.props.element)
+
     return element.render(this.getContent())
   }
 }

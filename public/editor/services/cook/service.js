@@ -4,13 +4,17 @@ import {addService, getService} from 'vc-cake'
 import {buildSettingsObject} from './lib/tools'
 import {default as elementSettings} from './lib/element-settings'
 import {default as attributeManager} from './lib/attribute-manager'
-import {default as Element} from './lib/element'
+import CookElement from './lib/element'
 
 const documentManager = getService('document')
 
 addService('cook', {
   get (data) {
-    return data && data.tag ? new Element(data) : undefined
+    if (!data || !data.tag) {
+      throw new Error('No element Tag provided')
+    }
+
+    return new CookElement(data)
   },
   getById (id) {
     let data = documentManager.get(id)
