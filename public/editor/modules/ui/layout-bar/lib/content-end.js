@@ -98,10 +98,6 @@ class BarContentEnd extends React.Component {
     })
     return (
       <div className={contentClasses} id="vcv-editor-end">
-        <a className="vcv-layout-bar-content-toggle" href="#" title="Toggle tree view"
-          onClick={this.toggleStartContent.bind(this)}>
-          <i className="vcv-layout-bar-content-toggle-icon vcv-ui-icon vcv-ui-icon-layers"></i>
-        </a>
         <a className="vcv-layout-bar-content-hide" href="#" title="Close"
           onClick={this.closeContent.bind(this)}>
           <i className="vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
