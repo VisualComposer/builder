@@ -1,28 +1,27 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
+import vcCake from 'vc-cake'
 import {format} from 'util'
 import {renderToStaticMarkup} from 'react-dom/server'
 
 import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
-
 import {getAttributeType} from './tools'
-import vcCake from 'vc-cake'
 
 const createKey = vcCake.getService('utils').createKey
-
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
-export default class CookElement {
+class CookElement {
   constructor (data) {
-    let { id = createKey(), parent = false, order, ...attr } = data
-    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(data.tag) : false
+    let { id = createKey(), parent = false, tag, order, ...attr } = data
+    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
       value: {
         id: id,
+        tag: tag,
         parent: parent,
         data: attr,
         order: order,
@@ -34,15 +33,14 @@ export default class CookElement {
     })
     Object.defineProperty(this, elComponent, {
       value: {
-        tag: data.tag,
         add (Component) {
-          elementComponent.add(this.tag, Component)
+          elementComponent.add(tag, Component)
         },
         get () {
-          return elementComponent.get(this.tag)
+          return elementComponent.get(tag)
         },
         has () {
-          return elementComponent.has(this.tag)
+          return elementComponent.has(tag)
         }
       }
     })
@@ -70,7 +68,7 @@ export default class CookElement {
 
   render (content) {
     if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elComponent ].tag).component(this[ elComponent ])
+      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
     let ElementToRender = this[ elComponent ].get()
     let props = this.toJS()
@@ -191,3 +189,8 @@ export default class CookElement {
   }
 
 }
+CookElement.propTypes = {
+  tag: React.PropTypes.string.isRequired
+}
+
+module.exports = CookElement
