@@ -1,17 +1,18 @@
-let vcCake = require('vc-cake')
-vcCake.add('inline-editable', function (api) {
-  let $ = require('jquery')
-  let domContainer = $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
-  let cook = vcCake.getService('cook')
+import vcCake from 'vc-cake'
+import $ from 'jquery'
+const cook = vcCake.getService('cook')
 
-  api.module('content-layout').on('element:mount', function (id) {
+vcCake.add('inline-editable', (api) => {
+  let domContainer = $('#vcv-editor', $('#vcv-editor-iframe').get(0).contentWindow.document).get(0)
+
+  api.module('content-layout').on('element:mount', (id) => {
     tinyMce($('[data-vc-element="' + id + '"]', domContainer), id)
   })
 
-  var tinyMce = function ($el, id) {
-    var innerTinymce = $('#vcv-editor-iframe').get(0).contentWindow.tinymce
+  let tinyMce = ($el, id) => {
+    let innerTinymce = $('#vcv-editor-iframe').get(0).contentWindow.tinymce
     // window.tinymce doesnt work
-    var $editable = $('.editable', $el)
+    let $editable = $('.editable', $el)
     if ($editable.length) {
       $editable.each(
         (i, el) => {
@@ -31,15 +32,15 @@ vcCake.add('inline-editable', function (api) {
   }
 
   function dragHandler (editor) {
-    $(editor.targetElm).bind('dragstart dragover drop', function (e) {
+    $(editor.targetElm).on('dragstart dragover drop', (e) => {
       e.preventDefault()
       return false
     })
   }
 
   function changeHandler (editor, id) {
-    editor.on('change', function () {
-      var element = cook.getById(id)
+    editor.on('change', () => {
+      let element = cook.getById(id)
       element.set(editor.targetElm.dataset.vcEditableParam, editor.getContent())
       api.request('data:update', id, element.toJS(true))
     })
