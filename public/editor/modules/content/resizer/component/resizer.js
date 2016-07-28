@@ -197,7 +197,7 @@ class Resizer extends React.Component {
   }
 }
 Resizer.propTypes = {
-  props: React.PropTypes.object.isRequired
+  params: React.PropTypes.object.isRequired
 }
 
 module.exports = Resizer
