@@ -71,6 +71,7 @@ export class Navbar extends React.Component {
         name: name,
         icon: Icon,
         pin: options.pin,
+        options: options,
         isVisible: isControlVisible
       })
       this.props.api.notify('build', navbarControls.length)
@@ -155,15 +156,15 @@ export class Navbar extends React.Component {
       return
     }
     return controls.map((value) => {
-      return React.createElement(Control, {
-        api: this.props.api,
-        key: 'Navbar:' + value.name,
-        value: value,
-        container: '.vcv-ui-navbar',
-        ref: (ref) => {
+      return (<Control
+        api={value.options.api ? value.options.api : this.props.api}
+        key={'Navbar:' + value.name}
+        value={value}
+        container=".vcv-ui-navbar"
+        ref={(ref) => {
           navbarControls[ value.index ].ref = ref
-        }
-      })
+        }}
+      />)
     })
   }
 
@@ -187,7 +188,8 @@ export class Navbar extends React.Component {
     return (
       <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich">
         <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
-          <span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+          <span className="vcv-ui-navbar-control-content"><i
+            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
         </dt>
         <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
           {hiddenControls}
