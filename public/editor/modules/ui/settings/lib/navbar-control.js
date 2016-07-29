@@ -1,4 +1,5 @@
 import React from 'react'
+
 class SettingsButtonControl extends React.Component {
   render () {
     return (
