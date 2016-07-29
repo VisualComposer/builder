@@ -6,8 +6,7 @@ export default class DOMElement {
     options = _.defaults(options, {
       containerFor: null,
       childFor: null,
-      parent: null,
-      isDraggable: true
+      parent: null
     })
     Object.defineProperties(this, {
       'node': {
@@ -44,7 +43,7 @@ export default class DOMElement {
     return !!this.options.parent
   }
   isChild (domElement) {
-    return domElement ? this.relatedTo(domElement.containerFor()) : false
+    return this.relatedTo(domElement.containerFor())
   }
   relatedTo (container) {
     if (!this.options.relatedTo || !container) {
@@ -80,8 +79,5 @@ export default class DOMElement {
   off (event, callback, capture) {
     this.node.removeEventListener(event, callback, !!capture)
     return this
-  }
-  isDraggable () {
-    return !!this.options.isDraggable
   }
 }

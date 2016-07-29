@@ -44,7 +44,6 @@ Builder.prototype.option = function (name, value) {
 Builder.prototype.init = function () {
   this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
     containerFor: this.options.rootContainerFor,
-    isDraggable: false
   })
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)
@@ -58,7 +57,7 @@ Builder.prototype.addItem = function (id) {
   this.items[ id ] = new DOMElement(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'), {
     containerFor: containerFor ? containerFor.value : null,
     relatedTo: relatedTo ? relatedTo.value : null,
-    parent: element.get('parent')
+    parent: element.get('parent') || this.options.rootID
   })
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
@@ -76,11 +75,12 @@ Builder.prototype.removePlaceholder = function () {
     this.placeholder = null
   }
 }
-Builder.prototype.findValidParent = function (domElement) {
-  if (this.dragingElement.isChild(domElement)) {
+Builder.prototype.findElementWithValidParent = function (domElement) {
+  var parentElement = domElement.parent() ? this.items[domElement.parent()] : null
+  if (parentElement && this.dragingElement.isChild(parentElement)) {
     return domElement
-  } else if (domElement.hasParent() && domElement.id !== this.options.rootID) {
-    return this.findValidParent(this.items[domElement.parent() || this.options.rootID])
+  } else if (parentElement) {
+    return this.findElementWithValidParent(parentElement)
   }
   return null
 }
@@ -101,16 +101,14 @@ Builder.prototype.checkItems = function (point) {
   if (!domNode || !domNode.ELEMENT_NODE) { return }
   let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
   if (!domElement) { return }
-  let parentDOMElement = this.items[domElement.hasParent() ? domElement.parent() : this.options.rootID]
-  console.log(parentDOMElement.id + ':' + this.dragingElement.isChild(parentDOMElement))
-  console.log(domElement.id + ':' + this.dragingElement.isChild(domElement))
-  if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.hasParent()) {
-    // domElement = this.findValidParent(this.items[parentDOMElement.parent()]) || domElement
+  let parentDOMElement = this.items[domElement.parent()] || null
+  if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
+    // domElement = this.findElementWithValidParent(this.items[parentDOMElement]) || domElement
     // parentDOMElement = domElement.hasParent() ? this.items[domElement.parent()] : null
   }
   let position = this.placeholder.redraw(domElement.node, point, {
-    allowBeforeAfter: this.dragingElement.isChild(parentDOMElement),
-    allowAppend: this.dragingElement.isChild(domElement)
+    allowBeforeAfter: parentDOMElement && this.dragingElement.isChild(parentDOMElement),
+    allowAppend: domElement && this.dragingElement.isChild(domElement)
   })
   if (position) {
     this.setPosition(position)
