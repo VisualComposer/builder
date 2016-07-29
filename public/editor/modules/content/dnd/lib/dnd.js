@@ -1,10 +1,12 @@
-import Item from './item'
+import $ from 'jquery'
+import _ from 'lodash'
+import {getService} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
 import DOMElement from './dom-element'
-import $ from 'jquery'
-import _ from 'lodash'
 
+const documentManager = getService('document')
+const cook = getService('cook')
 /**
  * Drag&drop builder.
  *
@@ -13,15 +15,10 @@ import _ from 'lodash'
  * @constructor
  */
 var Builder = function (container, options) {
-  /**
-   * Container to work with
-   * @type {DOMNode}
-   */
   this.container = container
   this.items = {}
   this.hover = ''
   this.dragingElement = null
-  this.dragingElementObject = null
   this.currentElement = null
   this.placeholder = null
   this.position = null
@@ -37,23 +34,32 @@ var Builder = function (container, options) {
     offsetTop: 0,
     offsetLeft: 0,
     boundariesGap: 6,
-    rootContainerFor: ['RootElements']
+    rootContainerFor: ['RootElements'],
+    rootID: 'vcv-content-root'
   })
 }
 Builder.prototype.option = function (name, value) {
   this.options[name] = value
 }
 Builder.prototype.init = function () {
-  let rootId = 'vcv-content-root'
-  this.items[rootId] = new Item(rootId, this.container, {
-    containerFor: this.options.rootContainerFor
+  this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
+    containerFor: this.options.rootContainerFor,
+    isDraggable: false
   })
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)
   this.handleDragEndFunction = this.handleDragEnd.bind(this)
 }
 Builder.prototype.addItem = function (id) {
-  this.items[ id ] = new Item(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'))
+  let element = cook.get(documentManager.get(id))
+  if (!element) { return }
+  let containerFor = element.get('containerFor')
+  let relatedTo = element.get('relatedTo')
+  this.items[ id ] = new DOMElement(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'), {
+    containerFor: containerFor ? containerFor.value : null,
+    relatedTo: relatedTo ? relatedTo.value : null,
+    parent: element.get('parent')
+  })
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
     .on('mousedown', this.handleDragFunction)
@@ -73,41 +79,38 @@ Builder.prototype.removePlaceholder = function () {
 Builder.prototype.findValidParent = function (domElement) {
   if (this.dragingElement.isChild(domElement)) {
     return domElement
-  } else if (domElement.hasParent()) {
-    return this.findValidParent(domElement.parent())
+  } else if (domElement.hasParent() && domElement.id !== this.options.rootID) {
+    return this.findValidParent(this.items[domElement.parent() || this.options.rootID])
   }
-  return new DOMElement()
+  return null
 }
-Builder.prototype.allowParent = function (parentDomElement) {
-  return this.dragingElement.isChild(parentDomElement)
-}
-Builder.prototype.allowAsContainer = function (domElement) {
-  return domElement.isElement() && domElement.data.containerFor().length ? this.dragingElement.isChild(domElement) : false
-}
+
 /**
  * Menage items
  */
+Builder.prototype.findDOMNode = function (point) {
+  let domNode = this.options.document.elementFromPoint(point.x, point.y)
+  if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
+    domNode = $(domNode).closest('[data-vcv-dnd-element]')
+  }
+  return domNode || null
+}
 
 Builder.prototype.checkItems = function (point) {
-  let DOMNode = this.options.document.elementFromPoint(point.x, point.y)
-  if (DOMNode && !DOMNode.getAttribute('data-vcv-dnd-element')) {
-    DOMNode = $(DOMNode).closest('[data-vcv-dnd-element]').get(0)
-  }
-  let domElement = new DOMElement(DOMNode, this.options.document)
-  if (domElement.isElement() && domElement.equals(this.dragingElement)) {
-    return false
-  }
-  let parentDomElement = domElement.parent()
-  if (parentDomElement.isNearBoundaries(point, this.options.boundariesGap)) {
-    domElement = this.findValidParent(parentDomElement.parent())
-    parentDomElement = domElement.parent()
-  }
-  if (!domElement.isElement()) {
-    return false
+  let domNode = this.findDOMNode(point)
+  if (!domNode || !domNode.ELEMENT_NODE) { return }
+  let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
+  if (!domElement) { return }
+  let parentDOMElement = this.items[domElement.hasParent() ? domElement.parent() : this.options.rootID]
+  console.log(parentDOMElement.id + ':' + this.dragingElement.isChild(parentDOMElement))
+  console.log(domElement.id + ':' + this.dragingElement.isChild(domElement))
+  if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.hasParent()) {
+    // domElement = this.findValidParent(this.items[parentDOMElement.parent()]) || domElement
+    // parentDOMElement = domElement.hasParent() ? this.items[domElement.parent()] : null
   }
   let position = this.placeholder.redraw(domElement.node, point, {
-    allowBeforeAfter: this.allowParent(parentDomElement),
-    allowAppend: this.allowAsContainer(domElement)
+    allowBeforeAfter: this.dragingElement.isChild(parentDOMElement),
+    allowAppend: this.dragingElement.isChild(domElement)
   })
   if (position) {
     this.setPosition(position)
@@ -120,8 +123,8 @@ Builder.prototype.setPosition = function (position) {
   this.position = position
 }
 Builder.prototype.start = function (DOMNode) {
-  this.dragingElement = new DOMElement(DOMNode, this.options.document)
-  if (!this.dragingElement.isElement()) {
+  this.dragingElement = DOMNode ? this.items[DOMNode.getAttribute('data-vcv-dnd-element')] : null
+  if (!this.dragingElement) {
     this.dragingElement = null
     return false
   }
@@ -162,7 +165,7 @@ Builder.prototype.end = function () {
   this.helper = null
 
   // Set callback on dragend
-  this.options.document.removeEventListener('mouseup', this.handDragEndFunction, false)
+  this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.check = function (point) {
   this.helper && this.helper.setPosition(point)

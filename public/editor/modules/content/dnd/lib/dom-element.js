@@ -1,66 +1,87 @@
-import {getService} from 'vc-cake'
-
-const cook = getService('cook')
-const documentManager = getService('document')
+import _ from 'lodash'
+import $ from 'jquery'
 
 export default class DOMElement {
-  constructor (DOMNode, documentDOM) {
-    let id = DOMNode ? DOMNode.getAttribute('data-vcv-dnd-element') : null
-    if (id) {
-      Object.defineProperties(this, {
-        'node': {
-          configurable: false,
-          enumerable: false,
-          value: DOMNode,
-          writable: false
-        },
-        'id': {
-          configurable: false,
-          enumerable: false,
-          value: DOMNode.getAttribute('data-vcv-dnd-element'),
-          writable: false
-        },
-        'data': {
-          configurable: false,
-          enumerable: false,
-          value: cook.get(documentManager.get(id)),
-          writable: false
-        },
-        'documentDOM': {
-          configurable: false,
-          enumerable: false,
-          value: documentDOM,
-          writable: false
-        }
-      })
-    }
+  constructor (id, DOMNode, options) {
+    options = _.defaults(options, {
+      containerFor: null,
+      childFor: null,
+      parent: null,
+      isDraggable: true
+    })
+    Object.defineProperties(this, {
+      'node': {
+        configurable: false,
+        enumerable: false,
+        value: DOMNode,
+        writable: false
+      },
+      '$node': {
+        configurable: false,
+        enumerable: false,
+        value: $(DOMNode),
+        writable: false
+      },
+      'id': {
+        configurable: false,
+        enumerable: false,
+        value: id,
+        writable: false
+      },
+      'options': {
+        configurable: false,
+        enumerable: false,
+        value: options,
+        writable: false
+      }
+    })
+    this.node.setAttribute('data-vcv-dnd-element', this.id)
   }
   parent () {
-    if (!this.isElement()) {
-      return new DOMElement()
-    }
-    let id = this.data.get('parent')
-    let DOMNode = this.documentDOM.querySelector('[data-vcv-dnd-element="' + id + '"]')
-    return new DOMElement(DOMNode, this.documentDOM)
+    return this.options.parent
   }
   hasParent () {
-    return this.isElement() && !!this.data.get('parent')
+    return !!this.options.parent
   }
   isChild (domElement) {
-    return this.isElement() && domElement.isElement() && this.data.relatedTo(domElement.data.containerFor())
+    return domElement ? this.relatedTo(domElement.containerFor()) : false
   }
-  isElement () {
-    return this.data && this.data.get('id') && this.node
-  }
-  equals (domElement) {
-    return this.isElement() && this.data.get('id') === domElement.data.get('id')
-  }
-  isNearBoundaries (point, gap) {
-    if (!this.isElement()) {
+  relatedTo (container) {
+    if (!this.options.relatedTo || !container) {
       return false
     }
+    let result = false
+    if (Array.isArray(this.options.relatedTo)) {
+      this.options.relatedTo.find((v) => {
+        result = Array.isArray(container) ? container.indexOf(v) > -1 : container === v
+        return result
+      })
+    } else if (container === this.options.relatedTo) {
+      result = true
+    }
+    return result
+  }
+
+  containerFor () {
+    return this.options.containerFor
+  }
+  equals (domElement) {
+    return this.id === domElement.id
+  }
+  isNearBoundaries (point, gap) {
     let rect = this.node.getBoundingClientRect()
     return point.y - rect.top < gap || rect.bottom - point.y < gap ||
       point.x - rect.left < gap || rect.right - point.x < gap
+  }
+  on (event, callback, capture) {
+    this.node.addEventListener(event, callback, !!capture)
+    return this
+  }
+  off (event, callback, capture) {
+    this.node.removeEventListener(event, callback, !!capture)
+    return this
+  }
+  isDraggable () {
+    return !!this.options.isDraggable
   }
 }
