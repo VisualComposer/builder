@@ -7,6 +7,7 @@ import TreeContentTab from './tab'
 import DesignOptions from './design-options/design-options'
 import {getService} from 'vc-cake'
 import {format} from 'util'
+import DependencyManager from './dependencies'
 
 // import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
@@ -36,9 +37,9 @@ class TreeForm extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply('element:set', function (key, value) {
+    this.props.api.reply('element:set', (key, value) => {
       this.props.element.set(key, value)
-    }.bind(this))
+    })
     designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
@@ -55,8 +56,8 @@ class TreeForm extends React.Component {
     let obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
-    obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
+    obj.onload = (e) => {
+      obj.contentDocument.defaultView.addEventListener('resize', fn)
     }
     obj.type = 'text/html'
     if (isIE) {
@@ -197,7 +198,6 @@ class TreeForm extends React.Component {
       this.setState({
         visibleTabsCount: this.getVisibleTabs().length
       })
-      return
     }
   }
 
@@ -214,7 +214,9 @@ class TreeForm extends React.Component {
   }
 
   getFormParamField (param) {
-    let updater = lodash.curry((callback, event, key, value) => { callback(event, key, value) })
+    let updater = lodash.curry((callback, event, key, value) => {
+      return callback(event, key, value)
+    })
     return this.field(this.props.element, param.key, updater(this.props.api.request, 'element:set'))
   }
 
@@ -278,19 +280,31 @@ class TreeForm extends React.Component {
     if (options && typeof (options.description) === 'string') {
       description = (<p className="vcv-ui-form-helper">{options.description}</p>)
     }
-    return (
+    let rawValue = type.getRawValue(element.data, key)
+    let value = type.getValue(settings, element.data, key)
+    let content = (
       <div className="vcv-ui-form-group" key={'form-group-' + key}>
         {label}
         <AttributeComponent
           key={'attribute-' + key + element.get('id')}
           fieldKey={key}
           options={options}
-          value={type.getRawValue(element.data, key)}
+          value={rawValue}
           updater={updater}
         />
         {description}
       </div>
     )
+    let data = {
+      key: key,
+      settings: settings,
+      label: label,
+      description: description,
+      type: type,
+      value: value,
+      rawValue: rawValue
+    }
+    return <DependencyManager api={this.props.api} data={data} element={this.props.element} content={content} />
   }
 
   render () {
@@ -314,7 +328,7 @@ class TreeForm extends React.Component {
 
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
-        'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
+        'vcv-ui-state--active': !!this.getHiddenTabs().filter((tab) => {
           return tab.index === activeTabIndex
         }).length
       })

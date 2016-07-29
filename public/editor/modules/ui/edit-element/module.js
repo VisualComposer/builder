@@ -1,10 +1,10 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import vcCake from 'vc-cake'
-const TreeForm = require('./lib/form')
+import TreeForm from './lib/form'
+
 const doc = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
-vcCake.add('ui-edit-element', function (api) {
+vcCake.add('ui-edit-element', (api) => {
   let currentElement = null
   api.addAction('setCurrent', (parent) => {
     currentElement = parent
