@@ -6,11 +6,13 @@ window.vcvAddElement(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {output, outputInline, id, content, ...other} = this.props
+        var {id, content, atts, editor} = this.props
+var {output, outputInline} = atts
+
         // import template js
         
         // import template
-        return (<div className='vce-text-block' {...other}>
+        return (<div className='vce-text-block' {...editor}>
   <div className='editable' data-vc-editable-param='output' dangerouslySetInnerHTML={{__html:output}} />
 </div>
 );

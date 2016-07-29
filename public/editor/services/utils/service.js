@@ -1,12 +1,11 @@
-var vcCake = require('vc-cake')
+import vcCake from 'vc-cake'
 
 vcCake.addService('utils', {
-  createKey: function () {
-    var i, random
-    var uuid = ''
+  createKey: () => {
+    let uuid = ''
 
-    for (i = 0; i < 8; i++) {
-      random = Math.random() * 16 | 0
+    for (let i = 0; i < 8; i++) {
+      let random = Math.random() * 16 | 0
       if (i === 8 || i === 12 || i === 16 || i === 20) {
         uuid += '-'
       }

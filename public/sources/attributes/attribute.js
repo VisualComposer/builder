@@ -6,6 +6,12 @@ export default class Attribute extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentWillMount () {
+    if (typeof this.props.updater === 'function') {
+      this.props.updater(this.props.fieldKey, this.state.value)
+    }
+  }
+
   handleChange (event) {
     this.setFieldValue(event.currentTarget.value)
   }

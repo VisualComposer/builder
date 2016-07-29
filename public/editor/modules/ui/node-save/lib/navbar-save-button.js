@@ -1,9 +1,7 @@
-/*eslint no-extra-bind: "off"*/
-
 import React from 'react'
 import classNames from 'classnames'
 
-class Control extends React.Component {
+class SaveButtonControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -14,13 +12,12 @@ class Control extends React.Component {
   }
 
   clickSaveData () {
-    let _this = this
     this.setState({ 'saving': true })
     setTimeout(() => {
-      _this.setState({ 'saving': false })
-      _this.setState({ 'saved': true })
+      this.setState({ 'saving': false })
+      this.setState({ 'saved': true })
       setTimeout(() => {
-        _this.setState({ 'saved': false })
+        this.setState({ 'saved': false })
       }, 1000)
     }, 500)
 
@@ -49,8 +46,8 @@ class Control extends React.Component {
     )
   }
 }
-Control.propTypes = {
+SaveButtonControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = Control
+module.exports = SaveButtonControl

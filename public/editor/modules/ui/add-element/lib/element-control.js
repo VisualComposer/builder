@@ -1,5 +1,7 @@
 var vcCake = require('vc-cake')
 var cook = vcCake.getService('cook')
+const AssetsManager = vcCake.getService('assets-manager')
+
 var React = require('react')
 var ReactDOM = require('react-dom')
 var classNames = require('classnames')
@@ -9,11 +11,7 @@ module.exports = React.createClass({
     tag: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired,
-    meta_icon: React.PropTypes.string,
-    meta_thumbnail: React.PropTypes.string,
-    meta_preview: React.PropTypes.string,
-    meta_preview_description: React.PropTypes.string
+    api: React.PropTypes.object.isRequired
   },
   getInitialState () {
     return {
@@ -159,8 +157,8 @@ module.exports = React.createClass({
     //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-    let publicPathThumbnail = element.getPublicPath(this.props.meta_thumbnail)
-    let publicPathPreview = element.getPublicPath(this.props.meta_preview)
+    let publicPathThumbnail = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_thumbnail'))
+    let publicPathPreview = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_preview'))
     return <li className='vcv-ui-add-element-list-item'>
       <a className='vcv-ui-add-element-element'
         onClick={this.addElement}
@@ -182,7 +180,7 @@ module.exports = React.createClass({
           <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
           <figcaption className='vcv-ui-add-element-preview-caption'>
             <div className='vcv-ui-add-element-preview-text'>
-              {this.props.meta_preview_description}
+              {element.get('meta_preview_description')}
             </div>
           </figcaption>
         </figure>

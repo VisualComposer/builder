@@ -6,7 +6,9 @@ window.vcvAddElement(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {buttonTitle, style, color, iconSize, toggle, checkboxes, editor, otherEditor, id, content, ...other} = this.props
+        var {id, content, atts, editor} = this.props
+var {buttonTitle, style, color, iconSize, toggle, checkboxes, editor, otherEditor} = atts
+
         // import template js
         var buttonClass = 'vc-button';
 if (color) {
@@ -18,7 +20,7 @@ if (style) {
 var iconClass = 'vc-icon vc-icon-size-' + iconSize;
 var iconContent = '♘';
         // import template
-        return (<button type="button" className={buttonClass} {...other}>
+        return (<button type="button" className={buttonClass} {...editor}>
   <i className={iconClass}>{iconContent}</i> {buttonTitle}
 </button>
 );

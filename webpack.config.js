@@ -48,15 +48,15 @@ module.exports = {
         'ui/node-save'
       ],
       services: [
+        'utils',
         'actions-manager',
-        'asset-manager',
+        'assets-manager',
         'document',
         'local-storage',
         'cook',
         'rules-manager',
-        'shared',
-        'time-machine',
-        'utils'
+        'shared-library',
+        'time-machine'
       ]
     },
     wp: {
@@ -86,15 +86,15 @@ module.exports = {
         'ui/wordpress-post'
       ],
       services: [
+        'utils',
         'actions-manager',
-        'asset-manager',
+        'assets-manager',
         'document',
         'wordpress-post-data',
         'cook',
         'rules-manager',
-        'shared',
-        'time-machine',
-        'utils'
+        'shared-library',
+        'time-machine'
       ]
     }
   },

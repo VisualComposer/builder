@@ -2,6 +2,7 @@
 var vcCake = require('vc-cake')
 var React = require('react')
 var cook = vcCake.getService('cook')
+const AssetsManager = vcCake.getService('assets-manager')
 var classNames = require('classnames')
 
 var Element = React.createClass({
@@ -117,7 +118,7 @@ var Element = React.createClass({
       'vcv-ui-state--active': this.props.element.id === this.state.elementId
     })
 
-    let publicPath = element.getPublicPath(element.get('meta_icon'))
+    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_icon'))
     let space = 0.8
 
     return <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}

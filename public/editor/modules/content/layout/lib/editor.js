@@ -1,5 +1,3 @@
-/*eslint no-extra-bind: "off"*/
-
 import React from 'react'
 import HtmlLayout from './html-layout'
 
@@ -14,9 +12,9 @@ class LayoutEditor extends React.Component {
   componentDidMount () {
     this.props.api.reply(
       'data:changed',
-      ((data) => {
+      (data) => {
         this.setState({ data: data })
-      }).bind(this)
+      }
     )
   }
 

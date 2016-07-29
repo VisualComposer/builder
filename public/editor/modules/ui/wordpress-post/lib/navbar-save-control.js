@@ -1,5 +1,3 @@
-/*eslint no-extra-bind: "off"*/
-
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
@@ -18,30 +16,27 @@ class WordPressPostSaveControl extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply('wordpress:data:saved', (
-      (data) => {
-        let status = data.status === 'success' ? 'success' : 'error'
-        this.setState({
-          saving: false,
-          status: status
-        })
-        this.clearTimer()
-        this.timer = setTimeout(
-          (() => {
-            this.setState({
-              saving: false,
-              status: ''
-            })
-          }).bind(this),
-          SAVED_TIMEOUT
-        )
-      }).bind(this)
-    )
-    this.props.api.reply('wordpress:data:saving', (
-      (options) => {
-        this.clickSaveData({ options: options })
-      }).bind(this)
-    )
+    this.props.api.reply('wordpress:data:saved', (data) => {
+      let status = data.status === 'success' ? 'success' : 'error'
+      this.setState({
+        saving: false,
+        status: status
+      })
+      this.clearTimer()
+      this.timer = setTimeout(
+        () => {
+          this.setState({
+            saving: false,
+            status: ''
+          })
+        },
+        SAVED_TIMEOUT
+      )
+    })
+
+    this.props.api.reply('wordpress:data:saving', (options) => {
+      this.clickSaveData({ options: options })
+    })
   }
 
   clearTimer () {

@@ -6,11 +6,13 @@ window.vcvAddElement(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {image, style, id, content, ...other} = this.props
+        var {id, content, atts, editor} = this.props
+var {image, style} = atts
+
         // import template js
         
         // import template
-        return (<img src={image}  {...other}/>
+        return (<img src={image}  {...editor}/>
 );
       }
     }));

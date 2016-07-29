@@ -1,26 +1,28 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
-import {format} from 'util'
+import vcCake from 'vc-cake'
 import {renderToStaticMarkup} from 'react-dom/server'
 
 import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
+import {getAttributeType} from './tools'
 
-import {createKey, getAttributeType} from './tools'
-import vcCake from 'vc-cake'
-
+const createKey = vcCake.getService('utils').createKey
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
-export default class CookElement {
+class CookElement {
   constructor (data) {
-    let { id = createKey(), parent = false, order, ...attr } = data
-    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(data.tag) : false
+    let { id = createKey(), parent = false, tag, order, ...attr } = data
+    attr.tag = tag
+    attr.id = id
+    let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
     Object.defineProperty(this, elData, {
       writable: true,
       value: {
         id: id,
+        tag: tag,
         parent: parent,
         data: attr,
         order: order,
@@ -32,15 +34,14 @@ export default class CookElement {
     })
     Object.defineProperty(this, elComponent, {
       value: {
-        tag: data.tag,
         add (Component) {
-          elementComponent.add(this.tag, Component)
+          elementComponent.add(tag, Component)
         },
         get () {
-          return elementComponent.get(this.tag)
+          return elementComponent.get(tag)
         },
         has () {
-          return elementComponent.has(this.tag)
+          return elementComponent.has(tag)
         }
       }
     })
@@ -58,6 +59,10 @@ export default class CookElement {
     return this[ elData ].getAttributeType(k)
   }
 
+  get data () {
+    return this[ elData ].data
+  }
+
   set (k, v) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
@@ -68,14 +73,19 @@ export default class CookElement {
 
   render (content) {
     if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elComponent ].tag).component(this[ elComponent ])
+      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
     let ElementToRender = this[ elComponent ].get()
-    let props = this.toJS()
+    let props = {}
+    let editorProps = {}
+    let atts = this.toJS()
     props.key = this[ elData ].id
     props.id = this[ elData ].id
-    props[ 'data-vc-element' ] = this[ elData ].id
+    editorProps[ 'data-vc-element' ] = this[ elData ].id
+    props.editor = editorProps
+    props.atts = atts
     props.content = content
+
     return <ElementToRender {...props} />
   }
 
@@ -99,54 +109,8 @@ export default class CookElement {
     return data
   }
 
-  field (k, updater) {
-    let { type, settings } = this[ elData ].getAttributeType(k)
-    let Component = type.component
-    if (!Component) {
-      return null
-    }
-    let label = ''
-    if (!settings) {
-      throw new Error(format('Wrong attribute %s', k))
-    }
-    if (!type) {
-      throw new Error(format('Wrong type of attribute %s', k))
-    }
-    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.label) === 'string') {
-      label = (<span className="vcv-ui-form-group-heading">{settings.options.label}</span>)
-    }
-    let description = ''
-    if (typeof (settings.options) !== 'undefined' && typeof (settings.options.description) === 'string') {
-      description = (<p className="vcv-ui-form-helper">{settings.options.description}</p>)
-    }
-    return (
-      <div className="vcv-ui-form-group" key={'form-group-' + k}>
-        {label}
-        <Component
-          key={k + this.get('id')}
-          fieldKey={k}
-          options={settings.options}
-          value={type.getRawValue(this[elData].data, k)}
-          updater={updater}
-        />
-        {description}
-      </div>
-    )
-  }
-
   renderHTML (content) {
     return renderToStaticMarkup(this.render(content))
-  }
-
-  publicKeys () {
-    let data = []
-    for (let k of Object.keys(this[ elData ].settings)) {
-      var attrSettings = this[ elData ].settings[ k ]
-      if (attrSettings.access === 'public') {
-        data.push(k)
-      }
-    }
-    return data
   }
 
   /**
@@ -156,7 +120,7 @@ export default class CookElement {
    * @param keys
    */
   relatedTo (keys) {
-    var group = this.get('relatedTo')
+    const group = this.get('relatedTo')
     if (group && group.has && group.has(keys)) {
       return true
     }
@@ -168,51 +132,16 @@ export default class CookElement {
    * @returns [] - list of
    */
   containerFor () {
-    var group = this.get('containerFor')
+    const group = this.get('containerFor')
     if (group && group.each) {
       return group.each()
     }
     return []
   }
 
-  editFormTabs () {
-    var group = this.get('editFormTabs')
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
-    }
-    return []
-  }
-
-  editFormTabsIterator (item) {
-    return {
-      key: item,
-      value: this.get(item),
-      data: this.settings(item)
-    }
-  }
-
-  editFormTabParams (tabName) {
-    var group = this.get(tabName)
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
-    }
-    return []
-  }
-
-  getPublicPath (file) {
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources/elements-2/' + this.get('tag') + '/public'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources/elements-2/' + this.get('tag') + '/public'
-    }
-    let $element = document.querySelector('[data-vc-element-script="' + this.get('tag') + '"]')
-    if ($element) {
-      path = $element.dataset.vcElementUrl + '/public'
-    }
-    if (file) {
-      path += '/' + file
-    }
-    return path
-  }
 }
+CookElement.propTypes = {
+  tag: React.PropTypes.string.isRequired
+}
+
+module.exports = CookElement
