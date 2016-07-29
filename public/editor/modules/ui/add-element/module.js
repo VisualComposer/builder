@@ -1,8 +1,8 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import vcCake from 'vc-cake'
 import {default as AddElement} from './lib/add-element'
-require('./lib/navbar-control')
-require('./css/init.less')
+import AddElementControl from './lib/navbar-control'
+import './css/init.less'
 
 vcCake.add('ui-add-element', (api) => {
   // get get Parrent
@@ -42,4 +42,6 @@ vcCake.add('ui-add-element', (api) => {
       })
       api.module('ui-layout-bar').do('setEndContentVisible', true)
     })
+
+  api.module('ui-navbar').do('addElement', 'Add element', AddElementControl, { pin: 'visible', api: api })
 })
