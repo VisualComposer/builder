@@ -1,5 +1,3 @@
-/*eslint no-extra-bind: "off"*/
-
 import vcCake from 'vc-cake'
 import $ from 'jquery'
 import {PropTypes} from 'react'
@@ -10,16 +8,16 @@ const documentData = vcCake.getService('document')
 class SaveController {
   constructor (props) {
     this.props = props
-    this.props.api.reply('wordpress:save', ((options) => {
+    this.props.api.reply('wordpress:save', (options) => {
       options = $.extend({}, {
         elements: documentData.all()
       }, options)
       this.save(options)
-    }).bind(this))
+    })
 
-    this.props.api.reply('wordpress:load', ((data) => {
+    this.props.api.reply('wordpress:load', (data) => {
       this.load(data)
-    }).bind(this))
+    })
   }
 
   ajax (data, successCallback, failureCallback) {
@@ -31,7 +29,7 @@ class SaveController {
     let request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    request.onload = (() => {
+    request.onload = () => {
       if (request.status >= 200 && request.status < 400) {
         successCallback.call(this, request)
       } else {
@@ -39,17 +37,17 @@ class SaveController {
           failureCallback.call(this, request)
         }
       }
-    }).bind(this)
+    }
 
     request.send($.param(data))
   }
 
   save (data) {
-    var content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
+    let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data\-reactid="[^"]+"/,
       '')
-    var scripts = assetManager.getAssets('scripts')
-    var styles = assetManager.getAssets('styles')
+    let scripts = assetManager.getAssets('scripts')
+    let styles = assetManager.getAssets('styles')
 
     this.ajax(
       {

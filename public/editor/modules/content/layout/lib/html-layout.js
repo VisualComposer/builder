@@ -6,9 +6,9 @@ class HtmlLayout extends React.Component {
   render () {
     let elementsList
     if (this.props.data) {
-      elementsList = this.props.data.map(function (element) {
+      elementsList = this.props.data.map((element) => {
         return <LayoutElement element={element} key={element.id} api={this.props.api} />
-      }, this)
+      })
     }
     return (<div className='vcv-layouts-html' data-vcv-module='content-layout'>
       {elementsList}
@@ -16,7 +16,8 @@ class HtmlLayout extends React.Component {
   }
 }
 HtmlLayout.propTypes = {
-  data: React.PropTypes.array.isRequired
+  data: React.PropTypes.array.isRequired,
+  api: React.PropTypes.object.isRequired
 }
 
 module.exports = HtmlLayout

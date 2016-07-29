@@ -20,7 +20,7 @@ class LayoutElement extends React.Component {
     if (currentElement.get('type') === 'container') {
       let elementsList = documentData.children(currentElement.get('id')).map((childElement) => {
         return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
-      }, this)
+      })
       return elementsList
     }
     return content

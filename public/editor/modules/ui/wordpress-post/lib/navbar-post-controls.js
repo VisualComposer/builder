@@ -1,5 +1,3 @@
-/*eslint no-extra-bind: "off"*/
-
 import vcCake from 'vc-cake'
 import React from 'react'
 
@@ -7,13 +5,10 @@ const PostData = vcCake.getService('wordpress-post-data')
 
 class WordPressAdminControl extends React.Component {
   componentDidMount () {
-    this.props.api.reply('wordpress:data:saved', (
-        (data) => {
-          // Call the forceUpdate when saved
-          this.forceUpdate()
-        }
-      ).bind(this)
-    )
+    this.props.api.reply('wordpress:data:saved', (data) => {
+      // Call the forceUpdate when saved
+      this.forceUpdate()
+    })
   }
 
   saveDraft (e) {
@@ -44,13 +39,22 @@ class WordPressAdminControl extends React.Component {
     }
     let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
     let previewButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.previewUrl()} title={previewText} target='_blank' disabled><span
-        className='vcv-ui-navbar-control-content'>{previewText}</span></a>
+      <a
+        className='vcv-ui-navbar-control'
+        href={PostData.previewUrl()}
+        title={previewText}
+        target='_blank'
+        disabled
+      ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
     )
 
     let backendEditorButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.backendEditorUrl()} title='Edit in Backend Editor' disabled><span
-        className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
+      <a
+        className='vcv-ui-navbar-control'
+        href={PostData.backendEditorUrl()}
+        title='Edit in Backend Editor'
+        disabled
+      ><span className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
 
     let wordpressDashboardButton = (

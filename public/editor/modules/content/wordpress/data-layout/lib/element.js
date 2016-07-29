@@ -1,14 +1,17 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-let cook = vcCake.getService('cook')
-class Element extends React.Component {
+
+const cook = vcCake.getService('cook')
+
+class WordPressElement extends React.Component {
   render () {
-    let element = cook.get(this.props.element)
+    const element = cook.get(this.props.element)
+
     return element.render()
   }
 }
-Element.propTypes = {
+WordPressElement.propTypes = {
   element: React.PropTypes.object
 }
 
-module.exports = Element
+module.exports = WordPressElement
