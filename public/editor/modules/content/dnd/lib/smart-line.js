@@ -37,7 +37,7 @@ SmartLine.prototype.setCurrentElement = function (element) {
   this.currentElement = element
 }
 SmartLine.prototype.isSameElementPosition = function (point) {
-  return this.point.x === point.x && this.point.y === point.y
+  return false // this.point.x === point.x && this.point.y === point.y
 }
 SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({

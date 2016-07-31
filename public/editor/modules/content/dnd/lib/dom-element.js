@@ -32,6 +32,12 @@ export default class DOMElement {
         enumerable: false,
         value: options,
         writable: false
+      },
+      'isEmptyAsContainer': {
+        enumerable: false,
+        get: function () {
+          this.$node.find('[data-vcv-dnd-element]').length === 0
+        }
       }
     })
     this.node.setAttribute('data-vcv-dnd-element', this.id)

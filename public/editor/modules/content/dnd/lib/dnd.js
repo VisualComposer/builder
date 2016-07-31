@@ -33,7 +33,7 @@ var Builder = function (container, options) {
     document: document,
     offsetTop: 0,
     offsetLeft: 0,
-    boundariesGap: 6,
+    boundariesGap: 10,
     rootContainerFor: ['RootElements'],
     rootID: 'vcv-content-root'
   })
@@ -43,7 +43,7 @@ Builder.prototype.option = function (name, value) {
 }
 Builder.prototype.init = function () {
   this.items[this.options.rootID] = new DOMElement(this.options.rootID, this.container, {
-    containerFor: this.options.rootContainerFor,
+    containerFor: this.options.rootContainerFor
   })
   this.handleDragFunction = this.handleDrag.bind(this)
   this.handleDragStartFunction = this.handleDragStart.bind(this)
@@ -103,8 +103,8 @@ Builder.prototype.checkItems = function (point) {
   if (!domElement) { return }
   let parentDOMElement = this.items[domElement.parent()] || null
   if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
-    // domElement = this.findElementWithValidParent(this.items[parentDOMElement]) || domElement
-    // parentDOMElement = domElement.hasParent() ? this.items[domElement.parent()] : null
+    domElement = this.findElementWithValidParent(parentDOMElement) || domElement
+    parentDOMElement = this.items[domElement.parent()] || null
   }
   let position = this.placeholder.redraw(domElement.node, point, {
     allowBeforeAfter: parentDOMElement && this.dragingElement.isChild(parentDOMElement),
