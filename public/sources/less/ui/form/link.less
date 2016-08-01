@@ -22,13 +22,13 @@
     &::before {
       content: attr(data-vc-link-title);
     }
-  }
-  .vcv-ui-form-link-title:empty {
-    display: none;
+    &:empty {
+      display: none;
+    }
   }
 
   // Button behaviour
-  .vcv-ui-button-form-control {
+  .vcv-ui-form-button-form-control {
     flex-shrink: 0;
     outline: none;
     box-shadow: none;
@@ -42,12 +42,25 @@
       }
     }
   }
-
-  // Icon behaviour
-  .vcv-ui-icon {
-    font-size: 1.3em;
-    line-height: @vcui-link-button-font-size;
-    vertical-align: middle;
-    margin-right: @vcui-link-button-padding-horizontal/2;
-  }
 }
+
+
+//&.vcv-ui-form-link-button {
+//  color: @vcui-button-link-color;
+//  background-color: @vcui-button-link-background;
+//  border-color: @vcui-button-link-border-color;
+//  &:hover {
+//    background-color: @vcui-button-link-background-hover;
+//  }
+//}
+
+
+//&.vcv-ui-form-link-button {
+//  padding: 11px 14px;
+//  font-size: 10px;
+//  font-weight: 600;
+//  text-transform: uppercase;
+//  line-height: 1.5;
+//  border-radius: 3px;
+//  flex-shrink: 0;
+//}

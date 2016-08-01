@@ -6,8 +6,6 @@ import AttachImage from '../../../../../../sources/attributes/attachimage/Compon
 import Toggle from '../../../../../../sources/attributes/toggle/Component'
 import Devices from './devices'
 
-require('../../css/styles.less')
-
 var DesignOptions = React.createClass({
   propTypes: {
     changeDesignOption: React.PropTypes.func,
@@ -195,12 +193,11 @@ var DesignOptions = React.createClass({
     })
   },
 
-  toggleSimplifyControls: function (e) {
+  toggleSimplifyControls: function (fieldKey, active) {
     let deviceState = this.state[ this.state.device ]
-
     this.changeState({
       [this.state.device]: {
-        simplified: e.target.checked,
+        simplified: active,
         borderTopRightRadius: deviceState.borderTopRightRadius,
         borderBottomRightRadius: deviceState.borderTopRightRadius,
         borderBottomLeftRadius: deviceState.borderTopRightRadius,
@@ -284,8 +281,13 @@ var DesignOptions = React.createClass({
     return this.getNested(this.state, key)
   },
 
-  renderInput: function (name, position) {
-    var classes = classNames([ 'vcv-ui-design-options-input', 'vcv-ui-design-options-input-' + position ])
+  renderInput: function (name, position, isDisabled = false) {
+    var classes = classNames([
+      'vcv-ui-form-input',
+      'vcv-ui-design-options-onion-control-position--' + position
+    ])
+
+    let value = isDisabled ? '' : this.state[ this.state.device ][ name ]
 
     return <input
       type="text"
@@ -294,7 +296,8 @@ var DesignOptions = React.createClass({
       name={name}
       onChange={this.changeBoxInput}
       onBlur={this.validateBoxInput}
-      value={this.state[ this.state.device ][ name ]} />
+      disabled={isDisabled}
+      value={value} />
   },
 
   changeDevice: function (value) {
@@ -351,12 +354,6 @@ var DesignOptions = React.createClass({
       }
     }
 
-    let cssBoxClasses = classNames({
-      'vcv-ui-form-group': true,
-      'vcv-ui-design-options': true,
-      'vcv-ui-design-options-simplified': this.state[ this.state.device ].simplified
-    })
-
     let isBorderSpecified = !!(
       parseInt(this.state[ this.state.device ].borderTop) ||
       parseInt(this.state[ this.state.device ].borderRight) ||
@@ -364,107 +361,107 @@ var DesignOptions = React.createClass({
       parseInt(this.state[ this.state.device ].borderLeft)
     )
 
+    let hasImages = this.state[ this.state.device ].backgroundImage.ids.length > 0
+
     return (
-      <div>
-
-        <table width="100%">
-          <tbody>
-            <tr>
-              <td width="50%">
-                <select onChange={this.changeDeviceType} value={this.state.deviceTypes}>
-                  <option value="all">All devices</option>
-                  <option value="custom">Custom device settings</option>
-                </select>
-
-                {this.state.deviceTypes === 'custom' &&
-                  <Toggle
-                    value={this.state[ this.state.device ].showOnDevice}
-                    fieldKey="showOnDevice"
-                    updater={this.changeShowOnDevice}
-                  />
-                }
-
-              </td>
-              <td width="50%">
-                {this.state.deviceTypes === 'custom' &&
-                  <Devices value={this.state.device} onChange={this.changeDevice} />
-                }
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
-          <div className="vcv-ui-design-options-container">
-
-            <div className="vcv-ui-design-options-css-box">
+      <div className="vcv-ui-design-options-container">
+        <div className="vcv-ui-row vcv-ui-row-gap--md">
+          <div className="vcv-ui-col vcv-ui-col--fixed-width">
+            <div className="vcv-ui-form-group">
+              <select className="vcv-ui-form-dropdown" onChange={this.changeDeviceType} value={this.state.deviceTypes}>
+                <option value="all">All devices</option>
+                <option value="custom">Custom device settings</option>
+              </select>
+            </div>
+          </div>
+          {this.state.deviceTypes === 'custom' &&
+            <div className="vcv-ui-col vcv-ui-col--fixed-width">
               <div className="vcv-ui-form-group">
-                <span className="vcv-ui-form-group-heading">
-                  CSS box
-                </span>
-              </div>
-
-              <div className={cssBoxClasses}>
-                <div className="vcv-ui-design-options-box vcv-ui-design-options-margins-box">
-                  <label className="vcv-ui-design-options-label">Margin</label>
-                  <label className="vcv-ui-design-options-label vcv-ui-design-options-label-top-right">Radius</label>
-
-                  {this.renderInput('borderTopRightRadius', 'top-right')}
-                  {this.renderInput('borderBottomRightRadius', 'bottom-right')}
-                  {this.renderInput('borderBottomLeftRadius', 'bottom-left')}
-                  {this.renderInput('borderTopLeftRadius', 'top-left')}
-
-                  {this.renderInput('marginTop', 'top')}
-                  {this.renderInput('marginRight', 'right')}
-                  {this.renderInput('marginBottom', 'bottom')}
-                  {this.renderInput('marginLeft', 'left')}
-                  <div className="vcv-ui-design-options-box vcv-ui-design-options-borders-box">
-                    <label className="vcv-ui-design-options-label">Border</label>
-                    {this.renderInput('borderTop', 'top')}
-                    {this.renderInput('borderRight', 'right')}
-                    {this.renderInput('borderBottom', 'bottom')}
-                    {this.renderInput('borderLeft', 'left')}
-                    <div className="vcv-ui-design-options-box vcv-ui-design-options-paddings-box">
-                      <label className="vcv-ui-design-options-label">Padding</label>
-                      {this.renderInput('paddingTop', 'top')}
-                      {this.renderInput('paddingRight', 'right')}
-                      {this.renderInput('paddingBottom', 'bottom')}
-                      {this.renderInput('paddingLeft', 'left')}
-                      <div className="vcv-ui-design-options-logo">
-                        <img src={require('../../images/logo.png')} />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <div className="vcv-ui-form-group">
-                <label className="vcv-ui-form-checkbox">
-                  <input
-                    type="checkbox"
-                    onChange={this.toggleSimplifyControls}
-                    checked={this.state[ this.state.device ].simplified}
-                  />
-                  <span className="vcv-ui-form-checkbox-indicator"></span>
-                  Simplify controls
-                </label>
+                <Devices value={this.state.device} onChange={this.changeDevice} />
               </div>
             </div>
-
-            <div className="vcv-ui-design-options-other">
-
+          }
+        </div>
+        <div className="vcv-ui-row vcv-ui-row-gap--md">
+          <div className="vcv-ui-col vcv-ui-col--fixed-width">
+            {this.state.deviceTypes === 'custom' &&
+              <div className="vcv-ui-form-group vcv-ui-form-group-style--inline">
+                <Toggle
+                  value={this.state[ this.state.device ].showOnDevice}
+                  fieldKey="showOnDevice"
+                  updater={this.changeShowOnDevice}
+                />
+                <span className="vcv-ui-form-group-heading">Show on device</span>
+              </div>
+            }
+            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+              <div className="vcv-ui-form-group">
+                <div className="vcv-ui-design-options-onion">
+                  <div className="vcv-ui-design-options-onion-layers">
+                    <div className="vcv-ui-design-options-onion-layer--margin">
+                      <span className="vcv-ui-form-group-heading">
+                        Margin
+                      </span>
+                      {this.renderInput('marginTop', 'top')}
+                      {this.renderInput('marginRight', 'right', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('marginBottom', 'bottom', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('marginLeft', 'left', this.state[ this.state.device ].simplified)}
+                    </div>
+                    <div className="vcv-ui-design-options-onion-layer--padding">
+                      <span className="vcv-ui-form-group-heading">
+                        Padding
+                      </span>
+                      {this.renderInput('paddingTop', 'top')}
+                      {this.renderInput('paddingRight', 'right', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('paddingBottom', 'bottom', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('paddingLeft', 'left', this.state[ this.state.device ].simplified)}
+                    </div>
+                    <div className="vcv-ui-design-options-onion-layer--border">
+                      <span className="vcv-ui-form-group-heading">
+                        Border
+                      </span>
+                      {this.renderInput('borderTop', 'top')}
+                      {this.renderInput('borderRight', 'right', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('borderBottom', 'bottom', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('borderLeft', 'left', this.state[ this.state.device ].simplified)}
+                    </div>
+                    <div className="vcv-ui-design-options-onion-layer--border-radius">
+                      <span className="vcv-ui-form-group-heading">
+                        Radius
+                      </span>
+                      {this.renderInput('borderTopRightRadius', 'top-right')}
+                      {this.renderInput('borderBottomRightRadius', 'bottom-right', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('borderBottomLeftRadius', 'bottom-left', this.state[ this.state.device ].simplified)}
+                      {this.renderInput('borderTopLeftRadius', 'top-left', this.state[ this.state.device ].simplified)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+              <div className="vcv-ui-form-group vcv-ui-form-group-style--inline">
+                <Toggle
+                  value={this.state[ this.state.device ].simplified}
+                  fieldKey="showOnDevice"
+                  updater={this.toggleSimplifyControls}
+                />
+                <span className="vcv-ui-form-group-heading">Simple controls</span>
+              </div>
+            }
+          </div>
+          {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+            <div className="vcv-ui-col vcv-ui-col--fixed-width">
               <div className="vcv-ui-form-group">
                 <span className="vcv-ui-form-group-heading">
                   Background color
                 </span>
                 <input
+                  className="vcv-ui-form-input-color"
                   name="backgroundColor"
                   type="color"
                   value={this.state[ this.state.device ].backgroundColor}
                   onChange={this.changeBackgroundColor} />
               </div>
-
               <div className="vcv-ui-form-group">
                 <span className="vcv-ui-form-group-heading">
                   Background image
@@ -472,50 +469,54 @@ var DesignOptions = React.createClass({
                 <AttachImage {...backgroundImageProps} />
               </div>
 
-              {(this.state[ this.state.device ].backgroundImage.ids.length > 0) &&
-                <div className="vcv-ui-form-group">
-                  <span className="vcv-ui-form-group-heading">
-                    Background style
-                  </span>
-                  <select
-                    name="backgroundStyle"
-                    className="vcv-ui-form-dropdown"
-                    value={this.state[ this.state.device ].backgroundStyle}
-                    onChange={this.changeBackgroundStyle}>
-                    {this.backgroundStyles}
-                  </select>
-                </div>}
-
-              {isBorderSpecified &&
-                <div className="vcv-ui-form-group">
-                  <span className="vcv-ui-form-group-heading">
-                    Border style
-                  </span>
-                  <select
-                    name="borderStyle"
-                    className="vcv-ui-form-dropdown"
-                    value={this.state[ this.state.device ].borderStyle}
-                    onChange={this.changeBorderStyle}>
-                    {this.borderStyles}
-                  </select>
-                </div>}
-
-              {isBorderSpecified &&
-                <div className="vcv-ui-form-group">
-                  <span className="vcv-ui-form-group-heading">
-                    Border color
-                  </span>
-                  <input
-                    name="borderColor"
-                    type="color"
-                    value={this.state[ this.state.device ].borderColor}
-                    onChange={this.changeBorderColor} />
-                </div>}
-
+              <div className="vcv-ui-row vcv-ui-row-gap--sm">
+                <div className="vcv-ui-col vcv-ui-col--xs-8">
+                  <div className="vcv-ui-form-group">
+                    <span className="vcv-ui-form-group-heading">
+                      Background style
+                    </span>
+                    <select
+                      name="backgroundStyle"
+                      className="vcv-ui-form-dropdown"
+                      value={this.state[ this.state.device ].backgroundStyle}
+                      disabled={!hasImages}
+                      onChange={this.changeBackgroundStyle}>
+                      {this.backgroundStyles}
+                    </select>
+                  </div>
+                </div>
+                <div className="vcv-ui-col vcv-ui-col--xs-8">
+                  <div className="vcv-ui-form-group">
+                    <span className="vcv-ui-form-group-heading">
+                      Border style
+                    </span>
+                    <select
+                      name="borderStyle"
+                      className="vcv-ui-form-dropdown"
+                      value={this.state[ this.state.device ].borderStyle}
+                      disabled={!isBorderSpecified}
+                      onChange={this.changeBorderStyle}>
+                      {this.borderStyles}
+                    </select>
+                  </div>
+                </div>
+                <div className="vcv-ui-col vcv-ui-col--xs-4">
+                  <div className="vcv-ui-form-group">
+                    <span className="vcv-ui-form-group-heading">
+                      Border color
+                    </span>
+                    <input
+                      name="borderColor"
+                      type="color"
+                      value={this.state[ this.state.device ].borderColor}
+                      disabled={!isBorderSpecified}
+                      onChange={this.changeBorderColor} />
+                  </div>
+                </div>
+              </div>
             </div>
-
-          </div>
-        }
+          }
+        </div>
       </div>
     )
   }

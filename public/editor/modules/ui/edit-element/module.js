@@ -4,6 +4,8 @@ const TreeForm = require('./lib/form')
 const doc = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
+require('./css/init.less')
+
 vcCake.add('ui-edit-element', function (api) {
   let currentElement = null
   api.addAction('setCurrent', (parent) => {
