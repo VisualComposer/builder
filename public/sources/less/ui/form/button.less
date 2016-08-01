@@ -1,116 +1,97 @@
-.vcv-ui-button {
+.vcv-ui-form-button {
   display: inline-block;
   margin: 0;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  background: transparent;
+  background-color: transparent;
+  background-image: none;
   border: 1px solid transparent;
+  border-radius: @vcui-form-border-radius;
   box-sizing: border-box;
   word-wrap: break-word;
   user-select: none;
   text-decoration: none;
   position: relative;
+  color: @vcui-form-controls-color;
+  font-weight: 400;
+  line-height: 1.5;
+  outline: none;
+  padding: @vcui-button-padding;
+  font-size: @vcui-button-font-size;
   transition-property: color, background, border, opacity, transform;
   transition-duration: @vcui-form-transition-duration;
-  transition-timing-function: ease-in-out;
-  outline: none;
-  font-weight: 400;
-  padding: 14px 21px;
-  font-size: @vcui-button-font-size;
+  transition-timing-function: @vcui-form-transition-timing-function;
 
-  &:hover,
-  &:focus {
-    border: 1px solid transparent;
-  }
-
-  &.vcv-ui-button-default {
-    color: @vcui-button-default-color;
-    background-color: @vcui-button-default-background;
-  }
-
-  &.vcv-ui-button-default:hover,
-  &.vcv-ui-button-default:focus {
-    background-color: @vcui-button-default-background-hover;
-  }
-
-  &.vcv-ui-button-action {
-    color: @vcui-button-action-color;
-    background-color: @vcui-button-action-background;
-  }
-
-  &.vcv-ui-button-action:hover,
-  &.vcv-ui-button-action:focus {
-    background-color: @vcui-button-action-background-hover;
-  }
-
-  &[disabled]:not(.vcv-ui-button-undisabled) {
+  &[disabled]:not(.vcv-ui-form-button-undisabled) {
     color: @vcui-button-disabled-color;
     background-color: @vcui-button-disabled-background;
     cursor: not-allowed;
+    &:hover {
+      background-color: @vcui-button-disabled-background-hover;
+    }
   }
 
-  &[disabled]:not(.vcv-ui-button-undisabled):hover,
-  &[disabled]:not(.vcv-ui-button-undisabled):focus {
-    background-color: @vcui-button-disabled-background-hover;
+  // Icon behaviour
+  .vcv-ui-icon {
+    position: relative;
+    width: 1em;
+    height: 1em;
+    line-height: inherit;
+    display: inline-block;
+    vertical-align: middle;
+    & + * {
+      margin-left: 1em;
+    }
+    &::before {
+      position: absolute;
+      font-size: 1.35em;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
-
-  &.vcv-ui-form-link-button {
-    color: @vcui-button-link-color;
-    background-color: @vcui-button-link-background;
-    border-color: @vcui-button-link-border-color;
-  }
-
-  &.vcv-ui-form-link-button:hover,
-  &.vcv-ui-form-link-button:focus {
-    background-color: @vcui-button-link-background-hover;
-  }
-
-  &.vcv-ui-form-link-button {
-    padding: 11px 14px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 1.5;
-    border-radius: 3px;
-    flex-shrink: 0;
+}
+.vcv-ui-form-button-default {
+  color: @vcui-button-default-color;
+  background-color: @vcui-button-default-background;
+  &.vcv-ui-state--active,
+  &:hover {
+    background-color: @vcui-button-default-background-hover;
   }
 }
 
-.vcv-ui-form-link {
-  display: flex;
-  align-items: center;
-
-  .vcv-ui-form-link-data {
-    display: flex;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    font-size: 13px;
+.vcv-ui-form-button-action {
+  color: @vcui-button-action-color;
+  background-color: @vcui-button-action-background;
+  &.vcv-ui-state--active,
+  &:hover {
+    background-color: @vcui-button-action-background-hover;
   }
+}
 
-  .vcv-ui-form-link-title {
-    color: #9a9a9a;
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    margin-left: 14px;
-    &::before {
-      content: attr(data-vc-link-title);
+//== buttons group
+.vcv-ui-form-buttons-group {
+  display: inline-flex;
+  flex-flow: row wrap;
+  border-radius: @vcui-form-border-radius;
+  > .vcv-ui-form-button {
+    flex: 1 0 auto;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
-    &:empty {
-      display: none;
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
-
-  .vcv-ui-icon-link {
-    font-size: 1.3em;
-    line-height: 10px;
-    vertical-align: middle;
-    margin-right: 7px;
+}
+.vcv-ui-form-button-group-action {
+  background-color: @vcui-button-group-delimeter-color;
+  .vcv-ui-form-button {
+    &:extend(.vcv-ui-form-button-action all);
   }
 }

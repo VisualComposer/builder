@@ -13,19 +13,33 @@ var Devices = React.createClass({
       return [
         {
           strid: 'all',
-          title: 'All'
+          title: 'All',
+          icon: ''
         },
         {
           strid: 'desktop',
-          title: 'Desktop'
+          title: 'Desktop',
+          icon: 'vcv-ui-icon-desktop'
         },
         {
-          strid: 'tablet',
-          title: 'Tablet'
+          strid: 'tablet-landscape',
+          title: 'Tablet Landscape',
+          icon: 'vcv-ui-icon-tablet-landscape'
         },
         {
-          strid: 'mobile',
-          title: 'Mobile'
+          strid: 'tablet-portrait',
+          title: 'Tablet Portrait',
+          icon: 'vcv-ui-icon-tablet-portrait'
+        },
+        {
+          strid: 'mobile-landscape',
+          title: 'Mobile Landscape',
+          icon: 'vcv-ui-icon-mobile-landscape'
+        },
+        {
+          strid: 'mobile-portrait',
+          title: 'Mobile Portrait',
+          icon: 'vcv-ui-icon-mobile-portrait'
         }
       ]
     }
@@ -43,8 +57,8 @@ var Devices = React.createClass({
     }
   },
 
-  handleChange: function (e) {
-    let value = e.target.dataset.vcvDevice
+  handleChange: function (device) {
+    let value = device
 
     if (value === this.state.value) {
       return
@@ -67,20 +81,28 @@ var Devices = React.createClass({
       }
 
       let classes = classNames({
-        'vcv-ui-design-options-device': true,
-        'vcv-ui-active': that.state.value === device.strid
+        'vcv-ui-form-button': true,
+        'vcv-ui-state--active': that.state.value === device.strid
       })
+      let icons = classNames([
+        'vcv-ui-form-button-icon',
+        'vcv-ui-icon',
+        device.icon
+      ])
 
       items.push(<button
         key={'device-' + device.strid}
-        onClick={this.handleChange}
+        onClick={this.handleChange.bind(this, device.strid)}
         className={classes}
+        title={device.title}
         data-vcv-device={device.strid}>
-        {device.title}
+        <i className={icons}></i>
       </button>)
     })
 
-    return <div className="vcv-ui-design-options-devices">{items}</div>
+    return <div className="vcv-ui-form-buttons-group vcv-ui-form-button-group-action">
+      {items}
+    </div>
   }
 })
 

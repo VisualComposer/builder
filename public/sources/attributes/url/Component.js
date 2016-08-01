@@ -199,7 +199,7 @@ export default class Component extends Attribute {
       <div>
 
         <div className="vcv-ui-form-link">
-          <button className="vcv-ui-button vcv-ui-form-link-button" onClick={this.open}>
+          <button className="vcv-ui-form-button vcv-ui-form-link-button" onClick={this.open}>
             <i className="vcv-ui-icon vcv-ui-icon-link"></i>
             Select URL
           </button>
@@ -277,8 +277,8 @@ export default class Component extends Attribute {
           {this.renderExistingPostsBlock()}
 
           <footer>
-            <button className="vcv-ui-button vcv-ui-button-default" onClick={this.cancel}>Cancel</button>
-            <button className="vcv-ui-button vcv-ui-button-action" onClick={this.save}>OK</button>
+            <button className="vcv-ui-form-button vcv-ui-form-button-default" onClick={this.cancel}>Cancel</button>
+            <button className="vcv-ui-form-button vcv-ui-form-button-action" onClick={this.save}>OK</button>
           </footer>
 
         </Modal>

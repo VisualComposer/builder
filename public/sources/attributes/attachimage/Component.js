@@ -11,6 +11,7 @@ export default class Component extends Attribute {
     if (!lodash.isObject(props.value)) {
       this.state.value = { ids: [], urls: [] }
     }
+    this.openLibrary = this.openLibrary.bind(this)
   }
 
   openLibrary () {
@@ -79,14 +80,14 @@ export default class Component extends Attribute {
     let { fieldKey } = this.props
     var images = []
     value.urls.forEach(function (url) {
-      images.push(<img key={fieldKey + ':' + url} src={url} className='thumbnail' />)
+      images.push(<li><img key={fieldKey + ':' + url} src={url} className='thumbnail' /></li>)
     })
 
-    return <div className='vcv-attach-image'>
-      <div className='vcv-image-preview'>{images}</div>
-      <a onClick={this.openLibrary.bind(this)}>
-        <i className='vcv-ui-icon vcv-ui-icon-add' />
-      </a>
+    return <div className='vcv-ui-form-attach-image'>
+      <ul className='vcv-ui-form-attach-images'>
+        {images}
+      </ul>
+      <a className='vcv-ui-icon vcv-ui-icon-add-thin vcv-ui-form-attach-image-control' onClick={this.openLibrary} />
     </div>
   }
 }

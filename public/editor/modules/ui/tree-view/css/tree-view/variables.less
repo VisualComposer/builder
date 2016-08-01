@@ -23,7 +23,7 @@
 @tree-content-control-size: 1.2em;
 
 //== Content section
-@tree-content-text: #6f747b;
+@tree-content-text: @text-color-root;
 @tree-content-bg: #fff;
 
 //== dropdowns
@@ -38,16 +38,9 @@
 @tree-tab-bg-hover: lighten(@tree-tab-bg, 7%);
 @tree-tab-bg-active: #fff;
 @tree-tab-color: #fff;
-@tree-tab-color-active: #6f747b;
+@tree-tab-color-active: @text-color-root;
 @tree-tab-padding: 14px 32px;
 @tree-tab-spacer: 8px;
 @tree-tab-spacer-alt: 16px;
 
-//== Scrollable
-@tree-min-width: 250px;
-@tree-max-width-content: 80vw;
-@tree-max-width: 99vw;
 
-@tree-min-height: 250px;
-// Navbar(60px) + bottom resizer(5px)
-@tree-max-height: calc(~"100% - 60px - 5px");
