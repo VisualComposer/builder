@@ -1,46 +1,47 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
-var React = require('react')
-var Navbar = require('./navbar')
-var NavbarContainer = React.createClass({
-  propTypes: {
-    api: React.PropTypes.object.isRequired
-  },
-  getInitialState () {
-    return {
+import React from 'react'
+import Navbar from './navbar'
+
+class NavbarContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       showOverlay: false,
       showGuideline: false,
       guidelinePosition: 'top',
       isDragging: false
     }
-  },
-  componentDidMount: function () {
-    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
-    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
-    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
-  },
+  }
 
-  componentWillUnmount: function () {
-    document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
-    document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
-    document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
-  },
+  componentDidMount () {
+    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart.bind(this))
+    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd.bind(this))
+    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging.bind(this))
+  }
 
-  handleNavbarDragStart: function (e) {
+  componentWillUnmount () {
+    document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart.bind(this))
+    document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd.bind(this))
+    document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging.bind(this))
+  }
+
+  handleNavbarDragStart (e) {
     this.setState({
       isDragging: true,
       showOverlay: true
     })
-  },
-  handleNavbarDragEnd: function (e) {
+  }
+
+  handleNavbarDragEnd (e) {
     this.setState({
       isDragging: false,
       showOverlay: false
     })
-  },
-  handleNavbarDragging: function (e) {
+  }
+
+  handleNavbarDragging (e) {
     let { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
-    var navSize = 60
-    var navSizeSide = 60 * 2
+    let navSize = 60
+    let navSizeSide = 60 * 2
     if (navbarPosition === 'detached') {
       // if nav is on top
       if (navPosY < navSize) {
@@ -78,31 +79,35 @@ var NavbarContainer = React.createClass({
     this.setState({
       showGuideline: false
     })
-  },
+  }
 
-  render: function () {
+  render () {
     let { showOverlay, guidelinePosition, isDragging, showGuideline } = this.state
+    let overlayContent = ''
+    if (showOverlay) {
+      overlayContent = (<div className='vcv-ui-navbar-drag-overlay'></div>)
+    }
+    let draggingContent = ''
+    if (isDragging) {
+      let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
+      if (showGuideline) {
+        guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
+      }
+      guidelineClasses = guidelineClasses.join(' ')
+      draggingContent = (<div className={guidelineClasses}></div>)
+    }
+
     return (
-      <div id="vc-navbar-container">
-        {(() => {
-          if (showOverlay) {
-            return <div className="vcv-ui-navbar-drag-overlay"></div>
-          }
-        })()}
-        {(() => {
-          if (isDragging) {
-            let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
-            if (showGuideline) {
-              guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
-            }
-            guidelineClasses = guidelineClasses.join(' ')
-            return <div className={guidelineClasses}></div>
-          }
-        })()}
+      <div id='vc-navbar-container'>
+        {overlayContent}
+        {draggingContent}
         <Navbar api={this.props.api} />
       </div>
     )
   }
-})
-module.exports = NavbarContainer
+}
+NavbarContainer.propTypes = {
+  api: React.PropTypes.object.isRequired
+}
 
+module.exports = NavbarContainer

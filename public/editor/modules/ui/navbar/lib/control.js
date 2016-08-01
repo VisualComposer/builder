@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export default class Control extends React.Component {
+class NavbarControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -26,7 +26,7 @@ export default class Control extends React.Component {
   }
 
   getClosest (el, selector) {
-    var matchesFn;
+    let matchesFn;
     // find vendor prefix
     [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
       if (typeof document.body[ fn ] === 'function') {
@@ -35,7 +35,7 @@ export default class Control extends React.Component {
       }
       return false
     })
-    var parent
+    let parent
     // traverse parents
     while (el) {
       parent = el.parentElement
@@ -72,13 +72,16 @@ export default class Control extends React.Component {
   }
 
   render () {
-    let value = this.props.value
-    return React.createElement(value.icon, { value: value, api: this.props.api })
+    let { value, api } = this.props
+
+    return React.createElement(value.icon, { value: value, api: api })
   }
 }
-Control.propTypes = {
+NavbarControl.propTypes = {
   api: React.PropTypes.object.isRequired,
   visibilityHandler: React.PropTypes.func,
   value: React.PropTypes.any,
   container: React.PropTypes.string
 }
+
+module.exports = NavbarControl

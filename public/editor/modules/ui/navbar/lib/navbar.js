@@ -1,13 +1,14 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
-import Control from './control'
+import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
-require('../css/module.less')
+import '../css/module.less'
+
 let navbarControls = []
 
-export class Navbar extends React.Component {
+class Navbar extends React.Component {
 
   constructor (props) {
     super(props)
@@ -156,7 +157,7 @@ export class Navbar extends React.Component {
       return
     }
     return controls.map((value) => {
-      return (<Control
+      return (<NavbarControl
         api={value.options.api ? value.options.api : this.props.api}
         key={'Navbar:' + value.name}
         value={value}
@@ -174,7 +175,7 @@ export class Navbar extends React.Component {
       return
     }
     let hiddenControls = controls.map((value) => {
-      return React.createElement(Control, {
+      return React.createElement(NavbarControl, {
         api: this.props.api,
         key: 'Navbar:' + value.name,
         value: value,
@@ -309,7 +310,7 @@ export class Navbar extends React.Component {
   }
 
   handleDragging (e) {
-    this.setState(function (previousState) {
+    this.setState((previousState) => {
       let newStates = {
         moveDirection: {
           left: false,
