@@ -1,150 +1,122 @@
-@import "./variables";
-
-.vcv-ui-design-options-container {
-  display: flex;
+//=== Design options
+.design-options-test {
+  margin: 2rem auto;
+  width: 90vw;
 }
 
-.vcv-ui-design-options-css-box {
-  margin-right: 25px;
+.vcv-ui-design-options-onion {
+  background-color: @design-options-onion-bg;
+  width: @design-options-onion-size;
 }
 
-.vcv-ui-design-options-other {
-  flex: 1;
-}
-
-.vcv-ui-design-options {
-  height: 315px;
-  width: 315px;
-
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type=number] {
-    -moz-appearance: textfield;
-  }
-}
-
-.vcv-ui-design-options-box {
+.vcv-ui-design-options-onion-layers {
+  padding-top: 100%;
   position: relative;
-  padding: @onionPadding;
-  margin: auto;
-  height: 100%;
 }
 
-.vcv-ui-design-options-label {
-  font-size: @labelFontSize;
+[class*='vcv-ui-design-options-onion-layer--'] {
+  pointer-events: none;
   position: absolute;
-  margin-left: -65px;
-  text-align: right;
-  width: 45px;
-  left: 50%;
-  top: 15px;
-
-  &.vcv-ui-design-options-label-top-right {
-    right: @input_w + 9px;
-    left: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  [class*="vcv-ui-design-options-onion-control-position--"] {
+    pointer-events: all;
+    padding-left: 2px;
+    padding-right: 2px;
+    width: @design-options-onion-control-size;
+    height: @design-options-onion-control-size;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+  }
+  &::before {
+    @border-indent: @design-options-onion-control-size / 2;
+    content: '';
+    display: block;
+    position: absolute;
+    top: @border-indent;
+    right: @border-indent;
+    bottom: @border-indent;
+    left: @border-indent;
+    border: 1px solid @design-options-onion-line-color;
+  }
+  .vcv-ui-form-group-heading {
+    @control-indent: @design-options-onion-control-size / 2;
+    position: absolute;
+    z-index: 1;
+    pointer-events: all;
+    right: calc(~"50% + @{control-indent} + @{design-options-onion-control-label-padding}");
+    max-width: @design-options-onion-control-label-size;
+    min-height: @design-options-onion-control-size;
+    display: inline-flex;
+    align-items: center;
+    background-color: @design-options-onion-bg;
+    padding: 0 @design-options-onion-control-label-padding;
+    text-align: right;
   }
 }
 
-.vcv-ui-design-options-radiuses-box {
-  border: 1px dashed @marginsBorderColor;
-  background: @marginsBackgroundColor;
+.vcv-ui-design-options-onion-layer--margin {
+
 }
 
-.vcv-ui-design-options-margins-box {
-  border: 1px dashed @marginsBorderColor;
-  background: @marginsBackgroundColor;
+.vcv-ui-design-options-onion-layer--border {
+  margin: @design-options-onion-control-size + @design-options-onion-control-indent;
 }
 
-.vcv-ui-design-options-borders-box {
-  border: 1px solid @bordersBorderColor;
-  background: @bordersBackgroundColor;
+.vcv-ui-design-options-onion-layer--padding {
+  margin: (@design-options-onion-control-size + @design-options-onion-control-indent) * 2;
 }
 
-.vcv-ui-design-options-paddings-box {
-  border: 1px solid @paddingsBorderColor;
-  background: @paddingsBackgroundColor;
-}
-
-.vcv-ui-design-options-logo {
-  border: 1px solid @paddingsBorderColor;
-  transform: translate(-50%, -50%);
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  text-align: center;
-  height: @logo_h;
-  width: @logo_w;
-  display: flex;
-  left: 50%;
-  top: 50%;
-}
-
-.vcv-ui-design-options-input {
-  position: absolute;
-  text-align: center;
-  height: @input_h;
-  width: @input_w;
-}
-
-.vcv-ui-design-options-input-top {
-  top: (@onionPadding - @input_h)/2;
-  margin-left: -(@input_w/2);
-  left: 50%;
-}
-
-.vcv-ui-design-options-input-right {
-  right: (@onionPadding - @input_w)/2;
-  margin-top: -(@input_h/2);
-  top: 50%;
-}
-
-.vcv-ui-design-options-input-bottom {
-  bottom: (@onionPadding - @input_h)/2;
-  margin-left: -(@input_w/2);
-  left: 50%;
-}
-
-.vcv-ui-design-options-input-left {
-  left: (@onionPadding - @input_w)/2;
-  margin-top: -(@input_h/2);
-  top: 50%;
-}
-
-.vcv-ui-design-options-input-top-right {
-  top: (@onionPadding - @input_h)/2;
-  right: (@onionPadding - @input_w)/2;
-}
-
-.vcv-ui-design-options-input-bottom-right {
-  right: (@onionPadding - @input_w)/2;
-  bottom: (@onionPadding - @input_h)/2;
-}
-
-.vcv-ui-design-options-input-bottom-left {
-  bottom: (@onionPadding - @input_h)/2;
-  left: (@onionPadding - @input_w)/2;
-}
-
-.vcv-ui-design-options-input-top-left {
-  top: (@onionPadding - @input_h)/2;
-  left: (@onionPadding - @input_w)/2;
-}
-
-.vcv-ui-design-options-simplified {
-  .vcv-ui-design-options-input-bottom-right,
-  .vcv-ui-design-options-input-bottom-left,
-  .vcv-ui-design-options-input-top-left,
-  .vcv-ui-design-options-input-right,
-  .vcv-ui-design-options-input-bottom,
-  .vcv-ui-design-options-input-left {
-    display: none;
+.vcv-ui-design-options-onion-layer--border-radius {
+  .vcv-ui-form-group-heading {
+    @control-indent: @design-options-onion-control-size;
+    right: calc(~"@{control-indent} + @{design-options-onion-control-label-padding}");
   }
 }
 
-.vcv-ui-active {
-  background-color: #bada55;
+.vcv-ui-design-options-onion-control-position--top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--top-left {
+  top: 0;
+  left: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--top-right {
+  top: 0;
+  right: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--bottom-right {
+  bottom: 0;
+  right: 0;
 }

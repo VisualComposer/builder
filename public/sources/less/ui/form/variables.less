@@ -2,14 +2,16 @@
 @vcui-form-font-size-base: 14px;
 @vcui-form-margin-default: 24px;
 @vcui-form-margin-gold: @vcui-form-margin-default / 2;
-@vcui-form-controls-color: #55595c;
+@vcui-form-controls-color: #5c5b5b;
 @vcui-form-border-radius: 3px;
-@vcui-form-transition-duration: .25s;
+@vcui-form-transition-duration: @transition-duration;
+@vcui-form-transition-timing-function: @transition-timing-function;
 
-@vcui-form-group-heading-font-size: 12px;
-@vcui-form-group-heading-letter-spacing: .05em;
+@vcui-form-group-heading-font-size: 14px;
+@vcui-form-group-heading-color: @text-color-root;
 
-@vcui-form-helper-margin: 8px 0 0;
+@vcui-form-inline-margin: 8px;
+@vcui-form-helper-margin: @vcui-form-inline-margin 0 0;
 @vcui-form-helper-color: #9a9a9a;
 
 // Inputs
@@ -47,6 +49,7 @@
 @vcui-attach-image-remove-color: #fb7978;
 
 // Dropdown / Select2
+@vcui-dropdown-handler-img: '../../../images/icons/triangle-up-down.svg';
 @vcui-dropdown-search-background: #f5f5f5;
 @vcui-dropdown-search-icon-position: 14px;
 @vcui-dropdown-search-padding: 4px 28px 4px 7px;
@@ -64,20 +67,21 @@
 // Switch
 @vcui-form-switch-font-size: 10px;
 @vcui-form-switch-color: #fff;
-@vcui-form-switch-on-background: #5d82be;
-@vcui-form-switch-off-background: #707070;
+@vcui-form-switch-on-background: @color-base;
+@vcui-form-switch-off-background: @vcui-form-controls-color;
 @vcui-form-switch-disabled-color: #7e7e7e;
 @vcui-form-switch-disabled-background: #f5f5f5;
 
 // Button
+@vcui-button-padding: @vcui-form-input-padding;
 @vcui-button-font-size: 14px;
 @vcui-button-default-color: #fff;
 @vcui-button-default-background: #bcbcbc;
 @vcui-button-default-background-hover: #afafaf;
 
-@vcui-button-action-color: #fff;
-@vcui-button-action-background: #305288;
-@vcui-button-action-background-hover: #2c4b7d;
+@vcui-button-action-color: @text-color-base;
+@vcui-button-action-background: @color-base;
+@vcui-button-action-background-hover: @color-base-active;
 
 @vcui-button-link-color: #707070;
 @vcui-button-link-background: #eaeaea;
@@ -87,6 +91,7 @@
 @vcui-button-disabled-color: #f3f3f3;
 @vcui-button-disabled-background: #d8d8d8;
 @vcui-button-disabled-background-hover: #d8d8d8;
+@vcui-button-group-delimeter-color: #3a5c95;
 
 // Search
 @vcui-form-search-addon-padding: 14px;
