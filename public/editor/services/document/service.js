@@ -108,7 +108,7 @@ var api = {
     obj = obj.withMutations(function (map) {
       map
         .set('order', dataStore.getLastOrderIndex(parentId))
-        .set('parent', parent.get('id'))
+        .set('parent', parent ? parent.get('id') : false)
     })
     dataStore.data = dataStore.data.set(obj.get('id'), obj)
   },
