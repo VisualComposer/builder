@@ -5,6 +5,6 @@ module.exports = {
   servicePath: 'editor/services',
   modulePath: 'editor/modules',
   attributePath: 'sources/attributes',
-  elementsPath: 'sources/elements-2',
+  elementsPath: 'sources/elements',
   configPath: 'config'
 };

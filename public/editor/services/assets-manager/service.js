@@ -127,9 +127,9 @@ vcCake.addService('assets-manager', {
   getPublicPath: (tag, file) => {
     let path
     if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources/elements-2/' + tag + '/public'
+      path = window.vcvPluginUrl + 'sources/elements/' + tag + '/public'
     } else {
-      path = window.vcvPluginUrl + 'public/sources/elements-2/' + tag + '/public'
+      path = window.vcvPluginUrl + 'public/sources/elements/' + tag + '/public'
     }
     let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
     if ($element) {
