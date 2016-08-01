@@ -64,7 +64,6 @@ class BarContent extends React.Component {
     )
   }
 }
-
 BarContent.propTypes = {
   api: React.PropTypes.object.isRequired
 }

@@ -57,32 +57,34 @@ var TimeMachine = {
     this.stackHash = JSON.stringify(this.get())
   }
 }
-var Module = module.exports = {
-  add: function (document) {
+
+const API = {
+  add: (document) => {
     TimeMachine.add(document)
   },
-  getCurrentPosition: function () {
+  getCurrentPosition: () => {
     return TimeMachine.stackPosition
   },
-  undo: function () {
+  undo: () => {
     TimeMachine.undo()
-    return this.get()
+    return API.get()
   },
-  redo: function () {
+  redo: () => {
     TimeMachine.redo()
-    return this.get()
+    return API.get()
   },
-  get: function () {
+  get: () => {
     return TimeMachine.get()
   },
-  canUndo: function () {
+  canUndo: () => {
     return TimeMachine.can('undo')
   },
-  canRedo: function () {
+  canRedo: () => {
     return TimeMachine.can('redo')
   },
-  setZeroState: function (data) {
+  setZeroState: (data) => {
     TimeMachine.setZeroState(data)
   }
 }
-vcCake.addService('time-machine', Module)
+
+vcCake.addService('time-machine', API)

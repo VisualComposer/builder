@@ -44,6 +44,14 @@
     "access": "protected",
     "value": "icon.png"
   },
+  "addUrl": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add URL"
+    }
+  },
   "buttonUrl": {
     "type": "url",
     "access": "public",
@@ -54,7 +62,19 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Button URL"
+      "label": "Button URL",
+      "dependencyOnChange": {
+        "addUrl": [
+          {
+            "value": true,
+            "action": "setVisible"
+          },
+          {
+            "value": false,
+            "action": "setHidden"
+          }
+        ]
+      }
     }
   },
   "buttonText": {
@@ -392,7 +412,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "name",
+      "addUrl",
       "buttonUrl",
       "buttonText",
       "textColor",

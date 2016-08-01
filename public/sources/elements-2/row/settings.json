@@ -67,7 +67,7 @@
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
+    "value": ["General", "RootElements"]
   },
   "containerFor": {
     "type": "group",

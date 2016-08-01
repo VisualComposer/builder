@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 
-let postData = {
+const postData = {
   canPublish: () => {
     return window.vcvPostData.canPublish
   },

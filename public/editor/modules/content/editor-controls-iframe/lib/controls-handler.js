@@ -2,6 +2,7 @@
 import {getService} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
+const AssetsManager = getService('assets-manager')
 var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
 function ControlsHandler () {
@@ -174,7 +175,7 @@ ControlsHandler.prototype.drawControls = function () {
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
-    var iconPath = elementObject.getPublicPath(elementObject.get('meta_icon'))
+    var iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('meta_icon'))
     var isElementContainer = controlColorIndex < 2
     $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')

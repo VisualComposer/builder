@@ -1,29 +1,23 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
-var React = require('react')
-var ReactDOM = require('react-dom')
-var classNames = require('classnames')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 
-var TreeContentTab = React.createClass({
-  propTypes: {
-    container: React.PropTypes.string,
-    changeActive: React.PropTypes.func,
-    id: React.PropTypes.string.isRequired,
-    index: React.PropTypes.number.isRequired,
-    title: React.PropTypes.string,
-    active: React.PropTypes.bool
-  },
-  getInitialState: function () {
-    return {
+class TreeContentTab extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       realWidth: undefined
     }
-  },
-  componentDidMount: function () {
+  }
+
+  componentDidMount () {
     this.setState({
       realWidth: this.getRealWidth()
     })
-  },
+  }
+
   getClosest (el, selector) {
-    var matchesFn;
+    let matchesFn;
     // find vendor prefix
     [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
       if (typeof document.body[ fn ] === 'function') {
@@ -32,7 +26,7 @@ var TreeContentTab = React.createClass({
       }
       return false
     })
-    var parent
+    let parent
     // traverse parents
     while (el) {
       parent = el.parentElement
@@ -42,8 +36,9 @@ var TreeContentTab = React.createClass({
       el = parent
     }
     return null
-  },
-  getRealWidth: function () {
+  }
+
+  getRealWidth () {
     let realWidth = this.state.realWidth
 
     if (realWidth === undefined) {
@@ -68,27 +63,36 @@ var TreeContentTab = React.createClass({
       $tempEl.remove()
     }
     return realWidth
-  },
+  }
 
-  clickHandler: function () {
+  clickHandler () {
     this.props.changeActive(this.props.index)
-  },
+  }
 
-  render: function () {
+  render () {
     let { title, active } = this.props
 
-    var tabClasses = classNames({
+    let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
       'vcv-ui-state--active': active
     })
 
     return (
-      <a className={tabClasses} href="#" onClick={this.clickHandler}>
-        <span className="vcv-ui-editor-tab-content">
+      <a className={tabClasses} href='#' onClick={this.clickHandler.bind(this)}>
+        <span className='vcv-ui-editor-tab-content'>
           <span>{title}</span>
         </span>
       </a>
     )
   }
-})
+}
+TreeContentTab.propTypes = {
+  container: React.PropTypes.string,
+  changeActive: React.PropTypes.func,
+  id: React.PropTypes.string.isRequired,
+  index: React.PropTypes.number.isRequired,
+  title: React.PropTypes.string,
+  active: React.PropTypes.bool
+}
+
 module.exports = TreeContentTab

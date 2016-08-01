@@ -1,7 +1,7 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import vcCake from 'vc-cake'
 import React from 'react'
 import {default as Categories} from './categories'
+
 const cook = vcCake.getService('cook')
 const documentManager = vcCake.getService('document')
 
@@ -19,12 +19,13 @@ class AddElement extends React.Component {
     }
     return allElements
   }
+
   render () {
     var elements = this.getElementList()
     let content = <Categories elements={elements} api={this.props.api} />
 
     return (
-      <div className="vcv-ui-tree-view-content vcv-ui-add-element-content">
+      <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>
         {content}
       </div>
     )

@@ -6,11 +6,13 @@ window.vcvAddElement(
     component.add(React.createClass({
       render: function() {
         // import variables
-        var {icon, id, content, ...other} = this.props
+        var {id, content, atts, editor} = this.props
+var {icon} = atts
+
         // import template js
         
         // import template
-        return (<div {...other}>
+        return (<div {...editor}>
   <span className={icon}></span>
 </div>);
       }

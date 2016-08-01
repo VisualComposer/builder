@@ -201,7 +201,6 @@ class BarContentStart extends React.Component {
     )
   }
 }
-
 BarContentStart.propTypes = {
   api: React.PropTypes.object.isRequired
 }

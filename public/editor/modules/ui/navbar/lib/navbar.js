@@ -1,13 +1,14 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
-import Control from './control'
+import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
-require('../css/module.less')
+import '../css/module.less'
+
 let navbarControls = []
 
-export class Navbar extends React.Component {
+class Navbar extends React.Component {
 
   constructor (props) {
     super(props)
@@ -71,6 +72,7 @@ export class Navbar extends React.Component {
         name: name,
         icon: Icon,
         pin: options.pin,
+        options: options,
         isVisible: isControlVisible
       })
       this.props.api.notify('build', navbarControls.length)
@@ -155,15 +157,15 @@ export class Navbar extends React.Component {
       return
     }
     return controls.map((value) => {
-      return React.createElement(Control, {
-        api: this.props.api,
-        key: 'Navbar:' + value.name,
-        value: value,
-        container: '.vcv-ui-navbar',
-        ref: (ref) => {
+      return (<NavbarControl
+        api={value.options.api ? value.options.api : this.props.api}
+        key={'Navbar:' + value.name}
+        value={value}
+        container=".vcv-ui-navbar"
+        ref={(ref) => {
           navbarControls[ value.index ].ref = ref
-        }
-      })
+        }}
+      />)
     })
   }
 
@@ -173,7 +175,7 @@ export class Navbar extends React.Component {
       return
     }
     let hiddenControls = controls.map((value) => {
-      return React.createElement(Control, {
+      return React.createElement(NavbarControl, {
         api: this.props.api,
         key: 'Navbar:' + value.name,
         value: value,
@@ -187,7 +189,8 @@ export class Navbar extends React.Component {
     return (
       <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich">
         <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
-          <span className="vcv-ui-navbar-control-content"><i className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+          <span className="vcv-ui-navbar-control-content"><i
+            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
         </dt>
         <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
           {hiddenControls}
@@ -307,7 +310,7 @@ export class Navbar extends React.Component {
   }
 
   handleDragging (e) {
-    this.setState(function (previousState) {
+    this.setState((previousState) => {
       let newStates = {
         moveDirection: {
           left: false,

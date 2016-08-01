@@ -130,10 +130,8 @@ class BarContentEnd extends React.Component {
     )
   }
 }
-
 BarContentEnd.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
 module.exports = BarContentEnd
-

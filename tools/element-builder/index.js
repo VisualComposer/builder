@@ -55,7 +55,8 @@ fs.lstat(elementDir, function (err, stats) {
       }
     }
     var varString = varNames.join(', ')
-    var variables = 'var {' + varString + (varString.length ? ', ' : '') + 'id, content, ...other} = this.props'
+    var variables = 'var {id, content, atts, editor} = this.props' + '\n'
+    variables = variables + 'var {' + varString + '} = atts' + '\n'
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js')
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
@@ -77,8 +78,8 @@ fs.lstat(elementDir, function (err, stats) {
         value: 'container'
       }
     }
-    // put other in end of string
-    templateString = templateString.replace(/(\/>|>)/i, ' {...other}$1')
+    // put editor variables in end of string
+    templateString = templateString.replace(/(\/>|>)/i, ' {...editor}$1')
     // Css settings
     // file
     var cssFileName = 'styles.css'

@@ -1,22 +1,9 @@
 var vcCake = require('vc-cake')
 const Immutable = require('immutable')
+const createKey = vcCake.getService('utils').createKey
 
 let dataStore = {
   data: Immutable.fromJS({}),
-  createKey: function () {
-    var i, random
-    var uuid = ''
-
-    for (i = 0; i < 8; i++) {
-      random = Math.random() * 16 | 0
-      if (i === 8 || i === 12 || i === 16 || i === 20) {
-        uuid += '-'
-      }
-      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random))
-        .toString(16)
-    }
-    return uuid
-  },
   getChildren: function (id) {
     return dataStore.data
       .valueSeq()
@@ -50,7 +37,7 @@ let dataStore = {
 
 var api = {
   create: function (data) {
-    var id = dataStore.createKey()
+    var id = createKey()
     var obj = Immutable.Map(data).mergeDeep({
       id: id,
       parent: data.parent || false,
@@ -121,7 +108,7 @@ var api = {
     obj = obj.withMutations(function (map) {
       map
         .set('order', dataStore.getLastOrderIndex(parentId))
-        .set('parent', parent.get('id'))
+        .set('parent', parent ? parent.get('id') : false)
     })
     dataStore.data = dataStore.data.set(obj.get('id'), obj)
   },
@@ -130,7 +117,7 @@ var api = {
     if (!obj) {
       return false
     }
-    var cloneId = dataStore.createKey()
+    var cloneId = createKey()
     var clone = obj.withMutations(function (map) {
       map.set('id', cloneId)
       if (typeof parent !== 'undefined') {
