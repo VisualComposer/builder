@@ -304,7 +304,15 @@ class TreeForm extends React.Component {
       value: value,
       rawValue: rawValue
     }
-    return <DependencyManager api={this.props.api} data={data} element={this.props.element} content={content} />
+
+    return (
+      <DependencyManager
+        key={'dependency-' + key}
+        api={this.props.api}
+        data={data}
+        element={this.props.element}
+        content={content} />
+    )
   }
 
   render () {
