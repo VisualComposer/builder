@@ -11,13 +11,13 @@ $(() => {
   let $iframe = $('#vcv-editor-iframe')
 
   let iframeLoadEvent = () => {
-    let iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
+    let iframeDocument = $iframe.get(0).contentWindow.document
     // Disable iframe clicks
-    $('a', iframeDocument).each(() => {
-      $(this).attr('target', '_blank')
+    $('a', iframeDocument).each((i, el) => {
+      $(el).attr('target', '_blank')
     })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
-    vcCake.env('platform', 'node').start(function () {
+    vcCake.env('platform', 'node').start(() => {
       require('./config/node-modules')
     })
   }
