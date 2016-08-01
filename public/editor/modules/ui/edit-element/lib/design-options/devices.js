@@ -1,63 +1,56 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
-var React = require('react')
-var classNames = require('classnames')
+import React from 'react'
+import classNames from 'classnames'
 
-var Devices = React.createClass({
-  propTypes: {
-    onChange: React.PropTypes.func,
-    value: React.PropTypes.string
-  },
-
-  statics: {
-    getAll: function () {
-      return [
-        {
-          strid: 'all',
-          title: 'All',
-          icon: ''
-        },
-        {
-          strid: 'desktop',
-          title: 'Desktop',
-          icon: 'vcv-ui-icon-desktop'
-        },
-        {
-          strid: 'tablet-landscape',
-          title: 'Tablet Landscape',
-          icon: 'vcv-ui-icon-tablet-landscape'
-        },
-        {
-          strid: 'tablet-portrait',
-          title: 'Tablet Portrait',
-          icon: 'vcv-ui-icon-tablet-portrait'
-        },
-        {
-          strid: 'mobile-landscape',
-          title: 'Mobile Landscape',
-          icon: 'vcv-ui-icon-mobile-landscape'
-        },
-        {
-          strid: 'mobile-portrait',
-          title: 'Mobile Portrait',
-          icon: 'vcv-ui-icon-mobile-portrait'
-        }
-      ]
-    }
-  },
-
-  getInitialState: function () {
-    return {
+class Devices extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       value: 'desktop'
     }
-  },
+  }
+
+  static getAll () {
+    return [
+      {
+        strid: 'all',
+        title: 'All',
+        icon: ''
+      },
+      {
+        strid: 'desktop',
+        title: 'Desktop',
+        icon: 'vcv-ui-icon-desktop'
+      },
+      {
+        strid: 'tablet-landscape',
+        title: 'Tablet Landscape',
+        icon: 'vcv-ui-icon-tablet-landscape'
+      },
+      {
+        strid: 'tablet-portrait',
+        title: 'Tablet Portrait',
+        icon: 'vcv-ui-icon-tablet-portrait'
+      },
+      {
+        strid: 'mobile-landscape',
+        title: 'Mobile Landscape',
+        icon: 'vcv-ui-icon-mobile-landscape'
+      },
+      {
+        strid: 'mobile-portrait',
+        title: 'Mobile Portrait',
+        icon: 'vcv-ui-icon-mobile-portrait'
+      }
+    ]
+  }
 
   componentWillMount () {
     if (this.props.value) {
       this.setState({ value: this.props.value })
     }
-  },
+  }
 
-  handleChange: function (device) {
+  handleChange (device) {
     let value = device
 
     if (value === this.state.value) {
@@ -69,10 +62,9 @@ var Devices = React.createClass({
     })
 
     this.props.onChange(value)
-  },
+  }
 
-  render: function () {
-    let that = this
+  render () {
     let items = []
 
     Devices.getAll().map((device) => {
@@ -82,7 +74,7 @@ var Devices = React.createClass({
 
       let classes = classNames({
         'vcv-ui-form-button': true,
-        'vcv-ui-state--active': that.state.value === device.strid
+        'vcv-ui-state--active': this.state.value === device.strid
       })
       let icons = classNames([
         'vcv-ui-form-button-icon',
@@ -90,20 +82,29 @@ var Devices = React.createClass({
         device.icon
       ])
 
-      items.push(<button
-        key={'device-' + device.strid}
-        onClick={this.handleChange.bind(this, device.strid)}
-        className={classes}
-        title={device.title}
-        data-vcv-device={device.strid}>
-        <i className={icons}></i>
-      </button>)
-    })
+      items.push(
+        <button
+          key={'device-' + device.strid}
+          onClick={this.handleChange.bind(this, device.strid)}
+          className={classes}
+          title={device.title}
+          data-vcv-device={device.strid}
+        >
+          <i className={icons}></i>
+        </button>
+      )
+    }, this)
 
-    return <div className="vcv-ui-form-buttons-group vcv-ui-form-button-group-action">
-      {items}
-    </div>
+    return (
+      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group-action'>
+        {items}
+      </div>
+    )
   }
-})
+}
+Devices.propTypes = {
+  onChange: React.PropTypes.func,
+  value: React.PropTypes.string
+}
 
 module.exports = Devices

@@ -110,7 +110,7 @@
   },
   "standard": {
     "ignore": [
-      "public/sources/elements-2/",
+      "public/sources/elements/",
       "public/config/",
       "public/tinymce",
       "tests/",
