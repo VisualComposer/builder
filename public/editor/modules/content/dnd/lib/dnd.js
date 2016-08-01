@@ -194,7 +194,7 @@ Builder.prototype.handleDragStart = function (e) {
     e.stopPropagation()
     // e.preventDefault()
   }
-  if (e.currentTarget.querySelector('[data-vc-editable-param]')) {
+  if (e.currentTarget.querySelector('[data-vcv-editable-param]')) {
     return false
   }
   this.start(e.currentTarget)

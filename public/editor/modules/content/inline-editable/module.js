@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import $ from 'jquery'
+
 const cook = vcCake.getService('cook')
 
 vcCake.add('inline-editable', (api) => {
@@ -20,7 +21,7 @@ vcCake.add('inline-editable', (api) => {
             target: el,
             inline: true,
             toolbar: 'bold italic | alignleft aligncenter alignright alignjustify',
-            setup: function (editor) {
+            setup: (editor) => {
               dragHandler(editor)
               changeHandler(editor, id)
             },
@@ -41,7 +42,7 @@ vcCake.add('inline-editable', (api) => {
   function changeHandler (editor, id) {
     editor.on('change', () => {
       let element = cook.getById(id)
-      element.set(editor.targetElm.dataset.vcEditableParam, editor.getContent())
+      element.set(editor.targetElm.dataset.vcvEditableParam, editor.getContent())
       api.request('data:update', id, element.toJS(true))
     })
   }

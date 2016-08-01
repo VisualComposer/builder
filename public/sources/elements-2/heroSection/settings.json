@@ -50,23 +50,28 @@
     "value": "Highland Traditions of Scotland",
     "options": {
       "label": "Title",
-      "description": "The title"
+      "description": "The title",
+      "tinymce": {
+        "inline": true,
+        "toolbar": "bold italic | alignleft aligncenter alignright alignjustify"
+      }
     }
   },
-  "subtitle": {
+  "description": {
     "type": "htmleditor",
     "access": "public",
     "value": "The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.",
     "options": {
-      "label": "Sub title",
-      "description": "The subtitle"
+      "label": "Description",
+      "description": "The description"
     }
   },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "title"
+      "title",
+      "description"
     ],
     "options": {
       "label": "General"

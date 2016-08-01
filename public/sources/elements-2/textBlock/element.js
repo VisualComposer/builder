@@ -13,7 +13,7 @@ var {output, outputInline} = atts
         
         // import template
         return (<div className='vce-text-block' {...editor}>
-  <div className='editable' data-vc-editable-param='output' dangerouslySetInnerHTML={{__html:output}} />
+  <div className='editable' data-vcv-editable-param='output' dangerouslySetInnerHTML={{__html:output}} />
 </div>
 );
       }

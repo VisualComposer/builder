@@ -229,13 +229,12 @@ class TreeForm extends React.Component {
     let element = this.props.element
     this.props.api.request('data:update', element.get('id'), element.toJS(true))
     getService('assets-manager').addDesignOption(element.get('id'), designOptions)
-    let _this = this
-    _this.setState({ 'saving': true })
+    this.setState({ 'saving': true })
     setTimeout(() => {
-      _this.setState({ 'saving': false })
-      _this.setState({ 'saved': true })
+      this.setState({ 'saving': false })
+      this.setState({ 'saved': true })
       setTimeout(() => {
-        _this.setState({ 'saved': false })
+        this.setState({ 'saved': false })
       }, 1000)
     }, 500)
   }
