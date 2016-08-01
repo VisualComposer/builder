@@ -49,4 +49,3 @@ class LayoutButtonControl extends React.Component {
 }
 
 module.exports = LayoutButtonControl
-

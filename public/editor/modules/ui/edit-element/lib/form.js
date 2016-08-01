@@ -399,47 +399,48 @@ class TreeForm extends React.Component {
     // </a>
     // </nav>
 
-    return <div className="vcv-ui-tree-view-content">
-      <div className={treeContentClasses}>
-        <div className="vcv-ui-editor-tabs-container">
-          <nav className="vcv-ui-editor-tabs">
-            {visibleTabsHeaderOutput}
-            {hiddenTabsHeaderOutput}
-            <span className="vcv-ui-editor-tabs-free-space"></span>
-          </nav>
-        </div>
+    return (
+      <div className="vcv-ui-tree-view-content">
+        <div className={treeContentClasses}>
+          <div className="vcv-ui-editor-tabs-container">
+            <nav className="vcv-ui-editor-tabs">
+              {visibleTabsHeaderOutput}
+              {hiddenTabsHeaderOutput}
+              <span className="vcv-ui-editor-tabs-free-space"></span>
+            </nav>
+          </div>
 
-        <div ref="scrollable" className="vcv-ui-tree-content-section">
-          <div className="vcv-ui-scroll-container">
-            <div className="vcv-ui-scroll">
-              <div className="vcv-ui-scroll-content">
-                <div className="vcv-ui-tree-content-section-inner">
-                  <div className="vcv-ui-editor-plates-container">
-                    <div className="vcv-ui-editor-plates">
-                      {visibleTabsContentOutput}
-                      {hiddenTabsContentOutput}
+          <div ref="scrollable" className="vcv-ui-tree-content-section">
+            <div className="vcv-ui-scroll-container">
+              <div className="vcv-ui-scroll">
+                <div className="vcv-ui-scroll-content">
+                  <div className="vcv-ui-tree-content-section-inner">
+                    <div className="vcv-ui-editor-plates-container">
+                      <div className="vcv-ui-editor-plates">
+                        {visibleTabsContentOutput}
+                        {hiddenTabsContentOutput}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="vcv-ui-tree-content-footer">
-          <div className="vcv-ui-tree-layout-actions">
-            <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
-              <span className="vcv-ui-tree-layout-action-content">
-                <i className={saveIconClasses}></i><span>Save</span>
-              </span>
-            </a>
+          <div className="vcv-ui-tree-content-footer">
+            <div className="vcv-ui-tree-layout-actions">
+              <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
+                <span className="vcv-ui-tree-layout-action-content">
+                  <i className={saveIconClasses}></i><span>Save</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   }
 }
-
 TreeForm.propTypes = {
   api: React.PropTypes.object.isRequired,
   element: React.PropTypes.object.isRequired
