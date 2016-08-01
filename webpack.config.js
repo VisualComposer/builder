@@ -49,12 +49,10 @@ module.exports = {
       ],
       services: [
         'utils',
-        'actions-manager',
         'assets-manager',
         'document',
         'local-storage',
         'cook',
-        'rules-manager',
         'shared-library',
         'time-machine'
       ]
@@ -87,12 +85,10 @@ module.exports = {
       ],
       services: [
         'utils',
-        'actions-manager',
         'assets-manager',
         'document',
         'wordpress-post-data',
         'cook',
-        'rules-manager',
         'shared-library',
         'time-machine'
       ]
