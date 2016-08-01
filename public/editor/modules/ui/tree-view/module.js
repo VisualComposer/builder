@@ -1,8 +1,11 @@
 import vcCake from 'vc-cake'
-import {default as TreeView} from './lib/tree-view'
-require('./lib/navbar-control')
+import TreeView from './lib/tree-view-layout'
+import TreeViewNavbarControl from './lib/navbar-control'
+
 vcCake.add('ui-tree-view', (api) => {
   api.module('ui-layout-bar').do('setStartContent', TreeView, {
     api: api
   })
+
+  api.module('ui-navbar').do('addElement', 'Tree layout', TreeViewNavbarControl, { pin: 'visible', api: api })
 })

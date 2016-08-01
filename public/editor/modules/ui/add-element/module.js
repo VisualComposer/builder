@@ -1,4 +1,3 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import vcCake from 'vc-cake'
 import {default as AddElement} from './lib/add-element'
 import AddElementControl from './lib/navbar-control'

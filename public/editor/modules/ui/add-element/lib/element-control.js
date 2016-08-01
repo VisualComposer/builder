@@ -1,48 +1,48 @@
-var vcCake = require('vc-cake')
-var cook = vcCake.getService('cook')
+import vcCake from 'vc-cake'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import classNames from 'classnames'
+
+const cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 
-var React = require('react')
-var ReactDOM = require('react-dom')
-var classNames = require('classnames')
-
-module.exports = React.createClass({
-  propTypes: {
-    tag: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
-  },
-  getInitialState () {
-    return {
+class ElementControl extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
       previewVisible: false,
       previewStyle: {}
     }
-  },
+  }
+
   componentDidMount () {
     this.ellipsize('.vcv-ui-add-element-element-name')
     this.ellipsize('.vcv-ui-add-element-preview-text')
-  },
+  }
+
   addElement (e) {
     e && e.preventDefault()
-    var data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
+    let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
     this.props.api.request('data:add', data.toJS(true))
     this.props.api.notify('hide', true)
-  },
+  }
+
   showPreview (e) {
     if (this.updatePreviewPosition()) {
       this.setState({
         previewVisible: true
       })
     }
-  },
+  }
+
   hidePreview (e) {
     this.setState({
       previewVisible: false
     })
-  },
+  }
+
   getClosest (el, selector) {
-    var matchesFn;
+    let matchesFn;
     // find vendor prefix
     [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
       if (typeof document.body[ fn ] === 'function') {
@@ -51,7 +51,7 @@ module.exports = React.createClass({
       }
       return false
     })
-    var parent
+    let parent
     // traverse parents
     while (el) {
       parent = el.parentElement
@@ -61,7 +61,8 @@ module.exports = React.createClass({
       el = parent
     }
     return null
-  },
+  }
+
   updatePreviewPosition () {
     let element = ReactDOM.findDOMNode(this)
 
@@ -128,7 +129,8 @@ module.exports = React.createClass({
       }
     })
     return true
-  },
+  }
+
   ellipsize (selector) {
     let element = ReactDOM.findDOMNode(this).querySelector(selector)
     let wordArray = element.innerHTML.split(' ')
@@ -137,9 +139,13 @@ module.exports = React.createClass({
       element.innerHTML = wordArray.join(' ') + '...'
     }
     return this
-  },
+  }
+
   render () {
-    let element = cook.get(this.props.element)
+    let { name, element } = this.props
+    let { previewVisible, previewStyle } = this.state
+
+    let cookElement = cook.get(element)
     let nameClasses = classNames({
       'vcv-ui-add-element-badge vcv-ui-badge-success': false,
       'vcv-ui-add-element-badge vcv-ui-badge-warning': false
@@ -147,7 +153,7 @@ module.exports = React.createClass({
 
     let previewClasses = classNames({
       'vcv-ui-add-element-preview-container': true,
-      'vcv-ui-state--visible': this.state.previewVisible
+      'vcv-ui-state--visible': previewVisible
     })
     // Possible overlays:
 
@@ -157,34 +163,45 @@ module.exports = React.createClass({
     //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-    let publicPathThumbnail = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_thumbnail'))
-    let publicPathPreview = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_preview'))
-    return <li className='vcv-ui-add-element-list-item'>
-      <a className='vcv-ui-add-element-element'
-        onClick={this.addElement}
-        onMouseEnter={this.showPreview}
-        onMouseLeave={this.hidePreview}>
-        <span className='vcv-ui-add-element-element-content'>
-          <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
-            alt='' />
-          <span className='vcv-ui-add-element-overlay'>
-            <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+    let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('meta_thumbnail'))
+    let publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('meta_preview'))
+
+    return (
+      <li className='vcv-ui-add-element-list-item'>
+        <a className='vcv-ui-add-element-element'
+          onClick={this.addElement.bind(this)}
+          onMouseEnter={this.showPreview.bind(this)}
+          onMouseLeave={this.hidePreview.bind(this)}>
+          <span className='vcv-ui-add-element-element-content'>
+            <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+              alt='' />
+            <span className='vcv-ui-add-element-overlay'>
+              <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+            </span>
           </span>
-        </span>
-        <span className='vcv-ui-add-element-element-name'>
-          <span className={nameClasses}>
-            {this.props.name}
+          <span className='vcv-ui-add-element-element-name'>
+            <span className={nameClasses}>
+              {name}
+            </span>
           </span>
-        </span>
-        <figure className={previewClasses} style={this.state.previewStyle}>
-          <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
-          <figcaption className='vcv-ui-add-element-preview-caption'>
-            <div className='vcv-ui-add-element-preview-text'>
-              {element.get('meta_preview_description')}
-            </div>
-          </figcaption>
-        </figure>
-      </a>
-    </li>
+          <figure className={previewClasses} style={previewStyle}>
+            <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
+            <figcaption className='vcv-ui-add-element-preview-caption'>
+              <div className='vcv-ui-add-element-preview-text'>
+                {cookElement.get('meta_preview_description')}
+              </div>
+            </figcaption>
+          </figure>
+        </a>
+      </li>
+    )
   }
-})
+}
+ElementControl.propTypes = {
+  tag: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
+  element: React.PropTypes.object.isRequired,
+  api: React.PropTypes.object.isRequired
+}
+
+module.exports = ElementControl
