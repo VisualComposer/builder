@@ -18,7 +18,7 @@ var Builder = function (container, options) {
   this.container = container
   this.items = {}
   this.hover = ''
-  this.dragingElement = null
+  this.draggingElement = null
   this.currentElement = null
   this.placeholder = null
   this.position = null
@@ -77,14 +77,16 @@ Builder.prototype.removePlaceholder = function () {
 }
 Builder.prototype.findElementWithValidParent = function (domElement) {
   var parentElement = domElement.parent() ? this.items[domElement.parent()] : null
-  if (parentElement && this.dragingElement.isChild(parentElement)) {
+  if (parentElement && this.draggingElement.isChild(parentElement)) {
     return domElement
   } else if (parentElement) {
     return this.findElementWithValidParent(parentElement)
   }
   return null
 }
-
+Builder.prototype.isDraggingElementParent = function (domElement) {
+  return domElement.$node.closest('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
+}
 /**
  * Menage items
  */
@@ -106,9 +108,10 @@ Builder.prototype.checkItems = function (point) {
     domElement = this.findElementWithValidParent(parentDOMElement) || domElement
     parentDOMElement = this.items[domElement.parent()] || null
   }
+  if (this.isDraggingElementParent(domElement)) { return }
   let position = this.placeholder.redraw(domElement.node, point, {
-    allowBeforeAfter: parentDOMElement && this.dragingElement.isChild(parentDOMElement),
-    allowAppend: domElement && this.dragingElement.isChild(domElement)
+    allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
+    allowAppend: domElement && this.draggingElement.isChild(domElement)
   })
   if (position) {
     this.setPosition(position)
@@ -121,22 +124,22 @@ Builder.prototype.setPosition = function (position) {
   this.position = position
 }
 Builder.prototype.start = function (DOMNode) {
-  this.dragingElement = DOMNode ? this.items[DOMNode.getAttribute('data-vcv-dnd-element')] : null
-  if (!this.dragingElement) {
-    this.dragingElement = null
+  this.draggingElement = DOMNode ? this.items[DOMNode.getAttribute('data-vcv-dnd-element')] : null
+  if (!this.draggingElement) {
+    this.draggingElement = null
     return false
   }
   // Create helper/clone of element
-  this.helper = new Helper(this.dragingElement.node)
-  // Add css class for body to enable visual setings for all document
+  this.helper = new Helper(this.draggingElement.node)
+  // Add css class for body to enable visual settings for all document
   this.options.document.body.classList.add('vcv-dragstart')
 
   this.watchMouse()
   this.createPlaceholder()
   if (typeof this.options.startCallback === 'function') {
-    this.options.startCallback(this.dragingElement)
+    this.options.startCallback(this.draggingElement)
   }
-  // Set callback on dragend
+  // Set callback on dragEnd
   this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.end = function () {
@@ -148,16 +151,16 @@ Builder.prototype.end = function () {
   this.forgetMouse()
   this.removePlaceholder()
   if (typeof this.options.endCallback === 'function') {
-    this.options.endCallback(this.dragingElement)
+    this.options.endCallback(this.draggingElement)
   }
   if (typeof this.options.moveCallback === 'function') {
     this.position && this.options.moveCallback(
-      this.dragingElement.id,
+      this.draggingElement.id,
       this.position,
       this.currentElement
     )
   }
-  this.dragingElement = null
+  this.draggingElement = null
   this.currentElement = null
   this.position = null
   this.helper = null
