@@ -37,8 +37,10 @@ class TreeForm extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply('element:set', (key, value) => {
-      this.props.element.set(key, value)
+    this.props.api.notify('form:mount')
+
+    this.props.api.on('element:set', (data) => {
+      this.props.element.set(data.key, data.value)
     })
     designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
@@ -46,6 +48,7 @@ class TreeForm extends React.Component {
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    this.props.api.off('element:set')
   }
 
   addResizeListener (element, fn) {
@@ -214,10 +217,10 @@ class TreeForm extends React.Component {
   }
 
   getFormParamField (param) {
-    let updater = lodash.curry((callback, event, key, value) => {
-      return callback(event, key, value)
+    let { element } = this.props
+    return this.field(element, param.key, (key, value) => {
+      this.props.api.notify('element:set', { key: key, value: value })
     })
-    return this.field(this.props.element, param.key, updater(this.props.api.request, 'element:set'))
   }
 
   closeTreeView () {
@@ -226,8 +229,8 @@ class TreeForm extends React.Component {
   }
 
   saveForm () {
-    let element = this.props.element
-    this.props.api.request('data:update', element.get('id'), element.toJS(true))
+    let { element, api } = this.props
+    api.request('data:update', element.get('id'), element.toJS(true))
     getService('assets-manager').addDesignOption(element.get('id'), designOptions)
     this.setState({ 'saving': true })
     setTimeout(() => {
@@ -296,16 +299,21 @@ class TreeForm extends React.Component {
     )
     let data = {
       key: key,
-      settings: settings,
+      options: options,
       label: label,
       description: description,
       type: type,
       value: value,
-      rawValue: rawValue
+      rawValue: rawValue,
+      updater: updater,
+      getRef: (key) => {
+        return this.refs[ 'form-element-' + key ]
+      }
     }
 
     return (
       <DependencyManager
+        ref={'form-element-' + key}
         key={'dependency-' + key}
         api={this.props.api}
         data={data}

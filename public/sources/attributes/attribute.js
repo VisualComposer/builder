@@ -1,15 +1,18 @@
 import React from 'react'
-export default class Attribute extends React.Component {
+
+class Attribute extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: props.value }
+    this.state = {
+      value: props.value
+    }
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentWillMount () {
-    if (typeof this.props.updater === 'function') {
-      this.props.updater(this.props.fieldKey, this.state.value)
-    }
+  componentDidMount () {
+    let { updater, fieldKey } = this.props
+    let { value } = this.state
+    updater(fieldKey, value)
   }
 
   handleChange (event) {
@@ -17,19 +20,23 @@ export default class Attribute extends React.Component {
   }
 
   setFieldValue (value) {
-    if (typeof this.props.updater === 'function') {
-      this.props.updater(this.props.fieldKey, value)
-    }
+    let { updater, fieldKey } = this.props
+    updater(fieldKey, value)
     this.setState({ value: value })
   }
 
   render () {
-    return <div />
+    // This method will be overwritten
+    return (
+      <div />
+    )
   }
 }
 Attribute.propTypes = {
+  updater: React.PropTypes.func.isRequired,
   fieldKey: React.PropTypes.string.isRequired,
   value: React.PropTypes.any,
-  updater: React.PropTypes.func,
   options: React.PropTypes.any
 }
+
+module.exports = Attribute
