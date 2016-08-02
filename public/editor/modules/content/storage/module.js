@@ -4,14 +4,21 @@ const cook = vcCake.getService('cook')
 
 vcCake.add('storage', (api) => {
   let documentData = api.getService('document')
-  api.reply('data:add', (element) => {
-    let data = documentData.create(element)
-    if (data.name === 'Row') {
+  api.reply('data:add', (elementData) => {
+    let element = cook.get(elementData)
+    if (!element.get('parent') && !element.relatedTo(['RootElements'])) {
+      let rowElement = documentData.create({tag: 'row'})
+      let columnElement = documentData.create({tag: 'column', parent: rowElement.id})
+      elementData.parent = columnElement.id
+    }
+    let data = documentData.create(elementData)
+    if (element.get('tag') === 'row') {
       let columnData = cook.get({ tag: cook.getTagByName('Column'), parent: data.id })
       if (columnData) {
         documentData.create(columnData.toJS())
       }
     }
+
     api.request('data:changed', documentData.children(false), 'add')
   })
 
