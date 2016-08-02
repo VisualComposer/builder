@@ -35,7 +35,8 @@ var Builder = function (container, options) {
     offsetLeft: 0,
     boundariesGap: 10,
     rootContainerFor: ['RootElements'],
-    rootID: 'vcv-content-root'
+    rootID: 'vcv-content-root',
+    handler: null
   })
 }
 Builder.prototype.option = function (name, value) {
@@ -54,10 +55,13 @@ Builder.prototype.addItem = function (id) {
   if (!element) { return }
   let containerFor = element.get('containerFor')
   let relatedTo = element.get('relatedTo')
-  this.items[ id ] = new DOMElement(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'), {
+  let domNode = this.options.document.querySelector('[data-vc-element="' + id + '"]')
+  if (!domNode || !domNode.ELEMENT_NODE) { return }
+  this.items[ id ] = new DOMElement(id, domNode, {
     containerFor: containerFor ? containerFor.value : null,
     relatedTo: relatedTo ? relatedTo.value : null,
-    parent: element.get('parent') || this.options.rootID
+    parent: element.get('parent') || this.options.rootID,
+    handler: this.options.handler
   })
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
@@ -123,8 +127,9 @@ Builder.prototype.checkItems = function (point) {
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
-Builder.prototype.start = function (DOMNode) {
-  this.draggingElement = DOMNode ? this.items[DOMNode.getAttribute('data-vcv-dnd-element')] : null
+Builder.prototype.start = function (id) {
+  this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
+  this.draggingElement = id ? this.items[id] : null
   if (!this.draggingElement) {
     this.draggingElement = null
     return false
@@ -139,8 +144,6 @@ Builder.prototype.start = function (DOMNode) {
   if (typeof this.options.startCallback === 'function') {
     this.options.startCallback(this.draggingElement)
   }
-  // Set callback on dragEnd
-  this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.end = function () {
   // Remove helper
@@ -200,7 +203,8 @@ Builder.prototype.handleDragStart = function (e) {
   if (e.currentTarget.querySelector('[data-vcv-editable-param]')) {
     return false
   }
-  this.start(e.currentTarget)
+  let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+  this.start(id)
 }
 Builder.prototype.handleDragEnd = function (e) {
   if (e.stopPropagation) {

@@ -7,8 +7,8 @@ export default class API {
   init () {
     this.api.addAction('startDragging', this.start.bind(this))
   }
-  start (DOMNode, point) {
-    this.dnd.start(DOMNode)
+  start (id, point) {
+    this.dnd.start(id)
     point && this.dnd.check(point)
   }
 }

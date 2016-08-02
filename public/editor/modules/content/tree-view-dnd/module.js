@@ -12,7 +12,8 @@ vcCake.add('content-tree-view-dnd', function (api) {
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
-        document: document
+        document: document,
+        handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler'
       })
       this.items.init()
     }
