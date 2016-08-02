@@ -321,6 +321,7 @@ var DesignOptions = React.createClass({
       onChange={this.changeBoxInput}
       onBlur={this.validateBoxInput}
       disabled={isDisabled}
+      title={value}
       value={value} />
   },
 
