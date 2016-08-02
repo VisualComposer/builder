@@ -93,7 +93,7 @@ Builder.prototype.isDraggingElementParent = function (domElement) {
 Builder.prototype.findDOMNode = function (point) {
   let domNode = this.options.document.elementFromPoint(point.x, point.y)
   if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
-    domNode = $(domNode).closest('[data-vcv-dnd-element]')
+    domNode = $(domNode).closest('[data-vcv-dnd-element]').get(0)
   }
   return domNode || null
 }
@@ -165,7 +165,7 @@ Builder.prototype.end = function () {
   this.position = null
   this.helper = null
 
-  // Set callback on dragend
+  // Set callback on dragEnd
   this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.check = function (point) {
