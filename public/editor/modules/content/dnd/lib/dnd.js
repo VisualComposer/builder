@@ -18,7 +18,7 @@ var Builder = function (container, options) {
   this.container = container
   this.items = {}
   this.hover = ''
-  this.dragingElement = null
+  this.draggingElement = null
   this.currentElement = null
   this.placeholder = null
   this.position = null
@@ -35,7 +35,8 @@ var Builder = function (container, options) {
     offsetLeft: 0,
     boundariesGap: 10,
     rootContainerFor: ['RootElements'],
-    rootID: 'vcv-content-root'
+    rootID: 'vcv-content-root',
+    handler: null
   })
 }
 Builder.prototype.option = function (name, value) {
@@ -54,10 +55,13 @@ Builder.prototype.addItem = function (id) {
   if (!element) { return }
   let containerFor = element.get('containerFor')
   let relatedTo = element.get('relatedTo')
-  this.items[ id ] = new DOMElement(id, this.options.document.querySelector('[data-vc-element="' + id + '"]'), {
+  let domNode = this.options.document.querySelector('[data-vc-element="' + id + '"]')
+  if (!domNode || !domNode.ELEMENT_NODE) { return }
+  this.items[ id ] = new DOMElement(id, domNode, {
     containerFor: containerFor ? containerFor.value : null,
     relatedTo: relatedTo ? relatedTo.value : null,
-    parent: element.get('parent') || this.options.rootID
+    parent: element.get('parent') || this.options.rootID,
+    handler: this.options.handler
   })
     .on('dragstart', function (e) { e.preventDefault() })
     .on('mousedown', this.handleDragStartFunction)
@@ -77,21 +81,23 @@ Builder.prototype.removePlaceholder = function () {
 }
 Builder.prototype.findElementWithValidParent = function (domElement) {
   var parentElement = domElement.parent() ? this.items[domElement.parent()] : null
-  if (parentElement && this.dragingElement.isChild(parentElement)) {
+  if (parentElement && this.draggingElement.isChild(parentElement)) {
     return domElement
   } else if (parentElement) {
     return this.findElementWithValidParent(parentElement)
   }
   return null
 }
-
+Builder.prototype.isDraggingElementParent = function (domElement) {
+  return domElement.$node.closest('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
+}
 /**
  * Menage items
  */
 Builder.prototype.findDOMNode = function (point) {
   let domNode = this.options.document.elementFromPoint(point.x, point.y)
   if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
-    domNode = $(domNode).closest('[data-vcv-dnd-element]')
+    domNode = $(domNode).closest('[data-vcv-dnd-element]').get(0)
   }
   return domNode || null
 }
@@ -106,9 +112,10 @@ Builder.prototype.checkItems = function (point) {
     domElement = this.findElementWithValidParent(parentDOMElement) || domElement
     parentDOMElement = this.items[domElement.parent()] || null
   }
+  if (this.isDraggingElementParent(domElement)) { return }
   let position = this.placeholder.redraw(domElement.node, point, {
-    allowBeforeAfter: parentDOMElement && this.dragingElement.isChild(parentDOMElement),
-    allowAppend: domElement && this.dragingElement.isChild(domElement)
+    allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
+    allowAppend: domElement && this.draggingElement.isChild(domElement)
   })
   if (position) {
     this.setPosition(position)
@@ -120,24 +127,23 @@ Builder.prototype.checkItems = function (point) {
 Builder.prototype.setPosition = function (position) {
   this.position = position
 }
-Builder.prototype.start = function (DOMNode) {
-  this.dragingElement = DOMNode ? this.items[DOMNode.getAttribute('data-vcv-dnd-element')] : null
-  if (!this.dragingElement) {
-    this.dragingElement = null
+Builder.prototype.start = function (id) {
+  this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
+  this.draggingElement = id ? this.items[id] : null
+  if (!this.draggingElement) {
+    this.draggingElement = null
     return false
   }
   // Create helper/clone of element
-  this.helper = new Helper(this.dragingElement.node)
-  // Add css class for body to enable visual setings for all document
+  this.helper = new Helper(this.draggingElement.node)
+  // Add css class for body to enable visual settings for all document
   this.options.document.body.classList.add('vcv-dragstart')
 
   this.watchMouse()
   this.createPlaceholder()
   if (typeof this.options.startCallback === 'function') {
-    this.options.startCallback(this.dragingElement)
+    this.options.startCallback(this.draggingElement)
   }
-  // Set callback on dragend
-  this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.end = function () {
   // Remove helper
@@ -148,21 +154,21 @@ Builder.prototype.end = function () {
   this.forgetMouse()
   this.removePlaceholder()
   if (typeof this.options.endCallback === 'function') {
-    this.options.endCallback(this.dragingElement)
+    this.options.endCallback(this.draggingElement)
   }
   if (typeof this.options.moveCallback === 'function') {
     this.position && this.options.moveCallback(
-      this.dragingElement.id,
+      this.draggingElement.id,
       this.position,
       this.currentElement
     )
   }
-  this.dragingElement = null
+  this.draggingElement = null
   this.currentElement = null
   this.position = null
   this.helper = null
 
-  // Set callback on dragend
+  // Set callback on dragEnd
   this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
 }
 Builder.prototype.check = function (point) {
@@ -197,7 +203,8 @@ Builder.prototype.handleDragStart = function (e) {
   if (e.currentTarget.querySelector('[data-vcv-editable-param]')) {
     return false
   }
-  this.start(e.currentTarget)
+  let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+  this.start(id)
 }
 Builder.prototype.handleDragEnd = function (e) {
   if (e.stopPropagation) {

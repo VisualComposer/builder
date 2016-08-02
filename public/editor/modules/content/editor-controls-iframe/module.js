@@ -45,11 +45,10 @@ vcCake.add('content-editor-controls-iframe', function (api) {
         e.stopPropagation()
       })
       $(document).on('mousedown', '[data-vc-drag-helper]', function (e) {
-        var id = $(this).data('vcDragHelper')
-        var DOMNode = id ? $iframeDocument.find('[data-vc-element="' + id + '"]') : null
-        if (DOMNode.length) {
+        let id = $(this).data('vcDragHelper')
+        if (id) {
           controlsHandler.removeControls()
-          api.module('content-dnd').do('startDragging', DOMNode.get(0), { x: e.clientX, y: e.clientY })
+          api.module('content-dnd').do('startDragging', id, { x: e.clientX, y: e.clientY })
         }
       })
       $(document).on('click', '[data-vc-control-event]', function (e) {

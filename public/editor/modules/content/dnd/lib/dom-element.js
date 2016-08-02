@@ -6,33 +6,49 @@ export default class DOMElement {
     options = _.defaults(options, {
       containerFor: null,
       childFor: null,
-      parent: null
+      parent: null,
+      handler: null
     })
     Object.defineProperties(this, {
+      /**
+       * @memberOf! DOMElement
+       */
       'node': {
         configurable: false,
         enumerable: false,
         value: DOMNode,
         writable: false
       },
+      /**
+       * @memberOf! DOMElement
+       */
       '$node': {
         configurable: false,
         enumerable: false,
         value: $(DOMNode),
         writable: false
       },
+      /**
+       * @memberOf! DOMElement
+       */
       'id': {
         configurable: false,
         enumerable: false,
         value: id,
         writable: false
       },
+      /**
+       * @memberOf! DOMElement
+       */
       'options': {
         configurable: false,
         enumerable: false,
         value: options,
         writable: false
       },
+      /**
+       * @memberOf! DOMElement
+       */
       'isEmptyAsContainer': {
         enumerable: false,
         get: function () {
@@ -40,14 +56,32 @@ export default class DOMElement {
         }
       }
     })
+    let handler = this.options.handler
+    if (typeof handler === 'string') {
+      handler = this.$node.find(this.options.handler).get(0)
+    }
+    if (handler && handler.ELEMENT_NODE) {
+      /**
+       * @memberOf! DOMElement
+       */
+      Object.defineProperty(this, 'handler', {
+        configurable: false,
+        enumerable: false,
+        value: handler,
+        writable: false
+      })
+    }
     this.node.setAttribute('data-vcv-dnd-element', this.id)
+    if(this.handler) {
+      this.handler.setAttribute('data-vcv-dnd-element-handler', this.id)
+    } else {
+      this.node.setAttribute('data-vcv-dnd-element-handler', this.id)
+    }
   }
   parent () {
     return this.options.parent
   }
-  hasParent () {
-    return !!this.options.parent
-  }
+
   isChild (domElement) {
     return this.relatedTo(domElement.containerFor())
   }
@@ -79,11 +113,13 @@ export default class DOMElement {
       point.x - rect.left < gap || rect.right - point.x < gap
   }
   on (event, callback, capture) {
-    this.node.addEventListener(event, callback, !!capture)
+    let handler = this.handler || this.node
+    handler.addEventListener(event, callback, !!capture)
     return this
   }
   off (event, callback, capture) {
-    this.node.removeEventListener(event, callback, !!capture)
+    let handler = this.handler || this.node
+    handler.removeEventListener(event, callback, !!capture)
     return this
   }
 }
