@@ -188,7 +188,6 @@ var DesignOptions = React.createClass({
     let deviceValue = e.target.value
     deviceState[ e.target.name ] = deviceValue
     if (this.state[ this.state.device ].simplified) {
-      console.log(e.target.name)
       switch (e.target.name) {
         case 'marginTop':
           deviceState.marginRight = deviceValue
