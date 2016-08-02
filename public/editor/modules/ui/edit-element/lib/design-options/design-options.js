@@ -185,9 +185,33 @@ var DesignOptions = React.createClass({
 
   changeBoxInput: function (e) {
     let deviceState = this.state[ this.state.device ]
-
-    deviceState[ e.target.name ] = e.target.value
-
+    let deviceValue = e.target.value
+    deviceState[ e.target.name ] = deviceValue
+    if (this.state[ this.state.device ].simplified) {
+      console.log(e.target.name)
+      switch (e.target.name) {
+        case 'marginTop':
+          deviceState.marginRight = deviceValue
+          deviceState.marginBottom = deviceValue
+          deviceState.marginLeft = deviceValue
+          break
+        case 'paddingTop':
+          deviceState.paddingRight = deviceValue
+          deviceState.paddingBottom = deviceValue
+          deviceState.paddingLeft = deviceValue
+          break
+        case 'borderTop':
+          deviceState.borderRight = deviceValue
+          deviceState.borderBottom = deviceValue
+          deviceState.borderLeft = deviceValue
+          break
+        case 'borderTopRightRadius':
+          deviceState.borderBottomRightRadius = deviceValue
+          deviceState.borderBottomLeftRadius = deviceValue
+          deviceState.borderTopLeftRadius = deviceValue
+          break
+      }
+    }
     this.changeState({
       [this.state.device]: deviceState
     })
@@ -287,7 +311,7 @@ var DesignOptions = React.createClass({
       'vcv-ui-design-options-onion-control-position--' + position
     ])
 
-    let value = isDisabled ? '' : this.state[ this.state.device ][ name ]
+    let value = this.state[ this.state.device ][ name ]
 
     return <input
       type="text"
@@ -485,34 +509,36 @@ var DesignOptions = React.createClass({
                     </select>
                   </div>
                 </div>
-                <div className="vcv-ui-col vcv-ui-col--xs-8">
-                  <div className="vcv-ui-form-group">
-                    <span className="vcv-ui-form-group-heading">
-                      Border style
-                    </span>
-                    <select
-                      name="borderStyle"
-                      className="vcv-ui-form-dropdown"
-                      value={this.state[ this.state.device ].borderStyle}
-                      disabled={!isBorderSpecified}
-                      onChange={this.changeBorderStyle}>
-                      {this.borderStyles}
-                    </select>
+                {isBorderSpecified &&
+                  <div className="vcv-ui-col vcv-ui-col--xs-8">
+                    <div className="vcv-ui-form-group">
+                      <span className="vcv-ui-form-group-heading">
+                        Border style
+                      </span>
+                      <select
+                        name="borderStyle"
+                        className="vcv-ui-form-dropdown"
+                        value={this.state[ this.state.device ].borderStyle}
+                        onChange={this.changeBorderStyle}>
+                        {this.borderStyles}
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div className="vcv-ui-col vcv-ui-col--xs-4">
-                  <div className="vcv-ui-form-group">
-                    <span className="vcv-ui-form-group-heading">
-                      Border color
-                    </span>
-                    <input
-                      name="borderColor"
-                      type="color"
-                      value={this.state[ this.state.device ].borderColor}
-                      disabled={!isBorderSpecified}
-                      onChange={this.changeBorderColor} />
+                }
+                {isBorderSpecified &&
+                  <div className="vcv-ui-col vcv-ui-col--xs-4">
+                    <div className="vcv-ui-form-group">
+                      <span className="vcv-ui-form-group-heading">
+                        Border color
+                      </span>
+                      <input
+                        name="borderColor"
+                        type="color"
+                        value={this.state[ this.state.device ].borderColor}
+                        onChange={this.changeBorderColor} />
+                    </div>
                   </div>
-                </div>
+                }
               </div>
             </div>
           }
