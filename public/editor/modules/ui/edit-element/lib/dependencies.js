@@ -31,19 +31,35 @@ class DependencyManager extends React.Component {
     if (this.stack) {
       this.stack = this.stack.filter((item) => {
         let { key, value, rules } = item
-        let { updater, getRef } = this.props.data
+        let { updater, getRef, getRefTab } = this.props.data
         let target = {
           key: key,
           value: value,
           updater: updater,
           ref: getRef(key),
-          getRef: getRef
+          getRef: getRef,
+          getRefTab: getRefTab
+        }
+        let current = {
+          key: this.props.data.key,
+          value: this.props.data.value,
+          updater: updater,
+          ref: getRef(this.props.data.key),
+          getRef: getRef,
+          getRefTab: getRefTab
         }
         rules.forEach((ruleData) => {
           let actionsCallback = (ruleState) => {
-            ruleData.actions.forEach((action) => {
-              ActionsManager.do(action, ruleState, target)
-            })
+            if (ruleData.current) {
+              ruleData.current.forEach((action) => {
+                ActionsManager.do(action, ruleState, current)
+              })
+            }
+            if (ruleData.target) {
+              ruleData.target.forEach((action) => {
+                ActionsManager.do(action, ruleState, target)
+              })
+            }
           }
 
           RulesManager.check(ruleData, value, actionsCallback)
@@ -79,7 +95,7 @@ class DependencyManager extends React.Component {
     })
 
     return (
-      <div ref='dependency-element' className={classes}>
+      <div className={classes}>
         {content}
       </div>
     )

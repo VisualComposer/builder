@@ -79,12 +79,12 @@
           "value": "start"
         },
         {
-          "label": "Right",
-          "value": "end"
-        },
-        {
           "label": "Center",
           "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "end"
         }
       ]
     }
@@ -108,7 +108,7 @@
         "addButton": [
           {
             "rule": "toggle",
-            "actions": [
+            "current": [
               {
                 "action": "toggleVisibility",
                 "options": []
