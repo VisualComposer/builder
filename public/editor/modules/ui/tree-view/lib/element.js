@@ -10,34 +10,48 @@ class TreeViewElement extends React.Component {
     super(props)
     this.state = {
       childExpand: true,
-      elementId: null,
+      activeEditElementId: null,
       hasChild: false
     }
+    this.setElementId = this.setElementId.bind(this)
+    this.unsetElementId = this.unsetElementId.bind(this)
   }
 
   componentDidMount () {
+    this.mount = true
+    this.instanceId = Math.random() * 1000
     this.props.api.notify('element:mount', this.props.element.id)
-
+    console.log('did mount', this.props.element.id, this.instanceId)
     this.props.api
-      .reply('app:edit', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('app:add', (id) => {
-        this.setState({ elementId: id })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('hide', () => {
-        this.setState({ elementId: null })
-      })
-      .on('form:hide', () => {
-        this.setState({ elementId: null })
-      })
+      .reply('app:edit', this.setElementId)
+      .reply('app:add', this.setElementId)
+      .reply('bar-content-end:hide', this.unsetElementId)
+      .on('hide', this.unsetElementId)
+      .on('form:hide', this.unsetElementId)
+  }
+
+  setElementId (id) {
+    console.log('set element id', this.mount, this.props.element.id, this.instanceId)
+
+    this.setState({ activeEditElementId: id })
+  }
+
+  unsetElementId (id) {
+    console.log('unset element id', this.mount, this.props.element.id, this.instanceId)
+
+    this.setState({ activeEditElementId: null })
   }
 
   componentWillUnmount () {
+    this.mount = false
     this.props.api.notify('element:unmount', this.props.element.id)
+    console.log('will unmount', this.props.element.id, this.instanceId)
+    this.props.api
+      .forget('app:edit', this.setElementId)
+      .forget('app:add', this.setElementId)
+      .forget('bar-content-end:hide', this.unsetElementId)
+      .off('hide', this.unsetElementId)
+      .off('form:hide', this.unsetElementId)
   }
 
   clickChildExpand () {
@@ -121,7 +135,7 @@ class TreeViewElement extends React.Component {
 
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
-      'vcv-ui-state--active': this.props.element.id === this.state.elementId
+      'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId
     })
 
     let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_icon'))

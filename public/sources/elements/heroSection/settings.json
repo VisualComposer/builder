@@ -47,7 +47,7 @@
   "title": {
     "type": "htmleditor",
     "access": "public",
-    "value": "Highland Traditions of Scotland",
+    "value": "<h1>Highland Traditions of Scotland</h1>",
     "options": {
       "label": "Title",
       "description": "The title",
@@ -60,7 +60,7 @@
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.",
+    "value": "<p>The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
       "label": "Description",
       "description": "The description"
@@ -98,14 +98,6 @@
       "description": "[ON] Will add the button to content"
     }
   },
-  "fullbleed": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Enable fullbleed"
-    }
-  },
   "buttonText": {
     "type": "string",
     "access": "public",
@@ -134,8 +126,7 @@
       "title",
       "description",
       "align",
-      "addButton",
-      "fullbleed"
+      "addButton"
     ],
     "options": {
       "label": "General"

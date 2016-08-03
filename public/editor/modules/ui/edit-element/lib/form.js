@@ -36,19 +36,21 @@ class TreeForm extends React.Component {
     })
   }
 
+  updateElement (data) {
+    this.props.element.set(data.key, data.value)
+  }
+
   componentDidMount () {
     this.props.api.notify('form:mount')
 
-    this.props.api.on('element:set', (data) => {
-      this.props.element.set(data.key, data.value)
-    })
+    this.props.api.on('element:set', this.updateElement.bind(this))
     designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-    this.props.api.off('element:set')
+    this.props.api.off('element:set', this.updateElement.bind(this))
   }
 
   addResizeListener (element, fn) {
@@ -218,9 +220,10 @@ class TreeForm extends React.Component {
 
   getFormParamField (param) {
     let { element } = this.props
-    return this.field(element, param.key, (key, value) => {
+    const updater = (key, value) => {
       this.props.api.notify('element:set', { key: key, value: value })
-    })
+    }
+    return this.field(element, param.key, updater)
   }
 
   closeTreeView () {

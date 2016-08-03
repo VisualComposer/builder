@@ -22,8 +22,8 @@ class DependencyManager extends React.Component {
   }
 
   componentWillUnmount () {
-    this.props.api.off('element:set')
-    this.props.api.off('form:mount')
+    this.props.api.off('element:set', this.onElementChange.bind(this))
+    this.props.api.off('form:mount', this.callActivitiesAfterMount.bind(this))
   }
 
   callActivitiesAfterMount () {
