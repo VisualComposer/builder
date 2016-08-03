@@ -27,7 +27,7 @@ vcCake.add('content-dnd', function (api) {
         endCallback: this.end.bind(this),
         document: documentDOM,
         offsetTop: this.getOffsetTop(),
-        offsetLeft: offsetLeft,
+        offsetLeft: offsetLeft
       })
       this.items.init()
       this.dndApi = new Api(this.items, this.api)

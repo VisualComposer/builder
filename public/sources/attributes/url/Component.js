@@ -194,95 +194,96 @@ export default class Component extends Attribute {
     this.loadPosts(keyword)
   }
 
-  render () {
+  drawModal () {
     return (
-      <div>
+      <Modal
+        show={this.state.isWindowOpen}
+        className="vcv-ui-modal"
+        containerClassName="vcv-ui-modal-container"
+        onClose={this.cancel}>
 
-        <div className="vcv-ui-form-link">
-          <button className="vcv-ui-form-button vcv-ui-form-link-button" onClick={this.open}>
-            <i className="vcv-ui-icon vcv-ui-icon-link"></i>
-            Select URL
-          </button>
-          <div className="vcv-ui-form-link-data">
-            <span
-              className="vcv-ui-form-link-title"
-              data-vc-link-title="Title: "
-              title={this.state.value.title}>
-              {this.state.value.title}
-            </span>
-            <span
-              className="vcv-ui-form-link-title"
-              data-vc-link-title="Url: "
-              title={this.state.value.url}>
-              {this.state.value.url}
-            </span>
-          </div>
+        <header>
+          <h1>Insert or Edit Link</h1>
+          <a className="vcv-ui-modal-close" onClick={this.cancel}>X</a>
+        </header>
+
+        <p className="vcv-ui-form-helper">
+          Enter the destination URL
+        </p>
+
+        <div className="vcv-ui-form-group">
+          <span className="vcv-ui-form-group-heading">
+           URL
+          </span>
+          <String
+            fieldKey="url"
+            ref={(c) => { this.urlInput = c }}
+            value={this.state.unsavedValue.url}
+            updater={this.handleInputChange} />
         </div>
 
-        <Modal
-          show={this.state.isWindowOpen}
-          className="vcv-ui-modal"
-          containerClassName="vcv-ui-modal-container"
-          onClose={this.cancel}>
-
-          <header>
-            <h1>Insert or Edit Link</h1>
-            <a className="vcv-ui-modal-close" onClick={this.cancel}>X</a>
-          </header>
-
+        <div className="vcv-ui-form-group">
+          <span className="vcv-ui-form-group-heading">
+           Title
+          </span>
+          <String
+            fieldKey="title"
+            value={this.state.unsavedValue.title}
+            updater={this.handleInputChange} />
           <p className="vcv-ui-form-helper">
-            Enter the destination URL
+            Title attribute will be displayed on link hover
           </p>
+        </div>
 
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-             URL
-            </span>
-            <String
-              fieldKey="url"
-              ref={(c) => { this.urlInput = c }}
-              value={this.state.unsavedValue.url}
-              updater={this.handleInputChange} />
-          </div>
+        <div className="vcv-ui-form-group">
+          <Checkbox
+            fieldKey="targetBlank"
+            options={{ values: [{ label: 'Open link in a new tab', value: '1' }] }}
+            value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
+            updater={this.handleInputChange} />
+        </div>
 
-          <div className="vcv-ui-form-group">
-            <span className="vcv-ui-form-group-heading">
-             Title
-            </span>
-            <String
-              fieldKey="title"
-              value={this.state.unsavedValue.title}
-              updater={this.handleInputChange} />
-            <p className="vcv-ui-form-helper">
-              Title attribute will be displayed on link hover
-            </p>
-          </div>
+        <div className="vcv-ui-form-group">
+          <Checkbox
+            fieldKey="relNofollow"
+            options={{ values: [{ label: 'Add nofollow option to link', value: '1' }] }}
+            value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
+            updater={this.handleInputChange} />
+        </div>
 
-          <div className="vcv-ui-form-group">
-            <Checkbox
-              fieldKey="targetBlank"
-              options={{ values: [{ label: 'Open link in a new tab', value: '1' }] }}
-              value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
-              updater={this.handleInputChange} />
-          </div>
+        {this.renderExistingPostsBlock()}
 
-          <div className="vcv-ui-form-group">
-            <Checkbox
-              fieldKey="relNofollow"
-              options={{ values: [{ label: 'Add nofollow option to link', value: '1' }] }}
-              value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
-              updater={this.handleInputChange} />
-          </div>
+        <footer>
+          <button className="vcv-ui-form-button vcv-ui-form-button--default" onClick={this.cancel}>Cancel</button>
+          <button className="vcv-ui-form-button vcv-ui-form-button--action" onClick={this.save}>OK</button>
+        </footer>
 
-          {this.renderExistingPostsBlock()}
+      </Modal>
+    )
+  }
 
-          <footer>
-            <button className="vcv-ui-form-button vcv-ui-form-button-default" onClick={this.cancel}>Cancel</button>
-            <button className="vcv-ui-form-button vcv-ui-form-button-action" onClick={this.save}>OK</button>
-          </footer>
-
-        </Modal>
-
+  render () {
+    return (
+      <div className="vcv-ui-form-link">
+        <button className="vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default" onClick={this.open}>
+          <i className="vcv-ui-icon vcv-ui-icon-link"></i>
+          <span>Select URL</span>
+        </button>
+        <div className="vcv-ui-form-link-data">
+          <span
+            className="vcv-ui-form-link-title"
+            data-vc-link-title="Title: "
+            title={this.state.value.title}>
+            {this.state.value.title}
+          </span>
+          <span
+            className="vcv-ui-form-link-title"
+            data-vc-link-title="Url: "
+            title={this.state.value.url}>
+            {this.state.value.url}
+          </span>
+          {this.drawModal()}
+        </div>
       </div>
     )
   }

@@ -96,7 +96,7 @@ class Devices extends React.Component {
     }, this)
 
     return (
-      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group-action'>
+      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--action'>
         {items}
       </div>
     )

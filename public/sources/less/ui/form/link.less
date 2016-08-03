@@ -2,13 +2,23 @@
   display: flex;
   align-items: center;
 
+  //TODO: reduce specificy after less compiler update
   .vcv-ui-form-link-data {
     display: flex;
     flex-wrap: wrap;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
+    flex: 1 1 0;
+    width: 0;
     font-size: @vcui-link-button-helper-font-size;
+  }
+  .vcv-ui-form-link-button {
+    flex: 0 0 auto;
+    border-color: @vcui-button-link-border-color;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: @vcui-link-button-font-size;
+    letter-spacing: @vcui-link-button-letter-spacing;
+    padding-top: @vcui-link-button-padding-vertical;
+    padding-bottom: @vcui-link-button-padding-vertical;
   }
   .vcv-ui-form-link-title {
     color: @vcui-form-helper-color;
@@ -18,7 +28,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    margin-left: @vcui-link-button-padding-horizontal;
+    margin: @vcui-link-button-helper-margin;
     &::before {
       content: attr(data-vc-link-title);
     }
@@ -26,23 +36,9 @@
       display: none;
     }
   }
-
-  // Button behaviour
-  .vcv-ui-form-button-form-control {
-    flex-shrink: 0;
-    outline: none;
-    box-shadow: none;
-    &:focus {
-      animation: vcv-ui-form-blink @vcui-form-transition-duration * 2 ease-out;
-    }
-    &:disabled,
-    &[disabled] {
-      &:focus {
-        animation: none;
-      }
-    }
-  }
 }
+
+
 
 
 //&.vcv-ui-form-link-button {

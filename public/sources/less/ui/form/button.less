@@ -13,7 +13,6 @@
   user-select: none;
   text-decoration: none;
   position: relative;
-  color: @vcui-form-controls-color;
   font-weight: 400;
   line-height: 1.5;
   outline: none;
@@ -52,7 +51,7 @@
     }
   }
 }
-.vcv-ui-form-button-default {
+.vcv-ui-form-button--default {
   color: @vcui-button-default-color;
   background-color: @vcui-button-default-background;
   &.vcv-ui-state--active,
@@ -61,7 +60,7 @@
   }
 }
 
-.vcv-ui-form-button-action {
+.vcv-ui-form-button--action {
   color: @vcui-button-action-color;
   background-color: @vcui-button-action-background;
   &.vcv-ui-state--active,
@@ -89,9 +88,9 @@
     }
   }
 }
-.vcv-ui-form-button-group-action {
+.vcv-ui-form-button-group--action {
   background-color: @vcui-button-group-delimeter-color;
   .vcv-ui-form-button {
-    &:extend(.vcv-ui-form-button-action all);
+    &:extend(.vcv-ui-form-button--action all);
   }
 }
