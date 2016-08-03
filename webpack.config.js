@@ -1,9 +1,10 @@
-var path = require('path')
-var webpack = require('webpack')
-var Collector = require('./tools/webpack-collector')
-// var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var autoprefixer = require('autoprefixer')
+let path = require('path')
+let webpack = require('webpack')
+let Collector = require('./tools/webpack-collector')
+// let HtmlWebpackPlugin = require('html-webpack-plugin');
+let ExtractTextPlugin = require('extract-text-webpack-plugin')
+let autoprefixer = require('autoprefixer')
+
 module.exports = {
   devtool: 'eval',
   entry: {
@@ -54,7 +55,9 @@ module.exports = {
         'local-storage',
         'cook',
         'shared-library',
-        'time-machine'
+        'time-machine',
+        'actions-manager',
+        'rules-manager'
       ]
     },
     wp: {
@@ -90,7 +93,9 @@ module.exports = {
         'wordpress-post-data',
         'cook',
         'shared-library',
-        'time-machine'
+        'time-machine',
+        'assets-manager',
+        'rules-manager'
       ]
     }
   },

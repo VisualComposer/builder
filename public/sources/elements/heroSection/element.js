@@ -1,5 +1,5 @@
 window.vcvAddElement(
-  {"tag":{"access":"protected","type":"string","value":"heroSection"},"name":{"type":"string","access":"protected","value":"Hero Section"},"category":{"type":"string","access":"protected","value":"Content"},"meta_intro":{"type":"textarea","access":"protected","value":"Short intro"},"meta_description":{"type":"textarea","access":"protected","value":"Long description"},"meta_preview_description":{"type":"textarea","access":"protected","value":"Medium preview description"},"meta_preview":{"type":"attachimage","access":"protected","value":"preview.png"},"meta_thumbnail":{"type":"attachimage","access":"protected","value":"thumbnail.png"},"meta_icon":{"type":"attachimage","access":"protected","value":"icon.png"},"title":{"type":"htmleditor","access":"public","value":"Highland Traditions of Scotland","options":{"label":"Title","description":"The title","tinymce":{"inline":true,"toolbar":"bold italic | alignleft aligncenter alignright alignjustify"}}},"description":{"type":"htmleditor","access":"public","value":"The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.","options":{"label":"Description","description":"The description"}},"editFormTab1":{"type":"group","access":"protected","value":["title","description"],"options":{"label":"General"}},"editFormTabs":{"type":"group","access":"protected","value":["editFormTab1"]},"relatedTo":{"type":"group","access":"protected","value":["General"]}},
+  {"tag":{"access":"protected","type":"string","value":"heroSection"},"name":{"type":"string","access":"protected","value":"Hero Section"},"category":{"type":"string","access":"protected","value":"Content"},"meta_intro":{"type":"textarea","access":"protected","value":"Short intro"},"meta_description":{"type":"textarea","access":"protected","value":"Long description"},"meta_preview_description":{"type":"textarea","access":"protected","value":"Medium preview description"},"meta_preview":{"type":"attachimage","access":"protected","value":"preview.png"},"meta_thumbnail":{"type":"attachimage","access":"protected","value":"thumbnail.png"},"meta_icon":{"type":"attachimage","access":"protected","value":"icon.png"},"title":{"type":"htmleditor","access":"public","value":"Highland Traditions of Scotland","options":{"label":"Title","description":"The title","tinymce":{"inline":true,"toolbar":"bold italic | alignleft aligncenter alignright alignjustify"}}},"description":{"type":"htmleditor","access":"public","value":"The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.","options":{"label":"Description","description":"The description"}},"align":{"type":"dropdown","access":"public","value":"center","options":{"label":"Content alignment","description":"Select the content alignment","values":[{"label":"Left","value":"start"},{"label":"Right","value":"end"},{"label":"Center","value":"center"}]}},"addButton":{"type":"toggle","access":"public","value":true,"options":{"label":"Add button","description":"[ON] Will add the button to content"}},"fullbleed":{"type":"toggle","access":"public","value":false,"options":{"label":"Enable fullbleed"}},"buttonText":{"type":"string","access":"public","value":"Learn more","options":{"label":"Button text","onChange":{"addButton":[{"rule":"toggle","actions":[{"action":"ping"},{"action":"toggleVisibility","options":[]}]}]}}},"editFormTab1":{"type":"group","access":"protected","value":["title","description","align","addButton","fullbleed"],"options":{"label":"General"}},"editFormTab2":{"type":"group","access":"protected","value":["buttonText"],"options":{"label":"Button: General"}},"editFormTabs":{"type":"group","access":"protected","value":["editFormTab1","editFormTab2"]},"relatedTo":{"type":"group","access":"protected","value":["General"]}},
   // Component callback
   function(component) {
 	require( './styles.css' )
@@ -7,24 +7,32 @@ window.vcvAddElement(
       render: function() {
         // import variables
         var {id, content, atts, editor} = this.props
-var {title, description} = atts
+var {title, description, align, addButton, fullbleed, buttonText} = atts
 
         // import template js
         let classNames = require('classnames')
 
 let wrapperClasses = classNames({
-  'vcv-e-hero-section': true,
-  'vcv-e-hero-section-align--left': true,
-  'vcv-e-hero-section-align--right': true,
-  'vcv-e-hero-section-align--center': true,
-  'vcv-e-hero-section-align--justify': true
+  'vce-hero-section': true,
+  'vce-hero-section--min-height': true,
+  'vce-hero-section--alignment-start': align === 'start',
+  'vce-hero-section--alignment-end': align === 'end',
+  'vce-hero-section--fullbleed': !!fullbleed
 })
 
         // import template
-        return (<div className={wrapperClasses} {...editor}>
-  <h2 className='editable' data-vc-editable-param='title' dangerouslySetInnerHTML={{ __html: title }} />
-  <p>{description}</p>
-</div>);
+        return (<section className={wrapperClasses} {...editor}>
+  <div className="vce-hero-section__wrap-row">
+    <div className="vce-hero-section__wrap">
+      <div className="vce-hero-section__content">
+        <h1 className='editable' data-vc-editable-param='title' dangerouslySetInnerHTML={{ __html: title }} />
+        <p className='editable' data-vc-editable-param='description'
+          dangerouslySetInnerHTML={{ __html: description }} />
+      </div>
+    </div>
+  </div>
+</section>
+);
       }
     }));
   },

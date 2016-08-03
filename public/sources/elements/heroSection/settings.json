@@ -66,22 +66,97 @@
       "description": "The description"
     }
   },
+  "align": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "center",
+    "options": {
+      "label": "Content alignment",
+      "description": "Select the content alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "start"
+        },
+        {
+          "label": "Right",
+          "value": "end"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        }
+      ]
+    }
+  },
+  "addButton": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Add button",
+      "description": "[ON] Will add the button to content"
+    }
+  },
+  "fullbleed": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Enable fullbleed"
+    }
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Learn more",
+    "options": {
+      "label": "Button text",
+      "onChange": {
+        "addButton": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility",
+                "options": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
       "title",
-      "description"
+      "description",
+      "align",
+      "addButton",
+      "fullbleed"
     ],
     "options": {
       "label": "General"
+    }
+  },
+  "editFormTab2": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonText"
+    ],
+    "options": {
+      "label": "Button: General"
     }
   },
   "editFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "editFormTab2"
     ]
   },
   "relatedTo": {

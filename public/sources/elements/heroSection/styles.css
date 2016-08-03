@@ -1,0 +1,145 @@
+.vce-hero-section {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.vce-hero-section__content {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.vce-hero-section__content > * {
+  margin-bottom: 25px;
+}
+.vce-hero-section__wrap-row {
+  color: #ffffff;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: #dadada;
+  background: url("public/background.jpg") no-repeat center;
+  background-size: cover;
+}
+.vce-hero-section__wrap-row:before,
+.vce-hero-section__wrap-row:after {
+  content: " ";
+  display: table;
+}
+.vce-hero-section__wrap-row:after {
+  clear: both;
+}
+.vce-hero-section--min-height .vce-hero-section__wrap-row {
+  min-height: 450px;
+}
+.vce-hero-section__content {
+  margin-left: auto;
+  width: 100%;
+  padding-left: 2%;
+  padding-right: 2%;
+  margin-right: auto;
+  text-align: center;
+}
+.vce-hero-section--alignment-start .vce-hero-section__content {
+  margin-left: 0;
+  text-align: left;
+}
+.vce-hero-section--alignment-end .vce-hero-section__content {
+  margin-right: 0;
+  text-align: left;
+}
+@media (min-width: 544px) {
+  .vce-hero-section__content {
+    width: 83.33333333%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .vce-hero-section--alignment-start .vce-hero-section__content {
+    margin-left: 8.33333333%;
+  }
+  .vce-hero-section--alignment-end .vce-hero-section__content {
+    margin-right: 8.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  .vce-hero-section__content {
+    width: 66.66666666%;
+  }
+  .vce-hero-section--alignment-start .vce-hero-section__content,
+  .vce-hero-section--alignment-end .vce-hero-section__content {
+    width: 66.66666666%;
+  }
+}
+@media (min-width: 992px) {
+  .vce-hero-section__content {
+    width: 33.33333333%;
+  }
+  .vce-hero-section--alignment-start .vce-hero-section__content,
+  .vce-hero-section--alignment-end .vce-hero-section__content {
+    width: 33.33333333%;
+  }
+}
+.vce-hero-section--fullbleed .vce-hero-section__wrap {
+  max-width: 1170px;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.vce-hero-section--fullbleed .vce-hero-section__content {
+  text-align: center;
+}
+.vce-hero-section--fullbleed.vce-hero-section--alignment-start .vce-hero-section__content {
+  text-align: left;
+}
+.vce-hero-section--fullbleed.vce-hero-section--alignment-end .vce-hero-section__content {
+  text-align: left;
+}
+/*RTL support. */
+.rtl.vce-hero-section,
+[dir="rtl"].vce-hero-section,
+.rtl .vce-hero-section,
+[dir="rtl"] .vce-hero-section {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+.rtl .vce-hero-section--alignment-start .vce-hero-section__content,
+[dir="rtl"] .vce-hero-section--alignment-start .vce-hero-section__content,
+.rtl.vce-hero-section--alignment-start .vce-hero-section__content,
+[dir="rtl"].vce-hero-section--alignment-start .vce-hero-section__content,
+.rtl .vce-hero-section--alignment-end .vce-hero-section__content,
+[dir="rtl"] .vce-hero-section--alignment-end .vce-hero-section__content,
+.rtl.vce-hero-section--alignment-end .vce-hero-section__content,
+[dir="rtl"].vce-hero-section--alignment-end .vce-hero-section__content {
+  text-align: right;
+}
+.ltr.vce-hero-section,
+[dir="ltr"].vce-hero-section,
+.ltr .vce-hero-section,
+[dir="ltr"] .vce-hero-section {
+  direction: ltr;
+  unicode-bidi: normal;
+}
+.ltr .vce-hero-section--alignment-end .vce-hero-section__content,
+[dir="ltr"] .vce-hero-section--alignment-end .vce-hero-section__content,
+.ltr.vce-hero-section--alignment-end .vce-hero-section__content,
+[dir="ltr"].vce-hero-section--alignment-end .vce-hero-section__content,
+.ltr .vce-hero-section--alignment-start .vce-hero-section__content,
+[dir="ltr"] .vce-hero-section--alignment-start .vce-hero-section__content,
+.ltr.vce-hero-section--alignment-start .vce-hero-section__content,
+[dir="ltr"].vce-hero-section--alignment-start .vce-hero-section__content {
+  text-align: left;
+}

@@ -1,44 +1,85 @@
 import React from 'react'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
+
+const RulesManager = vcCake.getService('rules-manager')
+const ActionsManager = vcCake.getService('actions-manager')
 
 class DependencyManager extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      visible: true
-    }
+    this.mount = false
+    this.stack = []
   }
 
   componentWillMount () {
-    let { options } = this.props.data.settings
-    if (options && options.dependencyOnChange) {
-      this.props.api.reply('element:set', this.onElementChange.bind(this))
-      // Call initial Set
+    // Before render
+    let { onChange } = this.props.data.options
+    if (onChange) {
+      this.props.api.on('element:set', this.onElementChange.bind(this))
+      this.props.api.on('form:mount', this.callActivitiesAfterMount.bind(this))
     }
   }
 
-  onElementChange (key, value) {
-    let { dependencyOnChange } = this.props.data.settings.options
-    if (dependencyOnChange[ key ]) {
-      // We have something to do!
-      // console.log(dependencyOnChange, key, value)
+  componentWillUnmount () {
+    this.props.api.off('element:set')
+    this.props.api.off('form:mount')
+  }
+
+  callActivitiesAfterMount () {
+    this.mount = true
+    if (this.stack) {
+      this.stack = this.stack.filter((item) => {
+        let { key, value, rules } = item
+        let { updater, getRef } = this.props.data
+        let target = {
+          key: key,
+          value: value,
+          updater: updater,
+          ref: getRef(key),
+          getRef: getRef
+        }
+        rules.forEach((ruleData) => {
+          let actionsCallback = (ruleState) => {
+            ruleData.actions.forEach((action) => {
+              ActionsManager.do(action, ruleState, target)
+            })
+          }
+
+          RulesManager.check(ruleData, value, actionsCallback)
+        })
+      })
+    }
+  }
+
+  onElementChange (data) {
+    let { key, value } = data
+    let { onChange } = this.props.data.options
+    if (key === this.props.data.key) {
+      this.props.data.value = value
+    }
+    // Only if hook for attribute exists
+    if (onChange[ key ]) {
+      let action = {
+        key: key,
+        value: value,
+        rules: onChange[ key ]
+      }
+      this.stack.push(action)
+      if (this.mount) {
+        this.callActivitiesAfterMount()
+      }
     }
   }
 
   render () {
-    let { visible } = this.state
+    let { content } = this.props
     let classes = classNames({
-      'vcv-ui-form-dependency': true,
-      'vcv-ui-state--visible': visible
+      'vcv-ui-form-dependency': true
     })
 
-    let content = ''
-    if (visible) {
-      content = this.props.content
-    }
-
     return (
-      <div className={classes}>
+      <div ref='dependency-element' className={classes}>
         {content}
       </div>
     )
