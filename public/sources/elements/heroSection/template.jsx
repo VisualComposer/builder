@@ -1,5 +1,5 @@
 <section className={wrapperClasses}>
-  <div className="vce-hero-section__wrap-row">
+  <div className={rowClasses} style={rowStyles}>
     <div className="vce-hero-section__wrap">
       <div className="vce-hero-section__content">
         <div className='editable' data-vcv-editable-param='title' dangerouslySetInnerHTML={{__html:title}} />

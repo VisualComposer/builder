@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom'
 import {default as lodash} from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-import DesignOptions from './design-options/design-options'
-import {getService} from 'vc-cake'
+// import DesignOptions from './design-options/design-options'
+// import {getService} from 'vc-cake'
 import {format} from 'util'
 import DependencyManager from './dependencies'
 
 let allTabs = []
-let designOptions = {}
+// let designOptions = {}
 
 class TreeForm extends React.Component {
   state = {
@@ -36,7 +36,7 @@ class TreeForm extends React.Component {
     this.props.api.notify('form:mount')
 
     this.props.api.on('element:set', this.updateElement.bind(this))
-    designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
+    // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
@@ -88,7 +88,7 @@ class TreeForm extends React.Component {
       }
       tabs.push(tabsData)
     }, this)
-
+/*
     tabs.push({
       id: 'editFormTabDesignOptions',
       index: tabs.length,
@@ -97,7 +97,7 @@ class TreeForm extends React.Component {
       pinned: false,
       type: 'design-options',
       params: []
-    })
+    })*/
 
     return tabs
   }
@@ -109,7 +109,7 @@ class TreeForm extends React.Component {
   }
 
   changeDesignOption (newDesignOptions) {
-    designOptions = newDesignOptions
+    // designOptions = newDesignOptions
   }
 
   editFormTabs () {
@@ -200,13 +200,13 @@ class TreeForm extends React.Component {
 
   getForm (tabIndex) {
     let tab = allTabs[ tabIndex ]
-    if (tab.type && tab.type === 'design-options') {
+    /* if (tab.type && tab.type === 'design-options') {
       let props = {
         changeDesignOption: this.changeDesignOption.bind(this),
-        values: designOptions
+        //values: designOptions
       }
-      return <DesignOptions {...props} />
-    }
+      //return <DesignOptions {...props} />
+    } */
     return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
@@ -226,7 +226,7 @@ class TreeForm extends React.Component {
   saveForm = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
-    getService('assets-manager').addDesignOption(element.get('id'), designOptions)
+    // getService('assets-manager').addDesignOption(element.get('id'), designOptions)
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })
