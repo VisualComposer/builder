@@ -1,0 +1,42 @@
+// Table used in forms
+.vcv-ui-form-table {
+  width: 100%;
+  max-width: 100%;
+  color: @vcui-form-table-color;
+  border: 1px solid @vcui-form-table-border-color;
+  margin: @vcui-form-table-margin;
+  > tbody {
+    > tr {
+      &:nth-of-type(even) {
+        background-color: @vcui-form-table-background-even;
+      }
+      &:nth-of-type(odd) {
+        background-color: @vcui-form-table-background-odd;
+      }
+      > td {
+        border-top: 1px solid @vcui-form-table-border-color;
+        vertical-align: top;
+        text-align: left;
+        padding: @vcui-form-table-padding;
+      }
+      &:last-child > td {
+        border-bottom: 1px solid @vcui-form-table-border-color;
+      }
+    }
+  }
+  .vcv-ui-form-table-link-row {
+    cursor: pointer;
+    a {
+      color: inherit;
+      text-decoration: none;
+      &:hover {
+        color: inherit;
+      }
+    }
+    &.vcv-ui-state--active,
+    &:hover {
+      color: @vcui-form-table-active-color;
+      background-color: @vcui-form-table-active-background;
+    }
+  }
+}

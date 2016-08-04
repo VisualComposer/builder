@@ -4,6 +4,7 @@ import Modal from 'simple-react-modal'
 import Attribute from '../attribute'
 import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
+import classNames from 'classnames'
 
 var $ = require('jquery')
 
@@ -132,34 +133,42 @@ export default class Component extends Attribute {
     this.setState({ unsavedValue: state })
   }
 
-  handlePostSelection (e) {
-    e.preventDefault()
-
-    this.urlInput.setFieldValue(e.target.href)
+  handlePostSelection (e, url) {
+    e && e.preventDefault()
+    this.urlInput.setFieldValue(url)
   }
 
   renderExistingPosts () {
-    let that = this
     let items = []
 
     if (!this.state.posts || !this.state.posts.length) {
-      return <div className='vcv-ui-form-no-content'>
+      return <div className='vcv-ui-form-message'>
         There is no content with such term found.
       </div>
     }
 
-    this.state.posts.map((post) => {
-      items.push(<li key={'vcv-selectable-post-url-' + post.id} className='vcv-ui-selectable-posts-list-item'>
-        <a href={post.url} onClick={that.handlePostSelection}>
-          {post.title} / {post.type}
-        </a>
-      </li>
+    this.state.posts.forEach((post) => {
+      let rowClassName = classNames({
+        'vcv-ui-form-table-link-row': true,
+        'vcv-ui-state--active': this.state.unsavedValue.url === post.url
+      })
+      items.push(
+        <tr key={'vcv-selectable-post-url-' + post.id} className={rowClassName} onClick={(e) => this.handlePostSelection(e, post.url)}>
+          <td>
+            <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
+          </td>
+          <td>
+            {post.type.toUpperCase()}
+          </td>
+        </tr>
       )
     })
 
-    return (<ul className='vcv-ui-selectable-posts-list-container'>
-      {items}
-    </ul>)
+    return (<table className='vcv-ui-form-table'>
+      <tbody>
+        {items}
+      </tbody>
+    </table>)
   }
 
   renderExistingPostsBlock () {
@@ -179,7 +188,6 @@ export default class Component extends Attribute {
           <i className='vcv-ui-icon vcv-ui-icon-search' />
         </label>
       </div>
-
       {this.renderExistingPosts()}
     </div>)
   }
