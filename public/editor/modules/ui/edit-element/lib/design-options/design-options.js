@@ -548,4 +548,4 @@ var DesignOptions = React.createClass({
   }
 })
 
-module.exports = DesignOptions
+export default DesignOptions

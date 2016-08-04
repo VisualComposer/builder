@@ -6,27 +6,27 @@ const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 
 class DependencyManager extends React.Component {
-  constructor (props) {
-    super(props)
-    this.mount = false
-    this.stack = []
-  }
+  mount = false
+  stack = []
 
   componentWillMount () {
     // Before render
     let { onChange } = this.props.data.options
     if (onChange) {
-      this.props.api.on('element:set', this.onElementChange.bind(this))
-      this.props.api.on('form:mount', this.callActivitiesAfterMount.bind(this))
+      this.props.api.on('element:set', this.onElementChange)
+      this.props.api.on('form:mount', this.callActivitiesAfterMount)
     }
   }
 
   componentWillUnmount () {
-    this.props.api.off('element:set', this.onElementChange.bind(this))
-    this.props.api.off('form:mount', this.callActivitiesAfterMount.bind(this))
+    let { onChange } = this.props.data.options
+    if (onChange) {
+      this.props.api.off('element:set', this.onElementChange)
+      this.props.api.off('form:mount', this.callActivitiesAfterMount)
+    }
   }
 
-  callActivitiesAfterMount () {
+  callActivitiesAfterMount = () => {
     this.mount = true
     if (this.stack) {
       this.stack = this.stack.filter((item) => {
@@ -68,7 +68,7 @@ class DependencyManager extends React.Component {
     }
   }
 
-  onElementChange (data) {
+  onElementChange = (data) => {
     let { key, value } = data
     let { onChange } = this.props.data.options
     if (key === this.props.data.key) {
@@ -108,4 +108,4 @@ DependencyManager.propTypes = {
   data: React.PropTypes.object.isRequired
 }
 
-module.exports = DependencyManager
+export default DependencyManager

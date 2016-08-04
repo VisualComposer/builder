@@ -1,7 +1,7 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import lodash from 'lodash'
+import {default as lodash} from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
 import DesignOptions from './design-options/design-options'
@@ -9,24 +9,16 @@ import {getService} from 'vc-cake'
 import {format} from 'util'
 import DependencyManager from './dependencies'
 
-// import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
 let designOptions = {}
 
 class TreeForm extends React.Component {
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      tabsCount: 0,
-      visibleTabsCount: 0,
-      activeTabIndex: 0,
-      saving: false,
-      saved: false
-    }
-    this.handleElementResize = this.handleElementResize.bind(this)
-    this.saveForm = this.saveForm.bind(this)
-    this.closeTreeView = this.closeTreeView.bind(this)
+  state = {
+    tabsCount: 0,
+    visibleTabsCount: 0,
+    activeTabIndex: 0,
+    saving: false,
+    saved: false
   }
 
   componentWillMount () {
@@ -74,12 +66,12 @@ class TreeForm extends React.Component {
     }
   }
 
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    removeResizeListener (element, fn) {
+      element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  handleElementResize (e) {
+  handleElementResize = (e) => {
     this.refreshTabs()
   }
 
@@ -226,12 +218,12 @@ class TreeForm extends React.Component {
     return this.field(element, param.key, updater, tabIndex)
   }
 
-  closeTreeView () {
+  closeTreeView = () => {
     this.props.api.notify('hide')
     this.props.api.request('bar-content-start:hide')
   }
 
-  saveForm () {
+  saveForm = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
     getService('assets-manager').addDesignOption(element.get('id'), designOptions)
