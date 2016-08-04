@@ -66,9 +66,9 @@ class TreeForm extends React.Component {
     }
   }
 
-    removeResizeListener (element, fn) {
-      element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   handleElementResize = (e) => {
