@@ -1,23 +1,21 @@
 import vcCake from 'vc-cake'
 import $ from 'jquery'
-import {PropTypes} from 'react'
+import React from 'react'
 
-const assetManager = vcCake.getService('assets-manager')
-const documentData = vcCake.getService('document')
+const AssetManager = vcCake.getService('assets-manager')
+const DocumentData = vcCake.getService('document')
 
 class SaveController {
   constructor (props) {
     this.props = props
     this.props.api.reply('wordpress:save', (options) => {
       options = $.extend({}, {
-        elements: documentData.all()
+        elements: DocumentData.all()
       }, options)
       this.save(options)
     })
 
-    this.props.api.reply('wordpress:load', (data) => {
-      this.load(data)
-    })
+    this.props.api.reply('wordpress:load', this.load)
   }
 
   ajax (data, successCallback, failureCallback) {
@@ -44,10 +42,10 @@ class SaveController {
 
   save (data) {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
-      /\s+data\-reactid="[^"]+"/,
+      /\s+data-reactid="[^"]+"/,
       '')
-    let scripts = assetManager.getAssets('scripts')
-    let styles = assetManager.getAssets('styles')
+    let scripts = AssetManager.getAssets('scripts')
+    let styles = AssetManager.getAssets('styles')
 
     this.ajax(
       {
@@ -81,25 +79,25 @@ class SaveController {
     })
   }
 
-  load (data) {
+  load = (data) => {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
-      this.loadSuccess.bind(this),
-      this.loadFailed.bind(this)
+      this.loadSuccess,
+      this.loadFailed
     )
   }
 
-  loadSuccess (request) {
+  loadSuccess = (request) => {
     this.props.api.request('wordpress:data:loaded', {
       status: 'success',
       request: request
     })
   }
 
-  loadFailed (request) {
+  loadFailed = (request) => {
     this.props.api.request('wordpress:data:loaded', {
       status: 'failed',
       request: request
@@ -107,7 +105,7 @@ class SaveController {
   }
 }
 SaveController.propTypes = {
-  api: PropTypes.object.isRequired
+  api: React.PropTypes.object.isRequired
 }
 
-module.exports = SaveController
+export default SaveController
