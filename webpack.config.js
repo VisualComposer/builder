@@ -94,7 +94,7 @@ module.exports = {
         'cook',
         'shared-library',
         'time-machine',
-        'assets-manager',
+        'actions-manager',
         'rules-manager'
       ]
     }

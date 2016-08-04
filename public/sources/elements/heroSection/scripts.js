@@ -4,6 +4,5 @@ let wrapperClasses = classNames({
   'vce-hero-section': true,
   'vce-hero-section--min-height': true,
   'vce-hero-section--alignment-start': align === 'start',
-  'vce-hero-section--alignment-end': align === 'end',
-  'vce-hero-section--fullbleed': !!fullbleed
+  'vce-hero-section--alignment-end': align === 'end'
 })

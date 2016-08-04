@@ -36,19 +36,21 @@ class TreeForm extends React.Component {
     })
   }
 
+  updateElement (data) {
+    this.props.element.set(data.key, data.value)
+  }
+
   componentDidMount () {
     this.props.api.notify('form:mount')
 
-    this.props.api.on('element:set', (data) => {
-      this.props.element.set(data.key, data.value)
-    })
+    this.props.api.on('element:set', this.updateElement.bind(this))
     designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-    this.props.api.off('element:set')
+    this.props.api.off('element:set', this.updateElement.bind(this))
   }
 
   addResizeListener (element, fn) {
@@ -213,14 +215,15 @@ class TreeForm extends React.Component {
       }
       return <DesignOptions {...props} />
     }
-    return tab.params.map(this.getFormParamField.bind(this))
+    return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
-  getFormParamField (param) {
+  getFormParamField (tabIndex, param) {
     let { element } = this.props
-    return this.field(element, param.key, (key, value) => {
+    const updater = (key, value) => {
       this.props.api.notify('element:set', { key: key, value: value })
-    })
+    }
+    return this.field(element, param.key, updater, tabIndex)
   }
 
   closeTreeView () {
@@ -252,16 +255,11 @@ class TreeForm extends React.Component {
       title: tab.title,
       active: (activeTabIndex === tab.index),
       container: '.vcv-ui-editor-tabs',
-      ref: (ref) => {
-        if (allTabs[ tab.index ]) {
-          allTabs[ tab.index ].ref = ref
-        }
-      },
       changeActive: this.changeActiveTab.bind(this)
     }
   }
 
-  field (element, key, updater) {
+  field (element, key, updater, tabIndex) {
     let { type, settings } = element.settings(key)
     let AttributeComponent = type.component
     if (!AttributeComponent) {
@@ -308,6 +306,10 @@ class TreeForm extends React.Component {
       updater: updater,
       getRef: (key) => {
         return this.refs[ 'form-element-' + key ]
+      },
+      tabIndex: tabIndex,
+      getRefTab: (index) => {
+        return this.refs[ 'form-tab-' + index ]
       }
     }
 
@@ -328,7 +330,7 @@ class TreeForm extends React.Component {
     lodash.each(this.getVisibleTabs(), (tab) => {
       let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
       visibleTabsHeaderOutput.push(
-        <TreeContentTab {...tabProps} />
+        <TreeContentTab ref={'form-tab-' + tab.index} {...tabProps} />
       )
     })
     let hiddenTabsHeaderOutput = ''
@@ -337,7 +339,7 @@ class TreeForm extends React.Component {
       lodash.each(this.getHiddenTabs(), (tab) => {
         let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
         hiddenTabsHeader.push(
-          <TreeContentTab {...tabProps} />
+          <TreeContentTab ref={'form-tab-' + tab.index} {...tabProps} />
         )
       })
 

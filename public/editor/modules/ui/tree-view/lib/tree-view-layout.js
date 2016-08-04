@@ -24,7 +24,7 @@ class TreeViewLayout extends React.Component {
   }
 
   getElements () {
-    let elementsList
+    let elementsList = []
     const document = vcCake.getService('document')
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
@@ -40,10 +40,11 @@ class TreeViewLayout extends React.Component {
   }
 
   getElementsOutput () {
-    if (this.getElements().length) {
+    let elements = this.getElements()
+    if (elements.length) {
       return (
         <ul ref='scrollable' className='vcv-ui-tree-layout'>
-          {this.getElements()}
+          {elements}
         </ul>
       )
     }

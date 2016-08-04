@@ -9,6 +9,12 @@ class Attribute extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      value: nextProps.value
+    })
+  }
+
   componentDidMount () {
     let { updater, fieldKey } = this.props
     let { value } = this.state
