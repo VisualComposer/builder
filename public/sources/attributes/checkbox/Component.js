@@ -30,7 +30,7 @@ export default class Component extends Attribute {
       )
     }
     return (
-      <div>
+      <div className="vcv-ui-form-checkboxes">
         {optionElements}
       </div>)
   }
