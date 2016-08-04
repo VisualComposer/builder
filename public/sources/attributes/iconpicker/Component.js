@@ -184,10 +184,10 @@ class Iconpicker extends Attribute {
     })
   }
 
-  handleChange = (e) => {
+  handleChange = (event) => {
     this.togglePopup()
-    e.currentTarget.value = e.currentTarget.attributes.value.textContent
-    super.handleChange(e)
+    event.currentTarget.value = event.currentTarget.attributes.value.textContent
+    this.setFieldValue(event.currentTarget.value)
   }
 
   render () {
