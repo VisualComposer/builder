@@ -22,10 +22,10 @@ class TreeViewLayout extends React.Component {
 
   getElements () {
     let elementsList = []
-    const document = vcCake.getService('document')
+    const DocumentData = vcCake.getService('document')
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
-        let data = document.children(element.id)
+        let data = DocumentData.children(element.id)
         return <TreeViewElement element={element} data={data} key={element.id} level={1} api={this.props.api} />
       }, this)
     }

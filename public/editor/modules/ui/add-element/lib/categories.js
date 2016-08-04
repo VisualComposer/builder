@@ -279,10 +279,9 @@ class Categories extends React.Component {
     </div>
   }
 }
-
 Categories.propTypes = {
   api: React.PropTypes.object.isRequired,
   elements: React.PropTypes.array.isRequired
 }
 
-module.exports = Categories
+export default Categories

@@ -70,4 +70,4 @@ AddElementControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = AddElementControl
+export default AddElementControl

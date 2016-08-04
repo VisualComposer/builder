@@ -204,4 +204,4 @@ ElementControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = ElementControl
+export default ElementControl

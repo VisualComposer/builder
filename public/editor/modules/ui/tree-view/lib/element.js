@@ -68,9 +68,9 @@ class TreeViewElement extends React.Component {
   getContent () {
     if (this.props.data.length) {
       let level = this.props.level + 1
-      const document = vcCake.getService('document')
+      const DocumentData = vcCake.getService('document')
       let elementsList = this.props.data.map((element) => {
-        let data = document.children(element.id)
+        let data = DocumentData.children(element.id)
         return <TreeViewElement element={element} data={data} key={element.id} level={level} api={this.props.api} />
       }, this)
       return <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul>

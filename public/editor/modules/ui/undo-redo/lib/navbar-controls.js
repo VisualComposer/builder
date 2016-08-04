@@ -19,21 +19,21 @@ class UndoRedoControl extends React.Component {
   }
 
   checkControls () {
-    let timeMachine = vcCake.getService('time-machine')
+    const TimeMachine = vcCake.getService('time-machine')
     this.setState({
-      redoDisabled: !timeMachine.canRedo(),
-      undoDisabled: !timeMachine.canUndo()
+      redoDisabled: !TimeMachine.canRedo(),
+      undoDisabled: !TimeMachine.canUndo()
     })
   }
 
   handleUndo () {
-    let timeMachine = vcCake.getService('time-machine')
-    this.props.api.request('data:reset', timeMachine.undo())
+    const TimeMachine = vcCake.getService('time-machine')
+    this.props.api.request('data:reset', TimeMachine.undo())
   }
 
   handleRedo () {
-    let timeMachine = vcCake.getService('time-machine')
-    this.props.api.request('data:reset', timeMachine.redo())
+    const TimeMachine = vcCake.getService('time-machine')
+    this.props.api.request('data:reset', TimeMachine.redo())
   }
 
   render () {
