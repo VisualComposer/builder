@@ -2,12 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 
 class TreeViewNavbarControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      controlActive: false,
-      data: []
-    }
+  state = {
+    controlActive: false,
+    data: []
   }
 
   componentDidMount () {
@@ -20,7 +17,7 @@ class TreeViewNavbarControl extends React.Component {
       })
   }
 
-  toggleTreeView (e) {
+  toggleTreeView = () => {
     this.props.api.request('bar-content-start:toggle')
   }
 
@@ -31,9 +28,9 @@ class TreeViewNavbarControl extends React.Component {
     })
 
     return (
-      <a className={controlClass} href='#' title='Tree View' onClick={this.toggleTreeView.bind(this)}>
+      <a className={controlClass} href='#' title='Tree View' onClick={this.toggleTreeView}>
         <span className='vcv-ui-navbar-control-content'>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers'></i>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers' />
           <span>Tree View</span>
         </span>
       </a>
@@ -44,4 +41,4 @@ TreeViewNavbarControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = TreeViewNavbarControl
+export default TreeViewNavbarControl

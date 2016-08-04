@@ -6,11 +6,8 @@ import '../css/tree/init.less'
 import '../css/tree-view/init.less'
 
 class TreeViewLayout extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: []
-    }
+  state = {
+    data: []
   }
 
   componentDidMount () {
@@ -35,7 +32,7 @@ class TreeViewLayout extends React.Component {
     return elementsList
   }
 
-  handleAddElement () {
+  handleAddElement = () => {
     this.props.api.request('app:add', null)
   }
 
@@ -66,18 +63,18 @@ class TreeViewLayout extends React.Component {
               {this.getElementsOutput()}
               <div className='vcv-ui-tree-layout-actions'>
                 <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
-                  onClick={this.handleAddElement.bind(this)}>
+                  onClick={this.handleAddElement}>
                   <span
                     className='vcv-ui-tree-layout-action-content'>
                     <i
-                      className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add'></i>
+                      className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
                     <span>Add element</span>
                   </span>
                 </a>
-                <a className='vcv-ui-tree-layout-action' href='#' disabled title='Template'><span
+                <a className='vcv-ui-tree-layout-action' href='#' disabled='disabled' title='Template'><span
                   className='vcv-ui-tree-layout-action-content'>
                   <i
-                    className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template'></i><span>Template</span></span>
+                    className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' /><span>Template</span></span>
                 </a>
               </div>
             </div>
@@ -91,4 +88,4 @@ TreeViewLayout.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = TreeViewLayout
+export default TreeViewLayout
