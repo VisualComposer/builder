@@ -61,4 +61,4 @@ UndoRedoControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = UndoRedoControl
+export default UndoRedoControl

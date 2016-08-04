@@ -84,4 +84,4 @@ NavbarControl.propTypes = {
   container: React.PropTypes.string
 }
 
-module.exports = NavbarControl
+export default NavbarControl

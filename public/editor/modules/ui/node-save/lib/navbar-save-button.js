@@ -50,4 +50,4 @@ SaveButtonControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = SaveButtonControl
+export default SaveButtonControl

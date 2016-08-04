@@ -426,8 +426,8 @@ class Navbar extends React.Component {
     )
   }
 }
-
 Navbar.propTypes = {
   api: React.PropTypes.object.isRequired
 }
-module.exports = Navbar
+
+export default Navbar

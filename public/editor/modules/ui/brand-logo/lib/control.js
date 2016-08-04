@@ -12,4 +12,4 @@ class BrandLogoControl extends React.Component {
   }
 }
 
-module.exports = BrandLogoControl
+export default BrandLogoControl
