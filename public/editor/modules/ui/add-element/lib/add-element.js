@@ -3,14 +3,14 @@ import React from 'react'
 import {default as Categories} from './categories'
 
 const cook = vcCake.getService('cook')
-const documentManager = vcCake.getService('document')
+const DocumentData = vcCake.getService('document')
 
 class AddElement extends React.Component {
   getElementList () {
     let allElements = cook.list.settings()
     let parentId = this.props.api.actions.getParent()
     if (parentId) {
-      let data = documentManager.get(parentId)
+      let data = DocumentData.get(parentId)
       let parent = cook.get(data)
       return allElements.filter((elementData) => {
         let element = cook.get(elementData)
@@ -21,7 +21,7 @@ class AddElement extends React.Component {
   }
 
   render () {
-    var elements = this.getElementList()
+    let elements = this.getElementList()
     let content = <Categories elements={elements} api={this.props.api} />
 
     return (
@@ -36,5 +36,5 @@ AddElement.propTypes = {
   parent: React.PropTypes.string
 }
 
-module.exports = AddElement
+export default AddElement
 

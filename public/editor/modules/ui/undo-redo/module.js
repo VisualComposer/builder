@@ -2,11 +2,11 @@ import vcCake from 'vc-cake'
 import UndoRedoControl from './lib/navbar-controls'
 
 vcCake.add('ui-undo-redo', (api) => {
-  let timeMachine = vcCake.getService('time-machine')
-  let doc = vcCake.getService('document')
+  const TimeMachine = vcCake.getService('time-machine')
+  const DocumentData = vcCake.getService('document')
   api.reply('data:changed', (data, action) => {
     if (action !== 'reset') {
-      timeMachine.add(doc.all())
+      TimeMachine.add(DocumentData.all())
     }
     api.notify('added', data)
   })

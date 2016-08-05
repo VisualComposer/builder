@@ -1,12 +1,12 @@
+.vcv-ui-form-checkboxes {
+  margin: @vcui-form-checkboxes-margin;
+}
 .vcv-ui-form-checkbox {
-  @content-padding: 2em;
-  @checkbox-size: .83em;
-
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
-  padding-left: @content-padding;
-  padding-right: @content-padding/2;
+  padding-left: @vcui-form-checkbox-content-padding;
+  padding-right: @vcui-form-checkbox-content-padding/2;
   position: relative;
 
   .vcv-ui-form-checkbox-indicator {
@@ -68,7 +68,7 @@
         line-height: 1;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        font-size: @checkbox-size;
+        font-size: @vcui-form-checkbox-indicator-size;
       }
     }
     &:checked {
@@ -92,6 +92,6 @@
   }
 
   + .vcv-ui-form-helper {
-    margin-left: @content-padding;
+    margin-left: @vcui-form-checkbox-content-padding;
   }
 }

@@ -9,7 +9,7 @@ import Attribute from '../attribute'
 import lodash from 'lodash'
 
 export default class HtmlEditorComponent extends Attribute {
-  handleChange (event) {
+  handleChange = (event) => {
     let value = event.target.getContent()
     this.setFieldValue(value)
   }

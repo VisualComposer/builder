@@ -3,13 +3,6 @@ import Attribute from '../attribute'
 import classNames from 'classnames'
 import './css/styles.less'
 
-let autobind = [
-  'iconSet',
-  'search',
-  'category',
-  'togglePopup'
-]
-
 let iconsSets = {
   fontawesome: require('./lib/font-awesome-4.6.3'),
   lineicons: require('./lib/lineicons-13.07-48'),
@@ -30,10 +23,6 @@ class Iconpicker extends Attribute {
       popupOpen: false,
       value: props.value
     }
-
-    autobind.forEach((key) => {
-      this[ key ] = this[ key ].bind(this)
-    })
   }
 
   filteredIcons () {
@@ -147,7 +136,8 @@ class Iconpicker extends Attribute {
         <div className='vcv-ui-form-iconpicker-content-heading'>
           {iconsSetContent}
           <div className='vcv-ui-input-search'>
-            <input type='search' value={search} onChange={this.search} placeholder='Search Icon' className='vcv-ui-form-input' />
+            <input type='search' value={search} onChange={this.search} placeholder='Search Icon'
+              className='vcv-ui-form-input' />
             <label className='vcv-ui-form-input-search-addon'>
               <i className='vcv-ui-icon vcv-ui-icon-search' />
             </label>
@@ -163,7 +153,7 @@ class Iconpicker extends Attribute {
     return content
   }
 
-  togglePopup (e) {
+  togglePopup = (e) => {
     e && e.preventDefault && e.preventDefault()
     this.setState({
       popupOpen: !this.state.popupOpen,
@@ -172,21 +162,21 @@ class Iconpicker extends Attribute {
     })
   }
 
-  search (e) {
+  search = (e) => {
     this.setState({
       search: e.currentTarget.value,
       category: ''
     })
   }
 
-  category (e) {
+  category = (e) => {
     this.setState({
       category: e.currentTarget.value,
       search: ''
     })
   }
 
-  iconSet (e) {
+  iconSet = (e) => {
     this.setState({
       iconSet: e.currentTarget.value,
       category: '',
@@ -194,10 +184,10 @@ class Iconpicker extends Attribute {
     })
   }
 
-  handleChange (e) {
+  handleChange = (event) => {
     this.togglePopup()
-    e.currentTarget.value = e.currentTarget.attributes.value.textContent
-    super.handleChange(e)
+    event.currentTarget.value = event.currentTarget.attributes.value.textContent
+    this.setFieldValue(event.currentTarget.value)
   }
 
   render () {
@@ -236,4 +226,4 @@ class Iconpicker extends Attribute {
 
 Iconpicker.DEFAULT_ICON_SET = 'fontawesome'
 
-module.exports = Iconpicker
+export default Iconpicker

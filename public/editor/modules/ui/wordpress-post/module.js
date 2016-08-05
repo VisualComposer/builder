@@ -7,12 +7,14 @@ import '../../../../sources/less/ui/loader/init.less'
 vcCake.add('ui-wordpress-post', (api) => {
   api.module('ui-navbar').do('addElement', 'Post Save Control', WordPressPostSaveControl,
     {
-      pin: 'visible'
+      pin: 'visible',
+      api: api
     }
   )
   api.module('ui-navbar').do('addElement', 'Wordpress Admin Controls', WordPressAdminControls,
     {
-      pin: 'hidden'
+      pin: 'hidden',
+      api: api
     }
   )
 })

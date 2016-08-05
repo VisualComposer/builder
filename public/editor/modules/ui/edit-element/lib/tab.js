@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 class TreeContentTab extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      realWidth: undefined
-    }
+  state = {
+    realWidth: undefined
   }
 
   componentDidMount () {
@@ -26,6 +23,9 @@ class TreeContentTab extends React.Component {
       }
       return false
     })
+    if (!matchesFn) {
+      throw new Error('No matches found')
+    }
     let parent
     // traverse parents
     while (el) {
@@ -65,7 +65,7 @@ class TreeContentTab extends React.Component {
     return realWidth
   }
 
-  clickHandler () {
+  clickHandler = () => {
     this.props.changeActive(this.props.index)
   }
 
@@ -78,7 +78,7 @@ class TreeContentTab extends React.Component {
     })
 
     return (
-      <a className={tabClasses} href='#' onClick={this.clickHandler.bind(this)}>
+      <a className={tabClasses} href='#' onClick={this.clickHandler}>
         <span className='vcv-ui-editor-tab-content'>
           <span>{title}</span>
         </span>
@@ -95,4 +95,4 @@ TreeContentTab.propTypes = {
   active: React.PropTypes.bool
 }
 
-module.exports = TreeContentTab
+export default TreeContentTab

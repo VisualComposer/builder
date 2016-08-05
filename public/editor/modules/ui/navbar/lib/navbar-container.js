@@ -110,4 +110,4 @@ NavbarContainer.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = NavbarContainer
+export default NavbarContainer

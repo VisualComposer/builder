@@ -14,4 +14,4 @@ WordPressElement.propTypes = {
   element: React.PropTypes.object
 }
 
-module.exports = WordPressElement
+export default WordPressElement

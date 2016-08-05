@@ -6,7 +6,6 @@ class Attribute extends React.Component {
     this.state = {
       value: props.value
     }
-    this.handleChange = this.handleChange.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -21,7 +20,7 @@ class Attribute extends React.Component {
     updater(fieldKey, value)
   }
 
-  handleChange (event) {
+  handleChange = (event) => {
     this.setFieldValue(event.currentTarget.value)
   }
 
@@ -45,4 +44,4 @@ Attribute.propTypes = {
   options: React.PropTypes.any
 }
 
-module.exports = Attribute
+export default Attribute

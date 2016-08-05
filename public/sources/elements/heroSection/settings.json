@@ -66,6 +66,15 @@
       "description": "The description"
     }
   },
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Image",
+      "multiple": false
+    }
+  },
   "align": {
     "type": "dropdown",
     "access": "public",
@@ -125,6 +134,7 @@
     "value": [
       "title",
       "description",
+      "image",
       "align",
       "addButton"
     ],

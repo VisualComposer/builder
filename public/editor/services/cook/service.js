@@ -6,7 +6,7 @@ import {default as elementSettings} from './lib/element-settings'
 import {default as attributeManager} from './lib/attribute-manager'
 import CookElement from './lib/element'
 
-const documentManager = getService('document')
+const DocumentData = getService('document')
 
 addService('cook', {
   get (data) {
@@ -17,7 +17,7 @@ addService('cook', {
     return new CookElement(data)
   },
   getById (id) {
-    let data = documentManager.get(id)
+    let data = DocumentData.get(id)
     return data !== null ? this.get(data) : undefined
   },
   add (settings, componentCallback, cssSettings, javascriptCallback) {

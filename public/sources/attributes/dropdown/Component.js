@@ -1,8 +1,7 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import Attribute from '../attribute'
 
-export default class Component extends Attribute {
+export default class Dropdown extends Attribute {
   componentWillMount () {
     let optionElements = []
     let { values } = this.props.options
@@ -23,7 +22,7 @@ export default class Component extends Attribute {
       <select
         value={value}
         onChange={this.handleChange}
-        className="vcv-ui-form-dropdown">
+        className='vcv-ui-form-dropdown'>
         {this.selectChilds}
       </select>
     )

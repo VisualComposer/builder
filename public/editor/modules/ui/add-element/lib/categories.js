@@ -11,14 +11,10 @@ let allTabs = []
 
 class Categories extends React.Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      tabsCount: 0,
-      visibleTabsCount: 0,
-      activeTabIndex: 0
-    }
-    this.handleElementResize = this.handleElementResize.bind(this)
+  state = {
+    tabsCount: 0,
+    visibleTabsCount: 0,
+    activeTabIndex: 0
   }
 
   componentWillMount () {
@@ -62,7 +58,7 @@ class Categories extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  handleElementResize (e) {
+  handleElementResize = () => {
     this.refreshTabs()
   }
 
@@ -86,7 +82,7 @@ class Categories extends React.Component {
     return tabs
   }
 
-  changeActiveTab (tabIndex) {
+  changeActiveTab = (tabIndex) => {
     this.setState({
       activeTabIndex: tabIndex
     })
@@ -147,10 +143,10 @@ class Categories extends React.Component {
           allTabs[ lastTab.index ].isVisible = true
         }
       }
+
       this.setState({
         visibleTabsCount: this.getVisibleTabs().length
       })
-      return
     }
   }
 
@@ -187,7 +183,7 @@ class Categories extends React.Component {
           allTabs[ tab.index ].ref = ref
         }
       },
-      changeActive: this.changeActiveTab.bind(this)
+      changeActive: this.changeActiveTab
     }
   }
 
@@ -220,7 +216,7 @@ class Categories extends React.Component {
         <dl className={dropdownClasses}>
           <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
             <span className="vcv-ui-editor-tab-content">
-              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots"></i>
+              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots" />
             </span>
           </dt>
           <dd className="vcv-ui-editor-tab-dropdown-content">
@@ -260,7 +256,7 @@ class Categories extends React.Component {
         <nav className="vcv-ui-editor-tabs">
           {visibleTabsHeaderOutput}
           {hiddenTabsHeaderOutput}
-          <span className="vcv-ui-editor-tabs-free-space"></span>
+          <span className="vcv-ui-editor-tabs-free-space" />
         </nav>
       </div>
 
@@ -283,10 +279,9 @@ class Categories extends React.Component {
     </div>
   }
 }
-
 Categories.propTypes = {
   api: React.PropTypes.object.isRequired,
   elements: React.PropTypes.array.isRequired
 }
 
-module.exports = Categories
+export default Categories

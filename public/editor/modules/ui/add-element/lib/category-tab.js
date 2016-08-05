@@ -100,4 +100,4 @@ CategoryTab.propTypes = {
   active: React.PropTypes.bool
 }
 
-module.exports = CategoryTab
+export default CategoryTab

@@ -4,14 +4,14 @@ import vcCake from 'vc-cake'
  * Get all unique elements on page (their tag names) and remove all orphaned assets
  */
 vcCake.add('content-wordpress-assets', (api) => {
-  let assetManager = vcCake.getService('assets-manager')
+  const AssetsManager = vcCake.getService('assets-manager')
   api.reply('data:add', (element) => {
     let elementTag = element.tag
-    if (typeof assetManager.cache.scripts[ elementTag ] !== 'undefined') {
-      assetManager.addScripts(elementTag, assetManager.cache.scripts[ elementTag ])
+    if (typeof AssetsManager.cache.scripts[ elementTag ] !== 'undefined') {
+      AssetsManager.addScripts(elementTag, AssetsManager.cache.scripts[ elementTag ])
     }
-    if (typeof assetManager.cache.styles[ elementTag ] !== 'undefined') {
-      assetManager.addStyles(elementTag, assetManager.cache.styles[ elementTag ])
+    if (typeof AssetsManager.cache.styles[ elementTag ] !== 'undefined') {
+      AssetsManager.addStyles(elementTag, AssetsManager.cache.styles[ elementTag ])
     }
   })
   /*
@@ -25,7 +25,7 @@ vcCake.add('content-wordpress-assets', (api) => {
    }
 
    for (let i = assetTypes.length - 1 i >= 0 i--) {
-   let assets = assetManager.getAssets(assetTypes[i])
+   let assets = AssetsManager.getAssets(assetTypes[i])
 
    for (let element in assets) {
    if (tagNames.indexOf(element) === -1) {
@@ -33,7 +33,7 @@ vcCake.add('content-wordpress-assets', (api) => {
    }
    }
 
-   assetManager.assets[assetTypes[i]] = assets
+   AssetsManager.assets[assetTypes[i]] = assets
    }
    })*/
 })

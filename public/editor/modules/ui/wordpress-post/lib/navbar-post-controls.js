@@ -11,7 +11,7 @@ class WordPressAdminControl extends React.Component {
     })
   }
 
-  saveDraft (e) {
+  saveDraft = (e) => {
     e && e.preventDefault && e.preventDefault()
     this.props.api.request('wordpress:data:saving', { draft: true })
   }
@@ -24,7 +24,7 @@ class WordPressAdminControl extends React.Component {
           className='vcv-ui-navbar-control'
           href={PostData.permalink()}
           title='Save Draft'
-          onClick={this.saveDraft.bind(this)}
+          onClick={this.saveDraft}
         ><span
           className='vcv-ui-navbar-control-content'>Save Draft</span></a>
       )
@@ -44,7 +44,7 @@ class WordPressAdminControl extends React.Component {
         href={PostData.previewUrl()}
         title={previewText}
         target='_blank'
-        disabled
+        disabled='disabled'
       ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
     )
 
@@ -53,7 +53,7 @@ class WordPressAdminControl extends React.Component {
         className='vcv-ui-navbar-control'
         href={PostData.backendEditorUrl()}
         title='Edit in Backend Editor'
-        disabled
+        disabled='disabled'
       ><span className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
 
@@ -77,4 +77,4 @@ WordPressAdminControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = WordPressAdminControl
+export default WordPressAdminControl
