@@ -79,12 +79,13 @@
     "perfect-scrollbar": "^0.6.12",
     "postcss-loader": "^0.9.1",
     "react": "^15.3.0",
+    "react-color": "^2.2.2",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dnd-touch-backend": "^0.3.0",
     "react-dom": "^15.3.0",
-    "simple-react-modal": "^0.5.0",
     "react-tinymce": "^0.5.1",
+    "simple-react-modal": "^0.5.0",
     "simply-deferred": "^3.0.0",
     "tinymce": "^4.4.1",
     "vc-cake": "^0.3.3",
@@ -107,7 +108,10 @@
       "standard-react"
     ],
     "rules": {
-      "jsx-quotes": [2, "prefer-single"]
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ]
     }
   },
   "standard": {
