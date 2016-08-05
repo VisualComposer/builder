@@ -20,4 +20,4 @@ HtmlLayout.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = HtmlLayout
+export default HtmlLayout
