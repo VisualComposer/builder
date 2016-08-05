@@ -125,7 +125,7 @@ class TreeViewElement extends React.Component {
       'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId
     })
 
-    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_icon'))
+    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('metaIcon'))
     let space = 0.8
 
     return (

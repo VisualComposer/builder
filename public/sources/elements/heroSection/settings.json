@@ -14,32 +14,32 @@
     "access": "protected",
     "value": "Content"
   },
-  "meta_intro": {
+  "metaIntro": {
     "type": "textarea",
     "access": "protected",
     "value": "Short intro"
   },
-  "meta_description": {
+  "metaDescription": {
     "type": "textarea",
     "access": "protected",
     "value": "Long description"
   },
-  "meta_preview_description": {
+  "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
     "value": "Medium preview description"
   },
-  "meta_preview": {
+  "metaPreview": {
     "type": "attachimage",
     "access": "protected",
     "value": "preview.png"
   },
-  "meta_thumbnail": {
+  "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
     "value": "thumbnail.png"
   },
-  "meta_icon": {
+  "metaIcon": {
     "type": "attachimage",
     "access": "protected",
     "value": "icon.png"
