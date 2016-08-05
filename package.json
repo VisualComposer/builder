@@ -82,7 +82,7 @@
     "react-tinymce": "^0.5.1",
     "simply-deferred": "^3.0.0",
     "tinymce": "^4.4.1",
-    "vc-cake": "^0.3.2",
+    "vc-cake": "^0.3.4",
     "webpack": "^1.13.1"
   },
   "babel": {
