@@ -35,7 +35,7 @@ addService('cook', {
       delete attributeManager.items[ name ]
     },
     get (name) {
-      var attributeElement = attributeManager.get(name)
+      let attributeElement = attributeManager.get(name)
       if (attributeElement) {
         return attributeElement
       }
@@ -44,7 +44,8 @@ addService('cook', {
   },
   list: {
     settings (sortSelector = [ 'name' ]) {
-      var list = elementSettings.list()
+      let list = elementSettings.list()
+
       return lodash.sortBy(list.map((item) => {
         return buildSettingsObject(item.settings)
       }), sortSelector)

@@ -33,7 +33,8 @@ const service = {
     LocalStorage.update(data)
   },
   get: () => {
-    var savedContent = LocalStorage.getItem() || {}
+    let savedContent = LocalStorage.getItem() || {}
+
     return Object.keys(savedContent).length ? savedContent : LocalStorage.reWrapDefaultContent(defaultContent)
   }
 }
