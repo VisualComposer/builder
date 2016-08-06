@@ -2,23 +2,20 @@ import React from 'react'
 import vcCake from 'vc-cake'
 
 class UndoRedoControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      redoDisabled: true,
-      undoDisabled: true
-    }
+  state = {
+    redoDisabled: true,
+    undoDisabled: true
   }
 
   componentWillMount () {
-    this.props.api.on('added', this.checkControls.bind(this))
+    this.props.api.on('added', this.checkControls)
   }
 
   componentWillUnmount () {
-    this.props.api.off('added', this.checkControls.bind(this))
+    this.props.api.off('added', this.checkControls)
   }
 
-  checkControls () {
+  checkControls = () => {
     const TimeMachine = vcCake.getService('time-machine')
     this.setState({
       redoDisabled: !TimeMachine.canRedo(),
@@ -26,12 +23,12 @@ class UndoRedoControl extends React.Component {
     })
   }
 
-  handleUndo () {
+  handleUndo = () => {
     const TimeMachine = vcCake.getService('time-machine')
     this.props.api.request('data:reset', TimeMachine.undo())
   }
 
-  handleRedo () {
+  handleRedo = () => {
     const TimeMachine = vcCake.getService('time-machine')
     this.props.api.request('data:reset', TimeMachine.redo())
   }
@@ -41,14 +38,14 @@ class UndoRedoControl extends React.Component {
       <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-hidden-sm'>
         <a
           className='vcv-ui-navbar-control' href='#' title='Undo' disabled={this.state.undoDisabled}
-          onClick={this.handleUndo.bind(this)}
+          onClick={this.handleUndo}
         ><span
           className='vcv-ui-navbar-control-content'
         ><i
           className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo'></i><span>Undo</span></span></a>
         <a
           className='vcv-ui-navbar-control' href='#' title='Redo' disabled={this.state.redoDisabled}
-          onClick={this.handleRedo.bind(this)}
+          onClick={this.handleRedo}
         ><span
           className='vcv-ui-navbar-control-content'
         ><i

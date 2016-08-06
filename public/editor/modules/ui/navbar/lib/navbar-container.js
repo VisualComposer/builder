@@ -2,43 +2,40 @@ import React from 'react'
 import Navbar from './navbar'
 
 class NavbarContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      showOverlay: false,
-      showGuideline: false,
-      guidelinePosition: 'top',
-      isDragging: false
-    }
+  state = {
+    showOverlay: false,
+    showGuideline: false,
+    guidelinePosition: 'top',
+    isDragging: false
   }
 
   componentDidMount () {
-    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart.bind(this))
-    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd.bind(this))
-    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging.bind(this))
+    document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
+    document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
+    document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
   }
 
   componentWillUnmount () {
-    document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart.bind(this))
-    document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd.bind(this))
-    document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging.bind(this))
+    document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
+    document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
+    document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
   }
 
-  handleNavbarDragStart (e) {
+  handleNavbarDragStart = (e) => {
     this.setState({
       isDragging: true,
       showOverlay: true
     })
   }
 
-  handleNavbarDragEnd (e) {
+  handleNavbarDragEnd = (e) => {
     this.setState({
       isDragging: false,
       showOverlay: false
     })
   }
 
-  handleNavbarDragging (e) {
+  handleNavbarDragging = (e) => {
     let { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
     let navSize = 60
     let navSizeSide = 60 * 2

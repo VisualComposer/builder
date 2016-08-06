@@ -9,43 +9,34 @@ import '../css/module.less'
 let navbarControls = []
 
 class Navbar extends React.Component {
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      controlsCount: 0,
-      visibleControlsCount: 0,
-      saving: false,
-      saved: false,
-      isDragging: false,
-      isDetached: false,
-      navbarPosition: 'top',
-      navPosX: 0,
-      navPosY: 0,
-      windowSize: {
-        height: window.innerHeight,
-        width: window.innerWidth
-      },
-      navbarSize: {
-        height: undefined,
-        width: undefined
-      },
-      navbarPositionFix: {
-        top: undefined,
-        left: undefined
-      },
-      moveDirection: {
-        top: false,
-        right: false,
-        bottom: false,
-        left: false
-      }
+  state = {
+    controlsCount: 0,
+    visibleControlsCount: 0,
+    saving: false,
+    saved: false,
+    isDragging: false,
+    isDetached: false,
+    navbarPosition: 'top',
+    navPosX: 0,
+    navPosY: 0,
+    windowSize: {
+      height: window.innerHeight,
+      width: window.innerWidth
+    },
+    navbarSize: {
+      height: undefined,
+      width: undefined
+    },
+    navbarPositionFix: {
+      top: undefined,
+      left: undefined
+    },
+    moveDirection: {
+      top: false,
+      right: false,
+      bottom: false,
+      left: false
     }
-    this.refreshControls = this.refreshControls.bind(this)
-    this.handleDragStart = this.handleDragStart.bind(this)
-    this.handleDragEnd = this.handleDragEnd.bind(this)
-    this.handleDragging = this.handleDragging.bind(this)
-    this.handleElementResize = this.handleElementResize.bind(this)
   }
 
   componentWillMount () {
@@ -95,7 +86,7 @@ class Navbar extends React.Component {
     this.handleElementResize()
   }
 
-  handleElementResize () {
+  handleElementResize = () => {
     this.refreshControls()
   }
 
@@ -199,7 +190,7 @@ class Navbar extends React.Component {
     )
   }
 
-  refreshControls () {
+  refreshControls = () => {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
       return sidePlacements.indexOf(this.state.navbarPosition) !== -1
@@ -260,7 +251,7 @@ class Navbar extends React.Component {
     }
   }
 
-  handleDragStart (e, dragWithHandler = true) {
+  handleDragStart = (e, dragWithHandler = true) => {
     e && e.preventDefault()
     if (e.nativeEvent.which !== 1) {
       return
@@ -296,7 +287,7 @@ class Navbar extends React.Component {
     this.handleDragging(e.nativeEvent)
   }
 
-  handleDragEnd (e) {
+  handleDragEnd = (e) => {
     let moveEndEvent = document.createEvent('Event')
     moveEndEvent.initEvent('vc.ui.navbar.drag-end', true, true)
     e.target.dispatchEvent(moveEndEvent)
@@ -309,7 +300,7 @@ class Navbar extends React.Component {
     })
   }
 
-  handleDragging (e) {
+  handleDragging = (e) => {
     this.setState((previousState) => {
       let newStates = {
         moveDirection: {

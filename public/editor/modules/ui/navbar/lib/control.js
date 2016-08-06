@@ -2,15 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 class NavbarControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      realSize: {
-        width: undefined,
-        height: undefined
-      },
-      navbarPosition: 'top'
-    }
+  state = {
+    realSize: {
+      width: undefined,
+      height: undefined
+    },
+    navbarPosition: 'top'
   }
 
   componentDidMount () {

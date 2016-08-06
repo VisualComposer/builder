@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 class CategoryTab extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      realWidth: undefined
-    }
+  state = {
+    realWidth: undefined
   }
 
   componentDidMount () {

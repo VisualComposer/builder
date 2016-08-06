@@ -7,12 +7,9 @@ const cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 
 class ElementControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      previewVisible: false,
-      previewStyle: {}
-    }
+  state = {
+    previewVisible: false,
+    previewStyle: {}
   }
 
   componentDidMount () {

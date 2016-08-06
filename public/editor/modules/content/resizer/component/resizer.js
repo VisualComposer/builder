@@ -28,8 +28,8 @@ class Resizer extends React.Component {
 
   componentDidMount () {
     $(this.refs.resizer)
-      .on('mousedown.vcv-resizer', this.bindDrag.bind(this))
-      .on('touchstart.vcv-resizer', this.bindDrag.bind(this))
+      .on('mousedown.vcv-resizer', this.bindDrag)
+      .on('touchstart.vcv-resizer', this.bindDrag)
       .on('dragstart.vcv-resizer', (e) => {
         e && e.preventDefault && e.preventDefault()
         return false
@@ -48,7 +48,7 @@ class Resizer extends React.Component {
     this.state.resizerOptions.$overlay.remove()
   }
 
-  bindDrag (e) {
+  bindDrag = (e) => {
     this.startClientX = this.getClientX(e)
     this.startClientY = this.getClientY(e)
     // Disable highlighting while dragging
@@ -63,10 +63,10 @@ class Resizer extends React.Component {
     this.state.resizerOptions.overlayClasses && this.state.resizerOptions.$overlay.addClass(this.state.resizerOptions.overlayClasses)
     this.state.resizerOptions.$overlay.appendTo('body')
     $(document)
-      .on('mousemove.vcv-resizer', this.doResize.bind(this))
-      .on('mouseup.vcv-resizer', this.stopResize.bind(this))
-      .on('touchmove.vcv-resizer', this.doResize.bind(this))
-      .on('touchend.vcv-resizer', this.stopResize.bind(this))
+      .on('mousemove.vcv-resizer', this.doResize)
+      .on('mouseup.vcv-resizer', this.stopResize)
+      .on('touchmove.vcv-resizer', this.doResize)
+      .on('touchend.vcv-resizer', this.stopResize)
   }
 
   getClientX (e) {
@@ -77,7 +77,7 @@ class Resizer extends React.Component {
     return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[ 0 ].clientY : e.clientY
   }
 
-  doResize (e) {
+  doResize = (e) => {
     if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
       let $window = $(window)
       let clientX = this.getClientX(e)
@@ -183,7 +183,7 @@ class Resizer extends React.Component {
     return doResize
   }
 
-  stopResize () {
+  stopResize = () => {
     this.state.resizerOptions.$overlay.detach()
     $(document)
       .off('mousemove.vcv-resizer')
@@ -193,11 +193,13 @@ class Resizer extends React.Component {
   }
 
   render () {
-    return (<div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>)
+    return (
+      <div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>
+    )
   }
 }
 Resizer.propTypes = {
   params: React.PropTypes.object.isRequired
 }
 
-module.exports = Resizer
+export default Resizer

@@ -1,15 +1,12 @@
 import React from 'react'
-import ClassNames from 'classnames'
+import classNames from 'classnames'
 import BarContentStart from './content-start'
 import BarContentEnd from './content-end'
 
 class BarContent extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      hasStartContent: false,
-      hasEndContent: false
-    }
+  state = {
+    hasStartContent: false,
+    hasEndContent: false
   }
 
   componentDidMount () {
@@ -52,10 +49,11 @@ class BarContent extends React.Component {
   }
 
   render () {
-    let layoutClasses = ClassNames({
+    let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': this.state.hasStartContent || this.state.hasEndContent
     })
+
     return (
       <div className={layoutClasses}>
         <BarContentStart api={this.props.api} />
@@ -68,4 +66,4 @@ BarContent.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = BarContent
+export default BarContent
