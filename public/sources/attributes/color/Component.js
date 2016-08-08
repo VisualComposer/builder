@@ -8,14 +8,39 @@ import './css/styles.less'
 
 class Color extends Attribute {
   state = {
-    displayColorPicker: false
+    displayColorPicker: false,
+    value: this.normalizeValue(this.props)
   }
 
-  constructor (props) {
-    super(props)
-    if (!lodash.isObject(props.value)) {
-      this.state.value = { r: '255', g: '255', b: '255', a: '1' }
+  normalizeValue (props) {
+    let value = props.value
+    if (!lodash.isObject(value)) {
+      value = {
+        'hsl': {
+          'h': 0,
+          's': 0.6736401673640168,
+          'l': 0.44215,
+          'a': 1
+        },
+        'hex': '#bd2525',
+        'rgb': {
+          'r': 189,
+          'g': 37,
+          'b': 37,
+          'a': 1
+        },
+        'hsv': {
+          'h': 0,
+          's': 0.805,
+          'v': 0.74,
+          'a': 1
+        },
+        'oldHue': 0,
+        'source': 'rgb'
+      }
     }
+
+    return value
   }
 
   handleClick = () => {
@@ -27,15 +52,16 @@ class Color extends Attribute {
   }
 
   handleChange = (color) => {
-    this.setFieldValue(color.rgb)
+    this.setFieldValue(color)
   }
 
   render () {
     let { value, displayColorPicker } = this.state
 
     let colorPicker = ''
+    let { r, g, b, a } = value.rgb
     let colorStyle = {
-      background: `rgba(${value.r}, ${value.g}, ${value.b}, ${value.a})`
+      background: `rgba(${r}, ${g}, ${b}, ${a})`
     }
 
     if (displayColorPicker) {

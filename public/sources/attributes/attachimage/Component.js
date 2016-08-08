@@ -6,17 +6,18 @@ import lodash from 'lodash'
 class AttachImage extends Attribute {
   mediaUploader = null
 
-  constructor (props) {
-    super(props)
-    if (!lodash.isObject(props.value)) {
-      this.state.value = { ids: [], urls: [] }
+  normalizeValue (props) {
+    let value = props.value
+    if (!lodash.isObject(value)) {
+      value = { ids: [], urls: [] }
     }
+
+    return value
   }
 
   openLibrary = () => {
     if (!this.mediaUploader) {
-      console.error('Media uploader not found. Make sure you are running this on WordPress.')
-      return
+      throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
     }
     this.mediaUploader.open()
   }
@@ -46,7 +47,7 @@ class AttachImage extends Attribute {
   onMediaSelect = () => {
     let selection
     selection = this.mediaUploader.state().get('selection')
-    this.setState({ value: { ids: [], urls: [] } })
+    this.setFieldValue({ ids: [], urls: [] })
     selection.map(this.mediaAttachmentParse)
   }
 

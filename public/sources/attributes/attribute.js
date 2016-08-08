@@ -1,17 +1,19 @@
 import React from 'react'
 
 class Attribute extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      value: props.value
-    }
+  state = {
+    value: this.normalizeValue(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
+    let value = this.normalizeValue(nextProps)
     this.setState({
-      value: nextProps.value
+      value: value
     })
+  }
+
+  normalizeValue (props) {
+    return props.value
   }
 
   componentDidMount () {
@@ -40,7 +42,7 @@ class Attribute extends React.Component {
 Attribute.propTypes = {
   updater: React.PropTypes.func.isRequired,
   fieldKey: React.PropTypes.string.isRequired,
-  value: React.PropTypes.any,
+  value: React.PropTypes.any.isRequired,
   options: React.PropTypes.any
 }
 
