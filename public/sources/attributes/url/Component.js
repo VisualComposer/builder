@@ -117,7 +117,7 @@ export default class Url extends Attribute {
     this.setState({ unsavedValue: unsavedValue })
   }
 
-  handlePostSelection (e, url) => {
+  handlePostSelection = (e, url) => {
     e && e.preventDefault()
 
     this.urlInput.setFieldValue(url)
