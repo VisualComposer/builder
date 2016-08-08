@@ -6,7 +6,7 @@ import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 
-var $ = require('jquery')
+import $ from 'jquery'
 
 if (typeof Object.assign !== 'function') {
   Object.assign = function (target) {
@@ -30,21 +30,10 @@ if (typeof Object.assign !== 'function') {
   }
 }
 
-export default class Component extends Attribute {
+export default class Url extends Attribute {
 
   constructor (props) {
     super(props)
-
-    let autobind = [
-      'renderExistingPosts',
-      'handlePostSelection',
-      'handleInputChange',
-      'onSearchChange',
-      'performSearch',
-      'cancel',
-      'open',
-      'save'
-    ]
 
     if (!lodash.isObject(props.value)) {
       this.state.value = { url: '', title: '', targetBlank: false, relNofollow: false }
@@ -55,15 +44,11 @@ export default class Component extends Attribute {
     this.state.posts = null
     this.shouldRenderExistingPosts = !!window.vcvAjaxUrl
 
-    autobind.forEach((key) => {
-      this[ key ] = this[ key ].bind(this)
-    })
-
     this.delayedSearch = lodash.debounce(this.performSearch, 800)
   }
 
   ajaxPost (data, successCallback, failureCallback) {
-    var request = new window.XMLHttpRequest()
+    let request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = function () {
@@ -79,18 +64,17 @@ export default class Component extends Attribute {
   }
 
   loadPosts (search) {
-    let that = this
     this.ajaxPost({
       'vcv-action': 'attribute:linkSelector:getPosts',
       'vcv-search': search,
       'vcv-nonce': window.vcvNonce
-    }, function (request) {
+    }, (request) => {
       let posts = JSON.parse(request.response || '{}')
-      that.setState({ posts: posts })
+      this.setState({ posts: posts })
     })
   }
 
-  open () {
+  open = (e) => {
     let unsavedValue = {}
     Object.assign(unsavedValue, this.state.value)
 
@@ -111,40 +95,43 @@ export default class Component extends Attribute {
     })
   }
 
-  cancel () {
+  cancel = (e) => {
     this.hide()
   }
 
-  save () {
+  save = (e) => {
     this.setFieldValue(this.state.unsavedValue)
     this.hide()
   }
 
-  handleInputChange (fieldKey, value) {
-    let state = this.state.unsavedValue
+  handleInputChange = (fieldKey, value) => {
+    let unsavedValue = this.state.unsavedValue
 
     // Checkboxes return either ['1'] or []. Cast to boolean.
     if ([ 'targetBlank', 'relNofollow' ].indexOf(fieldKey) !== -1) {
       value = value.length > 0
     }
 
-    state[ fieldKey ] = value
+    unsavedValue[ fieldKey ] = value
 
-    this.setState({ unsavedValue: state })
+    this.setState({ unsavedValue: unsavedValue })
   }
 
-  handlePostSelection (e, url) {
+  handlePostSelection (e, url) => {
     e && e.preventDefault()
+
     this.urlInput.setFieldValue(url)
   }
 
-  renderExistingPosts () {
+  renderExistingPosts = () => {
     let items = []
 
     if (!this.state.posts || !this.state.posts.length) {
-      return <div className='vcv-ui-form-message'>
-        There is no content with such term found.
-      </div>
+      return (
+        <div className='vcv-ui-form-message'>
+          There is no content with such term found.
+        </div>
+      )
     }
 
     this.state.posts.forEach((post) => {
@@ -164,11 +151,13 @@ export default class Component extends Attribute {
       )
     })
 
-    return (<table className='vcv-ui-form-table'>
-      <tbody>
-        {items}
-      </tbody>
-    </table>)
+    return (
+      <table className='vcv-ui-form-table'>
+        <tbody>
+          {items}
+        </tbody>
+      </table>
+    )
   }
 
   renderExistingPostsBlock () {
@@ -176,28 +165,31 @@ export default class Component extends Attribute {
       return
     }
 
-    return (<div className='vcv-ui-form-group'>
-      <p className='vcv-ui-form-helper'>
-        Or link to existing content
-      </p>
-      <div className='vcv-ui-input-search'>
-        <input type='search' className='vcv-ui-form-input'
-          onChange={this.onSearchChange}
-          placeholder='Search existing content' />
-        <label className='vcv-ui-form-input-search-addon'>
-          <i className='vcv-ui-icon vcv-ui-icon-search' />
-        </label>
+    return (
+      <div className='vcv-ui-form-group'>
+        <p className='vcv-ui-form-helper'>
+          Or link to existing content
+        </p>
+        <div className='vcv-ui-input-search'>
+          <input type='search' className='vcv-ui-form-input'
+            onChange={this.onSearchChange}
+            placeholder='Search existing content' />
+          <label className='vcv-ui-form-input-search-addon'>
+            <i className='vcv-ui-icon vcv-ui-icon-search' />
+          </label>
+        </div>
+
+        {this.renderExistingPosts()}
       </div>
-      {this.renderExistingPosts()}
-    </div>)
+    )
   }
 
-  onSearchChange (e) {
+  onSearchChange = (e) => {
     e.persist()
     this.delayedSearch(e)
   }
 
-  performSearch (e) {
+  performSearch = (e) => {
     let keyword = e.target.value
     this.loadPosts(keyword)
   }
@@ -214,7 +206,7 @@ export default class Component extends Attribute {
 
           <header className='vcv-ui-modal-header'>
             <a className='vcv-ui-modal-close' onClick={this.cancel}>
-              <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close'></i>
+              <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </a>
             <h1 className='vcv-ui-modal-header-title'>Insert or Edit Link</h1>
           </header>
@@ -251,12 +243,12 @@ export default class Component extends Attribute {
             <div className='vcv-ui-form-group'>
               <Checkbox
                 fieldKey='targetBlank'
-                options={{ values: [{ label: 'Open link in a new tab', value: '1' }] }}
+                options={{ values: [ { label: 'Open link in a new tab', value: '1' } ] }}
                 value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
                 updater={this.handleInputChange} />
               <Checkbox
                 fieldKey='relNofollow'
-                options={{ values: [{ label: 'Add nofollow option to link', value: '1' }] }}
+                options={{ values: [ { label: 'Add nofollow option to link', value: '1' } ] }}
                 value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
                 updater={this.handleInputChange} />
             </div>
@@ -268,7 +260,7 @@ export default class Component extends Attribute {
             <div className='vcv-ui-modal-actions'>
               <a className='vcv-ui-modal-action' href='#' title='Save' onClick={this.save}>
                 <span className='vcv-ui-modal-action-content'>
-                  <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save'></i>
+                  <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
                   <span>Save</span>
                 </span>
               </a>
@@ -284,7 +276,7 @@ export default class Component extends Attribute {
     return (
       <div className='vcv-ui-form-link'>
         <button className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default' onClick={this.open}>
-          <i className='vcv-ui-icon vcv-ui-icon-link'></i>
+          <i className='vcv-ui-icon vcv-ui-icon-link' />
           <span>Select URL</span>
         </button>
         <div className='vcv-ui-form-link-data'>

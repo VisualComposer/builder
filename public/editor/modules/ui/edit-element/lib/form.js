@@ -1,32 +1,24 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import lodash from 'lodash'
+import {default as lodash} from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-import DesignOptions from './design-options/design-options'
-import {getService} from 'vc-cake'
+// import DesignOptions from './design-options/design-options'
+// import {getService} from 'vc-cake'
 import {format} from 'util'
 import DependencyManager from './dependencies'
 
-// import PerfectScrollbar from 'perfect-scrollbar'
 let allTabs = []
-let designOptions = {}
+// let designOptions = {}
 
 class TreeForm extends React.Component {
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      tabsCount: 0,
-      visibleTabsCount: 0,
-      activeTabIndex: 0,
-      saving: false,
-      saved: false
-    }
-    this.handleElementResize = this.handleElementResize.bind(this)
-    this.saveForm = this.saveForm.bind(this)
-    this.closeTreeView = this.closeTreeView.bind(this)
+  state = {
+    tabsCount: 0,
+    visibleTabsCount: 0,
+    activeTabIndex: 0,
+    saving: false,
+    saved: false
   }
 
   componentWillMount () {
@@ -44,7 +36,7 @@ class TreeForm extends React.Component {
     this.props.api.notify('form:mount')
 
     this.props.api.on('element:set', this.updateElement.bind(this))
-    designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
+    // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
 
@@ -79,7 +71,7 @@ class TreeForm extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  handleElementResize (e) {
+  handleElementResize = (e) => {
     this.refreshTabs()
   }
 
@@ -96,7 +88,7 @@ class TreeForm extends React.Component {
       }
       tabs.push(tabsData)
     }, this)
-
+/*
     tabs.push({
       id: 'editFormTabDesignOptions',
       index: tabs.length,
@@ -105,7 +97,7 @@ class TreeForm extends React.Component {
       pinned: false,
       type: 'design-options',
       params: []
-    })
+    })*/
 
     return tabs
   }
@@ -117,7 +109,7 @@ class TreeForm extends React.Component {
   }
 
   changeDesignOption (newDesignOptions) {
-    designOptions = newDesignOptions
+    // designOptions = newDesignOptions
   }
 
   editFormTabs () {
@@ -208,13 +200,13 @@ class TreeForm extends React.Component {
 
   getForm (tabIndex) {
     let tab = allTabs[ tabIndex ]
-    if (tab.type && tab.type === 'design-options') {
+    /* if (tab.type && tab.type === 'design-options') {
       let props = {
         changeDesignOption: this.changeDesignOption.bind(this),
-        values: designOptions
+        //values: designOptions
       }
-      return <DesignOptions {...props} />
-    }
+      //return <DesignOptions {...props} />
+    } */
     return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
@@ -226,15 +218,15 @@ class TreeForm extends React.Component {
     return this.field(element, param.key, updater, tabIndex)
   }
 
-  closeTreeView () {
+  closeTreeView = () => {
     this.props.api.notify('hide')
     this.props.api.request('bar-content-start:hide')
   }
 
-  saveForm () {
+  saveForm = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
-    getService('assets-manager').addDesignOption(element.get('id'), designOptions)
+    // getService('assets-manager').addDesignOption(element.get('id'), designOptions)
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })

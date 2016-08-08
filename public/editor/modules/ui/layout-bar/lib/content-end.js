@@ -1,19 +1,15 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
-import ClassNames from 'classnames'
+import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import Resizer from '../../../content/resizer/component/resizer'
 
 class BarContentEnd extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      contentComponent: null,
-      contentProps: {},
-      showContent: false,
-      realWidth: 0
-    }
-    this.handleElementResize = this.handleElementResize.bind(this)
+  state = {
+    contentComponent: null,
+    contentProps: {},
+    showContent: false,
+    realWidth: 0
   }
 
   componentDidMount () {
@@ -38,7 +34,7 @@ class BarContentEnd extends React.Component {
     this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
-  handleElementResize () {
+  handleElementResize = () => {
     let element = ReactDOM.findDOMNode(this)
     this.setState({
       realWidth: element.offsetWidth
@@ -50,7 +46,7 @@ class BarContentEnd extends React.Component {
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    var obj = element.__resizeTrigger__ = document.createElement('object')
+    let obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
@@ -72,11 +68,12 @@ class BarContentEnd extends React.Component {
   }
 
   toggleStartContent (e) {
+    // TODO: Where it is used?
     e && e.preventDefault()
     this.props.api.request('bar-content-start:toggle')
   }
 
-  closeContent (e) {
+  closeContent = (e) => {
     e && e.preventDefault()
     this.props.api.request('bar-content-start:hide')
     this.props.api.request('bar-content-end:hide')
@@ -87,7 +84,7 @@ class BarContentEnd extends React.Component {
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
-    let contentClasses = ClassNames({
+    let contentClasses = classNames({
       'vcv-layout-bar-content-end': true,
       'vcv-ui-state--visible': this.state.showContent,
       'vcv-media--xs': true,
@@ -96,10 +93,11 @@ class BarContentEnd extends React.Component {
       'vcv-media--lg': this.state.realWidth > 1200,
       'vcv-media--xl': this.state.realWidth > 1600
     })
+
     return (
       <div className={contentClasses} id="vcv-editor-end">
         <a className="vcv-layout-bar-content-hide" href="#" title="Close"
-          onClick={this.closeContent.bind(this)}>
+          onClick={this.closeContent}>
           <i className="vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
         </a>
         {content}
@@ -134,4 +132,4 @@ BarContentEnd.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = BarContentEnd
+export default BarContentEnd

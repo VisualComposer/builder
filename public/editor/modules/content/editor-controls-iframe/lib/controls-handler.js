@@ -175,7 +175,7 @@ ControlsHandler.prototype.drawControls = function () {
     var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
-    var iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('meta_icon'))
+    var iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
     var isElementContainer = controlColorIndex < 2
     $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')

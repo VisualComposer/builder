@@ -8,4 +8,4 @@ class SeparatorControl extends React.Component {
   }
 }
 
-module.exports = SeparatorControl
+export default SeparatorControl

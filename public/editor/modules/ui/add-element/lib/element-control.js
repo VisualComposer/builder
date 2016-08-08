@@ -7,12 +7,9 @@ const cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 
 class ElementControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      previewVisible: false,
-      previewStyle: {}
-    }
+  state = {
+    previewVisible: false,
+    previewStyle: {}
   }
 
   componentDidMount () {
@@ -163,8 +160,8 @@ class ElementControl extends React.Component {
     //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-    let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('meta_thumbnail'))
-    let publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('meta_preview'))
+    let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+    let publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
 
     return (
       <li className='vcv-ui-add-element-list-item'>
@@ -188,7 +185,7 @@ class ElementControl extends React.Component {
             <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
             <figcaption className='vcv-ui-add-element-preview-caption'>
               <div className='vcv-ui-add-element-preview-text'>
-                {cookElement.get('meta_preview_description')}
+                {cookElement.get('metaPreviewDescription')}
               </div>
             </figcaption>
           </figure>
@@ -204,4 +201,4 @@ ElementControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = ElementControl
+export default ElementControl

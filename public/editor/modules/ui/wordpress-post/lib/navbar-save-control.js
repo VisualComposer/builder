@@ -6,14 +6,11 @@ const PostData = vcCake.getService('wordpress-post-data')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 class WordPressPostSaveControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      saving: false,
-      status: ''
-    }
-    this.timer = false
+  state = {
+    saving: false,
+    status: ''
   }
+  timer = 0
 
   componentDidMount () {
     this.props.api.reply('wordpress:data:saved', (data) => {
@@ -42,11 +39,11 @@ class WordPressPostSaveControl extends React.Component {
   clearTimer () {
     if (this.timer) {
       window.clearTimeout(this.timer)
-      this.timer = false
+      this.timer = 0
     }
   }
 
-  clickSaveData (e) {
+  clickSaveData = (e) => {
     e && e.preventDefault && e.preventDefault()
     if (this.state.saving) {
       return
@@ -86,10 +83,10 @@ class WordPressPostSaveControl extends React.Component {
         <a
           className={saveButtonClasses}
           title={saveText}
-          onClick={this.clickSaveData.bind(this)}
+          onClick={this.clickSaveData}
         ><span
           className='vcv-ui-navbar-control-content'>
-          <i className={saveIconClasses}></i><span>{saveText}</span>
+          <i className={saveIconClasses} /><span>{saveText}</span>
         </span></a>
       </div>
     )
@@ -99,4 +96,4 @@ WordPressPostSaveControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = WordPressPostSaveControl
+export default WordPressPostSaveControl

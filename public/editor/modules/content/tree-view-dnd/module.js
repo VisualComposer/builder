@@ -45,6 +45,6 @@ vcCake.add('content-tree-view-dnd', function (api) {
     this.api.module('content-editor-controls').do('enableControls', true)
     document.body.classList.remove('vcv-no-select')
   }
-  var dnd = new ModuleDnd(api)
+  let dnd = new ModuleDnd(api)
   dnd.init()
 })

@@ -2,11 +2,8 @@ import React from 'react'
 import HtmlLayout from './html-layout'
 
 class LayoutEditor extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: []
-    }
+  state = {
+    data: []
   }
 
   componentDidMount () {
@@ -30,4 +27,4 @@ LayoutEditor.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = LayoutEditor
+export default LayoutEditor

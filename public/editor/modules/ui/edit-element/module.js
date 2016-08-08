@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 import TreeForm from './lib/form'
 
-const doc = vcCake.getService('document')
+const DocumentData = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
 import './css/init.less'
@@ -26,7 +26,7 @@ vcCake.add('ui-edit-element', (api) => {
     })
     .on('show', (id) => {
       api.actions.setCurrent(id)
-      let data = doc.get(id)
+      let data = DocumentData.get(id)
       let element = cook.get(data)
       api.module('ui-layout-bar').do('setEndContent', TreeForm, {
         element: element,

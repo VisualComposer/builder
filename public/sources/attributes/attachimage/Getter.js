@@ -1,9 +1,9 @@
 import lodash from 'lodash'
 
 module.exports = (data, key, settings) => {
-  var isMultiple = !!settings.multiple
-  var value = data[ key ]
-  var returnValue = value
+  let isMultiple = !!settings.multiple
+  let value = data[ key ]
+  let returnValue = value
   if (lodash.isString(value) && isMultiple) {
     returnValue = [ value ]
   } else if (lodash.isArray(value) && !isMultiple) {
@@ -15,5 +15,6 @@ module.exports = (data, key, settings) => {
       returnValue = value.urls[ 0 ]
     }
   }
+
   return returnValue
 }

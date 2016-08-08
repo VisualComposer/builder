@@ -6,22 +6,15 @@ const cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 
 class TreeViewElement extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      childExpand: true,
-      activeEditElementId: null,
-      hasChild: false
-    }
-    this.setElementId = this.setElementId.bind(this)
-    this.unsetElementId = this.unsetElementId.bind(this)
+
+  state = {
+    childExpand: true,
+    activeEditElementId: null,
+    hasChild: false
   }
 
   componentDidMount () {
-    this.mount = true
-    this.instanceId = Math.random() * 1000
     this.props.api.notify('element:mount', this.props.element.id)
-    console.log('did mount', this.props.element.id, this.instanceId)
     this.props.api
       .reply('app:edit', this.setElementId)
       .reply('app:add', this.setElementId)
@@ -30,22 +23,16 @@ class TreeViewElement extends React.Component {
       .on('form:hide', this.unsetElementId)
   }
 
-  setElementId (id) {
-    console.log('set element id', this.mount, this.props.element.id, this.instanceId)
-
+  setElementId = (id) => {
     this.setState({ activeEditElementId: id })
   }
 
-  unsetElementId (id) {
-    console.log('unset element id', this.mount, this.props.element.id, this.instanceId)
-
+  unsetElementId = () => {
     this.setState({ activeEditElementId: null })
   }
 
   componentWillUnmount () {
-    this.mount = false
     this.props.api.notify('element:unmount', this.props.element.id)
-    console.log('will unmount', this.props.element.id, this.instanceId)
     this.props.api
       .forget('app:edit', this.setElementId)
       .forget('app:add', this.setElementId)
@@ -54,26 +41,26 @@ class TreeViewElement extends React.Component {
       .off('form:hide', this.unsetElementId)
   }
 
-  clickChildExpand () {
+  clickChildExpand = () => {
     this.setState({ childExpand: !this.state.childExpand })
   }
 
-  clickAddChild (e) {
+  clickAddChild = (e) => {
     e && e.preventDefault()
     this.props.api.request('app:add', this.props.element.id)
   }
 
-  clickClone (e) {
+  clickClone = (e) => {
     e && e.preventDefault()
     this.props.api.request('data:clone', this.props.element.id)
   }
 
-  clickEdit (e) {
+  clickEdit = (e) => {
     e && e.preventDefault()
     this.props.api.request('app:edit', this.props.element.id)
   }
 
-  clickDelete (e) {
+  clickDelete = (e) => {
     e && e.preventDefault()
     this.props.api.request('data:remove', this.props.element.id)
   }
@@ -81,9 +68,9 @@ class TreeViewElement extends React.Component {
   getContent () {
     if (this.props.data.length) {
       let level = this.props.level + 1
-      const document = vcCake.getService('document')
+      const DocumentData = vcCake.getService('document')
       let elementsList = this.props.data.map((element) => {
-        let data = document.children(element.id)
+        let data = DocumentData.children(element.id)
         return <TreeViewElement element={element} data={data} key={element.id} level={level} api={this.props.api} />
       }, this)
       return <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul>
@@ -106,8 +93,8 @@ class TreeViewElement extends React.Component {
     let addChildControl = false
     if (element.get('type') === 'container') {
       addChildControl = (
-        <a className='vcv-ui-tree-layout-control-action' title='Add' onClick={this.clickAddChild.bind(this)}>
-          <i className='vcv-ui-icon vcv-ui-icon-add-thin'></i>
+        <a className='vcv-ui-tree-layout-control-action' title='Add' onClick={this.clickAddChild}>
+          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
         </a>
       )
     }
@@ -116,19 +103,19 @@ class TreeViewElement extends React.Component {
     if (this.state.hasChild) {
       expandTrigger = (
         <i className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
-          onClick={this.clickChildExpand.bind(this)} />
+          onClick={this.clickChildExpand} />
       )
     }
 
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
-      <a className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit.bind(this)}>
+      <a className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </a>
-      <a className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone.bind(this)}>
+      <a className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </a>
-      <a className='vcv-ui-tree-layout-control-action' title='Delete' onClick={this.clickDelete.bind(this)}>
+      <a className='vcv-ui-tree-layout-control-action' title='Delete' onClick={this.clickDelete}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
       </a>
     </span>
@@ -138,7 +125,7 @@ class TreeViewElement extends React.Component {
       'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId
     })
 
-    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('meta_icon'))
+    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('metaIcon'))
     let space = 0.8
 
     return (
@@ -169,4 +156,4 @@ TreeViewElement.propTypes = {
   level: React.PropTypes.number
 }
 
-module.exports = TreeViewElement
+export default TreeViewElement

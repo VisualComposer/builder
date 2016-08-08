@@ -1,20 +1,15 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
-import ClassNames from 'classnames'
+import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import Resizer from '../../../content/resizer/component/resizer'
 
 class BarContentStart extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      contentComponent: null,
-      contentProps: {},
-      showContent: false,
-      realWidth: 0
-    }
-    this.resizeCallback = this.resizeCallback.bind(this)
-    this.handleElementResize = this.handleElementResize.bind(this)
+  state = {
+    contentComponent: null,
+    contentProps: {},
+    showContent: false,
+    realWidth: 0
   }
 
   componentDidMount () {
@@ -46,7 +41,7 @@ class BarContentStart extends React.Component {
     this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
-  resizeCallback (e) {
+  resizeCallback = (e) => {
     if (e && e.direction) {
       if (e.direction === 'left') {
         this.props.api.request('navbar:resizeLeft', e.offsetX)
@@ -54,7 +49,7 @@ class BarContentStart extends React.Component {
     }
   }
 
-  handleElementResize () {
+  handleElementResize = () => {
     let element = ReactDOM.findDOMNode(this)
     this.setState({
       realWidth: element.offsetWidth
@@ -66,7 +61,7 @@ class BarContentStart extends React.Component {
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    var obj = element.__resizeTrigger__ = document.createElement('object')
+    let obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
@@ -92,7 +87,7 @@ class BarContentStart extends React.Component {
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
-    let contentClasses = ClassNames({
+    let contentClasses = classNames({
       'vcv-layout-bar-content-start': true,
       'vcv-ui-state--visible': this.state.showContent,
       'vcv-media--xs': true,
@@ -205,4 +200,4 @@ BarContentStart.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = BarContentStart
+export default BarContentStart

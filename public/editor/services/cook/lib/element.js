@@ -52,6 +52,7 @@ class CookElement {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
+
     return type && settings ? type.getValue(settings, this[ elData ].data, k) : undefined
   }
 
@@ -121,10 +122,8 @@ class CookElement {
    */
   relatedTo (keys) {
     const group = this.get('relatedTo')
-    if (group && group.has && group.has(keys)) {
-      return true
-    }
-    return false
+
+    return group && group.has && group.has(keys)
   }
 
   /**
@@ -136,6 +135,7 @@ class CookElement {
     if (group && group.each) {
       return group.each()
     }
+
     return []
   }
 

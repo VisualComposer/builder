@@ -1,5 +1,6 @@
-var vcCake = require('vc-cake')
-var TimeMachine = {
+import vcCake from 'vc-cake'
+
+let TimeMachine = {
   stack: [],
   stackPosition: 0,
   stackHash: '',
@@ -17,12 +18,13 @@ var TimeMachine = {
     this.stackHash = JSON.stringify(this.get())
   },
   can: function (what) {
-    var result = false
+    let result = false
     if (what === 'undo') {
       result = this.stack.length > 0 && this.stackPosition > 0
     } else if (what === 'redo') {
       result = this.stack.length > 0 && this.stackPosition < this.stack.length
     }
+
     return result
   },
   undo: function () {

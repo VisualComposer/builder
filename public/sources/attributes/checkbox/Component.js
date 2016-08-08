@@ -1,8 +1,8 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import Attribute from '../attribute'
-export default class Component extends Attribute {
-  handleChange (event) {
+
+export default class Checkbox extends Attribute {
+  handleChange = (event) => {
     let value = event.target.value
     var values = this.state.value
     if (event.target.checked) {
@@ -22,15 +22,15 @@ export default class Component extends Attribute {
       let value = values[ key ].value
       let checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       optionElements.push(
-        <label key={fieldKey + ':' + key + ':' + value} className="vcv-ui-form-checkbox">
-          <input type="checkbox" onChange={this.handleChange} checked={checked} value={value} />
-          <span className="vcv-ui-form-checkbox-indicator"></span>
+        <label key={fieldKey + ':' + key + ':' + value} className='vcv-ui-form-checkbox'>
+          <input type='checkbox' onChange={this.handleChange} checked={checked} value={value} />
+          <span className='vcv-ui-form-checkbox-indicator' />
           {values[ key ].label}
         </label>
       )
     }
     return (
-      <div className="vcv-ui-form-checkboxes">
+      <div className='vcv-ui-form-checkboxes'>
         {optionElements}
       </div>)
   }

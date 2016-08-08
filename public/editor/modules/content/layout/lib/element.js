@@ -3,7 +3,7 @@ import React from 'react'
 import '../css/element.less'
 
 const cook = vcCake.getService('cook')
-const documentData = vcCake.getService('document')
+const DocumentData = vcCake.getService('document')
 
 class LayoutElement extends React.Component {
 
@@ -18,7 +18,7 @@ class LayoutElement extends React.Component {
   getContent (content) {
     const currentElement = cook.get(this.props.element) // optimize
     if (currentElement.get('type') === 'container') {
-      let elementsList = documentData.children(currentElement.get('id')).map((childElement) => {
+      let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
         return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
       })
       return elementsList
@@ -37,4 +37,4 @@ LayoutElement.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = LayoutElement
+export default LayoutElement

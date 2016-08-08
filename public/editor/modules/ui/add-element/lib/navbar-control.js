@@ -2,11 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 
 class AddElementControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      isWindowOpen: false
-    }
+  state = {
+    isWindowOpen: false
   }
 
   componentWillMount () {
@@ -70,4 +67,4 @@ AddElementControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = AddElementControl
+export default AddElementControl

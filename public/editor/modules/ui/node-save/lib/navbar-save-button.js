@@ -2,16 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 
 class SaveButtonControl extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      saving: false,
-      saved: false
-    }
-    this.clickSaveData = this.clickSaveData.bind(this)
+  state = {
+    saving: false,
+    saved: false
   }
 
-  clickSaveData () {
+  clickSaveData = () => {
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })
@@ -50,4 +46,4 @@ SaveButtonControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-module.exports = SaveButtonControl
+export default SaveButtonControl

@@ -11,4 +11,4 @@ class SettingsButtonControl extends React.Component {
   }
 }
 
-module.exports = SettingsButtonControl
+export default SettingsButtonControl
