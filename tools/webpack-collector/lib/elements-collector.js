@@ -1,31 +1,38 @@
-var join = require('path').join
-var fs = require('fs')
-var uf = require('util').format
-var config = require('./settings')
+let join = require('path').join
+let fs = require('fs')
+let uf = require('util').format
+let config = require('./settings')
+let exec = require('child_process').exec
 
-var Collector = {
-  directory: '',
+const Collector = {
   buildFile () {
-    var content = Collector.getElements()
+    let content = Collector.getElements()
     Collector.writeToFile(content)
   },
   getElements () {
-    var path = join(config.publicDir, config.elementsPath)
-    var files = fs.readdirSync(path)
-    var content = ''
+    let path = join(config.publicDir, config.elementsPath)
+    let files = fs.readdirSync(path)
+    let content = ''
     files.forEach((element) => {
-      var filePath = join(path, element)
-      var stats = fs.lstatSync(filePath)
-      var isDirectory = stats.isDirectory()
+      let filePath = join(path, element)
+      let stats = fs.lstatSync(filePath)
+      let isDirectory = stats.isDirectory()
       if (isDirectory && element[ 0 ] !== '_') {
-        var elementPath = join(filePath, 'element.js')
-        var isElementExists = fs.existsSync(elementPath)
+        let cssPath = join(filePath, 'styles.css')
+        let isCssExists = fs.existsSync(cssPath) ? 'true' : 'false'
+
+        exec(`node tools/element-builder/index.js public/sources/elements/${element} --output=file --uuid=${element} --add-css=${isCssExists}`)
+
+        let elementPath = join(filePath, 'element.js')
+        let isElementExists = fs.existsSync(elementPath)
+
         if (isElementExists) {
-          var elementRelativePath = join('..', config.elementsPath, element)
+          let elementRelativePath = join('..', config.elementsPath, element)
           content += uf("import {default as %sElement} from '%s'\n", element, join(elementRelativePath, 'element').replace(/\\/g, '/'))
         }
       }
     })
+
     return content
   },
   writeToFile(content) {

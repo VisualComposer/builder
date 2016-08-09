@@ -130,7 +130,7 @@ fs.lstat(elementDir, function (err, stats) {
     }
     if (namedArgs.hasOwnProperty('--output') && namedArgs[ '--output' ] === 'file') {
       fs.writeFileSync(path.join(elementDir, 'element.js'), template)
-      process.exit(1)
+      process.exit(0)
     }
     process.stdout.write(template)
   } else {
