@@ -8,13 +8,17 @@ import TreeContentTab from './tab'
 // import {getService} from 'vc-cake'
 import {format} from 'util'
 import DependencyManager from './dependencies'
+import EditFormFooter from './footer'
 
 let allTabs = []
 // let designOptions = {}
 
 class TreeForm extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    element: React.PropTypes.object.isRequired
+  }
   state = {
-    tabsCount: 0,
     visibleTabsCount: 0,
     activeTabIndex: 0,
     saving: false,
@@ -23,9 +27,6 @@ class TreeForm extends React.Component {
 
   componentWillMount () {
     allTabs = this.tabsFromProps(this.props)
-    this.setState({
-      tabsCount: allTabs.length
-    })
   }
 
   updateElement (data) {
@@ -88,16 +89,16 @@ class TreeForm extends React.Component {
       }
       tabs.push(tabsData)
     }, this)
-/*
-    tabs.push({
-      id: 'editFormTabDesignOptions',
-      index: tabs.length,
-      title: 'Design Options',
-      isVisible: true,
-      pinned: false,
-      type: 'design-options',
-      params: []
-    })*/
+    /*
+     tabs.push({
+     id: 'editFormTabDesignOptions',
+     index: tabs.length,
+     title: 'Design Options',
+     isVisible: true,
+     pinned: false,
+     type: 'design-options',
+     params: []
+     })*/
 
     return tabs
   }
@@ -201,12 +202,12 @@ class TreeForm extends React.Component {
   getForm (tabIndex) {
     let tab = allTabs[ tabIndex ]
     /* if (tab.type && tab.type === 'design-options') {
-      let props = {
-        changeDesignOption: this.changeDesignOption.bind(this),
-        //values: designOptions
-      }
-      //return <DesignOptions {...props} />
-    } */
+     let props = {
+     changeDesignOption: this.changeDesignOption.bind(this),
+     //values: designOptions
+     }
+     //return <DesignOptions {...props} />
+     } */
     return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
@@ -223,7 +224,7 @@ class TreeForm extends React.Component {
     this.props.api.request('bar-content-start:hide')
   }
 
-  saveForm = () => {
+  onSave = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
     // getService('assets-manager').addDesignOption(element.get('id'), designOptions)
@@ -247,7 +248,12 @@ class TreeForm extends React.Component {
       title: tab.title,
       active: (activeTabIndex === tab.index),
       container: '.vcv-ui-editor-tabs',
-      changeActive: this.changeActiveTab.bind(this)
+      changeActive: this.changeActiveTab.bind(this),
+      ref: (ref) => {
+        if (allTabs[ tab.index ]) {
+          allTabs[ tab.index ].ref = ref
+        }
+      }
     }
   }
 
@@ -379,34 +385,6 @@ class TreeForm extends React.Component {
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
-    let saveButtonClasses = classNames({
-      'vcv-ui-tree-layout-action': true,
-      'vcv-ui-state--success': this.state.saved
-    })
-    let saveIconClasses = classNames({
-      'vcv-ui-tree-layout-action-icon': true,
-      'vcv-ui-wp-spinner': this.state.saving,
-      'vcv-ui-icon': !this.state.saving,
-      'vcv-ui-icon-save': !this.state.saving
-    })
-
-    // <nav className="vcv-ui-tree-content-title-controls">
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
-    // </span>
-    // </a>
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
-    // </span>
-    // </a>
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
-    // </span>
-    // </a>
-    // </nav>
 
     return (
       <div className="vcv-ui-tree-view-content">
@@ -415,7 +393,7 @@ class TreeForm extends React.Component {
             <nav className="vcv-ui-editor-tabs">
               {visibleTabsHeaderOutput}
               {hiddenTabsHeaderOutput}
-              <span className="vcv-ui-editor-tabs-free-space"></span>
+              <span className="vcv-ui-editor-tabs-free-space" />
             </nav>
           </div>
 
@@ -436,23 +414,15 @@ class TreeForm extends React.Component {
             </div>
           </div>
 
-          <div className="vcv-ui-tree-content-footer">
-            <div className="vcv-ui-tree-layout-actions">
-              <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
-                <span className="vcv-ui-tree-layout-action-content">
-                  <i className={saveIconClasses}></i><span>Save</span>
-                </span>
-              </a>
-            </div>
-          </div>
+          <EditFormFooter
+            onSave={this.onSave}
+            saving={this.state.saving}
+            saved={this.state.saved}
+          />
         </div>
       </div>
     )
   }
 }
-TreeForm.propTypes = {
-  api: React.PropTypes.object.isRequired,
-  element: React.PropTypes.object.isRequired
-}
 
-module.exports = TreeForm
+export default TreeForm
