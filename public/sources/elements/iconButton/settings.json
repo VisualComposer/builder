@@ -179,7 +179,7 @@
       "label": "Editors"
     }
   },
-  "editFormTabs": {
+  "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [

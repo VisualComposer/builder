@@ -1,7 +1,7 @@
 import React from 'react'
 import BarContent from './content'
 import BarHeader from './header'
-import Resizer from '../../../content/resizer/component/resizer'
+import Resizer from '../../../../../resources/resizer/resizer'
 import ClassNames from 'classnames'
 
 class LayoutBar extends React.Component {

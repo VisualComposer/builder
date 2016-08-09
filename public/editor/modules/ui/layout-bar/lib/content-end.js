@@ -1,10 +1,12 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import Resizer from '../../../content/resizer/component/resizer'
+import Resizer from '../../../../../resources/resizer/resizer'
 
 class BarContentEnd extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
   state = {
     contentComponent: null,
     contentProps: {},
@@ -95,10 +97,10 @@ class BarContentEnd extends React.Component {
     })
 
     return (
-      <div className={contentClasses} id="vcv-editor-end">
-        <a className="vcv-layout-bar-content-hide" href="#" title="Close"
+      <div className={contentClasses} id='vcv-editor-end'>
+        <a className='vcv-layout-bar-content-hide' href='#' title='Close'
           onClick={this.closeContent}>
-          <i className="vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin"></i>
+          <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
         </a>
         {content}
         <Resizer params={{
@@ -127,9 +129,6 @@ class BarContentEnd extends React.Component {
       </div>
     )
   }
-}
-BarContentEnd.propTypes = {
-  api: React.PropTypes.object.isRequired
 }
 
 export default BarContentEnd

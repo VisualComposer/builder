@@ -113,7 +113,7 @@ class TreeForm extends React.Component {
   }
 
   editFormTabs () {
-    const group = this.props.element.get('editFormTabs')
+    const group = this.props.element.get('metaEditFormTabs')
     if (group && group.each) {
       return group.each(this.editFormTabsIterator.bind(this))
     }

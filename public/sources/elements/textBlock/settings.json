@@ -77,7 +77,7 @@
       "label": "Options"
     }
   },
-  "editFormTabs": {
+  "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [

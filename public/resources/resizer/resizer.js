@@ -1,33 +1,32 @@
 import React from 'react'
 import $ from 'jquery'
 import lodash from 'lodash'
-import '../css/module.less'
+import './css/module.less'
 
 class Resizer extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      resizerOptions: lodash.defaults(props.params, {
-        resizeTop: false,
-        resizeBottom: false,
-        resizeLeft: false,
-        resizeRight: false,
-        callback: false,
-        resizerTarget: '',
-        resizerTargetTop: '',
-        resizerTargetBottom: '',
-        resizerTargetLeft: '',
-        resizerTargetRight: '',
-        resizerClasses: 'vcv-ui-resizer',
-        overlayClasses: 'vcv-ui-resizer-overlay',
-        $overlay: $('<div></div>')
-      })
-    }
+  static propTypes = {
+    params: React.PropTypes.object.isRequired
+  }
+  state = {
+    resizerOptions: lodash.defaults(this.props.params, {
+      resizeTop: false,
+      resizeBottom: false,
+      resizeLeft: false,
+      resizeRight: false,
+      callback: false,
+      resizerTarget: '',
+      resizerTargetTop: '',
+      resizerTargetBottom: '',
+      resizerTargetLeft: '',
+      resizerTargetRight: '',
+      resizerClasses: 'vcv-ui-resizer',
+      overlayClasses: 'vcv-ui-resizer-overlay',
+      $overlay: $('<div></div>')
+    })
   }
 
   componentDidMount () {
-    $(this.refs.resizer)
+    $(this.refs[ 'resizer' ])
       .on('mousedown.vcv-resizer', this.bindDrag)
       .on('touchstart.vcv-resizer', this.bindDrag)
       .on('dragstart.vcv-resizer', (e) => {
@@ -44,7 +43,7 @@ class Resizer extends React.Component {
 
   componentWillUnmount () {
     this.stopResize()
-    $(this.refs.resizer).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
+    $(this.refs[ 'resizer' ]).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
     this.state.resizerOptions.$overlay.remove()
   }
 
@@ -194,12 +193,9 @@ class Resizer extends React.Component {
 
   render () {
     return (
-      <div ref='resizer' className={this.state.resizerOptions.resizerClasses}></div>
+      <div ref='resizer' className={this.state.resizerOptions.resizerClasses} />
     )
   }
-}
-Resizer.propTypes = {
-  params: React.PropTypes.object.isRequired
 }
 
 export default Resizer

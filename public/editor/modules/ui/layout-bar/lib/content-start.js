@@ -2,7 +2,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import Resizer from '../../../content/resizer/component/resizer'
+import Resizer from '../../../../../resources/resizer/resizer'
 
 class BarContentStart extends React.Component {
   state = {

@@ -93,7 +93,7 @@
       "label": "Element"
     }
   },
-  "editFormTabs": {
+  "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
