@@ -19,7 +19,8 @@ const Collector = {
       let isDirectory = stats.isDirectory()
       if (isDirectory && element[ 0 ] !== '_') {
         let cssPath = join(filePath, 'styles.css')
-        let isCssExists = fs.existsSync(cssPath) ? 'true' : 'false'
+        // let isCssExists = fs.existsSync(cssPath) ? 'true' : 'false'
+        let isCssExists = false // no need to add css to webpack build because we use asset manager to build css
 
         exec(`node tools/element-builder/index.js public/sources/elements/${element} --output=file --uuid=${element} --add-css=${isCssExists}`)
 
