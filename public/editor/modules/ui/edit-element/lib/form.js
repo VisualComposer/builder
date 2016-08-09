@@ -1,7 +1,7 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {default as lodash} from 'lodash'
+import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
 // import DesignOptions from './design-options/design-options'
@@ -9,6 +9,7 @@ import TreeContentTab from './tab'
 import {format} from 'util'
 import DependencyManager from './dependencies'
 import EditFormFooter from './footer'
+import EditFormContent from './content'
 
 let allTabs = []
 // let designOptions = {}
@@ -19,7 +20,6 @@ class TreeForm extends React.Component {
     element: React.PropTypes.object.isRequired
   }
   state = {
-    visibleTabsCount: 0,
     activeTabIndex: 0,
     saving: false,
     saved: false
@@ -145,6 +145,26 @@ class TreeForm extends React.Component {
     })
   }
 
+  getActiveTabContent () {
+    let { activeTabIndex } = this.state
+    let activeTabContentOutput
+    allTabs.some((tab) => {
+      if (tab.index === activeTabIndex) {
+        console.log('tab Found')
+        let plateClass = 'vcv-ui-editor-plate vcv-ui-state--active'
+        activeTabContentOutput = (
+          <div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
+            {this.getForm(tab.index)}
+          </div>
+        )
+        return true
+      }
+      return false
+    })
+
+    return activeTabContentOutput
+  }
+
   getHiddenTabs () {
     let tabs = allTabs.filter((tab) => {
       return !tab.isVisible
@@ -170,9 +190,7 @@ class TreeForm extends React.Component {
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
       let lastTab = visibleAndUnpinnedTabs.pop()
       allTabs[ lastTab.index ].isVisible = false
-      this.setState({
-        visibleTabsCount: this.getVisibleTabs().length
-      })
+      this.forceUpdate()
       this.refreshTabs()
       return
     }
@@ -193,9 +211,7 @@ class TreeForm extends React.Component {
           allTabs[ lastTab.index ].isVisible = true
         }
       }
-      this.setState({
-        visibleTabsCount: this.getVisibleTabs().length
-      })
+      this.forceUpdate()
     }
   }
 
@@ -351,7 +367,7 @@ class TreeForm extends React.Component {
         <dl className={dropdownClasses}>
           <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
             <span className="vcv-ui-editor-tab-content">
-              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots"></i>
+              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots" />
             </span>
           </dt>
           <dd className="vcv-ui-editor-tab-dropdown-content">
@@ -360,27 +376,6 @@ class TreeForm extends React.Component {
         </dl>
       )
     }
-    let visibleTabsContentOutput = []
-    lodash.each(this.getVisibleTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getForm(tab.index)}
-      </div>)
-    })
-
-    let hiddenTabsContentOutput = []
-    lodash.each(this.getHiddenTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getForm(tab.index)}
-      </div>)
-    })
 
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
@@ -397,22 +392,7 @@ class TreeForm extends React.Component {
             </nav>
           </div>
 
-          <div ref="scrollable" className="vcv-ui-tree-content-section">
-            <div className="vcv-ui-scroll-container">
-              <div className="vcv-ui-scroll">
-                <div className="vcv-ui-scroll-content">
-                  <div className="vcv-ui-tree-content-section-inner">
-                    <div className="vcv-ui-editor-plates-container">
-                      <div className="vcv-ui-editor-plates">
-                        {visibleTabsContentOutput}
-                        {hiddenTabsContentOutput}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <EditFormContent plateContent={this.getActiveTabContent()} />
 
           <EditFormFooter
             onSave={this.onSave}
