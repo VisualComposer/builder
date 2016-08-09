@@ -11,7 +11,6 @@ import DependencyManager from './dependencies'
 import EditFormFooter from './footer'
 import EditFormContent from './content'
 
-let allTabs = []
 // let designOptions = {}
 
 class TreeForm extends React.Component {
@@ -24,9 +23,10 @@ class TreeForm extends React.Component {
     saving: false,
     saved: false
   }
+  allTabs = []
 
   componentWillMount () {
-    allTabs = this.tabsFromProps(this.props)
+    this.allTabs = this.updateTabs()
   }
 
   updateElement (data) {
@@ -38,11 +38,11 @@ class TreeForm extends React.Component {
 
     this.props.api.on('element:set', this.updateElement.bind(this))
     // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
-    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    this.addResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    this.removeResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
     this.props.api.off('element:set', this.updateElement.bind(this))
   }
 
@@ -76,16 +76,18 @@ class TreeForm extends React.Component {
     this.refreshTabs()
   }
 
-  tabsFromProps (props) {
+  updateTabs () {
     let tabs = []
     this.editFormTabs().map((tab, index) => {
       let tabsData = {
         id: tab.key,
         index: index,
-        title: tab.data.settings.options.label,
+        data: tab.data,
         isVisible: true,
         pinned: tab.data.settings.options.pinned || false,
-        params: this.editFormTabParams(tab.key)
+        params: this.editFormTabParams(tab.key),
+        key: `edit-form-tab-${tab.key}`,
+        changeTab: this.changeActiveTab
       }
       tabs.push(tabsData)
     }, this)
@@ -103,7 +105,7 @@ class TreeForm extends React.Component {
     return tabs
   }
 
-  changeActiveTab (tabIndex) {
+  changeActiveTab = (tabIndex) => {
     this.setState({
       activeTabIndex: tabIndex
     })
@@ -138,7 +140,7 @@ class TreeForm extends React.Component {
   }
 
   getVisibleTabs () {
-    return allTabs.filter((tab) => {
+    return this.allTabs.filter((tab) => {
       if (tab.isVisible) {
         return true
       }
@@ -148,12 +150,11 @@ class TreeForm extends React.Component {
   getActiveTabContent () {
     let { activeTabIndex } = this.state
     let activeTabContentOutput
-    allTabs.some((tab) => {
+    this.allTabs.some((tab) => {
       if (tab.index === activeTabIndex) {
-        console.log('tab Found')
         let plateClass = 'vcv-ui-editor-plate vcv-ui-state--active'
         activeTabContentOutput = (
-          <div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
+          <div key={'plate-visible' + this.allTabs[ tab.index ].id} className={plateClass}>
             {this.getForm(tab.index)}
           </div>
         )
@@ -166,10 +167,10 @@ class TreeForm extends React.Component {
   }
 
   getHiddenTabs () {
-    let tabs = allTabs.filter((tab) => {
+    let tabs = this.allTabs.filter((tab) => {
       return !tab.isVisible
     })
-    tabs.reverse()
+    // tabs.reverse()
     return tabs
   }
 
@@ -181,15 +182,14 @@ class TreeForm extends React.Component {
 
   refreshTabs () {
     // get tabs line width
-    let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
-    let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
+    let $freeSpaceEl = ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ])
     let freeSpace = $freeSpaceEl.offsetWidth
 
     // If there is no space move tab from visible to hidden tabs.
     let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
       let lastTab = visibleAndUnpinnedTabs.pop()
-      allTabs[ lastTab.index ].isVisible = false
+      this.allTabs[ lastTab.index ].isVisible = false
       this.forceUpdate()
       this.refreshTabs()
       return
@@ -205,10 +205,9 @@ class TreeForm extends React.Component {
       }
       while (freeSpace > 0 && hiddenTabs.length) {
         let lastTab = hiddenTabs.pop()
-        let controlsSize = lastTab.ref.getRealWidth()
-        freeSpace -= controlsSize
+        freeSpace -= lastTab.ref.getRealWidth()
         if (freeSpace > 0) {
-          allTabs[ lastTab.index ].isVisible = true
+          this.allTabs[ lastTab.index ].isVisible = true
         }
       }
       this.forceUpdate()
@@ -216,7 +215,7 @@ class TreeForm extends React.Component {
   }
 
   getForm (tabIndex) {
-    let tab = allTabs[ tabIndex ]
+    let tab = this.allTabs[ tabIndex ]
     /* if (tab.type && tab.type === 'design-options') {
      let props = {
      changeDesignOption: this.changeDesignOption.bind(this),
@@ -255,20 +254,22 @@ class TreeForm extends React.Component {
   }
 
   getTabProps (tabIndex, activeTabIndex) {
-    let tab = allTabs[ tabIndex ]
+    let tab = this.allTabs[ tabIndex ]
 
     return {
       key: tab.id,
       id: tab.id,
       index: tab.index,
-      title: tab.title,
       active: (activeTabIndex === tab.index),
-      container: '.vcv-ui-editor-tabs',
-      changeActive: this.changeActiveTab.bind(this),
+      changeTab: this.changeActiveTab,
+      data: tab.data,
       ref: (ref) => {
-        if (allTabs[ tab.index ]) {
-          allTabs[ tab.index ].ref = ref
+        if (this.allTabs[ tab.index ]) {
+          this.allTabs[ tab.index ].ref = ref
         }
+      },
+      getContainer: () => {
+        return ReactDOM.findDOMNode(this.refs[ 'editorTabs' ])
       }
     }
   }
@@ -385,10 +386,10 @@ class TreeForm extends React.Component {
       <div className="vcv-ui-tree-view-content">
         <div className={treeContentClasses}>
           <div className="vcv-ui-editor-tabs-container">
-            <nav className="vcv-ui-editor-tabs">
+            <nav ref="editorTabs" className="vcv-ui-editor-tabs">
               {visibleTabsHeaderOutput}
               {hiddenTabsHeaderOutput}
-              <span className="vcv-ui-editor-tabs-free-space" />
+              <span ref="editorTabsFreeSpace" className="vcv-ui-editor-tabs-free-space" />
             </nav>
           </div>
 

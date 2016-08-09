@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
-
-vcCake.addService('utils', {
+const API = {
   createKey: () => {
     let uuid = ''
 
@@ -14,5 +13,25 @@ vcCake.addService('utils', {
     }
 
     return uuid
+  },
+  getRealWidth: ($el, $container) => {
+    let $tempEl
+    let realWidth = 0
+
+    $tempEl = $el.cloneNode(true)
+    $tempEl.style.position = 'fixed'
+
+    $container.appendChild($tempEl)
+
+    realWidth = $tempEl.offsetWidth
+    if (realWidth === 0) {
+      $tempEl.remove()
+      return 0
+    }
+    let style = window.getComputedStyle($tempEl, null)
+    realWidth += parseInt(style.marginLeft) + parseInt(style.marginRight)
+    $tempEl.remove()
+    return realWidth
   }
-})
+}
+vcCake.addService('utils', API)
