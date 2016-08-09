@@ -119,7 +119,7 @@
     "ignore": [
       "public/sources/elements/",
       "public/config/",
-      "public/tinymce",
+      "public/resources/tinymce",
       "tests/",
       "tools/"
     ]
