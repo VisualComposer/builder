@@ -23,13 +23,9 @@ const Collector = {
 
         exec(`node tools/element-builder/index.js public/sources/elements/${element} --output=file --uuid=${element} --add-css=${isCssExists}`)
 
-        let elementPath = join(filePath, 'element.js')
-        let isElementExists = fs.existsSync(elementPath)
+        let elementRelativePath = join('..', config.elementsPath, element)
+        content += uf("import {default as %sElement} from '%s'\n", element, join(elementRelativePath, 'element').replace(/\\/g, '/'))
 
-        if (isElementExists) {
-          let elementRelativePath = join('..', config.elementsPath, element)
-          content += uf("import {default as %sElement} from '%s'\n", element, join(elementRelativePath, 'element').replace(/\\/g, '/'))
-        }
       }
     })
 
