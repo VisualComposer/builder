@@ -26,13 +26,12 @@ const Collector = {
 
         let elementRelativePath = join('..', config.elementsPath, element)
         content += uf("import {default as %sElement} from '%s'\n", element, join(elementRelativePath, 'element').replace(/\\/g, '/'))
-
       }
     })
 
     return content
   },
-  writeToFile(content) {
+  writeToFile (content) {
     fs.writeFileSync(join(config.publicDir, config.configPath, uf('elements.js')), content)
   }
 }

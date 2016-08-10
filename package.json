@@ -7,7 +7,8 @@
     "test": "jest",
     "start": "node server.js",
     "build-module": "node ./tools/module-builder/index.js",
-    "build-element": "node --harmony ./tools/element-builder/index"
+    "build-element": "node --harmony ./tools/element-builder/index",
+    "collect-css": "node ./tools/asset-manager/index.js ./public/sources/elements --output=./public/dist/elements.css"
   },
   "author": "@vv",
   "license": "",
@@ -64,6 +65,7 @@
     "babel-plugin-rewire": "^1.0.0-rc-5",
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
+    "concatenate-files": "^0.1.1",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "handlebars": "^4.0.5",
