@@ -26,7 +26,11 @@ class TreeForm extends React.Component {
   allTabs = []
 
   componentWillMount () {
-    this.allTabs = this.updateTabs()
+    this.allTabs = this.updateTabs(this.props)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.allTabs = this.updateTabs(nextProps)
   }
 
   updateElement (data) {
@@ -76,16 +80,16 @@ class TreeForm extends React.Component {
     this.refreshTabs()
   }
 
-  updateTabs () {
+  updateTabs (props) {
     let tabs = []
-    this.editFormTabs().map((tab, index) => {
+    this.editFormTabs(props).map((tab, index) => {
       let tabsData = {
         id: tab.key,
         index: index,
         data: tab.data,
         isVisible: true,
         pinned: tab.data.settings.options.pinned || false,
-        params: this.editFormTabParams(tab.key),
+        params: this.editFormTabParams(props, tab.key),
         key: `edit-form-tab-${tab.key}`,
         changeTab: this.changeActiveTab
       }
@@ -115,26 +119,26 @@ class TreeForm extends React.Component {
     // designOptions = newDesignOptions
   }
 
-  editFormTabs () {
-    const group = this.props.element.get('metaEditFormTabs')
+  editFormTabs (props) {
+    const group = props.element.get('metaEditFormTabs')
     if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
+      return group.each(this.editFormTabsIterator.bind(this, props))
     }
     return []
   }
 
-  editFormTabsIterator (item) {
+  editFormTabsIterator (props, item) {
     return {
       key: item,
-      value: this.props.element.get(item),
-      data: this.props.element.settings(item)
+      value: props.element.get(item),
+      data: props.element.settings(item)
     }
   }
 
-  editFormTabParams (tabName) {
-    const group = this.props.element.get(tabName)
+  editFormTabParams (props, tabName) {
+    const group = props.element.get(tabName)
     if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
+      return group.each(this.editFormTabsIterator.bind(this, props))
     }
     return []
   }
