@@ -7,7 +7,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Simple Button 2"
+    "value": "A"
   },
   "metaIntro": {
     "type": "textarea",
@@ -39,29 +39,19 @@
     "access": "protected",
     "value": "icon.png"
   },
-  "buttonText": {
+  "text": {
     "type": "string",
     "access": "public",
-    "value": "Button text",
+    "value": "A",
     "options": {
-      "label": "Button text"
-    }
-  },
-  "icon": {
-    "type": "element",
-    "access": "public",
-    "value": {
-      "tag": "icon"
-    },
-    "options": {
-      "label": "Icon"
+      "label": "A"
     }
   },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText"
+      "text"
     ],
     "options": {
       "label": "Options"
@@ -71,8 +61,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
-      "icon"
+      "editFormTab1"
     ]
   },
   "relatedTo": {

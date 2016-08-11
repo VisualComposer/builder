@@ -6,5 +6,6 @@
         <div className='editable' data-vcv-editable-param='description' dangerouslySetInnerHTML={{__html:description}} />
       </div>
     </div>
+    {buttonOutput}
   </div>
 </section>

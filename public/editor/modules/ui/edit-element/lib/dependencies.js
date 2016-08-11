@@ -105,7 +105,17 @@ DependencyManager.propTypes = {
   api: React.PropTypes.object.isRequired,
   element: React.PropTypes.object.isRequired,
   content: React.PropTypes.object.isRequired,
-  data: React.PropTypes.object.isRequired
+  data: React.PropTypes.shape({
+    options: React.PropTypes.object.isRequired,
+    key: React.PropTypes.string.isRequired,
+    type: React.PropTypes.object.isRequired,
+    value: React.PropTypes.any.isRequired,
+    rawValue: React.PropTypes.any.isRequired,
+    updater: React.PropTypes.func.isRequired,
+    getRef: React.PropTypes.func.isRequired,
+    tabIndex: React.PropTypes.number.isRequired,
+    getRefTab: React.PropTypes.func.isRequired
+  }).isRequired
 }
 
 export default DependencyManager

@@ -6,13 +6,15 @@ import lodash from 'lodash'
 class AttachImage extends Attribute {
   mediaUploader = null
 
-  normalizeValue (props) {
+  updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
       value = { ids: [], urls: [] }
     }
 
-    return value
+    return {
+      value: value
+    }
   }
 
   openLibrary = () => {

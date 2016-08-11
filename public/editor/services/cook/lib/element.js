@@ -72,7 +72,7 @@ class CookElement {
     return this[ elData ].data[ k ]
   }
 
-  render (content) {
+  render (content, editor) {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
@@ -83,7 +83,9 @@ class CookElement {
     props.key = this[ elData ].id
     props.id = this[ elData ].id
     editorProps[ 'data-vc-element' ] = this[ elData ].id
-    props.editor = editorProps
+    if (typeof editor === 'undefined' || editor) {
+      props.editor = editorProps
+    }
     props.atts = atts
     props.content = content
 

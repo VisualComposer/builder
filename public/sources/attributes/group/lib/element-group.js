@@ -21,9 +21,9 @@ export default class {
 
   each (iterator = null) {
     if (typeof iterator === 'function') {
-      return this.value.map(iterator)
+      return this.value.slice().map(iterator)
     }
-    return this.value
+    return this.value.slice()
   }
 
   update (value) {

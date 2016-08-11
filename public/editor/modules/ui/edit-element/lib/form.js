@@ -10,10 +10,11 @@ import {format} from 'util'
 import DependencyManager from './dependencies'
 import EditFormFooter from './footer'
 import EditFormContent from './content'
-
+import vcCake from 'vc-cake'
+const Utils = vcCake.getService('utils')
 // let designOptions = {}
 
-class TreeForm extends React.Component {
+class EditForm extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired
@@ -26,11 +27,11 @@ class TreeForm extends React.Component {
   allTabs = []
 
   componentWillMount () {
-    this.allTabs = this.updateTabs(this.props)
+    this.allTabs = EditForm.updateTabs(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.allTabs = this.updateTabs(nextProps)
+    this.allTabs = EditForm.updateTabs(nextProps)
   }
 
   updateElement (data) {
@@ -42,59 +43,33 @@ class TreeForm extends React.Component {
 
     this.props.api.on('element:set', this.updateElement.bind(this))
     // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
-    this.addResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
+    Utils.addResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
+    Utils.removeResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
     this.props.api.off('element:set', this.updateElement.bind(this))
-  }
-
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = (e) => {
-      obj.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   handleElementResize = (e) => {
     this.refreshTabs()
   }
 
-  updateTabs (props) {
+  static updateTabs (props) {
     let tabs = []
-    this.editFormTabs(props).map((tab, index) => {
+    EditForm.editFormTabs(props).map((tab, index) => {
       let tabsData = {
         id: tab.key,
         index: index,
         data: tab.data,
         isVisible: true,
         pinned: tab.data.settings.options.pinned || false,
-        params: this.editFormTabParams(props, tab.key),
+        params: EditForm.editFormTabParams(props, tab.key),
         key: `edit-form-tab-${tab.key}`,
         changeTab: this.changeActiveTab
       }
       tabs.push(tabsData)
-    }, this)
+    }, EditForm)
     /*
      tabs.push({
      id: 'editFormTabDesignOptions',
@@ -119,15 +94,15 @@ class TreeForm extends React.Component {
     // designOptions = newDesignOptions
   }
 
-  editFormTabs (props) {
+  static editFormTabs (props) {
     const group = props.element.get('metaEditFormTabs')
     if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this, props))
+      return group.each(EditForm.editFormTabsIterator.bind(this, props))
     }
     return []
   }
 
-  editFormTabsIterator (props, item) {
+  static editFormTabsIterator (props, item) {
     return {
       key: item,
       value: props.element.get(item),
@@ -135,12 +110,18 @@ class TreeForm extends React.Component {
     }
   }
 
-  editFormTabParams (props, tabName) {
-    const group = props.element.get(tabName)
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this, props))
+  static editFormTabParams (props, tabName) {
+    const value = props.element.get(tabName)
+    const settings = props.element.settings(tabName)
+    if (settings.settings.type === 'group' && value && value.each) {
+      return value.each(EditForm.editFormTabsIterator.bind(this, props))
     }
-    return []
+    // In case if tab is single param holder
+    return [ {
+      key: tabName,
+      value: value,
+      data: settings
+    } ]
   }
 
   getVisibleTabs () {
@@ -156,7 +137,10 @@ class TreeForm extends React.Component {
     let activeTabContentOutput
     this.allTabs.some((tab) => {
       if (tab.index === activeTabIndex) {
-        let plateClass = 'vcv-ui-editor-plate vcv-ui-state--active'
+        let plateClass = classNames({
+          'vcv-ui-editor-plate': true,
+          'vcv-ui-state--active': true
+        }, `vcv-ui-editor-plate-${tab.id}`)
         activeTabContentOutput = (
           <div key={'plate-visible' + this.allTabs[ tab.index ].id} className={plateClass}>
             {this.getForm(tab.index)}
@@ -310,6 +294,7 @@ class TreeForm extends React.Component {
           options={options}
           value={rawValue}
           updater={updater}
+          api={this.props.api}
         />
         {description}
       </div>
@@ -317,8 +302,6 @@ class TreeForm extends React.Component {
     let data = {
       key: key,
       options: options,
-      label: label,
-      description: description,
       type: type,
       value: value,
       rawValue: rawValue,
@@ -410,4 +393,4 @@ class TreeForm extends React.Component {
   }
 }
 
-export default TreeForm
+export default EditForm

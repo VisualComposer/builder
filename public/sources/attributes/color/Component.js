@@ -3,61 +3,69 @@
 import {SketchPicker} from 'react-color'
 import React from 'react'
 import Attribute from '../attribute'
-import lodash from 'lodash'
+// import lodash from 'lodash'
 import './css/styles.less'
+import tinycolor from 'react-color/modules/tinycolor2'
 
 class Color extends Attribute {
-  state = {
-    displayColorPicker: false,
-    value: this.normalizeValue(this.props)
-  }
 
-  normalizeValue (props) {
+  updateState (props) {
+    // let { type } = this.props.options
     let value = props.value
-    if (!lodash.isObject(value)) {
-      value = {
-        'hsl': {
-          'h': 0,
-          's': 0.6736401673640168,
-          'l': 0.44215,
-          'a': 1
-        },
-        'hex': '#bd2525',
-        'rgb': {
-          'r': 189,
-          'g': 37,
-          'b': 37,
-          'a': 1
-        },
-        'hsv': {
-          'h': 0,
-          's': 0.805,
-          'v': 0.74,
-          'a': 1
-        },
-        'oldHue': 0,
-        'source': 'rgb'
-      }
+    if (!value) {
+      value = '#FFFFFF'
+    }
+    let color = tinycolor(value)
+
+    let colorState = {
+      hex: `#${color.toHex()}`,
+      rgb: color.toRgb()
     }
 
-    return value
+    return {
+      value: colorState,
+      update: props.update
+    }
   }
 
   handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
+    this.setState({
+      displayColorPicker: !this.state.displayColorPicker,
+      update: true
+    })
   }
 
   handleClose = () => {
-    this.setState({ displayColorPicker: false })
+    this.setState({
+      displayColorPicker: false,
+      update: true
+    })
   }
 
   handleChange = (color) => {
-    this.setFieldValue(color)
+    let { type } = this.props.options
+    let { updater, fieldKey } = this.props
+    let value = color
+    if (typeof type !== 'undefined') {
+      value = color[ type ]
+    }
+    this.setState({
+      value: color,
+      update: true
+    })
+    updater(fieldKey, value)
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    if (typeof nextState.update !== 'undefined') {
+      return !!nextState.update
+    }
+    return true
   }
 
   render () {
     let { value, displayColorPicker } = this.state
-
+    let color = tinycolor(value.rgb)
     let colorPicker = ''
     let { r, g, b, a } = value.rgb
     let colorStyle = {
@@ -68,7 +76,7 @@ class Color extends Attribute {
       colorPicker = (
         <div className='vcv-ui-form-input-color--popover'>
           <div className='vcv-ui-form-input-color--cover' onClick={this.handleClose} />
-          <SketchPicker color={value} onChange={this.handleChange} />
+          <SketchPicker color={color} onChange={this.handleChange} />
         </div>
       )
     }

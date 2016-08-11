@@ -110,23 +110,11 @@
   "button": {
     "type": "element",
     "access": "public",
-    "value": {},
+    "value": {
+      "tag": "simpleButton"
+    },
     "options": {
-      "label": "Button",
-      "tag": "simpleButton",
-      "onChange": {
-        "addButton": [
-          {
-            "rule": "toggle",
-            "current": [
-              {
-                "action": "toggleVisibility",
-                "options": []
-              }
-            ]
-          }
-        ]
-      }
+      "label": "Button"
     }
   },
   "editFormTab1": {
