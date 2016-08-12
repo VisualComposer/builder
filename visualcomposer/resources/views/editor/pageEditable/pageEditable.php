@@ -5,7 +5,7 @@ use VisualComposer\Helpers\Url;
 $url = vchelper('Url');
 $filter = vchelper('Filters');
 $linkToTinymce = $url->to('public/tinymce/tinymce.js');
-$wpBundleUrl = $url->to('public/dist/wp.bundle.css?' . uniqid())
+$elementsUrl = $url->to('public/dist/elements.css?' . uniqid())
 ?>
 <script src="<?php echo $linkToTinymce; ?>"></script>
 <script>
@@ -35,7 +35,7 @@ $wpBundleUrl = $url->to('public/dist/wp.bundle.css?' . uniqid())
             }
         }
 
-        vcvLoadJsCssFile('<?php echo $wpBundleUrl; ?>', 'css');
+        vcvLoadJsCssFile('<?php echo $elementsUrl; ?>', 'css');
     })();
 </script>
 <div id="vcv-editor">Loading...</div>
