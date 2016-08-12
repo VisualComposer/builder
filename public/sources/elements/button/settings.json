@@ -1,9 +1,4 @@
 {
-  "tag": {
-    "type": "string",
-    "access": "protected",
-    "value": "button"
-  },
   "category": {
     "type": "string",
     "access": "protected",

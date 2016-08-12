@@ -47,6 +47,14 @@
       "label": "Background color"
     }
   },
+  "layout": {
+    "type": "layout",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Row Layout"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -54,24 +62,30 @@
       "background"
     ],
     "options": {
-      "label": "Options"
+      "label": "General"
     }
   },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "layout"
     ]
   },
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["General", "RootElements"]
+    "value": [
+      "General",
+      "RootElements"
+    ]
   },
   "containerFor": {
     "type": "group",
     "access": "protected",
-    "value": ["Column"]
+    "value": [
+      "Column"
+    ]
   }
 }

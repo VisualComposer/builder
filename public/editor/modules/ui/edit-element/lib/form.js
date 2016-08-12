@@ -1,31 +1,37 @@
 /*eslint jsx-quotes: [2, "prefer-double"]*/
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {default as lodash} from 'lodash'
+import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
 // import DesignOptions from './design-options/design-options'
 // import {getService} from 'vc-cake'
 import {format} from 'util'
 import DependencyManager from './dependencies'
-
-let allTabs = []
+import EditFormFooter from './footer'
+import EditFormContent from './content'
+import vcCake from 'vc-cake'
+const Utils = vcCake.getService('utils')
 // let designOptions = {}
 
-class TreeForm extends React.Component {
+class EditForm extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    element: React.PropTypes.object.isRequired
+  }
   state = {
-    tabsCount: 0,
-    visibleTabsCount: 0,
     activeTabIndex: 0,
     saving: false,
     saved: false
   }
+  allTabs = []
 
   componentWillMount () {
-    allTabs = this.tabsFromProps(this.props)
-    this.setState({
-      tabsCount: allTabs.length
-    })
+    this.allTabs = EditForm.updateTabs(this.props)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.allTabs = EditForm.updateTabs(nextProps)
   }
 
   updateElement (data) {
@@ -37,72 +43,48 @@ class TreeForm extends React.Component {
 
     this.props.api.on('element:set', this.updateElement.bind(this))
     // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
-    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    Utils.addResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
+    Utils.removeResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
     this.props.api.off('element:set', this.updateElement.bind(this))
-  }
-
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = (e) => {
-      obj.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   handleElementResize = (e) => {
     this.refreshTabs()
   }
 
-  tabsFromProps (props) {
+  static updateTabs (props) {
     let tabs = []
-    this.editFormTabs().map((tab, index) => {
+    EditForm.editFormTabs(props).map((tab, index) => {
       let tabsData = {
         id: tab.key,
         index: index,
-        title: tab.data.settings.options.label,
+        data: tab.data,
         isVisible: true,
         pinned: tab.data.settings.options.pinned || false,
-        params: this.editFormTabParams(tab.key)
+        params: EditForm.editFormTabParams(props, tab.key),
+        key: `edit-form-tab-${tab.key}`,
+        changeTab: this.changeActiveTab
       }
       tabs.push(tabsData)
-    }, this)
-/*
-    tabs.push({
-      id: 'editFormTabDesignOptions',
-      index: tabs.length,
-      title: 'Design Options',
-      isVisible: true,
-      pinned: false,
-      type: 'design-options',
-      params: []
-    })*/
+    }, EditForm)
+    /*
+     tabs.push({
+     id: 'editFormTabDesignOptions',
+     index: tabs.length,
+     title: 'Design Options',
+     isVisible: true,
+     pinned: false,
+     type: 'design-options',
+     params: []
+     })*/
 
     return tabs
   }
 
-  changeActiveTab (tabIndex) {
+  changeActiveTab = (tabIndex) => {
     this.setState({
       activeTabIndex: tabIndex
     })
@@ -112,43 +94,71 @@ class TreeForm extends React.Component {
     // designOptions = newDesignOptions
   }
 
-  editFormTabs () {
-    const group = this.props.element.get('metaEditFormTabs')
+  static editFormTabs (props) {
+    const group = props.element.get('metaEditFormTabs')
     if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
+      return group.each(EditForm.editFormTabsIterator.bind(this, props))
     }
     return []
   }
 
-  editFormTabsIterator (item) {
+  static editFormTabsIterator (props, item) {
     return {
       key: item,
-      value: this.props.element.get(item),
-      data: this.props.element.settings(item)
+      value: props.element.get(item),
+      data: props.element.settings(item)
     }
   }
 
-  editFormTabParams (tabName) {
-    const group = this.props.element.get(tabName)
-    if (group && group.each) {
-      return group.each(this.editFormTabsIterator.bind(this))
+  static editFormTabParams (props, tabName) {
+    const value = props.element.get(tabName)
+    const settings = props.element.settings(tabName)
+    if (settings.settings.type === 'group' && value && value.each) {
+      return value.each(EditForm.editFormTabsIterator.bind(this, props))
     }
-    return []
+    // In case if tab is single param holder
+    return [ {
+      key: tabName,
+      value: value,
+      data: settings
+    } ]
   }
 
   getVisibleTabs () {
-    return allTabs.filter((tab) => {
+    return this.allTabs.filter((tab) => {
       if (tab.isVisible) {
         return true
       }
     })
   }
 
+  getActiveTabContent () {
+    let { activeTabIndex } = this.state
+    let activeTabContentOutput
+    this.allTabs.some((tab) => {
+      if (tab.index === activeTabIndex) {
+        let plateClass = classNames({
+          'vcv-ui-editor-plate': true,
+          'vcv-ui-state--active': true
+        }, `vcv-ui-editor-plate-${tab.id}`)
+        activeTabContentOutput = (
+          <div key={'plate-visible' + this.allTabs[ tab.index ].id} className={plateClass}>
+            {this.getForm(tab.index)}
+          </div>
+        )
+        return true
+      }
+      return false
+    })
+
+    return activeTabContentOutput
+  }
+
   getHiddenTabs () {
-    let tabs = allTabs.filter((tab) => {
+    let tabs = this.allTabs.filter((tab) => {
       return !tab.isVisible
     })
-    tabs.reverse()
+    // tabs.reverse()
     return tabs
   }
 
@@ -160,18 +170,15 @@ class TreeForm extends React.Component {
 
   refreshTabs () {
     // get tabs line width
-    let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
-    let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
+    let $freeSpaceEl = ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ])
     let freeSpace = $freeSpaceEl.offsetWidth
 
     // If there is no space move tab from visible to hidden tabs.
     let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
       let lastTab = visibleAndUnpinnedTabs.pop()
-      allTabs[ lastTab.index ].isVisible = false
-      this.setState({
-        visibleTabsCount: this.getVisibleTabs().length
-      })
+      this.allTabs[ lastTab.index ].isVisible = false
+      this.forceUpdate()
       this.refreshTabs()
       return
     }
@@ -186,27 +193,24 @@ class TreeForm extends React.Component {
       }
       while (freeSpace > 0 && hiddenTabs.length) {
         let lastTab = hiddenTabs.pop()
-        let controlsSize = lastTab.ref.getRealWidth()
-        freeSpace -= controlsSize
+        freeSpace -= lastTab.ref.getRealWidth()
         if (freeSpace > 0) {
-          allTabs[ lastTab.index ].isVisible = true
+          this.allTabs[ lastTab.index ].isVisible = true
         }
       }
-      this.setState({
-        visibleTabsCount: this.getVisibleTabs().length
-      })
+      this.forceUpdate()
     }
   }
 
   getForm (tabIndex) {
-    let tab = allTabs[ tabIndex ]
+    let tab = this.allTabs[ tabIndex ]
     /* if (tab.type && tab.type === 'design-options') {
-      let props = {
-        changeDesignOption: this.changeDesignOption.bind(this),
-        //values: designOptions
-      }
-      //return <DesignOptions {...props} />
-    } */
+     let props = {
+     changeDesignOption: this.changeDesignOption.bind(this),
+     //values: designOptions
+     }
+     //return <DesignOptions {...props} />
+     } */
     return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
@@ -223,7 +227,7 @@ class TreeForm extends React.Component {
     this.props.api.request('bar-content-start:hide')
   }
 
-  saveForm = () => {
+  onSave = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
     // getService('assets-manager').addDesignOption(element.get('id'), designOptions)
@@ -238,16 +242,23 @@ class TreeForm extends React.Component {
   }
 
   getTabProps (tabIndex, activeTabIndex) {
-    let tab = allTabs[ tabIndex ]
+    let tab = this.allTabs[ tabIndex ]
 
     return {
       key: tab.id,
       id: tab.id,
       index: tab.index,
-      title: tab.title,
       active: (activeTabIndex === tab.index),
-      container: '.vcv-ui-editor-tabs',
-      changeActive: this.changeActiveTab.bind(this)
+      changeTab: this.changeActiveTab,
+      data: tab.data,
+      ref: (ref) => {
+        if (this.allTabs[ tab.index ]) {
+          this.allTabs[ tab.index ].ref = ref
+        }
+      },
+      getContainer: () => {
+        return ReactDOM.findDOMNode(this.refs[ 'editorTabs' ])
+      }
     }
   }
 
@@ -283,6 +294,7 @@ class TreeForm extends React.Component {
           options={options}
           value={rawValue}
           updater={updater}
+          api={this.props.api}
         />
         {description}
       </div>
@@ -290,8 +302,6 @@ class TreeForm extends React.Component {
     let data = {
       key: key,
       options: options,
-      label: label,
-      description: description,
       type: type,
       value: value,
       rawValue: rawValue,
@@ -345,7 +355,7 @@ class TreeForm extends React.Component {
         <dl className={dropdownClasses}>
           <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
             <span className="vcv-ui-editor-tab-content">
-              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots"></i>
+              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots" />
             </span>
           </dt>
           <dd className="vcv-ui-editor-tab-dropdown-content">
@@ -354,105 +364,33 @@ class TreeForm extends React.Component {
         </dl>
       )
     }
-    let visibleTabsContentOutput = []
-    lodash.each(this.getVisibleTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getForm(tab.index)}
-      </div>)
-    })
-
-    let hiddenTabsContentOutput = []
-    lodash.each(this.getHiddenTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getForm(tab.index)}
-      </div>)
-    })
 
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
-    let saveButtonClasses = classNames({
-      'vcv-ui-tree-layout-action': true,
-      'vcv-ui-state--success': this.state.saved
-    })
-    let saveIconClasses = classNames({
-      'vcv-ui-tree-layout-action-icon': true,
-      'vcv-ui-wp-spinner': this.state.saving,
-      'vcv-ui-icon': !this.state.saving,
-      'vcv-ui-icon-save': !this.state.saving
-    })
-
-    // <nav className="vcv-ui-tree-content-title-controls">
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="document-alt-stroke bug">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-document-alt-stroke"></i>
-    // </span>
-    // </a>
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="heart-stroke bug" disabled="">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-heart-stroke"></i>
-    // </span>
-    // </a>
-    // <a className="vcv-ui-tree-content-title-control" href="#" title="settings bug">
-    // <span className="vcv-ui-tree-content-title-control-content">
-    // <i className="vcv-ui-tree-content-title-control-icon vcv-ui-icon vcv-ui-icon-cog"></i>
-    // </span>
-    // </a>
-    // </nav>
 
     return (
       <div className="vcv-ui-tree-view-content">
         <div className={treeContentClasses}>
           <div className="vcv-ui-editor-tabs-container">
-            <nav className="vcv-ui-editor-tabs">
+            <nav ref="editorTabs" className="vcv-ui-editor-tabs">
               {visibleTabsHeaderOutput}
               {hiddenTabsHeaderOutput}
-              <span className="vcv-ui-editor-tabs-free-space"></span>
+              <span ref="editorTabsFreeSpace" className="vcv-ui-editor-tabs-free-space" />
             </nav>
           </div>
 
-          <div ref="scrollable" className="vcv-ui-tree-content-section">
-            <div className="vcv-ui-scroll-container">
-              <div className="vcv-ui-scroll">
-                <div className="vcv-ui-scroll-content">
-                  <div className="vcv-ui-tree-content-section-inner">
-                    <div className="vcv-ui-editor-plates-container">
-                      <div className="vcv-ui-editor-plates">
-                        {visibleTabsContentOutput}
-                        {hiddenTabsContentOutput}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <EditFormContent plateContent={this.getActiveTabContent()} />
 
-          <div className="vcv-ui-tree-content-footer">
-            <div className="vcv-ui-tree-layout-actions">
-              <a className={saveButtonClasses} href="#" title="Save" onClick={this.saveForm}>
-                <span className="vcv-ui-tree-layout-action-content">
-                  <i className={saveIconClasses}></i><span>Save</span>
-                </span>
-              </a>
-            </div>
-          </div>
+          <EditFormFooter
+            onSave={this.onSave}
+            saving={this.state.saving}
+            saved={this.state.saved}
+          />
         </div>
       </div>
     )
   }
 }
-TreeForm.propTypes = {
-  api: React.PropTypes.object.isRequired,
-  element: React.PropTypes.object.isRequired
-}
 
-module.exports = TreeForm
+export default EditForm

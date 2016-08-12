@@ -1,3 +1,3 @@
 <div>
-  <span className={icon}></span>
+  <span className={icon} style={{ color: colorValue }}></span>
 </div>

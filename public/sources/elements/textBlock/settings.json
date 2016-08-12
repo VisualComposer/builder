@@ -1,9 +1,4 @@
 {
-  "tag": {
-    "type": "string",
-    "access": "protected",
-    "value": "textBlock"
-  },
   "name": {
     "type": "string",
     "access": "protected",
