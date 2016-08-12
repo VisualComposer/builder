@@ -5,6 +5,8 @@ import Attribute from '../attribute'
 // import lodash from 'lodash'
 import classNames from 'classnames'
 import './css/styles.less'
+import Toggle from '../toggle/Component'
+import String from '../string/Component'
 
 class Layout extends Attribute {
   static defaultProps = {
@@ -111,8 +113,25 @@ responsiveness options and stacking order.
           {layoutsData}
         </div>
         <div className='vcv-ui-form-layout-custom-layout'>
-          <input type='text' value={this.state.customLayout} onChange={this.setCustomLayout} />
+          <span className='vcv-ui-form-layout-description'>Custom row layout</span>
+          <div className='vcv-ui-form-layout-custom-layout-columns'>
+            <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
+              <div className='vcv-ui-form-layout-custom-layout-input'>
+                <String key={'k' + this.props.fieldKey + 'string-1'} value={this.state.customLayout}
+                  fieldKey={this.props.fieldKey + 'string-1'} />
+                <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
+The total sum of fractions must be 1 (ex. 1/3 + 1/3 + 1/3)
+                </span>
+              </div>
+            </div>
+            <div className='vcv-ui-form-layout-custom-layout-col'>
+              <Toggle key={'k' + this.props.fieldKey + 'toggle-1'} value={false}
+                fieldKey={this.props.fieldKey + 'toggle-1'} /><span>Reverse column stacking</span>
+            </div>
+          </div>
         </div>
+        <Toggle key={'k' + this.props.fieldKey + 'toggle-2'} value={false}
+          fieldKey={this.props.fieldKey + 'toggle-2'} />
         {JSON.stringify(value)}
       </div>
     )
