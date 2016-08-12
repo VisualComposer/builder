@@ -1,1 +1,1 @@
-<span>{text}</span>
+<span>{text}{JSON.stringify(colorValue)}</span>

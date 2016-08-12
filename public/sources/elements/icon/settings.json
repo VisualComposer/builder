@@ -54,8 +54,7 @@
     "value": "#000",
     "options": {
       "label": "Icons",
-      "description": "Select the icon",
-      "type": "rgb"
+      "description": "Select the icon"
     }
   },
   "editFormTab1": {

@@ -7,7 +7,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Simple Button 2"
+    "value": "Simple Button"
   },
   "metaIntro": {
     "type": "textarea",

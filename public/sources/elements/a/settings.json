@@ -47,14 +47,24 @@
       "label": "A"
     }
   },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#EEEEEE",
+    "options": {
+      "label": "Color"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "text"
+      "text",
+      "color"
     ],
     "options": {
-      "label": "Options"
+      "label": "Options",
+      "format": "rgb"
     }
   },
   "metaEditFormTabs": {
