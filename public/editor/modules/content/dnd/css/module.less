@@ -55,7 +55,7 @@
       border: 3px solid @vcv-dnd-frame-border-color;
     }
   }
-  &.vcv-js-show {
+  &.vcv-is-shown {
     transition: opacity .5s;
     opacity: 1;
   }
@@ -66,7 +66,7 @@
   z-index: 10999;
   background-color: @vcv-dnd-frame-border-color;
   opacity: 0;
-  &.vcv-js-show {
+  &.vcv-is-shown {
     transition: opacity .5s;
     opacity: 1;
   }
@@ -75,7 +75,7 @@
     background-color: transparent;
   }
 }
-body.vcv-dragstart {
+.vcv-dnd-dragging--start {
   cursor: move;
 }
 

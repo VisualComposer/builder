@@ -137,7 +137,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     this.setPoint(linePoint.x, linePoint.y)
     this.setStyle(linePoint, lineWidth, lineHeight, frame)
     window.setTimeout(function () {
-      this.el && this.el.classList.add('vcv-js-show')
+      this.el && this.el.classList.add('vcv-is-shown')
     }.bind(this), 0)
   } else {
     position = false

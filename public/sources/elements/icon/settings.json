@@ -1,9 +1,4 @@
 {
-  "tag": {
-    "type": "string",
-    "access": "protected",
-    "value": "icon"
-  },
   "name": {
     "type": "string",
     "access": "protected",
@@ -53,11 +48,21 @@
       "description": "Select the icon"
     }
   },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#000",
+    "options": {
+      "label": "Icons",
+      "description": "Select the icon"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "icon"
+      "icon",
+      "color"
     ],
     "options": {
       "label": "Options"

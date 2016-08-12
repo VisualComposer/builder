@@ -1,9 +1,4 @@
 {
-  "tag": {
-    "type": "string",
-    "access": "protected",
-    "value": "simpleButton"
-  },
   "category": {
     "type": "string",
     "access": "protected",
@@ -52,6 +47,16 @@
       "label": "Button text"
     }
   },
+  "icon": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "icon"
+    },
+    "options": {
+      "label": "Icon"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -66,7 +71,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "icon"
     ]
   },
   "relatedTo": {

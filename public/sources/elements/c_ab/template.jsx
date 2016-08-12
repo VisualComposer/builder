@@ -1,0 +1,1 @@
+<span>{text}{Ab.render(null, false)}</span>

@@ -1,19 +1,23 @@
 import React from 'react'
 
 class Attribute extends React.Component {
-  state = {
-    value: this.normalizeValue(this.props)
+  static propTypes = {
+    updater: React.PropTypes.func.isRequired,
+    api: React.PropTypes.object.isRequired,
+    fieldKey: React.PropTypes.string.isRequired,
+    value: React.PropTypes.any.isRequired,
+    options: React.PropTypes.any
   }
+  state = this.updateState(this.props)
 
   componentWillReceiveProps (nextProps) {
-    let value = this.normalizeValue(nextProps)
-    this.setState({
-      value: value
-    })
+    this.setState(this.updateState(nextProps))
   }
 
-  normalizeValue (props) {
-    return props.value
+  updateState (props) {
+    return {
+      value: props.value
+    }
   }
 
   componentDidMount () {
@@ -38,12 +42,6 @@ class Attribute extends React.Component {
       <div />
     )
   }
-}
-Attribute.propTypes = {
-  updater: React.PropTypes.func.isRequired,
-  fieldKey: React.PropTypes.string.isRequired,
-  value: React.PropTypes.any.isRequired,
-  options: React.PropTypes.any
 }
 
 export default Attribute

@@ -78,7 +78,7 @@ Frame.prototype.redraw = function (element, point, settings) {
     this.setLinePosition(linePosition)
     this.setSettings(rect, offset, 'vcv-dnd-frame-' + linePosition)
     window.setTimeout(function () {
-      this.el && this.el.classList.add('vcv-js-show')
+      this.el && this.el.classList.add('vcv-is-shown')
     }.bind(this), 0)
   } else {
     position = false

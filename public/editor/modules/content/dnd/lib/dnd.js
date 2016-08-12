@@ -137,7 +137,7 @@ Builder.prototype.start = function (id) {
   // Create helper/clone of element
   this.helper = new Helper(this.draggingElement.node)
   // Add css class for body to enable visual settings for all document
-  this.options.document.body.classList.add('vcv-dragstart')
+  this.options.document.body.classList.add('vcv-dnd-dragging--start', 'vcv-is-no-selection')
 
   this.watchMouse()
   this.createPlaceholder()
@@ -149,7 +149,7 @@ Builder.prototype.end = function () {
   // Remove helper
   this.helper && this.helper.remove()
   // Remove css class for body
-  this.options.document.body.classList.remove('vcv-dragstart')
+  this.options.document.body.classList.remove('vcv-dnd-dragging--start', 'vcv-is-no-selection')
 
   this.forgetMouse()
   this.removePlaceholder()
