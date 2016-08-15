@@ -2,9 +2,9 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -13,7 +13,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class General.
  */
-class General extends Container/* implements Module*/
+class General extends Container implements Module
 {
     use Fields;
     use Page;

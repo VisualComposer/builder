@@ -2,21 +2,21 @@
 
 namespace VisualComposer\Modules\Settings;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
+use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Data;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
-use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class Controller.
  */
-class Controller extends Container/* implements Module*/
+class Controller extends Container implements Module
 {
     use WpFiltersActions;
 
