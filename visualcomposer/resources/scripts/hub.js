@@ -10,9 +10,9 @@
       name: 'Authorization'
     },
     {
-      'key': 'Accept',
-      'value': 'application/vnd.vc.v1+json',
-      'name': 'Accept'
+      key: 'Accept',
+      value: 'application/vnd.vc.v1+json',
+      name: 'Accept'
     }
   ]
 
@@ -49,5 +49,5 @@
     })
   }
 
-  loadPage('http://test.account.visualcomposer.io/api/elements')
+  loadPage(window.vcv_api.accountURL + '/api/elements')
 })(window.jQuery)

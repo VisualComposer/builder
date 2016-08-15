@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 <div class="vcv-settings-page-hub">
     <script>
         window.vcv_api = {
+            accountURL: "<?php echo VCV_ACCOUNT_URL ?>",
             token: "<?php echo vcapp()->call([vchelper('Token'), 'getToken']); ?>"
         };
     </script>
