@@ -1,3 +1,9 @@
+.vcv-ui-form-input.vcv-ui-form-tinymce {
+  padding: 0;
+}
+.vcv-ui-form-input.vcv-ui-form-tinymce p {
+  margin: 5px 10px;
+}
 .mce-content-body .mce-reset {
   margin: 0;
   padding: 0;
@@ -152,7 +158,7 @@ td[data-mce-selected], th[data-mce-selected] {
 }
 
 .mce-edit-focus {
-  outline: 1px dotted #333
+  outline: none; /* 1px dotted #333 */
 }
 
 .mce-content-body *[contentEditable=false] *[contentEditable=true]:focus {

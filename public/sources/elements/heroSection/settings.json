@@ -111,7 +111,7 @@
     "type": "element",
     "access": "public",
     "value": {
-      "tag": "simpleButton"
+      "tag": "button"
     },
     "options": {
       "label": "Button"

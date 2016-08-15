@@ -23,10 +23,12 @@ export default class HtmlEditorComponent extends Attribute {
       ], skin: false, menubar: false
     }, options.tinymce)
     return (
-      <TinyMceEditor
-        config={tinymceConfig}
-        onChange={this.handleChange}
-        content={value} />
+      <div className='vcv-ui-form-input vcv-ui-form-tinymce'>
+        <TinyMceEditor
+          config={tinymceConfig}
+          onChange={this.handleChange}
+          content={value} />
+      </div>
     )
   }
 }
