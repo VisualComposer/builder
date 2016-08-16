@@ -171,6 +171,10 @@ class ElementAttribute extends Attribute {
     )
   }
 
+  changeShowReplacements () {
+    this.setState({ showReplacements: !this.state.showReplacements })
+  }
+
   render () {
     let content = []
 
@@ -182,54 +186,71 @@ class ElementAttribute extends Attribute {
         </div>
       )
     })
-    let elementsList = Cook.list.settings()
 
-    let replacements = []
+    let replacements = ''
 
-    _.filter(elementsList, (element) => {
-      if (element.group === 'icon') {
-        let cookElement = Cook.get(element)
+    if (this.state.showReplacements) {
+      let elementsList = Cook.list.settings()
+      let replacementItemsOutput = []
 
-        let nameClasses = classNames({
-          'vcv-ui-add-element-badge vcv-ui-badge-success': false,
-          'vcv-ui-add-element-badge vcv-ui-badge-warning': false
-        })
+      _.filter(elementsList, (element) => {
+        if (element.group === 'icon') {
+          let cookElement = Cook.get(element)
 
-        // Possible overlays:
+          let nameClasses = classNames({
+            'vcv-ui-add-element-badge vcv-ui-badge-success': false,
+            'vcv-ui-add-element-badge vcv-ui-badge-warning': false
+          })
 
-        // <span className="vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add"></span>
+          let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
 
-        // <span className='vcv-ui-add-element-edit'>
-        //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
-        //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
-        // </span>
-        let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-
-        replacements.push(
-          <li className='vcv-ui-add-element-list-item'>
-            <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, element)}>
-              <span className='vcv-ui-add-element-element-content'>
-                <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
-                  alt='' />
-                <span className='vcv-ui-add-element-overlay'>
-                  <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+          replacementItemsOutput.push(
+            <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-add-element-list-item'>
+              <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, element)}>
+                <span className='vcv-ui-add-element-element-content'>
+                  <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+                    alt='' />
+                  <span className='vcv-ui-add-element-overlay'>
+                    <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+                  </span>
                 </span>
-              </span>
-              <span className='vcv-ui-add-element-element-name'>
-                <span className={nameClasses}>
-                  {element.name}
+                <span className='vcv-ui-add-element-element-name'>
+                  <span className={nameClasses}>
+                    {element.name}
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>)
-      }
-    })
+              </a>
+            </li>)
+        }
+      })
+
+      replacements = (
+        <div className='vcv-ui-replace-element-container'>
+          <a className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements.bind(this)}>
+            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin'>
+            </i>
+          </a>
+          <ul className='vcv-ui-replace-element-list'>
+            {replacementItemsOutput}
+          </ul>
+        </div>
+      )
+    } else {
+      replacements = (
+        <div>
+          <p className='vcv-ui-form-helper'>You can change the button within this element with another button from your elements</p>
+          <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.changeShowReplacements.bind(this)}>
+            Replace button
+          </button>
+        </div>
+      )
+    }
 
     return (
       <div className='vcv-ui-form-element'>
-        <ul className='vcv-ui-replace-element-list'>
+        <div className='vcv-ui-replace-element-block'>
           {replacements}
-        </ul>
+        </div>
         {content}
         {JSON.stringify(this.state)}
       </div>
