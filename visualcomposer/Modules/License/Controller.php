@@ -39,7 +39,7 @@ class Controller extends Container implements Module
      */
     public function __construct(Request $request)
     {
-        // TODO: this is not valid. we should use register_activation_callback.
+        // TODO: This is not valid. We should use register_activation_callback.
         if ($request->exists('activate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivation */
             $this->call('finishActivation', [$request->input('activate')]);
@@ -99,15 +99,17 @@ class Controller extends Container implements Module
      * Output notice.
      *
      * @param string $message
-     * @param string $view
+     * @param bool $success
      *
      * @return string
      */
-    private function renderNotice($message, $view)
+    private function renderNotice($message, $success)
     {
         $args = ['message' => $message];
 
-        return vcview($view, $args);
+        $view = $success ? 'notice-success' : 'notice-error';
+
+        return vcview('settings/partials/' . $view, $args);
     }
 
     /**
@@ -118,15 +120,6 @@ class Controller extends Container implements Module
     private function addError($error)
     {
         $this->errors[] = $error;
-    }
-
-    /**
-     * Output last error.
-     */
-    private function renderLastError()
-    {
-        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        return $this->call('renderNotice', [$this->error, false]);
     }
 
     /**
@@ -221,7 +214,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\License\Controller::isValidToken */
         if (!$this->call('isValidToken', [$userToken])) {
-            $this->renderError(__('Token is not valid or has expired', 'vc5'));
+            $this->addError(__('Token is not valid or has expired', 'vc5'));
 
             return false;
         }
