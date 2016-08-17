@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Icon"
+    "value": "Icon Second"
   },
   "category": {
     "type": "string",
@@ -42,7 +42,7 @@
   "icon": {
     "type": "iconpicker",
     "access": "public",
-    "value": "fa fa-heart",
+    "value": "fa fa-star",
     "options": {
       "label": "Icons",
       "description": "Select the icon"
@@ -51,7 +51,16 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#000",
+    "value": "#EAE",
+    "options": {
+      "label": "Icons",
+      "description": "Select the icon"
+    }
+  },
+  "backgroundColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#A00",
     "options": {
       "label": "Icons",
       "description": "Select the icon"
@@ -62,7 +71,8 @@
     "access": "protected",
     "value": [
       "icon",
-      "color"
+      "color",
+      "backgroundColor"
     ],
     "options": {
       "label": "Options"
