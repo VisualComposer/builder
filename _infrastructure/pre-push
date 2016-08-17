@@ -2,7 +2,7 @@
 
 ### RUN PHPUNIT TESTS BEFORE PUSH
 
-printf "Running phpunit tests...\n"
+echo "Running phpunit tests...\n"
 
 OUTPUT=`phpunit --configuration=ci/phpunit.xml`
 
@@ -10,8 +10,8 @@ OUTPUT=`phpunit --configuration=ci/phpunit.xml`
 if [ $? -ne 0 ]
 then
 	# quotes preserve formatting
-	printf "$OUTPUT\n"
-	printf "ABORTING!!!\n"
+	echo "$OUTPUT\n"
+	echo "ABORTING!!!\n"
 	exit 1
 fi
 

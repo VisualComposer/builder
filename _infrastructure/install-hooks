@@ -7,9 +7,9 @@ do
     cp $hook ../.git/hooks/
 
     if [ $? == 1 ]; then
-        printf "Something went wrong. Failed to install $hook hook\n"
+        echo "Something went wrong. Failed to install $hook hook\n"
         exit 1
     else
-        printf "Installed $hook hook.\n"
+        echo "Installed $hook hook.\n"
     fi
 done

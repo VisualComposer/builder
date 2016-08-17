@@ -11,7 +11,7 @@ for word in "${words[@]}"
 do
     if [[ $1 == $word* ]]
     then
-        printf "Commit message can't start with word '$word'!\n"
+        echo "Commit message can't start with word '$word'!\n"
         exit 1
     fi
 done

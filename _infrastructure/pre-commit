@@ -6,7 +6,7 @@ NOCOLOR='\033[0m'
 YELLOW='\033[0;33m'
 RED='\033[0;31m'
 
-printf "${YELLOW}Running phpcs...${NOCOLOR}\n"
+echo "${YELLOW}Running phpcs...${NOCOLOR}\n"
 
 FILES_PHP=$(git diff --name-only --cached --relative | grep '\.php\?$')
 if [ "$FILES_PHP" != "" ]; then
@@ -20,8 +20,8 @@ if [ "$FILES_PHP" != "" ]; then
 
     OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
     if [ $? -ne 0 ]; then
-      printf "Code style verification in $FILE failed. Aborting Commit!\n"
-      printf "$OUTPUT\n"
+      echo "Code style verification in $FILE failed. Aborting Commit!\n"
+      echo "$OUTPUT\n"
       exit 1
     fi
   done
@@ -29,11 +29,11 @@ fi
 
 ### RUN STANDARD
 
-printf "${YELLOW}Running standard...${NOCOLOR}\n"
+echo "${YELLOW}Running standard...${NOCOLOR}\n"
 OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 if [ $? -ne 0 ]
 then
-  printf "[JS] Code style verification failed. Aborting Commit!\n"
-  printf "$OUTPUT\n"
+  echo "[JS] Code style verification failed. Aborting Commit!\n"
+  echo "$OUTPUT\n"
   exit 1
 fi
