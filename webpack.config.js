@@ -18,6 +18,9 @@ module.exports = {
     filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[id].js'
   },
+  node: {
+    'fs': 'empty'
+  },
   plugins: [
     new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
