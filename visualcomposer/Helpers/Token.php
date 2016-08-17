@@ -120,7 +120,7 @@ class Token extends Container implements Helper
                 /** @see \VisualComposer\Helpers\Token::refreshToken */
                 $token = $this->call('refreshToken');
             } catch (\Exception $e) {
-                $token = '';
+                $token = false;
             }
         }
 
