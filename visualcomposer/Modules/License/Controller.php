@@ -297,7 +297,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/activate-license?token=%s&url=%s&redirect=%s',
+            '%s/activate-license?token=%s&url=%s&redirect=%s&quiet=1',
             VCV_ACCOUNT_URL,
             $token,
             $url,
