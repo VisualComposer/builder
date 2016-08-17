@@ -2,17 +2,17 @@
 
 namespace VisualComposer\Modules\Settings\Pages;
 
-/*use VisualComposer\Framework\Illuminate\Support\Module;*/
-use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class About.
  */
-class About extends Container/* implements Module*/
+class About extends Container implements Module
 {
     use Page;
     use EventsFilters;

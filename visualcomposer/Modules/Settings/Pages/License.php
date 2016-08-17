@@ -3,14 +3,14 @@
 namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
  * Class License.
  */
-class License extends Container/* implements Module*/
+class License extends Container implements Module
 {
     use Page;
     use EventsFilters;

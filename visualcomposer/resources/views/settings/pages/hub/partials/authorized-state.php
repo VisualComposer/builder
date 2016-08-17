@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 <div class="vcv-settings-page-hub">
     <script>
         window.vcv_api = {
+            accountURL: "<?php echo VCV_ACCOUNT_URL ?>",
             token: "<?php echo vcapp()->call([vchelper('Token'), 'getToken']); ?>"
         };
     </script>
@@ -59,11 +60,11 @@ if (!defined('ABSPATH')) {
             <li class="element">
                 <div class="media">
                     <div class="media-img">
-                        <img src="<%= item.thumbnail.small %>" width="42" heigh="42" alt=""/>
+                        <img src="<%= item.thumbnail %>" width="42" heigh="42" alt=""/>
                     </div>
                     <div class="media-body">
                         <div class="element-title">
-                            <div><%= item.title %></div>
+                            <div><%= item.name %></div>
                         </div>
                         <div class="element-meta">
                             <div>by <%= item.user.name %></div>
@@ -74,6 +75,10 @@ if (!defined('ABSPATH')) {
             </li>
             <% }); %>
         </ul>
+        <div class="elements-paging">
+            <button data-vcv-paging-url="<%= pagination.links.previous %>">Previous</button>
+            <button data-vcv-paging-url="<%= pagination.links.next %>">Next</button>
+        </div>
     </script>
     <?php
     /** @var \VisualComposer\Helpers\Url $urlHelper */

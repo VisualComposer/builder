@@ -5,10 +5,10 @@ namespace VisualComposer\Modules\Settings\Pages;
 use Exception;
 use VisualComposer\Framework\Application;
 use VisualComposer\Framework\Container;
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -16,7 +16,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class Authorization.
  */
-class Authorization extends Container/* implements Module */
+class Authorization extends Container implements Module
 {
     use Page;
     use EventsFilters;
@@ -53,10 +53,10 @@ class Authorization extends Container/* implements Module */
         );
 
         /** @see \VisualComposer\Modules\Settings\Pages\Authorization::handleApiRequest */
-        /*$this->addFilter(
+        $this->addFilter(
             'vcv:ajax:api',
             'handleApiRequest'
-        );*/
+        );
     }
 
     protected function beforeRender(Token $tokenHelper)
@@ -67,7 +67,7 @@ class Authorization extends Container/* implements Module */
             $urlHelper = vchelper('Url');
             $url = $urlHelper->ajax(['vcv-action' => 'api']);
             $result = wp_remote_post(
-                'http://test.account.visualcomposer.io/register-app',
+                VCV_ACCOUNT_URL . '/register-app',
                 ['body' => ['url' => $url]]
             );
             if (is_array($result) && 200 === $result['response']['code']) {

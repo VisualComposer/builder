@@ -85,6 +85,8 @@ if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);
 }
 
+define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
+
 /**
  * Check PHP version.
  * Check WordPress version.

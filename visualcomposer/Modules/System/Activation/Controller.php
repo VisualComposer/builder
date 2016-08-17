@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\System\Activation;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -10,7 +10,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Class Controller.
  */
-class Controller extends Container /*implements Module*/
+class Controller extends Container implements Module
 {
     use WpFiltersActions;
 

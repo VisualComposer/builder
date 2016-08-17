@@ -56,7 +56,7 @@ class Token extends Container implements Helper
     public function generateToken($code, Options $options, Url $urlHelper)
     {
         $result = wp_remote_post(
-            'http://test.account.visualcomposer.io/token',
+            VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'code' => $code,
@@ -135,7 +135,7 @@ class Token extends Container implements Helper
     {
         $refreshToken = $options->get('page-auth-refresh-token');
         $result = wp_remote_post(
-            'http://test.account.visualcomposer.io/token',
+            VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'grant_type' => 'refresh_token',
