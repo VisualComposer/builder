@@ -3,6 +3,11 @@
   var template = _.template($('#vcv-elements-template').html())
   var $hub = $('#vcv-hub-content')
 
+  if (!window.vcv_api.token) {
+    console.error('VCV API token is not defined.')
+    return
+  }
+
   var headers = [
     {
       key: 'Authorization',
