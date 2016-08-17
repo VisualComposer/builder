@@ -328,7 +328,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s',
+            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s&quiet=1',
             VCV_ACCOUNT_URL,
             $licenseKey,
             $token,
