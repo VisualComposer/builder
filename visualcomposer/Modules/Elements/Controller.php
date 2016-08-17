@@ -116,6 +116,10 @@ class Controller extends Container implements Module
 
         $defaultElements = $this->fetchDefaultElements();
 
+        if ($defaultElements === false) {
+            return false;
+        }
+
         $elements = [];
 
         foreach ($defaultElements as $element) {
