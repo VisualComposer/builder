@@ -67,7 +67,7 @@ class Authorization extends Container implements Module
             $urlHelper = vchelper('Url');
             $url = $urlHelper->ajax(['vcv-action' => 'api']);
             $result = wp_remote_post(
-                'http://test.account.visualcomposer.io/register-app',
+                VCV_ACCOUNT_URL . '/register-app',
                 ['body' => ['url' => $url]]
             );
             if (is_array($result) && 200 === $result['response']['code']) {

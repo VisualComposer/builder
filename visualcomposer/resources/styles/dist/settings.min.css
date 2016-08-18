@@ -172,130 +172,130 @@
             transform: translate(-50%, -50%) rotate(360deg);
   }
 }
-.vc_settings {
+.vcv-settings {
   /** Layout switcher for complex container-container controler **/
   /* Row Controls
 ---------------------------------------------------------- */
   /* Empty column tweaks
 ---------------------------------------------------------- */
 }
-.vc_settings a:active,
-.vc_settings h3:active,
-.vc_settings a:focus,
-.vc_settings h3:focus {
+.vcv-settings a:active,
+.vcv-settings h3:active,
+.vcv-settings a:focus,
+.vcv-settings h3:focus {
   outline: none;
 }
-.vc_settings .vc_settings-tab-content {
+.vcv-settings .vc_settings-tab-content {
   display: none;
 }
-.vc_settings .vc_settings-tab-content.vc_settings-tab-content-active {
+.vcv-settings .vc_settings-tab-content.vc_settings-tab-content-active {
   display: block;
 }
-.vc_settings .vc_settings-tab-content p.submit {
+.vcv-settings .vc_settings-tab-content p.submit {
   float: left;
 }
-.vc_settings .vc_settings-tab-content .vc_updater-result-message {
+.vcv-settings .vc_settings-tab-content .vc_updater-result-message {
   clear: both;
 }
-.vc_settings .vc_settings-tab-content .vc_updater-passive {
+.vcv-settings .vc_settings-tab-content .vc_updater-passive {
   opacity: 0.4;
   filter: alpha(opacity=40);
 }
-.vc_settings .vc_settings-tab-content .vcv-ui-wp-spinner {
+.vcv-settings .vc_settings-tab-content .vcv-ui-wp-spinner {
   height: 25px;
   width: 25px;
   float: left;
 }
-.vc_settings .vc_settings-tab-content .vcv-ui-wp-spinner::before {
+.vcv-settings .vc_settings-tab-content .vcv-ui-wp-spinner::before {
   height: 20px;
   width: 20px;
 }
-.vc_settings .vc_helper {
+.vcv-settings .vc_helper {
   display: none;
 }
-.vc_settings .tab_intro {
+.vcv-settings .tab_intro {
   padding: 15px 10px 0 10px;
 }
-.vc_settings .vc_settings-activation-deactivation {
+.vcv-settings .vc_settings-activation-deactivation {
   text-align: center;
   max-width: 960px;
 }
-.vc_settings .vc_settings-activation-deactivation p {
+.vcv-settings .vc_settings-activation-deactivation p {
   font-size: 14px;
 }
-.vc_settings .vc_settings-activation-deactivation .button-updater {
+.vcv-settings .vc_settings-activation-deactivation .button-updater {
   margin-left: 42px;
 }
-.vc_settings .vc_settings-activation-deactivation .vc_updater-spinner {
+.vcv-settings .vc_settings-activation-deactivation .vc_updater-spinner {
   -webkit-transition: opacity 0.2s;
           transition: opacity 0.2s;
   vertical-align: middle;
   margin-left: 5px;
   opacity: 0;
 }
-.vc_settings .vc_settings-activation-deactivation .loading .vc_updater-spinner {
+.vcv-settings .vc_settings-activation-deactivation .loading .vc_updater-spinner {
   opacity: 1;
 }
-.vc_settings #wpb_js_settings_access_groups h3 {
+.vcv-settings #wpb_js_settings_access_groups h3 {
   margin-top: 0;
 }
-.vc_settings #wpb_js_settings_access_groups .settings-block,
-.vc_settings #wpb_js_settings_access_groups .title {
+.vcv-settings #wpb_js_settings_access_groups .settings-block,
+.vcv-settings #wpb_js_settings_access_groups .title {
   margin-bottom: 10px;
 }
-.vc_settings #wpb_js_settings_access_groups .pull-left {
+.vcv-settings #wpb_js_settings_access_groups .pull-left {
   float: left;
   width: 33%;
 }
-.vc_settings #wpb_js_settings_access_groups .pull-left label {
+.vcv-settings #wpb_js_settings_access_groups .pull-left label {
   clear: both;
   display: block;
   float: left;
 }
-.vc_settings #wpb_js_settings_access_groups .select-all {
+.vcv-settings #wpb_js_settings_access_groups .select-all {
   margin-top: 10px;
 }
-.vc_settings .vc_settings-tab-content .css-control,
-.vc_settings .vc_settings-tab-content .wp-picker-container {
+.vcv-settings .vc_settings-tab-content .css-control,
+.vcv-settings .vc_settings-tab-content .wp-picker-container {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.vc_settings .vc_settings-tab-content.color_enabled .css-control,
-.vc_settings .vc_settings-tab-content.color_enabled .wp-picker-container {
+.vcv-settings .vc_settings-tab-content.color_enabled .css-control,
+.vcv-settings .vc_settings-tab-content.color_enabled .wp-picker-container {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-.vc_settings .vc_settings-tab-content .submit {
+.vcv-settings .vc_settings-tab-content .submit {
   margin-top: 0;
   padding-top: 0;
 }
-.vc_settings .vc_settings-tab-content .vc_restore-button {
+.vcv-settings .vc_settings-tab-content .vc_restore-button {
   margin: 0 10px;
 }
-.vc_settings .vc_settings-tab-content.hidden {
+.vcv-settings .vc_settings-tab-content.hidden {
   display: none;
 }
-.vc_settings .vc_button-settings-less {
+.vcv-settings .vc_button-settings-less {
   margin-bottom: 4px;
 }
-.vc_settings .vc_settings-spinner {
+.vcv-settings .vc_settings-spinner {
   margin-right: 10px;
 }
-.vc_settings .custom_css {
+.vcv-settings .custom_css {
   width: 100%;
   height: 200px;
 }
-.vc_settings #wpb_csseditor {
+.vcv-settings #wpb_csseditor {
   border: 1px solid #BABABA;
 }
-.vc_settings .vc_activate-license-button {
+.vcv-settings .vc_activate-license-button {
   vertical-align: middle;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column {
+.vcv-settings .wpb_row_container > .wpb_vc_column {
   margin-bottom: 15px;
   position: relative;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column > .vc_controls {
+.vcv-settings .wpb_row_container > .wpb_vc_column > .vc_controls {
   text-align: center;
   background: #F5F5F5;
   width: 100%;
@@ -303,18 +303,18 @@
   padding: 2px;
   height: 24px;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column > .vc_controls .vc_control {
+.vcv-settings .wpb_row_container > .wpb_vc_column > .vc_controls .vc_control {
   padding: 0;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column > .wpb_element_wrapper {
+.vcv-settings .wpb_row_container > .wpb_vc_column > .wpb_element_wrapper {
   background: #F5F5F5;
   padding: 1px 14px 1px;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column_inner {
+.vcv-settings .wpb_row_container > .wpb_vc_column_inner {
   margin-bottom: 15px;
   position: relative;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column_inner > .vc_controls {
+.vcv-settings .wpb_row_container > .wpb_vc_column_inner > .vc_controls {
   text-align: center;
   background: #FFFFFF;
   width: 100%;
@@ -322,23 +322,23 @@
   padding: 2px;
   height: 24px;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column_inner > .vc_controls .vc_control {
+.vcv-settings .wpb_row_container > .wpb_vc_column_inner > .vc_controls .vc_control {
   padding: 0;
 }
-.vc_settings .wpb_row_container > .wpb_vc_column_inner > .wpb_element_wrapper {
+.vcv-settings .wpb_row_container > .wpb_vc_column_inner > .wpb_element_wrapper {
   background: #FFFFFF;
   padding: 1px 14px 1px;
 }
-.vc_settings .wpb_vc_row > .vc_controls > .column_move,
-.vc_settings .wpb_vc_row_inner > .vc_controls > .column_move {
+.vcv-settings .wpb_vc_row > .vc_controls > .column_move,
+.vcv-settings .wpb_vc_row_inner > .vc_controls > .column_move {
   background-color: #F5F5F5;
 }
-.vc_settings .wpb_vc_row > .vc_controls .column_delete:hover,
-.vc_settings .wpb_vc_row_inner > .vc_controls .column_delete:hover {
+.vcv-settings .wpb_vc_row > .vc_controls .column_delete:hover,
+.vcv-settings .wpb_vc_row_inner > .vc_controls .column_delete:hover {
   background-color: #FFE0E0;
 }
-.vc_settings .wpb_vc_row > .vc_controls .vc_row-hash-id,
-.vc_settings .wpb_vc_row_inner > .vc_controls .vc_row-hash-id {
+.vcv-settings .wpb_vc_row > .vc_controls .vc_row-hash-id,
+.vcv-settings .wpb_vc_row_inner > .vc_controls .vc_row-hash-id {
   float: left;
   display: inline-block;
   line-height: 1;
@@ -346,12 +346,12 @@
   margin-top: 5px;
   padding-left: 3px;
 }
-.vc_settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children {
+.vcv-settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children {
   height: 39px;
   overflow: hidden;
 }
-.vc_settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children > .wpb_vc_column .vc_controls,
-.vc_settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children .wpb_vc_column_inner .vc_controls {
+.vcv-settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children > .wpb_vc_column .vc_controls,
+.vcv-settings .vc_collapsed-row > .wpb_element_wrapper > .vc_container_for_children .wpb_vc_column_inner .vc_controls {
   border-bottom: 1px solid transparent;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
@@ -359,16 +359,16 @@
   border-bottom-left-radius: 3px;
   margin-bottom: 15px;
 }
-.vc_settings .vc_collapsed-row > .vc_controls .column_toggle .vc_icon {
+.vcv-settings .vc_collapsed-row > .vc_controls .column_toggle .vc_icon {
   background-position: -16px -112px;
 }
-.vc_settings .wpb_vc_row_inner > .vc_controls > .column_move {
+.vcv-settings .wpb_vc_row_inner > .vc_controls > .column_move {
   background-color: #FFFFFF;
 }
-.vc_settings .wpb_vc_row_inner.wpb_sortable {
+.vcv-settings .wpb_vc_row_inner.wpb_sortable {
   margin-bottom: -15px;
 }
-.vc_settings .vc_controls {
+.vcv-settings .vc_controls {
   font-family: "Open Sans", Helvetica, sans-serif;
   height: 0;
   display: block;
@@ -376,24 +376,24 @@
   filter: alpha(opacity=0);
   visibility: hidden;
 }
-.vc_settings .vc_controls > div {
+.vcv-settings .vc_controls > div {
   position: absolute;
   white-space: nowrap;
   font-size: 0 !important;
 }
-.vc_settings .vc_controls > div > .vc_parent {
+.vcv-settings .vc_controls > div > .vc_parent {
   display: inline-block;
 }
-.vc_settings .vc_controls > div > .vc_element {
+.vcv-settings .vc_controls > div > .vc_element {
   margin-left: 1px;
   display: inline-block;
 }
-.vc_settings .vc_controls > .vc_controls-tl {
+.vcv-settings .vc_controls > .vc_controls-tl {
   top: 0;
   left: 0;
   z-index: 1002;
 }
-.vc_settings .vc_controls > .vc_controls-tc {
+.vcv-settings .vc_controls > .vc_controls-tc {
   top: 0;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
@@ -401,19 +401,19 @@
   transform: translate(-50%, 0);
   z-index: 1002;
 }
-.vc_settings .vc_controls > .vc_controls-tr {
+.vcv-settings .vc_controls > .vc_controls-tr {
   top: 0;
   right: 0;
   direction: rtl;
   z-index: 1002;
 }
-.vc_settings .vc_controls > .vc_controls-bl {
+.vcv-settings .vc_controls > .vc_controls-bl {
   bottom: 0;
   left: 0;
   height: auto;
   z-index: 1002;
 }
-.vc_settings .vc_controls > .vc_controls-bc {
+.vcv-settings .vc_controls > .vc_controls-bc {
   bottom: 0;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
@@ -421,13 +421,13 @@
   transform: translate(-50%, 0);
   z-index: 1;
 }
-.vc_settings .vc_controls > .vc_controls-br {
+.vcv-settings .vc_controls > .vc_controls-br {
   bottom: 0;
   right: 0;
   direction: rtl;
   z-index: 1002;
 }
-.vc_settings .vc_controls > .vc_controls-cc {
+.vcv-settings .vc_controls > .vc_controls-cc {
   z-index: 1002;
   top: 50%;
   left: 50%;
@@ -441,15 +441,15 @@
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-.vc_settings .vc_controls > .vc_controls-cc > :first-child .vc_btn-content {
+.vcv-settings .vc_controls > .vc_controls-cc > :first-child .vc_btn-content {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-.vc_settings .vc_controls > .vc_controls-cc > :last-child .vc_btn-content {
+.vcv-settings .vc_controls > .vc_controls-cc > :last-child .vc_btn-content {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
-.vc_settings .vc_controls > .vc_controls-out-tc {
+.vcv-settings .vc_controls > .vc_controls-out-tc {
   left: 50%;
   top: -30px;
   direction: rtl;
@@ -457,52 +457,52 @@
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
-.vc_settings .vc_controls > .vc_controls-out-l {
+.vcv-settings .vc_controls > .vc_controls-out-l {
   left: 0px;
   top: 1px;
   direction: rtl;
 }
-.vc_settings .vc_controls > .vc_controls-out-tl {
+.vcv-settings .vc_controls > .vc_controls-out-tl {
   z-index: 1002;
   left: -1px;
   top: -30px;
 }
-.vc_settings .vc_controls > .vc_controls-out-tl > .vc_element > :first-child .vc_btn-content {
+.vcv-settings .vc_controls > .vc_controls-out-tl > .vc_element > :first-child .vc_btn-content {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-.vc_settings .vc_controls > .vc_controls-out-tr {
+.vcv-settings .vc_controls > .vc_controls-out-tr {
   z-index: 1003;
   right: -1px;
   top: -30px;
 }
-.vc_settings .vc_controls > .vc_controls-out-r {
+.vcv-settings .vc_controls > .vc_controls-out-r {
   right: -1px;
   top: 1px;
 }
-.vc_settings .vc_controls > .vc_controls-out-l,
-.vc_settings .vc_controls > .vc_controls-out-r {
+.vcv-settings .vc_controls > .vc_controls-out-l,
+.vcv-settings .vc_controls > .vc_controls-out-r {
   width: 0;
   height: 0;
 }
-.vc_settings .vc_control-btn {
+.vcv-settings .vc_control-btn {
   display: inline-block;
   vertical-align: middle !important;
   border: none !important;
   box-shadow: none !important;
 }
-.vc_settings .vc_control-btn .icon,
-.vc_settings .vc_control-btn .vc_icon {
+.vcv-settings .vc_control-btn .icon,
+.vcv-settings .vc_control-btn .vc_icon {
   display: inline-block !important;
   background-image: url('../vc/fe/controls.png');
   background-repeat: no-repeat;
   width: 16px;
   height: 16px;
 }
-.vc_settings .vc_control-btn .vc_btn-content:hover {
+.vcv-settings .vc_control-btn .vc_btn-content:hover {
   background-color: #669c22;
 }
-.vc_settings .vc_btn-content {
+.vcv-settings .vc_btn-content {
   -webkit-transition: background-color 0.5s;
   transition: background-color 0.5s;
   background-color: transparent;
@@ -513,7 +513,7 @@
   font-size: 1px !important;
   vertical-align: middle !important;
 }
-.vc_settings .vc_element-name .vc_btn-content {
+.vcv-settings .vc_element-name .vc_btn-content {
   text-decoration: none !important;
   width: auto !important;
   font-size: 9px !important;
@@ -522,46 +522,46 @@
   padding: 7px 12px !important;
   cursor: auto !important;
 }
-.vc_settings .vc_element-name .vc_btn-content:hover {
+.vcv-settings .vc_element-name .vc_btn-content:hover {
   text-decoration: none !important;
 }
-.vc_settings .vc_element-move .vc_btn-content,
-.vc_settings .vc_child-element-move .vc_btn-content {
+.vcv-settings .vc_element-move .vc_btn-content,
+.vcv-settings .vc_child-element-move .vc_btn-content {
   cursor: move !important;
   background-image: url(../vc/fe/move.png) !important;
   background-position: 10px center !important;
   background-repeat: no-repeat;
   padding-left: 30px !important;
 }
-.vc_settings .vc_element-move .vc_btn-content:hover,
-.vc_settings .vc_child-element-move .vc_btn-content:hover {
+.vcv-settings .vc_element-move .vc_btn-content:hover,
+.vcv-settings .vc_child-element-move .vc_btn-content:hover {
   background-color: #669c22;
 }
-.vc_settings .vc_control-btn-prepend .icon,
-.vc_settings .vc_control-btn-append .icon,
-.vc_settings .vc_control-btn-prepend .vc_icon,
-.vc_settings .vc_control-btn-append .vc_icon {
+.vcv-settings .vc_control-btn-prepend .icon,
+.vcv-settings .vc_control-btn-append .icon,
+.vcv-settings .vc_control-btn-prepend .vc_icon,
+.vcv-settings .vc_control-btn-append .vc_icon {
   background-position: 0 -16px;
 }
-.vc_controls-dark .vc_settings .vc_control-btn-prepend .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-append .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-prepend .vc_icon,
-.vc_controls-dark .vc_settings .vc_control-btn-append .vc_icon {
+.vc_controls-dark .vcv-settings .vc_control-btn-prepend .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-append .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-prepend .vc_icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-append .vc_icon {
   background-position: -16px -16px;
 }
-.vc_settings .vc_control-btn-layout .icon,
-.vc_settings .vc_control-btn-layout .vc_icon {
+.vcv-settings .vc_control-btn-layout .icon,
+.vcv-settings .vc_control-btn-layout .vc_icon {
   background-position: 0 -80px;
 }
-.vc_controls-dark .vc_settings .vc_control-btn-layout .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-layout .vc_icon {
+.vc_controls-dark .vcv-settings .vc_control-btn-layout .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-layout .vc_icon {
   background-position: -16px -80px;
 }
-.vc_settings .vc_control-btn-append {
+.vcv-settings .vc_control-btn-append {
   position: relative;
   top: 19px;
 }
-.vc_settings .vc_control-btn-append:before {
+.vcv-settings .vc_control-btn-append:before {
   position: relative;
   left: 7px;
   content: "";
@@ -574,92 +574,92 @@
   -webkit-transition: border-color 0.5s;
   transition: border-color 0.5s;
 }
-.vc_settings .vc_control-btn-append:hover:before {
+.vcv-settings .vc_control-btn-append:hover:before {
   border-bottom-color: #e78800;
 }
-.vc_settings .vc_control-btn-append.vc_control-parent:before {
+.vcv-settings .vc_control-btn-append.vc_control-parent:before {
   border-bottom-color: #285A85;
 }
-.vc_settings .vc_control-btn-append.vc_control-parent:hover:before {
+.vcv-settings .vc_control-btn-append.vc_control-parent:hover:before {
   border-bottom-color: #032644;
 }
-.vc_settings .vc_control-btn-append .vc_btn-content {
+.vcv-settings .vc_control-btn-append .vc_btn-content {
   border-radius: 3px;
   padding: 3px;
 }
-.vc_settings .vc_control-btn-edit .icon,
-.vc_settings .vc_control-btn-edit .vc_icon {
+.vcv-settings .vc_control-btn-edit .icon,
+.vcv-settings .vc_control-btn-edit .vc_icon {
   background-position: 0 -32px;
 }
-.vc_controls-dark .vc_settings .vc_control-btn-edit .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-edit .vc_icon {
+.vc_controls-dark .vcv-settings .vc_control-btn-edit .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-edit .vc_icon {
   background-position: -16px -32px;
 }
-.vc_settings .vc_control-btn-clone .icon,
-.vc_settings .vc_control-btn-clone .vc_icon {
+.vcv-settings .vc_control-btn-clone .icon,
+.vcv-settings .vc_control-btn-clone .vc_icon {
   background-position: 0 -48px;
 }
-.vc_controls-dark .vc_settings .vc_control-btn-clone .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-clone .vc_icon {
+.vc_controls-dark .vcv-settings .vc_control-btn-clone .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-clone .vc_icon {
   background-position: -16px -48px;
 }
-.vc_settings .vc_control-btn-delete .icon,
-.vc_settings .vc_control-btn-delete .vc_icon {
+.vcv-settings .vc_control-btn-delete .icon,
+.vcv-settings .vc_control-btn-delete .vc_icon {
   background-position: 0 -64px;
 }
-.vc_controls-dark .vc_settings .vc_control-btn-delete .icon,
-.vc_controls-dark .vc_settings .vc_control-btn-delete .vc_icon {
+.vc_controls-dark .vcv-settings .vc_control-btn-delete .icon,
+.vc_controls-dark .vcv-settings .vc_control-btn-delete .vc_icon {
   background-position: -16px -64px;
 }
-.vc_settings .vc_control-btn-switcher {
+.vcv-settings .vc_control-btn-switcher {
   overflow-x: hidden;
   width: 24px;
   -webkit-transition: width 0.5s;
   transition: width 0.5s;
   display: inline-block;
 }
-.vc_settings .vc_control-btn-switcher .icon,
-.vc_settings .vc_control-btn-switcher .vc_icon {
+.vcv-settings .vc_control-btn-switcher .icon,
+.vcv-settings .vc_control-btn-switcher .vc_icon {
   width: 10px;
   background-image: url(../vc/fe/expand.gif);
   background-position: center center;
 }
-.vc_settings .vc_control-btn-switcher-disable-switcher {
+.vcv-settings .vc_control-btn-switcher-disable-switcher {
   display: none !important;
 }
-.vc_settings .vc_control-btn-move {
+.vcv-settings .vc_control-btn-move {
   background-position: 0 0;
 }
-.vc_settings .vc_control-btn-layout {
+.vcv-settings .vc_control-btn-layout {
   position: relative;
 }
-.vc_settings .vc_controls-row > div .vc_btn-content,
-.vc_settings .vc_controls-column > div .vc_btn-content,
-.vc_settings .vc_controls-container > div .vc_btn-content {
+.vcv-settings .vc_controls-row > div .vc_btn-content,
+.vcv-settings .vc_controls-column > div .vc_btn-content,
+.vcv-settings .vc_controls-container > div .vc_btn-content {
   background-color: #F9B418;
   border-color: #F9B418;
 }
-.vc_settings .vc_controls-row > div .vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-column > div .vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-container > div .vc_control-btn .vc_btn-content:hover {
+.vcv-settings .vc_controls-row > div .vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-column > div .vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-container > div .vc_control-btn .vc_btn-content:hover {
   background-color: #e78800;
   border-color: #e78800;
 }
-.vc_settings .vc_controls-row > div .vc_control-parent .vc_btn-content,
-.vc_settings .vc_controls-column > div .vc_control-parent .vc_btn-content,
-.vc_settings .vc_controls-container > div .vc_control-parent .vc_btn-content {
+.vcv-settings .vc_controls-row > div .vc_control-parent .vc_btn-content,
+.vcv-settings .vc_controls-column > div .vc_control-parent .vc_btn-content,
+.vcv-settings .vc_controls-container > div .vc_control-parent .vc_btn-content {
   background-color: #285A85;
   border-color: #285A85;
 }
-.vc_settings .vc_controls-row > div .vc_control-parent.vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-column > div .vc_control-parent.vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-container > div .vc_control-parent.vc_control-btn .vc_btn-content:hover {
+.vcv-settings .vc_controls-row > div .vc_control-parent.vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-column > div .vc_control-parent.vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-container > div .vc_control-parent.vc_control-btn .vc_btn-content:hover {
   background-color: #032644;
   border-color: #032644;
 }
-.vc_settings .vc_controls-row > div .vc_advanced,
-.vc_settings .vc_controls-column > div .vc_advanced,
-.vc_settings .vc_controls-container > div .vc_advanced {
+.vcv-settings .vc_controls-row > div .vc_advanced,
+.vcv-settings .vc_controls-column > div .vc_advanced,
+.vcv-settings .vc_controls-container > div .vc_advanced {
   overflow: hidden;
   height: 30px;
   width: 0;
@@ -668,96 +668,96 @@
   -webkit-transition: width 0.5s;
   transition: width 0.5s;
 }
-.vc_settings .vc_controls-row > div > .vc_element,
-.vc_settings .vc_controls-column > div > .vc_element,
-.vc_settings .vc_controls-container > div > .vc_element {
+.vcv-settings .vc_controls-row > div > .vc_element,
+.vcv-settings .vc_controls-column > div > .vc_element,
+.vcv-settings .vc_controls-container > div > .vc_element {
   display: inline-block;
 }
-.vc_settings .vc_controls-row > div > .vc_element :last-child .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_element :last-child .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_element :last-child .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_element :last-child .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_element :last-child .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_element :last-child .vc_btn-content {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
-.vc_settings .vc_controls-row > div > .vc_element .vc_control-btn-switcher .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_element .vc_control-btn-switcher .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_element .vc_control-btn-switcher .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_element .vc_control-btn-switcher .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_element .vc_control-btn-switcher .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_element .vc_control-btn-switcher .vc_btn-content {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
-.vc_settings .vc_controls-row > div > .vc_parent,
-.vc_settings .vc_controls-column > div > .vc_parent,
-.vc_settings .vc_controls-container > div > .vc_parent {
+.vcv-settings .vc_controls-row > div > .vc_parent,
+.vcv-settings .vc_controls-column > div > .vc_parent,
+.vcv-settings .vc_controls-container > div > .vc_parent {
   display: inline-block;
 }
-.vc_settings .vc_controls-row > div > .vc_parent .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_parent .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_parent .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_parent .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_parent .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_parent .vc_btn-content {
   background-color: #285A85;
   border-color: #285A85;
 }
-.vc_settings .vc_controls-row > div > .vc_parent .vc_control-btn .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_parent .vc_control-btn .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_parent .vc_control-btn .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_parent .vc_control-btn .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_parent .vc_control-btn .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_parent .vc_control-btn .vc_btn-content {
   background-color: #285A85;
   border-color: #285A85;
 }
-.vc_settings .vc_controls-row > div > .vc_parent .vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-column > div > .vc_parent .vc_control-btn .vc_btn-content:hover,
-.vc_settings .vc_controls-container > div > .vc_parent .vc_control-btn .vc_btn-content:hover {
+.vcv-settings .vc_controls-row > div > .vc_parent .vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-column > div > .vc_parent .vc_control-btn .vc_btn-content:hover,
+.vcv-settings .vc_controls-container > div > .vc_parent .vc_control-btn .vc_btn-content:hover {
   background-color: #032644;
   border-color: #032644;
 }
-.vc_settings .vc_controls-row > div > .vc_parent > :first-child .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_parent > :first-child .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_parent > :first-child .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_parent > :first-child .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_parent > :first-child .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_parent > :first-child .vc_btn-content {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-.vc_settings .vc_controls-row > div > .vc_active .vc_control-btn,
-.vc_settings .vc_controls-column > div > .vc_active .vc_control-btn,
-.vc_settings .vc_controls-container > div > .vc_active .vc_control-btn {
+.vcv-settings .vc_controls-row > div > .vc_active .vc_control-btn,
+.vcv-settings .vc_controls-column > div > .vc_active .vc_control-btn,
+.vcv-settings .vc_controls-container > div > .vc_active .vc_control-btn {
   display: inline-block;
 }
-.vc_settings .vc_controls-row > div > .vc_active .vc_control-btn-switcher,
-.vc_settings .vc_controls-column > div > .vc_active .vc_control-btn-switcher,
-.vc_settings .vc_controls-container > div > .vc_active .vc_control-btn-switcher {
+.vcv-settings .vc_controls-row > div > .vc_active .vc_control-btn-switcher,
+.vcv-settings .vc_controls-column > div > .vc_active .vc_control-btn-switcher,
+.vcv-settings .vc_controls-container > div > .vc_active .vc_control-btn-switcher {
   width: 0;
 }
-.vc_settings .vc_controls-row > div > .vc_active.vc_parent .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.vc_parent .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.vc_parent .vc_advanced,
-.vc_settings .vc_controls-row > div > .vc_active.vc_element .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.vc_element .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.vc_element .vc_advanced {
+.vcv-settings .vc_controls-row > div > .vc_active.vc_parent .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.vc_parent .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.vc_parent .vc_advanced,
+.vcv-settings .vc_controls-row > div > .vc_active.vc_element .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.vc_element .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.vc_element .vc_advanced {
   width: 120px;
 }
-.vc_settings .vc_controls-row > div > .vc_active.parent-vc_row .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.parent-vc_row .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.parent-vc_row .vc_advanced,
-.vc_settings .vc_controls-row > div > .vc_active.parent-vc_row_inner .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.parent-vc_row_inner .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.parent-vc_row_inner .vc_advanced {
+.vcv-settings .vc_controls-row > div > .vc_active.parent-vc_row .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.parent-vc_row .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.parent-vc_row .vc_advanced,
+.vcv-settings .vc_controls-row > div > .vc_active.parent-vc_row_inner .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.parent-vc_row_inner .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.parent-vc_row_inner .vc_advanced {
   width: 150px;
 }
-.vc_settings .vc_controls-row > div > .vc_active.element-vc_column .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.element-vc_column .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.element-vc_column .vc_advanced,
-.vc_settings .vc_controls-row > div > .vc_active.element-vc_column_inner .vc_advanced,
-.vc_settings .vc_controls-column > div > .vc_active.element-vc_column_inner .vc_advanced,
-.vc_settings .vc_controls-container > div > .vc_active.element-vc_column_inner .vc_advanced {
+.vcv-settings .vc_controls-row > div > .vc_active.element-vc_column .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.element-vc_column .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.element-vc_column .vc_advanced,
+.vcv-settings .vc_controls-row > div > .vc_active.element-vc_column_inner .vc_advanced,
+.vcv-settings .vc_controls-column > div > .vc_active.element-vc_column_inner .vc_advanced,
+.vcv-settings .vc_controls-container > div > .vc_active.element-vc_column_inner .vc_advanced {
   width: 90px;
 }
-.vc_settings .vc_controls-row > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content,
-.vc_settings .vc_controls-column > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content,
-.vc_settings .vc_controls-container > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content {
+.vcv-settings .vc_controls-row > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content,
+.vcv-settings .vc_controls-column > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content,
+.vcv-settings .vc_controls-container > div > .vc_active.element-vc_tab.vc_element-name .vc_btn-content {
   background-image: none;
   padding-right: 6px;
 }
-.vc_settings .vc_element-container > div.vc_container:first-of-type {
+.vcv-settings .vc_element-container > div.vc_container:first-of-type {
   margin-top: 31px;
 }
-.vc_settings .vc_layout-switcher {
+.vcv-settings .vc_layout-switcher {
   background: #94B9C6;
   display: block;
   height: auto;
@@ -773,12 +773,12 @@
   -webkit-transition: opacity 0.5s ease-out;
   transition: opacity 0.5s ease-out;
 }
-.vc_settings .vc_layout-switcher:hover .vc_layout-switcher {
+.vcv-settings .vc_layout-switcher:hover .vc_layout-switcher {
   opacity: 1;
   filter: alpha(opacity=100);
   visibility: visible;
 }
-.vc_settings .vc_layout-switcher .vc_layout-btn {
+.vcv-settings .vc_layout-switcher .vc_layout-btn {
   display: inline-block;
   background-position: center center;
   background-repeat: no-repeat;
@@ -787,7 +787,7 @@
   background-color: white;
   margin: 1px;
 }
-.vc_settings .vc_layout-switcher .vc_custom-layout-btn {
+.vcv-settings .vc_layout-switcher .vc_custom-layout-btn {
   background-color: transparent;
   display: block;
   width: auto;
@@ -796,79 +796,79 @@
   font-size: 11px;
   text-align: center;
 }
-.vc_settings .vc_layout-switcher .l_1 {
+.vcv-settings .vc_layout-switcher .l_1 {
   background-image: url(../vc/row_layouts/1.gif);
 }
-.vc_settings .vc_layout-switcher .l_12_12 {
+.vcv-settings .vc_layout-switcher .l_12_12 {
   background-image: url(../vc/row_layouts/12_12.gif);
 }
-.vc_settings .vc_layout-switcher .l_23_13 {
+.vcv-settings .vc_layout-switcher .l_23_13 {
   background-image: url(../vc/row_layouts/23_13.gif);
 }
-.vc_settings .vc_layout-switcher .l_13_13_13 {
+.vcv-settings .vc_layout-switcher .l_13_13_13 {
   background-image: url(../vc/row_layouts/13_13_13.gif);
 }
-.vc_settings .vc_layout-switcher .l_13_23 {
+.vcv-settings .vc_layout-switcher .l_13_23 {
   background-image: url(../vc/row_layouts/13_23.gif);
 }
-.vc_settings .vc_layout-switcher .l_14_14_14_14 {
+.vcv-settings .vc_layout-switcher .l_14_14_14_14 {
   background-image: url(../vc/row_layouts/14_14_14_14.gif);
 }
-.vc_settings .vc_layout-switcher .l_14_34 {
+.vcv-settings .vc_layout-switcher .l_14_34 {
   background-image: url(../vc/row_layouts/14_34.gif);
 }
-.vc_settings .vc_layout-switcher .l_14_12_14 {
+.vcv-settings .vc_layout-switcher .l_14_12_14 {
   background-image: url(../vc/row_layouts/14_12_14.gif);
 }
-.vc_settings .vc_layout-switcher .l_56_16 {
+.vcv-settings .vc_layout-switcher .l_56_16 {
   background-image: url(../vc/row_layouts/56_16.gif);
 }
-.vc_settings .vc_layout-switcher .l_16_46_16 {
+.vcv-settings .vc_layout-switcher .l_16_46_16 {
   background-image: url(../vc/row_layouts/14_46_16.gif);
 }
-.vc_settings .vc_layout-switcher .l_16_16_16_12 {
+.vcv-settings .vc_layout-switcher .l_16_16_16_12 {
   background-image: url(../vc/row_layouts/16_16_16_12.gif);
 }
-.vc_settings .vc_layout-switcher .l_16_16_16_16_16_16 {
+.vcv-settings .vc_layout-switcher .l_16_16_16_16_16_16 {
   background-image: url(../vc/row_layouts/16_16_16_16_16_16.gif);
 }
-.vc_settings .vc_controls-visible {
+.vcv-settings .vc_controls-visible {
   opacity: 1 !important;
   filter: alpha(opacity=100) !important;
   visibility: visible;
 }
-.vc_settings .vc_control-container {
+.vcv-settings .vc_control-container {
   background: #F9B418;
   border-color: #F9B418;
 }
-.vc_settings .vc_control-container .vc_control-btn .vc_btn-content:hover {
+.vcv-settings .vc_control-container .vc_control-btn .vc_btn-content:hover {
   background-color: #e78800;
 }
-.vc_settings .vc_controls-content-widget {
+.vcv-settings .vc_controls-content-widget {
   background: #285A85;
   border-color: #285A85;
   top: -17px !important;
   direction: ltr !important;
 }
-.vc_settings .vc_controls-content-widget .vc_btn-content:hover {
+.vcv-settings .vc_controls-content-widget .vc_btn-content:hover {
   background-color: #032644;
 }
-.vc_settings .vc_controls {
+.vcv-settings .vc_controls {
   box-sizing: border-box;
 }
-.vc_settings .vc_controls > div {
+.vcv-settings .vc_controls > div {
   border-radius: 3px;
 }
-.vc_settings .vc_controls > div > :first-child .vc_btn-content {
+.vcv-settings .vc_controls > div > :first-child .vc_btn-content {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px;
 }
-.vc_settings .vc_controls > div > :last-child .vc_btn-content {
+.vcv-settings .vc_controls > div > :last-child .vc_btn-content {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
 }
-.vc_settings .vc_column_color,
-.vc_settings .vc_color-helper {
+.vcv-settings .vc_column_color,
+.vcv-settings .vc_color-helper {
   margin-top: 3px;
   width: 16px;
   height: 16px;
@@ -876,8 +876,8 @@
   margin-right: 3px;
   border-radius: 8px;
 }
-.vc_settings .vc_column_image,
-.vc_settings .vc_image-helper {
+.vcv-settings .vc_column_image,
+.vcv-settings .vc_image-helper {
   margin-top: 3px;
   width: 16px;
   height: 16px;
@@ -886,49 +886,49 @@
   background-size: cover;
   border-radius: 8px;
 }
-.vc_settings .vc_icon {
+.vcv-settings .vc_icon {
   width: 16px;
   height: 16px;
   display: inline-block;
   background: transparent url('../vc/controls.png') no-repeat -16px 0px;
 }
-.vc_settings .vc_control {
+.vcv-settings .vc_control {
   display: inline-block;
   border-radius: 2px 2px 0 0;
   border: 1px solid transparent;
   padding: 0;
   cursor: pointer;
 }
-.vc_settings .vc_control.column_add .vc_icon,
-.vc_settings .vc_control .vc-controls-add .vc_icon {
+.vcv-settings .vc_control.column_add .vc_icon,
+.vcv-settings .vc_control .vc-controls-add .vc_icon {
   background-position: -16px -16px;
 }
-.vc_settings .vc_control.column_delete .vc_icon,
-.vc_settings .vc_control .vc-controls-delete .vc_icon {
+.vcv-settings .vc_control.column_delete .vc_icon,
+.vcv-settings .vc_control .vc-controls-delete .vc_icon {
   background-position: -16px -64px;
 }
-.vc_settings .vc_control.column_clone .vc_icon,
-.vc_settings .vc_control .vc-controls-clone .vc_icon {
+.vcv-settings .vc_control.column_clone .vc_icon,
+.vcv-settings .vc_control .vc-controls-clone .vc_icon {
   background-position: -16px -48px;
 }
-.vc_settings .vc_control.column_edit .vc_icon,
-.vc_settings .vc_control .vc-controls-edit .vc_icon {
+.vcv-settings .vc_control.column_edit .vc_icon,
+.vcv-settings .vc_control .vc-controls-edit .vc_icon {
   background-position: -16px -32px;
 }
-.vc_settings .vc_control.column_toggle .vc_icon,
-.vc_settings .vc_control .vc-controls-toggle .vc_icon {
+.vcv-settings .vc_control.column_toggle .vc_icon,
+.vcv-settings .vc_control .vc-controls-toggle .vc_icon {
   background-position: -16px -96px;
 }
-.vc_settings .vc_control.column_move,
-.vc_settings .vc_control .vc-controls-move {
+.vcv-settings .vc_control.column_move,
+.vcv-settings .vc_control .vc-controls-move {
   cursor: move;
   float: left;
 }
-.vc_settings .vc_control:hover .vc_icon {
+.vcv-settings .vc_control:hover .vc_icon {
   opacity: 0.7;
   filter: alpha(opacity=70);
 }
-.vc_settings .vc_controls-row {
+.vcv-settings .vc_controls-row {
   text-align: center;
   line-height: 1px;
   position: relative;
@@ -938,20 +938,20 @@
   filter: alpha(opacity=100);
   height: auto;
 }
-.vc_settings .vc_controls-row:hover {
+.vcv-settings .vc_controls-row:hover {
   z-index: 10;
 }
-.vc_settings .vc_controls-row .vc_control {
+.vcv-settings .vc_controls-row .vc_control {
   background-color: #e6e6e6;
   padding: 3px 8px;
 }
-.vc_settings .vc_controls-row .column_add,
-.vc_settings .vc_controls-row .vc_control-add-column {
+.vcv-settings .vc_controls-row .column_add,
+.vcv-settings .vc_controls-row .vc_control-add-column {
   float: left;
   margin-left: 1px;
 }
-.vc_settings .vc_controls-row .vc_row_layouts,
-.vc_settings .vc_controls-row .vc_control-row-layout {
+.vcv-settings .vc_controls-row .vc_row_layouts,
+.vcv-settings .vc_controls-row .vc_control-row-layout {
   display: block;
   height: 16px;
   overflow: hidden;
@@ -963,28 +963,28 @@
   border: 1px solid transparent;
   border-radius: 2px 2px 0 0;
 }
-.vc_settings .vc_controls-row .vc_row_layouts .vc_active,
-.vc_settings .vc_controls-row .vc_control-row-layout .vc_active {
+.vcv-settings .vc_controls-row .vc_row_layouts .vc_active,
+.vcv-settings .vc_controls-row .vc_control-row-layout .vc_active {
   display: inline-block;
 }
-.vc_settings .vc_controls-row .vc_row_layouts:hover,
-.vc_settings .vc_controls-row .vc_control-row-layout:hover {
+.vcv-settings .vc_controls-row .vc_row_layouts:hover,
+.vcv-settings .vc_controls-row .vc_control-row-layout:hover {
   width: auto;
   height: auto;
   position: absolute;
   left: 34px;
 }
-.vc_settings .vc_controls-row .vc_row_layouts:hover a,
-.vc_settings .vc_controls-row .vc_control-row-layout:hover a {
+.vcv-settings .vc_controls-row .vc_row_layouts:hover a,
+.vcv-settings .vc_controls-row .vc_control-row-layout:hover a {
   display: inline-block;
 }
-.vc_settings .vc_controls-row .vc_row_layouts:hover a:hover,
-.vc_settings .vc_controls-row .vc_control-row-layout:hover a:hover,
-.vc_settings .vc_controls-row .vc_row_layouts:hover a.vc_active,
-.vc_settings .vc_controls-row .vc_control-row-layout:hover a.vc_active {
+.vcv-settings .vc_controls-row .vc_row_layouts:hover a:hover,
+.vcv-settings .vc_controls-row .vc_control-row-layout:hover a:hover,
+.vcv-settings .vc_controls-row .vc_row_layouts:hover a.vc_active,
+.vcv-settings .vc_controls-row .vc_control-row-layout:hover a.vc_active {
   background-color: #FBEED5;
 }
-.vc_settings .vc_controls-row .vc_control-set-column {
+.vcv-settings .vc_controls-row .vc_control-set-column {
   background-image: url(../vc/row_layouts/1.gif);
   background-position: center center;
   background-repeat: no-repeat;
@@ -995,13 +995,13 @@
   background-color: transparent;
   cursor: pointer;
 }
-.vc_settings .vc_controls-row .vc_control-set-column:active {
+.vcv-settings .vc_controls-row .vc_control-set-column:active {
   outline: none;
 }
-.vc_settings .vc_controls-row .vc_control-set-column.vc_active {
+.vcv-settings .vc_controls-row .vc_control-set-column.vc_active {
   background-color: transparent;
 }
-.vc_settings .vc_controls-row .vc_control-set-column.custom_columns {
+.vcv-settings .vc_controls-row .vc_control-set-column.custom_columns {
   background-image: none;
   border-bottom: 1px dotted;
   font-size: 11px;
@@ -1011,50 +1011,50 @@
   padding: 4px 0 0 0;
   width: auto;
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_12_12 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_12_12 {
   background-image: url(../vc/row_layouts/12_12.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_23_13 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_23_13 {
   background-image: url(../vc/row_layouts/23_13.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_13_13_13 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_13_13_13 {
   background-image: url(../vc/row_layouts/13_13_13.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_13_23 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_13_23 {
   background-image: url(../vc/row_layouts/13_23.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_14_14_14_14 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_14_14_14_14 {
   background-image: url(../vc/row_layouts/14_14_14_14.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_23_13 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_23_13 {
   background-image: url(../vc/row_layouts/23_13.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_14_34 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_14_34 {
   background-image: url(../vc/row_layouts/14_34.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_14_12_14 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_14_12_14 {
   background-image: url(../vc/row_layouts/14_12_14.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_56_16 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_56_16 {
   background-image: url(../vc/row_layouts/56_16.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_16_46_16 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_16_46_16 {
   background-image: url(../vc/row_layouts/14_46_16.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_16_16_16_12 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_16_16_16_12 {
   background-image: url(../vc/row_layouts/16_16_16_12.gif);
 }
-.vc_settings .vc_controls-row .vc_control-set-column.l_16_16_16_16_16_16 {
+.vcv-settings .vc_controls-row .vc_control-set-column.l_16_16_16_16_16_16 {
   background-image: url(../vc/row_layouts/16_16_16_16_16_16.gif);
 }
-.vc_settings .vc_controls-row .vc_row_edit_clone_delete .vc_control {
+.vcv-settings .vc_controls-row .vc_row_edit_clone_delete .vc_control {
   float: right;
   background-position: center center;
   background-repeat: no-repeat;
   margin-left: 1px;
   box-shadow: none !important;
 }
-.vc_settings .vc_controls-row .vc_row_color {
+.vcv-settings .vc_controls-row .vc_row_color {
   float: right;
   margin-top: 3px;
   width: 16px;
@@ -1063,7 +1063,7 @@
   margin-right: 3px;
   border-radius: 8px;
 }
-.vc_settings .vc_controls-row .vc_row_image {
+.vcv-settings .vc_controls-row .vc_row_image {
   float: right;
   margin-top: 3px;
   width: 16px;
@@ -1073,122 +1073,122 @@
   background-size: cover;
   border-radius: 8px;
 }
-.vc_settings .vc_control-align .vc_control {
+.vcv-settings .vc_control-align .vc_control {
   display: none;
   border: 0;
   margin: 0;
 }
-.vc_settings .vc_control-align .vc_control.vc_active {
+.vcv-settings .vc_control-align .vc_control.vc_active {
   display: block;
 }
-.vc_settings .vc_control-align:hover {
+.vcv-settings .vc_control-align:hover {
   position: relative;
   height: 15px;
   width: 20px;
   z-index: 10;
 }
-.vc_settings .vc_control-align:hover .vc_control-wrap {
+.vcv-settings .vc_control-align:hover .vc_control-wrap {
   position: absolute;
   background-color: #e6e6e6;
   top: -3px;
   padding: 2px;
   left: 0;
 }
-.vc_settings .vc_control-align:hover .vc_control-wrap .vc_control {
+.vcv-settings .vc_control-align:hover .vc_control-wrap .vc_control {
   display: block;
 }
-.vc_settings .vc_control-align:hover .vc_control-wrap .vc_control.vc_active {
+.vcv-settings .vc_control-align:hover .vc_control-wrap .vc_control.vc_active {
   background-color: lightyellow;
 }
-.vc_settings .vc_control-align-left .vc_icon {
+.vcv-settings .vc_control-align-left .vc_icon {
   background-position: -16px -143px;
 }
-.vc_settings .vc_control-align-center .vc_icon {
+.vcv-settings .vc_control-align-center .vc_icon {
   background-position: -16px -159px;
 }
-.vc_settings .vc_control-align-right .vc_icon {
+.vcv-settings .vc_control-align-right .vc_icon {
   background-position: -16px -175px;
 }
-.vc_settings .controls_column.bottom-controls .column_edit,
-.vc_settings .controls_column.bottom-controls .column_delete,
-.vc_settings .controls_column.bottom-controls .column_clone {
+.vcv-settings .controls_column.bottom-controls .column_edit,
+.vcv-settings .controls_column.bottom-controls .column_delete,
+.vcv-settings .controls_column.bottom-controls .column_clone {
   display: none;
 }
-.vc_settings .wpb_content_element:hover > .vc_controls {
+.vcv-settings .wpb_content_element:hover > .vc_controls {
   opacity: 1 !important;
   filter: alpha(opacity=100) !important;
   visibility: visible;
 }
-.vc_settings .vc_empty-container {
+.vcv-settings .vc_empty-container {
   outline: 1px dotted #e6e6e6;
   background: transparent url('../vc/empty_row.png') no-repeat center center;
   min-height: 50px;
   cursor: pointer;
   box-sizing: border-box;
 }
-.vc_settings .vc_empty-container:hover {
+.vcv-settings .vc_empty-container:hover {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.vc_settings .vc_empty-column > .vc_controls .column_add {
+.vcv-settings .vc_empty-column > .vc_controls .column_add {
   display: none;
 }
-.vc_settings .vc_shortcodes_container {
+.vcv-settings .vc_shortcodes_container {
   margin: 4px 0 0 0;
   background-position: 10px 35px;
   background-repeat: no-repeat;
   background-color: #fff;
 }
-.vc_settings .vc_shortcodes_container .wpb_column_container {
+.vcv-settings .vc_shortcodes_container .wpb_column_container {
   margin: 0 10px;
 }
-.vc_settings .vc_shortcodes_container > .controls_column {
+.vcv-settings .vc_shortcodes_container > .controls_column {
   text-align: center;
   width: 100%;
   line-height: 1px;
   padding: 2px;
   height: 24px;
 }
-.vc_settings .vc_shortcodes_container > .wpb_element_wrapper {
+.vcv-settings .vc_shortcodes_container > .wpb_element_wrapper {
   position: relative;
 }
-.vc_settings .vc_shortcodes_container > .wpb_element_wrapper > .wpb_element_title {
+.vcv-settings .vc_shortcodes_container > .wpb_element_wrapper > .wpb_element_title {
   position: absolute;
   top: 11px;
   left: 10px;
   margin: 0;
 }
-.vc_settings .vc_shortcodes_container > .wpb_element_wrapper > .vc_container_for_children {
+.vcv-settings .vc_shortcodes_container > .wpb_element_wrapper > .vc_container_for_children {
   margin: 0 10px 0 52px;
   outline: 1px dotted #e6e6e6;
   min-height: 55px;
 }
-.vc_settings .wpb_vc_item.wpb_content_element > .wpb_element_wrapper {
+.vcv-settings .wpb_vc_item.wpb_content_element > .wpb_element_wrapper {
   background-image: url(../vc/item_icon.png);
   background-position: 8px 7px;
   min-height: 13px;
   height: 13px;
   padding-left: 32px;
 }
-.vc_settings #vc_settings-automapper .vc_atm-message {
+.vcv-settings #vc_settings-automapper .vc_atm-message {
   padding: 10px;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-toolbar {
+.vcv-settings #vc_settings-automapper .vc_automapper-toolbar {
   margin-bottom: 15px;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-list {
+.vcv-settings #vc_settings-automapper .vc_automapper-list {
   width: 100%;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item {
+.vcv-settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item {
   display: block;
   margin: 0 0 1px 0;
   background: #E7E7E7;
   padding: 10px;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item label {
+.vcv-settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item label {
   color: #446591;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item .vc_automapper-item-controls a {
+.vcv-settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item .vc_automapper-item-controls a {
   display: block;
   float: right;
   cursor: pointer;
@@ -1198,57 +1198,57 @@
   height: 16px;
   background-position: -16px -64px;
 }
-.vc_settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item .vc_automapper-item-controls a.vc_automapper-edit-btn {
+.vcv-settings #vc_settings-automapper .vc_automapper-list .vc_automapper-item .vc_automapper-item-controls a.vc_automapper-edit-btn {
   background-position: -16px -32px;
   margin-right: 5px;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm {
   padding: 15px;
   border: 1px solid #e5e5e5;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm label {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm label {
   font-size: 16px;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .description {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .description {
   display: block;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper {
   display: table;
   margin: 10px 0;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_string {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_string {
   display: table-cell;
   width: 100%;
   padding: 0;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_string input {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_string input {
   box-sizing: border-box;
   width: 100%;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_buttons {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_buttons {
   width: 190px;
   margin-left: 10px;
   display: inline-block;
 }
-.vc_settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_buttons .button {
+.vcv-settings #vc_settings-automapper .vc_add-form-atm .vc_wrapper .vc_buttons .button {
   margin-top: -6px;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form h4 {
+.vcv-settings #vc_settings-automapper .vc_edit-form h4 {
   margin: 0.5em 0;
   font-size: 16px;
   font-weight: normal;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_line {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_line {
   height: 1px;
   margin: 0;
   background: #e3e3e3;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_wrapper {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_wrapper {
   padding: 15px;
   position: relative;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_shortcode-preview {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_shortcode-preview {
   text-align: center;
   width: 90%;
   margin: 15px auto;
@@ -1257,16 +1257,16 @@
   border: 1px solid #e3e3e3;
   color: #8a8a8a;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_shortcode-preview .vc_active {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_shortcode-preview .vc_active {
   color: #0074A2;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field {
   float: left;
   padding: 5px;
   width: 48%;
   box-sizing: border-box;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field label {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field label {
   padding: 0;
   display: inline-block;
   vertical-align: top;
@@ -1275,36 +1275,36 @@
   width: 30%;
   font-weight: bold;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field input[type=text],
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field textarea {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field input[type=text],
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field textarea {
   width: 65%;
   float: right;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field.vc_is-container {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field.vc_is-container {
   clear: both;
   float: none;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field.vc_is-container label {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field.vc_is-container label {
   margin-left: 30%;
   width: 65%;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field.vc_description {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field.vc_description {
   float: right;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_field.vc_description textarea {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_field.vc_description textarea {
   height: 70px;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_add-param {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_add-param {
   position: absolute;
   top: 18px;
   right: 15px;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params {
   margin-top: 30px;
   display: table;
   width: 100%;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field {
   display: inline-block;
   height: auto;
   vertical-align: top;
@@ -1312,46 +1312,46 @@
   box-sizing: border-box;
   width: 19%;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field label {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field label {
   font-weight: bold;
   padding: 6px 0;
   display: block;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field .description {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field .description {
   margin: 6px 0;
   display: block;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field input[type=text],
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field select,
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field textarea {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field input[type=text],
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field select,
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field textarea {
   width: 100%;
 }
 @media (max-width: 782px) {
-  .vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field {
+  .vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param .vc_fields .vc_param-field {
     width: 100%;
     float: left;
   }
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param.vc_content .vc_delete-param {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_param.vc_content .vc_delete-param {
   display: none;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form .vc_params .vc_sortable-placeholder {
+.vcv-settings #vc_settings-automapper .vc_edit-form .vc_params .vc_sortable-placeholder {
   height: 30px;
   background: url(../vc/pattern.gif);
 }
-.vc_settings #vc_settings-automapper .vc_edit-form > .vc_buttons {
+.vcv-settings #vc_settings-automapper .vc_edit-form > .vc_buttons {
   clear: both;
   background-color: #F7F7F7;
   padding: 15px;
 }
-.vc_settings #vc_settings-automapper .vc_edit-form > .vc_buttons .vc_atm-delete {
+.vcv-settings #vc_settings-automapper .vc_edit-form > .vc_buttons .vc_atm-delete {
   float: right;
   clear: both;
 }
-.vc_settings #vc_settings-automapper .widget .widget-top {
+.vcv-settings #vc_settings-automapper .widget .widget-top {
   cursor: pointer;
 }
-.vc_settings #vc_settings-automapper .widget .widget-top .vc_atm-header {
+.vcv-settings #vc_settings-automapper .widget .widget-top .vc_atm-header {
   display: block;
   margin: 0;
   padding: 7px 15px;
@@ -1364,230 +1364,230 @@
   -ms-user-select: none;
   user-select: none;
 }
-.vc_settings #vc_settings-automapper .widget.vc_opened .vc_header-name {
+.vcv-settings #vc_settings-automapper .widget.vc_opened .vc_header-name {
   width: 245px;
 }
-.vc_settings #vc_settings-automapper .widget.vc_opened .widget-top {
+.vcv-settings #vc_settings-automapper .widget.vc_opened .widget-top {
   cursor: default;
   background: #f1f1f1;
 }
-.vc_settings #vc_settings-automapper .widget.vc_opened .widget-top a.widget-action:after {
+.vcv-settings #vc_settings-automapper .widget.vc_opened .widget-top a.widget-action:after {
   content: '\f142';
   cursor: pointer;
 }
-.vc_settings .vc_element-icon {
+.vcv-settings .vc_element-icon {
   background-image: url('../vc/elements_icons_sprite.png?v3');
   background-position: 0 0;
   background-repeat: no-repeat;
   display: block;
   margin: 0;
 }
-.vc_settings .vc_general.vc_element-icon {
+.vcv-settings .vc_general.vc_element-icon {
   width: 32px;
   height: 32px;
 }
-.vc_settings .vc_element-icon[data-is-container="true"] {
+.vcv-settings .vc_element-icon[data-is-container="true"] {
   background-position: 0px -1216px;
 }
-.vc_settings .icon-wpb-application-icon-large {
+.vcv-settings .icon-wpb-application-icon-large {
   background-position: 0 -32px;
 }
-.vc_settings .icon-wpb-application-plus {
+.vcv-settings .icon-wpb-application-plus {
   background-position: 0 -64px;
 }
-.vc_settings .icon-wpb-balloon-facebook-left {
+.vcv-settings .icon-wpb-balloon-facebook-left {
   background-position: 0 -96px;
 }
-.vc_settings .icon-wpb-balloon-twitter-left {
+.vcv-settings .icon-wpb-balloon-twitter-left {
   background-position: 0 -128px;
 }
-.vc_settings .icon-wpb-film-youtube {
+.vcv-settings .icon-wpb-film-youtube {
   background-position: 0 -160px;
 }
-.vc_settings .icon-wpb-images-stack {
+.vcv-settings .icon-wpb-images-stack {
   background-position: 0 -192px;
 }
-.vc_settings .icon-wpb-information-white {
+.vcv-settings .icon-wpb-information-white {
   background-position: 0 -224px;
 }
-.vc_settings .icon-wpb-layer-shape-text {
+.vcv-settings .icon-wpb-layer-shape-text {
   background-position: 0 -256px;
 }
-.vc_settings .icon-wpb-layout_sidebar {
+.vcv-settings .icon-wpb-layout_sidebar {
   background-position: 0 -288px;
 }
-.vc_settings .icon-wpb-map-pin {
+.vcv-settings .icon-wpb-map-pin {
   background-position: 0 -320px;
 }
-.vc_settings .icon-wpb-slideshow {
+.vcv-settings .icon-wpb-slideshow {
   background-position: 0 -352px;
 }
-.vc_settings .icon-wpb-toggle-small-expand {
+.vcv-settings .icon-wpb-toggle-small-expand {
   background-position: 0 -384px;
 }
-.vc_settings .icon-wpb-ui-accordion,
-.vc_settings .icon-wpb-ui-accordion[data-is-container="true"] {
+.vcv-settings .icon-wpb-ui-accordion,
+.vcv-settings .icon-wpb-ui-accordion[data-is-container="true"] {
   background-position: 0 -416px;
 }
-.vc_settings .icon-wpb-ui-button {
+.vcv-settings .icon-wpb-ui-button {
   background-position: 0 -448px;
 }
-.vc_settings .icon-wpb-ui-separator-label {
+.vcv-settings .icon-wpb-ui-separator-label {
   background-position: 0 -480px;
 }
-.vc_settings .icon-wpb-ui-separator {
+.vcv-settings .icon-wpb-ui-separator {
   background-position: 0 -512px;
 }
-.vc_settings .icon-wpb-ui-tab-content,
-.vc_settings .icon-wpb-ui-tab-content[data-is-container="true"] {
+.vcv-settings .icon-wpb-ui-tab-content,
+.vcv-settings .icon-wpb-ui-tab-content[data-is-container="true"] {
   background-position: 0 -544px;
 }
-.vc_settings .icon-wpb-ui-tab-content-vertical,
-.vc_settings .icon-wpb-ui-tab-content-vertical[data-is-container="true"] {
+.vcv-settings .icon-wpb-ui-tab-content-vertical,
+.vcv-settings .icon-wpb-ui-tab-content-vertical[data-is-container="true"] {
   background-position: 0 -576px;
 }
-.vc_settings .icon-wpb-ui-pageable,
-.vc_settings .icon-wpb-ui-pageable[data-is-container="true"] {
+.vcv-settings .icon-wpb-ui-pageable,
+.vcv-settings .icon-wpb-ui-pageable[data-is-container="true"] {
   background-position: 0 -1696px;
 }
-.vc_settings .icon-wpb-pinterest {
+.vcv-settings .icon-wpb-pinterest {
   background-position: 0 -608px;
 }
-.vc_settings .icon-wpb-tweetme {
+.vcv-settings .icon-wpb-tweetme {
   background-position: 0 -128px;
 }
-.vc_settings .icon-wpb-single-image {
+.vcv-settings .icon-wpb-single-image {
   background-position: 0 -672px;
 }
-.vc_settings .icon-wpb-call-to-action {
+.vcv-settings .icon-wpb-call-to-action {
   background-position: 0 -704px;
 }
-.vc_settings .icon-wpb-raw-html {
+.vcv-settings .icon-wpb-raw-html {
   background-position: 0 -736px;
 }
-.vc_settings .icon-wpb-raw-javascript {
+.vcv-settings .icon-wpb-raw-javascript {
   background-position: 0 -768px;
 }
-.vc_settings .icon-wpb-flickr {
+.vcv-settings .icon-wpb-flickr {
   background-position: 0 -800px;
 }
-.vc_settings .icon-wpb-graph {
+.vcv-settings .icon-wpb-graph {
   background-position: 0 -960px;
 }
-.vc_settings .icon-wpb-wp {
+.vcv-settings .icon-wpb-wp {
   background-position: 0 -992px;
 }
-.vc_settings .icon-wpb-vc_pie {
+.vcv-settings .icon-wpb-vc_pie {
   background-position: 0 -1024px;
 }
-.vc_settings .icon-wpb-images-carousel {
+.vcv-settings .icon-wpb-images-carousel {
   background-position: 0 -1056px;
 }
-.vc_settings .icon-wpb-vc_carousel {
+.vcv-settings .icon-wpb-vc_carousel {
   background-position: 0 -1088px;
 }
-.vc_settings .icon-wpb-row,
-.vc_settings .icon-wpb-row[data-is-container="true"] {
+.vcv-settings .icon-wpb-row,
+.vcv-settings .icon-wpb-row[data-is-container="true"] {
   background-position: 0 -1120px;
 }
-.vc_settings .icon-wpb-ui-empty_space {
+.vcv-settings .icon-wpb-ui-empty_space {
   background-position: 0 -1152px;
 }
-.vc_settings .icon-wpb-atm {
+.vcv-settings .icon-wpb-atm {
   background-position: 0 -640px;
 }
-.vc_settings .icon-wpb-ui-custom_heading {
+.vcv-settings .icon-wpb-ui-custom_heading {
   background-position: 0 -1184px;
 }
-.vc_settings .icon-wpb-woocommerce {
+.vcv-settings .icon-wpb-woocommerce {
   background-position: 0 -1248px;
 }
-.vc_settings .icon-wpb-ninjaforms {
+.vcv-settings .icon-wpb-ninjaforms {
   background-position: 0 -1280px;
 }
-.vc_settings .icon-wpb-vc_icon {
+.vcv-settings .icon-wpb-vc_icon {
   background-position: 0 -1312px;
 }
-.vc_settings .vc_icon-vc-gitem-post-excerpt {
+.vcv-settings .vc_icon-vc-gitem-post-excerpt {
   background-position: 0 -1344px;
 }
-.vc_settings .vc_icon-vc-gitem-image {
+.vcv-settings .vc_icon-vc-gitem-image {
   background-position: 0 -1376px;
 }
-.vc_settings .vc_icon-acf {
+.vcv-settings .vc_icon-acf {
   background-position: 0 -1408px;
 }
-.vc_settings .vc_icon-vc-gitem-post-date {
+.vcv-settings .vc_icon-vc-gitem-post-date {
   background-position: 0 -1440px;
 }
-.vc_settings .vc_icon-vc-gitem-post-meta {
+.vcv-settings .vc_icon-vc-gitem-post-meta {
   background-position: 0 -1472px;
 }
-.vc_settings .vc_icon-vc-gitem-post-title {
+.vcv-settings .vc_icon-vc-gitem-post-title {
   background-position: 0 -1504px;
 }
-.vc_settings .vc_icon-vc-media-grid {
+.vcv-settings .vc_icon-vc-media-grid {
   background-position: 0 -1536px;
 }
-.vc_settings .vc_icon-vc-masonry-media-grid {
+.vcv-settings .vc_icon-vc-masonry-media-grid {
   background-position: 0 -1568px;
 }
-.vc_settings .vc_icon-vc-masonry-grid {
+.vcv-settings .vc_icon-vc-masonry-grid {
   background-position: 0 -1600px;
 }
-.vc_settings .icon-wpb-vc-round-chart {
+.vcv-settings .icon-wpb-vc-round-chart {
   background-position: 0 -1664px;
 }
-.vc_settings .icon-wpb-vc-line-chart {
+.vcv-settings .icon-wpb-vc-line-chart {
   background-position: 0 -1632px;
 }
-.vc_settings .icon-wpb-ui-tta-section,
-.vc_settings .icon-wpb-ui-tta-section[data-is-container="true"] {
+.vcv-settings .icon-wpb-ui-tta-section,
+.vcv-settings .icon-wpb-ui-tta-section[data-is-container="true"] {
   background-position: 0 -416px;
 }
-.vc_settings .vc_icon-vc-gitem-post-author {
+.vcv-settings .vc_icon-vc-gitem-post-author {
   background-position: 0 -1728px;
 }
-.vc_settings .vc_icon-vc-gitem-post-categories {
+.vcv-settings .vc_icon-vc-gitem-post-categories {
   background-position: 0 -1760px;
 }
-.vc_settings .vcv-ui-settings-roles-dropdown {
+.vcv-settings .vcv-ui-settings-roles-dropdown {
   min-width: 200px;
 }
-.vc_settings .vc_role-custom-settings {
+.vcv-settings .vc_role-custom-settings {
   display: none;
 }
-.vc_settings .vc_role-custom-settings.vc_visible {
+.vcv-settings .vc_role-custom-settings.vc_visible {
   display: table-row;
 }
-.vc_settings .vc_role-custom-settings .vc_wp-form-table .js-category-deprecated {
+.vcv-settings .vc_role-custom-settings .vc_wp-form-table .js-category-deprecated {
   display: none;
 }
-.vc_settings [data-vc-roles-filter-value=".js-category-deprecated"] .vc_wp-form-table .js-category-deprecated {
+.vcv-settings [data-vc-roles-filter-value=".js-category-deprecated"] .vc_wp-form-table .js-category-deprecated {
   display: table-row;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_opened .widget-top {
+.vcv-settings .vcv-ui-settings-roles-role .vc_opened .widget-top {
   cursor: default;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_opened .widget-top a.widget-action:after {
+.vcv-settings .vcv-ui-settings-roles-role .vc_opened .widget-top a.widget-action:after {
   content: '\f142';
   cursor: pointer;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_wp-accordion-panel-body {
+.vcv-settings .vcv-ui-settings-roles-role .vc_wp-accordion-panel-body {
   padding: 0 10px;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_wp-form-table .vc_hidden {
+.vcv-settings .vcv-ui-settings-roles-role .vc_wp-form-table .vc_hidden {
   display: none;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_element-icon {
+.vcv-settings .vcv-ui-settings-roles-role .vc_element-icon {
   float: left;
   margin-right: 0.8em;
 }
-.vc_settings .vcv-ui-settings-roles-role .vc_element-description {
+.vcv-settings .vcv-ui-settings-roles-role .vc_element-description {
   font-size: 11px;
   display: block;
 }
-.vc_settings .vcv-ui-settings-roles-role .widget .widget-top {
+.vcv-settings .vcv-ui-settings-roles-role .widget .widget-top {
   cursor: pointer;
 }
 .vc_wp-settings {

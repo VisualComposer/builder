@@ -1,0 +1,41 @@
+.vcv-ui-replace-element-block {
+  border-bottom: 1px solid #EDEEF0;
+  padding: 20px;
+  margin: 0 -20px 20px;
+  box-shadow: inset 0px -180px 150px -160px #fbfbfb;
+  position: relative;
+}
+
+.vcv-ui-replace-element-container {
+  width: ~"calc(100% + 20px)";
+  overflow: hidden;
+}
+
+.vcv-ui-replace-element-hide {
+  position: absolute;
+  top: 32px;
+  right: 20px;
+  color: #CDCDCE;
+
+  &::before {
+    font-size: 1em;
+  }
+}
+
+.vcv-ui-replace-element-list {
+  list-style-type: none;
+  padding: 30px 0 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+
+  .vcv-ui-add-element-list-item {
+    display: inline-block;
+    margin: 0 7px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+

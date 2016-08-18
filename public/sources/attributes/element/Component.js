@@ -1,11 +1,13 @@
 import React from 'react'
 import Attribute from '../attribute'
-// import lodash from 'lodash'
+import _ from 'lodash'
 import classNames from 'classnames'
+import './css/styles.less'
 import DependencyManager from '../../../editor/modules/ui/edit-element/lib/dependencies'
 import {format} from 'util'
 import vcCake from 'vc-cake'
 const Cook = vcCake.getService('cook')
+const AssetsManager = vcCake.getService('assets-manager')
 class ElementAttribute extends Attribute {
   static propTypes = {
     updater: React.PropTypes.func.isRequired,
@@ -24,6 +26,18 @@ class ElementAttribute extends Attribute {
       element: element,
       allTabs: ElementAttribute.updateTabs(element)
     }
+  }
+
+  onClickReplacement = (element, e) => {
+    let cookElement = Cook.get(element)
+
+    this.setState({
+      value: element,
+      tag: element.tag,
+      update: true,
+      element: cookElement,
+      allTabs: ElementAttribute.updateTabs(cookElement)
+    })
   }
 
   static updateTabs (element) {
@@ -157,8 +171,13 @@ class ElementAttribute extends Attribute {
     )
   }
 
+  changeShowReplacements () {
+    this.setState({ showReplacements: !this.state.showReplacements })
+  }
+
   render () {
     let content = []
+
     this.state.allTabs.forEach((tab) => {
       let plateClass = classNames({}, `vcv-ui-editor-plate-${tab.id}`)
       content.push(
@@ -168,8 +187,70 @@ class ElementAttribute extends Attribute {
       )
     })
 
+    let replacements = ''
+
+    if (this.state.showReplacements) {
+      let elementsList = Cook.list.settings()
+      let replacementItemsOutput = []
+
+      _.filter(elementsList, (element) => {
+        if (element.group === 'icon') {
+          let cookElement = Cook.get(element)
+
+          let nameClasses = classNames({
+            'vcv-ui-add-element-badge vcv-ui-badge-success': false,
+            'vcv-ui-add-element-badge vcv-ui-badge-warning': false
+          })
+
+          let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+
+          replacementItemsOutput.push(
+            <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-add-element-list-item'>
+              <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, element)}>
+                <span className='vcv-ui-add-element-element-content'>
+                  <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+                    alt='' />
+                  <span className='vcv-ui-add-element-overlay'>
+                    <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+                  </span>
+                </span>
+                <span className='vcv-ui-add-element-element-name'>
+                  <span className={nameClasses}>
+                    {element.name}
+                  </span>
+                </span>
+              </a>
+            </li>)
+        }
+      })
+
+      replacements = (
+        <div className='vcv-ui-replace-element-container'>
+          <a className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements.bind(this)}>
+            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin'>
+            </i>
+          </a>
+          <ul className='vcv-ui-replace-element-list'>
+            {replacementItemsOutput}
+          </ul>
+        </div>
+      )
+    } else {
+      replacements = (
+        <div>
+          <p className='vcv-ui-form-helper'>You can change the button within this element with another button from your elements</p>
+          <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.changeShowReplacements.bind(this)}>
+            Replace button
+          </button>
+        </div>
+      )
+    }
+
     return (
       <div className='vcv-ui-form-element'>
+        <div className='vcv-ui-replace-element-block'>
+          {replacements}
+        </div>
         {content}
         {JSON.stringify(this.state)}
       </div>

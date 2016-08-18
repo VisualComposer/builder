@@ -9,14 +9,13 @@ $options = vchelper('Options');
 /** @var \VisualComposer\Helpers\Url $url */
 $urlHelper = vchelper('Url');
 
-$host = 'http://test.account.visualcomposer.io';
 $client_id = esc_attr($options->get('site-id'));
 $redirect_url = rawurlencode($urlHelper->ajax(['vcv-action' => 'api']));
 $scope = 'user.read,elements.read';
 
 $url = sprintf(
     '%s/authorization?response_type=code&client_id=%s&redirect_uri=%s&scope=%s',
-    $host,
+    VCV_ACCOUNT_URL,
     $client_id,
     $redirect_url,
     $scope
