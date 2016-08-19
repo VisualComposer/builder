@@ -25,6 +25,11 @@ class Controller extends Container implements Module
     /**
      * @var string
      */
+    static protected $licenseTypeOption = 'license_type';
+
+    /**
+     * @var string
+     */
     static protected $licenseKeyTokenOption = 'license_key_token';
 
     /**
@@ -73,6 +78,14 @@ class Controller extends Container implements Module
     public static function getLicenseKeyOption()
     {
         return self::$licenseKeyOption;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getLicenseTypeOption()
+    {
+        return self::$licenseTypeOption;
     }
 
     /**
@@ -176,14 +189,37 @@ class Controller extends Container implements Module
         if ($status) {
             $json = json_decode($response['body'], true);
 
-            if (!isset($json['license_key']) || !$this->isValidFormat($json['license_key'])) {
-                $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+            foreach (['license_key', 'license_type'] as $key) {
+                if (empty($json[ $key ])) {
+                    $this->addError(
+                        __('Invalid response structure. Please contact us for support.', 'vc5')
+                    );
+
+                    return false;
+                }
+            }
+
+            if (!$this->isValidFormat($json['license_key'])) {
+                $this->addError(
+                    __('Invalid license key format. Please contact us for support.', 'vc5')
+                );
+
+                return false;
+            }
+
+            if (!in_array($json['license_type'], ['basic', 'premium'])) {
+                $this->addError(
+                    __('Unexpected license type: ' . $json['license_type'] . '. Please contact us for support.', 'vc5')
+                );
 
                 return false;
             }
 
             /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', [$json['license_key']]);
+
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+            $this->call('setLicenseType', [$json['license_type']]);
 
             add_action(
                 'admin_notices',
@@ -235,6 +271,9 @@ class Controller extends Container implements Module
         if ($status) {
             /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', ['']);
+
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+            $this->call('setLicenseType', ['']);
 
             add_action(
                 'admin_notices',
@@ -415,6 +454,29 @@ class Controller extends Container implements Module
     private function getLicenseKey(Options $options)
     {
         return $options->get(self::getLicenseKeyOption());
+    }
+
+    /**
+     * Set license type.
+     *
+     * @param string $licenseType
+     * @param \VisualComposer\Helpers\Options $options
+     */
+    private function setLicenseType($licenseType, Options $options)
+    {
+        $options->set(self::getLicenseTypeOption(), $licenseType);
+    }
+
+    /**
+     * Get license type.
+     *
+     * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return string
+     */
+    private function getLicenseType(Options $options)
+    {
+        return $options->get(self::getLicenseTypeOption());
     }
 
     /**
