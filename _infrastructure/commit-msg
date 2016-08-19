@@ -9,9 +9,9 @@ declare -a words=("Fixed" "Added" "Changed" "Updated")
 
 for word in "${words[@]}"
 do
-    if [[ $1 == $word* ]]
-    then
-        printf "Commit message can't start with word '$word'!\n"
-        exit 1
-    fi
+  if [[ $1 == $word* ]]
+  then
+    echo "Commit message can't start with word '$word'!"
+    exit 1
+  fi
 done

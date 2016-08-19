@@ -20,8 +20,8 @@ if [ "$FILES_PHP" != "" ]; then
 
     OUTPUT=`phpcs --standard=ci/ruleset.xml $FILE`
     if [ $? -ne 0 ]; then
-      printf "Code style verification in $FILE failed. Aborting Commit!\n"
-      printf "$OUTPUT\n"
+      printf "${RED}Code style verification in $FILE failed. Commit aborted!${NOCOLOR}\n"
+      echo "$OUTPUT"
       exit 1
     fi
   done
@@ -33,7 +33,7 @@ printf "${YELLOW}Running standard...${NOCOLOR}\n"
 OUTPUT=`git diff --name-only --cached --relative | grep '\.jsx\?$' | xargs standard`
 if [ $? -ne 0 ]
 then
-  printf "[JS] Code style verification failed. Aborting Commit!\n"
-  printf "$OUTPUT\n"
+  printf "${RED}[JS] Code style verification failed. Commit aborted!${NOCOLOR}\n"
+  echo "$OUTPUT"
   exit 1
 fi

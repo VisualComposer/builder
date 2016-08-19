@@ -2,24 +2,140 @@
 
 namespace VisualComposer\Modules\Elements;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Class Controller.
  */
-class Controller extends Container /*implements Module*/
+class Controller extends Container implements Module
 {
     use EventsFilters;
+
+    /**
+     * @var string
+     */
+    static protected $elementsKeyOption = 'elements';
 
     /**
      * Controller constructor.
      */
     public function __construct()
     {
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-        WP_Filesystem();
+        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+        // if (!$this->call('getElements')) {
+        //     $this->initDefaultElements();
+        // }
+
+        /** @see \VisualComposer\Modules\Elements\Controller::updateAllElements */
+        // $count = $this->call('updateAllElements');
+    }
+
+    /**
+     * Update all elements that can be updated.
+     *
+     * @retun int Number of elements updated.
+     */
+    private function updateAllElements()
+    {
+        /** @see \VisualComposer\Modules\Elements\Controller::getUpdatableElements */
+        $elements = $this->call('getUpdatableElements');
+
+        $count = 0;
+        foreach ($elements as $element) {
+            /** @see \VisualComposer\Modules\Elements\Controller::updateElement */
+            $success = $this->call('updateElement', [$element]);
+
+            if ($success) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * @return array List of elements with added 'availableVersion' key/value.
+     */
+    private function getUpdatableElements()
+    {
+        $updates = [];
+
+        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+        $elements = $this->call('getElements');
+
+        foreach ($elements as $element) {
+            /** @see \VisualComposer\Modules\Elements\Controller::fetchElementVersion */
+            $availableVersion = $this->call('fetchElementVersion', [$element['tag']]);
+
+            if (!$availableVersion || version::lte($availableVersion, $element['version'])) {
+                continue;
+            }
+
+            $updates[] = array_merge(
+                $element,
+                [
+                    'availableVersion' => $availableVersion,
+                ]
+            );
+        }
+
+        return $updates;
+    }
+
+    /**
+     * Set elements.
+     *
+     * @param array $elements
+     * @param \VisualComposer\Helpers\Options $options
+     */
+    private function setElements($elements, Options $options)
+    {
+        $options->set(self::$elementsKeyOption, $elements);
+    }
+
+    /**
+     * Set element data.
+     *
+     * @param string $tag
+     * @param array $data
+     */
+    private function setElement($tag, $data)
+    {
+        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+        $elements = $this->call('getElements');
+
+        $key = null;
+        foreach ($elements as $k => $element) {
+            if ($element['tag'] === $tag) {
+                $key = $k;
+                break;
+            }
+        }
+
+        if ($key !== null) {
+            $elements[ $key ] = $data;
+        } else {
+            $elements[] = $data;
+        }
+
+        /** @see \VisualComposer\Modules\Elements\Controller::setElements */
+        $this->call('setElements', [$elements]);
+    }
+
+    /**
+     * Get elements.
+     *
+     * @param \VisualComposer\Helpers\Options $options
+     *
+     * @return array
+     */
+    private function getElements(Options $options)
+    {
+        return $options->get(self::$elementsKeyOption);
     }
 
     /**
@@ -33,25 +149,63 @@ class Controller extends Container /*implements Module*/
     }
 
     /**
-     * @return bool
+     * @param bool $create
+     *
+     * @return bool|string
      */
-    private function downloadDefaultElements()
+    private function getUploadsDir($create = true)
     {
-        $upload_dir = wp_upload_dir();
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        WP_Filesystem();
 
-        $destination_dir = $upload_dir['basedir'] . '/vcwb/';
+        $uploadDir = wp_upload_dir();
 
-        if (!is_dir($destination_dir) && !mkdir($destination_dir)) {
+        $destinationDir = $uploadDir['basedir'] . '/vcwb/';
+
+        if (!is_dir($destinationDir) && $create && !mkdir($destinationDir)) {
             return false;
         }
 
-        $elements = $this->getDefaultElements();
+        return $destinationDir;
+    }
 
-        foreach ($elements as $element) {
-            if (!$this->downloadElement($element['tag'], $destination_dir)) {
+    /**
+     * Download default elements and save them into DB.
+     *
+     * @return bool
+     */
+    private function initDefaultElements()
+    {
+        /** @see \VisualComposer\Modules\Elements\Controller::getUploadsDir */
+        $destinationDir = $this->call('getUploadsDir');
+
+        if (!$destinationDir) {
+            return false;
+        }
+
+        $defaultElements = $this->fetchDefaultElements();
+
+        if ($defaultElements === false) {
+            return false;
+        }
+
+        $elements = [];
+
+        foreach ($defaultElements as $element) {
+            /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
+            if (!$this->call('downloadElement', [$element['tag'], $destinationDir])) {
                 return false;
             }
+
+            $elements[] = [
+                'name' => $element['name'],
+                'tag' => $element['tag'],
+                'version' => $element['version'],
+            ];
         }
+
+        /** @see \VisualComposer\Modules\Elements\Controller::setElements */
+        $this->call('setElements', [$elements]);
 
         return true;
     }
@@ -59,7 +213,7 @@ class Controller extends Container /*implements Module*/
     /**
      * @return array|bool
      */
-    private function getDefaultElements()
+    private function fetchDefaultElements()
     {
         $url = '/elements/default';
 
@@ -85,12 +239,31 @@ class Controller extends Container /*implements Module*/
     }
 
     /**
+     * @param string $tag
+     *
+     * @return string|bool
+     */
+    private function fetchElementVersion($tag)
+    {
+        $url = '/elements/' . $tag . '/version';
+
+        $response = $this->makeApiRequest($url);
+
+        if ($response === false) {
+            return false;
+        }
+
+        return $response['data']['version'];
+    }
+
+    /**
      * Get all neccessary headers for API request.
      *
      * @return string|bool
      */
     private function getHeaders()
     {
+        /** @see \VisualComposer\Helpers\Token::getToken */
         $token = vcapp()->call([vchelper('Token'), 'getToken']);
 
         if (!$token) {
@@ -156,20 +329,56 @@ class Controller extends Container /*implements Module*/
             return false;
         }
 
-        $destination_file = $destination . $tag . '.zip';
+        $destinationFile = $destination . $tag . '.zip';
 
-        $success = file_put_contents($destination_file, $response);
+        $success = file_put_contents($destinationFile, $response);
 
         if ($success === false) {
             return false;
         }
 
-        $destination_dir = $destination . $tag;
+        $destinationDir = $destination . $tag;
 
-        $success = unzip_file($destination_file, $destination_dir);
+        $success = unzip_file($destinationFile, $destinationDir);
 
-        unlink($destination_file);
+        unlink($destinationFile);
 
         return $success === true;
+    }
+
+    /**
+     * @param array $element
+     * @param bool $force If true, update even if versions are the same.
+     *
+     * @return bool
+     */
+    private function updateElement($element, $force = false)
+    {
+        /** @see \VisualComposer\Modules\Elements\Controller::fetchElementVersion */
+        $availableVersion = $this->call('fetchElementVersion', [$element['tag']]);
+
+        if (!$force && version::lte($availableVersion, $element['version'])) {
+            return false;
+        }
+
+        /** @see \VisualComposer\Modules\Elements\Controller::getUploadsDir */
+        $destinationDir = $this->call('getUploadsDir');
+
+        if (!$destinationDir) {
+            return false;
+        }
+
+        /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
+        if (!$this->call('downloadElement', [$element['tag'], $destinationDir])) {
+            return false;
+        }
+
+        $element['version'] = $availableVersion;
+        unset($element['availableVersion']);
+
+        /** @see \VisualComposer\Modules\Elements\Controller::setElement */
+        $this->call('setElement', [$element['tag'], $element]);
+
+        return true;
     }
 }
