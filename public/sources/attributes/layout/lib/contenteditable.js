@@ -1,0 +1,281 @@
+import React from 'react'
+// import classNames from 'classnames'
+
+// import './css/src/init.less'
+
+class ContentEditable extends React.Component {
+
+  constructor () {
+    super()
+    this.state = {
+      inputValue: '',
+      doGrouping: false
+    }
+  }
+
+  handleValueChange (e) {
+    const inputVal = e.target.value
+    this.updateInputValue(inputVal)
+  }
+
+  updateInputValue (inputValue) {
+    this.setState({inputValue})
+  }
+
+  handleGrouping (e) {
+    if (e.key === 'Control') {
+      let button = e.target
+
+      let doThis = () => {
+        this.changeGroupingState()
+        button.removeEventListener('click', doThis)
+      }
+
+      this.updateInputValue(button.textContent)
+      this.changeGroupingState()
+
+      button.addEventListener('click', doThis)
+    }
+  }
+
+  changeGroupingState () {
+    this.setState({doGrouping: !this.state.doGrouping})
+  }
+
+  doShortcut (e) {
+    let shortcut = {
+
+      all_shortcuts: {}, // All the shortcuts are stored in this array
+      add: function (shortcutCombination, callback, opt) {
+        let code
+
+        // Provide a set of default options
+        var defaultOptions = {
+          'type': 'keydown',
+          'propagate': false,
+          'disable_in_input': false,
+          'target': document,
+          'keycode': false
+        }
+        if (!opt) opt = defaultOptions
+        else {
+          for (let dfo in defaultOptions) {
+            if (typeof opt[dfo] === 'undefined') opt[dfo] = defaultOptions[dfo]
+          }
+        }
+
+        var ele = opt.target
+        if (typeof opt.target === 'string') ele = document.getElementById(opt.target)
+
+        shortcutCombination = shortcutCombination.toLowerCase()
+
+        // The function to be called at keyPress
+        var func = function (e) {
+          e = e || window.event
+
+          if (opt['disable_in_input']) { // Don't enable shortcut keys in Input, Textarea fields
+            var element
+            if (e.target) element = e.target
+            else if (e.srcElement) element = e.srcElement
+            if (element.nodeType === 3) element = element.parentNode
+
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') return
+          }
+
+          // Find Which key is pressed
+          if (e.keyCode) code = e.keyCode
+          else if (e.which) code = e.which
+          var character = String.fromCharCode(code).toLowerCase()
+
+          if (code === 188) character = ',' // If the user presses , when the type is onkeydown
+          if (code === 190) character = '.' // If the user presses , when the type is onkeydown
+
+          var keys = shortcutCombination.split('+')
+          // Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
+          var kp = 0
+
+          // Work around for stupid Shift key bug created by using lowercase - as a result the shift+num combination was broken
+          var shiftNums = {
+            '`': '~',
+            '1': '!',
+            '2': '@',
+            '3': '#',
+            '4': '$',
+            '5': '%',
+            '6': '^',
+            '7': '&',
+            '8': '*',
+            '9': '(',
+            '0': ')',
+            '-': '_',
+            '=': '+',
+            ';': ':',
+            '\'': '"',
+            ',': '<',
+            '.': '>',
+            '/': '?',
+            '\\': '|'
+          }
+          // Special Keys - and their codes
+          var specialKeys = {
+            'esc': 27,
+            'escape': 27,
+            'tab': 9,
+            'space': 32,
+            'return': 13,
+            'enter': 13,
+            'backspace': 8,
+
+            'scrolllock': 145,
+            'scroll_lock': 145,
+            'scroll': 145,
+            'capslock': 20,
+            'caps_lock': 20,
+            'caps': 20,
+            'numlock': 144,
+            'num_lock': 144,
+            'num': 144,
+
+            'pause': 19,
+            'break': 19,
+
+            'insert': 45,
+            'home': 36,
+            'delete': 46,
+            'end': 35,
+
+            'pageup': 33,
+            'page_up': 33,
+            'pu': 33,
+
+            'pagedown': 34,
+            'page_down': 34,
+            'pd': 34,
+
+            'left': 37,
+            'up': 38,
+            'right': 39,
+            'down': 40,
+
+            'f1': 112,
+            'f2': 113,
+            'f3': 114,
+            'f4': 115,
+            'f5': 116,
+            'f6': 117,
+            'f7': 118,
+            'f8': 119,
+            'f9': 120,
+            'f10': 121,
+            'f11': 122,
+            'f12': 123
+          }
+
+          var modifiers = {
+            shift: {wanted: false, pressed: false},
+            ctrl: {wanted: false, pressed: false},
+            alt: {wanted: false, pressed: false},
+            meta: {wanted: false, pressed: false} // Meta is Mac specific
+          }
+
+          if (e.ctrlKey) modifiers.ctrl.pressed = true
+          if (e.shiftKey) modifiers.shift.pressed = true
+          if (e.altKey) modifiers.alt.pressed = true
+          if (e.metaKey) modifiers.meta.pressed = true
+
+          for (let i = 0; i < keys.length; i++) {
+            let k = keys[i]
+
+            // Modifiers
+            if (k === 'ctrl' || k === 'control') {
+              kp++
+              modifiers.ctrl.wanted = true
+            } else if (k === 'shift') {
+              kp++
+              modifiers.shift.wanted = true
+            } else if (k === 'alt') {
+              kp++
+              modifiers.alt.wanted = true
+            } else if (k === 'meta') {
+              kp++
+              modifiers.meta.wanted = true
+            } else if (k.length > 1) { // If it is a special key
+              if (specialKeys[k] === code) kp++
+            } else if (opt['keycode']) {
+              if (opt['keycode'] === code) kp++
+            } else { // The special keys did not match
+              if (character === k) kp++
+              else {
+                if (shiftNums[character] && e.shiftKey) { // Stupid Shift key bug created by using lowercase
+                  character = shiftNums[character]
+                  if (character === k) kp++
+                }
+              }
+            }
+          }
+
+          if (kp === keys.length &&
+            modifiers.ctrl.pressed === modifiers.ctrl.wanted &&
+            modifiers.shift.pressed === modifiers.shift.wanted &&
+            modifiers.alt.pressed === modifiers.alt.wanted &&
+            modifiers.meta.pressed === modifiers.meta.wanted) {
+            callback(e)
+
+            if (!opt['propagate']) { // Stop the event
+              // e.cancelBubble is supported by IE - this will kill the bubbling process.
+              e.cancelBubble = true
+              e.returnValue = false
+
+              // e.stopPropagation works in Firefox.
+              if (e.stopPropagation) {
+                e.stopPropagation()
+                e.preventDefault()
+              }
+              return false
+            }
+          }
+        }
+        this.all_shortcuts[shortcutCombination] = {
+          'callback': func,
+          'target': ele,
+          'event': opt['type']
+        }
+        // Attach the function with the event
+        if (ele.addEventListener) ele.addEventListener(opt['type'], func, false)
+        else if (ele.attachEvent) ele.attachEvent('on' + opt['type'], func)
+        else ele['on' + opt['type']] = func
+      }
+    }
+
+    shortcut.add('Meta+B', function () {
+      console.log('meta + b')
+      return false
+    }, {'target': e.target})
+
+    shortcut.add('Enter', () => {
+      this.changeGroupingState()
+      console.log('enter')
+      return false
+    }, {'target': e.target})
+  }
+
+  render () {
+    let tokenized = ''
+
+    if (this.state.doGrouping) {
+      tokenized = (
+        <span className='vcv-ui-layout-tokenized'>
+          {this.state.inputValue}
+        </span>
+      )
+    }
+    return (
+      <div className='vcv-ui-content-editable vcv-ui-form-input' contentEditable={!this.state.doGrouping}
+        onKeyDown={this.handleGrouping}>
+        {tokenized}
+      </div>
+    )
+  }
+}
+
+export default ContentEditable

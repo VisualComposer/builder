@@ -6,7 +6,8 @@ import Attribute from '../attribute'
 import classNames from 'classnames'
 import './css/styles.less'
 import Toggle from '../toggle/Component'
-import String from '../string/Component'
+// import String from '../string/Component'
+import CustomLayoutInput from './lib/custom-layout-input'
 
 class Layout extends Attribute {
   static defaultProps = {
@@ -117,8 +118,7 @@ responsiveness options and stacking order.
           <div className='vcv-ui-form-layout-custom-layout-columns'>
             <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
               <div className='vcv-ui-form-layout-custom-layout-input'>
-                <String key={'k' + this.props.fieldKey + 'string-1'} value={this.state.customLayout}
-                  fieldKey={this.props.fieldKey + 'string-1'} />
+                <CustomLayoutInput />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
 The total sum of fractions must be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>
