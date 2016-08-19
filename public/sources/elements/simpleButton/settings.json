@@ -54,7 +54,7 @@
       "tag": "icon"
     },
     "options": {
-      "label": "Icon"
+      "tabLabel": "Icon"
     }
   },
   "editFormTab1": {

@@ -1,6 +1,8 @@
+@import "../../../less/boilerplate";
+
 .vcv-ui-replace-element-block {
-  border-bottom: 1px solid #EDEEF0;
-  padding: 20px;
+  border-bottom: 1px solid @vcv-color-white-smoke;
+  padding: 0 20px 20px;
   margin: 0 -20px 20px;
   box-shadow: inset 0px -180px 150px -160px #fbfbfb;
   position: relative;
@@ -9,16 +11,21 @@
 .vcv-ui-replace-element-container {
   width: ~"calc(100% + 20px)";
   overflow: hidden;
+  position: relative;
 }
 
 .vcv-ui-replace-element-hide {
   position: absolute;
-  top: 32px;
-  right: 20px;
-  color: #CDCDCE;
+  top: 0;
+  right: 15px;
+  height: 25px;
+  width: 25px;
+  color: @vcv-color-silver;
+  display: inline-block;
+  cursor: pointer;
 
   &::before {
-    font-size: 1em;
+    font-size: .8em;
   }
 }
 
@@ -32,10 +39,15 @@
   .vcv-ui-add-element-list-item {
     display: inline-block;
     margin: 0 7px;
+    vertical-align: top;
 
     &:first-child {
       margin-left: 0;
     }
+  }
+
+  .vcv-ui-add-element-element-name {
+    white-space: normal;
   }
 }
 

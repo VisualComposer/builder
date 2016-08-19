@@ -27,6 +27,8 @@ class CookElement {
         data: attr,
         order: order,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
+        cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
+        jsSettings: elSettings && elSettings.javascript ? elSettings.javascript : {},
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
@@ -48,7 +50,7 @@ class CookElement {
   }
 
   get (k) {
-    if ([ 'id', 'parent', 'order' ].indexOf(k) > -1) {
+    if ([ 'id', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)

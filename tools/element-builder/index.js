@@ -85,6 +85,7 @@ fs.lstat(elementDir, function (err, stats) {
     var cssFileName = 'styles.css'
     var cssFile = path.resolve(elementDir, cssFileName)
     var cssExists = fs.existsSync(cssFile)
+    var cssString = cssExists ? fs.readFileSync(cssFile, 'utf8') : false
     var cssRelativeFile = ''
     if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
       cssRelativeFile = "require( './" + cssFileName + "' )"
@@ -92,8 +93,9 @@ fs.lstat(elementDir, function (err, stats) {
 
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json')
-    var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile) : '{}'
+    var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile, 'utf8') : '{}'
     var cssSettings = JSON.parse(cssSettingsString)
+    cssSettings.css = cssString
     if (!cssSettings) {
       console.error('Error, wrong css settings')
       process.exit(1)
@@ -118,7 +120,7 @@ fs.lstat(elementDir, function (err, stats) {
         return cssRelativeFile + ''
       },
       cssSettings: function () {
-        return cssSettingsString + ''
+        return JSON.stringify(cssSettings) + ''
       },
       editorJsSettings: function () {
         return 'null'
