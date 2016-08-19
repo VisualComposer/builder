@@ -13,7 +13,6 @@ use VisualComposer\Modules\Settings\Pages\License;
 
 /**
  * Class Controller.
- * @DISABLED
  */
 class Controller extends Container implements Module
 {
@@ -25,12 +24,12 @@ class Controller extends Container implements Module
     /**
      * @var string
      */
-    static protected $licenseKeyTokenOption = 'license_key_token';
+    static protected $licenseTypeOption = 'license_type';
 
     /**
-     * @var array
+     * @var string
      */
-    private $errors = [];
+    static protected $licenseKeyTokenOption = 'license_key_token';
 
     /**
      * Controller constructor.
@@ -78,6 +77,14 @@ class Controller extends Container implements Module
     /**
      * @return string
      */
+    public static function getLicenseTypeOption()
+    {
+        return self::$licenseTypeOption;
+    }
+
+    /**
+     * @return string
+     */
     public static function getLicenseKeyTokenOption()
     {
         return self::$licenseKeyTokenOption;
@@ -86,7 +93,7 @@ class Controller extends Container implements Module
     /**
      * Get license page url.
      *
-     * @param \VisualComposer\Modules\Settings\Pages\License $licensePage
+     * @param License $licensePage
      *
      * @return string
      */
@@ -101,43 +108,21 @@ class Controller extends Container implements Module
      * @param string $message
      * @param bool $success
      *
-     * @return string
+     * @return void
      */
     private function renderNotice($message, $success)
     {
-        $args = ['message' => $message];
+        add_action(
+            'admin_notices',
+            function () use ($message, $success) {
 
-        $view = $success ? 'notice-success' : 'notice-error';
+                $args = ['message' => $message];
 
-        return vcview('settings/partials/' . $view, $args);
-    }
+                $view = $success ? 'notice-success' : 'notice-error';
 
-    /**
-     * Show error.
-     *
-     * @param string $error
-     */
-    private function addError($error)
-    {
-        $this->errors[] = $error;
-    }
-
-    /**
-     * Output successful activation message.
-     */
-    private function renderActivatedSuccess()
-    {
-        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        return $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
-    }
-
-    /**
-     * Output successful deactivation message.
-     */
-    private function renderDeactivatedSuccess()
-    {
-        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-        return $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
+                echo vcview('settings/partials/' . $view, $args);
+            }
+        );
     }
 
     /**
@@ -155,7 +140,11 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\License\Controller::isValidToken */
         if (!$this->call('isValidToken', [$userToken])) {
-            $this->addError(__('Token is not valid or has expired', 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [__('Token is not valid or has expired', 'vc5'), false]
+            );
 
             return false;
         }
@@ -163,7 +152,11 @@ class Controller extends Container implements Module
         $response = $this->sendActivationRequest($userToken);
 
         if (is_wp_error($response)) {
-            $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [sprintf(__('%s. Please try again.', 'vc5'), $response->get_error_message()), false]
+            );
 
             return false;
         }
@@ -176,8 +169,40 @@ class Controller extends Container implements Module
         if ($status) {
             $json = json_decode($response['body'], true);
 
-            if (!isset($json['license_key']) || !$this->isValidFormat($json['license_key'])) {
-                $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+            foreach (['license_key', 'license_type'] as $key) {
+                if (empty($json[ $key ])) {
+                    /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                    $this->call(
+                        'renderNotice',
+                        [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
+                    );
+
+                    return false;
+                }
+            }
+
+            if (!$this->isValidFormat($json['license_key'])) {
+                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                $this->call(
+                    'renderNotice',
+                    [__('Invalid license key format. Please contact us for support.', 'vc5'), false]
+                );
+
+                return false;
+            }
+
+            if (!in_array($json['license_type'], ['basic', 'premium'])) {
+                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                $this->call(
+                    'renderNotice',
+                    [
+                        sprintf(
+                            __('Unexpected license type: %s. Please contact us for support.', 'vc5'),
+                            $json['license_type']
+                        ),
+                        false,
+                    ]
+                );
 
                 return false;
             }
@@ -185,13 +210,11 @@ class Controller extends Container implements Module
             /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', [$json['license_key']]);
 
-            add_action(
-                'admin_notices',
-                function () {
-                    /** @see \VisualComposer\Modules\License\Controller::renderActivatedSuccess */
-                    $this->call('renderActivatedSuccess');
-                }
-            );
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+            $this->call('setLicenseType', [$json['license_type']]);
+
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
 
             return true;
         }
@@ -214,7 +237,8 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\License\Controller::isValidToken */
         if (!$this->call('isValidToken', [$userToken])) {
-            $this->addError(__('Token is not valid or has expired', 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call('renderNotice', [__('Token is not valid or has expired', 'vc5'), false]);
 
             return false;
         }
@@ -222,7 +246,11 @@ class Controller extends Container implements Module
         $response = $this->sendDeactivationRequest($userToken);
 
         if (is_wp_error($response)) {
-            $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'), false]
+            );
 
             return false;
         }
@@ -236,13 +264,11 @@ class Controller extends Container implements Module
             /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', ['']);
 
-            add_action(
-                'admin_notices',
-                function () {
-                    /** @see \VisualComposer\Modules\License\Controller::renderDeactivatedSuccess */
-                    $this->call('renderDeactivatedSuccess');
-                }
-            );
+            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+            $this->call('setLicenseType', ['']);
+
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
         }
 
         return true;
@@ -340,7 +366,7 @@ class Controller extends Container implements Module
     /**
      * Start activation process and output redirect URL as JSON.
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
@@ -369,7 +395,7 @@ class Controller extends Container implements Module
     /**
      * Start deactivation process and output redirect URL as JSON.
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
@@ -398,7 +424,7 @@ class Controller extends Container implements Module
      * Set license key.
      *
      * @param string $licenseKey
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      */
     private function setLicenseKey($licenseKey, Options $options)
     {
@@ -408,13 +434,36 @@ class Controller extends Container implements Module
     /**
      * Get license key.
      *
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      *
      * @return string
      */
     private function getLicenseKey(Options $options)
     {
         return $options->get(self::getLicenseKeyOption());
+    }
+
+    /**
+     * Set license type.
+     *
+     * @param string $licenseType
+     * @param Options $options
+     */
+    private function setLicenseType($licenseType, Options $options)
+    {
+        $options->set(self::getLicenseTypeOption(), $licenseType);
+    }
+
+    /**
+     * Get license type.
+     *
+     * @param Options $options
+     *
+     * @return string
+     */
+    private function getLicenseType(Options $options)
+    {
+        return $options->get(self::getLicenseTypeOption());
     }
 
     /**
@@ -435,7 +484,7 @@ class Controller extends Container implements Module
      *
      * Don't show notice on dev environment.
      *
-     * @param \VisualComposer\Helpers\Core $core
+     * @param Core $core
      */
     private function setupReminder(Core $core)
     {
@@ -493,7 +542,7 @@ class Controller extends Container implements Module
     /**
      * Render license activation notice.
      *
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      */
     private function renderLicenseActivationNotice(Options $options)
     {
@@ -514,7 +563,7 @@ class Controller extends Container implements Module
     /**
      * Get license key token.
      *
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      *
      * @return string
      */
@@ -527,7 +576,7 @@ class Controller extends Container implements Module
      * Set license key token.
      *
      * @param string $token
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      */
     private function setLicenseKeyToken($token, Options $options)
     {
@@ -541,7 +590,7 @@ class Controller extends Container implements Module
      *
      * Format is: timestamp|20-random-characters.
      *
-     * @param \VisualComposer\Helpers\Str $strHelper
+     * @param StrCore $strHelper
      *
      * @return string
      */
@@ -653,22 +702,37 @@ class Controller extends Container implements Module
     {
         $status = true;
         if (is_wp_error($response)) {
-            /** @var $response \WP_Error */
-            $this->addError(__(sprintf('%s. Please try again.', $response->get_error_message()), 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [sprintf(__('%s. Please try again.', 'vc5'), $response->get_error_message()), false]
+            );
             $status = false;
         } elseif ($response['response']['code'] !== 200) {
-            $this->addError(__(sprintf('Server did not respond with OK: %s', $response['response']['code']), 'vc5'));
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [sprintf(__('Server did not respond with OK: %s', 'vc5'), $response['response']['code']), false]
+            );
             $status = false;
         } else {
             $json = json_decode($response['body'], true);
 
             if (!$json || !isset($json['status'])) {
-                $this->addError(__('Invalid response structure. Please contact us for support.', 'vc5'));
+                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                $this->call(
+                    'renderNotice',
+                    [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
+                );
                 $status = false;
             }
 
             if (!$json['status']) {
-                $this->addError(__('Something went wrong. Please contact us for support.', 'vc5'));
+                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                $this->call(
+                    'renderNotice',
+                    [__('Something went wrong. Please contact us for support.', 'vc5'), false]
+                );
                 $status = false;
             }
         }
