@@ -53,6 +53,36 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * @param assetType
+   * @param element
+   * @param settings
+   */
+  add: function (assetType, element, settings) {
+    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+      this.assets[ assetType ][ element ] = {
+        settings: settings,
+        count: 0
+      }
+    }
+    this.assets[ assetType ][ element ].count++
+  },
+
+  /**
+   * @param assetType
+   * @param element
+   */
+  remove: function (assetType, element) {
+    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+      return
+    }
+    this.assets[ assetType ][ element ].count--
+    console.log(this.assets[ assetType ][ element ].count)
+    if (this.assets[ assetType ][ element ].count === 0) {
+      delete this.assets[ assetType ][ element ]
+    }
+  },
+
+  /**
    * @param {string} assetType scripts|styles
    * @param {string} element Element's name
    * @param {string} file

@@ -23,6 +23,7 @@ vcCake.add('storage', (api) => {
   })
 
   api.reply('data:remove', (id) => {
+    api.request('data:beforeRemove', id)
     DocumentData.delete(id)
     api.request('data:changed', DocumentData.children(false), 'remove')
   })

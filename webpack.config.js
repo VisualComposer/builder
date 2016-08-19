@@ -30,6 +30,7 @@ module.exports = {
     node: {
       modules: [
         'content/storage',
+        'content/assets',
         'content/layout',
         'content/editor-controls-iframe',
         'content/dnd',
@@ -66,6 +67,7 @@ module.exports = {
     wp: {
       modules: [
         'content/storage',
+        'content/assets',
         'content/layout',
         'content/editor-controls-iframe',
         'content/dnd',
