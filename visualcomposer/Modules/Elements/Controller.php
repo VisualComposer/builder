@@ -25,6 +25,27 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
+        add_action(
+            'wp_ajax_vcv:initDefaultElements',
+            function () {
+                /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+                if ($this->call('getElements')) {
+                    $response = ['status' => false, 'error' => __('Elements are already installed', 'vc5')];
+                } else {
+                    /** @see \VisualComposer\Modules\Elements\Controller::initDefaultElements */
+                    $installed = $this->call('initDefaultElements');
+
+                    if ($installed === false) {
+                        $response = ['status' => false, 'error' => __('Something went wrong', 'vc5')];
+                    } else {
+                        $response = ['status' => true, 'installed' => $installed];
+                    }
+                }
+
+                wp_send_json($response);
+            }
+        );
+
         /** @see \VisualComposer\Modules\Elements\Controller::getElements */
         // if (!$this->call('getElements')) {
         //     $this->initDefaultElements();
@@ -172,7 +193,7 @@ class Controller extends Container implements Module
     /**
      * Download default elements and save them into DB.
      *
-     * @return bool
+     * @return int|bool Number of installed elements or false.
      */
     private function initDefaultElements()
     {
@@ -207,7 +228,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
         $this->call('setElements', [$elements]);
 
-        return true;
+        return count($elements);
     }
 
     /**
@@ -215,7 +236,10 @@ class Controller extends Container implements Module
      */
     private function fetchDefaultElements()
     {
-        $url = '/elements/default';
+        // TODO: Get license type from \VisualComposer\Modules\License\Controller::getLicenseType
+        $licenseType = 'basic';
+
+        $url = '/elements/default/' . $licenseType;
 
         $elements = [];
 
