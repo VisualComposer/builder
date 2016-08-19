@@ -29,7 +29,7 @@ class TreeContentTab extends React.Component {
 
   render () {
     let { data, active } = this.props
-    let title = data.settings.options.label
+    let title = data.settings.options.label || data.settings.options.tabLabel
 
     let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
