@@ -19,17 +19,17 @@ class Controller extends Container implements Module
     /**
      * @var string
      */
-    static protected $licenseKeyOption = 'license_key';
+    static protected $licenseKeyOption = 'license-key';
 
     /**
      * @var string
      */
-    static protected $licenseTypeOption = 'license_type';
+    static protected $licenseTypeOption = 'license-type';
 
     /**
      * @var string
      */
-    static protected $licenseKeyTokenOption = 'license_key_token';
+    static protected $licenseKeyTokenOption = 'license-key-token';
 
     /**
      * Controller constructor.

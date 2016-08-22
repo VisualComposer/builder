@@ -4,15 +4,13 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import TreeContentTab from './tab'
-// import DesignOptions from './design-options/design-options'
-// import {getService} from 'vc-cake'
+import DesignOptions from './design-options/design-options'
 import {format} from 'util'
 import DependencyManager from './dependencies'
 import EditFormFooter from './footer'
 import EditFormContent from './content'
 import vcCake from 'vc-cake'
 const Utils = vcCake.getService('utils')
-// let designOptions = {}
 
 class EditForm extends React.Component {
   static propTypes = {
@@ -25,6 +23,7 @@ class EditForm extends React.Component {
     saved: false
   }
   allTabs = []
+  designOptions = {}
 
   componentWillMount () {
     this.allTabs = EditForm.updateTabs(this.props)
@@ -32,6 +31,7 @@ class EditForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.allTabs = EditForm.updateTabs(nextProps)
+    this.designOptions = vcCake.getService('assets-manager').getDesignOptions()[ nextProps.element.get('id') ]
   }
 
   updateElement (data) {
@@ -42,7 +42,7 @@ class EditForm extends React.Component {
     this.props.api.notify('form:mount')
 
     this.props.api.on('element:set', this.updateElement.bind(this))
-    // designOptions = getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
+    this.designOptions = vcCake.getService('assets-manager').getDesignOptions()[ this.props.element.get('id') ]
     Utils.addResizeListener(ReactDOM.findDOMNode(this.refs[ 'editorTabsFreeSpace' ]), this.handleElementResize)
   }
 
@@ -70,16 +70,23 @@ class EditForm extends React.Component {
       }
       tabs.push(tabsData)
     }, EditForm)
-    /*
-     tabs.push({
-     id: 'editFormTabDesignOptions',
-     index: tabs.length,
-     title: 'Design Options',
-     isVisible: true,
-     pinned: false,
-     type: 'design-options',
-     params: []
-     })*/
+
+    tabs.push({
+      id: 'editFormTabDesignOptions',
+      index: tabs.length,
+      data: {
+        settings: {
+          options: {
+            label: 'Design Options'
+          }
+        }
+      },
+      isVisible: true,
+      pinned: false,
+      params: [],
+      key: 'edit-form-tab-design-options',
+      changeTab: this.changeActiveTab
+    })
 
     return tabs
   }
@@ -90,8 +97,8 @@ class EditForm extends React.Component {
     })
   }
 
-  changeDesignOption (newDesignOptions) {
-    // designOptions = newDesignOptions
+  changeDesignOption = (newDesignOptions) => {
+    this.designOptions = newDesignOptions
   }
 
   static editFormTabs (props) {
@@ -204,13 +211,15 @@ class EditForm extends React.Component {
 
   getForm (tabIndex) {
     let tab = this.allTabs[ tabIndex ]
-    /* if (tab.type && tab.type === 'design-options') {
-     let props = {
-     changeDesignOption: this.changeDesignOption.bind(this),
-     //values: designOptions
-     }
-     //return <DesignOptions {...props} />
-     } */
+    if (tab.id === 'editFormTabDesignOptions') {
+      let props = {
+        changeDesignOption: this.changeDesignOption,
+        values: this.designOptions
+      }
+
+      return <DesignOptions {...props} />
+    }
+
     return tab.params.map(this.getFormParamField.bind(this, tabIndex))
   }
 
@@ -230,7 +239,7 @@ class EditForm extends React.Component {
   onSave = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS(true))
-    // getService('assets-manager').addDesignOption(element.get('id'), designOptions)
+    vcCake.getService('assets-manager').addDesignOption(element.get('id'), this.designOptions)
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })

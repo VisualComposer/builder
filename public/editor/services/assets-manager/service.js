@@ -1,5 +1,6 @@
 import path from 'path'
 import vcCake from 'vc-cake'
+import postcss from 'postcss'
 
 vcCake.addService('assets-manager', {
   /**
@@ -50,6 +51,36 @@ vcCake.addService('assets-manager', {
    */
   getAssets: function (assetType) {
     return this.assets[ assetType ]
+  },
+
+  /**
+   * @param assetType
+   * @param element
+   * @param settings
+   */
+  add: function (assetType, element, settings) {
+    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+      this.assets[ assetType ][ element ] = {
+        settings: settings,
+        count: 0
+      }
+    }
+    this.assets[ assetType ][ element ].count++
+  },
+
+  /**
+   * @param assetType
+   * @param element
+   */
+  remove: function (assetType, element) {
+    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+      return
+    }
+    this.assets[ assetType ][ element ].count--
+    console.log(this.assets[ assetType ][ element ].count)
+    if (this.assets[ assetType ][ element ].count === 0) {
+      delete this.assets[ assetType ][ element ]
+    }
   },
 
   /**
@@ -140,5 +171,31 @@ vcCake.addService('assets-manager', {
     }
 
     return path
+  },
+
+  /**
+   * @returns {string}
+   */
+  getCompiledCss: function () {
+    let styles = this.getStyles()
+    var iterations = []
+    for (let element in styles) {
+      let stylePromise = new Promise((resolve, reject) => {
+        if (styles[ element ].settings.css) {
+          postcss().process(styles[ element ].settings.css).then((result) => {
+            if (result.css) {
+              resolve(result.css)
+            } else {
+              resolve(false)
+            }
+          })
+        }
+      })
+      iterations.push(stylePromise)
+    }
+
+    return Promise.all(iterations).then((output) => {
+      return output.join(' ')
+    })
   }
 })

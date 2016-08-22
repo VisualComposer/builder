@@ -18,6 +18,9 @@ module.exports = {
     filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[id].js'
   },
+  node: {
+    'fs': 'empty'
+  },
   plugins: [
     new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
@@ -27,6 +30,7 @@ module.exports = {
     node: {
       modules: [
         'content/storage',
+        'content/assets',
         'content/layout',
         'content/editor-controls-iframe',
         'content/dnd',
@@ -63,6 +67,7 @@ module.exports = {
     wp: {
       modules: [
         'content/storage',
+        'content/assets',
         'content/layout',
         'content/editor-controls-iframe',
         'content/dnd',

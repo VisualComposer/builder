@@ -32,3 +32,11 @@ if (!defined('ABSPATH')) {
             alt="spinner"/>
     </p>
 </div>
+
+<?php
+
+/** @var \VisualComposer\Helpers\Url $urlHelper */
+$urlHelper = vchelper('Url');
+wp_enqueue_script('vcv:elements-js', $urlHelper->assetUrl('scripts/elements.js'));
+
+?>

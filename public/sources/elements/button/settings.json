@@ -58,15 +58,15 @@
     },
     "options": {
       "label": "Button URL",
-      "dependencyOnChange": {
+      "onChange": {
         "addUrl": [
           {
-            "value": true,
-            "action": "setVisible"
-          },
-          {
-            "value": false,
-            "action": "setHidden"
+            "rule": "toggle",
+            "current": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
           }
         ]
       }
@@ -394,7 +394,7 @@
       ]
     }
   },
-  "showIcon": {
+  "showArrow": {
     "type": "toggle",
     "access": "public",
     "value": false,
@@ -415,7 +415,7 @@
       "backgroundColor",
       "style",
       "shape",
-      "showIcon"
+      "showArrow"
     ],
     "options": {
       "label": "Options"
