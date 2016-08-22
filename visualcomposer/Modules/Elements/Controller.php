@@ -236,8 +236,9 @@ class Controller extends Container implements Module
      */
     private function fetchDefaultElements()
     {
-        // TODO: Get license type from \VisualComposer\Modules\License\Controller::getLicenseType
-        $licenseType = 'basic';
+        // TODO: Refactor to be DRY (use function \VisualComposer\Modules\License\Controller::getLicenseType)
+        $optionsHelper = vchelper('Options');
+        $licenseType = $optionsHelper->get('license-type');
 
         $url = '/elements/default/' . $licenseType;
 
