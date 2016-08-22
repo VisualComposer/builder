@@ -35,6 +35,9 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     addStyles(elements)
+    assetManager.getCompiledCss().then((result) => {
+      console.log(result)
+    })
   })
 
   /**

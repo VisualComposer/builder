@@ -1,5 +1,6 @@
 import path from 'path'
 import vcCake from 'vc-cake'
+import postcss from 'postcss'
 
 vcCake.addService('assets-manager', {
   /**
@@ -170,5 +171,31 @@ vcCake.addService('assets-manager', {
     }
 
     return path
+  },
+
+  /**
+   * @returns {string}
+   */
+  getCompiledCss: function () {
+    let styles = this.getStyles()
+    var iterations = []
+    for (let element in styles) {
+      let stylePromise = new Promise((resolve, reject) => {
+        if (styles[ element ].settings.css) {
+          postcss().process(styles[ element ].settings.css).then((result) => {
+            if (result.css) {
+              resolve(result.css)
+            } else {
+              resolve(false)
+            }
+          })
+        }
+      })
+      iterations.push(stylePromise)
+    }
+
+    return Promise.all(iterations).then((output) => {
+      return output.join(' ')
+    })
   }
 })
