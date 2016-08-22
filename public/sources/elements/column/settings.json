@@ -124,13 +124,21 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "metaDesingOptions"
     ]
   },
   "containerFor": {
     "type": "group",
     "access": "protected",
     "value": ["General"]
+  },
+  "metaDesingOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "options": {
+      "label": "Design Options"
+    }
   },
   "relatedTo": {
     "type": "group",

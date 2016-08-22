@@ -1,12 +1,14 @@
+/* eslint react/jsx-no-bind:"off" */
 import React from 'react'
 import classNames from 'classnames'
 
 class Devices extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      value: 'desktop'
-    }
+  static propTypes = {
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.string
+  }
+  state = {
+    value: 'desktop'
   }
 
   static getAll () {
@@ -50,7 +52,7 @@ class Devices extends React.Component {
     }
   }
 
-  handleChange (device) {
+  handleChange = (device) => {
     let value = device
 
     if (value === this.state.value) {
@@ -88,9 +90,8 @@ class Devices extends React.Component {
           onClick={this.handleChange.bind(this, device.strid)}
           className={classes}
           title={device.title}
-          data-vcv-device={device.strid}
         >
-          <i className={icons}></i>
+          <i className={icons} />
         </button>
       )
     }, this)
@@ -102,9 +103,5 @@ class Devices extends React.Component {
     )
   }
 }
-Devices.propTypes = {
-  onChange: React.PropTypes.func,
-  value: React.PropTypes.string
-}
 
-module.exports = Devices
+export default Devices
