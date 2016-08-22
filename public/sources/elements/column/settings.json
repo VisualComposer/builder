@@ -109,6 +109,14 @@
       ]
     }
   },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -125,24 +133,21 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "metaDesingOptions"
+      "designOptions"
     ]
   },
   "containerFor": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
-  },
-  "metaDesingOptions": {
-    "type": "designOptions",
-    "access": "public",
-    "options": {
-      "label": "Design Options"
-    }
+    "value": [
+      "General"
+    ]
   },
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["Column"]
+    "value": [
+      "Column"
+    ]
   }
 }
