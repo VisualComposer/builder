@@ -1,18 +1,18 @@
 let classes = 'vce-button'
 let buttonHtml = buttonText
+let customProps = {}
+let CustomTag = 'button'
+
 
 if (addUrl) {
+  CustomTag = 'a'
   let { url, title, targetBlank, relNofollow } = buttonUrl
-  buttonHtml = (
-    <a
-      href={url}
-      title={title}
-      target={targetBlank ? '_BLANK' : undefined}
-      rel={relNofollow ? 'nofollow' : undefined}
-    >
-      {buttonText}
-    </a>
-  )
+  customProps = {
+    'href': url,
+    'title': title,
+    'target': targetBlank ? '_blank' : undefined,
+    'rel': relNofollow ? 'nofollow' : undefined
+  }
 }
 
 if (shape && shape !== 'square') {
