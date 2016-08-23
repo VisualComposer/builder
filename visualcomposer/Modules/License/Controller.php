@@ -46,14 +46,8 @@ class Controller extends Container implements Module
     public function __construct(Request $request, Events $events)
     {
         $this->events = $events;
-        // TODO: This is not valid. We should use register_activation_callback.
-        if ($request->exists('activate')) {
-            /** @see \VisualComposer\Modules\License\Controller::finishActivation */
-            $this->call('finishActivation', [$request->input('activate')]);
-        } elseif ($request->exists('deactivate')) {
-            /** @see \VisualComposer\Modules\License\Controller::finishDeactivation */
-            $this->call('finishDeactivation', [$request->input('deactivate')]);
-        }
+        $events->listen('vcv:licenseController:deactivation', [$this, 'onDeactivation']);
+        $events->listen('vcv:licenseController:activation', [$this, 'onActivation']);
 
         // TODO: Move to Loader.php ajax.
         add_action(
@@ -73,8 +67,14 @@ class Controller extends Container implements Module
             }
         );
 
-        $events->listen('vcv:licenseController:deactivation', [$this, 'onDeactivation']);
-        $events->listen('vcv:licenseController:activation', [$this, 'onActivation']);
+        // TODO: This is not valid. We should use register_activation_callback.
+        if ($request->exists('activate')) {
+            /** @see \VisualComposer\Modules\License\Controller::finishActivation */
+            $this->call('finishActivation', [$request->input('activate')]);
+        } elseif ($request->exists('deactivate')) {
+            /** @see \VisualComposer\Modules\License\Controller::finishDeactivation */
+            $this->call('finishDeactivation', [$request->input('deactivate')]);
+        }
     }
 
     /**
@@ -177,6 +177,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
         $this->call('setLicenseKeyToken', ['']);
         $this->events->fire('vcv:licenseController:activation', ['response' => $response, 'status' => $status]);
+
+        return true;
     }
 
     public function onActivation($response, $status)
