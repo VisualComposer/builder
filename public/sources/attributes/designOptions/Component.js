@@ -13,35 +13,34 @@ class DesignOptions extends Attribute {
 
   updateState (props) {
     let state = {
-      deviceTypes: this.getValue('deviceTypes') || 'all',
-      device: this.getValue('device') || 'all'
+      deviceTypes: this.getValue(props, 'deviceTypes') || 'all',
+      device: this.getValue(props, 'device') || 'all'
     }
-
     Devices.getAll().map((device) => {
       state[ device.strid ] = {
-        showOnDevice: this.getValue('showOnDevice', device) || true,
-        backgroundImage: this.getValue('backgroundImage', device) || { ids: [], urls: [] },
-        backgroundColor: this.getValue('backgroundColor', device) || '',
-        backgroundStyle: this.getValue('backgroundStyle', device) || '',
-        borderColor: this.getValue('borderColor', device) || '',
-        borderStyle: this.getValue('borderStyle', device) || '',
-        simplified: this.getValue('simplified', device) || true,
-        borderTopLeftRadius: this.getValue('borderTopLeftRadius', device) || '',
-        borderTopRightRadius: this.getValue('borderTopRightRadius', device) || '',
-        borderBottomLeftRadius: this.getValue('borderBottomLeftRadius', device) || '',
-        borderBottomRightRadius: this.getValue('borderBottomRightRadius', device) || '',
-        marginTop: this.getValue('marginTop', device) || '',
-        marginLeft: this.getValue('marginLeft', device) || '',
-        marginRight: this.getValue('marginRight', device) || '',
-        marginBottom: this.getValue('marginBottom', device) || '',
-        borderTop: this.getValue('borderTop', device) || '',
-        borderLeft: this.getValue('borderLeft', device) || '',
-        borderRight: this.getValue('borderRight', device) || '',
-        borderBottom: this.getValue('borderBottom', device) || '',
-        paddingTop: this.getValue('paddingTop', device) || '',
-        paddingLeft: this.getValue('paddingLeft', device) || '',
-        paddingRight: this.getValue('paddingRight', device) || '',
-        paddingBottom: this.getValue('paddingBottom', device || '')
+        showOnDevice: this.getValue(props, 'showOnDevice', device, true),
+        backgroundImage: this.getValue(props, 'backgroundImage', device, { ids: [], urls: [] }),
+        backgroundColor: this.getValue(props, 'backgroundColor', device, ''),
+        backgroundStyle: this.getValue(props, 'backgroundStyle', device, ''),
+        borderColor: this.getValue(props, 'borderColor', device, ''),
+        borderStyle: this.getValue(props, 'borderStyle', device, ''),
+        simplified: this.getValue(props, 'simplified', device, true),
+        borderTopLeftRadius: this.getValue(props, 'borderTopLeftRadius', device, ''),
+        borderTopRightRadius: this.getValue(props, 'borderTopRightRadius', device, ''),
+        borderBottomLeftRadius: this.getValue(props, 'borderBottomLeftRadius', device, ''),
+        borderBottomRightRadius: this.getValue(props, 'borderBottomRightRadius', device, ''),
+        marginTop: this.getValue(props, 'marginTop', device, ''),
+        marginLeft: this.getValue(props, 'marginLeft', device, ''),
+        marginRight: this.getValue(props, 'marginRight', device, ''),
+        marginBottom: this.getValue(props, 'marginBottom', device, ''),
+        borderTop: this.getValue(props, 'borderTop', device, ''),
+        borderLeft: this.getValue(props, 'borderLeft', device, ''),
+        borderRight: this.getValue(props, 'borderRight', device, ''),
+        borderBottom: this.getValue(props, 'borderBottom', device, ''),
+        paddingTop: this.getValue(props, 'paddingTop', device, ''),
+        paddingLeft: this.getValue(props, 'paddingLeft', device, ''),
+        paddingRight: this.getValue(props, 'paddingRight', device, ''),
+        paddingBottom: this.getValue(props, 'paddingBottom', device, '')
       }
     })
 
@@ -58,12 +57,17 @@ class DesignOptions extends Attribute {
    *
    * @param {object} obj
    * @param {string} key E.g. 'foo.baz.baz'
+   * @param defaultValue
    * @returns {*} Undefined if property doesn't exist.
    */
-  getNested (obj, key) {
-    return key.split('.').reduce((o, x) => {
+  getNested (obj, key, defaultValue) {
+    let value = key.split('.').reduce((o, x) => {
       return (typeof o === 'undefined' || o === null) ? o : o[ x ]
     }, obj)
+    if (typeof value === 'undefined' || value === null) {
+      return defaultValue
+    }
+    return value
   }
 
   /**
@@ -270,34 +274,36 @@ class DesignOptions extends Attribute {
     this.setState(newState)
   }
 
-  getValue (name, device) {
+  getValue (props, name, device, defaultValue) {
     let key = (device ? device.strid + '.' : '') + name
 
-    if (this.hasNested(this.props.value, key)) {
-      return this.getNested(this.props.value, key)
+    if (this.hasNested(props.value, key)) {
+      return this.getNested(props.value, key, defaultValue)
     }
 
-    return this.getNested(this.state, key)
+    return defaultValue
   }
 
   renderInput (name, position, isDisabled = false) {
-    var classes = classNames([
+    let classes = classNames([
       'vcv-ui-form-input',
       'vcv-ui-design-options-onion-control-position--' + position
     ])
 
     let value = this.state[ this.state.device ][ name ]
 
-    return <input
-      type='text'
-      placeholder='-'
-      className={classes}
-      name={name}
-      onChange={this.changeBoxInput}
-      onBlur={this.validateBoxInput}
-      disabled={isDisabled}
-      title={value}
-      value={value} />
+    return (
+      <input
+        type='text'
+        placeholder='-'
+        className={classes}
+        name={name}
+        onChange={this.changeBoxInput}
+        onBlur={this.validateBoxInput}
+        disabled={isDisabled}
+        title={value}
+        defaultValue={value} />
+    )
   }
 
   changeDevice = (value) => {
@@ -362,7 +368,62 @@ class DesignOptions extends Attribute {
     )
 
     let hasImages = this.state[ this.state.device ].backgroundImage.ids.length > 0
+    let borderStyleOutput = null
+    let borderColorOutput = null
+    if (isBorderSpecified) {
+      borderStyleOutput = (
+        <div className='vcv-ui-col vcv-ui-col--xs-8'>
+          <div className='vcv-ui-form-group'>
+            <span className='vcv-ui-form-group-heading'>
+              Border style
+            </span>
+            <select
+              name='borderStyle'
+              className='vcv-ui-form-dropdown'
+              value={this.state[ this.state.device ].borderStyle}
+              onChange={this.changeBorderStyle}>
+              {this.borderStyles}
+            </select>
+          </div>
+        </div>
+      )
+      borderColorOutput = (
+        <div className='vcv-ui-col vcv-ui-col--xs-4'>
+          <div className='vcv-ui-form-group'>
+            <span className='vcv-ui-form-group-heading'>
+              Border color
+            </span>
+            <input
+              name='borderColor'
+              type='color'
+              value={this.state[ this.state.device ].borderColor}
+              onChange={this.changeBorderColor} />
+          </div>
+        </div>
+      )
+    }
 
+    let devicesListOutput = null
+    let showOnDeviceCustomOutput = null
+    if (this.state.deviceTypes === 'custom') {
+      devicesListOutput = (
+        <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+          <div className='vcv-ui-form-group'>
+            <Devices value={this.state.device} onChange={this.changeDevice} />
+          </div>
+        </div>
+      )
+      showOnDeviceCustomOutput = (
+        <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+          <Toggle
+            value={this.state[ this.state.device ].showOnDevice}
+            fieldKey='showOnDevice'
+            updater={this.changeShowOnDevice}
+          />
+          <span className='vcv-ui-form-group-heading'>Show on device</span>
+        </div>
+      )
+    }
     return (
       <div className='vcv-ui-design-options-container'>
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
@@ -374,27 +435,12 @@ class DesignOptions extends Attribute {
               </select>
             </div>
           </div>
-          {this.state.deviceTypes === 'custom' &&
-            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-              <div className='vcv-ui-form-group'>
-                <Devices value={this.state.device} onChange={this.changeDevice} />
-              </div>
-            </div>
-          }
+          {devicesListOutput}
         </div>
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            {this.state.deviceTypes === 'custom' &&
-              <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-                <Toggle
-                  value={this.state[ this.state.device ].showOnDevice}
-                  fieldKey='showOnDevice'
-                  updater={this.changeShowOnDevice}
-                />
-                <span className='vcv-ui-form-group-heading'>Show on device</span>
-              </div>
-            }
-            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+            {showOnDeviceCustomOutput}
+            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) && (
               <div className='vcv-ui-form-group'>
                 <div className='vcv-ui-design-options-onion'>
                   <div className='vcv-ui-design-options-onion-layers'>
@@ -437,8 +483,8 @@ class DesignOptions extends Attribute {
                   </div>
                 </div>
               </div>
-            }
-            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+            )}
+            {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) && (
               <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
                 <Toggle
                   value={this.state[ this.state.device ].simplified}
@@ -447,9 +493,9 @@ class DesignOptions extends Attribute {
                 />
                 <span className='vcv-ui-form-group-heading'>Simple controls</span>
               </div>
-            }
+            )}
           </div>
-          {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) &&
+          {(this.state.deviceTypes === 'all' || this.state[ this.state.device ].showOnDevice) && (
             <div className='vcv-ui-col vcv-ui-col--fixed-width'>
               <div className='vcv-ui-form-group'>
                 <span className='vcv-ui-form-group-heading'>
@@ -485,39 +531,11 @@ class DesignOptions extends Attribute {
                     </select>
                   </div>
                 </div>
-                {isBorderSpecified &&
-                  <div className='vcv-ui-col vcv-ui-col--xs-8'>
-                    <div className='vcv-ui-form-group'>
-                      <span className='vcv-ui-form-group-heading'>
-                        Border style
-                      </span>
-                      <select
-                        name='borderStyle'
-                        className='vcv-ui-form-dropdown'
-                        value={this.state[ this.state.device ].borderStyle}
-                        onChange={this.changeBorderStyle}>
-                        {this.borderStyles}
-                      </select>
-                    </div>
-                  </div>
-                }
-                {isBorderSpecified &&
-                  <div className='vcv-ui-col vcv-ui-col--xs-4'>
-                    <div className='vcv-ui-form-group'>
-                      <span className='vcv-ui-form-group-heading'>
-                        Border color
-                      </span>
-                      <input
-                        name='borderColor'
-                        type='color'
-                        value={this.state[ this.state.device ].borderColor}
-                        onChange={this.changeBorderColor} />
-                    </div>
-                  </div>
-                }
+                {borderStyleOutput}
+                {borderColorOutput}
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
     )
