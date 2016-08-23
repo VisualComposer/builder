@@ -13,7 +13,7 @@ vcCake.add('assets', (api) => {
   })
 
   api.reply('data:update', (id, element) => {
-    // updateDesignOption(element)
+    assetManager.update(id)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -27,7 +27,6 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     assetManager.remove(elements)
-    console.log(assetManager.get())
   })
 
   api.reply('data:afterClone', (id) => {
@@ -41,6 +40,5 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     assetManager.add(elements)
-    console.log(assetManager.getStyles())
   })
 })

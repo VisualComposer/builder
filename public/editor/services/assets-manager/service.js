@@ -28,10 +28,17 @@ vcCake.addService('assets-manager', {
     }
     ids.forEach((id) => {
       if (!this.get(id)) {
+        let cook = vcCake.getService('cook')
         let documentService = vcCake.getService('document')
         let element = documentService.get(id)
+        let designOptions = cook.get(element).get('designOptions')
+        let useDO = false
+        if (typeof designOptions !== 'undefined' && designOptions.hasOwnProperty('used') && designOptions.used) {
+          useDO = true
+        }
         this.elements[ id ] = {
-          tag: element.tag
+          tag: element.tag,
+          useDesignOptions: useDO
         }
       }
     })
@@ -45,6 +52,23 @@ vcCake.addService('assets-manager', {
       return null
     }
     return this.elements[ assetKey ]
+  },
+
+  update: function (id) {
+    if (this.get(id)) {
+      let cook = vcCake.getService('cook')
+      let documentService = vcCake.getService('document')
+      let element = documentService.get(id)
+      let designOptions = cook.get(element).get('designOptions')
+      let useDO = false
+      if (typeof designOptions !== 'undefined' && designOptions.hasOwnProperty('used') && designOptions.used) {
+        useDO = true
+      }
+      this.elements[ id ] = {
+        tag: element.tag,
+        useDesignOptions: useDO
+      }
+    }
   },
 
   /**
@@ -63,66 +87,6 @@ vcCake.addService('assets-manager', {
       }
       delete this.elements[ id ]
     })
-  },
-
-  /**
-   * @param {string} assetKey Element's tag
-   */
-  addStyle: function (assetKey) {
-    // let cook = vcCake.getService('cook')
-    // let documentService = vcCake.getService('document')
-    // let element = documentService.get(assetKey)
-    // let cssSettings = cook.get(element).get('cssSettings')
-    // if (cssSettings.css) {
-    //   // this.add(element.tag)
-    // }
-  },
-  /**
-   * @param {string[]} assetKeys Element's tags
-   */
-  addStyles: function (assetKeys = []) {
-    assetKeys.forEach((assetKey) => {
-      this.addStyle(assetKey)
-    })
-  },
-
-  /**
-   * @param {string} assetKey Element's tag
-   */
-  removeStyle: function (assetKey) {
-    let documentService = vcCake.getService('document')
-    let element = documentService.get(assetKey)
-    this.remove('styles', element.tag)
-  },
-
-  /**
-   * @param {string[]} assetKeys Element's tags
-   */
-  removeStyles: function (assetKeys = []) {
-    assetKeys.forEach((assetKey) => {
-      this.removeStyle(assetKey)
-    })
-  },
-
-  /**
-   * @param styles
-   */
-  setStyles: function (styles) {
-    this.set('styles', styles)
-  },
-
-  /**
-   * @return {Object}
-   */
-  getStyle: function (assetKey) {
-    return this.get('styles', assetKey)
-  },
-
-  /**
-   * @return {Object}
-   */
-  getStyles: function () {
-    return this.get('styles')
   },
 
   getPublicPath: (tag, file) => {
@@ -147,8 +111,8 @@ vcCake.addService('assets-manager', {
    * @returns {string}
    */
   getCompiledCss: function () {
-    let styles = this.getStyles()
-    console.log(styles)
+    // let styles = this.getStyles()
+    // console.log(styles)
 
     // let cook = vcCake.getService('cook')
     // let documentService = vcCake.getService('document')

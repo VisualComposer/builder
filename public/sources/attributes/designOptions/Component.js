@@ -12,38 +12,67 @@ class DesignOptions extends Attribute {
   }
 
   updateState (props) {
+    let defaultState = {
+      deviceTypes: 'all',
+      device: 'all'
+    }
     let state = {
-      deviceTypes: this.getValue(props, 'deviceTypes', null, 'all'),
-      device: this.getValue(props, 'device', null, 'all')
+      deviceTypes: this.getValue(props, 'deviceTypes', null, defaultState.deviceTypes),
+      device: this.getValue(props, 'device', null, defaultState.device)
     }
     Devices.getAll().map((device) => {
+      defaultState[ device.strid ] = {
+        showOnDevice: true,
+        backgroundImage: { ids: [], urls: [] },
+        backgroundColor: '',
+        backgroundStyle: '',
+        borderColor: '',
+        borderStyle: '',
+        simplified: true,
+        borderTopLeftRadius: '',
+        borderTopRightRadius: '',
+        borderBottomLeftRadius: '',
+        borderBottomRightRadius: '',
+        marginTop: '',
+        marginLeft: '',
+        marginRight: '',
+        marginBottom: '',
+        borderTop: '',
+        borderLeft: '',
+        borderRight: '',
+        borderBottom: '',
+        paddingTop: '',
+        paddingLeft: '',
+        paddingRight: '',
+        paddingBottom: ''
+      }
       state[ device.strid ] = {
-        showOnDevice: this.getValue(props, 'showOnDevice', device, true),
-        backgroundImage: this.getValue(props, 'backgroundImage', device, { ids: [], urls: [] }),
-        backgroundColor: this.getValue(props, 'backgroundColor', device, ''),
-        backgroundStyle: this.getValue(props, 'backgroundStyle', device, ''),
-        borderColor: this.getValue(props, 'borderColor', device, ''),
-        borderStyle: this.getValue(props, 'borderStyle', device, ''),
-        simplified: this.getValue(props, 'simplified', device, true),
-        borderTopLeftRadius: this.getValue(props, 'borderTopLeftRadius', device, ''),
-        borderTopRightRadius: this.getValue(props, 'borderTopRightRadius', device, ''),
-        borderBottomLeftRadius: this.getValue(props, 'borderBottomLeftRadius', device, ''),
-        borderBottomRightRadius: this.getValue(props, 'borderBottomRightRadius', device, ''),
-        marginTop: this.getValue(props, 'marginTop', device, ''),
-        marginLeft: this.getValue(props, 'marginLeft', device, ''),
-        marginRight: this.getValue(props, 'marginRight', device, ''),
-        marginBottom: this.getValue(props, 'marginBottom', device, ''),
-        borderTop: this.getValue(props, 'borderTop', device, ''),
-        borderLeft: this.getValue(props, 'borderLeft', device, ''),
-        borderRight: this.getValue(props, 'borderRight', device, ''),
-        borderBottom: this.getValue(props, 'borderBottom', device, ''),
-        paddingTop: this.getValue(props, 'paddingTop', device, ''),
-        paddingLeft: this.getValue(props, 'paddingLeft', device, ''),
-        paddingRight: this.getValue(props, 'paddingRight', device, ''),
-        paddingBottom: this.getValue(props, 'paddingBottom', device, '')
+        showOnDevice: this.getValue(props, 'showOnDevice', device, defaultState[ device.strid ].showOnDevice),
+        backgroundImage: this.getValue(props, 'backgroundImage', device, defaultState[ device.strid ].backgroundImage),
+        backgroundColor: this.getValue(props, 'backgroundColor', device, defaultState[ device.strid ].backgroundColor),
+        backgroundStyle: this.getValue(props, 'backgroundStyle', device, defaultState[ device.strid ].backgroundStyle),
+        borderColor: this.getValue(props, 'borderColor', device, defaultState[ device.strid ].borderColor),
+        borderStyle: this.getValue(props, 'borderStyle', device, defaultState[ device.strid ].borderStyle),
+        simplified: this.getValue(props, 'simplified', device, defaultState[ device.strid ].simplified),
+        borderTopLeftRadius: this.getValue(props, 'borderTopLeftRadius', device, defaultState[ device.strid ].borderTopLeftRadius),
+        borderTopRightRadius: this.getValue(props, 'borderTopRightRadius', device, defaultState[ device.strid ].borderTopRightRadius),
+        borderBottomLeftRadius: this.getValue(props, 'borderBottomLeftRadius', device, defaultState[ device.strid ].borderBottomLeftRadius),
+        borderBottomRightRadius: this.getValue(props, 'borderBottomRightRadius', device, defaultState[ device.strid ].borderBottomRightRadius),
+        marginTop: this.getValue(props, 'marginTop', device, defaultState[ device.strid ].marginTop),
+        marginLeft: this.getValue(props, 'marginLeft', device, defaultState[ device.strid ].marginLeft),
+        marginRight: this.getValue(props, 'marginRight', device, defaultState[ device.strid ].marginRight),
+        marginBottom: this.getValue(props, 'marginBottom', device, defaultState[ device.strid ].marginBottom),
+        borderTop: this.getValue(props, 'borderTop', device, defaultState[ device.strid ].borderTop),
+        borderLeft: this.getValue(props, 'borderLeft', device, defaultState[ device.strid ].borderLeft),
+        borderRight: this.getValue(props, 'borderRight', device, defaultState[ device.strid ].borderRight),
+        borderBottom: this.getValue(props, 'borderBottom', device, defaultState[ device.strid ].borderBottom),
+        paddingTop: this.getValue(props, 'paddingTop', device, defaultState[ device.strid ].paddingTop),
+        paddingLeft: this.getValue(props, 'paddingLeft', device, defaultState[ device.strid ].paddingLeft),
+        paddingRight: this.getValue(props, 'paddingRight', device, defaultState[ device.strid ].paddingRight),
+        paddingBottom: this.getValue(props, 'paddingBottom', device, defaultState[ device.strid ].paddingBottom)
       }
     })
-
+    state.used = !lodash.isEqual(state, defaultState)
     return state
   }
 
@@ -273,6 +302,7 @@ class DesignOptions extends Attribute {
   }
 
   changeState (state) {
+    console.log('stage changed')
     let newState = lodash.merge(this.state, state)
     let { updater, fieldKey } = this.props
     this.setState(newState)
