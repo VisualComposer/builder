@@ -59,7 +59,7 @@ vcCake.addService('assets-manager', {
    * @param settings
    */
   add: function (assetType, element, settings) {
-    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+    if (!this.get(assetType, element)) {
       this.assets[ assetType ][ element ] = {
         settings: settings,
         count: 0
@@ -68,12 +68,28 @@ vcCake.addService('assets-manager', {
     this.assets[ assetType ][ element ].count++
   },
 
+  get: function (assetType, element) {
+    let el = this.assets[ assetType ][ element ]
+    if (typeof el === 'undefined') {
+      return null
+    }
+    return el
+  },
+
+  update: function (assetType, element, settings) {
+    if (!this.get(assetType, element)) {
+      this.add(assetType, element, settings)
+    } else {
+      this.assets[ assetType ][ element ].settings = settings
+    }
+  },
+
   /**
    * @param assetType
    * @param element
    */
   remove: function (assetType, element) {
-    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
+    if (!this.get(assetType, element)) {
       return
     }
     this.assets[ assetType ][ element ].count--

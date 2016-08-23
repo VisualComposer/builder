@@ -9,6 +9,11 @@ vcCake.add('assets', (api) => {
     addStyle(element)
   })
 
+  api.reply('data:update', (id) => {
+    let element = documentService.get(id)
+    updateDesignOption(element)
+  })
+
   api.reply('data:beforeRemove', (id) => {
     let elements = []
     let walkChildren = (id) => {
@@ -21,6 +26,7 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     removeStyles(elements)
+    // todo: remove DO by id
   })
 
   api.reply('data:clone', (id) => {
@@ -28,6 +34,8 @@ vcCake.add('assets', (api) => {
     let walkChildren = (id) => {
       let element = documentService.get(id)
       elements.push(element)
+      // let desOpt = cook.get(element).get('designOptions')
+      // console.log(desOpt)
       let children = documentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
@@ -36,8 +44,9 @@ vcCake.add('assets', (api) => {
     walkChildren(id)
     addStyles(elements)
     assetManager.getCompiledCss().then((result) => {
-      console.log(result)
+      // console.log(result)
     })
+    console.log(assetManager.getDesignOptions())
   })
 
   /**
@@ -71,5 +80,11 @@ vcCake.add('assets', (api) => {
     elements.forEach((element) => {
       removeStyle(element)
     })
+  }
+
+  function updateDesignOption (element) {
+    let designOptions = cook.get(element).get('designOptions')
+    console.log('DO', designOptions)
+    assetManager.update('designOptions', element.id, designOptions)
   }
 })
