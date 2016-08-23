@@ -37,6 +37,8 @@ if (!defined('ABSPATH')) {
 
 /** @var \VisualComposer\Helpers\Url $urlHelper */
 $urlHelper = vchelper('Url');
-wp_enqueue_script('vcv:elements-js', $urlHelper->assetUrl('scripts/elements.js'));
+if ($showFlashMessage) {
+    wp_enqueue_script('vcv:elements-js', $urlHelper->assetUrl('scripts/elements.js'));
+}
 
 ?>

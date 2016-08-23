@@ -10,4 +10,4 @@ if (vcapp('LicenseController')->isActivated()) {
     $view = 'deactivated-state';
 }
 
-echo vcview('settings/pages/license/partials/' . $view);
+echo vcview('settings/pages/license/partials/' . $view, ['showFlashMessage' => true]);

@@ -6,6 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Core;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
@@ -32,12 +33,19 @@ class Controller extends Container implements Module
     static protected $licenseKeyTokenOption = 'license-key-token';
 
     /**
+     * @var Events
+     */
+    private $events;
+
+    /**
      * Controller constructor.
      *
      * @param Request $request
+     * @param \VisualComposer\Helpers\Events $events
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, Events $events)
     {
+        $this->events = $events;
         // TODO: This is not valid. We should use register_activation_callback.
         if ($request->exists('activate')) {
             /** @see \VisualComposer\Modules\License\Controller::finishActivation */
@@ -64,6 +72,9 @@ class Controller extends Container implements Module
                 $this->call('startDeactivationResponse');
             }
         );
+
+        $events->listen('vcv:licenseController:deactivation', [$this, 'onDeactivation']);
+        $events->listen('vcv:licenseController:activation', [$this, 'onActivation']);
     }
 
     /**
@@ -165,7 +176,11 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
         $this->call('setLicenseKeyToken', ['']);
+        $this->events->fire('vcv:licenseController:activation', ['response' => $response, 'status' => $status]);
+    }
 
+    public function onActivation($response, $status)
+    {
         if ($status) {
             $json = json_decode($response['body'], true);
 
@@ -259,7 +274,12 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
         $this->call('setLicenseKeyToken', ['']);
+        $this->events->fire('vcv:licenseController:deactivation', $status);
 
+    }
+
+    public function onDeactivation($status)
+    {
         if ($status) {
             /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
             $this->call('setLicenseKey', ['']);
@@ -323,7 +343,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/activate-license?token=%s&url=%s&redirect=%s&quiet=1',
+            '%s/activate-license?token=%s&url=%s&redirect=%s&quiet=0',
             VCV_ACCOUNT_URL,
             $token,
             $url,
@@ -354,7 +374,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s&quiet=1',
+            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s&quiet=0',
             VCV_ACCOUNT_URL,
             $licenseKey,
             $token,
