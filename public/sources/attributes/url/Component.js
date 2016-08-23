@@ -8,6 +8,7 @@ import classNames from 'classnames'
 
 import $ from 'jquery'
 
+// TODO: Move this outside of this file!
 if (typeof Object.assign !== 'function') {
   Object.assign = function (target) {
     'use strict'
@@ -16,10 +17,10 @@ if (typeof Object.assign !== 'function') {
     }
 
     target = Object(target)
-    for (var index = 1; index < arguments.length; index++) {
-      var source = arguments[ index ]
+    for (let index = 1; index < arguments.length; index++) {
+      let source = arguments[ index ]
       if (source != null) {
-        for (var key in source) {
+        for (let key in source) {
           if (Object.prototype.hasOwnProperty.call(source, key)) {
             target[ key ] = source[ key ]
           }
@@ -30,21 +31,30 @@ if (typeof Object.assign !== 'function') {
   }
 }
 
-export default class Url extends Attribute {
-
+class Url extends Attribute {
   constructor (props) {
     super(props)
+    this.delayedSearch = lodash.debounce(this.performSearch, 800)
+  }
 
-    if (!lodash.isObject(props.value)) {
-      this.state.value = { url: '', title: '', targetBlank: false, relNofollow: false }
+  updateState (props) {
+    let value = props.value
+    if (!lodash.isObject(value)) {
+      value = {
+        url: '',
+        title: '',
+        targetBlank: false,
+        relNofollow: false
+      }
     }
 
-    this.state.unsavedValue = this.state.value
-    this.state.isWindowOpen = false
-    this.state.posts = null
-    this.shouldRenderExistingPosts = !!window.vcvAjaxUrl
-
-    this.delayedSearch = lodash.debounce(this.performSearch, 800)
+    return {
+      value: value,
+      unsavedValue: value,
+      isWindowOpen: false,
+      posts: null,
+      shouldRenderExistingPosts: !!window.vcvAjaxUrl
+    }
   }
 
   ajaxPost (data, successCallback, failureCallback) {
@@ -140,7 +150,8 @@ export default class Url extends Attribute {
         'vcv-ui-state--active': this.state.unsavedValue.url === post.url
       })
       items.push(
-        <tr key={'vcv-selectable-post-url-' + post.id} className={rowClassName} onClick={(e) => this.handlePostSelection(e, post.url)}>
+        <tr key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
+          onClick={(e) => this.handlePostSelection(e, post.url)}>
           <td>
             <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
           </td>
@@ -154,7 +165,7 @@ export default class Url extends Attribute {
     return (
       <table className='vcv-ui-form-table'>
         <tbody>
-          {items}
+        {items}
         </tbody>
       </table>
     )
@@ -223,7 +234,8 @@ export default class Url extends Attribute {
               <String
                 fieldKey='url'
                 ref={(c) => { this.urlInput = c }}
-                value={this.state.unsavedValue.url}
+                api={this.props.api}
+                value={this.state.unsavedValue.url || ''}
                 updater={this.handleInputChange} />
             </div>
 
@@ -233,7 +245,8 @@ export default class Url extends Attribute {
               </span>
               <String
                 fieldKey='title'
-                value={this.state.unsavedValue.title}
+                value={this.state.unsavedValue.title || ''}
+                api={this.props.api}
                 updater={this.handleInputChange} />
               <p className='vcv-ui-form-helper'>
                 Title attribute will be displayed on link hover
@@ -245,10 +258,12 @@ export default class Url extends Attribute {
                 fieldKey='targetBlank'
                 options={{ values: [ { label: 'Open link in a new tab', value: '1' } ] }}
                 value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
+                api={this.props.api}
                 updater={this.handleInputChange} />
               <Checkbox
                 fieldKey='relNofollow'
                 options={{ values: [ { label: 'Add nofollow option to link', value: '1' } ] }}
+                api={this.props.api}
                 value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
                 updater={this.handleInputChange} />
             </div>
@@ -258,7 +273,7 @@ export default class Url extends Attribute {
           <footer className='vcv-ui-modal-footer'>
 
             <div className='vcv-ui-modal-actions'>
-              <a className='vcv-ui-modal-action' href='#' title='Save' onClick={this.save}>
+              <a className='vcv-ui-modal-action' href='javascript:;' title='Save' onClick={this.save}>
                 <span className='vcv-ui-modal-action-content'>
                   <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
                   <span>Save</span>
@@ -273,6 +288,8 @@ export default class Url extends Attribute {
   }
 
   render () {
+    let { title, url } = this.state.value
+
     return (
       <div className='vcv-ui-form-link'>
         <button className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default' onClick={this.open}>
@@ -283,14 +300,14 @@ export default class Url extends Attribute {
           <span
             className='vcv-ui-form-link-title'
             data-vc-link-title='Title: '
-            title={this.state.value.title}>
-            {this.state.value.title}
+            title={title}>
+            {title}
           </span>
           <span
             className='vcv-ui-form-link-title'
             data-vc-link-title='Url: '
-            title={this.state.value.url}>
-            {this.state.value.url}
+            title={url}>
+            {url}
           </span>
           {this.drawModal()}
         </div>
@@ -298,3 +315,5 @@ export default class Url extends Attribute {
     )
   }
 }
+
+export default Url

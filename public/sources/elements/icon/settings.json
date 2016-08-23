@@ -81,5 +81,10 @@
     "value": [
       "General"
     ]
+  },
+  "group": {
+    "type": "string",
+    "access": "protected",
+    "value": "icon"
   }
 }

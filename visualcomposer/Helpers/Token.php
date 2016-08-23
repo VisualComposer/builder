@@ -56,7 +56,7 @@ class Token extends Container implements Helper
     public function generateToken($code, Options $options, Url $urlHelper)
     {
         $result = wp_remote_post(
-            'http://test.account.visualcomposer.io/token',
+            VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'code' => $code,
@@ -116,8 +116,12 @@ class Token extends Container implements Helper
         $token = $options->get('page-auth-token');
         $ttl = current_time('timestamp') - (int)$options->get('page-auth-token-ttl');
         if ($ttl > 3600) {
-            /** @see \VisualComposer\Helpers\Token::refreshToken */
-            $token = $this->call('refreshToken');
+            try {
+                /** @see \VisualComposer\Helpers\Token::refreshToken */
+                $token = $this->call('refreshToken');
+            } catch (\Exception $e) {
+                $token = false;
+            }
         }
 
         return $token;
@@ -135,7 +139,7 @@ class Token extends Container implements Helper
     {
         $refreshToken = $options->get('page-auth-refresh-token');
         $result = wp_remote_post(
-            'http://test.account.visualcomposer.io/token',
+            VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'grant_type' => 'refresh_token',
@@ -166,7 +170,6 @@ class Token extends Container implements Helper
                 return $body->access_token;
             }
         } else {
-            // TODO: Handle error.
             throw new \Exception('HTTP request for refreshing token failed.');
         }
 

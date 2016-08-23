@@ -159,8 +159,8 @@ class Role implements Helper
         } elseif ($this->getValidAccess()) {
             // YES it is hard coded :)
             if ('administrator' === $this->getRole()->name && 'settings' === $part
-                && ('vc-v-roles-tab' === $rule
-                    || 'vc-v-license-tab' === $rule)
+                && ('vcv-roles-tab' === $rule
+                    || 'vcv-license-tab' === $rule)
             ) {
                 $this->setValidAccess(true);
 

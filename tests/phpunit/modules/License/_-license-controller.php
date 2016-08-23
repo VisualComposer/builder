@@ -10,8 +10,8 @@ class LicenseControllerTest extends WP_UnitTestCase
         /** @var $module \VisualComposer\Modules\License\Controller */
         $module = vcapp('LicenseController');
 
-        $this->assertEquals('license_key', $module->getLicenseKeyOption());
-        $this->assertEquals('license_key_token', $module->getLicenseKeyTokenOption());
+        $this->assertEquals('license-key', $module->getLicenseKeyOption());
+        $this->assertEquals('license-key-token', $module->getLicenseKeyTokenOption());
         $this->assertEquals('https://account.visualcomposer.io', $module->getActivationHost());
     }
 
@@ -25,9 +25,8 @@ class LicenseControllerTest extends WP_UnitTestCase
 
         $this->assertFalse($module->isActivated());
 
-        $optionsHelper->set('license_key', 'foo-bar');
+        $optionsHelper->set('license-key', 'foo-bar');
 
         $this->assertTrue($module->isActivated());
     }
-
 }

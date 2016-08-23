@@ -1,7 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 
-export default class Component extends Attribute {
+class StringAttribute extends Attribute {
   render () {
     let { value } = this.state
     return (
@@ -13,3 +13,5 @@ export default class Component extends Attribute {
     )
   }
 }
+
+export default StringAttribute

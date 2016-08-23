@@ -3,5 +3,8 @@
     "psr-4": {
       "VisualComposer\\": "visualcomposer/"
     }
+  },
+  "require": {
+    "vierbergenlars/php-semver": "^3.0"
   }
 }
