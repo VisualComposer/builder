@@ -52,6 +52,11 @@ class DesignOptions extends Attribute {
     this.initBorderStyles()
   }
 
+  componentDidMount () {
+    let { updater, fieldKey } = this.props
+    updater(fieldKey, this.state)
+  }
+
   /**
    * Get object property using dot notation.
    *
@@ -270,8 +275,8 @@ class DesignOptions extends Attribute {
   changeState (state) {
     let newState = lodash.merge(this.state, state)
     let { updater, fieldKey } = this.props
-    updater(fieldKey, newState)
     this.setState(newState)
+    updater(fieldKey, newState)
   }
 
   getValue (props, name, device, defaultValue) {

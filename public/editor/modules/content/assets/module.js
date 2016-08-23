@@ -9,9 +9,9 @@ vcCake.add('assets', (api) => {
     addStyle(element)
   })
 
-  api.reply('data:update', (id) => {
-    let element = documentService.get(id)
-    updateDesignOption(element)
+  api.reply('data:update', (id, element) => {
+    let cookElement = cook.get(element)
+    updateDesignOption(cookElement)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -83,7 +83,7 @@ vcCake.add('assets', (api) => {
   }
 
   function updateDesignOption (element) {
-    let designOptions = cook.get(element).get('designOptions')
+    let designOptions = element.get('designOptions')
     console.log('DO', designOptions)
     assetManager.update('designOptions', element.id, designOptions)
   }
