@@ -17,20 +17,19 @@ vcCake.add('content-dnd', function (api) {
       iframe = $('#vcv-editor-iframe')
       if (!documentDOM && iframe.get(0)) {
         documentDOM = iframe.get(0).contentWindow.document
-      } else {
-        documentDOM = document
       }
       this.items = new DnD(documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,
         moveCallback: this.move.bind(this),
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
-        document: documentDOM,
+        document: documentDOM || document,
+        container: document.getElementById('vcv-layout-iframe-container') || document.body,
         offsetTop: this.getOffsetTop(),
         offsetLeft: offsetLeft
       })
       this.items.init()
-      this.dndApi = new Api(this.items, this.api)
+      this.dndAPI = new Api(this.items, this.api)
       this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
     }
   }

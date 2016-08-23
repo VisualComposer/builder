@@ -1,3 +1,6 @@
-<div className='vce-text-block'>
-  <div className='editable' data-vcv-editable-param='output' dangerouslySetInnerHTML={{__html:output}} />
+<div className="vce-text-block" {...editor}>
+  <Text tag='div' inlineEditable={{field: 'output', id: id}}>
+    {output}
+  </Text>
 </div>
+

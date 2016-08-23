@@ -5,10 +5,16 @@ const $ = require('jquery')
  * @constructor
  */
 const SmartLine = function (options) {
-  this.options = _.defaults(options, {
-    document: document,
-    offsetTop: 0,
-    offsetLeft: 0
+  Object.defineProperty(this, 'options', {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: _.defaults(options, {
+      document: document,
+      container: document.body,
+      offsetTop: 0,
+      offsetLeft: 0
+    })
   })
   this.create()
 }
@@ -18,7 +24,7 @@ SmartLine.prototype.create = function () {
   this.el.id = 'vcv-dnd-smart-line'
   this.currentElement = null
   this.point = {x: 0, y: 0}
-  document.body.appendChild(this.el)
+  this.options.container.appendChild(this.el)
 }
 SmartLine.prototype.setPoint = function (x, y) {
   this.point.x = x
@@ -37,7 +43,7 @@ SmartLine.prototype.setCurrentElement = function (element) {
   this.currentElement = element
 }
 SmartLine.prototype.isSameElementPosition = function (point) {
-  return false // this.point.x === point.x && this.point.y === point.y
+  return this.point.x === point.x && this.point.y === point.y
 }
 SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({
@@ -51,7 +57,7 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
   frame === true && this.el.classList.add('vcv-dnd-smart-line-frame')
 }
 SmartLine.prototype.clearStyle = function () {
-  this.el.classList.remove('vcv-dnd-smart-line-frame')
+  this.el.classList.remove('vcv-dnd-smart-line-frame', 'vcv-is-shown')
 }
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
