@@ -1,176 +1,130 @@
-import path from 'path'
 import vcCake from 'vc-cake'
-import postcss from 'postcss'
 
 vcCake.addService('assets-manager', {
   /**
-   * Up-to-date list of all assets
+   * Up-to-date list of all elements
    *
    * @param {Object}
    */
-  assets: {
-    designOptions: {},
-    scripts: {},
-    styles: {}
+  elements: {},
+
+  /**
+   * @param elements
+   */
+  set: function (elements) {
+    // todo: validate elements
+    this.elements = elements
   },
 
   /**
-   * Items are only added, never removed
-   *
-   * @param {Object}
+   * @param id
    */
-  cache: {
-    scripts: {},
-    styles: {}
+  add: function (id) {
+    let ids = []
+    if (Array.isArray(id)) {
+      ids = id
+    } else {
+      ids.push(id)
+    }
+    ids.forEach((id) => {
+      if (!this.get(id)) {
+        let documentService = vcCake.getService('document')
+        let element = documentService.get(id)
+        this.elements[ id ] = {
+          tag: element.tag
+        }
+      }
+    })
+  },
+
+  get: function (assetKey = false) {
+    if (!assetKey) {
+      return this.elements
+    }
+    if (typeof this.elements[ assetKey ] === 'undefined') {
+      return null
+    }
+    return this.elements[ assetKey ]
+  },
+
+  /**
+   * @param id
+   */
+  remove: function (id) {
+    let ids = []
+    if (Array.isArray(id)) {
+      ids = id
+    } else {
+      ids.push(id)
+    }
+    ids.forEach((id) => {
+      if (!this.get(id)) {
+        return
+      }
+      delete this.elements[ id ]
+    })
+  },
+
+  /**
+   * @param {string} assetKey Element's tag
+   */
+  addStyle: function (assetKey) {
+    // let cook = vcCake.getService('cook')
+    // let documentService = vcCake.getService('document')
+    // let element = documentService.get(assetKey)
+    // let cssSettings = cook.get(element).get('cssSettings')
+    // if (cssSettings.css) {
+    //   // this.add(element.tag)
+    // }
+  },
+  /**
+   * @param {string[]} assetKeys Element's tags
+   */
+  addStyles: function (assetKeys = []) {
+    assetKeys.forEach((assetKey) => {
+      this.addStyle(assetKey)
+    })
+  },
+
+  /**
+   * @param {string} assetKey Element's tag
+   */
+  removeStyle: function (assetKey) {
+    let documentService = vcCake.getService('document')
+    let element = documentService.get(assetKey)
+    this.remove('styles', element.tag)
+  },
+
+  /**
+   * @param {string[]} assetKeys Element's tags
+   */
+  removeStyles: function (assetKeys = []) {
+    assetKeys.forEach((assetKey) => {
+      this.removeStyle(assetKey)
+    })
+  },
+
+  /**
+   * @param styles
+   */
+  setStyles: function (styles) {
+    this.set('styles', styles)
   },
 
   /**
    * @return {Object}
    */
-  getDesignOptions: function () {
-    return this.getAssets('designOptions')
-  },
-
-  /**
-   * @return {Object}
-   */
-  getScripts: function () {
-    return this.getAssets('scripts')
+  getStyle: function (assetKey) {
+    return this.get('styles', assetKey)
   },
 
   /**
    * @return {Object}
    */
   getStyles: function () {
-    return this.getAssets('styles')
+    return this.get('styles')
   },
 
-  /**
-   * @param {string} assetType
-   * @return {Object}
-   */
-  getAssets: function (assetType) {
-    return this.assets[ assetType ]
-  },
-
-  /**
-   * @param assetType
-   * @param element
-   * @param settings
-   */
-  add: function (assetType, element, settings) {
-    if (!this.get(assetType, element)) {
-      this.assets[ assetType ][ element ] = {
-        settings: settings,
-        count: 0
-      }
-    }
-    this.assets[ assetType ][ element ].count++
-  },
-
-  get: function (assetType, element) {
-    let el = this.assets[ assetType ][ element ]
-    if (typeof el === 'undefined') {
-      return null
-    }
-    return el
-  },
-
-  update: function (assetType, element, settings) {
-    if (!this.get(assetType, element)) {
-      this.add(assetType, element, settings)
-    } else {
-      this.assets[ assetType ][ element ].settings = settings
-    }
-  },
-
-  /**
-   * @param assetType
-   * @param element
-   */
-  remove: function (assetType, element) {
-    if (!this.get(assetType, element)) {
-      return
-    }
-    this.assets[ assetType ][ element ].count--
-    console.log(this.assets[ assetType ][ element ].count)
-    if (this.assets[ assetType ][ element ].count === 0) {
-      delete this.assets[ assetType ][ element ]
-    }
-  },
-
-  /**
-   * @param {string} assetType scripts|styles
-   * @param {string} element Element's name
-   * @param {string} file
-   */
-  addAsset: function (assetType, element, file) {
-    let filepath = path.join(element, file)
-
-    if (typeof this.cache[ assetType ][ element ] === 'undefined') {
-      this.cache[ assetType ][ element ] = [ path.normalize(file) ]
-    } else if (this.cache[ assetType ][ element ].indexOf(filepath) === -1) {
-      this.cache[ assetType ][ element ].push(path.normalize(file))
-    }
-
-    if (typeof this.assets[ assetType ][ element ] === 'undefined') {
-      this.assets[ assetType ][ element ] = []
-    } else if (this.assets[ assetType ][ element ].indexOf(filepath) !== -1) {
-      return
-    }
-
-    this.assets[ assetType ][ element ].push(filepath)
-  },
-
-  /**
-   * @param {string} elementId Element's ID
-   * @param {object} value
-   */
-  addDesignOption: function (elementId, value) {
-    this.assets[ 'designOptions' ][ elementId ] = value
-  },
-
-  /**
-   * @param {string} element Element's name
-   * @param {string} file
-   */
-  addScript: function (element, file) {
-    if (!path.extname(file)) {
-      file = file + '.js'
-    }
-
-    this.addAsset('scripts', element, file)
-  },
-
-  /**
-   * @param {string} element Element's name
-   * @param {string[]} files
-   */
-  addScripts: function (element, files) {
-    for (let i = 0, len = files.length; i < len; i++) {
-      this.addScript(element, files[ i ])
-    }
-  },
-
-  /**
-   * @param {string} element Element's name
-   * @param {string} file
-   */
-  addStyle: function (element, file) {
-    if (!path.extname(file)) {
-      file = file + '.css'
-    }
-    this.addAsset('styles', element, file)
-  },
-  /**
-   * @param {string} element Element's name
-   * @param {string[]} files
-   */
-  addStyles: function (element, files) {
-    for (let i = 0, len = files.length; i < len; i++) {
-      this.addStyle(element, files[ i ])
-    }
-  },
   getPublicPath: (tag, file) => {
     let path
     if (vcCake.env('platform') === 'node') {
@@ -194,24 +148,31 @@ vcCake.addService('assets-manager', {
    */
   getCompiledCss: function () {
     let styles = this.getStyles()
-    var iterations = []
-    for (let element in styles) {
-      let stylePromise = new Promise((resolve, reject) => {
-        if (styles[ element ].settings.css) {
-          postcss().process(styles[ element ].settings.css).then((result) => {
-            if (result.css) {
-              resolve(result.css)
-            } else {
-              resolve(false)
-            }
-          })
-        }
-      })
-      iterations.push(stylePromise)
-    }
+    console.log(styles)
 
-    return Promise.all(iterations).then((output) => {
-      return output.join(' ')
-    })
+    // let cook = vcCake.getService('cook')
+    // let documentService = vcCake.getService('document')
+
+    // var iterations = []
+    // for (let assetKey in styles) {
+    //   let stylePromise = new Promise((resolve, reject) => {
+    //     // let element = documentService.get(assetKey)
+    //     // let cssSettings = cook.get(element).get('cssSettings')
+    //     if (styles[ element ].settings.css) {
+    //       postcss().process(styles[ element ].settings.css).then((result) => {
+    //         if (result.css) {
+    //           resolve(result.css)
+    //         } else {
+    //           resolve(false)
+    //         }
+    //       })
+    //     }
+    //   })
+    //   iterations.push(stylePromise)
+    // }
+    //
+    // return Promise.all(iterations).then((output) => {
+    //   return output.join(' ')
+    // })
   }
 })

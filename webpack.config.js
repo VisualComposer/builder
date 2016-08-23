@@ -70,7 +70,6 @@ module.exports = {
         'content/layout',
         'content/editor-controls-iframe',
         'content/dnd',
-        'content/wordpress/assets',
         'content/wordpress/data-layout',
         'content/wordpress/data-load',
         'content/wordpress/data-save',

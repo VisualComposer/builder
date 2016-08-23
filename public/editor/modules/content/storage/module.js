@@ -5,20 +5,27 @@ const cook = vcCake.getService('cook')
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   api.reply('data:add', (elementData) => {
+    let cratedElements = []
     let element = cook.get(elementData)
     if (!element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       let rowElement = DocumentData.create({ tag: 'row' })
+      cratedElements.push(rowElement.id)
       let columnElement = DocumentData.create({ tag: 'column', parent: rowElement.id })
+      cratedElements.push(columnElement.id)
       elementData.parent = columnElement.id
     }
     let data = DocumentData.create(elementData)
+    cratedElements.push(data.id)
+
     if (element.get('tag') === 'row') {
       let columnData = cook.get({ tag: cook.getTagByName('Column'), parent: data.id })
       if (columnData) {
-        DocumentData.create(columnData.toJS())
+        let columnElement = DocumentData.create(columnData.toJS())
+        cratedElements.push(columnElement.id)
       }
     }
 
+    api.request('data:afterAdd', cratedElements)
     api.request('data:changed', DocumentData.children(false), 'add')
   })
 
@@ -30,8 +37,8 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
-    api.request('data:changed', DocumentData.children(false), 'clone')
     api.request('data:afterClone', dolly.id)
+    api.request('data:changed', DocumentData.children(false), 'clone')
   })
 
   api.reply('data:update', (id, element) => {
