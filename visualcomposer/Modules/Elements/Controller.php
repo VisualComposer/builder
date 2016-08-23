@@ -303,11 +303,10 @@ class Controller extends Container implements Module
 
     /**
      * @param string $path
-     * @param bool $json Whether response is in JSON format.
      *
      * @return array|bool|string False if request failed
      */
-    private function makeApiRequest($path, $json = true)
+    private function makeApiRequest($path)
     {
         $headers = $this->getHeaders();
 
@@ -331,11 +330,7 @@ class Controller extends Container implements Module
             return false;
         }
 
-        if ($json) {
-            return json_decode($response['body'], true);
-        }
-
-        return $response['body'];
+        return json_decode($response['body'], true);
     }
 
     /**
@@ -348,15 +343,23 @@ class Controller extends Container implements Module
      */
     private function downloadElement($tag, $destination)
     {
-        $response = $this->makeApiRequest('/elements/' . $tag . '/download', false);
+        $response = $this->makeApiRequest('/elements/' . $tag . '/download');
 
         if ($response === false) {
             return false;
         }
 
+        $downloadUrl = $response['data']['download_url'];
+
+        $contents = wp_remote_fopen($downloadUrl);
+
+        if ($contents === false) {
+            return false;
+        }
+
         $destinationFile = $destination . $tag . '.zip';
 
-        $success = file_put_contents($destinationFile, $response);
+        $success = file_put_contents($destinationFile, $contents);
 
         if ($success === false) {
             return false;
