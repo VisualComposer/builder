@@ -7,11 +7,11 @@ const assetManager = vcCake.getService('assets-manager')
 vcCake.add('assets', (api) => {
   api.reply('data:add', (element) => {
     addStyle(element)
+    console.log(assetManager.getDesignOptions())
   })
 
   api.reply('data:update', (id, element) => {
-    let cookElement = cook.get(element)
-    updateDesignOption(cookElement)
+    updateDesignOption(element)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -26,16 +26,14 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     removeStyles(elements)
-    // todo: remove DO by id
+    removeDesignOptions(elements)
   })
 
-  api.reply('data:clone', (id) => {
+  api.reply('data:afterClone', (id) => {
     let elements = []
     let walkChildren = (id) => {
       let element = documentService.get(id)
       elements.push(element)
-      // let desOpt = cook.get(element).get('designOptions')
-      // console.log(desOpt)
       let children = documentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
@@ -43,10 +41,10 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     addStyles(elements)
-    assetManager.getCompiledCss().then((result) => {
-      // console.log(result)
-    })
-    console.log(assetManager.getDesignOptions())
+    updateDesignOptions(elements)
+    // assetManager.getCompiledCss().then((result) => {
+    //   // console.log(result)
+    // })
   })
 
   /**
@@ -83,8 +81,24 @@ vcCake.add('assets', (api) => {
   }
 
   function updateDesignOption (element) {
-    let designOptions = element.get('designOptions')
+    let designOptions = cook.get(element).get('designOptions')
     console.log('DO', designOptions)
     assetManager.update('designOptions', element.id, designOptions)
+  }
+
+  function updateDesignOptions (elements = []) {
+    elements.forEach((element) => {
+      updateDesignOption(element)
+    })
+  }
+
+  function removeDesignOption (element) {
+    assetManager.remove('designOptions', element.id)
+  }
+
+  function removeDesignOptions (elements = []) {
+    elements.forEach((element) => {
+      removeDesignOption(element)
+    })
   }
 })
