@@ -13,8 +13,8 @@ class DesignOptions extends Attribute {
 
   updateState (props) {
     let state = {
-      deviceTypes: this.getValue(props, 'deviceTypes') || 'all',
-      device: this.getValue(props, 'device') || 'all'
+      deviceTypes: this.getValue(props, 'deviceTypes', null, 'all'),
+      device: this.getValue(props, 'device', null, 'all')
     }
     Devices.getAll().map((device) => {
       state[ device.strid ] = {
@@ -307,7 +307,7 @@ class DesignOptions extends Attribute {
         onBlur={this.validateBoxInput}
         disabled={isDisabled}
         title={value}
-        defaultValue={value} />
+        value={value} />
     )
   }
 
