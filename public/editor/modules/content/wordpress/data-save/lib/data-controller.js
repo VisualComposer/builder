@@ -44,16 +44,16 @@ class SaveController {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data-reactid="[^"]+"/,
       '')
-    let scripts = AssetManager.getAssets('scripts')
-    let styles = AssetManager.getAssets('styles')
-
+    let scripts = 'body {color: red}' // AssetManager.getAssets('scripts')
+    let styles = 'console.log(3)' // AssetManager.get
     this.ajax(
       {
         'vcv-action': 'setData:adminNonce',
         'vcv-content': content,
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
         'vcv-scripts': scripts,
-        'vcv-styles': styles
+        'vcv-styles': styles,
+        'vcv-elements-list':  encodeURIComponent(JSON.stringify({}))
       },
       this.saveSuccess.bind(this),
       this.saveFailed.bind(this)

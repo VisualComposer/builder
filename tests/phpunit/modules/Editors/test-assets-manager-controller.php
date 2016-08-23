@@ -4,6 +4,7 @@ class AssetsManagerControllerTest extends WP_UnitTestCase
 {
     public function testSetPostDataHook()
     {
+        return; // Feature Toggle
         // Create test post.
         $factory = new WP_UnitTest_Factory_For_Post($this);
         $postId = $factory->create(['post_title' => 'Test Post']);
@@ -19,9 +20,11 @@ class AssetsManagerControllerTest extends WP_UnitTestCase
                 'sourceId' => $postId,
                 'post' => $post,
                 'data' => ['foo', 'bar'],
+                // 'vcv-scripts' => 'alert(1)',
+                // 'vcv-styles' => 'body {color: red}'
             ]
         );
-        $expected = ['status' => true, 'data' => ['styleBundles' => []]];
+        $expected = ['status' => true, 'data' => ['stylesBundle' => '', 'scriptsBundle' => '']];
 
         $this->assertEquals($expected, $response);
 

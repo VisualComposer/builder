@@ -31,10 +31,11 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
+
+        /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFrontend */
         $this->wpAddAction(
-            'wp_head',
-            'appendScript'
+            'wp_enqueue_scripts',
+            'outputScriptsFrontend'
         );
 
         $this->wpAddAction(
@@ -66,12 +67,34 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    public function outputScripts(Templates $templatesHelper, Options $optionsHelper)
+    public function outputScriptsFrontendEditor(Templates $templatesHelper, Options $optionsHelper)
     {
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
         $stylesBundle = $optionsHelper->get('stylesBundle');
         $args = compact('scriptsBundle', 'stylesBundle');
-
         return $templatesHelper->render('site/frontend-scripts-styles', $args);
+    }
+    /**
+     * Output used assets.
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     */
+    public function outputScriptsFrontend(Options $optionsHelper)
+    {
+        $scriptsBundle = $optionsHelper->get('scriptsBundle');
+        if($scriptsBundle !== false) {
+            wp_register_script('vcv-script', $scriptsBundle, ['jquery'], VCV_VERSION, true);
+            $this->wpAddAction('wp_print_scripts', function() {
+                wp_enqueue_script('vcv-script');
+            });
+        }
+        $stylesBundle = $optionsHelper->get('stylesBundle');
+        if($stylesBundle !== false) {
+            wp_register_style('vcv-styles', $stylesBundle, VCV_VERSION);
+            $this->wpAddAction('wp_print_styles', function() {
+                wp_enqueue_style('vcv-styles');
+            });
+        }
     }
 }
