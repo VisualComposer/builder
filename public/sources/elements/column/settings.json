@@ -109,6 +109,14 @@
       ]
     }
   },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -124,17 +132,22 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "designOptions"
     ]
   },
   "containerFor": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
+    "value": [
+      "General"
+    ]
   },
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["Column"]
+    "value": [
+      "Column"
+    ]
   }
 }

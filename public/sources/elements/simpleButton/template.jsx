@@ -1,1 +1,0 @@
-<button>{buttonText}{Icon.render(null, false)}</button>
