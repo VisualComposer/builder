@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Elements;
 use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -22,14 +23,20 @@ class Controller extends Container implements Module
 
     /**
      * Controller constructor.
+     *
+     * @param Events $events
      */
-    public function __construct()
+    public function __construct(Events $events)
     {
+        $this->events = $events;
+
+        $events->listen('vcv:licenseController:activation', [$this, 'onLicenseActivation']);
+
         add_action(
             'wp_ajax_vcv:initDefaultElements',
             function () {
-                /** @see \VisualComposer\Modules\Elements\Controller::getElements */
-                if ($this->call('getElements')) {
+                $optionsHelper = vchelper('Options');
+                if ($optionsHelper->get('elements-downloaded')) {
                     $response = ['status' => false, 'error' => __('Elements are already installed', 'vc5')];
                 } else {
                     /** @see \VisualComposer\Modules\Elements\Controller::initDefaultElements */
@@ -45,14 +52,23 @@ class Controller extends Container implements Module
                 wp_send_json($response);
             }
         );
+    }
 
-        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
-        // if (!$this->call('getElements')) {
-        //     $this->initDefaultElements();
-        // }
+    /**
+     * @param bool $status
+     * @param array $response
+     *
+     * @return void
+     */
+    public function onLicenseActivation($status, $response)
+    {
+        if (!$status) {
+            return;
+        }
 
-        /** @see \VisualComposer\Modules\Elements\Controller::updateAllElements */
-        // $count = $this->call('updateAllElements');
+        /** @var \VisualComposer\Helpers\Options $options */
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->set('elements-downloaded', false);
     }
 
     /**
@@ -193,9 +209,11 @@ class Controller extends Container implements Module
     /**
      * Download default elements and save them into DB.
      *
+     * @param Options $options
+     *
      * @return int|bool Number of installed elements or false.
      */
-    private function initDefaultElements()
+    private function initDefaultElements(Options $options)
     {
         /** @see \VisualComposer\Modules\Elements\Controller::getUploadsDir */
         $destinationDir = $this->call('getUploadsDir');
@@ -227,6 +245,8 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
         $this->call('setElements', [$elements]);
+
+        $options->set('elements-downloaded', true);
 
         return count($elements);
     }

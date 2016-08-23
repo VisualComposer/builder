@@ -41,11 +41,12 @@ class Controller extends Container implements Module
      * Controller constructor.
      *
      * @param Request $request
-     * @param \VisualComposer\Helpers\Events $events
+     * @param Events $events
      */
     public function __construct(Request $request, Events $events)
     {
         $this->events = $events;
+
         $events->listen('vcv:licenseController:deactivation', [$this, 'onDeactivation']);
         $events->listen('vcv:licenseController:activation', [$this, 'onActivation']);
 
@@ -176,67 +177,73 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\License\Controller::setLicenseKeyToken */
         $this->call('setLicenseKeyToken', ['']);
-        $this->events->fire('vcv:licenseController:activation', ['response' => $response, 'status' => $status]);
+        $this->events->fire('vcv:licenseController:activation', [$status, $response]);
 
         return true;
     }
 
-    public function onActivation($response, $status)
+    /**
+     * @param bool $status
+     * @param array $response
+     *
+     * @return bool
+     */
+    public function onActivation($status, $response)
     {
-        if ($status) {
-            $json = json_decode($response['body'], true);
-
-            foreach (['license_key', 'license_type'] as $key) {
-                if (empty($json[ $key ])) {
-                    /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-                    $this->call(
-                        'renderNotice',
-                        [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
-                    );
-
-                    return false;
-                }
-            }
-
-            if (!$this->isValidFormat($json['license_key'])) {
-                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-                $this->call(
-                    'renderNotice',
-                    [__('Invalid license key format. Please contact us for support.', 'vc5'), false]
-                );
-
-                return false;
-            }
-
-            if (!in_array($json['license_type'], ['basic', 'premium'])) {
-                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-                $this->call(
-                    'renderNotice',
-                    [
-                        sprintf(
-                            __('Unexpected license type: %s. Please contact us for support.', 'vc5'),
-                            $json['license_type']
-                        ),
-                        false,
-                    ]
-                );
-
-                return false;
-            }
-
-            /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
-            $this->call('setLicenseKey', [$json['license_key']]);
-
-            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
-            $this->call('setLicenseType', [$json['license_type']]);
-
-            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-            $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
-
-            return true;
+        if (!$status) {
+            return false;
         }
 
-        return false;
+        $json = json_decode($response['body'], true);
+
+        foreach (['license_key', 'license_type'] as $key) {
+            if (empty($json[ $key ])) {
+                /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+                $this->call(
+                    'renderNotice',
+                    [__('Invalid response structure. Please contact us for support.', 'vc5'), false]
+                );
+
+                return false;
+            }
+        }
+
+        if (!$this->isValidFormat($json['license_key'])) {
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [__('Invalid license key format. Please contact us for support.', 'vc5'), false]
+            );
+
+            return false;
+        }
+
+        if (!in_array($json['license_type'], ['basic', 'premium'])) {
+            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+            $this->call(
+                'renderNotice',
+                [
+                    sprintf(
+                        __('Unexpected license type: %s. Please contact us for support.', 'vc5'),
+                        $json['license_type']
+                    ),
+                    false,
+                ]
+            );
+
+            return false;
+        }
+
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
+        $this->call('setLicenseKey', [$json['license_key']]);
+
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+        $this->call('setLicenseType', [$json['license_type']]);
+
+        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+        $this->call('renderNotice', [__('Visual Composer successfully activated.', 'vc5'), true]);
+
+        return true;
     }
 
     /**
@@ -280,18 +287,25 @@ class Controller extends Container implements Module
 
     }
 
+    /**
+     * @param bool $status
+     *
+     * @return bool
+     */
     public function onDeactivation($status)
     {
-        if ($status) {
-            /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
-            $this->call('setLicenseKey', ['']);
-
-            /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
-            $this->call('setLicenseType', ['']);
-
-            /** @see \VisualComposer\Modules\License\Controller::renderNotice */
-            $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
+        if (!$status) {
+            return false;
         }
+
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseKey */
+        $this->call('setLicenseKey', ['']);
+
+        /** @see \VisualComposer\Modules\License\Controller::setLicenseType */
+        $this->call('setLicenseType', ['']);
+
+        /** @see \VisualComposer\Modules\License\Controller::renderNotice */
+        $this->call('renderNotice', [__('Visual Composer successfully deactivated.', 'vc5'), true]);
 
         return true;
     }
@@ -345,7 +359,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/activate-license?token=%s&url=%s&redirect=%s&quiet=0',
+            '%s/activate-license?token=%s&url=%s&redirect=%s&quiet=1',
             VCV_ACCOUNT_URL,
             $token,
             $url,
@@ -376,7 +390,7 @@ class Controller extends Container implements Module
         );
 
         return sprintf(
-            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s&quiet=0',
+            '%s/deactivate-license?license_key=%s&token=%s&url=%s&redirect=%s&quiet=1',
             VCV_ACCOUNT_URL,
             $licenseKey,
             $token,
@@ -612,7 +626,7 @@ class Controller extends Container implements Module
      *
      * Format is: timestamp|20-random-characters.
      *
-     * @param StrCore $strHelper
+     * @param Str $strHelper
      *
      * @return string
      */

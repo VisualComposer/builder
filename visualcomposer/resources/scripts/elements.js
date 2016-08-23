@@ -13,7 +13,10 @@
       console.info(response.installed + ' elements were installed!')
     }).error(function () {
       console.error('Something went wrong')
+    }).always(function () {
+      $('#downloading-progress').remove()
     })
   }
+
   initDefaultElements()
 })(window.jQuery)
