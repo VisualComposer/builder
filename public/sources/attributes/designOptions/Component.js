@@ -338,7 +338,7 @@ class DesignOptions extends Attribute {
         if (device.strid === 'all') {
           newState[ device.strid ] = this.state[ this.state.device ]
         } else {
-          newState[ device.strid ] = null
+          newState[ device.strid ] = DesignOptions.defaultState[ device.strid ]
         }
       })
     }

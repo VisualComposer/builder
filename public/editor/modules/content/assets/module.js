@@ -6,13 +6,16 @@ const AssetManager = vcCake.getService('assets-manager')
 vcCake.add('assets', (api) => {
   api.reply('data:afterAdd', (ids) => {
     AssetManager.add(ids)
-    AssetManager.getCompiledCss().then((result) => {
-      console.log(result)
-    })
+    // assetManager.getCompiledCss().then((result) => {
+    //   console.log(result)
+    // })
   })
 
   api.reply('data:afterUpdate', (id, element) => {
     AssetManager.update(id)
+    // AssetManager.getCompiledDesignOptions().then((result) => {
+    //   console.log(result)
+    // })
   })
 
   api.reply('data:beforeRemove', (id) => {
