@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import React from 'react'
 
-const AssetManager = vcCake.getService('assets-manager')
+// const AssetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
 
 class SaveController {
@@ -53,7 +53,7 @@ class SaveController {
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
         'vcv-scripts': scripts,
         'vcv-styles': styles,
-        'vcv-elements-list':  encodeURIComponent(JSON.stringify({}))
+        'vcv-elements-list': encodeURIComponent(JSON.stringify({}))
       },
       this.saveSuccess.bind(this),
       this.saveFailed.bind(this)

@@ -16,8 +16,8 @@ export default class Text extends React.Component {
     class: React.PropTypes.string
   }
   componentDidMount () {
+    this.props.inlineEditable = false
     if (this.props.inlineEditable && this.props.inlineEditable.field && this.props.inlineEditable.id) {
-      return
       const dom = ReactDOM.findDOMNode(this)
       const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       this.medium = new MediumEditor(dom, {

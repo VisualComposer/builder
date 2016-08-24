@@ -37,8 +37,6 @@ var Builder = function (container, options) {
       },
       document: document,
       container: document.body,
-      offsetTop: 0,
-      offsetLeft: 0,
       boundariesGap: 10,
       rootContainerFor: ['RootElements'],
       rootID: 'vcv-content-root',
@@ -200,7 +198,7 @@ Builder.prototype.forgetMouse = function () {
   this.options.document.body.removeEventListener('mousemove', this.handleDragFunction, false)
 }
 Builder.prototype.createPlaceholder = function () {
-  this.placeholder = new SmartLine(_.pick(this.options, 'document', 'container', 'offsetLeft', 'offsetTop'))
+  this.placeholder = new SmartLine(_.pick(this.options, 'document', 'container'))
 }
 /**
  * Drag handlers

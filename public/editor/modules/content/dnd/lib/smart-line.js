@@ -11,9 +11,7 @@ const SmartLine = function (options) {
     writable: false,
     value: _.defaults(options, {
       document: document,
-      container: document.body,
-      offsetTop: 0,
-      offsetLeft: 0
+      container: document.body
     })
   })
   this.create()
@@ -31,13 +29,7 @@ SmartLine.prototype.setPoint = function (x, y) {
   this.point.y = y
 }
 SmartLine.prototype.remove = function () {
-  document.body.removeChild(this.el)
-}
-SmartLine.prototype.depositionTop = function () {
-  return this.options.offsetTop
-}
-SmartLine.prototype.depositionLeft = function () {
-  return this.options.offsetLeft
+  this.options.container.removeChild(this.el)
 }
 SmartLine.prototype.setCurrentElement = function (element) {
   this.currentElement = element
@@ -49,8 +41,8 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({
     width: width,
     height: height,
-    top: point.y + this.depositionTop(),
-    left: point.x + this.depositionLeft()
+    top: point.y,
+    left: point.x
   }, function (result, value, key) {
     return result + key + ':' + value + 'px;'
   }, ''))

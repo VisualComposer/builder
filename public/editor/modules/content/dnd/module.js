@@ -6,7 +6,6 @@ import $ from 'jquery'
 require('./css/module.less')
 vcCake.add('content-dnd', function (api) {
   let documentDOM
-  let offsetLeft
   let iframe
   let ModuleDnd = function (moduleApi) {
     this.api = moduleApi
@@ -24,9 +23,7 @@ vcCake.add('content-dnd', function (api) {
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
         document: documentDOM || document,
-        container: document.getElementById('vcv-layout-iframe-container') || document.body,
-        offsetTop: this.getOffsetTop(),
-        offsetLeft: offsetLeft
+        container: document.getElementById('vcv-editor-iframe-overlay') || document.body
       })
       this.items.init()
       this.dndAPI = new Api(this.items, this.api)
