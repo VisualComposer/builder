@@ -24,6 +24,7 @@ vcCake.add('storage', (api) => {
         createdElements.push(columnElement.id)
       }
     }
+    api.request('data:afterAdd', createdElements)
     api.request('data:changed', DocumentData.children(false), 'add')
   })
 
