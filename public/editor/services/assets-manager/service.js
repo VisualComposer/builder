@@ -61,6 +61,7 @@ vcCake.addService('assets-manager', {
       let documentService = vcCake.getService('document')
       let element = documentService.get(id)
       let designOptions = cook.get(element).get('designOptions')
+      console.log(designOptions)
       let useDO = (typeof designOptions !== 'undefined' && designOptions.hasOwnProperty('used') && designOptions.used)
       this.elements[ id ] = {
         tag: element.tag,

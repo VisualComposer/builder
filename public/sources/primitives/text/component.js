@@ -1,10 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import MediumEditor from 'medium-editor'
-import vcCake from 'vc-cake'
+// import ReactDOM from 'react-dom'
+// import MediumEditor from 'medium-editor'
+// import vcCake from 'vc-cake'
 
-const documentManager = vcCake.getService('document')
-const cook = vcCake.getService('cook')
+// const documentManager = vcCake.getService('document')
+// const cook = vcCake.getService('cook')
 require('medium-editor/dist/css/medium-editor.css')
 require('medium-editor/dist/css/themes/default.css')
 
@@ -18,6 +18,7 @@ export default class Text extends React.Component {
   componentDidMount () {
     if (this.props.inlineEditable && this.props.inlineEditable.field && this.props.inlineEditable.id) {
       return
+      /*
       const dom = ReactDOM.findDOMNode(this)
       const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       this.medium = new MediumEditor(dom, {
@@ -39,6 +40,7 @@ export default class Text extends React.Component {
         element.set(this.props.inlineEditable.field, editable.innerHTML)
         documentManager.update(this.props.inlineEditable.id, element.toJS())
       })
+      */
     }
   }
   render () {
