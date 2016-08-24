@@ -31,5 +31,4 @@ class HelpersFileTest extends WP_UnitTestCase
 
         $this->assertFalse($helper->getContents($filepath));
     }
-
 }

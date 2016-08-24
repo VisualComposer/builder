@@ -6,6 +6,7 @@ use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Events;
+use VisualComposer\Helpers\License as LicenseHelper;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -252,13 +253,13 @@ class Controller extends Container implements Module
     }
 
     /**
+     * @param LicenseHelper $licenseHelper
+     *
      * @return array|bool
      */
-    private function fetchDefaultElements()
+    private function fetchDefaultElements(LicenseHelper $licenseHelper)
     {
-        // TODO: Refactor to be DRY (use function \VisualComposer\Modules\License\Controller::getLicenseType)
-        $optionsHelper = vchelper('Options');
-        $licenseType = $optionsHelper->get('license-type');
+        $licenseType = $this->call([$licenseHelper, 'getType']);
 
         $url = '/elements/default/' . $licenseType;
 
