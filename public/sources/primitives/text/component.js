@@ -97,7 +97,6 @@ export default class Text extends React.Component {
         element.set(this.props.inlineEditable.field, editable.innerHTML)
         documentManager.update(this.props.inlineEditable.id, element.toJS())
       })
-
     }
   }
 /*  shouldComponentUpdate () {
