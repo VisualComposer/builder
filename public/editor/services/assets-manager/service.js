@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import postcss from 'postcss'
 
 vcCake.addService('assets-manager', {
   /**
@@ -60,10 +61,7 @@ vcCake.addService('assets-manager', {
       let documentService = vcCake.getService('document')
       let element = documentService.get(id)
       let designOptions = cook.get(element).get('designOptions')
-      let useDO = false
-      if (typeof designOptions !== 'undefined' && designOptions.hasOwnProperty('used') && designOptions.used) {
-        useDO = true
-      }
+      let useDO = (typeof designOptions !== 'undefined' && designOptions.hasOwnProperty('used') && designOptions.used)
       this.elements[ id ] = {
         tag: element.tag,
         useDesignOptions: useDO
@@ -107,36 +105,50 @@ vcCake.addService('assets-manager', {
     return path
   },
 
+  getStyles: function () {
+    let styles = {}
+    let elements = this.get()
+    for (let id in elements) {
+      if (styles.hasOwnProperty(elements[ id ].tag)) {
+        styles[ elements[ id ].tag ].count++
+      } else {
+        let cook = vcCake.getService('cook')
+        let documentService = vcCake.getService('document')
+        let element = documentService.get(id)
+        let cssSettings = cook.get(element).get('cssSettings')
+        styles[ elements[ id ].tag ] = {
+          count: 1,
+          css: cssSettings.css
+        }
+      }
+    }
+
+    return styles
+  },
+
   /**
    * @returns {string}
    */
   getCompiledCss: function () {
-    // let styles = this.getStyles()
-    // console.log(styles)
+    let styles = this.getStyles()
+    var iterations = []
+    for (let tagName in styles) {
+      let stylePromise = new Promise((resolve, reject) => {
+        if (styles[ tagName ].css) {
+          postcss().process(styles[ tagName ].css).then((result) => {
+            if (result.css) {
+              resolve(result.css)
+            } else {
+              resolve(false)
+            }
+          })
+        }
+      })
+      iterations.push(stylePromise)
+    }
 
-    // let cook = vcCake.getService('cook')
-    // let documentService = vcCake.getService('document')
-
-    // var iterations = []
-    // for (let assetKey in styles) {
-    //   let stylePromise = new Promise((resolve, reject) => {
-    //     // let element = documentService.get(assetKey)
-    //     // let cssSettings = cook.get(element).get('cssSettings')
-    //     if (styles[ element ].settings.css) {
-    //       postcss().process(styles[ element ].settings.css).then((result) => {
-    //         if (result.css) {
-    //           resolve(result.css)
-    //         } else {
-    //           resolve(false)
-    //         }
-    //       })
-    //     }
-    //   })
-    //   iterations.push(stylePromise)
-    // }
-    //
-    // return Promise.all(iterations).then((output) => {
-    //   return output.join(' ')
-    // })
+    return Promise.all(iterations).then((output) => {
+      return output.join(' ')
+    })
   }
 })
