@@ -5,8 +5,11 @@ import '../css/element.less'
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
-class LayoutElement extends React.Component {
-
+export default class LayoutElement extends React.Component {
+  static propTypes = {
+    element: React.PropTypes.object.isRequired,
+    api: React.PropTypes.object.isRequired
+  }
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
   }
@@ -32,9 +35,3 @@ class LayoutElement extends React.Component {
     return element.render(this.getContent())
   }
 }
-LayoutElement.propTypes = {
-  element: React.PropTypes.object.isRequired,
-  api: React.PropTypes.object.isRequired
-}
-
-export default LayoutElement

@@ -74,6 +74,20 @@ class CookElement {
     return this[ elData ].data[ k ]
   }
 
+  renderFrontend (content, editor) {
+    if (!this[ elComponent ].has()) {
+      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
+    }
+    let ElementToRender = this[ elComponent ].get()
+    let props = {}
+    let atts = this.toJS()
+    props.key = this[ elData ].id
+    props.id = this[ elData ].id
+    props.atts = atts
+    props.content = content
+
+    return <ElementToRender {...props} />
+  }
   render (content, editor) {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
@@ -93,7 +107,6 @@ class CookElement {
 
     return <ElementToRender {...props} />
   }
-
   static create (tag) {
     return new CookElement({ tag: tag })
   }

@@ -1,6 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import MediumEditor from 'medium-editor'
+import vcCake from 'vc-cake'
+
+const documentManager = vcCake.getService('document')
+const cook = vcCake.getService('cook')
 
 require('medium-editor/dist/css/medium-editor.css')
 require('medium-editor/dist/css/themes/default.css')
@@ -87,13 +91,13 @@ export default class Text extends React.Component {
       /* dom.addEventListener('mouseup', (e) => {
         dom.setAttribute('contenteditable', false)
       })*/
-/*      this.medium.subscribe('editableInput', (event, editable) => {
+      this.medium.subscribe('editableInput', (event, editable) => {
         const data = documentManager.get(this.props.inlineEditable.id)
         const element = cook.get(data)
         element.set(this.props.inlineEditable.field, editable.innerHTML)
         documentManager.update(this.props.inlineEditable.id, element.toJS())
       })
-      */
+
     }
   }
 /*  shouldComponentUpdate () {
