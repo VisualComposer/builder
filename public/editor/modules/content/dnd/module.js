@@ -55,10 +55,12 @@ vcCake.add('content-dnd', function (api) {
     }
   }
   ModuleDnd.prototype.start = function () {
+    vcCake.setData('vcv-dnd-started', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', true)
     document.body.classList.add('vcv-is-no-selection')
   }
   ModuleDnd.prototype.end = function () {
+    vcCake.setData('vcv-dnd-started', false)
     this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
     document.body.classList.remove('vcv-is-no-selection')

@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService} from 'vc-cake'
+import {getService, getData} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
 import DOMElement from './dom-element'
@@ -40,7 +40,8 @@ var Builder = function (container, options) {
       boundariesGap: 10,
       rootContainerFor: ['RootElements'],
       rootID: 'vcv-content-root',
-      handler: null
+      handler: null,
+      disabled: false
     })
   })
 }
@@ -147,9 +148,12 @@ Builder.prototype.start = function (id, point) {
 
   this.watchMouse()
   this.createPlaceholder()
-  this.options.document.addEventListener('scroll', () => {
+  this.scrollEvent = () => {
+    this.placeholder.clearStyle()
+    this.placeholder.setPoint(0, 0)
     this.check(this.point || {})
-  })
+  }
+  this.options.document.addEventListener('scroll', this.scrollEvent)
   if (typeof this.options.startCallback === 'function') {
     this.options.startCallback(this.draggingElement)
   }
@@ -163,9 +167,7 @@ Builder.prototype.end = function () {
 
   this.forgetMouse()
   this.removePlaceholder()
-  this.options.document.removeEventListener('scroll', () => {
-    this.check(this.point || {})
-  })
+  this.options.document.removeEventListener('scroll', this.scrollEvent)
   this.point = null
   if (typeof this.options.endCallback === 'function') {
     this.options.endCallback(this.draggingElement)
@@ -204,7 +206,7 @@ Builder.prototype.createPlaceholder = function () {
  * Drag handlers
  */
 Builder.prototype.handleDrag = function (e) {
-  this.check({ x: e.clientX, y: e.clientY })
+  getData('vcv-dnd-disabled') !== true && this.check({ x: e.clientX, y: e.clientY })
 }
 /**
  * @param {object} e Handled event
