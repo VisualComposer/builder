@@ -56,6 +56,7 @@ class Controller extends Container implements Module
         $this->request = $request;
         $this->options = $optionsHelper;
         $this->file = $fileHelper;
+
         return; // Feature Toggle
         $this->filter->listen(
             'vcv:postAjax:setPostData',
@@ -118,7 +119,7 @@ class Controller extends Container implements Module
 
         return [
             'scriptBundle' => $scriptsBundle,
-            'styleBundle' => $stylesBundle
+            'styleBundle' => $stylesBundle,
         ];
     }
 
@@ -165,6 +166,7 @@ class Controller extends Container implements Module
 
         return false;
     }
+
     /**
      * Generate (save to fs and update db) scripts bundle.
      *
@@ -201,7 +203,8 @@ class Controller extends Container implements Module
      *
      * @return bool|string
      */
-    private function createBundleFile($content, $extension) {
+    private function createBundleFile($content, $extension)
+    {
         $bundleUrl = false;
         if ($content) {
             $uploadDir = wp_upload_dir();
@@ -218,8 +221,10 @@ class Controller extends Container implements Module
                 }
             }
         }
+
         return $bundleUrl;
     }
+
     /**
      * @param string $assetType scripts|styles.
      * @param string[] $data
@@ -233,8 +238,10 @@ class Controller extends Container implements Module
 
         return $assets;
     }
+
     /**
      * Update elements list
+     *
      * @param string[] $data
      *
      * @return string
@@ -245,6 +252,7 @@ class Controller extends Container implements Module
 
         return $data;
     }
+
     /**
      * Get elements list
      *

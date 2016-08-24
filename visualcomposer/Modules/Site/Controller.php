@@ -72,8 +72,10 @@ class Controller extends Container implements Module
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
         $stylesBundle = $optionsHelper->get('stylesBundle');
         $args = compact('scriptsBundle', 'stylesBundle');
+
         return $templatesHelper->render('site/frontend-scripts-styles', $args);
     }
+
     /**
      * Output used assets.
      *
@@ -83,18 +85,24 @@ class Controller extends Container implements Module
     public function outputScriptsFrontend(Options $optionsHelper)
     {
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
-        if($scriptsBundle !== false) {
+        if ($scriptsBundle !== false) {
             wp_register_script('vcv-script', $scriptsBundle, ['jquery'], VCV_VERSION, true);
-            $this->wpAddAction('wp_print_scripts', function() {
-                wp_enqueue_script('vcv-script');
-            });
+            $this->wpAddAction(
+                'wp_print_scripts',
+                function () {
+                    wp_enqueue_script('vcv-script');
+                }
+            );
         }
         $stylesBundle = $optionsHelper->get('stylesBundle');
-        if($stylesBundle !== false) {
+        if ($stylesBundle !== false) {
             wp_register_style('vcv-styles', $stylesBundle, VCV_VERSION);
-            $this->wpAddAction('wp_print_styles', function() {
-                wp_enqueue_style('vcv-styles');
-            });
+            $this->wpAddAction(
+                'wp_print_styles',
+                function () {
+                    wp_enqueue_style('vcv-styles');
+                }
+            );
         }
     }
 }
