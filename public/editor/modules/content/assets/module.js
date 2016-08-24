@@ -1,46 +1,46 @@
 import vcCake from 'vc-cake'
 
-const documentService = vcCake.getService('document')
-const assetManager = vcCake.getService('assets-manager')
+const DocumentService = vcCake.getService('document')
+const AssetManager = vcCake.getService('assets-manager')
 
 vcCake.add('assets', (api) => {
   api.reply('data:afterAdd', (ids) => {
-    assetManager.add(ids)
+    AssetManager.add(ids)
     // assetManager.getCompiledCss().then((result) => {
     //   console.log(result)
     // })
-    console.log(assetManager.get())
   })
 
-  api.reply('data:update', (id, element) => {
-    // updateDesignOption(element)
+  api.reply('data:afterUpdate', (id, element) => {
+    AssetManager.update(id)
+    // AssetManager.getCompiledDesignOptions().then((result) => {
+    //   console.log(result)
+    // })
   })
 
   api.reply('data:beforeRemove', (id) => {
     let elements = []
     let walkChildren = (id) => {
       elements.push(id)
-      let children = documentService.children(id)
+      let children = DocumentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
       })
     }
     walkChildren(id)
-    assetManager.remove(elements)
-    console.log(assetManager.get())
+    AssetManager.remove(elements)
   })
 
   api.reply('data:afterClone', (id) => {
     let elements = []
     let walkChildren = (id) => {
       elements.push(id)
-      let children = documentService.children(id)
+      let children = DocumentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
       })
     }
     walkChildren(id)
-    assetManager.add(elements)
-    console.log(assetManager.getStyles())
+    AssetManager.add(elements)
   })
 })

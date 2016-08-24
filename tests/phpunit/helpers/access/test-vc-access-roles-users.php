@@ -301,7 +301,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users', true);
+            ->setCapRule('something_role_users', true);
 
         wp_set_current_user(null);
         wp_set_current_user(1); // this will reset user capabilities and get latests from user role
@@ -342,7 +342,7 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
         // For false
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users', false);
+            ->setCapRule('something_role_users', false);
 
         wp_set_current_user(null);
         wp_set_current_user(1); // this will reset user capabilities and get latests from user role
@@ -383,9 +383,9 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
         // For multiple
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users', true);
+            ->setCapRule('something_role_users', true);
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users2', true);
+            ->setCapRule('something_role_users2', true);
 
         wp_set_current_user(null);
         wp_set_current_user(1); // this will reset user capabilities and get latests from user role
@@ -436,9 +436,9 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
 
         // For multiple false
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users', false);
+            ->setCapRule('something_role_users', false);
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
-                                                   ->setCapRule('something_role_users2', true);
+            ->setCapRule('something_role_users2', true);
 
         wp_set_current_user(null);
         wp_set_current_user(1); // this will reset user capabilities and get latests from user role

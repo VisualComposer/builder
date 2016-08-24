@@ -5,27 +5,26 @@ const cook = vcCake.getService('cook')
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   api.reply('data:add', (elementData) => {
-    let cratedElements = []
+    let createdElements = []
     let element = cook.get(elementData)
     if (!element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       let rowElement = DocumentData.create({ tag: 'row' })
-      cratedElements.push(rowElement.id)
+      createdElements.push(rowElement.id)
       let columnElement = DocumentData.create({ tag: 'column', parent: rowElement.id })
-      cratedElements.push(columnElement.id)
+      createdElements.push(columnElement.id)
       elementData.parent = columnElement.id
     }
     let data = DocumentData.create(elementData)
-    cratedElements.push(data.id)
+    createdElements.push(data.id)
 
     if (element.get('tag') === 'row') {
       let columnData = cook.get({ tag: cook.getTagByName('Column'), parent: data.id })
       if (columnData) {
         let columnElement = DocumentData.create(columnData.toJS())
-        cratedElements.push(columnElement.id)
+        createdElements.push(columnElement.id)
       }
     }
-
-    api.request('data:afterAdd', cratedElements)
+    api.request('data:afterAdd', createdElements)
     api.request('data:changed', DocumentData.children(false), 'add')
   })
 
@@ -43,6 +42,7 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:update', (id, element) => {
     DocumentData.update(id, element)
+    api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update')
   })
 

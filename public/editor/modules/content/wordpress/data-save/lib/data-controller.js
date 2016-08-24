@@ -44,8 +44,9 @@ class SaveController {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data-reactid="[^"]+"/,
       '')
-    let scripts = 'body {color: red}' // AssetManager.getAssets('scripts')
-    let styles = 'console.log(3)' // AssetManager.get
+    let scripts = '' // 'body {color: red}' // AssetManager.getAssets('scripts')
+    let styles = '' // 'console.log(3)' // AssetManager.get
+    let designOptions = '' // AssetManager.get
     this.ajax(
       {
         'vcv-action': 'setData:adminNonce',
@@ -53,6 +54,7 @@ class SaveController {
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
         'vcv-scripts': scripts,
         'vcv-styles': styles,
+        'vcv-design-options': designOptions,
         'vcv-elements-list': encodeURIComponent(JSON.stringify({}))
       },
       this.saveSuccess.bind(this),

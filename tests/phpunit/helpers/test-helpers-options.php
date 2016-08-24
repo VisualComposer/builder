@@ -27,5 +27,4 @@ class HelpersOptionsTest extends WP_UnitTestCase
         $helper->set($name, 'foobar');
         $this->assertEquals('foobar', $helper->get($name));
     }
-
 }

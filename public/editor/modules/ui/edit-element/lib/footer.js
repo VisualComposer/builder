@@ -8,6 +8,13 @@ class EditFormFooter extends React.Component {
     saved: React.PropTypes.bool.isRequired
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    return !(
+      this.props.saving === nextProps.saving &&
+      this.props.saved === nextProps.saved
+    )
+  }
+
   render () {
     let saveButtonClasses = classNames({
       'vcv-ui-tree-layout-action': true,
