@@ -49,5 +49,4 @@ class HelpersCoreTest extends WP_UnitTestCase
 
         $this->assertTrue(method_exists($teInstance, 'isNetworkPlugin'), 'isNetworkPlugin method should exists');
     }
-
 }

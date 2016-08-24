@@ -73,5 +73,4 @@ class HelpersDataTest extends WP_UnitTestCase
 
         $this->assertEquals($helper->arraySearchKey($arr, 'test', true), $arr[0]['test']);
     }
-
 }

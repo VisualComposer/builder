@@ -1,7 +1,5 @@
 <?php
 
-use VisualComposer\Helpers\Nonce;
-
 class VcAccessUsersTest extends WP_UnitTestCase
 {
     public function testUserAccessValidateDie()
@@ -413,16 +411,16 @@ class VcAccessUsersTest extends WP_UnitTestCase
         // check nonce falses
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce()// no nonce exists
-                                                              ->part('shortcodes')->can()->get()
+            ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkPublicNonce()// no nonce exists
-                                                              ->part('shortcodes')->can()->get()
+            ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->checkAdminNonce()// no nonce exists
-                                                              ->checkPublicNonce()// no nonce exists
-                                                              ->part('shortcodes')->can()->get()
+            ->checkPublicNonce()// no nonce exists
+            ->part('shortcodes')->can()->get()
         );
 
         $this->assertTrue(vcapp('VisualComposer\Helpers\Access\CurrentUser')->getValidAccess());
@@ -1024,18 +1022,18 @@ class VcAccessUsersTest extends WP_UnitTestCase
             )->wpAny('edit_posts', 'edit_pages')->wpAll('edit_posts', 'edit_pages')->part('something')->can()->canAny(
                 'something'
             )// in null it is always true
-                                                              ->canAny(
+            ->canAny(
                 'something',
                 'something2'
             )// in null it is always true
-                                                              ->canAll(
+            ->canAll(
                 'something'
             )// in null it is always true
-                                                              ->canAll(
+            ->canAll(
                 'something',
                 'something2'
             )// in null it is always true
-                                                              ->checkState(null)->checkStateAny(
+            ->checkState(null)->checkStateAny(
                 'custom',
                 null
             )->get(true)
