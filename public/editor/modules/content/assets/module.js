@@ -4,8 +4,6 @@ const DocumentService = vcCake.getService('document')
 const AssetManager = vcCake.getService('assets-manager')
 
 vcCake.add('assets', (api) => {
-  // api.module('content-layout').on('element:mount', (id) => {
-  //  AssetManager.add(id)
   api.reply('data:afterAdd', (ids) => {
     AssetManager.add(ids)
     AssetManager.getCompiledCss().then((result) => {

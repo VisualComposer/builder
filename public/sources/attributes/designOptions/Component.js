@@ -12,67 +12,38 @@ class DesignOptions extends Attribute {
   }
 
   updateState (props) {
-    let defaultState = {
-      deviceTypes: 'all',
-      device: 'all'
-    }
     let state = {
-      deviceTypes: this.getValue(props, 'deviceTypes', null, defaultState.deviceTypes),
-      device: this.getValue(props, 'device', null, defaultState.device)
+      deviceTypes: this.getValue(props, 'deviceTypes', null, DesignOptions.defaultState.deviceTypes),
+      device: this.getValue(props, 'device', null, DesignOptions.defaultState.device)
     }
     Devices.getAll().map((device) => {
-      defaultState[ device.strid ] = {
-        showOnDevice: true,
-        backgroundImage: { ids: [], urls: [] },
-        backgroundColor: '',
-        backgroundStyle: '',
-        borderColor: '',
-        borderStyle: '',
-        simplified: true,
-        borderTopLeftRadius: '',
-        borderTopRightRadius: '',
-        borderBottomLeftRadius: '',
-        borderBottomRightRadius: '',
-        marginTop: '',
-        marginLeft: '',
-        marginRight: '',
-        marginBottom: '',
-        borderTop: '',
-        borderLeft: '',
-        borderRight: '',
-        borderBottom: '',
-        paddingTop: '',
-        paddingLeft: '',
-        paddingRight: '',
-        paddingBottom: ''
-      }
       state[ device.strid ] = {
-        showOnDevice: this.getValue(props, 'showOnDevice', device, defaultState[ device.strid ].showOnDevice),
-        backgroundImage: this.getValue(props, 'backgroundImage', device, defaultState[ device.strid ].backgroundImage),
-        backgroundColor: this.getValue(props, 'backgroundColor', device, defaultState[ device.strid ].backgroundColor),
-        backgroundStyle: this.getValue(props, 'backgroundStyle', device, defaultState[ device.strid ].backgroundStyle),
-        borderColor: this.getValue(props, 'borderColor', device, defaultState[ device.strid ].borderColor),
-        borderStyle: this.getValue(props, 'borderStyle', device, defaultState[ device.strid ].borderStyle),
-        simplified: this.getValue(props, 'simplified', device, defaultState[ device.strid ].simplified),
-        borderTopLeftRadius: this.getValue(props, 'borderTopLeftRadius', device, defaultState[ device.strid ].borderTopLeftRadius),
-        borderTopRightRadius: this.getValue(props, 'borderTopRightRadius', device, defaultState[ device.strid ].borderTopRightRadius),
-        borderBottomLeftRadius: this.getValue(props, 'borderBottomLeftRadius', device, defaultState[ device.strid ].borderBottomLeftRadius),
-        borderBottomRightRadius: this.getValue(props, 'borderBottomRightRadius', device, defaultState[ device.strid ].borderBottomRightRadius),
-        marginTop: this.getValue(props, 'marginTop', device, defaultState[ device.strid ].marginTop),
-        marginLeft: this.getValue(props, 'marginLeft', device, defaultState[ device.strid ].marginLeft),
-        marginRight: this.getValue(props, 'marginRight', device, defaultState[ device.strid ].marginRight),
-        marginBottom: this.getValue(props, 'marginBottom', device, defaultState[ device.strid ].marginBottom),
-        borderTop: this.getValue(props, 'borderTop', device, defaultState[ device.strid ].borderTop),
-        borderLeft: this.getValue(props, 'borderLeft', device, defaultState[ device.strid ].borderLeft),
-        borderRight: this.getValue(props, 'borderRight', device, defaultState[ device.strid ].borderRight),
-        borderBottom: this.getValue(props, 'borderBottom', device, defaultState[ device.strid ].borderBottom),
-        paddingTop: this.getValue(props, 'paddingTop', device, defaultState[ device.strid ].paddingTop),
-        paddingLeft: this.getValue(props, 'paddingLeft', device, defaultState[ device.strid ].paddingLeft),
-        paddingRight: this.getValue(props, 'paddingRight', device, defaultState[ device.strid ].paddingRight),
-        paddingBottom: this.getValue(props, 'paddingBottom', device, defaultState[ device.strid ].paddingBottom)
+        showOnDevice: this.getValue(props, 'showOnDevice', device, DesignOptions.defaultState[ device.strid ].showOnDevice),
+        backgroundImage: this.getValue(props, 'backgroundImage', device, DesignOptions.defaultState[ device.strid ].backgroundImage),
+        backgroundColor: this.getValue(props, 'backgroundColor', device, DesignOptions.defaultState[ device.strid ].backgroundColor),
+        backgroundStyle: this.getValue(props, 'backgroundStyle', device, DesignOptions.defaultState[ device.strid ].backgroundStyle),
+        borderColor: this.getValue(props, 'borderColor', device, DesignOptions.defaultState[ device.strid ].borderColor),
+        borderStyle: this.getValue(props, 'borderStyle', device, DesignOptions.defaultState[ device.strid ].borderStyle),
+        simplified: this.getValue(props, 'simplified', device, DesignOptions.defaultState[ device.strid ].simplified),
+        borderTopLeftRadius: this.getValue(props, 'borderTopLeftRadius', device, DesignOptions.defaultState[ device.strid ].borderTopLeftRadius),
+        borderTopRightRadius: this.getValue(props, 'borderTopRightRadius', device, DesignOptions.defaultState[ device.strid ].borderTopRightRadius),
+        borderBottomLeftRadius: this.getValue(props, 'borderBottomLeftRadius', device, DesignOptions.defaultState[ device.strid ].borderBottomLeftRadius),
+        borderBottomRightRadius: this.getValue(props, 'borderBottomRightRadius', device, DesignOptions.defaultState[ device.strid ].borderBottomRightRadius),
+        marginTop: this.getValue(props, 'marginTop', device, DesignOptions.defaultState[ device.strid ].marginTop),
+        marginLeft: this.getValue(props, 'marginLeft', device, DesignOptions.defaultState[ device.strid ].marginLeft),
+        marginRight: this.getValue(props, 'marginRight', device, DesignOptions.defaultState[ device.strid ].marginRight),
+        marginBottom: this.getValue(props, 'marginBottom', device, DesignOptions.defaultState[ device.strid ].marginBottom),
+        borderTop: this.getValue(props, 'borderTop', device, DesignOptions.defaultState[ device.strid ].borderTop),
+        borderLeft: this.getValue(props, 'borderLeft', device, DesignOptions.defaultState[ device.strid ].borderLeft),
+        borderRight: this.getValue(props, 'borderRight', device, DesignOptions.defaultState[ device.strid ].borderRight),
+        borderBottom: this.getValue(props, 'borderBottom', device, DesignOptions.defaultState[ device.strid ].borderBottom),
+        paddingTop: this.getValue(props, 'paddingTop', device, DesignOptions.defaultState[ device.strid ].paddingTop),
+        paddingLeft: this.getValue(props, 'paddingLeft', device, DesignOptions.defaultState[ device.strid ].paddingLeft),
+        paddingRight: this.getValue(props, 'paddingRight', device, DesignOptions.defaultState[ device.strid ].paddingRight),
+        paddingBottom: this.getValue(props, 'paddingBottom', device, DesignOptions.defaultState[ device.strid ].paddingBottom)
       }
     })
-    state.used = !lodash.isEqual(state, defaultState)
+
     return state
   }
 
@@ -302,9 +273,9 @@ class DesignOptions extends Attribute {
   }
 
   changeState (state) {
-    console.log('stage changed')
     let newState = lodash.merge(this.state, state)
     let { updater, fieldKey } = this.props
+    newState.used = !lodash.isEqual(lodash.omit(this.state, 'used'), DesignOptions.defaultState)
     this.setState(newState)
     updater(fieldKey, newState)
   }
@@ -576,5 +547,37 @@ class DesignOptions extends Attribute {
     )
   }
 }
+
+DesignOptions.defaultState = {
+  deviceTypes: 'all',
+  device: 'all'
+}
+Devices.getAll().map((device) => {
+  DesignOptions.defaultState[ device.strid ] = {
+    showOnDevice: true,
+    backgroundImage: { ids: [], urls: [] },
+    backgroundColor: '',
+    backgroundStyle: '',
+    borderColor: '',
+    borderStyle: '',
+    simplified: true,
+    borderTopLeftRadius: '',
+    borderTopRightRadius: '',
+    borderBottomLeftRadius: '',
+    borderBottomRightRadius: '',
+    marginTop: '',
+    marginLeft: '',
+    marginRight: '',
+    marginBottom: '',
+    borderTop: '',
+    borderLeft: '',
+    borderRight: '',
+    borderBottom: '',
+    paddingTop: '',
+    paddingLeft: '',
+    paddingRight: '',
+    paddingBottom: ''
+  }
+})
 
 export default DesignOptions
