@@ -1,16 +1,10 @@
-import vcCake from 'vc-cake'
 import React from 'react'
 import WordPressElement from './element'
 
-const DocumentData = vcCake.getService('document')
-
 class WordPressLayout extends React.Component {
-
   state = {
     data: []
   }
-  elementsList = []
-
   componentDidMount () {
     this.props.api.reply(
       'data:changed', (document) => {
@@ -20,13 +14,14 @@ class WordPressLayout extends React.Component {
   }
 
   get elements () {
-    if (!this.elementsList && this.state.data) {
-      this.elementsList = this.state.data.map((element) => {
-        let data = DocumentData.children(element.id)
-        return (<WordPressElement element={element} data={data} key={element.id} api={this.props.api} />)
+    if (this.state.data) {
+      return this.state.data.map((element) => {
+        return (
+          <WordPressElement element={element} key={element.id} api={this.props.api} />
+        )
       })
     }
-    return this.elementsList
+    return null
   }
 
   render () {
