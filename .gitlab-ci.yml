@@ -39,21 +39,21 @@ codestyle:php:framework:
   tags:
     - docker
 
-codestyle:php:helpers:
-  image: wpbakery/phpcs
-  stage: codestyle
-  script:
-    - phpcs --standard=ci/ruleset.xml visualcomposer/Helpers
-  tags:
-    - docker
+#codestyle:php:helpers:
+#  image: wpbakery/phpcs
+#  stage: codestyle
+#  script:
+#    - phpcs --standard=ci/ruleset.xml visualcomposer/Helpers
+#  tags:
+#    - docker
 
-codestyle:php:modules:
-  image: wpbakery/phpcs
-  stage: codestyle
-  script:
-    - phpcs --standard=ci/ruleset.xml visualcomposer/Modules
-  tags:
-    - docker
+#codestyle:php:modules:
+#  image: wpbakery/phpcs
+#  stage: codestyle
+#  script:
+#    - phpcs --standard=ci/ruleset.xml visualcomposer/Modules
+#  tags:
+#    - docker
 
 codestyle:php:application:
   image: wpbakery/phpcs
