@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import postcss from 'postcss'
+import postcssVars from 'postcss-custom-properties'
 
 vcCake.addService('assets-manager', {
   /**
@@ -45,6 +46,10 @@ vcCake.addService('assets-manager', {
     })
   },
 
+  /**
+   * @param assetKey
+   * @returns {*}
+   */
   get: function (assetKey = false) {
     if (!assetKey) {
       return this.elements
@@ -55,6 +60,9 @@ vcCake.addService('assets-manager', {
     return this.elements[ assetKey ]
   },
 
+  /**
+   * @param id
+   */
   update: function (id) {
     if (this.get(id)) {
       let cook = vcCake.getService('cook')
@@ -87,6 +95,11 @@ vcCake.addService('assets-manager', {
     })
   },
 
+  /**
+   * @param tag
+   * @param file
+   * @returns {*}
+   */
   getPublicPath: (tag, file) => {
     let path
     if (vcCake.env('platform') === 'node') {
@@ -155,18 +168,14 @@ vcCake.addService('assets-manager', {
     let styles = this.getStyles()
     var iterations = []
     for (let tagName in styles) {
-      let stylePromise = new Promise((resolve, reject) => {
-        if (styles[ tagName ].css) {
-          postcss().process(styles[ tagName ].css).then((result) => {
-            if (result.css) {
-              resolve(result.css)
-            } else {
-              resolve(false)
-            }
+      if (styles[ tagName ].css) {
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss().use(postcssVars()).process(styles[ tagName ].css).then((result) => {
+            resolve(result.css)
           })
-        }
-      })
-      iterations.push(stylePromise)
+        })
+        iterations.push(stylePromise)
+      }
     }
 
     return Promise.all(iterations).then((output) => {
@@ -184,7 +193,6 @@ vcCake.addService('assets-manager', {
       let options = designOptionsData[ id ]
       let tempProperty = null
       let tempValue = null
-      console.log(options)
 
       if (options.deviceTypes === 'all') {
         // get background color

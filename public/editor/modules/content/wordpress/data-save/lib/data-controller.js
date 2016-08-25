@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import React from 'react'
 
-// const AssetManager = vcCake.getService('assets-manager')
+// const assetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
 
 class SaveController {
@@ -44,9 +44,9 @@ class SaveController {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data-reactid="[^"]+"/,
       '')
-    let scripts = '' // 'body {color: red}' // AssetManager.getAssets('scripts')
-    let styles = '' // 'console.log(3)' // AssetManager.get
-    let designOptions = '' // AssetManager.get
+    let scripts = '' // 'body {color: red}' // assetManager.getAssets('scripts')
+    let styles = '' // 'console.log(3)' // assetManager.get
+    let designOptions = '' // assetManager.get
     this.ajax(
       {
         'vcv-action': 'setData:adminNonce',

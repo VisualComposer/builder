@@ -1,19 +1,23 @@
 import vcCake from 'vc-cake'
 
-const DocumentService = vcCake.getService('document')
-const AssetManager = vcCake.getService('assets-manager')
+const documentService = vcCake.getService('document')
+const assetManager = vcCake.getService('assets-manager')
 
 vcCake.add('assets', (api) => {
   api.reply('data:afterAdd', (ids) => {
-    AssetManager.add(ids)
+    assetManager.add(ids)
     // assetManager.getCompiledCss().then((result) => {
     //   console.log(result)
     // })
   })
 
   api.reply('data:afterUpdate', (id, element) => {
-    AssetManager.update(id)
-    // AssetManager.getCompiledDesignOptions().then((result) => {
+    assetManager.update(id)
+    // assetManager.getCompiledDesignOptions().then((result) => {
+    //   console.log(result)
+    // })
+    // console.log(assetManager.get())
+    // assetManager.getCompiledCss().then((result) => {
     //   console.log(result)
     // })
   })
@@ -22,25 +26,25 @@ vcCake.add('assets', (api) => {
     let elements = []
     let walkChildren = (id) => {
       elements.push(id)
-      let children = DocumentService.children(id)
+      let children = documentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
       })
     }
     walkChildren(id)
-    AssetManager.remove(elements)
+    assetManager.remove(elements)
   })
 
   api.reply('data:afterClone', (id) => {
     let elements = []
     let walkChildren = (id) => {
       elements.push(id)
-      let children = DocumentService.children(id)
+      let children = documentService.children(id)
       children.forEach((child) => {
         walkChildren(child.id)
       })
     }
     walkChildren(id)
-    AssetManager.add(elements)
+    assetManager.add(elements)
   })
 })
