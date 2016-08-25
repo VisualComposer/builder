@@ -19,7 +19,7 @@ export default class Text extends React.Component {
   componentDidMount () {
     if (this.props.inlineEditable && this.props.inlineEditable.field && this.props.inlineEditable.id) {
       const dom = ReactDOM.findDOMNode(this)
-/*      dom.setAttribute('contenteditable', true)
+      dom.setAttribute('contenteditable', true)
       let started = false
       dom.addEventListener('mousedown', () => {
         console.log('mousedown: ' + started)
@@ -51,8 +51,8 @@ export default class Text extends React.Component {
           }
           $(dom).parents('body').on('click', exitCallback)
         }
-      })*/
-      const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
+      })
+      /* const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       this.medium = new MediumEditor(dom, {
         delay: 1000,
         toolbar: {buttons: ['bold', 'italic', 'underline']},
@@ -65,7 +65,7 @@ export default class Text extends React.Component {
         contentWindow: contentWindow,
         ownerDocument: contentWindow.document,
         elementsContainer: contentWindow.document.body
-      })
+      }) */
 /*      let start = 0
       let startActivation = false
       let disableSelectStart = (e) => {
