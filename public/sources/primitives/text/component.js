@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
+import $ from 'jquery'
 
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -16,42 +17,19 @@ export default class Text extends React.Component {
     children: React.PropTypes.string,
     class: React.PropTypes.string
   }
+  constructor (props) {
+    super(props)
+    this.state = {
+      contentEditable: !!(this.props.inlineEditable && this.props.inlineEditable.field && this.props.inlineEditable.id),
+      editionStarted: false
+    }
+  }
   componentDidMount () {
-    if (this.props.inlineEditable && this.props.inlineEditable.field && this.props.inlineEditable.id) {
-      const dom = ReactDOM.findDOMNode(this)
-      dom.setAttribute('contenteditable', true)
-      let started = false
-      dom.addEventListener('mousedown', () => {
-        console.log('mousedown: ' + started)
-        if (started === false) {
-          let disableSelectStart = (e) => {
-            console.log('disable select start')
-            e.preventDefault()
-          }
-          $(dom).one('mousemove', () => {
-            console.log('mousemove: ' + started)
-            if (started === false) {
-              dom.setAttribute('contenteditable', false)
-              dom.addEventListener('selectstart', disableSelectStart)
-            }
-          })
-          $(dom).one('mouseup', () => {
-            console.log('mouseup')
-            if (getData('vcv-dnd-started') !== true) {
-              started = true
-            }
-          })
-          const exitCallback = (e) => {
-            if (e.target !== dom) {
-              dom.setAttribute('contenteditable', true)
-              dom.removeEventListener('selectstart', disableSelectStart)
-              started = false
-              $(dom).off('click', exitCallback)
-            }
-          }
-          $(dom).parents('body').on('click', exitCallback)
-        }
-      })
+    if (this.state.contentEditable) {
+      this.editorActivated = false
+/*      dom.addEventListener('mousedown', () => {
+
+      })*/
       /* const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       this.medium = new MediumEditor(dom, {
         delay: 1000,
@@ -90,38 +68,67 @@ export default class Text extends React.Component {
 
       /* dom.addEventListener('mouseup', (e) => {
         dom.setAttribute('contenteditable', false)
-      })*/
+      })
       this.medium.subscribe('editableInput', (event, editable) => {
         const data = documentManager.get(this.props.inlineEditable.id)
         const element = cook.get(data)
         element.set(this.props.inlineEditable.field, editable.innerHTML)
         documentManager.update(this.props.inlineEditable.id, element.toJS())
-      })
+      }) */
     }
   }
-/*  shouldComponentUpdate () {
-    return false
-  }*/
-  componentWillUnmount () {
-    const dom = ReactDOM.findDOMNode(this)
-    this.medium.removeElements(dom)
+  handleChange (e) {
+    const data = documentManager.get(this.props.inlineEditable.id)
+    const element = cook.get(data)
+    element.set(this.props.inlineEditable.field, e.currentTarget.innerHTML)
+    documentManager.update(this.props.inlineEditable.id, element.toJS())
   }
-  setupEditor (e) {
-    /* let start = new Date().getTime()
-    setData('vcv-dnd-disabled', true)
-    $(e.currentTarget).one('mousemove', (e) => {
-      let end = new Date().getTime()
-      console.log(end - start)
-      // const dom = ReactDOM.findDOMNode(this)
-      // dom.setAttribute('contenteditable', false)
-    })*/
+  handleMouseDown () {
+    const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
+    const dom = ReactDOM.findDOMNode(this)
+    let $dom = $(dom)
+    console.log('mousedown: ' + this.editorActivated)
+    if (this.editorActivated === false) {
+      let domMouseUpFired = false
+      $dom.one('mouseup', () => {
+        console.log('dom mouseup:' + this.editorActivated)
+        domMouseUpFired = true
+        this.editorActivated = true
+        this.setState({contentEditable: true})
+      }).one('mousemove', () => {
+        console.log('mousemove: ' + this.editorActivated)
+        if (this.editorActivated === false) {
+          console.log('mousemove disable contentEditable')
+          this.setState({contentEditable: false})
+        }
+      })
+      // Set global listener to enable
+      $(contentWindow).one('mouseup', () => {
+        console.log('contentWindow mouseup:' + this.editorActivated + ', ' + domMouseUpFired)
+        if (domMouseUpFired === false) {
+          this.editorActivated = false
+          this.setState({contentEditable: true})
+        }
+      })
+      $dom
+    }
+  }
+  handleBlur () {
+    console.log('blur:' + this.editorActivated)
+    if (this.editorActivated === false) {
+      this.setState({ contentEditable: true })
+    }
+    this.editorActivated = false
   }
   render () {
     const tag = this.props.tag
     const props = {
       dangerouslySetInnerHTML: { __html: this.props.children },
-      className: this.props.class || null
-      // onMouseUp: this.props.inlineEditable ? this.setupEditor : null
+      className: this.props.class || null,
+      contentEditable: this.state.contentEditable,
+      onKeyUp: this.state.contentEditable ? this.handleChange.bind(this) : null,
+      onMouseDown: this.state.contentEditable ? this.handleMouseDown.bind(this) : null,
+      onBlur: this.state.contentEditable ? this.handleBlur.bind(this) : null
     }
     return React.createElement(tag, props)
   }

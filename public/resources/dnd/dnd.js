@@ -3,6 +3,7 @@ import _ from 'lodash'
 import {getService, getData} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
+import Api from './api'
 import DOMElement from './dom-element'
 
 const documentManager = getService('document')
@@ -17,20 +18,92 @@ export default class DnD {
    * @constructor
    */
   constructor (container, options) {
-    this.container = container
-    this.items = {}
-    this.hover = ''
-    this.point = null
-    this.draggingElement = null
-    this.currentElement = null
-    this.placeholder = null
-    this.position = null
-
-    Object.defineProperty(this,
+    Object.defineProperties(this, {
       /**
        * @memberOf! DnD
        */
-      'options', {
+      helper: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      position: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      placeholder: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      currentElement: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      draggingElement: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      point: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: null
+      },
+      /**
+       * @memberOf! DnD
+       */
+      hover: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: ''
+      },
+      /**
+       * @memberOf! DnD
+       */
+      items: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: {}
+      },
+      /**
+       * @memberOf! DnD
+       */
+      container: {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: container
+      },
+      /**
+       * @memberOf! DnD
+       */
+      options: {
         enumerable: false,
         configurable: false,
         writable: false,
@@ -50,7 +123,11 @@ export default class DnD {
           handler: null,
           disabled: false
         })
-      })
+      }
+    })
+  }
+  static api (dnd) {
+    return new Api(dnd)
   }
   option (name, value) {
     this.options[name] = value
