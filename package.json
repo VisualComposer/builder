@@ -80,6 +80,7 @@
     "normalize.css": "^4.2.0",
     "perfect-scrollbar": "^0.6.12",
     "postcss": "^5.1.2",
+    "postcss-custom-media": "^5.0.1",
     "postcss-custom-properties": "^5.0.1",
     "postcss-loader": "^0.9.1",
     "react": "^15.3.0",
