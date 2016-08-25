@@ -1,13 +1,12 @@
-import Api from './lib/api'
 import vcCake from 'vc-cake'
-import DnD from './lib/dnd'
+import DnD from '../../../../resources/dnd/dnd'
 import $ from 'jquery'
 
 require('./css/module.less')
 vcCake.add('content-dnd', function (api) {
   let documentDOM
   let iframe
-  let ModuleDnd = function (moduleApi) {
+  const ModuleDnd = function (moduleApi) {
     this.api = moduleApi
     this.layoutAPI = this.api.module('content-layout')
   }
@@ -26,7 +25,8 @@ vcCake.add('content-dnd', function (api) {
         container: document.getElementById('vcv-editor-iframe-overlay') || document.body
       })
       this.items.init()
-      this.dndAPI = new Api(this.items, this.api)
+      this.apiDnD = DnD.api(this.items)
+      this.api.addAction('startDragging', this.start.bind(this.apiDnD))
       this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
     }
   }
@@ -65,6 +65,6 @@ vcCake.add('content-dnd', function (api) {
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
     document.body.classList.remove('vcv-is-no-selection')
   }
-  var dnd = new ModuleDnd(api)
+  let dnd = new ModuleDnd(api)
   dnd.init()
 })

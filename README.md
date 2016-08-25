@@ -1,12 +1,24 @@
 # Visual Composer 5.0 (Сurry)
 
 ## Javascript Code Style
+All javascript is build with webpack module bundler.
 
 Use standardJS to validate CC.
 When you create file with jsx content at first line of file add:
 ```
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
 ```
+### Supported Language
+Use ES6 version for Javascript code.
+
+### Variables and Classes
+For all var,let,const and method names you should use camelCase. 
+Exceptions to the rule:
+    * Class names for ES6 with camelCase and first Uppercase letter. Example: MySuperClass
+    * Constructors for ES5 with camelCase and first Uppercase letter. Example: var Constructor = function(){}
+
+### No jQuery
+Contributor should try not to use jQuery and jQuery-like libraries.
 
 ### Installation instruction
 ``` sh
