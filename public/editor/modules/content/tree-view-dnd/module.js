@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import DnD from '../../../../resources/dnd/dnd'
 
 vcCake.add('content-tree-view-dnd', function (api) {
-
   const ModuleDnd = function (api) {
     this.api = api
     this.layoutAPI = this.api.module('ui-tree-view')

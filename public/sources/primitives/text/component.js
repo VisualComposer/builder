@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import MediumEditor from 'medium-editor'
+// import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
 import $ from 'jquery'
 
