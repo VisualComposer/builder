@@ -108,7 +108,7 @@ ControlsHandler.prototype.drawOutlines = function () {
       })
     } else {
       var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
-      var elementObject = this.getElement(elementId)
+      // var elementObject = this.getElement(elementId)
       // var controlColorIndex = this.getElementColorIndex(elementObject)
 
       posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
