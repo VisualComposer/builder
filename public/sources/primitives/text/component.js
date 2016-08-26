@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import MediumEditor from 'medium-editor'
+import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
 import $ from 'jquery'
 
@@ -27,6 +27,21 @@ export default class Text extends React.Component {
   componentDidMount () {
     if (this.state.contentEditable) {
       this.editorActivated = false
+      const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
+      const dom = ReactDOM.findDOMNode(this)
+      this.medium = new MediumEditor(dom, {
+        delay: 1000,
+        toolbar: {buttons: ['bold', 'italic', 'underline']},
+        paste: {
+          cleanPastedHTML: true,
+          cleanAttrs: ['style', 'dir'],
+          cleanTags: ['label', 'meta'],
+          unwrapTags: ['sub', 'sup']
+        },
+        contentWindow: contentWindow,
+        ownerDocument: contentWindow.document,
+        elementsContainer: contentWindow.document.body
+      })
 /*      dom.addEventListener('mousedown', () => {
 
       })*/
@@ -90,38 +105,38 @@ export default class Text extends React.Component {
     const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
     const dom = ReactDOM.findDOMNode(this)
     let $dom = $(dom)
-    console.log('mousedown: ' + this.editorActivated)
     if (this.editorActivated === false) {
       let domMouseUpFired = false
       $dom.one('mouseup', () => {
-        console.log('dom mouseup:' + this.editorActivated)
         domMouseUpFired = true
+        if (this.editorActivated === false) {
+          vcCake.setData('textInlineEditableStared', true)
+        }
         this.editorActivated = true
+        this.medium.setup()
         this.setState({contentEditable: true})
       }).one('mousemove', () => {
-        console.log('mousemove: ' + this.editorActivated)
         if (this.editorActivated === false) {
-          console.log('mousemove disable contentEditable')
+          this.medium.destroy()
           this.setState({contentEditable: false})
         }
       })
       // Set global listener to enable
       $(contentWindow).one('mouseup', () => {
-        console.log('contentWindow mouseup:' + this.editorActivated + ', ' + domMouseUpFired)
         if (domMouseUpFired === false) {
           this.editorActivated = false
-          // this.setState({contentEditable: true})
+          vcCake.setData('textInlineEditableStared', false)
         }
       })
       $dom
     }
   }
   handleBlur () {
-    console.log('blur:' + this.editorActivated)
     if (this.editorActivated === false) {
       this.setState({ contentEditable: true })
     }
     this.editorActivated = false
+    vcCake.setData('textInlineEditableStared', false)
   }
   render () {
     const tag = this.props.tag

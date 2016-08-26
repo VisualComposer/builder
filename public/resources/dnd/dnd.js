@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, getData} from 'vc-cake'
+import {getService, setData} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
 import Api from './api'
@@ -236,9 +236,12 @@ export default class DnD {
     if (typeof this.options.startCallback === 'function') {
       this.options.startCallback(this.draggingElement)
     }
-    window.setTimeout(() => { this.helper && this.helper.show() }, 200)
+    window.setTimeout(() => {
+      this.helper && this.helper.show()
+    }, 200)
   }
   end () {
+    setData('dnd-check', false)
     // Remove helper
     this.helper && this.helper.remove()
     // Remove css class for body
@@ -267,6 +270,10 @@ export default class DnD {
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
   check (point = null) {
+    if (this.options.disabled === true) {
+      this.handleDragEnd()
+      return
+    }
     this.helper && this.helper.setPosition(point)
     this.placeholder && this.checkItems(point)
   }
@@ -285,13 +292,13 @@ export default class DnD {
    * Drag handlers
    */
   handleDrag (e) {
-    getData('vcv-dnd-disabled') !== true && this.check({ x: e.clientX, y: e.clientY })
+    this.check({ x: e.clientX, y: e.clientY })
   }
   /**
    * @param {object} e Handled event
    */
   handleDragStart (e) {
-    if (this.dragStartHandled) { // hack not to use stopPropogation
+    if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
     if (!this.dragStartHandled) {
