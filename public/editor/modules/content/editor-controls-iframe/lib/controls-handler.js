@@ -109,7 +109,7 @@ ControlsHandler.prototype.drawOutlines = function () {
     } else {
       var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
       var elementObject = this.getElement(elementId)
-      var controlColorIndex = this.getElementColorIndex(elementObject)
+      // var controlColorIndex = this.getElementColorIndex(elementObject)
 
       posTop = elemenstsTree[ i ].offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
       posLeft = elemenstsTree[ i ].offset().left + iframeOffsetLeft - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
@@ -123,7 +123,7 @@ ControlsHandler.prototype.drawOutlines = function () {
         'display': ''
       })
       outlines[ i ].attr('data-vc-outline-element-id', elementId)
-      outlines[ i ].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
+      // outlines[ i ].addClass('vcv-ui-outline-type-index-' + controlColorIndex)
     }
   }
 

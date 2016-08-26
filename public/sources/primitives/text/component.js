@@ -77,6 +77,9 @@ export default class Text extends React.Component {
       }) */
     }
   }
+  componentWillUnmount () {
+
+  }
   handleChange (e) {
     const data = documentManager.get(this.props.inlineEditable.id)
     const element = cook.get(data)
@@ -107,7 +110,7 @@ export default class Text extends React.Component {
         console.log('contentWindow mouseup:' + this.editorActivated + ', ' + domMouseUpFired)
         if (domMouseUpFired === false) {
           this.editorActivated = false
-          this.setState({contentEditable: true})
+          // this.setState({contentEditable: true})
         }
       })
       $dom

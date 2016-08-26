@@ -16,11 +16,11 @@ export default class {
     this.getter = getter
   }
 
-  getValue (settings, data, key) {
+  getValue (settings, data, key, ignoreGetter = false) {
     if (typeof data[ key ] === 'undefined' && typeof settings.value !== 'undefined') {
       data[ key ] = settings.value
     }
-    return this.getter ? this.getter(data, key, settings) : this.getRawValue(data, key)
+    return this.getter && ignoreGetter !== true ? this.getter(data, key, settings) : this.getRawValue(data, key)
   }
 
   setValue (settings, data, key, value) {

@@ -26,7 +26,7 @@ vcCake.add('content-dnd', function (api) {
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
-      this.api.addAction('startDragging', this.start.bind(this.apiDnD))
+      this.api.addAction('startDragging', this.apiDnD.start.bind(this.apiDnD))
       this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
     }
   }

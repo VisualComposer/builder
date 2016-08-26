@@ -95,9 +95,9 @@ class ElementAttribute extends Attribute {
   getFormParamField (tabIndex, param) {
     const updater = (key, value) => {
       this.state.element.set(key, value)
-      this.props.updater(this.props.fieldKey, this.state.element.toJS(true))
+      this.props.updater(this.props.fieldKey, this.state.element.toJS())
       this.setState({
-        value: this.state.element.toJS(true),
+        value: this.state.element.toJS(),
         update: false
       })
     }

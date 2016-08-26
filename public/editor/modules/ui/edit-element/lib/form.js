@@ -202,7 +202,7 @@ class EditForm extends React.Component {
 
   onSave = () => {
     let { element, api } = this.props
-    api.request('data:update', element.get('id'), element.toJS(true))
+    api.request('data:update', element.get('id'), element.toJS())
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })

@@ -6,7 +6,14 @@ import classNames from 'classnames'
 const cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 
-class ElementControl extends React.Component {
+export default class ElementControl extends React.Component {
+  static propTypes = {
+    tag: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    element: React.PropTypes.object.isRequired,
+    api: React.PropTypes.object.isRequired
+  }
+
   state = {
     previewVisible: false,
     previewStyle: {}
@@ -20,7 +27,8 @@ class ElementControl extends React.Component {
   addElement (e) {
     e && e.preventDefault()
     let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
-    this.props.api.request('data:add', data.toJS(true))
+    console.log(data.toJS())
+    this.props.api.request('data:add', data.toJS())
     this.props.api.notify('hide', true)
   }
 
@@ -194,11 +202,3 @@ class ElementControl extends React.Component {
     )
   }
 }
-ElementControl.propTypes = {
-  tag: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  element: React.PropTypes.object.isRequired,
-  api: React.PropTypes.object.isRequired
-}
-
-export default ElementControl

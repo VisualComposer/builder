@@ -49,13 +49,13 @@ class CookElement {
     })
   }
 
-  get (k) {
+  get (k, raw = false) {
     if ([ 'id', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
 
-    return type && settings ? type.getValue(settings, this[ elData ].data, k) : undefined
+    return type && settings ? type.getValue(settings, this[ elData ].data, k, raw) : undefined
   }
 
   settings (k) {
@@ -111,19 +111,21 @@ class CookElement {
     return new CookElement({ tag: tag })
   }
 
-  toJS (rawData) {
+  toJS () {
     let data = {}
     for (let k of Object.keys(this[ elData ].settings)) {
-      if (rawData) {
-        let { type } = this[ elData ].getAttributeType(k)
-        data[ k ] = type.getRawValue(this[ elData ].data, k)
-      } else {
-        data[ k ] = this.get(k)
+      let value = this.get(k, true)
+      if (value !== undefined) {
+        data[ k ] = value
       }
     }
     data.id = this[ elData ].id
-    data.parent = this[ elData ].parent
-    data.order = this[ elData ].order
+    if (data.parent !== undefined) {
+      data.parent = this[ elData ].parent
+    }
+    if (data.order !== undefined) {
+      data.order = this[ elData ].order
+    }
     return data
   }
 
