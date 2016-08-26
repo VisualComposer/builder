@@ -120,10 +120,10 @@ class CookElement {
       }
     }
     data.id = this[ elData ].id
-    if (data.parent !== undefined) {
+    if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent
     }
-    if (data.order !== undefined) {
+    if (this[ elData ].order !== undefined) {
       data.order = this[ elData ].order
     }
     return data
