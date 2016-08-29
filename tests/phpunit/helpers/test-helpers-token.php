@@ -17,7 +17,7 @@ class HelpersTokenTest extends WP_UnitTestCase
 
         /** @var $optionsHelper \VisualComposer\Helpers\Options */
         $optionsHelper = vchelper('Options');
-
+        delete_option('vcv-site-registered');
         $this->assertFalse($helper->isRegistered($optionsHelper));
 
         $body = ['client_id' => 'foo', 'client_secret' => 'bar'];
@@ -33,7 +33,8 @@ class HelpersTokenTest extends WP_UnitTestCase
         $helper = vchelper('Token');
         /** @var $optionsHelper VisualComposer\Helpers\Options */
         $optionsHelper = vchelper('Options');
-
+        delete_option('vcv-page-auth-token');
+        delete_option('vcv-page-auth-refresh-token');
         remove_all_filters('pre_http_request');
         add_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest'], 10, 3);
 

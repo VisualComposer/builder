@@ -158,6 +158,7 @@ class Role implements Helper
             $this->setValidAccess(is_super_admin());
         } elseif ($this->getValidAccess()) {
             // YES it is hard coded :)
+            // TODO: REMOVE THIS!!
             if ('administrator' === $this->getRole()->name && 'settings' === $part
                 && ('vcv-roles-tab' === $rule
                     || 'vcv-license-tab' === $rule)
