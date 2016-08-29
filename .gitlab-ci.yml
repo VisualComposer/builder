@@ -2,9 +2,9 @@ image: wpbakery/ci-wordpress
 
 stages:
   - codestyle
-  - deploy
   - build
   - test
+  - deploy
 
 codestyle:js:
   image: wpbakery/standardjs
