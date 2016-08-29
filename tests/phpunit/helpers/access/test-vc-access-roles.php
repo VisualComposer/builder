@@ -4,6 +4,21 @@ use VisualComposer\Helpers\Nonce;
 
 class VcAccessRolesTest extends WP_UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv:') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+    }
+
     public function testRoleAccess()
     {
         $this->assertTrue(is_object(vcapp('VisualComposer\Helpers\Access\CurrentUser')));
@@ -390,16 +405,16 @@ class VcAccessRolesTest extends WP_UnitTestCase
         // check nonce falses
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
-                                                       ->part('shortcodes')->can()->get(true)
+            ->part('shortcodes')->can()->get(true)
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce()// no nonce exists
-                                                       ->part('shortcodes')->can()->get(true)
+            ->part('shortcodes')->can()->get(true)
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
-                                                       ->checkPublicNonce()// no nonce exists
-                                                       ->part('shortcodes')->can()->get(true)
+            ->checkPublicNonce()// no nonce exists
+            ->part('shortcodes')->can()->get(true)
         );
 
         $this->assertTrue(vcapp('VisualComposer\Helpers\Access\Role')->getValidAccess());
@@ -872,27 +887,27 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())
-                                                       ->checkPublicNonce(
-                                                           vcapp('NonceHelper')->user()
-                                                       )->check(
+                ->checkPublicNonce(
+                    vcapp('NonceHelper')->user()
+                )->check(
                     [
                         $this,
                         '_check',
                     ],
                     true
                 )->part('something_role')->can()->canAny('something_role')// in null it is always true
-                                                       ->canAny(
+                ->canAny(
                     'something_role',
                     'something_role2'
                 )// in null it is always true
-                                                       ->canAll(
+                ->canAll(
                     'something_role'
                 )// in null it is always true
-                                                       ->canAll(
+                ->canAll(
                     'something_role',
                     'something_role2'
                 )// in null it is always true
-                                                       ->checkState(null)->checkStateAny('custom', null)->get(
+                ->checkState(null)->checkStateAny('custom', null)->get(
                     true
                 )
         );

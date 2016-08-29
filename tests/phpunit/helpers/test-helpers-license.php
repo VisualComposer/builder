@@ -22,11 +22,16 @@ class HelpersLicenseTest extends WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Options $optionsHelper */
         $optionsHelper = vchelper('Options');
+        $helper->setKey(false, $optionsHelper);
 
         $this->assertFalse($helper->isActivated());
 
         $helper->setKey('foo-bar', $optionsHelper);
 
         $this->assertTrue($helper->isActivated());
+
+        //reset
+        $helper->setKey(false, $optionsHelper);
+
     }
 }

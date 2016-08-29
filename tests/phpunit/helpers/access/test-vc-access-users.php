@@ -2,6 +2,21 @@
 
 class VcAccessUsersTest extends WP_UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv:') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+    }
+
     public function testUserAccessValidateDie()
     {
         $this->assertEquals(
@@ -378,7 +393,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
     public function testStates()
     {
-        $this->assertFalse(
+        $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->can()->get()
         );
         $this->assertNull(
@@ -787,6 +802,11 @@ class VcAccessUsersTest extends WP_UnitTestCase
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->can(
                 'something'
+            )->get()
+        );
+        $this->assertFalse(
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->reset()->part('something')->can(
+                'something2'
             )->get()
         );
 

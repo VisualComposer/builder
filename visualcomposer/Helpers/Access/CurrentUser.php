@@ -31,6 +31,8 @@ class CurrentUser extends AccessFactory implements Helper
             && is_user_logged_in(
             ); // TODO: fix this issue: this should never happen. add action plugins_loaded pluggable.php!!
         $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level.
+        // Init user role
+        $this->getRole();
 
         return $this;
     }
