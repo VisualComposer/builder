@@ -223,7 +223,8 @@ class Controller extends Container implements Module
             return false;
         }
 
-        $defaultElements = $this->fetchDefaultElements();
+        /** @see \VisualComposer\Modules\Elements\Controller::fetchDefaultElements */
+        $defaultElements = $this->call('fetchDefaultElements');
 
         if ($defaultElements === false) {
             return false;
