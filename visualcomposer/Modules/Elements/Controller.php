@@ -128,7 +128,7 @@ class Controller extends Container implements Module
      * Set elements.
      *
      * @param array $elements
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      */
     private function setElements($elements, Options $options)
     {
@@ -146,19 +146,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::getElements */
         $elements = $this->call('getElements');
 
-        $key = null;
-        foreach ($elements as $k => $element) {
-            if ($element['tag'] === $tag) {
-                $key = $k;
-                break;
-            }
-        }
-
-        if ($key !== null) {
-            $elements[ $key ] = $data;
-        } else {
-            $elements[] = $data;
-        }
+        $elements[ $tag ] = $data;
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
         $this->call('setElements', [$elements]);
@@ -223,25 +211,29 @@ class Controller extends Container implements Module
             return false;
         }
 
-        $defaultElements = $this->fetchDefaultElements();
+        /** @see \VisualComposer\Modules\Elements\Controller::fetchDefaultElements */
+        $defaultElements = $this->call('fetchDefaultElements');
 
         if ($defaultElements === false) {
             return false;
         }
 
-        $elements = [];
+        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+        $elements = (array)$this->call('getElements');
 
-        foreach ($defaultElements as $element) {
+        foreach ($defaultElements as $newElement) {
             /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
-            if (!$this->call('downloadElement', [$element['tag'], $destinationDir])) {
+            if (!$this->call('downloadElement', [$newElement['tag'], $destinationDir])) {
                 return false;
             }
 
-            $elements[] = [
-                'name' => $element['name'],
-                'tag' => $element['tag'],
-                'version' => $element['version'],
+            $data = [
+                'name' => $newElement['name'],
+                'tag' => $newElement['tag'],
+                'version' => $newElement['version'],
             ];
+
+            $elements[ $newElement['tag'] ] = $data;
         }
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
@@ -249,7 +241,7 @@ class Controller extends Container implements Module
 
         $options->set('elements-downloaded', true);
 
-        return count($elements);
+        return count($defaultElements);
     }
 
     /**

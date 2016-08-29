@@ -2,6 +2,21 @@
 
 class VcAccessRolesUsersTest extends WP_UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv:') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+    }
+
     public function _check($value)
     {
         // used in next test
@@ -15,23 +30,23 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         // un existed
         // same for user_access
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users')->can()->get()
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users', true)->can()->get()
         );
 
         // exact capability. un existed. same for users
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users')->can(
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users', true)->can(
                 'something_role_users'
             )->get()
         );
 
         // false state = disabled
-        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users')->setState(
+        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)->setState(
             false
         );
         // false also for users ( because role contains users )
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users')->can()->get(true)
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users', true)->can()->get(true)
         );
 
         $this->assertFalse(
@@ -50,13 +65,13 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users')->can(
+            vcapp('VisualComposer\Helpers\Access\CurrentUser')->part('something_role_users', true)->can(
                 'something_role_users'
             )->get(true)
         );
 
         // reset:
-        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users')->setState(
+        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)->setState(
             null
         );
 
@@ -257,7 +272,13 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
                 true
             )
         );
+    }
 
+    public function testPartCapabilitiesForCustomCanCananyCanallNull()
+    {
+        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users')->setState(
+            'custom'
+        );
         wp_set_current_user(null);
         $this->assertEquals(
             'custom',
@@ -298,7 +319,13 @@ class VcAccessRolesUsersTest extends WP_UnitTestCase
                 'some_other_rule'
             )->get(true)
         );
+    }
 
+    public function testCustomStateRoleRule()
+    {
+        vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users')->setState(
+            'custom'
+        );
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
         vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('something_role_users', true)
             ->setCapRule('something_role_users', true);
