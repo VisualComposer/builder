@@ -9,15 +9,12 @@ use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Filters as FilterDispatcher;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Controller.
  */
 class Controller extends Container implements Module
 {
-    use WpFiltersActions;
-
     /**
      * @var \VisualComposer\Helpers\Filters
      */
@@ -57,7 +54,6 @@ class Controller extends Container implements Module
         $this->options = $optionsHelper;
         $this->file = $fileHelper;
 
-        return; // Feature Toggle
         $this->filter->listen(
             'vcv:postAjax:setPostData',
             function ($response, $payload) {
@@ -68,11 +64,9 @@ class Controller extends Container implements Module
                 } else {
                     $response['status'] = false;
                 }
-
                 return $response;
             }
         );
-
         // Save compiled less into one css bundle.
         $this->filter->listen(
             'vcv:ajax:saveCssBundle:adminNonce',
@@ -89,10 +83,12 @@ class Controller extends Container implements Module
             }
         );
 
-        /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
-        $this->wpAddFilter(
+        add_action(
             'before_delete_post',
-            'deletePostAssetsHook'
+            function ($postId) {
+                /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::deletePostAssetsHook */
+                return $this->call('deletePostAssetsHook', [$postId]);
+            }
         );
     }
 
@@ -103,23 +99,27 @@ class Controller extends Container implements Module
      */
     private function setPostDataHook($postId)
     {
-        $this->updateAssets(
+        $this->updatePostAssets(
+            $postId,
             'scripts',
-            $this->request->input('vcv-scripts', '')
+            $this->request->input('vcv-scripts', [])
         );
-        $this->updateAssets(
+        $this->updatePostAssets(
+            $postId,
             'styles',
-            $this->request->input('vcv-styles', '')
+            $this->request->input('vcv-styles', [])
         );
-        $this->setElementsList(
-            $this->request->input('vcv-elements-list', '')
+        $this->updateGlobalAssets(
+            'global-styles',
+            $this->request->input('vcv-global-styles', '')
         );
-        $scriptsBundle = $this->generateScriptsBundle();
-        $stylesBundle = $this->generateStylesBundle();
-
+        $scriptsBundles = $this->generateScriptsBundle();
+        // $styleBundles = $this->getStyleBundles();
+        $globalStylesFile = $this->generateStylesGlobalFile();
         return [
-            'scriptBundle' => $scriptsBundle,
-            'styleBundle' => $stylesBundle,
+            'scriptBundles' => $scriptsBundles,
+            // 'styleBundles' => $styleBundles,
+            'globalStylesFile' => $globalStylesFile
         ];
     }
 
@@ -169,16 +169,126 @@ class Controller extends Container implements Module
 
     /**
      * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
      *
      * @return bool|string URL to generated bundle.
      */
     private function generateScriptsBundle()
     {
-        $scripts = $this->options->get('scripts', '');
-        $bundleUrl = $this->createBundleFile($scripts, 'js');
+        $assets = $this->options->get('scripts', []);
+
+        $files = [];
+        if (is_array($assets)) {
+            foreach ($assets as $postId => $elements) {
+                if (is_array($elements)) {
+                    foreach ($elements as $element => $elementAssets) {
+                        $files = array_merge($files, $elementAssets);
+                    }
+                }
+            }
+        }
+        $files = array_unique($files);
+
+        if (!empty($files)) {
+            $uploadDir = wp_upload_dir();
+            $concatenatedFilename = md5(implode(',', $files)) . '.js';
+            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles' . '/'
+                . $concatenatedFilename;
+
+            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles';
+            $bundle = $destinationDir . '/' . $concatenatedFilename;
+            /** @var $app Application */
+            $app = vcapp();
+            if (!is_file($bundle)) {
+                $contents = '';
+                foreach ($files as $file) {
+                    $filepath = $app->path('public/sources/elements/' . $file);
+                    $contents .= $this->file->getContents($filepath) . "\n";
+                }
+
+                $this->deleteAssetsBundles('js');
+                if (!$this->file->setContents($bundle, $contents)) {
+                    return false;
+                }
+            }
+        } else {
+            $this->deleteAssetsBundles('js');
+            $bundleUrl = '';
+        }
+
         $this->options->set('scriptsBundle', $bundleUrl);
 
         return $bundleUrl;
+    }
+
+    /**
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
+     *
+     * @param string $contents CSS contents to save.
+     *
+     * @return bool|string URL to generated bundle.
+     */
+    private function generateStylesBundle($contents)
+    {
+        if ($contents) {
+            $uploadDir = wp_upload_dir();
+            $concatenatedFilename = md5($contents) . '.css';
+            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
+                . $concatenatedFilename;
+
+            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
+            $bundle = $destinationDir . '/' . $concatenatedFilename;
+
+            if (!is_file($bundle)) {
+                $this->deleteAssetsBundles('css');
+                if (!$this->file->setContents($bundle, $contents)) {
+                    return false;
+                }
+            }
+        } else {
+            $this->deleteAssetsBundles('css');
+            $bundleUrl = '';
+        }
+
+        $this->options->set('stylesBundle', $bundleUrl);
+
+        return $bundleUrl;
+    }
+
+    /**
+     * @return array
+     */
+    private function getStyleBundles()
+    {
+        $assets = $this->options->get('styles', []);
+
+        $list = [];
+        if (is_array($assets)) {
+            foreach ($assets as $postId => $elements) {
+                $list = array_merge($list, (array)$elements);
+            }
+        }
+
+        $bundles = [];
+        /** @var Application $app */
+        $app = vcapp();
+        foreach ($list as $element => $files) {
+            $contents = '';
+            if (is_array($files)) {
+                foreach ($files as $file) {
+                    $filepath = $app->path('public/sources/elements/' . $file);
+                    $contents .= $this->file->getContents($filepath) . "\n";
+                }
+            }
+
+            $bundles[] = [
+                'filename' => $element . '.less',
+                'contents' => $contents,
+            ];
+        }
+
+        return $bundles;
     }
 
     /**
@@ -186,11 +296,11 @@ class Controller extends Container implements Module
      *
      * @return bool|string URL to generated bundle.
      */
-    private function generateStylesBundle()
+    private function generateStylesGlobalFile()
     {
-        $styles = $this->options->get('styles', '');
+        $styles = $this->options->get('global-styles', '');
         $bundleUrl = $this->createBundleFile($styles, 'css');
-        $this->options->set('stylesBundle', $bundleUrl);
+        $this->options->set('stylesGlobalFile', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -224,42 +334,69 @@ class Controller extends Container implements Module
 
         return $bundleUrl;
     }
-
     /**
+     * @param int $postId
      * @param string $assetType scripts|styles.
-     * @param string[] $data
+     * @param string[] $postAssets
      *
      * @return array|mixed
      */
-    private function updateAssets($assetType, $data)
+    private function updatePostAssets($postId, $assetType, $postAssets)
     {
-        $assets = $this->options->get($assetType, '');
+        $assets = $this->options->get($assetType, []);
+        if (!is_array($assets)) {
+            $assets = [];
+        }
+
+        if ($postAssets) {
+            $assets[ $postId ] = $postAssets;
+        } else {
+            unset($assets[ $postId ]); // TODO: check for isset??
+        }
+
         $this->options->set($assetType, $assets);
 
         return $assets;
     }
-
     /**
-     * Update elements list
+     * @param string $assetType scripts|styles.
+     * @param string[] $postAssets
      *
-     * @param string[] $data
-     *
-     * @return string
+     * @return array|mixed
      */
-    private function setElementsList($data)
+    private function updateGlobalAssets($assetType, $postAssets)
     {
-        $this->options->set('vcv-elements-list', $data);
+        $assets = $this->options->get($assetType, '');
 
-        return $data;
+
+        $this->options->set($assetType, $postAssets);
+
+        return $assets;
     }
-
     /**
-     * Get elements list
+     * Remove all files by extension in asset-bundles directory.
      *
-     * @return string
+     * @param string $extension
+     *
+     * @return array
      */
-    private function getElementsList()
+    private function deleteAssetsBundles($extension = '')
     {
-        return $this->options->get('vcv-elements-list', '');
+        $uploadDir = wp_upload_dir();
+        $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
+
+        if ($extension) {
+            $extension = '.' . $extension;
+        }
+        /** @var Application $app */
+        $app = vcapp();
+        $files = $app->rglob($destinationDir . '/*' . $extension);
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                unlink($file);
+            }
+        }
+
+        return $files;
     }
 }

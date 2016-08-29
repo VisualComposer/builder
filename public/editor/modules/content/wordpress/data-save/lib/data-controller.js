@@ -4,6 +4,7 @@ import React from 'react'
 
 // const assetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
+const assetsManager = vcCake.getService('assets-manager')
 
 class SaveController {
   constructor (props) {
@@ -44,22 +45,32 @@ class SaveController {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
       /\s+data-reactid="[^"]+"/,
       '')
-    let scripts = '' // 'body {color: red}' // assetManager.getAssets('scripts')
-    let styles = '' // 'console.log(3)' // assetManager.get
-    let designOptions = '' // assetManager.get
-    this.ajax(
-      {
-        'vcv-action': 'setData:adminNonce',
-        'vcv-content': content,
-        'vcv-data': encodeURIComponent(JSON.stringify(data)),
-        'vcv-scripts': scripts,
-        'vcv-styles': styles,
-        'vcv-design-options': designOptions,
-        'vcv-elements-list': encodeURIComponent(JSON.stringify({}))
-      },
-      this.saveSuccess.bind(this),
-      this.saveFailed.bind(this)
-    )
+    let globalStyles = ''
+    let designOptions = ''
+    let promises = []
+    let scripts = '' // assetsManager.getAssets('scripts')
+    promises.push(assetsManager.getCompiledCss().then((data) => {
+      globalStyles = data
+    }))
+    promises.push(assetsManager.getCompiledDesignOptions().then((data) => {
+      designOptions = data
+    }))
+    Promise.all(promises).then(() => {
+      this.ajax(
+        {
+          'vcv-action': 'setData:adminNonce',
+          'vcv-content': content,
+          'vcv-data': encodeURIComponent(JSON.stringify(data)),
+          'vcv-scripts': scripts,
+          'vcv-global-styles': globalStyles,
+          // 'vcv-styles': styles,
+          'vcv-design-options': designOptions,
+          'vcv-elements-list': encodeURIComponent(JSON.stringify({}))
+        },
+        this.saveSuccess.bind(this),
+        this.saveFailed.bind(this)
+      )
+    })
   }
 
   saveSuccess (request) {

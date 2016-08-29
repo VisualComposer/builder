@@ -66,7 +66,6 @@ class Application extends ContainerContract
      */
     public function boot()
     {
-
     }
 
     /**
