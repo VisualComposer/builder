@@ -78,7 +78,6 @@ class HelpersLicenseTest extends WP_UnitTestCase
         $this->assertNotEmpty($token);
         $this->assertEquals($token, $helper->getKeyToken(vchelper('Options')));
         $this->assertTrue($helper->isValidToken(sha1($token)));
-        $this->assertTrue($helper->isValidToken(sha1($token), 0));
         $this->assertFalse($helper->isValidToken(sha1($token), -1));
 
         $this->assertFalse($helper->isValidToken('invalid:)'));
