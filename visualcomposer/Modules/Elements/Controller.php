@@ -146,19 +146,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::getElements */
         $elements = $this->call('getElements');
 
-        $key = null;
-        foreach ($elements as $k => $element) {
-            if ($element['tag'] === $tag) {
-                $key = $k;
-                break;
-            }
-        }
-
-        if ($key !== null) {
-            $elements[ $key ] = $data;
-        } else {
-            $elements[] = $data;
-        }
+        $elements[ $tag ] = $data;
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
         $this->call('setElements', [$elements]);
@@ -233,31 +221,19 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::getElements */
         $elements = (array)$this->call('getElements');
 
-        foreach ($defaultElements as $element) {
+        foreach ($defaultElements as $newElement) {
             /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
-            if (!$this->call('downloadElement', [$element['tag'], $destinationDir])) {
+            if (!$this->call('downloadElement', [$newElement['tag'], $destinationDir])) {
                 return false;
             }
 
-            $index = null;
-            foreach ($elements as $k => $v) {
-                if ($element['tag'] === $v['tag']) {
-                    $index = $k;
-                    break;
-                }
-            }
-
             $data = [
-                'name' => $element['name'],
-                'tag' => $element['tag'],
-                'version' => $element['version'],
+                'name' => $newElement['name'],
+                'tag' => $newElement['tag'],
+                'version' => $newElement['version'],
             ];
 
-            if ($index === null) {
-                $elements[] = $data;
-            } else {
-                $elements[ $index ] = $data;
-            }
+            $elements[ $newElement['tag'] ] = $data;
         }
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
