@@ -69,4 +69,18 @@ class HelpersLicenseTest extends WP_UnitTestCase
         $this->assertTrue(vchelper('License')->isValidFormat('c634fef7-6195-4a77-a3c9-d888b90d235e'));
         $this->assertFalse(vchelper('License')->isValidFormat('xxxx-xxxx'));
     }
+
+    public function testGenerateNewKeyToken()
+    {
+        /** @var \VisualComposer\Helpers\License $helper */
+        $helper = vchelper('License');
+        $token = $helper->newKeyToken();
+        $this->assertNotEmpty($token);
+        $this->assertEquals($token, $helper->getKeyToken(vchelper('Options')));
+        $this->assertTrue($helper->isValidToken(sha1($token)));
+        $this->assertTrue($helper->isValidToken(sha1($token), 0));
+        $this->assertFalse($helper->isValidToken(sha1($token), -1));
+
+        $this->assertFalse($helper->isValidToken('invalid:)'));
+    }
 }
