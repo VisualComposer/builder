@@ -128,7 +128,7 @@ class Controller extends Container implements Module
      * Set elements.
      *
      * @param array $elements
-     * @param \VisualComposer\Helpers\Options $options
+     * @param Options $options
      */
     private function setElements($elements, Options $options)
     {
@@ -230,7 +230,8 @@ class Controller extends Container implements Module
             return false;
         }
 
-        $elements = [];
+        /** @see \VisualComposer\Modules\Elements\Controller::getElements */
+        $elements = (array)$this->call('getElements');
 
         foreach ($defaultElements as $element) {
             /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
@@ -238,11 +239,25 @@ class Controller extends Container implements Module
                 return false;
             }
 
-            $elements[] = [
+            $index = null;
+            foreach ($elements as $k => $v) {
+                if ($element['tag'] === $v['tag']) {
+                    $index = $k;
+                    break;
+                }
+            }
+
+            $data = [
                 'name' => $element['name'],
                 'tag' => $element['tag'],
                 'version' => $element['version'],
             ];
+
+            if ($index === null) {
+                $elements[] = $data;
+            } else {
+                $elements[ $index ] = $data;
+            }
         }
 
         /** @see \VisualComposer\Modules\Elements\Controller::setElements */
@@ -250,7 +265,7 @@ class Controller extends Container implements Module
 
         $options->set('elements-downloaded', true);
 
-        return count($elements);
+        return count($defaultElements);
     }
 
     /**
