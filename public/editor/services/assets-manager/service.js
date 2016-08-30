@@ -131,10 +131,12 @@ vcCake.addService('assets-manager', {
         let cook = vcCake.getService('cook')
         let documentService = vcCake.getService('document')
         let element = documentService.get(id)
-        let cssSettings = cook.get(element).get('cssSettings')
-        styles[ elements[ id ].tag ] = {
-          count: 1,
-          css: cssSettings.css
+        if (element) {
+          let cssSettings = cook.get(element).get('cssSettings')
+          styles[ elements[ id ].tag ] = {
+            count: 1,
+            css: cssSettings.css
+          }
         }
       }
     }
