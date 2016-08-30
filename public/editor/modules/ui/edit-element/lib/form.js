@@ -74,6 +74,7 @@ class EditForm extends React.Component {
       activeTabIndex: tabIndex
     })
   }
+
   static editFormTabs (props) {
     const group = props.element.get('metaEditFormTabs')
     if (group && group.each) {
@@ -193,24 +194,6 @@ class EditForm extends React.Component {
       this.props.api.notify('element:set', { key: key, value: value })
     }
     return this.field(element, param.key, updater, tabIndex)
-  }
-
-  closeTreeView = () => {
-    this.props.api.notify('hide')
-    this.props.api.request('bar-content-start:hide')
-  }
-
-  onSave = () => {
-    let { element, api } = this.props
-    api.request('data:update', element.get('id'), element.toJS())
-    this.setState({ 'saving': true })
-    setTimeout(() => {
-      this.setState({ 'saving': false })
-      this.setState({ 'saved': true })
-      setTimeout(() => {
-        this.setState({ 'saved': false })
-      }, 1000)
-    }, 500)
   }
 
   getTabProps (tabIndex, activeTabIndex) {
@@ -354,11 +337,7 @@ class EditForm extends React.Component {
 
           <EditFormContent plateContent={this.getActiveTabContent()} />
 
-          <EditFormFooter
-            onSave={this.onSave}
-            saving={this.state.saving}
-            saved={this.state.saved}
-          />
+          <EditFormFooter api={this.props.api} element={this.props.element} />
         </div>
       </div>
     )
