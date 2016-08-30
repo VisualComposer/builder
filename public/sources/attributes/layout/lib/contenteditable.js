@@ -18,25 +18,24 @@ class ContentEditable extends React.Component {
     this.addShortcuts()
   }
 
-  handleValueChange (e) {
-    const inputVal = e.target.value
-    this.updateInputValue(inputVal)
-  }
-
   updateInputValue (inputValue) {
     this.setState({inputValue})
   }
 
-  handleGrouping () {
-    let input = document.querySelector('.vcv-ui-content-editable')
-    this.updateInputValue(input.textContent)
-    input.innerHTML = ''
-    this.createValueArray()
-    this.changeGroupingState()
-    // this.contentEditableClick = this.contentEditableClick.bind(this, input)
+  handleGrouping = () => {
+    if (!this.state.doGrouping) {
+      let input = document.querySelector('.vcv-ui-content-editable')
+      this.updateInputValue(input.textContent)
 
-    // add event listener
-    input.addEventListener('click', this.contentEditableClick)
+      setTimeout(() => {
+        input.innerHTML = ''
+        this.createValueArray()
+        this.changeGroupingState()
+
+        // add event listener
+        input.addEventListener('click', this.contentEditableClick)
+      }, 100)
+    }
   }
 
   placeCaretAtEnd (el) {
@@ -335,6 +334,7 @@ class ContentEditable extends React.Component {
 
   createValueArray () {
     this.state.inputValueArray = []
+    console.log(this.state.inputValue)
     let splitString = this.state.inputValue.split('+')
 
     for (let i = 0; i < splitString.length; i++) {
@@ -359,7 +359,7 @@ class ContentEditable extends React.Component {
       }
     }
     return (
-      <div className='vcv-ui-content-editable vcv-ui-form-input' contentEditable={!this.state.doGrouping}>
+      <div className='vcv-ui-content-editable vcv-ui-form-input' contentEditable={!this.state.doGrouping} onBlur={this.handleGrouping}>
         {tokenized}
       </div>
     )
