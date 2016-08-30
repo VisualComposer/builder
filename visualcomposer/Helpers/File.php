@@ -41,7 +41,8 @@ class File implements Helper
      *
      * @return bool
      */
-    public function isFile($filePath) {
+    public function isFile($filePath)
+    {
         return is_file($filePath);
     }
 
@@ -52,7 +53,8 @@ class File implements Helper
      *
      * @return bool
      */
-    public function isDir($dirPath) {
+    public function isDir($dirPath)
+    {
         return is_dir($dirPath);
     }
     /**

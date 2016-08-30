@@ -77,7 +77,6 @@ class Controller extends Container implements Module
             // TODO: Save elements on page.
             $post = get_post($sourceId);
             if ($post) {
-
                 $post->post_content = $content;
                 if (isset($data['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';

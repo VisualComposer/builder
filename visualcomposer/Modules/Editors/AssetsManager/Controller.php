@@ -405,14 +405,16 @@ class Controller extends Container implements Module
 
         return $files;
     }
-    private function getFilePath($filename) {
+    private function getFilePath($filename)
+    {
         $uploadDir = wp_upload_dir();
         $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
         $this->file->checkDir($destinationDir);
         $path = $destinationDir . '/' . $filename;
         return $path;
     }
-    private function getFileUrl($filename) {
+    private function getFileUrl($filename)
+    {
         $uploadDir = wp_upload_dir();
         $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
             . $filename;
