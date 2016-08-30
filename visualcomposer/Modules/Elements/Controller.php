@@ -37,17 +37,28 @@ class Controller extends Container implements Module
             'wp_ajax_vcv:initDefaultElements',
             function () {
                 $optionsHelper = vchelper('Options');
+
+                if ($optionsHelper->get('elements-downloading')) {
+                    $response = ['status' => false, 'error' => __('Elements are already being installed', 'vc5')];
+                    wp_send_json($response);
+                }
+
                 if ($optionsHelper->get('elements-downloaded')) {
                     $response = ['status' => false, 'error' => __('Elements are already installed', 'vc5')];
-                } else {
-                    /** @see \VisualComposer\Modules\Elements\Controller::initDefaultElements */
-                    $installed = $this->call('initDefaultElements');
+                    wp_send_json($response);
+                }
 
-                    if ($installed === false) {
-                        $response = ['status' => false, 'error' => __('Something went wrong', 'vc5')];
-                    } else {
-                        $response = ['status' => true, 'installed' => $installed];
-                    }
+                $optionsHelper->set('elements-downloading', true);
+
+                /** @see \VisualComposer\Modules\Elements\Controller::initDefaultElements */
+                $installed = $this->call('initDefaultElements');
+
+                $optionsHelper->set('elements-downloading', false);
+
+                if ($installed === false) {
+                    $response = ['status' => false, 'error' => __('Something went wrong', 'vc5')];
+                } else {
+                    $response = ['status' => true, 'installed' => $installed];
                 }
 
                 wp_send_json($response);
@@ -379,6 +390,11 @@ class Controller extends Container implements Module
         }
 
         $destinationDir = $destination . $tag;
+
+        if (is_dir($destinationDir)) {
+            global $wp_filesystem;
+            $wp_filesystem->rmdir($destinationDir, true);
+        }
 
         $success = unzip_file($destinationFile, $destinationDir);
 

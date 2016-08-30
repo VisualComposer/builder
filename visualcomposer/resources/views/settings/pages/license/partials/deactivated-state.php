@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 
 ?>
 
-<?php if ($devEnvironment) : ?>
+<?php /*if ($devEnvironment) : ?>
     <br/>
     <div class="updated vc_updater-result-message">
         <p>
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
             </strong>
         </p>
     </div>
-<?php endif ?>
+<?php endif*/ ?>
 
 <div class="vc_settings-activation-deactivation">
     <p>
