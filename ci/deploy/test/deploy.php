@@ -40,6 +40,7 @@ task(
         cd('{{release_path}}');
         run('composer update --no-dev --prefer-dist --no-progress');
         run('webpack');
+        run('npm run collect-css');
     }
 )->desc('Install npm, composer and bower packages');
 
