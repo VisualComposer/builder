@@ -10,9 +10,14 @@ export default class EditFormFooter extends React.Component {
     saving: false,
     saved: false
   }
+
   onSave = () => {
     let { element, api } = this.props
     api.request('data:update', element.get('id'), element.toJS())
+    this.effect()
+  }
+
+  effect () {
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })
@@ -38,7 +43,7 @@ export default class EditFormFooter extends React.Component {
     return (
       <div className='vcv-ui-tree-content-footer'>
         <div className='vcv-ui-tree-layout-actions'>
-          <a className={saveButtonClasses} href='#' title='Save' onClick={this.onSave}>
+          <a className={saveButtonClasses} href='javascript:;' title='Save' onClick={this.onSave}>
             <span className='vcv-ui-tree-layout-action-content'>
               <i className={saveIconClasses} />
               <span>Save</span>

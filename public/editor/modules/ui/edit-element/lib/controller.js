@@ -1,5 +1,5 @@
 import React from 'react'
-import EditForm from './form'
+import FormWrapper from './form-wrapper-tabs'
 
 export default class EditElementController extends React.Component {
   static propTypes = {
@@ -9,7 +9,7 @@ export default class EditElementController extends React.Component {
 
   render () {
     return (
-      <EditForm api={this.props.api} element={this.props.element} />
+      <FormWrapper {...this.props} />
     )
   }
 }

@@ -5,13 +5,13 @@ import vcCake from 'vc-cake'
 
 const Utils = vcCake.getService('utils')
 
-class TreeContentTab extends React.Component {
+export default class TreeContentTab extends React.Component {
   static propTypes = {
     changeTab: React.PropTypes.func.isRequired,
-    active: React.PropTypes.bool.isRequired,
     data: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
-    getContainer: React.PropTypes.func.isRequired
+    getContainer: React.PropTypes.func.isRequired,
+    activeTabIndex: React.PropTypes.number.isRequired
   }
   realWidth = null
 
@@ -28,9 +28,9 @@ class TreeContentTab extends React.Component {
   }
 
   render () {
-    let { data, active } = this.props
+    let { data } = this.props
     let title = data.settings.options.label || data.settings.options.tabLabel
-
+    let active = this.props.activeTabIndex === this.props.index
     let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
       'vcv-ui-state--active': active
@@ -45,5 +45,3 @@ class TreeContentTab extends React.Component {
     )
   }
 }
-
-export default TreeContentTab
