@@ -31,11 +31,10 @@ task(
         $sharedPath = "{{deploy_path}}/shared";
         cd('{{release_path}}');
         run('cp package.json {{deploy_path}}/shared');
-        run('cp -r tools {{deploy_path}}/shared');
         cd($sharedPath);
         run('npm update --loglevel=error');
-        run('npm run collect-css');
         cd('{{release_path}}');
+        run('npm run collect-css');
         run('composer update --no-dev --prefer-dist --no-progress');
         run('webpack');
     }
