@@ -391,6 +391,11 @@ class Controller extends Container implements Module
 
         $destinationDir = $destination . $tag;
 
+        if (is_dir($destinationDir)) {
+            global $wp_filesystem;
+            $wp_filesystem->rmdir($destinationDir, true);
+        }
+
         $success = unzip_file($destinationFile, $destinationDir);
 
         unlink($destinationFile);
