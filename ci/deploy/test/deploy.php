@@ -37,10 +37,10 @@ task(
         $sharedPath = "{{deploy_path}}/shared";
         cd($sharedPath);
         run('npm update --loglevel=error');
+        run('npm run collect-css');
         cd('{{release_path}}');
         run('composer update --no-dev --prefer-dist --no-progress');
         run('webpack');
-        run('npm run collect-css');
     }
 )->desc('Install npm, composer and bower packages');
 
