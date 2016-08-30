@@ -4,11 +4,10 @@ use VisualComposer\Helpers\Url;
 
 $url = vchelper('Url');
 $filter = vchelper('Filters');
-$linkToTinymce = $url->to('public/resources/tinymce/tinymce.js');
+$bundleCssUrl = $url->to('public/dist/pe.bundle.css?' . uniqid());
 $elementsUrl = $url->to('public/dist/elements.css?' . uniqid());
-$bundleUrl = $url->to('public/dist/wp.bundle.css?' . uniqid());
+$bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
 ?>
-<script src="<?php echo $linkToTinymce; ?>"></script>
 <script>
     (function () {
         function vcvLoadJsCssFile (filename, filetype) {
@@ -35,9 +34,9 @@ $bundleUrl = $url->to('public/dist/wp.bundle.css?' . uniqid());
                     fileRef);
             }
         }
-
-        vcvLoadJsCssFile('<?php echo $elementsUrl ?>', 'css');
-        vcvLoadJsCssFile('<?php  echo $bundleUrl ?>', 'css');
+        vcvLoadJsCssFile('<?php  echo $bundleCssUrl ?>', 'css');
+        vcvLoadJsCssFile('<?php  echo $elementsUrl ?>', 'css');
+        vcvLoadJsCssFile('<?php  echo $bundleJsUrl ?>', 'js');
     })();
 </script>
 <div id="vcv-editor">Loading...</div>

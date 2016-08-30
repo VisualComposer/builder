@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',
+    pe: './public/pe-main',
     app: []
   },
   output: {
@@ -23,8 +24,8 @@ module.exports = {
   },
   plugins: [
     new Collector(),
-    new ExtractTextPlugin('[name].bundle.css'),
-    new webpack.HotModuleReplacementPlugin()
+    new ExtractTextPlugin('[name].bundle.css')
+    // new webpack.HotModuleReplacementPlugin()
   ],
   vc: {
     node: {

@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\DataAjax;
 use VisualComposer\Helpers\Filters as FilterDispatcher;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -15,8 +16,14 @@ class Controller extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct()
+    /**
+     * @var \VisualComposer\Helpers\Options
+     */
+    protected $options;
+
+    public function __construct(Options $optionsHelper)
     {
+        $this->options = $optionsHelper;
         /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
         $this->addFilter(
             'vcv:ajax:getData:adminNonce',
@@ -37,7 +44,7 @@ class Controller extends Container implements Module
      *
      * @return mixed|string
      */
-    private function getData(Request $requestHelper)
+    private function getData(Request $requestHelper, $responce)
     {
         $data = '';
         $sourceId = $requestHelper->input('vcv-source-id');
@@ -49,8 +56,8 @@ class Controller extends Container implements Module
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             }
         }
-
-        return $data;
+        $responce['elements'] = $data;
+        return $responce;
     }
 
     /**
@@ -70,6 +77,7 @@ class Controller extends Container implements Module
             // TODO: Save elements on page.
             $post = get_post($sourceId);
             if ($post) {
+
                 $post->post_content = $content;
                 if (isset($data['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';

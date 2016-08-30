@@ -82,6 +82,13 @@ class Controller extends Container implements Module
                 return $response;
             }
         );
+        $this->filter->listen(
+            'vcv:ajax:getData:adminNonce',
+            function ($response, $payload) {
+                $response['globalElements'] = $this->options->get('global-elements', []);
+                return $response;
+            }
+        );
 
         add_action(
             'before_delete_post',
@@ -108,6 +115,10 @@ class Controller extends Container implements Module
             $postId,
             'styles',
             $this->request->input('vcv-styles', [])
+        );
+        $this->updateGlobalAssets(
+            'global-elements',
+            rawurldecode($this->request->input('vcv-global-elements', ''))
         );
         $this->updateGlobalAssets(
             'global-styles',
@@ -301,7 +312,7 @@ class Controller extends Container implements Module
         $styles = $this->options->get('global-styles', '');
         $bundleUrl = $this->createBundleFile($styles, 'css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
-
+        // remove file
         return $bundleUrl;
     }
 
@@ -317,14 +328,9 @@ class Controller extends Container implements Module
     {
         $bundleUrl = false;
         if ($content) {
-            $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5($content) . '.' . $extension;
-            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
-                . $concatenatedFilename;
-
-            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
-            $bundle = $destinationDir . '/' . $concatenatedFilename;
-
+            $bundle = $this->getFilePath($concatenatedFilename);
+            $bundleUrl = $this->getFileUrl($concatenatedFilename);
             if (!is_file($bundle)) {
                 if (!$this->file->setContents($bundle, $content)) {
                     return false;
@@ -398,5 +404,18 @@ class Controller extends Container implements Module
         }
 
         return $files;
+    }
+    private function getFilePath($filename) {
+        $uploadDir = wp_upload_dir();
+        $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
+        $this->file->checkDir($destinationDir);
+        $path = $destinationDir . '/' . $filename;
+        return $path;
+    }
+    private function getFileUrl($filename) {
+        $uploadDir = wp_upload_dir();
+        $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
+            . $filename;
+        return $url;
     }
 }

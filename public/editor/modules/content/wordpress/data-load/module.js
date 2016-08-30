@@ -1,22 +1,26 @@
 import vcCake from 'vc-cake'
 
 const TimeMachine = vcCake.getService('time-machine')
-
+const assetsManager = vcCake.getService('assets-manager')
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
     api.request('wordpress:load')
   })
 
   api.reply('wordpress:data:loaded', (data) => {
-    let elements
+    let dataObject
     let { status, request } = data
 
     if (status === 'success') {
-      elements = JSON.parse(request.responseText || '{}')
-      if (elements) {
+      dataObject = JSON.parse(request.responseText || '{}')
+      if (dataObject.elements) {
         // Todo fix saving ( empty Name, params all undefined toJS function)
-        TimeMachine.setZeroState(elements)
-        api.request('data:reset', elements)
+        TimeMachine.setZeroState(dataObject.elements)
+        api.request('data:reset', dataObject.elements)
+      }
+      if (dataObject.globalElements) {
+        let globalElements = JSON.parse(dataObject.globalElements || '{}')
+        globalElements && assetsManager.set(globalElements)
       }
     } else {
       throw new Error('Failed to load wordpress:data:loaded')

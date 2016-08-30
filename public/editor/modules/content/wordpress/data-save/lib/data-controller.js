@@ -43,12 +43,13 @@ class SaveController {
 
   save (data) {
     let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML.replace(
-      /\s+data-reactid="[^"]+"/,
+      /\s+pageeditable="[^"]+"/,
       '')
     let globalStyles = ''
     let designOptions = ''
     let promises = []
     let scripts = '' // assetsManager.getAssets('scripts')
+    let elements = assetsManager.get()
     promises.push(assetsManager.getCompiledCss().then((data) => {
       globalStyles = data
     }))
@@ -65,7 +66,7 @@ class SaveController {
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,
-          'vcv-elements-list': encodeURIComponent(JSON.stringify({}))
+          'vcv-global-elements': encodeURIComponent(JSON.stringify(elements))
         },
         this.saveSuccess.bind(this),
         this.saveFailed.bind(this)
