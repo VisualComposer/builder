@@ -21,12 +21,6 @@ set(
         'vendor',
     ]
 );
-set(
-    'shared_files',
-    [
-        'package.json',
-    ]
-);
 
 /**
  * Override default 'deploy:vendors' task that installs only composer packages
@@ -35,8 +29,12 @@ task(
     'deploy:vendors',
     function () {
         $sharedPath = "{{deploy_path}}/shared";
+        cd('{{release_path}}');
+        run('cp package.json {{deploy_path}}/shared');
+        run('cp -r tools {{deploy_path}}/shared');
         cd($sharedPath);
         run('npm update --loglevel=error');
+        run('npm run collect-css');
         cd('{{release_path}}');
         run('composer update --no-dev --prefer-dist --no-progress');
         run('webpack');
