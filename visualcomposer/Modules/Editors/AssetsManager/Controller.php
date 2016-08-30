@@ -85,7 +85,7 @@ class Controller extends Container implements Module
         $this->filter->listen(
             'vcv:ajax:getData:adminNonce',
             function ($response, $payload) {
-                $response['globalElements'] = $this->options->get('global-elements', []);
+                $response['globalElements'] = $this->options->get('global-elements', '');
                 return $response;
             }
         );
