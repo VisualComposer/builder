@@ -114,7 +114,19 @@
       "tag": "button"
     },
     "options": {
-      "label": "Button"
+      "label": "Button",
+      "onChange": {
+        "addButton": [
+          {
+            "rule": "toggle",
+            "current": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "editFormTab1": {

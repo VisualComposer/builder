@@ -27,6 +27,7 @@ export default class EditFormTabs extends React.Component {
     EditFormTabs.editFormTabs(props).map((tab, index) => {
       let tabsData = {
         id: tab.key,
+        fieldKey: tab.key,
         index: index,
         data: tab.data,
         isVisible: true,

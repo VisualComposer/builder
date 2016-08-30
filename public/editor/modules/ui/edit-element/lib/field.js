@@ -64,9 +64,7 @@ export default class EditFromField extends React.Component {
     let data = {
       key: fieldKey,
       options: options,
-      type: type,
       value: value,
-      rawValue: rawValue,
       updater: updater,
       getRef: (key) => {
         return this.refs[ `form-element-${key}` ]

@@ -5,7 +5,19 @@ import vcCake from 'vc-cake'
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 
-class DependencyManager extends React.Component {
+export default class DependencyManager extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    element: React.PropTypes.object.isRequired,
+    content: React.PropTypes.object.isRequired,
+    data: React.PropTypes.shape({
+      options: React.PropTypes.object.isRequired,
+      key: React.PropTypes.string.isRequired,
+      value: React.PropTypes.any.isRequired,
+      updater: React.PropTypes.func,
+      getRef: React.PropTypes.func.isRequired
+    }).isRequired
+  }
   mount = []
   stack = []
 
@@ -131,19 +143,3 @@ class DependencyManager extends React.Component {
     )
   }
 }
-DependencyManager.propTypes = {
-  api: React.PropTypes.object.isRequired,
-  element: React.PropTypes.object.isRequired,
-  content: React.PropTypes.object.isRequired,
-  data: React.PropTypes.shape({
-    options: React.PropTypes.object.isRequired,
-    key: React.PropTypes.string.isRequired,
-    type: React.PropTypes.object.isRequired,
-    value: React.PropTypes.any.isRequired,
-    rawValue: React.PropTypes.any.isRequired,
-    updater: React.PropTypes.func.isRequired,
-    getRef: React.PropTypes.func.isRequired
-  }).isRequired
-}
-
-export default DependencyManager
