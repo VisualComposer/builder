@@ -4,7 +4,7 @@ use VisualComposer\Helpers\Url;
 
 $url = vchelper('Url');
 $filter = vchelper('Filters');
-$linkToTinymce = $url->to('public/tinymce/tinymce.js');
+$linkToTinymce = $url->to('public/resources/tinymce/tinymce.js');
 $elementsUrl = $url->to('public/dist/elements.css?' . uniqid());
 $bundleUrl = $url->to('public/dist/wp.bundle.css?' . uniqid());
 ?>
