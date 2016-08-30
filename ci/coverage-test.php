@@ -26,11 +26,16 @@ if (file_exists($filePath)) {
                     if ($coveredCoeff < CI_MIN_COVERAGE) {
                         echo PHP_EOL;
                         $fileName = (string)$file->attributes()->name;
+                        $skip = false;
+                        if (strpos(pathinfo($fileName, PATHINFO_BASENAME), '_') === 0) {
+                            echo '[SKIP]';
+                            $skip = true;
+                        }
                         echo 'File: (' . str_replace($microPath, '', $fileName) . ') (' . (round(
                                 $coveredCoeff * 100,
                                 3
                             )) . '%) covered, at least required ' . (CI_MIN_COVERAGE * 100) . '%' . PHP_EOL;
-                        $exit = 1;
+                        $exit = $skip ? 0 : 1;
                     }
                 }
                 $files[] = (string)$file->attributes()->name;
