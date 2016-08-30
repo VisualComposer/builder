@@ -33,7 +33,7 @@ const API = {
     $tempEl.remove()
     return realWidth
   },
-  addResizeListener: (element, fn) => {
+  addResizeListener: (element, options, fn) => {
     let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
@@ -42,7 +42,7 @@ const API = {
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = (e) => {
-      obj.contentDocument.defaultView.addEventListener('resize', fn)
+      obj.contentDocument.defaultView.addEventListener('resize', fn.bind(this, element, options))
     }
     obj.type = 'text/html'
     if (isIE) {
@@ -53,8 +53,8 @@ const API = {
       element.appendChild(obj)
     }
   },
-  removeResizeListener: (element, fn) => {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+  removeResizeListener: (element, options, fn) => {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn.bind(this, element, options))
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 }

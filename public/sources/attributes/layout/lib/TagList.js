@@ -1,9 +1,8 @@
 import React from 'react'
 // import classNames from 'classnames'
+import './styles.less'
 
-// import './css/src/init.less'
-
-class ContentEditable extends React.Component {
+class TagList extends React.Component {
 
   constructor () {
     super()
@@ -18,25 +17,24 @@ class ContentEditable extends React.Component {
     this.addShortcuts()
   }
 
-  handleValueChange (e) {
-    const inputVal = e.target.value
-    this.updateInputValue(inputVal)
-  }
-
   updateInputValue (inputValue) {
     this.setState({inputValue})
   }
 
-  handleGrouping () {
-    let input = document.querySelector('.vcv-ui-content-editable')
-    this.updateInputValue(input.textContent)
-    input.innerHTML = ''
-    this.createValueArray()
-    this.changeGroupingState()
-    // this.contentEditableClick = this.contentEditableClick.bind(this, input)
+  handleGrouping = () => {
+    if (!this.state.doGrouping) {
+      let input = document.querySelector('.vcv-ui-tag-list')
+      this.updateInputValue(input.textContent)
 
-    // add event listener
-    input.addEventListener('click', this.contentEditableClick)
+      setTimeout(() => {
+        input.innerHTML = ''
+        this.createValueArray()
+        this.changeGroupingState()
+
+        // add event listener
+        input.addEventListener('click', this.contentEditableClick)
+      }, 100)
+    }
   }
 
   placeCaretAtEnd (el) {
@@ -57,9 +55,9 @@ class ContentEditable extends React.Component {
   }
 
   contentEditableClick = (e) => {
-    let input = document.querySelector('.vcv-ui-content-editable')
+    let input = document.querySelector('.vcv-ui-tag-list')
     let d = e.target
-    let className = 'vcv-layout-token-remove'
+    let className = 'vcv-ui-tag-list-item-remove'
 
     // check if close button was clicked
     while (d != null && d.className && !d.classList.contains(className)) {
@@ -86,7 +84,7 @@ class ContentEditable extends React.Component {
   // remove clicked elements string from array
   removeToken (e, input) {
     let el = e.target
-    let className = 'vcv-ui-layout-tokenized'
+    let className = 'vcv-ui-tag-list-item'
 
     while (el != null && el.className && !el.classList.contains(className)) {
       el = el.parentNode
@@ -317,7 +315,7 @@ class ContentEditable extends React.Component {
   }
 
   addShortcuts () {
-    let input = document.querySelector('.vcv-ui-content-editable')
+    let input = document.querySelector('.vcv-ui-tag-list')
 
     const shortcutCombinations = ['Ctrl+B', 'Ctrl+U', 'Ctrl+I', 'Meta+B', 'Meta+U', 'Meta+I', 'Enter']
 
@@ -335,11 +333,15 @@ class ContentEditable extends React.Component {
 
   createValueArray () {
     this.state.inputValueArray = []
-    let splitString = this.state.inputValue.split('+')
+    let regex = /[ ,+;]/
+
+    let splitString = this.state.inputValue.split(regex)
 
     for (let i = 0; i < splitString.length; i++) {
       let singleItem = splitString[i].trim()
-      this.state.inputValueArray.push(singleItem)
+      if (singleItem) {
+        this.state.inputValueArray.push(singleItem)
+      }
     }
   }
 
@@ -349,9 +351,9 @@ class ContentEditable extends React.Component {
     if (this.state.doGrouping) {
       for (let i = 0; i < this.state.inputValueArray.length; i++) {
         tokenized.push(
-          <span key={'groupSet-' + i} className='vcv-ui-layout-tokenized'>
+          <span key={'groupSet-' + i} className='vcv-ui-tag-list-item'>
             {this.state.inputValueArray[i]}
-            <button className='vcv-layout-token-remove' type='button' title='Remove'>
+            <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove'>
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </button>
           </span>
@@ -359,11 +361,11 @@ class ContentEditable extends React.Component {
       }
     }
     return (
-      <div className='vcv-ui-content-editable vcv-ui-form-input' contentEditable={!this.state.doGrouping}>
+      <div className='vcv-ui-tag-list vcv-ui-form-input' contentEditable={!this.state.doGrouping} onBlur={this.handleGrouping}>
         {tokenized}
       </div>
     )
   }
 }
 
-export default ContentEditable
+export default TagList
