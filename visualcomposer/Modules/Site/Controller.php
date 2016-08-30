@@ -94,13 +94,13 @@ class Controller extends Container implements Module
                 }
             );
         }
-        $stylesBundle = $optionsHelper->get('stylesBundle');
-        if ($stylesBundle !== false) {
-            wp_register_style('vcv-styles', $stylesBundle, VCV_VERSION);
+        $stylesBundle = $optionsHelper->get('stylesGlobalFile');
+        if (!empty($stylesBundle)) {
+            wp_register_style('vcv-global-styles', $stylesBundle, VCV_VERSION);
             $this->wpAddAction(
                 'wp_print_styles',
                 function () {
-                    wp_enqueue_style('vcv-styles');
+                    wp_enqueue_style('vcv-global-styles');
                 }
             );
         }
