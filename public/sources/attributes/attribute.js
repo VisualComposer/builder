@@ -20,12 +20,6 @@ class Attribute extends React.Component {
     }
   }
 
-  componentDidMount () {
-    let { updater, fieldKey } = this.props
-    let { value } = this.state
-    updater(fieldKey, value)
-  }
-
   handleChange = (event) => {
     this.setFieldValue(event.currentTarget.value)
   }

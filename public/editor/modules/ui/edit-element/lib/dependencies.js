@@ -6,7 +6,7 @@ const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 
 class DependencyManager extends React.Component {
-  mount = false
+  mount = []
   stack = []
 
   componentWillMount () {
@@ -14,7 +14,10 @@ class DependencyManager extends React.Component {
     let { onChange } = this.props.data.options
     if (onChange) {
       this.props.api.on('element:set', this.onElementChange)
-      this.props.api.on('form:mount', this.callActivitiesAfterMount)
+      this.props.api.on('field:mount', this.setFieldMount)
+      this.props.api.on('field:unmount', this.setFieldUnmount)
+      this.props.api.on('field:mount', this.callFieldActivities)
+      // this.props.api.on('tab:mount', this.callTabActivitiesAfterMount)
     }
   }
 
@@ -22,48 +25,25 @@ class DependencyManager extends React.Component {
     let { onChange } = this.props.data.options
     if (onChange) {
       this.props.api.off('element:set', this.onElementChange)
-      this.props.api.off('form:mount', this.callActivitiesAfterMount)
+      this.props.api.off('field:mount', this.setFieldMount)
+      this.props.api.off('field:unmount', this.setFieldUnmount)
+      this.props.api.off('field:mount', this.callFieldActivities)
+      // this.props.api.off('tab:mount', this.callTabActivitiesAfterMount)
     }
   }
 
-  callActivitiesAfterMount = () => {
-    this.mount = true
-    if (this.stack) {
-      this.stack = this.stack.filter((item) => {
-        let { key, value, rules } = item
-        let { updater, getRef, getRefTab } = this.props.data
-        let target = {
-          key: key,
-          value: value,
-          updater: updater,
-          ref: getRef(key),
-          getRef: getRef,
-          getRefTab: getRefTab
-        }
-        let current = {
-          key: this.props.data.key,
-          value: this.props.data.value,
-          updater: updater,
-          ref: getRef(this.props.data.key),
-          getRef: getRef,
-          getRefTab: getRefTab
-        }
-        rules.forEach((ruleData) => {
-          let actionsCallback = (ruleState) => {
-            if (ruleData.current) {
-              ruleData.current.forEach((action) => {
-                ActionsManager.do(action, ruleState, current)
-              })
-            }
-            if (ruleData.target) {
-              ruleData.target.forEach((action) => {
-                ActionsManager.do(action, ruleState, target)
-              })
-            }
-          }
+  setFieldMount = (field) => {
+    this.mount[ field ] = true
+  }
 
-          RulesManager.check(ruleData, value, actionsCallback)
-        })
+  setFieldUnmount = (field) => {
+    this.mount[ field ] = false
+  }
+
+  callFieldActivities = (field) => {
+    if (this.stack[ field ]) {
+      this.stack[ field ] = this.stack[ field ].filter((action) => {
+        action()
       })
     }
   }
@@ -76,16 +56,66 @@ class DependencyManager extends React.Component {
     }
     // Only if hook for attribute exists
     if (onChange[ key ]) {
-      let action = {
+      let stack = {
         key: key,
         value: value,
         rules: onChange[ key ]
       }
-      this.stack.push(action)
-      if (this.mount) {
-        this.callActivitiesAfterMount()
-      }
+      this.addStack(stack)
     }
+  }
+
+  addStack (stack) {
+    let { key, value, rules } = stack
+    let { updater, getRef } = this.props.data
+    rules.forEach((ruleData) => {
+      let actionsCallback = (ruleState) => {
+        if (ruleData.current) {
+          if (!this.stack[ this.props.data.key ]) {
+            this.stack[ this.props.data.key ] = []
+          }
+          this.stack[ this.props.data.key ].push(() => {
+            let current = {
+              key: this.props.data.key,
+              value: this.props.data.value,
+              updater: updater,
+              ref: getRef(this.props.data.key),
+              getRef: getRef
+            }
+            ruleData.current.forEach((action) => {
+              ActionsManager.do(action, ruleState, current)
+            })
+          })
+          if (this.mount[ this.props.data.key ]) {
+            this.callFieldActivities(this.props.data.key)
+          }
+        }
+        if (ruleData.target) {
+          ruleData.target.forEach((action) => {
+            if (!this.stack[ key ]) {
+              this.stack[ key ] = []
+            }
+            this.stack[ key ].push(() => {
+              let target = {
+                key: key,
+                value: value,
+                updater: updater,
+                ref: getRef(key),
+                getRef: getRef
+              }
+              ruleData.current.forEach((action) => {
+                ActionsManager.do(action, ruleState, target)
+              })
+            })
+            if (this.mount[ key ]) {
+              this.callFieldActivities(key)
+            }
+          })
+        }
+      }
+
+      RulesManager.check(ruleData, value, actionsCallback)
+    })
   }
 
   render () {
@@ -112,9 +142,7 @@ DependencyManager.propTypes = {
     value: React.PropTypes.any.isRequired,
     rawValue: React.PropTypes.any.isRequired,
     updater: React.PropTypes.func.isRequired,
-    getRef: React.PropTypes.func.isRequired,
-    tabIndex: React.PropTypes.number.isRequired,
-    getRefTab: React.PropTypes.func.isRequired
+    getRef: React.PropTypes.func.isRequired
   }).isRequired
 }
 

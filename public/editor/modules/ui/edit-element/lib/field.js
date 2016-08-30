@@ -7,12 +7,26 @@ export default class EditFromField extends React.Component {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
-    updater: React.PropTypes.func.isRequired,
-    tabIndex: React.PropTypes.number.isRequired
+    updater: React.PropTypes.func.isRequired
+  }
+
+  componentDidMount () {
+    this.props.api.notify('field:mount', this.props.fieldKey)
+    let { element, fieldKey, updater } = this.props
+    let { type } = element.settings(fieldKey)
+    if (!type) {
+      throw new Error(format('Wrong attribute type %s', fieldKey))
+    }
+    let rawValue = type.getRawValue(element.data, fieldKey)
+    updater(fieldKey, rawValue)
+  }
+
+  componentWillUnmount () {
+    this.props.api.notify('field:unmount', this.props.fieldKey)
   }
 
   render () {
-    let { element, fieldKey, updater, tabIndex } = this.props
+    let { element, fieldKey, updater } = this.props
     let { type, settings } = element.settings(fieldKey)
     let AttributeComponent = type.component
     if (!AttributeComponent) {
@@ -55,18 +69,14 @@ export default class EditFromField extends React.Component {
       rawValue: rawValue,
       updater: updater,
       getRef: (key) => {
-        return this.refs[ 'form-element-' + key ]
-      },
-      tabIndex: tabIndex,
-      getRefTab: (index) => {
-        return this.refs[ 'form-tab-' + index ]
+        return this.refs[ `form-element-${key}` ]
       }
     }
 
     return (
       <DependencyManager
-        ref={'form-element-' + fieldKey}
-        key={'dependency-' + fieldKey}
+        ref={`form-element-${fieldKey}`}
+        key={`dependency-${fieldKey}`}
         api={this.props.api}
         data={data}
         element={this.props.element}

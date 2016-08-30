@@ -12,6 +12,7 @@ export default class EditFormFieldsForm extends React.Component {
   field = (field) => {
     const updater = (key, value) => {
       this.props.element.set(key, value)
+      this.props.api.notify('element:set', { key: key, value: value })
     }
 
     return (
@@ -20,7 +21,6 @@ export default class EditFormFieldsForm extends React.Component {
         key={`edit-form-field-${field.key}`}
         fieldKey={field.key}
         updater={updater}
-        tabIndex={this.props.activeTab.index}
       />
     )
   }
