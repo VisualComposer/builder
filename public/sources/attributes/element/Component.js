@@ -194,6 +194,7 @@ class ElementAttribute extends Attribute {
       let replacementItemsOutput = []
 
       _.filter(elementsList, (element) => {
+        // TODO: Change this take from settings
         if (element.group === 'icon') {
           let cookElement = Cook.get(element)
 
