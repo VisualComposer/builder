@@ -334,12 +334,15 @@ class ContentEditable extends React.Component {
 
   createValueArray () {
     this.state.inputValueArray = []
-    console.log(this.state.inputValue)
-    let splitString = this.state.inputValue.split('+')
+    let regex = /[ ,+;]/
+
+    let splitString = this.state.inputValue.split(regex)
 
     for (let i = 0; i < splitString.length; i++) {
       let singleItem = splitString[i].trim()
-      this.state.inputValueArray.push(singleItem)
+      if (singleItem) {
+        this.state.inputValueArray.push(singleItem)
+      }
     }
   }
 
