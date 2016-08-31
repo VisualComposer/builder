@@ -1,5 +1,5 @@
 import React from 'react'
-// import classNames from 'classnames'
+import classNames from 'classnames'
 import './styles.less'
 
 class TagList extends React.Component {
@@ -8,8 +8,9 @@ class TagList extends React.Component {
     super()
     this.state = {
       inputValue: '',
-      inputValueArray: [],
-      doGrouping: false
+      tagList: [],
+      tagArray: [],
+      grouped: false
     }
   }
 
@@ -22,13 +23,13 @@ class TagList extends React.Component {
   }
 
   handleGrouping = () => {
-    if (!this.state.doGrouping) {
+    if (!this.state.grouped) {
       let input = document.querySelector('.vcv-ui-tag-list')
       this.updateInputValue(input.textContent)
 
       setTimeout(() => {
         input.innerHTML = ''
-        this.createValueArray()
+        this.createTagList()
         this.changeGroupingState()
 
         // add event listener
@@ -69,7 +70,8 @@ class TagList extends React.Component {
       this.removeToken(e, input)
     } else {
       this.changeGroupingState()
-      input.innerHTML = this.state.inputValueArray.join(' + ')
+
+      input.innerHTML = this.state.tagArray.join(' + ')
       this.placeCaretAtEnd(input)
 
       // remove event listener
@@ -78,28 +80,28 @@ class TagList extends React.Component {
   }
 
   changeGroupingState () {
-    this.setState({doGrouping: !this.state.doGrouping})
+    this.setState({grouped: !this.state.grouped})
   }
 
   // remove clicked elements string from array
   removeToken (e, input) {
     let el = e.target
-    let className = 'vcv-ui-tag-list-item'
+    let tagClass = 'vcv-ui-tag-list-item'
 
-    while (el != null && el.className && !el.classList.contains(className)) {
+    while (el != null && el.className && !el.classList.contains(tagClass)) {
       el = el.parentNode
     }
 
-    let clickedText = el.textContent
-    let index = this.state.inputValueArray.indexOf(clickedText)
+    let index = el.dataset.index
 
     if (index > -1) {
-      this.state.inputValueArray.splice(index, 1)
+      this.state.tagArray.splice(index, 1)
+      this.state.tagList.splice(index, 1)
     }
 
-    if (this.state.inputValueArray.length === 0) {
+    if (this.state.tagList.length === 0) {
       this.state.inputValue = ''
-      this.state.doGrouping = false
+      this.state.grouped = false
       input.removeEventListener('click', this.contentEditableClick)
 
       setTimeout(() => {
@@ -108,6 +110,23 @@ class TagList extends React.Component {
     }
 
     this.forceUpdate()
+  }
+
+  tagValidation (tagArray) {
+    for (let i = 0; i < tagArray.length; i++) {
+      let tagText = tagArray[i]
+
+      let validation = () => {
+        let fractionRegex = /^(\d+)\/(\d+)$/
+
+        return fractionRegex.test(tagText)
+      }
+
+      this.state.tagList[i] = {
+        tagText: tagText,
+        valid: validation()
+      }
+    }
   }
 
   // remove shortcut plugin
@@ -331,8 +350,10 @@ class TagList extends React.Component {
     }
   }
 
-  createValueArray () {
-    this.state.inputValueArray = []
+  createTagList () {
+    this.state.tagList = []
+
+    this.state.tagArray = []
     let regex = /[ ,+;]/
 
     let splitString = this.state.inputValue.split(regex)
@@ -340,19 +361,26 @@ class TagList extends React.Component {
     for (let i = 0; i < splitString.length; i++) {
       let singleItem = splitString[i].trim()
       if (singleItem) {
-        this.state.inputValueArray.push(singleItem)
+        this.state.tagArray.push(singleItem)
       }
     }
+
+    this.tagValidation(this.state.tagArray)
   }
 
   render () {
-    let tokenized = []
+    let tags = []
 
-    if (this.state.doGrouping) {
-      for (let i = 0; i < this.state.inputValueArray.length; i++) {
-        tokenized.push(
-          <span key={'groupSet-' + i} className='vcv-ui-tag-list-item'>
-            {this.state.inputValueArray[i]}
+    if (this.state.grouped) {
+      for (let i = 0; i < this.state.tagList.length; i++) {
+        let tagClasses = classNames({
+          'vcv-ui-tag-list-item': true,
+          'vcv-ui-tag-list-item-error': !this.state.tagList[i].valid
+        })
+
+        tags.push(
+          <span key={'groupSet-' + i} data-index={i} className={tagClasses}>
+            {this.state.tagList[i].tagText}
             <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove'>
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </button>
@@ -361,8 +389,8 @@ class TagList extends React.Component {
       }
     }
     return (
-      <div className='vcv-ui-tag-list vcv-ui-form-input' contentEditable={!this.state.doGrouping} onBlur={this.handleGrouping}>
-        {tokenized}
+      <div suppressContentEditableWarning className='vcv-ui-tag-list vcv-ui-form-input' contentEditable={!this.state.grouped} onBlur={this.handleGrouping}>
+        {tags}
       </div>
     )
   }

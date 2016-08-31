@@ -1,8 +1,8 @@
 @import "../../../less/boilerplate";
 @import "../../../less/bootstrap/variables";
 
-@background-warning: #ed5656;
-@background-warning-hover: #cf3f3f;
+@background-error: #ed5656;
+@background-error-hover: #cf3f3f;
 
 
 .vcv-ui-form-input.vcv-ui-tag-list {
@@ -26,6 +26,14 @@
 
   &:hover {
     background-color: @color-base-active;
+  }
+}
+
+.vcv-ui-tag-list-item-error {
+  background-color: @background-error;
+
+  &:hover {
+    background-color: @background-error-hover;
   }
 }
 
