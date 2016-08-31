@@ -10,22 +10,36 @@ class TagList extends React.Component {
       inputValue: '',
       tagList: [],
       tagArray: [],
-      grouped: false
+      grouped: false,
+      suggestOptions: [
+        '1/1', '1/2 + 1/2', '1/3 + 1/3 + 1/3',
+        '1/4 + 1/4 + 1/4 + 1/4',
+        '1/5 + 1/5 + 1/5 + 1/5 + 1/5',
+        '1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6',
+        '2/3 + 1/3', '1/4 + 3/4',
+        '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6'
+      ],
+      suggestVisible: false
     }
+
+    this.updateInputValue = this.updateInputValue.bind(this)
   }
 
   componentDidMount () {
     this.addShortcuts()
   }
 
-  updateInputValue (inputValue) {
+  updateInputValue (e) {
+    let inputValue = e.target.textContent
     this.setState({inputValue})
+
+    this.suggestBox()
   }
 
   handleGrouping = () => {
     if (!this.state.grouped) {
+      // TODO - need to change this, not gonna work if there will be more inputs
       let input = document.querySelector('.vcv-ui-tag-list')
-      this.updateInputValue(input.textContent)
 
       setTimeout(() => {
         input.innerHTML = ''
@@ -36,6 +50,8 @@ class TagList extends React.Component {
         input.addEventListener('click', this.contentEditableClick)
       }, 100)
     }
+
+    this.setState({suggestVisible: false})
   }
 
   placeCaretAtEnd (el) {
@@ -67,7 +83,7 @@ class TagList extends React.Component {
     let insideClose = (d != null && d.classList.contains(className))
 
     if (insideClose) {
-      this.removeToken(e, input)
+      this.removeTag(e, input)
     } else {
       this.changeGroupingState()
 
@@ -83,8 +99,8 @@ class TagList extends React.Component {
     this.setState({grouped: !this.state.grouped})
   }
 
-  // remove clicked elements string from array
-  removeToken (e, input) {
+  // remove clicked elements string and object from both arrays
+  removeTag (e, input) {
     let el = e.target
     let tagClass = 'vcv-ui-tag-list-item'
 
@@ -95,13 +111,27 @@ class TagList extends React.Component {
     let index = el.dataset.index
 
     if (index > -1) {
-      this.state.tagArray.splice(index, 1)
-      this.state.tagList.splice(index, 1)
+      let tagArr = this.state.tagArray
+      let tagList = this.state.tagList
+
+      tagArr.splice(index, 1)
+      tagList.splice(index, 1)
+
+      this.setState({
+        tagArray: tagArr
+      })
+
+      this.setState({
+        tagList: tagList
+      })
     }
 
     if (this.state.tagList.length === 0) {
-      this.state.inputValue = ''
-      this.state.grouped = false
+      this.setState({
+        inputValue: '',
+        grouped: false
+      })
+
       input.removeEventListener('click', this.contentEditableClick)
 
       setTimeout(() => {
@@ -368,6 +398,13 @@ class TagList extends React.Component {
     this.tagValidation(this.state.tagArray)
   }
 
+  suggestBox () {
+    // this.state.suggestVisible = true
+    // this.forceUpdate()
+
+    this.setState({suggestVisible: true})
+  }
+
   render () {
     let tags = []
 
@@ -388,9 +425,37 @@ class TagList extends React.Component {
         )
       }
     }
+
+    let suggestBox = ''
+    let suggestItems = []
+
+    if (this.state.suggestVisible) {
+      for (let i = 0; i < this.state.suggestOptions.length; i++) {
+        suggestItems.push(
+          <span key={'suggest' + i} className='vcv-ui-suggest-box-item'>
+            {this.state.suggestOptions[i]}
+          </span>
+        )
+      }
+      suggestBox = (
+        <div className='vcv-ui-suggest-box'>
+          {suggestItems}
+        </div>
+      )
+    }
     return (
-      <div suppressContentEditableWarning className='vcv-ui-tag-list vcv-ui-form-input' contentEditable={!this.state.grouped} onBlur={this.handleGrouping}>
-        {tags}
+      <div className='vcv-ui-tag-list-container'>
+        <div suppressContentEditableWarning
+          className='vcv-ui-tag-list vcv-ui-form-input'
+          contentEditable={!this.state.grouped}
+          onBlur={this.handleGrouping}
+          onInput={this.updateInputValue}
+        >
+          {tags}
+        </div>
+
+        {suggestBox}
+
       </div>
     )
   }
