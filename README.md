@@ -2,6 +2,7 @@
 
 [![build status](https://ci.visualcomposer.io/vcb/vcb/badges/master/build.svg)](https://ci.visualcomposer.io/vcb/vcb/commits/master)
 
+
 ## Javascript Code Style
 All javascript is build with webpack module bundler.
 
