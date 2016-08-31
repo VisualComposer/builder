@@ -1,0 +1,131 @@
+//=== Design options
+.design-options-test {
+  margin: 2rem auto;
+  width: 90vw;
+}
+
+.vcv-ui-design-options-onion {
+  background-color: @design-options-onion-bg;
+  width: @design-options-onion-size;
+}
+
+.vcv-ui-design-options-onion-layers {
+  padding-top: 100%;
+  position: relative;
+}
+
+[class*='vcv-ui-design-options-onion-layer--'] {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  [class*="vcv-ui-design-options-onion-control-position--"] {
+    pointer-events: all;
+    padding-left: 2px;
+    padding-right: 2px;
+    width: @design-options-onion-control-size;
+    height: @design-options-onion-control-size;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+  }
+  &::before {
+    @border-indent: @design-options-onion-control-size / 2;
+    content: '';
+    display: block;
+    position: absolute;
+    top: @border-indent;
+    right: @border-indent;
+    bottom: @border-indent;
+    left: @border-indent;
+    border: 1px solid @design-options-onion-line-color;
+  }
+  .vcv-ui-form-group-heading {
+    @control-indent: @design-options-onion-control-size / 2;
+    position: absolute;
+    z-index: 1;
+    pointer-events: all;
+    right: calc(~"50% + @{control-indent} + @{design-options-onion-control-label-padding}");
+    max-width: @design-options-onion-control-label-size;
+    min-height: @design-options-onion-control-size;
+    display: inline-flex;
+    align-items: center;
+    background-color: @design-options-onion-bg;
+    padding: 0 @design-options-onion-control-label-padding;
+    text-align: right;
+  }
+}
+
+.vcv-ui-design-options-onion-layer--margin {
+
+}
+
+.vcv-ui-design-options-onion-layer--border {
+  margin: @design-options-onion-control-size + @design-options-onion-control-indent;
+}
+
+.vcv-ui-design-options-onion-layer--padding {
+  margin: (@design-options-onion-control-size + @design-options-onion-control-indent) * 2;
+}
+
+.vcv-ui-design-options-onion-layer--border-radius {
+  .vcv-ui-form-group-heading {
+    @control-indent: @design-options-onion-control-size;
+    right: calc(~"@{control-indent} + @{design-options-onion-control-label-padding}");
+  }
+}
+
+.vcv-ui-design-options-onion-control-position--top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.vcv-ui-design-options-onion-control-position--top-left {
+  top: 0;
+  left: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--top-right {
+  top: 0;
+  right: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.vcv-ui-design-options-onion-control-position--bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.vcv-ui-form-dependency, .vcv-ui-tab-dependency {
+  &.vcv-ui-state--hidden {
+    display: none !important;
+  }
+  &.vcv-ui-state--visible {
+    display: block !important;
+  }
+}
