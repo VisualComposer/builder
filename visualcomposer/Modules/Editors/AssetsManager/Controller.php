@@ -116,6 +116,11 @@ class Controller extends Container implements Module
             'styles',
             $this->request->input('vcv-styles', [])
         );
+        $this->updatePostAssets(
+            $postId,
+            'design-options',
+            $this->request->input('vcv-design-options', '')
+        );
         $this->updateGlobalAssets(
             'global-elements',
             rawurldecode($this->request->input('vcv-global-elements', ''))
@@ -127,6 +132,7 @@ class Controller extends Container implements Module
         $scriptsBundles = $this->generateScriptsBundle();
         // $styleBundles = $this->getStyleBundles();
         $globalStylesFile = $this->generateStylesGlobalFile();
+        $this->generatePostStyles($postId);
         return [
             'scriptBundles' => $scriptsBundles,
             // 'styleBundles' => $styleBundles,
@@ -315,7 +321,25 @@ class Controller extends Container implements Module
         // remove file
         return $bundleUrl;
     }
-
+    /**
+     *
+     * Generate (save to fs and update db) post styles bundle.
+     *
+     * @param $postId
+     *
+     * @return bool|string URL to generated bundle.
+     */
+    private function generatePostStyles($postId)
+    {
+        $postsStyles = $this->options->get('design-options');
+        if (isset($postsStyles[$postId])) {
+            $style = $postsStyles[$postId];
+        }
+        $bundleUrl = $this->createBundleFile($style, 'css');
+        $this->options->set('postStyles-' . $postId, $bundleUrl);
+        // remove file
+        return $bundleUrl;
+    }
     /**
      * Create file with content in filesystem
      *
@@ -373,8 +397,6 @@ class Controller extends Container implements Module
     private function updateGlobalAssets($assetType, $postAssets)
     {
         $assets = $this->options->get($assetType, '');
-
-
         $this->options->set($assetType, $postAssets);
 
         return $assets;

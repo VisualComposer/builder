@@ -5,7 +5,6 @@ use VisualComposer\Helpers\Url;
 $url = vchelper('Url');
 $filter = vchelper('Filters');
 $bundleCssUrl = $url->to('public/dist/pe.bundle.css?' . uniqid());
-$elementsUrl = $url->to('public/dist/elements.css?' . uniqid());
 $bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
 ?>
 <script>
@@ -35,7 +34,6 @@ $bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
             }
         }
         vcvLoadJsCssFile('<?php  echo $bundleCssUrl ?>', 'css');
-        vcvLoadJsCssFile('<?php  echo $elementsUrl ?>', 'css');
         vcvLoadJsCssFile('<?php  echo $bundleJsUrl ?>', 'js');
     })();
 </script>

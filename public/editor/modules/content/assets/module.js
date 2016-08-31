@@ -4,7 +4,7 @@ const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
 
 vcCake.add('assets', (api) => {
-  api.reply('data:changed', () => {
+  const dataUpdate = () => {
     let iframeDocument = window.document.querySelector('.vcv-layout-iframe').contentWindow.document
     let doElement = iframeDocument.querySelector('#do-styles')
     let styleElement = iframeDocument.querySelector('#css-styles')
@@ -24,7 +24,9 @@ vcCake.add('assets', (api) => {
     assetManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result
     })
-  })
+  }
+  api.reply('data:changed', dataUpdate)
+  api.reply('wordpress:data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
     assetManager.add(ids)

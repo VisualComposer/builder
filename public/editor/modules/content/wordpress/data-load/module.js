@@ -25,5 +25,6 @@ vcCake.add('content-wordpress-data-load', (api) => {
     } else {
       throw new Error('Failed to load wordpress:data:loaded')
     }
+    api.request('wordpress:data:added', true)
   })
 })
