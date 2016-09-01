@@ -6,7 +6,8 @@ export default class EditFormFieldsForm extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
-    activeTab: React.PropTypes.object.isRequired
+    activeTab: React.PropTypes.object.isRequired,
+    callFieldActivities: React.PropTypes.func.isRequired
   }
 
   field = (field) => {
@@ -22,6 +23,7 @@ export default class EditFormFieldsForm extends React.Component {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
+    this.props.callFieldActivities(key)
   }
 
   render () {

@@ -3,6 +3,21 @@ import classNames from 'classnames'
 import Field from './field'
 
 export default class FieldDependencyManager extends React.Component {
+  static propTypes = {
+    fieldKey: React.PropTypes.string.isRequired,
+    setFieldMount: React.PropTypes.func.isRequired,
+    setFieldUnmount: React.PropTypes.func.isRequired
+  }
+
+  componentDidMount () {
+    this.props.setFieldMount(this.props.fieldKey, {
+      ref: this.refs[ 'field' ]
+    })
+  }
+
+  componentWillUnmount () {
+    this.props.setFieldUnmount(this.props.fieldKey)
+  }
 
   render () {
     let classes = classNames({
@@ -10,7 +25,7 @@ export default class FieldDependencyManager extends React.Component {
     })
 
     return (
-      <div className={classes}>
+      <div ref='field' className={classes}>
         <Field
           {...this.props}
         />

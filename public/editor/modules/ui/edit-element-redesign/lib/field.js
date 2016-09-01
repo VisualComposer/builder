@@ -6,27 +6,7 @@ export default class EditFromField extends React.Component {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
-    updater: React.PropTypes.func.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
-  }
-
-  componentDidMount () {
-    /* this.props.api.notify('field:mount', this.props.fieldKey)
-     let { element, fieldKey, updater } = this.props
-     let { type } = element.settings(fieldKey)
-     if (!type) {
-     throw new Error(format('Wrong attribute type %s', fieldKey))
-     }
-     let rawValue = type.getRawValue(element.data, fieldKey)
-     updater(fieldKey, rawValue)
-     */
-    this.props.setFieldMount(this.props.fieldKey)
-  }
-
-  componentWillUnmount () {
-    this.props.setFieldUnmount(this.props.fieldKey)
-    // this.props.api.notify('field:unmount', this.props.fieldKey)
+    updater: React.PropTypes.func.isRequired
   }
 
   render () {
@@ -55,7 +35,7 @@ export default class EditFromField extends React.Component {
     // let value = type.getValue(settings, element.data, fieldKey)
 
     return (
-      <div className='vcv-ui-form-group' key={'form-group-' + fieldKey}>
+      <div className='vcv-ui-form-group' key={`form-group-field-${element.get('id')}-${fieldKey}`}>
         {label}
         <AttributeComponent
           key={'attribute-' + fieldKey + element.get('id')}

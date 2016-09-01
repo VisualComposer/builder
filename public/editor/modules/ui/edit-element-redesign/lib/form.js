@@ -14,6 +14,8 @@ export default class EditForm extends React.Component {
     let treeContentClasses = classNames({
       'vcv-ui-tree-content': true
     })
+    // <EditFormContent {...this.props} />
+    // <EditFormFooter {...this.props} />
 
     return (
       <div className='vcv-ui-tree-view-content'>

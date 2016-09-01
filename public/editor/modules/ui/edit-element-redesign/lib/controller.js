@@ -15,7 +15,6 @@ export default class EditElementController extends ActivitiesManager {
         addStack={this.addStack}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
-        isMount={this.isMount}
         callFieldActivities={this.callFieldActivities}
       />
     )
