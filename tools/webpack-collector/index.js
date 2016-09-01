@@ -2,6 +2,7 @@ var ServicesCollector = require('./lib/services-collector')
 var ModulesCollector = require('./lib/modules-collector')
 var AttributesCollector = require('./lib/attributes-collector')
 var ElementsCollector = require('./lib/elements-collector')
+var EnvCollector = require('./lib/env-collector')
 let exec = require('child_process').exec
 var Collector = function () {
 }
@@ -23,6 +24,7 @@ Collector.prototype.apply = function (compiler) {
       AttributesCollector.buildFile(prefix)
     }.bind(this))
     ElementsCollector.buildFile()
+    EnvCollector.buildFile()
     callback()
   })
 }

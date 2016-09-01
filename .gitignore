@@ -47,6 +47,7 @@ public/config/*-attributes.js
 public/config/elements.js
 public/config/element-settings.js
 public/dist/
+public/custom-variables.js
 /vendor
 .env
 composer.lock

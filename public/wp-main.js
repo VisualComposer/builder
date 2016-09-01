@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import './sources/less/bootstrap/init.less'
 import './sources/css/wordpress.less'
+import './config/variables'
 import './config/wp-services'
 import './config/wp-attributes'
 
