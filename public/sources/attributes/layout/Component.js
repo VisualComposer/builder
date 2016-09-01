@@ -4,6 +4,7 @@ import React from 'react'
 import Attribute from '../attribute'
 // import lodash from 'lodash'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
 import './css/styles.less'
 import Toggle from '../toggle/Component'
 // import String from '../string/Component'
@@ -85,6 +86,9 @@ class Layout extends Attribute {
   }
 
   render () {
+    if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
+      return null
+    }
     let { value } = this.state
     let layoutsData = []
     let layoutsKeys = 0
