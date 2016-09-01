@@ -37,7 +37,11 @@ export default class EditFormTabsOutput extends React.Component {
     let visibleTabsHeaderOutput = []
     lodash.each(this.props.visibleTabs, (tab) => {
       visibleTabsHeaderOutput.push(
-        <TabDependencies {...tab} {...this.props} getContainer={this.getContainer} />
+        <TabDependencies
+          {...this.props}
+          {...tab}
+          getContainer={this.getContainer}
+        />
       )
     })
 
@@ -46,7 +50,10 @@ export default class EditFormTabsOutput extends React.Component {
       let hiddenTabsHeader = []
       lodash.each(this.props.hiddenTabs, (tab) => {
         hiddenTabsHeader.push(
-          <TabDependencies {...tab} {...this.props} getContainer={this.getContainer} />
+          <TabDependencies
+            {...this.props}
+            {...tab}
+            getContainer={this.getContainer} />
         )
       })
 

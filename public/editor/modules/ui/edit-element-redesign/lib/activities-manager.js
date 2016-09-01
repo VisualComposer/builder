@@ -9,12 +9,13 @@ export default class ActivitiesManager extends React.Component {
   stack = []
 
   setFieldMount = (field) => {
-    console.log('try to mount', field)
+    console.log('ActivitiesManager.setFieldMount', field)
     this.mount[ field ] = true
     // this.callFieldActivities(field)
   }
 
   setFieldUnmount = (field) => {
+    console.log('ActivitiesManager.setFieldUnmount', field)
     this.mount[ field ] = false
   }
 

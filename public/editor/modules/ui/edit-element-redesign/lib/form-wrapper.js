@@ -26,14 +26,13 @@ export default class EditFormTabs extends React.Component {
     let tabs = []
     EditFormTabs.editFormTabs(props).map((tab, index) => {
       let tabsData = {
-        id: tab.key,
         fieldKey: tab.key,
         index: index,
         data: tab.data,
         isVisible: true,
         pinned: tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: EditFormTabs.editFormTabParams(props, tab.key),
-        key: `edit-form-tab-${tab.key}`,
+        key: `edit-form-tab-${props.element.data.id}-${index}-${tab.key}`,
         changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
           if (this.allTabs[ index ]) {
