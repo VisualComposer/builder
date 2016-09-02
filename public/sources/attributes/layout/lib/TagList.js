@@ -3,11 +3,33 @@ import classNames from 'classnames'
 import './styles.less'
 
 export default class TagList extends React.Component {
+  static propTypes = {
+    value: React.PropTypes.string
+  }
 
-  constructor () {
-    super()
-    this.state = {
-      inputValue: '',
+  state = {
+    value: this.props.value || '',
+    tagList: [
+      // {tagText: '1/2', valid: true},
+      // {tagText: '1/2', valid: true}
+    ],
+    grouped: false,
+    suggestDefault: [
+      '1/1', '1/2 + 1/2', '1/3 + 1/3 + 1/3',
+      '1/4 + 1/4 + 1/4 + 1/4',
+      '1/5 + 1/5 + 1/5 + 1/5 + 1/5',
+      '1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6',
+      '2/3 + 1/3', '1/4 + 3/4',
+      '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6',
+      'Javascript', 'Java', 'Php'
+    ],
+    suggestVisible: false,
+    suggested: []
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      value: nextProps.value || '',
       tagList: [
         // {tagText: '1/2', valid: true},
         // {tagText: '1/2', valid: true}
@@ -24,7 +46,7 @@ export default class TagList extends React.Component {
       ],
       suggestVisible: false,
       suggested: []
-    }
+    })
   }
 
   componentDidMount () {
@@ -37,7 +59,7 @@ export default class TagList extends React.Component {
 
   updateInputValue = (e) => {
     let inputValue = e.target.textContent
-    this.setState({ inputValue })
+    this.setState({ value: inputValue })
 
     this.suggestBox(inputValue)
   }
@@ -84,7 +106,7 @@ export default class TagList extends React.Component {
 
   returnPrevVal = () => {
     let input = document.querySelector('.vcv-ui-tag-list')
-    input.innerHTML = this.state.inputValue
+    input.innerHTML = this.state.value
     this.placeCaretAtEnd(input)
     this.removeSuggestSelected()
   }
@@ -133,7 +155,7 @@ export default class TagList extends React.Component {
       input.innerHTML = inputValue
 
       this.setState({
-        inputValue: inputValue
+        value: inputValue
       })
 
       this.placeCaretAtEnd(input)
@@ -166,7 +188,7 @@ export default class TagList extends React.Component {
 
     if (this.state.tagList.length === 0) {
       this.setState({
-        inputValue: '',
+        value: '',
         grouped: false
       })
 
@@ -463,7 +485,7 @@ export default class TagList extends React.Component {
   }
 
   // creates a tag list from an input value
-  createTagList (inputVal = this.state.inputValue) {
+  createTagList (inputVal = this.state.value) {
     let regex = /[ ,+;]/
     let tagArray = inputVal.split(regex)
     let tagArrayTrimmed = []
@@ -572,15 +594,16 @@ export default class TagList extends React.Component {
   }
 
   render () {
-    let tags = []
+    let tags = this.state.value
 
     if (this.state.grouped) {
+      let innerTags = []
       this.state.tagList.forEach((item, index) => {
         let tagClasses = classNames({
           'vcv-ui-tag-list-item': true,
           'vcv-ui-tag-list-item-error': !item.valid
         })
-        tags.push(
+        innerTags.push(
           <span key={'tagItem' + index} data-index={index} className={tagClasses}>
             {item.tagText}
             <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove'>
@@ -589,6 +612,9 @@ export default class TagList extends React.Component {
           </span>
         )
       })
+      if (innerTags.length) {
+        tags = innerTags
+      }
     }
 
     let suggestBox = ''
