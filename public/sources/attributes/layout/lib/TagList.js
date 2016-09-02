@@ -2,56 +2,78 @@ import React from 'react'
 import classNames from 'classnames'
 import './styles.less'
 
-class TagList extends React.Component {
+export default class TagList extends React.Component {
 
   constructor () {
     super()
     this.state = {
       inputValue: '',
-      tagList: [],
-      tagArray: [],
+      tagList: [
+        // {tagText: '1/2', valid: true},
+        // {tagText: '1/2', valid: true}
+      ],
       grouped: false,
-      suggestOptions: [
+      suggestDefault: [
         '1/1', '1/2 + 1/2', '1/3 + 1/3 + 1/3',
         '1/4 + 1/4 + 1/4 + 1/4',
         '1/5 + 1/5 + 1/5 + 1/5 + 1/5',
         '1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6',
         '2/3 + 1/3', '1/4 + 3/4',
-        '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6'
+        '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6',
+        'Javascript', 'Java', 'Php'
       ],
-      suggestVisible: false
+      suggestVisible: false,
+      suggested: []
     }
-
-    this.updateInputValue = this.updateInputValue.bind(this)
   }
 
   componentDidMount () {
     this.addShortcuts()
+
+    if (this.state.tagList.length) {
+      this.handleGrouping()
+    }
   }
 
-  updateInputValue (e) {
+  updateInputValue = (e) => {
     let inputValue = e.target.textContent
-    this.setState({inputValue})
+    this.setState({ inputValue })
 
-    this.suggestBox()
+    this.suggestBox(inputValue)
   }
 
-  handleGrouping = () => {
+  // when user clicks outside of input or presses enter
+  handleGrouping = (e) => {
+    let input = document.querySelector('.vcv-ui-tag-list')
+
+    this.setState({ suggestVisible: false })
+
     if (!this.state.grouped) {
       // TODO - need to change this, not gonna work if there will be more inputs
-      let input = document.querySelector('.vcv-ui-tag-list')
 
       setTimeout(() => {
         input.innerHTML = ''
         this.createTagList()
-        this.changeGroupingState()
-
-        // add event listener
+        this.setState({ grouped: true })
         input.addEventListener('click', this.contentEditableClick)
       }, 100)
     }
+  }
 
-    this.setState({suggestVisible: false})
+  handleSuggestClick = (e) => {
+    this.setState({ inputValue: e.target.textContent })
+  }
+
+  handleSuggest = (e) => {
+    let input = document.querySelector('.vcv-ui-tag-list')
+    input.innerHTML = e.target.textContent
+    this.placeCaretAtEnd(input)
+  }
+
+  returnPrevVal = () => {
+    let input = document.querySelector('.vcv-ui-tag-list')
+    input.innerHTML = this.state.inputValue
+    this.placeCaretAtEnd(input)
   }
 
   placeCaretAtEnd (el) {
@@ -71,6 +93,7 @@ class TagList extends React.Component {
     }
   }
 
+  // when user clicks to input, rounded tags converts to string as an input value
   contentEditableClick = (e) => {
     let input = document.querySelector('.vcv-ui-tag-list')
     let d = e.target
@@ -87,7 +110,19 @@ class TagList extends React.Component {
     } else {
       this.changeGroupingState()
 
-      input.innerHTML = this.state.tagArray.join(' + ')
+      let tagArray = []
+
+      for (let i = 0; i < this.state.tagList.length; i++) {
+        tagArray.push(this.state.tagList[ i ].tagText)
+      }
+
+      let inputValue = tagArray.join(' + ')
+      input.innerHTML = inputValue
+
+      this.setState({
+        inputValue: inputValue
+      })
+
       this.placeCaretAtEnd(input)
 
       // remove event listener
@@ -96,10 +131,10 @@ class TagList extends React.Component {
   }
 
   changeGroupingState () {
-    this.setState({grouped: !this.state.grouped})
+    this.setState({ grouped: !this.state.grouped })
   }
 
-  // remove clicked elements string and object from both arrays
+  // remove clicked element from tagList array
   removeTag (e, input) {
     let el = e.target
     let tagClass = 'vcv-ui-tag-list-item'
@@ -111,15 +146,9 @@ class TagList extends React.Component {
     let index = el.dataset.index
 
     if (index > -1) {
-      let tagArr = this.state.tagArray
       let tagList = this.state.tagList
 
-      tagArr.splice(index, 1)
       tagList.splice(index, 1)
-
-      this.setState({
-        tagArray: tagArr
-      })
 
       this.setState({
         tagList: tagList
@@ -138,25 +167,33 @@ class TagList extends React.Component {
         input.focus()
       }, 100)
     }
-
-    this.forceUpdate()
   }
 
+  // tag validation takes array with string and outputs an array with objects, with keys- text and valid
   tagValidation (tagArray) {
-    for (let i = 0; i < tagArray.length; i++) {
-      let tagText = tagArray[i]
+    let tagList = []
 
-      let validation = () => {
+    for (let i = 0; i < tagArray.length; i++) {
+      let tagText = tagArray[ i ]
+
+      let validation = (tagText) => {
         let fractionRegex = /^(\d+)\/(\d+)$/
 
-        return fractionRegex.test(tagText)
+        if (fractionRegex.test(tagText)) {
+          // test if fraction is less than 1
+          let results = fractionRegex.exec(tagText)
+          return parseInt(results[ 1 ]) <= parseInt(results[ 2 ])
+        }
+        return false
       }
 
-      this.state.tagList[i] = {
+      tagList[ i ] = {
         tagText: tagText,
-        valid: validation()
+        valid: validation(tagText)
       }
     }
+
+    return tagList
   }
 
   // remove shortcut plugin
@@ -173,15 +210,20 @@ class TagList extends React.Component {
         'target': document,
         'keycode': false
       }
-      if (!opt) opt = defaultOptions
-      else {
+      if (!opt) {
+        opt = defaultOptions
+      } else {
         for (let dfo in defaultOptions) {
-          if (typeof opt[dfo] === 'undefined') opt[dfo] = defaultOptions[dfo]
+          if (typeof opt[ dfo ] === 'undefined') {
+            opt[ dfo ] = defaultOptions[ dfo ]
+          }
         }
       }
 
       var ele = opt.target
-      if (typeof opt.target === 'string') ele = document.getElementById(opt.target)
+      if (typeof opt.target === 'string') {
+        ele = document.getElementById(opt.target)
+      }
 
       shortcutCombination = shortcutCombination.toLowerCase()
 
@@ -189,22 +231,36 @@ class TagList extends React.Component {
       var func = function (e) {
         e = e || window.event
 
-        if (opt['disable_in_input']) { // Don't enable shortcut keys in Input, Textarea fields
+        if (opt[ 'disable_in_input' ]) { // Don't enable shortcut keys in Input, Textarea fields
           var element
-          if (e.target) element = e.target
-          else if (e.srcElement) element = e.srcElement
-          if (element.nodeType === 3) element = element.parentNode
+          if (e.target) {
+            element = e.target
+          } else if (e.srcElement) {
+            element = e.srcElement
+          }
+          if (element.nodeType === 3) {
+            element = element.parentNode
+          }
 
-          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') return
+          if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            return
+          }
         }
 
         // Find Which key is pressed
-        if (e.keyCode) code = e.keyCode
-        else if (e.which) code = e.which
+        if (e.keyCode) {
+          code = e.keyCode
+        } else if (e.which) {
+          code = e.which
+        }
         var character = String.fromCharCode(code).toLowerCase()
 
-        if (code === 188) character = ',' // If the user presses , when the type is onkeydown
-        if (code === 190) character = '.' // If the user presses , when the type is onkeydown
+        if (code === 188) {
+          character = ','
+        } // If the user presses , when the type is onkeydown
+        if (code === 190) {
+          character = '.'
+        } // If the user presses , when the type is onkeydown
 
         var keys = shortcutCombination.split('+')
         // Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
@@ -288,19 +344,27 @@ class TagList extends React.Component {
         }
 
         var modifiers = {
-          shift: {wanted: false, pressed: false},
-          ctrl: {wanted: false, pressed: false},
-          alt: {wanted: false, pressed: false},
-          meta: {wanted: false, pressed: false} // Meta is Mac specific
+          shift: { wanted: false, pressed: false },
+          ctrl: { wanted: false, pressed: false },
+          alt: { wanted: false, pressed: false },
+          meta: { wanted: false, pressed: false } // Meta is Mac specific
         }
 
-        if (e.ctrlKey) modifiers.ctrl.pressed = true
-        if (e.shiftKey) modifiers.shift.pressed = true
-        if (e.altKey) modifiers.alt.pressed = true
-        if (e.metaKey) modifiers.meta.pressed = true
+        if (e.ctrlKey) {
+          modifiers.ctrl.pressed = true
+        }
+        if (e.shiftKey) {
+          modifiers.shift.pressed = true
+        }
+        if (e.altKey) {
+          modifiers.alt.pressed = true
+        }
+        if (e.metaKey) {
+          modifiers.meta.pressed = true
+        }
 
         for (let i = 0; i < keys.length; i++) {
-          let k = keys[i]
+          let k = keys[ i ]
 
           // Modifiers
           if (k === 'ctrl' || k === 'control') {
@@ -316,15 +380,22 @@ class TagList extends React.Component {
             kp++
             modifiers.meta.wanted = true
           } else if (k.length > 1) { // If it is a special key
-            if (specialKeys[k] === code) kp++
-          } else if (opt['keycode']) {
-            if (opt['keycode'] === code) kp++
+            if (specialKeys[ k ] === code) {
+              kp++
+            }
+          } else if (opt[ 'keycode' ]) {
+            if (opt[ 'keycode' ] === code) {
+              kp++
+            }
           } else { // The special keys did not match
-            if (character === k) kp++
-            else {
-              if (shiftNums[character] && e.shiftKey) { // Stupid Shift key bug created by using lowercase
-                character = shiftNums[character]
-                if (character === k) kp++
+            if (character === k) {
+              kp++
+            } else {
+              if (shiftNums[ character ] && e.shiftKey) { // Stupid Shift key bug created by using lowercase
+                character = shiftNums[ character ]
+                if (character === k) {
+                  kp++
+                }
               }
             }
           }
@@ -337,7 +408,7 @@ class TagList extends React.Component {
           modifiers.meta.pressed === modifiers.meta.wanted) {
           callback(e)
 
-          if (!opt['propagate']) { // Stop the event
+          if (!opt[ 'propagate' ]) { // Stop the event
             // e.cancelBubble is supported by IE - this will kill the bubbling process.
             e.cancelBubble = true
             e.returnValue = false
@@ -351,89 +422,117 @@ class TagList extends React.Component {
           }
         }
       }
-      this.all_shortcuts[shortcutCombination] = {
+      this.all_shortcuts[ shortcutCombination ] = {
         'callback': func,
         'target': ele,
-        'event': opt['type']
+        'event': opt[ 'type' ]
       }
       // Attach the function with the event
-      if (ele.addEventListener) ele.addEventListener(opt['type'], func, false)
-      else if (ele.attachEvent) ele.attachEvent('on' + opt['type'], func)
-      else ele['on' + opt['type']] = func
+      if (ele.addEventListener) {
+        ele.addEventListener(opt[ 'type' ], func, false)
+      } else if (ele.attachEvent) {
+        ele.attachEvent(`on${opt[ 'type' ]}`, func)
+      } else {
+        ele[ `on${opt[ 'type' ]}` ] = func
+      }
     }
   }
 
   addShortcuts () {
     let input = document.querySelector('.vcv-ui-tag-list')
 
-    const shortcutCombinations = ['Ctrl+B', 'Ctrl+U', 'Ctrl+I', 'Meta+B', 'Meta+U', 'Meta+I', 'Enter']
+    const shortcutCombinations = [ 'Ctrl+B', 'Ctrl+U', 'Ctrl+I', 'Meta+B', 'Meta+U', 'Meta+I', 'Enter' ]
 
     // removing all shortcuts from contentEditable element
     // adding event on enter
     for (let i = 0; i < shortcutCombinations.length; i++) {
-      this.shortcut.add(shortcutCombinations[i], () => {
-        if (shortcutCombinations[i] === 'Enter') {
+      this.shortcut.add(shortcutCombinations[ i ], () => {
+        if (shortcutCombinations[ i ] === 'Enter') {
           this.handleGrouping()
         }
         return false
-      }, {'target': input})
+      }, { 'target': input })
     }
   }
 
-  createTagList () {
-    this.state.tagList = []
-
-    this.state.tagArray = []
+  // creates a tag list from an input value
+  createTagList (inputVal = this.state.inputValue) {
     let regex = /[ ,+;]/
+    let tagArray = inputVal.split(regex)
+    let tagArrayTrimmed = []
 
-    let splitString = this.state.inputValue.split(regex)
-
-    for (let i = 0; i < splitString.length; i++) {
-      let singleItem = splitString[i].trim()
+    for (let i = 0; i < tagArray.length; i++) {
+      let singleItem = tagArray[ i ].trim()
       if (singleItem) {
-        this.state.tagArray.push(singleItem)
+        tagArrayTrimmed.push(singleItem)
       }
     }
 
-    this.tagValidation(this.state.tagArray)
+    this.setState({
+      tagList: this.tagValidation(tagArrayTrimmed)
+    })
   }
 
-  suggestBox () {
-    // this.state.suggestVisible = true
-    // this.forceUpdate()
+  // suggestBox
+  suggestBox (inputValue) {
+    let myArr = []
+    let sanitizedValue = this.sanitizeInput(inputValue)
+    let valueRegex = new RegExp(sanitizedValue)
 
-    this.setState({suggestVisible: true})
+    for (let i = 0; i < this.state.suggestDefault.length; i++) {
+      if (valueRegex.test(this.state.suggestDefault[ i ])) {
+        myArr.push(this.state.suggestDefault[ i ])
+      }
+    }
+
+    this.setState({
+      suggested: myArr
+    })
+
+    this.setState({ suggestVisible: myArr.length })
+  }
+
+  sanitizeInput (inputValue) {
+    let sanitizedValue = inputValue
+    sanitizedValue = sanitizedValue.replace(/\s+/g, '')
+    sanitizedValue = sanitizedValue.replace(/\++/g, '\\s?\\+?\\s?')
+
+    return sanitizedValue
   }
 
   render () {
     let tags = []
 
     if (this.state.grouped) {
-      for (let i = 0; i < this.state.tagList.length; i++) {
+      this.state.tagList.forEach((item, index) => {
         let tagClasses = classNames({
           'vcv-ui-tag-list-item': true,
-          'vcv-ui-tag-list-item-error': !this.state.tagList[i].valid
+          'vcv-ui-tag-list-item-error': !item.valid
         })
-
         tags.push(
-          <span key={'groupSet-' + i} data-index={i} className={tagClasses}>
-            {this.state.tagList[i].tagText}
+          <span key={Math.random()} data-index={index} className={tagClasses}>
+            {item.tagText}
             <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove'>
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </button>
           </span>
         )
-      }
+      })
     }
 
     let suggestBox = ''
     let suggestItems = []
 
     if (this.state.suggestVisible) {
-      for (let i = 0; i < this.state.suggestOptions.length; i++) {
+      for (let i = 0; i < this.state.suggested.length; i++) {
         suggestItems.push(
-          <span key={'suggest' + i} className='vcv-ui-suggest-box-item'>
-            {this.state.suggestOptions[i]}
+          <span key={'suggest' + i}
+            className='vcv-ui-suggest-box-item'
+            onMouseEnter={this.handleSuggest}
+            onMouseLeave={this.returnPrevVal}
+            onMouseDown={this.handleSuggestClick}
+          >
+            {this.state.suggested[ i ]}
           </span>
         )
       }
@@ -445,6 +544,7 @@ class TagList extends React.Component {
     }
     return (
       <div className='vcv-ui-tag-list-container'>
+
         <div suppressContentEditableWarning
           className='vcv-ui-tag-list vcv-ui-form-input'
           contentEditable={!this.state.grouped}
@@ -453,12 +553,9 @@ class TagList extends React.Component {
         >
           {tags}
         </div>
-
         {suggestBox}
 
       </div>
     )
   }
 }
-
-export default TagList
