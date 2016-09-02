@@ -1,28 +1,29 @@
 import React from 'react'
 import classNames from 'classnames'
-import EditFormField from './field'
+import EditFormFieldDependencies from './field-dependencies'
 
 export default class EditFormFieldsForm extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
-    activeTab: React.PropTypes.object.isRequired
+    activeTab: React.PropTypes.object.isRequired,
+    callFieldActivities: React.PropTypes.func.isRequired
   }
 
   field = (field) => {
-    const updater = (key, value) => {
-      this.props.element.set(key, value)
-      this.props.api.notify('element:set', { key: key, value: value })
-    }
-
     return (
-      <EditFormField
+      <EditFormFieldDependencies
         {...this.props}
         key={`edit-form-field-${field.key}`}
         fieldKey={field.key}
-        updater={updater}
+        updater={this.onElementChange}
       />
     )
+  }
+
+  onElementChange = (key, value) => {
+    this.props.element.set(key, value)
+    this.props.callFieldActivities(key)
   }
 
   render () {

@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import EditFormTabs from './form-tabs'
+import EditFormHeaderTabs from './form-header-tabs'
 import EditFormFooter from './form-footer'
 import EditFormContent from './form-content'
 
@@ -18,7 +18,7 @@ export default class EditForm extends React.Component {
     return (
       <div className='vcv-ui-tree-view-content'>
         <div className={treeContentClasses}>
-          <EditFormTabs {...this.props} />
+          <EditFormHeaderTabs {...this.props} />
           <EditFormContent {...this.props} />
           <EditFormFooter {...this.props} />
         </div>

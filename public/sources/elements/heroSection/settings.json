@@ -119,7 +119,7 @@
         "addButton": [
           {
             "rule": "toggle",
-            "current": [
+            "actions": [
               {
                 "action": "toggleVisibility"
               }
