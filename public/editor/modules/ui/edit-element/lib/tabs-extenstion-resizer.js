@@ -7,8 +7,6 @@ const Utils = vcCake.getService('utils')
 
 export default class EditFormResizeTabs extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired,
     allTabs: React.PropTypes.array.isRequired,
     updateTabs: React.PropTypes.func.isRequired
   }
@@ -73,10 +71,9 @@ export default class EditFormResizeTabs extends React.Component {
   }
 
   getHiddenTabs () {
-    let tabs = this.allTabs.filter((tab) => {
+    return this.allTabs.filter((tab) => {
       return !tab.isVisible
     })
-    return tabs
   }
 
   getVisibleAndUnpinnedTabs () {

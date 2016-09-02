@@ -62,7 +62,7 @@
         "addUrl": [
           {
             "rule": "toggle",
-            "current": [
+            "actions": [
               {
                 "action": "toggleVisibility"
               }

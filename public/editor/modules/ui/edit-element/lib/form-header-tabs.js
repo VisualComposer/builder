@@ -2,15 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import lodash from 'lodash'
-import FormTab from './tab'
+import TabDependencies from './tab-dependencies'
 
 export default class EditFormTabsOutput extends React.Component {
   static propTypes = {
+    element: React.PropTypes.object.isRequired,
     visibleTabs: React.PropTypes.array.isRequired,
     hiddenTabs: React.PropTypes.array.isRequired,
     activeTabIndex: React.PropTypes.number.isRequired,
     onTabsMount: React.PropTypes.func.isRequired,
-    onTabsUnmount: React.PropTypes.func.isRequired
+    onTabsUnmount: React.PropTypes.func.isRequired,
+    setFieldMount: React.PropTypes.func.isRequired,
+    setFieldUnmount: React.PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -28,6 +31,7 @@ export default class EditFormTabsOutput extends React.Component {
   getDropdown = () => {
     return ReactDOM.findDOMNode(this.refs[ 'editorTabsDropdown' ])
   }
+
   getContainer = () => {
     return ReactDOM.findDOMNode(this.refs[ 'editorTabs' ])
   }
@@ -37,15 +41,30 @@ export default class EditFormTabsOutput extends React.Component {
     let visibleTabsHeaderOutput = []
     lodash.each(this.props.visibleTabs, (tab) => {
       visibleTabsHeaderOutput.push(
-        <FormTab {...tab} {...this.props} getContainer={this.getContainer} />
+        <TabDependencies
+          {...tab}
+          getContainer={this.getContainer}
+          setFieldMount={this.props.setFieldMount}
+          setFieldUnmount={this.props.setFieldUnmount}
+          element={this.props.element}
+          activeTabIndex={this.props.activeTabIndex}
+        />
       )
     })
+
     let hiddenTabsHeaderOutput = ''
     if (this.props.hiddenTabs.length) {
       let hiddenTabsHeader = []
       lodash.each(this.props.hiddenTabs, (tab) => {
         hiddenTabsHeader.push(
-          <FormTab {...tab} {...this.props} getContainer={this.getContainer} />
+          <TabDependencies
+            {...tab}
+            getContainer={this.getContainer}
+            setFieldMount={this.props.setFieldMount}
+            setFieldUnmount={this.props.setFieldUnmount}
+            element={this.props.element}
+            activeTabIndex={this.props.activeTabIndex}
+          />
         )
       })
 
