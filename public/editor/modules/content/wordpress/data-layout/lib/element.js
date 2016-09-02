@@ -11,7 +11,7 @@ export default class WordPressElement extends React.Component {
   }
   getContent (content) {
     const currentElement = cook.get(this.props.element) // optimize
-    if (currentElement.get('type') === 'container') {
+    if (currentElement.containerFor().length) {
       let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
         return <WordPressElement element={childElement} key={childElement.id} api={this.props.api} />
       })
