@@ -16,7 +16,7 @@ vcCake.add('ui-edit-element', (api) => {
     .on('hide', () => {
       currentElementId = null
       api.module('ui-layout-bar').do('setEndContent', null)
-      api.module('ui-layout-bar').do('setEndContentVisible', false)
+      api.module('ui-layout-bwar').do('setEndContentVisible', false)
     })
     .on('show', (id) => {
       currentElementId = id

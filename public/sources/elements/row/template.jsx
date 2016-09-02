@@ -1,3 +1,3 @@
-<div className="vce-row" data-vcv-dropzone="true" style={inlineStyle}>
+<div className={className} id={'el-' + id}>
   {content}
 </div>

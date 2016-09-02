@@ -39,12 +39,12 @@
     "access": "protected",
     "value": "icon.png"
   },
-  "background": {
-    "type": "color",
+  "customClass": {
+    "type": "string",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Background color"
+      "label": "Custom class"
     }
   },
   "layout": {
@@ -55,11 +55,19 @@
       "label": "Row Layout"
     }
   },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "background"
+      "customClass"
     ],
     "options": {
       "label": "General"
@@ -70,7 +78,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "layout"
+      "layout",
+      "designOptions"
     ]
   },
   "relatedTo": {

@@ -18,7 +18,7 @@ vcCake.add('storage', (api) => {
     createdElements.push(data.id)
 
     if (element.get('tag') === 'row') {
-      let columnData = cook.get({ tag: cook.getTagByName('Column'), parent: data.id })
+      let columnData = cook.get({ tag: 'column', parent: data.id })
       if (columnData) {
         let columnElement = DocumentData.create(columnData.toJS())
         createdElements.push(columnElement.id)

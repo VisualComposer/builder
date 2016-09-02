@@ -1,3 +1,3 @@
-<div className={columnClasses} data-vcv-dropzone="true" style={inlineStyle} id={'el-' + id}>
+<div className={className} id={'el-' + id}>
   {content}
 </div>

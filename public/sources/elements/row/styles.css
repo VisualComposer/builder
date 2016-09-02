@@ -1,6 +1,3 @@
-/* ----------------------------------------------
- * Row
- * ---------------------------------------------- */
 .vce-row {
   display: flex;
   flex-direction: row;
@@ -10,4 +7,11 @@
   align-content: flex-start;
   margin-left: -15px;
   margin-right: -15px;
+  margin-bottom: 100px;
+}
+.vce-row-direction--reverse {
+  flex-direction: row-reverse;
+}
+.vce-row-wrap--reverse {
+  flex-wrap: wrap-reverse;
 }

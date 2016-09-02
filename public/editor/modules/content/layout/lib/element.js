@@ -20,18 +20,14 @@ export default class LayoutElement extends React.Component {
 
   getContent (content) {
     const currentElement = cook.get(this.props.element) // optimize
-    if (currentElement.get('type') === 'container') {
-      let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-        return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
-      })
-      return elementsList
-    }
-    return content
+    let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
+      return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
+    })
+    return elementsList || content
   }
 
   render () {
     const element = cook.get(this.props.element)
-
     return element.render(this.getContent())
   }
 }

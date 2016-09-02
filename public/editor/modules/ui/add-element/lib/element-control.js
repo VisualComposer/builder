@@ -27,6 +27,7 @@ export default class ElementControl extends React.Component {
   addElement (e) {
     e && e.preventDefault()
     let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
+    console.log(data.toJS())
     this.props.api.request('data:add', data.toJS())
     this.props.api.notify('hide', true)
   }
@@ -39,7 +40,7 @@ export default class ElementControl extends React.Component {
     }
   }
 
-  hidePreview (e) {
+  hidePreview () {
     this.setState({
       previewVisible: false
     })

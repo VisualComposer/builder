@@ -86,12 +86,12 @@ class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-node-state-draft': false
     })
 
-    let child = element.get('type') === 'container' ? this.getContent() : ''
+    let child = this.getContent()
 
     this.state.hasChild = !!child
 
     let addChildControl = false
-    if (element.get('type') === 'container') {
+    if (element.containerFor().length) {
       addChildControl = (
         <a className='vcv-ui-tree-layout-control-action' title='Add' onClick={this.clickAddChild}>
           <i className='vcv-ui-icon vcv-ui-icon-add-thin' />

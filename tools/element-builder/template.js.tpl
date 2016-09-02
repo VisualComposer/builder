@@ -2,7 +2,7 @@ window.vcvAddElement(
   {{ settings() }},
   // Component callback
   function(component) {
-	{{ cssFile() }}
+	// {{ cssFile() }}
     component.add(React.createClass({
       render: function() {
         // import variables
