@@ -12,7 +12,6 @@ export default class EditElementController extends ActivitiesManager {
     return (
       <FormWrapper
         {...this.props}
-        addStack={this.addStack}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
         callFieldActivities={this.callFieldActivities}

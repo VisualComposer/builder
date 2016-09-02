@@ -37,11 +37,7 @@ export default class ActivitiesManager extends React.Component {
             listeners[ keyOnChange ] = []
           }
           listeners[ keyOnChange ].push({ key: key, rules: valueOnChange })
-
-          if (!this.initialStack[ keyOnChange ]) {
-            this.initialStack[ keyOnChange ] = []
-          }
-          this.initialStack[ keyOnChange ].push({ key: key, rules: valueOnChange })
+          this.addInitialStack(key, keyOnChange)
         })
       }
     })
@@ -67,8 +63,8 @@ export default class ActivitiesManager extends React.Component {
     } else {
       this.mount[ field ].field = data
     }
-    this.callMountActivities(field)
-    console.log('setFieldMount', this.initialStack[ field ])
+    this.callMountStack(field)
+    this.callInitialStack(field)
   }
 
   setFieldUnmount = (field, isTab) => {
@@ -100,9 +96,15 @@ export default class ActivitiesManager extends React.Component {
     }
   }
 
-  callMountActivities = (field) => {
+  callMountStack = (field) => {
     if (this.mountStack[ field ]) {
-      this.mountStack[ field ] = this.mountStack[ field ].filter(this.callMountStack)
+      this.mountStack[ field ] = this.mountStack[ field ].filter(this.callFieldActivities)
+    }
+  }
+
+  callInitialStack = (field) => {
+    if (this.initialStack[ field ]) {
+      this.initialStack[ field ].map(this.callFieldActivities)
     }
   }
 
@@ -120,10 +122,11 @@ export default class ActivitiesManager extends React.Component {
     this.mountStack[ listener.key ].push(targetKey)
   }
 
-  callMountStack = (targetKey) => {
-    this.callFieldActivities(targetKey)
-
-    return false
+  addInitialStack (key, target) {
+    if (!this.initialStack[ key ]) {
+      this.initialStack[ key ] = []
+    }
+    this.initialStack[ key ].push(target)
   }
 
   callStack = (targetKey, listener) => {
@@ -159,7 +162,7 @@ export default class ActivitiesManager extends React.Component {
             })
           }
           if (current.tab) {
-            ruleData.current.forEach((action) => {
+            ruleData.actions.forEach((action) => {
               ActionsManager.do(action, ruleState, {
                 ref: current.tab,
                 value: current.value,
