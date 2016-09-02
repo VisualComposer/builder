@@ -51,7 +51,7 @@ export default class ElementAttribute extends Attribute {
         index: index,
         data: tab.data,
         params: ElementAttribute.editFormTabParams(element, tab.key),
-        key: `element-params-tab-${tab.key}`
+        key: `element-params-tab-${element.get('id')}-${tab.key}`
       }
       tabs.push(tabsData)
     }, ElementAttribute)
