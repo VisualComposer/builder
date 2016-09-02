@@ -71,7 +71,7 @@ export default class TagList extends React.Component {
 
     this.setState({
       suggestVisible: false,
-      inputValue: inputVal
+      value: inputVal
     })
 
     if (!this.state.grouped) {

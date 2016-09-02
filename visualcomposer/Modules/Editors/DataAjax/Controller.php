@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Editors\DataAjax;
 
-use VisualComposer\Helpers\Filters as FilterDispatcher;
+use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Options;
@@ -42,9 +42,11 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
+     * @param $response
+     *
      * @return mixed|string
      */
-    private function getData(Request $requestHelper, $responce)
+    private function getData(Request $requestHelper, $response)
     {
         $data = '';
         $sourceId = $requestHelper->input('vcv-source-id');
@@ -56,8 +58,9 @@ class Controller extends Container implements Module
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             }
         }
-        $responce['elements'] = $data;
-        return $responce;
+        $response['elements'] = $data;
+
+        return $response;
     }
 
     /**
@@ -68,7 +71,7 @@ class Controller extends Container implements Module
      *
      * @return array|null
      */
-    private function setData(FilterDispatcher $filterHelper, Request $requestHelper)
+    private function setData(Filters $filterHelper, Request $requestHelper)
     {
         $data = json_decode(rawurldecode($requestHelper->input('vcv-data')), true);
         $content = $requestHelper->input('vcv-content');
