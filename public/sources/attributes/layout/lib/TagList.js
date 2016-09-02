@@ -71,7 +71,7 @@ export default class TagList extends React.Component {
 
     this.setState({
       suggestVisible: false,
-      inputValue: inputVal
+      value: inputVal
     })
 
     if (!this.state.grouped) {
@@ -88,14 +88,27 @@ export default class TagList extends React.Component {
 
   handleSuggest = (e) => {
     let input = document.querySelector('.vcv-ui-tag-list')
-    input.innerHTML = e.target.textContent
+    let el = e.target
+    input.innerHTML = el.textContent
     this.placeCaretAtEnd(input)
+
+    this.removeSuggestSelected(el)
+    this.addClass(el, 'selected')
+  }
+
+  removeSuggestSelected () {
+    let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
+
+    suggestItems.forEach((item) => {
+      this.removeClass(item, 'selected')
+    })
   }
 
   returnPrevVal = () => {
     let input = document.querySelector('.vcv-ui-tag-list')
     input.innerHTML = this.state.value
     this.placeCaretAtEnd(input)
+    this.removeSuggestSelected()
   }
 
   placeCaretAtEnd (el) {
@@ -508,22 +521,67 @@ export default class TagList extends React.Component {
     this.setState({ suggestVisible: myArr.length })
   }
 
+  hasClass (el, className) {
+    if (el.classList) {
+      return el.classList.contains(className)
+    } else {
+      return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+    }
+  }
+
+  addClass (el, className) {
+    if (el.classList) {
+      el.classList.add(className)
+    } else if (!this.hasClass(el, className)) {
+      el.className += ' ' + className
+    }
+  }
+
+  removeClass (el, className) {
+    if (el.classList) {
+      el.classList.remove(className)
+    } else if (this.hasClass(el, className)) {
+      var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+      el.className = el.className.replace(reg, ' ')
+    }
+  }
+
   handleArrowSuggest = (e) => {
     if (this.state.suggestVisible) {
-      // let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
+      let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
 
-      // let key = e.keyCode
+      let key = e.keyCode
+      let selected = ''
+      let current
 
-      // if (key !== 40 && key !== 3) return
+      if (key !== 40 && key !== 38) return
 
-      // suggestItems.forEach((item) => {
-      //   item.className = ''
-      // })
+      suggestItems.forEach((item) => {
+        if (this.hasClass(item, 'selected')) {
+          selected = item
+          this.removeClass(item, 'selected')
+        }
+      })
 
       // Down key
-      // if ( key === 40 ) {
-      //
-      // }
+      if (key === 40) {
+        if (!selected || !selected.nextSibling) {
+          current = suggestItems[0]
+        } else {
+          current = selected.nextSibling
+        }
+      } else if (key === 38) {
+        if (!selected || !selected.previousSibling) {
+          current = suggestItems[suggestItems.length - 1]
+        } else {
+          current = selected.previousSibling
+        }
+      }
+
+      let input = document.querySelector('.vcv-ui-tag-list')
+      input.innerHTML = current.textContent
+
+      this.addClass(current, 'selected')
     }
   }
 
