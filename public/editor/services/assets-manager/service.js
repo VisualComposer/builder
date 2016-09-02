@@ -155,9 +155,11 @@ vcCake.addService('assets-manager', {
     for (let id in elements) {
       if (elements[ id ].useDesignOptions) {
         let element = documentService.get(id)
-        let designOptionsData = cook.get(element).get('designOptions')
-        if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
-          returnOptions[ id ] = designOptionsData
+        if (element) {
+          let designOptionsData = cook.get(element).get('designOptions')
+          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
+            returnOptions[ id ] = designOptionsData
+          }
         }
       }
     }
