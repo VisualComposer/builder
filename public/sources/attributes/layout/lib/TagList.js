@@ -488,15 +488,15 @@ export default class TagList extends React.Component {
 
   handleArrowSuggest = (e) => {
     if (this.state.suggestVisible) {
-      let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
+      // let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
 
-      let key = e.keyCode
+      // let key = e.keyCode
 
-      if (key !== 40 && key !== 3) return
+      // if (key !== 40 && key !== 3) return
 
-      suggestItems.forEach((item) => {
-        item.className = ''
-      })
+      // suggestItems.forEach((item) => {
+      //   item.className = ''
+      // })
 
       // Down key
       // if ( key === 40 ) {
