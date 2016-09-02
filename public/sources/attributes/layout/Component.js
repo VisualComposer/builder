@@ -6,7 +6,7 @@ import Attribute from '../attribute'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import './css/styles.less'
-import Toggle from '../toggle/Component'
+// import Toggle from '../toggle/Component'
 // import String from '../string/Component'
 import TagList from './lib/TagList'
 
@@ -76,7 +76,10 @@ class Layout extends Attribute {
   }
 
   setActiveLayout = (index, e) => {
-    this.setState({ activeLayout: parseInt(index) })
+    this.setState({
+      activeLayout: index,
+      customLayout: this.props.layouts[ index ].map((i) => i.toString()).join(' + ')
+    })
   }
   setCustomLayout = (e) => {
     this.setState({
@@ -107,6 +110,15 @@ class Layout extends Attribute {
       layoutsData.push(<div key={`layouts-${layoutsKeys}`} className={layoutClasses}
         onClick={this.setActiveLayout.bind(this, index)}>{spans}</div>)
     })
+    /*
+     <div className='vcv-ui-form-layout-custom-layout-col'>
+     <Toggle key={'k' + this.props.fieldKey + 'toggle-1'} value={false}
+     fieldKey={this.props.fieldKey + 'toggle-1'} /><span>Reverse column stacking</span>
+     </div>
+
+     <Toggle key={'k' + this.props.fieldKey + 'toggle-2'} value={false}
+     fieldKey={this.props.fieldKey + 'toggle-2'} />
+     */
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
@@ -122,20 +134,14 @@ responsiveness options and stacking order.
           <div className='vcv-ui-form-layout-custom-layout-columns'>
             <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
               <div className='vcv-ui-form-layout-custom-layout-input'>
-                <TagList />
+                <TagList value={this.state.customLayout} />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
 The total sum of fractions must be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>
               </div>
             </div>
-            <div className='vcv-ui-form-layout-custom-layout-col'>
-              <Toggle key={'k' + this.props.fieldKey + 'toggle-1'} value={false}
-                fieldKey={this.props.fieldKey + 'toggle-1'} /><span>Reverse column stacking</span>
-            </div>
           </div>
         </div>
-        <Toggle key={'k' + this.props.fieldKey + 'toggle-2'} value={false}
-          fieldKey={this.props.fieldKey + 'toggle-2'} />
         {JSON.stringify(value)}
       </div>
     )
