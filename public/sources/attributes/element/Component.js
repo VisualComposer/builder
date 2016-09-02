@@ -1,19 +1,21 @@
+/* eslint react/jsx-no-bind:"off" */
 import React from 'react'
 import Attribute from '../attribute'
 import _ from 'lodash'
 import classNames from 'classnames'
 import './css/styles.less'
-import DependencyManager from '../../../editor/modules/ui/edit-element/lib/dependencies'
-import {format} from 'util'
 import vcCake from 'vc-cake'
 const Cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
-class ElementAttribute extends Attribute {
+import FieldWrapper from './field-tabs'
+
+export default class ElementAttribute extends Attribute {
   static propTypes = {
     updater: React.PropTypes.func.isRequired,
     api: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
-    value: React.PropTypes.object.isRequired
+    value: React.PropTypes.object.isRequired,
+    element: React.PropTypes.object.isRequired
   }
 
   updateState (props) {
@@ -22,22 +24,23 @@ class ElementAttribute extends Attribute {
     return {
       value: props.value,
       tag: props.value.tag,
-      update: true,
       element: element,
       allTabs: ElementAttribute.updateTabs(element)
     }
   }
 
-  onClickReplacement = (element, e) => {
+  onClickReplacement = (element) => {
     let cookElement = Cook.get(element)
 
     this.setState({
       value: element,
       tag: element.tag,
-      update: true,
-      element: cookElement,
-      allTabs: ElementAttribute.updateTabs(cookElement)
+      element: cookElement
     })
+  }
+
+  changeShowReplacements = () => {
+    this.setState({ showReplacements: !this.state.showReplacements })
   }
 
   static updateTabs (element) {
@@ -86,107 +89,14 @@ class ElementAttribute extends Attribute {
     } ]
   }
 
-  getForm (tabIndex) {
-    let tab = this.state.allTabs[ tabIndex ]
-
-    return tab.params.map(this.getFormParamField.bind(this, tabIndex))
-  }
-
-  getFormParamField (tabIndex, param) {
-    const updater = (key, value) => {
-      this.state.element.set(key, value)
-      this.props.updater(this.props.fieldKey, this.state.element.toJS())
-      this.setState({
-        value: this.state.element.toJS(),
-        update: false
-      })
-    }
-
-    return this.field(this.state.element, param.key, updater, tabIndex)
-  }
-
-  field (element, key, updater, tabIndex) {
-    let { type, settings } = element.settings(key)
-    let AttributeComponent = type.component
-    if (!AttributeComponent) {
-      return null
-    }
-    let label = ''
-    if (!settings) {
-      throw new Error(format('Wrong attribute %s', key))
-    }
-    const { options } = settings
-    if (!type) {
-      throw new Error(format('Wrong type of attribute %s', key))
-    }
-    if (options && typeof (options.label) === 'string') {
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}</span>)
-    }
-    let description = ''
-    if (options && typeof (options.description) === 'string') {
-      description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
-    }
-    let rawValue = type.getRawValue(element.data, key)
-    let value = type.getValue(settings, element.data, key)
-
-    let content = (
-      <div className='vcv-ui-form-group' key={'form-group-' + key}>
-        {label}
-        <AttributeComponent
-          key={'element-attribute-' + key + element.get('id')}
-          fieldKey={key}
-          options={options}
-          value={rawValue}
-          updater={updater}
-          update={this.state.update}
-          api={this.props.api}
-        />
-        {description}
-      </div>
-    )
-    let data = {
-      key: key,
-      options: options,
-      type: type,
-      value: value,
-      rawValue: rawValue,
-      updater: updater,
-      getRef: (key) => {
-        return this.refs[ 'form-element-' + key ]
-      },
-      tabIndex: tabIndex,
-      getRefTab: (index) => {
-        return this.refs[ 'form-element-tab-' + index ]
-      }
-    }
-
-    return (
-      <DependencyManager
-        ref={'form-element-' + key}
-        key={'element-dependency-' + key}
-        api={this.props.api}
-        data={data}
-        element={element}
-        content={content} />
-    )
-  }
-
-  changeShowReplacements () {
-    this.setState({ showReplacements: !this.state.showReplacements })
+  onChange = () => {
+    this.setState({
+      value: this.state.element.toJS()
+    })
+    this.setFieldValue(this.state.element.toJS())
   }
 
   render () {
-    let content = []
-
-    this.state.allTabs.forEach((tab) => {
-      let plateClass = classNames({}, `vcv-ui-editor-plate-${tab.id}`)
-      content.push(
-        <div key={'element-plate-visible' + this.state.allTabs[ tab.index ].id} className={plateClass}>
-          {this.getForm(tab.index)}
-        </div>
-      )
-    })
-
     let replacements = ''
 
     if (this.state.showReplacements) {
@@ -212,7 +122,7 @@ class ElementAttribute extends Attribute {
                   <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
                     alt='' />
                   <span className='vcv-ui-add-element-overlay'>
-                    <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+                    <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add' />
                   </span>
                 </span>
                 <span className='vcv-ui-add-element-element-name'>
@@ -227,9 +137,8 @@ class ElementAttribute extends Attribute {
 
       replacements = (
         <div className='vcv-ui-replace-element-container'>
-          <a className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements.bind(this)}>
-            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin'>
-            </i>
+          <a className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
+            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
           </a>
           <ul className='vcv-ui-replace-element-list'>
             {replacementItemsOutput}
@@ -239,8 +148,13 @@ class ElementAttribute extends Attribute {
     } else {
       replacements = (
         <div>
-          <p className='vcv-ui-form-helper'>You can change the button within this element with another button from your elements</p>
-          <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.changeShowReplacements.bind(this)}>
+          <p
+            className='vcv-ui-form-helper'
+          >
+            You can change the button within this element with another button from your elements
+          </p>
+          <button className='vcv-ui-form-button vcv-ui-form-button--default'
+            onClick={this.changeShowReplacements}>
             Replace button
           </button>
         </div>
@@ -252,11 +166,13 @@ class ElementAttribute extends Attribute {
         <div className='vcv-ui-replace-element-block'>
           {replacements}
         </div>
-        {content}
-        {JSON.stringify(this.state)}
+        <FieldWrapper
+          api={this.props.api}
+          onChange={this.onChange}
+          element={this.state.element}
+          allTabs={this.state.allTabs}
+        />
       </div>
     )
   }
 }
-
-export default ElementAttribute
