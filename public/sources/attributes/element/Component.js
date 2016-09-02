@@ -35,8 +35,10 @@ export default class ElementAttribute extends Attribute {
     this.setState({
       value: element,
       tag: element.tag,
-      element: cookElement
+      element: cookElement,
+      allTabs: ElementAttribute.updateTabs(cookElement)
     })
+    this.setFieldValue(element)
   }
 
   changeShowReplacements = () => {
@@ -90,9 +92,6 @@ export default class ElementAttribute extends Attribute {
   }
 
   onChange = () => {
-    this.setState({
-      value: this.state.element.toJS()
-    })
     this.setFieldValue(this.state.element.toJS())
   }
 
