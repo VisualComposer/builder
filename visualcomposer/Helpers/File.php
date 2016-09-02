@@ -65,7 +65,7 @@ class File implements Helper
      *
      * @return bool
      */
-    public function checkDir($dirPath, $permissions = 0666)
+    public function checkDir($dirPath, $permissions = 0777)
     {
         return !$this->isDir($dirPath) ? mkdir($dirPath, $permissions, true) : true;
     }
