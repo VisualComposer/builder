@@ -5,21 +5,33 @@ import FormTab from './tab'
 export default class TabDependencyManager extends React.Component {
   static propTypes = {
     element: React.PropTypes.shape({
-      data: React.PropTypes.object.isRequired
+      get: React.PropTypes.func.isRequired
     }).isRequired,
-    fieldKey: React.PropTypes.string.isRequired
+    fieldKey: React.PropTypes.string.isRequired,
+    setFieldMount: React.PropTypes.func.isRequired,
+    setFieldUnmount: React.PropTypes.func.isRequired
+  }
+
+  componentDidMount () {
+    this.props.setFieldMount(this.props.fieldKey, {
+      ref: this.refs[ 'tab' ]
+    }, true)
+  }
+
+  componentWillUnmount () {
+    this.props.setFieldUnmount(this.props.fieldKey, true)
   }
 
   render () {
     let classes = classNames({
-      'vcv-ui-form-tab-dependency': true
+      'vcv-ui-form-dependency': true
     })
 
     return (
-      <div className={classes}>
+      <div ref='tab' className={classes}>
         <FormTab
           {...this.props}
-          key={`form-tab-${this.props.element.data.id}:${this.props.fieldKey}`}
+          key={`form-tab-${this.props.element.get('id')}:${this.props.fieldKey}`}
         />
       </div>
     )

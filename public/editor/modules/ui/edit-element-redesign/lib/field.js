@@ -3,7 +3,6 @@ import {format} from 'util'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
     updater: React.PropTypes.func.isRequired
@@ -32,7 +31,6 @@ export default class EditFromField extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     let rawValue = type.getRawValue(element.data, fieldKey)
-    // let value = type.getValue(settings, element.data, fieldKey)
 
     return (
       <div className='vcv-ui-form-group' key={`form-group-field-${element.get('id')}-${fieldKey}`}>

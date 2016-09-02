@@ -6,11 +6,14 @@ import TabDependencies from './tab-dependencies'
 
 export default class EditFormTabsOutput extends React.Component {
   static propTypes = {
+    element: React.PropTypes.object.isRequired,
     visibleTabs: React.PropTypes.array.isRequired,
     hiddenTabs: React.PropTypes.array.isRequired,
     activeTabIndex: React.PropTypes.number.isRequired,
     onTabsMount: React.PropTypes.func.isRequired,
-    onTabsUnmount: React.PropTypes.func.isRequired
+    onTabsUnmount: React.PropTypes.func.isRequired,
+    setFieldMount: React.PropTypes.func.isRequired,
+    setFieldUnmount: React.PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -28,6 +31,7 @@ export default class EditFormTabsOutput extends React.Component {
   getDropdown = () => {
     return ReactDOM.findDOMNode(this.refs[ 'editorTabsDropdown' ])
   }
+
   getContainer = () => {
     return ReactDOM.findDOMNode(this.refs[ 'editorTabs' ])
   }
@@ -38,9 +42,12 @@ export default class EditFormTabsOutput extends React.Component {
     lodash.each(this.props.visibleTabs, (tab) => {
       visibleTabsHeaderOutput.push(
         <TabDependencies
-          {...this.props}
           {...tab}
           getContainer={this.getContainer}
+          setFieldMount={this.props.setFieldMount}
+          setFieldUnmount={this.props.setFieldUnmount}
+          element={this.props.element}
+          activeTabIndex={this.props.activeTabIndex}
         />
       )
     })
@@ -51,9 +58,13 @@ export default class EditFormTabsOutput extends React.Component {
       lodash.each(this.props.hiddenTabs, (tab) => {
         hiddenTabsHeader.push(
           <TabDependencies
-            {...this.props}
             {...tab}
-            getContainer={this.getContainer} />
+            getContainer={this.getContainer}
+            setFieldMount={this.props.setFieldMount}
+            setFieldUnmount={this.props.setFieldUnmount}
+            element={this.props.element}
+            activeTabIndex={this.props.activeTabIndex}
+          />
         )
       })
 

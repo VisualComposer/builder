@@ -11,24 +11,9 @@ export default class TreeContentTab extends React.Component {
     data: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
     getContainer: React.PropTypes.func.isRequired,
-    activeTabIndex: React.PropTypes.number.isRequired,
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired,
-    fieldKey: React.PropTypes.string.isRequired,
-    setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    activeTabIndex: React.PropTypes.number.isRequired
   }
   realWidth = null
-
-  componentDidMount () {
-    this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.refs[ 'tab' ]
-    }, true)
-  }
-
-  componentWillUnmount () {
-    this.props.setFieldUnmount(this.props.fieldKey, true)
-  }
 
   getRealWidth () {
     if (this.realWidth === null) {
@@ -44,7 +29,7 @@ export default class TreeContentTab extends React.Component {
 
   render () {
     let { data } = this.props
-    let title = data.settings.options.label || data.settings.options.tabLabel
+    let title = data.settings.options.tabLabel || data.settings.options.label
     let active = this.props.activeTabIndex === this.props.index
     let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
@@ -52,7 +37,7 @@ export default class TreeContentTab extends React.Component {
     })
 
     return (
-      <a ref='tab' className={tabClasses} href='javascript:;' onClick={this.onClick}>
+      <a className={tabClasses} href='javascript:;' onClick={this.onClick}>
         <span className='vcv-ui-editor-tab-content'>
           <span>{title}</span>
         </span>

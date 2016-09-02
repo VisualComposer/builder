@@ -24,7 +24,7 @@ export default class ActivitiesManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    return nextProps.element.data.id !== this.props.element.data.id
+    return nextProps.element.get('id') !== this.props.element.get('id')
   }
 
   initListeners (element) {
