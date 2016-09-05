@@ -38,8 +38,8 @@ class HelpersFileTest extends WP_UnitTestCase
         $helper = vcapp('VisualComposer\Helpers\File');
 
         $dir = wp_upload_dir();
-        $directory = $dir['path'] . 'test-directory-' . md5(microtime());
+        $directory = $dir['path'] . '/test-directory-' . md5(microtime());
         $this->assertEquals(true, $helper->checkDir($directory));
-        unlink($directory);
+        rmdir($directory);
     }
 }
