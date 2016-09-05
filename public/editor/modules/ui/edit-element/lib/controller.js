@@ -15,6 +15,7 @@ export default class EditElementController extends ActivitiesManager {
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
         callFieldActivities={this.callFieldActivities}
+        onElementChange={this.onElementChange}
       />
     )
   }

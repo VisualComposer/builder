@@ -67,6 +67,11 @@ export default class ActivitiesManager extends React.Component {
     this.callInitialStack(field)
   }
 
+  onElementChange = (key, value) => {
+    this.props.element.set(key, value)
+    this.callFieldActivities(key)
+  }
+
   setFieldUnmount = (field, isTab) => {
     if (isTab && this.mount[ field ]) {
       delete this.mount[ field ].tab
