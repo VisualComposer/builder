@@ -5,8 +5,20 @@ import Attribute from '../attribute'
 import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
-
 import $ from 'jquery'
+
+let pagePosts = {
+  data: [],
+  set (posts) {
+    this.data = posts
+  },
+  get () {
+    return this.data
+  },
+  clear () {
+    this.data = []
+  }
+}
 
 // TODO: Move this outside of this file!
 if (typeof Object.assign !== 'function') {
@@ -48,11 +60,12 @@ class Url extends Attribute {
       }
     }
 
+    pagePosts.clear()
     return {
       value: value,
       unsavedValue: value,
       isWindowOpen: false,
-      posts: null,
+      updateState: false,
       shouldRenderExistingPosts: !!window.vcvAjaxUrl
     }
   }
@@ -80,7 +93,8 @@ class Url extends Attribute {
       'vcv-nonce': window.vcvNonce
     }, (request) => {
       let posts = JSON.parse(request.response || '{}')
-      this.setState({ posts: posts })
+      pagePosts.set(posts)
+      this.setState({ updateState: !this.state.updateState })
     })
   }
 
@@ -93,7 +107,7 @@ class Url extends Attribute {
       isWindowOpen: true
     })
 
-    if (this.shouldRenderExistingPosts && this.state.posts === null) {
+    if (this.state.shouldRenderExistingPosts && !pagePosts.get().length) {
       this.loadPosts()
     }
   }
@@ -136,15 +150,14 @@ class Url extends Attribute {
   renderExistingPosts = () => {
     let items = []
 
-    if (!this.state.posts || !this.state.posts.length) {
+    if (!pagePosts.get().length) {
       return (
         <div className='vcv-ui-form-message'>
           There is no content with such term found.
         </div>
       )
     }
-
-    this.state.posts.forEach((post) => {
+    pagePosts.get().forEach((post) => {
       let rowClassName = classNames({
         'vcv-ui-form-table-link-row': true,
         'vcv-ui-state--active': this.state.unsavedValue.url === post.url
@@ -172,7 +185,7 @@ class Url extends Attribute {
   }
 
   renderExistingPostsBlock () {
-    if (!this.shouldRenderExistingPosts) {
+    if (!this.state.shouldRenderExistingPosts) {
       return
     }
 
