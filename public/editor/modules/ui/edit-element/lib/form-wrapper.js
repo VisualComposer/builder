@@ -23,9 +23,8 @@ export default class EditFormTabs extends React.Component {
   }
 
   updateTabs (props) {
-    let tabs = []
-    EditFormTabs.editFormTabs(props).map((tab, index) => {
-      let tabsData = {
+    return EditFormTabs.editFormTabs(props).map((tab, index) => {
+      return {
         fieldKey: tab.key,
         index: index,
         data: tab.data,
@@ -36,13 +35,11 @@ export default class EditFormTabs extends React.Component {
         changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
           if (this.allTabs[ index ]) {
-            this.allTabs[ index ].ref = ref
+            this.allTabs[ index ].realRef = ref
           }
         }
       }
-      tabs.push(tabsData)
     }, EditFormTabs)
-    return tabs
   }
 
   static editFormTabs (props) {

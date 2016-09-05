@@ -1,6 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
-import FormTab from './tab'
+import ReactDOM from 'react-dom'
+import vcCake from 'vc-cake'
+import Tab from './tab'
+
+const Utils = vcCake.getService('utils')
 
 export default class TabDependencyManager extends React.Component {
   static propTypes = {
@@ -9,7 +13,18 @@ export default class TabDependencyManager extends React.Component {
     }).isRequired,
     fieldKey: React.PropTypes.string.isRequired,
     setFieldMount: React.PropTypes.func.isRequired,
-    setFieldUnmount: React.PropTypes.func.isRequired
+    setFieldUnmount: React.PropTypes.func.isRequired,
+    getContainer: React.PropTypes.func.isRequired
+  }
+
+  realWidth = null
+
+  getRealWidth () {
+    if (this.realWidth === null) {
+      this.realWidth = Utils.getRealWidth(ReactDOM.findDOMNode(this), this.props.getContainer())
+    }
+
+    return this.realWidth
   }
 
   componentDidMount () {
@@ -29,7 +44,7 @@ export default class TabDependencyManager extends React.Component {
 
     return (
       <div ref='tab' className={classes}>
-        <FormTab
+        <Tab
           {...this.props}
           key={`form-tab-${this.props.element.get('id')}:${this.props.fieldKey}`}
         />

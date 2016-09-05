@@ -1,43 +1,25 @@
+/* eslint react/jsx-no-bind:"off" */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
 
-const Utils = vcCake.getService('utils')
-
-export default class TreeContentTab extends React.Component {
+export default class Tab extends React.Component {
   static propTypes = {
     changeTab: React.PropTypes.func.isRequired,
     data: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired,
-    getContainer: React.PropTypes.func.isRequired,
-    activeTabIndex: React.PropTypes.number.isRequired
-  }
-  realWidth = null
-
-  getRealWidth () {
-    if (this.realWidth === null) {
-      this.realWidth = Utils.getRealWidth(ReactDOM.findDOMNode(this), this.props.getContainer())
-    }
-
-    return this.realWidth
-  }
-
-  onClick = () => {
-    this.props.changeTab(this.props.index)
+    isActive: React.PropTypes.bool.isRequired
   }
 
   render () {
-    let { data } = this.props
+    let { data, isActive } = this.props
     let title = data.settings.options.tabLabel || data.settings.options.label
-    let active = this.props.activeTabIndex === this.props.index
     let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
-      'vcv-ui-state--active': active
+      'vcv-ui-state--active': isActive
     })
 
     return (
-      <a className={tabClasses} href='javascript:;' onClick={this.onClick}>
+      <a className={tabClasses} href='javascript:;' onClick={this.props.changeTab.bind(this.props.index)}>
         <span className='vcv-ui-editor-tab-content'>
           <span>{title}</span>
         </span>
