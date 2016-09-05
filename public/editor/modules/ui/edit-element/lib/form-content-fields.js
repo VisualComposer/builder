@@ -7,7 +7,8 @@ export default class EditFormFieldsForm extends React.Component {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
     activeTab: React.PropTypes.object.isRequired,
-    callFieldActivities: React.PropTypes.func.isRequired
+    callFieldActivities: React.PropTypes.func.isRequired,
+    onElementChange: React.PropTypes.func.isRequired
   }
 
   field = (field) => {
