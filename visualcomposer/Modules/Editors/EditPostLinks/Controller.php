@@ -72,7 +72,7 @@ class Controller extends Container implements Module
             $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
         }
 
-        return '';
+        return $link;
     }
 
     /**

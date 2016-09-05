@@ -31,4 +31,15 @@ class HelpersFileTest extends WP_UnitTestCase
 
         $this->assertFalse($helper->getContents($filepath));
     }
+    public function testCheckDir() {
+        /**
+         * @var $helper VisualComposer\Helpers\File
+         */
+        $helper = vcapp('VisualComposer\Helpers\File');
+
+        $dir = wp_upload_dir();
+        $directory = $dir['path'] . '/test-directory-' . md5(microtime());
+        $this->assertEquals(true, $helper->checkDir($directory));
+        rmdir($directory);
+    }
 }
