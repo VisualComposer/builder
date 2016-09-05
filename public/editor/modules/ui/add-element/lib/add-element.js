@@ -7,17 +7,18 @@ const DocumentData = vcCake.getService('document')
 
 class AddElement extends React.Component {
   getElementList () {
+    let parentContainerFor = ['General']
     let allElements = cook.list.settings()
     let parentId = this.props.api.actions.getParent()
     if (parentId) {
       let data = DocumentData.get(parentId)
       let parent = cook.get(data)
-      return allElements.filter((elementData) => {
-        let element = cook.get(elementData)
-        return element.relatedTo(parent.containerFor())
-      })
+      parentContainerFor = parent.containerFor()
     }
-    return allElements
+    return allElements.filter((elementData) => {
+      let element = cook.get(elementData)
+      return element.relatedTo(parentContainerFor)
+    })
   }
 
   render () {

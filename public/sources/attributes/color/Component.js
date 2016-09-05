@@ -55,7 +55,9 @@ class Color extends Attribute {
       colorPicker = (
         <div className='vcv-ui-form-input-color--popover'>
           <div className='vcv-ui-form-input-color--cover' onClick={this.handleClose} />
-          <SketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+          <div className='vcv-ui-form-input-color-wrapper'>
+            <SketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+          </div>
         </div>
       )
     }

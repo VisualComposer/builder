@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import ReactDOM from 'react-dom'
+import lodash from 'lodash'
 
 const ActionsManager = {
   do: (actionData, state, target) => {
@@ -13,17 +14,25 @@ const ActionsManager = {
     alert: (state, target, options) => {
     },
     toggleVisibility: (state, target, options) => {
-      // TODO: Same for tabs
       let $el = ReactDOM.findDOMNode(target.ref)
       $el.classList.toggle('vcv-ui-state--visible', state)
       $el.classList.toggle('vcv-ui-state--hidden', !state)
+      lodash.delay(() => {
+        ActionsManager.actions.checkTabsDropdown.call(this, state, target, options)
+      }, 50)
+    },
+    checkTabsDropdown: (state, target, options) => {
+      let $el = ReactDOM.findDOMNode(target.ref)
+      let $form = $el.closest('.vcv-ui-tree-content')
+      if ($form) {
+        let $dropdownContent = $form.querySelector('.vcv-ui-editor-tab-dropdown-content')
+        if ($dropdownContent) {
+          let hideTab = $dropdownContent.querySelectorAll('.vcv-ui-form-dependency').length ===
+            $dropdownContent.querySelectorAll('.vcv-ui-form-dependency.vcv-ui-state--hidden').length
 
-      /* let $plate = $el.closest('.vcv-ui-editor-plate')
-      let hideTab = $plate.querySelectorAll('.vcv-ui-form-dependency').length ===
-        $plate.querySelectorAll('.vcv-ui-form-dependency.vcv-ui-state--hidden').length
-      let index = Array.prototype.indexOf.call($plate.parentElement.children, $plate)
-      let $tab = ReactDOM.findDOMNode(target.getRefTab(index))
-      $tab.classList.toggle('vcv-ui-state--hidden', hideTab) */
+          $dropdownContent.parentNode.classList.toggle('vcv-ui-state--hidden', hideTab)
+        }
+      }
     },
     preset: (state, target, options) => {
     }
