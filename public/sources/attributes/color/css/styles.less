@@ -1,21 +1,29 @@
-.vcv-ui-form-input-color--value {
-  border-radius: 2px;
+.vcv-ui-form-dropdown {
+  cursor: pointer;
+}
+
+.vcv-ui-form-dropdown-color--value {
+  border-radius: 3px;
   height: 100%;
   box-shadow: rgba(0, 0, 0, .1) 1px 1px 1px, rgba(0,0,0,.1) -1px -1px 1px;
 }
 
-.vcv-ui-form-input-color--swatch {
-  border-radius: 1px;
-  cursor: pointer;
-  height: 17px;
+.vcv-ui-form-dropdown-color--swatch {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 3px;
 }
 
-.vcv-ui-form-input-color--popover {
+.vcv-ui-form-dropdown-color--content {
+  margin-top: 4px;
+}
+
+.vcv-ui-form-dropdown-color--popover {
   position: absolute;
   z-index: 2;
 }
 
-.vcv-ui-form-input-color--cover {
+.vcv-ui-form-dropdown-color--cover {
   position: fixed;
   top: 0;
   right: 0;
@@ -23,7 +31,8 @@
   left: 0;
 }
 
-.vcv-ui-form-input-color-wrapper {
+.vcv-ui-form-dropdown-color-wrapper {
   position: inherit;
   z-index: 100;
 }
+

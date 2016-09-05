@@ -53,18 +53,17 @@ class Color extends Attribute {
     let colorPicker = ''
     if (displayColorPicker) {
       colorPicker = (
-        <div className='vcv-ui-form-input-color--popover'>
-          <div className='vcv-ui-form-input-color--cover' onClick={this.handleClose} />
-          <div className='vcv-ui-form-input-color-wrapper'>
-            <SketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
-          </div>
+        <div className='vcv-ui-form-dropdown-color--content'>
+          <SketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
         </div>
       )
     }
     return (
-      <div className='vcv-ui-form-input-color'>
-        <div className='vcv-ui-form-input-color--swatch' onClick={this.handleClick}>
-          <div className='vcv-ui-form-input-color--value' style={colorStyle} />
+      <div>
+        <div className='vcv-ui-form-dropdown' onClick={this.handleClick}>
+          <div className='vcv-ui-form-dropdown-color--swatch'>
+            <div className='vcv-ui-form-dropdown-color--value' style={colorStyle} />
+          </div>
         </div>
         {colorPicker}
       </div>
