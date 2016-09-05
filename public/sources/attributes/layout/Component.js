@@ -136,7 +136,7 @@ responsiveness options and stacking order.
               <div className='vcv-ui-form-layout-custom-layout-input'>
                 <TagList value={this.state.customLayout} />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
-The total sum of fractions must be 1 (ex. 1/3 + 1/3 + 1/3)
+The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>
               </div>
             </div>
