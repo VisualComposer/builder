@@ -556,12 +556,12 @@ export default class TagList extends React.Component {
 
       if (key !== 40 && key !== 38) return
 
-      suggestItems.forEach((item) => {
-        if (this.hasClass(item, 'selected')) {
-          selected = item
-          this.removeClass(item, 'selected')
+      for (let i = 0; i < suggestItems.length; i++) {
+        if (this.hasClass(suggestItems[i], 'selected')) {
+          selected = suggestItems[i]
+          this.removeClass(suggestItems[i], 'selected')
         }
-      })
+      }
 
       // Down key
       if (key === 40) {
