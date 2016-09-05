@@ -2,12 +2,12 @@
 
 import React from 'react'
 import Attribute from '../attribute'
-// import lodash from 'lodash'
-import classNames from 'classnames'
+import _ from 'lodash'
 import vcCake from 'vc-cake'
 import './css/styles.less'
 // import Toggle from '../toggle/Component'
 // import String from '../string/Component'
+import DefaultLayouts from './lib/defaultLayouts'
 import TagList from './lib/TagList'
 
 class Layout extends Attribute {
@@ -47,39 +47,50 @@ class Layout extends Attribute {
         'auto'
       ],
       [
-        2 / 3,
-        1 / 3
+        '2/3',
+        '1/3'
       ],
       [
-        1 / 4,
-        3 / 4
+        '1/4',
+        '3/4'
       ],
       [
-        1 / 4,
-        2 / 4,
-        1 / 4
+        '1/4',
+        '2/4',
+        '1/4'
       ],
       [
-        1 / 6,
-        4 / 6,
-        1 / 6
+        '1/6',
+        '4/6',
+        '1/6'
       ]
     ]
   }
-
+  findEqualDefaultProps (layout) {
+    return Layout.defaultProps.layouts.findIndex((defaultLayout) => {
+      return _.isEqual(layout, defaultLayout)
+    })
+  }
   updateState (props) {
+    let columns = vcCake.getService('document').children(props.element.get('id')).map((element) => {
+      return element.size || 'auto'
+    })
+    let inD = this.findEqualDefaultProps(columns)
     return {
-      activeLayout: 0,
-      customLayout: '',
-      value: this.props.value
+      activeLayout: inD,
+      customLayout: columns.join(' + '),
+      value: columns
     }
   }
 
-  setActiveLayout = (index, e) => {
+  setActiveLayout = (index) => {
+    let layout = this.props.layouts[ index ].map((i) => i.toString()).join(' + ')
     this.setState({
       activeLayout: index,
-      customLayout: this.props.layouts[ index ].map((i) => i.toString()).join(' + ')
+      customLayout: layout,
+      value: layout
     })
+    this.setFieldValue(layout)
   }
   setCustomLayout = (e) => {
     this.setState({
@@ -92,24 +103,6 @@ class Layout extends Attribute {
     if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
       return null
     }
-    let { value } = this.state
-    let layoutsData = []
-    let layoutsKeys = 0
-    let spansKeys = 0
-    this.props.layouts.forEach((cols, index) => {
-      layoutsKeys++
-      let spans = []
-      cols.forEach((col) => {
-        spansKeys++
-        spans.push(<span key={`layouts-${layoutsKeys}-span-${spansKeys}`} style={{ flex: col }} />)
-      })
-      let layoutClasses = classNames({
-        'vcv-ui-form-layout-layouts-col': true,
-        'vcv-ui-state--active': this.state.activeLayout === index
-      })
-      layoutsData.push(<div key={`layouts-${layoutsKeys}`} className={layoutClasses}
-        onClick={this.setActiveLayout.bind(this, index)}>{spans}</div>)
-    })
     /*
      <div className='vcv-ui-form-layout-custom-layout-col'>
      <Toggle key={'k' + this.props.fieldKey + 'toggle-1'} value={false}
@@ -125,10 +118,7 @@ class Layout extends Attribute {
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-
-        <div className='vcv-ui-form-layout-layouts'>
-          {layoutsData}
-        </div>
+        <DefaultLayouts layouts={this.props.layouts} activeLayout={this.state.activeLayout} onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-layout-description'>Custom row layout</span>
           <div className='vcv-ui-form-layout-custom-layout-columns'>
@@ -136,13 +126,12 @@ responsiveness options and stacking order.
               <div className='vcv-ui-form-layout-custom-layout-input'>
                 <TagList value={this.state.customLayout} />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
-The total sum of fractions must be 1 (ex. 1/3 + 1/3 + 1/3)
+The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>
               </div>
             </div>
           </div>
         </div>
-        {JSON.stringify(value)}
       </div>
     )
   }
