@@ -16,14 +16,9 @@ export default class EditFormFieldsForm extends React.Component {
         {...this.props}
         key={`edit-form-field-${field.key}`}
         fieldKey={field.key}
-        updater={this.onElementChange}
+        updater={this.props.onElementChange}
       />
     )
-  }
-
-  onElementChange = (key, value) => {
-    this.props.element.set(key, value)
-    this.props.callFieldActivities(key)
   }
 
   render () {
