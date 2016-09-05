@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import lodash from 'lodash'
 import AttachImage from '../attachimage/Component'
 import Toggle from '../toggle/Component'
+import Color from '../color/Component'
 import Devices from './devices'
 import Attribute from '../attribute'
 
@@ -232,10 +233,10 @@ class DesignOptions extends Attribute {
     })
   }
 
-  changeBackgroundColor = (e) => {
+  changeBackgroundColor = (fieldKey, value) => {
     let deviceState = this.state[ this.state.device ]
 
-    deviceState.backgroundColor = e.target.value
+    deviceState.backgroundColor = value
 
     this.changeState({
       [this.state.device]: deviceState
@@ -496,6 +497,7 @@ class DesignOptions extends Attribute {
                   value={this.state[ this.state.device ].simplified}
                   fieldKey='showOnDevice'
                   updater={this.toggleSimplifyControls}
+                  api={this.props.api}
                 />
                 <span className='vcv-ui-form-group-heading'>Simple controls</span>
               </div>
@@ -507,12 +509,12 @@ class DesignOptions extends Attribute {
                 <span className='vcv-ui-form-group-heading'>
                   Background color
                 </span>
-                <input
-                  className='vcv-ui-form-input-color'
-                  name='backgroundColor'
-                  type='color'
+                <Color
                   value={this.state[ this.state.device ].backgroundColor}
-                  onChange={this.changeBackgroundColor} />
+                  updater={this.changeBackgroundColor}
+                  fieldKey='backgroundColor'
+                  api={this.props.api}
+                />
               </div>
               <div className='vcv-ui-form-group'>
                 <span className='vcv-ui-form-group-heading'>

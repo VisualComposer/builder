@@ -2,7 +2,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export default class TreeContentTab extends React.Component {
+export default class Tab extends React.Component {
   static propTypes = {
     changeTab: React.PropTypes.func.isRequired,
     data: React.PropTypes.object.isRequired,
