@@ -46,6 +46,7 @@ public/config/*-services.js
 public/config/*-attributes.js
 public/config/elements.js
 public/config/element-settings.js
+public/config/variables.js
 public/dist/
 public/custom-variables.js
 /vendor
