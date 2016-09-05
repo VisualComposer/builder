@@ -8,7 +8,7 @@ import vcCake from 'vc-cake'
 import './css/styles.less'
 // import Toggle from '../toggle/Component'
 // import String from '../string/Component'
-import TagList from './lib/TagList'
+import TagList from './lib/tagList'
 
 class Layout extends Attribute {
   static defaultProps = {
