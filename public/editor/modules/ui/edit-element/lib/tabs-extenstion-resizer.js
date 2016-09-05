@@ -65,7 +65,7 @@ export default class EditFormResizeTabs extends React.Component {
       while (freeSpace > 0 && hiddenTabs.length) {
         let lastTab = hiddenTabs.pop()
         if (lastTab.realref) {
-          freeSpace -= lastTab.realref.getRealWidth()
+          freeSpace -= lastTab.realRef.getRealWidth()
           if (freeSpace > 0) {
             this.allTabs[ lastTab.index ].isVisible = true
           }
