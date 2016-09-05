@@ -161,7 +161,41 @@ class AjaxControllerTest extends \WP_UnitTestCase
             )
         );
 
+        /** Test failed nonce */
+        $requestHelper->setData(
+            [
+                'vcv-action' => 'testParseRequest:adminNonce',
+            ]
+        );
+        $this->assertFalse(
+            $module->call(
+                'parseRequest',
+                [
+                    $requestHelper,
+                ]
+            )
+        );
+
         // Reset
         $requestHelper->setData([]);
+    }
+
+    public function testRenderResponse()
+    {
+        /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
+        $module = vcapp('SystemAjaxController');
+
+        $this->assertTrue(is_string($module->renderResponse('test')));
+        $this->assertTrue(is_string($module->renderResponse('')));
+        $this->assertEquals('test', $module->renderResponse('test'));
+
+        $this->assertEquals('1', $module->renderResponse(1));
+        $this->assertEquals('["test"]', ($module->renderResponse(['test'])));
+        $this->assertEquals('{"test":0}', ($module->renderResponse(['test' => 0])));
+        $this->assertEquals('{"test":true}', ($module->renderResponse(['test' => true])));
+        $this->assertEquals('{"test":false}', ($module->renderResponse(['test' => false])));
+        $this->assertEquals('{"test":1}', ($module->renderResponse(['test' => 1])));
+        $this->assertEquals('{"test":"hi"}', ($module->renderResponse(['test' => 'hi'])));
+
     }
 }

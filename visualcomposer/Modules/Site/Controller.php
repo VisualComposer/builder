@@ -56,7 +56,7 @@ class Controller extends Container implements Module
      */
     public function appendScript(Url $urlHelper)
     {
-        echo '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+        return '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
             . '" data-async="true"></script>';
     }
 
