@@ -36,7 +36,7 @@ export default class EditFormTabs extends React.Component {
         changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
           if (this.allTabs[ index ]) {
-            this.allTabs[ index ].ref = ref
+            this.allTabs[ index ].realref = ref
           }
         }
       }
