@@ -5,7 +5,7 @@ import $ from 'jquery'
 require('./css/module.less')
 vcCake.add('content-dnd', function (api) {
   let documentDOM
-  let iframe;
+  let iframe
   const ModuleDnd = function (moduleApi) {
     this.api = moduleApi
     this.layoutAPI = this.api.module('content-layout')
