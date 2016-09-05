@@ -47,7 +47,7 @@ export default class EditFormTabsOutput extends React.Component {
           setFieldMount={this.props.setFieldMount}
           setFieldUnmount={this.props.setFieldUnmount}
           element={this.props.element}
-          activeTabIndex={this.props.activeTabIndex}
+          isActive={activeTabIndex === tab.index}
         />
       )
     })
@@ -55,7 +55,7 @@ export default class EditFormTabsOutput extends React.Component {
     let hiddenTabsHeaderOutput = ''
     if (this.props.hiddenTabs.length) {
       let hiddenTabsHeader = []
-      lodash.each(this.props.hiddenTabs, (tab) => {
+      lodash.each(this.props.hiddenTabs.reverse(), (tab) => {
         hiddenTabsHeader.push(
           <TabDependencies
             {...tab}
@@ -63,7 +63,7 @@ export default class EditFormTabsOutput extends React.Component {
             setFieldMount={this.props.setFieldMount}
             setFieldUnmount={this.props.setFieldUnmount}
             element={this.props.element}
-            activeTabIndex={this.props.activeTabIndex}
+            isActive={activeTabIndex === tab.index}
           />
         )
       })

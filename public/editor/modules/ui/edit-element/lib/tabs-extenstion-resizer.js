@@ -11,16 +11,30 @@ export default class EditFormResizeTabs extends React.Component {
     updateTabs: React.PropTypes.func.isRequired
   }
   allTabs = this.props.allTabs
+  freeSpace = null
+  options = null
 
   componentWillReceiveProps (nextProps) {
     this.allTabs = nextProps.allTabs
   }
 
+  componentDidMount () {
+    this.doRefresh()
+  }
+
+  doRefresh = () => {
+    this.refreshTabs(ReactDOM.findDOMNode(this.freeSpace), this.options)
+  }
+
   onTabsMount = (freespace, options) => {
+    this.options = options
+    this.freeSpace = freespace
     Utils.addResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
   }
 
   onTabsUnmount = (freespace, options) => {
+    this.options = options
+    this.freeSpace = freespace
     Utils.removeResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
   }
 
@@ -50,8 +64,8 @@ export default class EditFormResizeTabs extends React.Component {
       }
       while (freeSpace > 0 && hiddenTabs.length) {
         let lastTab = hiddenTabs.pop()
-        if (lastTab.ref) {
-          freeSpace -= lastTab.ref.getRealWidth()
+        if (lastTab.realref) {
+          freeSpace -= lastTab.realref.getRealWidth()
           if (freeSpace > 0) {
             this.allTabs[ lastTab.index ].isVisible = true
           }
@@ -73,7 +87,7 @@ export default class EditFormResizeTabs extends React.Component {
   getHiddenTabs () {
     return this.allTabs.filter((tab) => {
       return !tab.isVisible
-    })
+    }).reverse()
   }
 
   getVisibleAndUnpinnedTabs () {
