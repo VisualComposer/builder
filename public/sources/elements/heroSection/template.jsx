@@ -1,4 +1,4 @@
-<section className={wrapperClasses}>
+<section className={wrapperClasses} id={'el-' + id}>
   <div className={rowClasses} style={rowStyles}>
     <div className="vce-hero-section__wrap">
       <div className="vce-hero-section__content">
