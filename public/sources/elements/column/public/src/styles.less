@@ -1,22 +1,95 @@
-// Styles for Column
-//-----------------------------------------
+/* ----------------------------------------------
+ * Column
+ * ---------------------------------------------- */
 .vce-col {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 100%;
+  flex: 0 0 100%;
   width: 100%;
   min-height: 1em;
-  padding-left:  (@gutter / 2);
-  padding-right: (@gutter / 2);
+  padding-left: 15px;
+  padding-right: 15px;
   box-sizing: border-box;
 }
-@media (min-width: @vcv-float-breakpoint) {
-  .vce-col-auto {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0;
-    width: 0;
-  }
+.vce-col-direction--rtl {
+  direction: rtl;
 }
 
-#vce-column > .make-grid(12);
+@numbers: 1,2,3,4,5,6,7,8,9,10,11,12;
+
+@xs: 0;
+@sm: 544px;
+@md: 768px;
+@lg: 992px;
+@xl: 1200px;
+
+@class-xs: xs;
+@class-sm: sm;
+@class-md: md;
+@class-lg: lg;
+@class-xl: xl;
+
+/* styles for mobile-portrait */
+@media (min-width: @xs) {
+  .vce-col--xs-auto {
+    flex: 1 1 0;
+    width: 0;
+  }
+  .vce-col--xs-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.make-numerator(length(@numbers), @numbers, @xs, @class-xs);
+
+/* styles for mobile-landscape */
+@media (min-width: @sm) {
+  .vce-col--sm-auto {
+    flex: 1 1 0;
+    width: 0;
+  }
+  .vce-col--sm-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.make-numerator(length(@numbers), @numbers, @sm, @class-sm);
+
+/* styles for mobile-landscape */
+@media (min-width: @md) {
+  .vce-col--md-auto {
+    flex: 1 1 0;
+    width: 0;
+  }
+  .vce-col--md-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.make-numerator(length(@numbers), @numbers, @md, @class-md);
+
+/* styles for mobile-landscape */
+@media (min-width: @lg) {
+  .vce-col--lg-auto {
+    flex: 1 1 0;
+    width: 0;
+  }
+  .vce-col--lg-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.make-numerator(length(@numbers), @numbers, @lg, @class-lg);
+
+/* styles for mobile-landscape */
+@media (min-width: @xl) {
+  .vce-col--xl-auto {
+    flex: 1 1 0;
+    width: 0;
+  }
+  .vce-col--xl-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.make-numerator(length(@numbers), @numbers, @xl, @class-xl);
+
+

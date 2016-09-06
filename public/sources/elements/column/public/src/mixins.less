@@ -1,26 +1,23 @@
-// Mixins for Column
-//-----------------------------------------
-#vce-column {
+.make-numerator(@i, @numbers, @screen-size, @class-name) when (@i > 0) {
+  .make-numerator(@i - 1, @numbers, @screen-size, @class-name);
+  @numerator: extract(@numbers, @i);
+  .make-denominator(length(@numbers), @numbers, @numerator, @screen-size, @class-name);
+}
 
-  .calc-grid-column(@index, @grid-columns) when (@index > 0) {
-    .vce-col-@{index}-@{grid-columns} {
-      @media (min-width: @vcv-float-breakpoint) {
-        flex-basis: percentage((@index / @grid-columns));
-        width: percentage((@index / @grid-columns));
+.make-denominator(@i, @numbers, @numerator, @screen-size, @class-name) when (@i > 0) {
+  .make-denominator(@i - 1, @numbers, @numerator, @screen-size, @class-name);
+  @denominator: extract(@numbers, @i);
+
+  & when not (@numerator > @denominator) {
+    @media (min-width: @screen-size) {
+      .vce-col--@{class-name}-@{numerator}-@{denominator} {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: calc(~"100% * ( @{numerator} / @{denominator} )");
+        max-width: calc(~"100% * ( @{numerator} / @{denominator} )");
       }
     }
   }
-
-  // Basic looping in LESS
-  .loop-grid-columns(@index, @grid-columns) when (@index >= 0) {
-    #vce-column > .calc-grid-column(@index, @grid-columns);
-    // next iteration
-    #vce-column > .loop-grid-columns((@index - 1), @grid-columns);
-  }
-
-  // Create grid for specific class
-  .make-grid(@grid-columns) {
-    #vce-column > .loop-grid-columns(@grid-columns, @grid-columns);
-  }
-
 }
+
+
