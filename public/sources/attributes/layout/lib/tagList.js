@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import './styles.less'
 
@@ -48,39 +49,26 @@ export default class TagList extends React.Component {
       suggested: []
     })
 
-    let input = document.querySelector('.vcv-ui-tag-list')
-
-    setTimeout(() => {
-      input.innerHTML = ''
-      this.createTagList(nextProps.value)
-      this.setState({ grouped: true })
-      input.addEventListener('click', this.contentEditableClick)
-    }, 0)
+    this.doGrouping(nextProps.value)
   }
 
   componentDidMount () {
     this.addShortcuts()
 
     if (this.state.value) {
-      let input = document.querySelector('.vcv-ui-tag-list')
-
-      setTimeout(() => {
-        input.innerHTML = ''
-        this.createTagList(this.state.value)
-        this.setState({ grouped: true })
-        input.addEventListener('click', this.contentEditableClick)
-      }, 0)
+      this.doGrouping()
     }
   }
 
   updateInputValue = (e) => {
     let inputValue = e.target.textContent
+    this.setState({ value: inputValue })
     this.suggestBox(inputValue)
   }
 
   // when user clicks outside of input or presses enter
   handleGrouping = () => {
-    let input = document.querySelector('.vcv-ui-tag-list')
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
     let inputVal = input.textContent
 
     this.setState({
@@ -95,19 +83,23 @@ export default class TagList extends React.Component {
     }
   }
 
-  doGrouping () {
-    let input = document.querySelector('.vcv-ui-tag-list')
+  doGrouping (inputVal) {
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
 
     setTimeout(() => {
       input.innerHTML = ''
-      this.createTagList()
+      if (inputVal) {
+        this.createTagList(inputVal)
+      } else {
+        this.createTagList()
+      }
       this.setState({ grouped: true })
       input.addEventListener('click', this.contentEditableClick)
     }, 0)
   }
 
   handleSuggest = (e) => {
-    let input = document.querySelector('.vcv-ui-tag-list')
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
     let el = e.target
     input.innerHTML = el.textContent
     this.placeCaretAtEnd(input)
@@ -117,7 +109,7 @@ export default class TagList extends React.Component {
   }
 
   removeSuggestSelected () {
-    let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
+    let suggestItems = ReactDOM.findDOMNode(this).querySelectorAll('.vcv-ui-suggest-box-item')
 
     suggestItems.forEach((item) => {
       this.removeClass(item, 'selected')
@@ -125,7 +117,7 @@ export default class TagList extends React.Component {
   }
 
   returnPrevVal = () => {
-    let input = document.querySelector('.vcv-ui-tag-list')
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
     input.innerHTML = this.state.value
     this.placeCaretAtEnd(input)
     this.removeSuggestSelected()
@@ -150,7 +142,7 @@ export default class TagList extends React.Component {
 
   // when user clicks to input, rounded tags converts to string as an input value
   contentEditableClick = (e) => {
-    let input = document.querySelector('.vcv-ui-tag-list')
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
     let d = e.target
     let className = 'vcv-ui-tag-list-item-remove'
 
@@ -487,7 +479,7 @@ export default class TagList extends React.Component {
   }
 
   addShortcuts () {
-    let input = document.querySelector('.vcv-ui-tag-list')
+    let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
 
     const shortcutCombinations = [ 'Ctrl+B', 'Ctrl+U', 'Ctrl+I', 'Meta+B', 'Meta+U', 'Meta+I', 'Enter' ]
 
@@ -567,7 +559,7 @@ export default class TagList extends React.Component {
 
   handleArrowSuggest = (e) => {
     if (this.state.suggestVisible) {
-      let suggestItems = document.querySelectorAll('.vcv-ui-suggest-box-item')
+      let suggestItems = ReactDOM.findDOMNode(this).querySelectorAll('.vcv-ui-suggest-box-item')
 
       let key = e.keyCode
       let selected = ''
@@ -597,7 +589,7 @@ export default class TagList extends React.Component {
         }
       }
 
-      let input = document.querySelector('.vcv-ui-tag-list')
+      let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
       input.innerHTML = current.textContent
 
       this.addClass(current, 'selected')
@@ -607,8 +599,10 @@ export default class TagList extends React.Component {
   sanitizeInput (inputValue) {
     let sanitizedValue = inputValue
 
-    sanitizedValue = sanitizedValue.replace(/\s+/g, '')
-    sanitizedValue = sanitizedValue.replace(/\++/g, '\\s?\\+?\\s?')
+    // sanitizedValue = sanitizedValue.replace(/\s+$/g, '')
+    // sanitizedValue = sanitizedValue.replace(/\++/g, '\\s?\\+?\\s?')
+
+    sanitizedValue = sanitizedValue.replace(/[\s+,;]+(?=[^\s+,;]+)/g, '\\s?\\+?\\s?')
 
     return sanitizedValue
   }
