@@ -243,10 +243,10 @@ class DesignOptions extends Attribute {
     })
   }
 
-  changeBorderColor = (e) => {
+  changeBorderColor = (fieldKey, value) => {
     let deviceState = this.state[ this.state.device ]
 
-    deviceState.borderColor = e.target.value
+    deviceState.borderColor = value
 
     this.changeState({
       [this.state.device]: deviceState
@@ -400,11 +400,12 @@ class DesignOptions extends Attribute {
             <span className='vcv-ui-form-group-heading'>
               Border color
             </span>
-            <input
-              name='borderColor'
-              type='color'
+            <Color
               value={this.state[ this.state.device ].borderColor}
-              onChange={this.changeBorderColor} />
+              updater={this.changeBorderColor}
+              fieldKey='borderColor'
+              api={this.props.api}
+            />
           </div>
         </div>
       )

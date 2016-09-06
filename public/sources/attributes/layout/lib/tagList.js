@@ -60,6 +60,17 @@ export default class TagList extends React.Component {
 
   componentDidMount () {
     this.addShortcuts()
+
+    if (this.state.value) {
+      let input = document.querySelector('.vcv-ui-tag-list')
+
+      setTimeout(() => {
+        input.innerHTML = ''
+        this.createTagList(this.state.value)
+        this.setState({ grouped: true })
+        input.addEventListener('click', this.contentEditableClick)
+      }, 0)
+    }
   }
 
   updateInputValue = (e) => {
@@ -80,13 +91,19 @@ export default class TagList extends React.Component {
     if (!this.state.grouped) {
       // TODO - need to change this, not gonna work if there will be more inputs
 
-      setTimeout(() => {
-        input.innerHTML = ''
-        this.createTagList()
-        this.setState({ grouped: true })
-        input.addEventListener('click', this.contentEditableClick)
-      }, 100)
+      this.doGrouping()
     }
+  }
+
+  doGrouping () {
+    let input = document.querySelector('.vcv-ui-tag-list')
+
+    setTimeout(() => {
+      input.innerHTML = ''
+      this.createTagList()
+      this.setState({ grouped: true })
+      input.addEventListener('click', this.contentEditableClick)
+    }, 0)
   }
 
   handleSuggest = (e) => {
