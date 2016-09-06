@@ -1,17 +1,26 @@
 /* ----------------------------------------------
  * Column
  * ---------------------------------------------- */
-/* ----------------------------------------------
- * Column
- * ---------------------------------------------- */
 .vce-col {
   -ms-flex: 0 0 100%;
       flex: 0 0 100%;
   width: 100%;
+  box-sizing: border-box;
+}
+.vce-col-content {
   min-height: 1em;
   padding-left: 15px;
   padding-right: 15px;
-  box-sizing: border-box;
+}
+.vce-col-content::before,
+.vce-col-content::after {
+  content: " ";
+  display: table;
+  width: 0;
+  height: 0;
+}
+.vce-col-content::after {
+  clear: both;
 }
 .vce-col-direction--rtl {
   direction: rtl;

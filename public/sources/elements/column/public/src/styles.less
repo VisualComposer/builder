@@ -1,14 +1,25 @@
-/* ----------------------------------------------
- * Column
- * ---------------------------------------------- */
 .vce-col {
   flex: 0 0 100%;
   width: 100%;
-  min-height: 1em;
-  padding-left: 15px;
-  padding-right: 15px;
   box-sizing: border-box;
 }
+
+.vce-col-content {
+  min-height: 1em;
+  padding-left: @gutter / 2;
+  padding-right: @gutter / 2;
+  &::before,
+  &::after {
+    content: " ";
+    display: table;
+    width: 0;
+    height: 0;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
 .vce-col-direction--rtl {
   direction: rtl;
 }
