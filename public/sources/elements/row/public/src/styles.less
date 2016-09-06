@@ -1,19 +1,23 @@
-/* ----------------------------------------------
- * Row
- * ---------------------------------------------- */
 .vce-row {
+  display: flex;
+  flex-direction: column;
+  margin-left:  -(@gutter / 2);
+  margin-right:  -(@gutter / 2);
+}
+
+.vce-row-content {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: stretch;
   align-content: flex-start;
-  margin-left:  -(@gutter / 2);
-  margin-right:  -(@gutter / 2);
+  min-height: 1em;
 }
-.vce-row-direction--reverse {
+.vce-row-direction--reverse .vce-row-content{
   flex-direction: row-reverse;
 }
-.vce-row-wrap--reverse {
+.vce-row-wrap--reverse .vce-row-content{
   flex-wrap: wrap-reverse;
 }

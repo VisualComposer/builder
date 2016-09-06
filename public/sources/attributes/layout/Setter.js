@@ -1,5 +1,7 @@
 module.exports = (data, key, value) => {
   console.log('setter is called')
-  data[ key ] = value
+  if (data && data[key]) {
+    data[key] = value
+  }
   return data
 }
