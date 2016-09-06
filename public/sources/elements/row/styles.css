@@ -1,16 +1,30 @@
+/* ----------------------------------------------
+ * Row
+ * ---------------------------------------------- */
+/* ----------------------------------------------
+ * Row
+ * ---------------------------------------------- */
 .vce-row {
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: stretch;
-  align-content: flex-start;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  -ms-flex-align: stretch;
+      align-items: stretch;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
   margin-left: -15px;
   margin-right: -15px;
 }
 .vce-row-direction--reverse {
-  flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
 }
 .vce-row-wrap--reverse {
-  flex-wrap: wrap-reverse;
+  -ms-flex-wrap: wrap-reverse;
+      flex-wrap: wrap-reverse;
 }
