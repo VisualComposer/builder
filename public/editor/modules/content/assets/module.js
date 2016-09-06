@@ -27,6 +27,7 @@ vcCake.add('assets', (api) => {
   }
   api.reply('data:changed', dataUpdate)
   api.reply('wordpress:data:added', dataUpdate)
+  api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
     assetManager.add(ids)
