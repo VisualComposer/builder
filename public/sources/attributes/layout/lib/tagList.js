@@ -29,7 +29,7 @@ export default class TagList extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      value: nextProps.value || '',
+      value: '',
       tagList: [
         // {tagText: '1/2', valid: true},
         // {tagText: '1/2', valid: true}
@@ -47,20 +47,23 @@ export default class TagList extends React.Component {
       suggestVisible: false,
       suggested: []
     })
+
+    let input = document.querySelector('.vcv-ui-tag-list')
+
+    setTimeout(() => {
+      input.innerHTML = ''
+      this.createTagList(nextProps.value)
+      this.setState({ grouped: true })
+      input.addEventListener('click', this.contentEditableClick)
+    }, 0)
   }
 
   componentDidMount () {
     this.addShortcuts()
-
-    if (this.state.tagList.length) {
-      this.handleGrouping()
-    }
   }
 
   updateInputValue = (e) => {
     let inputValue = e.target.textContent
-    this.setState({ value: inputValue })
-
     this.suggestBox(inputValue)
   }
 
@@ -144,7 +147,6 @@ export default class TagList extends React.Component {
       this.removeTag(e, input)
     } else {
       this.setState({ grouped: false })
-
       let tagArray = []
 
       this.state.tagList.forEach((item) => {
@@ -497,16 +499,16 @@ export default class TagList extends React.Component {
       }
     })
 
-    this.setState({
-      tagList: this.tagValidation(tagArrayTrimmed)
-    })
+    let tagList = this.tagValidation(tagArrayTrimmed)
+
+    this.setState({ tagList })
   }
 
   // suggestBox
   suggestBox (inputValue) {
     let myArr = []
     let sanitizedValue = this.sanitizeInput(inputValue)
-    let valueRegex = new RegExp(sanitizedValue)
+    let valueRegex = new RegExp('^' + sanitizedValue)
 
     this.state.suggestDefault.forEach((item) => {
       if (valueRegex.test(item)) {
@@ -587,6 +589,7 @@ export default class TagList extends React.Component {
 
   sanitizeInput (inputValue) {
     let sanitizedValue = inputValue
+
     sanitizedValue = sanitizedValue.replace(/\s+/g, '')
     sanitizedValue = sanitizedValue.replace(/\++/g, '\\s?\\+?\\s?')
 
@@ -627,7 +630,6 @@ export default class TagList extends React.Component {
             className='vcv-ui-suggest-box-item'
             onMouseEnter={this.handleSuggest}
             onMouseLeave={this.returnPrevVal}
-
           >
             {item}
           </span>
