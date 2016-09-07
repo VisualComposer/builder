@@ -7,6 +7,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Modules\Editors\Frontend\Controller as FrontendController;
 
 /**
  * Class Controller.
@@ -99,10 +100,10 @@ class Controller extends Container implements Module
         }
     }
 
-    private function adminRowLinks($actions)
+    private function adminRowLinks($actions, FrontendController $frontendController)
     {
         $url = vcapp()->call(
-            [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
+            [$frontendController, 'getFrontendUrl'],
             ['postId' => get_the_ID()]
         );
 
