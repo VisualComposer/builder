@@ -77,8 +77,6 @@ export default class TagList extends React.Component {
     })
 
     if (!this.state.grouped) {
-      // TODO - need to change this, not gonna work if there will be more inputs
-
       this.doGrouping()
     }
   }
