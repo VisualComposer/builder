@@ -31,7 +31,7 @@ export default class TagList extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      value: '',
+      value: nextProps.value || '',
       updatedValue: '',
       tagList: [
         // {tagText: '1/2', valid: true},
