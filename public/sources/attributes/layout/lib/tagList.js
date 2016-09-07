@@ -10,6 +10,7 @@ export default class TagList extends React.Component {
 
   state = {
     value: this.props.value || '',
+    updatedValue: '',
     tagList: [
       // {tagText: '1/2', valid: true},
       // {tagText: '1/2', valid: true}
@@ -31,6 +32,7 @@ export default class TagList extends React.Component {
   componentWillReceiveProps (nextProps) {
     this.setState({
       value: '',
+      updatedValue: '',
       tagList: [
         // {tagText: '1/2', valid: true},
         // {tagText: '1/2', valid: true}
@@ -62,7 +64,7 @@ export default class TagList extends React.Component {
 
   updateInputValue = (e) => {
     let inputValue = e.target.textContent
-    this.setState({ value: inputValue })
+    this.setState({ updatedValue: inputValue })
     this.suggestBox(inputValue)
   }
 
@@ -116,7 +118,7 @@ export default class TagList extends React.Component {
 
   returnPrevVal = () => {
     let input = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-tag-list')
-    input.innerHTML = this.state.value
+    input.innerHTML = this.state.updatedValue
     this.placeCaretAtEnd(input)
     this.removeSuggestSelected()
   }
