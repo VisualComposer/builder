@@ -3,6 +3,7 @@ import postcss from 'postcss'
 import postcssVars from 'postcss-custom-properties'
 import postcssMedia from 'postcss-custom-media'
 import designOptions from './lib/design-options'
+import rowColumn from './lib/row-column'
 
 vcCake.addService('assets-manager', {
   /**
@@ -12,6 +13,8 @@ vcCake.addService('assets-manager', {
    */
   elements: {},
   styles: {},
+  columns: {},
+
   /**
    * @param elements
    */
@@ -23,6 +26,7 @@ vcCake.addService('assets-manager', {
     // todo: validate elements
     this.styles = styles
   },
+
   /**
    * @param id
    */
@@ -147,26 +151,6 @@ vcCake.addService('assets-manager', {
     return styles
   },
 
-  getDesignOptions () {
-    let cook = vcCake.getService('cook')
-    let documentService = vcCake.getService('document')
-    let returnOptions = {}
-    let elements = this.get()
-    for (let id in elements) {
-      if (elements[ id ].useDesignOptions) {
-        let element = documentService.get(id)
-        if (element) {
-          let designOptionsData = cook.get(element).get('designOptions')
-          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
-            returnOptions[ id ] = designOptionsData
-          }
-        }
-      }
-    }
-
-    return returnOptions
-  },
-
   /**
    * @returns {string}
    */
@@ -192,6 +176,32 @@ vcCake.addService('assets-manager', {
     })
   },
 
+  /**
+   * @returns {{}}
+   */
+  getDesignOptions () {
+    let cook = vcCake.getService('cook')
+    let documentService = vcCake.getService('document')
+    let returnOptions = {}
+    let elements = this.get()
+    for (let id in elements) {
+      if (elements[ id ].useDesignOptions) {
+        let element = documentService.get(id)
+        if (element) {
+          let designOptionsData = cook.get(element).get('designOptions')
+          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
+            returnOptions[ id ] = designOptionsData
+          }
+        }
+      }
+    }
+
+    return returnOptions
+  },
+
+  /**
+   * @returns {Promise.<TResult>}
+   */
   getCompiledDesignOptions: function () {
     let devices = designOptions.getDevices()
     let viewPortBreakpoints = {}
@@ -226,6 +236,99 @@ vcCake.addService('assets-manager', {
         iterations.push(stylePromise)
       }
     }
+
+    return Promise.all(iterations).then((output) => {
+      return output.join(' ')
+    })
+  },
+
+  /**
+   * @param columns
+   */
+  setColumns: function (columns) {
+    // todo: validate elements
+    this.columns = columns
+  },
+
+  /**
+   * @param column
+   */
+  addColumn: function (column) {
+    // todo: add regexp to check format (1/12 or 3/4)
+    let columns = []
+    if (Array.isArray(column)) {
+      columns = column
+    } else {
+      columns.push(column)
+    }
+    columns.forEach((column) => {
+      if (!this.getColumn(column)) {
+        let data = column.split('/')
+        this.columns[ column ] = {
+          numerator: data[ 0 ],
+          denominator: data[ 1 ],
+          count: 1
+        }
+      } else {
+        this.columns[ column ].count++
+      }
+    })
+  },
+
+  /**
+   * @param assetKey
+   * @returns {*}
+   */
+  getColumn: function (assetKey = false) {
+    if (!assetKey) {
+      return this.columns
+    }
+    if (typeof this.columns[ assetKey ] === 'undefined') {
+      return null
+    }
+    return this.columns[ assetKey ]
+  },
+
+  /**
+   * @param column
+   */
+  removeColumn: function (column) {
+    let columns = []
+    if (Array.isArray(column)) {
+      columns = column
+    } else {
+      columns.push(column)
+    }
+    columns.forEach((column) => {
+      if (!this.getColumn(column)) {
+        return
+      }
+      this.columns[ column ].count--
+      if (this.columns[ column ].count < 1) {
+        delete this.columns[ column ]
+      }
+    })
+  },
+  /**
+   * @returns {Promise.<TResult>}
+   */
+  getCompiledColumns: function () {
+    let devices = rowColumn.getDevices()
+    let viewPortBreakpoints = {}
+    for (let device in devices) {
+      viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
+    }
+
+    var iterations = []
+    let stylePromise = new Promise((resolve, reject) => {
+      postcss()
+        .use(postcssMedia({ extensions: viewPortBreakpoints }))
+        .process(rowColumn.getCss(this.getColumn()))
+        .then((result) => {
+          resolve(result.css)
+        })
+    })
+    iterations.push(stylePromise)
 
     return Promise.all(iterations).then((output) => {
       return output.join(' ')
