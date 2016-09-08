@@ -36,7 +36,7 @@ class Color extends Attribute {
 
   closeIfNotInside = (e) => {
     let $el = e.target
-    let $dropDown = '.vcv-ui-color-picker'
+    let $dropDown = '.vcv-ui-sketch-picker'
     let $openingButton = '.vcv-ui-color-picker-dropdown'
     let container = ''
 
@@ -109,8 +109,10 @@ class Color extends Attribute {
     let colorPicker = ''
     if (displayColorPicker) {
       colorPicker = (
-        <div className='vcv-ui-color-picker'>
-          <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+        <div className='vcv-ui-sketch-picker-container'>
+          <div className='vcv-ui-sketch-picker'>
+            <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+          </div>
         </div>
       )
     }
