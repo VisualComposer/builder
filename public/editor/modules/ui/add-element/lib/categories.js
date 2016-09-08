@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
+/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'

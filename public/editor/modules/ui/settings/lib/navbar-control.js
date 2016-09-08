@@ -5,7 +5,7 @@ class SettingsButtonControl extends React.Component {
     return (
       <a className='vcv-ui-navbar-control vcv-ui-pull-end' href='#' title='Settings' disabled>
         <span className='vcv-ui-navbar-control-content'>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog'></i>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog' />
           <span>Settings</span>
         </span>
       </a>

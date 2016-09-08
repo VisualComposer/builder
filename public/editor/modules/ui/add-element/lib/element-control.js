@@ -180,7 +180,7 @@ export default class ElementControl extends React.Component {
             <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
               alt='' />
             <span className='vcv-ui-add-element-overlay'>
-              <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add'></span>
+              <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add' />
             </span>
           </span>
           <span className='vcv-ui-add-element-element-name'>

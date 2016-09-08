@@ -1,4 +1,4 @@
-/*eslint no-unused-vars: [2, { "varsIgnorePattern": "tinymce" }]*/
+/* eslint no-unused-vars: [2, { "varsIgnorePattern": "tinymce" }] */
 import React from 'react'
 import tinymce from 'tinymce/tinymce'
 import TinyMceEditor from 'react-tinymce'
@@ -20,7 +20,9 @@ export default class HtmlEditorComponent extends Attribute {
     let tinymceConfig = lodash.extend({}, {
       toolbar: [
         'styleselect | bold italic | link image | alignleft aligncenter alignright'
-      ], skin: false, menubar: false
+      ],
+      skin: false,
+      menubar: false
     }, options.tinymce)
     return (
       <div className='vcv-ui-form-input vcv-ui-form-tinymce'>

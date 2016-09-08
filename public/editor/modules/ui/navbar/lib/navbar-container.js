@@ -82,7 +82,7 @@ class NavbarContainer extends React.Component {
     let { showOverlay, guidelinePosition, isDragging, showGuideline } = this.state
     let overlayContent = ''
     if (showOverlay) {
-      overlayContent = (<div className='vcv-ui-navbar-drag-overlay'></div>)
+      overlayContent = (<div className='vcv-ui-navbar-drag-overlay' />)
     }
     let draggingContent = ''
     if (isDragging) {
@@ -91,7 +91,7 @@ class NavbarContainer extends React.Component {
         guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
       }
       guidelineClasses = guidelineClasses.join(' ')
-      draggingContent = (<div className={guidelineClasses}></div>)
+      draggingContent = (<div className={guidelineClasses} />)
     }
 
     return (
