@@ -523,26 +523,27 @@ class DesignOptions extends Attribute {
                 </span>
                 <AttachImage {...backgroundImageProps} />
               </div>
-
-              <div className='vcv-ui-row vcv-ui-row-gap--sm'>
-                <div className='vcv-ui-col vcv-ui-col--xs-8'>
-                  <div className='vcv-ui-form-group'>
-                    <span className='vcv-ui-form-group-heading'>
-                      Background style
-                    </span>
-                    <select
-                      name='backgroundStyle'
-                      className='vcv-ui-form-dropdown'
-                      value={this.state[ this.state.device ].backgroundStyle}
-                      disabled={!hasImages}
-                      onChange={this.changeBackgroundStyle}>
-                      {this.backgroundStyles}
-                    </select>
+              {(hasImages) && (
+                <div className='vcv-ui-row vcv-ui-row-gap--sm'>
+                  <div className='vcv-ui-col vcv-ui-col--xs-8'>
+                    <div className='vcv-ui-form-group'>
+                      <span className='vcv-ui-form-group-heading'>
+                        Background style
+                      </span>
+                      <select
+                        name='backgroundStyle'
+                        className='vcv-ui-form-dropdown'
+                        value={this.state[ this.state.device ].backgroundStyle}
+                        disabled={!hasImages}
+                        onChange={this.changeBackgroundStyle}>
+                        {this.backgroundStyles}
+                      </select>
+                    </div>
                   </div>
+                  {borderStyleOutput}
+                  {borderColorOutput}
                 </div>
-                {borderStyleOutput}
-                {borderColorOutput}
-              </div>
+              )}
             </div>
           )}
         </div>
