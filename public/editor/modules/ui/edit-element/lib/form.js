@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import EditFormHeaderTabs from './form-header-tabs'
-import EditFormFooter from './form-footer'
+import EditFormFooter from './editFormFooter'
 import EditFormContent from './form-content'
 
 export default class EditForm extends React.Component {

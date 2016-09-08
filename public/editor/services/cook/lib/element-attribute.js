@@ -29,7 +29,7 @@ export default class {
       return data
     }
     if (this.setter) {
-      let data = this.setter(data, key, value, settings)
+      this.setter(data, key, value, settings)
     } else {
       this.setRawValue(data, key, value)
     }
