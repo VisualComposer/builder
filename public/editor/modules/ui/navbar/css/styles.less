@@ -119,9 +119,13 @@
   .vcv-ui-navbar-controls-group {
     flex-direction: column;
   }
-  &:hover {
+  &:focus {
+    outline: none;
+  }
+  &:hover,
+  &:focus {
     .vcv-ui-navbar-dropdown-content {
-      transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+      //transition: visibility 0s, opacity @transition-duration @transition-timing-function;
       visibility: visible;
       opacity: 1;
     }
@@ -166,7 +170,7 @@
   z-index: @navbar-dropdown-z-index;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
+  //transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
   .vcv-ui-navbar-control {
     text-align: left;
     &:hover,

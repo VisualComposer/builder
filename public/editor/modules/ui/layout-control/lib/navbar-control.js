@@ -4,6 +4,7 @@ class LayoutButtonControl extends React.Component {
   render () {
     return (
       <dl className='vcv-ui-navbar-dropdown vcv-ui-navbar-dropdown-linear vcv-ui-navbar-hidden-sm vcv-ui-pull-end'
+        tabIndex='0'
         disabled>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Desktop'>
           <span className='vcv-ui-navbar-control-content'>
