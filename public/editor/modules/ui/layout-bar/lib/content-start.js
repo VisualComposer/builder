@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
+/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'

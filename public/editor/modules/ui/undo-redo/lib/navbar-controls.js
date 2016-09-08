@@ -42,14 +42,14 @@ class UndoRedoControl extends React.Component {
         ><span
           className='vcv-ui-navbar-control-content'
         ><i
-          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo'></i><span>Undo</span></span></a>
+          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo' /><span>Undo</span></span></a>
         <a
           className='vcv-ui-navbar-control' href='#' title='Redo' disabled={this.state.redoDisabled}
           onClick={this.handleRedo}
         ><span
           className='vcv-ui-navbar-control-content'
         ><i
-          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo'></i><span>Redo</span></span></a>
+          className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' /><span>Redo</span></span></a>
       </div>
     )
   }

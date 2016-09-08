@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
+/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import vcCake from 'vc-cake'
 import {renderToStaticMarkup} from 'react-dom/server'
