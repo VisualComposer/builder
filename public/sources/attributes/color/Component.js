@@ -5,8 +5,52 @@ import React from 'react'
 import Attribute from '../attribute'
 import './css/styles.less'
 import tinycolor from 'react-color/modules/tinycolor2'
+import classNames from 'classnames'
 
 class Color extends Attribute {
+
+  getClosest (el, selector) {
+    let matchesFn;
+    // find vendor prefix
+    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
+      if (typeof document.body[ fn ] === 'function') {
+        matchesFn = fn
+
+        return true
+      }
+
+      return false
+    })
+    let parent
+    // traverse parents
+    while (el) {
+      parent = el.parentElement
+      if (parent && parent[ matchesFn ](selector)) {
+        return parent
+      }
+      el = parent
+    }
+
+    return null
+  }
+
+  closeIfNotInside = (e) => {
+    let $el = e.target
+    let $dropDown = '.vcv-ui-color-picker'
+    let $openingButton = '.vcv-ui-color-picker-dropdown'
+    let container = ''
+
+    if ($el.closest === undefined) {
+      container = this.getClosest($el, $dropDown) || this.getClosest($el, $openingButton)
+    } else {
+      container = $el.closest($dropDown) || $el.closest($openingButton)
+    }
+
+    if (!container) {
+      this.handleClose()
+      document.body.removeEventListener('click', this.closeIfNotInside)
+    }
+  }
 
   updateState (props) {
     let value = props.value
@@ -24,6 +68,12 @@ class Color extends Attribute {
     this.setState({
       displayColorPicker: !this.state.displayColorPicker
     })
+
+    if (!this.state.displayColorPicker) {
+      document.body.addEventListener('click', this.closeIfNotInside)
+    } else {
+      document.body.removeEventListener('click', this.closeIfNotInside)
+    }
   }
 
   handleClose = () => {
@@ -50,17 +100,23 @@ class Color extends Attribute {
       background: color.toString('rgb')
     }
 
+    let selectorClasses = classNames({
+      'vcv-ui-form-dropdown': true,
+      'vcv-ui-color-picker-dropdown': true,
+      'vcv-ui-form-state--focus': this.state.displayColorPicker
+    })
+
     let colorPicker = ''
     if (displayColorPicker) {
       colorPicker = (
-        <div className='vcv-ui-form-dropdown-color--content'>
+        <div className='vcv-ui-color-picker'>
           <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
         </div>
       )
     }
     return (
       <div>
-        <div className='vcv-ui-form-dropdown' onClick={this.handleClick}>
+        <div className={selectorClasses} onClick={this.handleClick}>
           <div className='vcv-ui-form-dropdown-color--swatch'>
             <div className='vcv-ui-form-dropdown-color--value' style={colorStyle} />
           </div>

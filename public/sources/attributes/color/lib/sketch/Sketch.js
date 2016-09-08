@@ -24,7 +24,8 @@ export class Sketch extends React.Component {
           boxSizing: 'initial',
           background: '#fff',
           borderRadius: '3px',
-          border: '1px solid #d1d1d1'
+          border: '1px solid #d1d1d1',
+          marginTop: '4px'
         },
         saturation: {
           width: '100%',
