@@ -44,7 +44,7 @@ export default class Text extends React.Component {
       })
 /*      dom.addEventListener('mousedown', () => {
 
-      })*/
+      }) */
       /* const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       this.medium = new MediumEditor(dom, {
         delay: 1000,
@@ -79,7 +79,7 @@ export default class Text extends React.Component {
       })
       dom.addEventListener('mouseup', (e) => {
         e.currentTarget.removeEventListener('selectstart', disableSelectStart)
-      })*/
+      }) */
 
       /* dom.addEventListener('mouseup', (e) => {
         dom.setAttribute('contenteditable', false)

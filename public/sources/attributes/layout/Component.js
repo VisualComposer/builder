@@ -1,4 +1,4 @@
-/*eslint react/jsx-no-bind: "off"*/
+/* eslint react/jsx-no-bind: "off" */
 
 import React from 'react'
 import Attribute from '../attribute'
