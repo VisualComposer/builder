@@ -1,3 +1,4 @@
+/*eslint jsx-quotes: ["error", "prefer-double"]*/
 import React from 'react'
 
 export default class AddElement extends React.Component {
