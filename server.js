@@ -10,7 +10,7 @@ new WebpackDevServer(webpack(config), {
   historyApiFallback: false,
   /*    proxy: {
    "*": "http://localhost:9090"
-   },*/
+   }, */
   // webpack-dev-middleware options
   quiet: false,
   noInfo: false,

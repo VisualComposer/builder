@@ -1,4 +1,4 @@
-/*global _*/
+/* global _ */
 (function ($) {
   var template = _.template($('#vcv-elements-template').html())
   var $hub = $('#vcv-hub-content')

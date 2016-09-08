@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
+/* eslint jsx-quotes: [2, "prefer-double"] */
 import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -181,7 +181,7 @@ class Navbar extends React.Component {
       <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich">
         <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
           <span className="vcv-ui-navbar-control-content"><i
-            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu" /><span>Menu</span></span>
         </dt>
         <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
           {hiddenControls}
@@ -406,12 +406,12 @@ class Navbar extends React.Component {
       <div className={navbarContainerClasses}>
         <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
           <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}>
-            <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i>
+            <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots" />
           </div>
           {this.buildVisibleControls()}
           {this.buildHiddenControls()}
           <div className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer"
-            onMouseDown={(e) => this.handleDragStart(e, false)}></div>
+            onMouseDown={(e) => this.handleDragStart(e, false)} />
         </nav>
       </div>
     )

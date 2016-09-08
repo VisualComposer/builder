@@ -1,6 +1,6 @@
 'use strict'
 
-import {SketchPicker} from 'react-color'
+import VcSketchPicker from './lib/sketch/Sketch'
 import React from 'react'
 import Attribute from '../attribute'
 import './css/styles.less'
@@ -54,7 +54,7 @@ class Color extends Attribute {
     if (displayColorPicker) {
       colorPicker = (
         <div className='vcv-ui-form-dropdown-color--content'>
-          <SketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+          <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
         </div>
       )
     }
