@@ -12,6 +12,14 @@
 .vcv-ui-design-options-onion-layers {
   padding-top: 100%;
   position: relative;
+  .vcv-ui-form-input {
+    &:disabled,
+    &[disabled] {
+      background-color: @design-options-onion-bg;
+      border-color: transparent;
+      color: @design-options-onion-helper-color;
+    }
+  }
 }
 
 [class*='vcv-ui-design-options-onion-layer--'] {
