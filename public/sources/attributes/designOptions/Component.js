@@ -564,7 +564,7 @@ Devices.getAll().map((device) => {
     backgroundStyle: '',
     borderColor: '',
     borderStyle: '',
-    simplified: true,
+    simplified: false,
     borderTopLeftRadius: '',
     borderTopRightRadius: '',
     borderBottomLeftRadius: '',
