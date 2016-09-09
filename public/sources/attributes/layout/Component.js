@@ -72,33 +72,35 @@ class Layout extends Attribute {
     })
   }
   updateState (props) {
-    let columns = vcCake.getService('document').children(props.element.get('id')).map((element) => {
+    let layout = vcCake.getService('document').children(props.element.get('id')).map((element) => {
       return element.size || 'auto'
     })
-    let inD = this.findEqualDefaultProps(columns)
+    let index = this.findEqualDefaultProps(layout)
     return {
-      activeLayout: inD,
-      customLayout: columns.join(' + '),
-      value: columns
+      activeLayout: index,
+      customLayout: layout.join(' + '),
+      value: layout
     }
   }
 
   setActiveLayout = (index) => {
-    let layout = this.props.layouts[ index ].map((i) => i.toString()).join(' + ')
+    let layout = this.props.layouts[ index ].map((i) => i.toString())
+    this.setState({
+      customLayout: layout.join(' + '),
+      activeLayout: index,
+      value: layout
+    })
+    console.log(layout)
+    this.setFieldValue(layout)
+  }
+  setCustomLayout = (layout) => {
+    let index = this.findEqualDefaultProps(layout)
     this.setState({
       activeLayout: index,
-      customLayout: layout,
       value: layout
     })
     this.setFieldValue(layout)
   }
-  setCustomLayout = (e) => {
-    this.setState({
-      customLayout: e.target.value,
-      activeLayout: -1
-    })
-  }
-
   render () {
     if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
       return null
@@ -124,7 +126,7 @@ responsiveness options and stacking order.
           <div className='vcv-ui-form-layout-custom-layout-columns'>
             <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
               <div className='vcv-ui-form-layout-custom-layout-input'>
-                <TagList value={this.state.customLayout} />
+                <TagList value={this.state.customLayout} onChange={this.setCustomLayout} />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
 The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>

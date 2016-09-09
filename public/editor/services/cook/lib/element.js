@@ -69,7 +69,6 @@ class CookElement {
   set (k, v) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
-      console.log(this[ elData ].data)
       this[ elData ].data = type.setValue(settings, this[ elData ].data, k, v)
     }
     return this[ elData ].data[ k ]
