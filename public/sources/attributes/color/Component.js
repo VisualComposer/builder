@@ -55,7 +55,7 @@ class Color extends Attribute {
   updateState (props) {
     let value = props.value
     if (!value) {
-      value = '#FFFFFF'
+      value = 'transparent'
     }
     let color = tinycolor(value)
 
@@ -87,6 +87,11 @@ class Color extends Attribute {
     let { updater, fieldKey } = this.props
     let color = tinycolor(sketchValue.rgb)
     let value = color.toString(format || 'rgb')
+
+    if (value === 'rgba(0, 0, 0, 0)') {
+      value = ''
+    }
+
     this.setState({
       value: value
     })

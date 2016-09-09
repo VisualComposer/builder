@@ -84,57 +84,61 @@ export default {
     if (data[ device ].borderLeft !== '') {
       cssObj[ 'border-left-width' ] = (parseFloat(data[ device ].borderLeft).toString() === data[ device ].borderLeft) ? data[ device ].borderLeft + 'px' : data[ device ].borderLeft
     }
-    // get border color
-    if (data[ device ].borderColor !== '') {
-      cssObj[ 'border-color' ] = data[ device ].borderColor
+
+    if (data[ device ].borderTop !== '' || data[ device ].borderRight !== '' || data[ device ].borderBottom !== '' || data[ device ].borderLeft !== '') {
+      // get border color
+      if (data[ device ].borderColor !== '') {
+        cssObj[ 'border-color' ] = data[ device ].borderColor
+      }
+      // get border style
+      tempProperty = 'border-style'
+      switch (data[ device ].borderStyle) {
+        case 'solid':
+          tempValue = 'solid'
+          break
+        case 'dotted':
+          tempValue = 'dotted'
+          break
+        case 'dashed':
+          tempValue = 'dashed'
+          break
+        case 'none':
+          tempValue = 'none'
+          break
+        case 'hidden':
+          tempValue = 'hidden'
+          break
+        case 'double':
+          tempValue = 'double'
+          break
+        case 'groove':
+          tempValue = 'groove'
+          break
+        case 'ridge':
+          tempValue = 'ridge'
+          break
+        case 'inset':
+          tempValue = 'inset'
+          break
+        case 'outset':
+          tempValue = 'outset'
+          break
+        case 'initial':
+          tempValue = 'initial'
+          break
+        case 'inherit':
+          tempValue = 'inherit'
+          break
+        default:
+          tempProperty = null
+          tempValue = null
+          break
+      }
+      if (tempProperty && tempValue) {
+        cssObj[ tempProperty ] = tempValue
+      }
     }
-    // get border style
-    tempProperty = 'border-style'
-    switch (data[ device ].borderStyle) {
-      case 'solid':
-        tempValue = 'solid'
-        break
-      case 'dotted':
-        tempValue = 'dotted'
-        break
-      case 'dashed':
-        tempValue = 'dashed'
-        break
-      case 'none':
-        tempValue = 'none'
-        break
-      case 'hidden':
-        tempValue = 'hidden'
-        break
-      case 'double':
-        tempValue = 'double'
-        break
-      case 'groove':
-        tempValue = 'groove'
-        break
-      case 'ridge':
-        tempValue = 'ridge'
-        break
-      case 'inset':
-        tempValue = 'inset'
-        break
-      case 'outset':
-        tempValue = 'outset'
-        break
-      case 'initial':
-        tempValue = 'initial'
-        break
-      case 'inherit':
-        tempValue = 'inherit'
-        break
-      default:
-        tempProperty = null
-        tempValue = null
-        break
-    }
-    if (tempProperty && tempValue) {
-      cssObj[ tempProperty ] = tempValue
-    }
+
     // get border radius
     if (data[ device ].borderTopRightRadius !== '') {
       cssObj[ 'border-top-right-radius' ] = (parseFloat(data[ device ].borderTopRightRadius).toString() === data[ device ].borderTopRightRadius) ? data[ device ].borderTopRightRadius + 'px' : data[ device ].borderTopRightRadius

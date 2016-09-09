@@ -4,6 +4,30 @@ const cook = vcCake.getService('cook')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
+  const rebuildRawLayout = (id, layout) => {
+    let columns = DocumentData.children(id)
+    let lastColumnObject = null
+    layout.forEach((size, i) => {
+      if (columns[i] !== undefined) {
+        lastColumnObject = columns[i]
+        lastColumnObject.size = size.replace('/', '-')
+        DocumentData.update(lastColumnObject.id, lastColumnObject)
+      } else {
+        DocumentData.create({tag: 'column', parent: id, size: size})
+      }
+    })
+    if (columns.length > layout.length) {
+      let removingColumns = columns.slice(layout.length)
+      removingColumns.forEach((column) => {
+        /* let childElements = DocumentData.children(column.id)
+        childElements.forEach((el) => {
+          el.parent = lastColumnObject.id
+          DocumentData.update(el.id, el)
+        }) */
+        DocumentData.delete(column.id)
+      })
+    }
+  }
   api.reply('data:add', (elementData) => {
     let createdElements = []
     let element = cook.get(elementData)
@@ -41,6 +65,11 @@ vcCake.add('storage', (api) => {
   })
 
   api.reply('data:update', (id, element) => {
+    if (element.tag === 'row' && element.layout && element.layout.length > 0) {
+      console.log(element.layout)
+      rebuildRawLayout(id, element.layout)
+      element.layout = undefined
+    }
     DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update')
