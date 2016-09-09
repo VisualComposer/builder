@@ -614,6 +614,8 @@ export default class TagList extends React.Component {
     let tags = this.state.value
 
     if (this.state.grouped) {
+      // this.props.setLayout(this.state.tagList)
+
       let innerTags = []
       this.state.tagList.forEach((item, index) => {
         let tagClasses = classNames({

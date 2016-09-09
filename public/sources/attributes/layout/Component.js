@@ -90,7 +90,6 @@ class Layout extends Attribute {
       activeLayout: index,
       value: layout
     })
-    console.log(layout)
     this.setFieldValue(layout)
   }
   setCustomLayout = (layout) => {
@@ -101,6 +100,19 @@ class Layout extends Attribute {
     })
     this.setFieldValue(layout)
   }
+
+  findRelatedLayout = (tagList) => {
+    let activeLayout = tagList.map((column) => column.tagText.toString()).join(' + ')
+
+    this.props.layouts.map((layout, index) => {
+      let currentLayout = layout.map((i) => i.toString()).join(' + ')
+
+      if (currentLayout === activeLayout) {
+        // console.log("index", index)
+      }
+    })
+  }
+
   render () {
     if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
       return null
@@ -126,7 +138,7 @@ responsiveness options and stacking order.
           <div className='vcv-ui-form-layout-custom-layout-columns'>
             <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
               <div className='vcv-ui-form-layout-custom-layout-input'>
-                <TagList value={this.state.customLayout} layouts={this.props.layouts} />
+                <TagList value={this.state.customLayout} layouts={this.props.layouts} setLayout={this.findRelatedLayout} />
                 <span className='vcv-ui-form-layout-description'>Enter custom layout option for columns by using fractions.
 The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
                 </span>
