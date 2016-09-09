@@ -1,5 +1,4 @@
 .vcv-row-control-container {
-  border: 1px dashed @row-color-base;
   margin-left: @row-control-side-margins;
   margin-right: @row-control-side-margins;
   min-height: @row-size;
@@ -10,6 +9,10 @@
   overflow: hidden;
   opacity: 0;
   transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .vcv-row-control-container-hide-labels {
@@ -79,20 +82,4 @@
     vertical-align: middle;
     font-family: 'Roboto', sans-serif;
   }
-}
-
-.vce-row {
-  &:hover .vcv-row-control-container {
-    opacity: 1;
-  }
-}
-
-.vcv-layout-content {
-  .vcv-ui-outline {
-    border: none;
-  }
-}
-
-.vce-col--sm-auto {
-  overflow: hidden;
 }
