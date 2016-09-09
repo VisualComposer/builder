@@ -403,6 +403,14 @@
       "description": "Show arrow on button"
     }
   },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -425,7 +433,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1"
+      "editFormTab1",
+      "designOptions"
     ]
   },
   "relatedTo": {
