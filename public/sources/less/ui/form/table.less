@@ -5,6 +5,7 @@
   color: @vcui-form-table-color;
   border: 1px solid @vcui-form-table-border-color;
   margin: @vcui-form-table-margin;
+  font-size: @vcui-form-table-font-size;
   > tbody {
     > tr {
       &:nth-of-type(even) {
@@ -17,7 +18,14 @@
         border-top: 1px solid @vcui-form-table-border-color;
         vertical-align: top;
         text-align: left;
-        padding: @vcui-form-table-padding;
+        padding: @vcui-form-input-padding;
+        line-height: @vcui-form-input-line-height;
+        &:last-child {
+          text-align: right;
+          font-size: @vcui-form-table-font-caps;
+          text-transform: uppercase;
+          line-height: @vcui-form-table-font-size * @vcui-form-input-line-height;
+        }
       }
       &:last-child > td {
         border-bottom: 1px solid @vcui-form-table-border-color;
