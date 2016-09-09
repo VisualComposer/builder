@@ -106,7 +106,7 @@ class DesignOptions extends Attribute {
     for (let i = 0, len = backgroundStyleValues.length; i < len; i++) {
       let value = backgroundStyleValues[ i ].value
       let label = backgroundStyleValues[ i ].label
-      backgroundStyles.push(<option key={'borderStyle:' + value} value={value}>{label}</option>)
+      backgroundStyles.push(<option key={'backgroundStyle:' + value} value={value}>{label}</option>)
     }
 
     this.backgroundStyles = backgroundStyles
@@ -523,9 +523,9 @@ class DesignOptions extends Attribute {
                 </span>
                 <AttachImage {...backgroundImageProps} />
               </div>
-              {(hasImages) && (
-                <div className='vcv-ui-row vcv-ui-row-gap--sm'>
-                  <div className='vcv-ui-col vcv-ui-col--xs-8'>
+              <div className='vcv-ui-row vcv-ui-row-gap--sm'>
+                <div className='vcv-ui-col vcv-ui-col--xs-8'>
+                  {(hasImages) && (
                     <div className='vcv-ui-form-group'>
                       <span className='vcv-ui-form-group-heading'>
                         Background style
@@ -539,11 +539,11 @@ class DesignOptions extends Attribute {
                         {this.backgroundStyles}
                       </select>
                     </div>
-                  </div>
-                  {borderStyleOutput}
-                  {borderColorOutput}
+                  )}
                 </div>
-              )}
+                {borderStyleOutput}
+                {borderColorOutput}
+              </div>
             </div>
           )}
         </div>
@@ -563,7 +563,7 @@ Devices.getAll().map((device) => {
     backgroundColor: '',
     backgroundStyle: '',
     borderColor: '',
-    borderStyle: '',
+    borderStyle: 'solid',
     simplified: false,
     borderTopLeftRadius: '',
     borderTopRightRadius: '',
