@@ -5,53 +5,56 @@ import './styles.less'
 
 export default class TagList extends React.Component {
   static propTypes = {
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
+    layouts: React.PropTypes.array.isRequired
   }
 
   state = {
-    value: this.props.value || '',
+    value: this.convertValue(this.props.value) || '',
     updatedValue: '',
-    tagList: [
-      // {tagText: '1/2', valid: true},
-      // {tagText: '1/2', valid: true}
-    ],
+    tagList: [],
     grouped: false,
-    suggestDefault: [
-      '1/1', '1/2 + 1/2', '1/3 + 1/3 + 1/3',
-      '1/4 + 1/4 + 1/4 + 1/4',
-      '1/5 + 1/5 + 1/5 + 1/5 + 1/5',
-      '1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6',
-      '2/3 + 1/3', '1/4 + 3/4',
-      '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6',
-      'Javascript', 'Java', 'Php'
-    ],
+    suggestDefault: this.convertLayout(),
     suggestVisible: false,
     suggested: []
   }
 
   componentWillReceiveProps (nextProps) {
+    let convertedValue = this.convertValue(nextProps.value)
+
     this.setState({
-      value: nextProps.value || '',
+      value: convertedValue || '',
       updatedValue: '',
-      tagList: [
-        // {tagText: '1/2', valid: true},
-        // {tagText: '1/2', valid: true}
-      ],
+      tagList: [],
       grouped: false,
-      suggestDefault: [
-        '1/1', '1/2 + 1/2', '1/3 + 1/3 + 1/3',
-        '1/4 + 1/4 + 1/4 + 1/4',
-        '1/5 + 1/5 + 1/5 + 1/5 + 1/5',
-        '1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6',
-        '2/3 + 1/3', '1/4 + 3/4',
-        '1/4 + 1/2 + 1/4', '1/6 + 2/3 + 1/6',
-        'Javascript', 'Java', 'Php'
-      ],
+      suggestDefault: this.convertLayout(),
       suggestVisible: false,
       suggested: []
     })
 
-    this.doGrouping(nextProps.value)
+    this.doGrouping(convertedValue)
+  }
+
+  convertValue (columns = this.state.value) {
+    let layout = this.convertColumns(columns.split(' + '))
+    return layout.join(' + ')
+  }
+
+  convertColumns (columns) {
+    return columns.map((column) => {
+      let split = column.match(/auto/)
+      if (split && split.length) {
+        return '1/' + columns.length
+      }
+      return column
+    })
+  }
+
+  convertLayout () {
+    return this.props.layouts.map((columns) => {
+      columns = this.convertColumns(columns)
+      return columns.join(' + ')
+    })
   }
 
   componentDidMount () {
