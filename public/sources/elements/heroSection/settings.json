@@ -129,6 +129,14 @@
       }
     }
   },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -148,7 +156,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "button"
+      "button",
+      "designOptions"
     ]
   },
   "relatedTo": {
