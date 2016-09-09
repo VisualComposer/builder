@@ -1,6 +1,7 @@
 let classNames = require('classnames')
 
 let wrapperClasses = classNames({
+  'vce': true,
   'vce-hero-section': true,
   'vce-hero-section--min-height': true,
   'vce-hero-section--alignment-start': align === 'start',
