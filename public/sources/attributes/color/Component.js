@@ -106,7 +106,6 @@ class Color extends Attribute {
       colorStyle.backgroundSize = 'cover'
       colorStyle.backgroundColor = ''
       colorStyle.backgroundImage = color
-      colorStyle.over
     }
 
     let selectorClasses = classNames({
