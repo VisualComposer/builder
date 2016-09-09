@@ -90,7 +90,6 @@ class Layout extends Attribute {
       activeLayout: index,
       value: layout
     })
-    console.log(layout)
     this.setFieldValue(layout)
   }
   setCustomLayout = (layout) => {
