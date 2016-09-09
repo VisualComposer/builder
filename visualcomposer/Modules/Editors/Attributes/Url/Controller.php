@@ -35,7 +35,7 @@ class Controller extends Container implements Module
 
         $args = [
             'posts_per_page' => 20,
-            'post_type' => ['post', 'page'],
+            'post_type' => get_post_types( '', 'names' ),
             's' => $search,
         ];
 
