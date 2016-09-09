@@ -10,7 +10,7 @@ codestyle:js:
   image: wpbakery/standardjs
   stage: codestyle
   script:
-    - npm install -g babel-eslint
+    - standard --version
     - standard
   tags:
     - docker
