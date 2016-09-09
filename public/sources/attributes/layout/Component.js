@@ -1,4 +1,4 @@
-/*eslint react/jsx-no-bind: "off"*/
+/* eslint react/jsx-no-bind: "off" */
 
 import React from 'react'
 import Attribute from '../attribute'
@@ -67,7 +67,7 @@ class Layout extends Attribute {
     ]
   }
   findEqualDefaultProps (layout) {
-    return Layout.defaultProps.layouts.findIndex((defaultLayout) => {
+    return this.props.layouts.findIndex((defaultLayout) => {
       return _.isEqual(layout, defaultLayout)
     })
   }

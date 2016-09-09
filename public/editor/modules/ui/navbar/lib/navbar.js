@@ -1,4 +1,3 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
 import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -152,7 +151,7 @@ class Navbar extends React.Component {
         api={value.options.api ? value.options.api : this.props.api}
         key={'Navbar:' + value.name}
         value={value}
-        container=".vcv-ui-navbar"
+        container='.vcv-ui-navbar'
         ref={(ref) => {
           navbarControls[ value.index ].ref = ref
         }}
@@ -178,12 +177,12 @@ class Navbar extends React.Component {
     })
 
     return (
-      <dl className="vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich">
-        <dt className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control" title="Menu">
-          <span className="vcv-ui-navbar-control-content"><i
-            className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"></i><span>Menu</span></span>
+      <dl className='vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich' tabIndex='0'>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu'>
+          <span className='vcv-ui-navbar-control-content'><i
+            className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
         </dt>
-        <dd className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels">
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
           {hiddenControls}
         </dd>
       </dl>
@@ -404,14 +403,14 @@ class Navbar extends React.Component {
     document.body.classList.add('vcv-layout-dock--' + navbarPosition)
     return (
       <div className={navbarContainerClasses}>
-        <nav className="vcv-ui-navbar vcv-ui-navbar-hide-labels">
-          <div className="vcv-ui-navbar-drag-handler vcv-ui-drag-handler" onMouseDown={this.handleDragStart}>
-            <i className="vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots"></i>
+        <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
+          <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
+            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
           {this.buildVisibleControls()}
           {this.buildHiddenControls()}
-          <div className="vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer"
-            onMouseDown={(e) => this.handleDragStart(e, false)}></div>
+          <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
+            onMouseDown={(e) => this.handleDragStart(e, false)} />
         </nav>
       </div>
     )

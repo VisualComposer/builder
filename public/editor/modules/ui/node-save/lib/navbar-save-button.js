@@ -36,7 +36,7 @@ class SaveButtonControl extends React.Component {
       <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
         <a className={saveButtonClasses} title='Save' onClick={this.clickSaveData}><span
           className='vcv-ui-navbar-control-content'>
-          <i className={saveIconClasses}></i><span>Save</span>
+          <i className={saveIconClasses} /><span>Save</span>
         </span></a>
       </div>
     )

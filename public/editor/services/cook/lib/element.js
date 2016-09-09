@@ -1,4 +1,4 @@
-/*eslint jsx-quotes: [2, "prefer-double"]*/
+/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import vcCake from 'vc-cake'
 import {renderToStaticMarkup} from 'react-dom/server'
@@ -69,6 +69,7 @@ class CookElement {
   set (k, v) {
     let { type, settings } = this[ elData ].getAttributeType(k)
     if (type && settings) {
+      console.log(this[ elData ].data)
       this[ elData ].data = type.setValue(settings, this[ elData ].data, k, v)
     }
     return this[ elData ].data[ k ]

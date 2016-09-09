@@ -56,7 +56,7 @@ class AddElementControl extends React.Component {
     return (
       <a className={controlClass} href='#' title='Add Element' onClick={this.toggleAddElement.bind(this)}>
         <span className='vcv-ui-navbar-control-content'>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add'></i>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>Add Element</span>
         </span>
       </a>

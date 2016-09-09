@@ -1,4 +1,4 @@
-/*global $*/
+/* global $ */
 import {getService} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
