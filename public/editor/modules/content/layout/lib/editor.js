@@ -1,5 +1,5 @@
 import React from 'react'
-import HtmlLayout from './html-layout'
+import HtmlLayout from './htmlLayout'
 
 class LayoutEditor extends React.Component {
   state = {
