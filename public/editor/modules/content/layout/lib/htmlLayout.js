@@ -1,5 +1,5 @@
 import React from 'react'
-import LayoutElement from './element'
+import Element from './element'
 import '../css/html-layout.less'
 
 class HtmlLayout extends React.Component {
@@ -8,7 +8,7 @@ class HtmlLayout extends React.Component {
     if (this.props.data) {
       elementsList = this.props.data.map((element) => {
         return (
-          <LayoutElement element={element} key={element.id} api={this.props.api} />
+          <Element element={element} key={element.id} api={this.props.api} />
         )
       })
     }

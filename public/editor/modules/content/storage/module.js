@@ -10,7 +10,7 @@ vcCake.add('storage', (api) => {
     layout.forEach((size, i) => {
       if (columns[i] !== undefined) {
         lastColumnObject = columns[i]
-        lastColumnObject.size = size.replace('/', '-')
+        lastColumnObject.size = size
         DocumentData.update(lastColumnObject.id, lastColumnObject)
       } else {
         DocumentData.create({tag: 'column', parent: id, size: size})
@@ -19,11 +19,11 @@ vcCake.add('storage', (api) => {
     if (columns.length > layout.length) {
       let removingColumns = columns.slice(layout.length)
       removingColumns.forEach((column) => {
-        /* let childElements = DocumentData.children(column.id)
+        let childElements = DocumentData.children(column.id)
         childElements.forEach((el) => {
           el.parent = lastColumnObject.id
           DocumentData.update(el.id, el)
-        }) */
+        })
         DocumentData.delete(column.id)
       })
     }
