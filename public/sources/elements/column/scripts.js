@@ -1,4 +1,3 @@
-const vcCake = require('vc-cake')
 const classNames = require('classnames')
 
 let classes = ['vce-col', 'vce-col--xs-1']
