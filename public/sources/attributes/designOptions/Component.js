@@ -18,6 +18,27 @@ class DesignOptions extends Attribute {
       deviceTypes: this.getValue(props, 'deviceTypes', null, DesignOptions.defaultState.deviceTypes),
       device: this.getValue(props, 'device', null, DesignOptions.defaultState.device)
     }
+    if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
+      state.defaultStyles = {}
+      let frame = document.querySelector('#vcv-editor-iframe')
+      let frameDocument = frame.contentDocument || frame.contentWindow.document
+      let element = frameDocument.querySelector('#el-' + this.props.element.data.id)
+      if (element) {
+        let dolly = element.cloneNode(false)
+        dolly.id = ''
+        dolly.height = '0'
+        dolly.width = '0'
+        dolly.overflow = 'hidden'
+        element.parentNode.appendChild(dolly)
+        let defaultStyles = window.getComputedStyle(dolly)
+        for (let style in defaultStyles) {
+          if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
+            state[ 'defaultStyles' ][ style ] = defaultStyles[ style ]
+          }
+        }
+        dolly.remove()
+      }
+    }
     Devices.getAll().map((device) => {
       state[ device.strid ] = {
         showOnDevice: this.getValue(props, 'showOnDevice', device, DesignOptions.defaultState[ device.strid ].showOnDevice),
@@ -301,7 +322,9 @@ class DesignOptions extends Attribute {
     let value = this.state[ this.state.device ][ name ]
     let placeholder = '-'
     if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
-      console.log(placeholder, this.state[ this.state.device ][ name ], name)
+      if (parseInt(this.state.defaultStyles[ name ])) {
+        placeholder = this.state.defaultStyles[ name ]
+      }
     }
     return (
       <input
