@@ -1,11 +1,12 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import '../css/element.less'
+import AddElement from '../../../../../sources/primitives/addElement/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
-export default class LayoutElement extends React.Component {
+export default class Element extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired
@@ -19,11 +20,17 @@ export default class LayoutElement extends React.Component {
   }
 
   getContent (content) {
+    let returnData = null
     const currentElement = cook.get(this.props.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      return <LayoutElement element={childElement} key={childElement.id} api={this.props.api} />
+      return <Element element={childElement} key={childElement.id} api={this.props.api} />
     })
-    return elementsList || content
+    if (elementsList.length) {
+      returnData = elementsList
+    } else {
+      returnData = currentElement.containerFor().length > 0 ? <AddElement api={this.props.api} id={currentElement.get('id')} /> : content
+    }
+    return returnData
   }
 
   render () {

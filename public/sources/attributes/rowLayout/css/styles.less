@@ -1,0 +1,55 @@
+.vcv-ui-form-layout-layouts {
+  display: flex;
+  margin-left: -20px;
+  margin-right: -20px;
+  flex-flow: row wrap;
+}
+
+.vcv-ui-form-layout-description {
+  color: #a9a9a8;
+  font-style: italic;
+
+  display: inline-block;
+  margin-bottom: 25px;
+}
+
+.vcv-ui-form-layout-layouts-col {
+  display: flex;
+  flex-grow: 0;
+  flex-basis: 60px;
+  flex-shrink: 0;
+  cursor: pointer;
+  > span {
+    height: 40px;
+    border: 2px solid #d1d1d1;
+    flex: 1;
+  }
+  &.vcv-ui-state--active {
+    > span {
+      border-color: #2b4b80;
+    }
+  }
+}
+
+.vcv-ui-form-layout-layouts-col {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.vcv-ui-form-layout-layouts-col span:not(:first-child) {
+  margin-left: 2px;
+}
+
+.vcv-ui-form-layout-custom-layout-columns {
+  display: flex;
+  .vcv-ui-form-layout-custom-layout-col {
+    flex: 1;
+  }
+}
+
+.vcv-ui-form-layout-custom-layout-input-wrapper {
+  .vcv-ui-form-layout-custom-layout-input {
+    width: 95%;
+  }
+}

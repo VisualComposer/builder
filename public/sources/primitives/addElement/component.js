@@ -1,6 +1,11 @@
 import React from 'react'
 
 export default class AddElement extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    id: React.PropTypes.string.isRequired
+  }
+
   render () {
     return <div className='vcv-row-control-container vcv-row-control-container-hide-labels'>
       <a className='vcv-row-control' href='#' title='Add Element'>

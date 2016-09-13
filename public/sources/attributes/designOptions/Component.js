@@ -6,6 +6,7 @@ import Toggle from '../toggle/Component'
 import Color from '../color/Component'
 import Devices from './devices'
 import Attribute from '../attribute'
+import vcCake from 'vc-cake'
 
 class DesignOptions extends Attribute {
   static propTypes = {
@@ -298,11 +299,14 @@ class DesignOptions extends Attribute {
     ])
 
     let value = this.state[ this.state.device ][ name ]
-
+    let placeholder = '-'
+    if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
+      console.log(placeholder, this.state[ this.state.device ][ name ], name)
+    }
     return (
       <input
         type='text'
-        placeholder='-'
+        placeholder={placeholder}
         className={classes}
         name={name}
         onChange={this.changeBoxInput}

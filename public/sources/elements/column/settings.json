@@ -49,7 +49,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Custom class"
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
   "designOptions": {
