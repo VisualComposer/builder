@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import '../css/element.less'
-import AddElement from '../../../../../sources/primitives/addElement/component'
+import ContentControls from '../../../../../sources/primitives/contentControls/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -28,7 +28,7 @@ export default class Element extends React.Component {
     if (elementsList.length) {
       returnData = elementsList
     } else {
-      returnData = currentElement.containerFor().length > 0 ? <AddElement api={this.props.api} id={currentElement.get('id')} /> : content
+      returnData = currentElement.containerFor().length > 0 ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
     }
     return returnData
   }
