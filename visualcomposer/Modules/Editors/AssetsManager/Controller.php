@@ -332,6 +332,7 @@ class Controller extends Container implements Module
     private function generatePostStyles($postId)
     {
         $postsStyles = $this->options->get('design-options');
+        $style = false;
         if (isset($postsStyles[$postId])) {
             $style = $postsStyles[$postId];
         }
