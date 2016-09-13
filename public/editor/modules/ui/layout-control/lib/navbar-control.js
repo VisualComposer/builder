@@ -7,27 +7,27 @@ class LayoutButtonControl extends React.Component {
     devices: [
       {
         type: 'Desktop',
-        viewport: 1200,
+        viewport: '',
         disabled: false
       },
       {
         type: 'Tablet Landscape',
-        viewport: 992,
+        viewport: '992px',
         disabled: false
       },
       {
         type: 'Tablet Portrait',
-        viewport: 768,
+        viewport: '768px',
         disabled: false
       },
       {
         type: 'Mobile Landscape',
-        viewport: 544,
+        viewport: '544px',
         disabled: false
       },
       {
         type: 'Mobile Portrait',
-        viewport: 320,
+        viewport: '320px',
         disabled: false
       }
     ],
@@ -54,7 +54,7 @@ class LayoutButtonControl extends React.Component {
   setViewport (width) {
     let container = document.querySelector('.vcv-layout-iframe-container')
     let content = document.querySelector('.vcv-layout-content')
-    container.style.maxWidth = `${width}px`
+    container.style.maxWidth = width
     container.style.alignSelf = 'center'
     content.style.background = '#eee'
   }
