@@ -37,7 +37,9 @@ class LayoutButtonControl extends React.Component {
   }
 
   componentDidMount () {
-    this.disableViewport()
+    setTimeout(() => {
+      this.disableViewport()
+    }, 0)
 
     window.addEventListener('resize', (e) => {
       this.disableViewport()
@@ -61,6 +63,9 @@ class LayoutButtonControl extends React.Component {
       })
     } else {
       this.setDefaultLayout(0)
+      setTimeout(() => {
+        this.disableViewport()
+      }, 0)
     }
   }
 
@@ -131,7 +136,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   render () {
-    let controlClasses = classNames(
+    let controlIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
       `vcv-ui-icon-${this.state.devices[this.state.activeDevice].type.replace(/\s+/g, '-').toLowerCase()}`
@@ -139,7 +144,7 @@ class LayoutButtonControl extends React.Component {
 
     let activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
-        <i className={controlClasses} />
+        <i className={controlIconClasses} />
         <span>{this.state.devices[this.state.activeDevice].type} control</span>
       </span>
     )
@@ -153,7 +158,7 @@ class LayoutButtonControl extends React.Component {
     })
 
     return (
-      <dl className={navbarControlClasses} tabIndex='0' disabled>
+      <dl className={navbarControlClasses} tabIndex='0'>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={this.state.devices[this.state.activeDevice].type}>
           {activeDevice}
         </dt>
