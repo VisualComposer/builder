@@ -9,7 +9,11 @@ export default class SuggestBox extends React.Component {
     value: React.PropTypes.string.isRequired,
     updateCallback: React.PropTypes.func,
     suggestions: React.PropTypes.array.isRequired,
-    show: React.PropTypes.bool.isRequired
+    show: React.PropTypes.bool.isRequired,
+    activated: React.PropTypes.bool
+  }
+  state = {
+    active: -1
   }
   constructor (props) {
     super(props)
@@ -28,16 +32,32 @@ export default class SuggestBox extends React.Component {
     if (!this.props.value.length) {
       return []
     }
+    let activeState = this.state.active
     let suggestions = this.getSuggestions()
+    console.log(this.props.activated)
+    if (this.props.activated && this.state.active < 0) {
+      activeState = this.setNextActive(suggestions)
+    }
     return suggestions.map((item, index) => {
+      let cssClasses = classNames({
+        'vcv-ui-suggest-box-item': true,
+        'vcv-selected': index === activeState
+      })
       return <span key={'vcvSuggestBoxItem' + index}
-        className='vcv-ui-suggest-box-item'
+        className={cssClasses}
         onClick={this.handleClick}
         data-vcv-suggest={item}
         >
         {item}
       </span>
     })
+  }
+  setNextActive (suggestions) {
+    let active = this.state.active + 1
+    if (suggestions[active] !== undefined) {
+      this.setState({active: active})
+    }
+    return active
   }
   render () {
     if (this.props.show === false) {

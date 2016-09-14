@@ -28,7 +28,8 @@ export default class TokenizationList extends React.Component {
   }
   state = {
     value: this.props.value,
-    editing: false
+    editing: false,
+    suggestionActivated: false
   }
   componentWillReceiveProps (nextProps) {
     this.setState({value: nextProps.value})
@@ -37,7 +38,8 @@ export default class TokenizationList extends React.Component {
     this.updateValue(e.target.value)
   }
   handleKeyPress (e) {
-    if (e.which === 13 || e.keyCode === 13) {
+    let key = e.which || e.keyCode
+    if (key === 13) {
       e.target.blur()
       this.setState({editing: false})
     }
@@ -53,7 +55,7 @@ export default class TokenizationList extends React.Component {
     this.props.onChange(layoutSplit)
     document.body.removeEventListener('click', this.handleBodyClick)
   }
-  handleFocus (e) {
+  handleFocus () {
     this.setState({editing: true})
     document.body.addEventListener('click', this.handleBodyClick)
   }
@@ -105,6 +107,7 @@ export default class TokenizationList extends React.Component {
         onKeyPress={this.handleKeyPress}
         value={this.state.value}
         onFocus={this.handleFocus}
+        onBlur={this.handleFocus}
         data-vcv-type='vcv-tokenized-input'
       />
       <SuggestBox
@@ -112,6 +115,7 @@ export default class TokenizationList extends React.Component {
         suggestions={this.convertLayouts()}
         updateCallback={this.updateFromSuggestion}
         show={this.state.editing}
+        activated={this.state.suggestionActivated}
       />
     </div>
   }
