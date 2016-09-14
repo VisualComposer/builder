@@ -32,6 +32,7 @@
   position: relative;
   z-index: @editor-content-zindex;
   //align-items: center;
+  background: @editor-layout-content-background;
 }
 
 //== iframe
@@ -42,6 +43,9 @@
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+  background: @vcv-color-white;
+  margin: 0 auto;
+  transition: width @vcv-transition-duration @vcv-transition-timing-function;
 }
 
 .vcv-layout-iframe-overlay {

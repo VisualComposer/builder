@@ -4,7 +4,8 @@ import classNames from 'classnames'
 class LayoutControlItem extends React.Component {
   static propTypes = {
     devices: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
+    layoutSelected: React.PropTypes.bool.isRequired
   }
 
   handleClick = (index, e) => {
@@ -12,6 +13,10 @@ class LayoutControlItem extends React.Component {
     if (!this.props.devices[index].disabled) {
       this.props.onChange(index)
     }
+  }
+
+  handleRemove = () => {
+    this.props.onChange(false)
   }
 
   render () {
@@ -38,6 +43,22 @@ class LayoutControlItem extends React.Component {
         </a>
       )
     })
+
+    if (this.props.layoutSelected) {
+      devices.push(
+        <a className='vcv-ui-navbar-control'
+          href='#'
+          title='Remove'
+          key={this.props.devices.length}
+          onClick={this.handleRemove}
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-close-thin' />
+            <span>Remove</span>
+          </span>
+        </a>
+      )
+    }
 
     return (
       <div className='vcv-ui-navbar-controls-group'>

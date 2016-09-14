@@ -1,0 +1,24 @@
+@import "../../../../less/boilerplate";
+@import "../../../../less/bootstrap/variables";
+
+.vcv-ui-suggest-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #eee;
+  padding: 8px 0;
+  z-index: 40;
+  margin-bottom: 5px;
+}
+
+.vcv-ui-suggest-box-item {
+  padding: 5px 10px;
+  display: block;
+  cursor: pointer;
+  transition: background-color @vcv-transition-duration @vcv-transition-timing-function;
+
+  &.selected {
+    background-color: #ddd;
+  }
+}
