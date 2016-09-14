@@ -1,5 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
+import AnimateDropdown from '../animateDropdown/Component'
 
 export default class Dropdown extends Attribute {
   selectChilds = null
@@ -36,6 +37,7 @@ export default class Dropdown extends Attribute {
         value={value}
         onChange={this.handleChange}
         className='vcv-ui-form-dropdown'>
+        <AnimateDropdown />
         {this.selectChilds}
       </select>
     )
