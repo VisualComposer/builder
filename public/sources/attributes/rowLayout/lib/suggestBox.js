@@ -16,8 +16,7 @@ export default class SuggestBox extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick (e) {
-    console.log(e.currentTarget.getAttribute('data-value'))
-    this.props.updateCallback && this.props.updateCallback(e.currentTarget.getAttribute('data-value'))
+    this.props.updateCallback && this.props.updateCallback(e.currentTarget.getAttribute('data-vcv-suggest'))
   }
   getSuggestions () {
     let valueRegex = new RegExp('^' + RegExp.escape(this.props.value))
@@ -34,7 +33,7 @@ export default class SuggestBox extends React.Component {
       return <span key={'vcvSuggestBoxItem' + index}
         className='vcv-ui-suggest-box-item'
         onClick={this.handleClick}
-        data-value={item}
+        data-vcv-suggest={item}
         >
         {item}
       </span>
