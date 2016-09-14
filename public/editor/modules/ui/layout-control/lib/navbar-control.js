@@ -7,85 +7,101 @@ class LayoutButtonControl extends React.Component {
     devices: [
       {
         type: 'Desktop',
-        viewport: '',
+        viewport: '1200',
         disabled: false
       },
       {
         type: 'Tablet Landscape',
-        viewport: '992px',
+        viewport: '992',
         disabled: false
       },
       {
         type: 'Tablet Portrait',
-        viewport: '768px',
+        viewport: '768',
         disabled: false
       },
       {
         type: 'Mobile Landscape',
-        viewport: '544px',
+        viewport: '544',
         disabled: false
       },
       {
         type: 'Mobile Portrait',
-        viewport: '320px',
+        viewport: '320',
         disabled: false
       }
     ],
     activeDevice: 0,
-    displayDropdown: true,
-    layoutSelected: false
+    layoutSelected: false,
+    displayDropdown: true
   }
 
   componentDidMount () {
-    this.disableViewport()
+    this.changeOnResize()
+    this.setActualDevice(this.checkActualDevice())
+  }
 
+  changeOnResize () {
     window.addEventListener('resize', (e) => {
-      this.disableViewport()
+      if (!this.state.layoutSelected) {
+        this.setActualDevice(this.checkActualDevice())
+      }
     })
   }
 
-  setDefaultLayout = (index) => {
-    this.setViewport('')
+  checkDevice () {
+    let windowWidth = this.checkWindowWidth()
+    let devices = []
+    this.state.devices.forEach((item, index) => {
+      if (windowWidth > item.viewport) {
+        devices.push(index)
+      }
+    })
+    return devices[0]
+  }
+
+  setActualDevice (index) {
     this.setState({
-      activeDevice: index,
-      layoutSelected: false
+      activeDevice: index
     })
   }
 
   setSelectedLayout = (index) => {
-    if (index !== false) {
-      this.setViewport(this.state.devices[index].viewport)
-      this.setState({
-        activeDevice: index,
-        layoutSelected: true
-      })
-    } else {
-      this.setDefaultLayout(0)
-    }
+    this.setViewport(this.state.devices[index].viewport)
+    this.setState({
+      activeDevice: index
+    })
   }
 
   setViewport (width) {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    iframeContainer.style.width = width
+    let actualWidth = width + 'px'
+
+    if (width === this.state.devices[this.checkDevice()].viewport) {
+      actualWidth = ''
+      this.setState({
+        layoutSelected: false
+      })
+    } else {
+      this.setState({
+        layoutSelected: true
+      })
+    }
+    iframeContainer.style.width = actualWidth
   }
 
   checkWindowWidth () {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
   }
 
-  disableViewport () {
+  checkActualDevice () {
     let windowWidth = this.checkWindowWidth()
-    let disabledCount = 0
     let activeDevice = this.state.activeDevice
 
     this.state.devices.forEach((item, index) => {
-      let devices = this.state.devices
-      let controlViewport = item.viewport.split('px')[0] || 1200
+      let controlViewport = item.viewport
 
       if (windowWidth < controlViewport) {
-        devices[index].disabled = true
-        disabledCount++
-
         if (this.state.devices[activeDevice] === item) {
           activeDevice++
 
@@ -94,44 +110,16 @@ class LayoutButtonControl extends React.Component {
           }
         }
       } else {
-        devices[index].disabled = false
-        disabledCount--
-
         if (this.state.devices[activeDevice - 1] === item) {
           activeDevice--
         }
       }
-
-      this.setState({ devices, activeDevice })
     })
-
-    if (this.state.layoutSelected) {
-      this.setSelectedLayout(this.state.activeDevice)
-    } else {
-      this.setDefaultLayout(this.state.activeDevice)
-    }
-
-    if (this.state.devices.length === disabledCount) {
-      this.removeControl()
-    } else {
-      this.showControl()
-    }
-  }
-
-  removeControl () {
-    this.setState({
-      displayDropdown: false
-    })
-  }
-
-  showControl () {
-    this.setState({
-      displayDropdown: true
-    })
+    return activeDevice
   }
 
   render () {
-    let controlClasses = classNames(
+    let controlIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
       `vcv-ui-icon-${this.state.devices[this.state.activeDevice].type.replace(/\s+/g, '-').toLowerCase()}`
@@ -139,7 +127,7 @@ class LayoutButtonControl extends React.Component {
 
     let activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
-        <i className={controlClasses} />
+        <i className={controlIconClasses} />
         <span>{this.state.devices[this.state.activeDevice].type} control</span>
       </span>
     )
@@ -158,7 +146,7 @@ class LayoutButtonControl extends React.Component {
           {activeDevice}
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content'>
-          <LayoutItemGroup devices={this.state.devices} onChange={this.setSelectedLayout} layoutSelected={this.state.layoutSelected} />
+          <LayoutItemGroup devices={this.state.devices} onChange={this.setSelectedLayout} />
         </dd>
       </dl>
     )
