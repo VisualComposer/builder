@@ -55,7 +55,7 @@ class LayoutButtonControl extends React.Component {
     this.state.devices.forEach((item, index) => {
       if (windowWidth > item.viewport && windowWidth > 320) {
         devices.push(index)
-      } else if (windowWidth <= 320) {
+      } else if (windowWidth <= this.state.devices[this.state.devices.length - 1].viewport) {
         devices.push(this.state.devices.length - 1)
       }
     })
