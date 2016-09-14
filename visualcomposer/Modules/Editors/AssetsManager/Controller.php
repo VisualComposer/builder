@@ -64,6 +64,7 @@ class Controller extends Container implements Module
                 } else {
                     $response['status'] = false;
                 }
+
                 return $response;
             }
         );
@@ -86,6 +87,7 @@ class Controller extends Container implements Module
             'vcv:ajax:getData:adminNonce',
             function ($response, $payload) {
                 $response['globalElements'] = $this->options->get('global-elements', '');
+
                 return $response;
             }
         );
@@ -133,10 +135,11 @@ class Controller extends Container implements Module
         // $styleBundles = $this->getStyleBundles();
         $globalStylesFile = $this->generateStylesGlobalFile();
         $this->generatePostStyles($postId);
+
         return [
             'scriptBundles' => $scriptsBundles,
             // 'styleBundles' => $styleBundles,
-            'globalStylesFile' => $globalStylesFile
+            'globalStylesFile' => $globalStylesFile,
         ];
     }
 
@@ -156,7 +159,7 @@ class Controller extends Container implements Module
         ] as $assetType) {
             $assets = $this->options->get($assetType, []);
 
-            if (!is_array($assets) || !isset($assets[ $postId ])) {
+            if ( ! is_array($assets) || ! isset($assets[ $postId ])) {
                 continue;
             }
 
@@ -206,7 +209,7 @@ class Controller extends Container implements Module
         }
         $files = array_unique($files);
 
-        if (!empty($files)) {
+        if ( ! empty($files)) {
             $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5(implode(',', $files)) . '.js';
             $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles' . '/'
@@ -216,7 +219,7 @@ class Controller extends Container implements Module
             $bundle = $destinationDir . '/' . $concatenatedFilename;
             /** @var $app Application */
             $app = vcapp();
-            if (!is_file($bundle)) {
+            if ( ! is_file($bundle)) {
                 $contents = '';
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
@@ -224,7 +227,7 @@ class Controller extends Container implements Module
                 }
 
                 $this->deleteAssetsBundles('js');
-                if (!$this->file->setContents($bundle, $contents)) {
+                if ( ! $this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -257,9 +260,9 @@ class Controller extends Container implements Module
             $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
 
-            if (!is_file($bundle)) {
+            if ( ! is_file($bundle)) {
                 $this->deleteAssetsBundles('css');
-                if (!$this->file->setContents($bundle, $contents)) {
+                if ( ! $this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -318,9 +321,11 @@ class Controller extends Container implements Module
         $styles = $this->options->get('global-styles', '');
         $bundleUrl = $this->createBundleFile($styles, 'css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
+
         // remove file
         return $bundleUrl;
     }
+
     /**
      *
      * Generate (save to fs and update db) post styles bundle.
@@ -333,14 +338,16 @@ class Controller extends Container implements Module
     {
         $postsStyles = $this->options->get('design-options');
         $style = false;
-        if (isset($postsStyles[$postId])) {
-            $style = $postsStyles[$postId];
+        if (isset($postsStyles[ $postId ])) {
+            $style = $postsStyles[ $postId ];
         }
         $bundleUrl = $this->createBundleFile($style, 'css');
         $this->options->set('postStyles-' . $postId, $bundleUrl);
+
         // remove file
         return $bundleUrl;
     }
+
     /**
      * Create file with content in filesystem
      *
@@ -356,8 +363,8 @@ class Controller extends Container implements Module
             $concatenatedFilename = md5($content) . '.' . $extension;
             $bundle = $this->getFilePath($concatenatedFilename);
             $bundleUrl = $this->getFileUrl($concatenatedFilename);
-            if (!is_file($bundle)) {
-                if (!$this->file->setContents($bundle, $content)) {
+            if ( ! is_file($bundle)) {
+                if ( ! $this->file->setContents($bundle, $content)) {
                     return false;
                 }
             }
@@ -365,6 +372,7 @@ class Controller extends Container implements Module
 
         return $bundleUrl;
     }
+
     /**
      * @param int $postId
      * @param string $assetType scripts|styles.
@@ -375,7 +383,7 @@ class Controller extends Container implements Module
     private function updatePostAssets($postId, $assetType, $postAssets)
     {
         $assets = $this->options->get($assetType, []);
-        if (!is_array($assets)) {
+        if ( ! is_array($assets)) {
             $assets = [];
         }
 
@@ -389,6 +397,7 @@ class Controller extends Container implements Module
 
         return $assets;
     }
+
     /**
      * @param string $assetType scripts|styles.
      * @param string[] $postAssets
@@ -402,6 +411,7 @@ class Controller extends Container implements Module
 
         return $assets;
     }
+
     /**
      * Remove all files by extension in asset-bundles directory.
      *
@@ -428,19 +438,23 @@ class Controller extends Container implements Module
 
         return $files;
     }
+
     private function getFilePath($filename)
     {
         $uploadDir = wp_upload_dir();
         $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
         $this->file->checkDir($destinationDir);
         $path = $destinationDir . '/' . $filename;
+
         return $path;
     }
+
     private function getFileUrl($filename)
     {
         $uploadDir = wp_upload_dir();
         $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
             . $filename;
+
         return $url;
     }
 }

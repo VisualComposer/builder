@@ -1,10 +1,15 @@
 <?php
-
+// TODO: Fix this file
+/**
+ * Ajax request
+ * No 3rd vendors!
+ * reduce complexity
+ */
 namespace VisualComposer\Modules\Elements;
 
-use vierbergenlars\SemVer\version;
+//use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\License as LicenseHelper;
 use VisualComposer\Helpers\Options;
@@ -13,7 +18,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends Container/* implements Module*/
 {
     use EventsFilters;
 
@@ -74,7 +79,7 @@ class Controller extends Container implements Module
      */
     public function onLicenseActivation($status, $response)
     {
-        if (!$status) {
+        if ( ! $status) {
             return;
         }
 
@@ -120,7 +125,7 @@ class Controller extends Container implements Module
             /** @see \VisualComposer\Modules\Elements\Controller::fetchElementVersion */
             $availableVersion = $this->call('fetchElementVersion', [$element['tag']]);
 
-            if (!$availableVersion || version::lte($availableVersion, $element['version'])) {
+            if ( ! $availableVersion || version::lte($availableVersion, $element['version'])) {
                 continue;
             }
 
@@ -199,7 +204,7 @@ class Controller extends Container implements Module
 
         $destinationDir = $uploadDir['basedir'] . '/vcwb/';
 
-        if (!is_dir($destinationDir) && $create && !mkdir($destinationDir)) {
+        if ( ! is_dir($destinationDir) && $create && ! mkdir($destinationDir)) {
             return false;
         }
 
@@ -218,7 +223,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::getUploadsDir */
         $destinationDir = $this->call('getUploadsDir');
 
-        if (!$destinationDir) {
+        if ( ! $destinationDir) {
             return false;
         }
 
@@ -234,7 +239,7 @@ class Controller extends Container implements Module
 
         foreach ($defaultElements as $newElement) {
             /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
-            if (!$this->call('downloadElement', [$newElement['tag'], $destinationDir])) {
+            if ( ! $this->call('downloadElement', [$newElement['tag'], $destinationDir])) {
                 return false;
             }
 
@@ -315,7 +320,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Helpers\Token::getToken */
         $token = vcapp()->call([vchelper('Token'), 'getToken']);
 
-        if (!$token) {
+        if ( ! $token) {
             return false;
         }
 
@@ -334,7 +339,7 @@ class Controller extends Container implements Module
     {
         $headers = $this->getHeaders();
 
-        if (!$headers) {
+        if ( ! $headers) {
             return false;
         }
 
@@ -414,19 +419,19 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Elements\Controller::fetchElementVersion */
         $availableVersion = $this->call('fetchElementVersion', [$element['tag']]);
 
-        if (!$force && version::lte($availableVersion, $element['version'])) {
+        if ( ! $force && version::lte($availableVersion, $element['version'])) {
             return false;
         }
 
         /** @see \VisualComposer\Modules\Elements\Controller::getUploadsDir */
         $destinationDir = $this->call('getUploadsDir');
 
-        if (!$destinationDir) {
+        if ( ! $destinationDir) {
             return false;
         }
 
         /** @see \VisualComposer\Modules\Elements\Controller::downloadElement */
-        if (!$this->call('downloadElement', [$element['tag'], $destinationDir])) {
+        if ( ! $this->call('downloadElement', [$element['tag'], $destinationDir])) {
             return false;
         }
 
