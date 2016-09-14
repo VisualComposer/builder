@@ -6,21 +6,22 @@
       flex: 0 0 100%;
   max-width: 100%;
   box-sizing: border-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 .vce-col-content {
+  -ms-flex: 1 1 0;
+      flex: 1 1 0;
+  max-width: 100%;
+  width: 0;
   min-height: 1em;
   padding-left: 15px;
   padding-right: 15px;
-}
-.vce-col-content::before,
-.vce-col-content::after {
-  content: " ";
-  display: table;
-  width: 0;
-  height: 0;
-}
-.vce-col-content::after {
-  clear: both;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap;
+  word-break: break-word;
 }
 .vce-col-direction--rtl {
   direction: rtl;
