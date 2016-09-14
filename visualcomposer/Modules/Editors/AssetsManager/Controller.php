@@ -159,7 +159,7 @@ class Controller extends Container implements Module
         ] as $assetType) {
             $assets = $this->options->get($assetType, []);
 
-            if ( ! is_array($assets) || ! isset($assets[ $postId ])) {
+            if (!is_array($assets) || !isset($assets[ $postId ])) {
                 continue;
             }
 
@@ -209,7 +209,7 @@ class Controller extends Container implements Module
         }
         $files = array_unique($files);
 
-        if ( ! empty($files)) {
+        if (!empty($files)) {
             $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5(implode(',', $files)) . '.js';
             $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles' . '/'
@@ -219,7 +219,7 @@ class Controller extends Container implements Module
             $bundle = $destinationDir . '/' . $concatenatedFilename;
             /** @var $app Application */
             $app = vcapp();
-            if ( ! is_file($bundle)) {
+            if (!is_file($bundle)) {
                 $contents = '';
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
@@ -227,7 +227,7 @@ class Controller extends Container implements Module
                 }
 
                 $this->deleteAssetsBundles('js');
-                if ( ! $this->file->setContents($bundle, $contents)) {
+                if (!$this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -260,9 +260,9 @@ class Controller extends Container implements Module
             $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
             $bundle = $destinationDir . '/' . $concatenatedFilename;
 
-            if ( ! is_file($bundle)) {
+            if (!is_file($bundle)) {
                 $this->deleteAssetsBundles('css');
-                if ( ! $this->file->setContents($bundle, $contents)) {
+                if (!$this->file->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -363,8 +363,8 @@ class Controller extends Container implements Module
             $concatenatedFilename = md5($content) . '.' . $extension;
             $bundle = $this->getFilePath($concatenatedFilename);
             $bundleUrl = $this->getFileUrl($concatenatedFilename);
-            if ( ! is_file($bundle)) {
-                if ( ! $this->file->setContents($bundle, $content)) {
+            if (!is_file($bundle)) {
+                if (!$this->file->setContents($bundle, $content)) {
                     return false;
                 }
             }
@@ -383,7 +383,7 @@ class Controller extends Container implements Module
     private function updatePostAssets($postId, $assetType, $postAssets)
     {
         $assets = $this->options->get($assetType, []);
-        if ( ! is_array($assets)) {
+        if (!is_array($assets)) {
             $assets = [];
         }
 

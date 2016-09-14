@@ -111,7 +111,7 @@ class Controller extends Container/* implements Module*/
     private function finishActivation(LicenseHelper $licenseHelper, $userToken)
     {
         /** @see \VisualComposer\Helpers\License::isValidToken */
-        if ( ! $this->call([$licenseHelper, 'isValidToken'], [$userToken])) {
+        if (!$this->call([$licenseHelper, 'isValidToken'], [$userToken])) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
@@ -151,7 +151,7 @@ class Controller extends Container/* implements Module*/
      */
     public function onActivation(LicenseHelper $licenseHelper, $status, $response)
     {
-        if ( ! $status) {
+        if (!$status) {
             return false;
         }
 
@@ -169,7 +169,7 @@ class Controller extends Container/* implements Module*/
             }
         }
 
-        if ( ! $this->call([$licenseHelper, 'isValidFormat'], [$json['license_key']])) {
+        if (!$this->call([$licenseHelper, 'isValidFormat'], [$json['license_key']])) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
@@ -179,7 +179,7 @@ class Controller extends Container/* implements Module*/
             return false;
         }
 
-        if ( ! in_array($json['license_type'], ['basic', 'premium'])) {
+        if (!in_array($json['license_type'], ['basic', 'premium'])) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call(
                 'renderNotice',
@@ -222,7 +222,7 @@ class Controller extends Container/* implements Module*/
     private function finishDeactivation(LicenseHelper $licenseHelper, $userToken)
     {
         /** @see \VisualComposer\Helpers\License::isValidToken */
-        if ( ! $this->call([$licenseHelper, 'isValidToken'], [$userToken])) {
+        if (!$this->call([$licenseHelper, 'isValidToken'], [$userToken])) {
             /** @see \VisualComposer\Modules\License\Controller::renderNotice */
             $this->call('renderNotice', [__('Token is not valid or has expired', 'vc5'), false]);
 
@@ -258,7 +258,7 @@ class Controller extends Container/* implements Module*/
      */
     public function onDeactivation(LicenseHelper $licenseHelper, $status)
     {
-        if ( ! $status) {
+        if (!$status) {
             return false;
         }
 
@@ -286,7 +286,7 @@ class Controller extends Container/* implements Module*/
     {
         $licenseKey = $request->input('license_key');
 
-        if ( ! $this->call([$licenseHelper, 'isValid'], [$licenseKey])) {
+        if (!$this->call([$licenseHelper, 'isValid'], [$licenseKey])) {
             $response = ['status' => false, 'error' => __('Invalid license key', 'vc5')];
         } else {
             $response = ['status' => true];
@@ -431,11 +431,11 @@ class Controller extends Container/* implements Module*/
         }
 
         // TODO: Fix cookie.
-        $showActivationReminder = ! $this->call([$licenseHelper, 'isActivated'])
+        $showActivationReminder = !$this->call([$licenseHelper, 'isActivated'])
             && empty($_COOKIE['vcvhideactivationmsg'])
-            && ! ($core->isNetworkPlugin() && is_network_admin());
+            && !($core->isNetworkPlugin() && is_network_admin());
 
-        if ( ! $showActivationReminder) {
+        if (!$showActivationReminder) {
             return;
         }
 
@@ -462,7 +462,7 @@ class Controller extends Container/* implements Module*/
      */
     private function isDevEnvironment($host = null)
     {
-        if ( ! $host) {
+        if (!$host) {
             $host = $_SERVER['HTTP_HOST'];
         }
 
@@ -555,7 +555,7 @@ class Controller extends Container/* implements Module*/
         } else {
             $json = json_decode($response['body'], true);
 
-            if ( ! $json || ! isset($json['status'])) {
+            if (!$json || !isset($json['status'])) {
                 /** @see \VisualComposer\Modules\License\Controller::renderNotice */
                 $this->call(
                     'renderNotice',
@@ -564,7 +564,7 @@ class Controller extends Container/* implements Module*/
                 $status = false;
             }
 
-            if ( ! $json['status']) {
+            if (!$json['status']) {
                 /** @see \VisualComposer\Modules\License\Controller::renderNotice */
                 $this->call(
                     'renderNotice',
