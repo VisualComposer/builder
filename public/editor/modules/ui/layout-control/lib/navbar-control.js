@@ -53,8 +53,10 @@ class LayoutButtonControl extends React.Component {
     let windowWidth = this.checkWindowWidth()
     let devices = []
     this.state.devices.forEach((item, index) => {
-      if (windowWidth > item.viewport) {
+      if (windowWidth > item.viewport && windowWidth > 320) {
         devices.push(index)
+      } else if (windowWidth <= 320) {
+        devices.push(this.state.devices.length - 1)
       }
     })
     return devices[0]
@@ -141,7 +143,7 @@ class LayoutButtonControl extends React.Component {
     })
 
     return (
-      <dl className={navbarControlClasses} tabIndex='0' disabled>
+      <dl className={navbarControlClasses} tabIndex='0'>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={this.state.devices[this.state.activeDevice].type}>
           {activeDevice}
         </dt>

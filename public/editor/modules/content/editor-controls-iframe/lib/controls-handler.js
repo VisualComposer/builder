@@ -5,6 +5,8 @@ const cook = getService('cook')
 const AssetsManager = getService('assets-manager')
 var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
+let $iframeContainer = $('.vcv-layout-iframe-container')
+
 function ControlsHandler () {
   this.$currentElement = undefined
   this.sliceSize = 3
@@ -289,7 +291,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
     }
     return {
       dropUp: top >= window.pageYOffset && (top + height) <= (window.pageYOffset + window.innerHeight),
-      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + window.innerWidth)
+      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + $iframeContainer.innerWidth())
     }
   }
 
