@@ -403,6 +403,32 @@
       "description": "Show arrow on button"
     }
   },
+  "animate": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "none",
+    "options": {
+      "label": "Animate",
+      "values": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Bounce",
+          "value": "bounce"
+        },
+        {
+          "label": "Flash",
+          "value": "flash"
+        },
+        {
+          "label": "Pulse",
+          "value": "pulse"
+        }
+      ]
+    }
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -423,7 +449,8 @@
       "backgroundColor",
       "style",
       "shape",
-      "showArrow"
+      "showArrow",
+      "animate"
     ],
     "options": {
       "label": "Options"

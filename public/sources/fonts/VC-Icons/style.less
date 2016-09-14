@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: 'VC-Icons';
-  src: url('@{icomoon-font-path}/VC-Icons.ttf?4bawgc') format('truetype'),
-  url('@{icomoon-font-path}/VC-Icons.woff?4bawgc') format('woff'),
-  url('@{icomoon-font-path}/VC-Icons.svg?4bawgc#VC-Icons') format('svg');
+  src: url('@{icomoon-font-path}/VC-Icons.ttf?o2e4a0') format('truetype'),
+  url('@{icomoon-font-path}/VC-Icons.woff?o2e4a0') format('woff'),
+  url('@{icomoon-font-path}/VC-Icons.svg?o2e4a0#VC-Icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.vcv-ui-icon:before {
+.vcv-ui-icon {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'VC-Icons' !important;
   speak: none;
@@ -22,6 +22,12 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.vcv-ui-icon-trash {
+  &:before {
+    content: @vcv-ui-icon-trash;
+  }
 }
 
 .vcv-ui-icon-expand {
