@@ -115,8 +115,8 @@ class TreeViewElement extends React.Component {
       <a className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </a>
-      <a className='vcv-ui-tree-layout-control-action' title='Delete' onClick={this.clickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+      <a className='vcv-ui-tree-layout-control-action' title='Remove' onClick={this.clickDelete}>
+        <i className='vcv-ui-icon vcv-ui-icon-trash' />
       </a>
     </span>
 

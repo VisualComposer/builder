@@ -5,6 +5,8 @@ const cook = getService('cook')
 const AssetsManager = getService('assets-manager')
 var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
+let $iframeContainer = $('.vcv-layout-iframe-container')
+
 function ControlsHandler () {
   this.$currentElement = undefined
   this.sliceSize = 3
@@ -242,7 +244,7 @@ ControlsHandler.prototype.drawControls = function () {
       ' data-vc-control-event="data:remove"' +
       ' data-vc-element-id="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
-      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-close-thin" ></i>' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-trash" ></i>' +
       '<span class="vcv-ui-outline-control-label" >Remove</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
@@ -289,7 +291,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
     }
     return {
       dropUp: top >= window.pageYOffset && (top + height) <= (window.pageYOffset + window.innerHeight),
-      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + window.innerWidth)
+      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + $iframeContainer.innerWidth())
     }
   }
 

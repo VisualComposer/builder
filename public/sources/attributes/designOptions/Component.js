@@ -182,6 +182,7 @@ class DesignOptions extends Attribute {
   changeBoxInput = (e) => {
     let deviceState = this.state[ this.state.device ]
     let deviceValue = e.target.value
+    deviceValue = deviceValue.replace(/\s+/g, '')
     deviceState[ e.target.name ] = deviceValue
     if (this.state[ this.state.device ].simplified) {
       switch (e.target.name) {

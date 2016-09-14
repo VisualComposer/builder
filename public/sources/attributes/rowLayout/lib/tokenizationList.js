@@ -14,10 +14,11 @@ export default class TokenizationList extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.removeToken = this.removeToken.bind(this)
     this.updateValue = this.updateValue.bind(this)
+    this.handleBodyClick = this.handleBodyClick.bind(this)
+    this.updateFromSuggestion = this.updateFromSuggestion.bind(this)
   }
   static propTypes = {
     onChange: React.PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ export default class TokenizationList extends React.Component {
   handleKeyPress (e) {
     if (e.which === 13 || e.keyCode === 13) {
       e.target.blur()
+      this.setState({editing: false})
     }
   }
   updateValue (value) {
@@ -45,11 +47,21 @@ export default class TokenizationList extends React.Component {
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
   }
+  updateFromSuggestion (value) {
+    this.setState({value: value, editing: false})
+    let layoutSplit = this.getLayout(value)
+    this.props.onChange(layoutSplit)
+    document.body.removeEventListener('click', this.handleBodyClick)
+  }
   handleFocus (e) {
     this.setState({editing: true})
+    document.body.addEventListener('click', this.handleBodyClick)
   }
-  handleBlur (e) {
-    this.setState({editing: false})
+  handleBodyClick (e) {
+    if (e.target.getAttribute('data-vcv-type') !== 'vcv-tokenized-input' && !e.target.getAttribute('data-vcv-suggest')) {
+      this.setState({editing: false})
+      document.body.removeEventListener('click', this.handleBodyClick)
+    }
   }
   getLayout (layout) {
     layout = layout.match(/\+$/) ? layout.replace(/\s+\+$/, '') : layout
@@ -92,13 +104,13 @@ export default class TokenizationList extends React.Component {
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
         value={this.state.value}
-        onBlur={this.handleBlur}
         onFocus={this.handleFocus}
+        data-vcv-type='vcv-tokenized-input'
       />
       <SuggestBox
         value={this.state.value}
         suggestions={this.convertLayouts()}
-        updateCallback={this.updateValue}
+        updateCallback={this.updateFromSuggestion}
         show={this.state.editing}
       />
     </div>
