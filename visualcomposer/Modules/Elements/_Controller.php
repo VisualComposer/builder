@@ -1,10 +1,15 @@
 <?php
-
+// TODO: Fix this file
+/**
+ * Ajax request
+ * No 3rd vendors!
+ * reduce complexity
+ */
 namespace VisualComposer\Modules\Elements;
 
-use vierbergenlars\SemVer\version;
+//use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;
-use VisualComposer\Framework\Illuminate\Support\Module;
+//use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Events;
 use VisualComposer\Helpers\License as LicenseHelper;
 use VisualComposer\Helpers\Options;
@@ -13,7 +18,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 /**
  * Class Controller.
  */
-class Controller extends Container implements Module
+class Controller extends Container/* implements Module*/
 {
     use EventsFilters;
 
