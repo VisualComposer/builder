@@ -28,7 +28,7 @@ export default class Element extends React.Component {
     if (elementsList.length) {
       returnData = elementsList
     } else {
-      returnData = currentElement.containerFor().length > 0 ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
+      returnData = vcCake.env('FEATURE_ROW_ADD_ELEMENT') && currentElement.containerFor().length > 0 ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
     }
     return returnData
   }
