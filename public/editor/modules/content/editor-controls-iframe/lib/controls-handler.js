@@ -242,7 +242,7 @@ ControlsHandler.prototype.drawControls = function () {
       ' data-vc-control-event="data:remove"' +
       ' data-vc-element-id="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
-      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-close-thin" ></i>' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-trash" ></i>' +
       '<span class="vcv-ui-outline-control-label" >Remove</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.appendTo($dropdownContent)
