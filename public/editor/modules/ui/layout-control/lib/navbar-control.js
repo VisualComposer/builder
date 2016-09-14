@@ -32,11 +32,11 @@ class LayoutButtonControl extends React.Component {
       }
     ],
     activeDevice: 0,
-    displayDropdown: true
+    displayDropdown: true,
+    layoutSelected: false
   }
 
   componentDidMount () {
-    this.setViewport(this.state.devices[this.state.activeDevice].viewport)
     this.disableViewport()
 
     window.addEventListener('resize', (e) => {
@@ -44,19 +44,29 @@ class LayoutButtonControl extends React.Component {
     })
   }
 
-  setActiveDevice = (index) => {
-    this.setViewport(this.state.devices[index].viewport)
+  setDefaultLayout = (index) => {
+    this.setViewport('')
     this.setState({
-      activeDevice: index
+      activeDevice: index,
+      layoutSelected: false
     })
   }
 
+  setSelectedLayout = (index) => {
+    if (index !== false) {
+      this.setViewport(this.state.devices[index].viewport)
+      this.setState({
+        activeDevice: index,
+        layoutSelected: true
+      })
+    } else {
+      this.setDefaultLayout(0)
+    }
+  }
+
   setViewport (width) {
-    let container = document.querySelector('.vcv-layout-iframe-container')
-    let content = document.querySelector('.vcv-layout-content')
-    container.style.maxWidth = width
-    container.style.alignSelf = 'center'
-    content.style.background = '#eee'
+    let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
+    iframeContainer.style.width = width
   }
 
   checkWindowWidth () {
@@ -66,20 +76,40 @@ class LayoutButtonControl extends React.Component {
   disableViewport () {
     let windowWidth = this.checkWindowWidth()
     let disabledCount = 0
+    let activeDevice = this.state.activeDevice
 
     this.state.devices.forEach((item, index) => {
       let devices = this.state.devices
+      let controlViewport = item.viewport.split('px')[0] || 1200
 
-      if (windowWidth < item.viewport) {
+      if (windowWidth < controlViewport) {
         devices[index].disabled = true
         disabledCount++
+
+        if (this.state.devices[activeDevice] === item) {
+          activeDevice++
+
+          if (activeDevice === this.state.devices.length) {
+            activeDevice--
+          }
+        }
       } else {
         devices[index].disabled = false
         disabledCount--
+
+        if (this.state.devices[activeDevice - 1] === item) {
+          activeDevice--
+        }
       }
 
-      this.setState({ devices })
+      this.setState({ devices, activeDevice })
     })
+
+    if (this.state.layoutSelected) {
+      this.setSelectedLayout(this.state.activeDevice)
+    } else {
+      this.setDefaultLayout(this.state.activeDevice)
+    }
 
     if (this.state.devices.length === disabledCount) {
       this.removeControl()
@@ -101,7 +131,6 @@ class LayoutButtonControl extends React.Component {
   }
 
   render () {
-    let dropDown = ''
     let controlClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
@@ -115,23 +144,23 @@ class LayoutButtonControl extends React.Component {
       </span>
     )
 
-    if (this.state.displayDropdown) {
-      dropDown = (
-        <dl className='vcv-ui-navbar-dropdown-inner'>
-          <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={this.state.devices[this.state.activeDevice].type}>
-            {activeDevice}
-          </dt>
-          <dd className='vcv-ui-navbar-dropdown-content'>
-            <LayoutItemGroup devices={this.state.devices} onChange={this.setActiveDevice} />
-          </dd>
-        </dl>
-      )
-    }
+    let navbarControlClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-navbar-dropdown-linear': true,
+      'vcv-ui-navbar-hidden-sm': true,
+      'vcv-ui-pull-end': true,
+      'vcv-ui-navbar-control-hidden': !this.state.displayDropdown
+    })
 
     return (
-      <div className='vcv-ui-navbar-dropdown vcv-ui-navbar-dropdown-linear vcv-ui-navbar-hidden-sm vcv-ui-pull-end' tabIndex='0' disabled>
-        {dropDown}
-      </div>
+      <dl className={navbarControlClasses} tabIndex='0' disabled>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={this.state.devices[this.state.activeDevice].type}>
+          {activeDevice}
+        </dt>
+        <dd className='vcv-ui-navbar-dropdown-content'>
+          <LayoutItemGroup devices={this.state.devices} onChange={this.setSelectedLayout} layoutSelected={this.state.layoutSelected} />
+        </dd>
+      </dl>
     )
   }
 }
