@@ -411,20 +411,34 @@
       "label": "Animate",
       "values": [
         {
-          "label": "None",
-          "value": "none"
+          "group": {
+            "label": "Basic animation",
+            "values": [
+              {
+                "label": "None",
+                "value": "none"
+              },
+              {
+                "label": "Bounce",
+                "value": "bounce"
+              }
+            ]
+          }
         },
         {
-          "label": "Bounce",
-          "value": "bounce"
-        },
-        {
-          "label": "Flash",
-          "value": "flash"
-        },
-        {
-          "label": "Pulse",
-          "value": "pulse"
+          "group": {
+            "label": "Advanced animation",
+            "values": [
+              {
+                "label": "Flash",
+                "value": "flash"
+              },
+              {
+                "label": "Pulse",
+                "value": "pulse"
+              }
+            ]
+          }
         }
       ]
     }
