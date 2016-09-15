@@ -3,8 +3,9 @@ import classNames from 'classnames'
 
 class LayoutControlItem extends React.Component {
   static propTypes = {
-    devices: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    device: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    index: React.PropTypes.number.isRequired
   }
 
   handleClick = (index, e) => {
@@ -13,34 +14,23 @@ class LayoutControlItem extends React.Component {
   }
 
   render () {
-    let devices = []
-
-    this.props.devices.forEach((item, index) => {
-      let deviceIconClasses = classNames(
-        'vcv-ui-navbar-control-icon',
-        'vcv-ui-icon',
-        `vcv-ui-icon-${item.type.replace(/\s+/g, '-').toLowerCase()}`
-      )
-      devices.push(
-        <a className='vcv-ui-navbar-control'
-          href='#'
-          title={item.type}
-          key={index}
-          onClick={this.handleClick.bind(this, index)}
-          disabled={item.disabled}
-        >
-          <span className='vcv-ui-navbar-control-content'>
-            <i className={deviceIconClasses} />
-            <span>{item.type}</span>
-          </span>
-        </a>
-      )
-    })
-
+    let deviceIconClasses = classNames(
+      'vcv-ui-navbar-control-icon',
+      'vcv-ui-icon',
+      'vcv-ui-icon-' + this.props.device.className
+    )
     return (
-      <div className='vcv-ui-navbar-controls-group'>
-        {devices}
-      </div>
+      <a className='vcv-ui-navbar-control'
+        href='#'
+        title={this.props.device.type}
+        key={this.props.index}
+        onClick={this.handleClick.bind(this, this.props.index)}
+      >
+        <span className='vcv-ui-navbar-control-content'>
+          <i className={deviceIconClasses} />
+          <span>{this.props.device.type}</span>
+        </span>
+      </a>
     )
   }
 }
