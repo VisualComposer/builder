@@ -51,6 +51,6 @@ class Controller extends Container implements Module
             ];
         }
 
-        return apply_filters('vcv:url:posts:data', $results);
+        return $results;
     }
 }
