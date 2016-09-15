@@ -11,10 +11,6 @@ trait Page
      * @var array
      */
     protected $templateArgs = [];
-    /**
-     * @var string
-     */
-    protected $title = '';
 
     /**
      * @return string
@@ -32,26 +28,6 @@ trait Page
     public function setSlug($slug)
     {
         $this->slug = (string)$slug;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = (string)$title;
 
         return $this;
     }
@@ -120,7 +96,6 @@ trait Page
             [
                 'controller' => $this,
                 'slug' => $this->getSlug(),
-                'title' => $this->getTitle(),
                 'path' => $this->getTemplatePath(),
             ]
         );

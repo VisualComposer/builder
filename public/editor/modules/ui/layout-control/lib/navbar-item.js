@@ -19,7 +19,7 @@ class LayoutControlItem extends React.Component {
       let deviceIconClasses = classNames(
         'vcv-ui-navbar-control-icon',
         'vcv-ui-icon',
-        `vcv-ui-icon-${item.type.replace(/\s+/g, '-').toLowerCase()}`
+        'vcv-ui-icon-' + item.className
       )
       devices.push(
         <a className='vcv-ui-navbar-control'
