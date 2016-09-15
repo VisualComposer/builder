@@ -1,15 +1,17 @@
 @import "../../../../less/boilerplate";
 @import "../../../../less/bootstrap/variables";
-
+@import "../../../../less/ui/form/variables";
+@suggest-box-border-color: @vcui-form-input-border-color;
 .vcv-ui-suggest-box {
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  background: #eee;
+  background: #fff;
   padding: 8px 0;
   z-index: 40;
   margin-bottom: 5px;
+  border: 1px solid @suggest-box-border-color;
 }
 
 .vcv-ui-suggest-box-item {
@@ -17,7 +19,9 @@
   display: block;
   cursor: pointer;
   transition: background-color @vcv-transition-duration @vcv-transition-timing-function;
-
+  &:hover {
+    background-color: #ddd;
+  }
   &.vcv-selected {
     background-color: #ddd;
   }

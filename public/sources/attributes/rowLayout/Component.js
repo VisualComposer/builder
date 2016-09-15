@@ -22,6 +22,16 @@ class Layout extends Attribute {
       ['1/4', '3/4'],
       ['1/4', '2/4', '1/4'],
       ['1/6', '4/6', '1/6']
+    ],
+    suggestions: [
+      'auto',
+      '1/2',
+      '1/3',
+      '1/4',
+      '1/5',
+      '1/6',
+      '2/3',
+      '3/4'
     ]
   }
   constructor (props) {
@@ -81,7 +91,13 @@ responsiveness options and stacking order.
           <div className='vcv-ui-form-layout-custom-layout-columns'>
             <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
               <div className='vcv-ui-form-layout-custom-layout-input'>
-                <TokenizationList layouts={this.props.layouts} value={this.state.value.join(' + ')} onChange={this.setActiveLayout} validator={this.validateSize} />
+                <TokenizationList
+                  layouts={this.props.layouts}
+                  value={this.state.value.join(' + ')}
+                  onChange={this.setActiveLayout}
+                  validator={this.validateSize}
+                  suggestions={this.props.suggestions}
+                />
                 <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using fractions.
 The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
                 </p>

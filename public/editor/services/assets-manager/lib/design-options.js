@@ -85,57 +85,35 @@ export default {
       cssObj[ 'border-left-width' ] = (parseFloat(data[ device ].borderLeft).toString() === data[ device ].borderLeft) ? data[ device ].borderLeft + 'px' : data[ device ].borderLeft
     }
 
-    if (data[ device ].borderTop !== '' || data[ device ].borderRight !== '' || data[ device ].borderBottom !== '' || data[ device ].borderLeft !== '') {
-      // get border color
-      if (data[ device ].borderColor !== '') {
-        cssObj[ 'border-color' ] = data[ device ].borderColor
+    // get border color
+    if (data[ device ].borderColor !== '') {
+      if (data[ device ].borderTop !== '') {
+        cssObj[ 'border-top-color' ] = data[ device ].borderColor
       }
-      // get border style
-      tempProperty = 'border-style'
-      switch (data[ device ].borderStyle) {
-        case 'solid':
-          tempValue = 'solid'
-          break
-        case 'dotted':
-          tempValue = 'dotted'
-          break
-        case 'dashed':
-          tempValue = 'dashed'
-          break
-        case 'none':
-          tempValue = 'none'
-          break
-        case 'hidden':
-          tempValue = 'hidden'
-          break
-        case 'double':
-          tempValue = 'double'
-          break
-        case 'groove':
-          tempValue = 'groove'
-          break
-        case 'ridge':
-          tempValue = 'ridge'
-          break
-        case 'inset':
-          tempValue = 'inset'
-          break
-        case 'outset':
-          tempValue = 'outset'
-          break
-        case 'initial':
-          tempValue = 'initial'
-          break
-        case 'inherit':
-          tempValue = 'inherit'
-          break
-        default:
-          tempProperty = null
-          tempValue = null
-          break
+      if (data[ device ].borderRight !== '') {
+        cssObj[ 'border-right-color' ] = data[ device ].borderColor
       }
-      if (tempProperty && tempValue) {
-        cssObj[ tempProperty ] = tempValue
+      if (data[ device ].borderBottom !== '') {
+        cssObj[ 'border-bottom-color' ] = data[ device ].borderColor
+      }
+      if (data[ device ].borderLeft !== '') {
+        cssObj[ 'border-left-color' ] = data[ device ].borderColor
+      }
+    }
+
+    // get border style
+    if (data[ device ].borderStyle !== '') {
+      if (data[ device ].borderTop !== '') {
+        cssObj[ 'border-top-style' ] = data[ device ].borderStyle
+      }
+      if (data[ device ].borderRight !== '') {
+        cssObj[ 'border-right-style' ] = data[ device ].borderStyle
+      }
+      if (data[ device ].borderBottom !== '') {
+        cssObj[ 'border-bottom-style' ] = data[ device ].borderStyle
+      }
+      if (data[ device ].borderLeft !== '') {
+        cssObj[ 'border-left-style' ] = data[ device ].borderStyle
       }
     }
 
