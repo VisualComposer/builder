@@ -3,35 +3,34 @@ import classNames from 'classnames'
 import LayoutItem from './navbar-item'
 
 class LayoutButtonControl extends React.Component {
-  static defaultProps = {
-    devices: [
-      {
-        type: 'Desktop',
-        className: 'desktop',
-        viewport: '1200'
-      },
-      {
-        type: 'Tablet Landscape',
-        className: 'tablet-landscape',
-        viewport: '992'
-      },
-      {
-        type: 'Tablet Portrait',
-        className: 'tablet-portrait',
-        viewport: '768'
-      },
-      {
-        type: 'Mobile Landscape',
-        className: 'mobile-landscape',
-        viewport: '544'
-      },
-      {
-        type: 'Mobile Portrait',
-        className: 'mobile-portrait',
-        viewport: '320'
-      }
-    ]
-  }
+  static devices = [
+    {
+      type: 'Desktop',
+      className: 'desktop',
+      viewport: '1200'
+    },
+    {
+      type: 'Tablet Landscape',
+      className: 'tablet-landscape',
+      viewport: '992'
+    },
+    {
+      type: 'Tablet Portrait',
+      className: 'tablet-portrait',
+      viewport: '768'
+    },
+    {
+      type: 'Mobile Landscape',
+      className: 'mobile-landscape',
+      viewport: '544'
+    },
+    {
+      type: 'Mobile Portrait',
+      className: 'mobile-portrait',
+      viewport: '320'
+    }
+  ]
+
   state = {
     activeDevice: 0,
     layoutSelected: false,
@@ -54,11 +53,11 @@ class LayoutButtonControl extends React.Component {
   checkDevice () {
     let windowWidth = this.checkWindowWidth()
     let devices = []
-    this.props.devices.forEach((item, index) => {
-      if (windowWidth > item.viewport && windowWidth > this.props.devices[this.props.devices.length - 1].viewport) {
+    LayoutButtonControl.devices.forEach((item, index) => {
+      if (windowWidth > item.viewport && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport) {
         devices.push(index)
-      } else if (windowWidth <= this.props.devices[this.props.devices.length - 1].viewport) {
-        devices.push(this.props.devices.length - 1)
+      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport) {
+        devices.push(LayoutButtonControl.devices.length - 1)
       }
     })
     return devices[0]
@@ -71,7 +70,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   setSelectedLayout = (index) => {
-    this.setViewport(this.props.devices[index].viewport)
+    this.setViewport(LayoutButtonControl.devices[index].viewport)
     this.setState({
       activeDevice: index
     })
@@ -81,7 +80,7 @@ class LayoutButtonControl extends React.Component {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     let actualWidth = width + 'px'
 
-    if (width === this.props.devices[this.checkDevice()].viewport) {
+    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport) {
       actualWidth = ''
       this.setState({
         layoutSelected: false
@@ -102,19 +101,19 @@ class LayoutButtonControl extends React.Component {
     let windowWidth = this.checkWindowWidth()
     let activeDevice = this.state.activeDevice
 
-    this.props.devices.forEach((item) => {
+    LayoutButtonControl.devices.forEach((item) => {
       let controlViewport = item.viewport
 
       if (windowWidth < controlViewport) {
-        if (this.props.devices[activeDevice] === item) {
+        if (LayoutButtonControl.devices[activeDevice] === item) {
           activeDevice++
 
-          if (activeDevice === this.props.devices.length) {
+          if (activeDevice === LayoutButtonControl.devices.length) {
             activeDevice--
           }
         }
       } else {
-        if (this.props.devices[activeDevice - 1] === item) {
+        if (LayoutButtonControl.devices[activeDevice - 1] === item) {
           activeDevice--
         }
       }
@@ -126,13 +125,13 @@ class LayoutButtonControl extends React.Component {
     let controlIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
-      'vcv-ui-icon-' + this.props.devices[this.state.activeDevice].className
+      'vcv-ui-icon-' + LayoutButtonControl.devices[this.state.activeDevice].className
     )
 
     let activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
         <i className={controlIconClasses} />
-        <span>{this.props.devices[this.state.activeDevice].type} control</span>
+        <span>{LayoutButtonControl.devices[this.state.activeDevice].type}</span>
       </span>
     )
 
@@ -143,13 +142,20 @@ class LayoutButtonControl extends React.Component {
       'vcv-ui-navbar-control-hidden': !this.state.displayDropdown
     })
 
+    let layoutItems = []
+    LayoutButtonControl.devices.forEach((item, index) => {
+      layoutItems.push(
+        <LayoutItem key={index} device={item} index={index} onChange={this.setSelectedLayout} />
+      )
+    })
+
     return (
       <dl className={navbarControlClasses} tabIndex='0'>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={this.props.devices[this.state.activeDevice].type}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={LayoutButtonControl.devices[this.state.activeDevice].type}>
           {activeDevice}
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content'>
-          <LayoutItem devices={this.props.devices} onChange={this.setSelectedLayout} />
+          {layoutItems}
         </dd>
       </dl>
     )
