@@ -131,7 +131,7 @@ class LayoutButtonControl extends React.Component {
     let activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
         <i className={controlIconClasses} />
-        <span>{LayoutButtonControl.devices[this.state.activeDevice].type} control</span>
+        <span>{LayoutButtonControl.devices[this.state.activeDevice].type}</span>
       </span>
     )
 
