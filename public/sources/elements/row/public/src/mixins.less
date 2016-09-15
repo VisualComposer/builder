@@ -1,2 +1,21 @@
 // Mixins for Row
 //-----------------------------------------
+.make-color-media(@class, @min, @max: false) {
+  & when (@max = false) {
+    @media (min-width: @min) {
+      .make-color-space(@class)
+    }
+  }
+  & when not (@max = false ) {
+    @media (min-width: @min) and (max-width: @max) {
+      .make-color-space(@class)
+    }
+  }
+}
+.make-color-space(@class) {
+  .vce-row--@{class}--has-background {
+    > .vce-row-content > .vce-col > .vce-col-content {
+      padding-top: @vcv-gold-margin;
+    }
+  }
+}
