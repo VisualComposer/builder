@@ -16,7 +16,6 @@ export default class TokenizationList extends React.Component {
     this.handleBlur = this.handleBlur.bind(this)
     this.removeToken = this.removeToken.bind(this)
     this.updateValue = this.updateValue.bind(this)
-    this.handleBodyClick = this.handleBodyClick.bind(this)
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
   }
   static propTypes = {
@@ -28,7 +27,10 @@ export default class TokenizationList extends React.Component {
   }
   state = {
     value: this.props.value,
-    editing: false
+    editing: false,
+    activeSuggestion: -1,
+    suggestedValue: null,
+    cursorPosition: 0
   }
   stayEditing = false
   componentWillReceiveProps (nextProps) {
@@ -39,13 +41,25 @@ export default class TokenizationList extends React.Component {
   }
   handleKeyDown (e) {
     let key = e.which || e.keyCode
-    if (key === 13) {
+    // this.setState({cursorPosition: e.currentTarget.selectionEnd})
+
+    if (key === 40) {
+      e.preventDefault()
+      this.setActiveSuggestion(1)
+    } else if (key === 38) {
+      e.preventDefault()
+      this.setActiveSuggestion(-1)
+    } else if (key === 27) {
+      this.setState({suggestedValue: null, activeSuggestion: -1, value: ''})
+    } else if (key === 13 && this.state.activeSuggestion > -1) {
+      this.updateValue(this.state.suggestedValue)
+    } else if (key === 13) {
       e.target.blur()
       this.setState({editing: false})
     }
   }
   updateValue (value) {
-    this.setState({value: value})
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
   }
@@ -58,12 +72,6 @@ export default class TokenizationList extends React.Component {
     } else {
       e.currentTarget.focus()
       this.stayEditing = false
-    }
-  }
-  handleBodyClick (e) {
-    if (e.target.getAttribute('data-vcv-type') !== 'vcv-tokenized-input' && !e.target.getAttribute('data-vcv-suggest')) {
-      this.setState({editing: false})
-      document.body.removeEventListener('click', this.handleBodyClick)
     }
   }
   getLayout (layout) {
@@ -91,20 +99,31 @@ export default class TokenizationList extends React.Component {
     this.props.onChange(layoutSplit)
     this.stayEditing = true
   }
+  setActiveSuggestion (incr) {
+    let suggestions = this.getSuggestions()
+    let index = this.state.activeSuggestion + incr
+    if (suggestions[index] !== undefined) {
+      this.setState({activeSuggestion: index, suggestedValue: this.state.value + suggestions[index]})
+    }
+  }
   getSuggestions () {
     return this.state.value.length === 0 || this.state.value.match(/\+\s+$/) ? this.props.suggestions : []
   }
   getSuggestionItems () {
     let suggestions = this.getSuggestions()
     return suggestions.map((item, index) => {
+      let isActive = index === this.state.activeSuggestion
       let cssClasses = classNames({
         'vcv-ui-suggest-box-item': true,
-        'vcv-selected': false
+        'vcv-selected': isActive
       })
       return <span key={'vcvSuggestBoxItem' + index}
         className={cssClasses}
         onMouseDown={this.handleSuggestionMouseDown}
         data-vcv-suggest={item}
+        style={{
+          left: this.state.cursorPosition * 6 + 'px'
+        }}
       >
         {item}
       </span>
@@ -142,7 +161,7 @@ export default class TokenizationList extends React.Component {
         type='text'
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
-        value={this.state.value}
+        value={this.state.suggestedValue || this.state.value}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         data-vcv-type='vcv-tokenized-input'
