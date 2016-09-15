@@ -398,7 +398,7 @@ class Navbar extends React.Component {
         document.body.classList.remove(document.body.classList.item(i))
       }
     }
-    document.body.classList.add('vcv-layout-dock--unlock')
+    document.body.classList.add('vcv-layout-dock--lock')
     document.body.classList.add('vcv-layout-dock')
     document.body.classList.add('vcv-layout-dock--' + navbarPosition)
     return (
