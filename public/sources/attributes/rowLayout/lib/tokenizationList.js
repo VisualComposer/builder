@@ -1,6 +1,5 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
