@@ -102,7 +102,7 @@ class LayoutButtonControl extends React.Component {
     let windowWidth = this.checkWindowWidth()
     let activeDevice = this.state.activeDevice
 
-    this.props.devices.forEach((item, index) => {
+    this.props.devices.forEach((item) => {
       let controlViewport = item.viewport
 
       if (windowWidth < controlViewport) {
@@ -139,7 +139,6 @@ class LayoutButtonControl extends React.Component {
     let navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-navbar-dropdown-linear': true,
-      'vcv-ui-navbar-hidden-sm': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-navbar-control-hidden': !this.state.displayDropdown
     })

@@ -4,23 +4,24 @@
 .vce-col {
   -ms-flex: 0 0 100%;
       flex: 0 0 100%;
-  width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 .vce-col-content {
+  -ms-flex: 1 1 0;
+      flex: 1 1 0;
+  max-width: 100%;
+  width: 0;
   min-height: 1em;
   padding-left: 15px;
   padding-right: 15px;
-}
-.vce-col-content::before,
-.vce-col-content::after {
-  content: " ";
-  display: table;
-  width: 0;
-  height: 0;
-}
-.vce-col-content::after {
-  clear: both;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column nowrap;
+      flex-flow: column nowrap;
+  word-break: break-word;
 }
 .vce-col-direction--rtl {
   direction: rtl;
@@ -30,7 +31,7 @@
   .vce-col--xs-auto {
     -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 0;
+    width: 1px;
   }
   .vce-col--xs-1 {
     -ms-flex: 0 0 100%;
@@ -901,7 +902,7 @@
   .vce-col--sm-auto {
     -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 0;
+    width: 1px;
   }
   .vce-col--sm-1 {
     -ms-flex: 0 0 100%;
@@ -1772,7 +1773,7 @@
   .vce-col--md-auto {
     -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 0;
+    width: 1px;
   }
   .vce-col--md-1 {
     -ms-flex: 0 0 100%;
@@ -2643,7 +2644,7 @@
   .vce-col--lg-auto {
     -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 0;
+    width: 1px;
   }
   .vce-col--lg-1 {
     -ms-flex: 0 0 100%;
@@ -3514,7 +3515,7 @@
   .vce-col--xl-auto {
     -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 0;
+    width: 1px;
   }
   .vce-col--xl-1 {
     -ms-flex: 0 0 100%;
@@ -4378,5 +4379,33 @@
     -ms-flex-preferred-size: calc(100% * ( 12 / 12 ));
         flex-basis: calc(100% * ( 12 / 12 ));
     max-width: calc(100% * ( 12 / 12 ));
+  }
+}
+.vce-col--has-background > .vce-col-content {
+  padding-top: 35px;
+}
+@media (min-width: 0) and (max-width: 543px) {
+  .vce-col--xs--has-background > .vce-col-content {
+    padding-top: 35px;
+  }
+}
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-col--sm--has-background > .vce-col-content {
+    padding-top: 35px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-col--md--has-background > .vce-col-content {
+    padding-top: 35px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-col--lg--has-background > .vce-col-content {
+    padding-top: 35px;
+  }
+}
+@media (min-width: 1200px) {
+  .vce-col--xl--has-background > .vce-col-content {
+    padding-top: 35px;
   }
 }
