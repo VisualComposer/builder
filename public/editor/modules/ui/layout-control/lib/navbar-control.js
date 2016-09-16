@@ -38,16 +38,27 @@ class LayoutButtonControl extends React.Component {
   }
 
   componentDidMount () {
-    this.changeOnResize()
-    this.setActualDevice(this.checkActualDevice())
+    this.setActualDevice()
+    this.addResizeListener(window.document.querySelector('#vcv-editor-iframe').contentDocument.defaultView, this.setActualDevice)
   }
 
-  changeOnResize () {
-    window.addEventListener('resize', (e) => {
-      if (!this.state.layoutSelected) {
-        this.setActualDevice(this.checkActualDevice())
-      }
-    })
+  componentWillUnmount () {
+    this.removeResizeListener(window, this.unsetDesktop)
+    this.removeResizeListener(window.document.querySelector('#vcv-editor-iframe').contentDocument.defaultView, this.setActualDevice)
+  }
+
+  unsetDesktop = () => {
+    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport) {
+      this.setViewport('')
+    }
+  }
+
+  addResizeListener (el, fn) {
+    el.addEventListener('resize', fn)
+  }
+
+  removeResizeListener (el, fn) {
+    el.removeEventListener('resize', fn)
   }
 
   checkDevice () {
@@ -63,10 +74,12 @@ class LayoutButtonControl extends React.Component {
     return devices[0]
   }
 
-  setActualDevice (index) {
-    this.setState({
-      activeDevice: index
-    })
+  setActualDevice = (e, index = this.checkActualDevice()) => {
+    if (!this.state.layoutSelected) {
+      this.setState({
+        activeDevice: index
+      })
+    }
   }
 
   setSelectedLayout = (index) => {
@@ -74,13 +87,19 @@ class LayoutButtonControl extends React.Component {
     this.setState({
       activeDevice: index
     })
+
+    if (index === 0) {
+      this.addResizeListener(window, this.unsetDesktop)
+    } else {
+      this.removeResizeListener(window, this.unsetDesktop)
+    }
   }
 
   setViewport (width) {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     let actualWidth = width + 'px'
 
-    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport) {
+    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport || width === '') {
       actualWidth = ''
       this.setState({
         layoutSelected: false
