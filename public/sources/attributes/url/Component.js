@@ -169,7 +169,9 @@ class Url extends Attribute {
             <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
           </td>
           <td>
-            {post.type.toUpperCase()}
+            <div className='vcv-ui-form-table-link-type' title={post.type.toUpperCase()}>
+              {post.type.toUpperCase()}
+            </div>
           </td>
         </tr>
       )
