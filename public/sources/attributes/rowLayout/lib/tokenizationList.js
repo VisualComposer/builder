@@ -80,7 +80,7 @@ export default class TokenizationList extends React.Component {
   }
   handleSuggestionMouseDown (e) {
     let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
-    this.setState({value: value})
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1, cursorPosition: null})
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
     this.stayEditing = true
