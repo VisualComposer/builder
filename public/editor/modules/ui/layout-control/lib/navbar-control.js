@@ -101,9 +101,11 @@ class LayoutButtonControl extends React.Component {
 
     if (width === LayoutButtonControl.devices[this.checkDevice()].viewport || width === '') {
       actualWidth = ''
-      this.setState({
-        layoutSelected: false
-      })
+      setTimeout(() => {
+        this.setState({
+          layoutSelected: false
+        })
+      }, 250)
     } else {
       this.setState({
         layoutSelected: true
