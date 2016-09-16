@@ -1,9 +1,11 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
-
+import $ from 'jquery'
+import 'jquery.caret'
 import Token from './token'
 
 import '../css/tokenizationList/styles.less'
@@ -16,6 +18,7 @@ export default class TokenizationList extends React.Component {
     this.handleBlur = this.handleBlur.bind(this)
     this.removeToken = this.removeToken.bind(this)
     this.updateValue = this.updateValue.bind(this)
+    this.handleTagListClick = this.handleTagListClick.bind(this)
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
   }
   static propTypes = {
@@ -30,7 +33,7 @@ export default class TokenizationList extends React.Component {
     editing: false,
     activeSuggestion: -1,
     suggestedValue: null,
-    cursorPosition: 0
+    cursorPosition: null
   }
   stayEditing = false
   componentWillReceiveProps (nextProps) {
@@ -41,8 +44,6 @@ export default class TokenizationList extends React.Component {
   }
   handleKeyDown (e) {
     let key = e.which || e.keyCode
-    // this.setState({cursorPosition: e.currentTarget.selectionEnd})
-
     if (key === 40) {
       e.preventDefault()
       this.setActiveSuggestion(1)
@@ -58,11 +59,6 @@ export default class TokenizationList extends React.Component {
       this.setState({editing: false})
     }
   }
-  updateValue (value) {
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
-    let layoutSplit = this.getLayout(value)
-    this.props.onChange(layoutSplit)
-  }
   handleFocus (e) {
     this.setState({editing: true})
   }
@@ -72,6 +68,31 @@ export default class TokenizationList extends React.Component {
     } else {
       e.currentTarget.focus()
       this.stayEditing = false
+    }
+  }
+  handleSuggestionMouseDown (e) {
+    let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
+    this.setState({value: value})
+    let layoutSplit = this.getLayout(value)
+    this.props.onChange(layoutSplit)
+    this.stayEditing = true
+  }
+  handleTagListClick (e) {
+    if (e.target === e.currentTarget) {
+      this.handleFocus(e)
+      e.currentTarget.nextSibling.focus()
+    }
+  }
+  updateValue (value) {
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
+    let layoutSplit = this.getLayout(value)
+    this.props.onChange(layoutSplit)
+  }
+  setActiveSuggestion (incr) {
+    let suggestions = this.getSuggestions()
+    let index = this.state.activeSuggestion + incr
+    if (suggestions[index] !== undefined) {
+      this.setState({activeSuggestion: index, suggestedValue: this.state.value + suggestions[index]})
     }
   }
   getLayout (layout) {
@@ -91,20 +112,6 @@ export default class TokenizationList extends React.Component {
     return tokens.map((token, index) => {
       return <Token key={'layoutToken' + index} title={token} removeCallback={this.removeToken} valid={this.props.validator(token)} index={index} />
     })
-  }
-  handleSuggestionMouseDown (e) {
-    let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
-    this.setState({value: value})
-    let layoutSplit = this.getLayout(value)
-    this.props.onChange(layoutSplit)
-    this.stayEditing = true
-  }
-  setActiveSuggestion (incr) {
-    let suggestions = this.getSuggestions()
-    let index = this.state.activeSuggestion + incr
-    if (suggestions[index] !== undefined) {
-      this.setState({activeSuggestion: index, suggestedValue: this.state.value + suggestions[index]})
-    }
   }
   getSuggestions () {
     return this.state.value.length === 0 || this.state.value.match(/\+\s+$/) ? this.props.suggestions : []
@@ -129,6 +136,15 @@ export default class TokenizationList extends React.Component {
       </span>
     })
   }
+  renderTokensList () {
+    if (this.state.editing) {
+      return null
+    }
+    let tokens = this.getTokensList()
+    return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
+      {tokens}
+    </div>
+  }
   renderSuggestionBox () {
     if (this.state.editing === false) {
       return null
@@ -137,24 +153,27 @@ export default class TokenizationList extends React.Component {
     if (!items.length) {
       return null
     }
+    let offset = $(ReactDOM.findDOMNode(this).querySelector('[data-vcv-type="vcv-tokenized-input"]')).caret('offset')
+    console.log(offset)
     let cssClasses = classNames({
       'vcv-ui-suggest-box': true
     })
-    return <div className={cssClasses}>
+    let style = {
+      top: offset.top + offset.height + 5,
+      left: offset.left + 2
+    }
+    return <div className={cssClasses} style={style}>
       {items}
     </div>
   }
   render () {
-    let tokens = this.state.editing ? null : this.getTokensList()
     let cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
       'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
     })
     return <div className='vcv-ui-tag-list-container'>
-      <div className='vcv-ui-tag-list'>
-        {tokens}
-      </div>
+      {this.renderTokensList()}
       <Textarea
         minRows={1}
         className={cssClasses}
