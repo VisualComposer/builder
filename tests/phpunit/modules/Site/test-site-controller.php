@@ -31,4 +31,15 @@ class SiteControllerTest extends \WP_UnitTestCase
         $this->assertEquals(1, preg_match($pattern, $link), 'matches of output:' . $link);
         $requestHelper->setData([]);
     }
+
+    public function testEnqueueScripts()
+    {
+        /** @var $module \VisualComposer\Modules\Site\Controller */
+        $module = vcapp('SiteController');
+        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
+        $wp_scripts = wp_scripts();
+        $this->assertFalse(array_search('jquery', $wp_scripts->queue) !== false);
+        vcapp()->call([$module, 'enqueueScripts']);
+        $this->assertTrue(array_search('jquery', $wp_scripts->queue) !== false);
+    }
 }
