@@ -116,14 +116,18 @@ class LayoutButtonControl extends React.Component {
     return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
   }
 
+  checkIframeWidth () {
+    return window.document.querySelector('#vcv-editor-iframe').offsetWidth
+  }
+
   checkActualDevice () {
-    let windowWidth = this.checkWindowWidth()
+    let iframeWidth = this.checkIframeWidth()
     let activeDevice = this.state.activeDevice
 
     LayoutButtonControl.devices.forEach((item) => {
       let controlViewport = item.viewport
 
-      if (windowWidth < controlViewport) {
+      if (iframeWidth < controlViewport) {
         if (LayoutButtonControl.devices[activeDevice] === item) {
           activeDevice++
 
