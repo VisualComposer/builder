@@ -3,10 +3,10 @@
   margin-right: @row-control-side-margins;
   min-height: @row-size;
   display: flex;
-  flex-wrap: nowrap;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
-  overflow: hidden;
   opacity: 0;
   transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
 
@@ -70,7 +70,7 @@
   position: relative;
 
   &::before {
-    font-size: 1.25em;
+    font-size: 1em;
     position: absolute;
     left: 50%;
     top: 50%;
