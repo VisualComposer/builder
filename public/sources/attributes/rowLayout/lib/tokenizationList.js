@@ -1,6 +1,5 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
@@ -42,21 +41,31 @@ export default class TokenizationList extends React.Component {
   handleChange (e) {
     this.updateValue(e.target.value)
   }
+  updateCursorPosition (el) {
+    let offset = $(el).caret('offset')
+    this.setState({cursorPosition: {
+      top: offset.top + offset.height + 5,
+      left: offset.left + 10
+    }})
+  }
   handleKeyDown (e) {
     let key = e.which || e.keyCode
+    let el = e.currentTarget
     if (key === 40) {
       e.preventDefault()
       this.setActiveSuggestion(1)
     } else if (key === 38) {
       e.preventDefault()
       this.setActiveSuggestion(-1)
-    } else if (key === 27) {
-      this.setState({suggestedValue: null, activeSuggestion: -1, value: ''})
     } else if (key === 13 && this.state.activeSuggestion > -1) {
       this.updateValue(this.state.suggestedValue)
+      this.updateCursorPosition(el)
     } else if (key === 13) {
       e.target.blur()
       this.setState({editing: false})
+      this.updateCursorPosition(el)
+    } else {
+      this.updateCursorPosition(el)
     }
   }
   handleFocus (e) {
@@ -128,9 +137,6 @@ export default class TokenizationList extends React.Component {
         className={cssClasses}
         onMouseDown={this.handleSuggestionMouseDown}
         data-vcv-suggest={item}
-        style={{
-          left: this.state.cursorPosition * 6 + 'px'
-        }}
       >
         {item}
       </span>
@@ -153,16 +159,11 @@ export default class TokenizationList extends React.Component {
     if (!items.length) {
       return null
     }
-    let offset = $(ReactDOM.findDOMNode(this).querySelector('[data-vcv-type="vcv-tokenized-input"]')).caret('offset')
-    console.log(offset)
     let cssClasses = classNames({
       'vcv-ui-suggest-box': true
     })
-    let style = {
-      top: offset.top + offset.height + 5,
-      left: offset.left + 2
-    }
-    return <div className={cssClasses} style={style}>
+
+    return <div className={cssClasses} style={this.state.cursorPosition}>
       {items}
     </div>
   }
