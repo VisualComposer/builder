@@ -66,7 +66,6 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:update', (id, element) => {
     if (element.tag === 'row' && element.layout && element.layout.length > 0) {
-      console.log(element.layout)
       rebuildRawLayout(id, element.layout)
       element.layout = undefined
     }

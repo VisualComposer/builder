@@ -49,7 +49,7 @@
     }
   },
   "layout": {
-    "type": "layout",
+    "type": "rowLayout",
     "access": "public",
     "value": {},
     "options": {
