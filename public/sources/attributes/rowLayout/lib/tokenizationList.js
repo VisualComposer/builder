@@ -13,6 +13,7 @@ export default class TokenizationList extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.removeToken = this.removeToken.bind(this)
@@ -50,7 +51,6 @@ export default class TokenizationList extends React.Component {
   }
   handleKeyDown (e) {
     let key = e.which || e.keyCode
-    let el = e.currentTarget
     if (key === 40) {
       e.preventDefault()
       this.setActiveSuggestion(1)
@@ -59,14 +59,13 @@ export default class TokenizationList extends React.Component {
       this.setActiveSuggestion(-1)
     } else if (key === 13 && this.state.activeSuggestion > -1) {
       this.updateValue(this.state.suggestedValue)
-      this.updateCursorPosition(el)
     } else if (key === 13) {
       e.target.blur()
       this.setState({editing: false})
-      this.updateCursorPosition(el)
-    } else {
-      this.updateCursorPosition(el)
     }
+  }
+  handleKeyUp (e) {
+    this.state.cursorPosition === null && this.updateCursorPosition(e.target)
   }
   handleFocus (e) {
     this.setState({editing: true})
@@ -93,7 +92,7 @@ export default class TokenizationList extends React.Component {
     }
   }
   updateValue (value) {
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1, cursorPosition: null})
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
   }
@@ -160,7 +159,8 @@ export default class TokenizationList extends React.Component {
       return null
     }
     let cssClasses = classNames({
-      'vcv-ui-suggest-box': true
+      'vcv-ui-suggest-box': true,
+      'vcv-ui-form-input': true
     })
 
     return <div className={cssClasses} style={this.state.cursorPosition}>
@@ -181,6 +181,7 @@ export default class TokenizationList extends React.Component {
         type='text'
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
+        onKeyUp={this.handleKeyUp}
         value={this.state.suggestedValue || this.state.value}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
