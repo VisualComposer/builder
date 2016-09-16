@@ -39,12 +39,16 @@ class Controller extends Container implements Module
             'outputScriptsFrontend'
         );
 
+        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
         $this->wpAddAction(
             'wp_enqueue_scripts',
-            function () {
-                wp_enqueue_script('jquery');
-            }
+            'enqueueScripts'
         );
+    }
+
+    public function enqueueScripts()
+    {
+        wp_enqueue_script('jquery');
     }
 
     /**
