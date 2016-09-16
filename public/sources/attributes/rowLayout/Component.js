@@ -76,9 +76,6 @@ class Layout extends Attribute {
     return false
   }
   render () {
-    if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
-      return null
-    }
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
