@@ -24,7 +24,7 @@ export default class Token extends React.Component {
       'vcv-ui-tag-list-item': true,
       'vcv-ui-tag-list-item-error': !valid // add validation
     })
-    return <span key={'tagItem' + index} data-index={index} className={tagClasses}>
+    return <span key={'tagItem' + index} className={tagClasses}>
       {title}
       <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />

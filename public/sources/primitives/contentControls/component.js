@@ -14,7 +14,6 @@ export default class ContentControls extends React.Component {
         id={this.props.id}
         title='Add Element'
         text='Add Element'
-        disabled={false}
         icon='add'
         action='app:add'
       />
