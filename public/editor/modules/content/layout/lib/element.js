@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import '../css/element.less'
-import ContentControls from '../../../../../sources/primitives/contentControls/component'
+import ContentControls from './helpers/contentControls/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -34,7 +34,14 @@ export default class Element extends React.Component {
   }
 
   render () {
-    const element = cook.get(this.props.element)
-    return element.render(this.getContent())
+    let el = cook.get(this.props.element)
+    let id = el.get('id')
+    let ContentComponent = el.getContentComponent()
+    let editor = {
+      'data-vcv-element': id
+    }
+    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={el.toJS()} editor={editor}>
+      {this.getContent()}
+    </ContentComponent>
   }
 }

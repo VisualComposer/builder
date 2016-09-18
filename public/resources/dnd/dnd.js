@@ -145,7 +145,7 @@ export default class DnD {
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
-    let domNode = this.options.document.querySelector('[data-vc-element="' + id + '"]')
+    let domNode = this.options.document.querySelector('[data-vcv-element="' + id + '"]')
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     this.items[ id ] = new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,

@@ -18,7 +18,7 @@ function ControlsHandler () {
 
 ControlsHandler.prototype.showOutline = function ($el, hideControls) {
   if ($el.data('vcElement') === undefined) {
-    $el = $el.closest('[data-vc-element]')
+    $el = $el.closest('[data-vcv-element]')
   }
 
   if (!this.$currentElement || $el[ 0 ] !== this.$currentElement[ 0 ]) {
@@ -68,7 +68,7 @@ ControlsHandler.prototype.updateElementsTree = function () {
   }
 
   this.elementsTree.push(this.$currentElement)
-  this.$currentElement.parents('[data-vc-element]').each(function () {
+  this.$currentElement.parents('[data-vcv-element]').each(function () {
     _this.elementsTree.push($(this))
   })
   this.elementsTree = this.elementsTree.slice(0, this.sliceSize)
@@ -109,7 +109,7 @@ ControlsHandler.prototype.drawOutlines = function () {
         'display': 'none'
       })
     } else {
-      var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
+      var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
       // var elementObject = this.getElement(elementId)
       // var controlColorIndex = this.getElementColorIndex(elementObject)
 
@@ -162,7 +162,7 @@ ControlsHandler.prototype.drawControls = function () {
   this.$controlsList.html('')
 
   // add tree layout button
-  if (elemenstsTree.length < this.$currentElement.parents('[data-vc-element]').length) {
+  if (elemenstsTree.length < this.$currentElement.parents('[data-vcv-element]').length) {
     $controlElement = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="tree-layout:show"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-more-dots" ></i>' +
@@ -174,12 +174,12 @@ ControlsHandler.prototype.drawControls = function () {
     /* vcv-ui-outline-control-dropdown-o-drop-up to open dropdown up
      * vcv-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
      */
-    var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vc-element')
+    var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
     var elementObject = this.getElement(elementId)
     var controlColorIndex = this.getElementColorIndex(elementObject)
     var iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
     var isElementContainer = controlColorIndex < 2
-    $controlElement = $('<dl data-vc-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+    $controlElement = $('<dl data-vcv-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
 
@@ -211,7 +211,7 @@ ControlsHandler.prototype.drawControls = function () {
 
     // add button
     if (isElementContainer) {
-      $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="app:add" data-vc-element-id="' + elementId + '"/>')
+      $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="app:add" data-vcv-element-id="' + elementId + '"/>')
       $('<span  class="vcv-ui-outline-control-content">' +
         '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-add-thin" ></i>' +
         '<span class="vcv-ui-outline-control-label" >Add</span>' +
@@ -222,7 +222,7 @@ ControlsHandler.prototype.drawControls = function () {
     // edit button
     $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="app:edit"' +
-      ' data-vc-element-id="' + elementId + '"/>')
+      ' data-vcv-element-id="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-edit" ></i>' +
       '<span class="vcv-ui-outline-control-label" >Edit</span>' +
@@ -232,7 +232,7 @@ ControlsHandler.prototype.drawControls = function () {
     // clone button
     $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="data:clone"' +
-      ' data-vc-element-id="' + elementId + '"/>')
+      ' data-vcv-element-id="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-copy" ></i>' +
       '<span class="vcv-ui-outline-control-label" >Clone</span>' +
@@ -242,7 +242,7 @@ ControlsHandler.prototype.drawControls = function () {
     // remove button
     $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="data:remove"' +
-      ' data-vc-element-id="' + elementId + '"/>')
+      ' data-vcv-element-id="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-trash" ></i>' +
       '<span class="vcv-ui-outline-control-label" >Remove</span>' +

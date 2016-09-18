@@ -55,8 +55,8 @@ fs.lstat(elementDir, function (err, stats) {
       }
     }
     var varString = varNames.join(', ')
-    var variables = 'var {id, content, atts, editor} = this.props' + '\n'
-    variables = variables + 'var {' + varString + '} = atts' + '\n'
+    var variables = 'var {id, atts, editor} = this.props' + '\n'
+    variables += 'var {' + varString + '} = atts' + '\n' + 'var content = this.props.children' + '\n'
     // prepare template scripts
     var javascriptFile = path.resolve(elementDir, 'scripts.js')
     var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
@@ -70,13 +70,6 @@ fs.lstat(elementDir, function (err, stats) {
     if (!templateString && templateString.length) {
       console.error('Error, wrong Template.jsx file.')
       process.exit(1)
-    }
-    if ((templateString + '').match(/data\-vcv\-dropzone/)) {
-      settings.type = {
-        access: 'protected',
-        type: 'string',
-        value: 'container'
-      }
     }
     // put editor variables in end of string
     templateString = templateString.replace(/(\/>|>)/i, ' {...editor}$1')

@@ -39,7 +39,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
     api.reply('start', function () {
       var iframeDocument = $('#vcv-editor-iframe').get(0).contentWindow.document
       var $iframeDocument = $(iframeDocument)
-      $iframeDocument.on('mousemove hover', '[data-vc-element]', ControlsTrigger.triggerShowFrame)
+      $iframeDocument.on('mousemove hover', '[data-vcv-element]', ControlsTrigger.triggerShowFrame)
       $iframeDocument.on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame)
       $(document).on('mousemove hover', '.vcv-ui-outline-controls-container', function (e) {
         e.stopPropagation()
@@ -54,7 +54,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
       $(document).on('click', '[data-vc-control-event]', function (e) {
         var $el = $(e.currentTarget)
         var event = $el.data('vcControlEvent')
-        var elementId = $el.data('vcElementId')
+        var elementId = $el.data('vcvElementId')
         e.preventDefault()
         api.request(event, elementId)
         controlsHandler.hideOutline()

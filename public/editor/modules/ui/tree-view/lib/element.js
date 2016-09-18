@@ -129,7 +129,7 @@ class TreeViewElement extends React.Component {
     let space = 0.8
 
     return (
-      <li className={treeChildClasses} data-vc-element={this.props.element.id} type={element.get('type')}
+      <li className={treeChildClasses} data-vcv-element={this.props.element.id} type={element.get('type')}
         name={element.get('name')}>
         <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>

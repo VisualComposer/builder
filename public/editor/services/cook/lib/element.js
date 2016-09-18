@@ -88,24 +88,11 @@ class CookElement {
 
     return <ElementToRender {...props} />
   }
-  render (content, editor) {
+  getContentComponent () {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
-    let ElementToRender = this[ elComponent ].get()
-    let props = {}
-    let editorProps = {}
-    let atts = this.toJS()
-    props.key = this[ elData ].id
-    props.id = this[ elData ].id
-    editorProps[ 'data-vc-element' ] = this[ elData ].id
-    if (typeof editor === 'undefined' || editor) {
-      props.editor = editorProps
-    }
-    props.atts = atts
-    props.content = content
-
-    return <ElementToRender {...props} />
+    return this[ elComponent ].get()
   }
   static create (tag) {
     return new CookElement({ tag: tag })
