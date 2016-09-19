@@ -1,6 +1,7 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
 import classNames from 'classnames'
+// import {Motion, spring} from 'react-motion'
 
 import '../css/tokenizationList/token.less'
 
@@ -13,10 +14,18 @@ export default class Token extends React.Component {
   }
   constructor (props) {
     super(props)
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick () {
     this.props.removeCallback(this.props.index)
+  }
+  handleMouseDown () {
+
+  }
+  handleTouchStart () {
+
   }
   render () {
     let {index, title, valid} = this.props
@@ -24,7 +33,11 @@ export default class Token extends React.Component {
       'vcv-ui-tag-list-item': true,
       'vcv-ui-tag-list-item-error': !valid // add validation
     })
-    return <span key={'tagItem' + index} className={tagClasses}>
+    return <span
+      onMouseDown={this.handleMouseDown.bind(this)}
+      onTouchStart={this.handleTouchStart.bind(this)}
+      key={'tagItem' + index} className={tagClasses}
+      >
       {title}
       <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />

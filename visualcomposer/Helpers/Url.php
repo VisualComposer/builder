@@ -49,10 +49,16 @@ class Url implements Helper
         $q = '?';
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
+        $trim = true;
         if ($strHelper->contains($url, '?')) {
             $q = '&';
+            $trim = false;
         }
 
-        return rtrim($url, '/\\') . '/' . $q . http_build_query($query);
+        if ($trim) {
+            $url = rtrim($url, '/\\') . '/';
+        }
+
+        return $url . $q . http_build_query($query);
     }
 }

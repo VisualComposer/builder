@@ -5,9 +5,13 @@ import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
 import $ from 'jquery'
 import 'jquery.caret'
-import Token from './token'
+import {Motion, spring} from 'react-motion'
 
+import Token from './token'
 import '../css/tokenizationList/styles.less'
+
+const springConfig = {stiffness: 300, damping: 50}
+
 export default class TokenizationList extends React.Component {
   constructor (props) {
     super(props)
@@ -33,7 +37,12 @@ export default class TokenizationList extends React.Component {
     editing: false,
     activeSuggestion: -1,
     suggestedValue: null,
-    cursorPosition: null
+    cursorPosition: null,
+    // DnD
+    isPressed: false,
+    lastPressed: 0,
+    delta: 0,
+    mouse: 0
   }
   stayEditing = false
   componentWillReceiveProps (nextProps) {
@@ -116,9 +125,35 @@ export default class TokenizationList extends React.Component {
     removedToken && this.updateValue(tokens.join(' + '))
   }
   getTokensList () {
+    const {mouse, isPressed, lastPressed} = this.state
     let tokens = _.compact(this.getLayout(this.state.value))
     return tokens.map((token, index) => {
-      return <Token key={'layoutToken' + index} title={token} removeCallback={this.removeToken} valid={this.props.validator(token)} index={index} />
+      const style = lastPressed === index && isPressed
+        ? {
+          scale: spring(1.1, springConfig),
+          shadow: spring(16, springConfig),
+          x: mouse
+        } : {
+          scale: spring(1, springConfig),
+          shadow: spring(1, springConfig),
+          x: spring(index * 100, springConfig)
+        }
+      return <Motion style={style} key={index}>
+        {(scale, shadow, x) => {
+          let motionSettings = {scale: scale, shadow: shadow, x: x}
+          let tokenKey = 'layoutToken' + index
+          return (
+            <Token
+              key={tokenKey}
+              title={token}
+              removeCallback={this.removeToken}
+              valid={this.props.validator(token)}
+              index={index}
+              motionSettings={motionSettings}
+            />
+          )
+        }}
+      </Motion>
     })
   }
   getSuggestions () {
