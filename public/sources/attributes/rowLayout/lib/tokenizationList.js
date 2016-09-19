@@ -9,8 +9,6 @@ import 'jquery.caret'
 import Token from './token'
 import '../css/tokenizationList/styles.less'
 
-const springConfig = {stiffness: 300, damping: 50}
-
 export default class TokenizationList extends React.Component {
   constructor (props) {
     super(props)
