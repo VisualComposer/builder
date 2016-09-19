@@ -11,12 +11,13 @@
   word-break: break-all;
   &.vcv-ui-tag-list-input-editing-disabled {
     position: absolute;
-    height: 1px;
     opacity: 0;
+    pointer-events: none;
   }
 }
 .vcv-ui-tag-list {
   cursor: text;
+  min-height: 39px;
 }
 @import "./suggestBox";
 

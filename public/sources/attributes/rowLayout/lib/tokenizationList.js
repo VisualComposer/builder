@@ -5,7 +5,6 @@ import _ from 'lodash'
 import Textarea from 'react-textarea-autosize'
 import $ from 'jquery'
 import 'jquery.caret'
-import {Motion, spring} from 'react-motion'
 
 import Token from './token'
 import '../css/tokenizationList/styles.less'
@@ -17,7 +16,6 @@ export default class TokenizationList extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleKeyUp = this.handleKeyUp.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.removeToken = this.removeToken.bind(this)
@@ -60,24 +58,26 @@ export default class TokenizationList extends React.Component {
   }
   handleKeyDown (e) {
     let key = e.which || e.keyCode
+    let updateCursorPosition = true
     if (key === 40) {
       e.preventDefault()
       this.setActiveSuggestion(1)
+      updateCursorPosition = false
     } else if (key === 38) {
       e.preventDefault()
       this.setActiveSuggestion(-1)
+      updateCursorPosition = false
     } else if (key === 13 && this.state.activeSuggestion > -1) {
       this.updateValue(this.state.suggestedValue)
     } else if (key === 13) {
       e.target.blur()
       this.setState({editing: false})
     }
-  }
-  handleKeyUp (e) {
-    this.state.cursorPosition === null && this.updateCursorPosition(e.target)
+    updateCursorPosition && this.updateCursorPosition(e.target)
   }
   handleFocus (e) {
     this.setState({editing: true})
+    this.updateCursorPosition(e.target)
   }
   handleBlur (e) {
     if (this.stayEditing === false) {
@@ -89,19 +89,19 @@ export default class TokenizationList extends React.Component {
   }
   handleSuggestionMouseDown (e) {
     let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1, cursorPosition: null})
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
     this.stayEditing = true
   }
   handleTagListClick (e) {
     if (e.target === e.currentTarget) {
-      this.handleFocus(e)
-      e.currentTarget.nextSibling.focus()
+      this.handleFocus({target: e.currentTarget.previousSibling})
+      e.currentTarget.previousSibling.focus()
     }
   }
   updateValue (value) {
-    this.setState({value: value, suggestedValue: null, activeSuggestion: -1, cursorPosition: null})
+    this.setState({value: value, suggestedValue: null, activeSuggestion: -1})
     let layoutSplit = this.getLayout(value)
     this.props.onChange(layoutSplit)
   }
@@ -125,35 +125,15 @@ export default class TokenizationList extends React.Component {
     removedToken && this.updateValue(tokens.join(' + '))
   }
   getTokensList () {
-    const {mouse, isPressed, lastPressed} = this.state
     let tokens = _.compact(this.getLayout(this.state.value))
     return tokens.map((token, index) => {
-      const style = lastPressed === index && isPressed
-        ? {
-          scale: spring(1.1, springConfig),
-          shadow: spring(16, springConfig),
-          x: mouse
-        } : {
-          scale: spring(1, springConfig),
-          shadow: spring(1, springConfig),
-          x: spring(index * 100, springConfig)
-        }
-      return <Motion style={style} key={index}>
-        {(scale, shadow, x) => {
-          let motionSettings = {scale: scale, shadow: shadow, x: x}
-          let tokenKey = 'layoutToken' + index
-          return (
-            <Token
-              key={tokenKey}
-              title={token}
-              removeCallback={this.removeToken}
-              valid={this.props.validator(token)}
-              index={index}
-              motionSettings={motionSettings}
-            />
-          )
-        }}
-      </Motion>
+      return <Token
+        key={'vcvToken' + index}
+        title={token}
+        removeCallback={this.removeToken}
+        valid={this.props.validator(token)}
+        index={index}
+      />
     })
   }
   getSuggestions () {
@@ -209,19 +189,18 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
     })
     return <div className='vcv-ui-tag-list-container'>
-      {this.renderTokensList()}
       <Textarea
         minRows={1}
         className={cssClasses}
         type='text'
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
-        onKeyUp={this.handleKeyUp}
         value={this.state.suggestedValue || this.state.value}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         data-vcv-type='vcv-tokenized-input'
       />
+      {this.renderTokensList()}
       {this.renderSuggestionBox()}
     </div>
   }
