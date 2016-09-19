@@ -46,6 +46,9 @@ class Controller extends Container implements Module
         );
     }
 
+    /**
+     *
+     */
     public function enqueueScripts()
     {
         wp_enqueue_script('jquery');
@@ -68,17 +71,29 @@ class Controller extends Container implements Module
      * Output used assets.
      *
      * @param \VisualComposer\Helpers\Templates $templatesHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return string
      */
-    public function outputScriptsFrontendEditor(Templates $templatesHelper, Options $optionsHelper)
+    public function outputScriptsFrontendEditor(Templates $templatesHelper)
+    {
+        /** @see \VisualComposer\Modules\Site\Controller::getAssetsViewArgs */
+        $args = $this->call('getAssetsViewArgs');
+
+        return $templatesHelper->render('site/frontend-scripts-styles', $args);
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
+    public function getAssetsViewArgs(Options $optionsHelper)
     {
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
         $stylesBundle = $optionsHelper->get('stylesBundle');
         $args = compact('scriptsBundle', 'stylesBundle');
 
-        return $templatesHelper->render('site/frontend-scripts-styles', $args);
+        return $args;
     }
 
     /**
@@ -86,41 +101,60 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return bool
      */
     public function outputScriptsFrontend(Request $request, Options $optionsHelper)
     {
         if ($request->exists('vcv-editable')) {
-            return;
+            return false;
         }
+
         $scriptsBundle = $optionsHelper->get('scriptsBundle');
         if ($scriptsBundle !== false) {
-            wp_register_script('vcv-script', $scriptsBundle, ['jquery'], VCV_VERSION, true);
-            $this->wpAddAction(
-                'wp_print_scripts',
-                function () {
-                    wp_enqueue_script('vcv-script');
-                }
-            );
+            $this->addScript('vcv-script', $scriptsBundle);
         }
+
         $stylesBundle = $optionsHelper->get('stylesGlobalFile');
         if (!empty($stylesBundle)) {
-            wp_register_style('vcv-global-styles', $stylesBundle, VCV_VERSION);
-            $this->wpAddAction(
-                'wp_print_styles',
-                function () {
-                    wp_enqueue_style('vcv-global-styles');
-                }
-            );
+            $this->addStyle('vcv-global-styles', $stylesBundle);
         }
+
         $postStyles = $optionsHelper->get('postStyles-' . get_the_ID());
         if (!empty($postStyles)) {
-            wp_register_style('vcv-post-styles', $postStyles, VCV_VERSION);
-            $this->wpAddAction(
-                'wp_print_styles',
-                function () {
-                    wp_enqueue_style('vcv-post-styles');
-                }
-            );
+            $this->addStyle('vcv-post-styles', $postStyles);
         }
+
+        return true;
+    }
+
+    /**
+     * @param $name
+     * @param $file
+     */
+    public function addStyle($name, $file)
+    {
+        wp_register_style($name, $file, VCV_VERSION);
+        $this->wpAddAction(
+            'wp_print_styles',
+            function () use ($name) {
+                wp_enqueue_style($name);
+            }
+        );
+    }
+
+    /**
+     * @param $name
+     * @param $file
+     */
+    public function addScript($name, $file)
+    {
+        wp_register_script($name, $file, ['jquery'], VCV_VERSION, true);
+        $this->wpAddAction(
+            'wp_print_scripts',
+            function () use ($name) {
+                wp_enqueue_style($name);
+            }
+        );
     }
 }
