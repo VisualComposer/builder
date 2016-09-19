@@ -23,6 +23,10 @@ class Categories extends React.Component {
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    allTabs = this.tabsFromProps(nextProps)
+  }
+
   componentDidMount () {
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
   }
