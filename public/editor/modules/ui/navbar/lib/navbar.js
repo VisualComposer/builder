@@ -36,6 +36,7 @@ class Navbar extends React.Component {
       bottom: false,
       left: false
     }
+    // hasEndContent: false
   }
 
   componentWillMount () {
@@ -81,6 +82,16 @@ class Navbar extends React.Component {
       .reply('navbar:resizeLeft', (offsetX) => {
         this.setState({ navPosX: this.state.navPosX - offsetX })
       })
+      // .reply('bar-content-end:show', () => {
+      //   this.setState({
+      //     hasEndContent: true
+      //   })
+      // })
+      // .reply('bar-content-end:hide', () => {
+      //   this.setState({
+      //     hasEndContent: false
+      //   })
+      // })
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
     this.handleElementResize()
   }
@@ -401,6 +412,15 @@ class Navbar extends React.Component {
     document.body.classList.add('vcv-layout-dock--lock')
     document.body.classList.add('vcv-layout-dock')
     document.body.classList.add('vcv-layout-dock--' + navbarPosition)
+    // console.log(navbarPosition)
+    // if (navbarPosition === 'top' || navbarPosition === 'bottom') {
+    //   console.log(this.state.hasEndContent)
+    //   document.body.classList.remove('vcv-layout-dock--lock')
+    //   if (!this.state.hasEndContent) {
+    //     document.body.classList.remove('vcv-layout-dock--lock')
+    //     document.body.classList.add('vcv-layout-dock--unlock')
+    //   }
+    // }
     return (
       <div className={navbarContainerClasses}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
