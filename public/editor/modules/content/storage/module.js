@@ -5,6 +5,7 @@ const cook = vcCake.getService('cook')
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
+    let createdElements = []
     let columns = DocumentData.children(id)
     let lastColumnObject = null
     layout.forEach((size, i) => {
@@ -13,7 +14,8 @@ vcCake.add('storage', (api) => {
         lastColumnObject.size = size
         DocumentData.update(lastColumnObject.id, lastColumnObject)
       } else {
-        DocumentData.create({tag: 'column', parent: id, size: size})
+        let createdElement = DocumentData.create({tag: 'column', parent: id, size: size})
+        createdElements.push(createdElement.id)
       }
     })
     if (columns.length > layout.length) {
@@ -27,6 +29,7 @@ vcCake.add('storage', (api) => {
         DocumentData.delete(column.id)
       })
     }
+    api.request('data:afterAdd', createdElements)
   }
   api.reply('data:add', (elementData) => {
     let createdElements = []

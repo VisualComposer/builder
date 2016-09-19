@@ -13,18 +13,10 @@ export default class Token extends React.Component {
   }
   constructor (props) {
     super(props)
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleTouchStart = this.handleTouchStart.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
   handleClick () {
     this.props.removeCallback(this.props.index)
-  }
-  handleMouseDown () {
-
-  }
-  handleTouchStart () {
-
   }
   render () {
     let {title, valid} = this.props
@@ -33,8 +25,6 @@ export default class Token extends React.Component {
       'vcv-ui-tag-list-item-error': !valid // add validation
     })
     return <span
-      onMouseDown={this.handleMouseDown.bind(this)}
-      onTouchStart={this.handleTouchStart.bind(this)}
       className={tagClasses}
       >
       {title}
