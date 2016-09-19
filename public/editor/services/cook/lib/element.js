@@ -157,7 +157,6 @@ class CookElement {
 
     return []
   }
-
 }
 CookElement.propTypes = {
   tag: React.PropTypes.string.isRequired

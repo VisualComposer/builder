@@ -50,5 +50,14 @@ addService('cook', {
         return buildSettingsObject(item.settings)
       }), sortSelector)
     }
+  },
+  getChildren: function (tag) {
+    const element = this.get({tag: tag})
+    let groups = element.containerFor()
+    let allElements = this.list.settings()
+    return allElements.filter((settings) => {
+      let element = this.get(settings)
+      return element.relatedTo(groups)
+    })
   }
 })
