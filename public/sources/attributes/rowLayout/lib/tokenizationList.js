@@ -141,14 +141,17 @@ export default class TokenizationList extends React.Component {
       return <Motion style={style} key={index}>
         {(scale, shadow, x) => {
           let motionSettings = {scale: scale, shadow: shadow, x: x}
-          <Token
-            key={'layoutToken' + index}
-            title={token}
-            removeCallback={this.removeToken}
-            valid={this.props.validator(token)}
-            index={index}
-            motionSettings={motionSettings}
-          />
+          let tokenKey = 'layoutToken' + index
+          return (
+            <Token
+              key={tokenKey}
+              title={token}
+              removeCallback={this.removeToken}
+              valid={this.props.validator(token)}
+              index={index}
+              motionSettings={motionSettings}
+            />
+          )
         }}
       </Motion>
     })
