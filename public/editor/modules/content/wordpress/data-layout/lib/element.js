@@ -23,5 +23,6 @@ export default class Element extends React.Component {
     return <ContentComponent id={id} key={'vcvLayoutWordpressComponent' + id} atts={el.toJS()}>
       {this.getContent()}
     </ContentComponent>
+
   }
 }
