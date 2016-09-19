@@ -38,3 +38,7 @@ if (backgroundColor) {
 if (showArrow) {
   classes += ' vce-button--icon-state-visible'
 }
+
+if (animate) {
+  classes += ` vce-button--animate-${animate}`
+}

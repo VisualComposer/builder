@@ -1,7 +1,6 @@
 /* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import vcCake from 'vc-cake'
-import {renderToStaticMarkup} from 'react-dom/server'
 
 import {default as elementSettings} from './element-settings'
 import {default as elementComponent} from './element-component'
@@ -115,11 +114,25 @@ class CookElement {
     }
     return data
   }
+  render (content, editor) {
+    if (!this[ elComponent ].has()) {
+      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
+    }
+    let ElementToRender = this[ elComponent ].get()
+    let props = {}
+    let editorProps = {}
+    let atts = this.toJS()
+    props.key = this[ elData ].id
+    props.id = this[ elData ].id
+    editorProps[ 'data-vc-element' ] = this[ elData ].id
+    if (typeof editor === 'undefined' || editor) {
+      props.editor = editorProps
+    }
+    props.atts = atts
+    props.content = content
 
-  renderHTML (content) {
-    return renderToStaticMarkup(this.render(content))
+    return <ElementToRender {...props} />
   }
-
   /**
    * Get all fields as groups: if group in group
    * Lazy list

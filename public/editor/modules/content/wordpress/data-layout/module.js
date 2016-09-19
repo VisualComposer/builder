@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import WordPressLayout from './lib/layout'
 import './css/module.less'
 
