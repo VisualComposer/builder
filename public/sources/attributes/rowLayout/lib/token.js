@@ -1,7 +1,7 @@
 /* eslint react/jsx-no-bind: "off" */
 import React from 'react'
 import classNames from 'classnames'
-import {Motion, spring} from 'react-motion'
+// import {Motion, spring} from 'react-motion'
 
 import '../css/tokenizationList/token.less'
 
