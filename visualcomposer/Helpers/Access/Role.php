@@ -14,25 +14,30 @@ use VisualComposer\Helpers\Access\Traits\Access as AccessFactory;
 class Role implements Helper
 {
     use AccessFactory;
+
     /**
      * Current RoleName (administrator/contributor..).
      * @var string
      */
     protected $roleName;
+
     /**
      * Current get_role(from RoleName).
      * @var \WP_Role
      */
     protected $role;
+
     /**
      * Current working part of access system.
      * @var string
      */
     protected $part;
+
     /**
      * @var string
      */
     protected static $partNamePrefix = 'vcv:access:rules:';
+
     /**
      * @var array
      */

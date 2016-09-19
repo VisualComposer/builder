@@ -5,7 +5,7 @@ vcCake.add('content-local-storage-data-load', (api) => {
     const LocalStorage = vcCake.getService('local-storage')
     const TimeMachine = vcCake.getService('time-machine')
     let data = LocalStorage.get()
-    TimeMachine.setZeroState(data)
+    TimeMachine.setZeroState(data.data)
     if (data.data) {
       api.request('data:reset', data.data)
     }

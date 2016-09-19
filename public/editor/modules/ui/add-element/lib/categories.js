@@ -1,4 +1,3 @@
-/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
@@ -161,8 +160,8 @@ class Categories extends React.Component {
         name={element.name} />)
     })
 
-    return <div className="vcv-ui-add-element-list-container">
-      <ul className="vcv-ui-add-element-list">
+    return <div className='vcv-ui-add-element-list-container'>
+      <ul className='vcv-ui-add-element-list'>
         {itemsOutput}
       </ul>
     </div>
@@ -214,12 +213,12 @@ class Categories extends React.Component {
       })
       hiddenTabsHeaderOutput = (
         <dl className={dropdownClasses}>
-          <dt className="vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab" title="More">
-            <span className="vcv-ui-editor-tab-content">
-              <i className="vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots" />
+          <dt className='vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab' title='More'>
+            <span className='vcv-ui-editor-tab-content'>
+              <i className='vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots' />
             </span>
           </dt>
-          <dd className="vcv-ui-editor-tab-dropdown-content">
+          <dd className='vcv-ui-editor-tab-dropdown-content'>
             {hiddenTabsHeader}
           </dd>
         </dl>
@@ -252,21 +251,21 @@ class Categories extends React.Component {
     })
 
     return <div className={treeContentClasses}>
-      <div className="vcv-ui-editor-tabs-container">
-        <nav className="vcv-ui-editor-tabs">
+      <div className='vcv-ui-editor-tabs-container'>
+        <nav className='vcv-ui-editor-tabs'>
           {visibleTabsHeaderOutput}
           {hiddenTabsHeaderOutput}
-          <span className="vcv-ui-editor-tabs-free-space" />
+          <span className='vcv-ui-editor-tabs-free-space' />
         </nav>
       </div>
 
-      <div ref="scrollable" className="vcv-ui-tree-content-section">
-        <div className="vcv-ui-scroll-container">
-          <div className="vcv-ui-scroll">
-            <div className="vcv-ui-scroll-content">
-              <div className="vcv-ui-tree-content-section-inner">
-                <div className="vcv-ui-editor-plates-container">
-                  <div className="vcv-ui-editor-plates">
+      <div ref='scrollable' className='vcv-ui-tree-content-section'>
+        <div className='vcv-ui-scroll-container'>
+          <div className='vcv-ui-scroll'>
+            <div className='vcv-ui-scroll-content'>
+              <div className='vcv-ui-tree-content-section-inner'>
+                <div className='vcv-ui-editor-plates-container'>
+                  <div className='vcv-ui-editor-plates'>
                     {visibleTabsContentOutput}
                     {hiddenTabsContentOutput}
                   </div>

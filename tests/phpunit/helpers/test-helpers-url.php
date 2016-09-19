@@ -60,6 +60,25 @@ class HelpersUrlTest extends WP_UnitTestCase
         );
     }
 
+    public function testAjaxQuestion()
+    {
+        /**
+         * @var $helper VisualComposer\Helpers\Url
+         */
+        $helper = vcapp('VisualComposer\Helpers\Url');
+        $filter = function ($url) {
+            return $url . '/?some=1';
+        };
+        add_filter('site_url', $filter);
+
+        $this->assertEquals(
+            rtrim(get_site_url(), '/\\') . '&vcv-ajax=1&test2=2',
+            $helper->ajax(['test2' => 2]),
+            'ajax should return url with amp not question'
+        );
+
+        remove_filter('site_url', $filter);
+    }
 
     public function testUrlHelperDependencyInjection()
     {
