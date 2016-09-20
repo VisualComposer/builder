@@ -66,10 +66,10 @@ class Roles extends Container implements Module
             60
         );
 
-        /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
+        /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettingsResponse */
         $this->wpAddAction(
             'wp_ajax_vcv:rolesSettingsSave',
-            'saveSettings'
+            'saveSettingsResponse'
         );
     }
 
@@ -203,7 +203,7 @@ class Roles extends Container implements Module
     }
 
     /**
-     * @return array
+     * @return array|bool
      */
     public function getExcludedPostTypes()
     {
@@ -222,20 +222,31 @@ class Roles extends Container implements Module
         return $this->excludedPostTypes;
     }
 
+    public function saveSettingsResponse()
+    {
+        /** @see \VisualComposer\Modules\Settings\Pages\Roles::saveSettings */
+        $data = $this->call('saveSettings');
+        wp_send_json($data);
+    }
+
     /**
      * Save roles.
      *
      * @param Request $request
+     *
+     * @return array
      */
-    public function saveSettings(Request $request)
+    private function saveSettings(Request $request)
     {
         $field = 'vcv-settings-' . $this->getSlug() . '-action';
-
+        $data = ['status' => false];
+        // TODO: Use Nonce helper!
         if (check_admin_referer($field, 'vcv_nonce_field') && current_user_can('manage_options')) {
             /** @see \VisualComposer\Modules\Settings\Pages\Roles::save */
             $data = $this->call('save', [$request->input('vc_roles', [])]);
-            wp_send_json($data);
         }
+
+        return $data;
     }
 
     /**
