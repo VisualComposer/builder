@@ -10,21 +10,22 @@ let allTabs = []
 
 class Categories extends React.Component {
 
-  state = {
-    tabsCount: 0,
-    visibleTabsCount: 0,
-    activeTabIndex: 0
+  constructor (props) {
+    super(props)
+    this.state = {
+      tabsHash: '',
+      visibleTabsCount: 0,
+      activeTabIndex: 0
+    }
+    this.tabsFromProps = this.tabsFromProps.bind(this)
   }
 
   componentWillMount () {
-    allTabs = this.tabsFromProps(this.props)
-    this.setState({
-      tabsCount: allTabs.length
-    })
+    this.tabsFromProps(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
-    allTabs = this.tabsFromProps(nextProps)
+    this.tabsFromProps(nextProps)
   }
 
   componentDidMount () {
@@ -65,6 +66,14 @@ class Categories extends React.Component {
     this.refreshTabs()
   }
 
+  getTabsHash (tabs) {
+    let hash = ''
+    for (let tab of tabs) {
+      hash += tab.id
+    }
+    return hash
+  }
+
   tabsFromProps (props) {
     let tabs = []
     let index = 0
@@ -82,7 +91,11 @@ class Categories extends React.Component {
       }
       tabs.push(tab)
     }
-    return tabs
+    allTabs = tabs
+
+    this.setState({
+      tabsHash: this.getTabsHash(allTabs)
+    })
   }
 
   changeActiveTab = (tabIndex) => {
