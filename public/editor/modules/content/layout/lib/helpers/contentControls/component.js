@@ -1,5 +1,6 @@
 import React from 'react'
 import RowControl from './lib/rowControl'
+import {getService} from 'vc-cake'
 
 export default class ContentControls extends React.Component {
   static propTypes = {
@@ -8,14 +9,23 @@ export default class ContentControls extends React.Component {
   }
 
   render () {
+    let element = getService('document').get(this.props.id)
+    let addTitle = 'Add Element'
+    let addElementTag = ''
+    let children = getService('cook').getChildren(element.tag)
+    if (children.length === 1) {
+      addTitle = `Add ${children[0].name}`
+      addElementTag = children[0].tag
+    }
     return <div className='vcv-row-control-container vcv-row-control-container-hide-labels'>
       <RowControl
         api={this.props.api}
         id={this.props.id}
-        title='Add Element'
-        text='Add Element'
+        title={addTitle}
+        text={addTitle}
         icon='add'
         action='app:add'
+        options={addElementTag}
       />
       <RowControl
         api={this.props.api}
