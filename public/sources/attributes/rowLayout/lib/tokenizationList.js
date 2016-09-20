@@ -115,7 +115,20 @@ export default class TokenizationList extends React.Component {
     if (layout.match(/^[\s+\+]/)) {
       layout = layout.replace(/^[\s+\+]+/, '')
     }
-    return layout.split(/[\s,\+;]+/)
+    let columns = layout.split(/[\s,\+;]+/)
+    return _.flatten(columns.map((column, index) => {
+      if (index < columns.length - 1) {
+        let size = column.match(/^\d+$/) ? parseInt(column) : 0
+        if (size > 0 && size <= 10) {
+          let size = parseInt(column)
+          column = []
+          for (let i = 1; i <= size; i++) {
+            column.push(`1/${size}`)
+          }
+        }
+      }
+      return column
+    }))
   }
   removeToken (index) {
     let tokens = this.getLayout(this.state.value)
