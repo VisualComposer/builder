@@ -52,11 +52,12 @@ vcCake.add('content-editor-controls-iframe', function (api) {
         }
       })
       $(document).on('click', '[data-vc-control-event]', function (e) {
-        var $el = $(e.currentTarget)
-        var event = $el.data('vcControlEvent')
-        var elementId = $el.data('vcvElementId')
+        let $el = $(e.currentTarget)
+        let event = $el.data('vcControlEvent')
+        let options = $el.data('vcControlEventOptions')
+        let elementId = $el.data('vcvElementId')
         e.preventDefault()
-        api.request(event, elementId)
+        api.request(event, elementId, options)
         controlsHandler.hideOutline()
       })
       $(document).on('scroll resize', ControlsTrigger.triggerRedrawFrame)

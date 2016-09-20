@@ -92,4 +92,11 @@ vcCake.add('storage', (api) => {
     DocumentData.reset(content || {})
     api.request('data:changed', DocumentData.children(false), 'reset')
   })
+  api.reply('app:add', (parent = null, tag = null) => {
+    if (parent && tag) {
+      let parentElement = cook.get(DocumentData.get(parent))
+      let data = cook.get({ tag: tag, parent: parent })
+      data.relatedTo(parentElement.containerFor()) && window.setTimeout(() => { api.request('data:add', data.toJS()) }, 0)
+    }
+  })
 })

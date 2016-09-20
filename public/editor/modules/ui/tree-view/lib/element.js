@@ -1,3 +1,4 @@
+/* eslint react/jsx-no-bind: "off" */
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
@@ -18,6 +19,7 @@ class TreeViewElement extends React.Component {
     this.props.api
       .reply('app:edit', this.setElementId)
       .reply('app:add', this.setElementId)
+      .reply('data:add', this.unsetElementId)
       .reply('bar-content-end:hide', this.unsetElementId)
       .on('hide', this.unsetElementId)
       .on('form:hide', this.unsetElementId)
@@ -36,6 +38,7 @@ class TreeViewElement extends React.Component {
     this.props.api
       .forget('app:edit', this.setElementId)
       .forget('app:add', this.setElementId)
+      .forget('data:add', this.unsetElementId)
       .forget('bar-content-end:hide', this.unsetElementId)
       .off('hide', this.unsetElementId)
       .off('form:hide', this.unsetElementId)
@@ -45,9 +48,8 @@ class TreeViewElement extends React.Component {
     this.setState({ childExpand: !this.state.childExpand })
   }
 
-  clickAddChild = (e) => {
-    e && e.preventDefault()
-    this.props.api.request('app:add', this.props.element.id)
+  clickAddChild (tag) {
+    this.props.api.request('app:add', this.props.element.id, tag)
   }
 
   clickClone = (e) => {
@@ -92,8 +94,15 @@ class TreeViewElement extends React.Component {
 
     let addChildControl = false
     if (element.containerFor().length) {
+      let title = 'Add'
+      let addElementTag = ''
+      let children = cook.getChildren(this.props.element.tag)
+      if (children.length === 1) {
+        title = `Add ${children[0].name}`
+        addElementTag = children[0].tag
+      }
       addChildControl = (
-        <a className='vcv-ui-tree-layout-control-action' title='Add' onClick={this.clickAddChild}>
+        <a className='vcv-ui-tree-layout-control-action' title={title} onClick={this.clickAddChild.bind(this, addElementTag)}>
           <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
         </a>
       )

@@ -5,13 +5,15 @@ export default class RowControl extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     id: React.PropTypes.string.isRequired,
-    action: React.PropTypes.string.isRequired
+    action: React.PropTypes.string.isRequired,
+    disabled: React.PropTypes.bool,
+    options: React.PropTypes.any
   }
 
   handleClick (action, e) {
     e && e.preventDefault()
     if (!this.props.disabled) {
-      this.props.api.request(action, this.props.id)
+      this.props.api.request(action, this.props.id, this.props.options)
     }
   }
 
