@@ -58,7 +58,11 @@ class AttachImage extends Attribute {
     let ids = lodash.compact(this.state.value.ids)
     let urls = lodash.compact(this.state.value.urls)
     ids.push(attachment.id)
-    urls.push(attachment.sizes.full.url)
+    let srcUrl = {}
+    for (let size in attachment.sizes) {
+      srcUrl[size] = attachment.sizes[size].url
+    }
+    urls.push(srcUrl)
     this.setFieldValue({
       ids: ids,
       urls: urls
@@ -82,7 +86,7 @@ class AttachImage extends Attribute {
     let { fieldKey } = this.props
     let images = []
     value.urls.forEach(function (url) {
-      images.push(<li key={fieldKey + '-li-:' + url}><img key={fieldKey + '-li-img-:' + url} src={url}
+      images.push(<li key={fieldKey + '-li-:' + url.full}><img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail}
         className='thumbnail' /></li>)
     })
 
