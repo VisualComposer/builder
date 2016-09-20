@@ -26,7 +26,11 @@ class BarContentEnd extends React.Component {
         this.setState({ showContent: true })
       })
       .reply('bar-content-end:hide', () => {
-        this.setState({ showContent: false })
+        this.setState({
+          showContent: false,
+          contentComponent: null,
+          contentProps: null
+        })
       })
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
     this.handleElementResize()

@@ -424,7 +424,6 @@ class Navbar extends React.Component {
         manageLock('vcv-layout-dock--unlock', 'vcv-layout-dock--lock')
       }
     } else {
-      console.log('left or right')
       manageLock('vcv-layout-dock--unlock', 'vcv-layout-dock--lock')
     }
 

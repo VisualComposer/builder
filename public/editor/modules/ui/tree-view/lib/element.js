@@ -94,7 +94,7 @@ class TreeViewElement extends React.Component {
 
     let addChildControl = false
     if (element.containerFor().length) {
-      let title = 'Add'
+      let title = 'Add Element'
       let addElementTag = ''
       let children = cook.getChildren(this.props.element.tag)
       if (children.length === 1) {

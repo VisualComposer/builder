@@ -40,9 +40,12 @@ class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
   }
   updateState (props) {
-    let layout = vcCake.getService('document').children(props.element.get('id')).map((element) => {
-      return element.size || 'auto'
-    })
+    let layout = props.value instanceof Array && props.value.length
+      ? props.value
+      : vcCake.getService('document').children(props.element.get('id'))
+      .map((element) => {
+        return element.size || 'auto'
+      })
     return {
       value: layout
     }

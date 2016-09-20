@@ -30,8 +30,8 @@ export default class ContentControls extends React.Component {
       <RowControl
         api={this.props.api}
         id={this.props.id}
-        title='Template'
-        text='Template'
+        title='Add Template'
+        text='Add Template'
         disabled
         icon='template'
         action='app:template'
