@@ -58,7 +58,7 @@ class AttachImage extends Attribute {
     let ids = lodash.compact(this.state.value.ids)
     let urls = lodash.compact(this.state.value.urls)
     ids.push(attachment.id)
-    urls.push(attachment.sizes.full.url)
+    urls.push(attachment.sizes.thumbnail.url)
     this.setFieldValue({
       ids: ids,
       urls: urls
