@@ -6,6 +6,7 @@ class Attribute extends React.Component {
     api: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
     value: React.PropTypes.any.isRequired,
+    defaultValue: React.PropTypes.any,
     options: React.PropTypes.any
   }
   state = this.updateState(this.props)
