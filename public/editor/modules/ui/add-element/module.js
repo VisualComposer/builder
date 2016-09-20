@@ -14,8 +14,8 @@ vcCake.add('ui-add-element', (api) => {
   })
   // subscribe to global events
   api
-    .reply('app:add', (parent = null) => {
-      api.notify('show', parent)
+    .reply('app:add', (parent = null, tag = null) => {
+      !tag && api.notify('show', parent)
     })
     .reply('data:add', () => {
       api.notify('hide')

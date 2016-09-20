@@ -2,7 +2,6 @@ import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-
 import '../css/module.less'
 
 let navbarControls = []
@@ -388,10 +387,38 @@ class Navbar extends React.Component {
     if (isDragging) {
       isDetached = false
     }
+    let manageLock = (shouldLocked) => {
+      if (shouldLocked) {
+        document.body.classList.remove('vcv-layout-dock--unlock')
+        document.body.classList.add('vcv-layout-dock--lock')
+      } else {
+        document.body.classList.remove('vcv-layout-dock--lock')
+        document.body.classList.add('vcv-layout-dock--unlock')
+      }
+    }
 
-    if (navbarPosition === 'detached') {
-      navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
-      navBarStyle.left = navPosX - navbarPositionFix.left + 'px'
+    for (let i = 0; i < document.body.classList.length; i++) {
+      if (document.body.classList.item(i).search('vcv-layout-dock--') === 0) {
+        document.body.classList.remove(document.body.classList.item(i))
+      }
+    }
+
+    document.body.classList.add('vcv-layout-dock')
+    document.body.classList.add('vcv-layout-dock--' + navbarPosition)
+
+    switch (navbarPosition) {
+      case 'detached':
+        navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
+        navBarStyle.left = navPosX - navbarPositionFix.left + 'px'
+        break
+      case 'top':
+      case 'bottom':
+        manageLock(this.state.hasEndContent)
+        break
+      case 'left':
+      case 'right':
+        manageLock(true)
+        break
     }
 
     let targetStyle = document.body.querySelector('.vcv-layout-bar').style
@@ -403,30 +430,6 @@ class Navbar extends React.Component {
       'vcv-ui-navbar-container': true,
       'vcv-ui-navbar-is-detached': isDetached
     })
-
-    for (let i = 0; i < document.body.classList.length; i++) {
-      if (document.body.classList.item(i).search('vcv-layout-dock--') === 0) {
-        document.body.classList.remove(document.body.classList.item(i))
-      }
-    }
-
-    document.body.classList.add('vcv-layout-dock')
-    document.body.classList.add('vcv-layout-dock--' + navbarPosition)
-
-    let manageLock = (removeClass, addClass) => {
-      document.body.classList.remove(removeClass)
-      document.body.classList.add(addClass)
-    }
-
-    if (navbarPosition === 'top' || navbarPosition === 'bottom') {
-      manageLock('vcv-layout-dock--lock', 'vcv-layout-dock--unlock')
-      if (this.state.hasEndContent) {
-        manageLock('vcv-layout-dock--unlock', 'vcv-layout-dock--lock')
-      }
-    } else {
-      console.log('left or right')
-      manageLock('vcv-layout-dock--unlock', 'vcv-layout-dock--lock')
-    }
 
     return (
       <div className={navbarContainerClasses}>

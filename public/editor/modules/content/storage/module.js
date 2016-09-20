@@ -31,6 +31,14 @@ vcCake.add('storage', (api) => {
     }
     api.request('data:afterAdd', createdElements)
   }
+  const isElementOneRelation = (parent) => {
+    let element = DocumentData.get(parent)
+    let children = cook.getChildren(element.tag)
+    if (children.length === 1) {
+      return children[0].tag
+    }
+    return false
+  }
   api.reply('data:add', (elementData) => {
     let createdElements = []
     let element = cook.get(elementData)
@@ -57,7 +65,11 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:remove', (id) => {
     api.request('data:beforeRemove', id)
+    let element = DocumentData.get(id)
     DocumentData.delete(id)
+    if (element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
+      DocumentData.delete(element.parent)
+    }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
 
@@ -91,5 +103,14 @@ vcCake.add('storage', (api) => {
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
     api.request('data:changed', DocumentData.children(false), 'reset')
+  })
+  api.reply('app:add', (parent = null) => {
+    if (parent) {
+      let tag = isElementOneRelation(parent)
+      if (tag) {
+        let data = cook.get({ tag: tag, parent: parent })
+        window.setTimeout(() => { api.request('data:add', data.toJS()) }, 0)
+      }
+    }
   })
 })

@@ -174,11 +174,11 @@ ControlsHandler.prototype.drawControls = function () {
     /* vcv-ui-outline-control-dropdown-o-drop-up to open dropdown up
      * vcv-ui-outline-control-dropdown-o-drop-right to open dropdown rightr
      */
-    var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
-    var elementObject = this.getElement(elementId)
-    var controlColorIndex = this.getElementColorIndex(elementObject)
-    var iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
-    var isElementContainer = controlColorIndex < 2
+    let elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
+    let elementObject = this.getElement(elementId)
+    let controlColorIndex = this.getElementColorIndex(elementObject)
+    let iconPath = AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
+    let isElementContainer = controlColorIndex < 2
     $controlElement = $('<dl data-vcv-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
@@ -211,10 +211,18 @@ ControlsHandler.prototype.drawControls = function () {
 
     // add button
     if (isElementContainer) {
-      $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="app:add" data-vcv-element-id="' + elementId + '"/>')
+      let title = 'Add'
+      let addElementTag = ''
+      let children = cook.getChildren(elementObject.get('tag'))
+      if (children.length === 1) {
+        title = `Add ${children[0].name}`
+        addElementTag = children[0].tag
+      }
+
+      $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="app:add" data-vc-control-event-options="' + addElementTag + '" data-vcv-element-id="' + elementId + '"/>')
       $('<span  class="vcv-ui-outline-control-content">' +
         '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-add-thin" ></i>' +
-        '<span class="vcv-ui-outline-control-label" >Add</span>' +
+        '<span class="vcv-ui-outline-control-label" >' + title + '</span>' +
         '</span>').appendTo($controlAction)
       $controlAction.appendTo($dropdownContent)
     }
