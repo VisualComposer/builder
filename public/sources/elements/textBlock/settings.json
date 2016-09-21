@@ -92,5 +92,10 @@
     "type": "group",
     "access": "protected",
     "value": ["General"]
+  },
+  "order": {
+    "type": "number",
+    "access": "protected",
+    "value": 2
   }
 }
