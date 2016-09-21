@@ -196,9 +196,9 @@ class General extends Container implements Module
         if (isset($subsetsToSanitize) && is_array($subsetsToSanitize)) {
             $excluded = $this->getGoogleFontsSubsetsExcluded();
             $subsets = $this->getGoogleFontsSubsets();
-
+            $diff = array_diff($subsets, $excluded);
             foreach ($subsetsToSanitize as $subset) {
-                if (!in_array($subset, $excluded) && in_array($subset, $subsets)) {
+                if (in_array($subset, $diff)) {
                     $sanitized[] = $subset;
                 }
             }
@@ -208,13 +208,11 @@ class General extends Container implements Module
     }
 
     /**
-     * Google fonts subsets callback.
-     *
      * @param \VisualComposer\Helpers\Options $options
      *
-     * @return mixed|string
+     * @return array
      */
-    private function googleFontsSubsetsFieldCallback(Options $options)
+    private function getSubsets(Options $options)
     {
         $checkedSubsets = $options->get('google_fonts_subsets', $this->getGoogleFontsSubsets());
 
@@ -231,6 +229,19 @@ class General extends Container implements Module
                 'checked' => in_array($subset, $checkedSubsets),
             ];
         }
+
+        return $subsets;
+    }
+
+    /**
+     * Google fonts subsets callback.
+     *
+     * @return string
+     */
+    private function googleFontsSubsetsFieldCallback()
+    {
+        /** @see \VisualComposer\Modules\Settings\Pages\General::getSubsets */
+        $subsets = $this->call('getSubsets');
 
         return vcview(
             'settings/pages/general/partials/google-fonts-subsets',

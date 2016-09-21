@@ -60,7 +60,8 @@ module.exports = {
         'shared-library',
         'time-machine',
         'actions-manager',
-        'rules-manager'
+        'rules-manager',
+        'api'
       ]
     },
     wp: {
@@ -97,7 +98,8 @@ module.exports = {
         'shared-library',
         'time-machine',
         'actions-manager',
-        'rules-manager'
+        'rules-manager',
+        'api'
       ]
     }
   },
