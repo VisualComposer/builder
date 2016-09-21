@@ -35,7 +35,7 @@ export default class EditFormResizeTabs extends React.Component {
   onTabsUnmount = (freespace, options) => {
     this.options = options
     this.freeSpace = freespace
-    // Utils.removeResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
+    Utils.removeResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
   }
 
   refreshTabs = ($freeSpace, options) => {
