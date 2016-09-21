@@ -39,6 +39,7 @@ export default class EditFromField extends React.Component {
           key={'attribute-' + fieldKey + element.get('id')}
           options={options}
           value={rawValue}
+          defaultValue={settings.value || null}
           {...this.props}
         />
         {description}

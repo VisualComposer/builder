@@ -34,31 +34,31 @@
   -ms-flex-wrap: wrap-reverse;
       flex-wrap: wrap-reverse;
 }
-.vce-row--has-background > .vce-row-content > .vce-col > .vce-col-content {
+.vce-row.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-content {
   padding-top: 35px;
 }
 @media (min-width: 0) and (max-width: 543px) {
-  .vce-row--xs--has-background > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--xs--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
 }
 @media (min-width: 544px) and (max-width: 767px) {
-  .vce-row--sm--has-background > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--sm--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .vce-row--md--has-background > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--md--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
 }
 @media (min-width: 992px) and (max-width: 1199px) {
-  .vce-row--lg--has-background > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--lg--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
 }
 @media (min-width: 1200px) {
-  .vce-row--xl--has-background > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--xl--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
 }

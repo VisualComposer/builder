@@ -41,7 +41,6 @@ export default class EditFormResizeTabs extends React.Component {
   refreshTabs = ($freeSpace, options) => {
     // get tabs line width
     let freeSpace = $freeSpace.offsetWidth
-
     // If there is no space move tab from visible to hidden tabs.
     let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
@@ -64,7 +63,7 @@ export default class EditFormResizeTabs extends React.Component {
       }
       while (freeSpace > 0 && hiddenTabs.length) {
         let lastTab = hiddenTabs.pop()
-        if (lastTab.realref) {
+        if (lastTab.realRef) {
           freeSpace -= lastTab.realRef.getRealWidth()
           if (freeSpace > 0) {
             this.allTabs[ lastTab.index ].isVisible = true

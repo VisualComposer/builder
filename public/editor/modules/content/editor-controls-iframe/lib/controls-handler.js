@@ -211,7 +211,7 @@ ControlsHandler.prototype.drawControls = function () {
 
     // add button
     if (isElementContainer) {
-      let title = 'Add'
+      let title = 'Add Element'
       let addElementTag = ''
       let children = cook.getChildren(elementObject.get('tag'))
       if (children.length === 1) {

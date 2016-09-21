@@ -16,14 +16,19 @@ export default class EditFormFooter extends React.Component {
     api.request('data:update', element.get('id'), element.toJS())
     this.effect()
   }
-
+  componentDidMount () {
+    this.canceled = false
+  }
+  componentWillUnmount () {
+    this.canceled = true
+  }
   effect () {
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })
       this.setState({ 'saved': true })
       setTimeout(() => {
-        this.setState({ 'saved': false })
+        !this.canceled && this.setState({ 'saved': false })
       }, 1000)
     }, 500)
   }
