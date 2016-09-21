@@ -1,7 +1,5 @@
 .vcv-row-control-container {
   box-sizing: border-box;
-  margin-left: @row-control-container-side-margins;
-  margin-right: @row-control-container-side-margins;
   min-height: @row-size;
   display: flex;
   flex: 1 1 auto;
@@ -12,6 +10,8 @@
   align-items: center;
   opacity: 0;
   transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+  padding-top: @row-control-container-top-bottom-padding;
+  padding-bottom: @row-control-container-top-bottom-padding;
 
   &:hover {
     opacity: 1;
@@ -47,7 +47,7 @@
   transition: background @vcv-transition-duration @vcv-transition-timing-function;
   border-radius: @row-control-border-radius;
   background: @row-control-background;
-  margin: @row-control-top-bottom-margins @row-control-side-margins;
+  margin: @row-control-side-margins;
 
   &:hover,
   &:active,
@@ -92,4 +92,14 @@
     vertical-align: middle;
     font-family: 'Roboto', sans-serif;
   }
+}
+
+.vce-row.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-content > .vcv-row-control-container  {
+  margin-bottom: 35px;
+  padding: 0;
+}
+
+.vce-col.vce-element--has-background > .vce-col-content > .vcv-row-control-container  {
+  margin-bottom: 35px;
+  padding: 0;
 }
