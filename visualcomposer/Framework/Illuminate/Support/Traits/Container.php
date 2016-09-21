@@ -110,12 +110,8 @@ trait Container
                     $dependencies[] = vcapp()->make($parameter->getClass()->name);
                 }
             } else {
-                if (count($parameters)) {
-                    $data = array_shift($parameters);
-                    $dependencies[] = $data;
-                } elseif ($parameter->isDefaultValueAvailable()) {
-                    $dependencies[] = $parameter->getDefaultValue();
-                }
+                $data = array_shift($parameters);
+                $dependencies[] = $data;
             }
         }
     }

@@ -4,12 +4,28 @@ class ContainerTest extends WP_UnitTestCase
 {
     public function testContainerMake()
     {
+        /** @var ContainerCustomModule $module */
         $module = vcapp('ContainerCustomModule', [1, ['test']]);
+        $this->assertTrue($module->test());
+    }
+
+    public function testContainerMakeCustomParam()
+    {
+        /** @var ContainerCustomModule $module */
+        $module = vcapp('ContainerCustomModule', [new stdClass(), ['test']]);
+        $this->assertTrue($module->test2());
+    }
+
+    public function testContainerMakeDefaultParam()
+    {
+        /** @var ContainerCustomModule $module */
+        $module = vcapp('ContainerCustomModule', [0]);
         $this->assertTrue($module->test());
     }
 
     public function testContainerCall()
     {
+        /** @var ContainerCustomModule $module */
         $module = vcapp('ContainerCustomModule', [0]);
         $this->assertTrue($module->call('a'));
         $this->assertTrue($module->call('b'));
@@ -77,6 +93,12 @@ class ContainerTest extends WP_UnitTestCase
         $application->make('PrivateContainerCustomModule');
         $this->assertTrue(SimpleCustomModule::$init);
     }
+
+    public function testCallReflector()
+    {
+        $this->assertTrue(vcapp()->call('SimpleCustomModule::testCallReflector'));
+        $this->assertTrue(SimpleCustomModule::$callReflectorCalled);
+    }
 }
 
 class ContainerCustomModule extends \VisualComposer\Framework\Container
@@ -102,6 +124,11 @@ class ContainerCustomModule extends \VisualComposer\Framework\Container
     public function test()
     {
         return is_numeric($this->data) && is_array($this->test) && count($this->test) == $this->data;
+    }
+
+    public function test2()
+    {
+        return is_object($this->data) && $this->data instanceof stdClass;
     }
 
     public function call($method, array $parameters = [])
@@ -131,9 +158,18 @@ class SimpleCustomModule
 {
     static $init = false;
 
+    static $callReflectorCalled = false;
+
     public function __construct()
     {
         self::$init = true;
+    }
+
+    public static function testCallReflector()
+    {
+        self::$callReflectorCalled = true;
+
+        return true;
     }
 }
 
