@@ -38,7 +38,7 @@ export default {
       tempProperty = 'background-image'
       tempValue = []
       for (let url of data[ device ].backgroundImage.urls) {
-        tempValue.push('url(' + url + ')')
+        tempValue.push('url(' + url.full + ')')
       }
       tempValue = tempValue.join(',')
     }

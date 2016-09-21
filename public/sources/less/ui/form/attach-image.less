@@ -1,174 +1,115 @@
 
 .vcv-ui-form-attach-image {
-  @gap: 10px;
-  margin: 0 -@gap/2;
+  margin: 0 -@vcui-attach-image-gap/2;
+}
 
-  a {
-    outline: none;
-    box-shadow: none;
-    text-decoration: none;
-  }
-
+.vcv-ui-form-attach-image-items {
+  padding: 0;
+  margin: 0;
+  list-style: none;
   &::after {
     content: '  ';
     display: table;
     clear: both;
   }
+}
 
-  .vcv-ui-form-attach-image-control {
-    display: block;
-    height: @vcui-attach-image-size;
-    width: @vcui-attach-image-size;
-    box-sizing: border-box;
-    background-color: @vcui-form-input-background;
-    color: @vcui-form-input-border-color;
-    border: 1px dashed @vcui-form-input-border-color;
-    font-size: 0;
-    cursor: pointer;
-    position: relative;
-    float: left;
-    margin-left: @gap/2;
-    &:hover,
-    &:focus {
-      #make-vcv-ui-form > .property-darken-color(color, @vcui-form-input-border-color);
-      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
-    }
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 30px;
-    }
-  }
+.vcv-ui-form-attach-image-item {
+  margin: @vcui-attach-image-gap/2;
+  position: relative;
+  overflow: hidden;
+  float: left;
+}
 
-  .vcv-ui-form-attach-images {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.vcv-ui-form-attach-image-thumbnail {
+  position: relative;
+  height: @vcui-attach-image-size;
+  width: @vcui-attach-image-size;
+  margin: 0;
+  padding: 0;
+  #make-vcv-ui-form > .make-chess-background(@vcui-attach-image-grid-main-color, @vcui-attach-image-grid-secondary-color, @vcui-attach-image-grid-size);
 
-    li {
-      @grid-size: 10px;
-      @grid-main-color: #fefefe;
-      @grid-secondary-color: #eee;
-
-      box-sizing: border-box;
-      margin: 0 @gap/2 @gap @gap/2;
-      height: @vcui-attach-image-size;
-      width: @vcui-attach-image-size;
-      position: relative;
-      overflow: hidden;
-      float: left;
-      background-color: @grid-main-color;
-      background-image: linear-gradient(45deg, @grid-secondary-color 25%, transparent 25%, transparent 75%, @grid-secondary-color 75%, @grid-secondary-color),
-      linear-gradient(45deg, @grid-secondary-color 25%, transparent 25%, transparent 75%, @grid-secondary-color 75%, @grid-secondary-color);
-      background-size: @grid-size * 2 @grid-size * 2;
-      background-position: 0 0, @grid-size @grid-size;
-      background-repeat: repeat;
-      z-index: 1;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, .8);
-        z-index: 5;
-        opacity: 0;
-        transition-duration: @vcui-form-transition-duration;
-        transition-property: opacity;
-        transition-timing-function: ease-in-out;
-      }
-
-      &:hover {
-        &::after,
-        .gallery_widget_controls {
-          //opacity: 1;
-        }
-      }
-
-      img {
-        max-height: @vcui-attach-image-size;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: none;
-        background-color: transparent;
-      }
-    }
-  }
-
-  .gallery_widget_controls {
+  img {
+    max-height: @vcui-attach-image-size;
     position: absolute;
-    z-index: 10;
     top: 50%;
     left: 50%;
-    white-space: nowrap;
-    opacity: 0;
     transform: translate(-50%, -50%);
-    transition-duration: @vcui-form-transition-duration;
-    transition-property: opacity;
-    transition-timing-function: ease-in-out;
-    &::after {
-      content: '  ';
-      display: table;
-      clear: both;
-    }
-  }
-
-  .gallery_widget_control {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    height: @vcui-attach-image-icon-size * 2;
-    width: @vcui-attach-image-icon-size * 2;
-    line-height: @vcui-attach-image-icon-size * 2;
-    font-size: @vcui-attach-image-icon-size;
-    text-align: center;
-    transition-duration: @vcui-form-transition-duration;
-    transition-property: color;
-    transition-timing-function: ease-in-out;
-  }
-
-  .vcv-ui-sortable-handle {
-    @color: #fff;
-    color: @color;
-    cursor: move;
-    &:hover,
-    &:focus {
-      #make-vcv-ui-form > .property-darken-color(color, @color);
-    }
-  }
-
-  .vcv-ui-edit-handle {
-    @color: #fff;
-    color: @color;
-    cursor: pointer;
-    &:hover,
-    &:focus {
-      #make-vcv-ui-form > .property-darken-color(color, @color);
-    }
-  }
-
-  .vc_icon-remove {
-    color: @vcui-attach-image-remove-color;
-    &:hover,
-    &:focus {
-      #make-vcv-ui-form > .property-darken-color(color, @vcui-attach-image-remove-color);
-    }
-  }
-
-  &.vcv-ui-form-attach-image-o-single {
-    .vcv-ui-sortable-handle {
-      display: none;
-    }
-    &:not(.vcv-ui-empty) {
-      .gallery_widget_add_images {
-        //display: none;
-      }
-    }
+    border: none;
+    background-color: transparent;
   }
 }
+
+.vcv-ui-form-attach-image-item-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: @vcui-attach-image-hover-bg;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  opacity: 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    opacity: 1;
+  }
+}
+
+.vcv-ui-form-attach-image-item-control {
+  flex: 0;
+  outline: none;
+  line-height: 1;
+  text-decoration: none;
+  color: @vcui-attach-image-icon-color;
+  font-size: @vcui-attach-image-icon-size;
+  height: 1em;
+  width: 1em;
+  box-sizing: content-box;
+  padding: .5em;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: color;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    color: @vcui-attach-image-icon-color-hover;
+  }
+}
+
+.vcv-ui-form-attach-image-item-control-state--danger {
+  color: @vcui-attach-image-remove-color;
+  &:hover {
+    color: @vcui-attach-image-remove-color-hover;
+  }
+}
+
+.vcv-ui-form-attach-image-control {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: @vcui-attach-image-size;
+  width: @vcui-attach-image-size;
+  border: 1px dashed;
+  line-height: 1;
+  font-size: @vcui-attach-image-control-size;
+  color: @vcui-attach-image-control-color;
+  transition-duration: @vcui-form-transition-duration;
+  transition-property: color;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    color: @vcui-attach-image-control-color-hover;
+  }
+}
+
