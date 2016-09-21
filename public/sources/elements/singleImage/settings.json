@@ -45,7 +45,8 @@
     "value": "http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png",
     "options": {
       "label": "Image",
-      "multiple": false
+      "multiple": false,
+      "defaultValue": "http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png"
     }
   },
   "style": {
