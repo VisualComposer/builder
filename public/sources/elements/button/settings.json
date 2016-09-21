@@ -449,5 +449,10 @@
     "value": [
       "General"
     ]
+  },
+  "order": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
   }
 }
