@@ -62,14 +62,33 @@ class ContainerTest extends WP_UnitTestCase
         $this->assertNotEquals(vcapp('testSingleton', [0]), vcapp('ContainerCustomModule', [0]));
         $this->assertNotEquals(vcapp('ContainerCustomModule', [0]), vcapp('ContainerCustomModule', [0]));
     }
+
+    public function testSimpleMake()
+    {
+        /** @var CustomContainer $application */
+        $application = vcapp()->make('CustomContainer');
+
+        $application->bind('\\PrivateContainerCustomModule', 'SimpleCustomModule');
+        $this->assertTrue($application->getCustomConcrete('\\PrivateContainerCustomModule') instanceof Closure);
+
+        $application->setCustomConcrete('\\PrivateContainerCustomModule', 'SimpleCustomModule');
+        $this->assertEquals('SimpleCustomModule', $application->getCustomConcrete('\\PrivateContainerCustomModule'));
+
+        $application->make('PrivateContainerCustomModule');
+        $this->assertTrue(SimpleCustomModule::$init);
+    }
 }
 
 class ContainerCustomModule extends \VisualComposer\Framework\Container
 {
     private $creationTime;
+
     private $options;
+
     private $data;
+
     private $test;
+
     use \VisualComposer\Framework\Illuminate\Support\Traits\Container;
 
     public function __construct(\VisualComposer\Helpers\Options $options, $data, $test = [])
@@ -105,5 +124,28 @@ class PrivateContainerCustomModule
 {
     private function __construct()
     {
+    }
+}
+
+class SimpleCustomModule
+{
+    static $init = false;
+
+    public function __construct()
+    {
+        self::$init = true;
+    }
+}
+
+class CustomContainer extends \VisualComposer\Framework\Illuminate\Container\Container
+{
+    public function setCustomConcrete($abstract, $concrete)
+    {
+        $this->bindings[ $abstract ]['concrete'] = $concrete;
+    }
+
+    public function getCustomConcrete($abstract)
+    {
+        return $this->bindings[ $abstract ]['concrete'];
     }
 }
