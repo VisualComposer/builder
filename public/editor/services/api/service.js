@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 const Service = {
   getDesignOptionsCssClasses: function (designOptions) {
     let classes = []
-    if (!(Object.keys(designOptions).length === 0 && designOptions.constructor === Object) && designOptions.used) {
+    if (designOptions && !(Object.keys(designOptions).length === 0 && designOptions.constructor === Object) && designOptions.used) {
       if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
         classes.push('vce-element--has-background')
       } else {
