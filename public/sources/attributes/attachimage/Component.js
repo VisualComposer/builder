@@ -13,7 +13,7 @@ class AttachImage extends Attribute {
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = { ids: [null], urls: [{full: value || props.defaultValue}] }
+      value = props.defaultValue ? { ids: [null], urls: [{full: value || props.defaultValue}] } : {ids: [], urls: []}
     }
 
     return {
@@ -55,11 +55,11 @@ class AttachImage extends Attribute {
     let urls = this.state.value.urls
     ids.splice(key, 1)
     urls.splice(key, 1)
-
-    this.setFieldValue(ids.length ? {
+    let fieldValue = ids.length ? {
       ids: ids,
       urls: urls
-    } : { ids: [null], urls: [{full: this.props.defaultValue}] })
+    } : this.props.defaultValue ? { ids: [null], urls: [{full: this.props.defaultValue}] } : {ids: [], urls: []}
+    this.setFieldValue(fieldValue)
   }
 
   onMediaSelect = () => {

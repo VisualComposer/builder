@@ -10,7 +10,7 @@ import vcCake from 'vc-cake'
 
 class DesignOptions extends Attribute {
   static propTypes = {
-    value: React.PropTypes.object
+    value: React.PropTypes.any
   }
 
   updateState (props) {

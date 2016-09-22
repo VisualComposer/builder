@@ -408,6 +408,11 @@
     "access": "public",
     "value": "none"
   },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": ""
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -429,7 +434,8 @@
       "style",
       "shape",
       "showArrow",
-      "animate"
+      "animate",
+      "color"
     ],
     "options": {
       "label": "Options"
