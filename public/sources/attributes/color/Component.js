@@ -58,7 +58,6 @@ class Color extends Attribute {
       value = 'transparent'
     }
     let color = tinycolor(value)
-    console.log(color.toString('rgb'))
     return {
       value: color.toString('rgb')
     }
@@ -88,10 +87,6 @@ class Color extends Attribute {
     let color = tinycolor(sketchValue.rgb)
     let value = color.toString(format || 'rgb')
 
-    if (value === 'rgba(0, 0, 0, 0)') {
-      value = ''
-    }
-
     this.setState({
       value: value
     })
@@ -105,7 +100,6 @@ class Color extends Attribute {
     let colorStyle = {
       background: color.toString('rgb')
     }
-
     if (color.toString('rgb') === 'rgba(0, 0, 0, 0)') {
       color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
       colorStyle.backgroundSize = 'cover'
