@@ -18,18 +18,21 @@ class Dispatcher implements DispatcherContract
      * @var \VisualComposer\Framework\Illuminate\Contracts\Container\Container
      */
     protected $container;
+
     /**
      * The registered event listeners.
      *
      * @var array
      */
     protected $listeners = [];
+
     /**
      * The wildcard listeners.
      *
      * @var array
      */
     protected $wildcards = [];
+
     /**
      * The sorted event listeners.
      *
@@ -182,5 +185,10 @@ class Dispatcher implements DispatcherContract
     public function forget($event)
     {
         unset($this->listeners[ $event ], $this->sorted[ $event ]);
+    }
+
+    public function forgetWildcard($event)
+    {
+        unset($this->wildcards[ $event ]);
     }
 }

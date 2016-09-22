@@ -80,4 +80,23 @@ class AppTest extends WP_UnitTestCase
         vcapp()->call($func);
         $this->assertTrue($called, 'function must be called');
     }
+
+    public function testInit()
+    {
+        /** @var \VisualComposer\Helpers\Events $helper */
+        $helper = vchelper('Events');
+        $helper->forget('vcv:inited');
+        $called = false;
+        $arg = false;
+        $callback = function ($app) use (&$called, &$arg) {
+            $called = true;
+            $arg = $app;
+        };
+        $helper->listen('vcv:inited', $callback);
+        vcapp()->init();
+        $this->assertTrue($called);
+        $this->assertTrue(is_object($arg));
+        $this->assertTrue($arg instanceof \VisualComposer\Application);
+        $helper->forget('vcv:inited');
+    }
 }

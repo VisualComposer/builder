@@ -36,4 +36,13 @@ interface Events
      * @return void
      */
     public function forget($event);
+
+    /**
+     * Remove a set of wildcard listeners from the dispatcher.
+     *
+     * @param  string $event
+     *
+     * @return void
+     */
+    public function forgetWildcard($event);
 }
