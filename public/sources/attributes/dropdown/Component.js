@@ -2,7 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class Dropdown extends Attribute {
-  selectChilds = null
+  selectChildren = null
 
   componentWillReceiveProps (nextProps) {
     this.generateSelectChilds(nextProps)
@@ -45,7 +45,7 @@ export default class Dropdown extends Attribute {
       }
     }
 
-    this.selectChilds = optionElements
+    this.selectChildren = optionElements
   }
 
   render () {
@@ -56,7 +56,7 @@ export default class Dropdown extends Attribute {
         value={value}
         onChange={this.handleChange}
         className='vcv-ui-form-dropdown'>
-        {this.selectChilds}
+        {this.selectChildren}
       </select>
     )
   }
