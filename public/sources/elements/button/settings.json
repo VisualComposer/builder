@@ -406,7 +406,10 @@
   "animate": {
     "type": "animateDropdown",
     "access": "public",
-    "value": "none"
+    "value": "none",
+    "options": {
+      "label": "Animate"
+    }
   },
   "color": {
     "type": "color",

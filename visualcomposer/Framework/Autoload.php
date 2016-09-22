@@ -13,28 +13,41 @@ class Autoload
      * Used in bitwise comparison.
      */
     const CLASS_START = 1;
+
     /**
      * Used in bitwise comparison.
      */
     const CLASS_START_STRING = 2;
+
     /** @var  ApplicationVc */
     private $app;
+
     protected $components = null;
 
     /**
      * Autoload constructor.
      *
      * @param \VisualComposer\Application $app
+     * @param bool $init
+     * @param bool $skipCache
+     * @param string $version
      */
-    public function __construct(ApplicationVc $app)
+    public function __construct(ApplicationVc $app, $init = true, $skipCache = VCV_DEBUG, $version = VCV_VERSION)
     {
         $this->app = $app;
-        if (VCV_DEBUG) {
+        if ($init) {
+            $this->init($skipCache, $version);
+        }
+    }
+
+    private function init($skipCache, $version)
+    {
+        if ($skipCache) {
             $all = $this->getComponents();
             $this->initComponents($all);
             $this->saveComponents($all);
         } else {
-            $this->useCache();
+            $this->useCache($version);
         }
     }
 
@@ -241,13 +254,12 @@ DATA;
     /**
      * @return bool
      */
-    public function useCache()
+    public function useCache($version)
     {
-        $filename = $this->app->path('cache/autoload-' . VCV_VERSION . '.php');
+        $filename = $this->app->path('cache/autoload-' . $version . '.php');
         if (file_exists($filename)) {
             /** @noinspection PhpIncludeInspection */
             $all = require $filename;
-
             $this->initComponents($all);
 
             return true;
