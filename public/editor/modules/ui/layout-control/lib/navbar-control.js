@@ -7,27 +7,42 @@ class LayoutButtonControl extends React.Component {
     {
       type: 'Desktop',
       className: 'desktop',
-      viewport: '1200'
+      viewport: {
+        min: '1200',
+        max: Infinity
+      }
     },
     {
       type: 'Tablet Landscape',
       className: 'tablet-landscape',
-      viewport: '992'
+      viewport: {
+        min: '992',
+        max: '1199'
+      }
     },
     {
       type: 'Tablet Portrait',
       className: 'tablet-portrait',
-      viewport: '768'
+      viewport: {
+        min: '768',
+        max: '991'
+      }
     },
     {
       type: 'Mobile Landscape',
       className: 'mobile-landscape',
-      viewport: '544'
+      viewport: {
+        min: '554',
+        max: '767'
+      }
     },
     {
       type: 'Mobile Portrait',
       className: 'mobile-portrait',
-      viewport: '320'
+      viewport: {
+        min: '0',
+        max: '553'
+      }
     }
   ]
 
@@ -126,21 +141,10 @@ class LayoutButtonControl extends React.Component {
     let iframeWidth = this.checkIframeWidth()
     let activeDevice = this.state.activeDevice
 
-    LayoutButtonControl.devices.forEach((item) => {
+    LayoutButtonControl.devices.forEach((item, i) => {
       let controlViewport = item.viewport
-
-      if (iframeWidth < controlViewport) {
-        if (LayoutButtonControl.devices[activeDevice] === item) {
-          activeDevice++
-
-          if (activeDevice === LayoutButtonControl.devices.length) {
-            activeDevice--
-          }
-        }
-      } else {
-        if (LayoutButtonControl.devices[activeDevice - 1] === item) {
-          activeDevice--
-        }
+      if (iframeWidth > controlViewport.min && iframeWidth < controlViewport.max) {
+        activeDevice = i
       }
     })
     return activeDevice
