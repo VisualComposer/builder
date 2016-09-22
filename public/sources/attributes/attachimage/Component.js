@@ -13,7 +13,7 @@ class AttachImage extends Attribute {
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = { ids: [], urls: [] }
+      value = { ids: [null], urls: [{full: value || props.defaultValue}] }
     }
 
     return {
@@ -56,10 +56,10 @@ class AttachImage extends Attribute {
     ids.splice(key, 1)
     urls.splice(key, 1)
 
-    this.setFieldValue({
+    this.setFieldValue(ids.length ? {
       ids: ids,
       urls: urls
-    })
+    } : { ids: [null], urls: [{full: this.props.defaultValue}] })
   }
 
   onMediaSelect = () => {
@@ -89,10 +89,12 @@ class AttachImage extends Attribute {
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
     ids.forEach(function (id) {
-      let attachment = window.wp.media.attachment(id)
-      attachment.fetch()
-      if (attachment) {
-        selection.add([ attachment ])
+      if (id) {
+        let attachment = window.wp.media.attachment(id)
+        attachment.fetch()
+        if (attachment) {
+          selection.add([ attachment ])
+        }
       }
     })
   }
@@ -116,9 +118,8 @@ class AttachImage extends Attribute {
         </a>
       )
     }
-
-    value.urls.forEach((url, key) => {
-      images.push(
+    value && value.urls.forEach((url, key) => {
+      value.ids[key] && images.push(
         <li className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + url.full}>
           <figure className='vcv-ui-form-attach-image-thumbnail'>
             <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail} />
@@ -142,7 +143,7 @@ class AttachImage extends Attribute {
       </li>
     )
 
-    if (!this.props.options.multiple && value.urls.length) {
+    if (!this.props.options.multiple && value.urls.length && value.ids[0]) {
       addControl = ''
     }
 

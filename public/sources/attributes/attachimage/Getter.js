@@ -15,6 +15,5 @@ module.exports = (data, key, settings) => {
       returnValue = value.urls[ 0 ]
     }
   }
-
   return returnValue
 }
