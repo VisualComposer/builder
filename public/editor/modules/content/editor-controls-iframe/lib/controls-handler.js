@@ -284,7 +284,7 @@ ControlsHandler.prototype.removeControls = function () {
 }
 
 ControlsHandler.prototype.setControlsPosition = function () {
-  var posTop, posLeft, outerWidth
+  var posTop, posLeft // , outerWidth
 
   var getDrop = function (el) {
     var top = el.offsetTop
@@ -310,11 +310,13 @@ ControlsHandler.prototype.setControlsPosition = function () {
       inset = true
       posTop = 0
     }
-    posLeft = this.$currentElement.offset().left + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
-    outerWidth = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
+    posLeft = this.$currentElement.offset().left // + iframeOffsetLeft + this.$currentElement.outerWidth() - this.$currentElement[ 0 ].ownerDocument.defaultView.pageXOffset
+    // outerWidth = $(this.$currentElement[ 0 ].ownerDocument.defaultView).outerWidth()
+    /*
     if (posLeft > outerWidth) {
       posLeft = outerWidth
     }
+    */
     this.$controlsContainer.css({
       'top': posTop,
       'left': posLeft

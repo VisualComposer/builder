@@ -48,7 +48,7 @@ export default class EditFormFooter extends React.Component {
     return (
       <div className='vcv-ui-tree-content-footer'>
         <div className='vcv-ui-tree-layout-actions'>
-          <a className={saveButtonClasses} href='javascript:;' title='Save' onClick={this.onSave}>
+          <a className={saveButtonClasses} title='Save' onClick={this.onSave}>
             <span className='vcv-ui-tree-layout-action-content'>
               <i className={saveIconClasses} />
               <span>Save</span>
