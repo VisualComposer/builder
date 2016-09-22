@@ -36,7 +36,8 @@ class AutoloadTest extends WP_UnitTestCase
         $components = $app->getComponents();
         $this->assertTrue($app->initComponents($components));
         $this->assertFalse($app->initComponents(false));
-        $this->assertTrue($app->useCache());
+        $this->assertTrue($app->useCache(VCV_VERSION));
+        $this->assertFalse($app->useCache('0.0.0'));
     }
 
     public function testIsHelper()

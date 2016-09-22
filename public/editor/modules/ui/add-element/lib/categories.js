@@ -73,26 +73,53 @@ class Categories extends React.Component {
     }
     return hash
   }
-
+  getCategoriesElements (data, category = null) {
+    const sortMethod = (a, b) => {
+      if (a.order && b.order === undefined) {
+        return -1
+      } else if (a.order === undefined && b.order) {
+        return 1
+      } else if (a.order && b.order) {
+        return a.order - b.order
+      }
+      return a.name.localeCompare(b.name, {kn: true}, {sensitivity: 'base'})
+    }
+    if (category) {
+      return data[category].sort(sortMethod)
+    }
+    return lodash(data).values().flatten().value().sort(sortMethod)
+  }
   tabsFromProps (props) {
     let tabs = []
     let index = 0
     let categories = lodash.groupBy(props.elements, (element) => {
-      return element.category || 'Content'
+      return element.category || 'All'
     })
+    const allTab = {
+      id: 'All',
+      index: index++,
+      title: 'All',
+      elements: this.getCategoriesElements(categories),
+      isVisible: true,
+      pinned: false
+    }
     for (let title in categories) {
       let tab = {
         id: title + index, // TODO: Should it be more unique?
         index: index++,
         title: title,
-        elements: categories[ title ],
+        elements: this.getCategoriesElements(categories, title),
         isVisible: true,
         pinned: false // TODO: Actual logic.
       }
       tabs.push(tab)
     }
-    allTabs = tabs
-
+    allTabs = [allTab].concat(tabs.sort((a, b) => {
+      return a.title.localeCompare(b.title)
+    })).map((tab, i) => {
+      tab.index = i
+      return tab
+    })
     this.setState({
       tabsHash: this.getTabsHash(allTabs)
     })

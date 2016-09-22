@@ -30,10 +30,16 @@ class Application extends ApplicationFactory
          */
         add_action(
             'init',
-            function () {
-                vcevent('vcv:inited', $this);
-            }
+            [
+                $this,
+                'init',
+            ]
         );
+    }
+
+    public function init()
+    {
+        vcevent('vcv:inited', $this);
     }
 
     /**

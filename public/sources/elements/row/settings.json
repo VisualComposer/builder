@@ -97,5 +97,10 @@
     "value": [
       "Column"
     ]
+  },
+  "order": {
+    "type": "number",
+    "access": "protected",
+    "value": 1
   }
 }

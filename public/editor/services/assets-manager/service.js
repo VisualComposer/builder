@@ -4,7 +4,9 @@ import postcssVars from 'postcss-custom-properties'
 import postcssMedia from 'postcss-custom-media'
 import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
+import CustomCss from './lib/customCss'
 
+const customCss = new CustomCss()
 vcCake.addService('assets-manager', {
   /**
    * Up-to-date list of all elements
@@ -14,7 +16,6 @@ vcCake.addService('assets-manager', {
   elements: {},
   styles: {},
   columns: {},
-
   /**
    * @param elements
    */
@@ -26,7 +27,12 @@ vcCake.addService('assets-manager', {
     // todo: validate elements
     this.styles = styles
   },
-
+  setCustomCss: function (value) {
+    customCss.data = value
+  },
+  getCustomCss: function () {
+    return customCss.data
+  },
   /**
    * @param id
    */

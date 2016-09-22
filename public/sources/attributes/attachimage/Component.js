@@ -1,15 +1,19 @@
 import React from 'react'
 import Attribute from '../attribute'
-import './css/data.less'
 import lodash from 'lodash'
 
 class AttachImage extends Attribute {
-  mediaUploader = null
+
+  constructor (props) {
+    super(props)
+    this.mediaUploader = null
+    this.handleRemove = this.handleRemove.bind(this)
+  }
 
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = { ids: [], urls: [] }
+      value = props.defaultValue ? { ids: [null], urls: [{full: value || props.defaultValue}] } : {ids: [], urls: []}
     }
 
     return {
@@ -46,6 +50,18 @@ class AttachImage extends Attribute {
     this.mediaUploader.on('open', this.onMediaOpen)
   }
 
+  handleRemove (key) {
+    let ids = this.state.value.ids
+    let urls = this.state.value.urls
+    ids.splice(key, 1)
+    urls.splice(key, 1)
+    let fieldValue = ids.length ? {
+      ids: ids,
+      urls: urls
+    } : this.props.defaultValue ? { ids: [null], urls: [{full: this.props.defaultValue}] } : {ids: [], urls: []}
+    this.setFieldValue(fieldValue)
+  }
+
   onMediaSelect = () => {
     let selection
     selection = this.mediaUploader.state().get('selection')
@@ -60,7 +76,7 @@ class AttachImage extends Attribute {
     ids.push(attachment.id)
     let srcUrl = {}
     for (let size in attachment.sizes) {
-      srcUrl[size] = attachment.sizes[size].url
+      srcUrl[ size ] = attachment.sizes[ size ].url
     }
     urls.push(srcUrl)
     this.setFieldValue({
@@ -73,10 +89,12 @@ class AttachImage extends Attribute {
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
     ids.forEach(function (id) {
-      let attachment = window.wp.media.attachment(id)
-      attachment.fetch()
-      if (attachment) {
-        selection.add([ attachment ])
+      if (id) {
+        let attachment = window.wp.media.attachment(id)
+        attachment.fetch()
+        if (attachment) {
+          selection.add([ attachment ])
+        }
       }
     })
   }
@@ -85,17 +103,56 @@ class AttachImage extends Attribute {
     let { value } = this.state
     let { fieldKey } = this.props
     let images = []
-    value.urls.forEach(function (url) {
-      images.push(<li key={fieldKey + '-li-:' + url.full}><img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail}
-        className='thumbnail' /></li>)
+
+    let oneMoreControl = ''
+    if (this.props.options.multiple) {
+      oneMoreControl = (
+        <a className='vcv-ui-form-attach-image-item-control'>
+          <i className='vcv-ui-icon vcv-ui-icon-move' />
+        </a>
+      )
+    } else {
+      oneMoreControl = (
+        <a className='vcv-ui-form-attach-image-item-control' onClick={this.openLibrary}>
+          <i className='vcv-ui-icon vcv-ui-icon-edit' />
+        </a>
+      )
+    }
+    value && value.urls.forEach((url, key) => {
+      value.ids[key] && images.push(
+        <li className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + url.full}>
+          <figure className='vcv-ui-form-attach-image-thumbnail'>
+            <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail} />
+          </figure>
+          <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
+            {oneMoreControl}
+            <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
+              onClick={this.handleRemove.bind(this, key)}>
+              <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+            </a>
+          </div>
+        </li>
+      )
     })
+
+    let addControl = (
+      <li className='vcv-ui-form-attach-image-item'>
+        <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary}>
+          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
+        </a>
+      </li>
+    )
+
+    if (!this.props.options.multiple && value.urls.length && value.ids[0]) {
+      addControl = ''
+    }
 
     return (
       <div className='vcv-ui-form-attach-image'>
-        <ul className='vcv-ui-form-attach-images'>
+        <ul className='vcv-ui-form-attach-image-items'>
           {images}
+          {addControl}
         </ul>
-        <a className='vcv-ui-icon vcv-ui-icon-add-thin vcv-ui-form-attach-image-control' onClick={this.openLibrary} />
       </div>
     )
   }

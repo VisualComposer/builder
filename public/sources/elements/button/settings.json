@@ -411,6 +411,11 @@
       "label": "Animate"
     }
   },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": ""
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -432,7 +437,8 @@
       "style",
       "shape",
       "showArrow",
-      "animate"
+      "animate",
+      "color"
     ],
     "options": {
       "label": "Options"
@@ -452,5 +458,10 @@
     "value": [
       "General"
     ]
+  },
+  "order": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
   }
 }
