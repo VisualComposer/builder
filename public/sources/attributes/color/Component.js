@@ -6,6 +6,7 @@ import Attribute from '../attribute'
 import './css/styles.less'
 import tinycolor from 'react-color/modules/tinycolor2'
 import classNames from 'classnames'
+import _ from 'lodash'
 
 class Color extends Attribute {
 
@@ -54,12 +55,8 @@ class Color extends Attribute {
 
   updateState (props) {
     let value = props.value
-    if (!value) {
-      value = 'transparent'
-    }
-    let color = tinycolor(value)
     return {
-      value: color.toString('rgb')
+      value: value ? tinycolor(value).toString('rgb') : ''
     }
   }
 
@@ -86,6 +83,9 @@ class Color extends Attribute {
     let { updater, fieldKey } = this.props
     let color = tinycolor(sketchValue.rgb)
     let value = color.toString(format || 'rgb')
+    if (value === 'rgba(0, 0, 0, 0)') {
+      value = ''
+    }
 
     this.setState({
       value: value
@@ -96,11 +96,10 @@ class Color extends Attribute {
   render () {
     let { value, displayColorPicker } = this.state
     let color = tinycolor(value)
-
     let colorStyle = {
-      background: color.toString('rgb')
+      background: _.isEmpty(value) ? null : color.toString('rgb')
     }
-    if (color.toString('rgb') === 'rgba(0, 0, 0, 0)') {
+    if (_.isEmpty(value)) {
       color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
       colorStyle.backgroundSize = 'cover'
       colorStyle.backgroundColor = ''
