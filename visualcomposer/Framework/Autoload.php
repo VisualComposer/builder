@@ -40,7 +40,7 @@ class Autoload
         }
     }
 
-    private function init($skipCache, $version)
+    public function init($skipCache, $version)
     {
         if ($skipCache) {
             $all = $this->getComponents();

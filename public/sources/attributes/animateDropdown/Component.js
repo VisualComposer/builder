@@ -412,11 +412,9 @@ export default class AnimateDropdown extends Dropdown {
       }
     }
   ]
-  constructor (props) {
-    if (typeof props.options.values === 'undefined') {
-      props.options.values = AnimateDropdown.animations
-    }
-    super(props)
+  getSelectOptions () {
+    return this.props.options && this.props.options.values
+      ? this.props.options.values
+      : AnimateDropdown.animations
   }
-
 }

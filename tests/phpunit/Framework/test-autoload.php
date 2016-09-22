@@ -38,6 +38,20 @@ class AutoloadTest extends WP_UnitTestCase
         $this->assertFalse($app->initComponents(false));
         $this->assertTrue($app->useCache(VCV_VERSION));
         $this->assertFalse($app->useCache('0.0.0'));
+        $app->init(false, '0.0.0');
+    }
+
+    public function testInitCache()
+    {
+        /** @var \VisualComposer\Framework\Autoload $app */
+        $app = $this->getMockBuilder('\VisualComposer\Framework\Autoload')->disableOriginalConstructor()->setMethods(
+            ['useCache']
+        )->getMock();
+        $app->expects($this->once())->method('useCache')->with(
+            $this->equalTo('0.0.0')
+        )->will($this->returnValue(true));
+
+        $app->init(false, '0.0.0');
     }
 
     public function testIsHelper()

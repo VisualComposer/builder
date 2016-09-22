@@ -29,10 +29,13 @@ export default class Dropdown extends Attribute {
     let label = values[ key ].label
     return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
   }
-
+  getSelectOptions () {
+    let { values } = this.props.options || {}
+    return values
+  }
   generateSelectChildren (props) {
     let optionElements = []
-    let { values } = props.options
+    let values = this.getSelectOptions()
     let { fieldKey } = props
 
     for (let key in values) {
