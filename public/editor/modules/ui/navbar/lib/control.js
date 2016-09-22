@@ -6,19 +6,12 @@ class NavbarControl extends React.Component {
     realSize: {
       width: undefined,
       height: undefined
-    },
-    navbarPosition: 'top'
+    }
   }
 
   componentDidMount () {
     this.setState({
       realSize: this.getRealSize()
-    })
-    this.props.api.on('positionChanged', (position) => {
-      this.setState({
-        navbarPosition: position,
-        realSize: this.getRealSize()
-      })
     })
   }
 

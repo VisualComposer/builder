@@ -7,35 +7,38 @@ import '../css/module.less'
 let navbarControls = []
 
 class Navbar extends React.Component {
-  state = {
-    controlsCount: 0,
-    visibleControlsCount: 0,
-    saving: false,
-    saved: false,
-    isDragging: false,
-    isDetached: false,
-    navbarPosition: 'top',
-    navPosX: 0,
-    navPosY: 0,
-    windowSize: {
-      height: window.innerHeight,
-      width: window.innerWidth
-    },
-    navbarSize: {
-      height: undefined,
-      width: undefined
-    },
-    navbarPositionFix: {
-      top: undefined,
-      left: undefined
-    },
-    moveDirection: {
-      top: false,
-      right: false,
-      bottom: false,
-      left: false
-    },
-    hasEndContent: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      controlsCount: 0,
+      visibleControlsCount: 0,
+      saving: false,
+      saved: false,
+      isDragging: false,
+      isDetached: false,
+      navbarPosition: 'top',
+      navPosX: 0,
+      navPosY: 0,
+      windowSize: {
+        height: window.innerHeight,
+        width: window.innerWidth
+      },
+      navbarSize: {
+        height: undefined,
+        width: undefined
+      },
+      navbarPositionFix: {
+        top: undefined,
+        left: undefined
+      },
+      moveDirection: {
+        top: false,
+        right: false,
+        bottom: false,
+        left: false
+      },
+      hasEndContent: false
+    }
   }
 
   componentWillMount () {
@@ -341,7 +344,6 @@ class Navbar extends React.Component {
       // get new position
       let navSize = 60 * 0.5
       let navSizeSide = 60
-
       if (newStates.navPosY < navSize) {
         // if nav is on top
         if (previousState.navbarPosition !== 'top') {
@@ -367,9 +369,6 @@ class Navbar extends React.Component {
           newStates.navbarPosition = 'detached'
         }
       }
-      // if (newStates.navbarPosition && (previousState.navbarPosition !== newStates.navbarPosition)) {
-      //   this.props.api.notify('positionChanged', newStates.navbarPosition)
-      // }
       return newStates
     })
 
