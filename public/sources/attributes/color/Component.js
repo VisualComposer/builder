@@ -58,7 +58,7 @@ class Color extends Attribute {
       value = 'transparent'
     }
     let color = tinycolor(value)
-
+    console.log(color.toString('rgb'))
     return {
       value: color.toString('rgb')
     }
