@@ -11,12 +11,12 @@ if (!defined('ABSPATH')) {
  * Plugin requirements in driver WordPress.
  * Class VcvCoreRequirements.
  */
-abstract class VcvCoreRequirements
+class VcvCoreRequirements
 {
     /**
      * Perform system check for requirements.
      */
-    public static function coreChecks()
+    public function coreChecks()
     {
         $exitMsgPhp = sprintf('Visual Composer requires PHP %s or newer.', VCV_REQUIRED_PHP_VERSION)
             . '<a href="http://wordpress.org/about/requirements/"> ' . 'Please update!' . '</a>';
@@ -25,23 +25,35 @@ abstract class VcvCoreRequirements
         $exitMsgWp = sprintf('Visual Composer requires WordPress %s or newer.', VCV_REQUIRED_BLOG_VERSION)
             . '<a href="http://codex.wordpress.org/Upgrading_WordPress"> ' . 'Please update!' . '</a>';
         self::checkVersion(VCV_REQUIRED_BLOG_VERSION, get_bloginfo('version'), $exitMsgWp);
+
+        return true;
     }
 
     /**
      * @param string $mustHaveVersion
      * @param string $versionToCheck
      * @param string $errorMessage
+     *
+     * @return bool
      */
-    private static function checkVersion($mustHaveVersion, $versionToCheck, $errorMessage = '')
+    public function checkVersion($mustHaveVersion, $versionToCheck, $errorMessage = '')
     {
         if (version_compare($mustHaveVersion, $versionToCheck, '>')) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
-            deactivate_plugins(VCV_PLUGIN_FULL_PATH);
+            $this->deactivate(VCV_PLUGIN_FULL_PATH);
             wp_die($errorMessage);
         }
+
+        return true;
+    }
+
+    public function deactivate($path)
+    {
+        deactivate_plugins($path);
     }
 }
 
 if (!defined('DOING_AJAX') || !DOING_AJAX) {
-    VcvCoreRequirements::coreChecks();
+    $requirements = new VcvCoreRequirements();
+    $requirements->coreChecks();
 }
