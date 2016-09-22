@@ -5,11 +5,11 @@ export default class Dropdown extends Attribute {
   selectChildren = null
 
   componentWillReceiveProps (nextProps) {
-    this.generateSelectChilds(nextProps)
+    this.generateSelectChildren(nextProps)
   }
 
   componentWillMount () {
-    this.generateSelectChilds(this.props)
+    this.generateSelectChildren(this.props)
   }
 
   createGroup (key, groupObject, fieldKey) {
@@ -30,7 +30,7 @@ export default class Dropdown extends Attribute {
     return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
   }
 
-  generateSelectChilds (props) {
+  generateSelectChildren (props) {
     let optionElements = []
     let { values } = props.options
     let { fieldKey } = props
