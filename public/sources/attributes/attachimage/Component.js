@@ -138,7 +138,7 @@ class AttachImage extends Attribute {
     let addControl = (
       <li className='vcv-ui-form-attach-image-item'>
         <a className='vcv-ui-form-attach-image-control' onClick={this.openLibrary}>
-          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
+          <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
       </li>
     )
