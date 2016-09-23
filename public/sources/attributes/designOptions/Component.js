@@ -66,7 +66,6 @@ class DesignOptions extends Attribute {
         paddingBottom: this.getValue(props, 'paddingBottom', device, DesignOptions.defaultState[ device.strid ].paddingBottom)
       }
     })
-
     return state
   }
 
