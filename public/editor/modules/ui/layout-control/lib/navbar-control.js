@@ -8,6 +8,7 @@ class LayoutButtonControl extends React.Component {
       type: 'Desktop',
       className: 'desktop',
       viewport: {
+        width: '1200',
         min: '1200',
         max: Infinity
       }
@@ -16,6 +17,7 @@ class LayoutButtonControl extends React.Component {
       type: 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
+        width: '992',
         min: '992',
         max: '1199'
       }
@@ -24,6 +26,7 @@ class LayoutButtonControl extends React.Component {
       type: 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
+        width: '768',
         min: '768',
         max: '991'
       }
@@ -32,6 +35,7 @@ class LayoutButtonControl extends React.Component {
       type: 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
+        width: '554',
         min: '554',
         max: '767'
       }
@@ -40,6 +44,7 @@ class LayoutButtonControl extends React.Component {
       type: 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
+        width: '320',
         min: '0',
         max: '553'
       }
@@ -63,7 +68,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   unsetDesktop = () => {
-    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport.min) {
+    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport.width) {
       this.setViewport('')
     }
   }
@@ -80,9 +85,9 @@ class LayoutButtonControl extends React.Component {
     let windowWidth = this.checkWindowWidth()
     let devices = []
     LayoutButtonControl.devices.forEach((item, index) => {
-      if (windowWidth > item.viewport.min && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.min) {
+      if (windowWidth > item.viewport.width && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.width) {
         devices.push(index)
-      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.min) {
+      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.width) {
         devices.push(LayoutButtonControl.devices.length - 1)
       }
     })
@@ -98,7 +103,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   setSelectedLayout = (index) => {
-    this.setViewport(LayoutButtonControl.devices[index].viewport.min)
+    this.setViewport(LayoutButtonControl.devices[index].viewport.width)
     this.setState({
       activeDevice: index
     })
@@ -112,9 +117,9 @@ class LayoutButtonControl extends React.Component {
 
   setViewport (width) {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    let actualWidth = width === '0' ? '320px' : width + 'px'
+    let actualWidth = width + 'px'
 
-    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport.min || width === '') {
+    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport.width || width === '') {
       actualWidth = ''
       setTimeout(() => {
         this.setState({
@@ -144,7 +149,7 @@ class LayoutButtonControl extends React.Component {
     LayoutButtonControl.devices.forEach((item, i) => {
       let controlViewport = item.viewport
       if (iframeWidth > controlViewport.min && iframeWidth < controlViewport.max) {
-        activeDevice = controlViewport.min === 0 ? 4 : i
+        activeDevice = i
       }
     })
     return activeDevice
