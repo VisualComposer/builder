@@ -99,6 +99,33 @@ class ContainerTest extends WP_UnitTestCase
         $this->assertTrue(vcapp()->call('SimpleCustomModule::testCallReflector'));
         $this->assertTrue(SimpleCustomModule::$callReflectorCalled);
     }
+
+    public function testCustomContainerSlash()
+    {
+        /** @var CustomContainer $application */
+        $application = vcapp()->make('CustomContainer');
+        $this->assertTrue($application->testMissingLeadingSlash('TestClass'));
+        $this->assertFalse($application->testMissingLeadingSlash('\CustomContainer'));
+        $this->assertFalse($application->testMissingLeadingSlash('\\CustomContainer'));
+        $this->assertFalse($application->testMissingLeadingSlash('\VisualComposer\Framework\Container'));
+        $this->assertFalse($application->testMissingLeadingSlash('\\VisualComposer\Framework\Container'));
+        $this->assertTrue($application->testMissingLeadingSlash('VisualComposer\Framework\Container'));
+    }
+
+    public function testCustomContainerHasKeys()
+    {
+        /** @var CustomContainer $application */
+        $application = vcapp()->make('CustomContainer');
+        $this->assertFalse($application->testHasStringKeys([]));
+        $this->assertFalse($application->testHasStringKeys([1, 2, 3, 4]));
+        $this->assertFalse($application->testHasStringKeys([new stdClass(), 'haha', null]));
+        $this->assertFalse($application->testHasStringKeys([0 => 1, 1 => 2, 100 => 101]));
+        $this->assertFalse($application->testHasStringKeys(['test']));
+
+        $this->assertTrue($application->testHasStringKeys([new stdClass(), 'a' => 'test', null]));
+        $this->assertTrue($application->testHasStringKeys(['a' => 1]));
+        $this->assertTrue($application->testHasStringKeys(['a' => 1, 'b' => 2]));
+    }
 }
 
 class ContainerCustomModule extends \VisualComposer\Framework\Container
@@ -183,5 +210,15 @@ class CustomContainer extends \VisualComposer\Framework\Illuminate\Container\Con
     public function getCustomConcrete($abstract)
     {
         return $this->bindings[ $abstract ]['concrete'];
+    }
+
+    public function testMissingLeadingSlash($class)
+    {
+        return $this->missingLeadingSlash($class);
+    }
+
+    public function testHasStringKeys($data)
+    {
+        return $this->hasStringKeys($data);
     }
 }

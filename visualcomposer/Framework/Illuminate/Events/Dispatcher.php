@@ -173,6 +173,8 @@ class Dispatcher implements DispatcherContract
                 $this->listeners[ $eventName ]
             );
         }
+
+        return $this->sorted[ $eventName ];
     }
 
     /**
