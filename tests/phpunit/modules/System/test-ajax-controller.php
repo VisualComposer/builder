@@ -1,6 +1,6 @@
 <?php
 
-class AjaxControllerTest extends \WP_UnitTestCase
+class AjaxControllerTest extends WP_UnitTestCase
 {
     public function testGetResponse()
     {
@@ -197,5 +197,123 @@ class AjaxControllerTest extends \WP_UnitTestCase
         $this->assertEquals('{"test":1}', ($module->renderResponse(['test' => 1])));
         $this->assertEquals('{"test":"hi"}', ($module->renderResponse(['test' => 'hi'])));
 
+    }
+
+    public function testListenAjax()
+    {
+        $controller = $this->getMockBuilder('\VisualComposer\Modules\System\Ajax\Controller')->setMethods(
+            ['setGlobals']
+        )->getMock();
+        $controller->expects($this->exactly(4))->method('setGlobals');
+        /** @var \VisualComposer\Modules\System\Ajax\Controller $controller */
+        /** @var \VisualComposer\Helpers\Request $requestHelper */
+        $requestHelper = vchelper('Request');
+        $requestHelper->setData(
+            [
+                VCV_AJAX_REQUEST => 1,
+            ]
+        );
+        $catched = false;
+        $catchedMessage = '';
+        try {
+            $controller->listenAjax($requestHelper);
+        } catch (WPDieException $e) {
+            $catched = true;
+            $catchedMessage = $e->getMessage();
+        }
+        $this->assertTrue($catched);
+        $this->assertEquals('false', $catchedMessage);
+
+        // Test some real response
+        $catched = false;
+        $catchedMessage = '';
+
+        // Custom response
+        /** @var \VisualComposer\Helpers\Filters $filterHelper */
+        $filterHelper = vchelper('Filters');
+        $filterHelper->listen(
+            'vcv:ajax:testListenAjax',
+            function ($response) {
+                return ['testListenAjax' => true];
+            }
+        );
+        $requestHelper->setData(
+            [
+                VCV_AJAX_REQUEST => 1,
+                'vcv-action' => 'testListenAjax',
+            ]
+        );
+        try {
+            $controller->listenAjax($requestHelper);
+        } catch (WPDieException $e) {
+            $catched = true;
+            $catchedMessage = $e->getMessage();
+        }
+        $this->assertTrue($catched);
+        $this->assertEquals('{"testListenAjax":true}', $catchedMessage);
+
+        /** Test failed nonce */
+        $catched = false;
+        $catchedMessage = '';
+
+        $filterHelper->listen(
+            'vcv:ajax:testListenAjax:adminNonce',
+            function ($response) {
+                return ['testListenAjax:adminNonce' => true];
+            }
+        );
+        $requestHelper->setData(
+            [
+                VCV_AJAX_REQUEST => 1,
+                'vcv-action' => 'testListenAjax:adminNonce',
+            ]
+        );
+        try {
+            $controller->listenAjax($requestHelper);
+        } catch (WPDieException $e) {
+            $catched = true;
+            $catchedMessage = $e->getMessage();
+        }
+        $this->assertTrue($catched);
+        $this->assertEquals('false', $catchedMessage);
+
+        /** Test normal nonce */
+        $catched = false;
+        $catchedMessage = '';
+        /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
+        $nonceHelper = vchelper('Nonce');
+        $requestHelper->setData(
+            [
+                VCV_AJAX_REQUEST => 1,
+                'vcv-action' => 'testListenAjax:adminNonce',
+                'vcv-nonce' => $nonceHelper->admin(),
+            ]
+        );
+        try {
+            $controller->listenAjax($requestHelper);
+        } catch (WPDieException $e) {
+            $catched = true;
+            $catchedMessage = $e->getMessage();
+        }
+        $this->assertTrue($catched);
+        $this->assertEquals('{"testListenAjax:adminNonce":true}', $catchedMessage);
+
+        // Reset
+        $requestHelper->setData([]);
+    }
+
+    public function testSetGlobals()
+    {
+        $this->assertFalse(defined('VCV_AJAX_REQUEST_CALL'));
+        $this->assertFalse(defined('DOING_AJAX'));
+
+        /** @var \VisualComposer\Modules\System\Ajax\Controller $controller */
+        $controller = vcapp('\VisualComposer\Modules\System\Ajax\Controller');
+        $controller->setGlobals();
+
+        $this->assertTrue(defined('VCV_AJAX_REQUEST_CALL'));
+        $this->assertTrue(defined('DOING_AJAX'));
+        $this->assertTrue(VCV_AJAX_REQUEST_CALL);
+        $this->assertTrue(DOING_AJAX);
     }
 }

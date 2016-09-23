@@ -227,7 +227,6 @@ vcCake.addService('assets-manager', {
     for (let id in designOptionsData) {
       outputCss.push(designOptions.getCss(id, designOptionsData[ id ]))
     }
-
     var iterations = []
     for (let style of outputCss) {
       if (style) {

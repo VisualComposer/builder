@@ -38,15 +38,30 @@ class Controller extends Container implements Module
         return json_encode($response);
     }
 
-    private function listenAjax(Request $requestHelper)
+    public function listenAjax(Request $requestHelper)
     {
         if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
-            define('VCV_AJAX_REQUEST_CALL', true);
+            $this->setGlobals();
             /** @see \VisualComposer\Modules\System\Ajax\Controller::parseRequest */
             $response = $this->call('parseRequest');
             $output = $this->renderResponse($response);
-            die($output);
+            $this->output($output);
         }
+    }
+
+    public function setGlobals()
+    {
+        if (!defined('VCV_AJAX_REQUEST_CALL')) {
+            define('VCV_AJAX_REQUEST_CALL', true);
+        }
+        if (!defined('DOING_AJAX')) {
+            define('DOING_AJAX', true);
+        }
+    }
+
+    public function output($output)
+    {
+        wp_die($output);
     }
 
     private function parseRequest(Request $requestHelper)
