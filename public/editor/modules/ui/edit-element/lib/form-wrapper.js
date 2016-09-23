@@ -4,24 +4,31 @@ import EditElementResizeTabs from './tabs-extenstion-resizer'
 export default class EditFormTabs extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired
+    element: React.PropTypes.object.isRequired,
+    activeState: React.PropTypes.string
   }
   state = {
     activeTabIndex: 0
   }
   allTabs = []
-
   componentWillMount () {
     this.allTabs = this.updateTabs(this.props)
+    this.state = {
+      activeTabIndex: this.getActiveTabIndex(this.props.activeState)
+    }
   }
-
+  getActiveTabIndex (activeTabKey) {
+    let activeTab = this.allTabs.findIndex((tab) => {
+      return tab.fieldKey === activeTabKey
+    })
+    return activeTab > -1 ? activeTab : 0
+  }
   componentWillReceiveProps (nextProps) {
     this.allTabs = this.updateTabs(nextProps)
     this.setState({
-      activeTabIndex: 0
+      activeTabIndex: this.getActiveTabIndex(nextProps.activeState)
     })
   }
-
   updateTabs (props) {
     return EditFormTabs.editFormTabs(props).map((tab, index) => {
       return {

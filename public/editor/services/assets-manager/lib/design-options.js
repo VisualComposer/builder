@@ -166,7 +166,7 @@ export default {
       css += prop + ':' + cssObj[ prop ] + ';'
     }
 
-    return ('#el-' + data.id + '{' + css + '}')
+    return css.length ? ('#el-' + data.id + '{' + css + '}') : ''
   },
   getCss (id, data) {
     data.id = id
