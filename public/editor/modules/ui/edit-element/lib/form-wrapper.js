@@ -5,7 +5,7 @@ export default class EditFormTabs extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
-    defaultActiveTab: React.PropTypes.string
+    activeState: React.PropTypes.string
   }
   state = {
     activeTabIndex: 0
@@ -14,25 +14,21 @@ export default class EditFormTabs extends React.Component {
   componentWillMount () {
     this.allTabs = this.updateTabs(this.props)
     this.state = {
-      activeTabIndex: this.getActiveTabIndex()
+      activeTabIndex: this.getActiveTabIndex(this.props.activeState)
     }
   }
-  getActiveTabIndex () {
-    let activeTab = 0
-    if (this.props.defaultActiveTab) {
-      activeTab = this.allTabs.findIndex((tab) => {
-        return tab.fieldKey === this.props.defaultActiveTab
-      })
-    }
+  getActiveTabIndex (activeTabKey) {
+    let activeTab = this.allTabs.findIndex((tab) => {
+      return tab.fieldKey === activeTabKey
+    })
     return activeTab > -1 ? activeTab : 0
   }
   componentWillReceiveProps (nextProps) {
     this.allTabs = this.updateTabs(nextProps)
     this.setState({
-      activeTabIndex: this.getActiveTabIndex()
+      activeTabIndex: this.getActiveTabIndex(nextProps.activeState)
     })
   }
-
   updateTabs (props) {
     return EditFormTabs.editFormTabs(props).map((tab, index) => {
       return {

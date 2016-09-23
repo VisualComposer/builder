@@ -6,7 +6,7 @@ export default class EditElementController extends ActivitiesManager {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
-    defaultActiveTab: React.PropTypes.string
+    activeState: React.PropTypes.string
   }
 
   render () {
