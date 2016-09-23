@@ -3,7 +3,6 @@ import Navbar from './navbar'
 
 class NavbarContainer extends React.Component {
   state = {
-    showOverlay: false,
     showGuideline: false,
     guidelinePosition: 'top',
     isDragging: false
@@ -23,15 +22,13 @@ class NavbarContainer extends React.Component {
 
   handleNavbarDragStart = (e) => {
     this.setState({
-      isDragging: true,
-      showOverlay: true
+      isDragging: true
     })
   }
 
   handleNavbarDragEnd = (e) => {
     this.setState({
-      isDragging: false,
-      showOverlay: false
+      isDragging: false
     })
   }
 
@@ -79,11 +76,7 @@ class NavbarContainer extends React.Component {
   }
 
   render () {
-    let { showOverlay, guidelinePosition, isDragging, showGuideline } = this.state
-    let overlayContent = ''
-    if (showOverlay) {
-      overlayContent = (<div className='vcv-ui-navbar-drag-overlay' />)
-    }
+    let { guidelinePosition, isDragging, showGuideline } = this.state
     let draggingContent = ''
     if (isDragging) {
       let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
@@ -96,7 +89,6 @@ class NavbarContainer extends React.Component {
 
     return (
       <div id='vc-navbar-container'>
-        {overlayContent}
         {draggingContent}
         <Navbar api={this.props.api} />
       </div>

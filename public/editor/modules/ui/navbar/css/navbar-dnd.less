@@ -6,6 +6,19 @@
       pointer-events: none;
     }
   }
+  .vcv-layout-content {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #fff;
+      opacity: .2;
+      cursor: move;
+    }
+  }
 }
 
 .vcv-ui-navbar-is-dragging {
