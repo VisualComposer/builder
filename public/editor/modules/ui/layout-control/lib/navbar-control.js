@@ -63,7 +63,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   unsetDesktop = () => {
-    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport) {
+    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport.min) {
       this.setViewport('')
     }
   }
@@ -80,9 +80,9 @@ class LayoutButtonControl extends React.Component {
     let windowWidth = this.checkWindowWidth()
     let devices = []
     LayoutButtonControl.devices.forEach((item, index) => {
-      if (windowWidth > item.viewport && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport) {
+      if (windowWidth > item.viewport.min && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.min) {
         devices.push(index)
-      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport) {
+      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.min) {
         devices.push(LayoutButtonControl.devices.length - 1)
       }
     })
@@ -98,7 +98,7 @@ class LayoutButtonControl extends React.Component {
   }
 
   setSelectedLayout = (index) => {
-    this.setViewport(LayoutButtonControl.devices[index].viewport)
+    this.setViewport(LayoutButtonControl.devices[index].viewport.min)
     this.setState({
       activeDevice: index
     })
@@ -112,9 +112,9 @@ class LayoutButtonControl extends React.Component {
 
   setViewport (width) {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    let actualWidth = width + 'px'
+    let actualWidth = width === '0' ? '320px' : width + 'px'
 
-    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport || width === '') {
+    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport.min || width === '') {
       actualWidth = ''
       setTimeout(() => {
         this.setState({
@@ -144,7 +144,7 @@ class LayoutButtonControl extends React.Component {
     LayoutButtonControl.devices.forEach((item, i) => {
       let controlViewport = item.viewport
       if (iframeWidth > controlViewport.min && iframeWidth < controlViewport.max) {
-        activeDevice = i
+        activeDevice = controlViewport.min === 0 ? 4 : i
       }
     })
     return activeDevice

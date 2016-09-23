@@ -235,7 +235,7 @@ class Navbar extends React.Component {
     })
     if (hiddenAndUnpinnedControls.length) {
       // if it is las hidden element than add dropdown width to free space
-      if (hiddenAndUnpinnedControls.length === 1) {
+      if (this.getHiddenControls().length === 1) {
         let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
         if (isSideNavbar()) {
           freeSpace += sandwich.offsetHeight
@@ -261,6 +261,7 @@ class Navbar extends React.Component {
       })
       return
     }
+    return
   }
 
   handleDragStart = (e, dragWithHandler = true) => {
