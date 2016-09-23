@@ -10,8 +10,8 @@ import './css/init.less'
 vcCake.add('ui-edit-element', (api) => {
   let currentElementId = null
 
-  api.reply('app:edit', (id, tab = '') => {
-    api.notify('show', id, tab)
+  api.reply('app:edit', (id, activeState = '') => {
+    api.notify('show', id, activeState)
   })
   api
     .on('hide', () => {
@@ -19,7 +19,7 @@ vcCake.add('ui-edit-element', (api) => {
       api.module('ui-layout-bar').do('setEndContent', null)
       api.module('ui-layout-bar').do('setEndContentVisible', false)
     })
-    .on('show', (id, tab) => {
+    .on('show', (id, activeState) => {
       currentElementId = id
       let data = DocumentData.get(id)
       let element = cook.get(data)
@@ -27,7 +27,7 @@ vcCake.add('ui-edit-element', (api) => {
       api.module('ui-layout-bar').do('setEndContent', EditElementController, {
         element: element,
         api: api,
-        defaultActiveTab: _.isEmpty(tab) ? '' : tab
+        activeState: _.isEmpty(activeState) ? '' : activeState
       })
     })
     .reply('data:remove', (id) => {

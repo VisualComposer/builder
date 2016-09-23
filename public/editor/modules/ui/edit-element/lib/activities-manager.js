@@ -7,7 +7,8 @@ const ActionsManager = vcCake.getService('actions-manager')
 
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
-    element: React.PropTypes.object.isRequired
+    element: React.PropTypes.object.isRequired,
+    activeState: React.PropTypes.string
   }
   mount = []
   stack = []
@@ -24,7 +25,7 @@ export default class ActivitiesManager extends React.Component {
   }
 
   shouldComponentUpdate (nextProps) {
-    return nextProps.element.get('id') !== this.props.element.get('id')
+    return nextProps.element.get('id') !== this.props.element.get('id') || nextProps.activeState !== this.props.activeState
   }
 
   initListeners (element) {
