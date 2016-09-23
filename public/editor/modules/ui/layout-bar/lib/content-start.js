@@ -1,4 +1,3 @@
-/* eslint jsx-quotes: [2, "prefer-double"] */
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
@@ -98,7 +97,7 @@ class BarContentStart extends React.Component {
     })
 
     return (
-      <div className={contentClasses} id="vcv-editor-start">
+      <div className={contentClasses} id='vcv-editor-start'>
         {content}
         <Resizer params={{
           resizeRight: true,
