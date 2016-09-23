@@ -226,7 +226,17 @@ ControlsHandler.prototype.drawControls = function () {
         '</span>').appendTo($controlAction)
       $controlAction.appendTo($dropdownContent)
     }
-
+    if (elementObject.get('tag') === 'row') {
+      $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
+        ' data-vc-control-event="app:edit"' +
+        ' data-vc-control-event-options="layout"' +
+        ' data-vcv-element-id="' + elementId + '"/>')
+      $('<span  class="vcv-ui-outline-control-content">' +
+        '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-row-layout" ></i>' +
+        '<span class="vcv-ui-outline-control-label" >Row Layout</span>' +
+        '</span>').appendTo($controlAction)
+      $controlAction.appendTo($dropdownContent)
+    }
     // edit button
     $controlAction = $('<a href="#" class="vcv-ui-outline-control"' +
       ' data-vc-control-event="app:edit"' +
