@@ -1,0 +1,43 @@
+@import "../../../../less/bootstrap/variables";
+
+.vcv-color-picker-panel {
+  padding: 10px;
+  box-sizing: initial;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #d1d1d1;
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 200px;
+  .vcv-media--md & {
+    width: 365px;
+  }
+}
+.vcv-color-picker-custom-color, .vcv-color-picker-presets-color {
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  .vcv-media--md & {
+    width: 0;
+  }
+}
+.vcv-color-picker-custom-color {
+  border-bottom: 1px solid #eee;
+  .vcv-media--md & {
+    border-bottom: 0;
+  }
+}
+.vcv-color-picker-presets-color {
+  // padding: 0px 0px 0px 10px;
+  // padding: '0px -10px',
+  // borderTop: '1px solid #eee',
+  margin: 0 0 -10px -10px;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  .vcv-media--md & {
+    margin: 0 0 -10px 0;
+    padding-top: 0;
+  }
+}
