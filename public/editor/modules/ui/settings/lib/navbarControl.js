@@ -17,6 +17,9 @@ class SettingsButtonControl extends React.Component {
       .reply('app:edit', () => {
         this.setState({ isWindowOpen: false })
       })
+      .reply('app:add', () => {
+        this.setState({ isWindowOpen: false })
+      })
       .reply('bar-content-end:hide', () => {
         this.setState({ isWindowOpen: false })
       })
@@ -31,6 +34,9 @@ class SettingsButtonControl extends React.Component {
         this.setState({ isWindowOpen: false })
       })
       .forget('app:edit', () => {
+        this.setState({ isWindowOpen: false })
+      })
+      .reply('app:add', () => {
         this.setState({ isWindowOpen: false })
       })
       .forget('bar-content-end:hide', () => {
