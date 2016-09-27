@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './element.js'
-import { Scrollbars } from 'react-custom-scrollbars'
+import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import '../css/tree/init.less'
 import '../css/tree-view/init.less'
@@ -58,7 +58,7 @@ class TreeViewLayout extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-layout-container'>
-        <Scrollbars autoHide>
+        <Scrollbar>
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'>
             <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
@@ -73,7 +73,7 @@ class TreeViewLayout extends React.Component {
               <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' /><span>Template</span></span>
             </a>
           </div>
-        </Scrollbars>
+        </Scrollbar>
       </div>
     )
   }

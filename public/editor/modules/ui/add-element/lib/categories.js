@@ -4,7 +4,7 @@ import lodash from 'lodash'
 import classNames from 'classnames'
 import CategoryTab from './category-tab'
 import ElementControl from './element-control'
-import { Scrollbars } from 'react-custom-scrollbars'
+import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import '../css/init.less'
 
 let allTabs = []
@@ -305,7 +305,7 @@ class Categories extends React.Component {
       </div>
 
       <div ref='scrollable' className='vcv-ui-tree-content-section'>
-        <Scrollbars autoHide>
+        <Scrollbar>
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
@@ -314,7 +314,7 @@ class Categories extends React.Component {
               </div>
             </div>
           </div>
-        </Scrollbars>
+        </Scrollbar>
       </div>
     </div>
   }

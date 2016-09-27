@@ -1,12 +1,12 @@
 import React from 'react'
 import EditFormFields from './form-content-fields'
-import { Scrollbars } from 'react-custom-scrollbars'
+import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 export default class EditFormContent extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-content-section'>
-        <Scrollbars autoHide>
+        <Scrollbar>
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
@@ -16,7 +16,7 @@ export default class EditFormContent extends React.Component {
               </div>
             </div>
           </div>
-        </Scrollbars>
+        </Scrollbar>
       </div>
     )
   }

@@ -2,51 +2,61 @@
  * Visual composer editor scroll styles
  * =================================== */
 
-.vcv-ui-scroll-container {
-  box-sizing: border-box;
+.vcv-ui-scroll {
+  position: relative;
   height: 100%;
   width: 100%;
-  //overflow: hidden;
-  overflow: auto;
+  overflow: hidden;
   flex: 1 1 100%;
   display: flex;
   flex-flow: column nowrap;
-  //position: relative;
-  //&::after {
-  //  content: '';
-  //  position: absolute;
-  //  top: 0;
-  //  bottom: 0;
-  //  right: 4px;
-  //  width: 4px;
-  //  background: @scroll-color;
-  //  border-radius: 5px;
-  //  visibility: hidden;
-  //  opacity: 0;
-  //  pointer-events: none;
-  //}
-  //&:hover {
-  //  &::after {
-  //    opacity: 1;
-  //    visibility: visible;
-  //  }
-  //}
-}
-
-.vcv-ui-scroll {
-  box-sizing: content-box;
-  //overflow-y: auto;
-  //overflow-x: hidden;
-  flex: 1 1 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  //margin-right: -@scroll-indent;
-  //padding-right: @scroll-indent;
 }
 
 .vcv-ui-scroll-content {
-  box-sizing: border-box;
-  flex: 1 1 100%;
-  display: flex;
-  flex-flow: column nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+  overflow-scrolling: touch;
+}
+.vcv-ui-scroll-track--horizontal,
+.vcv-ui-scroll-track--vertical {
+  position: absolute;
+  cursor: pointer;
+  right: @scroll-indent;
+  bottom: @scroll-indent;
+  transition-duration: @transition-duration;
+  transition-property: opacity;
+  transition-timing-function: @transition-timing-function;
+}
+
+.vcv-ui-scroll-track--horizontal {
+  left: @scroll-indent;
+  border-radius: @scroll-radius;
+  height: @scroll-size;
+}
+
+.vcv-ui-scroll-track--vertical {
+  top: @scroll-indent;
+  border-radius: @scroll-radius;
+  width: @scroll-size;
+}
+
+.vcv-ui-scroll-thumb--horizontal,
+.vcv-ui-scroll-thumb--vertical {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  border-radius: inherit;
+  background-color: @scroll-color;
+}
+
+.vcv-ui-scroll-thumb--horizontal {
+  height: 100%;
+}
+
+.vcv-ui-scroll-thumb--vertical {
+  width: 100%;
 }
