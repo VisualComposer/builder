@@ -5,7 +5,7 @@ import reactCSS from 'reactcss'
 import map from 'lodash/map'
 import shallowCompare from 'react-addons-shallow-compare'
 
-import Swatch from './Swatch'
+import Swatch from './swatch'
 
 export class SketchPresetColors extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[0], arguments[1])
@@ -20,17 +20,10 @@ export class SketchPresetColors extends React.Component {
   render (): any {
     const styles = reactCSS({
       'default': {
-        colors: {
-          margin: '0 -10px',
-          padding: '10px 0 0 10px',
-          borderTop: '1px solid #eee',
-          display: 'flex',
-          flexWrap: 'wrap'
-        },
         swatchWrap: {
           width: '16px',
           height: '16px',
-          margin: '0 10px 10px 0'
+          margin: '0px 0px 10px 10px'
         },
         swatch: {
           borderRadius: '3px',
@@ -47,7 +40,7 @@ export class SketchPresetColors extends React.Component {
     })
 
     return (
-      <div style={styles.colors} className='flexbox-fix'>
+      <div className='vcv-color-picker-presets-color flexbox-fix'>
         {map(this.props.colors, (c) => {
           return (
             <div style={styles.swatchWrap} key={c}>
