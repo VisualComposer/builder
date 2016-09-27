@@ -85,9 +85,18 @@ class Controller extends Container implements Module
         );
         $this->filter->listen(
             'vcv:ajax:getData:adminNonce',
-            function ($response, $payload) {
+            function ($response, $payload, Request $requestHelper) {
                 $response['globalElements'] = $this->options->get('global-elements', '');
-
+                $customCss = $this->options->get('custom-css', []);
+                $postCustomCss = '';
+                $id = $requestHelper->input('vcv-source-id');
+                if (isset($customCss[$id])) {
+                    $postCustomCss = $customCss[$id];
+                }
+                $response['cssSettings'] = [
+                    'custom' => $postCustomCss,
+                    'global' => $this->options->get('global-css', '')
+                ];
                 return $response;
             }
         );
@@ -123,9 +132,18 @@ class Controller extends Container implements Module
             'design-options',
             $this->request->input('vcv-design-options', '')
         );
+        $this->updatePostAssets(
+            $postId,
+            'custom-css',
+            $this->request->input('vcv-custom-css', '')
+        );
         $this->updateGlobalAssets(
             'global-elements',
             rawurldecode($this->request->input('vcv-global-elements', ''))
+        );
+        $this->updateGlobalAssets(
+            'global-css',
+            rawurldecode($this->request->input('vcv-global-css', ''))
         );
         $this->updateGlobalAssets(
             'global-styles',
@@ -319,7 +337,8 @@ class Controller extends Container implements Module
     private function generateStylesGlobalFile()
     {
         $styles = $this->options->get('global-styles', '');
-        $bundleUrl = $this->createBundleFile($styles, 'css');
+        $globalCss = $this->options->get('global-css', '');
+        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
 
         // remove file
@@ -337,9 +356,13 @@ class Controller extends Container implements Module
     private function generatePostStyles($postId)
     {
         $postsStyles = $this->options->get('design-options');
-        $style = false;
+        $style = '';
         if (isset($postsStyles[ $postId ])) {
             $style = $postsStyles[ $postId ];
+        }
+        $postsCustomCss = $this->options->get('custom-css');
+        if (isset($postsCustomCss[$postId])) {
+            $style .= $postsCustomCss[$postId];
         }
         $bundleUrl = $this->createBundleFile($style, 'css');
         $this->options->set('postStyles-' . $postId, $bundleUrl);

@@ -22,10 +22,12 @@ vcCake.add('assets', (api) => {
       styleElement.innerHTML = result
     })
     assetManager.getCompiledDesignOptions().then((result) => {
-      doElement.innerHTML = result
+      doElement.innerHTML = result + '\n' + assetManager.getCustomCss() + '\n' + assetManager.getGlobalCss()
     })
   }
+  // TODO: Use state against event
   api.reply('data:changed', dataUpdate)
+  api.reply('settings:changed', dataUpdate)
   api.reply('wordpress:data:added', dataUpdate)
   api.reply('data:added', dataUpdate)
 

@@ -22,6 +22,12 @@ vcCake.add('content-wordpress-data-load', (api) => {
         let globalElements = JSON.parse(dataObject.globalElements || '{}')
         globalElements && assetsManager.set(globalElements)
       }
+      if (dataObject.cssSettings && dataObject.cssSettings.custom) {
+        assetsManager.setCustomCss(dataObject.cssSettings.custom)
+      }
+      if (dataObject.cssSettings && dataObject.cssSettings.global) {
+        assetsManager.setGlobalCss(dataObject.cssSettings.global)
+      }
     } else {
       throw new Error('Failed to load wordpress:data:loaded')
     }
