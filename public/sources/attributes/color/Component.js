@@ -125,8 +125,8 @@ class Color extends Attribute {
     return (
       <div>
         <div className={selectorClasses} onClick={this.handleClick}>
-          <div className='vcv-ui-form-dropdown-color--swatch'>
-            <div className='vcv-ui-form-dropdown-color--value' style={colorStyle} />
+          <div className='vcv-ui-form-dropdown-color-swatch'>
+            <div className='vcv-ui-form-dropdown-color-value' style={colorStyle} />
           </div>
         </div>
         {colorPicker}
