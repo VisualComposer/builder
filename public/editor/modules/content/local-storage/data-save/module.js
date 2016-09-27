@@ -7,7 +7,11 @@ vcCake.add('content-local-storage-data-save', (api) => {
     const DocumentData = vcCake.getService('document')
     LocalStorage.save({
       data: DocumentData.all(),
-      elements: assetsManager.get()
+      elements: assetsManager.get(),
+      cssSettings: {
+        custom: assetsManager.getCustomCss(),
+        global: assetsManager.getGlobalCss()
+      }
     })
   })
 })

@@ -5,8 +5,11 @@ import postcssMedia from 'postcss-custom-media'
 import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
+import GlobalCss from './lib/globalCss'
 
 const customCss = new CustomCss()
+const globalCss = new GlobalCss()
+
 vcCake.addService('assets-manager', {
   /**
    * Up-to-date list of all elements
@@ -32,6 +35,12 @@ vcCake.addService('assets-manager', {
   },
   getCustomCss: function () {
     return customCss.data
+  },
+  setGlobalCss: function (value) {
+    globalCss.data = value
+  },
+  getGlobalCss: function () {
+    return globalCss.data
   },
   /**
    * @param id
