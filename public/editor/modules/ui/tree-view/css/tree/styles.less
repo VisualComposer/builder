@@ -122,7 +122,7 @@
 .vcv-ui-tree-layout-control {
   border-bottom: 1px solid @tree-separator-color;
   transition: background-color @transition-duration @transition-timing-function;
-  padding: @tree-gold-value / 2 0;
+  padding: (@tree-gold-value / 2) (@tree-gold-value / 2) (@tree-gold-value / 2) 0;
   min-height: @tree-control-height;
   display: flex;
   flex-direction: column;
@@ -283,4 +283,5 @@
     padding: @tree-gold-value / 2;
     min-height: @tree-control-height;
   }
+
 }

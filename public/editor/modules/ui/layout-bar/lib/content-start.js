@@ -33,7 +33,6 @@ class BarContentStart extends React.Component {
         }
       })
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
-    this.handleElementResize()
   }
 
   componentWillUnmount () {
@@ -45,6 +44,12 @@ class BarContentStart extends React.Component {
       if (e.direction === 'left') {
         this.props.api.request('navbar:resizeLeft', e.offsetX)
       }
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.showContent && !prevState.showContent) {
+      setTimeout(this.handleElementResize, 20) // TODO: fix this on global refactor
     }
   }
 

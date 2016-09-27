@@ -4,7 +4,6 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import color from 'react-color/lib/helpers/color'
 import shallowCompare from 'react-addons-shallow-compare'
-
 import { EditableInput } from 'react-color/lib/components/common'
 
 export class ShetchFields extends React.Component {
@@ -85,7 +84,7 @@ export class ShetchFields extends React.Component {
     }, this.props)
 
     return (
-      <div style={styles.fields} className='flexbox-fix'>
+      <div style={styles.fields}>
         <div style={styles.double}>
           <EditableInput
             style={{ input: styles.input, label: styles.label }}
