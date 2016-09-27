@@ -69,10 +69,7 @@ trait Container
      * @param  \ReflectionParameter $parameter
      * @param  array $parameters
      * @param  array $dependencies
-     *
-     * @param $assoc
-     *
-     * @return mixed
+     * @param  bool $assoc
      */
     protected function addDependencyForCallParameter(
         ReflectionParameter $parameter,

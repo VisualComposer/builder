@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './element.js'
+import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import '../css/tree/init.less'
 import '../css/tree-view/init.less'
@@ -57,29 +58,22 @@ class TreeViewLayout extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-layout-container'>
-        <div className='vcv-ui-scroll-container'>
-          <div className='vcv-ui-scroll'>
-            <div className='vcv-ui-scroll-content'>
-              {this.getElementsOutput()}
-              <div className='vcv-ui-tree-layout-actions'>
-                <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
-                  onClick={this.handleAddElement}>
-                  <span
-                    className='vcv-ui-tree-layout-action-content'>
-                    <i
-                      className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
-                    <span>Add element</span>
-                  </span>
-                </a>
-                <a className='vcv-ui-tree-layout-action' href='#' disabled='disabled' title='Template'><span
-                  className='vcv-ui-tree-layout-action-content'>
-                  <i
-                    className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' /><span>Template</span></span>
-                </a>
-              </div>
-            </div>
+        <Scrollbar>
+          {this.getElementsOutput()}
+          <div className='vcv-ui-tree-layout-actions'>
+            <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
+              onClick={this.handleAddElement}>
+              <span className='vcv-ui-tree-layout-action-content'>
+                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
+                <span>Add element</span>
+              </span>
+            </a>
+            <a className='vcv-ui-tree-layout-action' href='#' disabled='disabled' title='Template'><span
+              className='vcv-ui-tree-layout-action-content'>
+              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' /><span>Template</span></span>
+            </a>
           </div>
-        </div>
+        </Scrollbar>
       </div>
     )
   }

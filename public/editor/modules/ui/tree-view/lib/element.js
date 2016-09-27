@@ -57,9 +57,8 @@ class TreeViewElement extends React.Component {
     this.props.api.request('data:clone', this.props.element.id)
   }
 
-  clickEdit = (e) => {
-    e && e.preventDefault()
-    this.props.api.request('app:edit', this.props.element.id)
+  clickEdit = (tab = '') => {
+    this.props.api.request('app:edit', this.props.element.id, tab)
   }
 
   clickDelete = (e) => {
@@ -93,6 +92,7 @@ class TreeViewElement extends React.Component {
     this.state.hasChild = !!child
 
     let addChildControl = false
+    let editRowLayoutControl = false
     if (element.containerFor().length) {
       let title = 'Add Element'
       let addElementTag = ''
@@ -106,6 +106,11 @@ class TreeViewElement extends React.Component {
           <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
         </a>
       )
+      if (this.props.element.tag === 'row') {
+        editRowLayoutControl = <a className='vcv-ui-tree-layout-control-action' title='Row Layout' onClick={this.clickEdit.bind(this, 'layout')}>
+          <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
+        </a>
+      }
     }
 
     let expandTrigger = ''
@@ -118,7 +123,8 @@ class TreeViewElement extends React.Component {
 
     let childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
-      <a className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit}>
+      {editRowLayoutControl}
+      <a className='vcv-ui-tree-layout-control-action' title='Edit' onClick={this.clickEdit.bind(this, '')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </a>
       <a className='vcv-ui-tree-layout-control-action' title='Clone' onClick={this.clickClone}>

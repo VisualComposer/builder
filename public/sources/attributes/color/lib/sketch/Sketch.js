@@ -4,8 +4,10 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import shallowCompare from 'react-addons-shallow-compare'
 import {ColorWrap, Saturation, Hue, Alpha, Checkboard} from 'react-color/lib/components/common'
-import SketchFields from './SketchFields'
-import SketchPresetColors from './SketchPresetColors'
+import SketchFields from './sketchFields'
+import SketchPresetColors from './sketchPresetColors'
+
+import '../../css/sketch/panel.less'
 
 export class Sketch extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[ 0 ], arguments[ 1 ])
@@ -18,15 +20,6 @@ export class Sketch extends React.Component {
     const rgb = this.props.rgb
     const styles = reactCSS({
       'default': {
-        picker: {
-          width: this.props.width,
-          padding: '10px 10px 0',
-          boxSizing: 'initial',
-          background: '#fff',
-          borderRadius: '3px',
-          border: '1px solid #d1d1d1',
-          marginTop: '4px'
-        },
         saturation: {
           width: '100%',
           paddingBottom: '75%',
@@ -92,34 +85,36 @@ export class Sketch extends React.Component {
     }, this.props)
 
     return (
-      <div style={styles.picker}>
-        <div style={styles.saturation}>
-          <Saturation
-            style={styles.Saturation}
+      <div className='vcv-color-picker-panel' style={styles.picker}>
+        <div className='vcv-color-picker-custom-color'>
+          <div style={styles.saturation}>
+            <Saturation
+              style={styles.Saturation}
+              {...this.props}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div style={styles.controls} className='flexbox-fix'>
+            <div style={styles.sliders}>
+              <div style={styles.hue}>
+                <Hue style={styles.Hue} {...this.props} onChange={this.handleChange} />
+              </div>
+              <div style={styles.alpha}>
+                <Alpha style={styles.Alpha} {...this.props} onChange={this.handleChange} />
+              </div>
+            </div>
+            <div style={styles.color}>
+              <Checkboard />
+              <div style={styles.activeColor} />
+            </div>
+          </div>
+
+          <SketchFields
             {...this.props}
             onChange={this.handleChange}
+            disableAlpha={this.props.disableAlpha}
           />
         </div>
-        <div style={styles.controls} className='flexbox-fix'>
-          <div style={styles.sliders}>
-            <div style={styles.hue}>
-              <Hue style={styles.Hue} {...this.props} onChange={this.handleChange} />
-            </div>
-            <div style={styles.alpha}>
-              <Alpha style={styles.Alpha} {...this.props} onChange={this.handleChange} />
-            </div>
-          </div>
-          <div style={styles.color}>
-            <Checkboard />
-            <div style={styles.activeColor} />
-          </div>
-        </div>
-
-        <SketchFields
-          {...this.props}
-          onChange={this.handleChange}
-          disableAlpha={this.props.disableAlpha}
-        />
         <SketchPresetColors colors={this.props.presetColors} onClick={this.handleChange} />
       </div>
     )
@@ -128,8 +123,7 @@ export class Sketch extends React.Component {
 
 Sketch.defaultProps = {
   presetColors: [ '#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505', '#BD10E0',
-    '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4A4A4A', '#9B9B9B', '#FFFFFF' ],
-  width: 200
+    '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4A4A4A', '#9B9B9B', '#FFFFFF' ]
 }
 
 export default ColorWrap(Sketch)

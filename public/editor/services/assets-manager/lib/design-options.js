@@ -179,7 +179,6 @@ export default {
     for (let device in devices) {
       css.push('@media (--' + device + ') { ' + this.getDeviceCss(device, data) + ' }')
     }
-    console.log(css)
     return css.join(' ')
   }
 }
