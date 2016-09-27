@@ -4,7 +4,6 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import color from 'react-color/lib/helpers/color'
 import shallowCompare from 'react-addons-shallow-compare'
-
 import { EditableInput } from 'react-color/lib/components/common'
 
 export class ShetchFields extends React.Component {

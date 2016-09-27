@@ -5,7 +5,7 @@ import reactCSS from 'reactcss'
 import map from 'lodash/map'
 import shallowCompare from 'react-addons-shallow-compare'
 
-import Swatch from './swatch'
+import Swatch from './Swatch'
 
 export class SketchPresetColors extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[0], arguments[1])

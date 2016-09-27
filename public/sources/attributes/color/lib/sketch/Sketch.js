@@ -4,8 +4,8 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import shallowCompare from 'react-addons-shallow-compare'
 import {ColorWrap, Saturation, Hue, Alpha, Checkboard} from 'react-color/lib/components/common'
-import SketchFields from './sketchFields'
-import SketchPresetColors from './sketchPresetColors'
+import SketchFields from './SketchFields'
+import SketchPresetColors from './SketchPresetColors'
 
 import '../../css/sketch/panel.less'
 
