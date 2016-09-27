@@ -42,10 +42,8 @@ class SettingsButtonControl extends React.Component {
     e && e.preventDefault()
     if (this.state.isWindowOpen) {
       this.props.api.notify('hide')
-      console.log('open')
     } else {
-      // this.props.api.request('app:add', null)
-      console.log('close')
+      this.props.api.request('app:settings', true)
     }
   }
 

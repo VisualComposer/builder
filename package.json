@@ -87,6 +87,7 @@
     "postcss-custom-properties": "^5.0.1",
     "postcss-loader": "^0.9.1",
     "react": "^15.3.0",
+    "react-ace": "^3.6.0",
     "react-addons-shallow-compare": "^15.3.0",
     "react-color": "^2.2.7",
     "react-custom-scrollbars": "^4.0.0",

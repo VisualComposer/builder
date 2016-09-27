@@ -2,10 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 
 export default class SettingsFooter extends React.Component {
-  static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    element: React.PropTypes.object.isRequired
-  }
+  // static propTypes = {
+  //   api: React.PropTypes.object.isRequired,
+  //   element: React.PropTypes.object.isRequired
+  // }
   state = {
     saving: false,
     saved: false

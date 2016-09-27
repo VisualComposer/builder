@@ -1,0 +1,45 @@
+.vcv-ui-style-control-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 0;
+}
+
+.vcv-ui-style-control {
+  flex: 0 1 auto;
+  background: #3d5d95;
+  color: #fff;
+  padding: 14px 32px;
+  border: none;
+  cursor: pointer;
+
+  &-active {
+    background: #1f3152;
+  }
+
+  &:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  &:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+}
+
+.vcv-ui-style-editor {
+  margin: 25px 0 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.vcv-ui-scroll-container {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  flex: 1 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+

@@ -1,4 +1,6 @@
 import React from 'react'
+import StyleControl from './styleControl'
+import StyleEditor from './styleEditor'
 
 class SettingsContent extends React.Component {
   render () {
@@ -10,7 +12,8 @@ class SettingsContent extends React.Component {
               <div className='vcv-ui-tree-content-section-inner'>
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
-                    Content
+                    <StyleControl />
+                    <StyleEditor />
                   </div>
                 </div>
               </div>
