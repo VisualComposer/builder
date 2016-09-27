@@ -4,7 +4,7 @@
     "access": "protected",
     "value": "Text block"
   },
-  "category": {
+  "elementGroup": {
     "type": "string",
     "access": "protected",
     "value": ["All", "Content"]
