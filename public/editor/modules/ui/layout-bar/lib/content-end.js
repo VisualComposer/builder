@@ -33,11 +33,16 @@ class BarContentEnd extends React.Component {
         })
       })
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
-    this.handleElementResize()
   }
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.showContent && !prevState.showContent) {
+      this.handleElementResize()
+    }
   }
 
   handleElementResize = () => {
