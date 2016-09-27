@@ -4,11 +4,6 @@
     "access": "protected",
     "value": "Column"
   },
-  "category": {
-    "type": "string",
-    "access": "protected",
-    "value": "Content"
-  },
   "metaIntro": {
     "type": "textarea",
     "access": "protected",

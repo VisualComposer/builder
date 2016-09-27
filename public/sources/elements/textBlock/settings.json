@@ -7,7 +7,7 @@
   "category": {
     "type": "string",
     "access": "protected",
-    "value": "Content"
+    "value": ["All", "Content"]
   },
   "metaIntro": {
     "type": "textarea",
