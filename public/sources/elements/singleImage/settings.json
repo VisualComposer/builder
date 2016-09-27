@@ -4,10 +4,10 @@
     "access": "protected",
     "value": "Single Image"
   },
-  "category": {
+  "elementGroup": {
     "type": "string",
     "access": "protected",
-    "value": "Content"
+    "value": ["All", "Content"]
   },
   "metaIntro": {
     "type": "textarea",

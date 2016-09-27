@@ -19,6 +19,8 @@
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
+  position: relative;
+  z-index: @navbar-z-index;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -157,6 +159,7 @@
   z-index: @navbar-dropdown-z-index;
   visibility: hidden;
   opacity: 0;
+  box-shadow: @navbar-dropdown-shadow;
   //transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
   .vcv-ui-navbar-control {
     text-align: left;

@@ -66,7 +66,9 @@ class SaveController {
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,
-          'vcv-global-elements': encodeURIComponent(JSON.stringify(elements))
+          'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
+          'vcv-custom-css': assetsManager.getCustomCss(),
+          'vcv-global-css': assetsManager.getGlobalCss()
         },
         this.saveSuccess.bind(this),
         this.saveFailed.bind(this)

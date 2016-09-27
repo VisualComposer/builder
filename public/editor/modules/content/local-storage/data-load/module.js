@@ -12,6 +12,12 @@ vcCake.add('content-local-storage-data-load', (api) => {
     if (data.elements) {
       assetsManager.set(data.elements)
     }
+    if (data.cssSettings && data.cssSettings.custom) {
+      assetsManager.setCustomCss(data.cssSettings.custom)
+    }
+    if (data.cssSettings && data.cssSettings.global) {
+      assetsManager.setGlobalCss(data.cssSettings.global)
+    }
     api.request('data:added', true)
   })
 })

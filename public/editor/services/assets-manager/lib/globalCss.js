@@ -1,4 +1,4 @@
-export default class CustomCss {
+export default class GlobalCss {
   set data (value) {
     this._data = value
   }

@@ -406,34 +406,30 @@ class DesignOptions extends Attribute {
     let borderColorOutput = null
     if (isBorderSpecified) {
       borderStyleOutput = (
-        <div className='vcv-ui-col vcv-ui-col--xs-8'>
-          <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              Border style
-            </span>
-            <select
-              name='borderStyle'
-              className='vcv-ui-form-dropdown'
-              value={this.state[ this.state.device ].borderStyle}
-              onChange={this.changeBorderStyle}>
-              {this.borderStyles}
-            </select>
-          </div>
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Border style
+          </span>
+          <select
+            name='borderStyle'
+            className='vcv-ui-form-dropdown'
+            value={this.state[ this.state.device ].borderStyle}
+            onChange={this.changeBorderStyle}>
+            {this.borderStyles}
+          </select>
         </div>
       )
       borderColorOutput = (
-        <div className='vcv-ui-col vcv-ui-col--xs-4'>
-          <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              Border color
-            </span>
-            <Color
-              value={this.state[ this.state.device ].borderColor}
-              updater={this.changeBorderColor}
-              fieldKey='borderColor'
-              api={this.props.api}
-            />
-          </div>
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Border color
+          </span>
+          <Color
+            value={this.state[ this.state.device ].borderColor}
+            updater={this.changeBorderColor}
+            fieldKey='borderColor'
+            api={this.props.api}
+          />
         </div>
       )
     }
@@ -550,27 +546,23 @@ class DesignOptions extends Attribute {
                 </span>
                 <AttachImage {...backgroundImageProps} />
               </div>
-              <div className='vcv-ui-row vcv-ui-row-gap--sm'>
-                <div className='vcv-ui-col vcv-ui-col--xs-8'>
-                  {(hasImages) && (
-                    <div className='vcv-ui-form-group'>
-                      <span className='vcv-ui-form-group-heading'>
-                        Background style
-                      </span>
-                      <select
-                        name='backgroundStyle'
-                        className='vcv-ui-form-dropdown'
-                        value={this.state[ this.state.device ].backgroundStyle}
-                        disabled={!hasImages}
-                        onChange={this.changeBackgroundStyle}>
-                        {this.backgroundStyles}
-                      </select>
-                    </div>
-                  )}
+              {(hasImages) && (
+                <div className='vcv-ui-form-group'>
+                  <span className='vcv-ui-form-group-heading'>
+                    Background style
+                  </span>
+                  <select
+                    name='backgroundStyle'
+                    className='vcv-ui-form-dropdown'
+                    value={this.state[ this.state.device ].backgroundStyle}
+                    disabled={!hasImages}
+                    onChange={this.changeBackgroundStyle}>
+                    {this.backgroundStyles}
+                  </select>
                 </div>
-                {borderStyleOutput}
-                {borderColorOutput}
-              </div>
+              )}
+              {borderStyleOutput}
+              {borderColorOutput}
             </div>
           )}
         </div>
