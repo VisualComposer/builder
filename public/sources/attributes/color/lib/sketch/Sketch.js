@@ -85,8 +85,8 @@ export class Sketch extends React.Component {
     }, this.props)
 
     return (
-      <div className='vcv-color-picker-panel' style={styles.picker}>
-        <div className='vcv-color-picker-custom-color'>
+      <div className='vcv-ui-color-picker-panel' style={styles.picker}>
+        <div className='vcv-ui-color-picker-custom-color'>
           <div style={styles.saturation}>
             <Saturation
               style={styles.Saturation}
@@ -94,7 +94,7 @@ export class Sketch extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <div style={styles.controls} className='flexbox-fix'>
+          <div style={styles.controls}>
             <div style={styles.sliders}>
               <div style={styles.hue}>
                 <Hue style={styles.Hue} {...this.props} onChange={this.handleChange} />

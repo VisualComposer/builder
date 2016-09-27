@@ -85,7 +85,7 @@ export class ShetchFields extends React.Component {
     }, this.props)
 
     return (
-      <div style={styles.fields} className='flexbox-fix'>
+      <div style={styles.fields}>
         <div style={styles.double}>
           <EditableInput
             style={{ input: styles.input, label: styles.label }}

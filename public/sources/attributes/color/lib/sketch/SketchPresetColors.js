@@ -40,7 +40,7 @@ export class SketchPresetColors extends React.Component {
     })
 
     return (
-      <div className='vcv-color-picker-presets-color flexbox-fix'>
+      <div className='vcv-ui-color-picker-presets-color'>
         {map(this.props.colors, (c) => {
           return (
             <div style={styles.swatchWrap} key={c}>
