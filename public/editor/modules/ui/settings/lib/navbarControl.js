@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class AddElementControl extends React.Component {
+class SettingsButtonControl extends React.Component {
   state = {
     isWindowOpen: false
   }
@@ -17,7 +17,7 @@ class AddElementControl extends React.Component {
       .reply('app:edit', () => {
         this.setState({ isWindowOpen: false })
       })
-      .reply('app:settings', () => {
+      .reply('app:add', () => {
         this.setState({ isWindowOpen: false })
       })
       .reply('bar-content-end:hide', () => {
@@ -36,7 +36,7 @@ class AddElementControl extends React.Component {
       .forget('app:edit', () => {
         this.setState({ isWindowOpen: false })
       })
-      .reply('app:settings', () => {
+      .reply('app:add', () => {
         this.setState({ isWindowOpen: false })
       })
       .forget('bar-content-end:hide', () => {
@@ -44,33 +44,34 @@ class AddElementControl extends React.Component {
       })
   }
 
-  toggleAddElement (e) {
+  toggleSettings (e) {
     e && e.preventDefault()
     if (this.state.isWindowOpen) {
       this.props.api.notify('hide')
     } else {
-      this.props.api.request('app:add', null)
+      this.props.api.request('app:settings', true)
     }
   }
 
   render () {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
+      'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isWindowOpen
     })
 
     return (
-      <a className={controlClass} href='#' title='Add Element' onClick={this.toggleAddElement.bind(this)}>
+      <a className={controlClass} href='#' title='Settings' onClick={this.toggleSettings.bind(this)}>
         <span className='vcv-ui-navbar-control-content'>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
-          <span>Add Element</span>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog' />
+          <span>Settings</span>
         </span>
       </a>
     )
   }
 }
-AddElementControl.propTypes = {
+SettingsButtonControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
 
-export default AddElementControl
+export default SettingsButtonControl

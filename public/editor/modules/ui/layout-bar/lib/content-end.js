@@ -41,7 +41,7 @@ class BarContentEnd extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.showContent && !prevState.showContent) {
-      this.handleElementResize()
+      setTimeout(this.handleElementResize, 20) // TODO: fix this on global refactor
     }
   }
 
