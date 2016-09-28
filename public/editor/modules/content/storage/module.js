@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
+const assetsManger = vcCake.getService('assets-manager')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
@@ -112,5 +113,14 @@ vcCake.add('storage', (api) => {
         window.setTimeout(() => { api.request('data:add', data.toJS()) }, 0)
       }
     }
+  })
+  api.reply('settings:update', (settings) => {
+    if (settings.customStyles && settings.customStyles.global !== undefined) {
+      assetsManger.setGlobalCss(settings.customStyles.global || '')
+    }
+    if (settings.customStyles && settings.customStyles.local !== undefined) {
+      assetsManger.setCustomCss(settings.customStyles.local || '')
+    }
+    api.request('settings:changed', settings)
   })
 })
