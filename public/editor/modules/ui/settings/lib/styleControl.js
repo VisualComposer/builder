@@ -1,62 +1,28 @@
 import React from 'react'
-import StyleControlElement from './styleControlElement'
+import classNames from 'classnames'
 
-class StyleControl extends React.Component {
-  state = {
-    activeButtonIndex: 0
-  }
-
-  controls = [
-    {
-      title: 'Local CSS',
-      index: 1
-    },
-    {
-      title: 'Global CSS',
-      index: 2
-    }
-  ]
-
+export default class StyleControl extends React.Component {
   handleClick () {
-    console.log(this.props)
-  }
-
-  getButtonProps (index) {
-    return {
-      buttonIndex: index
-    }
-  }
-
-  changeActiveButton = (buttonIndex) => {
-    this.setState({
-      activeTabIndex: buttonIndex
-    })
-  }
-
-  getControls () {
-    let buttons = []
-    for (let props in this.controls) {
-      let buttonProps = this.getButtonProps(this.controls[props].index)
-      buttons.push(
-        <StyleControlElement
-          key={this.controls[props].title}
-          index={this.controls[props].index}
-          controlName={this.controls[props].title}
-          {...buttonProps}
-        />
-      )
-    }
-    return buttons
+    this.props.changeActive(this.props.index)
   }
 
   render () {
-    let controls = this.getControls()
+    let { title, active } = this.props
+
+    let controlClass = classNames({
+      'vcv-ui-style-control': true,
+      'vcv-ui-style-control--active': active
+    })
     return (
-      <div className='vcv-ui-style-control-container'>
-        {controls}
-      </div>
+      <button className={controlClass} onClick={this.handleClick.bind(this)}>
+        {title}
+      </button>
     )
   }
 }
-
-export default StyleControl
+StyleControl.propTypes = {
+  changeActive: React.PropTypes.func,
+  index: React.PropTypes.number.isRequired,
+  title: React.PropTypes.string,
+  active: React.PropTypes.bool
+}

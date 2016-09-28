@@ -303,7 +303,7 @@ class Categories extends React.Component {
         </nav>
       </div>
 
-      <div ref='scrollable' className='vcv-ui-tree-content-section'>
+      <div className='vcv-ui-tree-content-section'>
         <Scrollbar>
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>

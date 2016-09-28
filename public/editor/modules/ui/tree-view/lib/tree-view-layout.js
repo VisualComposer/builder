@@ -41,7 +41,7 @@ class TreeViewLayout extends React.Component {
     let elements = this.getElements()
     if (elements.length) {
       return (
-        <ul ref='scrollable' className='vcv-ui-tree-layout'>
+        <ul className='vcv-ui-tree-layout'>
           {elements}
         </ul>
       )
