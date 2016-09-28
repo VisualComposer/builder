@@ -1,30 +1,22 @@
 import React from 'react'
 import SettingsCustomStyles from './settingsCustomStyles'
+import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
-class SettingsContent extends React.Component {
+export default class SettingsContent extends React.Component {
   render () {
     return (
-      <div ref='scrollable' className='vcv-ui-tree-content-section'>
-        <div className='vcv-ui-scroll-container'>
-          <div className='vcv-ui-scroll'>
-            <div className='vcv-ui-scroll-content'>
-              <div className='vcv-ui-tree-content-section-inner'>
-                <div className='vcv-ui-editor-plates-container'>
-                  <div className='vcv-ui-editor-plates'>
-                    <SettingsCustomStyles />
-                  </div>
-                </div>
+      <div className='vcv-ui-tree-content-section'>
+        <Scrollbar>
+          <div className='vcv-ui-tree-content-section-inner'>
+            <div className='vcv-ui-editor-plates-container'>
+              <div className='vcv-ui-editor-plates'>
+                <SettingsCustomStyles />
               </div>
             </div>
           </div>
-        </div>
+        </Scrollbar>
       </div>
     )
   }
 }
-// SettingsContent.propTypes = {
-//   api: React.PropTypes.object.isRequired,
-//   elements: React.PropTypes.array.isRequired
-// }
 
-export default SettingsContent
