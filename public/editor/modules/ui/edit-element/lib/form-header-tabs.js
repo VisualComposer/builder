@@ -70,6 +70,7 @@ export default class EditFormTabsOutput extends React.Component {
 
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
+        'vcv-ui-editor-tab-collapse': true,
         'vcv-ui-state--active': !!this.props.hiddenTabs.filter((tab) => {
           return tab.index === activeTabIndex
         }).length

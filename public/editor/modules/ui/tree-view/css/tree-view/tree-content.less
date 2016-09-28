@@ -105,6 +105,12 @@
     display: none;
   }
 }
+.vcv-ui-editor-tab-dropdown {
+  > .vcv-ui-editor-tab {
+    padding-left: @tree-tab-padding-horizontal / 2;
+    padding-right: @tree-tab-padding-horizontal / 2;
+  }
+}
 
 .vcv-ui-editor-tab-toggle-tree {
   min-width: @tree-tab-icon-min-width;
@@ -179,7 +185,7 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity @transition-duration @transition-timing-function;
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .5); //todo: rewrite this
+  box-shadow: @tree-dropdown-shadow;
   margin-right: ceil(@tree-tab-space/2);
   margin-left: floor(@tree-tab-space/2);
   .vcv-ui-editor-tab {

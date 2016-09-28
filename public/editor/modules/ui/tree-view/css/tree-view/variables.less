@@ -29,6 +29,7 @@
 //== dropdowns
 @tree-dropdown-size: 140px;
 @tree-dropdown-zindex: 1020;
+@tree-dropdown-shadow: rgba(0, 0, 0, 0.3) 1px 0px 10px 0px;
 
 //== tabs
 @tree-tab-icon-min-width: 60px;
@@ -39,7 +40,9 @@
 @tree-tab-bg-active: #fff;
 @tree-tab-color: #fff;
 @tree-tab-color-active: @text-color-root;
-@tree-tab-padding: 14px 32px;
+@tree-tab-padding-horizontal: 32px;
+@tree-tab-padding-vertical: 14px;
+@tree-tab-padding: @tree-tab-padding-vertical @tree-tab-padding-horizontal;
 @tree-tab-spacer: 8px;
 @tree-tab-spacer-alt: 16px;
 
