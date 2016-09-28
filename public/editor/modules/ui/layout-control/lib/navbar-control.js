@@ -5,6 +5,15 @@ import LayoutItem from './navbar-item'
 class LayoutButtonControl extends React.Component {
   static devices = [
     {
+      type: 'Responsive view',
+      className: 'multiple-devices',
+      viewport: {
+        width: null,
+        min: null,
+        max: null
+      }
+    },
+    {
       type: 'Desktop',
       className: 'desktop',
       viewport: {
@@ -14,7 +23,7 @@ class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Tablet Landscape',
+      type: 'Tablet landscape',
       className: 'tablet-landscape',
       viewport: {
         width: '992',
@@ -23,7 +32,7 @@ class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Tablet Portrait',
+      type: 'Tablet portrait',
       className: 'tablet-portrait',
       viewport: {
         width: '768',
@@ -32,7 +41,7 @@ class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Mobile Landscape',
+      type: 'Mobile landscape',
       className: 'mobile-landscape',
       viewport: {
         width: '554',
@@ -41,36 +50,32 @@ class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: 'Mobile Portrait',
+      type: 'Mobile portrait',
       className: 'mobile-portrait',
       viewport: {
-        width: '320',
+        width: '480',
         min: '0',
         max: '553'
       }
     }
   ]
 
-  state = {
-    activeDevice: 0,
-    layoutSelected: false,
-    displayDropdown: true
+  constructor (props) {
+    super(props)
+    this.state = {
+      activeDevice: 0
+    }
+
+    this.setDefautlDevice = this.setDefautlDevice.bind(this)
+    this.setSelectedLayout = this.setSelectedLayout.bind(this)
   }
 
   componentDidMount () {
-    this.setActualDevice()
-    this.addResizeListener(window.document.querySelector('#vcv-editor-iframe').contentDocument.defaultView, this.setActualDevice)
+    this.addResizeListener(window, this.setDefautlDevice)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(window, this.unsetDesktop)
-    this.removeResizeListener(window.document.querySelector('#vcv-editor-iframe').contentDocument.defaultView, this.setActualDevice)
-  }
-
-  unsetDesktop = () => {
-    if (this.checkWindowWidth() >= LayoutButtonControl.devices[0].viewport.width) {
-      this.setViewport('')
-    }
+    this.removeResizeListener(window, this.setDefautlDevice)
   }
 
   addResizeListener (el, fn) {
@@ -81,99 +86,40 @@ class LayoutButtonControl extends React.Component {
     el.removeEventListener('resize', fn)
   }
 
-  checkDevice () {
-    let windowWidth = this.checkWindowWidth()
-    let devices = []
-    LayoutButtonControl.devices.forEach((item, index) => {
-      if (windowWidth > item.viewport.width && windowWidth > LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.width) {
-        devices.push(index)
-      } else if (windowWidth <= LayoutButtonControl.devices[LayoutButtonControl.devices.length - 1].viewport.width) {
-        devices.push(LayoutButtonControl.devices.length - 1)
-      }
-    })
-    return devices[0]
+  setDefautlDevice () {
+    this.setSelectedLayout(0)
   }
 
-  setActualDevice = (e, index = this.checkActualDevice()) => {
-    if (!this.state.layoutSelected) {
-      this.setState({
-        activeDevice: index
-      })
-    }
-  }
-
-  setSelectedLayout = (index) => {
-    this.setViewport(LayoutButtonControl.devices[index].viewport.width)
+  setSelectedLayout (index) {
+    this.setViewport(LayoutButtonControl.devices[ index ].viewport.width)
     this.setState({
       activeDevice: index
     })
-
-    if (index === 0) {
-      this.addResizeListener(window, this.unsetDesktop)
-    } else {
-      this.removeResizeListener(window, this.unsetDesktop)
-    }
   }
 
   setViewport (width) {
     let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    let actualWidth = width + 'px'
-
-    if (width === LayoutButtonControl.devices[this.checkDevice()].viewport.width || width === '') {
-      actualWidth = ''
-      setTimeout(() => {
-        this.setState({
-          layoutSelected: false
-        })
-      }, 250)
-    } else {
-      this.setState({
-        layoutSelected: true
-      })
-    }
-    iframeContainer.style.width = actualWidth
-  }
-
-  checkWindowWidth () {
-    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-  }
-
-  checkIframeWidth () {
-    return window.document.querySelector('#vcv-editor-iframe').offsetWidth
-  }
-
-  checkActualDevice () {
-    let iframeWidth = this.checkIframeWidth()
-    let activeDevice = this.state.activeDevice
-
-    LayoutButtonControl.devices.forEach((item, i) => {
-      let controlViewport = item.viewport
-      if (iframeWidth > controlViewport.min && iframeWidth < controlViewport.max) {
-        activeDevice = i
-      }
-    })
-    return activeDevice
+    iframeContainer.style.width = width ? width + 'px' : ''
   }
 
   render () {
     let controlIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
-      'vcv-ui-icon-' + LayoutButtonControl.devices[this.state.activeDevice].className
+      'vcv-ui-icon-' + LayoutButtonControl.devices[ this.state.activeDevice ].className
     )
 
     let activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
         <i className={controlIconClasses} />
-        <span>{LayoutButtonControl.devices[this.state.activeDevice].type}</span>
+        <span>{LayoutButtonControl.devices[ this.state.activeDevice ].type}</span>
       </span>
     )
 
     let navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-navbar-dropdown-linear': true,
-      'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-control-hidden': !this.state.displayDropdown
+      'vcv-ui-pull-end': true
     })
 
     let layoutItems = []
@@ -185,7 +131,8 @@ class LayoutButtonControl extends React.Component {
 
     return (
       <dl className={navbarControlClasses} tabIndex='0'>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={LayoutButtonControl.devices[this.state.activeDevice].type}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
+          title={LayoutButtonControl.devices[ this.state.activeDevice ].type}>
           {activeDevice}
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content'>

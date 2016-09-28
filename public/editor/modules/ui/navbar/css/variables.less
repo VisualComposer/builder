@@ -13,6 +13,7 @@
 @navbar-dropdown-size: 200px;
 @navbar-bg-dropdown: @color-alternative;
 @navbar-bg-dropdown-hover: @color-alternative-active;
+@navbar-dropdown-shadow: rgba(0, 0, 0, 0.3) 1px 0px 10px 0px;
 
 //== text
 @navbar-text-size-base: @text-size-base;
@@ -30,8 +31,9 @@
 @navbar-bg-error-hover: @state-color-error-hover;
 
 //== Positions
-@navbar-z-index: @z-index-base;
-@navbar-dropdown-z-index: @z-index-base + 10;
+@navbar-z-index: @z-index-base + 10;
+@navbar-dropdown-z-index: -1;
 
 // Scroll
 @navbar-dropdown-max-height: 60vh;
+

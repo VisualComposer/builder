@@ -19,6 +19,8 @@
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
+  position: relative;
+  z-index: @navbar-z-index;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -157,6 +159,7 @@
   z-index: @navbar-dropdown-z-index;
   visibility: hidden;
   opacity: 0;
+  box-shadow: @navbar-dropdown-shadow;
   //transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
   .vcv-ui-navbar-control {
     text-align: left;
@@ -225,21 +228,12 @@
   }
   &.vcv-ui-state--success {
     background-color: @navbar-bg-success;
-    //&:hover {
-    //  background-color: @navbar-bg-success-hover;
-    //}
   }
   &.vcv-ui-state--warning {
     background-color: @navbar-bg-warning;
-    //&:hover {
-    //  background-color: @navbar-bg-warning-hover;
-    //}
   }
   &.vcv-ui-state--error {
     background-color: @navbar-bg-error;
-    //&:hover {
-    //  background-color: @navbar-bg-error-hover;
-    //}
   }
   &.vcv-ui-toggle--inactive {
     opacity: .5;

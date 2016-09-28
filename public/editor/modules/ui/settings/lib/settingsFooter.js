@@ -1,19 +1,24 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getData} from 'vc-cake'
 
 export default class SettingsFooter extends React.Component {
-  // static propTypes = {
-  //   api: React.PropTypes.object.isRequired,
-  //   element: React.PropTypes.object.isRequired
-  // }
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
   state = {
     saving: false,
     saved: false
   }
 
   onSave = () => {
-    let { element, api } = this.props
-    api.request('data:update', element.get('id'), element.toJS())
+    let { api } = this.props
+    api.request('settings:update', {
+      customStyles: {
+        global: getData('ui:settings:customStyles:global'),
+        local: getData('ui:settings:customStyles:local')
+      }
+    })
     this.effect()
   }
   componentDidMount () {

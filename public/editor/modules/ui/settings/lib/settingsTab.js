@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class SettingsTab extends React.Component {
-
+export default class SettingsTab extends React.Component {
+  static propTypes = {
+    title: React.PropTypes.string.isRequired
+  }
   render () {
-    // let { title, active } = this.props
-
+    let { title } = this.props
     let tabClasses = classNames({
       'vcv-ui-editor-tab': true,
       'vcv-ui-state--active': true
@@ -14,11 +15,9 @@ class SettingsTab extends React.Component {
     return (
       <a className={tabClasses} href='#'>
         <span className='vcv-ui-editor-tab-content'>
-          <span>Custom CSS</span>
+          <span>{title}</span>
         </span>
       </a>
     )
   }
 }
-
-export default SettingsTab

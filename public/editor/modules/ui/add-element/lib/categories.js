@@ -74,7 +74,7 @@ class Categories extends React.Component {
     }
     return hash
   }
-  getCategoriesElements (data, category = null) {
+  getCategoriesElements (data, category) {
     const sortMethod = (a, b) => {
       if (a.order && b.order === undefined) {
         return -1
@@ -85,41 +85,39 @@ class Categories extends React.Component {
       }
       return a.name.localeCompare(b.name, {kn: true}, {sensitivity: 'base'})
     }
-    if (category) {
-      return data[category].sort(sortMethod)
+    return lodash(data).filter((element) => {
+      return Array.isArray(element.elementGroup) && element.elementGroup.indexOf(category) > -1 ||
+        element.elementGroup === category
+    }).sort(sortMethod).value()
+  }
+  getCategoriesFromElements (elements) {
+    const sortMethod = (a, b) => {
+      if (a === 'All') {
+        return -1
+      } else if (b === 'All') {
+        return 1
+      }
+      return a.localeCompare(b, {kn: true}, {sensitivity: 'base'})
     }
-    return lodash(data).values().flatten().value().sort(sortMethod)
+    return lodash(elements)
+      .map('elementGroup')
+      .flatten()
+      .compact()
+      .uniq()
+      .sort(sortMethod)
+      .value()
   }
   tabsFromProps (props) {
-    let tabs = []
-    let index = 0
-    let categories = lodash.groupBy(props.elements, (element) => {
-      return element.category || 'All'
-    })
-    const allTab = {
-      id: 'All',
-      index: index++,
-      title: 'All',
-      elements: this.getCategoriesElements(categories),
-      isVisible: true,
-      pinned: false
-    }
-    for (let title in categories) {
-      let tab = {
+    let categories = this.getCategoriesFromElements(props.elements)
+    allTabs = categories.map((title, index) => {
+      return {
         id: title + index, // TODO: Should it be more unique?
-        index: index++,
+        index: index,
         title: title,
-        elements: this.getCategoriesElements(categories, title),
+        elements: this.getCategoriesElements(props.elements, title),
         isVisible: true,
         pinned: false // TODO: Actual logic.
       }
-      tabs.push(tab)
-    }
-    allTabs = [allTab].concat(tabs.sort((a, b) => {
-      return a.title.localeCompare(b.title)
-    })).map((tab, i) => {
-      tab.index = i
-      return tab
     })
     this.setState({
       tabsHash: this.getTabsHash(allTabs)
@@ -252,6 +250,7 @@ class Categories extends React.Component {
 
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
+        'vcv-ui-editor-tab-collapse': true,
         'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
           return tab.index === activeTabIndex
         }).length
@@ -304,7 +303,7 @@ class Categories extends React.Component {
         </nav>
       </div>
 
-      <div ref='scrollable' className='vcv-ui-tree-content-section'>
+      <div className='vcv-ui-tree-content-section'>
         <Scrollbar>
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>

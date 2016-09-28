@@ -1,14 +1,28 @@
 import React from 'react'
+import classNames from 'classnames'
 
-class StyleControl extends React.Component {
+export default class StyleControl extends React.Component {
+  handleClick () {
+    this.props.changeActive(this.props.index)
+  }
+
   render () {
+    let { title, active } = this.props
+
+    let controlClass = classNames({
+      'vcv-ui-style-control': true,
+      'vcv-ui-style-control--active': active
+    })
     return (
-      <div className='vcv-ui-style-control-container'>
-        <button className='vcv-ui-style-control vcv-ui-style-control-active'>Local CSS</button>
-        <button className='vcv-ui-style-control'>Global CSS</button>
-      </div>
+      <button className={controlClass} onClick={this.handleClick.bind(this)}>
+        {title}
+      </button>
     )
   }
 }
-
-export default StyleControl
+StyleControl.propTypes = {
+  changeActive: React.PropTypes.func,
+  index: React.PropTypes.number.isRequired,
+  title: React.PropTypes.string,
+  active: React.PropTypes.bool
+}
