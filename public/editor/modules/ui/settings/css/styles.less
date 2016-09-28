@@ -1,45 +1,44 @@
 .vcv-ui-style-control-container {
   display: flex;
   justify-content: center;
-  margin: 10px 0 0;
+  margin: @control-container-margin;
 }
 
 .vcv-ui-style-control {
   flex: 0 1 auto;
-  background: #3d5d95;
-  color: #fff;
-  padding: 14px 32px;
   border: none;
+  padding: @control-padding-top-bottom @control-padding-left-right;
+  background: @control-background-color;
+  color: @control-color;
   cursor: pointer;
 
   &--active {
-    background: #1f3152;
+    background: @control-background-color-active;
   }
 
   &:first-child {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
   }
 
   &:last-child {
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-top-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
   }
 }
 
-.vcv-ui-style-editor {
-  margin: 25px 0 0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+.vcv-ui-style-editor-container {
+  margin: @editor-container-margin;
 }
 
-.vcv-ui-scroll-container {
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  flex: 1 1 100%;
-  display: flex;
-  flex-flow: column nowrap;
+.vcv-ui-style-ace-container {
+  border: 1px solid @editor-border-color;
+  border-radius: @border-radius;
+}
+
+.vcv-ui-style-editor {
+  &:not(.vcv-ui-style-editor--active) {
+    display: none;
+  }
 }
 
