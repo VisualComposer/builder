@@ -147,7 +147,7 @@ class Str implements Helper
      */
     public function limit($value, $limit = 100, $end = '...')
     {
-        if (mb_strlen($value) <= $limit) {
+        if ($this->length($value) <= $limit) {
             return $value;
         }
 
