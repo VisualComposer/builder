@@ -6,10 +6,6 @@ import '../../../../../../node_modules/brace/mode/css'
 import '../../../../../../node_modules/brace/theme/github'
 
 export default class StyleEditor extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-  }
   static propTypes = {
     index: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
@@ -19,8 +15,12 @@ export default class StyleEditor extends React.Component {
     value: React.PropTypes.string,
     updater: React.PropTypes.func
   }
+  constructor (props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+  }
   handleChange (value) {
-    this.props.updater(this.props.index, this.props.name, value)
+    this.props.updater(this.props.name, value)
   }
   render () {
     let controlClass = classNames({

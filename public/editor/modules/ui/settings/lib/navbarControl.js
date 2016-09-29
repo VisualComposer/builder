@@ -4,10 +4,10 @@ import classNames from 'classnames'
 export default class SettingsButtonControl extends React.Component {
   constructor (props) {
     super(props)
-    this.toggleSettings = this.toggleSettings.bind(this)
     this.state = {
       isWindowOpen: false
     }
+    this.toggleSettings = this.toggleSettings.bind(this)
   }
 
   componentWillMount () {

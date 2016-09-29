@@ -7,35 +7,35 @@ const assetManager = getService('assets-manager')
 
 export default class SettingsCustomStyles extends React.Component {
   static propTypes = {
-    styleData: React.PropTypes.array,
-    customStyles: React.PropTypes.any
+    styleData: React.PropTypes.array
   }
   static defaultProps = {
     styleData: [
       {
         buttonTitle: 'Local CSS',
         editorLabel: 'Local CSS will be applied to this particular page only',
-        index: 0,
-        name: 'local',
-        value: null
+        index: 1,
+        name: 'local'
       },
       {
         buttonTitle: 'Global CSS',
         editorLabel: 'Global CSS will be applied site wide',
-        index: 1,
-        name: 'global',
-        value: null
+        index: 2,
+        name: 'global'
       }
     ]
   }
   constructor (props) {
     super(props)
-    this.props.styleData[0].value = assetManager.getCustomCss()
-    this.props.styleData[1].value = assetManager.getGlobalCss()
-    setData('ui:settings:customStyles:local', this.props.styleData[0].value)
-    setData('ui:settings:customStyles:global', this.props.styleData[1].value)
+    let customStyles = {
+      local: assetManager.getCustomCss(),
+      global: assetManager.getGlobalCss()
+    }
+    setData('ui:settings:customStyles:global', customStyles.global)
+    setData('ui:settings:customStyles:local', customStyles.local)
     this.state = {
-      isActiveIndex: 0
+      isActiveIndex: 1,
+      ...customStyles
     }
     this.updateSettings = this.updateSettings.bind(this)
   }
@@ -73,9 +73,9 @@ export default class SettingsCustomStyles extends React.Component {
     }
     return allButtons
   }
-  updateSettings (key, name, value) {
-    setData('ui:settings:customStyles:' + name, value)
-    this.props.styleData[key].value = value
+  updateSettings (key, value) {
+    setData('ui:settings:customStyles:' + key, value)
+    this.setState({[key]: value})
   }
   getEditor () {
     let allEditors = []
@@ -89,7 +89,7 @@ export default class SettingsCustomStyles extends React.Component {
             index={styleData[i].index}
             activeIndex={this.state.isActiveIndex}
             aceId={styleData[i].name + 'Editor'}
-            value={styleData[i].value}
+            value={this.state[styleData[i].name]}
             name={styleData[i].name}
             updater={this.updateSettings}
           />

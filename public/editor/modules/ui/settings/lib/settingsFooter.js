@@ -3,6 +3,10 @@ import classNames from 'classnames'
 import {getData} from 'vc-cake'
 
 export default class SettingsFooter extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.state = {
@@ -10,9 +14,7 @@ export default class SettingsFooter extends React.Component {
       saved: false
     }
   }
-  static propTypes = {
-    api: React.PropTypes.object.isRequired
-  }
+
   onSave = () => {
     let { api } = this.props
     api.request('settings:update', {
