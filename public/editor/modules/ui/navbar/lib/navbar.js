@@ -2,7 +2,10 @@ import NavbarControl from './control'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
 import '../css/module.less'
+
+const Utils = vcCake.getService('utils')
 
 let navbarControls = []
 
@@ -23,13 +26,9 @@ class Navbar extends React.Component {
         height: window.innerHeight,
         width: window.innerWidth
       },
-      navbarSize: {
-        height: undefined,
-        width: undefined
-      },
       navbarPositionFix: {
-        top: undefined,
-        left: undefined
+        top: 0,
+        left: 0
       },
       moveDirection: {
         top: false,
@@ -37,8 +36,16 @@ class Navbar extends React.Component {
         bottom: false,
         left: false
       },
-      hasEndContent: false
+      hasEndContent: false,
+      isActiveSandwich: false
     }
+    this.handleDropdown = this.handleDropdown.bind(this)
+    this.handleElementResize = this.handleElementResize.bind(this)
+    this.handleWindowResize = this.handleWindowResize.bind(this)
+    this.refreshControls = this.refreshControls.bind(this)
+    this.handleDragStart = this.handleDragStart.bind(this)
+    this.handleDragEnd = this.handleDragEnd.bind(this)
+    this.handleDragging = this.handleDragging.bind(this)
   }
 
   componentWillMount () {
@@ -70,6 +77,31 @@ class Navbar extends React.Component {
       })
       this.props.api.notify('build', navbarControls.length)
     })
+
+    // remember navbar position
+    let cookieState = {}
+    if (Utils.hasCookie('navPosition')) {
+      cookieState.navbarPosition = Utils.getCookie('navPosition')
+    }
+    if (Utils.hasCookie('navPosX') && Utils.hasCookie('navPosY')) {
+      cookieState.navPosX = Utils.getCookie('navPosX')
+      cookieState.navPosY = Utils.getCookie('navPosY')
+      if (cookieState.navPosX > this.state.windowSize.width) {
+        if (Utils.hasCookie('navPosXr')) {
+          cookieState.navPosX = Math.ceil(this.state.windowSize.width * Utils.getCookie('navPosXr'))
+        } else {
+          cookieState.navPosX = 0
+        }
+      }
+      if (cookieState.navPosY > this.state.windowSize.height) {
+        if (Utils.hasCookie('navPosYr')) {
+          cookieState.navPosY = Math.ceil(this.state.windowSize.height * Utils.getCookie('navPosYr'))
+        } else {
+          cookieState.navPosY = 0
+        }
+      }
+    }
+    this.setState(cookieState)
   }
 
   componentDidMount () {
@@ -95,11 +127,21 @@ class Navbar extends React.Component {
         })
       })
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
+    window.addEventListener('resize', this.handleWindowResize)
     this.handleElementResize()
   }
 
-  handleElementResize = () => {
+  handleElementResize () {
     this.refreshControls()
+  }
+
+  handleWindowResize () {
+    this.setState({
+      windowSize: {
+        height: window.innerHeight,
+        width: window.innerWidth
+      }
+    })
   }
 
   addResizeListener (element, fn) {
@@ -108,7 +150,7 @@ class Navbar extends React.Component {
       element.style.position = 'relative'
     }
     let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; visibility: hidden; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
       this.contentDocument.defaultView.addEventListener('resize', fn)
@@ -130,6 +172,7 @@ class Navbar extends React.Component {
 
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
+    window.removeEventListener('resize', this.handleWindowResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -172,6 +215,30 @@ class Navbar extends React.Component {
     })
   }
 
+  // closeDropdown (e) {
+  //   console.log(this)
+  //   let _this = this
+  //   document.documentElement.removeEventListener('click', _this.closeDropdown.bind(_this), true)
+  //   this.setState({
+  //     isActiveSandwich: false
+  //   })
+  // }
+
+  handleDropdown (e) {
+    e && e.preventDefault()
+    let isActiveMenu = !this.state.isActiveSandwich
+    this.setState({
+      isActiveSandwich: isActiveMenu
+    })
+    // console.log(document.documentElement)
+    // setTimeout(() => {
+    //   if (this.state.isActiveSandwich) {
+    //     let _this = this
+    //     document.documentElement.addEventListener('click', _this.closeDropdown.bind(_this), true)
+    //   }
+    // }, 250)
+  }
+
   buildHiddenControls () {
     let controls = this.getHiddenControls()
     if (!controls.length) {
@@ -189,8 +256,15 @@ class Navbar extends React.Component {
       })
     })
 
+    let sandwichClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-pull-end': true,
+      'vcv-ui-navbar-sandwich': true,
+      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
+    })
+
     return (
-      <dl className='vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich' tabIndex='0'>
+      <dl className={sandwichClasses} tabIndex='0' onClick={this.handleDropdown}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu'>
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
@@ -202,7 +276,7 @@ class Navbar extends React.Component {
     )
   }
 
-  refreshControls = () => {
+  refreshControls () {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
       return sidePlacements.indexOf(this.state.navbarPosition) !== -1
@@ -264,7 +338,7 @@ class Navbar extends React.Component {
     return
   }
 
-  handleDragStart = (e, dragWithHandler = true) => {
+  handleDragStart (e, dragWithHandler = true) {
     e && e.preventDefault()
     if (e.nativeEvent.which !== 1) {
       return
@@ -278,10 +352,6 @@ class Navbar extends React.Component {
     let navbarPosition = ReactDOM.findDOMNode(this).getBoundingClientRect()
     this.setState({
       isDragging: true,
-      navbarSize: {
-        height: ReactDOM.findDOMNode(this).offsetHeight,
-        width: ReactDOM.findDOMNode(this).offsetWidth
-      },
       navbarPositionFix: {
         top: e.nativeEvent.clientY - navbarPosition.top,
         left: e.nativeEvent.clientX - navbarPosition.left
@@ -300,7 +370,7 @@ class Navbar extends React.Component {
     this.handleDragging(e.nativeEvent)
   }
 
-  handleDragEnd = (e) => {
+  handleDragEnd (e) {
     let moveEndEvent = document.createEvent('Event')
     moveEndEvent.initEvent('vc.ui.navbar.drag-end', true, true)
     e.target.dispatchEvent(moveEndEvent)
@@ -308,12 +378,22 @@ class Navbar extends React.Component {
     document.removeEventListener('mousemove', this.handleDragging)
     document.removeEventListener('mouseup', this.handleDragEnd)
 
+    // memorize navbar position
+    Utils.setCookie('navPosition', this.state.navbarPosition)
+    let posX = this.state.navPosX - this.state.navbarPositionFix.left
+    let posY = this.state.navPosY - this.state.navbarPositionFix.top
+    Utils.setCookie('navPosX', posX)
+    Utils.setCookie('navPosY', posY)
+    Utils.setCookie('navPosXr', 1 / (this.state.windowSize.width / posX))
+    Utils.setCookie('navPosYr', 1 / (this.state.windowSize.height / posY))
+
+    // update state
     this.setState({
       isDragging: false
     })
   }
 
-  handleDragging = (e) => {
+  handleDragging (e) {
     this.setState((previousState) => {
       let newStates = {
         moveDirection: {
@@ -321,10 +401,6 @@ class Navbar extends React.Component {
           right: false,
           top: false,
           bottom: false
-        },
-        navbarSize: {
-          height: ReactDOM.findDOMNode(this).offsetHeight,
-          width: ReactDOM.findDOMNode(this).offsetWidth
         },
         navPosX: e.clientX,
         navPosY: e.clientY
