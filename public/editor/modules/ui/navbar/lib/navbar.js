@@ -36,8 +36,10 @@ class Navbar extends React.Component {
         bottom: false,
         left: false
       },
-      hasEndContent: false
+      hasEndContent: false,
+      isActiveSandwich: false
     }
+    this.handleDropdown = this.handleDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.refreshControls = this.refreshControls.bind(this)
@@ -213,6 +215,30 @@ class Navbar extends React.Component {
     })
   }
 
+  // closeDropdown (e) {
+  //   console.log(this)
+  //   let _this = this
+  //   document.documentElement.removeEventListener('click', _this.closeDropdown.bind(_this), true)
+  //   this.setState({
+  //     isActiveSandwich: false
+  //   })
+  // }
+
+  handleDropdown (e) {
+    e && e.preventDefault()
+    let isActiveMenu = !this.state.isActiveSandwich
+    this.setState({
+      isActiveSandwich: isActiveMenu
+    })
+    // console.log(document.documentElement)
+    // setTimeout(() => {
+    //   if (this.state.isActiveSandwich) {
+    //     let _this = this
+    //     document.documentElement.addEventListener('click', _this.closeDropdown.bind(_this), true)
+    //   }
+    // }, 250)
+  }
+
   buildHiddenControls () {
     let controls = this.getHiddenControls()
     if (!controls.length) {
@@ -230,8 +256,15 @@ class Navbar extends React.Component {
       })
     })
 
+    let sandwichClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-pull-end': true,
+      'vcv-ui-navbar-sandwich': true,
+      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
+    })
+
     return (
-      <dl className='vcv-ui-navbar-dropdown vcv-ui-pull-end vcv-ui-navbar-sandwich' tabIndex='0'>
+      <dl className={sandwichClasses} tabIndex='0' onClick={this.handleDropdown}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu'>
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>

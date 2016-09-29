@@ -6,6 +6,10 @@ import '../../../../../../node_modules/brace/mode/css'
 import '../../../../../../node_modules/brace/theme/github'
 
 export default class StyleEditor extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+  }
   static propTypes = {
     index: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
@@ -16,26 +20,27 @@ export default class StyleEditor extends React.Component {
     updater: React.PropTypes.func
   }
   handleChange (value) {
-    this.props.updater(this.props.name, value)
+    this.props.updater(this.props.index, this.props.name, value)
   }
   render () {
     let controlClass = classNames({
       'vcv-ui-style-editor': true,
-      'vcv-ui-style-editor--active': (this.props.index === this.props.activeIndex)
+      'vcv-ui-state--active': (this.props.index === this.props.activeIndex)
     })
     return (
       <div className={controlClass}>
         <div className='vcv-ui-style-ace-container'>
           <AceEditor
             width='100%'
-            height='200px'
+            height='50vh'
             mode='css'
             theme='github'
+            tabSize={2}
             name={this.props.aceId}
             editorProps={{$blockScrolling: true}}
             showPrintMargin={false}
             value={this.props.value}
-            onChange={this.handleChange.bind(this)}
+            onChange={this.handleChange}
           />
         </div>
         <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>

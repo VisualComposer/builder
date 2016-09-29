@@ -11,8 +11,10 @@
   background: @control-background-color;
   color: @control-color;
   cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
 
-  &--active {
+  &:hover,
+  &.vcv-ui-state--active {
     background: @control-background-color-active;
   }
 
@@ -37,8 +39,9 @@
 }
 
 .vcv-ui-style-editor {
-  &:not(.vcv-ui-style-editor--active) {
+  &:not(.vcv-ui-state--active) {
     display: none;
   }
 }
+
 
