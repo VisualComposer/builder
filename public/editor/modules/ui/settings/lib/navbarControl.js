@@ -1,9 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class SettingsButtonControl extends React.Component {
-  state = {
-    isWindowOpen: false
+export default class SettingsButtonControl extends React.Component {
+  constructor (props) {
+    super(props)
+    this.toggleSettings = this.toggleSettings.bind(this)
+    this.state = {
+      isWindowOpen: false
+    }
   }
 
   componentWillMount () {
@@ -61,7 +65,7 @@ class SettingsButtonControl extends React.Component {
     })
 
     return (
-      <a className={controlClass} href='#' title='Settings' onClick={this.toggleSettings.bind(this)}>
+      <a className={controlClass} href='#' title='Settings' onClick={this.toggleSettings}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog' />
           <span>Settings</span>
@@ -73,5 +77,3 @@ class SettingsButtonControl extends React.Component {
 SettingsButtonControl.propTypes = {
   api: React.PropTypes.object.isRequired
 }
-
-export default SettingsButtonControl

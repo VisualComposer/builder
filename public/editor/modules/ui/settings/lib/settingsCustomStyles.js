@@ -7,36 +7,37 @@ const assetManager = getService('assets-manager')
 
 export default class SettingsCustomStyles extends React.Component {
   static propTypes = {
-    styleData: React.PropTypes.array
+    styleData: React.PropTypes.array,
+    customStyles: React.PropTypes.any
   }
   static defaultProps = {
     styleData: [
       {
         buttonTitle: 'Local CSS',
         editorLabel: 'Local CSS will be applied to this particular page only',
-        index: 1,
-        name: 'local'
+        index: 0,
+        name: 'local',
+        value: null
       },
       {
         buttonTitle: 'Global CSS',
         editorLabel: 'Global CSS will be applied site wide',
-        index: 2,
-        name: 'global'
+        index: 1,
+        name: 'global',
+        value: null
       }
     ]
   }
   constructor (props) {
     super(props)
-    let customStyles = {
-      local: assetManager.getCustomCss(),
-      global: assetManager.getGlobalCss()
-    }
-    setData('ui:settings:customStyles:global', customStyles.global)
-    setData('ui:settings:customStyles:local', customStyles.local)
+    this.props.styleData[0].value = assetManager.getCustomCss()
+    this.props.styleData[1].value = assetManager.getGlobalCss()
+    setData('ui:settings:customStyles:local', this.props.styleData[0].value)
+    setData('ui:settings:customStyles:global', this.props.styleData[1].value)
     this.state = {
-      isActiveIndex: 1,
-      ...customStyles
+      isActiveIndex: 0
     }
+    this.updateSettings = this.updateSettings.bind(this)
   }
   componentWillUnmount () {
     setData('ui:settings:customStyles:global', null)
@@ -72,9 +73,9 @@ export default class SettingsCustomStyles extends React.Component {
     }
     return allButtons
   }
-  updateSettings (key, value) {
-    setData('ui:settings:customStyles:' + key, value)
-    this.setState({[key]: value})
+  updateSettings (key, name, value) {
+    setData('ui:settings:customStyles:' + name, value)
+    this.props.styleData[key].value = value
   }
   getEditor () {
     let allEditors = []
@@ -88,9 +89,9 @@ export default class SettingsCustomStyles extends React.Component {
             index={styleData[i].index}
             activeIndex={this.state.isActiveIndex}
             aceId={styleData[i].name + 'Editor'}
-            value={this.state[styleData[i].name]}
+            value={styleData[i].value}
             name={styleData[i].name}
-            updater={this.updateSettings.bind(this)}
+            updater={this.updateSettings}
           />
         )
       }

@@ -2,6 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 
 export default class StyleControl extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
   handleClick () {
     this.props.changeActive(this.props.index)
   }
@@ -11,10 +16,10 @@ export default class StyleControl extends React.Component {
 
     let controlClass = classNames({
       'vcv-ui-style-control': true,
-      'vcv-ui-style-control--active': active
+      'vcv-ui-state--active': active
     })
     return (
-      <button className={controlClass} onClick={this.handleClick.bind(this)}>
+      <button className={controlClass} onClick={this.handleClick}>
         {title}
       </button>
     )
