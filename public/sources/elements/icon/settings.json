@@ -4,11 +4,6 @@
     "access": "protected",
     "value": "Icon"
   },
-  "elementGroup": {
-    "type": "string",
-    "access": "protected",
-    "value": ["All", "Content"]
-  },
   "metaIntro": {
     "type": "textarea",
     "access": "protected",
@@ -33,11 +28,6 @@
     "type": "attachimage",
     "access": "protected",
     "value": "thumbnail.png"
-  },
-  "metaIcon": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "icon.png"
   },
   "icon": {
     "type": "iconpicker",

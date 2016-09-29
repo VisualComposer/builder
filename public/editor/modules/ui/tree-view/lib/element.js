@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 const cook = vcCake.getService('cook')
-const AssetsManager = vcCake.getService('assets-manager')
+const categoriesService = vcCake.getService('categories')
 
 class TreeViewElement extends React.Component {
 
@@ -140,7 +140,7 @@ class TreeViewElement extends React.Component {
       'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId
     })
 
-    let publicPath = AssetsManager.getPublicPath(element.get('tag'), element.get('metaIcon'))
+    let publicPath = categoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
 
     return (

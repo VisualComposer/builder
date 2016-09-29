@@ -6,7 +6,8 @@ import CategoryTab from './category-tab'
 import ElementControl from './element-control'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import '../css/init.less'
-
+import {getService} from 'vc-cake'
+const categoriesService = getService('categories')
 let allTabs = []
 
 class Categories extends React.Component {
@@ -74,47 +75,22 @@ class Categories extends React.Component {
     }
     return hash
   }
-  getCategoriesElements (data, category) {
-    const sortMethod = (a, b) => {
-      if (a.order && b.order === undefined) {
-        return -1
-      } else if (a.order === undefined && b.order) {
-        return 1
-      } else if (a.order && b.order) {
-        return a.order - b.order
-      }
-      return a.name.localeCompare(b.name, {kn: true}, {sensitivity: 'base'})
-    }
-    return lodash(data).filter((element) => {
-      return Array.isArray(element.elementGroup) && element.elementGroup.indexOf(category) > -1 ||
-        element.elementGroup === category
-    }).sort(sortMethod).value()
-  }
-  getCategoriesFromElements (elements) {
-    const sortMethod = (a, b) => {
-      if (a === 'All') {
-        return -1
-      } else if (b === 'All') {
-        return 1
-      }
-      return a.localeCompare(b, {kn: true}, {sensitivity: 'base'})
-    }
-    return lodash(elements)
-      .map('elementGroup')
-      .flatten()
-      .compact()
-      .uniq()
-      .sort(sortMethod)
-      .value()
+  getElementsList (groupCategories, elements) {
+    const tags = elements.map((e) => { return e.tag })
+    return groupCategories.filter((element) => {
+      return tags.indexOf(element.tag) > -1
+    })
   }
   tabsFromProps (props) {
-    let categories = this.getCategoriesFromElements(props.elements)
-    allTabs = categories.map((title, index) => {
+    let groups = categoriesService.groups
+    allTabs = groups.filter((group) => {
+      return this.getElementsList(group.elements, props.elements).length > 0
+    }).map((group, index) => {
       return {
-        id: title + index, // TODO: Should it be more unique?
+        id: group.label + index, // TODO: Should it be more unique?
         index: index,
-        title: title,
-        elements: this.getCategoriesElements(props.elements, title),
+        title: group.label,
+        elements: this.getElementsList(group.elements, props.elements),
         isVisible: true,
         pinned: false // TODO: Actual logic.
       }

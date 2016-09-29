@@ -29,11 +29,6 @@
     "access": "protected",
     "value": "thumbnail-row-column.jpg"
   },
-  "metaIcon": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "icon.png"
-  },
   "size": {
     "type": "string",
     "access": "public",

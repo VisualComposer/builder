@@ -4,11 +4,6 @@
     "access": "protected",
     "value": "Text block"
   },
-  "elementGroup": {
-    "type": "string",
-    "access": "protected",
-    "value": ["All", "Content"]
-  },
   "metaIntro": {
     "type": "textarea",
     "access": "protected",
@@ -33,11 +28,6 @@
     "type": "attachimage",
     "access": "protected",
     "value": "thumbnail.png"
-  },
-  "metaIcon": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "icon.png"
   },
   "output": {
     "type": "htmleditor",
@@ -93,7 +83,7 @@
     "access": "protected",
     "value": ["General"]
   },
-  "order": {
+  "metaOrder": {
     "type": "number",
     "access": "protected",
     "value": 2
