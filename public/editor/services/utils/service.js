@@ -14,6 +14,27 @@ const API = {
 
     return uuid
   },
+  setCookie (cName, value, exDays = 256) {
+    let exDate = new Date()
+    exDate.setDate(exDate.getDate() + exDays)
+    let cValue = encodeURIComponent(value) + (exDays === null ? '' : '; expires=' + exDate.toUTCString())
+    document.cookie = cName + '=' + cValue
+  },
+  getCookie (cName) {
+    let i, x, y
+    let ARRcookies = document.cookie.split(';')
+    for (i = 0; i < ARRcookies.length; i++) {
+      x = ARRcookies[ i ].substr(0, ARRcookies[ i ].indexOf('='))
+      y = ARRcookies[ i ].substr(ARRcookies[ i ].indexOf('=') + 1)
+      x = x.replace(/^\s+|\s+$/g, '')
+      if (x === cName) {
+        return decodeURIComponent(y)
+      }
+    }
+  },
+  hasCookie (cName) {
+    return !!this.getCookie(cName)
+  },
   getRealWidth: ($el, $container) => {
     let $tempEl
     let realWidth = 0
