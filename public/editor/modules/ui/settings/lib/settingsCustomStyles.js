@@ -37,6 +37,7 @@ export default class SettingsCustomStyles extends React.Component {
       isActiveIndex: 1,
       ...customStyles
     }
+    this.updateSettings = this.updateSettings.bind(this)
   }
   componentWillUnmount () {
     setData('ui:settings:customStyles:global', null)
@@ -90,7 +91,7 @@ export default class SettingsCustomStyles extends React.Component {
             aceId={styleData[i].name + 'Editor'}
             value={this.state[styleData[i].name]}
             name={styleData[i].name}
-            updater={this.updateSettings.bind(this)}
+            updater={this.updateSettings}
           />
         )
       }

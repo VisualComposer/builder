@@ -21,7 +21,6 @@ class Application extends ContainerContract
         'EventsHelper' => 'registerEventBindings',
         'VisualComposer\Helpers\Filters' => 'registerFilterBindings',
         'FiltersHelper' => 'registerFilterBindings',
-        'VisualComposer\Framework\Autoload' => 'registerAutoloadBindings',
         'Autoload' => 'registerAutoloadBindings',
     ];
     /**

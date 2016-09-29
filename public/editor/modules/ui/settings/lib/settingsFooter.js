@@ -6,9 +6,13 @@ export default class SettingsFooter extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
-  state = {
-    saving: false,
-    saved: false
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      saving: false,
+      saved: false
+    }
   }
 
   onSave = () => {
