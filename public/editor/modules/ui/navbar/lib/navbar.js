@@ -40,6 +40,7 @@ class Navbar extends React.Component {
       isActiveSandwich: false
     }
     this.handleDropdown = this.handleDropdown.bind(this)
+    this.closeDropdown = this.closeDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.refreshControls = this.refreshControls.bind(this)
@@ -215,28 +216,26 @@ class Navbar extends React.Component {
     })
   }
 
-  // closeDropdown (e) {
-  //   console.log(this)
-  //   let _this = this
-  //   document.documentElement.removeEventListener('click', _this.closeDropdown.bind(_this), true)
-  //   this.setState({
-  //     isActiveSandwich: false
-  //   })
-  // }
+  closeDropdown (e) {
+    e && e.preventDefault()
+    if (e.target.closest('.vcv-ui-navbar-sandwich')) {
+      return
+    }
+    this.handleDropdown(e)
+  }
 
   handleDropdown (e) {
     e && e.preventDefault()
-    let isActiveMenu = !this.state.isActiveSandwich
+    if (this.state.isActiveSandwich) {
+      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
+      document.body.removeEventListener('click', this.closeDropdown)
+    } else {
+      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
+      document.body.addEventListener('click', this.closeDropdown)
+    }
     this.setState({
-      isActiveSandwich: isActiveMenu
+      isActiveSandwich: !this.state.isActiveSandwich
     })
-    // console.log(document.documentElement)
-    // setTimeout(() => {
-    //   if (this.state.isActiveSandwich) {
-    //     let _this = this
-    //     document.documentElement.addEventListener('click', _this.closeDropdown.bind(_this), true)
-    //   }
-    // }, 250)
   }
 
   buildHiddenControls () {
@@ -264,8 +263,8 @@ class Navbar extends React.Component {
     })
 
     return (
-      <dl className={sandwichClasses} tabIndex='0' onClick={this.handleDropdown}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu'>
+      <dl className={sandwichClasses}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu' onClick={this.handleDropdown}>
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
         </dt>

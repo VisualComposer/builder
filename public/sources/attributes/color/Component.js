@@ -35,24 +35,6 @@ class Color extends Attribute {
     return null
   }
 
-  closeIfNotInside = (e) => {
-    let $el = e.target
-    let $dropDown = '.vcv-ui-sketch-picker'
-    let $openingButton = '.vcv-ui-color-picker-dropdown'
-    let container = ''
-
-    if ($el.closest === undefined) {
-      container = this.getClosest($el, $dropDown) || this.getClosest($el, $openingButton)
-    } else {
-      container = $el.closest($dropDown) || $el.closest($openingButton)
-    }
-
-    if (!container) {
-      this.handleClose()
-      document.body.removeEventListener('click', this.closeIfNotInside)
-    }
-  }
-
   updateState (props) {
     let value = props.value
     return {
@@ -60,21 +42,33 @@ class Color extends Attribute {
     }
   }
 
-  handleClick = () => {
-    this.setState({
-      displayColorPicker: !this.state.displayColorPicker
-    })
+  closeIfNotInside = (e) => {
+    e && e.preventDefault()
+    let $el = e.target
+    let $dropDown = '.vcv-ui-sketch-picker'
+    let $openingButton = '.vcv-ui-color-picker-dropdown'
+    let container = null
 
-    if (!this.state.displayColorPicker) {
-      document.body.addEventListener('click', this.closeIfNotInside)
+    if ($el.closest === undefined) {
+      container = this.getClosest($el, $dropDown) || this.getClosest($el, $openingButton)
     } else {
-      document.body.removeEventListener('click', this.closeIfNotInside)
+      container = $el.closest($dropDown) || $el.closest($openingButton)
     }
+    if (container) {
+      return
+    }
+    this.handleClick(e)
   }
 
-  handleClose = () => {
+  handleClick = (e) => {
+    e && e.preventDefault()
+    if (this.state.displayColorPicker) {
+      document.body.removeEventListener('click', this.closeIfNotInside)
+    } else {
+      document.body.addEventListener('click', this.closeIfNotInside)
+    }
     this.setState({
-      displayColorPicker: false
+      displayColorPicker: !this.state.displayColorPicker
     })
   }
 
