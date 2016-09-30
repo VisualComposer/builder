@@ -17,9 +17,7 @@ class Application extends ContainerContract
      * @var array
      */
     protected $availableBindings = [
-        'VisualComposer\Helpers\Events' => 'registerEventBindings',
         'EventsHelper' => 'registerEventBindings',
-        'VisualComposer\Helpers\Filters' => 'registerFilterBindings',
         'FiltersHelper' => 'registerFilterBindings',
         'Autoload' => 'registerAutoloadBindings',
     ];
@@ -128,6 +126,7 @@ class Application extends ContainerContract
      */
     public function make($abstract, $parameters = [])
     {
+        $abstract = $this->getAlias($abstract);
         if (array_key_exists($abstract, $this->availableBindings)
             && !array_key_exists($this->availableBindings[ $abstract ], $this->ranServiceBinders)
         ) {
