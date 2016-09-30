@@ -62,7 +62,6 @@ class Color extends Attribute {
 
   handleClick = (e) => {
     e && e.preventDefault()
-    console.log('handleClick')
     if (this.state.displayColorPicker) {
       document.body.removeEventListener('click', this.closeIfNotInside)
     } else {
