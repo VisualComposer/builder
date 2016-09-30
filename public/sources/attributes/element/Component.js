@@ -108,8 +108,8 @@ export default class ElementAttribute extends Attribute {
           let cookElement = Cook.get(element)
 
           let nameClasses = classNames({
-            'vcv-ui-add-element-badge vcv-ui-badge-success': false,
-            'vcv-ui-add-element-badge vcv-ui-badge-warning': false
+            'vcv-ui-add-element-badge vcv-ui-badge--success': false,
+            'vcv-ui-add-element-badge vcv-ui-badge--warning': false
           })
 
           let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))

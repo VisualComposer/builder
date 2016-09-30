@@ -1,7 +1,7 @@
 /* ===================================
  * Visual composer editor Badges styles
  * =================================== */
-&[class*=vcv-ui-badge-] {
+[class*=vcv-ui-badge--] {
   &::after {
     content: '';
     display: block;
@@ -9,16 +9,16 @@
     width: @badge-size;
     border-radius: 50%;
     position: absolute;
-    top: -.5em;
-    right: -.5em
+    top: -.35em;
+    right: -.35em
   }
 }
-&.vcv-ui-badge-warning {
+.vcv-ui-badge--warning {
   &::after {
     background-color: @badge-state-color-warning;
   }
 }
-&.vcv-ui-badge-success {
+.vcv-ui-badge--success {
   &::after {
     background-color: @badge-state-color-success;
   }
