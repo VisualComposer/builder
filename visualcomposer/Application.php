@@ -118,7 +118,7 @@ class Application extends ApplicationFactory
             'VisualComposer\Framework\Application' => 'App',
             'VisualComposer\Framework\Illuminate\Container\Container' => 'App',
             'VisualComposer\Framework\Illuminate\Contracts\Container\Container' => 'App',
-             'VisualComposer\Helpers\Events' => 'EventsHelper',
+            'VisualComposer\Helpers\Events' => 'EventsHelper',
             'VisualComposer\Helpers\Filters' => 'FiltersHelper',
             'VisualComposer\Framework\Autoload' => 'Autoload',
         ];
