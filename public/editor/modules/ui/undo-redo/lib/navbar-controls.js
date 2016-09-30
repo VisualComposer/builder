@@ -7,12 +7,13 @@ class UndoRedoControl extends React.Component {
     undoDisabled: true
   }
 
-  componentWillMount () {
-    this.props.api.on('added', this.checkControls)
+  componentDidMount () {
+    this.props.api.reply('data:changed', this.checkControls)
+    this.checkControls()
   }
 
   componentWillUnmount () {
-    this.props.api.off('added', this.checkControls)
+    this.props.api.forget('data:changed', this.checkControls)
   }
 
   checkControls = () => {

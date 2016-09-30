@@ -41,7 +41,6 @@ class WordPressAdminControl extends React.Component {
     let previewButton = (
       <a
         className='vcv-ui-navbar-control'
-        href={PostData.previewUrl()}
         title={previewText}
         target='_blank'
         disabled='disabled'
@@ -53,7 +52,6 @@ class WordPressAdminControl extends React.Component {
         className='vcv-ui-navbar-control'
         href={PostData.backendEditorUrl()}
         title='Edit in Backend Editor'
-        disabled='disabled'
       ><span className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
 
