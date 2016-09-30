@@ -61,7 +61,8 @@ module.exports = {
         'time-machine',
         'actions-manager',
         'rules-manager',
-        'api'
+        'api',
+        'categories'
       ]
     },
     wp: {
@@ -99,7 +100,8 @@ module.exports = {
         'time-machine',
         'actions-manager',
         'rules-manager',
-        'api'
+        'api',
+        'categories'
       ]
     }
   },

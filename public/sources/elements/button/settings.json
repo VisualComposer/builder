@@ -9,11 +9,6 @@
     "access": "protected",
     "value": "Button"
   },
-  "elementGroup": {
-    "type": "string",
-    "access": "protected",
-    "value": ["All", "Button"]
-  },
   "metaIntro": {
     "type": "textarea",
     "access": "protected",
@@ -38,11 +33,6 @@
     "type": "attachimage",
     "access": "protected",
     "value": "thumbnail.png"
-  },
-  "metaIcon": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "icon.png"
   },
   "addUrl": {
     "type": "toggle",
@@ -463,7 +453,7 @@
       "General"
     ]
   },
-  "order": {
+  "metaOrder": {
     "type": "number",
     "access": "protected",
     "value": 4

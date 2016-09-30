@@ -4,11 +4,6 @@
     "access": "protected",
     "value": "Row"
   },
-  "elementGroup": {
-    "type": "string",
-    "access": "protected",
-    "value": ["All", "Content"]
-  },
   "metaIntro": {
     "type": "textarea",
     "access": "protected",
@@ -33,11 +28,6 @@
     "type": "attachimage",
     "access": "protected",
     "value": "thumbnail-row-column.jpg"
-  },
-  "metaIcon": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "icon.png"
   },
   "customClass": {
     "type": "string",
@@ -98,7 +88,7 @@
       "Column"
     ]
   },
-  "order": {
+  "metaOrder": {
     "type": "number",
     "access": "protected",
     "value": 1

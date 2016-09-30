@@ -121,13 +121,8 @@ vcCake.addService('assets-manager', {
    * @param file
    * @returns {*}
    */
-  getPublicPath: (tag, file) => {
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources/elements/' + tag + '/public'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources/elements/' + tag + '/public'
-    }
+  getPublicPath: function (tag, file) {
+    let path = this.getSourcePath() + '/elements/' + tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
     if ($element) {
       path = $element.dataset.vcElementUrl + '/public'
@@ -138,7 +133,23 @@ vcCake.addService('assets-manager', {
 
     return path
   },
+  /**
+   * @param file
+   * @returns {*}
+   */
+  getSourcePath: (file = null) => {
+    let path
+    if (vcCake.env('platform') === 'node') {
+      path = window.vcvPluginUrl + 'sources'
+    } else {
+      path = window.vcvPluginUrl + 'public/sources'
+    }
+    if (file) {
+      path += '/' + file
+    }
 
+    return path
+  },
   /**
    * Get styles object combined by tagName
    * @returns {{}}
