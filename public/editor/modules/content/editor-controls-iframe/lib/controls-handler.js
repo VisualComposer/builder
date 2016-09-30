@@ -193,7 +193,7 @@ ControlsHandler.prototype.drawControls = function () {
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
       '<span  class="vcv-ui-outline-control-content" data-vc-drag-helper="' + elementId + '" title="' + elementObject.get('name') + '" >' +
-      '<img src="' + iconPath + '" class="vcv-ui-outline-control-icon" alt="" />' +
+      '<img src="' + iconPath + '" class="vcv-ui-outline-control-icon" alt="" title="' + elementObject.get('name') + '"/>' +
       '</span>' +
       '</dt>').appendTo($controlElement)
 
@@ -204,7 +204,7 @@ ControlsHandler.prototype.drawControls = function () {
     $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-drag-helper="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-move" ></i>' +
-      '<span class="vcv-ui-outline-control-label" >' + elementObject.get('name') + '</span>' +
+      '<span class="vcv-ui-outline-control-label">Move ' + elementObject.get('name') + '</span>' +
       '</span>').appendTo($controlAction)
     $controlAction.on('dragstart', function (e) { e.preventDefault() })
     $controlAction.appendTo($dropdownContent)

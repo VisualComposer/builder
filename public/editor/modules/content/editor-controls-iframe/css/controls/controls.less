@@ -1,3 +1,4 @@
+
 //== Controls
 .vcv-ui-outline-controls-container {
   position: absolute;
@@ -62,7 +63,11 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
-
+  > .vcv-ui-outline-control-icon {
+    width: @control-size - 8px;
+    height: @control-size - 8px;
+    margin: 4px;
+  }
 }
 
 .vcv-ui-outline-control-icon {
@@ -149,20 +154,20 @@
 
 //== Control Types
 //== base color
-#vcv-ui-outline-controls > .create-type(base, @controls-text-color-base, @control-color-base);
+#vcv-ui-outline-controls > .create-type-with-active(base, @controls-text-color-base, @color-base, @control-color-base);
 //== section color
-#vcv-ui-outline-controls > .create-type(section, @controls-text-color-base, @control-color-section);
+#vcv-ui-outline-controls > .create-type-with-active(section, @controls-text-color-base, @color-base, @control-color-section);
 //== row color
-#vcv-ui-outline-controls > .create-type(row, @controls-text-color-base, @control-color-row);
+#vcv-ui-outline-controls > .create-type-with-active(row, @controls-text-color-base, @color-base, @control-color-row);
 //== column color
-#vcv-ui-outline-controls > .create-type(column, @controls-text-color-base, @control-color-column);
+#vcv-ui-outline-controls > .create-type-with-active(column, @controls-text-color-base, @color-base, @control-color-column);
 //== element color
-#vcv-ui-outline-controls > .create-type(element, @controls-text-color-base, @control-color-element);
+#vcv-ui-outline-controls > .create-type-with-active(element, @controls-text-color-base, @color-base, @control-color-element);
 
 //== todo: refactor, color is based on react components
-#vcv-ui-outline-controls > .create-type(index-0, @controls-text-color-base, @control-color-row);
-#vcv-ui-outline-controls > .create-type(index-1, @controls-text-color-base, @control-color-column);
-#vcv-ui-outline-controls > .create-type(index-2, @controls-text-color-base, @control-color-element);
+#vcv-ui-outline-controls > .create-type-with-active(index-0, @controls-text-color-base, @color-base, @control-color-row);
+#vcv-ui-outline-controls > .create-type-with-active(index-1, @controls-text-color-base, @color-base, @control-color-column);
+#vcv-ui-outline-controls > .create-type-with-active(index-2, @controls-text-color-base, @color-base, @control-color-element);
 
 //== Options
 .vcv-ui-outline-controls-container {

@@ -55,4 +55,32 @@
     }
 
   }
+  .create-type-with-active(@type-name, @text, @background, @activeBackground) {
+    .vcv-ui-outline-control-type-@{type-name} {
+      &.vcv-ui-outline-control {
+        color: @text;
+        background-color: @background;
+        &:hover {
+          background-color: @activeBackground
+        }
+      }
+      &.vcv-ui-outline-control-dropdown {
+        &:hover .vcv-ui-outline-control {
+          background-color: @activeBackground
+        }
+        .vcv-ui-outline-control {
+          color: @text;
+          background-color: @background;
+        }
+        .vcv-ui-outline-control-dropdown-content {
+          .vcv-ui-outline-control {
+            &:hover {
+              background-color: darken(@activeBackground, 7%);
+            }
+          }
+        }
+      }
+    }
+
+  }
 }

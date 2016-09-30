@@ -6,7 +6,7 @@ const data = {
   groups: [
     {
       'name': 'Basic',
-      'categories': ['Row', 'Section', 'Text block', 'Single image', 'Basic video', 'Button']
+      'categories': ['Row', 'Column', 'Section', 'Text block', 'Single image', 'Basic video', 'Button']
     },
     {
       'name': 'Media',
@@ -42,8 +42,13 @@ const data = {
     },
     'Row': {
       'name': 'Row/Column',
-      'elements': ['row', 'column'],
+      'elements': ['row'],
       'icon': 'categories/icons/Row.svg'
+    },
+    'Column': {
+      'name': 'Column',
+      'elements': ['column'],
+      'icon': 'categories/icons/Column.svg'
     },
     'Hero section': {
       'name': 'Hero Section',
