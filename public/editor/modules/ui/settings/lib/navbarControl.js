@@ -1,13 +1,17 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getService} from 'vc-cake'
+const assetManager = getService('assets-manager')
 
 export default class SettingsButtonControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isWindowOpen: false
+      isWindowOpen: false,
+      showWarning: false
     }
     this.toggleSettings = this.toggleSettings.bind(this)
+    this.checkSettings = this.checkSettings.bind(this)
   }
 
   componentWillMount () {
@@ -27,6 +31,8 @@ export default class SettingsButtonControl extends React.Component {
       .reply('bar-content-end:hide', () => {
         this.setState({ isWindowOpen: false })
       })
+      .reply('settings:update', this.checkSettings)
+    this.checkSettings()
   }
 
   componentWillUnmount () {
@@ -57,17 +63,27 @@ export default class SettingsButtonControl extends React.Component {
     }
   }
 
+  checkSettings () {
+    this.setState({ showWarning: !!assetManager.getCustomCss() })
+  }
+
   render () {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isWindowOpen
     })
+    let iconClass = classNames({
+      'vcv-ui-navbar-control-icon': true,
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-cog': true,
+      'vcv-ui-badge--warning': this.state.showWarning
+    })
 
     return (
       <a className={controlClass} href='#' title='Settings' onClick={this.toggleSettings}>
         <span className='vcv-ui-navbar-control-content'>
-          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog' />
+          <i className={iconClass} />
           <span>Settings</span>
         </span>
       </a>

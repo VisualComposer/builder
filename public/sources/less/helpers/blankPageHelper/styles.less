@@ -1,0 +1,47 @@
+.vcv-blank-page-container {
+  width: 458px;
+  margin: 0 auto;
+}
+
+.vcv-blank-page-heading-container {
+  text-align: center;
+}
+
+.vcv-blank-page-heading {
+  display: inline-block;
+  font-family: @text-family-base;
+  font-size: 26px;
+}
+
+.vcv-ui-element-control,
+.vcv-ui-control {
+  padding: @button-padding;
+  border: none;
+  border-radius: @border-radius;
+  color: @text-color-base;
+  background: @color-base;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    background: @color-base-active;
+  }
+}
+
+.vcv-blank-page-description-container {
+  font-family: @text-family-base;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Temporary solution for preview */
+/*
+.blog-main {
+  width: 100% !important;
+}
+
+.blog-sidebar {
+  display: none;
+}
+*/

@@ -1,9 +1,13 @@
 import React from 'react'
 import HtmlLayout from './htmlLayout'
+// import BlankPage from './helpers/blankPage/component'
 
 class LayoutEditor extends React.Component {
-  state = {
-    data: []
+  constructor (props) {
+    super(props)
+    this.state = {
+      data: []
+    }
   }
 
   componentDidMount () {
@@ -15,10 +19,16 @@ class LayoutEditor extends React.Component {
     )
   }
 
+  getContent () {
+    // TODO return condition after Blank Page is finished
+    return <HtmlLayout data={this.state.data} api={this.props.api} />
+    // return <BlankPage />
+    // return this.state.data.length === 0 ? <BlankPage /> : <HtmlLayout data={this.state.data} api={this.props.api} />
+  }
   render () {
     return (
       <div className='vcv-editor-here'>
-        <HtmlLayout data={this.state.data} api={this.props.api} />
+        {this.getContent()}
       </div>
     )
   }

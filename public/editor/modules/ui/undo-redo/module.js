@@ -8,7 +8,6 @@ vcCake.add('ui-undo-redo', (api) => {
     if (action !== 'reset') {
       TimeMachine.add(DocumentData.all())
     }
-    api.notify('added', data)
   })
 
   api.module('ui-navbar').do('addElement', 'Undo/Redo', UndoRedoControl, {

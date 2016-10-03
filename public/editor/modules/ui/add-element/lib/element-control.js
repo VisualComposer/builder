@@ -151,8 +151,8 @@ export default class ElementControl extends React.Component {
 
     let cookElement = cook.get(element)
     let nameClasses = classNames({
-      'vcv-ui-add-element-badge vcv-ui-badge-success': false,
-      'vcv-ui-add-element-badge vcv-ui-badge-warning': false
+      'vcv-ui-add-element-badge vcv-ui-badge--success': false,
+      'vcv-ui-add-element-badge vcv-ui-badge--warning': false
     })
 
     let previewClasses = classNames({
