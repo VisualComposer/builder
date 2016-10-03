@@ -8,7 +8,7 @@ use VisualComposer\Framework\Illuminate\Container\Container as FrameworkContaine
  * @param  string $make
  * @param  array $parameters
  *
- * @return \VisualComposer\Application|mixed
+ * @return mixed
  */
 function vcapp($make = null, $parameters = [])
 {
@@ -25,7 +25,7 @@ function vcapp($make = null, $parameters = [])
  * @param  string $name
  * @param  array $parameters
  *
- * @return mixed|\VisualComposer\Application
+ * @return mixed
  */
 function vchelper($name, $parameters = [])
 {

@@ -58,7 +58,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
         let elementId = $el.data('vcvElementId')
         e.preventDefault()
         api.request(event, elementId, options)
-        controlsHandler.hideOutline()
+        event !== 'data:clone' && controlsHandler.hideOutline()
       })
       $(document).on('scroll resize', ControlsTrigger.triggerRedrawFrame)
       $(window).on('resize', ControlsTrigger.triggerRedrawFrame)

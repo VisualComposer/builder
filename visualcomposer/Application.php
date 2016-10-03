@@ -57,22 +57,6 @@ class Application extends ApplicationFactory
     }
 
     /**
-     * @param $pattern - file pattern to search.
-     * @param int $flags
-     *
-     * @return array
-     */
-    public function rglob($pattern, $flags = 0)
-    {
-        $files = glob($pattern, $flags);
-        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
-            $files = array_merge($files, $this->rglob($dir . '/' . basename($pattern), $flags));
-        }
-
-        return (array)$files;
-    }
-
-    /**
      * @param $componentName
      * @param $componentController
      * @param bool $make
@@ -90,18 +74,6 @@ class Application extends ApplicationFactory
         }
 
         return $this;
-    }
-
-    /**
-     * Get plugin dir path + custom dir.
-     *
-     * @param $path
-     *
-     * @return string
-     */
-    public function path($path = '')
-    {
-        return $this->basePath . ltrim($path, '\//');
     }
 
     /**

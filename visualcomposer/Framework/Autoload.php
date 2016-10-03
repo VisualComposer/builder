@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Framework;
 
-use VisualComposer\Application as ApplicationVc;
+use VisualComposer\Framework\Application as ApplicationVc;
 
 /**
  * Class Autoload.
@@ -27,7 +27,7 @@ class Autoload
     /**
      * Autoload constructor.
      *
-     * @param \VisualComposer\Application $app
+     * @param \VisualComposer\Framework\Application $app
      * @param bool $init
      * @param bool $skipCache
      * @param string $version
