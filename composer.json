@@ -2,9 +2,16 @@
   "autoload": {
     "psr-4": {
       "VisualComposer\\": "visualcomposer/"
+    },
+    "psr-0": {
+      "ComposerHooks": "tools/"
     }
   },
   "require": {
     "vierbergenlars/php-semver": "^3.0"
+  },
+  "scripts": {
+    "post-update-cmd": "ComposerHooks::postUpdateCmd",
+    "post-install-cmd": "ComposerHooks::postInstallCmd"
   }
 }

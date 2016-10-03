@@ -57,3 +57,4 @@ test-coverage.xml
 cache/*
 !cache/.gitkeep
 public/sources/elements/*/element.js
+.phpstorm.meta.php
