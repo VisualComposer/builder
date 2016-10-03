@@ -19,19 +19,32 @@
   bottom: 100%;
   margin: -@controls-outline-size/2;
   padding-bottom: @controls-outline-size + 1;
-
   > * {
     flex-grow: 0;
     flex-shrink: 0;
     &:not(:last-child) {
-      margin-right: @controls-space-size;
+      .vcv-ui-outline-control {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+    &:first-child {
+      .vcv-ui-outline-control {
+        border-top-left-radius: @control-border-radius;
+        border-bottom-left-radius: @control-border-radius;
+      }
+    }
+    &:last-child {
+      .vcv-ui-outline-control {
+        border-top-right-radius: @control-border-radius;
+        border-bottom-right-radius: @control-border-radius;
+      }
     }
   }
 }
 
 .vcv-ui-outline-control {
   padding: 0;
-  border-radius: @control-border-radius;
+  // border-radius: @control-border-radius;
   overflow: hidden;
   min-width: @control-size;
   min-height: @control-size;
@@ -106,6 +119,12 @@
       opacity: 0;
     }
   }
+  &:not(.vcv-ui-outline-control-dropdown-o-drop-up):hover {
+    .vcv-ui-outline-control-dropdown-trigger.vcv-ui-outline-control {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
 }
 
 .vcv-ui-outline-control-dropdown-trigger {
@@ -118,7 +137,8 @@
 .vcv-ui-outline-control-dropdown-content {
   display: block;
   line-height: inherit;
-  margin: @controls-space-size 0 0 0;
+  margin: 0;
+  // margin: @controls-space-size 0 0 0;
   padding: 0;
   min-width: @controls-dropdown-size;
   position: absolute;
@@ -129,6 +149,7 @@
   opacity: 1;
   transition: visibility 0s, opacity @transition-duration @transition-timing-function;
   .vcv-ui-outline-control {
+    border-radius: @control-border-radius;
     text-align: left;
     padding-left: @gold-value / 2;
     padding-right: @gold-value;
@@ -139,6 +160,7 @@
       border-radius: 0;
     }
     &:first-child:not(:last-child) {
+      border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -197,16 +219,49 @@
   //== dropdown from right side
   &.vcv-ui-outline-control-dropdown-o-drop-right {
     .vcv-ui-outline-control-dropdown-content {
+      .vcv-ui-outline-control {
+        &:first-child {
+          border-top-left-radius: @control-border-radius;
+          border-top-right-radius: 0;
+        }
+      }
+
       left: auto;
       right: 0;
     }
   }
   //== dropdown from top
   &.vcv-ui-outline-control-dropdown-o-drop-up {
+    &:hover {
+      .vcv-ui-outline-control-dropdown-trigger.vcv-ui-outline-control {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    }
     .vcv-ui-outline-control-dropdown-content {
+      .vcv-ui-outline-control {
+        &:first-child {
+          border-top-left-radius: @control-border-radius;
+          border-top-right-radius: @control-border-radius;
+        }
+        &:last-child {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: @control-border-radius;
+        }
+      }
       top: auto;
       bottom: 100%;
-      margin: 0 0 @controls-space-size 0;
+      margin: 0; //  0 @controls-space-size 0;
+    }
+    &.vcv-ui-outline-control-dropdown-o-drop-right {
+      .vcv-ui-outline-control-dropdown-content {
+        .vcv-ui-outline-control {
+          &:last-child {
+            border-bottom-left-radius: @control-border-radius;
+            border-bottom-right-radius: 0;
+          }
+        }
+      }
     }
   }
 }
