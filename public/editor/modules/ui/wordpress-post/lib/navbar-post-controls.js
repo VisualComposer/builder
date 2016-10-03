@@ -61,7 +61,7 @@ class WordPressAdminControl extends React.Component {
     )
 
     return (
-      <div>
+      <div className='vcv-ui-navbar-controls-set'>
         {saveDraftButton}
         {previewButton}
         {viewButton}

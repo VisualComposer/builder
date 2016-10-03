@@ -78,12 +78,6 @@ class BarContentEnd extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  toggleStartContent (e) {
-    // TODO: Where it is used?
-    e && e.preventDefault()
-    this.props.api.request('bar-content-start:toggle')
-  }
-
   closeContent = (e) => {
     e && e.preventDefault()
     this.props.api.request('bar-content-start:hide')

@@ -8,17 +8,8 @@ class AddElementControl extends React.Component {
 
   componentWillMount () {
     this.props.api
-      .on('show', () => {
-        this.setState({ isWindowOpen: true })
-      })
-      .on('hide', () => {
-        this.setState({ isWindowOpen: false })
-      })
-      .reply('app:edit', () => {
-        this.setState({ isWindowOpen: false })
-      })
-      .reply('app:settings', () => {
-        this.setState({ isWindowOpen: false })
+      .reply('bar-content-end:show', (key) => {
+        this.setState({ isWindowOpen: key === 'add-element' })
       })
       .reply('bar-content-end:hide', () => {
         this.setState({ isWindowOpen: false })
@@ -27,17 +18,8 @@ class AddElementControl extends React.Component {
 
   componentWillUnmount () {
     this.props.api
-      .off('show', () => {
+      .forget('bar-content-end:show', (key) => {
         this.setState({ isWindowOpen: true })
-      })
-      .off('hide', () => {
-        this.setState({ isWindowOpen: false })
-      })
-      .forget('app:edit', () => {
-        this.setState({ isWindowOpen: false })
-      })
-      .reply('app:settings', () => {
-        this.setState({ isWindowOpen: false })
       })
       .forget('bar-content-end:hide', () => {
         this.setState({ isWindowOpen: false })

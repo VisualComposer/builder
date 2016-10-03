@@ -39,7 +39,7 @@ vcCake.add('ui-add-element', (api) => {
         api: api,
         parent: parent
       })
-      api.module('ui-layout-bar').do('setEndContentVisible', true)
+      api.module('ui-layout-bar').do('setEndContentVisible', true, 'add-element')
     })
 
   api.module('ui-navbar').do('addElement', 'Add element', AddElementControl, { pin: 'visible', api: api })

@@ -18,7 +18,11 @@ class TreeViewNavbarControl extends React.Component {
   }
 
   toggleTreeView = () => {
-    this.props.api.request('bar-content-start:toggle')
+    if (this.state.controlActive) {
+      this.props.api.request('bar-content-start:hide')
+    } else {
+      this.props.api.request('bar-content-start:show')
+    }
   }
 
   render () {
