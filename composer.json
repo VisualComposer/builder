@@ -2,7 +2,9 @@
   "autoload": {
     "psr-4": {
       "VisualComposer\\": "visualcomposer/"
-    },
+    }
+  },
+  "autoload-dev": {
     "psr-0": {
       "ComposerHooks": "tools/"
     }
