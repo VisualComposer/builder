@@ -1,15 +1,16 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getService} from 'vc-cake'
+import {getService, getData, setData} from 'vc-cake'
 const assetManager = getService('assets-manager')
 
 export default class SettingsButtonControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isWindowOpen: false,
-      showWarning: false
+      isWindowOpen: getData('settings:isWindowOpen'),
+      showWarning: !!assetManager.getCustomCss()
     }
+
     this.toggleSettings = this.toggleSettings.bind(this)
     this.checkSettings = this.checkSettings.bind(this)
     this.updateWindow = this.updateWindow.bind(this)
@@ -40,6 +41,7 @@ export default class SettingsButtonControl extends React.Component {
   }
 
   updateWindow (isOpen = false) {
+    setData('settings:isWindowOpen', isOpen === 'settings')
     this.setState({ isWindowOpen: isOpen === 'settings' })
   }
 
