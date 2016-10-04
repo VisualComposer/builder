@@ -1,28 +1,17 @@
 <?php
-/** overrides */
-define('VCV_VERSION', 'tools');
-define('VCV_DEBUG', false);
+namespace ComposerHooks\Hooks;
 
-class ComposerHooks
+use VisualComposer\Framework\Application;
+
+class Meta
 {
-    static public function postInstallCmd($event)
-    {
-        self::generateMetaFile();
-    }
-
-    static public function postUpdateCmd($event)
-    {
-        self::generateMetaFile();
-    }
-
-    static public function generateMetaFile()
+    static public function call()
     {
         $bindings = [];
 
-        $app = new \VisualComposer\Framework\Application(realpath(__DIR__ . '/..') . '/');
-        $autoload = new \VisualComposer\Framework\Autoload($app, false);
-
-        $components = $autoload->getComponents();
+        $app = new Application(realpath(__DIR__ . '/../../..') . '/');
+        Autoload::$app = $app;
+        $components = Autoload::getComponents();
         // Add aliases
         $components['helpers']['EventsHelper'] = [
             'abstract' => 'VisualComposer\\Helpers\\Events',
@@ -36,11 +25,16 @@ class ComposerHooks
 
         ob_start();
         $methods = [
+            '\VisualComposer\Framework\Illuminate\Contracts\Container\Container::make(\'\')',
+            '\VisualComposer\Framework\Application::make(\'\')',
+            '\VisualComposer\Application::make(\'\')',
             '\VisualComposer\Framework\Illuminate\Container\Container::make(\'\')',
             '\vcapp(\'\')',
         ];
-        include 'views/meta.php';
+        include __DIR__ . '/../views/meta.php';
         $contents = ob_get_clean();
-        file_put_contents(__DIR__ . '/..' . '/.phpstorm.meta.php', $contents);
+        file_put_contents(__DIR__ . '/../../..' . '/.phpstorm.meta.php', $contents);
+
+        return $contents;
     }
 }
