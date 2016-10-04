@@ -2,7 +2,6 @@ image: wpbakery/ci-wordpress
 
 stages:
   - codestyle
-  - build
   - test
   - deploy
 
@@ -67,7 +66,7 @@ test:php:framework:
   stage: test
   script:
     - composer install
-    - phpunit --configuration=ci/phpunit-framework-coverage.xml
+    - php -d 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' `which phpunit` --configuration=ci/phpunit-framework-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
@@ -76,7 +75,7 @@ test:php:helpers:
   stage: test
   script:
     - composer install
-    - phpunit --configuration=ci/phpunit-helpers-coverage.xml
+    - php -d 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' `which phpunit` --configuration=ci/phpunit-helpers-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
@@ -85,7 +84,7 @@ test:php:modules:
   stage: test
   script:
     - composer install
-    - phpunit --configuration=ci/phpunit-modules-coverage.xml
+    - php -d 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so' `which phpunit` --configuration=ci/phpunit-modules-coverage.xml
     #- php ci/coverage-test.php
   tags:
     - docker
