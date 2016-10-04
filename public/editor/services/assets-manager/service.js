@@ -165,11 +165,29 @@ vcCake.addService('assets-manager', {
         let documentService = vcCake.getService('document')
         let element = documentService.get(id)
         if (element) {
-          let cssSettings = cook.get(element).get('cssSettings')
+          let elementObject = cook.get(element)
+          let cssSettings = elementObject.get('cssSettings')
+          let settings = elementObject.get('settings')
           styles[ elements[ id ].tag ] = {
             count: 1,
             css: cssSettings.css
           }
+          Object.keys(settings).forEach((key) => {
+            let option = settings[key]
+            if (option.type && option.type === 'element') {
+              let innerTag = elementObject.get(key).tag
+              if (innerTag && styles.hasOwnProperty(innerTag)) {
+                styles[ innerTag ].count++
+              } else if (innerTag) {
+                let innerElementObject = cook.get({tag: innerTag})
+                let innerCssSettings = innerElementObject.get('cssSettings')
+                styles[ innerTag ] = {
+                  count: 1,
+                  css: innerCssSettings.css
+                }
+              }
+            }
+          })
         }
       }
     }
