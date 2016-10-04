@@ -1,6 +1,9 @@
 <?php
 namespace ComposerHooks;
 
+use ComposerHooks\Hooks\Autoload;
+use ComposerHooks\Hooks\Meta;
+
 class Registry
 {
     public static $hooks = [];
@@ -17,7 +20,7 @@ class Registry
 
     static public function callHooks()
     {
-        call_user_func_array(['\\ComposerHooks\\Hooks\\Autoload', 'call'], []);
-        call_user_func_array(['\\ComposerHooks\\Hooks\\Meta', 'call'], []);
+        Autoload::call();
+        Meta::call();
     }
 }
