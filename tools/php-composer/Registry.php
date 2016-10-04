@@ -6,8 +6,6 @@ use ComposerHooks\Hooks\Meta;
 
 class Registry
 {
-    public static $hooks = [];
-
     static public function postInstallCmd($event)
     {
         self::callHooks();
