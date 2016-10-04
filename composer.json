@@ -5,15 +5,19 @@
     }
   },
   "autoload-dev": {
-    "psr-0": {
-      "ComposerHooks": "tools/"
+    "psr-4": {
+      "ComposerHooks\\": "tools/php-composer/"
     }
   },
   "require": {
     "vierbergenlars/php-semver": "^3.0"
   },
   "scripts": {
-    "post-update-cmd": "ComposerHooks::postUpdateCmd",
-    "post-install-cmd": "ComposerHooks::postInstallCmd"
+    "post-update-cmd": [
+      "ComposerHooks\\Registry::postUpdateCmd"
+    ],
+    "post-install-cmd": [
+      "ComposerHooks\\Registry::postInstallCmd"
+    ]
   }
 }

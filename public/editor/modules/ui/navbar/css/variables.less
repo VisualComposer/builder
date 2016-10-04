@@ -32,7 +32,8 @@
 
 //== Positions
 @navbar-z-index: @z-index-base + 10;
-@navbar-dropdown-z-index: -1;
+@navbar-dropdown-z-index: @navbar-z-index - 5;
+@navbar-dropdown-z-index-hover: @navbar-dropdown-z-index + 1;
 
 // Scroll
 @navbar-dropdown-max-height: 60vh;

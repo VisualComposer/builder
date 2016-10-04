@@ -1,21 +1,31 @@
 .vcv-blank-page-container {
-  width: 458px;
-  margin: 0 auto;
+  max-width: 458px;
+  margin: @page-container-margin auto;
 }
 
 .vcv-blank-page-heading-container {
+  margin: 0 0 @header-margin-bottom;
   text-align: center;
 }
 
 .vcv-blank-page-heading {
   display: inline-block;
   font-family: @text-family-base;
-  font-size: 26px;
+  font-size: @header-font-size;
 }
 
-.vcv-ui-element-control,
-.vcv-ui-control {
+//.vcv-blank-page-controls-container {
+  //display: flex;
+  //justify-content: space-between;
+  //margin: 0 0 @controls-margin-bottom;
+//}
+
+.vcv-ui-element-control {
+  position: relative;
+  width: @button-size;
+  height: @button-size;
   padding: @button-padding;
+  margin: 0 0 @controls-margin-bottom;
   border: none;
   border-radius: @border-radius;
   color: @text-color-base;
@@ -23,9 +33,42 @@
   cursor: pointer;
   text-decoration: none;
   transition: background @vcv-transition-duration @vcv-transition-timing-function;
+  vertical-align: middle;
+  outline: none;
 
   &:hover {
-    background: @color-base-active;
+    background: @control-hover-color;
+  }
+
+  &--row {
+    &:hover {
+      background: @row-hover-color;
+    }
+  }
+
+  &--add {
+    &:hover {
+      background: @color-base-active;
+    }
+  }
+
+  &--template {
+    width: 100%;
+    transition: background @vcv-transition-duration @vcv-transition-timing-function;
+
+    &:hover {
+      background: @template-hover-color;
+    }
+  }
+
+  > img {
+    width: 3em;
+    height: 2.3em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
   }
 }
 
@@ -33,15 +76,19 @@
   font-family: @text-family-base;
   font-size: 14px;
   font-style: italic;
+
+  &:not(.vcv-blank-page-description-active) {
+    display: none;
+  }
 }
 
 /* Temporary solution for preview */
-/*
-.blog-main {
-  width: 100% !important;
-}
 
-.blog-sidebar {
-  display: none;
-}
-*/
+//.blog-main {
+//  width: 100% !important;
+//}
+//
+//.blog-sidebar,
+//.blog-header {
+//  display: none;
+//}

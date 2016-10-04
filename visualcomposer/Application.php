@@ -57,26 +57,6 @@ class Application extends ApplicationFactory
     }
 
     /**
-     * @param $componentName
-     * @param $componentController
-     * @param bool $make
-     *
-     * @return $this
-     */
-    public function addComponent($componentName, $componentController, $make = true)
-    {
-        if (!$this->bound($componentController)) {
-            $this->singleton($componentController);
-            $this->alias($componentController, $componentName);
-            if ($make) {
-                $this->make($componentController);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Register the core container aliases.
      * Used in Dependency Injection.
      * @see \docs\php\DependencyInjection.md

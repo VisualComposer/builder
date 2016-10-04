@@ -18,9 +18,9 @@ class BarContent extends React.Component {
           this.props.api.request('bar-content-start:hide')
         }
       })
-      .addAction('setEndContentVisible', (isVisible) => {
+      .addAction('setEndContentVisible', (isVisible, key = null) => {
         if (isVisible) {
-          this.props.api.request('bar-content-end:show')
+          this.props.api.request('bar-content-end:show', key)
         } else {
           this.props.api.request('bar-content-end:hide')
         }
