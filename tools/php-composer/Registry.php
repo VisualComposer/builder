@@ -15,19 +15,9 @@ class Registry
         self::callHooks();
     }
 
-    static public function addHook($hook)
-    {
-        self::$hooks[] = $hook;
-    }
-
     static public function callHooks()
     {
-        foreach (self::$hooks as $hook) {
-            call_user_func_array([$hook, 'call'], []);
-        }
+        call_user_func_array(['\\ComposerHooks\\Hooks\\Autoload', 'call'], []);
+        call_user_func_array(['\\ComposerHooks\\Hooks\\Meta', 'call'], []);
     }
 }
-
-// Register hooks
-Registry::addHook('\\ComposerHooks\\Hooks\\Autoload');
-Registry::addHook('\\ComposerHooks\\Hooks\\Meta');
