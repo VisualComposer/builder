@@ -2,7 +2,6 @@ image: wpbakery/ci-wordpress
 
 stages:
   - codestyle
-  - build
   - test
   - deploy
 
