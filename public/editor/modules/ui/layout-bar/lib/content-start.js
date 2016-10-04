@@ -25,13 +25,6 @@ class BarContentStart extends React.Component {
       .reply('bar-content-start:hide', () => {
         this.setState({ showContent: false })
       })
-      .reply('bar-content-start:toggle', () => {
-        if (this.state.showContent) {
-          this.props.api.request('bar-content-start:hide')
-        } else {
-          this.props.api.request('bar-content-start:show')
-        }
-      })
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 

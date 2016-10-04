@@ -35,7 +35,7 @@ task(
         run('npm update --loglevel=error');
         cd('{{release_path}}');
         run('npm run collect-css');
-        run('composer update --no-dev --prefer-dist --no-progress');
+        run('composer update --prefer-dist --no-progress');
         run('webpack');
     }
 )->desc('Install npm, composer and bower packages');

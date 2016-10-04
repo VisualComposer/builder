@@ -63,45 +63,32 @@ codestyle:php:application:
   tags:
     - docker
 
-build:php:
-  stage: build
-  script:
-    - composer install
-  artifacts:
-    paths:
-      - vendor/
-  tags:
-    - docker
-
 test:php:framework:
   stage: test
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit-framework-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
-  dependencies:
-    - build:php
 
 test:php:helpers:
   stage: test
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit-helpers-coverage.xml
     - php ci/coverage-test.php
   tags:
     - docker
-  dependencies:
-    - build:php
 
 test:php:modules:
   stage: test
   script:
+    - composer install
     - phpunit --configuration=ci/phpunit-modules-coverage.xml
     #- php ci/coverage-test.php
   tags:
     - docker
-  dependencies:
-    - build:php
 
 deploy:test:alpha:
   image: wpbakery/ci-deployer

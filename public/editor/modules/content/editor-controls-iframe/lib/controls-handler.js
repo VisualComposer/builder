@@ -5,7 +5,7 @@ const cook = getService('cook')
 const categoriesService = getService('categories')
 var iframeOffsetTop = 0
 var iframeOffsetLeft = 0
-let $iframeContainer = $('.vcv-layout-iframe-container')
+let $iframeContainer = document.querySelector('.vcv-layout-iframe-container')
 
 function ControlsHandler () {
   this.$currentElement = undefined
@@ -308,8 +308,8 @@ ControlsHandler.prototype.setControlsPosition = function () {
       innerEl = innerEl.offsetParent
     }
     return {
-      dropUp: top >= window.pageYOffset && (top + height) <= (window.pageYOffset + window.innerHeight),
-      dropRight: left >= window.pageXOffset && (left + width) <= (window.pageXOffset + $iframeContainer.innerWidth())
+      dropUp: top >= window.pageYOffset && (top + height) <= $iframeContainer.offsetHeight,
+      dropRight: left >= window.pageXOffset && (left + width) <= $iframeContainer.offsetWidth
     }
   }
 

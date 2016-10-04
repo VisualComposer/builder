@@ -94,6 +94,19 @@
   }
 }
 
+.vcv-ui-navbar-sandwich {
+  .vcv-ui-navbar-controls-set {
+    &:not(:last-child) {
+      &::after {
+        content: '';
+        height: 1px;
+        display: block;
+        background-color: @navbar-separator-color;
+      }
+    }
+  }
+}
+
 //== dropdown
 .vcv-ui-navbar-dropdown {
   display: flex;
@@ -123,6 +136,12 @@
       background-color: @navbar-bg-dropdown;
     }
   }
+  &:hover,
+  &:focus {
+    .vcv-ui-navbar-dropdown-content {
+      z-index: @navbar-dropdown-z-index-hover;
+    }
+  }
   &[disabled] {
     .vcv-ui-navbar-dropdown-content {
       visibility: hidden;
@@ -145,6 +164,8 @@
 
 .vcv-ui-navbar-dropdown-trigger {
   width: 100%;
+  position: relative;
+  z-index: @navbar-z-index;
 }
 
 .vcv-ui-navbar-dropdown-content {
@@ -167,6 +188,11 @@
     &:hover,
     &.vcv-ui-state--active {
       background-color: @navbar-bg-dropdown-hover;
+    }
+    &[disabled] {
+      background-color: transparent;
+      opacity: .5;
+      cursor: not-allowed;
     }
   }
 }

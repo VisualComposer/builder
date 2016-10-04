@@ -4,9 +4,9 @@ class AutoloadTest extends WP_UnitTestCase
 {
     public function testGetComponents()
     {
-        /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
-        $components = $app->getComponents();
+        $autoload = new \ComposerHooks\Hooks\Autoload();
+        $autoload::$app = vcapp();
+        $components = $autoload->getComponents();
         $this->assertTrue(is_array($components));
         $this->assertTrue(is_array($components['helpers']));
         $this->assertTrue(is_array($components['modules']));
@@ -31,14 +31,15 @@ class AutoloadTest extends WP_UnitTestCase
 
     public function testInitComponents()
     {
+        $hookAutoload = new \ComposerHooks\Hooks\Autoload();
+        $hookAutoload::$app = vcapp();
         /** @var \VisualComposer\Framework\Autoload $app */
         $app = vcapp('Autoload');
-        $components = $app->getComponents();
+        $components = $hookAutoload->getComponents();
         $this->assertTrue($app->initComponents($components));
         $this->assertFalse($app->initComponents(false));
-        $this->assertTrue($app->useCache(VCV_VERSION));
-        $this->assertFalse($app->useCache('0.0.0'));
-        $app->init(false, '0.0.0');
+        $this->assertTrue($app->useCache());
+        $app->init();
     }
 
     public function testInitCache()
@@ -47,17 +48,14 @@ class AutoloadTest extends WP_UnitTestCase
         $app = $this->getMockBuilder('\VisualComposer\Framework\Autoload')->disableOriginalConstructor()->setMethods(
             ['useCache']
         )->getMock();
-        $app->expects($this->once())->method('useCache')->with(
-            $this->equalTo('0.0.0')
-        )->will($this->returnValue(true));
+        $app->expects($this->once())->method('useCache')->will($this->returnValue(true));
 
-        $app->init(false, '0.0.0');
+        $app->init();
     }
 
     public function testIsHelper()
     {
-        /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
+        $app = new \ComposerHooks\Hooks\Autoload();
         $this->assertTrue($app->isHelper('Helper'));
         $this->assertTrue($app->isHelper('\VisualComposer\Framework\Illuminate\Support\Helper'));
         $this->assertTrue($app->isHelper('\\VisualComposer\\Framework\\Illuminate\\Support\\Helper'));
@@ -69,8 +67,7 @@ class AutoloadTest extends WP_UnitTestCase
 
     public function testIsModule()
     {
-        /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
+        $app = new \ComposerHooks\Hooks\Autoload();
         $this->assertTrue($app->isModule('Module'));
         $this->assertTrue($app->isModule('\VisualComposer\Framework\Illuminate\Support\Module'));
         $this->assertTrue($app->isModule('\\VisualComposer\\Framework\\Illuminate\\Support\\Module'));
@@ -82,8 +79,7 @@ class AutoloadTest extends WP_UnitTestCase
 
     public function testGetName()
     {
-        /** @var \VisualComposer\Framework\Autoload $app */
-        $app = vcapp('Autoload');
+        $app = new \ComposerHooks\Hooks\Autoload();
 
         /** @see \VisualComposer\Helpers\Str */
         /** @see \VisualComposer\Helpers\Token */
