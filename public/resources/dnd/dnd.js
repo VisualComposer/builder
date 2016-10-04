@@ -241,7 +241,6 @@ export default class DnD {
     }, 200)
   }
   end () {
-    setData('dnd-check', false)
     // Remove helper
     this.helper && this.helper.remove()
     // Remove css class for body
@@ -265,7 +264,8 @@ export default class DnD {
     this.currentElement = null
     this.position = null
     this.helper = null
-
+    this.startPoint = null
+    setData('vcvDnDStarted', false)
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
@@ -274,6 +274,13 @@ export default class DnD {
       this.handleDragEnd()
       return
     }
+    window.setTimeout(() => {
+      if (!this.startPoint) {
+        this.startPoint = point
+      } else {
+        setData('vcvDnDStarted', true)
+      }
+    }, 0)
     this.helper && this.helper.setPosition(point)
     this.placeholder && this.checkItems(point)
   }

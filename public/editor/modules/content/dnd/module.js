@@ -60,11 +60,13 @@ vcCake.add('content-dnd', function (api) {
   ModuleDnd.prototype.start = function () {
     this.api.module('content-editor-controls-iframe').do('disableControls', true)
     document.body.classList.add('vcv-is-no-selection')
+    this.api.notify('draggingStarted', true)
   }
   ModuleDnd.prototype.end = function () {
     this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
     document.body.classList.remove('vcv-is-no-selection')
+    this.api.notify('draggingEnd', false)
   }
   let dnd = new ModuleDnd(api)
   dnd.init()
