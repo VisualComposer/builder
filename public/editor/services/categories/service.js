@@ -82,6 +82,9 @@ const service = {
       return new Group(group.name, getCategoriesList(group.categories, data.categories))
     })
   },
+  category (key) {
+    return data.categories[key]
+  },
   set categories (categories) {
     data.categories = categories
     data.categoriesObjects = null

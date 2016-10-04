@@ -22,7 +22,7 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Hero section with image background and 'Call to Action' message with a switchable button and position controls."
   },
   "metaPreview": {
     "type": "attachimage",
@@ -40,7 +40,6 @@
     "value": "<h1>Highland Traditions of Scotland</h1>",
     "options": {
       "label": "Title",
-      "description": "The title",
       "tinymce": {
         "inline": true,
         "toolbar": "bold italic | alignleft aligncenter alignright alignjustify"
@@ -52,14 +51,13 @@
     "access": "public",
     "value": "<p>The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
-      "label": "Description",
-      "description": "The description"
+      "label": "Description"
     }
   },
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": "",
+    "value": "hero-section-background.jpg",
     "options": {
       "label": "Image",
       "multiple": false
@@ -97,6 +95,15 @@
       "description": "[ON] Will add the button to content"
     }
   },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
   "button": {
     "type": "element",
     "access": "public",
@@ -104,7 +111,8 @@
       "tag": "button"
     },
     "options": {
-      "label": "Button",
+      "category": "Button",
+      "tabLabel": "Button",
       "onChange": {
         "addButton": [
           {
@@ -135,7 +143,8 @@
       "description",
       "image",
       "align",
-      "addButton"
+      "addButton",
+      "customClass"
     ],
     "options": {
       "label": "General"

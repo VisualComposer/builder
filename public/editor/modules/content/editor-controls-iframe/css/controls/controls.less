@@ -7,6 +7,19 @@
   &:hover {
     z-index: @controls-z-index-hover;
   }
+  > .vcv-ui-outline-controls {
+    > * {
+      background-color: @controls-background-color-base;
+    }
+    > :first-child {
+      border-top-left-radius: @control-border-radius;
+      border-bottom-left-radius: @control-border-radius;
+    }
+    > :last-child {
+      border-top-right-radius: @control-border-radius;
+      border-bottom-right-radius: @control-border-radius;
+    }
+  }
 }
 
 .vcv-ui-outline-controls {
@@ -25,12 +38,7 @@
   > * {
     flex-grow: 0;
     flex-shrink: 0;
-    &:not(:last-child) {
-      .vcv-ui-outline-control {
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-      }
-    }
-    &:first-child {
+    /*&:first-child {
       .vcv-ui-outline-control {
         border-top-left-radius: @control-border-radius;
         border-bottom-left-radius: @control-border-radius;
@@ -42,18 +50,39 @@
         border-bottom-right-radius: @control-border-radius;
       }
     }
+    */
+    &:hover {
+      .vcv-ui-outline-control {
+        border-top-left-radius: @control-border-radius;
+        border-top-right-radius: @control-border-radius;
+      }
+    }
   }
 }
-
+.vcv-ui-outline-control-separator {
+  color: @controls-text-color-base;
+  background-color: @controls-background-color-base;
+  position: relative;
+  width: 10px;
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: -3px;
+    margin-top: -0.5em;
+    opacity: .6;
+    font-size: 0.9rem;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+}
 .vcv-ui-outline-control {
   padding: 0;
-  // border-radius: @control-border-radius;
   overflow: hidden;
   min-width: @control-size;
   min-height: @control-size;
   text-decoration: none;
   color: @controls-text-color-base;
-  background-color: @controls-background-color-base;
+  // background-color: @controls-background-color-base;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -196,6 +225,7 @@
 
 //== Options
 .vcv-ui-outline-controls-container {
+  > .vcv-ui-outline-controls
   //== inner controls
   &.vcv-ui-controls-o-inset {
     .vcv-ui-outline-controls {
@@ -219,6 +249,7 @@
 
 //== Dropdown options
 .vcv-ui-outline-control-dropdown {
+  // background-color: @controls-background-color-base;
   //== dropdown from right side
   &.vcv-ui-outline-control-dropdown-o-drop-right {
     .vcv-ui-outline-control-dropdown-content {
@@ -239,6 +270,8 @@
       .vcv-ui-outline-control-dropdown-trigger.vcv-ui-outline-control {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
+        border-bottom-left-radius: @control-border-radius;
+        border-bottom-right-radius: @control-border-radius;
       }
     }
     .vcv-ui-outline-control-dropdown-content {

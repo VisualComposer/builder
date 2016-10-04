@@ -12,9 +12,25 @@ let rowClasses = classNames({
   'vce-hero-section__wrap-row': true
 })
 
+if (typeof customClass === 'string' && customClass) {
+  wrapperClasses = wrapperClasses.concat(' ' + customClass)
+}
+
 let rowStyles = {}
 if (image) {
-  rowStyles.backgroundImage = `url(${image})`
+  let vcCake = require('vc-cake')
+  const cook = vcCake.getService('cook')
+  let cookElement = cook.get(atts)
+  const AssetsManager = vcCake.getService('assets-manager')
+
+  let imgSrc = image
+  if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
+    imgSrc = imgSrc.urls[0].full
+  } else {
+    imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
+  }
+
+  rowStyles.backgroundImage = `url(${imgSrc})`
 }
 
 let buttonOutput = ''

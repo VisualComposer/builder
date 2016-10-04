@@ -15,12 +15,24 @@ export default class Element extends React.Component {
       return <Element element={childElement} key={childElement.id} api={this.props.api} />
     }) || content
   }
-
+  prepareAttributes (atts) {
+    let layoutAtts = {}
+    let element = cook.get(atts)
+    Object.keys(atts).forEach((key) => {
+      let attrSettings = element.settings(key)
+      if (attrSettings.settings.type === 'htmleditor' && attrSettings.settings.options && attrSettings.settings.options.inline === true) {
+        layoutAtts[key] = <div dangerouslySetInnerHTML={{__html: atts[key]}} />
+      } else {
+        layoutAtts[key] = atts[key]
+      }
+    })
+    return layoutAtts
+  }
   render () {
     let el = cook.get(this.props.element)
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
-    return <ContentComponent id={id} key={'vcvLayoutWordpressComponent' + id} atts={el.toJS()}>
+    return <ContentComponent id={id} key={'vcvLayoutWordpressComponent' + id} atts={this.prepareAttributes(el.toJS())}>
       {this.getContent()}
     </ContentComponent>
   }

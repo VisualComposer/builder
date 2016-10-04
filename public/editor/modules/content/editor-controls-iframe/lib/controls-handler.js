@@ -200,7 +200,9 @@ ControlsHandler.prototype.drawControls = function () {
     // add dropdown content
     $dropdownContent = $('<dd class="vcv-ui-outline-control-dropdown-content"/>')
     $dropdownContent.appendTo($controlElement)
-
+    if (i < elemenstsTree.length - 1) {
+      $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand"></i>').appendTo($controlElement)
+    }
     $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-drag-helper="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-move" ></i>' +
