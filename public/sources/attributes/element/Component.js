@@ -31,10 +31,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   onClickReplacement = (element) => {
-    console.log(element)
     let cookElement = Cook.get(element)
-
-    console.log(cookElement)
     this.setState({
       value: element,
       tag: element.tag,

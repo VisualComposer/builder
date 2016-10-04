@@ -40,13 +40,3 @@ if (addButton) {
   let Button = Cook.get(button)
   buttonOutput = Button.render(null, false)
 }
-
-//
-//
-// function start() {
-//   setTimeout(function() {
-//     console.log(button)
-//     start()
-//   }, 1000)
-// }
-// start();
