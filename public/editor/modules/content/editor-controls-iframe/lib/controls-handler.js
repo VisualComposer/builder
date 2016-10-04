@@ -285,7 +285,6 @@ ControlsHandler.prototype.clearTimer = function () {
 }
 
 ControlsHandler.prototype.removeControls = function () {
-  return
   if (this.$controlsContainer) {
     this.$controlsContainer.remove()
     this.$controlsContainer = null
