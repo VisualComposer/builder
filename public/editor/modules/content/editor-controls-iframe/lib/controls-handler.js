@@ -162,12 +162,13 @@ ControlsHandler.prototype.drawControls = function () {
   this.$controlsList.html('')
 
   // add tree layout button
-  if (elemenstsTree.length < this.$currentElement.parents('[data-vcv-element]').length) {
-    $controlElement = $('<a href="#" class="vcv-ui-outline-control" data-vc-control-event="tree-layout:show"/>')
+  if (elemenstsTree.length < this.$currentElement.parents('[data-vcv-element]').length + 1) {
+    $controlElement = $('<a href="#" class="vcv-ui-outline-control vcv-ui-outline-control-more" data-vc-control-event="bar-content-start:show"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
-      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-more-dots" ></i>' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-layers" ></i>' +
       '</span>').appendTo($controlElement)
     $controlElement.appendTo(this.$controlsList)
+    $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand" />').appendTo(this.$controlsList)
   }
   // add elements controld in dropdown
   for (var i in elemenstsTree) {
