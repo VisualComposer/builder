@@ -1,4 +1,6 @@
 <div className={containerClasses} id={'el-' + id}>
-  <img className={classes} src={imgSrc} />
+  <CustomTag {...customProps}>
+    <img className={classes} src={imgSrc} />
+  </CustomTag>
 </div>
 
