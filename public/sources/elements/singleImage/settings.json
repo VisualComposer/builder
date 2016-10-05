@@ -17,7 +17,7 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations."
   },
   "metaPreview": {
     "type": "attachimage",
@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-single-image.jpg"
+    "value": "thumbnail-single-image.png"
   },
   "image": {
     "type": "attachimage",
@@ -105,13 +105,13 @@
   "clickableOptions": {
     "type": "dropdown",
     "access": "public",
-    "value": "none",
+    "value": "",
     "options": {
       "label": "Click options",
       "values": [
         {
           "label": "none",
-          "value": "none"
+          "value": ""
         },
         {
           "label": "Link selector",
@@ -127,7 +127,7 @@
         },
         {
           "label": "Open Image in New Tab",
-          "value": "newTab"
+          "value": "imageNewTab"
         }
       ]
     }
@@ -138,7 +138,7 @@
     "value": {
       "url": "",
       "title": "",
-      "targetBlank": false,
+      "targetBlank": true,
       "relNofollow": false
     },
     "options": {
