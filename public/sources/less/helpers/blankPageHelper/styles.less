@@ -1,6 +1,7 @@
 .vcv-blank-page-container {
-  max-width: 458px;
+  max-width: 500px;
   margin: @page-container-margin auto;
+  padding: 0 @page-container-side-padding;
 }
 
 .vcv-blank-page-heading-container {
@@ -14,18 +15,22 @@
   font-size: @header-font-size;
 }
 
-//.vcv-blank-page-controls-container {
-  //display: flex;
-  //justify-content: space-between;
-  //margin: 0 0 @controls-margin-bottom;
-//}
+.vcv-blank-page-controls-container {
+  margin: 0 auto;
+}
+
+.vcv-blank-page-controls-row {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 @controls-row-side-margin;
+}
 
 .vcv-ui-element-control {
   position: relative;
   width: @button-size;
   height: @button-size;
   padding: @button-padding;
-  margin: 0 0 @controls-margin-bottom;
+  margin: @control-margin;
   border: none;
   border-radius: @border-radius;
   color: @text-color-base;
@@ -53,7 +58,7 @@
   }
 
   &--template {
-    width: 100%;
+    flex-grow: 1;
     transition: background @vcv-transition-duration @vcv-transition-timing-function;
 
     &:hover {
@@ -73,6 +78,7 @@
 }
 
 .vcv-blank-page-description-container {
+  margin-top: @description-top-margin;
   font-family: @text-family-base;
   font-size: 14px;
   font-style: italic;
