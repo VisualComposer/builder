@@ -10,6 +10,7 @@ module.exports = {
     node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
+    front: './public/front-main',
     app: []
   },
   output: {
