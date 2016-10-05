@@ -22,53 +22,41 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.png"
+    "value": "preview-single-image.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.png"
+    "value": "thumbnail-single-image.jpg"
   },
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": "http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png",
+    "value": "single-image.jpg",
     "options": {
       "label": "Image",
       "multiple": false,
-      "defaultValue": "http://alpha.visualcomposer.io/wp-content/uploads/2016/05/hero.png"
+      "defaultValue": "single-image.jpg"
     }
   },
-  "style": {
+  "shape": {
     "type": "dropdown",
     "access": "public",
-    "value": "",
+    "value": "square",
     "options": {
-      "label": "Style",
+      "label": "Shape",
       "values": [
         {
-          "label": "Default",
-          "value": ""
-        },
-        {
-          "label": "Rounded",
-          "valye": "vc_box_rounded"
-        },
-        {
-          "label": "Border",
-          "valye": "vc_box_border"
-        },
-        {
-          "label": "Outline",
-          "valye": "vc_box_outline"
-        },
-        {
-          "label": "Shadow",
-          "valye": "vc_box_shadow"
+          "label": "Square",
+          "value": "square"
         },
         {
           "label": "Round",
-          "valye": "vc_box_circle"
+          "value": "round"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
         }
       ]
     }
@@ -86,7 +74,9 @@
     "access": "protected",
     "value": [
       "image",
-      "style"
+      "shape",
+      "clickableOptions",
+      "imageUrl"
     ],
     "options": {
       "label": "Element"
@@ -103,11 +93,69 @@
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
+    "value": [
+      "General"
+    ]
   },
   "metaOrder": {
     "type": "number",
     "access": "protected",
     "value": 3
+  },
+  "clickableOptions": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "none",
+    "options": {
+      "label": "Click options",
+      "values": [
+        {
+          "label": "none",
+          "value": "none"
+        },
+        {
+          "label": "Link selector",
+          "value": "url"
+        },
+        {
+          "label": "Lightbox",
+          "value": "lightbox"
+        },
+        {
+          "label": "Zoom",
+          "value": "zoom"
+        },
+        {
+          "label": "Open Image in New Tab",
+          "value": "newTab"
+        }
+      ]
+    }
+  },
+  "imageUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Image URL",
+      "onChange": {
+        "clickableOptions": [
+          {
+            "rule": "value",
+            "options": "url",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
   }
 }

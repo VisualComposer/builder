@@ -1,4 +1,4 @@
-<div className="vce-single-image vce" id={'el-' + id}>
-  <img src={imgSrc} />
+<div className={containerClasses} id={'el-' + id}>
+  <img className={classes} src={imgSrc} />
 </div>
 
