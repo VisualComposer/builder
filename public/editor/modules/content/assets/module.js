@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-
+import $ from 'jquery'
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
 
@@ -24,6 +24,14 @@ vcCake.add('assets', (api) => {
     assetManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result + assetManager.getGlobalCss() + assetManager.getCustomCss()
     })
+    assetManager.getJsFiles().forEach((file) => {
+      if (!iframeDocument.querySelector(`[data-vcv-javascript-public-file="${file}"]`)) {
+        let script = document.createElement('script')
+        script.src = assetManager.getSourcePath(file)
+        iframeDocument.body.appendChild(script)
+      }
+    })
+    $(iframeDocument).trigger('vcv:ready')
   }
   // TODO: Use state against event
   api.reply('data:changed', dataUpdate)

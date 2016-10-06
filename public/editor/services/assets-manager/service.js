@@ -10,6 +10,8 @@ import GlobalCss from './lib/globalCss'
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
+let jsFilesList = null
+
 vcCake.addService('assets-manager', {
   /**
    * Up-to-date list of all elements
@@ -41,6 +43,10 @@ vcCake.addService('assets-manager', {
   },
   getGlobalCss: function () {
     return globalCss.data
+  },
+  getJsFiles: function () {
+    !jsFilesList && this.getStyles()
+    return jsFilesList
   },
   /**
    * @param id
@@ -156,6 +162,7 @@ vcCake.addService('assets-manager', {
    */
   getStyles: function () {
     let styles = {}
+    jsFilesList = []
     let elements = this.get()
     for (let id in elements) {
       if (styles.hasOwnProperty(elements[ id ].tag)) {
@@ -167,10 +174,14 @@ vcCake.addService('assets-manager', {
         if (element) {
           let elementObject = cook.get(element)
           let cssSettings = elementObject.get('cssSettings')
+          let jsFiles = elementObject.get('metaPublicJs')
           let settings = elementObject.get('settings')
           styles[ elements[ id ].tag ] = {
             count: 1,
             css: cssSettings.css
+          }
+          if (jsFiles && jsFiles.length) {
+            jsFilesList = jsFilesList.concat(jsFiles)
           }
           Object.keys(settings).forEach((key) => {
             let option = settings[key]
@@ -181,9 +192,13 @@ vcCake.addService('assets-manager', {
               } else if (innerTag) {
                 let innerElementObject = cook.get({tag: innerTag})
                 let innerCssSettings = innerElementObject.get('cssSettings')
+                let jsFiles = elementObject.get('metaPublicJs')
                 styles[ innerTag ] = {
                   count: 1,
                   css: innerCssSettings.css
+                }
+                if (jsFiles && jsFiles.length) {
+                  jsFilesList = jsFilesList.concat(jsFiles)
                 }
               }
             }
@@ -191,7 +206,7 @@ vcCake.addService('assets-manager', {
         }
       }
     }
-
+    jsFilesList = [...new Set(jsFilesList)]
     return styles
   },
 
@@ -219,7 +234,6 @@ vcCake.addService('assets-manager', {
       return output.join(' ')
     })
   },
-
   /**
    * @returns {{}}
    */

@@ -4,7 +4,7 @@ var swig = require('swig')
 var path = require('path')
 var fs = require('fs')
 const normalizeUrl = require('normalize-url')
-
+const vcvSettings = require('../webpack-collector/lib/settings')
 var args = []
 var namedArgs = {}
 // get named args
@@ -93,6 +93,27 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong css settings')
       process.exit(1)
     }
+
+    // Public javascript
+    const collectPublicJsFile = function (contentPath, files, prefix) {
+      fs.readdirSync(contentPath).forEach((file) => {
+        let subPath = path.resolve(contentPath, file)
+        if (fs.lstatSync(subPath).isDirectory()) {
+          collectPublicJsFile(subPath, files, prefix + '/' + file)
+        } else if (subPath.match(/\.js$/)) {
+          files.push(prefix + '/' + file)
+        }
+      })
+      return files
+    }
+    var publicJs = collectPublicJsFile(path.resolve(elementDir, 'public/js'), [], vcvSettings.elementsDirName + '/' + settings.tag.value + '/public/js')
+    if (publicJs.length) {
+      settings.metaPublicJs = {
+        access: 'protected',
+        type: 'string',
+        value: publicJs
+      }
+    }
     var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
       settings: function () {
         return JSON.stringify(settings)
@@ -107,7 +128,7 @@ fs.lstat(elementDir, function (err, stats) {
         return templateString
       },
       jsCallback: function () {
-        return 'function(){}'
+        return "''"
       },
       cssFile: function () {
         return cssRelativeFile + ''

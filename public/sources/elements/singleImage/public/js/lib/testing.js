@@ -1,1 +1,1 @@
-console.log('haha')
+console && console.log('single image public javascript')
