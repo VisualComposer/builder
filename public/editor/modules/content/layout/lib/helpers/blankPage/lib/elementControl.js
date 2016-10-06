@@ -3,37 +3,40 @@ import classNames from 'classnames'
 
 export default class ContentElementControl extends React.Component {
   static propTypes = {
+    tag: React.PropTypes.any,
     title: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    element: React.PropTypes.string.isRequired
+    icon: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string.isRequired,
+    setActive: React.PropTypes.func.isRequired,
+    unsetActive: React.PropTypes.func.isRequired,
+    handleClick: React.PropTypes.func
   }
-  // constructor (props) {
-  //   super(props)
-  // }
+  constructor (props) {
+    super(props)
+    this.displayDescription = this.displayDescription.bind(this)
+    this.hideDescription = this.hideDescription.bind(this)
+  }
   displayDescription () {
-    let innerDoc = document.getElementById('vcv-editor-iframe').contentWindow.document
-    innerDoc.querySelector('.vcv-blank-page-description-container').classList.add('vcv-blank-page-description-active')
+    this.props.setActive(this.props.description)
   }
   hideDescription () {
-    let innerDoc = document.getElementById('vcv-editor-iframe').contentWindow.document
-    innerDoc.querySelector('.vcv-blank-page-description-container').classList.remove('vcv-blank-page-description-active')
+    this.props.unsetActive()
   }
   render () {
     let controlClass = classNames([
       'vcv-ui-element-control',
-      `vcv-ui-element-control--${this.props.element}`
+      `vcv-ui-element-control--${this.props.tag}`
     ])
-    let source = `../../../../../../../sources/categories/icons/${this.props.name}.svg`
-    return (
-      <button
-        className={controlClass}
-        title={this.props.title}
-        onMouseOver={this.displayDescription}
-        onMouseOut={this.hideDescription}
-      >
-        <img className='vcv-ui-icon' src={source} alt={this.props.title} />
-      </button>
-    )
+    return <button
+      className={controlClass}
+      title={this.props.title}
+      onMouseOver={this.displayDescription}
+      onMouseOut={this.hideDescription}
+      onClick={this.props.handleClick.bind(null, this.props.tag)}
+    >
+      <img className='vcv-ui-icon vcv-ui-element-control-image' src={this.props.icon} alt={this.props.title} />
+      <span className='vcv-ui-element-control-label'>{this.props.title}</span>
+    </button>
   }
 }
 

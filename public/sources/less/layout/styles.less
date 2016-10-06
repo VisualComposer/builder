@@ -185,3 +185,26 @@
     transform: translate(-50%, -50%);
   }
 }
+
+//== Shadow
+// Not detached
+.vcv-layout-dock {
+  &:not(.vcv-layout-dock--detached) {
+    .vcv-layout-bar-header {
+      z-index: @editor-layout-bar-header-zindex;
+    }
+
+    .vcv-layout-bar {
+      &:not(.vcv-ui-content-end--visible) {
+        .vcv-layout-bar-content-start {
+          box-shadow: @editor-layout-bar-shadow;
+        }
+      }
+      &.vcv-ui-content-end--visible {
+        .vcv-layout-bar-content {
+          box-shadow: @editor-layout-bar-shadow;
+        }
+      }
+    }
+  }
+}

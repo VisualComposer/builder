@@ -36,7 +36,7 @@ class UndoRedoControl extends React.Component {
 
   render () {
     return (
-      <div className='vcv-ui-navbar-controls-group'>
+      <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
         <a
           className='vcv-ui-navbar-control' href='#' title='Undo' disabled={this.state.undoDisabled}
           onClick={this.handleUndo}

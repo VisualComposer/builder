@@ -1,0 +1,104 @@
+.vcv-layout-bar.vcv-ui-content--hidden {
+  .vcv-ui-resizer-layout-bar-top,
+  .vcv-ui-resizer-layout-bar-bottom,
+  .vcv-ui-resizer-layout-bar-left-top,
+  .vcv-ui-resizer-layout-bar-left-bottom,
+  .vcv-ui-resizer-layout-bar-right-top,
+  .vcv-ui-resizer-layout-bar-right-bottom {
+    display: none;
+  }
+}
+
+.vcv-layout-dock--top {
+  .vcv-ui-resizer-layout-placement-top {
+    display: block;
+    &.vcv-ui-resizer-target-content {
+      display: none;
+    }
+  }
+  @media (max-width: (@editor-layout-content-start-min-width + @editor-layout-content-end-min-width)) {
+    .vcv-ui-resizer-layout-placement-top {
+      &.vcv-ui-resizer-content-start-right,
+      &.vcv-ui-resizer-content-start-right-bottom {
+        display: none;
+      }
+    }
+    .vcv-ui-content-end--visible {
+      .vcv-ui-resizer-layout-placement-top {
+        &.vcv-ui-resizer-target-bar {
+          display: none;
+        }
+        &.vcv-ui-resizer-target-content {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.vcv-layout-dock--bottom {
+  .vcv-ui-resizer-layout-placement-bottom {
+    display: block;
+    &.vcv-ui-resizer-target-content {
+      display: none;
+    }
+  }
+  @media (max-width: (@editor-layout-content-start-min-width + @editor-layout-content-end-min-width)) {
+    .vcv-ui-resizer-layout-placement-bottom {
+      &.vcv-ui-resizer-content-start-right,
+      &.vcv-ui-resizer-content-start-right-top,
+      &.vcv-ui-resizer-content-start-bottom {
+        display: none;
+      }
+    }
+    .vcv-ui-content-start--visible {
+      .vcv-ui-resizer-layout-placement-bottom {
+        &.vcv-ui-resizer-content-end-top {
+          display: none;
+        }
+        &.vcv-ui-resizer-content-start-bottom {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.vcv-layout-dock--left {
+  .vcv-ui-resizer-layout-placement-left {
+    display: block;
+  }
+  .vcv-layout-bar:not(.vcv-ui-content-end--visible) {
+    .vcv-ui-resizer-layout-placement-left {
+      &.vcv-ui-resizer-content-start-bottom {
+        display: none;
+      }
+      &.vcv-ui-resizer-content-start-right-bottom {
+        display: none;
+      }
+    }
+  }
+}
+
+.vcv-layout-dock--right {
+  .vcv-ui-resizer-layout-placement-right {
+    display: block;
+  }
+  .vcv-layout-bar:not(.vcv-ui-content-end--visible) {
+    .vcv-ui-resizer-layout-placement-right {
+      &.vcv-ui-resizer-content-start-bottom {
+        display: none;
+      }
+      &.vcv-ui-resizer-content-start-left-bottom {
+        display: none;
+      }
+    }
+  }
+}
+
+
+.vcv-layout-dock--detached {
+  .vcv-ui-resizer-layout-placement-detached {
+    display: block;
+  }
+}

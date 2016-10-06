@@ -217,7 +217,7 @@ class Navbar extends React.Component {
   }
 
   closeDropdown (e) {
-    if (e.target.closest('.vcv-ui-navbar-sandwich')) {
+    if (e && (e.target.closest('.vcv-ui-navbar-dropdown-trigger') || e.target.closest('.vcv-ui-navbar-sandwich--stop-close')) && e.target.closest('.vcv-ui-navbar-sandwich')) {
       return
     }
     this.handleDropdown(e)
