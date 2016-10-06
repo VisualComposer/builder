@@ -1,0 +1,1 @@
+console && console.log('single image public javascript')
