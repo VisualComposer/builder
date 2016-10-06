@@ -1,6 +1,6 @@
 import React from 'react'
 import HtmlLayout from './htmlLayout'
-// import BlankPage from './helpers/blankPage/component'
+import BlankPage from './helpers/blankPage/component'
 
 class LayoutEditor extends React.Component {
   constructor (props) {
@@ -20,10 +20,7 @@ class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    // TODO return condition after Blank Page is finished
-    return <HtmlLayout data={this.state.data} api={this.props.api} />
-    // return <BlankPage />
-    // return this.state.data.length === 0 ? <BlankPage /> : <HtmlLayout data={this.state.data} api={this.props.api} />
+    return this.state.data.length === 0 ? <BlankPage api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
   }
   render () {
     return (
