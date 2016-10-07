@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export default class CustomContentElementControl extends React.Component {
+export default class ContentElementControl extends React.Component {
   static propTypes = {
+    tag: React.PropTypes.any,
     title: React.PropTypes.string.isRequired,
-    classSuffix: React.PropTypes.string.isRequired,
+    icon: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired,
     setActive: React.PropTypes.func.isRequired,
     unsetActive: React.PropTypes.func.isRequired,
@@ -14,7 +15,6 @@ export default class CustomContentElementControl extends React.Component {
     super(props)
     this.displayDescription = this.displayDescription.bind(this)
     this.hideDescription = this.hideDescription.bind(this)
-    this.handleClick = this.handleClick.bind(this)
   }
   displayDescription () {
     this.props.setActive(this.props.description)
@@ -22,31 +22,23 @@ export default class CustomContentElementControl extends React.Component {
   hideDescription () {
     this.props.unsetActive()
   }
-  handleClick () {
-    this.props.handleClick && this.props.handleClick(this.props.title)
-  }
   render () {
     let controlClass = classNames([
       'vcv-ui-element-control',
-      `vcv-ui-element-control--${this.props.classSuffix}`
+      `vcv-ui-element-control--${this.props.tag}`
     ])
-    let iconClass = classNames([
-      'vcv-ui-icon',
-      `vcv-ui-icon-${this.props.classSuffix}`
-    ])
-
-    return (
-      <button
-        className={controlClass}
-        title={this.props.title}
-        onMouseOver={this.displayDescription}
-        onMouseOut={this.hideDescription}
-        onClick={this.handleClick}
-      >
-        <i className={iconClass} />
+    return <button
+      className={controlClass}
+      title={this.props.title}
+      onMouseOver={this.displayDescription}
+      onMouseOut={this.hideDescription}
+      onClick={this.props.handleClick.bind(null, this.props.tag)}
+    >
+      <span className='vcv-ui-element-control-content'>
+        <img className='vcv-ui-icon' src={this.props.icon} alt={this.props.title} />
         <span className='vcv-ui-element-control-label'>{this.props.title}</span>
-      </button>
-    )
+      </span>
+    </button>
   }
 }
 
