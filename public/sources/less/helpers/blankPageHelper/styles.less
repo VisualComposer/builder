@@ -1,5 +1,5 @@
 .vcv-blank-page-container {
-  max-width: 500px;
+  max-width: @page-container-max-width;
   margin: @page-container-margin auto;
   padding: 0 @page-container-side-padding;
   font-family: @text-family-base;
@@ -41,6 +41,7 @@
   transition: background @vcv-transition-duration @vcv-transition-timing-function;
   vertical-align: middle;
   outline: none;
+  overflow: visible;
 
   &:hover {
     background: @control-hover-color;
@@ -71,14 +72,26 @@
     flex: 0 1 100%;
   }
 
-  .vcv-ui-element-control-image {
-    width: 3em;
-    height: 2.3em;
+  .vcv-ui-icon {
+    width: @control-icon-width;
+    height: @control-icon-height;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2em;
+    top: @control-icon-position-value;
+    left: @control-icon-position-value;
+    transform: translate(-@control-icon-position-value, -@control-icon-position-value);
+    font-size: @control-element-font-size;
+
+    &::before {
+      position: absolute;
+      top: @control-icon-position-value;
+      left: @control-icon-position-value;
+      transform: translate(-@control-icon-position-value, -@control-icon-position-value);
+      font-size: @control-icon-font-size;
+    }
+
+    &-template:before {
+      font-size: @control-icon-template-font-size;
+    }
   }
 }
 
@@ -93,21 +106,28 @@
   align-items: stretch;
 
   .vcv-ui-element-control {
+    padding: 0 @button-padding;
     width: auto;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    font-size: 1.2em;
+    font-size: @control-element-font-size;
+    text-align: left;
+  }
+
+  .vcv-ui-element-control-content {
+    display: flex;
+    align-items: center;
   }
 
   .vcv-ui-element-control-label {
     display: inline-block;
-    font-size: .8em;
-    margin-left: 16px;
+    font-size: @control-element-label-font-size;
+    margin-left: @control-label-margin-left;
   }
 
-  .vcv-ui-element-control-image {
+  .vcv-ui-icon{
     position: relative;
     top: initial;
     left: initial;
@@ -119,7 +139,7 @@
 .vcv-blank-page-description-container {
   margin-top: @description-top-margin;
   font-family: @text-family-base;
-  font-size: 14px;
+  font-size: @description-font-size;
   font-style: italic;
 
   &:not(.vcv-blank-page-description-active) {
