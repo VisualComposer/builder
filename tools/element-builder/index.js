@@ -96,7 +96,7 @@ fs.lstat(elementDir, function (err, stats) {
 
     // Public javascript
     const collectPublicJsFile = function (contentPath, files, prefix) {
-      fs.readdirSync(contentPath).forEach((file) => {
+      fs.existsSync(contentPath) && fs.readdirSync(contentPath).forEach((file) => {
         let subPath = path.resolve(contentPath, file)
         if (fs.lstatSync(subPath).isDirectory()) {
           collectPublicJsFile(subPath, files, prefix + '/' + file)
