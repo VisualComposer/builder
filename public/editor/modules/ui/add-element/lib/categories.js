@@ -45,7 +45,7 @@ class Categories extends React.Component {
       element.style.position = 'relative'
     }
     var obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
       this.contentDocument.defaultView.addEventListener('resize', fn)
