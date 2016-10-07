@@ -34,8 +34,10 @@ export default class ContentElementControl extends React.Component {
       onMouseOut={this.hideDescription}
       onClick={this.props.handleClick.bind(null, this.props.tag)}
     >
-      <img className='vcv-ui-icon vcv-ui-element-control-image' src={this.props.icon} alt={this.props.title} />
-      <span className='vcv-ui-element-control-label'>{this.props.title}</span>
+      <span className='vcv-ui-element-control-content'>
+        <img className='vcv-ui-icon' src={this.props.icon} alt={this.props.title} />
+        <span className='vcv-ui-element-control-label'>{this.props.title}</span>
+      </span>
     </button>
   }
 }

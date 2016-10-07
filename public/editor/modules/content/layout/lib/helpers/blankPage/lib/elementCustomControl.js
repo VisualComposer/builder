@@ -43,8 +43,10 @@ export default class CustomContentElementControl extends React.Component {
         onMouseOut={this.hideDescription}
         onClick={this.handleClick}
       >
-        <i className={iconClass} />
-        <span className='vcv-ui-element-control-label'>{this.props.title}</span>
+        <span className='vcv-ui-element-control-content'>
+          <i className={iconClass} />
+          <span className='vcv-ui-element-control-label'>{this.props.title}</span>
+        </span>
       </button>
     )
   }
