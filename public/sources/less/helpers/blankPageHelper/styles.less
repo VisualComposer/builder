@@ -14,6 +14,8 @@
   display: inline-block;
   font-family: inherit;
   font-size: @header-font-size;
+  line-height: @control-element-font-size;
+  text-transform: capitalize;
 }
 
 .vcv-blank-page-controls-container {
@@ -137,12 +139,17 @@
 }
 
 .vcv-blank-page-description-container {
+  display: block;
+  min-height: @description-min-height;
   margin-top: @description-top-margin;
   font-family: @text-family-base;
   font-size: @description-font-size;
   font-style: italic;
+  line-height: @description-line-height;
+  opacity: 0;
+  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
 
-  &:not(.vcv-blank-page-description-active) {
-    display: none;
+  &.vcv-blank-page-description-active {
+    opacity:1;
   }
 }

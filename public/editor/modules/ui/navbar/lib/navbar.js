@@ -220,11 +220,10 @@ class Navbar extends React.Component {
     if (e && (e.target.closest('.vcv-ui-navbar-dropdown-trigger') || e.target.closest('.vcv-ui-navbar-sandwich--stop-close')) && e.target.closest('.vcv-ui-navbar-sandwich')) {
       return
     }
-    this.handleDropdown(e)
+    this.handleDropdown()
   }
 
-  handleDropdown (e) {
-    e && e.preventDefault()
+  handleDropdown () {
     if (this.state.isActiveSandwich) {
       document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
