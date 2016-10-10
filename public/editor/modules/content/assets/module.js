@@ -1,5 +1,4 @@
 import vcCake from 'vc-cake'
-import $ from 'jquery'
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
 const loadedJsFiles = []
