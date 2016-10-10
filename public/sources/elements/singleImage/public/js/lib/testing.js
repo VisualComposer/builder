@@ -1,1 +1,1 @@
-console && console.log('single image public javascript')
+console && console.log('testing file single image public javascript')
