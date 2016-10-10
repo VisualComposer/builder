@@ -156,8 +156,8 @@ class Controller extends Container implements Module
     {
         if ($this->mainFrontBundle === false) {
             $this->mainFrontBundle = 'vcv-front-js';
-            wp_register_script($this->mainFrontBundle,
-                               $this->urlHelper->to('public/dist/front.bundle.js'), [], VCV_VERSION, true);
+            $url = $this->urlHelper->to('public/dist/front.bundle.js');
+            wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
         }
         wp_register_script($name, $file, [$this->mainFrontBundle], VCV_VERSION, true);
         $this->wpAddAction(
