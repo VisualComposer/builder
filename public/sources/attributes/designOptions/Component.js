@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import lodash from 'lodash'
 import AttachImage from '../attachimage/Component'
 import Toggle from '../toggle/Component'
+import AnimateDropdown from '../animateDropdown/Component'
 import Color from '../color/Component'
 import Devices from './devices'
 import Attribute from '../attribute'
@@ -39,6 +40,7 @@ class DesignOptions extends Attribute {
         dolly.remove()
       }
     }
+    // TODO: refactor DO, completely because of THIS kind of states
     Devices.getAll().map((device) => {
       state[ device.strid ] = {
         showOnDevice: this.getValue(props, 'showOnDevice', device, DesignOptions.defaultState[ device.strid ].showOnDevice),
@@ -64,6 +66,11 @@ class DesignOptions extends Attribute {
         paddingLeft: this.getValue(props, 'paddingLeft', device, DesignOptions.defaultState[ device.strid ].paddingLeft),
         paddingRight: this.getValue(props, 'paddingRight', device, DesignOptions.defaultState[ device.strid ].paddingRight),
         paddingBottom: this.getValue(props, 'paddingBottom', device, DesignOptions.defaultState[ device.strid ].paddingBottom)
+      }
+      if (vcCake.env('FEATURE_ASSET_MANAGER')) {
+        state[ device.strid ][ 'animation' ] = this.getValue(props, 'animation', device, DesignOptions.defaultState[ device.strid ].animation)
+        state.used = this.getValue(props, 'used', null, DesignOptions.defaultState.used)
+        state.usedDevices = this.getValue(props, 'usedDevices', null, DesignOptions.defaultState.usedDevices)
       }
     })
     return state
@@ -275,6 +282,15 @@ class DesignOptions extends Attribute {
     })
   }
 
+  changeAnimation = (fieldKey, value) => {
+    let deviceState = this.state[ this.state.device ]
+
+    deviceState.animation = value
+    this.changeState({
+      [this.state.device]: deviceState
+    })
+  }
+
   changeBackgroundStyle = (e) => {
     let deviceState = this.state[ this.state.device ]
 
@@ -296,9 +312,21 @@ class DesignOptions extends Attribute {
   }
 
   changeState (state) {
-    let newState = lodash.merge(this.state, state)
+    let newState = lodash.merge({}, this.state, state)
     let { updater, fieldKey } = this.props
-    newState.used = !lodash.isEqual(lodash.omit(this.state, 'used'), DesignOptions.defaultState)
+    newState.usedDevices = []
+
+    let omitStates = [ 'used', 'usedDevices', 'device', 'defaultStyles', 'deviceTypes' ]
+    newState.used = !lodash.isEqual(lodash.omit(this.state, omitStates), lodash.omit(DesignOptions.defaultState, omitStates))
+    Devices.getAll().forEach((device) => {
+      if (this.state[ device.strid ].showOnDevice && !lodash.isEqual(this.state[ device.strid ], DesignOptions.defaultState[ device.strid ])) {
+        if (this.state.deviceTypes === 'all' && device.strid === 'all') {
+          newState.usedDevices.push(device.strid)
+        } else if (device.strid !== 'all') {
+          newState.usedDevices.push(device.strid)
+        }
+      }
+    })
     this.setState(newState)
     updater(fieldKey, newState)
   }
@@ -347,30 +375,33 @@ class DesignOptions extends Attribute {
   }
 
   changeDeviceType = (e) => {
-    // First device is always 'all', so we choose 2nd.
-    let device = (e.target.value === 'all' ? 'all' : Devices.getAll()[ 1 ].strid)
-
+    // set active device. Desktop by default. ( First device is always 'all', so desktop is 2nd)
+    let desktop = Devices.getAll()[ 1 ].strid
     let newState = {
       deviceTypes: e.target.value,
-      device: device
+      device: e.target.value === 'all' ? 'all' : desktop
     }
 
-    if (e.target.value === 'custom') {
-      Devices.getAll().map((device) => {
-        if (device.strid !== 'all') {
-          newState[ device.strid ] = this.state.all
-        }
-      })
-    } else {
-      Devices.getAll().map((device) => {
+    if (newState.device === 'all') {
+      // get switch to all, take values from desktop
+      Devices.getAll().forEach((device) => {
         if (device.strid === 'all') {
-          newState[ device.strid ] = this.state[ this.state.device ]
+          newState[ device.strid ] = this.state[ desktop ]
+          newState[ device.strid ].showOnDevice = DesignOptions.defaultState[ device.strid ].showOnDevice
         } else {
           newState[ device.strid ] = DesignOptions.defaultState[ device.strid ]
         }
       })
+    } else {
+      // get switch to custom, take values from all
+      Devices.getAll().forEach((device) => {
+        if (device.strid === 'all') {
+          newState[ device.strid ] = DesignOptions.defaultState[ device.strid ]
+        } else {
+          newState[ device.strid ] = this.state[ 'all' ]
+        }
+      })
     }
-
     this.changeState(newState)
   }
 
@@ -404,6 +435,7 @@ class DesignOptions extends Attribute {
     let hasImages = this.state[ this.state.device ].backgroundImage.ids.length > 0
     let borderStyleOutput = null
     let borderColorOutput = null
+    let animationOutput = null
     if (isBorderSpecified) {
       borderStyleOutput = (
         <div className='vcv-ui-form-group'>
@@ -428,6 +460,21 @@ class DesignOptions extends Attribute {
             value={this.state[ this.state.device ].borderColor}
             updater={this.changeBorderColor}
             fieldKey='borderColor'
+            api={this.props.api}
+          />
+        </div>
+      )
+    }
+    if (vcCake.env('FEATURE_ASSET_MANAGER')) {
+      animationOutput = (
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Animate
+          </span>
+          <AnimateDropdown
+            value={this.state[ this.state.device ].animation}
+            updater={this.changeAnimation}
+            fieldKey='animation'
             api={this.props.api}
           />
         </div>
@@ -563,6 +610,7 @@ class DesignOptions extends Attribute {
               )}
               {borderStyleOutput}
               {borderColorOutput}
+              {animationOutput}
             </div>
           )}
         </div>
@@ -573,7 +621,9 @@ class DesignOptions extends Attribute {
 
 DesignOptions.defaultState = {
   deviceTypes: 'all',
-  device: 'all'
+  device: 'all',
+  used: false,
+  usedDevices: []
 }
 Devices.getAll().map((device) => {
   DesignOptions.defaultState[ device.strid ] = {
@@ -600,6 +650,9 @@ Devices.getAll().map((device) => {
     paddingLeft: '',
     paddingRight: '',
     paddingBottom: ''
+  }
+  if (vcCake.env('FEATURE_ASSET_MANAGER')) {
+    DesignOptions.defaultState[ device.strid ][ 'animation' ] = ''
   }
 })
 
