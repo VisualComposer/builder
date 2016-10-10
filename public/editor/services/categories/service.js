@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 import Group from './lib/group'
 import {sortingTool, getCategoriesList} from './lib/tools'
 const assetsManager = vcCake.getService('assets-manager')
-const data = {
+let tempData = {
   groups: [
     {
       'name': 'Basic',
@@ -72,6 +72,22 @@ const data = {
     }
   }
 }
+if (vcCake.env('FEATURE_ASSET_MANAGER')) {
+  tempData.categories['XoButton'] = {
+    'name': 'Simple Button',
+    'elements': ['xoButton'],
+    'icon': 'categories/icons/Button.svg'
+  }
+}
+if (vcCake.env('ELEMENT_FEATURE_ICON')) {
+  tempData.categories['Feature icon'] = {
+    'name': 'Feature Icon',
+    'elements': ['featureIcon'],
+    'icon': 'categories/icons/Misc.svg'
+  }
+}
+
+const data = tempData
 
 const service = {
   set groups (groups) {

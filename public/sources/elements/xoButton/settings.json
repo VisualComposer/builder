@@ -1,0 +1,139 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "XoButton"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.png"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.png"
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Button text",
+    "options": {
+      "label": "Button text"
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        }
+      ]
+    }
+  },
+  "showArrow": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Show arrow",
+      "description": "Show arrow on button"
+    }
+  },
+  "animate": {
+    "type": "animateDropdown",
+    "access": "public",
+    "value": "none",
+    "options": {
+      "label": "Animate"
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Pick color"
+    }
+  },
+  "icon": {
+    "type": "iconpicker",
+    "access": "public",
+    "value": "fa fa-heart",
+    "options": {
+      "label": "Icons",
+      "description": "Select the icon"
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonText",
+      "shape",
+      "showArrow",
+      "animate",
+      "color",
+      "icon"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
