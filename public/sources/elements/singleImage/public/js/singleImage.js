@@ -1,7 +1,7 @@
-/* global vcvAPI */
-vcvAPI.ready(() => {
+/* global vcv */
+vcv.ready(() => {
   console && console.log('single image public javascript called once')
 })
-vcvAPI.on('ready', () => {
+vcv.on('ready', () => {
   console && console.log('single image public javascript will be called everytime you need react on ready')
 })

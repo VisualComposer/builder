@@ -79,6 +79,13 @@ if (vcCake.env('FEATURE_ASSET_MANAGER')) {
     'icon': 'categories/icons/Button.svg'
   }
 }
+if (vcCake.env('ELEMENT_FEATURE_ICON')) {
+  tempData.categories['Feature icon'] = {
+    'name': 'Feature Icon',
+    'elements': ['featureIcon'],
+    'icon': 'categories/icons/Misc.svg'
+  }
+}
 
 const data = tempData
 

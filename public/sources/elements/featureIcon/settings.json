@@ -1,0 +1,219 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Feature Icon"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview-feature-icon.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail-feature-icon.jpg"
+  },
+  "addUrl": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add URL"
+    }
+  },
+  "iconUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Icon URL",
+      "onChange": {
+        "addUrl": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "none",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Square filled",
+          "value": "squareFilled"
+        },
+        {
+          "label": "Square outline",
+          "value": "squareOutline"
+        },
+        {
+          "label": "Rounded filled",
+          "value": "roundedFilled"
+        },
+        {
+          "label": "Rounded outline",
+          "value": "roundedOutline"
+        },
+        {
+          "label": "Diamond filled",
+          "value": "diamondFilled"
+        },
+        {
+          "label": "Diamond outline",
+          "value": "diamondOutline"
+        },
+        {
+          "label": "Circle filled",
+          "value": "circleFilled"
+        },
+        {
+          "label": "Circle outline",
+          "value": "circleOutline"
+        },
+        {
+          "label": "Hexagon filled",
+          "value": "hexagonFilled"
+        },
+        {
+          "label": "Hexagon outline",
+          "value": "hexagonOutline"
+        },
+        {
+          "label": "Underline",
+          "value": "underline"
+        }
+      ]
+    }
+  },
+  "shapeColor": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Shape color"
+    }
+  },
+  "iconColor": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Icon color"
+    }
+  },
+  "iconAlignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Icon alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "iconColor",
+      "addUrl",
+      "iconUrl",
+      "shape",
+      "shapeColor",
+      "iconAlignment",
+      "customClass"
+    ],
+    "options": {
+      "label": "Feature Icon"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
+  }
+}
