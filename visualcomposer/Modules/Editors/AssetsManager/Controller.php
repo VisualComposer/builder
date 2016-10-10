@@ -117,8 +117,7 @@ class Controller extends Container implements Module
      */
     private function setPostDataHook($postId)
     {
-        $this->updatePostAssets(
-            $postId,
+        $this->updateGlobalAssets(
             'scripts',
             $this->request->input('vcv-scripts', [])
         );
@@ -211,7 +210,7 @@ class Controller extends Container implements Module
      *
      * @return bool|string URL to generated bundle.
      */
-    private function generateScriptsBundle()
+    private function generateScriptsBundleByFile()
     {
         $assets = $this->options->get('scripts', []);
 
@@ -240,7 +239,7 @@ class Controller extends Container implements Module
             if (!is_file($bundle)) {
                 $contents = '';
                 foreach ($files as $file) {
-                    $filepath = $app->path('public/sources/elements/' . $file);
+                    $filepath = $app->path('public/sources/' . $file);
                     $contents .= $this->file->getContents($filepath) . "\n";
                 }
 
@@ -258,7 +257,35 @@ class Controller extends Container implements Module
 
         return $bundleUrl;
     }
+    /**
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
+     *
+     * @return bool|string URL to generated bundle.
+     */
+    private function generateScriptsBundle()
+    {
+        $files = $this->options->get('scripts', []);
+        // remove file
+        $bundleUrl = '';
+        $this->deleteAssetsBundles('global.js');
+        if (!empty($files)) {
+            /** @var $app Application */
+            $app = vcapp();
+            $contents = '';
+            foreach ($files as $file) {
+                $filepath = $app->path('public/sources/' . $file);
+                $contents .= $this->file->getContents($filepath) . "\n";
+            }
 
+            $bundleUrl = $this->createBundleFile($contents, 'global.js');
+            $this->options->set('scriptsGlobalFile', $bundleUrl);
+        }
+
+        $this->options->set('scriptsGlobalFile', $bundleUrl);
+
+        return $bundleUrl;
+    }
     /**
      * Generate (save to fs and update db) scripts bundle.
      * Old files are deleted.
@@ -338,7 +365,8 @@ class Controller extends Container implements Module
     {
         $styles = $this->options->get('global-styles', '');
         $globalCss = $this->options->get('global-css', '');
-        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'css');
+        $this->deleteAssetsBundles('global.css');
+        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'global.css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
 
         // remove file

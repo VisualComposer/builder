@@ -1,6 +1,8 @@
 import vcCake from 'vc-cake'
+import publicAPI from '../../../resources/api/publicAPI'
+
 const Service = {
-  getDesignOptionsCssClasses: function (designOptions) {
+  getDesignOptionsCssClasses (designOptions) {
     let classes = []
     if (designOptions && !(Object.keys(designOptions).length === 0 && designOptions.constructor === Object) && designOptions.used) {
       if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
@@ -14,13 +16,14 @@ const Service = {
           'mobile-portrait': 'xs'
         }
         for (let device in devices) {
-          if ((designOptions[ device ].backgroundColor !== '' || designOptions[ device ].backgroundImage.urls.length)) {
+          if ((designOptions[device].backgroundColor !== '' || designOptions[device].backgroundImage.urls.length)) {
             classes.push('vce-element--' + devices[ device ] + '--has-background')
           }
         }
       }
     }
     return classes
-  }
+  },
+  publicEvents: publicAPI
 }
 vcCake.addService('api', Service)

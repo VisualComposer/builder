@@ -28,11 +28,16 @@ class Controller extends Container implements Module
     protected $event;
 
     /**
+     * Define
+     * @var bool
+     */
+    protected $mainFrontBundle = false;
+    /**
      * Controller constructor.
      */
-    public function __construct()
+    public function __construct(Url $urlHelper)
     {
-
+        $this->urlHelper =  $urlHelper;
         /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFrontend */
         $this->wpAddAction(
             'wp_enqueue_scripts',
@@ -110,9 +115,9 @@ class Controller extends Container implements Module
             return false;
         }
 
-        $scriptsBundle = $optionsHelper->get('scriptsBundle');
+        $scriptsBundle = $optionsHelper->get('scriptsGlobalFile');
         if ($scriptsBundle !== false) {
-            $this->addScript('vcv-script', $scriptsBundle);
+            $this->addScript('vcv-scripts', $scriptsBundle);
         }
 
         $stylesBundle = $optionsHelper->get('stylesGlobalFile');
@@ -149,11 +154,16 @@ class Controller extends Container implements Module
      */
     public function addScript($name, $file)
     {
-        wp_register_script($name, $file, ['jquery'], VCV_VERSION, true);
+        if ($this->mainFrontBundle === false) {
+            $this->mainFrontBundle = 'vcv-front-js';
+            $url = $this->urlHelper->to('public/dist/front.bundle.js');
+            wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
+        }
+        wp_register_script($name, $file, [$this->mainFrontBundle], VCV_VERSION, true);
         $this->wpAddAction(
             'wp_print_scripts',
             function () use ($name) {
-                wp_enqueue_style($name);
+                wp_enqueue_script($name);
             }
         );
     }

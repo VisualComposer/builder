@@ -48,7 +48,6 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let scripts = '' // assetsManager.getAssets('scripts')
     let elements = assetsManager.get()
     promises.push(assetsManager.getCompiledCss().then((data) => {
       globalStyles = data
@@ -62,7 +61,7 @@ class SaveController {
           'vcv-action': 'setData:adminNonce',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': scripts,
+          'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,

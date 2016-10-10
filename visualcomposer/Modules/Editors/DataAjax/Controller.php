@@ -77,7 +77,6 @@ class Controller extends Container implements Module
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
-            // TODO: Save elements on page.
             $post = get_post($sourceId);
             if ($post) {
                 $post->post_content = $content;

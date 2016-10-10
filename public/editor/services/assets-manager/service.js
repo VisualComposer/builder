@@ -45,7 +45,7 @@ vcCake.addService('assets-manager', {
     return globalCss.data
   },
   getJsFiles: function () {
-    !jsFilesList && this.getStyles()
+    this.getStyles()
     return jsFilesList
   },
   /**
