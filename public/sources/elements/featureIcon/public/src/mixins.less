@@ -1,0 +1,58 @@
+// Mixins for Feature Icon
+//-----------------------------------------
+
+#vce-features {
+  .make-shape(@background-color: false; @border-radius: false; @border-color: false; @font-size: false; @border-width: false; @color: false) {
+    .vce-features__icon {
+      // the size of the icon
+      & when not (@font-size = false ) {
+        font-size: @font-size;
+      }
+      span {
+        & when not (@font-size = false ) {
+          padding: 2em;
+        }
+      }
+
+      span::after {
+
+        & when not (@border-radius = false ) {
+          border-radius: @border-radius;
+        }
+
+        & when not (@border-width = false ) {
+          border-width: @border-width;
+          border-style: solid;
+        }
+      }
+    }
+  }
+
+  .make-color(@background-color: false; @border-color: false; @color: false; @fill-color: false; @stroke-color: false;) {
+    .vce-features__icon {
+      span {
+        // Color of the icon
+        & when not (@color = false ) {
+          color: @color;
+        }
+      }
+      svg {
+        & when not (@fill-color = false) {
+          fill: @fill-color;
+        }
+        & when not (@stroke-color = false) {
+          stroke: @stroke-color;
+        }
+      }
+      span::after {
+        & when not (@background-color = false) {
+          background-color: @background-color;
+        }
+
+        & when not (@border-color = false ) {
+          border-color: @border-color;
+        }
+      }
+    }
+  }
+}
