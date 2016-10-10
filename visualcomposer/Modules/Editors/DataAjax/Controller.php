@@ -75,6 +75,7 @@ class Controller extends Container implements Module
     {
         $data = json_decode(rawurldecode($requestHelper->input('vcv-data')), true);
         $content = $requestHelper->input('vcv-content');
+        die($content);
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             // TODO: Save elements on page.

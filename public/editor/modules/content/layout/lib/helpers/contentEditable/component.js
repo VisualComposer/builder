@@ -85,7 +85,7 @@ export default class ContentEditable extends React.Component {
       })
     }
   }
-  handleBlur () {
+  handleBlur (e) {
     if (this.editorActivated === false) {
       this.setState({ contentEditable: true })
     }
