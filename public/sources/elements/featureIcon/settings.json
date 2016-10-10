@@ -27,12 +27,12 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.png"
+    "value": "preview-feature-icon.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.png"
+    "value": "thumbnail-feature-icon.jpg"
   },
   "addUrl": {
     "type": "toggle",
