@@ -268,6 +268,7 @@ class Controller extends Container implements Module
         $files = $this->options->get('scripts', []);
         // remove file
         $bundleUrl = '';
+        $this->deleteAssetsBundles('global.js');
         if (!empty($files)) {
             /** @var $app Application */
             $app = vcapp();
@@ -275,13 +276,10 @@ class Controller extends Container implements Module
             foreach ($files as $file) {
                 $filepath = $app->path('public/sources/' . $file);
                 $contents .= $this->file->getContents($filepath) . "\n";
-
             }
 
-            $bundleUrl = $this->createBundleFile($contents, 'js');
+            $bundleUrl = $this->createBundleFile($contents, 'global.js');
             $this->options->set('scriptsGlobalFile', $bundleUrl);
-        } else {
-            $this->deleteAssetsBundles('js');
         }
 
         $this->options->set('scriptsGlobalFile', $bundleUrl);
@@ -367,7 +365,8 @@ class Controller extends Container implements Module
     {
         $styles = $this->options->get('global-styles', '');
         $globalCss = $this->options->get('global-css', '');
-        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'css');
+        $this->deleteAssetsBundles('global.css');
+        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'global.css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
 
         // remove file
