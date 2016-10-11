@@ -80,47 +80,47 @@
         },
         {
           "label": "Square filled",
-          "value": "squareFilled"
+          "value": "filled-square"
         },
         {
           "label": "Square outline",
-          "value": "squareOutline"
+          "value": "outlined-square"
         },
         {
           "label": "Rounded filled",
-          "value": "roundedFilled"
+          "value": "filled-rounded"
         },
         {
           "label": "Rounded outline",
-          "value": "roundedOutline"
+          "value": "outlined-rounded"
         },
         {
           "label": "Diamond filled",
-          "value": "diamondFilled"
+          "value": "filled-diamond"
         },
         {
           "label": "Diamond outline",
-          "value": "diamondOutline"
+          "value": "outlined-diamond"
         },
         {
           "label": "Circle filled",
-          "value": "circleFilled"
+          "value": "filled-circle"
         },
         {
           "label": "Circle outline",
-          "value": "circleOutline"
+          "value": "outlined-circle"
         },
         {
           "label": "Hexagon filled",
-          "value": "hexagonFilled"
+          "value": "filled-hexagon"
         },
         {
           "label": "Hexagon outline",
-          "value": "hexagonOutline"
+          "value": "outlined-hexagon"
         },
         {
           "label": "Underline",
-          "value": "underline"
+          "value": "outlined-underlined"
         }
       ]
     }
@@ -131,6 +131,15 @@
     "value": "",
     "options": {
       "label": "Shape color"
+    }
+  },
+  "iconPicker": {
+    "type": "iconpicker",
+    "access": "public",
+    "value": "fa fa-heart",
+    "options": {
+      "label": "Icons",
+      "description": "Select the icon"
     }
   },
   "iconColor": {
@@ -184,6 +193,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "iconPicker",
       "iconColor",
       "addUrl",
       "iconUrl",

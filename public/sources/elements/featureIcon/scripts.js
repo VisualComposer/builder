@@ -14,5 +14,5 @@ if (addUrl) {
 }
 
 if (shape) {
-    classes += ` vce-features--style-filled-${shape}`
+  classes += ` vce-features--style-${shape}`
 }
