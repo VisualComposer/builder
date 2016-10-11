@@ -22,12 +22,12 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.png"
+    "value": "preview-text-block.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.png"
+    "value": "thumbnail-text-block.png"
   },
   "output": {
     "type": "htmleditor",
@@ -52,7 +52,8 @@
     "access": "protected",
     "value": [
       "output",
-      "outputInline"
+      "outputInline",
+      "customClass"
     ],
     "options": {
       "label": "Options"
@@ -75,5 +76,14 @@
     "type": "number",
     "access": "protected",
     "value": 2
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
   }
 }
