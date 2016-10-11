@@ -48,7 +48,6 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let scripts = '' // assetsManager.getAssets('scripts')
     let elements = assetsManager.get()
     promises.push(assetsManager.getCompiledCss().then((data) => {
       globalStyles = data

@@ -1,3 +1,223 @@
+/* ----------------------------------------------
+ * Feature Icon
+ * ---------------------------------------------- */
+@import "public/linearicons.css";
 .vce-features {
-
+  display: inline-block;
+}
+.vce-features__icon {
+  font-size: 37.99999999px;
+  position: relative;
+  z-index: -1;
+  display: inline-block;
+}
+.vce-features__icon span {
+  position: relative;
+  color: #056a39;
+  padding: 1.079em;
+  z-index: 2;
+}
+.vce-features__icon span::after {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  width: 2.9em;
+  height: 2.9em;
+}
+.vce-features__icon svg {
+  display: none;
+  width: 2.9em;
+  height: 2.9em;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features__content > * {
+  margin: 0 0 13px;
+}
+.vce-features__content > *:last-child {
+  margin-bottom: 0;
+}
+.vce-features--style-filled-circle,
+.vce-features--style-filled-rounded,
+.vce-features--style-filled-square,
+.vce-features--style-filled-hexagon,
+.vce-features--style-filled-diamond {
+  border: none;
+}
+.vce-features--style-filled-circle .vce-features__icon,
+.vce-features--style-filled-rounded .vce-features__icon,
+.vce-features--style-filled-square .vce-features__icon,
+.vce-features--style-filled-hexagon .vce-features__icon,
+.vce-features--style-filled-diamond .vce-features__icon {
+  font-size: 24px;
+}
+.vce-features--style-filled-circle .vce-features__icon span,
+.vce-features--style-filled-rounded .vce-features__icon span,
+.vce-features--style-filled-square .vce-features__icon span,
+.vce-features--style-filled-hexagon .vce-features__icon span,
+.vce-features--style-filled-diamond .vce-features__icon span {
+  padding: 2em;
+}
+.vce-features--style-filled-circle .vce-features__icon span,
+.vce-features--style-filled-rounded .vce-features__icon span,
+.vce-features--style-filled-square .vce-features__icon span,
+.vce-features--style-filled-hexagon .vce-features__icon span,
+.vce-features--style-filled-diamond .vce-features__icon span {
+  color: #ffffff;
+}
+.vce-features--style-filled-circle .vce-features__icon span::after,
+.vce-features--style-filled-rounded .vce-features__icon span::after,
+.vce-features--style-filled-square .vce-features__icon span::after,
+.vce-features--style-filled-hexagon .vce-features__icon span::after,
+.vce-features--style-filled-diamond .vce-features__icon span::after {
+  background-color: #056a39;
+}
+.vce-features--style-filled-circle .vce-features__icon span::after {
+  border-radius: 50%;
+}
+.vce-features--style-filled-rounded .vce-features__icon span::after {
+  border-radius: 10px;
+}
+.vce-features--style-filled-hexagon .vce-features__icon span {
+  color: #ffffff;
+}
+.vce-features--style-filled-hexagon .vce-features__icon svg {
+  fill: #056a39;
+}
+.vce-features--style-filled-hexagon .vce-features__icon span::after {
+  background-color: transparent;
+}
+.vce-features--style-filled-hexagon .vce-features__icon svg {
+  display: block;
+}
+.vce-features--style-filled-diamond .vce-features__icon span::after {
+  transform-origin: center center;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.vce-features--style-outlined-circle,
+.vce-features--style-outlined-rounded,
+.vce-features--style-outlined-square,
+.vce-features--style-outlined-hexagon,
+.vce-features--style-outlined-underlined,
+.vce-features--style-outlined-diamond {
+  background-color: transparent;
+}
+.vce-features--style-outlined-circle .vce-features__icon,
+.vce-features--style-outlined-rounded .vce-features__icon,
+.vce-features--style-outlined-square .vce-features__icon,
+.vce-features--style-outlined-hexagon .vce-features__icon,
+.vce-features--style-outlined-underlined .vce-features__icon,
+.vce-features--style-outlined-diamond .vce-features__icon {
+  font-size: 24px;
+}
+.vce-features--style-outlined-circle .vce-features__icon span,
+.vce-features--style-outlined-rounded .vce-features__icon span,
+.vce-features--style-outlined-square .vce-features__icon span,
+.vce-features--style-outlined-hexagon .vce-features__icon span,
+.vce-features--style-outlined-underlined .vce-features__icon span,
+.vce-features--style-outlined-diamond .vce-features__icon span {
+  padding: 2em;
+}
+.vce-features--style-outlined-circle .vce-features__icon span::after,
+.vce-features--style-outlined-rounded .vce-features__icon span::after,
+.vce-features--style-outlined-square .vce-features__icon span::after,
+.vce-features--style-outlined-hexagon .vce-features__icon span::after,
+.vce-features--style-outlined-underlined .vce-features__icon span::after,
+.vce-features--style-outlined-diamond .vce-features__icon span::after {
+  border-width: 3px;
+  border-style: solid;
+}
+.vce-features--style-outlined-circle .vce-features__icon span,
+.vce-features--style-outlined-rounded .vce-features__icon span,
+.vce-features--style-outlined-square .vce-features__icon span,
+.vce-features--style-outlined-hexagon .vce-features__icon span,
+.vce-features--style-outlined-underlined .vce-features__icon span,
+.vce-features--style-outlined-diamond .vce-features__icon span {
+  color: #056a39;
+}
+.vce-features--style-outlined-circle .vce-features__icon span::after,
+.vce-features--style-outlined-rounded .vce-features__icon span::after,
+.vce-features--style-outlined-square .vce-features__icon span::after,
+.vce-features--style-outlined-hexagon .vce-features__icon span::after,
+.vce-features--style-outlined-underlined .vce-features__icon span::after,
+.vce-features--style-outlined-diamond .vce-features__icon span::after {
+  border-color: #056a39;
+}
+.vce-features--style-outlined-circle .vce-features__icon span::after {
+  border-radius: 50%;
+}
+.vce-features--style-outlined-rounded .vce-features__icon span::after {
+  border-radius: 10px;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon span {
+  color: #056a39;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon svg {
+  fill: transparent;
+  stroke: #056a39;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon span::after {
+  background-color: transparent;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon svg {
+  display: block;
+  stroke-width: 30px;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon span::after {
+  border: none;
+}
+.vce-features--style-outlined-underlined .vce-features__icon span {
+  color: #2f2f2f;
+}
+.vce-features--style-outlined-underlined .vce-features__icon span::after {
+  background-color: #056a39;
+}
+.vce-features--style-outlined-underlined .vce-features__icon span::after {
+  top: auto;
+  height: 5px;
+  width: 2.9em;
+  bottom: 19px;
+}
+.vce-features--style-outlined-diamond .vce-features__icon span::after {
+  transform-origin: center center;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+/*RTL support. */
+/*LTR support. */
+.rtl.vce-features,
+[dir="rtl"].vce-features,
+.rtl .vce-features,
+[dir="rtl"] .vce-features {
+  direction: rtl;
+  unicode-bidi: embed;
+  /*check if IE+10 and than hack hexagon to the center*/
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .rtl.vce-features .vce-features__icon svg,
+  [dir="rtl"].vce-features .vce-features__icon svg,
+  .rtl .vce-features .vce-features__icon svg,
+  [dir="rtl"] .vce-features .vce-features__icon svg {
+    right: 50%;
+  }
+}
+@supports (-ms-accelerator:true) {
+  .rtl.vce-features .vce-features__icon svg,
+  [dir="rtl"].vce-features .vce-features__icon svg,
+  .rtl .vce-features .vce-features__icon svg,
+  [dir="rtl"] .vce-features .vce-features__icon svg {
+    right: 50%;
+  }
+}
+.ltr.vce-features,
+[dir="ltr"].vce-features,
+.ltr .vce-features,
+[dir="ltr"] .vce-features {
+  direction: ltr;
+  unicode-bidi: normal;
 }

@@ -35,7 +35,7 @@ class Controller extends Container implements Module
     /**
      * Controller constructor.
      */
-    public function __construct( Url $urlHelper)
+    public function __construct(Url $urlHelper)
     {
         $this->urlHelper =  $urlHelper;
         /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFrontend */
@@ -154,9 +154,10 @@ class Controller extends Container implements Module
      */
     public function addScript($name, $file)
     {
-        if($this->mainFrontBundle === false) {
+        if ($this->mainFrontBundle === false) {
             $this->mainFrontBundle = 'vcv-front-js';
-            wp_register_script($this->mainFrontBundle, $this->urlHelper->to('public/dist/front.bundle.js'), [], VCV_VERSION, true);
+            $url = $this->urlHelper->to('public/dist/front.bundle.js');
+            wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
         }
         wp_register_script($name, $file, [$this->mainFrontBundle], VCV_VERSION, true);
         $this->wpAddAction(

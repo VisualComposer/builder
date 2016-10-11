@@ -2,7 +2,6 @@ let classes = 'vce-features'
 let customProps = {}
 let CustomTag = 'i'
 
-
 if (addUrl) {
   CustomTag = 'a'
   let { url, title, targetBlank, relNofollow } = buttonUrl
@@ -14,6 +13,6 @@ if (addUrl) {
   }
 }
 
-if (shape && shape !== 'square') {
-  classes += ` vce-features--border-${shape}`
+if (shape) {
+  classes += ` vce-features--style-${shape}`
 }

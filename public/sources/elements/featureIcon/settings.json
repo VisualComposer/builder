@@ -27,12 +27,12 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.png"
+    "value": "preview-feature-icon.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.png"
+    "value": "thumbnail-feature-icon.jpg"
   },
   "addUrl": {
     "type": "toggle",
@@ -70,23 +70,115 @@
   "shape": {
     "type": "dropdown",
     "access": "public",
-    "value": "square",
+    "value": "none",
     "options": {
       "label": "Shape",
       "values": [
         {
-          "label": "Square",
-          "value": "square"
+          "label": "None",
+          "value": "none"
         },
         {
-          "label": "Round",
-          "value": "round"
+          "label": "Square filled",
+          "value": "filled-square"
         },
         {
-          "label": "Rounded",
-          "value": "rounded"
+          "label": "Square outline",
+          "value": "outlined-square"
+        },
+        {
+          "label": "Rounded filled",
+          "value": "filled-rounded"
+        },
+        {
+          "label": "Rounded outline",
+          "value": "outlined-rounded"
+        },
+        {
+          "label": "Diamond filled",
+          "value": "filled-diamond"
+        },
+        {
+          "label": "Diamond outline",
+          "value": "outlined-diamond"
+        },
+        {
+          "label": "Circle filled",
+          "value": "filled-circle"
+        },
+        {
+          "label": "Circle outline",
+          "value": "outlined-circle"
+        },
+        {
+          "label": "Hexagon filled",
+          "value": "filled-hexagon"
+        },
+        {
+          "label": "Hexagon outline",
+          "value": "outlined-hexagon"
+        },
+        {
+          "label": "Underline",
+          "value": "outlined-underlined"
         }
       ]
+    }
+  },
+  "shapeColor": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Shape color"
+    }
+  },
+  "iconPicker": {
+    "type": "iconpicker",
+    "access": "public",
+    "value": "fa fa-heart",
+    "options": {
+      "label": "Icons",
+      "description": "Select the icon"
+    }
+  },
+  "iconColor": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Icon color"
+    }
+  },
+  "iconAlignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Icon alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
   "designOptions": {
@@ -101,12 +193,17 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "iconPicker",
+      "iconColor",
       "addUrl",
       "iconUrl",
-      "shape"
+      "shape",
+      "shapeColor",
+      "iconAlignment",
+      "customClass"
     ],
     "options": {
-      "label": "Options"
+      "label": "Feature Icon"
     }
   },
   "metaEditFormTabs": {
