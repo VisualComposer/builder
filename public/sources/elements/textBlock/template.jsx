@@ -1,4 +1,4 @@
-<div className="vce-text-block vce" {...editor} id={'el-' + id}>
+<div className={textBlockClasses} {...editor} id={'el-' + id}>
     {output}
 </div>
 

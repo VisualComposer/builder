@@ -17,7 +17,9 @@ class DesignOptions extends Attribute {
   updateState (props) {
     let state = {
       deviceTypes: this.getValue(props, 'deviceTypes', null, DesignOptions.defaultState.deviceTypes),
-      device: this.getValue(props, 'device', null, DesignOptions.defaultState.device)
+      device: this.getValue(props, 'device', null, DesignOptions.defaultState.device),
+      used: this.getValue(props, 'used', null, DesignOptions.defaultState.used),
+      visibleDevices: this.getValue(props, 'visibleDevices', null, DesignOptions.defaultState.visibleDevices)
     }
     if (!vcCake.env('FEATURE_ROW_LAYOUT')) {
       state.defaultStyles = {}
@@ -69,8 +71,6 @@ class DesignOptions extends Attribute {
       }
       if (vcCake.env('FEATURE_ASSET_MANAGER')) {
         state[ device.strid ][ 'animation' ] = this.getValue(props, 'animation', device, DesignOptions.defaultState[ device.strid ].animation)
-        state.used = this.getValue(props, 'used', null, DesignOptions.defaultState.used)
-        state.usedDevices = this.getValue(props, 'usedDevices', null, DesignOptions.defaultState.usedDevices)
       }
     })
     return state
@@ -314,17 +314,13 @@ class DesignOptions extends Attribute {
   changeState (state) {
     let newState = lodash.merge({}, this.state, state)
     let { updater, fieldKey } = this.props
-    newState.usedDevices = []
+    newState.visibleDevices = []
 
-    let omitStates = [ 'used', 'usedDevices', 'device', 'defaultStyles', 'deviceTypes' ]
-    newState.used = !lodash.isEqual(lodash.omit(this.state, omitStates), lodash.omit(DesignOptions.defaultState, omitStates))
+    let omitStates = [ 'used', 'visibleDevices', 'device', 'defaultStyles', 'deviceTypes' ]
+    newState.used = !lodash.isEqual(lodash.omit(newState, omitStates), lodash.omit(DesignOptions.defaultState, omitStates))
     Devices.getAll().forEach((device) => {
-      if (this.state[ device.strid ].showOnDevice && !lodash.isEqual(this.state[ device.strid ], DesignOptions.defaultState[ device.strid ])) {
-        if (this.state.deviceTypes === 'all' && device.strid === 'all') {
-          newState.usedDevices.push(device.strid)
-        } else if (device.strid !== 'all') {
-          newState.usedDevices.push(device.strid)
-        }
+      if (newState[ device.strid ].showOnDevice && !lodash.isEqual(newState[ device.strid ], DesignOptions.defaultState[ device.strid ])) {
+        newState.visibleDevices.push(device.strid)
       }
     })
     this.setState(newState)
@@ -623,7 +619,7 @@ DesignOptions.defaultState = {
   deviceTypes: 'all',
   device: 'all',
   used: false,
-  usedDevices: []
+  visibleDevices: []
 }
 Devices.getAll().map((device) => {
   DesignOptions.defaultState[ device.strid ] = {
