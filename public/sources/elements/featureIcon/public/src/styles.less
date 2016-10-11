@@ -1,0 +1,175 @@
+// Styles for Feature Icon
+//-----------------------------------------
+
+.vce-features {
+  //text-align: center;
+  //margin-bottom: @vce-features-margin-bottom;
+  display: inline-block;
+
+  &__icon {
+    // we will save the aspect ratio of the small icon with the background
+    font-size: @vce-features-icon-larger-font-size;
+    position: relative;
+    z-index: -1;
+    display: inline-block;
+
+    span {
+      position: relative;
+      color: @vce-features-color-green;
+      // padding will be relative
+      padding: @vce-features-icon-background-padding;
+      // position over the hexagon which will be hidden in most ov views
+      z-index: 2;
+      &::after {
+        position: absolute;
+        content: "";
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        // size of the fill will be relative to the size of the icon's given font-size
+        // size calculated by dividing item sizes given in design PSD
+        width: @vce-features-icon-background-size;
+        height: @vce-features-icon-background-size;
+      }
+    }
+    // We hide the svg which is inlined so we can style it with css.
+    svg {
+      display: none;
+      // size relative to the icon's font size
+      width: @vce-features-icon-background-size;
+      height: @vce-features-icon-background-size;
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+
+
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__content {
+    & > * {
+      margin: 0 0 @vce-features-content-margin;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.vce-features--style {
+
+  &-filled {
+    &-circle, &-rounded, &-square, &-hexagon, &-diamond {
+      border: none;
+      #vce-features > .make-shape (@font-size: @vce-features-icon-base-font-size);
+      #vce-features > .make-color (@background-color: @vce-features-color-green; @color: @vce-features-color-white;);
+    }
+
+    &-circle {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-round);
+    }
+
+    &-rounded {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-rounded;);
+    }
+
+    &-hexagon {
+      #vce-features > .make-color (@background-color: transparent; @color: @vce-features-color-white; @fill-color: @vce-features-color-green);
+
+      .vce-features__icon svg {  display: block;  }
+    }
+
+    &-diamond {
+      .vce-features__icon span::after {
+        transform-origin: center center;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+
+  }
+
+  &-outlined {
+    &-circle, &-rounded, &-square, &-hexagon, &-underlined, &-diamond {
+      background-color: transparent;
+      #vce-features > .make-shape (@font-size: @vce-features-icon-base-font-size; @border-width: @vce-features-border-width;);
+      #vce-features > .make-color (@border-color: @vce-features-color-green; @color: @vce-features-color-green;);
+    }
+
+    &-circle {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-round;);
+    }
+
+    &-rounded {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-rounded;);
+    }
+
+    &-hexagon {
+      #vce-features > .make-color (@background-color: transparent; @color: @vce-features-color-green; @fill-color: transparent; @stroke-color: @vce-features-color-green;);
+
+      .vce-features__icon {
+        svg {
+          display: block;
+          stroke-width: @vce-features-icon-stroke-width ;
+        }
+
+        span::after {  border: none;  }
+      }
+    }
+    &-underlined {
+      #vce-features > .make-color (@color: @vce-features-color-grey; @background-color: @vce-features-color-green);
+
+      .vce-features__icon {
+        span {
+          &::after {
+            top: auto;
+            height: @vce-features-underline-height;
+            width: @vce-features-icon-background-size; // relative to the font size of the icon
+            bottom: @vce-features-underline-bottom;
+          }
+        }
+      }
+    }
+
+    &-diamond {
+      .vce-features__icon span::after {
+        transform-origin: center center;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+  }
+}
+
+
+/*RTL support. */
+/*LTR support. */
+.rtl,
+[dir="rtl"] {
+  &.vce-features,
+  .vce-features {
+    direction: rtl;
+    unicode-bidi: embed;
+    /*check if IE+10 and than hack hexagon to the center*/
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      .vce-features__icon svg {
+        right: 50%;
+      }
+    }
+    @supports (-ms-accelerator:true) {
+      // hack for MS Edge detections
+      .vce-features__icon svg {
+        right: 50%;
+      }
+    }
+  }
+}
+.ltr,
+[dir="ltr"] {
+  &.vce-features,
+  .vce-features {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}

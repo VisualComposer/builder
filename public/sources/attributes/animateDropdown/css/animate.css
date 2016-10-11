@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+/*!
+ * animate.css -http://daneden.me/animate
+ * Version - 3.5.1
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2016 Daniel Eden
+ */
+
+.vce-o-animate--animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.vce-o-animate--animated.vce-o-animate--infinite {
+  animation-iteration-count: infinite;
+}
+
+.vce-o-animate--animated.vce-o-animate--hinge {
+  animation-duration: 2s;
+}
+
+.vce-o-animate--animated.vce-o-animate--flipOutX,
+.vce-o-animate--animated.vce-o-animate--flipOutY,
+.vce-o-animate--animated.vce-o-animate--bounceIn,
+.vce-o-animate--animated.vce-o-animate--bounceOut {
+  animation-duration: .75s;
+}
+
+
+
+@keyframes vce-o-animate--bounce {
+  from, 20%, 53%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+.vce-o-animate {
+
+}
+
+.vce-o-animate--bounce {
+  animation-name: vce-o-animate--bounce;
+  transform-origin: center bottom;
+}
+
+@media (min-width: 0) and (max-width: 543px) {
+  .vce-o-animate--bounce-xs {
+    animation-name: vce-o-animate--bounce;
+    transform-origin: center bottom;
+  }
+}
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-o-animate--bounce-sm {
+    animation-name: vce-o-animate--bounce;
+    transform-origin: center bottom;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-o-animate--bounce-md {
+    animation-name: vce-o-animate--bounce;
+    transform-origin: center bottom;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-o-animate--bounce-lg {
+    animation-name: vce-o-animate--bounce;
+    transform-origin: center bottom;
+  }
+}
+@media (min-width: 1200px) {
+  .vce-o-animate--bounce-xl {
+    animation-name: vce-o-animate--bounce;
+    transform-origin: center bottom;
+  }
+}

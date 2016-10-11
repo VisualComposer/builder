@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-row-column.jpg"
+    "value": "thumbnail-row-column.png"
   },
   "size": {
     "type": "string",

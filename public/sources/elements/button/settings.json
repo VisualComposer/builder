@@ -409,7 +409,10 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": ""
+    "value": "",
+    "options": {
+      "label": "Pick color"
+    }
   },
   "designOptions": {
     "type": "designOptions",
@@ -432,6 +435,7 @@
       "style",
       "shape",
       "showArrow",
+      "animate",
       "color"
     ],
     "options": {

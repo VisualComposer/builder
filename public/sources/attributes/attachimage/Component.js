@@ -58,7 +58,7 @@ class AttachImage extends Attribute {
     let fieldValue = ids.length ? {
       ids: ids,
       urls: urls
-    } : this.props.defaultValue ? { ids: [null], urls: [{full: this.props.defaultValue}] } : {ids: [], urls: []}
+    } : this.props.defaultValue ? this.props.defaultValue : {ids: [], urls: []}
     this.setFieldValue(fieldValue)
   }
 
@@ -118,7 +118,7 @@ class AttachImage extends Attribute {
         </a>
       )
     }
-    value && value.urls.forEach((url, key) => {
+    value && value.urls && value.urls.forEach((url, key) => {
       value.ids[key] && images.push(
         <li className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + url.full}>
           <figure className='vcv-ui-form-attach-image-thumbnail'>
@@ -143,7 +143,7 @@ class AttachImage extends Attribute {
       </li>
     )
 
-    if (!this.props.options.multiple && value.urls.length && value.ids[0]) {
+    if (!this.props.options.multiple && value.urls && value.urls.length && value.ids[0]) {
       addControl = ''
     }
 

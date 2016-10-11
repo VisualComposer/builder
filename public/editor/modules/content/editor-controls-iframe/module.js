@@ -12,7 +12,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
       controlsHandler.removeControls()
     }
   })
-  api.addAction('hideFrame', function (state) {
+  api.addAction('hideFrame', function () {
     controlsHandler.hideOutline()
   })
   ControlsTrigger.triggerShowFrame = function (e) {

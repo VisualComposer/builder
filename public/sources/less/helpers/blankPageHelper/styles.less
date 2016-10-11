@@ -1,6 +1,8 @@
 .vcv-blank-page-container {
-  max-width: 458px;
+  max-width: @page-container-max-width;
   margin: @page-container-margin auto;
+  padding: 0 @page-container-side-padding;
+  font-family: @text-family-base;
 }
 
 .vcv-blank-page-heading-container {
@@ -10,22 +12,28 @@
 
 .vcv-blank-page-heading {
   display: inline-block;
-  font-family: @text-family-base;
+  font-family: inherit;
   font-size: @header-font-size;
+  line-height: @control-element-font-size;
+  text-transform: capitalize;
 }
 
-//.vcv-blank-page-controls-container {
-  //display: flex;
-  //justify-content: space-between;
-  //margin: 0 0 @controls-margin-bottom;
-//}
+.vcv-blank-page-controls-container {
+  margin: 0 auto;
+}
+
+.vcv-blank-page-controls-row {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 @controls-row-side-margin;
+}
 
 .vcv-ui-element-control {
   position: relative;
   width: @button-size;
   height: @button-size;
   padding: @button-padding;
-  margin: 0 0 @controls-margin-bottom;
+  margin: @control-margin;
   border: none;
   border-radius: @border-radius;
   color: @text-color-base;
@@ -35,6 +43,7 @@
   transition: background @vcv-transition-duration @vcv-transition-timing-function;
   vertical-align: middle;
   outline: none;
+  overflow: visible;
 
   &:hover {
     background: @control-hover-color;
@@ -53,7 +62,7 @@
   }
 
   &--template {
-    width: 100%;
+    flex-grow: 1;
     transition: background @vcv-transition-duration @vcv-transition-timing-function;
 
     &:hover {
@@ -61,34 +70,86 @@
     }
   }
 
-  > img {
-    width: 3em;
-    height: 2.3em;
+  &--full-width {
+    flex: 0 1 100%;
+  }
+
+  .vcv-ui-icon {
+    width: @control-icon-width;
+    height: @control-icon-height;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2em;
+    top: @control-icon-position-value;
+    left: @control-icon-position-value;
+    transform: translate(-@control-icon-position-value, -@control-icon-position-value);
+    font-size: @control-element-font-size;
+
+    &::before {
+      position: absolute;
+      top: @control-icon-position-value;
+      left: @control-icon-position-value;
+      transform: translate(-@control-icon-position-value, -@control-icon-position-value);
+      font-size: @control-icon-font-size;
+    }
+
+    &-template:before {
+      font-size: @control-icon-template-font-size;
+    }
+  }
+}
+
+.vcv-ui-element-control-label {
+  display: none;
+  font-family: inherit;
+}
+
+.vcv-ui-element-controls--lock-width {
+  flex-flow: column wrap;
+  align-content: stretch;
+  align-items: stretch;
+
+  .vcv-ui-element-control {
+    padding: 0 @button-padding;
+    width: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: @control-element-font-size;
+    text-align: left;
+  }
+
+  .vcv-ui-element-control-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .vcv-ui-element-control-label {
+    display: inline-block;
+    font-size: @control-element-label-font-size;
+    margin-left: @control-label-margin-left;
+  }
+
+  .vcv-ui-icon{
+    position: relative;
+    top: initial;
+    left: initial;
+    transform: initial;
+    font-size: initial;
   }
 }
 
 .vcv-blank-page-description-container {
+  display: block;
+  min-height: @description-min-height;
+  margin-top: @description-top-margin;
   font-family: @text-family-base;
-  font-size: 14px;
+  font-size: @description-font-size;
   font-style: italic;
+  line-height: @description-line-height;
+  opacity: 0;
+  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
 
-  &:not(.vcv-blank-page-description-active) {
-    display: none;
+  &.vcv-blank-page-description-active {
+    opacity:1;
   }
 }
-
-/* Temporary solution for preview */
-
-//.blog-main {
-//  width: 100% !important;
-//}
-//
-//.blog-sidebar,
-//.blog-header {
-//  display: none;
-//}

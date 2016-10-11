@@ -1,11 +1,11 @@
 import vcCake from 'vc-cake'
-
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
-
+const loadedJsFiles = []
 vcCake.add('assets', (api) => {
   const dataUpdate = () => {
-    let iframeDocument = window.document.querySelector('.vcv-layout-iframe').contentWindow.document
+    let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+    let iframeDocument = iframeWindow.document
     let doElement = iframeDocument.querySelector('#do-styles')
     let styleElement = iframeDocument.querySelector('#css-styles')
     if (!styleElement) {
@@ -23,6 +23,16 @@ vcCake.add('assets', (api) => {
     })
     assetManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result + assetManager.getGlobalCss() + assetManager.getCustomCss()
+    })
+    var jsAssetsLoaders = []
+    assetManager.getJsFiles().forEach((file) => {
+      if (loadedJsFiles.indexOf(file) === -1) {
+        loadedJsFiles.push(file)
+        jsAssetsLoaders.push(iframeWindow.$.getScript(assetManager.getSourcePath(file)))
+      }
+    })
+    Promise.all(jsAssetsLoaders).then(() => {
+      iframeWindow.vcv.trigger('ready')
     })
   }
   // TODO: Use state against event

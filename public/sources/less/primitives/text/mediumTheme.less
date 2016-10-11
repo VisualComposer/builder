@@ -1,0 +1,139 @@
+// VC WB Medium editor theme
+.medium-toolbar-arrow-under:after {
+  border-color: @medium-color-base transparent transparent transparent;
+  top: auto;
+  bottom: -@medium-arrow-size/2;
+  border-width: @medium-arrow-size/2 @medium-arrow-size/2 0;
+}
+
+.medium-toolbar-arrow-over:before {
+  border-color: transparent transparent @medium-color-base transparent;
+  border-width: 0 @medium-arrow-size/2 @medium-arrow-size/2;
+  top: -@medium-arrow-size/2;
+}
+
+.medium-editor-toolbar {
+  background-color: @medium-color-base;
+  border: none;
+  box-shadow: @medium-shadow;
+  color: @mdium-text-color;
+  border-radius: @medium-border-radius;
+  font-size: @medium-text-size;
+}
+
+.medium-editor-toolbar-actions {
+  border-radius: inherit;
+  overflow: hidden;
+  .medium-editor-action {
+    background-color: @medium-color-base;
+    background-image: none;
+    border: none;
+    color: @mdium-text-color;
+    box-sizing: border-box;
+    cursor: pointer;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    touch-action: manipulation;
+    user-select: none;
+    transition: all @medium-transition-duration @medium-transition-timing-function;
+    width: @medium-button-size;
+    height: @medium-button-size;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    > * {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &:hover,
+    &.medium-editor-button-active {
+      background-color: @medium-color-active;
+    }
+    &.medium-editor-button-active {
+      &:hover {
+        background-color: @medium-color-active-hover;
+      }
+    }
+  }
+}
+
+.medium-editor-toolbar-form {
+  a {
+    color: inherit;
+    border: none;
+    display: inline-block;
+    vertical-align: middle;
+    height: @medium-button-size;
+    width: @medium-button-size;
+    line-height: @medium-button-size;
+    margin: 0;
+    text-align: center;
+    background-color: @medium-color-base;
+    padding: 0;
+    &:hover {
+      background-color: @medium-color-active;
+    }
+  }
+}
+.medium-editor-toolbar-input {
+  background: transparent;
+  color: inherit;
+  height: @medium-button-size;
+  &::-webkit-input-placeholder,
+  &:-moz-placeholder,
+  &::-moz-placeholder,
+  &:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.medium-editor-action-bold {
+  > b {
+    visibility: hidden;
+  }
+  &::before {
+    content: '';
+    background-image: data-uri('image/svg+xml;charset=UTF-8', 'resources/images/bold.svg');
+    background-position: 50% 50%;
+    background-size: @medium-icon-size @medium-icon-size;
+    background-repeat: no-repeat;
+    height: inherit;
+    width: inherit;
+    display: block;
+  }
+}
+.medium-editor-action-italic {
+  > b {
+    visibility: hidden;
+  }
+  &::before {
+    content: '';
+    background-image: data-uri('image/svg+xml;charset=UTF-8', 'resources/images/italic.svg');
+    background-position: 50% 50%;
+    background-size: @medium-icon-size @medium-icon-size;
+    background-repeat: no-repeat;
+    height: inherit;
+    width: inherit;
+    display: block;
+  }
+}
+.medium-editor-action-underline {
+  > b {
+    visibility: hidden;
+  }
+  &::before {
+    content: '';
+    background-image: data-uri('image/svg+xml;charset=UTF-8', 'resources/images/underline.svg');
+    background-position: 50% 50%;
+    background-size: @medium-icon-size @medium-icon-size;
+    background-repeat: no-repeat;
+    height: inherit;
+    width: inherit;
+    display: block;
+  }
+}

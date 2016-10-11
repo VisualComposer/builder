@@ -7,9 +7,6 @@ import $ from 'jquery'
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
-require('medium-editor/dist/css/medium-editor.css')
-require('medium-editor/dist/css/themes/default.css')
-
 export default class ContentEditable extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
@@ -88,7 +85,7 @@ export default class ContentEditable extends React.Component {
       })
     }
   }
-  handleBlur () {
+  handleBlur (e) {
     if (this.editorActivated === false) {
       this.setState({ contentEditable: true })
     }

@@ -13,6 +13,7 @@ vcCake.add('ui-settings', (api) => {
           api: api
         })
         api.module('ui-layout-bar').do('setEndContentVisible', true, 'settings')
+        api.module('ui-layout-bar').do('setStartContentVisible', false)
       } else {
         api.module('ui-layout-bar').do('setEndContent', null)
         api.module('ui-layout-bar').do('setEndContentVisible', false)
