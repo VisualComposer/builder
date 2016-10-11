@@ -162,6 +162,7 @@ class Controller extends Container implements Module
         $pages = $this->getPages();
         $page = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($page) {
+            wp_enqueue_script(VCV_PREFIX . 'scripts-settings');
             // pages can define different layout, by setting 'layout' key/value.
             if (isset($page['layout'])) {
                 $layout = $page['layout'];
@@ -189,6 +190,7 @@ class Controller extends Container implements Module
      */
     private function initAdmin(Url $urlHelper)
     {
+        // TODO: Remove/Refactor this file
         wp_register_script(
             VCV_PREFIX . 'scripts-settings',
             $urlHelper->assetUrl('scripts/dist/settings.min.js'),
@@ -203,7 +205,6 @@ class Controller extends Container implements Module
             VCV_VERSION,
             false
         );
-        wp_enqueue_script(VCV_PREFIX . 'scripts-settings');
 
         foreach ($this->getPages() as $page) {
             do_action('vcv:settings:initAdmin:page:' . $page['slug']);
