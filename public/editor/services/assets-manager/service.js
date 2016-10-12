@@ -21,37 +21,71 @@ vcCake.addService('assets-manager', {
   elements: {},
   styles: {},
   columns: {},
+
   /**
+   * Set elements
    * @param elements
    */
-  set: function (elements) {
+  set (elements) {
     // todo: validate elements
     this.elements = elements
   },
-  setStyles: function (styles) {
+
+  /**
+   * Set styles
+   * @param styles
+   */
+  setStyles (styles) {
     // todo: validate elements
     this.styles = styles
   },
-  setCustomCss: function (value) {
+
+  /**
+   * Set custom css
+   * @param value
+   */
+  setCustomCss (value) {
     customCss.data = value
   },
-  getCustomCss: function () {
+
+  /**
+   * Get custom css data
+   * @returns {*}
+   */
+  getCustomCss () {
     return customCss.data
   },
-  setGlobalCss: function (value) {
+
+  /**
+   * Set global css
+   * @param value
+   */
+  setGlobalCss (value) {
     globalCss.data = value
   },
-  getGlobalCss: function () {
+
+  /**
+   * Get global css data
+   * @returns {*}
+   */
+  getGlobalCss () {
     return globalCss.data
   },
-  getJsFiles: function () {
+
+  /**
+   * Get js files list
+   * @returns {*}
+   */
+  getJsFiles () {
     this.getStyles()
     return jsFilesList
   },
+
   /**
+   * Add element by id
    * @param id
    */
-  add: function (id) {
+  add (id) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -74,10 +108,11 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get element by id
    * @param assetKey
    * @returns {*}
    */
-  get: function (assetKey = false) {
+  get (assetKey = false) {
     if (!assetKey) {
       return this.elements
     }
@@ -88,9 +123,10 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Update element by id
    * @param id
    */
-  update: function (id) {
+  update (id) {
     if (this.get(id)) {
       let cook = vcCake.getService('cook')
       let documentService = vcCake.getService('document')
@@ -105,9 +141,10 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Remove element by id
    * @param id
    */
-  remove: function (id) {
+  remove (id) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -123,11 +160,12 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get element's public path
    * @param tag
    * @param file
    * @returns {*}
    */
-  getPublicPath: function (tag, file) {
+  getPublicPath (tag, file) {
     let path = this.getSourcePath() + '/elements/' + tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
     if ($element) {
@@ -139,11 +177,13 @@ vcCake.addService('assets-manager', {
 
     return path
   },
+
   /**
+   * Get source path
    * @param file
    * @returns {*}
    */
-  getSourcePath: (file = null) => {
+  getSourcePath (file = null) {
     let path
     if (vcCake.env('platform') === 'node') {
       path = window.vcvPluginUrl + 'sources'
@@ -156,11 +196,12 @@ vcCake.addService('assets-manager', {
 
     return path
   },
+
   /**
    * Get styles object combined by tagName
    * @returns {{}}
    */
-  getStyles: function () {
+  getStyles () {
     let styles = {}
     jsFilesList = []
     let elements = this.get()
@@ -184,13 +225,13 @@ vcCake.addService('assets-manager', {
             jsFilesList = jsFilesList.concat(jsFiles)
           }
           Object.keys(settings).forEach((key) => {
-            let option = settings[key]
+            let option = settings[ key ]
             if (option.type && option.type === 'element') {
               let innerTag = elementObject.get(key).tag
               if (innerTag && styles.hasOwnProperty(innerTag)) {
                 styles[ innerTag ].count++
               } else if (innerTag) {
-                let innerElementObject = cook.get({tag: innerTag})
+                let innerElementObject = cook.get({ tag: innerTag })
                 let innerCssSettings = innerElementObject.get('cssSettings')
                 let jsFiles = elementObject.get('metaPublicJs')
                 styles[ innerTag ] = {
@@ -206,14 +247,15 @@ vcCake.addService('assets-manager', {
         }
       }
     }
-    jsFilesList = [...new Set(jsFilesList)]
+    jsFilesList = [ ...new Set(jsFilesList) ]
     return styles
   },
 
   /**
+   * Get compiled css
    * @returns {string}
    */
-  getCompiledCss: function () {
+  getCompiledCss () {
     let styles = this.getStyles()
     var iterations = []
     for (let tagName in styles) {
@@ -234,7 +276,9 @@ vcCake.addService('assets-manager', {
       return output.join(' ')
     })
   },
+
   /**
+   * get design options
    * @returns {{}}
    */
   getDesignOptions () {
@@ -258,9 +302,10 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get compiled design options css
    * @returns {Promise.<TResult>}
    */
-  getCompiledDesignOptions: function () {
+  getCompiledDesignOptions () {
     let devices = designOptions.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
@@ -300,17 +345,19 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Set columns
    * @param columns
    */
-  setColumns: function (columns) {
+  setColumns (columns) {
     // todo: validate elements
     this.columns = columns
   },
 
   /**
+   * add column
    * @param column
    */
-  addColumn: function (column) {
+  addColumn (column) {
     // todo: add regexp to check format (1/12 or 3/4)
     let columns = []
     if (Array.isArray(column)) {
@@ -333,10 +380,11 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get column
    * @param assetKey
    * @returns {*}
    */
-  getColumn: function (assetKey = false) {
+  getColumn (assetKey = false) {
     if (!assetKey) {
       return this.columns
     }
@@ -347,9 +395,10 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Remove column
    * @param column
    */
-  removeColumn: function (column) {
+  removeColumn (column) {
     let columns = []
     if (Array.isArray(column)) {
       columns = column
@@ -366,10 +415,12 @@ vcCake.addService('assets-manager', {
       }
     })
   },
+
   /**
+   * get compiled columns
    * @returns {Promise.<TResult>}
    */
-  getCompiledColumns: function () {
+  getCompiledColumns () {
     let devices = rowColumn.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
