@@ -18,88 +18,96 @@ export default class ContentEditable extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentEditable: true,
-      editionStarted: false
+      contentEditable: false,
+      trackMouse: false
     }
     this.handleDndState = this.handleDndState.bind(this)
+    this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
+    this.handleGlobalClick = this.handleGlobalClick.bind(this)
   }
   handleDndState (dndState) {
     this.setState({contentEditable: !dndState})
   }
-  componentDidMount () {
-    if (this.state.contentEditable) {
-      this.editorActivated = false
-      const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
-      const dom = ReactDOM.findDOMNode(this)
-      this.medium = new MediumEditor(dom, {
-        delay: 1000,
-        toolbar: {buttons: ['bold', 'italic', 'underline']},
-        paste: {
-          cleanPastedHTML: true,
-          cleanAttrs: ['style', 'dir'],
-          cleanTags: ['label', 'meta'],
-          unwrapTags: ['sub', 'sup']
-        },
-        contentWindow: contentWindow,
-        ownerDocument: contentWindow.document,
-        elementsContainer: contentWindow.document.body
-      })
+  handleLayoutModeChange (mode) {
+    const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
+    this.setState({contentEditable: mode === 'contentEditable', trackMouse: false})
+    if (mode !== 'contentEditable') {
+      contentWindow.removeEventListener('click', this.handleGlobalClick)
+      this.medium.destroy()
     }
-    vcCake.onDataChange('vcvDnDStarted', this.handleDndState)
   }
-  componentWillUnmount () {
-    vcCake.ignoreDataChange('vcvDnDStarted', this.handleDndState)
+  mediumSetup () {
+    this.medium.setup()
+    this.medium.subscribe('editableInput', () => {
+      this.updateElementData()
+    })
   }
-  handleChange (e) {
-    const data = documentManager.get(this.props.id)
-    const element = cook.get(data)
-    element.set(this.props.field, e.currentTarget.innerHTML)
-    documentManager.update(this.props.id, element.toJS())
-  }
-  handleMouseDown () {
+  componentDidMount () {
     const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
     const dom = ReactDOM.findDOMNode(this)
-    let $dom = $(dom)
-    if (this.editorActivated === false) {
-      let domMouseUpFired = false
-      $dom.one('mouseup', () => {
-        domMouseUpFired = true
-        if (this.editorActivated === false) {
-          vcCake.setData('textInlineEditableStared', true)
-        }
-        this.editorActivated = true
-        this.medium.setup()
-        this.setState({contentEditable: true})
-      }).one('mousemove', () => {
-        if (this.editorActivated === false) {
-          this.medium.destroy()
-          this.setState({contentEditable: false})
-        }
-      })
-      // Set global listener to enable
-      $(contentWindow).one('mouseup', () => {
-        if (domMouseUpFired === false) {
-          this.editorActivated = false
-          vcCake.setData('textInlineEditableStared', false)
-        }
-      })
+    this.medium = new MediumEditor(dom, {
+      delay: 1000,
+      toolbar: {buttons: ['bold', 'italic', 'underline']},
+      paste: {
+        cleanPastedHTML: true,
+        cleanAttrs: ['style', 'dir'],
+        cleanTags: ['label', 'meta'],
+        unwrapTags: ['sub', 'sup']
+      },
+      contentWindow: contentWindow,
+      ownerDocument: contentWindow.document,
+      elementsContainer: contentWindow.document.body
+    })
+    this.medium.destroy()
+    vcCake.onDataChange('vcv:layoutMode', this.handleLayoutModeChange)
+  }
+  componentWillUnmount () {
+    vcCake.ignoreDataChange('vcv:layoutMode', this.handleLayoutModeChange)
+  }
+  updateElementData () {
+    const dom = ReactDOM.findDOMNode(this)
+    const data = documentManager.get(this.props.id)
+    const element = cook.get(data)
+    element.set(this.props.field, dom.innerHTML)
+    documentManager.update(this.props.id, element.toJS())
+  }
+  handleChange () {
+    this.updateElementData()
+  }
+  handleGlobalClick (e) {
+    const $target = $(e.target)
+    if (!$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
+      this.medium.destroy()
+      vcCake.setData('vcv:layoutMode', 'view')
     }
   }
-  handleBlur (e) {
-    if (this.editorActivated === false) {
-      this.setState({ contentEditable: true })
+  handleMouseMove () {
+    if (this.state.trackMouse === true) {
+      this.setState({trackMouse: false, contentEditable: false})
+      this.medium.destroy()
     }
-    this.editorActivated = false
-    vcCake.setData('textInlineEditableStared', false)
+  }
+  handleMouseDown () {
+    if (this.state.trackMouse === false && this.state.contentEditable === false) {
+      this.setState({trackMouse: true, contentEditable: true})
+    }
+  }
+  handleMouseUp () {
+    if (this.state.trackMouse === true) {
+      this.mediumSetup()
+      vcCake.setData('vcv:layoutMode', 'contentEditable')
+      const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
+      contentWindow.addEventListener('click', this.handleGlobalClick)
+    }
   }
   render () {
     const props = {
       dangerouslySetInnerHTML: { __html: this.props.children },
       className: this.props.className,
       contentEditable: this.state.contentEditable,
-      onKeyUp: this.state.contentEditable ? this.handleChange.bind(this) : null,
-      onMouseDown: this.state.contentEditable ? this.handleMouseDown.bind(this) : null,
-      onBlur: this.state.contentEditable ? this.handleBlur.bind(this) : null
+      onMouseDown: this.handleMouseDown.bind(this),
+      onMouseMove: this.handleMouseMove.bind(this),
+      onMouseUp: this.handleMouseUp.bind(this)
     }
     return React.createElement('div', props)
   }
