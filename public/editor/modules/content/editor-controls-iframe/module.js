@@ -17,7 +17,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   })
   ControlsTrigger.triggerShowFrame = function (e) {
     e.stopPropagation()
-    controlsHandler.showOutline($(e.currentTarget), hideControls)
+    vcCake.getData('vcv:layoutMode') === 'view' && controlsHandler.showOutline($(e.currentTarget), hideControls)
   }
 
   ControlsTrigger.triggerHideFrame = function () {
@@ -25,9 +25,11 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   }
 
   ControlsTrigger.triggerRedrawFrame = function () {
-    controlsHandler.drawOutlines()
-    controlsHandler.setControlsPosition()
-    controlsHandler.setTimer()
+    if (vcCake.getData('vcv:layoutMode') === 'view') {
+      controlsHandler.drawOutlines()
+      controlsHandler.setControlsPosition()
+      controlsHandler.setTimer()
+    }
   }
 
   var EditorControls = function () {

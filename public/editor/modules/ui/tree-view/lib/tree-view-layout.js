@@ -13,7 +13,8 @@ export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
     this.props.api.reply('bar-content-start:show', (scrollToElement) => {
-      vcCake.setData('vcvTreeView:scrollTo', scrollToElement)
+      console.log(scrollToElement)
+      vcCake.setData('vcvTreeView:scrollToElement', scrollToElement)
     })
     this.state = {
       data: []

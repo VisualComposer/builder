@@ -28,8 +28,8 @@ vcCake.add('content-dnd', function (api) {
       this.apiDnD = DnD.api(this.items)
       this.api.addAction('startDragging', this.apiDnD.start.bind(this.apiDnD))
       this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
-      vcCake.onDataChange('textInlineEditableStared', (value) => {
-        this.items.option('disabled', value)
+      vcCake.onDataChange('vcv:layoutMode', (value) => {
+        this.items.option('disabled', value !== 'view')
       })
     }
   }
