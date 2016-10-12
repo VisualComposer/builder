@@ -73,11 +73,7 @@ let tempData = {
   }
 }
 if (vcCake.env('FEATURE_ASSET_MANAGER')) {
-  tempData.categories['XoButton'] = {
-    'name': 'Simple Button',
-    'elements': ['xoButton'],
-    'icon': 'categories/icons/Button.svg'
-  }
+  tempData.categories['Button'].elements.push('xoButton')
 }
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
   tempData.categories['Feature icon'] = {
