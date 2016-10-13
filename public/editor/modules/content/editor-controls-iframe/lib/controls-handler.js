@@ -166,8 +166,8 @@ ControlsHandler.prototype.drawControls = function () {
     let moreElementId = this.$currentElement.parents('[data-vcv-element]').get(2).getAttribute('data-vcv-element') || ''
     $controlElement = $('<a href="#" class="vcv-ui-outline-control vcv-ui-outline-control-more"' +
       ' data-vc-control-event="bar-content-start:show" data-vcv-element-id="' + moreElementId + '"/>')
-    $('<span  class="vcv-ui-outline-control-content">' +
-      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-layers" ></i>' +
+    $('<span  class="vcv-ui-outline-control-content" title="Tree View">' +
+      '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-layers" title="Tree View"></i>' +
       '</span>').appendTo($controlElement)
     $controlElement.appendTo(this.$controlsList)
     $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand" />').appendTo(this.$controlsList)
