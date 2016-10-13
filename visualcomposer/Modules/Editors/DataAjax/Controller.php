@@ -74,7 +74,7 @@ class Controller extends Container implements Module
     private function setData(Filters $filterHelper, Request $requestHelper)
     {
         $data = json_decode(rawurldecode($requestHelper->input('vcv-data')), true);
-        $content = $requestHelper->input('vcv-content');
+        $content = stripslashes_deep($requestHelper->input('vcv-content'));
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);

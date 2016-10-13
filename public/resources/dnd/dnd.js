@@ -203,7 +203,6 @@ export default class DnD {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
       allowAppend: domElement && this.draggingElement.isChild(domElement)
     })
-    console.log(window.getSelection())
     if (position) {
       this.point = point
       this.setPosition(position)
