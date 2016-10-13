@@ -78,6 +78,9 @@ if (vcCake.env('FEATURE_ASSET_MANAGER')) {
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
   tempData.categories['Icon'].elements.push('featureIcon')
 }
+if (vcCake.env('FEATURE_SINGLE_IMAGE_XO')) {
+  tempData.categories['Single image'].elements.push('xoSingleImage')
+}
 
 const data = tempData
 
