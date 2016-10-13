@@ -19,7 +19,6 @@ vcCake.addService('assets-manager', {
    * @param {Object}
    */
   elements: {},
-  styles: {},
   columns: {},
 
   /**
@@ -29,15 +28,6 @@ vcCake.addService('assets-manager', {
   set (elements) {
     // todo: validate elements
     this.elements = elements
-  },
-
-  /**
-   * Set styles
-   * @param styles
-   */
-  setStyles (styles) {
-    // todo: validate elements
-    this.styles = styles
   },
 
   /**
