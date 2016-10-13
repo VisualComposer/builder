@@ -6,12 +6,27 @@ import classNames from 'classnames'
 const cook = vcCake.getService('cook')
 const categoriesService = vcCake.getService('categories')
 
-class TreeViewElement extends React.Component {
+export default class TreeViewElement extends React.Component {
+  static propTypes = {
+    element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
+    data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
+    api: React.PropTypes.object.isRequired,
+    level: React.PropTypes.number,
+    iframe: React.PropTypes.any
+  }
 
-  state = {
-    childExpand: true,
-    activeEditElementId: null,
-    hasChild: false
+  static defaultProps = {
+    iframe: document.getElementById('vcv-editor-iframe').contentWindow.document
+  }
+
+  constructor (props) {
+    super(props)
+    this.scrollToElement = this.scrollToElement.bind(this)
+    this.state = {
+      childExpand: true,
+      activeEditElementId: null,
+      hasChild: false
+    }
   }
 
   componentDidMount () {
@@ -79,6 +94,13 @@ class TreeViewElement extends React.Component {
     return ''
   }
 
+  scrollToElement () {
+    if (!this.props.element.parent) {
+      let id = this.props.element.id
+      this.props.iframe.querySelector('#el-' + id).scrollIntoView()
+    }
+  }
+
   render () {
     let element = cook.get(this.props.element)
     let treeChildClasses = classNames({
@@ -144,8 +166,13 @@ class TreeViewElement extends React.Component {
     let space = 0.8
 
     return (
-      <li className={treeChildClasses} data-vcv-element={this.props.element.id} type={element.get('type')}
-        name={element.get('name')}>
+      <li
+        className={treeChildClasses}
+        data-vcv-element={this.props.element.id}
+        type={element.get('type')}
+        name={element.get('name')}
+        onClick={this.scrollToElement}
+      >
         <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
@@ -164,11 +191,3 @@ class TreeViewElement extends React.Component {
     )
   }
 }
-TreeViewElement.propTypes = {
-  element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
-  data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
-  api: React.PropTypes.object.isRequired,
-  level: React.PropTypes.number
-}
-
-export default TreeViewElement

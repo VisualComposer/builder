@@ -6,9 +6,9 @@ import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import '../css/tree/init.less'
 import '../css/tree-view/init.less'
 
-class TreeViewLayout extends React.Component {
-  state = {
-    data: []
+export default class TreeViewLayout extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
   }
   constructor (props) {
     super(props)
@@ -16,6 +16,9 @@ class TreeViewLayout extends React.Component {
       console.log(scrollToElement)
       vcCake.setData('vcvTreeView:scrollToElement', scrollToElement)
     })
+    this.state = {
+      data: []
+    }
   }
   componentDidMount () {
     this.props.api.reply('data:add', () => {
@@ -84,8 +87,3 @@ class TreeViewLayout extends React.Component {
     )
   }
 }
-TreeViewLayout.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default TreeViewLayout
