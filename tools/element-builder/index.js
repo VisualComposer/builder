@@ -71,6 +71,13 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong Template.jsx file.')
       process.exit(1)
     }
+    var onMountTemplateFile = path.resolve(elementDir, 'state.js')
+    var onMountTemplateString = fs.existsSync(onMountTemplateFile) ? fs.readFileSync(onMountTemplateFile, 'utf8') : ''
+    settings.componentState = {
+      access: 'public',
+      type: 'object',
+      value: {}
+    }
     // put editor variables in end of string
     templateString = templateString.replace(/(\/>|>)/i, ' {...editor}$1')
     // Css settings
@@ -126,6 +133,9 @@ fs.lstat(elementDir, function (err, stats) {
       },
       template: function () {
         return templateString
+      },
+      onMountTemplate: function () {
+        return onMountTemplateString
       },
       jsCallback: function () {
         return "''"
