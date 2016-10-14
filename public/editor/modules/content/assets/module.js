@@ -62,6 +62,30 @@ vcCake.add('assets', (api) => {
     assetManager.remove(elements)
   })
 
+  api.reply('node:beforeSave', (data) => {
+    if (data.hasOwnProperty('pageElements')) {
+      let elements = []
+      for (let id in data.pageElements) {
+        if (data.pageElements[id].hasOwnProperty('tag')) {
+          elements.push(id)
+        }
+      }
+      assetManager.update(elements)
+    }
+  })
+
+  api.reply('wordpress:beforeSave', (data) => {
+    if (data.hasOwnProperty('pageElements')) {
+      let elements = []
+      for (let id in data.pageElements) {
+        if (data.pageElements[id].hasOwnProperty('tag')) {
+          elements.push(id)
+        }
+      }
+      assetManager.update(elements)
+    }
+  })
+
   api.reply('data:afterClone', (id) => {
     let elements = []
     let walkChildren = (id) => {
