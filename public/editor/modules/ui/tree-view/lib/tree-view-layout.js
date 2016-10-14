@@ -62,10 +62,22 @@ export default class TreeViewLayout extends React.Component {
     }
   }
 
+  expandTree (element) {
+    if (!element.classList.contains('vcv-ui-tree-layout')) {
+      if (element.classList.contains('vcv-ui-tree-layout-node-child')) {
+        if (!element.classList.contains('vcv-ui-tree-layout-node-expand')) {
+          element.querySelector('.vcv-ui-tree-layout-node-expand-trigger').click()
+        }
+      }
+      this.expandTree(element.parentElement)
+    }
+  }
+
   handleScrollToElement (scrollToElement) {
     if (scrollToElement) {
       this.refs.scrollbars.scrollTop(0)
-      const target = document.querySelector('[data-vcv-element="' + scrollToElement + '"]')
+      let target = document.querySelector('[data-vcv-element="' + scrollToElement + '"]')
+      this.expandTree(target)
       let offset = target.getBoundingClientRect().top
       this.handleSelectedItem(target.firstChild)
       this.refs.scrollbars.scrollTop(offset - this.state.headerHeight)
