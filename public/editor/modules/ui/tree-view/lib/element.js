@@ -96,8 +96,7 @@ export default class TreeViewElement extends React.Component {
 
   scrollToElement () {
     if (!this.props.element.parent) {
-      let id = this.props.element.id
-      this.props.iframe.querySelector('#el-' + id).scrollIntoView()
+      this.props.iframe.querySelector('#el-' + this.props.element.id).scrollIntoView()
     }
   }
 

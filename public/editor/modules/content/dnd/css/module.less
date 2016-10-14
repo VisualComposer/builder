@@ -33,6 +33,7 @@
 
 @vcv-dnd-frame-border-color: rgba(70, 115, 189, .5);
 @vcv-dnd-frame-border-width: 2px;
+@tree-bg-base: #203251;
 #vcv-dnd-frame {
   pointer-events: none;
   position: absolute;
@@ -77,6 +78,15 @@
 }
 .vcv-dnd-dragging--start {
   cursor: move;
+}
+
+[data-vcv-dnd-helper] {
+  .vcv-ui-tree-layout-control {
+    background: darken(@tree-bg-base, 8%);
+  }
+  .vcv-ui-tree-layout-node {
+    display: none;
+  }
 }
 
 @import "fix";
