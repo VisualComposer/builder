@@ -108,6 +108,7 @@ ControlsHandler.prototype.drawOutlines = function () {
       outlines[ i ].css({
         'display': 'none'
       })
+      outlines[i].removeClass('vcv-state-highlight')
     } else {
       var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
       // var elementObject = this.getElement(elementId)
