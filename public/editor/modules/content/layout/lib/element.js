@@ -12,6 +12,10 @@ export default class Element extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired
   }
+  constructor (props) {
+    super(props)
+    this.updateComponentState = this.updateComponentState.bind(this)
+  }
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
   }
@@ -48,6 +52,12 @@ export default class Element extends React.Component {
     })
     return layoutAtts
   }
+  updateComponentState (state) {
+    let el = DocumentData.get(this.props.element.id)
+    el.componentState = state
+    console.log(el)
+    this.props.api.request('data:update', el.id, el)
+  }
   render () {
     let el = cook.get(this.props.element)
     let id = el.get('id')
@@ -55,7 +65,7 @@ export default class Element extends React.Component {
     let editor = {
       'data-vcv-element': id
     }
-    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el.toJS())} editor={editor}>
+    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el.toJS())} editor={editor} stateUpdater={this.updateComponentState}>
       {this.getContent()}
     </ContentComponent>
   }

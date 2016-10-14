@@ -8,16 +8,22 @@ import '../css/tree-view/init.less'
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    treeViewContainer: React.PropTypes.any
+  }
+
+  static defaultProps = {
+    treeViewContainer: document.querySelector('.vcv-ui-tree-layout-container')
   }
   constructor (props) {
     super(props)
+    this.handleMouseOver = this.handleMouseOver.bind(this)
     this.props.api.reply('bar-content-start:show', (scrollToElement) => {
-      console.log(scrollToElement)
-      vcCake.setData('vcvTreeView:scrollToElement', scrollToElement)
+      this.handleScrollToElement(scrollToElement)
     })
     this.state = {
-      data: []
+      data: [],
+      selectedItem: null
     }
   }
   componentDidMount () {
@@ -30,13 +36,59 @@ export default class TreeViewLayout extends React.Component {
     })
   }
 
+  handleMouseOver () {
+    this.handleSelectedItem()
+  }
+
+  handleSelectedItem (selectedItem) {
+    if (this.state.selectedItem) {
+      this.state.selectedItem.classList.remove('vcv-ui-state--active')
+    }
+    if (arguments.length) {
+      this.setState({
+        selectedItem: selectedItem
+      })
+      selectedItem.classList.add('vcv-ui-state--active')
+    } else {
+      this.setState({
+        selectedItem: null
+      })
+    }
+  }
+
+  handleScrollToElement (scrollToElement) {
+    if (scrollToElement) {
+      const target = document.querySelector('[data-vcv-element="' + scrollToElement + '"]')
+      let el = target
+      let offset = 0
+
+      if (el.parentElement.classList.contains('vcv-ui-tree-layout')) {
+        offset += el.offsetTop
+      } else {
+        while (!el.parentElement.classList.contains('vcv-ui-tree-layout')) {
+          el = el.parentElement
+          offset += el.offsetTop
+        }
+      }
+      this.handleSelectedItem(target.firstChild)
+      this.refs.scrollbars.scrollTop(offset)
+    }
+  }
+
   getElements () {
     let elementsList = []
     const DocumentData = vcCake.getService('document')
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
         let data = DocumentData.children(element.id)
-        return <TreeViewElement element={element} data={data} key={element.id} level={1} api={this.props.api} />
+        return <TreeViewElement
+          element={element}
+          data={data}
+          key={element.id}
+          level={1}
+          api={this.props.api}
+          selected={this.state.selectedItem}
+        />
       }, this)
     }
     return elementsList
@@ -66,8 +118,8 @@ export default class TreeViewLayout extends React.Component {
 
   render () {
     return (
-      <div className='vcv-ui-tree-layout-container'>
-        <Scrollbar>
+      <div className='vcv-ui-tree-layout-container' onMouseOver={this.handleMouseOver}>
+        <Scrollbar ref='scrollbars'>
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'>
             <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
