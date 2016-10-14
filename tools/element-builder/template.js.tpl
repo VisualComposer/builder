@@ -5,7 +5,7 @@ window.vcvAddElement(
     // {{ cssFile() }}
     component.add(React.createClass({
       getInitialState: function() {
-         return this.props.atts.componentState || {}
+         return this.props.atts.componentState !== undefined ? this.props.atts.componentState : null
       },
       componentDidMount: function () {
          let state = this.props.atts.componentState || {}
