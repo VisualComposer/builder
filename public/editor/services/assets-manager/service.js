@@ -6,6 +6,7 @@ import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
+import lodash from 'lodash'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
@@ -20,6 +21,14 @@ vcCake.addService('assets-manager', {
    */
   elements: {},
   columns: {},
+
+  /**
+   * Get cook service
+   * @returns {*}
+   */
+  cook () {
+    return vcCake.getService('cook')
+  },
 
   /**
    * Set elements
@@ -84,13 +93,13 @@ vcCake.addService('assets-manager', {
     }
     ids.forEach((id) => {
       if (!this.get(id)) {
-        let cook = vcCake.getService('cook')
         let documentService = vcCake.getService('document')
         let element = documentService.get(id)
-        let designOptionsData = cook.get(element).get('designOptions')
+        let tags = this.getElementTagsByTagName(element.tag, {}, element)
+        let designOptionsData = this.cook().get(element).get('designOptions')
         let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
         this.elements[ id ] = {
-          tag: element.tag,
+          tags: tags,
           useDesignOptions: useDO
         }
       }
@@ -117,17 +126,25 @@ vcCake.addService('assets-manager', {
    * @param id
    */
   update (id) {
-    if (this.get(id)) {
-      let cook = vcCake.getService('cook')
-      let documentService = vcCake.getService('document')
-      let element = documentService.get(id)
-      let designOptionsData = cook.get(element).get('designOptions')
-      let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
-      this.elements[ id ] = {
-        tag: element.tag,
-        useDesignOptions: useDO
-      }
+    let ids = []
+    if (Array.isArray(id)) {
+      ids = id
+    } else {
+      ids.push(id)
     }
+    ids.forEach((id) => {
+      if (this.get(id)) {
+        let documentService = vcCake.getService('document')
+        let element = documentService.get(id)
+        let tags = this.getElementTagsByTagName(element.tag, {}, element)
+        let designOptionsData = this.cook().get(element).get('designOptions')
+        let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
+        this.elements[ id ] = {
+          tags: tags,
+          useDesignOptions: useDO
+        }
+      }
+    })
   },
 
   /**
@@ -188,55 +205,67 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get all used elements tags
+   * @returns {{}}
+   */
+  getTags () {
+    let tags = {}
+    for (let id in this.elements) {
+      let elementTags = this.elements[ id ].tags
+      lodash.merge(tags, elementTags)
+    }
+    return tags
+  },
+
+  /**
+   * Get element tags from element exact data or default settings
+   * @param tag
+   * @param tags
+   * @param data
+   * @returns {*}
+   */
+  getElementTagsByTagName (tag, tags, data = {}) {
+    let element = this.cook().get({ tag: tag })
+    let settings = element.get('settings')
+    for (let key in settings) {
+      // If found element than get actual tags form element
+      if (settings[ key ].type === 'element') {
+        if (lodash.isEmpty(data)) {
+          // get tag from default value
+          tags = this.getElementTagsByTagName(settings[ key ].value.tag, tags)
+        } else {
+          // get tad from data
+          tags = this.getElementTagsByTagName(data[ key ].tag, tags, data[ key ])
+        }
+      }
+    }
+    if (!tags.hasOwnProperty(tag)) {
+      tags[ tag ] = true
+    }
+    return tags
+  },
+
+  /**
    * Get styles object combined by tagName
    * @returns {{}}
    */
   getStyles () {
     let styles = {}
     jsFilesList = []
-    let elements = this.get()
-    for (let id in elements) {
-      if (styles.hasOwnProperty(elements[ id ].tag)) {
-        styles[ elements[ id ].tag ].count++
-      } else {
-        let cook = vcCake.getService('cook')
-        let documentService = vcCake.getService('document')
-        let element = documentService.get(id)
-        if (element) {
-          let elementObject = cook.get(element)
-          let cssSettings = elementObject.get('cssSettings')
-          let jsFiles = elementObject.get('metaPublicJs')
-          let settings = elementObject.get('settings')
-          styles[ elements[ id ].tag ] = {
-            count: 1,
-            css: cssSettings.css
-          }
-          if (jsFiles && jsFiles.length) {
-            jsFilesList = jsFilesList.concat(jsFiles)
-          }
-          Object.keys(settings).forEach((key) => {
-            let option = settings[ key ]
-            if (option.type && option.type === 'element') {
-              let innerTag = elementObject.get(key).tag
-              if (innerTag && styles.hasOwnProperty(innerTag)) {
-                styles[ innerTag ].count++
-              } else if (innerTag) {
-                let innerElementObject = cook.get({ tag: innerTag })
-                let innerCssSettings = innerElementObject.get('cssSettings')
-                let jsFiles = elementObject.get('metaPublicJs')
-                styles[ innerTag ] = {
-                  count: 1,
-                  css: innerCssSettings.css
-                }
-                if (jsFiles && jsFiles.length) {
-                  jsFilesList = jsFilesList.concat(jsFiles)
-                }
-              }
-            }
-          })
-        }
+
+    let tags = Object.keys(this.getTags())
+
+    tags.forEach((tag) => {
+      let elementObject = this.cook().get({ tag: tag })
+      let cssSettings = elementObject.get('cssSettings')
+      styles[ tag ] = {
+        css: cssSettings.css
       }
-    }
+      let jsFiles = elementObject.get('metaPublicJs')
+      if (jsFiles && jsFiles.length) {
+        jsFilesList = jsFilesList.concat(jsFiles)
+      }
+    })
     jsFilesList = [ ...new Set(jsFilesList) ]
     return styles
   },
@@ -272,7 +301,6 @@ vcCake.addService('assets-manager', {
    * @returns {{}}
    */
   getDesignOptions () {
-    let cook = vcCake.getService('cook')
     let documentService = vcCake.getService('document')
     let returnOptions = {}
     let elements = this.get()
@@ -280,7 +308,7 @@ vcCake.addService('assets-manager', {
       if (elements[ id ].useDesignOptions) {
         let element = documentService.get(id)
         if (element) {
-          let designOptionsData = cook.get(element).get('designOptions')
+          let designOptionsData = this.cook().get(element).get('designOptions')
           if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
             returnOptions[ id ] = designOptionsData
           }

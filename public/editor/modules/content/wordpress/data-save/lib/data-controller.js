@@ -10,6 +10,9 @@ class SaveController {
   constructor (props) {
     this.props = props
     this.props.api.reply('wordpress:save', (options) => {
+      this.props.api.request('wordpress:beforeSave', {
+        pageElements: DocumentData.all()
+      })
       options = $.extend({}, {
         elements: DocumentData.all()
       }, options)
