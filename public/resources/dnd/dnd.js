@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData} from 'vc-cake'
+import {getService} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
 import Api from './api'
@@ -265,7 +265,7 @@ export default class DnD {
     this.position = null
     this.helper = null
     this.startPoint = null
-    setData('vcvDnDStarted', false)
+    // setData('vcv:layoutMode', 'view')
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
@@ -278,7 +278,7 @@ export default class DnD {
       if (!this.startPoint) {
         this.startPoint = point
       } else {
-        setData('vcvDnDStarted', true)
+        // setData('vcv:layoutMode', 'dnd')
       }
     }, 0)
     this.helper && this.helper.setPosition(point)

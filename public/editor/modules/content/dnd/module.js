@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 import DnD from '../../../../resources/dnd/dnd'
 import $ from 'jquery'
 
-require('./css/module.less')
+require('./css/init.less')
 vcCake.add('content-dnd', function (api) {
   let documentDOM
   let iframe
@@ -29,7 +29,7 @@ vcCake.add('content-dnd', function (api) {
       this.api.addAction('startDragging', this.apiDnD.start.bind(this.apiDnD))
       this.api.module('ui-navbar').on('positionChanged', this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutMode', (value) => {
-        this.items.option('disabled', value !== 'view')
+        this.items.option('disabled', value === 'contentEditable')
       })
     }
   }
@@ -60,13 +60,13 @@ vcCake.add('content-dnd', function (api) {
   ModuleDnd.prototype.start = function () {
     this.api.module('content-editor-controls-iframe').do('disableControls', true)
     document.body.classList.add('vcv-is-no-selection')
-    this.api.notify('draggingStarted', true)
+    // this.api.notify('draggingStarted', true)
   }
   ModuleDnd.prototype.end = function () {
-    this.api.module('content-editor-controls-iframe').do('hideFrame', true)
+    // this.api.module('content-editor-controls-iframe').do('hideFrame', true)
     this.api.module('content-editor-controls-iframe').do('disableControls', false)
     document.body.classList.remove('vcv-is-no-selection')
-    this.api.notify('draggingEnd', false)
+    // this.api.notify('draggingEnd', false)
   }
   let dnd = new ModuleDnd(api)
   dnd.init()

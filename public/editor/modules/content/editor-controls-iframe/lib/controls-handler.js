@@ -187,11 +187,11 @@ ControlsHandler.prototype.drawControls = function () {
     $controlElement.appendTo(this.$controlsList)
 
     $controlElement.hover((e) => {
-      var id = $(e.currentTarget).data('vcElementControls')
-      $('[data-vc-outline-element-id=' + id + ']').addClass('vcv-js-highlight')
+      var id = $(e.currentTarget).data('vcvElementControls')
+      $('[data-vc-outline-element-id=' + id + ']').addClass('vcv-state-highlight')
     }, (e) => {
-      var id = $(e.currentTarget).data('vcElementControls')
-      $('[data-vc-outline-element-id=' + id + ']').removeClass('vcv-js-highlight')
+      var id = $(e.currentTarget).data('vcvElementControls')
+      $('[data-vc-outline-element-id=' + id + ']').removeClass('vcv-state-highlight')
     })
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +

@@ -15,6 +15,12 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   api.addAction('hideFrame', function () {
     controlsHandler.hideOutline()
   })
+  vcCake.onDataChange('vcv:layoutMode', (value) => {
+    if (value !== 'view') {
+      controlsHandler.hideOutline()
+      controlsHandler.removeControls()
+    }
+  })
   ControlsTrigger.triggerShowFrame = function (e) {
     e.stopPropagation()
     vcCake.getData('vcv:layoutMode') === 'view' && controlsHandler.showOutline($(e.currentTarget), hideControls)
