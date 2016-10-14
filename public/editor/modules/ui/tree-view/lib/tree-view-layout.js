@@ -8,13 +8,9 @@ import '../css/tree-view/init.less'
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
-    treeViewContainer: React.PropTypes.any
+    api: React.PropTypes.object.isRequired
   }
 
-  static defaultProps = {
-    treeViewContainer: document.querySelector('.vcv-ui-tree-layout-container')
-  }
   constructor (props) {
     super(props)
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -41,6 +37,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleSelectedItem (selectedItem) {
+    let container = document.querySelector('.vcv-ui-tree-layout-container')
     if (this.state.selectedItem) {
       this.state.selectedItem.classList.remove('vcv-ui-state--active')
     }
@@ -50,6 +47,12 @@ export default class TreeViewLayout extends React.Component {
       })
       selectedItem.classList.add('vcv-ui-state--active')
     } else {
+      this.setState({
+        selectedItem: null
+      })
+    }
+    if (window.event.pageX < container.offsetWidth && window.event.pageY < container.offsetWidth + 60) {
+      this.state.selectedItem.classList.remove('vcv-ui-state--active')
       this.setState({
         selectedItem: null
       })
