@@ -30,6 +30,9 @@ export default class TreeViewLayout extends React.Component {
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
     })
+    this.setState({
+      headerHeight: document.querySelector('#vcv-layout-header').getBoundingClientRect().height
+    })
   }
 
   handleMouseOver () {
@@ -51,7 +54,7 @@ export default class TreeViewLayout extends React.Component {
         selectedItem: null
       })
     }
-    if (window.event.pageX < container.offsetWidth && window.event.pageY < container.offsetWidth + 60) {
+    if (window.event.pageX < container.offsetWidth && window.event.pageY < container.offsetHeight + 60) {
       this.state.selectedItem.classList.remove('vcv-ui-state--active')
       this.setState({
         selectedItem: null
@@ -61,20 +64,11 @@ export default class TreeViewLayout extends React.Component {
 
   handleScrollToElement (scrollToElement) {
     if (scrollToElement) {
+      this.refs.scrollbars.scrollTop(0)
       const target = document.querySelector('[data-vcv-element="' + scrollToElement + '"]')
-      let el = target
-      let offset = 0
-
-      if (el.parentElement.classList.contains('vcv-ui-tree-layout')) {
-        offset += el.offsetTop
-      } else {
-        while (!el.parentElement.classList.contains('vcv-ui-tree-layout')) {
-          el = el.parentElement
-          offset += el.offsetTop
-        }
-      }
+      let offset = target.getBoundingClientRect().top
       this.handleSelectedItem(target.firstChild)
-      this.refs.scrollbars.scrollTop(offset)
+      this.refs.scrollbars.scrollTop(offset - this.state.headerHeight)
     }
   }
 
