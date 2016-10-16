@@ -6,6 +6,8 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   var $ = require('jquery')
   var controlsHandler = require('imports?$=jquery!./lib/controls-handler.js')
   var hideControls = false
+  var removeControls = true
+  var removeControlsInterval = 0
   api.addAction('disableControls', function (state) {
     hideControls = !!state
     if (hideControls) {
@@ -22,12 +24,19 @@ vcCake.add('content-editor-controls-iframe', function (api) {
     }
   })
   ControlsTrigger.triggerShowFrame = function (e) {
+    removeControls = false
     e.stopPropagation()
     vcCake.getData('vcv:layoutMode') === 'view' && controlsHandler.showOutline($(e.currentTarget), hideControls)
   }
 
   ControlsTrigger.triggerHideFrame = function () {
-    controlsHandler.hideOutline()
+    removeControls = true
+    window.clearInterval(removeControlsInterval)
+    removeControlsInterval = window.setInterval(function () {
+      if (removeControls) {
+        controlsHandler.hideOutline()
+      }
+    }, 200)
   }
 
   ControlsTrigger.triggerRedrawFrame = function () {
@@ -50,6 +59,7 @@ vcCake.add('content-editor-controls-iframe', function (api) {
       $iframeDocument.on('mousemove hover', '[data-vcv-element]', ControlsTrigger.triggerShowFrame)
       $iframeDocument.on('mousemove hover', 'body', ControlsTrigger.triggerHideFrame)
       $(document).on('mousemove hover', '.vcv-ui-outline-controls-container', function (e) {
+        removeControls = false
         e.stopPropagation()
       })
       $(document).on('mousedown', '[data-vc-drag-helper]', function (e) {
