@@ -23,4 +23,10 @@ AssetsLibrary.add('animate', {
   ]
 })
 
+AssetsLibrary.add('iconpicker', {
+  publicCss: [
+    'assetsLibrary/iconpicker/css/styles.css'
+  ]
+})
+
 vcCake.addService('assets-library', AssetsLibrary)
