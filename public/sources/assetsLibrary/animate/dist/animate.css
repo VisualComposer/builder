@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+/*body {*/
+  /*background: #bada55 !important;*/
+  /*border: 1em solid #bada55 !important;*/
+/*}*/
+
 /*!
  * animate.css -http://daneden.me/animate
  * Version - 3.5.1
@@ -28,11 +33,10 @@
   animation-duration: .75s;
 }
 
-
 @keyframes vce-o-animate--bounce {
   from, 20%, 53%, 80%, to {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
   }
 
   40%, 43% {
@@ -46,7 +50,7 @@
   }
 
   90% {
-    transform: translate3d(0,-4px,0);
+    transform: translate3d(0, -4px, 0);
   }
 }
 
@@ -65,24 +69,28 @@
     transform-origin: center bottom;
   }
 }
+
 @media (min-width: 544px) and (max-width: 767px) {
   .vce-o-animate--bounce-sm {
     animation-name: vce-o-animate--bounce;
     transform-origin: center bottom;
   }
 }
+
 @media (min-width: 768px) and (max-width: 991px) {
   .vce-o-animate--bounce-md {
     animation-name: vce-o-animate--bounce;
     transform-origin: center bottom;
   }
 }
+
 @media (min-width: 992px) and (max-width: 1199px) {
   .vce-o-animate--bounce-lg {
     animation-name: vce-o-animate--bounce;
     transform-origin: center bottom;
   }
 }
+
 @media (min-width: 1200px) {
   .vce-o-animate--bounce-xl {
     animation-name: vce-o-animate--bounce;

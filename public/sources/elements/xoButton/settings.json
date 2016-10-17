@@ -81,6 +81,13 @@
       "label": "Animate"
     }
   },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
   "color": {
     "type": "color",
     "access": "public",

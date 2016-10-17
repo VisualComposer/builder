@@ -12,6 +12,7 @@ const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
 let jsFilesList = null
+let cssFilesList = null
 
 vcCake.addService('assets-manager', {
   /**
@@ -76,8 +77,68 @@ vcCake.addService('assets-manager', {
    * @returns {*}
    */
   getJsFiles () {
-    this.getStyles()
+    let tags = Object.keys(this.getTags())
+    tags.forEach((tag) => {
+      // get js files from elements
+      let elementObject = this.cook().get({ tag: tag })
+      let jsFiles = elementObject.get('metaPublicJs')
+      if (jsFiles && jsFiles.length) {
+        jsFilesList = jsFilesList.concat(jsFiles)
+      }
+      let assetsLibrary = elementObject.get('assetsLibrary')
+      // get js file from shared assets
+      if (assetsLibrary && assetsLibrary.length) {
+        assetsLibrary.forEach((lib) => {
+          jsFiles = this.getAssetsLibraryJsFiles(lib)
+          if (jsFiles && jsFiles.length) {
+            jsFilesList = jsFilesList.concat(jsFiles)
+          }
+        })
+      }
+    })
+    jsFilesList = [ ...new Set(jsFilesList) ]
+    // console.log('jsFiles', jsFilesList)
     return jsFilesList
+  },
+
+  /**
+   * Get css files list
+   * @returns {*}
+   */
+  getCssFiles () {
+    let tags = Object.keys(this.getTags())
+    tags.forEach((tag) => {
+      let elementObject = this.cook().get({ tag: tag })
+      let assetsLibrary = elementObject.get('assetsLibrary')
+
+      if (assetsLibrary && assetsLibrary.length) {
+        assetsLibrary.forEach((lib) => {
+          let cssFiless = this.getAssetsLibraryCssFiles(lib)
+          if (cssFiless && cssFiless.length) {
+            cssFilesList = cssFilesList.concat(cssFiless)
+          }
+        })
+      }
+    })
+    cssFilesList = [ ...new Set(cssFilesList) ]
+    // console.log('css files', cssFilesList)
+    return cssFilesList
+  },
+
+  getAssetsLibraryCssFiles (lib) {
+    let assetsLibrary = vcCake.getService('assets-library')
+    let libData = assetsLibrary.get(lib)
+    if (libData && libData.publicCss && libData.publicCss.length) {
+      return libData.publicCss
+    }
+  },
+
+  getAssetsLibraryJsFiles (lib) {
+    let assetsLibrary = vcCake.getService('assets-library')
+    let libData = assetsLibrary.get(lib)
+    if (libData && libData.publicJs && libData.publicJs.length) {
+      return libData.publicJs
+    }
   },
 
   /**
@@ -251,8 +312,6 @@ vcCake.addService('assets-manager', {
    */
   getStyles () {
     let styles = {}
-    jsFilesList = []
-
     let tags = Object.keys(this.getTags())
 
     tags.forEach((tag) => {
@@ -261,12 +320,7 @@ vcCake.addService('assets-manager', {
       styles[ tag ] = {
         css: cssSettings.css
       }
-      let jsFiles = elementObject.get('metaPublicJs')
-      if (jsFiles && jsFiles.length) {
-        jsFilesList = jsFilesList.concat(jsFiles)
-      }
     })
-    jsFilesList = [ ...new Set(jsFilesList) ]
     return styles
   },
 

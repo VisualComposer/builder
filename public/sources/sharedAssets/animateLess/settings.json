@@ -1,7 +1,0 @@
-{
-  "cssPath":{
-    "type":"string",
-    "access":"protected",
-    "value":"dist/animation.css"
-  }
-}
