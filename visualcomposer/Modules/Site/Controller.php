@@ -2,13 +2,13 @@
 
 namespace VisualComposer\Modules\Site;
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Templates;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Request;
 
 /**
  * Class Controller.
@@ -118,6 +118,11 @@ class Controller extends Container implements Module
         $scriptsBundle = $optionsHelper->get('scriptsGlobalFile');
         if ($scriptsBundle !== false) {
             $this->addScript('vcv-scripts', $scriptsBundle);
+        }
+
+        $sharedLibraryCssBundles = $optionsHelper->get('sharedLibraryGlobalFile');
+        if ($sharedLibraryCssBundles !== false) {
+            $this->addStyle('vcv-shared-library-styles', $sharedLibraryCssBundles);
         }
 
         $stylesBundle = $optionsHelper->get('stylesGlobalFile');

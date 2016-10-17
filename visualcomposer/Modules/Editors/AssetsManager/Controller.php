@@ -3,12 +3,12 @@
 namespace VisualComposer\Modules\Editors\AssetsManager;
 
 use VisualComposer\Application;
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Filters as FilterDispatcher;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Framework\Container;
 
 /**
  * Class Controller.
@@ -121,6 +121,10 @@ class Controller extends Container implements Module
             'scripts',
             $this->request->input('vcv-scripts', [])
         );
+        $this->updateGlobalAssets(
+            'shared-library-styles',
+            $this->request->input('vcv-shared-library-styles', [])
+        );
         $this->updatePostAssets(
             $postId,
             'styles',
@@ -149,6 +153,7 @@ class Controller extends Container implements Module
             $this->request->input('vcv-global-styles', '')
         );
         $scriptsBundles = $this->generateScriptsBundle();
+        $this->generateSharedLibraryCssBundle();
         // $styleBundles = $this->getStyleBundles();
         $globalStylesFile = $this->generateStylesGlobalFile();
         $this->generatePostStyles($postId);
@@ -283,6 +288,34 @@ class Controller extends Container implements Module
         }
 
         $this->options->set('scriptsGlobalFile', $bundleUrl);
+
+        return $bundleUrl;
+    }
+
+    /**
+     * Generate (save to fs and update db) scripts bundle.
+     * Old files are deleted.
+     *
+     * @return bool|string URL to generated bundle.
+     */
+    private function generateSharedLibraryCssBundle()
+    {
+        $files = $this->options->get('shared-library-styles', []);
+        $bundleUrl = '';
+        $this->deleteAssetsBundles('sharedglobal.css');
+        if (!empty($files)) {
+            /** @var $app Application */
+            $app = vcapp();
+            $contents = '';
+            foreach ($files as $file) {
+                $filepath = $app->path('public/sources/' . $file);
+                $contents .= $this->file->getContents($filepath) . "\n";
+            }
+            $bundleUrl = $this->createBundleFile($contents, 'sharedglobal.css');
+            $this->options->set('sharedLibraryGlobalFile', $bundleUrl);
+        }
+
+        $this->options->set('sharedLibraryGlobalFile', $bundleUrl);
 
         return $bundleUrl;
     }

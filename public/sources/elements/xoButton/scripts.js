@@ -17,5 +17,5 @@ if (showArrow) {
 }
 
 if (animate) {
-  classes += ` vce-button-xo--animate-${animate}`
+  classes += ` vce-o-animate--${animate} vce-o-animate--animated vce-o-animate--infinite`
 }

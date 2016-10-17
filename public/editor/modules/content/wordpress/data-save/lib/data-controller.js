@@ -65,6 +65,7 @@ class SaveController {
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
           'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
+          'vcv-shared-library-styles': assetsManager.getCssFiles(),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,
