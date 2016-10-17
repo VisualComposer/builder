@@ -338,7 +338,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
         .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', dropUp)
     })
   } else {
-    // this.removeControls()
+    this.removeControls()
   }
   return this
 }
