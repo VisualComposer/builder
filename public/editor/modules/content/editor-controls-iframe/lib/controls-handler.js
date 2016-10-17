@@ -41,6 +41,7 @@ ControlsHandler.prototype.hideOutline = function () {
     outlines[ i ].css({
       'display': 'none'
     })
+    outlines[i].removeClass('vcv-state-highlight')
   }
   if (this.$currentElement !== undefined) {
     this.$currentElement = undefined
@@ -189,10 +190,10 @@ ControlsHandler.prototype.drawControls = function () {
 
     $controlElement.hover((e) => {
       var id = $(e.currentTarget).data('vcvElementControls')
-      $('[data-vc-outline-element-id=' + id + ']').addClass('vcv-state-highlight')
+      document.querySelector('[data-vc-outline-element-id="' + id + '"]').classList.add('vcv-state-highlight')
     }, (e) => {
       var id = $(e.currentTarget).data('vcvElementControls')
-      $('[data-vc-outline-element-id=' + id + ']').removeClass('vcv-state-highlight')
+      document.querySelector('[data-vc-outline-element-id="' + id + '"]').classList.remove('vcv-state-highlight')
     })
     // add dropdown trigger
     $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
@@ -318,7 +319,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
   if (this.$currentElement !== undefined && this.$controlsContainer !== null) {
     posTop = this.$currentElement.offset().top + iframeOffsetTop - this.$currentElement[ 0 ].ownerDocument.defaultView.pageYOffset
     var inset = false
-    if (posTop < this.$controlsList.outerHeight()) {
+    if (posTop < this.$controlsList.outerHeight() + 4) {
       inset = true
       posTop = 0
     }
@@ -337,7 +338,7 @@ ControlsHandler.prototype.setControlsPosition = function () {
         .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', dropUp)
     })
   } else {
-    this.removeControls()
+    // this.removeControls()
   }
   return this
 }
