@@ -39,7 +39,7 @@ vcCake.add('assets', (api) => {
     let d = iframeWindow.document
     assetManager.getCssFiles().forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
-        // console.log(iframeWindow.$.getStyle(assetManager.getSourcePath(file)))
+        loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
         cssLink.setAttribute('href', assetManager.getSourcePath(file))
