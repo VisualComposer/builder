@@ -7,22 +7,12 @@
 }
 .vce-features__icon {
   position: relative;
-  display: inline-block;
 }
 .vce-features__icon span {
   position: relative;
-  padding: 1.079em;
+  padding: 0;
   z-index: 2;
-}
-.vce-features__icon span::after {
-  position: absolute;
-  content: "";
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 2.9em;
-  height: 2.9em;
+  display: inline-block;
 }
 .vce-features__icon svg {
   display: none;
@@ -40,15 +30,47 @@
 .vce-features__content > *:last-child {
   margin-bottom: 0;
 }
-.vce-features--style-none .vce-features__icon span {
-  padding: 0;
-}
 .vce-features--style-filled-circle,
 .vce-features--style-filled-rounded,
 .vce-features--style-filled-square,
 .vce-features--style-filled-hexagon,
 .vce-features--style-filled-diamond {
   border: none;
+}
+.vce-features--style-filled-circle .vce-features__icon,
+.vce-features--style-filled-rounded .vce-features__icon,
+.vce-features--style-filled-square .vce-features__icon,
+.vce-features--style-filled-hexagon .vce-features__icon,
+.vce-features--style-filled-diamond .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
+}
+.vce-features--style-filled-circle .vce-features__icon span,
+.vce-features--style-filled-rounded .vce-features__icon span,
+.vce-features--style-filled-square .vce-features__icon span,
+.vce-features--style-filled-hexagon .vce-features__icon span,
+.vce-features--style-filled-diamond .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-circle .vce-features__icon span::before,
+.vce-features--style-filled-rounded .vce-features__icon span::before,
+.vce-features--style-filled-square .vce-features__icon span::before,
+.vce-features--style-filled-hexagon .vce-features__icon span::before,
+.vce-features--style-filled-diamond .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-circle .vce-features__icon,
+.vce-features--style-filled-rounded .vce-features__icon,
+.vce-features--style-filled-square .vce-features__icon,
+.vce-features--style-filled-hexagon .vce-features__icon,
+.vce-features--style-filled-diamond .vce-features__icon {
+  background-color: #056a39;
 }
 .vce-features--style-filled-circle .vce-features__icon span,
 .vce-features--style-filled-rounded .vce-features__icon span,
@@ -57,18 +79,42 @@
 .vce-features--style-filled-diamond .vce-features__icon span {
   color: #ffffff;
 }
-.vce-features--style-filled-circle .vce-features__icon span::after,
-.vce-features--style-filled-rounded .vce-features__icon span::after,
-.vce-features--style-filled-square .vce-features__icon span::after,
-.vce-features--style-filled-hexagon .vce-features__icon span::after,
-.vce-features--style-filled-diamond .vce-features__icon span::after {
-  background-color: #056a39;
-}
-.vce-features--style-filled-circle .vce-features__icon span::after {
+.vce-features--style-filled-circle .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
   border-radius: 50%;
 }
-.vce-features--style-filled-rounded .vce-features__icon span::after {
+.vce-features--style-filled-circle .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-circle .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-rounded .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
   border-radius: 10px;
+}
+.vce-features--style-filled-rounded .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-rounded .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-filled-hexagon .vce-features__icon {
+  background-color: transparent;
 }
 .vce-features--style-filled-hexagon .vce-features__icon span {
   color: #ffffff;
@@ -76,54 +122,116 @@
 .vce-features--style-filled-hexagon .vce-features__icon svg {
   fill: #056a39;
 }
-.vce-features--style-filled-hexagon .vce-features__icon span::after {
-  background-color: transparent;
-}
 .vce-features--style-filled-hexagon .vce-features__icon svg {
   display: block;
 }
-.vce-features--style-filled-diamond .vce-features__icon span::after {
+.vce-features--style-filled-diamond .vce-features__icon {
   transform-origin: center center;
   transform: translate(-50%, -50%) rotate(45deg);
 }
 .vce-features--style-outlined-circle,
 .vce-features--style-outlined-rounded,
 .vce-features--style-outlined-square,
-.vce-features--style-outlined-hexagon,
 .vce-features--style-outlined-underlined,
 .vce-features--style-outlined-diamond {
   background-color: transparent;
 }
-.vce-features--style-outlined-circle .vce-features__icon span::after,
-.vce-features--style-outlined-rounded .vce-features__icon span::after,
-.vce-features--style-outlined-square .vce-features__icon span::after,
-.vce-features--style-outlined-hexagon .vce-features__icon span::after,
-.vce-features--style-outlined-underlined .vce-features__icon span::after,
-.vce-features--style-outlined-diamond .vce-features__icon span::after {
+.vce-features--style-outlined-circle .vce-features__icon,
+.vce-features--style-outlined-rounded .vce-features__icon,
+.vce-features--style-outlined-square .vce-features__icon,
+.vce-features--style-outlined-underlined .vce-features__icon,
+.vce-features--style-outlined-diamond .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
   border-width: 3px;
   border-style: solid;
 }
 .vce-features--style-outlined-circle .vce-features__icon span,
 .vce-features--style-outlined-rounded .vce-features__icon span,
 .vce-features--style-outlined-square .vce-features__icon span,
-.vce-features--style-outlined-hexagon .vce-features__icon span,
+.vce-features--style-outlined-underlined .vce-features__icon span,
+.vce-features--style-outlined-diamond .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-circle .vce-features__icon span::before,
+.vce-features--style-outlined-rounded .vce-features__icon span::before,
+.vce-features--style-outlined-square .vce-features__icon span::before,
+.vce-features--style-outlined-underlined .vce-features__icon span::before,
+.vce-features--style-outlined-diamond .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-circle .vce-features__icon,
+.vce-features--style-outlined-rounded .vce-features__icon,
+.vce-features--style-outlined-square .vce-features__icon,
+.vce-features--style-outlined-underlined .vce-features__icon,
+.vce-features--style-outlined-diamond .vce-features__icon {
+  border-color: #056a39;
+}
+.vce-features--style-outlined-circle .vce-features__icon span,
+.vce-features--style-outlined-rounded .vce-features__icon span,
+.vce-features--style-outlined-square .vce-features__icon span,
 .vce-features--style-outlined-underlined .vce-features__icon span,
 .vce-features--style-outlined-diamond .vce-features__icon span {
   color: #056a39;
 }
-.vce-features--style-outlined-circle .vce-features__icon span::after,
-.vce-features--style-outlined-rounded .vce-features__icon span::after,
-.vce-features--style-outlined-square .vce-features__icon span::after,
-.vce-features--style-outlined-hexagon .vce-features__icon span::after,
-.vce-features--style-outlined-underlined .vce-features__icon span::after,
-.vce-features--style-outlined-diamond .vce-features__icon span::after {
-  border-color: #056a39;
-}
-.vce-features--style-outlined-circle .vce-features__icon span::after {
+.vce-features--style-outlined-circle .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
   border-radius: 50%;
 }
-.vce-features--style-outlined-rounded .vce-features__icon span::after {
+.vce-features--style-outlined-circle .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-circle .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-rounded .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
   border-radius: 10px;
+}
+.vce-features--style-outlined-rounded .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-rounded .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-hexagon .vce-features__icon {
+  width: 2.9em;
+  height: 2.9em;
+}
+.vce-features--style-outlined-hexagon .vce-features__icon span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-hexagon .vce-features__icon span::before {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.vce-features--style-outlined-hexagon .vce-features__icon {
+  background-color: transparent;
 }
 .vce-features--style-outlined-hexagon .vce-features__icon span {
   color: #056a39;
@@ -132,29 +240,26 @@
   fill: transparent;
   stroke: #056a39;
 }
-.vce-features--style-outlined-hexagon .vce-features__icon span::after {
-  background-color: transparent;
-}
 .vce-features--style-outlined-hexagon .vce-features__icon svg {
   display: block;
-  stroke-width: 30px;
 }
 .vce-features--style-outlined-hexagon .vce-features__icon span::after {
   border: none;
+}
+.vce-features--style-outlined-underlined .vce-features__icon {
+  background-color: #056a39;
 }
 .vce-features--style-outlined-underlined .vce-features__icon span {
   color: #2f2f2f;
 }
 .vce-features--style-outlined-underlined .vce-features__icon span::after {
-  background-color: #056a39;
-}
-.vce-features--style-outlined-underlined .vce-features__icon span::after {
+  display: block;
   top: auto;
   height: 5px;
   width: 2.9em;
   bottom: 19px;
 }
-.vce-features--style-outlined-diamond .vce-features__icon span::after {
+.vce-features--style-outlined-diamond .vce-features__icon {
   transform-origin: center center;
   transform: translate(-50%, -50%) rotate(45deg);
 }
