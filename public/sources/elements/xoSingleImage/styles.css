@@ -1,5 +1,6 @@
 .vce-single-image-inner {
   display: inline-block;
+  color: transparent;
 }
 
 .vce-single-image--border-rounded {
