@@ -1,5 +1,9 @@
-/* global currentProps,state */
-var imgSrc = currentProps.atts.image
+
+if (nextProps === undefined) {
+  // code
+
+}
+/*var imgSrc = currentProps.atts.image
 if (imgSrc !== this.props.atts.image) {
   state.imgSize = null
 }
@@ -27,4 +31,4 @@ if (currentProps.atts.shape && currentProps.atts.shape === 'round' && !state.img
     this.setState(state)
   }
   img.src = imgSrc
-}
+}*/

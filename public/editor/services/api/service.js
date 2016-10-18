@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import publicAPI from '../../../resources/api/publicAPI'
+import ElementComponent from './lib/elementComponent'
 
 const Service = {
   getDesignOptionsCssClasses (designOptions) {
@@ -24,6 +25,7 @@ const Service = {
     }
     return classes
   },
-  publicEvents: publicAPI
+  publicEvents: publicAPI,
+  elementComponent: ElementComponent
 }
 vcCake.addService('api', Service)

@@ -45,41 +45,52 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong name in settings')
       process.exit(1)
     }
-    // create vars from settings
-    var varNames = []
-    var varData = {}
-    for (var variable in settings) {
-      if (settings[ variable ].hasOwnProperty('value') && settings[ variable ].access === 'public') {
-        varNames.push(variable)
-        varData[ variable ] = settings[ variable ].value
+    var componentTemplateFile = path.resolve(elementDir, 'component.js')
+    var componentTemplate = ''
+    if (fs.existsSync(componentTemplateFile)) {
+      componentTemplate = fs.readFileSync(componentTemplateFile)
+    } else {
+      // create vars from settings
+      var varNames = []
+      var varData = {}
+      for (var variable in settings) {
+        if (settings[ variable ].hasOwnProperty('value') && settings[ variable ].access === 'public') {
+          varNames.push(variable)
+          varData[ variable ] = settings[ variable ].value
+        }
       }
+      var varString = varNames.join(', ')
+      var variables = 'var {id, atts, editor} = this.props' + '\n'
+      variables += 'var {' + varString + '} = atts' + '\n' + 'var content = this.props.children' + '\n'
+      // prepare template scripts
+      var javascriptFile = path.resolve(elementDir, 'scripts.js')
+      var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
+      if (!javascriptString && javascriptString.length) {
+        console.error('Error, wrong scripts.js file.')
+        process.exit(1)
+      }
+      // JSX Component
+      var templateFile = path.resolve(elementDir, 'template.jsx')
+      var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile, 'utf8') : ''
+      if (!templateString && templateString.length) {
+        console.error('Error, wrong Template.jsx file.')
+        process.exit(1)
+      }
+      // put editor variables in end of string
+      templateString = templateString.replace(/(\/>|>)/i, ' {...editor}$1')
+      componentTemplate = swig.renderFile(path.join(__dirname, 'elementComponent.jst'), {
+        variables: function () {
+          return variables
+        },
+        templateJs: function () {
+          return javascriptString
+        },
+        template: function () {
+          return templateString
+        }
+      })
     }
-    var varString = varNames.join(', ')
-    var variables = 'var {id, atts, editor} = this.props' + '\n'
-    variables += 'var {' + varString + '} = atts' + '\n' + 'var content = this.props.children' + '\n'
-    // prepare template scripts
-    var javascriptFile = path.resolve(elementDir, 'scripts.js')
-    var javascriptString = fs.existsSync(javascriptFile) ? fs.readFileSync(javascriptFile) : ''
-    if (!javascriptString && javascriptString.length) {
-      console.error('Error, wrong scripts.js file.')
-      process.exit(1)
-    }
-    // JSX Component
-    var templateFile = path.resolve(elementDir, 'template.jsx')
-    var templateString = fs.existsSync(templateFile) ? fs.readFileSync(templateFile, 'utf8') : ''
-    if (!templateString && templateString.length) {
-      console.error('Error, wrong Template.jsx file.')
-      process.exit(1)
-    }
-    var onMountTemplateFile = path.resolve(elementDir, 'state.js')
-    var onMountTemplateString = fs.existsSync(onMountTemplateFile) ? fs.readFileSync(onMountTemplateFile, 'utf8') : ''
-    settings.componentState = {
-      access: 'public',
-      type: 'object',
-      value: {}
-    }
-    // put editor variables in end of string
-    templateString = templateString.replace(/(\/>|>)/i, ' {...editor}$1')
+
     // Css settings
     // file
     var cssFileName = 'styles.css'
@@ -125,17 +136,8 @@ fs.lstat(elementDir, function (err, stats) {
       settings: function () {
         return JSON.stringify(settings)
       },
-      variables: function () {
-        return variables
-      },
-      templateJs: function () {
-        return javascriptString
-      },
-      template: function () {
-        return templateString
-      },
-      onMountTemplate: function () {
-        return onMountTemplateString
+      elementComponent: function () {
+        return componentTemplate
       },
       jsCallback: function () {
         return "''"
