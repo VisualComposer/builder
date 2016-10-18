@@ -27,11 +27,10 @@
   display: none;
 }
 
-
 /* =====  Lightbox  ===== */
 /* Preload images */
 body:after {
-  content: url(public/close.png) url(public/loading.gif) url(public/prev.png) url(public/next.png);
+  content: url('public/close.png') url('public/loading.gif') url('public/prev.png') url('public/next.png');
   display: none;
 }
 

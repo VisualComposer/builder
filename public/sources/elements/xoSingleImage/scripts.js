@@ -3,9 +3,6 @@ let classes = 'vce-single-image-inner'
 let customProps = {}
 let CustomTag = 'div'
 
-// todo how to get unique key every time, when render happens?
-let count = new Date().getTime()
-
 if (typeof customClass === 'string' && customClass) {
   classes += ' ' + customClass
 }
@@ -22,23 +19,6 @@ if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
   imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
 }
 
-var setRoundImage = () => {
-  var img = new Image()
-  let _this = this
-  img.onload = function () {
-    let imgSize = {}
-    let size = this.height >= this.width ? this.width : this.height
-    imgSize = {
-      maxWidth: size,
-      backgroundImage: 'url(' + imgSrc + ')'
-    }
-
-    if (!_this.state || !_this.state.imgSize || _this.state.imgSize.backgroundImage !== imgSize.backgroundImage) {
-      _this.setState({ imgSize: imgSize })
-    }
-  }
-  img.src = imgSrc
-}
 
 if (clickableOptions === 'url') {
   CustomTag = 'a'
@@ -69,8 +49,6 @@ if (shape && shape !== 'square') {
   classes += ` vce-single-image--border-${shape}`
 
   if (shape === 'round') {
-    setRoundImage()
-
     customProps.style = this.state ? this.state.imgSize : null
   }
 }
