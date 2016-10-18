@@ -18,3 +18,7 @@ if (addUrl) {
 if (shape) {
   classes += ` vce-features--style-${shape}`
 }
+
+if (iconAlignment) {
+  classes += ` vce-features--align-${iconAlignment}`
+}

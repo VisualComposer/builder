@@ -6,14 +6,11 @@
   display: inline-block;
 }
 .vce-features__icon {
-  font-size: 37.99999999px;
   position: relative;
-  z-index: -1;
   display: inline-block;
 }
 .vce-features__icon span {
   position: relative;
-  color: #056a39;
   padding: 1.079em;
   z-index: 2;
 }
@@ -43,26 +40,15 @@
 .vce-features__content > *:last-child {
   margin-bottom: 0;
 }
+.vce-features--style-none .vce-features__icon span {
+  padding: 0;
+}
 .vce-features--style-filled-circle,
 .vce-features--style-filled-rounded,
 .vce-features--style-filled-square,
 .vce-features--style-filled-hexagon,
 .vce-features--style-filled-diamond {
   border: none;
-}
-.vce-features--style-filled-circle .vce-features__icon,
-.vce-features--style-filled-rounded .vce-features__icon,
-.vce-features--style-filled-square .vce-features__icon,
-.vce-features--style-filled-hexagon .vce-features__icon,
-.vce-features--style-filled-diamond .vce-features__icon {
-  font-size: 24px;
-}
-.vce-features--style-filled-circle .vce-features__icon span,
-.vce-features--style-filled-rounded .vce-features__icon span,
-.vce-features--style-filled-square .vce-features__icon span,
-.vce-features--style-filled-hexagon .vce-features__icon span,
-.vce-features--style-filled-diamond .vce-features__icon span {
-  padding: 2em;
 }
 .vce-features--style-filled-circle .vce-features__icon span,
 .vce-features--style-filled-rounded .vce-features__icon span,
@@ -107,22 +93,6 @@
 .vce-features--style-outlined-underlined,
 .vce-features--style-outlined-diamond {
   background-color: transparent;
-}
-.vce-features--style-outlined-circle .vce-features__icon,
-.vce-features--style-outlined-rounded .vce-features__icon,
-.vce-features--style-outlined-square .vce-features__icon,
-.vce-features--style-outlined-hexagon .vce-features__icon,
-.vce-features--style-outlined-underlined .vce-features__icon,
-.vce-features--style-outlined-diamond .vce-features__icon {
-  font-size: 24px;
-}
-.vce-features--style-outlined-circle .vce-features__icon span,
-.vce-features--style-outlined-rounded .vce-features__icon span,
-.vce-features--style-outlined-square .vce-features__icon span,
-.vce-features--style-outlined-hexagon .vce-features__icon span,
-.vce-features--style-outlined-underlined .vce-features__icon span,
-.vce-features--style-outlined-diamond .vce-features__icon span {
-  padding: 2em;
 }
 .vce-features--style-outlined-circle .vce-features__icon span::after,
 .vce-features--style-outlined-rounded .vce-features__icon span::after,
@@ -187,6 +157,15 @@
 .vce-features--style-outlined-diamond .vce-features__icon span::after {
   transform-origin: center center;
   transform: translate(-50%, -50%) rotate(45deg);
+}
+.vce-features--align-left {
+  text-align: left;
+}
+.vce-features--align-center {
+  text-align: center;
+}
+.vce-features--align-right {
+  text-align: right;
 }
 /*RTL support. */
 /*LTR support. */
