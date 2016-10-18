@@ -1,5 +1,9 @@
 /* global currentProps,state */
 var imgSrc = currentProps.atts.image
+if (imgSrc !== this.props.atts.image) {
+  state.imgSize = null
+}
+
 let vcCake = require('vc-cake')
 const cook = vcCake.getService('cook')
 let cookElement = cook.get(currentProps.atts)
@@ -11,7 +15,7 @@ if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
   imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
 }
 
-if (currentProps.atts.shape && currentProps.atts.shape === 'round') {
+if (currentProps.atts.shape && currentProps.atts.shape === 'round' && !state.imgSize) {
   var img = new window.Image()
   img.onload = () => {
     let size = img.height >= img.width ? img.width : img.height

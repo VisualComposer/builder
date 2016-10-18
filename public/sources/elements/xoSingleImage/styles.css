@@ -2,6 +2,12 @@
   display: inline-block;
 }
 
+a.vce-single-image-inner {
+  color: transparent;
+  border-bottom: 0;
+  text-decoration: none;
+}
+
 .vce-single-image--border-rounded {
   border-radius: 4px;
   overflow: hidden;

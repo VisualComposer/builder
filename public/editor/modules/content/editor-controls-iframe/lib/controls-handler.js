@@ -86,17 +86,27 @@ ControlsHandler.prototype.clearElementsTree = function () {
 
 ControlsHandler.prototype.getOutlines = function () {
   // Here comes wrapper for controls
-  var controlsWrapper = document.getElementById('vcv-ui-controls-container')
+  let controlsWrapper = document.getElementById('vcv-ui-controls-container')
+  let tree = this.getElementsTree()
   if (this.outlines.length < this.sliceSize) {
-    var $outline
-    $(controlsWrapper).find('.vcv-ui-outline').remove()
+    $(controlsWrapper).html('')
     this.outlines = []
-    while (this.getElementsTree().length >= this.outlines.length) {
-      $outline = $('<svg class="vcv-ui-outline"></svg>')
+    let tree = this.getElementsTree()
+    while (tree.length && tree.length >= this.outlines.length) {
+      let $outline = $('<svg class="vcv-ui-outline"></svg>')
       this.outlines.push($outline)
       $outline.appendTo(controlsWrapper)
     }
   }
+  this.outlines.forEach(($outline, index) => {
+    let outlineControl = tree[index]
+    let isContainer = outlineControl && cook.get(documentManager.get(outlineControl.data('vcvElement'))).containerFor().length
+    if (!isContainer) {
+      $outline.addClass('vcv-ui-outline-element')
+    } else {
+      $outline.removeClass('vcv-ui-outline-element')
+    }
+  })
   return this.outlines
 }
 

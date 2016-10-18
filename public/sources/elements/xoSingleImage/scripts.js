@@ -19,7 +19,6 @@ if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
   imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
 }
 
-
 if (clickableOptions === 'url') {
   CustomTag = 'a'
   let { url, title, targetBlank, relNofollow } = imageUrl

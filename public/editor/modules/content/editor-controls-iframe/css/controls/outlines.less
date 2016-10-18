@@ -6,8 +6,10 @@
   box-sizing: border-box;
   z-index: @controls-outline-z-index;
   #vcv-ui-outline-controls > .create-outline-type(@color: @controls-outline-color-element);
+  &.vcv-ui-outline-element {
+    #vcv-ui-outline-controls > .create-outline-type(@color: transparent);
+  }
 }
-
 //== outline types
 
 #vcv-ui-outline-controls > .create-outline-type(base, @controls-outline-color-base);
@@ -19,4 +21,4 @@
 //== todo: refactor, color is based on react components
 #vcv-ui-outline-controls > .create-outline-type-w-hover(index-0, @controls-outline-color-silent, @controls-background-row);
 #vcv-ui-outline-controls > .create-outline-type-w-hover(index-1, @controls-outline-color-silent, @controls-background-column);
-#vcv-ui-outline-controls > .create-outline-type-w-hover(index-2, @controls-outline-color-silent, @controls-background-element);
+#vcv-ui-outline-controls > .create-outline-type-w-hover(index-2, transparent, @controls-background-element);

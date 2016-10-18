@@ -121,7 +121,7 @@ fs.lstat(elementDir, function (err, stats) {
         value: publicJs
       }
     }
-    var template = swig.renderFile(path.join(__dirname, 'template.js.tpl'), {
+    var template = swig.renderFile(path.join(__dirname, 'template.jst'), {
       settings: function () {
         return JSON.stringify(settings)
       },
