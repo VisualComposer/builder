@@ -2,23 +2,18 @@
 //-----------------------------------------
 
 .vce-features {
-  //text-align: center;
-  //margin-bottom: @vce-features-margin-bottom;
   display: inline-block;
 
   &__icon {
     // we will save the aspect ratio of the small icon with the background
-    font-size: @vce-features-icon-larger-font-size;
     position: relative;
-    z-index: -1;
     display: inline-block;
 
     span {
       position: relative;
-      color: @vce-features-color-green;
       // padding will be relative
       padding: @vce-features-icon-background-padding;
-      // position over the hexagon which will be hidden in most ov views
+      // position over the hexagon which will be hidden in most of views
       z-index: 2;
       &::after {
         position: absolute;
@@ -43,8 +38,6 @@
       z-index: 1;
       top: 50%;
       left: 50%;
-
-
       transform: translate(-50%, -50%);
     }
   }
@@ -61,10 +54,18 @@
 
 .vce-features--style {
 
+  &-none {
+    .vce-features__icon {
+      span {
+        padding: 0;
+      }
+    }
+  }
+
   &-filled {
     &-circle, &-rounded, &-square, &-hexagon, &-diamond {
       border: none;
-      #vce-features > .make-shape (@font-size: @vce-features-icon-base-font-size);
+      #vce-features > .make-shape ();
       #vce-features > .make-color (@background-color: @vce-features-color-green; @color: @vce-features-color-white;);
     }
 
@@ -94,7 +95,7 @@
   &-outlined {
     &-circle, &-rounded, &-square, &-hexagon, &-underlined, &-diamond {
       background-color: transparent;
-      #vce-features > .make-shape (@font-size: @vce-features-icon-base-font-size; @border-width: @vce-features-border-width;);
+      #vce-features > .make-shape (@border-width: @vce-features-border-width;);
       #vce-features > .make-color (@border-color: @vce-features-color-green; @color: @vce-features-color-green;);
     }
 
@@ -142,6 +143,17 @@
   }
 }
 
+.vce-features--align {
+  &-left {
+    text-align: left;
+  }
+  &-center {
+    text-align: center;
+  }
+  &-right {
+    text-align: right;
+  }
+}
 
 /*RTL support. */
 /*LTR support. */
