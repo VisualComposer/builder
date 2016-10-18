@@ -1,5 +1,6 @@
 .vce-single-image-inner {
   display: inline-block;
+  color: transparent;
 }
 
 .vce-single-image--border-rounded {
@@ -27,11 +28,10 @@
   display: none;
 }
 
-
 /* =====  Lightbox  ===== */
 /* Preload images */
 body:after {
-  content: url(public/close.png) url(public/loading.gif) url(public/prev.png) url(public/next.png);
+  content: url('public/close.png') url('public/loading.gif') url('public/prev.png') url('public/next.png');
   display: none;
 }
 
