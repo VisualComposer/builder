@@ -128,29 +128,29 @@ class Controller extends Container implements Module
         $this->updatePostAssets(
             $postId,
             'styles',
-            $this->request->input('vcv-styles', [])
+            stripslashes_deep($this->request->input('vcv-styles', []))
         );
         $this->updatePostAssets(
             $postId,
             'design-options',
-            $this->request->input('vcv-design-options', '')
+            stripslashes_deep($this->request->input('vcv-design-options', ''))
         );
         $this->updatePostAssets(
             $postId,
             'custom-css',
-            $this->request->input('vcv-custom-css', '')
+            stripslashes_deep($this->request->input('vcv-custom-css', ''))
         );
         $this->updateGlobalAssets(
             'global-elements',
-            rawurldecode($this->request->input('vcv-global-elements', ''))
+            stripslashes_deep(rawurldecode($this->request->input('vcv-global-elements', '')))
         );
         $this->updateGlobalAssets(
             'global-css',
-            rawurldecode($this->request->input('vcv-global-css', ''))
+            stripslashes_deep(rawurldecode($this->request->input('vcv-global-css', '')))
         );
         $this->updateGlobalAssets(
             'global-styles',
-            $this->request->input('vcv-global-styles', '')
+            stripslashes_deep($this->request->input('vcv-global-styles', ''))
         );
         $scriptsBundles = $this->generateScriptsBundle();
         $this->generateSharedLibraryCssBundle();

@@ -11,7 +11,7 @@ if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
   imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
 }
 
-if (currentProps.atts.shape && currentProps.atts.shape === 'round') {
+if (currentProps.atts.shape && currentProps.atts.shape === 'round' && !this.state.imgSize) {
   var img = new window.Image()
   img.onload = () => {
     let size = img.height >= img.width ? img.width : img.height
