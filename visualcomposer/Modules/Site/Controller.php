@@ -159,12 +159,12 @@ class Controller extends Container implements Module
      */
     public function addScript($name, $file)
     {
-        if ($this->mainFrontBundle === false) {
+/*        if ($this->mainFrontBundle === false) {
             $this->mainFrontBundle = 'vcv-front-js';
             $url = $this->urlHelper->to('public/dist/front.bundle.js');
             wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
-        }
-        wp_register_script($name, $file, [$this->mainFrontBundle], VCV_VERSION, true);
+        }*/
+        wp_register_script($name, $file, [], VCV_VERSION, true);
         $this->wpAddAction(
             'wp_print_scripts',
             function () use ($name) {

@@ -277,7 +277,8 @@ class Controller extends Container implements Module
         if (!empty($files)) {
             /** @var $app Application */
             $app = vcapp();
-            $contents = '';
+            $frontMainFile = $app->path('public/dist/front.bundle.js');
+            $contents = $this->file->getContents($frontMainFile);
             foreach ($files as $file) {
                 $filepath = $app->path('public/sources/' . $file);
                 $contents .= $this->file->getContents($filepath) . "\n";
