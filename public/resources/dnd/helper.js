@@ -97,8 +97,13 @@ export default class Helper {
         this.clone.querySelector('.vcv-helper-fade-inner').style.border = '1px dashed rgba(183, 183, 183, 1)'
       }
       if (DOMNode.classList.contains('vce-col')) {
-        this.clone.querySelector('.vcv-helper-fade-inner').style.display = 'flex'
-        this.clone.querySelector('.vcv-helper-fade-inner').style.paddingTop = '35px'
+        let fadeInner = this.clone.querySelector('.vcv-helper-fade-inner')
+        let col = this.clone.querySelector('.vce-col')
+        fadeInner.style.display = 'flex'
+        fadeInner.style.paddingTop = '35px'
+        col.style.maxWidth = '100%'
+        col.style.flexBasis = '100%'
+        col.style.flex = '0 0 100%'
       }
       if (DOMNode.classList.contains('vce-row')) {
         this.clone.querySelector('.vcv-helper-fade-inner').style.padding = '0 15px'
