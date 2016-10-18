@@ -11,8 +11,8 @@ import lodash from 'lodash'
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
-let jsFilesList = null
-let cssFilesList = null
+let jsFilesList = []
+let cssFilesList = []
 
 vcCake.addService('assets-manager', {
   /**
@@ -97,7 +97,6 @@ vcCake.addService('assets-manager', {
       }
     })
     jsFilesList = [ ...new Set(jsFilesList) ]
-    // console.log('jsFiles', jsFilesList)
     return jsFilesList
   },
 
@@ -121,7 +120,6 @@ vcCake.addService('assets-manager', {
       }
     })
     cssFilesList = [ ...new Set(cssFilesList) ]
-    // console.log('css files', cssFilesList)
     return cssFilesList
   },
 
