@@ -169,8 +169,8 @@ class DesignOptions extends Attribute {
 
   validateBoxInput = (e) => {
     let value = e.target.value
-    let units = [ 'px', 'em', 'rem', '%' ]
-    let re = new RegExp('^-?\\d+(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
 
     if (value === '' || value.match(re)) {
       return
@@ -283,8 +283,8 @@ class DesignOptions extends Attribute {
   }
 
   changeAnimation = (fieldKey, value) => {
+    console.log('value to change', value)
     let deviceState = this.state[ this.state.device ]
-
     deviceState.animation = value
     this.changeState({
       [this.state.device]: deviceState
@@ -314,16 +314,17 @@ class DesignOptions extends Attribute {
   changeState (state) {
     let newState = lodash.merge({}, this.state, state)
     let { updater, fieldKey } = this.props
-    newState.visibleDevices = []
-
+    newState.visibleDevices = {}
     let omitStates = [ 'used', 'visibleDevices', 'device', 'defaultStyles', 'deviceTypes' ]
     newState.used = !lodash.isEqual(lodash.omit(newState, omitStates), lodash.omit(DesignOptions.defaultState, omitStates))
     Devices.getAll().forEach((device) => {
       if (newState[ device.strid ].showOnDevice && !lodash.isEqual(newState[ device.strid ], DesignOptions.defaultState[ device.strid ])) {
-        newState.visibleDevices.push(device.strid)
+        newState.visibleDevices[ device.strid ] = device.prefix
       }
     })
     this.setState(newState)
+    // remove working variables
+    delete newState.defaultStyles
     updater(fieldKey, newState)
   }
 
@@ -473,8 +474,16 @@ class DesignOptions extends Attribute {
             fieldKey='animation'
             api={this.props.api}
           />
+          <Color
+            value={this.state[ this.state.device ].animation}
+            updater={this.changeAnimation}
+            fieldKey='animation'
+            api={this.props.api}
+          />
         </div>
       )
+      console.log('in to dropdown', this.state[ this.state.device ].animation)
+      // console.log(this.state[ this.state.device ].animation)
     }
 
     let devicesListOutput = null
@@ -619,7 +628,7 @@ DesignOptions.defaultState = {
   deviceTypes: 'all',
   device: 'all',
   used: false,
-  visibleDevices: []
+  visibleDevices: {}
 }
 Devices.getAll().map((device) => {
   DesignOptions.defaultState[ device.strid ] = {

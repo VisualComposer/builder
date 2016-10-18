@@ -5,6 +5,7 @@ export default class Dropdown extends Attribute {
   selectChildren = null
 
   componentWillReceiveProps (nextProps) {
+    super.componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 
