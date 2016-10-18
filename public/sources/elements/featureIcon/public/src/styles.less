@@ -7,26 +7,44 @@
   &__icon {
     // we will save the aspect ratio of the small icon with the background
     position: relative;
-    display: inline-block;
+    //display: inline-block;
+    //&::after {
+    //  content: "";
+    //  position: absolute;
+    //  top: 0;
+    //  left: 0;
+    //  width: 2.9em;
+    //  height: 2.9em;
+    //}
 
     span {
       position: relative;
       // padding will be relative
-      padding: @vce-features-icon-background-padding;
+      //padding: @vce-features-icon-background-padding;
+      padding: 0;
       // position over the hexagon which will be hidden in most of views
       z-index: 2;
-      &::after {
-        position: absolute;
-        content: "";
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
+      display: inline-block;
+
+      //&::after {
+      //  display: none;
+      //}
+      //&::before,
+      //&::after {
+      //  position: absolute;
+      //  left: 50%;
+      //  top: 50%;
+      //  transform: translate(-50%, -50%);
+      //}
+
+      //&::after {
+      //  content: "";
+      //  z-index: -1;
         // size of the fill will be relative to the size of the icon's given font-size
         // size calculated by dividing item sizes given in design PSD
-        width: @vce-features-icon-background-size;
-        height: @vce-features-icon-background-size;
-      }
+      //  width: @vce-features-icon-background-size;
+      //  height: @vce-features-icon-background-size;
+      //}
     }
     // We hide the svg which is inlined so we can style it with css.
     svg {
@@ -52,15 +70,19 @@
   }
 }
 
+.vce-features__icon {
+
+}
+
 .vce-features--style {
 
-  &-none {
-    .vce-features__icon {
-      span {
-        padding: 0;
-      }
-    }
-  }
+  //&-none {
+  //  .vce-features__icon {
+  //    span {
+  //      padding: 0;
+  //    }
+  //  }
+  //}
 
   &-filled {
     &-circle, &-rounded, &-square, &-hexagon, &-diamond {
@@ -84,7 +106,7 @@
     }
 
     &-diamond {
-      .vce-features__icon span::after {
+      .vce-features__icon {
         transform-origin: center center;
         transform: translate(-50%, -50%) rotate(45deg);
       }
@@ -93,7 +115,7 @@
   }
 
   &-outlined {
-    &-circle, &-rounded, &-square, &-hexagon, &-underlined, &-diamond {
+    &-circle, &-rounded, &-square, &-underlined, &-diamond {
       background-color: transparent;
       #vce-features > .make-shape (@border-width: @vce-features-border-width;);
       #vce-features > .make-color (@border-color: @vce-features-color-green; @color: @vce-features-color-green;);
@@ -108,12 +130,13 @@
     }
 
     &-hexagon {
+      #vce-features > .make-shape ();
       #vce-features > .make-color (@background-color: transparent; @color: @vce-features-color-green; @fill-color: transparent; @stroke-color: @vce-features-color-green;);
 
       .vce-features__icon {
         svg {
           display: block;
-          stroke-width: @vce-features-icon-stroke-width ;
+          //stroke-width: @vce-features-icon-stroke-width ;
         }
 
         span::after {  border: none;  }
@@ -125,6 +148,7 @@
       .vce-features__icon {
         span {
           &::after {
+            display: block;
             top: auto;
             height: @vce-features-underline-height;
             width: @vce-features-icon-background-size; // relative to the font size of the icon
@@ -135,7 +159,7 @@
     }
 
     &-diamond {
-      .vce-features__icon span::after {
+      .vce-features__icon {
         transform-origin: center center;
         transform: translate(-50%, -50%) rotate(45deg);
       }
