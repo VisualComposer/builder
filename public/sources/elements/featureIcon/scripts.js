@@ -1,6 +1,8 @@
 let classes = 'vce-features'
 let customProps = {}
 let CustomTag = 'i'
+let tinycolor = require('react-color/modules/tinycolor2')
+let colorValue = tinycolor(iconColor).toRgbString()
 
 if (addUrl) {
   CustomTag = 'a'
@@ -15,4 +17,8 @@ if (addUrl) {
 
 if (shape) {
   classes += ` vce-features--style-${shape}`
+}
+
+if (iconAlignment) {
+  classes += ` vce-features--align-${iconAlignment}`
 }
