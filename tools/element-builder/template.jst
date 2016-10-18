@@ -20,6 +20,7 @@ window.vcvAddElement(
       componentWillReceiveProps: function(nextProps) {
          let currentProps = nextProps
          let state = currentProps.atts.componentState || {}
+         {{ onMountTemplate() }}
          if (!Object.getOwnPropertyNames(state).length) {
             return
          }
