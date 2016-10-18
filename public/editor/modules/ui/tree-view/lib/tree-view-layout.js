@@ -14,6 +14,7 @@ export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
     this.handleMouseOver = this.handleMouseOver.bind(this)
+    this.handleMousePos = this.handleMousePos.bind(this)
     this.props.api.reply('bar-content-start:show', (scrollToElement) => {
       this.handleScrollToElement(scrollToElement)
     })
@@ -31,8 +32,28 @@ export default class TreeViewLayout extends React.Component {
       this.setState({ data: data })
     })
     this.setState({
-      headerHeight: document.querySelector('#vcv-layout-header').getBoundingClientRect().height
+      header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
     })
+    setTimeout(() => { document.addEventListener('click', this.handleMousePos) }, 500)
+  }
+
+  handleMousePos (e) {
+    if (e.target.closest('.vcv-ui-outline-control-more') !== null) {
+      if (document.querySelector('.vcv-layout-bar-content').classList.contains('vcv-ui-state--visible')) {
+        let layoutBar = document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
+        let treeView = document.querySelector('.vcv-ui-tree-layout-container').getBoundingClientRect()
+        let leftX = layoutBar.left
+        let rightX = leftX + treeView.width
+        let topY = layoutBar.bottom
+        let bottomY = topY + treeView.height
+        if (e.clientX > leftX && e.clientX < rightX && e.clientY > topY && e.clientY < bottomY) {
+          this.state.selectedItem.classList.remove('vcv-ui-state--active')
+          this.setState({
+            selectedItem: null
+          })
+        }
+      }
+    }
   }
 
   handleMouseOver () {
@@ -40,7 +61,6 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleSelectedItem (selectedItem) {
-    let container = document.querySelector('.vcv-ui-tree-layout-container')
     if (this.state.selectedItem) {
       this.state.selectedItem.classList.remove('vcv-ui-state--active')
     }
@@ -54,20 +74,12 @@ export default class TreeViewLayout extends React.Component {
         selectedItem: null
       })
     }
-    if (window.event.pageX < container.offsetWidth && window.event.pageY < container.offsetHeight + 60) {
-      this.state.selectedItem.classList.remove('vcv-ui-state--active')
-      this.setState({
-        selectedItem: null
-      })
-    }
   }
 
   expandTree (element) {
     if (!element.classList.contains('vcv-ui-tree-layout')) {
-      if (element.classList.contains('vcv-ui-tree-layout-node-child')) {
-        if (!element.classList.contains('vcv-ui-tree-layout-node-expand')) {
-          element.querySelector('.vcv-ui-tree-layout-node-expand-trigger').click()
-        }
+      if (element.classList.contains('vcv-ui-tree-layout-node-child') && !element.classList.contains('vcv-ui-tree-layout-node-expand')) {
+        element.querySelector('.vcv-ui-tree-layout-node-expand-trigger').click()
       }
       this.expandTree(element.parentElement)
     }
@@ -80,7 +92,7 @@ export default class TreeViewLayout extends React.Component {
       this.expandTree(target)
       let offset = target.getBoundingClientRect().top
       this.handleSelectedItem(target.firstChild)
-      this.refs.scrollbars.scrollTop(offset - this.state.headerHeight)
+      this.refs.scrollbars.scrollTop(offset - this.state.header.height - this.state.header.bottom)
     }
   }
 
