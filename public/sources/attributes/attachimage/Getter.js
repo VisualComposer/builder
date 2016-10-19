@@ -1,5 +1,4 @@
 import lodash from 'lodash'
-
 module.exports = (data, key, settings) => {
   let isMultiple = !!settings.multiple
   let value = data[ key ]
@@ -14,6 +13,9 @@ module.exports = (data, key, settings) => {
     } else {
       returnValue = value.urls[ 0 ]
     }
+  }
+  if (lodash.isEmpty(returnValue) && settings.options && settings.options.defaultValue) {
+    returnValue = settings.options.defaultValue
   }
   return returnValue
 }

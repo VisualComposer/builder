@@ -1,9 +1,10 @@
 import React from 'react'
-import {renderToStaticMarkup} from 'react-dom/server'
-
 import WordPressElement from './element'
 
-class WordPressLayout extends React.Component {
+export default class WordPressLayout extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
   state = {
     data: []
   }
@@ -18,9 +19,7 @@ class WordPressLayout extends React.Component {
   get elements () {
     if (this.state.data) {
       return this.state.data.map((element) => {
-        return (
-          renderToStaticMarkup(<WordPressElement element={element} key={element.id} api={this.props.api} />)
-        )
+        return <WordPressElement element={element} key={element.id} api={this.props.api} />
       })
     }
     return null
@@ -34,8 +33,3 @@ class WordPressLayout extends React.Component {
     )
   }
 }
-WordPressLayout.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default WordPressLayout
