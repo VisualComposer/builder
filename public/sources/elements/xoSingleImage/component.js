@@ -6,6 +6,7 @@ class Component extends vcvAPI.elementComponent {
       this.setMaxWidthState(this.props.atts.image)
     }
   }
+
   componentWillReceiveProps (nextProps) {
     if (nextProps.atts.shape && nextProps.atts.shape === 'round') {
       this.setMaxWidthState(nextProps.atts.image)
@@ -15,9 +16,10 @@ class Component extends vcvAPI.elementComponent {
       })
     }
   }
+
   render () {
-    let {id, atts, editor} = this.props
-    let {image, shape, clickableOptions, imageUrl, customClass} = atts
+    let { id, atts, editor } = this.props
+    let { image, designOptions, shape, clickableOptions, imageUrl, customClass } = atts
     let containerClasses = 'vce-single-image-container vce'
     let classes = 'vce-single-image'
     let customProps = {}
@@ -60,6 +62,21 @@ class Component extends vcvAPI.elementComponent {
       }
     }
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}`
+
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
     return <div className={containerClasses} id={'el-' + id} {...editor}>
       <CustomTag {...customProps} className={classes}>
         <img className='vce-single-image' src={imgSrc} />
@@ -71,22 +88,26 @@ class Component extends vcvAPI.elementComponent {
     let img = new window.Image()
     img.onload = () => {
       let size = img.height >= img.width ? img.width : img.height
-      this.setState({imgSize: {
-        maxWidth: size,
-        backgroundImage: 'url(' + img.src + ')'
-      }})
+      this.setState({
+        imgSize: {
+          maxWidth: size,
+          backgroundImage: 'url(' + img.src + ')'
+        }
+      })
     }
-    img.onerror =() => {
-      this.setState({imgSize: null})
+    img.onerror = () => {
+      this.setState({ imgSize: null })
     }
     img.src = this.getImageUrl(image)
   }
+
   getPublicImage (filename) {
     const vcCake = require('vc-cake')
     const assetsManager = vcCake.getService('assets-manager')
-    var {tag} = this.props.atts
+    var { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }
+
   getImageUrl (image) {
     let imageUrl
     // Move it to attribute

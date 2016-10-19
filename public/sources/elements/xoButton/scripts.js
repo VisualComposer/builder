@@ -14,7 +14,6 @@ classes += ` vce-button-xo--background-color-fire-brick`
 if (showArrow) {
   classes += ' vce-button-xo--icon-state-visible'
 }
-
 let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
 let animations = []
 devices.forEach((device) => {
@@ -23,9 +22,7 @@ devices.forEach((device) => {
     if (prefix) {
       prefix = `-${prefix}`
     }
-    if (animate) {
-      animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-    }
+    animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
   }
 })
 if (animations) {

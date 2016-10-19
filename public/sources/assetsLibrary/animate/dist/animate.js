@@ -29,7 +29,10 @@ let vceAnimate = {
           })
           setTimeout(() => {
             // add new classes
-            let newClasses = this.element.dataset[ 'vceAnimate' ].split(' ')
+            let newClasses = []
+            if (this.element.dataset[ 'vceAnimate' ]) {
+              newClasses = this.element.dataset[ 'vceAnimate' ].split(' ')
+            }
             newClasses.push('vce-o-animate--animated')
             newClasses.forEach((className) => {
               this.element.classList.add(className)

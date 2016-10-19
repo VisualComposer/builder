@@ -92,5 +92,12 @@
     "type": "number",
     "access": "protected",
     "value": 1
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
   }
 }

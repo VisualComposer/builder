@@ -3,8 +3,9 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let {id, atts, editor} = this.props
-    let {title, description, image, align, addButton, customClass, button} = atts
+    let {title, description, image, align, addButton, customClass, designOptions, button} = atts
     let classNames = require('classnames')
+    let customProps = {}
 
     let wrapperClasses = classNames({
       'vce': true,
@@ -35,8 +36,22 @@ class Component extends vcvAPI.elementComponent {
       let Button = Cook.get(button)
       buttonOutput = Button.render(null, false)
     }
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
     return <section className={wrapperClasses} id={'el-' + id} {...editor}>
-      <div className={rowClasses} style={rowStyles}>
+      <div className={rowClasses} style={rowStyles} {...customProps}>
         <div className="vce-hero-section__wrap">
           <div className="vce-hero-section__content">
             {title}

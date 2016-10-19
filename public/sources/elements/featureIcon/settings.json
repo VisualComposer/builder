@@ -230,7 +230,8 @@
     "access": "public",
     "type": "string",
     "value": [
-      "iconpicker"
+      "iconpicker",
+      "animate"
     ]
   }
 }

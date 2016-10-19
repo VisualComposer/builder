@@ -167,5 +167,12 @@
         ]
       }
     }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
   }
 }
