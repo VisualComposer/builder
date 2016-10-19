@@ -10,8 +10,8 @@ const cook = vcCake.getService('cook')
 let cookElement = cook.get(atts)
 const AssetsManager = vcCake.getService('assets-manager')
 
-if (typeof imgSrc !== 'string' && typeof imgSrc.urls[ 0 ] !== 'undefined') {
-  imgSrc = imgSrc.urls[0].full
+if (image && image.full) {
+  imgSrc = image.full
 } else {
   imgSrc = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('image'))
 }

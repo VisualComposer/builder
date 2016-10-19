@@ -13,7 +13,7 @@ class AttachImage extends Attribute {
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = props.defaultValue ? { ids: [null], urls: [{full: value || props.defaultValue}] } : {ids: [], urls: []}
+      value = value ? { ids: [null], urls: [{full: value}] } : {ids: [], urls: []}
     }
 
     return {

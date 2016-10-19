@@ -45,9 +45,7 @@ class SaveController {
   }
 
   save (data) {
-    let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerText.replace(
-      /\s+pageeditable="[^"]+"/,
-      '')
+    let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML
     let globalStyles = ''
     let designOptions = ''
     let promises = []

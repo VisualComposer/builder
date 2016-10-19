@@ -100,7 +100,8 @@ ControlsHandler.prototype.getOutlines = function () {
   }
   this.outlines.forEach(($outline, index) => {
     let outlineControl = tree[index]
-    let isContainer = outlineControl && cook.get(documentManager.get(outlineControl.data('vcvElement'))).containerFor().length
+    let data = outlineControl ? documentManager.get(outlineControl.data('vcvElement')) : null
+    let isContainer = data !== null && cook.get(data).containerFor().length
     if (!isContainer) {
       $outline.addClass('vcv-ui-outline-element')
     } else {
