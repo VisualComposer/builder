@@ -67,10 +67,8 @@ class DesignOptions extends Attribute {
         paddingTop: this.getValue(props, 'paddingTop', device, DesignOptions.defaultState[ device.strid ].paddingTop),
         paddingLeft: this.getValue(props, 'paddingLeft', device, DesignOptions.defaultState[ device.strid ].paddingLeft),
         paddingRight: this.getValue(props, 'paddingRight', device, DesignOptions.defaultState[ device.strid ].paddingRight),
-        paddingBottom: this.getValue(props, 'paddingBottom', device, DesignOptions.defaultState[ device.strid ].paddingBottom)
-      }
-      if (vcCake.env('FEATURE_ASSET_MANAGER')) {
-        state[ device.strid ][ 'animation' ] = this.getValue(props, 'animation', device, DesignOptions.defaultState[ device.strid ].animation)
+        paddingBottom: this.getValue(props, 'paddingBottom', device, DesignOptions.defaultState[ device.strid ].paddingBottom),
+        animation: this.getValue(props, 'animation', device, DesignOptions.defaultState[ device.strid ].animation)
       }
     })
     return state
@@ -461,21 +459,19 @@ class DesignOptions extends Attribute {
         </div>
       )
     }
-    if (vcCake.env('FEATURE_ASSET_MANAGER')) {
-      animationOutput = (
-        <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            Animate
-          </span>
-          <AnimateDropdown
-            value={this.state[ this.state.device ].animation}
-            updater={this.changeAnimation}
-            fieldKey='animation'
-            api={this.props.api}
-          />
-        </div>
-      )
-    }
+    animationOutput = (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Animate
+        </span>
+        <AnimateDropdown
+          value={this.state[ this.state.device ].animation}
+          updater={this.changeAnimation}
+          fieldKey='animation'
+          api={this.props.api}
+        />
+      </div>
+    )
 
     let devicesListOutput = null
     let showOnDeviceCustomOutput = null
@@ -645,10 +641,8 @@ Devices.getAll().map((device) => {
     paddingTop: '',
     paddingLeft: '',
     paddingRight: '',
-    paddingBottom: ''
-  }
-  if (vcCake.env('FEATURE_ASSET_MANAGER')) {
-    DesignOptions.defaultState[ device.strid ][ 'animation' ] = ''
+    paddingBottom: '',
+    animation: ''
   }
 })
 
