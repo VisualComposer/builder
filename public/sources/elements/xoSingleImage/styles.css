@@ -11,6 +11,7 @@ a.vce-single-image-inner {
 .vce-single-image--border-rounded {
   border-radius: 4px;
   overflow: hidden;
+  display: block;
 }
 
 .vce-single-image--border-round {

@@ -73,20 +73,6 @@ class CookElement {
     return this[ elData ].data[ k ]
   }
 
-  renderFrontend (content, editor) {
-    if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
-    }
-    let ElementToRender = this[ elComponent ].get()
-    let props = {}
-    let atts = this.toJS()
-    props.key = this[ elData ].id
-    props.id = this[ elData ].id
-    props.atts = atts
-    props.content = content
-
-    return <ElementToRender {...props} />
-  }
   getContentComponent () {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
@@ -97,10 +83,10 @@ class CookElement {
     return new CookElement({ tag: tag })
   }
 
-  toJS () {
+  toJS (raw = true) {
     let data = {}
     for (let k of Object.keys(this[ elData ].settings)) {
-      let value = this.get(k, true)
+      let value = this.get(k, raw)
       if (value !== undefined) {
         data[ k ] = value
       }
@@ -156,6 +142,13 @@ class CookElement {
     }
 
     return []
+  }
+
+  /**
+   * Get all attributes using getter of attributes types
+   */
+  getAll () {
+    return this.toJS(false)
   }
 }
 CookElement.propTypes = {
