@@ -4,8 +4,6 @@
 #vce-features {
   .make-shape(@background-color: false; @border-radius: false; @border-color: false; @font-size: false; @border-width: false; @color: false) {
     .vce-features__icon {
-      width: 2.9em;
-      height: 2.9em;
 
       & when not (@border-radius = false ) {
         border-radius: @border-radius;
@@ -16,19 +14,6 @@
         border-style: solid;
       }
 
-      span {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-
-        &::before {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
       // the size of the icon
       & when not (@font-size = false ) {
         font-size: @font-size;
@@ -38,18 +23,6 @@
           padding: 2em;
         }
       }
-
-      //&::after {
-      //
-      //  & when not (@border-radius = false ) {
-      //    border-radius: @border-radius;
-      //  }
-      //
-      //  & when not (@border-width = false ) {
-      //    border-width: @border-width;
-      //    border-style: solid;
-      //  }
-      //}
     }
   }
 
@@ -76,15 +49,6 @@
           stroke: @stroke-color;
         }
       }
-      //&::after {
-      //  & when not (@background-color = false) {
-      //    background-color: @background-color;
-      //  }
-      //
-      //  & when not (@border-color = false ) {
-      //    border-color: @border-color;
-      //  }
-      //}
     }
   }
 }
