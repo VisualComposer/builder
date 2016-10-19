@@ -19,6 +19,7 @@ AssetsLibrary.add('animate', {
     'assetsLibrary/animate/dist/animate.css'
   ],
   publicJs: [
+    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
     'assetsLibrary/animate/dist/animate.js'
   ]
 })

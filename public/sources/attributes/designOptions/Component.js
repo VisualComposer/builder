@@ -283,7 +283,6 @@ class DesignOptions extends Attribute {
   }
 
   changeAnimation = (fieldKey, value) => {
-    console.log('value to change', value)
     let deviceState = this.state[ this.state.device ]
     deviceState.animation = value
     this.changeState({
@@ -474,16 +473,8 @@ class DesignOptions extends Attribute {
             fieldKey='animation'
             api={this.props.api}
           />
-          <Color
-            value={this.state[ this.state.device ].animation}
-            updater={this.changeAnimation}
-            fieldKey='animation'
-            api={this.props.api}
-          />
         </div>
       )
-      console.log('in to dropdown', this.state[ this.state.device ].animation)
-      // console.log(this.state[ this.state.device ].animation)
     }
 
     let devicesListOutput = null

@@ -8,7 +8,7 @@ export default class AnimateDropdown extends Dropdown {
         values: [
           {
             label: 'None',
-            value: 'none'
+            value: ''
           }
         ]
       }

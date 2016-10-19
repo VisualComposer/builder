@@ -135,6 +135,7 @@
       "public/sources/elements/",
       "public/config/",
       "public/resources/tinymce",
+      "public/sources/assetsLibrary",
       "tests/",
       "tools/"
     ]

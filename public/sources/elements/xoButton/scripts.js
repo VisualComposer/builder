@@ -3,19 +3,31 @@ let buttonHtml = buttonText
 let customProps = {}
 let CustomTag = 'button'
 
-
 if (shape && shape !== 'square') {
   classes += ` vce-button-xo--border-${shape}`
 }
 
-  classes += ` vce-button-xo--style-flat`
-  classes += ` vce-button-xo--text-color-white`
-  classes += ` vce-button-xo--background-color-fire-brick`
+classes += ` vce-button-xo--style-flat`
+classes += ` vce-button-xo--text-color-white`
+classes += ` vce-button-xo--background-color-fire-brick`
 
 if (showArrow) {
   classes += ' vce-button-xo--icon-state-visible'
 }
 
-if (animate) {
-  classes += ` vce-o-animate--${animate} vce-o-animate--animated vce-o-animate--infinite`
+let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+let animations = []
+devices.forEach((device) => {
+  let prefix = designOptions.visibleDevices[ device ]
+  if (designOptions[ device ].animation) {
+    if (prefix) {
+      prefix = `-${prefix}`
+    }
+    if (animate) {
+      animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+    }
+  }
+})
+if (animations) {
+  customProps[ 'data-vce-animate' ] = animations.join(' ')
 }
