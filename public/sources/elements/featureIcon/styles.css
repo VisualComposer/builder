@@ -161,6 +161,15 @@
 .vce-features--align-right {
   text-align: right;
 }
+.vce-features--size-small {
+  font-size: 18px;
+}
+.vce-features--size-medium {
+  font-size: 24px;
+}
+.vce-features--size-large {
+  font-size: 32px;
+}
 /*RTL support. */
 /*LTR support. */
 .rtl.vce-features,

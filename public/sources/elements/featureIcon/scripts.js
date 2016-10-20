@@ -23,6 +23,10 @@ if (iconAlignment) {
   classes += ` vce-features--align-${iconAlignment}`
 }
 
+if (size) {
+  classes += ` vce-features--size-${size}`
+}
+
 let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
 let animations = []
 devices.forEach((device) => {

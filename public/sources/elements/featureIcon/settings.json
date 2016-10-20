@@ -67,6 +67,28 @@
       }
     }
   },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "medium",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ]
+    }
+  },
   "shape": {
     "type": "dropdown",
     "access": "public",
@@ -197,6 +219,7 @@
       "iconColor",
       "addUrl",
       "iconUrl",
+      "size",
       "shape",
       "shapeColor",
       "iconAlignment",
