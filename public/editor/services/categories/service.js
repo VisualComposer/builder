@@ -69,6 +69,11 @@ let tempData = {
       'name': 'Text Block',
       'elements': ['textBlock'],
       'icon': 'categories/icons/Text-Block.svg'
+    },
+    'Flickr Image': {
+      'name': 'Flickr Image',
+      'elements': [],
+      'icon': 'categories/icons/Flickr-Image.svg'
     }
   }
 }
@@ -80,6 +85,9 @@ if (vcCake.env('ELEMENT_FEATURE_ICON')) {
 }
 if (vcCake.env('FEATURE_SINGLE_IMAGE_XO')) {
   tempData.categories['Single image'].elements.push('xoSingleImage')
+}
+if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
+  tempData.categories['Single image'].elements.push('flickrImage')
 }
 
 const data = tempData
