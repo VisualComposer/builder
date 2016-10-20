@@ -170,17 +170,6 @@
 .vce-features--size-large {
   font-size: 32px;
 }
-.vce-features__icon span.fa::before {
-  line-height: .9em;
-  height: 1em;
-}
-.vce-features__icon span.typcn::before {
-  font-size: 1.3em;
-}
-.vce-features__icon span.vcv-ui-icon-material::before {
-  font-size: 1.2em;
-  line-height: .95em;
-}
 /*RTL support. */
 /*LTR support. */
 .rtl.vce-features,
@@ -214,9 +203,20 @@
   direction: ltr;
   unicode-bidi: normal;
 }
-.vcv-ui-icon-openiconic::before {
+.vce-features__icon span.fa::before {
+  line-height: 0.9em;
+  height: 1em;
+}
+.vce-features__icon span.typcn::before {
+  font-size: 1.3em;
+}
+.vce-features__icon span.vcv-ui-icon-material::before {
+  font-size: 1.2em;
+  line-height: 0.95em;
+}
+.vce-features__icon span.vcv-ui-icon-openiconic::before {
   height: 0.9em;
 }
-.vcv-ui-icon-monosocial::before {
+.vce-features__icon span.vcv-ui-icon-monosocial::before {
   word-break: normal;
 }
