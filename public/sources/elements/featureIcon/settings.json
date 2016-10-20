@@ -152,7 +152,21 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Shape color"
+      "label": "Shape color",
+      "onChange": {
+        "shape": [
+          {
+            "rule": "value",
+            "options": "none",
+            "actions": [
+              {
+                "action": "toggleVisibility",
+                "options": true
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "iconPicker": {
