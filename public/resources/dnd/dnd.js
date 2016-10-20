@@ -139,6 +139,7 @@ export default class DnD {
     this.handleDragFunction = this.handleDrag.bind(this)
     this.handleDragStartFunction = this.handleDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
+    this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
   }
   addItem (id) {
     let element = cook.get(documentManager.get(id))
@@ -219,6 +220,8 @@ export default class DnD {
       this.draggingElement = null
       return false
     }
+    this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
+
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     // Create helper/clone of element
     this.helper = new Helper(this.draggingElement.node, point)
@@ -299,7 +302,7 @@ export default class DnD {
    * Drag handlers
    */
   handleDrag (e) {
-    this.check({ x: e.clientX, y: e.clientY })
+    e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX, y: e.clientY })
   }
   /**
    * @param {object} e Handled event
@@ -320,5 +323,11 @@ export default class DnD {
   handleDragEnd () {
     this.dragStartHandled = false
     this.end()
+  }
+  handleRightMouseClick (e) {
+    if (e.button && e.button === 2) {
+      this.options.document.removeEventListener('mousedown', this.handleRightMouseClickFunction, false)
+      this.handleDragEnd()
+    }
   }
 }

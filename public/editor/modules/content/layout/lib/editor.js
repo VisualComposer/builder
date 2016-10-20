@@ -18,7 +18,7 @@ export default class LayoutEditor extends Component {
     this.props.api.reply(
       'data:changed',
       (data) => {
-        this.setState({ data: data })
+        this.setState({data: data})
       }
     )
   }
