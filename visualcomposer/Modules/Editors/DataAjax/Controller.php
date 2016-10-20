@@ -58,7 +58,7 @@ class Controller extends Container implements Module
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             }
         }
-        $response['elements'] = $data;
+        $response['data'] = $data;
 
         return $response;
     }
@@ -73,7 +73,7 @@ class Controller extends Container implements Module
      */
     private function setData(Filters $filterHelper, Request $requestHelper)
     {
-        $data = json_decode(rawurldecode($requestHelper->input('vcv-data')), true);
+        $data = stripslashes_deep($requestHelper->input('vcv-data'));
         $content = stripslashes_deep($requestHelper->input('vcv-content'));
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
@@ -88,7 +88,7 @@ class Controller extends Container implements Module
                 wp_update_post($post);
                 // In WordPress 4.4 + update_post_meta called if we use
                 // $post->meta_input = [ 'vcv:pageContent' => $data ]
-                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data['elements']);
+                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
                 /** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
                 $frontendModule = vcapp('EditorsFrontendController');
                 $frontendModule->setupPost($sourceId);

@@ -43,9 +43,11 @@ class SaveController {
 
     request.send($.param(data))
   }
-
+  normalizeHtML (data) {
+    return data.replace(/&quot;/g, "'")
+  }
   save (data) {
-    let content = document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML
+    let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
     let globalStyles = ''
     let designOptions = ''
     let promises = []
@@ -61,7 +63,7 @@ class SaveController {
         {
           'vcv-action': 'setData:adminNonce',
           'vcv-content': content,
-          'vcv-data': encodeURIComponent(JSON.stringify(data)),
+          'vcv-data': JSON.stringify(data),
           'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
           'vcv-shared-library-styles': assetsManager.getCssFiles(),
           'vcv-global-styles': globalStyles,
