@@ -160,7 +160,7 @@
     "access": "public",
     "value": "fa fa-heart",
     "options": {
-      "label": "Icons",
+      "label": "Icon",
       "description": "Select the icon"
     }
   },
