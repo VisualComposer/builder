@@ -74,7 +74,7 @@ class Layout extends Attribute {
       let results = fractionRegex.exec(text)
       let numerator = parseInt(results[ 1 ])
       let denominator = parseInt(results[ 2 ])
-      return numerator <= 12 && denominator <= 12 && numerator <= denominator
+      return numerator <= denominator
     }
     return false
   }
