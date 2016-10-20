@@ -23,6 +23,10 @@ if (iconAlignment) {
   classes += ` vce-features--align-${iconAlignment}`
 }
 
+if (size) {
+  classes += ` vce-features--size-${size}`
+}
+
 let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
 let animations = []
 devices.forEach((device) => {
@@ -34,6 +38,6 @@ devices.forEach((device) => {
     animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
   }
 })
-if (animations) {
+if (animations.length) {
   customProps[ 'data-vce-animate' ] = animations.join(' ')
 }

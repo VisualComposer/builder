@@ -73,8 +73,8 @@ class Controller extends Container implements Module
      */
     private function setData(Filters $filterHelper, Request $requestHelper)
     {
-        $data = stripslashes_deep($requestHelper->input('vcv-data'));
-        $content = stripslashes_deep($requestHelper->input('vcv-content'));
+        $data = $requestHelper->input('vcv-data');
+        $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
@@ -85,10 +85,17 @@ class Controller extends Container implements Module
                 } else {
                     $post->post_status = 'publish';
                 }
+                //temporarily disable
+                remove_filter('content_save_pre', 'wp_filter_post_kses');
+                remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
                 wp_update_post($post);
                 // In WordPress 4.4 + update_post_meta called if we use
                 // $post->meta_input = [ 'vcv:pageContent' => $data ]
                 update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
+
+                //bring it back once you're done posting
+                add_filter('content_save_pre', 'wp_filter_post_kses');
+                add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
                 /** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
                 $frontendModule = vcapp('EditorsFrontendController');
                 $frontendModule->setupPost($sourceId);

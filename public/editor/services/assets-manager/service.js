@@ -143,7 +143,7 @@ vcCake.addService('assets-manager', {
    * Add element by id
    * @param id
    */
-  add (id) {
+  add (id, force = false) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -151,7 +151,7 @@ vcCake.addService('assets-manager', {
       ids.push(id)
     }
     ids.forEach((id) => {
-      if (!this.get(id)) {
+      if (!this.get(id) || force) {
         let documentService = vcCake.getService('document')
         let element = documentService.get(id)
         let tags = this.getElementTagsByTagName(element.tag, {}, element)
@@ -160,6 +160,10 @@ vcCake.addService('assets-manager', {
         this.elements[ id ] = {
           tags: tags,
           useDesignOptions: useDO
+        }
+        let columnSizes = this.getColumnSizes(element)
+        if (columnSizes) {
+          this.elements[ id ][ 'columnSizes' ] = columnSizes
         }
       }
     })
@@ -185,25 +189,7 @@ vcCake.addService('assets-manager', {
    * @param id
    */
   update (id) {
-    let ids = []
-    if (Array.isArray(id)) {
-      ids = id
-    } else {
-      ids.push(id)
-    }
-    ids.forEach((id) => {
-      if (this.get(id)) {
-        let documentService = vcCake.getService('document')
-        let element = documentService.get(id)
-        let tags = this.getElementTagsByTagName(element.tag, {}, element)
-        let designOptionsData = this.cook().get(element).get('designOptions')
-        let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
-        this.elements[ id ] = {
-          tags: tags,
-          useDesignOptions: useDO
-        }
-      }
-    })
+    this.add(id, true)
   },
 
   /**
@@ -327,8 +313,10 @@ vcCake.addService('assets-manager', {
    * @returns {string}
    */
   getCompiledCss () {
-    let styles = this.getStyles()
     var iterations = []
+    // add styles
+    let styles = this.getStyles()
+    this.updateColumns()
     for (let tagName in styles) {
       if (styles[ tagName ].css) {
         let stylePromise = new Promise((resolve, reject) => {
@@ -342,7 +330,8 @@ vcCake.addService('assets-manager', {
         iterations.push(stylePromise)
       }
     }
-
+    // add columns css
+    iterations = iterations.concat(this.getCompileColumnsIterations())
     return Promise.all(iterations).then((output) => {
       return output.join(' ')
     })
@@ -428,23 +417,27 @@ vcCake.addService('assets-manager', {
    * @param column
    */
   addColumn (column) {
-    // todo: add regexp to check format (1/12 or 3/4)
     let columns = []
     if (Array.isArray(column)) {
       columns = column
     } else {
       columns.push(column)
     }
+    let validFormat = /^\d+\/\d+$/
     columns.forEach((column) => {
-      if (!this.getColumn(column)) {
-        let data = column.split('/')
-        this.columns[ column ] = {
-          numerator: data[ 0 ],
-          denominator: data[ 1 ],
-          count: 1
+      if (validFormat.test(column)) {
+        if (!this.getColumn(column)) {
+          let data = column.split('/')
+          if (data[ 0 ] <= data[ 1 ]) {
+            this.columns[ column ] = {
+              numerator: data[ 0 ],
+              denominator: data[ 1 ],
+              count: 1
+            }
+          }
+        } else {
+          this.columns[ column ].count++
         }
-      } else {
-        this.columns[ column ].count++
       }
     })
   },
@@ -488,9 +481,9 @@ vcCake.addService('assets-manager', {
 
   /**
    * get compiled columns
-   * @returns {Promise.<TResult>}
+   * @returns {Array}
    */
-  getCompiledColumns () {
+  getCompileColumnsIterations () {
     let devices = rowColumn.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
@@ -508,8 +501,27 @@ vcCake.addService('assets-manager', {
     })
     iterations.push(stylePromise)
 
-    return Promise.all(iterations).then((output) => {
-      return output.join(' ')
-    })
+    return iterations
+  },
+
+  /**
+   * Get column sizes
+   * @param element
+   */
+  getColumnSizes (element) {
+    let sizes = null
+    if (element.tag === 'column' && element.size) {
+      sizes = [ element.size ]
+    }
+    return sizes
+  },
+
+  updateColumns () {
+    // for this.get()
+    for (let id in this.elements) {
+      if (this.elements[ id ].columnSizes && this.elements[ id ].columnSizes.length) {
+        this.addColumn(this.elements[ id ].columnSizes)
+      }
+    }
   }
 })

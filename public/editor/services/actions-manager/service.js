@@ -14,6 +14,10 @@ const ActionsManager = {
     alert: (state, target, options) => {
     },
     toggleVisibility: (state, target, options) => {
+      if (typeof options !== 'undefined') {
+        // Reverse state
+        state = options ? !state : state
+      }
       let $el = ReactDOM.findDOMNode(target.ref)
       $el.classList.toggle('vcv-ui-state--visible', state)
       $el.classList.toggle('vcv-ui-state--hidden', !state)

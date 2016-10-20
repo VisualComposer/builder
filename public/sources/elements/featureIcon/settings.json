@@ -67,6 +67,28 @@
       }
     }
   },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "medium",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ]
+    }
+  },
   "shape": {
     "type": "dropdown",
     "access": "public",
@@ -130,7 +152,21 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Shape color"
+      "label": "Shape color",
+      "onChange": {
+        "shape": [
+          {
+            "rule": "value",
+            "options": "none",
+            "actions": [
+              {
+                "action": "toggleVisibility",
+                "options": true
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "iconPicker": {
@@ -138,7 +174,7 @@
     "access": "public",
     "value": "fa fa-heart",
     "options": {
-      "label": "Icons",
+      "label": "Icon",
       "description": "Select the icon"
     }
   },
@@ -197,6 +233,7 @@
       "iconColor",
       "addUrl",
       "iconUrl",
+      "size",
       "shape",
       "shapeColor",
       "iconAlignment",

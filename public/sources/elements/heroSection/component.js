@@ -47,7 +47,7 @@ class Component extends vcvAPI.elementComponent {
         animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
       }
     })
-    if (animations) {
+    if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     return <section className={wrapperClasses} id={'el-' + id} {...editor}>
