@@ -61,7 +61,7 @@ class Request implements Helper
             return $this->data;
         }
 
-        return array_key_exists($key, $this->data) ? $this->data[ $key ] : $default;
+        return stripslashes_deep(array_key_exists($key, $this->data) ? $this->data[ $key ] : $default);
     }
 
     /**
