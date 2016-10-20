@@ -1,14 +1,26 @@
 /* global React, vcvAPI */
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
+  componentDidMount () {
+
+  }
+
+  componentWillReceiveProps (nextProps) {
+
+  }
+
   render () {
-    var {id, atts, editor} = this.props
-    var {output, designOptions, customClass} = atts // destructuring assignment for attributes from settings.json with access public
-    let textBlockClasses = 'vce-text-block vce'
+    let { id, atts, editor } = this.props
+    let { embed, designOptions, customClass } = atts
+    let classes = 'vce-flickr-image vce'
     let customProps = {}
+
     if (typeof customClass === 'string' && customClass) {
-      textBlockClasses = textBlockClasses.concat(' ' + customClass)
+      classes += ' ' + customClass
     }
+
+    customProps.key = `customProps:${id}`
+
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
     devices.forEach((device) => {
@@ -23,9 +35,6 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-    return <div className={textBlockClasses} {...editor} {...customProps} id={'el-' + id}>
-      {output}
-    </div>
-
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor} dangerouslySetInnerHTML={{__html:embed}} />
   }
 }

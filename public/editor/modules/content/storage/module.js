@@ -13,24 +13,24 @@ vcCake.add('storage', (api) => {
       if (columns[i] !== undefined) {
         lastColumnObject = columns[i]
         lastColumnObject.size = size
-        DocumentData.update(lastColumnObject.id, lastColumnObject)
+        api.request('data:update', lastColumnObject.id, lastColumnObject)
       } else {
         let createdElement = DocumentData.create({tag: 'column', parent: id, size: size})
         createdElements.push(createdElement.id)
       }
     })
+    api.request('data:afterAdd', createdElements)
     if (columns.length > layout.length) {
       let removingColumns = columns.slice(layout.length)
       removingColumns.forEach((column) => {
         let childElements = DocumentData.children(column.id)
         childElements.forEach((el) => {
           el.parent = lastColumnObject.id
-          DocumentData.update(el.id, el)
+          api.request('data:update', el.id, el)
         })
-        DocumentData.delete(column.id)
+        api.request('data:remove', column.id)
       })
     }
-    api.request('data:afterAdd', createdElements)
   }
   const isElementOneRelation = (parent) => {
     let element = DocumentData.get(parent)
@@ -81,7 +81,7 @@ vcCake.add('storage', (api) => {
   })
 
   api.reply('data:update', (id, element) => {
-    if (element.tag === 'row' && element.layout && element.layout.length > 0) {
+    if (element.tag === 'row' && element.layout && element.layout.length) {
       rebuildRawLayout(id, element.layout)
       element.layout = undefined
     }
