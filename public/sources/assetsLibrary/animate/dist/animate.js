@@ -13,20 +13,20 @@ let vceAnimate = {
     let waypoints = []
     let elements = document.querySelectorAll('[data-vce-animate]')
     elements.forEach((element) => {
+      // remove old classes
+      let oldClasses = []
+      let re = /^vce-o-animate--/
+      element.classList.forEach((className) => {
+        if (className.search(re) !== -1) {
+          oldClasses.push(className)
+        }
+      })
+      oldClasses.forEach((className) => {
+        element.classList.remove(className)
+      })
       let waypoint = new Waypoint({
         element: element,
         handler: function () {
-          // remove old classes
-          let oldClasses = []
-          let re = /^vce-o-animate--/
-          this.element.classList.forEach((className) => {
-            if (className.search(re) !== -1) {
-              oldClasses.push(className)
-            }
-          })
-          oldClasses.forEach((className) => {
-            this.element.classList.remove(className)
-          })
           setTimeout(() => {
             // add new classes
             let newClasses = []

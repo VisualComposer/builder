@@ -34,6 +34,6 @@ devices.forEach((device) => {
     animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
   }
 })
-if (animations) {
+if (animations.length) {
   customProps[ 'data-vce-animate' ] = animations.join(' ')
 }
