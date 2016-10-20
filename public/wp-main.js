@@ -7,7 +7,6 @@ import './config/wp-services'
 import './config/wp-attributes'
 
 const $ = require('expose?$!jquery')
-
 $(() => {
   let $iframe = $('#vcv-editor-iframe')
 

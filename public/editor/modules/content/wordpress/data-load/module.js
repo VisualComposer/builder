@@ -8,6 +8,7 @@ vcCake.add('content-wordpress-data-load', (api) => {
   })
 
   api.reply('wordpress:data:loaded', (data) => {
+    vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
     let responseData
     let { status, request } = data
     if (status === 'success') {

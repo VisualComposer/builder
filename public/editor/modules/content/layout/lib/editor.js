@@ -1,8 +1,12 @@
-import React from 'react'
+import {Component, PropTypes} from 'react'
+import {getData} from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import BlankPage from './helpers/blankPage/component'
 
-class LayoutEditor extends React.Component {
+export default class LayoutEditor extends Component {
+  static propTypes = {
+    api: PropTypes.object.isRequired
+  }
   constructor (props) {
     super(props)
     this.state = {
@@ -20,7 +24,7 @@ class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    return this.state.data.length === 0 ? <BlankPage api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
+    return this.state.data.length === 0 && getData('app:dataLoaded') === true ? <BlankPage api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
   }
   render () {
     return (
@@ -30,8 +34,3 @@ class LayoutEditor extends React.Component {
     )
   }
 }
-LayoutEditor.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default LayoutEditor

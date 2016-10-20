@@ -7,6 +7,7 @@ import './config/node-services'
 import './config/node-attributes'
 
 const $ = require('expose?$!jquery')
+vcCake.setData('app:dataLoaded', false)
 
 $(() => {
   let $iframe = $('#vcv-editor-iframe')

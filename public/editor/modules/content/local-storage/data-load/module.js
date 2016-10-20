@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
 vcCake.add('content-local-storage-data-load', (api) => {
   api.reply('start', () => {
+    vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
     const LocalStorage = vcCake.getService('local-storage')
     const TimeMachine = vcCake.getService('time-machine')
     let data = LocalStorage.get()
