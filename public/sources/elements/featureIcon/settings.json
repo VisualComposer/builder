@@ -101,7 +101,7 @@
           "value": "none"
         },
         {
-          "label": "Square filled",
+          "label": "Square",
           "value": "filled-square"
         },
         {
@@ -109,7 +109,7 @@
           "value": "outlined-square"
         },
         {
-          "label": "Rounded filled",
+          "label": "Rounded",
           "value": "filled-rounded"
         },
         {
@@ -117,7 +117,7 @@
           "value": "outlined-rounded"
         },
         {
-          "label": "Diamond filled",
+          "label": "Diamond",
           "value": "filled-diamond"
         },
         {
@@ -125,7 +125,7 @@
           "value": "outlined-diamond"
         },
         {
-          "label": "Circle filled",
+          "label": "Circle",
           "value": "filled-circle"
         },
         {
@@ -133,7 +133,7 @@
           "value": "outlined-circle"
         },
         {
-          "label": "Hexagon filled",
+          "label": "Hexagon",
           "value": "filled-hexagon"
         },
         {
