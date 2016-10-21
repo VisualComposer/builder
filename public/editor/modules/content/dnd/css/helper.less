@@ -1,0 +1,40 @@
+@import "variables";
+.vcv-drag-helper {
+  position: absolute;
+  z-index: 11000;
+  background-color: @controls-background-element;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  white-space: nowrap;
+  display: block;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  &.vcv-drag-helper-container {
+    background-color: @controls-background-row;
+    &.vcv-drag-helper-column {
+      background-color: @controls-background-column;
+    }
+  }
+/*  font-family: 'VC-Icons' !important;
+  // transition: all 0.25s ease-in-out;
+  &::before {
+    content: "\e912";
+    font-size: 1.25em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &.vcv-visible {
+    display: flex;
+  }
+  */
+}
