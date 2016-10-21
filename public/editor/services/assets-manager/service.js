@@ -143,7 +143,7 @@ vcCake.addService('assets-manager', {
    * Add element by id
    * @param id
    */
-  add (id, force = false) {
+  add (id) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -151,20 +151,8 @@ vcCake.addService('assets-manager', {
       ids.push(id)
     }
     ids.forEach((id) => {
-      if (!this.get(id) || force) {
-        let documentService = vcCake.getService('document')
-        let element = documentService.get(id)
-        let tags = this.getElementTagsByTagName(element.tag, {}, element)
-        let designOptionsData = this.cook().get(element).get('designOptions')
-        let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
-        this.elements[ id ] = {
-          tags: tags,
-          useDesignOptions: useDO
-        }
-        let columnSizes = this.getColumnSizes(element)
-        if (columnSizes) {
-          this.elements[ id ][ 'columnSizes' ] = columnSizes
-        }
+      if (!this.get(id)) {
+        this.update(id, true)
       }
     })
   },
@@ -188,8 +176,30 @@ vcCake.addService('assets-manager', {
    * Update element by id
    * @param id
    */
-  update (id) {
-    this.add(id, true)
+  update (id, force = false) {
+    let ids = []
+    if (Array.isArray(id)) {
+      ids = id
+    } else {
+      ids.push(id)
+    }
+    ids.forEach((id) => {
+      if (this.get(id) || force) {
+        let documentService = vcCake.getService('document')
+        let element = documentService.get(id)
+        let tags = this.getElementTagsByTagName(element.tag, {}, element)
+        let designOptionsData = this.cook().get(element).get('designOptions')
+        let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
+        this.elements[ id ] = {
+          tags: tags,
+          useDesignOptions: useDO
+        }
+        let columnSizes = this.getColumnSizes(element)
+        if (columnSizes) {
+          this.elements[ id ][ 'columnSizes' ] = columnSizes
+        }
+      }
+    })
   },
 
   /**

@@ -152,7 +152,8 @@ export default class DnD {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
-      handler: this.options.handler
+      handler: this.options.handler,
+      tag: element.get('tag')
     })
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
@@ -221,10 +222,11 @@ export default class DnD {
       return false
     }
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
-
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     // Create helper/clone of element
-    this.helper = new Helper(this.draggingElement.node, point)
+    this.helper = new Helper(this.draggingElement, {
+      container: this.options.container
+    })
     // Add css class for body to enable visual settings for all document
     this.options.document.body.classList.add('vcv-dnd-dragging--start', 'vcv-is-no-selection')
 
