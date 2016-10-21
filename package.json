@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
+    "standard": "standard",
     "build-module": "node ./tools/module-builder/index.js",
     "build-element": "node --harmony ./tools/element-builder/index",
     "collect-css": "node ./tools/asset-manager/index.js ./public/sources/elements --output=./public/dist/elements.css"
