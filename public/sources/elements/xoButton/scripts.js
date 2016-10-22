@@ -8,8 +8,13 @@ if (shape && shape !== 'square') {
 }
 
 classes += ` vce-button-xo--style-flat`
-classes += ` vce-button-xo--text-color-white`
-classes += ` vce-button-xo--background-color-fire-brick`
+
+if (colorSet) {
+  classes += ` vce-button-xo--style-flat--color-${colorSet}`
+} else {
+  classes += ` vce-button-xo--text-color-white`
+  classes += ` vce-button-xo--background-color-fire-brick`
+}
 
 if (showArrow) {
   classes += ' vce-button-xo--icon-state-visible'
