@@ -14,20 +14,6 @@ export default class RawCode extends Attribute {
     value: React.PropTypes.string.isRequired,
     options: React.PropTypes.object.isRequired
   }
-
-  constructor (props) {
-    super(props)
-    this.handleAceInput = this.handleAceInput.bind(this)
-    this.state = {
-      codeValue: this.props.value
-    }
-  }
-
-  handleAceInput (value) {
-    this.setFieldValue(value)
-    this.setState({codeValue: value})
-  }
-
   render () {
     return (
       <div className='vcv-row-html-editor-container'>
@@ -40,8 +26,8 @@ export default class RawCode extends Attribute {
           name={this.props.fieldKey}
           editorProps={{$blockScrolling: true}}
           showPrintMargin={false}
-          value={this.state.codeValue}
-          onChange={this.handleAceInput}
+          value={this.state.value}
+          onChange={this.setFieldValue.bind(this)}
         />
       </div>
     )
