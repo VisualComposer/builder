@@ -34,14 +34,6 @@
     "access": "protected",
     "value": "thumbnail-feature-icon.jpg"
   },
-  "addUrl": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Add URL"
-    }
-  },
   "iconUrl": {
     "type": "url",
     "access": "public",
@@ -52,19 +44,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Icon URL",
-      "onChange": {
-        "addUrl": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      }
+      "label": "Icon URL"
     }
   },
   "size": {
@@ -231,7 +211,6 @@
     "value": [
       "iconPicker",
       "iconColor",
-      "addUrl",
       "iconUrl",
       "size",
       "shape",

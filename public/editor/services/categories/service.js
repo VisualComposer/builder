@@ -79,6 +79,11 @@ let tempData = {
       'name': 'Instagram Image',
       'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
+    },
+    'Misc': {
+      'name': 'Misc',
+      'elements': [],
+      'icon': 'categories/icons/Misc.svg'
     }
   }
 }
@@ -97,7 +102,9 @@ if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
   tempData.categories['Instagram Image'].elements.push('instagramImage')
 }
-
+if (vcCake.env('FEATURE_RAW_HTML')) {
+  tempData.categories['Misc'].elements.push('rawHtml')
+}
 const data = tempData
 
 const service = {
