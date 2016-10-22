@@ -15,8 +15,17 @@ export default class RawCode extends Attribute {
     options: React.PropTypes.object.isRequired
   }
 
-  componentDidMount () {
-    console.log(this.props)
+  constructor (props) {
+    super(props)
+    this.handleAceInput = this.handleAceInput.bind(this)
+    this.state = {
+      codeValue: this.props.value
+    }
+  }
+
+  handleAceInput (value) {
+    this.setFieldValue(value)
+    this.setState({codeValue: value})
   }
 
   render () {
@@ -31,7 +40,8 @@ export default class RawCode extends Attribute {
           name={this.props.fieldKey}
           editorProps={{$blockScrolling: true}}
           showPrintMargin={false}
-          value={this.props.value}
+          value={this.state.codeValue}
+          onChange={this.handleAceInput}
         />
       </div>
     )

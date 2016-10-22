@@ -32,7 +32,7 @@
   "rawHtml": {
     "type": "rawCode",
     "access": "public",
-    "value": "",
+    "value": "<p>I am raw html block.<br/>Click edit button to change this html</p>",
     "options": {
       "label": "Raw HTML",
       "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML.",
