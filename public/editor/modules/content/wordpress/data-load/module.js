@@ -14,7 +14,7 @@ vcCake.add('content-wordpress-data-load', (api) => {
     if (status === 'success') {
       responseData = JSON.parse(request.responseText || '{}')
       if (responseData.data) {
-        let data = JSON.parse(responseData.data || '{}')
+        let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         // Todo fix saving ( empty Name, params all undefined toJS function)
         TimeMachine.setZeroState(data.elements)
         api.request('data:reset', data.elements)
