@@ -35,7 +35,8 @@
     "value": "",
     "options": {
       "label": "Raw HTML",
-      "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML."
+      "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML.",
+      "mode": "html"
     }
   },
   "customClass": {
