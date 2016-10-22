@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService} from 'vc-cake'
+import {getService, setData, getData} from 'vc-cake'
 import SmartLine from './smart-line'
 import Helper from './helper'
 import Api from './api'
@@ -203,7 +203,7 @@ export default class DnD {
     if (this.isDraggingElementParent(domElement)) { return }
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-      allowAppend: domElement && this.draggingElement.isChild(domElement)
+      allowAppend: domElement && this.draggingElement.isChild(domElement) && !documentManager.children(domElement.id).length
     })
     if (position) {
       this.point = point
@@ -215,7 +215,7 @@ export default class DnD {
   setPosition (position) {
     this.position = position
   }
-  start (id, point) {
+  start (id) {
     this.draggingElement = id ? this.items[id] : null
     if (!this.draggingElement) {
       this.draggingElement = null
@@ -270,7 +270,7 @@ export default class DnD {
     this.position = null
     this.helper = null
     this.startPoint = null
-    // setData('vcv:layoutMode', 'view')
+    getData('vcv:layoutCustomMode') !== 'contentEditable' && setData('vcv:layoutCustomMode', null)
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
@@ -279,11 +279,11 @@ export default class DnD {
       this.handleDragEnd()
       return
     }
+    setData('vcv:layoutCustomMode', 'dnd')
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
       } else {
-        // setData('vcv:layoutMode', 'dnd')
       }
     }, 0)
     this.helper && this.helper.setPosition(point)
