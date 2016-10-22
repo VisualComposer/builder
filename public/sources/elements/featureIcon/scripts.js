@@ -4,9 +4,9 @@ let CustomTag = 'i'
 let tinycolor = require('react-color/modules/tinycolor2')
 let colorValue = tinycolor(iconColor).toRgbString()
 
-if (addUrl) {
+if (iconUrl) {
   CustomTag = 'a'
-  let { url, title, targetBlank, relNofollow } = buttonUrl
+  let { url, title, targetBlank, relNofollow } = iconUrl
   customProps = {
     'href': url,
     'title': title,
@@ -40,4 +40,8 @@ devices.forEach((device) => {
 })
 if (animations.length) {
   customProps[ 'data-vce-animate' ] = animations.join(' ')
+}
+
+if (typeof customClass === 'string' && this.props.atts.customClass) {
+  classes += classes.concat(' ' + this.props.atts.customClass)
 }
