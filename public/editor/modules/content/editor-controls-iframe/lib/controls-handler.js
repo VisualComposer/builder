@@ -31,7 +31,6 @@ ControlsHandler.prototype.showOutline = function ($el, hideControls) {
       this.drawControls()
     }
   }
-
   return this
 }
 
