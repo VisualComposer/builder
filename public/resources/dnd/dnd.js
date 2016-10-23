@@ -1,10 +1,11 @@
 import $ from 'jquery'
 import _ from 'lodash'
 import {getService, setData, getData} from 'vc-cake'
-import SmartLine from './smart-line'
+import SmartLine from './smartLine'
 import Helper from './helper'
+import HelperClone from './helperClone'
 import Api from './api'
-import DOMElement from './dom-element'
+import DOMElement from './domElement'
 
 const documentManager = getService('document')
 const cook = getService('cook')
@@ -121,7 +122,8 @@ export default class DnD {
           rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
           handler: null,
-          disabled: false
+          disabled: false,
+          helperType: null
         })
       }
     })
@@ -194,7 +196,6 @@ export default class DnD {
     let domNode = this.findDOMNode(point)
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
-    if (!domElement) { return }
     let parentDOMElement = this.items[domElement.parent()] || null
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
@@ -215,7 +216,7 @@ export default class DnD {
   setPosition (position) {
     this.position = position
   }
-  start (id) {
+  start (id, point) {
     this.draggingElement = id ? this.items[id] : null
     if (!this.draggingElement) {
       this.draggingElement = null
@@ -224,9 +225,14 @@ export default class DnD {
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     // Create helper/clone of element
-    this.helper = new Helper(this.draggingElement, {
-      container: this.options.container
-    })
+    if (this.options.helperType === 'clone') {
+      this.helper = new HelperClone(this.draggingElement.node, point)
+    } else {
+      this.helper = new Helper(this.draggingElement, {
+        container: this.options.container
+      })
+    }
+
     // Add css class for body to enable visual settings for all document
     this.options.document.body.classList.add('vcv-dnd-dragging--start', 'vcv-is-no-selection')
 
