@@ -55,7 +55,7 @@ button.vce-button--style-simple {
 .vce-button--style-simple.vce-button--text-color-default,
 a.vce-button--style-simple.vce-button--text-color-default,
 button.vce-button--style-simple.vce-button--text-color-default {
-  color: #0072BC;
+  color: #557cbf;
 }
 .vce-button--style-simple.vce-button--text-color-default:hover,
 a.vce-button--style-simple.vce-button--text-color-default:hover,
@@ -63,12 +63,12 @@ button.vce-button--style-simple.vce-button--text-color-default:hover,
 .vce-button--style-simple.vce-button--text-color-default:focus,
 a.vce-button--style-simple.vce-button--text-color-default:focus,
 button.vce-button--style-simple.vce-button--text-color-default:focus {
-  color: #005389;
+  color: #3e63a3;
 }
 .vce-button--style-simple.vce-button--background-color-default,
 a.vce-button--style-simple.vce-button--background-color-default,
 button.vce-button--style-simple.vce-button--background-color-default {
-  background-color: #0072BC;
+  background-color: #557cbf;
 }
 .vce-button--style-simple.vce-button--background-color-default:hover,
 a.vce-button--style-simple.vce-button--background-color-default:hover,
@@ -76,7 +76,7 @@ button.vce-button--style-simple.vce-button--background-color-default:hover,
 .vce-button--style-simple.vce-button--background-color-default:focus,
 a.vce-button--style-simple.vce-button--background-color-default:focus,
 button.vce-button--style-simple.vce-button--background-color-default:focus {
-  background-color: #005389;
+  background-color: #3e63a3;
 }
 .vce-button--style-simple.vce-button--text-color-silver,
 a.vce-button--style-simple.vce-button--text-color-silver,
