@@ -63,7 +63,7 @@ class SaveController {
         {
           'vcv-action': 'setData:adminNonce',
           'vcv-content': content,
-          'vcv-data': JSON.stringify(data),
+          'vcv-data': encodeURIComponent(JSON.stringify(data)),
           'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
           'vcv-shared-library-styles': assetsManager.getCssFiles(),
           'vcv-global-styles': globalStyles,

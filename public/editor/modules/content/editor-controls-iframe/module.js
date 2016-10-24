@@ -17,16 +17,20 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   api.addAction('hideFrame', function () {
     controlsHandler.hideOutline()
   })
-  vcCake.onDataChange('vcv:layoutMode', (value) => {
-    if (value !== 'view') {
+  vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
+    if (value) {
       controlsHandler.hideOutline()
       controlsHandler.removeControls()
+    } else {
+      controlsHandler.drawOutlines()
+      controlsHandler.setControlsPosition()
+      controlsHandler.setTimer()
     }
   })
   ControlsTrigger.triggerShowFrame = function (e) {
     removeControls = false
     e.stopPropagation()
-    vcCake.getData('vcv:layoutMode') === 'view' && controlsHandler.showOutline($(e.currentTarget), hideControls)
+    vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable' && controlsHandler.showOutline($(e.currentTarget), hideControls)
   }
 
   ControlsTrigger.triggerHideFrame = function () {
@@ -40,8 +44,8 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   }
 
   ControlsTrigger.triggerRedrawFrame = function () {
-    if (vcCake.getData('vcv:layoutMode') === 'view') {
-      controlsHandler.drawOutlines()
+    controlsHandler.drawOutlines()
+    if (!vcCake.getData('vcv:layoutCustomMode')) {
       controlsHandler.setControlsPosition()
       controlsHandler.setTimer()
     }

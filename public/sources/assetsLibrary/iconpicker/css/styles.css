@@ -6161,11 +6161,12 @@
 }
 @font-face {
   font-family: 'vcv-monosocial';
-  src: url('vcv-monosocial-1.10/fonts/monosocial-1.10.ttf') format('truetype'), url('vcv-monosocial-1.10/fonts/monosocial-1.10.woff?v110') format('woff'), url('vcv-monosocial-1.10/fonts/monosocial-1.10.svg#vcv-monosocial') format('svg');
+  src: url('vcv-monosocial-1.10/fonts/vcv-monosocial.ttf?qvlnsx') format('truetype'), url('vcv-monosocial-1.10/fonts/vcv-monosocial.woff?qvlnsx') format('woff'), url('vcv-monosocial-1.10/fonts/vcv-monosocial.svg?qvlnsx#vcv-monosocial') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-.vcv-ui-icon-monosocial:before {
+.vcv-ui-icon-monosocial {
+  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'vcv-monosocial' !important;
   speak: none;
   font-style: normal;
@@ -6173,318 +6174,312 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  height: 1em;
-  font-size: 2em;
-  text-align: center;
+  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-.vcv-ui-icon-monosocial-fivehundredpx:before {
-  content: "fivehundredpx";
-}
-.vcv-ui-icon-monosocial-aboutme:before {
-  content: "aboutme";
-}
-.vcv-ui-icon-monosocial-addme:before {
-  content: "addme";
-}
-.vcv-ui-icon-monosocial-amazon:before {
-  content: "amazon";
-}
-.vcv-ui-icon-monosocial-aol:before {
-  content: "aol";
-}
-.vcv-ui-icon-monosocial-appstorealt:before {
-  content: "appstorealt";
-}
-.vcv-ui-icon-monosocial-appstore:before {
-  content: "appstore";
-}
-.vcv-ui-icon-monosocial-apple:before {
-  content: "apple";
-}
-.vcv-ui-icon-monosocial-bebo:before {
-  content: "bebo";
-}
-.vcv-ui-icon-monosocial-behance:before {
-  content: "behance";
-}
-.vcv-ui-icon-monosocial-bing:before {
-  content: "bing";
-}
-.vcv-ui-icon-monosocial-blip:before {
-  content: "blip";
-}
-.vcv-ui-icon-monosocial-blogger:before {
-  content: "blogger";
-}
-.vcv-ui-icon-monosocial-coroflot:before {
-  content: "coroflot";
-}
-.vcv-ui-icon-monosocial-daytum:before {
-  content: "daytum";
-}
-.vcv-ui-icon-monosocial-delicious:before {
-  content: "delicious";
-}
-.vcv-ui-icon-monosocial-designbump:before {
-  content: "designbump";
-}
-.vcv-ui-icon-monosocial-designfloat:before {
-  content: "designfloat";
-}
-.vcv-ui-icon-monosocial-deviantart:before {
-  content: "deviantart";
-}
-.vcv-ui-icon-monosocial-diggalt:before {
-  content: "diggalt";
-}
-.vcv-ui-icon-monosocial-digg:before {
-  content: "digg";
-}
-.vcv-ui-icon-monosocial-dribble:before {
-  content: "dribble";
-}
-.vcv-ui-icon-monosocial-drupal:before {
-  content: "drupal";
-}
-.vcv-ui-icon-monosocial-ebay:before {
-  content: "ebay";
-}
-.vcv-ui-icon-monosocial-email:before {
-  content: "email";
-}
-.vcv-ui-icon-monosocial-emberapp:before {
-  content: "emberapp";
-}
-.vcv-ui-icon-monosocial-etsy:before {
-  content: "etsy";
-}
-.vcv-ui-icon-monosocial-facebook:before {
-  content: "facebook";
-}
-.vcv-ui-icon-monosocial-feedburner:before {
-  content: "feedburner";
-}
-.vcv-ui-icon-monosocial-flickr:before {
-  content: "flickr";
-}
-.vcv-ui-icon-monosocial-foodspotting:before {
-  content: "foodspotting";
-}
-.vcv-ui-icon-monosocial-forrst:before {
-  content: "forrst";
-}
-.vcv-ui-icon-monosocial-foursquare:before {
-  content: "foursquare";
-}
-.vcv-ui-icon-monosocial-friendsfeed:before {
-  content: "friendsfeed";
-}
-.vcv-ui-icon-monosocial-friendstar:before {
-  content: "friendstar";
-}
-.vcv-ui-icon-monosocial-gdgt:before {
-  content: "gdgt";
-}
-.vcv-ui-icon-monosocial-github:before {
-  content: "github";
-}
-.vcv-ui-icon-monosocial-githubalt:before {
-  content: "githubalt";
-}
-.vcv-ui-icon-monosocial-googlebuzz:before {
-  content: "googlebuzz";
-}
-.vcv-ui-icon-monosocial-googleplus:before {
-  content: "googleplus";
-}
-.vcv-ui-icon-monosocial-googletalk:before {
-  content: "googletalk";
-}
-.vcv-ui-icon-monosocial-gowallapin:before {
-  content: "gowallapin";
-}
-.vcv-ui-icon-monosocial-gowalla:before {
-  content: "gowalla";
-}
-.vcv-ui-icon-monosocial-grooveshark:before {
-  content: "grooveshark";
-}
-.vcv-ui-icon-monosocial-heart:before {
-  content: "heart";
-}
-.vcv-ui-icon-monosocial-hyves:before {
-  content: "hyves";
-}
-.vcv-ui-icon-monosocial-icondock:before {
-  content: "icondock";
-}
-.vcv-ui-icon-monosocial-icq:before {
-  content: "icq";
-}
-.vcv-ui-icon-monosocial-identica:before {
-  content: "identica";
-}
-.vcv-ui-icon-monosocial-imessage:before {
-  content: "imessage";
-}
-.vcv-ui-icon-monosocial-itunes:before {
-  content: "itunes";
-}
-.vcv-ui-icon-monosocial-lastfm:before {
-  content: "lastfm";
-}
-.vcv-ui-icon-monosocial-linkedin:before {
-  content: "linkedin";
-}
-.vcv-ui-icon-monosocial-meetup:before {
-  content: "meetup";
-}
-.vcv-ui-icon-monosocial-metacafe:before {
-  content: "metacafe";
-}
-.vcv-ui-icon-monosocial-mixx:before {
-  content: "mixx";
-}
-.vcv-ui-icon-monosocial-mobileme:before {
-  content: "mobileme";
-}
-.vcv-ui-icon-monosocial-mrwong:before {
-  content: "mrwong";
-}
-.vcv-ui-icon-monosocial-msn:before {
-  content: "msn";
-}
-.vcv-ui-icon-monosocial-myspace:before {
-  content: "myspace";
-}
-.vcv-ui-icon-monosocial-newsvine:before {
-  content: "newsvine";
-}
-.vcv-ui-icon-monosocial-paypal:before {
-  content: "paypal";
-}
-.vcv-ui-icon-monosocial-photobucket:before {
-  content: "photobucket";
-}
-.vcv-ui-icon-monosocial-picasa:before {
-  content: "picasa";
-}
-.vcv-ui-icon-monosocial-pinterest:before {
-  content: "pinterest";
-}
-.vcv-ui-icon-monosocial-podcast:before {
-  content: "podcast";
-}
-.vcv-ui-icon-monosocial-posterous:before {
-  content: "posterous";
-}
-.vcv-ui-icon-monosocial-qik:before {
-  content: "qik";
-}
-.vcv-ui-icon-monosocial-quora:before {
-  content: "quora";
-}
-.vcv-ui-icon-monosocial-reddit:before {
-  content: "reddit";
-}
-.vcv-ui-icon-monosocial-retweet:before {
-  content: "retweet";
-}
-.vcv-ui-icon-monosocial-rss:before {
-  content: "rss";
-}
-.vcv-ui-icon-monosocial-scribd:before {
-  content: "scribd";
-}
-.vcv-ui-icon-monosocial-sharethis:before {
-  content: "sharethis";
-}
-.vcv-ui-icon-monosocial-skype:before {
-  content: "skype";
-}
-.vcv-ui-icon-monosocial-slashdot:before {
-  content: "slashdot";
-}
-.vcv-ui-icon-monosocial-slideshare:before {
-  content: "slideshare";
-}
-.vcv-ui-icon-monosocial-smugmug:before {
-  content: "smugmug";
-}
-.vcv-ui-icon-monosocial-soundcloud:before {
-  content: "soundcloud";
-}
-.vcv-ui-icon-monosocial-spotify:before {
-  content: "spotify";
-}
-.vcv-ui-icon-monosocial-squidoo:before {
-  content: "squidoo";
+  -moz-osx-font-smoothing: grayscale;
 }
 .vcv-ui-icon-monosocial-stackoverflow:before {
-  content: "stackoverflow";
+  content: "\e900";
 }
-.vcv-ui-icon-monosocial-star:before {
-  content: "star";
+.vcv-ui-icon-monosocial-fivehundredpx:before {
+  content: "\e901";
 }
-.vcv-ui-icon-monosocial-stumbleupon:before {
-  content: "stumbleupon";
+.vcv-ui-icon-monosocial-foodspotting:before {
+  content: "\e902";
 }
-.vcv-ui-icon-monosocial-technorati:before {
-  content: "technorati";
-}
-.vcv-ui-icon-monosocial-tumblr:before {
-  content: "tumblr";
+.vcv-ui-icon-monosocial-photobucket:before {
+  content: "\e903";
 }
 .vcv-ui-icon-monosocial-twitterbird:before {
-  content: "twitterbird";
+  content: "\e904";
 }
-.vcv-ui-icon-monosocial-twitter:before {
-  content: "twitter";
+.vcv-ui-icon-monosocial-stumbleupon:before {
+  content: "\e905";
 }
-.vcv-ui-icon-monosocial-viddler:before {
-  content: "viddler";
+.vcv-ui-icon-monosocial-grooveshark:before {
+  content: "\e906";
 }
-.vcv-ui-icon-monosocial-vimeo:before {
-  content: "vimeo";
+.vcv-ui-icon-monosocial-appstorealt:before {
+  content: "\e907";
 }
-.vcv-ui-icon-monosocial-virb:before {
-  content: "virb";
+.vcv-ui-icon-monosocial-friendsfeed:before {
+  content: "\e908";
 }
-.vcv-ui-icon-monosocial-www:before {
-  content: "www";
+.vcv-ui-icon-monosocial-designfloat:before {
+  content: "\e909";
 }
-.vcv-ui-icon-monosocial-wikipedia:before {
-  content: "wikipedia";
+.vcv-ui-icon-monosocial-friendstar:before {
+  content: "\e90a";
 }
-.vcv-ui-icon-monosocial-windows:before {
-  content: "windows";
+.vcv-ui-icon-monosocial-googlebuzz:before {
+  content: "\e90b";
+}
+.vcv-ui-icon-monosocial-deviantart:before {
+  content: "\e90c";
+}
+.vcv-ui-icon-monosocial-foursquare:before {
+  content: "\e90d";
+}
+.vcv-ui-icon-monosocial-technorati:before {
+  content: "\e90e";
+}
+.vcv-ui-icon-monosocial-googletalk:before {
+  content: "\e90f";
+}
+.vcv-ui-icon-monosocial-designbump:before {
+  content: "\e910";
+}
+.vcv-ui-icon-monosocial-googleplus:before {
+  content: "\e911";
+}
+.vcv-ui-icon-monosocial-gowallapin:before {
+  content: "\e912";
+}
+.vcv-ui-icon-monosocial-soundcloud:before {
+  content: "\e913";
+}
+.vcv-ui-icon-monosocial-feedburner:before {
+  content: "\e914";
+}
+.vcv-ui-icon-monosocial-slideshare:before {
+  content: "\e915";
 }
 .vcv-ui-icon-monosocial-wordpress:before {
-  content: "wordpress";
-}
-.vcv-ui-icon-monosocial-xing:before {
-  content: "xing";
+  content: "\e916";
 }
 .vcv-ui-icon-monosocial-yahoobuzz:before {
-  content: "yahoobuzz";
+  content: "\e917";
 }
-.vcv-ui-icon-monosocial-yahoo:before {
-  content: "yahoo";
+.vcv-ui-icon-monosocial-githubalt:before {
+  content: "\e918";
 }
-.vcv-ui-icon-monosocial-yelp:before {
-  content: "yelp";
+.vcv-ui-icon-monosocial-delicious:before {
+  content: "\e919";
 }
-.vcv-ui-icon-monosocial-youtube:before {
-  content: "youtube";
+.vcv-ui-icon-monosocial-sharethis:before {
+  content: "\e91a";
 }
 .vcv-ui-icon-monosocial-instagram:before {
-  content: "instagram";
+  content: "\e91b";
+}
+.vcv-ui-icon-monosocial-pinterest:before {
+  content: "\e91c";
+}
+.vcv-ui-icon-monosocial-posterous:before {
+  content: "\e91d";
+}
+.vcv-ui-icon-monosocial-wikipedia:before {
+  content: "\e91e";
+}
+.vcv-ui-icon-monosocial-linkedin:before {
+  content: "\e91f";
+}
+.vcv-ui-icon-monosocial-emberapp:before {
+  content: "\e920";
+}
+.vcv-ui-icon-monosocial-slashdot:before {
+  content: "\e921";
+}
+.vcv-ui-icon-monosocial-icondock:before {
+  content: "\e922";
+}
+.vcv-ui-icon-monosocial-identica:before {
+  content: "\e923";
+}
+.vcv-ui-icon-monosocial-imessage:before {
+  content: "\e924";
+}
+.vcv-ui-icon-monosocial-mobileme:before {
+  content: "\e925";
+}
+.vcv-ui-icon-monosocial-newsvine:before {
+  content: "\e926";
+}
+.vcv-ui-icon-monosocial-metacafe:before {
+  content: "\e927";
+}
+.vcv-ui-icon-monosocial-appstore:before {
+  content: "\e928";
+}
+.vcv-ui-icon-monosocial-facebook:before {
+  content: "\e929";
+}
+.vcv-ui-icon-monosocial-coroflot:before {
+  content: "\e92a";
+}
+.vcv-ui-icon-monosocial-blogger:before {
+  content: "\e92b";
+}
+.vcv-ui-icon-monosocial-twitter:before {
+  content: "\e92c";
+}
+.vcv-ui-icon-monosocial-diggalt:before {
+  content: "\e92d";
+}
+.vcv-ui-icon-monosocial-squidoo:before {
+  content: "\e92e";
+}
+.vcv-ui-icon-monosocial-spotify:before {
+  content: "\e92f";
+}
+.vcv-ui-icon-monosocial-smugmug:before {
+  content: "\e930";
+}
+.vcv-ui-icon-monosocial-aboutme:before {
+  content: "\e931";
+}
+.vcv-ui-icon-monosocial-viddler:before {
+  content: "\e932";
+}
+.vcv-ui-icon-monosocial-retweet:before {
+  content: "\e933";
+}
+.vcv-ui-icon-monosocial-myspace:before {
+  content: "\e934";
+}
+.vcv-ui-icon-monosocial-windows:before {
+  content: "\e935";
+}
+.vcv-ui-icon-monosocial-dribble:before {
+  content: "\e936";
+}
+.vcv-ui-icon-monosocial-behance:before {
+  content: "\e937";
+}
+.vcv-ui-icon-monosocial-podcast:before {
+  content: "\e938";
+}
+.vcv-ui-icon-monosocial-youtube:before {
+  content: "\e939";
+}
+.vcv-ui-icon-monosocial-gowalla:before {
+  content: "\e93a";
+}
+.vcv-ui-icon-monosocial-picasa:before {
+  content: "\e93b";
+}
+.vcv-ui-icon-monosocial-tumblr:before {
+  content: "\e93c";
+}
+.vcv-ui-icon-monosocial-forrst:before {
+  content: "\e93d";
+}
+.vcv-ui-icon-monosocial-meetup:before {
+  content: "\e93e";
+}
+.vcv-ui-icon-monosocial-paypal:before {
+  content: "\e93f";
+}
+.vcv-ui-icon-monosocial-lastfm:before {
+  content: "\e940";
+}
+.vcv-ui-icon-monosocial-itunes:before {
+  content: "\e941";
+}
+.vcv-ui-icon-monosocial-flickr:before {
+  content: "\e942";
+}
+.vcv-ui-icon-monosocial-daytum:before {
+  content: "\e943";
+}
+.vcv-ui-icon-monosocial-drupal:before {
+  content: "\e944";
+}
+.vcv-ui-icon-monosocial-amazon:before {
+  content: "\e945";
+}
+.vcv-ui-icon-monosocial-reddit:before {
+  content: "\e946";
+}
+.vcv-ui-icon-monosocial-scribd:before {
+  content: "\e947";
+}
+.vcv-ui-icon-monosocial-mrwong:before {
+  content: "\e948";
+}
+.vcv-ui-icon-monosocial-github:before {
+  content: "\e949";
+}
+.vcv-ui-icon-monosocial-email:before {
+  content: "\e94a";
+}
+.vcv-ui-icon-monosocial-apple:before {
+  content: "\e94b";
+}
+.vcv-ui-icon-monosocial-addme:before {
+  content: "\e94c";
+}
+.vcv-ui-icon-monosocial-yahoo:before {
+  content: "\e94d";
+}
+.vcv-ui-icon-monosocial-vimeo:before {
+  content: "\e94e";
+}
+.vcv-ui-icon-monosocial-skype:before {
+  content: "\e94f";
+}
+.vcv-ui-icon-monosocial-heart:before {
+  content: "\e950";
+}
+.vcv-ui-icon-monosocial-quora:before {
+  content: "\e951";
+}
+.vcv-ui-icon-monosocial-hyves:before {
+  content: "\e952";
+}
+.vcv-ui-icon-monosocial-bebo:before {
+  content: "\e953";
+}
+.vcv-ui-icon-monosocial-virb:before {
+  content: "\e954";
+}
+.vcv-ui-icon-monosocial-blip:before {
+  content: "\e955";
+}
+.vcv-ui-icon-monosocial-digg:before {
+  content: "\e956";
+}
+.vcv-ui-icon-monosocial-ebay:before {
+  content: "\e957";
+}
+.vcv-ui-icon-monosocial-mixx:before {
+  content: "\e958";
+}
+.vcv-ui-icon-monosocial-gdgt:before {
+  content: "\e959";
+}
+.vcv-ui-icon-monosocial-star:before {
+  content: "\e95a";
+}
+.vcv-ui-icon-monosocial-bing:before {
+  content: "\e95b";
+}
+.vcv-ui-icon-monosocial-yelp:before {
+  content: "\e95c";
+}
+.vcv-ui-icon-monosocial-etsy:before {
+  content: "\e95d";
+}
+.vcv-ui-icon-monosocial-xing:before {
+  content: "\e95e";
+}
+.vcv-ui-icon-monosocial-rss:before {
+  content: "\e95f";
+}
+.vcv-ui-icon-monosocial-icq:before {
+  content: "\e960";
+}
+.vcv-ui-icon-monosocial-www:before {
+  content: "\e961";
+}
+.vcv-ui-icon-monosocial-msn:before {
+  content: "\e962";
+}
+.vcv-ui-icon-monosocial-qik:before {
+  content: "\e963";
+}
+.vcv-ui-icon-monosocial-aol:before {
+  content: "\e964";
 }
 @font-face {
   font-family: 'vcv-openiconic';

@@ -1,10 +1,11 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService} from 'vc-cake'
-import SmartLine from './smart-line'
+import {getService, setData, getData} from 'vc-cake'
+import SmartLine from './smartLine'
 import Helper from './helper'
+import HelperClone from './helperClone'
 import Api from './api'
-import DOMElement from './dom-element'
+import DOMElement from './domElement'
 
 const documentManager = getService('document')
 const cook = getService('cook')
@@ -121,7 +122,8 @@ export default class DnD {
           rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
           handler: null,
-          disabled: false
+          disabled: false,
+          helperType: null
         })
       }
     })
@@ -194,7 +196,6 @@ export default class DnD {
     let domNode = this.findDOMNode(point)
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
-    if (!domElement) { return }
     let parentDOMElement = this.items[domElement.parent()] || null
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
@@ -203,7 +204,7 @@ export default class DnD {
     if (this.isDraggingElementParent(domElement)) { return }
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-      allowAppend: domElement && this.draggingElement.isChild(domElement)
+      allowAppend: domElement && this.draggingElement.isChild(domElement) && !documentManager.children(domElement.id).length
     })
     if (position) {
       this.point = point
@@ -224,9 +225,14 @@ export default class DnD {
     this.options.document.addEventListener('mousedown', this.handleRightMouseClickFunction, false)
     this.options.document.addEventListener('mouseup', this.handleDragEndFunction, false)
     // Create helper/clone of element
-    this.helper = new Helper(this.draggingElement, {
-      container: this.options.container
-    })
+    if (this.options.helperType === 'clone') {
+      this.helper = new HelperClone(this.draggingElement.node, point)
+    } else {
+      this.helper = new Helper(this.draggingElement, {
+        container: this.options.container
+      })
+    }
+
     // Add css class for body to enable visual settings for all document
     this.options.document.body.classList.add('vcv-dnd-dragging--start', 'vcv-is-no-selection')
 
@@ -270,7 +276,7 @@ export default class DnD {
     this.position = null
     this.helper = null
     this.startPoint = null
-    // setData('vcv:layoutMode', 'view')
+    getData('vcv:layoutCustomMode') !== 'contentEditable' && setData('vcv:layoutCustomMode', null)
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
@@ -279,11 +285,11 @@ export default class DnD {
       this.handleDragEnd()
       return
     }
+    setData('vcv:layoutCustomMode', 'dnd')
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
       } else {
-        // setData('vcv:layoutMode', 'dnd')
       }
     }, 0)
     this.helper && this.helper.setPosition(point)

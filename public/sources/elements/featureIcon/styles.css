@@ -203,20 +203,20 @@
   direction: ltr;
   unicode-bidi: normal;
 }
-.vce-features__icon span.fa::before {
+.vce-features__icon .fa::before {
   line-height: 0.9em;
-  height: 1em;
+  height: 0.9em;
 }
-.vce-features__icon span.typcn::before {
+.vce-features__icon .typcn::before {
   font-size: 1.3em;
 }
-.vce-features__icon span.vcv-ui-icon-material::before {
+.vce-features__icon .vcv-ui-icon-material::before {
   font-size: 1.2em;
   line-height: 0.95em;
 }
-.vce-features__icon span.vcv-ui-icon-openiconic::before {
+.vce-features__icon .vcv-ui-icon-openiconic::before {
   height: 0.9em;
 }
-.vce-features__icon span.vcv-ui-icon-monosocial::before {
-  word-break: normal;
+.vce-features__icon .vcv-ui-icon-monosocial::before {
+  font-size: 2em;
 }

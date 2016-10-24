@@ -9,8 +9,7 @@ codestyle:js:
   image: wpbakery/standardjs
   stage: codestyle
   script:
-    - standard --version
-    - standard
+    - npm run standard
   tags:
     - docker
 

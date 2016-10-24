@@ -30,7 +30,7 @@ export default class ContentEditable extends React.Component {
   }
   handleLayoutModeChange (mode) {
     const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
-    this.setState({contentEditable: mode === 'contentEditable', trackMouse: false})
+    mode !== 'dnd' && this.setState({contentEditable: mode === 'contentEditable', trackMouse: false})
     if (mode !== 'contentEditable') {
       contentWindow.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
@@ -59,10 +59,10 @@ export default class ContentEditable extends React.Component {
       elementsContainer: contentWindow.document.body
     })
     this.medium.destroy()
-    vcCake.onDataChange('vcv:layoutMode', this.handleLayoutModeChange)
+    vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
   }
   componentWillUnmount () {
-    vcCake.ignoreDataChange('vcv:layoutMode', this.handleLayoutModeChange)
+    vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
   }
   updateElementData () {
     const dom = ReactDOM.findDOMNode(this)
@@ -78,7 +78,7 @@ export default class ContentEditable extends React.Component {
     const $target = $(e.target)
     if (!$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
       this.medium.destroy()
-      vcCake.setData('vcv:layoutMode', 'view')
+      vcCake.setData('vcv:layoutCustomMode', null)
     }
   }
   handleMouseMove () {
@@ -95,7 +95,7 @@ export default class ContentEditable extends React.Component {
   handleMouseUp () {
     if (this.state.trackMouse === true) {
       this.mediumSetup()
-      vcCake.setData('vcv:layoutMode', 'contentEditable')
+      vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
       const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       contentWindow.addEventListener('click', this.handleGlobalClick)
     }

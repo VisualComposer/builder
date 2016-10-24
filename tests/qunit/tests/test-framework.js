@@ -1,5 +1,17 @@
-QUnit.test("framework test", function(assert) {
-  assert.ok(window.sw_app, "Framework loaded!");
-  assert.equal(typeof window.sw_app(), 'object', "Framework type object");
-  assert.equal(window.sw_app().data(123), 123, "Framework helpers exists");
-});
+QUnit.test('framework test', assert => assert.ok(window.app, 'Framework loaded!'))
+
+QUnit.test('test getService', assert => {
+  assert.ok(typeof window.app.getService === 'function')
+})
+
+QUnit.test('test getService cook', assert => {
+  var cook = window.app.getService('cook')
+  assert.ok(_.isObject(cook))
+})
+
+QUnit.test('test getService cook element settings', assert => {
+  var cook = window.app.getService('cook')
+  var elements = cook.list.settings()
+  assert.ok(_.isObject(elements))
+  assert.ok(!_.isEmpty(elements))
+})

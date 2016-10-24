@@ -62,7 +62,7 @@ let tempData = {
     },
     'Single image': {
       'name': 'Single Image',
-      'elements': ['singleImage'],
+      'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
     },
     'Text block': {
@@ -79,6 +79,11 @@ let tempData = {
       'name': 'Instagram Image',
       'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
+    },
+    'Misc': {
+      'name': 'Misc',
+      'elements': [],
+      'icon': 'categories/icons/Misc.svg'
     }
   }
 }
@@ -88,8 +93,8 @@ if (vcCake.env('FEATURE_ASSET_MANAGER')) {
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
   tempData.categories['Icon'].elements.push('featureIcon')
 }
-if (vcCake.env('FEATURE_SINGLE_IMAGE_XO')) {
-  tempData.categories['Single image'].elements.push('xoSingleImage')
+if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
+  tempData.categories['Single image'].elements.push('singleImage')
 }
 if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
   tempData.categories['Flickr Image'].elements.push('flickrImage')
@@ -97,7 +102,9 @@ if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
   tempData.categories['Instagram Image'].elements.push('instagramImage')
 }
-
+if (vcCake.env('FEATURE_RAW_HTML')) {
+  tempData.categories['Misc'].elements.push('rawHtml')
+}
 const data = tempData
 
 const service = {

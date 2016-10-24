@@ -14,7 +14,9 @@ vcCake.add('content-tree-view-dnd', function (api) {
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
         document: document,
-        handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler'
+        container: document.body,
+        handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler',
+        helperType: 'clone'
       })
       this.items.init()
     }
@@ -38,13 +40,16 @@ vcCake.add('content-tree-view-dnd', function (api) {
     }
   }
   ModuleDnd.prototype.start = function () {
-    this.api.module('content-editor-controls').do('enableControls', false)
-    document.body.classList.add('vcv-no-select')
+    this.api.module('content-editor-controls-iframe').do('disableControls', true)
+    document.body.classList.add('vcv-is-no-selection')
+    // this.api.notify('draggingStarted', true)
   }
   ModuleDnd.prototype.end = function () {
-    this.api.module('content-editor-controls-iframe').do('hideFrame', true)
-    this.api.module('content-editor-controls').do('enableControls', true)
-    document.body.classList.remove('vcv-no-select')
+    // vcCake.setData('vcv:layoutCustomMode', null)
+    // this.api.module('content-editor-controls-iframe').do('hideFrame', true)
+    this.api.module('content-editor-controls-iframe').do('disableControls', false)
+    document.body.classList.remove('vcv-is-no-selection')
+    // this.api.notify('draggingEnd', false)
   }
   let dnd = new ModuleDnd(api)
   dnd.init()
