@@ -1,0 +1,16 @@
+.vce-instagram-image-inner {
+  width: 100%;
+  display: inline-block;
+}
+
+.vce-instagram-image--align-center {
+  text-align: center;
+}
+
+.vce-instagram-image--align-right {
+  text-align: right;
+}
+
+.vce-instagram-image--align-left {
+  text-align: left;
+}
