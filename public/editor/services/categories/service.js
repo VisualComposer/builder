@@ -108,6 +108,9 @@ if (vcCake.env('FEATURE_RAW_HTML')) {
 if (vcCake.env('FEATURE_RAW_JS')) {
   tempData.categories['Misc'].elements.push('rawJs')
 }
+if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
+  tempData.categories['Button'].elements.push('simpleButton')
+}
 const data = tempData
 
 const service = {

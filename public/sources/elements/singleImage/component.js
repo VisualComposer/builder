@@ -5,6 +5,7 @@ class Component extends vcvAPI.elementComponent {
     super(props);
     this.setSize = this.setSize.bind(this)
     this.setCustomSizeState = this.setCustomSizeState.bind(this)
+    this.setMaxWidthState = this.setMaxWidthState.bind(this)
   }
   componentDidMount () {
     if (this.props.atts.shape && this.props.atts.shape === 'round' && this.props.atts.size) {

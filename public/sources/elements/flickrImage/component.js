@@ -11,12 +11,16 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { embed, designOptions, customClass } = atts
+    let { embed, designOptions, customClass, alignment } = atts
     let classes = 'vce-flickr-image vce'
     let customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
+    }
+
+    if (alignment) {
+      classes += ` vce-flickr-image--align-${alignment}`
     }
 
     customProps.key = `customProps:${id}`

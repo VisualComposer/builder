@@ -1,0 +1,371 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Simple Button"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Simple flat style button with hover effect to catch visitor's attention."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview-flat-button.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail-flat-button.jpg"
+  },
+  "addUrl": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add URL"
+    }
+  },
+  "buttonUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Button URL",
+      "onChange": {
+        "addUrl": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Apply Now",
+    "options": {
+      "label": "Button text"
+    }
+  },
+  "textColor": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "white",
+    "options": {
+      "label": "Text color",
+      "values": [
+        {
+          "label": "Default",
+          "value": "default"
+        },
+        {
+          "label": "Silver",
+          "value": "silver"
+        },
+        {
+          "label": "White",
+          "value": "white"
+        },
+        {
+          "label": "Nero",
+          "value": "nero"
+        },
+        {
+          "label": "Mortar",
+          "value": "mortar"
+        },
+        {
+          "label": "Fire brick",
+          "value": "fire-brick"
+        },
+        {
+          "label": "Coral",
+          "value": "coral"
+        },
+        {
+          "label": "Medium wood",
+          "value": "medium-wood"
+        },
+        {
+          "label": "Amber",
+          "value": "amber"
+        },
+        {
+          "label": "Canary",
+          "value": "canary"
+        },
+        {
+          "label": "Olive",
+          "value": "olive"
+        },
+        {
+          "label": "Pear",
+          "value": "pear"
+        },
+        {
+          "label": "Teal",
+          "value": "teal"
+        },
+        {
+          "label": "Turquoise",
+          "value": "turquoise"
+        },
+        {
+          "label": "Sapphire",
+          "value": "sapphire"
+        },
+        {
+          "label": "Picton blue",
+          "value": "picton-blue"
+        },
+        {
+          "label": "Vivid violet",
+          "value": "vivid-violet"
+        },
+        {
+          "label": "Amethyst",
+          "value": "amethyst"
+        },
+        {
+          "label": "Old brick",
+          "value": "old-brick"
+        },
+        {
+          "label": "Hopbush",
+          "value": "hopbush"
+        }
+      ]
+    }
+  },
+  "backgroundColor": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "default",
+    "options": {
+      "label": "Background color",
+      "values": [
+        {
+          "label": "Default",
+          "value": "default"
+        },
+        {
+          "label": "Silver",
+          "value": "silver"
+        },
+        {
+          "label": "White",
+          "value": "white"
+        },
+        {
+          "label": "Nero",
+          "value": "nero"
+        },
+        {
+          "label": "Mortar",
+          "value": "mortar"
+        },
+        {
+          "label": "Fire brick",
+          "value": "fire-brick"
+        },
+        {
+          "label": "Coral",
+          "value": "coral"
+        },
+        {
+          "label": "Medium wood",
+          "value": "medium-wood"
+        },
+        {
+          "label": "Amber",
+          "value": "amber"
+        },
+        {
+          "label": "Canary",
+          "value": "canary"
+        },
+        {
+          "label": "Olive",
+          "value": "olive"
+        },
+        {
+          "label": "Pear",
+          "value": "pear"
+        },
+        {
+          "label": "Teal",
+          "value": "teal"
+        },
+        {
+          "label": "Turquoise",
+          "value": "turquoise"
+        },
+        {
+          "label": "Sapphire",
+          "value": "sapphire"
+        },
+        {
+          "label": "Picton blue",
+          "value": "picton-blue"
+        },
+        {
+          "label": "Vivid violet",
+          "value": "vivid-violet"
+        },
+        {
+          "label": "Amethyst",
+          "value": "amethyst"
+        },
+        {
+          "label": "Old brick",
+          "value": "old-brick"
+        },
+        {
+          "label": "Hopbush",
+          "value": "hopbush"
+        }
+      ]
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        }
+      ]
+    }
+  },
+  "animate": {
+    "type": "animateDropdown",
+    "access": "public",
+    "value": "none",
+    "options": {
+      "label": "Animate"
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Pick color"
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "addUrl",
+      "buttonUrl",
+      "buttonText",
+      "textColor",
+      "backgroundColor",
+      "shape",
+      "alignment",
+      "animate",
+      "color"
+    ],
+    "options": {
+      "label": "Options"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment options",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+// Mixins for Text Separator
+//-----------------------------------------
+// Note: All mixins must be scoped with namespace.
+// In this example namespace is #vce-text-separator
+// All mixins in this file will be available in VC Design options,
+// so try to make them as flexible and easy to use as possible.
+
+#vce-button {
+
+  //button sizing
+  .size(@padding-vertical; @padding-horizontal; @font-size;) {
+    font-size: @font-size;
+    padding: @padding-vertical @padding-horizontal;
+  }
+
+  .color(@text-color: false; @text-color-hover: false; @background-color: false; @background-color-hover: false; @border-color: false; @border-color-hover: false;) {
+
+      & when not (@text-color = false) {
+        color: @text-color;
+      }
+
+      & when not (@text-color-hover = false) {
+          &:hover,
+          &:focus {
+            color: @text-color-hover;
+          }
+      }
+
+      & when not (@background-color = false ) {
+        background-color: @background-color;
+      }
+
+      & when not (@background-color-hover = false) {
+        &:hover,
+        &:focus {
+          background-color: @background-color-hover;
+        }
+      }
+  }
+}
+
