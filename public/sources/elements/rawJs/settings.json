@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Raw HTML"
+    "value": "Raw JS"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,26 +17,26 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML."
+    "value": "Add your own custom Javascript code to WordPress website to execute it on this particular page."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "raw-html-preview.jpg"
+    "value": "raw-js-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "raw-html-thumbnail.jpg"
+    "value": "raw-js-thumbnail.jpg"
   },
-  "rawHtml": {
+  "rawJs": {
     "type": "rawCode",
     "access": "public",
-    "value": "<p><strong>HyperText Markup Language (HTML)</strong> is the standard markup language for creating web pages and web applications.</p>",
+    "value": "var d=document;d.currentScript.parentNode.insertBefore(d.createTextNode('JavaScript is a high-level, dynamic, untyped, and interpreted programming language.'),d.currentScript)",
     "options": {
-      "label": "Raw HTML",
-      "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML.",
-      "mode": "html"
+      "label": "Raw JS",
+      "description": "Add your own custom Javascript code to WordPress website to execute it on this particular page.",
+      "mode": "javascript"
     }
   },
   "customClass": {
@@ -60,11 +60,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "rawHtml",
+      "rawJs",
       "customClass"
     ],
     "options": {
-      "label": "Raw HTML"
+      "label": "Raw JS"
     }
   },
   "metaEditFormTabs": {
