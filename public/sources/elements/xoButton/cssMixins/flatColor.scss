@@ -1,0 +1,19 @@
+$colorName: bada55;
+$color:   #fff;
+$background: #bada55;
+.vce-button-xo {
+   &--style-flat {
+     &--color-$(colorName) {
+       &,
+       a&,
+       button& {
+         color: $color;
+         background-color: $background;
+         &:hover {
+           color: $color;
+           background-color: color($background shade(10%));
+         }
+       }
+     }
+   }
+ }

@@ -101,12 +101,30 @@ fs.lstat(elementDir, function (err, stats) {
     if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
       cssRelativeFile = "require( './" + cssFileName + "' )"
     }
+    // mixins
+    let mixinsDirName = 'cssMixins'
+    let mixinsDir = path.resolve(elementDir, mixinsDirName)
+    let cssMixins = {}
+    fs.existsSync(mixinsDir) && fs.readdirSync(mixinsDir).forEach((file) => {
+      let filePath = path.resolve(mixinsDir, file)
+      // let subPath = path.resolve(mixinsDir, file)
+      if (!fs.lstatSync(filePath).isDirectory()) {
+        cssMixins[path.basename(filePath, path.extname(filePath))] = {
+          mixin: fs.readFileSync(filePath, 'utf8')
+        }
+      }
+    })
 
     // Settings
     var cssSettingsFile = path.resolve(elementDir, 'css.json')
     var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile, 'utf8') : '{}'
     var cssSettings = JSON.parse(cssSettingsString)
+    // file
     cssSettings.css = cssString
+    //mixins
+    if (Object.keys(cssMixins).length) {
+      cssSettings.mixins = cssMixins
+    }
     if (!cssSettings) {
       console.error('Error, wrong css settings')
       process.exit(1)
