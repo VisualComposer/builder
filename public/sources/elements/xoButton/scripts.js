@@ -11,7 +11,7 @@ classes += ` vce-button-xo--style-flat`
 
 if (color && background) {
   let re = new RegExp('[\\da-f]+', 'gi')
-  let postfix = color.match(re).join('-') + '--' + background.match(re).join('-')
+  let postfix = background.match(re).join('-') + '--' + color.match(re).join('-')
   classes += ` vce-button-xo--style-flat--color-${postfix}`
 }
 

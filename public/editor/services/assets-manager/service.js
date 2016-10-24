@@ -2,14 +2,14 @@ import vcCake from 'vc-cake'
 import postcss from 'postcss'
 import postcssVars from 'postcss-custom-properties'
 import postcssMedia from 'postcss-custom-media'
-// import postcssSimpleVars from 'postcss-simple-vars'
-// import postcssColor from 'postcss-color-function'
-// import postcssNested from 'postcss-nested'
 import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
 import lodash from 'lodash'
+// import postcssSimpleVars from 'postcss-simple-vars'
+// import postcssColor from 'postcss-color-function'
+// import postcssNested from 'postcss-nested'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
@@ -201,6 +201,10 @@ vcCake.addService('assets-manager', {
         if (columnSizes) {
           this.elements[ id ][ 'columnSizes' ] = columnSizes
         }
+        let cssMixins = this.getCssMixinsByElement(element, {})
+        if (Object.keys(cssMixins).length) {
+          this.elements[ id ][ 'cssMixins' ] = cssMixins
+        }
       }
     })
   },
@@ -303,6 +307,54 @@ vcCake.addService('assets-manager', {
     return tags
   },
 
+  getCssMixinsByElement (elData, mixins = {}) {
+    let element = this.cook().get(elData)
+    let settings = element.get('settings')
+    let foundMixins = {}
+    for (let key in settings) {
+      // If found element than get actual data form element
+      if (settings[ key ].type === 'element') {
+        this.getCssMixinsByElement(element.data[ key ], mixins)
+      } else {
+        if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
+          let mixin = settings[ key ].options.cssMixin
+          if (!foundMixins[ mixin.mixin ]) {
+            foundMixins[ mixin.mixin ] = {
+              variables: {}
+            }
+          }
+          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: element.data[key] }
+          if (mixin.namePattern) {
+            foundMixins[ mixin.mixin ].variables[ mixin.property ]['namePattern'] = mixin.namePattern
+          }
+        }
+      }
+    }
+
+    for (let mixin in foundMixins) {
+      if (!mixins[ element.data.tag ]) {
+        mixins[ element.data.tag ] = {}
+      }
+      if (!mixins[ element.data.tag ][ mixin ]) {
+        mixins[ element.data.tag ][ mixin ] = {}
+      }
+      let names = []
+      let variables = {}
+      Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
+        let name = foundMixins[ mixin ].variables[variable].value
+        if (foundMixins[ mixin ].variables[variable].namePattern) {
+          name = name.match(new RegExp(foundMixins[ mixin ].variables[variable].namePattern, 'gi')).join('-')
+        }
+        names.push(name)
+        variables[variable] = foundMixins[ mixin ].variables[variable].value
+      })
+      names = names.join('--')
+      variables['selector'] = names
+      mixins[ element.data.tag ][ mixin ][names] = variables
+    }
+    return mixins
+  },
+
   /**
    * Get styles object combined by tagName
    * @returns {{}}
@@ -345,7 +397,6 @@ vcCake.addService('assets-manager', {
     }
     // add columns css
     iterations = iterations.concat(this.getCompileColumnsIterations())
-
 //       let cssTest = `
 //       $dir:    top;
 //       $blue:   #056ef0;
