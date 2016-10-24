@@ -1,0 +1,90 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Raw JS"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Add your own custom Javascript code to WordPress website to execute it on this particular page."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "raw-js-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "raw-js-thumbnail.jpg"
+  },
+  "rawJs": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "<span>Enter your js here!</span><script type='text/javascript'> alert('Enter your js here!'); </script>",
+    "options": {
+      "label": "Raw JS",
+      "description": "Add your own custom Javascript code to WordPress website to execute it on this particular page.",
+      "mode": "javascript"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "rawJs",
+      "customClass"
+    ],
+    "options": {
+      "label": "Raw JS"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
+  }
+}
