@@ -1,0 +1,607 @@
+/* ----------------------------------------------
+ * Button
+ * ---------------------------------------------- */
+.vce-button-container--align-left {
+  text-align: left;
+}
+.vce-button-container--align-right {
+  text-align: right;
+}
+.vce-button-container--align-center {
+  text-align: center;
+}
+.vce-button {
+  font-size: 16px;
+  padding: 18px 43px;
+}
+.vce-button,
+a.vce-button,
+button.vce-button {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: normal;
+  touch-action: manipulation;
+  user-select: none;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.vce-button:hover,
+a.vce-button:hover,
+button.vce-button:hover,
+.vce-button:focus,
+a.vce-button:focus,
+button.vce-button:focus {
+  text-decoration: none;
+  outline: none;
+}
+button.vce-button {
+  -webkit-appearance: none;
+}
+.vce-button--style-simple,
+a.vce-button--style-simple,
+button.vce-button--style-simple {
+  border-radius: 0;
+  transition: all 0.2s ease-in-out;
+}
+.vce-button--style-simple.vce-button--text-color-default,
+a.vce-button--style-simple.vce-button--text-color-default,
+button.vce-button--style-simple.vce-button--text-color-default {
+  color: #0072BC;
+}
+.vce-button--style-simple.vce-button--text-color-default:hover,
+a.vce-button--style-simple.vce-button--text-color-default:hover,
+button.vce-button--style-simple.vce-button--text-color-default:hover,
+.vce-button--style-simple.vce-button--text-color-default:focus,
+a.vce-button--style-simple.vce-button--text-color-default:focus,
+button.vce-button--style-simple.vce-button--text-color-default:focus {
+  color: #005389;
+}
+.vce-button--style-simple.vce-button--background-color-default,
+a.vce-button--style-simple.vce-button--background-color-default,
+button.vce-button--style-simple.vce-button--background-color-default {
+  background-color: #0072BC;
+}
+.vce-button--style-simple.vce-button--background-color-default:hover,
+a.vce-button--style-simple.vce-button--background-color-default:hover,
+button.vce-button--style-simple.vce-button--background-color-default:hover,
+.vce-button--style-simple.vce-button--background-color-default:focus,
+a.vce-button--style-simple.vce-button--background-color-default:focus,
+button.vce-button--style-simple.vce-button--background-color-default:focus {
+  background-color: #005389;
+}
+.vce-button--style-simple.vce-button--text-color-silver,
+a.vce-button--style-simple.vce-button--text-color-silver,
+button.vce-button--style-simple.vce-button--text-color-silver {
+  color: #c6c6c6;
+}
+.vce-button--style-simple.vce-button--text-color-silver:hover,
+a.vce-button--style-simple.vce-button--text-color-silver:hover,
+button.vce-button--style-simple.vce-button--text-color-silver:hover,
+.vce-button--style-simple.vce-button--text-color-silver:focus,
+a.vce-button--style-simple.vce-button--text-color-silver:focus,
+button.vce-button--style-simple.vce-button--text-color-silver:focus {
+  color: #adadad;
+}
+.vce-button--style-simple.vce-button--background-color-silver,
+a.vce-button--style-simple.vce-button--background-color-silver,
+button.vce-button--style-simple.vce-button--background-color-silver {
+  background-color: #c6c6c6;
+}
+.vce-button--style-simple.vce-button--background-color-silver:hover,
+a.vce-button--style-simple.vce-button--background-color-silver:hover,
+button.vce-button--style-simple.vce-button--background-color-silver:hover,
+.vce-button--style-simple.vce-button--background-color-silver:focus,
+a.vce-button--style-simple.vce-button--background-color-silver:focus,
+button.vce-button--style-simple.vce-button--background-color-silver:focus {
+  background-color: #adadad;
+}
+.vce-button--style-simple.vce-button--text-color-white,
+a.vce-button--style-simple.vce-button--text-color-white,
+button.vce-button--style-simple.vce-button--text-color-white {
+  color: #ffffff;
+}
+.vce-button--style-simple.vce-button--text-color-white:hover,
+a.vce-button--style-simple.vce-button--text-color-white:hover,
+button.vce-button--style-simple.vce-button--text-color-white:hover,
+.vce-button--style-simple.vce-button--text-color-white:focus,
+a.vce-button--style-simple.vce-button--text-color-white:focus,
+button.vce-button--style-simple.vce-button--text-color-white:focus {
+  color: #e6e6e6;
+}
+.vce-button--style-simple.vce-button--background-color-white,
+a.vce-button--style-simple.vce-button--background-color-white,
+button.vce-button--style-simple.vce-button--background-color-white {
+  background-color: #ffffff;
+}
+.vce-button--style-simple.vce-button--background-color-white:hover,
+a.vce-button--style-simple.vce-button--background-color-white:hover,
+button.vce-button--style-simple.vce-button--background-color-white:hover,
+.vce-button--style-simple.vce-button--background-color-white:focus,
+a.vce-button--style-simple.vce-button--background-color-white:focus,
+button.vce-button--style-simple.vce-button--background-color-white:focus {
+  background-color: #e6e6e6;
+}
+.vce-button--style-simple.vce-button--text-color-nero,
+a.vce-button--style-simple.vce-button--text-color-nero,
+button.vce-button--style-simple.vce-button--text-color-nero {
+  color: #212121;
+}
+.vce-button--style-simple.vce-button--text-color-nero:hover,
+a.vce-button--style-simple.vce-button--text-color-nero:hover,
+button.vce-button--style-simple.vce-button--text-color-nero:hover,
+.vce-button--style-simple.vce-button--text-color-nero:focus,
+a.vce-button--style-simple.vce-button--text-color-nero:focus,
+button.vce-button--style-simple.vce-button--text-color-nero:focus {
+  color: #080808;
+}
+.vce-button--style-simple.vce-button--background-color-nero,
+a.vce-button--style-simple.vce-button--background-color-nero,
+button.vce-button--style-simple.vce-button--background-color-nero {
+  background-color: #212121;
+}
+.vce-button--style-simple.vce-button--background-color-nero:hover,
+a.vce-button--style-simple.vce-button--background-color-nero:hover,
+button.vce-button--style-simple.vce-button--background-color-nero:hover,
+.vce-button--style-simple.vce-button--background-color-nero:focus,
+a.vce-button--style-simple.vce-button--background-color-nero:focus,
+button.vce-button--style-simple.vce-button--background-color-nero:focus {
+  background-color: #080808;
+}
+.vce-button--style-simple.vce-button--text-color-mortar,
+a.vce-button--style-simple.vce-button--text-color-mortar,
+button.vce-button--style-simple.vce-button--text-color-mortar {
+  color: #555555;
+}
+.vce-button--style-simple.vce-button--text-color-mortar:hover,
+a.vce-button--style-simple.vce-button--text-color-mortar:hover,
+button.vce-button--style-simple.vce-button--text-color-mortar:hover,
+.vce-button--style-simple.vce-button--text-color-mortar:focus,
+a.vce-button--style-simple.vce-button--text-color-mortar:focus,
+button.vce-button--style-simple.vce-button--text-color-mortar:focus {
+  color: #3b3b3b;
+}
+.vce-button--style-simple.vce-button--background-color-mortar,
+a.vce-button--style-simple.vce-button--background-color-mortar,
+button.vce-button--style-simple.vce-button--background-color-mortar {
+  background-color: #555555;
+}
+.vce-button--style-simple.vce-button--background-color-mortar:hover,
+a.vce-button--style-simple.vce-button--background-color-mortar:hover,
+button.vce-button--style-simple.vce-button--background-color-mortar:hover,
+.vce-button--style-simple.vce-button--background-color-mortar:focus,
+a.vce-button--style-simple.vce-button--background-color-mortar:focus,
+button.vce-button--style-simple.vce-button--background-color-mortar:focus {
+  background-color: #3b3b3b;
+}
+.vce-button--style-simple.vce-button--text-color-fire-brick,
+a.vce-button--style-simple.vce-button--text-color-fire-brick,
+button.vce-button--style-simple.vce-button--text-color-fire-brick {
+  color: #b82e24;
+}
+.vce-button--style-simple.vce-button--text-color-fire-brick:hover,
+a.vce-button--style-simple.vce-button--text-color-fire-brick:hover,
+button.vce-button--style-simple.vce-button--text-color-fire-brick:hover,
+.vce-button--style-simple.vce-button--text-color-fire-brick:focus,
+a.vce-button--style-simple.vce-button--text-color-fire-brick:focus,
+button.vce-button--style-simple.vce-button--text-color-fire-brick:focus {
+  color: #8d231c;
+}
+.vce-button--style-simple.vce-button--background-color-fire-brick,
+a.vce-button--style-simple.vce-button--background-color-fire-brick,
+button.vce-button--style-simple.vce-button--background-color-fire-brick {
+  background-color: #b82e24;
+}
+.vce-button--style-simple.vce-button--background-color-fire-brick:hover,
+a.vce-button--style-simple.vce-button--background-color-fire-brick:hover,
+button.vce-button--style-simple.vce-button--background-color-fire-brick:hover,
+.vce-button--style-simple.vce-button--background-color-fire-brick:focus,
+a.vce-button--style-simple.vce-button--background-color-fire-brick:focus,
+button.vce-button--style-simple.vce-button--background-color-fire-brick:focus {
+  background-color: #8d231c;
+}
+.vce-button--style-simple.vce-button--text-color-coral,
+a.vce-button--style-simple.vce-button--text-color-coral,
+button.vce-button--style-simple.vce-button--text-color-coral {
+  color: #ff3f3b;
+}
+.vce-button--style-simple.vce-button--text-color-coral:hover,
+a.vce-button--style-simple.vce-button--text-color-coral:hover,
+button.vce-button--style-simple.vce-button--text-color-coral:hover,
+.vce-button--style-simple.vce-button--text-color-coral:focus,
+a.vce-button--style-simple.vce-button--text-color-coral:focus,
+button.vce-button--style-simple.vce-button--text-color-coral:focus {
+  color: #ff0d08;
+}
+.vce-button--style-simple.vce-button--background-color-coral,
+a.vce-button--style-simple.vce-button--background-color-coral,
+button.vce-button--style-simple.vce-button--background-color-coral {
+  background-color: #ff3f3b;
+}
+.vce-button--style-simple.vce-button--background-color-coral:hover,
+a.vce-button--style-simple.vce-button--background-color-coral:hover,
+button.vce-button--style-simple.vce-button--background-color-coral:hover,
+.vce-button--style-simple.vce-button--background-color-coral:focus,
+a.vce-button--style-simple.vce-button--background-color-coral:focus,
+button.vce-button--style-simple.vce-button--background-color-coral:focus {
+  background-color: #ff0d08;
+}
+.vce-button--style-simple.vce-button--text-color-medium-wood,
+a.vce-button--style-simple.vce-button--text-color-medium-wood,
+button.vce-button--style-simple.vce-button--text-color-medium-wood {
+  color: #a78461;
+}
+.vce-button--style-simple.vce-button--text-color-medium-wood:hover,
+a.vce-button--style-simple.vce-button--text-color-medium-wood:hover,
+button.vce-button--style-simple.vce-button--text-color-medium-wood:hover,
+.vce-button--style-simple.vce-button--text-color-medium-wood:focus,
+a.vce-button--style-simple.vce-button--text-color-medium-wood:focus,
+button.vce-button--style-simple.vce-button--text-color-medium-wood:focus {
+  color: #896b4c;
+}
+.vce-button--style-simple.vce-button--background-color-medium-wood,
+a.vce-button--style-simple.vce-button--background-color-medium-wood,
+button.vce-button--style-simple.vce-button--background-color-medium-wood {
+  background-color: #a78461;
+}
+.vce-button--style-simple.vce-button--background-color-medium-wood:hover,
+a.vce-button--style-simple.vce-button--background-color-medium-wood:hover,
+button.vce-button--style-simple.vce-button--background-color-medium-wood:hover,
+.vce-button--style-simple.vce-button--background-color-medium-wood:focus,
+a.vce-button--style-simple.vce-button--background-color-medium-wood:focus,
+button.vce-button--style-simple.vce-button--background-color-medium-wood:focus {
+  background-color: #896b4c;
+}
+.vce-button--style-simple.vce-button--text-color-amber,
+a.vce-button--style-simple.vce-button--text-color-amber,
+button.vce-button--style-simple.vce-button--text-color-amber {
+  color: #ffc000;
+}
+.vce-button--style-simple.vce-button--text-color-amber:hover,
+a.vce-button--style-simple.vce-button--text-color-amber:hover,
+button.vce-button--style-simple.vce-button--text-color-amber:hover,
+.vce-button--style-simple.vce-button--text-color-amber:focus,
+a.vce-button--style-simple.vce-button--text-color-amber:focus,
+button.vce-button--style-simple.vce-button--text-color-amber:focus {
+  color: #cc9a00;
+}
+.vce-button--style-simple.vce-button--background-color-amber,
+a.vce-button--style-simple.vce-button--background-color-amber,
+button.vce-button--style-simple.vce-button--background-color-amber {
+  background-color: #ffc000;
+}
+.vce-button--style-simple.vce-button--background-color-amber:hover,
+a.vce-button--style-simple.vce-button--background-color-amber:hover,
+button.vce-button--style-simple.vce-button--background-color-amber:hover,
+.vce-button--style-simple.vce-button--background-color-amber:focus,
+a.vce-button--style-simple.vce-button--background-color-amber:focus,
+button.vce-button--style-simple.vce-button--background-color-amber:focus {
+  background-color: #cc9a00;
+}
+.vce-button--style-simple.vce-button--text-color-canary,
+a.vce-button--style-simple.vce-button--text-color-canary,
+button.vce-button--style-simple.vce-button--text-color-canary {
+  color: #fff7a2;
+}
+.vce-button--style-simple.vce-button--text-color-canary:hover,
+a.vce-button--style-simple.vce-button--text-color-canary:hover,
+button.vce-button--style-simple.vce-button--text-color-canary:hover,
+.vce-button--style-simple.vce-button--text-color-canary:focus,
+a.vce-button--style-simple.vce-button--text-color-canary:focus,
+button.vce-button--style-simple.vce-button--text-color-canary:focus {
+  color: #fff36f;
+}
+.vce-button--style-simple.vce-button--background-color-canary,
+a.vce-button--style-simple.vce-button--background-color-canary,
+button.vce-button--style-simple.vce-button--background-color-canary {
+  background-color: #fff7a2;
+}
+.vce-button--style-simple.vce-button--background-color-canary:hover,
+a.vce-button--style-simple.vce-button--background-color-canary:hover,
+button.vce-button--style-simple.vce-button--background-color-canary:hover,
+.vce-button--style-simple.vce-button--background-color-canary:focus,
+a.vce-button--style-simple.vce-button--background-color-canary:focus,
+button.vce-button--style-simple.vce-button--background-color-canary:focus {
+  background-color: #fff36f;
+}
+.vce-button--style-simple.vce-button--text-color-olive,
+a.vce-button--style-simple.vce-button--text-color-olive,
+button.vce-button--style-simple.vce-button--text-color-olive {
+  color: #579202;
+}
+.vce-button--style-simple.vce-button--text-color-olive:hover,
+a.vce-button--style-simple.vce-button--text-color-olive:hover,
+button.vce-button--style-simple.vce-button--text-color-olive:hover,
+.vce-button--style-simple.vce-button--text-color-olive:focus,
+a.vce-button--style-simple.vce-button--text-color-olive:focus,
+button.vce-button--style-simple.vce-button--text-color-olive:focus {
+  color: #396001;
+}
+.vce-button--style-simple.vce-button--background-color-olive,
+a.vce-button--style-simple.vce-button--background-color-olive,
+button.vce-button--style-simple.vce-button--background-color-olive {
+  background-color: #579202;
+}
+.vce-button--style-simple.vce-button--background-color-olive:hover,
+a.vce-button--style-simple.vce-button--background-color-olive:hover,
+button.vce-button--style-simple.vce-button--background-color-olive:hover,
+.vce-button--style-simple.vce-button--background-color-olive:focus,
+a.vce-button--style-simple.vce-button--background-color-olive:focus,
+button.vce-button--style-simple.vce-button--background-color-olive:focus {
+  background-color: #396001;
+}
+.vce-button--style-simple.vce-button--text-color-pear,
+a.vce-button--style-simple.vce-button--text-color-pear,
+button.vce-button--style-simple.vce-button--text-color-pear {
+  color: #c8db39;
+}
+.vce-button--style-simple.vce-button--text-color-pear:hover,
+a.vce-button--style-simple.vce-button--text-color-pear:hover,
+button.vce-button--style-simple.vce-button--text-color-pear:hover,
+.vce-button--style-simple.vce-button--text-color-pear:focus,
+a.vce-button--style-simple.vce-button--text-color-pear:focus,
+button.vce-button--style-simple.vce-button--text-color-pear:focus {
+  color: #acbe23;
+}
+.vce-button--style-simple.vce-button--background-color-pear,
+a.vce-button--style-simple.vce-button--background-color-pear,
+button.vce-button--style-simple.vce-button--background-color-pear {
+  background-color: #c8db39;
+}
+.vce-button--style-simple.vce-button--background-color-pear:hover,
+a.vce-button--style-simple.vce-button--background-color-pear:hover,
+button.vce-button--style-simple.vce-button--background-color-pear:hover,
+.vce-button--style-simple.vce-button--background-color-pear:focus,
+a.vce-button--style-simple.vce-button--background-color-pear:focus,
+button.vce-button--style-simple.vce-button--background-color-pear:focus {
+  background-color: #acbe23;
+}
+.vce-button--style-simple.vce-button--text-color-teal,
+a.vce-button--style-simple.vce-button--text-color-teal,
+button.vce-button--style-simple.vce-button--text-color-teal {
+  color: #088382;
+}
+.vce-button--style-simple.vce-button--text-color-teal:hover,
+a.vce-button--style-simple.vce-button--text-color-teal:hover,
+button.vce-button--style-simple.vce-button--text-color-teal:hover,
+.vce-button--style-simple.vce-button--text-color-teal:focus,
+a.vce-button--style-simple.vce-button--text-color-teal:focus,
+button.vce-button--style-simple.vce-button--text-color-teal:focus {
+  color: #055352;
+}
+.vce-button--style-simple.vce-button--background-color-teal,
+a.vce-button--style-simple.vce-button--background-color-teal,
+button.vce-button--style-simple.vce-button--background-color-teal {
+  background-color: #088382;
+}
+.vce-button--style-simple.vce-button--background-color-teal:hover,
+a.vce-button--style-simple.vce-button--background-color-teal:hover,
+button.vce-button--style-simple.vce-button--background-color-teal:hover,
+.vce-button--style-simple.vce-button--background-color-teal:focus,
+a.vce-button--style-simple.vce-button--background-color-teal:focus,
+button.vce-button--style-simple.vce-button--background-color-teal:focus {
+  background-color: #055352;
+}
+.vce-button--style-simple.vce-button--text-color-turquoise,
+a.vce-button--style-simple.vce-button--text-color-turquoise,
+button.vce-button--style-simple.vce-button--text-color-turquoise {
+  color: #4dd1ab;
+}
+.vce-button--style-simple.vce-button--text-color-turquoise:hover,
+a.vce-button--style-simple.vce-button--text-color-turquoise:hover,
+button.vce-button--style-simple.vce-button--text-color-turquoise:hover,
+.vce-button--style-simple.vce-button--text-color-turquoise:focus,
+a.vce-button--style-simple.vce-button--text-color-turquoise:focus,
+button.vce-button--style-simple.vce-button--text-color-turquoise:focus {
+  color: #30bb93;
+}
+.vce-button--style-simple.vce-button--background-color-turquoise,
+a.vce-button--style-simple.vce-button--background-color-turquoise,
+button.vce-button--style-simple.vce-button--background-color-turquoise {
+  background-color: #4dd1ab;
+}
+.vce-button--style-simple.vce-button--background-color-turquoise:hover,
+a.vce-button--style-simple.vce-button--background-color-turquoise:hover,
+button.vce-button--style-simple.vce-button--background-color-turquoise:hover,
+.vce-button--style-simple.vce-button--background-color-turquoise:focus,
+a.vce-button--style-simple.vce-button--background-color-turquoise:focus,
+button.vce-button--style-simple.vce-button--background-color-turquoise:focus {
+  background-color: #30bb93;
+}
+.vce-button--style-simple.vce-button--text-color-sapphire,
+a.vce-button--style-simple.vce-button--text-color-sapphire,
+button.vce-button--style-simple.vce-button--text-color-sapphire {
+  color: #103c6a;
+}
+.vce-button--style-simple.vce-button--text-color-sapphire:hover,
+a.vce-button--style-simple.vce-button--text-color-sapphire:hover,
+button.vce-button--style-simple.vce-button--text-color-sapphire:hover,
+.vce-button--style-simple.vce-button--text-color-sapphire:focus,
+a.vce-button--style-simple.vce-button--text-color-sapphire:focus,
+button.vce-button--style-simple.vce-button--text-color-sapphire:focus {
+  color: #09233e;
+}
+.vce-button--style-simple.vce-button--background-color-sapphire,
+a.vce-button--style-simple.vce-button--background-color-sapphire,
+button.vce-button--style-simple.vce-button--background-color-sapphire {
+  background-color: #103c6a;
+}
+.vce-button--style-simple.vce-button--background-color-sapphire:hover,
+a.vce-button--style-simple.vce-button--background-color-sapphire:hover,
+button.vce-button--style-simple.vce-button--background-color-sapphire:hover,
+.vce-button--style-simple.vce-button--background-color-sapphire:focus,
+a.vce-button--style-simple.vce-button--background-color-sapphire:focus,
+button.vce-button--style-simple.vce-button--background-color-sapphire:focus {
+  background-color: #09233e;
+}
+.vce-button--style-simple.vce-button--text-color-picton-blue,
+a.vce-button--style-simple.vce-button--text-color-picton-blue,
+button.vce-button--style-simple.vce-button--text-color-picton-blue {
+  color: #4d8fcc;
+}
+.vce-button--style-simple.vce-button--text-color-picton-blue:hover,
+a.vce-button--style-simple.vce-button--text-color-picton-blue:hover,
+button.vce-button--style-simple.vce-button--text-color-picton-blue:hover,
+.vce-button--style-simple.vce-button--text-color-picton-blue:focus,
+a.vce-button--style-simple.vce-button--text-color-picton-blue:focus,
+button.vce-button--style-simple.vce-button--text-color-picton-blue:focus {
+  color: #3376b3;
+}
+.vce-button--style-simple.vce-button--background-color-picton-blue,
+a.vce-button--style-simple.vce-button--background-color-picton-blue,
+button.vce-button--style-simple.vce-button--background-color-picton-blue {
+  background-color: #4d8fcc;
+}
+.vce-button--style-simple.vce-button--background-color-picton-blue:hover,
+a.vce-button--style-simple.vce-button--background-color-picton-blue:hover,
+button.vce-button--style-simple.vce-button--background-color-picton-blue:hover,
+.vce-button--style-simple.vce-button--background-color-picton-blue:focus,
+a.vce-button--style-simple.vce-button--background-color-picton-blue:focus,
+button.vce-button--style-simple.vce-button--background-color-picton-blue:focus {
+  background-color: #3376b3;
+}
+.vce-button--style-simple.vce-button--text-color-vivid-violet,
+a.vce-button--style-simple.vce-button--text-color-vivid-violet,
+button.vce-button--style-simple.vce-button--text-color-vivid-violet {
+  color: #6c258a;
+}
+.vce-button--style-simple.vce-button--text-color-vivid-violet:hover,
+a.vce-button--style-simple.vce-button--text-color-vivid-violet:hover,
+button.vce-button--style-simple.vce-button--text-color-vivid-violet:hover,
+.vce-button--style-simple.vce-button--text-color-vivid-violet:focus,
+a.vce-button--style-simple.vce-button--text-color-vivid-violet:focus,
+button.vce-button--style-simple.vce-button--text-color-vivid-violet:focus {
+  color: #4d1a62;
+}
+.vce-button--style-simple.vce-button--background-color-vivid-violet,
+a.vce-button--style-simple.vce-button--background-color-vivid-violet,
+button.vce-button--style-simple.vce-button--background-color-vivid-violet {
+  background-color: #6c258a;
+}
+.vce-button--style-simple.vce-button--background-color-vivid-violet:hover,
+a.vce-button--style-simple.vce-button--background-color-vivid-violet:hover,
+button.vce-button--style-simple.vce-button--background-color-vivid-violet:hover,
+.vce-button--style-simple.vce-button--background-color-vivid-violet:focus,
+a.vce-button--style-simple.vce-button--background-color-vivid-violet:focus,
+button.vce-button--style-simple.vce-button--background-color-vivid-violet:focus {
+  background-color: #4d1a62;
+}
+.vce-button--style-simple.vce-button--text-color-amethyst,
+a.vce-button--style-simple.vce-button--text-color-amethyst,
+button.vce-button--style-simple.vce-button--text-color-amethyst {
+  color: #9461d3;
+}
+.vce-button--style-simple.vce-button--text-color-amethyst:hover,
+a.vce-button--style-simple.vce-button--text-color-amethyst:hover,
+button.vce-button--style-simple.vce-button--text-color-amethyst:hover,
+.vce-button--style-simple.vce-button--text-color-amethyst:focus,
+a.vce-button--style-simple.vce-button--text-color-amethyst:focus,
+button.vce-button--style-simple.vce-button--text-color-amethyst:focus {
+  color: #7939c8;
+}
+.vce-button--style-simple.vce-button--background-color-amethyst,
+a.vce-button--style-simple.vce-button--background-color-amethyst,
+button.vce-button--style-simple.vce-button--background-color-amethyst {
+  background-color: #9461d3;
+}
+.vce-button--style-simple.vce-button--background-color-amethyst:hover,
+a.vce-button--style-simple.vce-button--background-color-amethyst:hover,
+button.vce-button--style-simple.vce-button--background-color-amethyst:hover,
+.vce-button--style-simple.vce-button--background-color-amethyst:focus,
+a.vce-button--style-simple.vce-button--background-color-amethyst:focus,
+button.vce-button--style-simple.vce-button--background-color-amethyst:focus {
+  background-color: #7939c8;
+}
+.vce-button--style-simple.vce-button--text-color-old-brick,
+a.vce-button--style-simple.vce-button--text-color-old-brick,
+button.vce-button--style-simple.vce-button--text-color-old-brick {
+  color: #911e37;
+}
+.vce-button--style-simple.vce-button--text-color-old-brick:hover,
+a.vce-button--style-simple.vce-button--text-color-old-brick:hover,
+button.vce-button--style-simple.vce-button--text-color-old-brick:hover,
+.vce-button--style-simple.vce-button--text-color-old-brick:focus,
+a.vce-button--style-simple.vce-button--text-color-old-brick:focus,
+button.vce-button--style-simple.vce-button--text-color-old-brick:focus {
+  color: #671527;
+}
+.vce-button--style-simple.vce-button--background-color-old-brick,
+a.vce-button--style-simple.vce-button--background-color-old-brick,
+button.vce-button--style-simple.vce-button--background-color-old-brick {
+  background-color: #911e37;
+}
+.vce-button--style-simple.vce-button--background-color-old-brick:hover,
+a.vce-button--style-simple.vce-button--background-color-old-brick:hover,
+button.vce-button--style-simple.vce-button--background-color-old-brick:hover,
+.vce-button--style-simple.vce-button--background-color-old-brick:focus,
+a.vce-button--style-simple.vce-button--background-color-old-brick:focus,
+button.vce-button--style-simple.vce-button--background-color-old-brick:focus {
+  background-color: #671527;
+}
+.vce-button--style-simple.vce-button--text-color-hopbush,
+a.vce-button--style-simple.vce-button--text-color-hopbush,
+button.vce-button--style-simple.vce-button--text-color-hopbush {
+  color: #d46094;
+}
+.vce-button--style-simple.vce-button--text-color-hopbush:hover,
+a.vce-button--style-simple.vce-button--text-color-hopbush:hover,
+button.vce-button--style-simple.vce-button--text-color-hopbush:hover,
+.vce-button--style-simple.vce-button--text-color-hopbush:focus,
+a.vce-button--style-simple.vce-button--text-color-hopbush:focus,
+button.vce-button--style-simple.vce-button--text-color-hopbush:focus {
+  color: #c93879;
+}
+.vce-button--style-simple.vce-button--background-color-hopbush,
+a.vce-button--style-simple.vce-button--background-color-hopbush,
+button.vce-button--style-simple.vce-button--background-color-hopbush {
+  background-color: #d46094;
+}
+.vce-button--style-simple.vce-button--background-color-hopbush:hover,
+a.vce-button--style-simple.vce-button--background-color-hopbush:hover,
+button.vce-button--style-simple.vce-button--background-color-hopbush:hover,
+.vce-button--style-simple.vce-button--background-color-hopbush:focus,
+a.vce-button--style-simple.vce-button--background-color-hopbush:focus,
+button.vce-button--style-simple.vce-button--background-color-hopbush:focus {
+  background-color: #c93879;
+}
+.vce-button--border-rounded,
+.vce-button--border-round,
+a.vce-button--border-rounded,
+a.vce-button--border-round,
+button.vce-button--border-rounded,
+button.vce-button--border-round {
+  position: relative;
+  overflow: hidden;
+}
+.vce-button--border-rounded,
+a.vce-button--border-rounded,
+button.vce-button--border-rounded {
+  border-radius: 5px;
+}
+.vce-button--border-round,
+a.vce-button--border-round,
+button.vce-button--border-round {
+  border-radius: 4em;
+}
+.rtl.vce-button,
+[dir="rlt"].vce-button,
+.rtl .vce-button,
+[dir="rlt"] .vce-button {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+.ltr.vce-button,
+[dir="ltr"].vce-button,
+.ltr .vce-button,
+[dir="ltr"] .vce-button {
+  direction: ltr;
+  unicode-bidi: normal;
+}
