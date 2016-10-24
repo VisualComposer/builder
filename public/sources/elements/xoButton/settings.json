@@ -64,24 +64,6 @@
       ]
     }
   },
-  "colorSet": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Color set",
-      "values": [
-        {
-          "label": "Default",
-          "value": ""
-        },
-        {
-          "label": "Badass",
-          "value": "bada55"
-        }
-      ]
-    }
-  },
   "showArrow": {
     "type": "toggle",
     "access": "public",
@@ -109,9 +91,27 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "",
+    "value": "#fff",
     "options": {
-      "label": "Pick color"
+      "label": "Pick color",
+      "cssMixin": {
+        "mixin": "flatColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "background": {
+    "type": "color",
+    "access": "public",
+    "value": "#bada55",
+    "options": {
+      "label": "Pick background",
+      "cssMixin": {
+        "mixin": "flatColor",
+        "property": "background",
+        "namePattern": "[\\da-f]+"
+      }
     }
   },
   "icon": {
@@ -140,7 +140,7 @@
       "showArrow",
       "animate",
       "color",
-      "colorSet",
+      "background",
       "icon"
     ],
     "options": {

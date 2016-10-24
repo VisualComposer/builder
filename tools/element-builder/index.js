@@ -109,7 +109,7 @@ fs.lstat(elementDir, function (err, stats) {
       let filePath = path.resolve(mixinsDir, file)
       // let subPath = path.resolve(mixinsDir, file)
       if (!fs.lstatSync(filePath).isDirectory()) {
-        cssMixins[path.basename(filePath, path.extname(filePath))] = {
+        cssMixins[ path.basename(filePath, path.extname(filePath)) ] = {
           mixin: fs.readFileSync(filePath, 'utf8')
         }
       }
@@ -121,7 +121,7 @@ fs.lstat(elementDir, function (err, stats) {
     var cssSettings = JSON.parse(cssSettingsString)
     // file
     cssSettings.css = cssString
-    //mixins
+    // mixins
     if (Object.keys(cssMixins).length) {
       cssSettings.mixins = cssMixins
     }

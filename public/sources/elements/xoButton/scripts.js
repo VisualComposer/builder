@@ -9,11 +9,10 @@ if (shape && shape !== 'square') {
 
 classes += ` vce-button-xo--style-flat`
 
-if (colorSet) {
-  classes += ` vce-button-xo--style-flat--color-${colorSet}`
-} else {
-  classes += ` vce-button-xo--text-color-white`
-  classes += ` vce-button-xo--background-color-fire-brick`
+if (color && background) {
+  let re = new RegExp('[\\da-f]+', 'gi')
+  let postfix = color.match(re).join('-') + '--' + background.match(re).join('-')
+  classes += ` vce-button-xo--style-flat--color-${postfix}`
 }
 
 if (showArrow) {

@@ -1,9 +1,9 @@
-$colorName: bada55;
+$selector: bada55;
 $color:   #fff;
 $background: #bada55;
 .vce-button-xo {
    &--style-outline {
-     &--color-$(colorName) {
+     &--color-$(selector) {
        &,
        a&,
        button& {
