@@ -1,3 +1,20 @@
 .vce-flickr-image img {
   height: auto;
 }
+
+.vce-flickr-image-inner {
+  width: 100%;
+  display: inline-block;
+}
+
+.vce-flickr-image--align-center {
+  text-align: center;
+}
+
+.vce-flickr-image--align-right {
+  text-align: right;
+}
+
+.vce-flickr-image--align-left {
+  text-align: left;
+}
