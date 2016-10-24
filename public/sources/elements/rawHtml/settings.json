@@ -32,7 +32,7 @@
   "rawHtml": {
     "type": "rawCode",
     "access": "public",
-    "value": "<p>I am raw html block.<br/>Click edit button to change this html</p>",
+    "value": "<p><strong>HyperText Markup Language (HTML)</strong> is the standard markup language for creating web pages and web applications.</p>",
     "options": {
       "label": "Raw HTML",
       "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML.",
