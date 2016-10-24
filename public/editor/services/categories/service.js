@@ -105,6 +105,9 @@ if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
 if (vcCake.env('FEATURE_RAW_HTML')) {
   tempData.categories['Misc'].elements.push('rawHtml')
 }
+if (vcCake.env('FEATURE_RAW_JS')) {
+  tempData.categories['Misc'].elements.push('rawJs')
+}
 const data = tempData
 
 const service = {
