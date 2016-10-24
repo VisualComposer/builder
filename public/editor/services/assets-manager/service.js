@@ -2,6 +2,9 @@ import vcCake from 'vc-cake'
 import postcss from 'postcss'
 import postcssVars from 'postcss-custom-properties'
 import postcssMedia from 'postcss-custom-media'
+// import postcssSimpleVars from 'postcss-simple-vars'
+// import postcssColor from 'postcss-color-function'
+// import postcssNested from 'postcss-nested'
 import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
@@ -342,6 +345,82 @@ vcCake.addService('assets-manager', {
     }
     // add columns css
     iterations = iterations.concat(this.getCompileColumnsIterations())
+
+//       let cssTest = `
+//       $dir:    top;
+//       $blue:   #056ef0;
+//       $column: 200px;
+//       .whatever {
+//         color: color(red a(10%));
+//         background-color: color(red lightness(50%));
+//         border-color: color(hsla(125, 50%, 50%, .4) saturation(+ 10%) w(- 20%));
+//       }
+//       .menu_link {
+//         background: $blue;
+//         width: $column;
+//       }
+//       .menu {
+//         width: calc(4 * $column);
+//         margin-$(dir): 10px;
+//       }
+//       .phone {
+//       &_title {
+//         width: 500px;
+//         @media (max-width: 500px) {
+//         width: auto;
+//       }
+//       body.is_dark & {
+//         color: white;
+//       }
+//       }
+//       img {
+//         display: block;
+//       }
+// }`
+//
+//     let css = `
+//
+// .vce-button-xo {
+//
+//
+//   &--style-flat {
+//     &--color-$(colorName) {
+//       &,
+//       a&,
+//       button& {
+//         color: $color;
+//         background-color: $background;
+//         &:hover {
+//           color: $color;
+//           background-color: color($background shade(10%)) ;
+//         }
+//       }
+//     }
+//   }
+// }
+//     `
+//     let vars = {
+//       color:      '#000',
+//       background: '#bada55',
+//       colorName: 'bada55'
+//     }
+//
+//     let compiledStyles = new Promise((resolve, reject) => {
+//       postcss()
+//         .use(postcssSimpleVars({
+//           variables: vars,
+//           silent: true
+//         }))
+//         .use(postcssNested)
+//         .use(postcssColor)
+//         .process(css)
+//         .then((result) => {
+//           console.log(result.css)
+//           resolve(result.css)
+//         })
+//     })
+//     iterations.push(compiledStyles)
+
     return Promise.all(iterations).then((output) => {
       return output.join(' ')
     })
