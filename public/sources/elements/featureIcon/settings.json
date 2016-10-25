@@ -1,9 +1,4 @@
 {
-  "groups": {
-    "type": "string",
-    "access": "protected",
-    "value": "Buttons"
-  },
   "name": {
     "type": "string",
     "access": "protected",
@@ -133,6 +128,11 @@
     "value": "",
     "options": {
       "label": "Shape color",
+      "cssMixin": {
+        "mixin": "iconColor",
+        "property": "shapeColor",
+        "namePattern": "[\\da-f]+"
+      },
       "onChange": {
         "shape": [
           {
@@ -161,9 +161,14 @@
   "iconColor": {
     "type": "color",
     "access": "public",
-    "value": "",
+    "value": "#000",
     "options": {
-      "label": "Icon color"
+      "label": "Icon color",
+      "cssMixin": {
+        "mixin": "iconColor",
+        "property": "iconColor",
+        "namePattern": "[\\da-f]+"
+      }
     }
   },
   "iconAlignment": {

@@ -3,15 +3,13 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
     let {atts, editor, id} = this.props
-    let {iconPicker, iconColor, iconUrl, shape, iconAlignment, size, customClass, designOptions} = atts
+    let {iconPicker, iconColor, shapeColor, iconUrl, shape, iconAlignment, size, customClass, designOptions} = atts
     let customProps = {}
-    let customTag = 'i'
-    let tinycolor = require('react-color/modules/tinycolor2')
-    let colorValue = tinycolor(iconColor).toRgbString()
+    let CustomTag = 'div'
+    let { url, title, targetBlank, relNofollow } = iconUrl
 
-    if (iconUrl) {
-      customTag = 'a'
-      let { url, title, targetBlank, relNofollow } = iconUrl
+    if (url) {
+      CustomTag = 'a'
       customProps = {
         'href': url,
         'title': title,
@@ -47,17 +45,23 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    if (typeof customClass === 'string' && this.props.atts.customClass) {
-      classes += classes.concat(' ' + this.props.atts.customClass)
+    if (typeof customClass === 'string' && customClass) {
+      classes += ' ' + customClass
+    }
+
+    if (iconColor || shapeColor) {
+      let re = new RegExp('[\\da-f]+', 'gi')
+      let postfix = shapeColor.match(re).join('-') + '--' + iconColor.match(re).join('-')
+      classes += ` vce-icon--style-color-${postfix}`
     }
 
     return <div className={classes}>
-      <div className='vce-features__icon vce-icon vce' id={'el-' + id} {...editor}>
+      <CustomTag className='vce-features__icon vce-icon vce' id={'el-' + id} {...editor} {...customProps}>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
           <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
         </svg>
-        <span className={iconPicker} style={{ iconColor: colorValue }} />
-      </div>
+        <span className={iconPicker} />
+      </CustomTag>
     </div>
   }
 }

@@ -1,0 +1,14 @@
+.vce-icon--style {
+  &--color-$(selector) {
+  background-color: $shapeColor;
+    .vce-features__icon {
+      background-color: $shapeColor;
+    }
+
+    &,
+    a&,
+    span& {
+      color: $iconColor;
+    }
+  }
+}
