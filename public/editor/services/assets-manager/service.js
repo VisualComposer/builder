@@ -7,7 +7,7 @@ import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
 import lodash from 'lodash'
-import postcssSimpleVars from 'postcss-simple-vars'
+import postcssAdvancedVars from 'postcss-advanced-variables'
 import postcssColor from 'postcss-color-function'
 import postcssNested from 'postcss-nested'
 
@@ -368,7 +368,7 @@ vcCake.addService('assets-manager', {
           name = name ? name.join('-') : 'null'
         }
         names.push(name)
-        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value
+        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
       })
       names = names.join('--')
       if (names) {
@@ -452,7 +452,7 @@ vcCake.addService('assets-manager', {
     cssMixinsStyles.forEach((mixin) => {
       let compiledStyles = new Promise((resolve, reject) => {
         postcss()
-          .use(postcssSimpleVars({
+          .use(postcssAdvancedVars({
             variables: mixin.variables,
             silent: true
           }))

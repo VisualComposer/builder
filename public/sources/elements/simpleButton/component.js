@@ -12,7 +12,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { addUrl, buttonUrl, buttonText, textColor, backgroundColor, shape, animate, color, designOptions, alignment } = atts
+    let { addUrl, buttonUrl, buttonText, shape, color, designOptions, alignment, background, customClass } = atts
 
     let containerClasses = 'vce-button-container vce'
     let classes = 'vce-button vce-button--style-simple'
@@ -32,23 +32,21 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (typeof customClass === 'string' && customClass) {
-      classes += ' ' + customClass
+      containerClasses += ' ' + customClass
     }
 
     if (shape && shape !== 'square') {
       classes += ` vce-button--border-${shape}`
     }
 
-    if (textColor) {
-      classes += ` vce-button--text-color-${textColor}`
-    }
-
-    if (backgroundColor) {
-      classes += ` vce-button--background-color-${backgroundColor}`
-    }
-
     if (alignment) {
       containerClasses += ` vce-button-container--align-${alignment}`
+    }
+
+    if (color && background) {
+      let re = new RegExp('[\\da-f]+', 'gi')
+      let postfix = background.match(re).join('-') + '--' + color.match(re).join('-')
+      classes += ` vce-button--style-simple--color-${postfix}`
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []

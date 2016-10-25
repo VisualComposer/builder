@@ -75,184 +75,30 @@
       "label": "Button text"
     }
   },
-  "textColor": {
-    "type": "dropdown",
+  "color": {
+    "type": "color",
     "access": "public",
-    "value": "white",
+    "value": "#fff",
     "options": {
-      "label": "Text color",
-      "values": [
-        {
-          "label": "Default",
-          "value": "default"
-        },
-        {
-          "label": "Silver",
-          "value": "silver"
-        },
-        {
-          "label": "White",
-          "value": "white"
-        },
-        {
-          "label": "Nero",
-          "value": "nero"
-        },
-        {
-          "label": "Mortar",
-          "value": "mortar"
-        },
-        {
-          "label": "Fire brick",
-          "value": "fire-brick"
-        },
-        {
-          "label": "Coral",
-          "value": "coral"
-        },
-        {
-          "label": "Medium wood",
-          "value": "medium-wood"
-        },
-        {
-          "label": "Amber",
-          "value": "amber"
-        },
-        {
-          "label": "Canary",
-          "value": "canary"
-        },
-        {
-          "label": "Olive",
-          "value": "olive"
-        },
-        {
-          "label": "Pear",
-          "value": "pear"
-        },
-        {
-          "label": "Teal",
-          "value": "teal"
-        },
-        {
-          "label": "Turquoise",
-          "value": "turquoise"
-        },
-        {
-          "label": "Sapphire",
-          "value": "sapphire"
-        },
-        {
-          "label": "Picton blue",
-          "value": "picton-blue"
-        },
-        {
-          "label": "Vivid violet",
-          "value": "vivid-violet"
-        },
-        {
-          "label": "Amethyst",
-          "value": "amethyst"
-        },
-        {
-          "label": "Old brick",
-          "value": "old-brick"
-        },
-        {
-          "label": "Hopbush",
-          "value": "hopbush"
-        }
-      ]
+      "label": "Pick color",
+      "cssMixin": {
+        "mixin": "simpleColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
     }
   },
-  "backgroundColor": {
-    "type": "dropdown",
+  "background": {
+    "type": "color",
     "access": "public",
-    "value": "default",
+    "value": "#557cbf",
     "options": {
-      "label": "Background color",
-      "values": [
-        {
-          "label": "Default",
-          "value": "default"
-        },
-        {
-          "label": "Silver",
-          "value": "silver"
-        },
-        {
-          "label": "White",
-          "value": "white"
-        },
-        {
-          "label": "Nero",
-          "value": "nero"
-        },
-        {
-          "label": "Mortar",
-          "value": "mortar"
-        },
-        {
-          "label": "Fire brick",
-          "value": "fire-brick"
-        },
-        {
-          "label": "Coral",
-          "value": "coral"
-        },
-        {
-          "label": "Medium wood",
-          "value": "medium-wood"
-        },
-        {
-          "label": "Amber",
-          "value": "amber"
-        },
-        {
-          "label": "Canary",
-          "value": "canary"
-        },
-        {
-          "label": "Olive",
-          "value": "olive"
-        },
-        {
-          "label": "Pear",
-          "value": "pear"
-        },
-        {
-          "label": "Teal",
-          "value": "teal"
-        },
-        {
-          "label": "Turquoise",
-          "value": "turquoise"
-        },
-        {
-          "label": "Sapphire",
-          "value": "sapphire"
-        },
-        {
-          "label": "Picton blue",
-          "value": "picton-blue"
-        },
-        {
-          "label": "Vivid violet",
-          "value": "vivid-violet"
-        },
-        {
-          "label": "Amethyst",
-          "value": "amethyst"
-        },
-        {
-          "label": "Old brick",
-          "value": "old-brick"
-        },
-        {
-          "label": "Hopbush",
-          "value": "hopbush"
-        }
-      ]
+      "label": "Pick background",
+      "cssMixin": {
+        "mixin": "simpleColor",
+        "property": "background",
+        "namePattern": "[\\da-f]+"
+      }
     }
   },
   "shape": {
@@ -277,22 +123,6 @@
       ]
     }
   },
-  "animate": {
-    "type": "animateDropdown",
-    "access": "public",
-    "value": "none",
-    "options": {
-      "label": "Animate"
-    }
-  },
-  "color": {
-    "type": "color",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Pick color"
-    }
-  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -308,12 +138,11 @@
       "addUrl",
       "buttonUrl",
       "buttonText",
-      "textColor",
-      "backgroundColor",
       "shape",
       "alignment",
-      "animate",
-      "color"
+      "color",
+      "background",
+      "customClass"
     ],
     "options": {
       "label": "Options"
@@ -366,6 +195,15 @@
           "value": "right"
         }
       ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   }
 }
