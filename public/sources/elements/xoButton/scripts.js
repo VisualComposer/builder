@@ -9,6 +9,7 @@ if (shape && shape !== 'square') {
 
 classes += ` vce-button-xo--style-flat`
 
+
 if (color && background) {
   let re = new RegExp('[\\da-f]+', 'gi')
   let postfix = background.match(re).join('-') + '--' + color.match(re).join('-')
