@@ -101,7 +101,6 @@ class Component extends vcvAPI.elementComponent {
   }
 
   setSizeState (size) {
-    console.log(size)
     this.setState({
       imgSize: {
         maxWidth: size + 'px'

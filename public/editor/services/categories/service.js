@@ -111,6 +111,9 @@ if (vcCake.env('FEATURE_RAW_JS')) {
 if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
   tempData.categories['Button'].elements.push('simpleButton')
 }
+if (vcCake.env('FEATURE_TWEET_BUTTON')) {
+  tempData.categories['Button'].elements.push('tweetButton')
+}
 const data = tempData
 
 const service = {
