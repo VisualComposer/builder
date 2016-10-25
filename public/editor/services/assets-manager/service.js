@@ -2,14 +2,14 @@ import vcCake from 'vc-cake'
 import postcss from 'postcss'
 import postcssVars from 'postcss-custom-properties'
 import postcssMedia from 'postcss-custom-media'
-// import postcssSimpleVars from 'postcss-simple-vars'
-// import postcssColor from 'postcss-color-function'
-// import postcssNested from 'postcss-nested'
 import designOptions from './lib/design-options'
 import rowColumn from './lib/row-column'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
 import lodash from 'lodash'
+import postcssSimpleVars from 'postcss-simple-vars'
+import postcssColor from 'postcss-color-function'
+import postcssNested from 'postcss-nested'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
@@ -201,6 +201,10 @@ vcCake.addService('assets-manager', {
         if (columnSizes) {
           this.elements[ id ][ 'columnSizes' ] = columnSizes
         }
+        let cssMixins = this.getCssMixinsByElement(element, {})
+        if (Object.keys(cssMixins).length) {
+          this.elements[ id ][ 'cssMixins' ] = cssMixins
+        }
       }
     })
   },
@@ -276,6 +280,21 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get all used mixins data
+   * @returns {{}}
+   */
+  getCssMixinsData () {
+    let mixins = {}
+    for (let id in this.elements) {
+      let elementMixins = this.elements[ id ].cssMixins
+      if (elementMixins) {
+        lodash.merge(mixins, elementMixins)
+      }
+    }
+    return mixins
+  },
+
+  /**
    * Get element tags from element exact data or default settings
    * @param tag
    * @param tags
@@ -304,6 +323,60 @@ vcCake.addService('assets-manager', {
   },
 
   /**
+   * Get css mixins data by element
+   * @param elData
+   * @param mixins
+   * @returns {{}}
+   */
+  getCssMixinsByElement (elData, mixins = {}) {
+    let element = this.cook().get(elData)
+    let settings = element.get('settings')
+    let foundMixins = {}
+    for (let key in settings) {
+      // If found element than get actual data form element
+      if (settings[ key ].type === 'element') {
+        this.getCssMixinsByElement(element.data[ key ], mixins)
+      } else {
+        if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
+          let mixin = settings[ key ].options.cssMixin
+          if (!foundMixins[ mixin.mixin ]) {
+            foundMixins[ mixin.mixin ] = {
+              variables: {}
+            }
+          }
+          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: element.data[ key ] }
+          if (mixin.namePattern) {
+            foundMixins[ mixin.mixin ].variables[ mixin.property ][ 'namePattern' ] = mixin.namePattern
+          }
+        }
+      }
+    }
+
+    for (let mixin in foundMixins) {
+      if (!mixins[ element.data.tag ]) {
+        mixins[ element.data.tag ] = {}
+      }
+      if (!mixins[ element.data.tag ][ mixin ]) {
+        mixins[ element.data.tag ][ mixin ] = {}
+      }
+      let names = []
+      let variables = {}
+      Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
+        let name = foundMixins[ mixin ].variables[ variable ].value
+        if (foundMixins[ mixin ].variables[ variable ].namePattern) {
+          name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi')).join('-')
+        }
+        names.push(name)
+        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value
+      })
+      names = names.join('--')
+      variables[ 'selector' ] = names
+      mixins[ element.data.tag ][ mixin ][ names ] = variables
+    }
+    return mixins
+  },
+
+  /**
    * Get styles object combined by tagName
    * @returns {{}}
    */
@@ -317,6 +390,32 @@ vcCake.addService('assets-manager', {
       styles[ tag ] = {
         css: cssSettings.css
       }
+    })
+    return styles
+  },
+
+  /**
+   * Get css mixins styles
+   * @returns {{}}
+   */
+  getCssMixinsStyles () {
+    let styles = []
+    let mixinsData = this.getCssMixinsData()
+    let tagsList = Object.keys(mixinsData)
+
+    tagsList.forEach((tag) => {
+      let elementObject = this.cook().get({ tag: tag })
+      let cssSettings = elementObject.get('cssSettings')
+      let mixins = Object.keys(mixinsData[ tag ])
+
+      mixins.forEach((mixin) => {
+        for (let selector in mixinsData[ tag ][ mixin ]) {
+          styles.push({
+            variables: mixinsData[ tag ][ mixin ][ selector ],
+            mixin: cssSettings.mixins[ mixin ].mixin
+          })
+        }
+      })
     })
     return styles
   },
@@ -345,81 +444,24 @@ vcCake.addService('assets-manager', {
     }
     // add columns css
     iterations = iterations.concat(this.getCompileColumnsIterations())
-
-//       let cssTest = `
-//       $dir:    top;
-//       $blue:   #056ef0;
-//       $column: 200px;
-//       .whatever {
-//         color: color(red a(10%));
-//         background-color: color(red lightness(50%));
-//         border-color: color(hsla(125, 50%, 50%, .4) saturation(+ 10%) w(- 20%));
-//       }
-//       .menu_link {
-//         background: $blue;
-//         width: $column;
-//       }
-//       .menu {
-//         width: calc(4 * $column);
-//         margin-$(dir): 10px;
-//       }
-//       .phone {
-//       &_title {
-//         width: 500px;
-//         @media (max-width: 500px) {
-//         width: auto;
-//       }
-//       body.is_dark & {
-//         color: white;
-//       }
-//       }
-//       img {
-//         display: block;
-//       }
-// }`
-//
-//     let css = `
-//
-// .vce-button-xo {
-//
-//
-//   &--style-flat {
-//     &--color-$(colorName) {
-//       &,
-//       a&,
-//       button& {
-//         color: $color;
-//         background-color: $background;
-//         &:hover {
-//           color: $color;
-//           background-color: color($background shade(10%)) ;
-//         }
-//       }
-//     }
-//   }
-// }
-//     `
-//     let vars = {
-//       color:      '#000',
-//       background: '#bada55',
-//       colorName: 'bada55'
-//     }
-//
-//     let compiledStyles = new Promise((resolve, reject) => {
-//       postcss()
-//         .use(postcssSimpleVars({
-//           variables: vars,
-//           silent: true
-//         }))
-//         .use(postcssNested)
-//         .use(postcssColor)
-//         .process(css)
-//         .then((result) => {
-//           console.log(result.css)
-//           resolve(result.css)
-//         })
-//     })
-//     iterations.push(compiledStyles)
+    // add css mixins
+    let cssMixinsStyles = this.getCssMixinsStyles()
+    cssMixinsStyles.forEach((mixin) => {
+      let compiledStyles = new Promise((resolve, reject) => {
+        postcss()
+          .use(postcssSimpleVars({
+            variables: mixin.variables,
+            silent: true
+          }))
+          .use(postcssNested)
+          .use(postcssColor)
+          .process(mixin.mixin)
+          .then((result) => {
+            resolve(result.css)
+          })
+      })
+      iterations.push(compiledStyles)
+    })
 
     return Promise.all(iterations).then((output) => {
       return output.join(' ')

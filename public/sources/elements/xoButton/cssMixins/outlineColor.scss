@@ -1,0 +1,19 @@
+.vce-button-xo {
+   &--style-outline {
+     &--color-$(selector) {
+       &,
+       a&,
+       button& {
+         color: $background;
+         border-color: $background;
+         background-color: transparent;
+         &::before {
+           border-color: $background;
+         }
+         &:hover {
+           color: $color;
+         }
+       }
+     }
+   }
+ }

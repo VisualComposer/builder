@@ -1,0 +1,16 @@
+.vce-button-xo {
+   &--style-flat {
+     &--color-$(selector) {
+       &,
+       a&,
+       button& {
+         color: $color;
+         background-color: $background;
+         &:hover {
+           color: $color;
+           background-color: color($background shade(10%));
+         }
+       }
+     }
+   }
+ }
