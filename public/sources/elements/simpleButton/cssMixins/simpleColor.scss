@@ -1,0 +1,16 @@
+.vce-button {
+   &--style-simple {
+     &--color-$(selector) {
+       &,
+       a&,
+       button& {
+         color: $color;
+         background-color: $background;
+         &:hover {
+           color: $color;
+           background-color: color($background shade(10%));
+         }
+       }
+     }
+   }
+ }
