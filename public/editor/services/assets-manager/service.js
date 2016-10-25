@@ -362,16 +362,19 @@ vcCake.addService('assets-manager', {
       let names = []
       let variables = {}
       Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
-        let name = foundMixins[ mixin ].variables[ variable ].value
+        let name = foundMixins[ mixin ].variables[ variable ].value || 'null' // null for css selector
         if (foundMixins[ mixin ].variables[ variable ].namePattern) {
-          name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi')).join('-')
+          name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
+          name = name ? name.join('-') : 'null'
         }
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value
       })
       names = names.join('--')
-      variables[ 'selector' ] = names
-      mixins[ element.data.tag ][ mixin ][ names ] = variables
+      if (names) {
+        variables[ 'selector' ] = names
+        mixins[ element.data.tag ][ mixin ][ names ] = variables
+      }
     }
     return mixins
   },
