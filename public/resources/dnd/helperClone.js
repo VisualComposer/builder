@@ -1,5 +1,6 @@
+import _ from 'lodash'
 export default class Helper {
-  constructor (DOMNode, mousePoint = false) {
+  constructor (DOMNode, mousePoint = false, options = {}) {
     Object.defineProperty(this, 'clone', {
       enumerable: false,
       configurable: false,
@@ -9,8 +10,16 @@ export default class Helper {
     Object.defineProperty(this, 'maxCloneHeight', {
       enumerable: false,
       configurable: false,
-      writable: true,
+      writable: false,
       value: 350
+    })
+    Object.defineProperty(this, 'options', {
+      enumerable: false,
+      configurable: false,
+      writable: false,
+      value: _.defaults(options, {
+        opacity: 1
+      })
     })
     if (typeof mousePoint === 'object' && mousePoint.x !== undefined && mousePoint.y !== undefined) {
       Object.defineProperty(this, 'mousePoint', {
@@ -35,7 +44,7 @@ export default class Helper {
   setInitStyle (domNode) {
     let rect = domNode.getBoundingClientRect()
     this.clone.style.position = 'fixed'
-    this.clone.style.opacity = '0.3'
+    this.clone.style.opacity = this.options.opacity
     this.clone.style.pointerEvents = 'none'
     let {height, width} = rect
     this.clone.style.width = width + 'px'
