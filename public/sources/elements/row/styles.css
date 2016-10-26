@@ -34,6 +34,10 @@
   -ms-flex-wrap: wrap-reverse;
       flex-wrap: wrap-reverse;
 }
+.vce-row.vce-element--has-background {
+  margin-left: 0;
+  margin-right: 0;
+}
 .vce-row.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-content {
   padding-top: 35px;
 }
