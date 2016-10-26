@@ -1,15 +1,6 @@
 /* global React, vcvAPI */
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
-
-  componentDidMount () {
-
-  }
-
-  componentWillReceiveProps (nextProps) {
-
-  }
-
   render () {
     let { id, atts, editor } = this.props
     let { addUrl, buttonUrl, buttonText, shape, color, designOptions, alignment, background, customClass } = atts
@@ -43,10 +34,17 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ` vce-button-container--align-${alignment}`
     }
 
-    if (color && background) {
+    let colorClass = []
+
+    if (background || color) {
       let re = new RegExp('[\\da-f]+', 'gi')
-      let postfix = background.match(re).join('-') + '--' + color.match(re).join('-')
-      classes += ` vce-button--style-simple--color-${postfix}`
+      colorClass.push(background.match(re) ? background.match(re).join('-') : 'null')
+      colorClass.push(color.match(re) ? color.match(re).join('-') : 'null')
+      colorClass = colorClass.join('--')
+    }
+
+    if (colorClass) {
+      classes += ` vce-button--style-simple--color-${colorClass}`
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []

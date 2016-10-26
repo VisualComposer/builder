@@ -1,16 +1,24 @@
 .vce-button {
-   &--style-simple {
-     &--color-$(selector) {
-       &,
-       a&,
-       button& {
-         color: $color;
-         background-color: $background;
-         &:hover {
-           color: $color;
-           background-color: color($background shade(10%));
-         }
-       }
-     }
-   }
- }
+  &--style-simple {
+    &--color-$selector {
+    &,
+    a&,
+    button& {
+      @if $color != false {
+        color: $color;
+      }
+      @if $background != false {
+        background-color: $background;
+      }
+      &:hover {
+        @if $color != false {
+          color: $color;
+        }
+        @if $background != false {
+          background-color: darken($background, 10%);
+        }
+      }
+    }
+  }
+  }
+}
