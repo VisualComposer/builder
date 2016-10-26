@@ -2,7 +2,7 @@
 //-----------------------------------------
 
 #vce-features {
-  .make-shape(@background-color: false; @border-radius: false; @border-color: false; @font-size: false; @border-width: false; @color: false) {
+  .make-shape(@border-radius: false; @font-size: false; @border-width: false;) {
     .vce-features__icon {
 
       & when not (@border-radius = false ) {
@@ -21,32 +21,6 @@
       span {
         & when not (@font-size = false ) {
           padding: 2em;
-        }
-      }
-    }
-  }
-
-  .make-color(@background-color: false; @border-color: false; @color: false; @fill-color: false; @stroke-color: false;) {
-    .vce-features__icon {
-      & when not (@background-color = false) {
-        background-color: @background-color;
-      }
-
-      & when not (@border-color = false ) {
-        border-color: @border-color;
-      }
-      span {
-        // Color of the icon
-        & when not (@color = false ) {
-          color: @color;
-        }
-      }
-      svg {
-        & when not (@fill-color = false) {
-          fill: @fill-color;
-        }
-        & when not (@stroke-color = false) {
-          stroke: @stroke-color;
         }
       }
     }

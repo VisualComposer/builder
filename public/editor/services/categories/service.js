@@ -84,6 +84,11 @@ let tempData = {
       'name': 'Misc',
       'elements': [],
       'icon': 'categories/icons/Misc.svg'
+    },
+    'Google Maps': {
+      'name': 'Google Maps',
+      'elements': [],
+      'icon': 'categories/icons/Map.svg'
     }
   }
 }
@@ -113,6 +118,9 @@ if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
 }
 if (vcCake.env('FEATURE_TWEET_BUTTON')) {
   tempData.categories['Button'].elements.push('tweetButton')
+}
+if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
+  tempData.categories['Google Maps'].elements.push('googleMaps')
 }
 const data = tempData
 

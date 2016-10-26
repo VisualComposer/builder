@@ -1,0 +1,16 @@
+.vce-google-maps-inner {
+  width: 100%;
+  display: inline-block;
+}
+
+.vce-google-maps--align-center {
+  text-align: center;
+}
+
+.vce-google-maps--align-right {
+  text-align: right;
+}
+
+.vce-google-maps--align-left {
+  text-align: left;
+}
