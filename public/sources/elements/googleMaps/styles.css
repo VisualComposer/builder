@@ -1,6 +1,27 @@
+.vce-google-maps-wrapper {
+  max-width: 600px;
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+
 .vce-google-maps-inner {
   width: 100%;
-  display: inline-block;
+  height: 0;
+  padding-bottom: 75%;
+  position: relative;
+}
+
+.vce-google-maps-wrapper.vce-google-maps--size-custom {
+  max-width: 100%;
+}
+
+.vce-google-maps-inner iframe {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .vce-google-maps--align-center {

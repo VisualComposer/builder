@@ -27,9 +27,15 @@
 @class-md: md;
 @class-lg: lg;
 @class-xl: xl;
-.vce-row--has-background {
-  > .vce-row-content > .vce-col > .vce-col-content {
-    padding-top: @vcv-gold-margin;
+.vce-row {
+  &.vce-element--has-background {
+    margin-left: 0;
+    margin-right: 0;
+    > .vce-row-content {
+      > .vce-col > .vce-col-content {
+        padding-top: @vcv-gold-margin;
+      }
+    }
   }
 }
 .make-color-media(@class-xs, @vcv-grid-breakpoint-xs, @vcv-grid-breakpoint-xs-max);
