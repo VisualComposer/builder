@@ -1,0 +1,39 @@
+.vce-icon--style {
+  &--shape-color-hover-$selector {
+
+    &.vce-features--style {
+      &-filled {
+        &-circle, &-rounded, &-square, &-diamond {
+          a:hover {
+            background-color: $shapeColorHover;
+          }
+        }
+        &-hexagon {
+          a:hover {
+            fill: $shapeColorHover;
+          }
+        }
+      }
+
+      &-outlined {
+        &-circle, &-rounded, &-square, &-diamond {
+          a:hover {
+            border-color: $shapeColorHover;
+          }
+        }
+        &-hexagon {
+          a:hover {
+            stroke: $shapeColorHover;
+          }
+        }
+        &-underlined {
+          a:hover {
+            &::after {
+              background-color: $shapeColorHover;
+            }
+          }
+        }
+      }
+    }
+  }
+}

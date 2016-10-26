@@ -9,6 +9,9 @@
               background-color: $shapeColor;
             }
           }
+          a:hover {
+            background-color: color($shapeColor shade(10%));
+          }
         }
         &-hexagon {
           .vce-features__icon {
@@ -16,6 +19,9 @@
               fill: $shapeColor;
               background-color: transparent;
             }
+          }
+          a:hover {
+            fill: color($shapeColor shade(10%));
           }
         }
       }
@@ -27,6 +33,9 @@
               border-color: $shapeColor;
             }
           }
+          a:hover {
+            border-color: color($shapeColor shade(10%));
+          }
         }
         &-hexagon {
           .vce-features__icon {
@@ -36,6 +45,9 @@
               background-color: transparent;
             }
           }
+          a:hover {
+            stroke: color($shapeColor shade(10%));
+          }
         }
         &-underlined {
           .vce-features__icon {
@@ -43,6 +55,11 @@
               @if $shapeColor != false {
                 background-color: $shapeColor;
               }
+            }
+          }
+          a:hover {
+            &::after {
+              background-color: color($shapeColor shade(10%));
             }
           }
         }

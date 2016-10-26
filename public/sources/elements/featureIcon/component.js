@@ -62,6 +62,18 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-icon--style--shape-color-${mixinData.selector}`
     }
 
+    mixinData = this.getMixinData('iconColorHover')
+
+    if (mixinData) {
+      classes += ` vce-icon--style--icon-color-hover-${mixinData.selector}`
+    }
+
+    mixinData = this.getMixinData('shapeColorHover')
+
+    if (mixinData) {
+      classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
+    }
+
     return <div className={classes}>
       <CustomTag className='vce-features__icon vce-icon vce' id={'el-' + id} {...editor} {...customProps}>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>

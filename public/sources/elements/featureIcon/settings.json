@@ -149,6 +149,51 @@
       }
     }
   },
+  "toggleCustomHover": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Custom hover colors",
+      "onChange": {
+        "iconUrl": [
+          {
+            "rule": "url",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "shapeColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Custom shape hover",
+      "cssMixin": {
+        "mixin": "shapeColor",
+        "property": "shapeColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "toggleCustomHover": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "iconPicker": {
     "type": "iconpicker",
     "access": "public",
@@ -168,6 +213,31 @@
         "mixin": "iconColor",
         "property": "iconColor",
         "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "iconColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Custom icon hover",
+      "cssMixin": {
+        "mixin": "iconColorHover",
+        "property": "iconColorHover",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "toggleCustomHover": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
       }
     }
   },
@@ -216,10 +286,13 @@
     "value": [
       "iconPicker",
       "iconColor",
+      "iconColorHover",
       "iconUrl",
+      "toggleCustomHover",
       "size",
       "shape",
       "shapeColor",
+      "shapeColorHover",
       "iconAlignment",
       "customClass"
     ],

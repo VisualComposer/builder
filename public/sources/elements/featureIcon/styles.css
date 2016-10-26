@@ -5,6 +5,9 @@
 .vce-features {
   display: inline-block;
 }
+.vce-features a {
+  outline: none;
+}
 .vce-features__icon {
   position: relative;
   width: 2.9em;

@@ -53,8 +53,12 @@ const RulesManager = {
     value: (deferred, value, options) => {
       RulesManager.result(deferred, value.localeCompare(options) === 0)
     },
+    url: (deferred, value) => {
+      // TODO: options for value[] in required
+      RulesManager.result(deferred, value.url.length)
+    },
     required: (deferred, value) => {
-      RulesManager.result(deferred, value.length >= 1)
+      RulesManager.result(deferred, value.length)
     }
   },
   result: (deferred, ok) => {
