@@ -34,17 +34,10 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ` vce-button-container--align-${alignment}`
     }
 
-    let colorClass = []
+    let mixinData = this.getMixinData('simpleColor')
 
-    if (background || color) {
-      let re = new RegExp('[\\da-f]+', 'gi')
-      colorClass.push(background.match(re) ? background.match(re).join('-') : 'null')
-      colorClass.push(color.match(re) ? color.match(re).join('-') : 'null')
-      colorClass = colorClass.join('--')
-    }
-
-    if (colorClass) {
-      classes += ` vce-button--style-simple--color-${colorClass}`
+    if (mixinData) {
+      classes += ` vce-button--style-simple--color-${mixinData.selector}`
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
