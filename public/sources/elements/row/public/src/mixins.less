@@ -12,10 +12,13 @@
     }
   }
 }
+
 .make-color-space(@class) {
-  .vce-row--@{class}--has-background {
-    > .vce-row-content > .vce-col > .vce-col-content {
-      padding-top: @vcv-gold-margin;
+  .vce-row {
+    &.vce-element--@{class}--has-background {
+      > .vce-row-content > .vce-col > .vce-col-content {
+        padding-top: @vcv-gold-margin;
+      }
     }
   }
 }
