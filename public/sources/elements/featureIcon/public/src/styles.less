@@ -55,7 +55,6 @@
     &-circle, &-rounded, &-square, &-hexagon, &-diamond {
       border: none;
       #vce-features > .make-shape ();
-      #vce-features > .make-color (@background-color: @vce-features-color-green; @color: @vce-features-color-white;);
     }
 
     &-circle {
@@ -67,8 +66,6 @@
     }
 
     &-hexagon {
-      #vce-features > .make-color (@background-color: transparent; @color: @vce-features-color-white; @fill-color: @vce-features-color-green);
-
       .vce-features__icon svg {  display: block;  }
     }
 
@@ -89,7 +86,6 @@
     &-circle, &-rounded, &-square, &-diamond {
       background-color: transparent;
       #vce-features > .make-shape (@border-width: @vce-features-border-width;);
-      #vce-features > .make-color (@border-color: @vce-features-color-green; @color: @vce-features-color-green;);
     }
 
     &-circle {
@@ -102,7 +98,6 @@
 
     &-hexagon {
       #vce-features > .make-shape ();
-      #vce-features > .make-color (@background-color: transparent; @color: @vce-features-color-green; @fill-color: transparent; @stroke-color: @vce-features-color-green;);
 
       .vce-features__icon {
         svg {
@@ -114,7 +109,6 @@
     }
     &-underlined {
       #vce-features > .make-shape ();
-      #vce-features > .make-color (@color: @vce-features-color-grey;);
 
       .vce-features__icon {
         &::after {
@@ -124,7 +118,6 @@
           width: @vce-features-icon-background-size; // relative to the font size of the icon
           left: @vce-features-underline-left;
           bottom: @vce-features-underline-bottom;
-          background-color: @vce-features-color-green;
         }
       }
     }

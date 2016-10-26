@@ -2,22 +2,15 @@
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
   componentDidMount () {
-    this.setFlickrWidget()
+    this.updateInlineHtml(this.props.atts.embed)
   }
 
   componentWillReceiveProps (nextProps) {
-
-  }
-  setFlickrWidget () {
-    const ReactDOM = require('react-dom')
-    const component = ReactDOM.findDOMNode(this)
-    component.innerHTML = 'test<br/><a data-flickr-embed="true" href="https://www.flickr.com/photos/thomasheaton/21171377373/" title="Dartmoor Wildcamp">' +
-      '<img src="https://c6.staticflickr.com/6/5671/21171377373_ae0c1f3fcc_z.jpg" width="640" height="427" alt="Dartmoor Wildcamp">' +
-      '</a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>'
+    this.updateInlineHtml(nextProps.atts.embed)
   }
   render () {
     let { id, atts, editor } = this.props
-    let { embed, designOptions, customClass, alignment } = atts
+    let { designOptions, customClass, alignment } = atts
     let classes = 'vce-flickr-image vce'
     let customProps = {}
 
@@ -45,6 +38,6 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor} dangerouslySetInnerHTML={{__html:embed}} />
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor} />
   }
 }

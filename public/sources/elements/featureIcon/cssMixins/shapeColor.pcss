@@ -1,0 +1,52 @@
+.vce-icon--style {
+  &--shape-color-$selector {
+
+    &.vce-features--style {
+      &-filled {
+        &-circle, &-rounded, &-square, &-diamond {
+          .vce-features__icon {
+            @if $shapeColor != false {
+              background-color: $shapeColor;
+            }
+          }
+        }
+        &-hexagon {
+          .vce-features__icon {
+            @if $shapeColor != false {
+              fill: $shapeColor;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+
+      &-outlined {
+        &-circle, &-rounded, &-square, &-diamond {
+          .vce-features__icon {
+            @if $shapeColor != false {
+              border-color: $shapeColor;
+            }
+          }
+        }
+        &-hexagon {
+          .vce-features__icon {
+            @if $shapeColor != false {
+              stroke: $shapeColor;
+              fill: transparent;
+              background-color: transparent;
+            }
+          }
+        }
+        &-underlined {
+          .vce-features__icon {
+            &::after {
+              @if $shapeColor != false {
+                background-color: $shapeColor;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
