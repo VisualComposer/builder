@@ -281,7 +281,7 @@ class Controller extends Container implements Module
             $contents = $this->file->getContents($frontMainFile);
             foreach ($files as $file) {
                 $filepath = $app->path('public/sources/' . $file);
-                $contents .= $this->file->getContents($filepath) . "\n";
+                $contents .= '(function(){' . $this->file->getContents($filepath) . "})();\n";
             }
 
             $bundleUrl = $this->createBundleFile($contents, 'global.js');
