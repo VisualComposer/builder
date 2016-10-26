@@ -335,7 +335,7 @@ vcCake.addService('assets-manager', {
     for (let key in settings) {
       // If found element than get actual data form element
       if (settings[ key ].type === 'element') {
-        this.getCssMixinsByElement(element.data[ key ], mixins)
+        mixins = this.getCssMixinsByElement(element.data[ key ], mixins)
       } else {
         if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
           let mixin = settings[ key ].options.cssMixin
@@ -361,6 +361,7 @@ vcCake.addService('assets-manager', {
       }
       let names = []
       let variables = {}
+      let useMixin = false
       Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
         let name = foundMixins[ mixin ].variables[ variable ].value || 'null' // null for css selector
         if (foundMixins[ mixin ].variables[ variable ].namePattern) {
@@ -369,9 +370,13 @@ vcCake.addService('assets-manager', {
         }
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
+        // if any variable is set we can use mixin
+        if (variables[ variable ]) {
+          useMixin = true
+        }
       })
       names = names.join('--')
-      if (names) {
+      if (names && useMixin) {
         variables[ 'selector' ] = names
         mixins[ element.data.tag ][ mixin ][ names ] = variables
       }

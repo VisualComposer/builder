@@ -7,6 +7,7 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
     let CustomTag = 'div'
     let { url, title, targetBlank, relNofollow } = iconUrl
+    let iconClasses = 'vce-icon-container' + ` ${iconPicker}`
 
     if (url) {
       CustomTag = 'a'
@@ -49,10 +50,16 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (iconColor || shapeColor) {
-      let re = new RegExp('[\\da-f]+', 'gi')
-      let postfix = shapeColor.match(re).join('-') + '--' + iconColor.match(re).join('-')
-      classes += ` vce-icon--style-color-${postfix}`
+    let mixinData = this.getMixinData('iconColor')
+
+    if (mixinData) {
+      classes += ` vce-icon--style--icon-color-${mixinData.selector}`
+    }
+
+    mixinData = this.getMixinData('shapeColor')
+
+    if (mixinData) {
+      classes += ` vce-icon--style--shape-color-${mixinData.selector}`
     }
 
     return <div className={classes}>
@@ -60,7 +67,7 @@ class Component extends vcvAPI.elementComponent {
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
           <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
         </svg>
-        <span className={iconPicker} />
+        <span className={iconClasses} />
       </CustomTag>
     </div>
   }

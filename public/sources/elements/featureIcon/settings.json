@@ -67,7 +67,7 @@
   "shape": {
     "type": "dropdown",
     "access": "public",
-    "value": "none",
+    "value": "filled-circle",
     "options": {
       "label": "Shape",
       "values": [
@@ -125,11 +125,11 @@
   "shapeColor": {
     "type": "color",
     "access": "public",
-    "value": "",
+    "value": "#3cb878",
     "options": {
       "label": "Shape color",
       "cssMixin": {
-        "mixin": "iconColor",
+        "mixin": "shapeColor",
         "property": "shapeColor",
         "namePattern": "[\\da-f]+"
       },
@@ -152,7 +152,7 @@
   "iconPicker": {
     "type": "iconpicker",
     "access": "public",
-    "value": "fa fa-heart",
+    "value": "fa fa-video-camera",
     "options": {
       "label": "Icon",
       "description": "Select the icon"
@@ -161,7 +161,7 @@
   "iconColor": {
     "type": "color",
     "access": "public",
-    "value": "#000",
+    "value": "#fff",
     "options": {
       "label": "Icon color",
       "cssMixin": {

@@ -47,34 +47,11 @@
 .vce-features--style-filled-diamond {
   border: none;
 }
-.vce-features--style-filled-circle .vce-features__icon,
-.vce-features--style-filled-rounded .vce-features__icon,
-.vce-features--style-filled-square .vce-features__icon,
-.vce-features--style-filled-hexagon .vce-features__icon,
-.vce-features--style-filled-diamond .vce-features__icon {
-  background-color: #056a39;
-}
-.vce-features--style-filled-circle .vce-features__icon span,
-.vce-features--style-filled-rounded .vce-features__icon span,
-.vce-features--style-filled-square .vce-features__icon span,
-.vce-features--style-filled-hexagon .vce-features__icon span,
-.vce-features--style-filled-diamond .vce-features__icon span {
-  color: #ffffff;
-}
 .vce-features--style-filled-circle .vce-features__icon {
   border-radius: 50%;
 }
 .vce-features--style-filled-rounded .vce-features__icon {
   border-radius: 10px;
-}
-.vce-features--style-filled-hexagon .vce-features__icon {
-  background-color: transparent;
-}
-.vce-features--style-filled-hexagon .vce-features__icon span {
-  color: #ffffff;
-}
-.vce-features--style-filled-hexagon .vce-features__icon svg {
-  fill: #056a39;
 }
 .vce-features--style-filled-hexagon .vce-features__icon svg {
   display: block;
@@ -99,42 +76,17 @@
   border-width: 3px;
   border-style: solid;
 }
-.vce-features--style-outlined-circle .vce-features__icon,
-.vce-features--style-outlined-rounded .vce-features__icon,
-.vce-features--style-outlined-square .vce-features__icon,
-.vce-features--style-outlined-diamond .vce-features__icon {
-  border-color: #056a39;
-}
-.vce-features--style-outlined-circle .vce-features__icon span,
-.vce-features--style-outlined-rounded .vce-features__icon span,
-.vce-features--style-outlined-square .vce-features__icon span,
-.vce-features--style-outlined-diamond .vce-features__icon span {
-  color: #056a39;
-}
 .vce-features--style-outlined-circle .vce-features__icon {
   border-radius: 50%;
 }
 .vce-features--style-outlined-rounded .vce-features__icon {
   border-radius: 10px;
 }
-.vce-features--style-outlined-hexagon .vce-features__icon {
-  background-color: transparent;
-}
-.vce-features--style-outlined-hexagon .vce-features__icon span {
-  color: #056a39;
-}
-.vce-features--style-outlined-hexagon .vce-features__icon svg {
-  fill: transparent;
-  stroke: #056a39;
-}
 .vce-features--style-outlined-hexagon .vce-features__icon svg {
   display: block;
 }
 .vce-features--style-outlined-hexagon .vce-features__icon span::after {
   border: none;
-}
-.vce-features--style-outlined-underlined .vce-features__icon span {
-  color: #2f2f2f;
 }
 .vce-features--style-outlined-underlined .vce-features__icon::after {
   content: '';
@@ -143,7 +95,6 @@
   width: 2.9em;
   left: 0;
   bottom: 0;
-  background-color: #056a39;
 }
 .vce-features--style-outlined-diamond .vce-features__icon {
   transform-origin: center center;
