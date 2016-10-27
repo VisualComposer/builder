@@ -67,6 +67,64 @@
       }
     }
   },
+  "toggleCustomHover": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Custom hover colors"
+    }
+  },
+  "hoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Pick hover color",
+      "cssMixin": {
+        "mixin": "simpleHoverColor",
+        "property": "hoverColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "toggleCustomHover": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "hoverBackground": {
+    "type": "color",
+    "access": "public",
+    "value": "#4d70ac",
+    "options": {
+      "label": "Pick hover background",
+      "cssMixin": {
+        "mixin": "simpleHoverColor",
+        "property": "hoverBackground",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "toggleCustomHover": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "buttonText": {
     "type": "string",
     "access": "public",
@@ -142,6 +200,9 @@
       "alignment",
       "color",
       "background",
+      "toggleCustomHover",
+      "hoverColor",
+      "hoverBackground",
       "customClass"
     ],
     "options": {

@@ -15,7 +15,7 @@
           color: $color;
         }
         @if $background != false {
-          background-color: darken($background, 10%);
+          background-color: color($background shade(10%));
         }
       }
     }
