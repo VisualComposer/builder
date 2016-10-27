@@ -2,9 +2,9 @@
 
 @font-face {
   font-family: 'VC-Icons';
-  src: url('@{icomoon-font-path}/VC-Icons.ttf?ww8cpp') format('truetype'),
-  url('@{icomoon-font-path}/VC-Icons.woff?ww8cpp') format('woff'),
-  url('@{icomoon-font-path}/VC-Icons.svg?ww8cpp#VC-Icons') format('svg');
+  src: url('@{icomoon-font-path}/VC-Icons.ttf?dynk6x') format('truetype'),
+  url('@{icomoon-font-path}/VC-Icons.woff?dynk6x') format('woff'),
+  url('@{icomoon-font-path}/VC-Icons.svg?dynk6x#VC-Icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -30,9 +30,33 @@
   }
 }
 
+.vcv-ui-icon-arrow-up {
+  &:before {
+    content: @vcv-ui-icon-arrow-up;
+  }
+}
+
+.vcv-ui-icon-arrow-left {
+  &:before {
+    content: @vcv-ui-icon-arrow-left;
+  }
+}
+
+.vcv-ui-icon-arrow-right {
+  &:before {
+    content: @vcv-ui-icon-arrow-right;
+  }
+}
+
 .vcv-ui-icon-expand {
   &:before {
     content: @vcv-ui-icon-expand;
+  }
+}
+
+.vcv-ui-icon-arrow-down {
+  &:before {
+    content: @vcv-ui-icon-arrow-down;
   }
 }
 

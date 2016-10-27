@@ -182,7 +182,7 @@ ControlsHandler.prototype.drawControls = function () {
       '<i class="vcv-ui-outline-control-icon vcv-ui-icon vcv-ui-icon-layers" title="Tree View"></i>' +
       '</span>').appendTo($controlElement)
     $controlElement.appendTo(this.$controlsList)
-    $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand" />').appendTo(this.$controlsList)
+    $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right" />').appendTo(this.$controlsList)
   }
   // add elements controld in dropdown
   for (var i in elemenstsTree) {
@@ -216,7 +216,7 @@ ControlsHandler.prototype.drawControls = function () {
     $dropdownContent = $('<div class="vcv-ui-outline-control-dropdown-content"/>')
     $dropdownContent.appendTo($controlElement)
     if (i < elemenstsTree.length - 1) {
-      $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand"></i>').appendTo($controlElement)
+      $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right"></i>').appendTo($controlElement)
     }
     $controlAction = $('<a href="#" class="vcv-ui-outline-control" data-vc-drag-helper="' + elementId + '"/>')
     $('<span  class="vcv-ui-outline-control-content">' +
