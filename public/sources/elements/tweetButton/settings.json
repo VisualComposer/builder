@@ -29,15 +29,6 @@
     "access": "protected",
     "value": "tweet-button-thumbnail.jpg"
   },
-  "embed": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Embed",
-      "description": "Add embed."
-    }
-  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -50,7 +41,9 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "embed",
+      "tweetText",
+      "tweetAccount",
+      "tweetButtonSize",
       "alignment",
       "customClass"
     ],
@@ -85,6 +78,42 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "tweetText": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Tweet Text",
+      "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically."
+    }
+  },
+  "tweetAccount": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Recommend Account (@username)",
+      "description": "Adds via @username at the end of the tweet."
+    }
+  },
+  "tweetButtonSize": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "normal",
+    "options": {
+      "label": "Size options",
+      "values": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ]
     }
   },
   "assetsLibrary": {

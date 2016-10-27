@@ -13,6 +13,9 @@ export default class ElementComponent extends Component {
     component.innerHTML = ''
     component.appendChild(documentFragment)
   }
+  getDomNode () {
+    return ReactDOM.findDOMNode(this)
+  }
   getMixinData (mixinName) {
     const vcCake = require('vc-cake')
     const assetsManager = vcCake.getService('assets-manager')

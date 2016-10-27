@@ -5,6 +5,7 @@ class Component extends vcvAPI.elementComponent {
     if (this.props.atts.size) {
       this.checkCustomSize(this.props.atts.size)
     }
+    this.updateInstagramHtml(this.props.atts.embed)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -15,6 +16,7 @@ class Component extends vcvAPI.elementComponent {
         imgSize: null
       })
     }
+    this.updateInstagramHtml(nextProps.atts.embed)
   }
 
   render () {
@@ -27,25 +29,6 @@ class Component extends vcvAPI.elementComponent {
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
     }
-
-    // if (typeof embed === 'string' && embed) {
-    //   httpGetAsync('https://api.instagram.com/oembed/?url=' + embed, response)
-    // }
-    //
-    // function response(resp) {
-    //   console.log(resp)
-    // }
-    //
-    // function httpGetAsync(theUrl, callback)
-    // {
-    //   var xmlHttp = new XMLHttpRequest();
-    //   xmlHttp.onreadystatechange = function() {
-    //     if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-    //       callback(xmlHttp.responseText);
-    //   }
-    //   xmlHttp.open("GET", theUrl, true); // true for asynchronous
-    //   xmlHttp.send(null);
-    // }
 
     if (typeof size === 'string' && size) {
       innerCustomProps.style = this.state ? this.state.imgSize : null
@@ -72,7 +55,7 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-    <div className="vce-instagram-image-inner" {...innerCustomProps} dangerouslySetInnerHTML={{__html:embed}} />
+    <div className='vce-instagram-image-inner' {...innerCustomProps} />
   </div>
   }
 
@@ -106,5 +89,13 @@ class Component extends vcvAPI.elementComponent {
         maxWidth: size + 'px'
       }
     })
+  }
+
+  updateInstagramHtml (tagString = '') {
+    const component = this.getDomNode().querySelector('.vce-instagram-image-inner')
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(tagString)
+    component.innerHTML = ''
+    component.appendChild(documentFragment)
   }
 }

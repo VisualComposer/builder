@@ -14,3 +14,19 @@
 .vce-instagram-image--align-left {
   text-align: left;
 }
+
+/* overlay cannot be set to iframe */
+
+.vce-instagram-image-inner {
+  position: relative;
+}
+
+.vce-instagram-image-inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
