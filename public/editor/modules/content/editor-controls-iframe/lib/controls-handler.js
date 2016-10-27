@@ -194,7 +194,7 @@ ControlsHandler.prototype.drawControls = function () {
     let controlColorIndex = this.getElementColorIndex(elementObject)
     let iconPath = categoriesService.getElementIcon(elementObject.get('tag')) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
     let isElementContainer = controlColorIndex < 2
-    $controlElement = $('<dl data-vcv-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
+    $controlElement = $('<div data-vcv-element-controls="' + elementId + '" class="vcv-ui-outline-control-dropdown vcv-ui-outline-control-type-index-' +
       controlColorIndex + '"/>')
     $controlElement.appendTo(this.$controlsList)
 
@@ -206,14 +206,14 @@ ControlsHandler.prototype.drawControls = function () {
       document.querySelector('[data-vc-outline-element-id="' + id + '"]').classList.remove('vcv-state-highlight')
     })
     // add dropdown trigger
-    $('<dt class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
+    $('<div class="vcv-ui-outline-control-dropdown-trigger vcv-ui-outline-control">' +
       '<span  class="vcv-ui-outline-control-content" data-vc-drag-helper="' + elementId + '" title="' + elementObject.get('name') + '" >' +
       '<img src="' + iconPath + '" class="vcv-ui-outline-control-icon" alt="" title="' + elementObject.get('name') + '"/>' +
       '</span>' +
-      '</dt>').appendTo($controlElement)
+      '</div>').appendTo($controlElement)
 
     // add dropdown content
-    $dropdownContent = $('<dd class="vcv-ui-outline-control-dropdown-content"/>')
+    $dropdownContent = $('<div class="vcv-ui-outline-control-dropdown-content"/>')
     $dropdownContent.appendTo($controlElement)
     if (i < elemenstsTree.length - 1) {
       $('<i class="vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-expand"></i>').appendTo($controlElement)
