@@ -154,11 +154,24 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Custom hover colors",
+      "label": "Custom hover colors"
+    }
+  },
+  "shapeColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Custom shape hover",
+      "cssMixin": {
+        "mixin": "shapeColorHover",
+        "property": "shapeColorHover",
+        "namePattern": "[\\da-f]+"
+      },
       "onChange": {
-        "iconUrl": [
+        "toggleCustomHover": [
           {
-            "rule": "url",
+            "rule": "toggle",
             "actions": [
               {
                 "action": "toggleVisibility"
@@ -169,15 +182,15 @@
       }
     }
   },
-  "shapeColorHover": {
+  "iconColorHover": {
     "type": "color",
     "access": "public",
-    "value": "#3cb878",
+    "value": "#fff",
     "options": {
-      "label": "Custom shape hover",
+      "label": "Custom icon hover",
       "cssMixin": {
-        "mixin": "shapeColor",
-        "property": "shapeColor",
+        "mixin": "iconColorHover",
+        "property": "iconColorHover",
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
@@ -213,31 +226,6 @@
         "mixin": "iconColor",
         "property": "iconColor",
         "namePattern": "[\\da-f]+"
-      }
-    }
-  },
-  "iconColorHover": {
-    "type": "color",
-    "access": "public",
-    "value": "#fff",
-    "options": {
-      "label": "Custom icon hover",
-      "cssMixin": {
-        "mixin": "iconColorHover",
-        "property": "iconColorHover",
-        "namePattern": "[\\da-f]+"
-      },
-      "onChange": {
-        "toggleCustomHover": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
       }
     }
   },
@@ -286,12 +274,12 @@
     "value": [
       "iconPicker",
       "iconColor",
-      "iconColorHover",
       "iconUrl",
-      "toggleCustomHover",
       "size",
       "shape",
       "shapeColor",
+      "toggleCustomHover",
+      "iconColorHover",
       "shapeColorHover",
       "iconAlignment",
       "customClass"

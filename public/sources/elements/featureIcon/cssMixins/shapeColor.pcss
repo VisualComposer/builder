@@ -7,6 +7,7 @@
           .vce-features__icon {
             @if $shapeColor != false {
               background-color: $shapeColor;
+              transition: background-color .2s ease-in-out;
             }
           }
           a:hover {
@@ -18,6 +19,7 @@
             @if $shapeColor != false {
               fill: $shapeColor;
               background-color: transparent;
+              transition: fill .2s ease-in-out;
             }
           }
           a:hover {
@@ -31,6 +33,7 @@
           .vce-features__icon {
             @if $shapeColor != false {
               border-color: $shapeColor;
+              transition: border-color .2s ease-in-out;
             }
           }
           a:hover {
@@ -43,6 +46,7 @@
               stroke: $shapeColor;
               fill: transparent;
               background-color: transparent;
+              transition: stroke .2s ease-in-out;
             }
           }
           a:hover {
@@ -54,6 +58,7 @@
             &::after {
               @if $shapeColor != false {
                 background-color: $shapeColor;
+                transition: background-color .2s ease-in-out;
               }
             }
           }

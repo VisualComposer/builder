@@ -4,12 +4,12 @@
     &.vce-features--style {
       &-filled {
         &-circle, &-rounded, &-square, &-diamond {
-          a:hover {
+          .vce-features__icon:hover {
             background-color: $shapeColorHover;
           }
         }
         &-hexagon {
-          a:hover {
+          .vce-features__icon:hover {
             fill: $shapeColorHover;
           }
         }
@@ -17,17 +17,17 @@
 
       &-outlined {
         &-circle, &-rounded, &-square, &-diamond {
-          a:hover {
+          .vce-features__icon:hover {
             border-color: $shapeColorHover;
           }
         }
         &-hexagon {
-          a:hover {
+          .vce-features__icon:hover {
             stroke: $shapeColorHover;
           }
         }
         &-underlined {
-          a:hover {
+          .vce-features__icon:hover {
             &::after {
               background-color: $shapeColorHover;
             }

@@ -3,7 +3,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
     let {atts, editor, id} = this.props
-    let {iconPicker, iconColor, shapeColor, iconUrl, shape, iconAlignment, size, customClass, designOptions} = atts
+    let {iconPicker, iconColor, shapeColor, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover} = atts
     let customProps = {}
     let CustomTag = 'div'
     let { url, title, targetBlank, relNofollow } = iconUrl
@@ -64,13 +64,13 @@ class Component extends vcvAPI.elementComponent {
 
     mixinData = this.getMixinData('iconColorHover')
 
-    if (mixinData) {
+    if (mixinData && toggleCustomHover) {
       classes += ` vce-icon--style--icon-color-hover-${mixinData.selector}`
     }
 
     mixinData = this.getMixinData('shapeColorHover')
 
-    if (mixinData) {
+    if (mixinData && toggleCustomHover) {
       classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
     }
 
