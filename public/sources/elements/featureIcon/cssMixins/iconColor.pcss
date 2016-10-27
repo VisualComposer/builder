@@ -4,14 +4,7 @@
     .vce-icon-container {
       @if $iconColor != false {
         color: $iconColor;
-      }
-    }
-
-    a {
-      &:hover {
-        .vce-icon-container {
-          color: color($iconColor shade(10%));
-        }
+        transition: color .2s ease-in-out;
       }
     }
   }
