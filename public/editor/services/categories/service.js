@@ -89,6 +89,11 @@ let tempData = {
       'name': 'Google Maps',
       'elements': [],
       'icon': 'categories/icons/Map.svg'
+    },
+    'Social': {
+      'name': 'Social',
+      'elements': [],
+      'icon': 'categories/icons/Social.svg'
     }
   }
 }
@@ -102,10 +107,10 @@ if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories['Single image'].elements.push('singleImage')
 }
 if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
-  tempData.categories['Flickr Image'].elements.push('flickrImage')
+  tempData.categories['Social'].elements.push('flickrImage')
 }
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
-  tempData.categories['Instagram Image'].elements.push('instagramImage')
+  tempData.categories['Social'].elements.push('instagramImage')
 }
 if (vcCake.env('FEATURE_RAW_HTML')) {
   tempData.categories['Misc'].elements.push('rawHtml')
@@ -117,7 +122,7 @@ if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
   tempData.categories['Button'].elements.push('simpleButton')
 }
 if (vcCake.env('FEATURE_TWEET_BUTTON')) {
-  tempData.categories['Button'].elements.push('tweetButton')
+  tempData.categories['Social'].elements.push('tweetButton')
 }
 if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
   tempData.categories['Google Maps'].elements.push('googleMaps')
