@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
     let CustomTag = 'div'
     let { url, title, targetBlank, relNofollow } = iconUrl
-    let iconClasses = 'vce-icon-container' + ` ${iconPicker}`
+    let iconClasses = 'vce-icon-container' + ` ${iconPicker.icon}`
 
     if (url) {
       CustomTag = 'a'

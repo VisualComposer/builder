@@ -210,7 +210,10 @@
   "iconPicker": {
     "type": "iconpicker",
     "access": "public",
-    "value": "fa fa-video-camera",
+    "value": {
+      "icon": "fa fa-video-camera",
+      "iconSet": "fontawesome"
+    },
     "options": {
       "label": "Icon",
       "description": "Select the icon"

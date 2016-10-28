@@ -1,6 +1,7 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
+import _ from '../../../../node_modules/underscore/underscore-min'
 import './css/styles.less'
 
 let iconsSets = {
@@ -19,14 +20,17 @@ class Iconpicker extends Attribute {
     this.state = {
       search: '',
       category: '',
-      iconSet: 'fontawesome',
       popupOpen: false,
-      value: props.value
+      value: {
+        icon: props.value.icon,
+        iconSet: props.value.iconSet
+      }
     }
   }
 
   filteredIcons () {
-    let { category, search, iconSet } = this.state
+    let { category, search, value } = this.state
+    let { iconSet } = value
     let icons = []
     let iconsIds = []
 
@@ -60,7 +64,7 @@ class Iconpicker extends Attribute {
   }
 
   iconsContent () {
-    let { value } = this.state
+    let value = this.state.value.icon
     let iconsContent = []
     this.filteredIcons().forEach((icon) => {
       let iconClasses = classNames({
@@ -84,7 +88,7 @@ class Iconpicker extends Attribute {
 
   categoriesContent () {
     let categories = []
-    let { iconSet } = this.state
+    let { iconSet } = this.state.value
     if (iconSet && typeof iconsSets[ iconSet ] !== 'undefined' && !Array.isArray(iconsSets[ iconSet ])) {
       Object.keys(iconsSets[ iconSet ]).forEach((category) => {
         categories.push(<option key={'innerCategory' + category} value={category}>{category}</option>)
@@ -94,7 +98,8 @@ class Iconpicker extends Attribute {
   }
 
   popupContent () {
-    let { search, category, iconSet } = this.state
+    let { search, category, value } = this.state
+    let { iconSet } = value
     let content
     let categories = this.categoriesContent()
     let iconsContent = this.iconsContent()
@@ -177,8 +182,10 @@ class Iconpicker extends Attribute {
   }
 
   iconSet = (e) => {
+    const newValue = _.extend({}, this.state.value)
+    newValue.iconSet = e.currentTarget.value
     this.setState({
-      iconSet: e.currentTarget.value,
+      value: newValue,
       category: '',
       search: ''
     })
@@ -186,12 +193,14 @@ class Iconpicker extends Attribute {
 
   handleChange = (event) => {
     this.togglePopup()
-    event.currentTarget.value = event.currentTarget.attributes.value.textContent
-    this.setFieldValue(event.currentTarget.value)
+    const newValue = _.extend({}, this.state.value)
+    newValue.icon = event.currentTarget.attributes.value.textContent
+    this.setFieldValue(newValue)
   }
 
   render () {
-    let { value, popupOpen } = this.state
+    let { popupOpen } = this.state
+    let value = this.state.value.icon
 
     let selectedIconClasses = classNames({
       'vcv-ui-param-iconpicker-icon-empty': !value
