@@ -1,0 +1,32 @@
+.vce-twitter-publisher--align-center {
+  text-align: center;
+}
+
+.vce-twitter-publisher--align-right {
+  text-align: right;
+}
+
+.vce-twitter-publisher--align-left {
+  text-align: left;
+}
+
+.vce-twitter-publisher-inner {
+  vertical-align: top;
+  display: inline-block;
+}
+
+/* overlay cannot be set to iframe */
+
+/*.vce-tweet-button-inner {*/
+  /*position: relative;*/
+/*}*/
+
+/*.vce-tweet-button-inner::after {*/
+  /*content: "";*/
+  /*position: absolute;*/
+  /*top: 0;*/
+  /*right: 0;*/
+  /*bottom: 0;*/
+  /*left: 0;*/
+  /*z-index: 999;*/
+/*}*/
