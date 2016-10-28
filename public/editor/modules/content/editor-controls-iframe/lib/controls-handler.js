@@ -40,7 +40,7 @@ ControlsHandler.prototype.hideOutline = function () {
     outlines[ i ].css({
       'display': 'none'
     })
-    outlines[i].removeClass('vcv-state-highlight')
+    outlines[ i ].removeClass('vcv-state-highlight')
   }
   if (this.$currentElement !== undefined) {
     this.$currentElement = undefined
@@ -98,7 +98,7 @@ ControlsHandler.prototype.getOutlines = function () {
     }
   }
   this.outlines.forEach(($outline, index) => {
-    let outlineControl = tree[index]
+    let outlineControl = tree[ index ]
     let data = outlineControl ? documentManager.get(outlineControl.data('vcvElement')) : null
     let isContainer = data !== null && cook.get(data).containerFor().length
     if (!isContainer) {
@@ -119,7 +119,7 @@ ControlsHandler.prototype.drawOutlines = function () {
       outlines[ i ].css({
         'display': 'none'
       })
-      outlines[i].removeClass('vcv-state-highlight')
+      outlines[ i ].removeClass('vcv-state-highlight')
     } else {
       var elementId = elemenstsTree[ i ][ 0 ].getAttribute('data-vcv-element')
       // var elementObject = this.getElement(elementId)
@@ -312,17 +312,14 @@ ControlsHandler.prototype.removeControls = function () {
 
 ControlsHandler.prototype.setControlsPosition = function () {
   var posTop, posLeft
+  let iframeBox = $iframeContainer.getBoundingClientRect()
 
-  var getDrop = function (el, parentPos) {
-    let { top, left } = parentPos
-    let innerEl = el.offsetParent
-    left += innerEl.offsetLeft
-    let width = el.offsetWidth
-    let height = el.offsetHeight
-
+  var getDrop = function (el) {
+    let iframeBox = $iframeContainer.getBoundingClientRect()
+    let elementBox = el.getBoundingClientRect()
     return {
-      dropUp: (top + height) >= $iframeContainer.offsetHeight,
-      dropRight: (left + width) >= $iframeContainer.offsetWidth
+      dropUp: elementBox.bottom > iframeBox.bottom,
+      dropRight: elementBox.right > iframeBox.right
     }
   }
 
@@ -336,13 +333,22 @@ ControlsHandler.prototype.setControlsPosition = function () {
     posLeft = this.$currentElement.offset().left
     let positionStyles = {
       'top': posTop,
-      'left': posLeft
+      'left': posLeft,
+      'width': this.$currentElement.outerWidth()
     }
-    this.$controlsContainer.css(positionStyles).toggleClass('vcv-ui-controls-o-inset', inset)
+    this.$controlsContainer.css(positionStyles)
+    this.$controlsContainer.toggleClass('vcv-ui-controls-o-inset', inset)
+
+    this.$controlsContainer.removeClass('vcv-ui-controls-o-controls-right')
+    let controlsBox = this.$controlsList[ 0 ].getBoundingClientRect()
+    if (controlsBox.right > iframeBox.right) {
+      this.$controlsContainer.addClass('vcv-ui-controls-o-controls-right')
+    }
+
     this.$controlsList.find('.vcv-ui-outline-control-dropdown').each((index, item) => {
       let $controlDropdown = $(item).removeClass('vcv-ui-outline-control-dropdown-o-drop-right vcv-ui-outline-control-dropdown-o-drop-up')
       let $content = $controlDropdown.find('.vcv-ui-outline-control-dropdown-content')
-      let { dropRight, dropUp } = getDrop($content.get(0), positionStyles)
+      let { dropRight, dropUp } = getDrop($content.get(0))
       $controlDropdown
         .toggleClass('vcv-ui-outline-control-dropdown-o-drop-right', dropRight)
         .toggleClass('vcv-ui-outline-control-dropdown-o-drop-up', dropUp)
