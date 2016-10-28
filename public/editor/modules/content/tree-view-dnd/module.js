@@ -14,7 +14,7 @@ vcCake.add('content-tree-view-dnd', function (api) {
         startCallback: this.start.bind(this),
         endCallback: this.end.bind(this),
         document: document,
-        container: document.body,
+        container: document.getElementById('vcv-layout'),
         handler: '> .vcv-ui-tree-layout-control > .vcv-ui-tree-layout-control-drag-handler',
         helperType: 'clone'
       })
