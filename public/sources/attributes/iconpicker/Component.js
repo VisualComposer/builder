@@ -1,7 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import _ from '../../../../node_modules/underscore/underscore-min'
 import './css/styles.less'
 
 let iconsSets = {
@@ -182,7 +181,7 @@ class Iconpicker extends Attribute {
   }
 
   iconSet = (e) => {
-    const newValue = _.extend({}, this.state.value)
+    const newValue = Object.assign({}, this.state.value)
     newValue.iconSet = e.currentTarget.value
     this.setState({
       value: newValue,
@@ -193,7 +192,7 @@ class Iconpicker extends Attribute {
 
   handleChange = (event) => {
     this.togglePopup()
-    const newValue = _.extend({}, this.state.value)
+    const newValue = Object.assign({}, this.state.value)
     newValue.icon = event.currentTarget.attributes.value.textContent
     this.setFieldValue(newValue)
   }
