@@ -62,7 +62,7 @@ let tempData = {
     },
     'Single image': {
       'name': 'Single Image',
-      'elements': [],
+      'elements': ['singleImage'],
       'icon': 'categories/icons/Single-Image.svg'
     },
     'Text block': {
@@ -102,9 +102,6 @@ if (vcCake.env('FEATURE_ASSET_MANAGER')) {
 }
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
   tempData.categories['Icon'].elements.push('featureIcon')
-}
-if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
-  tempData.categories['Single image'].elements.push('singleImage')
 }
 if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
   tempData.categories['Social'].elements.push('flickrImage')

@@ -42,8 +42,14 @@
     "access": "protected",
     "value": [
       "twitterOptions",
+      "gridUrl",
+      "tweetUrl",
+      "timelineUrl",
+      "customClass",
+      "customOptions",
       "alignment",
-      "customClass"
+      "tweetCount",
+      "width"
     ],
     "options": {
       "label": "Element"
@@ -69,6 +75,14 @@
     "access": "protected",
     "value": 3
   },
+  "customOptions": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Set customization options."
+    }
+  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -84,6 +98,95 @@
     "value": [
       "animate"
     ]
+  },
+  "twitterOptions": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "grid",
+    "options": {
+      "label": "Twitter publisher options",
+      "values": [
+        {
+          "label": "Embedded Grid",
+          "value": "grid"
+        },
+        {
+          "label": "Embedded Tweet",
+          "value": "tweet"
+        },
+        {
+          "label": "Embedded Timeline",
+          "value": "timeline"
+        },
+        {
+          "label": "Twitter Button",
+          "value": "button"
+        }
+      ]
+    }
+  },
+  "gridUrl": {
+    "type": "string",
+    "access": "public",
+    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "options": {
+      "label": "Add twitter grid url",
+      "onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "grid",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "tweetUrl": {
+    "type": "string",
+    "access": "public",
+    "value": "https://twitter.com/Interior/status/463440424141459456",
+    "options": {
+      "label": "Add twitter tweet url",
+      "onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "tweet",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "timelineUrl": {
+    "type": "string",
+    "access": "public",
+    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "options": {
+      "label": "Add twitter timeline url",
+      "onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "timeline",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
   },
   "alignment": {
     "type": "dropdown",
@@ -104,33 +207,60 @@
           "label": "Right",
           "value": "right"
         }
-      ]
+      ],
+      "onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
     }
   },
-  "twitterOptions": {
-    "type": "dropdown",
+  "tweetCount": {
+    "type": "number",
     "access": "public",
-    "value": "embeddedGrid",
+    "value": "20",
     "options": {
-      "label": "Alignment options",
-      "values": [
-        {
-          "label": "Embedded Grid",
-          "value": "embeddedGrid"
-        },
-        {
-          "label": "Embedded Tweet",
-          "value": "embeddedTweet"
-        },
-        {
-          "label": "Embedded Timeline",
-          "value": "embeddedTimeline"
-        },
-        {
-          "label": "Twitter Button",
-          "value": "twitterButton"
-        }
-      ]
+      "label": "Add count of visible tweets",
+      "onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "width": {
+    "type": "number",
+    "access": "public",
+    "value": "220",
+    "options": {
+      "label": "Add width",
+      "onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Minimal width 220px"
     }
   }
 }
