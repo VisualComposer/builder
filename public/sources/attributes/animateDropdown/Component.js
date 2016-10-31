@@ -83,33 +83,33 @@ export default class AnimateDropdown extends Dropdown {
         ]
       }
     },
-    {
-      group: {
-        label: 'Bouncing Exits',
-        values: [
-          {
-            label: 'Bounce Out',
-            value: 'bounceOut'
-          },
-          {
-            label: 'Bounce Out Down',
-            value: 'bounceOutDown'
-          },
-          {
-            label: 'Bounce Out Left',
-            value: 'bounceInLeft'
-          },
-          {
-            label: 'Bounce Out Right',
-            value: 'bounceOutRight'
-          },
-          {
-            label: 'Bounce Out Up',
-            value: 'bounceOutUp'
-          }
-        ]
-      }
-    },
+    // {
+    //   group: {
+    //     label: 'Bouncing Exits',
+    //     values: [
+    //       {
+    //         label: 'Bounce Out',
+    //         value: 'bounceOut'
+    //       },
+    //       {
+    //         label: 'Bounce Out Down',
+    //         value: 'bounceOutDown'
+    //       },
+    //       {
+    //         label: 'Bounce Out Left',
+    //         value: 'bounceInLeft'
+    //       },
+    //       {
+    //         label: 'Bounce Out Right',
+    //         value: 'bounceOutRight'
+    //       },
+    //       {
+    //         label: 'Bounce Out Up',
+    //         value: 'bounceOutUp'
+    //       }
+    //     ]
+    //   }
+    // },
     {
       group: {
         label: 'Fading Entrances',
@@ -153,49 +153,49 @@ export default class AnimateDropdown extends Dropdown {
         ]
       }
     },
-    {
-      group: {
-        label: 'Fading Exits',
-        values: [
-          {
-            label: 'Fade Out',
-            value: 'fadeOut'
-          },
-          {
-            label: 'Fade Out Down',
-            value: 'fadeOutDown'
-          },
-          {
-            label: 'Fade Out Down Big',
-            value: 'fadeOutDownBig'
-          },
-          {
-            label: 'Fade Out Left',
-            value: 'fadeOutLeft'
-          },
-          {
-            label: 'Fade Out Left Big',
-            value: 'fadeOutLeftBig'
-          },
-          {
-            label: 'Fade Out Right',
-            value: 'fadeOutRight'
-          },
-          {
-            label: 'Fade Out Right Big',
-            value: 'fadeOutRightBig'
-          },
-          {
-            label: 'Fade Out Up',
-            value: 'fadeOutUp'
-          },
-          {
-            label: 'Fade Out Up Big',
-            value: 'fadeOutUpBig'
-          }
-        ]
-      }
-    },
+    // {
+    //   group: {
+    //     label: 'Fading Exits',
+    //     values: [
+    //       {
+    //         label: 'Fade Out',
+    //         value: 'fadeOut'
+    //       },
+    //       {
+    //         label: 'Fade Out Down',
+    //         value: 'fadeOutDown'
+    //       },
+    //       {
+    //         label: 'Fade Out Down Big',
+    //         value: 'fadeOutDownBig'
+    //       },
+    //       {
+    //         label: 'Fade Out Left',
+    //         value: 'fadeOutLeft'
+    //       },
+    //       {
+    //         label: 'Fade Out Left Big',
+    //         value: 'fadeOutLeftBig'
+    //       },
+    //       {
+    //         label: 'Fade Out Right',
+    //         value: 'fadeOutRight'
+    //       },
+    //       {
+    //         label: 'Fade Out Right Big',
+    //         value: 'fadeOutRightBig'
+    //       },
+    //       {
+    //         label: 'Fade Out Up',
+    //         value: 'fadeOutUp'
+    //       },
+    //       {
+    //         label: 'Fade Out Up Big',
+    //         value: 'fadeOutUpBig'
+    //       }
+    //     ]
+    //   }
+    // },
     {
       group: {
         label: 'Flippers',
@@ -211,15 +211,15 @@ export default class AnimateDropdown extends Dropdown {
           {
             label: 'Flip in Y',
             value: 'flipInY'
-          },
-          {
-            label: 'Flip out X',
-            value: 'flipOutX'
-          },
-          {
-            label: 'Flip out Y',
-            value: 'flipOutY'
           }
+          // {
+          //   label: 'Flip out X',
+          //   value: 'flipOutX'
+          // },
+          // {
+          //   label: 'Flip out Y',
+          //   value: 'flipOutY'
+          // }
         ]
       }
     },
@@ -230,11 +230,11 @@ export default class AnimateDropdown extends Dropdown {
           {
             label: 'Light Speed In',
             value: 'lightSpeedIn'
-          },
-          {
-            label: 'Light Speed Out',
-            value: 'lightSpeedOut'
           }
+          // {
+          //   label: 'Light Speed Out',
+          //   value: 'lightSpeedOut'
+          // }
         ]
       }
     },
@@ -265,33 +265,33 @@ export default class AnimateDropdown extends Dropdown {
         ]
       }
     },
-    {
-      group: {
-        label: 'Rotating Exits',
-        values: [
-          {
-            label: 'Rotate Out',
-            value: 'rotateOut'
-          },
-          {
-            label: 'Rotate Out Down Left',
-            value: 'rotateOutDownLeft'
-          },
-          {
-            label: 'Rotate Out Down Right',
-            value: 'rotateOutDownRight'
-          },
-          {
-            label: 'Rotate Out Up Left',
-            value: 'rotateOutUpLeft'
-          },
-          {
-            label: 'Rotate Out Up Right',
-            value: 'rotateOutUpRight'
-          }
-        ]
-      }
-    },
+    // {
+    //   group: {
+    //     label: 'Rotating Exits',
+    //     values: [
+    //       {
+    //         label: 'Rotate Out',
+    //         value: 'rotateOut'
+    //       },
+    //       {
+    //         label: 'Rotate Out Down Left',
+    //         value: 'rotateOutDownLeft'
+    //       },
+    //       {
+    //         label: 'Rotate Out Down Right',
+    //         value: 'rotateOutDownRight'
+    //       },
+    //       {
+    //         label: 'Rotate Out Up Left',
+    //         value: 'rotateOutUpLeft'
+    //       },
+    //       {
+    //         label: 'Rotate Out Up Right',
+    //         value: 'rotateOutUpRight'
+    //       }
+    //     ]
+    //   }
+    // },
     {
       group: {
         label: 'Sliding Entrances',
@@ -315,29 +315,29 @@ export default class AnimateDropdown extends Dropdown {
         ]
       }
     },
-    {
-      group: {
-        label: 'Sliding Exits',
-        values: [
-          {
-            label: 'Slide Out Up',
-            value: 'slideOutUp'
-          },
-          {
-            label: 'Slide Out Down',
-            value: 'slideOutDown'
-          },
-          {
-            label: 'Slide Out Left',
-            value: 'slideOutLeft'
-          },
-          {
-            label: 'Slide Out Right',
-            value: 'slideOutRight'
-          }
-        ]
-      }
-    },
+    // {
+    //   group: {
+    //     label: 'Sliding Exits',
+    //     values: [
+    //       {
+    //         label: 'Slide Out Up',
+    //         value: 'slideOutUp'
+    //       },
+    //       {
+    //         label: 'Slide Out Down',
+    //         value: 'slideOutDown'
+    //       },
+    //       {
+    //         label: 'Slide Out Left',
+    //         value: 'slideOutLeft'
+    //       },
+    //       {
+    //         label: 'Slide Out Right',
+    //         value: 'slideOutRight'
+    //       }
+    //     ]
+    //   }
+    // },
     {
       group: {
         label: 'Zoom Entrances',
@@ -365,49 +365,49 @@ export default class AnimateDropdown extends Dropdown {
         ]
       }
     },
-    {
-      group: {
-        label: 'Zoom Exits',
-        values: [
-          {
-            label: 'Zoom Out',
-            value: 'zoomOut'
-          },
-          {
-            label: 'Zoom Out Up',
-            value: 'zoomOutUp'
-          },
-          {
-            label: 'Zoom Out Down',
-            value: 'zoomOutDown'
-          },
-          {
-            label: 'Zoom Out Left',
-            value: 'zoomOutLeft'
-          },
-          {
-            label: 'Zoom Out Right',
-            value: 'zoomOutRight'
-          }
-        ]
-      }
-    },
+    // {
+    //   group: {
+    //     label: 'Zoom Exits',
+    //     values: [
+    //       {
+    //         label: 'Zoom Out',
+    //         value: 'zoomOut'
+    //       },
+    //       {
+    //         label: 'Zoom Out Up',
+    //         value: 'zoomOutUp'
+    //       },
+    //       {
+    //         label: 'Zoom Out Down',
+    //         value: 'zoomOutDown'
+    //       },
+    //       {
+    //         label: 'Zoom Out Left',
+    //         value: 'zoomOutLeft'
+    //       },
+    //       {
+    //         label: 'Zoom Out Right',
+    //         value: 'zoomOutRight'
+    //       }
+    //     ]
+    //   }
+    // },
     {
       group: {
         label: 'Specials',
         values: [
-          {
-            label: 'Hinge',
-            value: 'hinge'
-          },
+          // {
+          //   label: 'Hinge',
+          //   value: 'hinge'
+          // },
           {
             label: 'Roll In',
             value: 'rollIn'
-          },
-          {
-            label: 'Roll Out',
-            value: 'rollOut'
           }
+          // {
+          //   label: 'Roll Out',
+          //   value: 'rollOut'
+          // }
         ]
       }
     }
