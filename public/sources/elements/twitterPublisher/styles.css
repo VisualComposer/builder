@@ -13,6 +13,7 @@
 .vce-twitter-publisher-inner {
   vertical-align: top;
   display: inline-block;
+  width: 100%;
 }
 
 /* overlay cannot be set to iframe */
