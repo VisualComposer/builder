@@ -26,13 +26,13 @@ vcCake.add('ui-edit-element', (api) => {
       api.module('ui-layout-bar').do('setEndContent', EditElementController, {
         element: element,
         api: api,
-        activeState: '' // TODO: activeTabIndex
+        activeState: '' // TODO: activeTabgit comIndex
       })
       currentElementId = id
     })
-    .reply('data:remove', (id) => {
-      if (id === currentElementId) {
-        api.notify('hide')
+    .reply('data:changed', () => {
+      if (currentElementId && !DocumentData.get(currentElementId)) {
+        api.request('bar-content-end:hide', true)
       }
     })
 })

@@ -17,7 +17,8 @@ class TreeViewNavbarControl extends React.Component {
       })
   }
 
-  toggleTreeView = () => {
+  toggleTreeView = (e) => {
+    e && e.preventDefault()
     if (this.state.controlActive) {
       this.props.api.request('bar-content-start:hide')
     } else {
@@ -32,7 +33,7 @@ class TreeViewNavbarControl extends React.Component {
     })
 
     return (
-      <a className={controlClass} href='#' title='Tree View' onClick={this.toggleTreeView}>
+      <a className={controlClass} title='Tree View' onClick={this.toggleTreeView}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers' />
           <span>Tree View</span>
