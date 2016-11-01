@@ -97,6 +97,10 @@ fs.lstat(elementDir, function (err, stats) {
     var cssFile = path.resolve(elementDir, cssFileName)
     var cssExists = fs.existsSync(cssFile)
     var cssString = cssExists ? fs.readFileSync(cssFile, 'utf8') : false
+    // editor file
+    var editorCssFileName = 'editor.css'
+    var editorCssFile = path.resolve(elementDir, editorCssFileName)
+    var editorCssString = fs.existsSync(editorCssFile) ? fs.readFileSync(editorCssFile, 'utf8') : false
     var cssRelativeFile = ''
     if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
       cssRelativeFile = "require( './" + cssFileName + "' )"
@@ -116,11 +120,10 @@ fs.lstat(elementDir, function (err, stats) {
     })
 
     // Settings
-    var cssSettingsFile = path.resolve(elementDir, 'css.json')
-    var cssSettingsString = fs.existsSync(cssSettingsFile) ? fs.readFileSync(cssSettingsFile, 'utf8') : '{}'
-    var cssSettings = JSON.parse(cssSettingsString)
+    let cssSettings = {}
     // file
     cssSettings.css = cssString
+    cssSettings.editorCss = editorCssString
     // mixins
     if (Object.keys(cssMixins).length) {
       cssSettings.mixins = cssMixins
@@ -129,6 +132,8 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong css settings')
       process.exit(1)
     }
+
+
 
     // Public javascript
     const collectPublicJsFile = function (contentPath, files, prefix) {
@@ -165,9 +170,6 @@ fs.lstat(elementDir, function (err, stats) {
       },
       cssSettings: function () {
         return JSON.stringify(cssSettings) + ''
-      },
-      editorJsSettings: function () {
-        return 'null'
       }
     })
     if (namedArgs.hasOwnProperty('--root-url') && namedArgs[ '--root-url' ].length) {

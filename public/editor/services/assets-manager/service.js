@@ -396,7 +396,8 @@ vcCake.addService('assets-manager', {
       let elementObject = this.cook().get({ tag: tag })
       let cssSettings = elementObject.get('cssSettings')
       styles[ tag ] = {
-        css: cssSettings.css
+        css: cssSettings.css,
+        editorCss: cssSettings.editorCss
       }
     })
     return styles
@@ -434,7 +435,7 @@ vcCake.addService('assets-manager', {
    * Get compiled css
    * @returns {string}
    */
-  getCompiledCss () {
+  getCompiledCss (editor = false) {
     var iterations = []
     // add styles
     let styles = this.getStyles()
@@ -445,6 +446,17 @@ vcCake.addService('assets-manager', {
           postcss()
             .use(postcssVars())
             .process(styles[ tagName ].css)
+            .then((result) => {
+              resolve(result.css)
+            })
+        })
+        iterations.push(stylePromise)
+      }
+      if (editor && !!styles[ tagName ].editorCss) {
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss()
+            .use(postcssVars())
+            .process(styles[ tagName ].editorCss)
             .then((result) => {
               resolve(result.css)
             })
