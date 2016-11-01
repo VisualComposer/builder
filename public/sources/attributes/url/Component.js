@@ -124,7 +124,19 @@ class Url extends Attribute {
   }
 
   save = (e) => {
-    this.setFieldValue(this.state.unsavedValue)
+    let valueToSave = Object.assign({}, this.state.unsavedValue)
+    // check url format and add https
+    if (valueToSave.url &&
+      valueToSave.url.search(/^[a-z]+:\/\//i) === -1 && // search for protocol
+      valueToSave.url.search(/^#/i) === -1 && // search for hash navigation
+      valueToSave.url.search(/^\?/i) === -1 && // search for query string navigation
+      valueToSave.url.search(/^\//i) === -1 && // search for absolute page navigation
+      valueToSave.url.search(/^[^/.]+\//i) === -1 // search for relative page navigation
+    ) {
+      valueToSave.url = `https://${valueToSave.url}`
+    }
+
+    this.setFieldValue(valueToSave)
     this.hide()
   }
 

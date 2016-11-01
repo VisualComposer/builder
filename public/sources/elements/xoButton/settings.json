@@ -85,6 +85,7 @@
     "access": "public",
     "type": "string",
     "value": [
+      "iconpicker",
       "animate"
     ]
   },
@@ -117,9 +118,12 @@
   "icon": {
     "type": "iconpicker",
     "access": "public",
-    "value": "fa fa-heart",
+    "value": {
+      "icon": "fa fa-video-camera",
+      "iconSet": "fontawesome"
+    },
     "options": {
-      "label": "Icons",
+      "label": "Icon",
       "description": "Select the icon"
     }
   },

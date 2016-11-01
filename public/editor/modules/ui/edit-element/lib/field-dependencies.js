@@ -20,6 +20,12 @@ export default class FieldDependencyManager extends React.Component {
     this.props.setFieldUnmount(this.props.fieldKey)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.props.setFieldMount(nextProps.fieldKey, {
+      ref: this.refs[ 'field' ]
+    })
+  }
+
   render () {
     let classes = classNames({
       'vcv-ui-form-dependency': true
