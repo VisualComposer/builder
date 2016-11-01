@@ -82,7 +82,7 @@ let tempData = {
     },
     'Misc': {
       'name': 'Misc',
-      'elements': [],
+      'elements': ['rawHtml', 'rawJs'],
       'icon': 'categories/icons/Misc.svg'
     },
     'Google Maps': {
@@ -108,12 +108,6 @@ if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
 }
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
   tempData.categories['Social'].elements.push('instagramImage')
-}
-if (vcCake.env('FEATURE_RAW_HTML')) {
-  tempData.categories['Misc'].elements.push('rawHtml')
-}
-if (vcCake.env('FEATURE_RAW_JS')) {
-  tempData.categories['Misc'].elements.push('rawJs')
 }
 if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
   tempData.categories['Button'].elements.push('simpleButton')
