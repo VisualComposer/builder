@@ -19,7 +19,7 @@ vcCake.add('assets', (api) => {
       doElement.id = 'do-styles'
       iframeDocument.body.appendChild(doElement)
     }
-    assetManager.getCompiledCss().then((result) => {
+    assetManager.getCompiledCss(true).then((result) => {
       styleElement.innerHTML = result
     })
     assetManager.getCompiledDesignOptions().then((result) => {
