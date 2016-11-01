@@ -10,7 +10,15 @@ class Component extends vcvAPI.elementComponent {
       this.insertTwitter(
         atts[atts.twitterOptions + 'Url'],
         atts.twitterOptions,
-        atts.tweetCount && atts.customOptions ? atts.tweetCount : ''
+        atts.tweetCount && atts.customOptions ? atts.tweetCount : '',
+        atts.tweetTheme && atts.customOptions ? atts.tweetTheme : ''
+      )
+    } else {
+      this.appendButton(
+        atts.buttonType,
+        atts.tweetText,
+        atts.tweetAccount,
+        atts.tweetButtonSize
       )
     }
   }
@@ -25,7 +33,15 @@ class Component extends vcvAPI.elementComponent {
       this.insertTwitter(
         nextAtts[nextAtts.twitterOptions + 'Url'],
         nextAtts.twitterOptions,
-        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : ''
+        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : '',
+        nextAtts.tweetTheme && nextAtts.customOptions ? nextAtts.tweetTheme : ''
+      )
+    } else {
+      this.appendButton(
+        nextAtts.buttonType,
+        nextAtts.tweetText,
+        nextAtts.tweetAccount,
+        nextAtts.tweetButtonSize
       )
     }
   }
@@ -68,8 +84,9 @@ class Component extends vcvAPI.elementComponent {
     console.log("errorrrr")
   }
 
-  insertTwitter (url, widgetType, tweetCount) {
-    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&limit=' + tweetCount + '&widget_type=' + widgetType
+  insertTwitter (url, widgetType, tweetCount, theme, buttonType) {
+    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&theme=' + theme + '&limit=' + tweetCount + '&widget_type=' + widgetType
+    console.log(createdUrl)
     this.loadJSONP(
       createdUrl,
       (data) => {
@@ -91,6 +108,26 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
+  appendButton (type, tweetText, account, buttonSize) {
+    let tagString = ''
+
+    if (type === 'share') {
+      tagString = '<a href="https://twitter.com/share" class="twitter-share-button" data-text="' + tweetText + '" data-show-count="false">Tweet</a>'
+    } else if (type === 'follow') {
+
+    }
+
+
+
+    tagString += '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
+
+    const component = this.getDomNode().querySelector('.vce-twitter-publisher-inner')
+    component.innerHTML = ''
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(tagString)
+    component.appendChild(documentFragment)
+  }
+
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, twitterOptions, gridUrl, tweetUrl, timelineUrl, width, customOptions } = atts
@@ -98,6 +135,7 @@ class Component extends vcvAPI.elementComponent {
     let innerClasses = 'vce-twitter-publisher-inner'
     let customProps = {}
     let innerCustomProps = {}
+    let twitterButtonProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -137,9 +175,7 @@ class Component extends vcvAPI.elementComponent {
     // }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps}>
-        {errorHtml}
-      </div>
+      <div className={innerClasses} {...innerCustomProps} />
     </div>
   }
 }

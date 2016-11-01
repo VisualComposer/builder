@@ -45,11 +45,17 @@
       "gridUrl",
       "tweetUrl",
       "timelineUrl",
+      "buttonType",
       "customClass",
       "customOptions",
       "alignment",
       "tweetCount",
-      "width"
+      "width",
+      "tweetTheme",
+      "tweetText",
+      "tweetAccount",
+      "tweetButtonSize",
+      "username"
     ],
     "options": {
       "label": "Element"
@@ -131,7 +137,7 @@
     "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
     "options": {
       "label": "Add twitter grid url",
-      "onChange": {
+      "_onChange": {
         "twitterOptions": [
           {
             "rule": "value",
@@ -152,7 +158,7 @@
     "value": "https://twitter.com/Interior/status/463440424141459456",
     "options": {
       "label": "Add twitter tweet url",
-      "onChange": {
+      "_onChange": {
         "twitterOptions": [
           {
             "rule": "value",
@@ -173,7 +179,7 @@
     "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
     "options": {
       "label": "Add twitter timeline url",
-      "onChange": {
+      "_onChange": {
         "twitterOptions": [
           {
             "rule": "value",
@@ -208,7 +214,7 @@
           "value": "right"
         }
       ],
-      "onChange": {
+      "_onChange": {
         "customOptions": [
           {
             "rule": "toggle",
@@ -225,10 +231,10 @@
   "tweetCount": {
     "type": "number",
     "access": "public",
-    "value": "20",
+    "value": "",
     "options": {
       "label": "Add count of visible tweets",
-      "onChange": {
+      "_onChange": {
         "customOptions": [
           {
             "rule": "toggle",
@@ -245,10 +251,10 @@
   "width": {
     "type": "number",
     "access": "public",
-    "value": "220",
+    "value": "",
     "options": {
       "label": "Add width",
-      "onChange": {
+      "_onChange": {
         "customOptions": [
           {
             "rule": "toggle",
@@ -260,7 +266,176 @@
           }
         ]
       },
-      "description": "Minimal width 220px"
+      "description": "Set width in px, minimal width 220"
+    }
+  },
+  "tweetTheme": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "light",
+    "options": {
+      "label": "Theme options",
+      "values": [
+        {
+          "label": "Light",
+          "value": "light"
+        },
+        {
+          "label": "Dark",
+          "value": "dark"
+        }
+      ],
+      "_onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "buttonType": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "share",
+    "options": {
+      "label": "Theme options",
+      "values": [
+        {
+          "label": "Share Button",
+          "value": "share"
+        },
+        {
+          "label": "Follow Button",
+          "value": "follow"
+        },
+        {
+          "label": "Mention Button",
+          "value": "mention"
+        },
+        {
+          "label": "Hashtag Button",
+          "value": "hashtag"
+        },
+        {
+          "label": "Message Button",
+          "value": "message"
+        }
+      ],
+      "_onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "button",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "tweetText": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Tweet Text",
+      "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically.",
+      "_onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "button",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "tweetAccount": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Recommend Account (@username)",
+      "description": "Adds via @username at the end of the tweet.",
+      "_onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "button",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "tweetButtonSize": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "normal",
+    "options": {
+      "label": "Size options",
+      "values": [
+        {
+          "label": "Normal",
+          "value": "normal"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ],
+      "_onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "button",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "username": {
+    "type": "string",
+    "access": "public",
+    "value": "@wpbakery",
+    "options": {
+      "label": "Add a profile URL or @username",
+      "_onChange": {
+        "twitterOptions": [
+          {
+            "rule": "value",
+            "options": "button",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

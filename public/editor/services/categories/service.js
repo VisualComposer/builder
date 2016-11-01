@@ -70,25 +70,10 @@ let tempData = {
       'elements': ['textBlock'],
       'icon': 'categories/icons/Text-Block.svg'
     },
-    'Flickr Image': {
-      'name': 'Flickr Image',
-      'elements': [],
-      'icon': 'categories/icons/Single-Image.svg'
-    },
-    'Instagram Image': {
-      'name': 'Instagram Image',
-      'elements': [],
-      'icon': 'categories/icons/Single-Image.svg'
-    },
     'Misc': {
       'name': 'Misc',
       'elements': [],
       'icon': 'categories/icons/Misc.svg'
-    },
-    'Google Maps': {
-      'name': 'Google Maps',
-      'elements': [],
-      'icon': 'categories/icons/Map.svg'
     },
     'Social': {
       'name': 'Social',
@@ -125,7 +110,7 @@ if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories['Social'].elements.push('twitterPublisher')
 }
 if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
-  tempData.categories['Google Maps'].elements.push('googleMaps')
+  tempData.categories['Social'].elements.push('googleMaps')
 }
 const data = tempData
 
