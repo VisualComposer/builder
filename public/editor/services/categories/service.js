@@ -100,6 +100,9 @@ if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
 if (vcCake.env('FEATURE_TWEET_BUTTON')) {
   tempData.categories['Social'].elements.push('tweetButton')
 }
+if (vcCake.env('FEATURE_TWITTER_BUTTON')) {
+  tempData.categories['Social'].elements.push('twitterButton')
+}
 if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories['Social'].elements.push('twitterPublisher')
 }
