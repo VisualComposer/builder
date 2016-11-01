@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import vcCake from 'vc-cake'
 import EditElementController from './lib/controller'
 
@@ -9,9 +10,9 @@ import './css/init.less'
 vcCake.add('ui-edit-element', (api) => {
   let currentElementId = null
 
-  api.reply('app:edit', (id) => {
+  api.reply('app:edit', (id, activeState = '') => {
     if (currentElementId !== id) {
-      api.notify('show', id)
+      api.notify('show', id, activeState)
     }
   })
   api
@@ -19,14 +20,14 @@ vcCake.add('ui-edit-element', (api) => {
       currentElementId = null
       api.module('ui-layout-bar').do('setEndContent', null)
     })
-    .on('show', (id) => {
+    .on('show', (id, activeState) => {
       let data = DocumentData.get(id)
       let element = cook.get(data)
       api.module('ui-layout-bar').do('setEndContentVisible', true, 'edit-element')
       api.module('ui-layout-bar').do('setEndContent', EditElementController, {
         element: element,
         api: api,
-        activeState: '' // TODO: activeTabgit comIndex
+        activeState: _.isEmpty(activeState) ? '' : activeState
       })
       currentElementId = id
     })
