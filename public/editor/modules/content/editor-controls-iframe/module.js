@@ -30,7 +30,14 @@ vcCake.add('content-editor-controls-iframe', function (api) {
   ControlsTrigger.triggerShowFrame = function (e) {
     removeControls = false
     e.stopPropagation()
-    vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable' && controlsHandler.showOutline($(e.currentTarget), hideControls)
+    window.clearInterval(removeControlsInterval)
+    removeControlsInterval = 0
+    if (vcCake.getData('vcv:layoutCustomMode') === 'dnd') {
+      hideControls = true
+    }
+    if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
+      controlsHandler.showOutline($(e.currentTarget), hideControls)
+    }
   }
 
   ControlsTrigger.triggerHideFrame = function () {

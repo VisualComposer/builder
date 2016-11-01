@@ -20,9 +20,9 @@ ControlsHandler.prototype.showOutline = function ($el, hideControls) {
   if ($el.data('vcElement') === undefined) {
     $el = $el.closest('[data-vcv-element]')
   }
-
-  if (!this.$currentElement || $el[ 0 ] !== this.$currentElement[ 0 ]) {
+  if (this.hideControls !== hideControls || !this.$currentElement || $el.get(0) !== this.$currentElement.get(0)) {
     this.$currentElement = $el
+    this.hideControls = hideControls
     this.updateElementsTree()
     this.drawOutlines()
     this.setControlsPosition()
