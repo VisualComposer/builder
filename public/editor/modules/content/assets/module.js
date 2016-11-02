@@ -1,6 +1,9 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
+
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+
 const loadedJsFiles = []
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
@@ -54,6 +57,10 @@ vcCake.add('assets', (api) => {
   api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      wipAssetsStorage.add(ids)
+      console.log(wipAssetsStorage.get())
+    }
     assetManager.add(ids)
   })
 
