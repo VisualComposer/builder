@@ -15,16 +15,16 @@
   display: inline-block;
 }
 
-/*.vce-tweet-button-inner {*/
-  /*position: relative;*/
-/*}*/
+.vce-tweet-button-inner.vce-tweet-button-disabled {
+  position: relative;
+}
 
-/*.vce-tweet-button-inner::after {*/
-  /*content: "";*/
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*right: 0;*/
-  /*bottom: 0;*/
-  /*left: 0;*/
-  /*z-index: 999;*/
-/*}*/
+.vce-tweet-button-inner.vce-tweet-button-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
