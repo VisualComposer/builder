@@ -106,6 +106,9 @@ if (vcCake.env('FEATURE_TWITTER_BUTTON')) {
 if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories['Social'].elements.push('twitterPublisher')
 }
+if (vcCake.env('FEATURE_TWITTER_GRID')) {
+  tempData.categories['Social'].elements.push('twitterGrid')
+}
 if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
   tempData.categories['Social'].elements.push('googleMaps')
 }
