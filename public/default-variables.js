@@ -10,3 +10,5 @@ vcCake.env('FEATURE_TWITTER_BUTTON', false)
 vcCake.env('FEATURE_TWITTER_PUBLISHER', false)
 vcCake.env('FEATURE_GOOGLE_MAPS', false)
 vcCake.env('FEATURE_TWITTER_GRID', false)
+vcCake.env('FEATURE_ASSETS_MANAGER', false)
+

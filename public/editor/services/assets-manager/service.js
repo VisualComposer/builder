@@ -23,8 +23,8 @@ vcCake.addService('assets-manager', {
    *
    * @param {Object}
    */
-  elements: {},
-  columns: {},
+  elements: {},// @AS
+  columns: {},// @AS
 
   /**
    * Get cook service
@@ -38,7 +38,7 @@ vcCake.addService('assets-manager', {
    * Set elements
    * @param elements
    */
-  set (elements) {
+  set (elements) { // @AS
     // todo: validate elements
     this.elements = elements
   },
@@ -47,7 +47,7 @@ vcCake.addService('assets-manager', {
    * Set custom css
    * @param value
    */
-  setCustomCss (value) {
+  setCustomCss (value) { // @AS
     customCss.data = value
   },
 
@@ -55,7 +55,7 @@ vcCake.addService('assets-manager', {
    * Get custom css data
    * @returns {*}
    */
-  getCustomCss () {
+  getCustomCss () { // @AS
     return customCss.data
   },
 
@@ -63,7 +63,7 @@ vcCake.addService('assets-manager', {
    * Set global css
    * @param value
    */
-  setGlobalCss (value) {
+  setGlobalCss (value) { // @AS
     globalCss.data = value
   },
 
@@ -71,7 +71,7 @@ vcCake.addService('assets-manager', {
    * Get global css data
    * @returns {*}
    */
-  getGlobalCss () {
+  getGlobalCss () { // @AS
     return globalCss.data
   },
 
@@ -79,7 +79,7 @@ vcCake.addService('assets-manager', {
    * Get js files list
    * @returns {*}
    */
-  getJsFiles () {
+  getJsFiles () { // @AM
     let tags = Object.keys(this.getTags())
     tags.forEach((tag) => {
       // get js files from elements
@@ -107,7 +107,7 @@ vcCake.addService('assets-manager', {
    * Get css files list
    * @returns {*}
    */
-  getCssFiles () {
+  getCssFiles () { //@AM
     let tags = Object.keys(this.getTags())
     tags.forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
@@ -126,7 +126,7 @@ vcCake.addService('assets-manager', {
     return cssFilesList
   },
 
-  getAssetsLibraryCssFiles (lib) {
+  getAssetsLibraryCssFiles (lib) { // @AM
     let assetsLibrary = vcCake.getService('assets-library')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicCss && libData.publicCss.length) {
@@ -134,7 +134,7 @@ vcCake.addService('assets-manager', {
     }
   },
 
-  getAssetsLibraryJsFiles (lib) {
+  getAssetsLibraryJsFiles (lib) { //@AM
     let assetsLibrary = vcCake.getService('assets-library')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicJs && libData.publicJs.length) {
@@ -146,7 +146,7 @@ vcCake.addService('assets-manager', {
    * Add element by id
    * @param id
    */
-  add (id) {
+  add (id) { // @AS
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -165,7 +165,7 @@ vcCake.addService('assets-manager', {
    * @param assetKey
    * @returns {*}
    */
-  get (assetKey = false) {
+  get (assetKey = false) { // @AS
     if (!assetKey) {
       return this.elements
     }
@@ -179,7 +179,7 @@ vcCake.addService('assets-manager', {
    * Update element by id
    * @param id
    */
-  update (id, force = false) {
+  update (id, force = false) { // @AS
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -213,7 +213,7 @@ vcCake.addService('assets-manager', {
    * Remove element by id
    * @param id
    */
-  remove (id) {
+  remove (id) { // @AS
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -234,7 +234,7 @@ vcCake.addService('assets-manager', {
    * @param file
    * @returns {*}
    */
-  getPublicPath (tag, file) {
+  getPublicPath (tag, file) { // @AM
     let path = this.getSourcePath() + '/elements/' + tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
     if ($element) {
@@ -252,7 +252,7 @@ vcCake.addService('assets-manager', {
    * @param file
    * @returns {*}
    */
-  getSourcePath (file = null) {
+  getSourcePath (file = null) { // @AM
     let path
     if (vcCake.env('platform') === 'node') {
       path = window.vcvPluginUrl + 'sources'
@@ -270,7 +270,7 @@ vcCake.addService('assets-manager', {
    * Get all used elements tags
    * @returns {{}}
    */
-  getTags () {
+  getTags () { // @SM
     let tags = {}
     for (let id in this.elements) {
       let elementTags = this.elements[ id ].tags
@@ -283,7 +283,7 @@ vcCake.addService('assets-manager', {
    * Get all used mixins data
    * @returns {{}}
    */
-  getCssMixinsData () {
+  getCssMixinsData () { // @ SM
     let mixins = {}
     for (let id in this.elements) {
       let elementMixins = this.elements[ id ].cssMixins
@@ -301,7 +301,7 @@ vcCake.addService('assets-manager', {
    * @param data
    * @returns {*}
    */
-  getElementTagsByTagName (tag, tags, data = {}) {
+  getElementTagsByTagName (tag, tags, data = {}) { // @SM
     let element = this.cook().get({ tag: tag })
     let settings = element.get('settings')
     for (let key in settings) {
@@ -328,7 +328,7 @@ vcCake.addService('assets-manager', {
    * @param mixins
    * @returns {{}}
    */
-  getCssMixinsByElement (elData, mixins = {}) {
+  getCssMixinsByElement (elData, mixins = {}) { // @SM
     let element = this.cook().get(elData)
     let settings = element.get('settings')
     let foundMixins = {}
@@ -388,7 +388,7 @@ vcCake.addService('assets-manager', {
    * Get styles object combined by tagName
    * @returns {{}}
    */
-  getStyles () {
+  getStyles () { // @SM
     let styles = {}
     let tags = Object.keys(this.getTags())
 
@@ -407,7 +407,7 @@ vcCake.addService('assets-manager', {
    * Get css mixins styles
    * @returns {{}}
    */
-  getCssMixinsStyles () {
+  getCssMixinsStyles () { // @SM
     let styles = []
     let mixinsData = this.getCssMixinsData()
     let tagsList = Object.keys(mixinsData)
@@ -435,7 +435,7 @@ vcCake.addService('assets-manager', {
    * Get compiled css
    * @returns {string}
    */
-  getCompiledCss (editor = false) {
+  getCompiledCss (editor = false) { // @SM
     var iterations = []
     // add styles
     let styles = this.getStyles()
@@ -494,7 +494,7 @@ vcCake.addService('assets-manager', {
    * get design options
    * @returns {{}}
    */
-  getDesignOptions () {
+  getDesignOptions () { // @SM
     let documentService = vcCake.getService('document')
     let returnOptions = {}
     let elements = this.get()
@@ -517,7 +517,7 @@ vcCake.addService('assets-manager', {
    * Get compiled design options css
    * @returns {Promise.<TResult>}
    */
-  getCompiledDesignOptions () {
+  getCompiledDesignOptions () { // @SM
     let devices = designOptions.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
@@ -560,7 +560,7 @@ vcCake.addService('assets-manager', {
    * Set columns
    * @param columns
    */
-  setColumns (columns) {
+  setColumns (columns) { // @AS
     // todo: validate elements
     this.columns = columns
   },
@@ -569,7 +569,7 @@ vcCake.addService('assets-manager', {
    * add column
    * @param column
    */
-  addColumn (column) {
+  addColumn (column) { // @AS
     let columns = []
     if (Array.isArray(column)) {
       columns = column
@@ -600,7 +600,7 @@ vcCake.addService('assets-manager', {
    * @param assetKey
    * @returns {*}
    */
-  getColumn (assetKey = false) {
+  getColumn (assetKey = false) { // @AS
     if (!assetKey) {
       return this.columns
     }
@@ -614,7 +614,7 @@ vcCake.addService('assets-manager', {
    * Remove column
    * @param column
    */
-  removeColumn (column) {
+  removeColumn (column) { //@AS
     let columns = []
     if (Array.isArray(column)) {
       columns = column
@@ -636,7 +636,7 @@ vcCake.addService('assets-manager', {
    * get compiled columns
    * @returns {Array}
    */
-  getCompileColumnsIterations () {
+  getCompileColumnsIterations () { // @AM
     let devices = rowColumn.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
@@ -661,7 +661,7 @@ vcCake.addService('assets-manager', {
    * Get column sizes
    * @param element
    */
-  getColumnSizes (element) {
+  getColumnSizes (element) { // @AM
     let sizes = null
     if (element.tag === 'column' && element.size) {
       sizes = [ element.size ]
@@ -669,7 +669,7 @@ vcCake.addService('assets-manager', {
     return sizes
   },
 
-  updateColumns () {
+  updateColumns () { // @AS
     // for this.get()
     for (let id in this.elements) {
       if (this.elements[ id ].columnSizes && this.elements[ id ].columnSizes.length) {
