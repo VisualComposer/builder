@@ -26,13 +26,7 @@ class Component extends vcvAPI.elementComponent {
     let twitterButtonProps = {
       'data-show-count': 'false'
     }
-    let defaultContent = {
-      share: 'Tweet',
-      follow: 'Follow',
-      mention: 'Tweet to',
-      hashtag: 'Tweet'
-    }
-    let buttonContent = defaultContent[buttonType]
+
     let buttonClass = 'twitter-' + buttonType + '-button'
 
     if (typeof customClass === 'string' && customClass) {
@@ -72,6 +66,14 @@ class Component extends vcvAPI.elementComponent {
       hashtag: 'https://twitter.com/intent/tweet?button_hashtag=' + username
     }
     let buttonLink = links[buttonType]
+
+    let defaultContent = {
+      share: 'Tweet',
+      follow: showUsername ? 'Follow @' + username : 'Follow',
+      mention: 'Tweet to @' + username,
+      hashtag: 'Tweet #' + username
+    }
+    let buttonContent = defaultContent[buttonType]
 
     customProps.key = `customProps:${id}-${buttonType}-${tweetText}-${tweetAccount}-${tweetButtonSize}-${username}-${showUsername}`
 
