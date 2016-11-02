@@ -82,7 +82,7 @@ let tempData = {
     }
   }
 }
-if (vcCake.env('FEATURE_ASSET_MANAGER')) {
+if (vcCake.env('FEATURE_XO_WORK')) {
   tempData.categories['Button'].elements.push('xoButton')
 }
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
