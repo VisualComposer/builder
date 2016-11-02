@@ -65,7 +65,13 @@ class Component extends vcvAPI.elementComponent {
 
   getPublicImage (filename) {
     const vcCake = require('vc-cake')
-    const assetsManager = vcCake.getService('assets-manager')
+    let assetsManager
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      assetsManager = vcCake.getService('wip-assets-manager')
+    }
+    else {
+      assetsManager = vcCake.getService('assets-manager')
+    }
     var { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }
