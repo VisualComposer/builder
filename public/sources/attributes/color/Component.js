@@ -93,12 +93,15 @@ class Color extends Attribute {
     let colorStyle = {
       background: _.isEmpty(value) ? null : color.toString('rgb')
     }
+    let swatchClasses = ['vcv-ui-form-dropdown-color-swatch']
     if (_.isEmpty(value)) {
       color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
       colorStyle.backgroundSize = 'cover'
       colorStyle.backgroundColor = ''
       colorStyle.backgroundImage = color
+      swatchClasses.push('vcv-ui-form-dropdown-color--no-color')
     }
+    swatchClasses = classNames(swatchClasses)
 
     let selectorClasses = classNames({
       'vcv-ui-form-dropdown': true,
@@ -119,7 +122,7 @@ class Color extends Attribute {
     return (
       <div>
         <div className={selectorClasses} onClick={this.handleClick}>
-          <div className='vcv-ui-form-dropdown-color-swatch'>
+          <div className={swatchClasses}>
             <div className='vcv-ui-form-dropdown-color-value' style={colorStyle} />
           </div>
         </div>
