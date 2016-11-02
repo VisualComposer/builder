@@ -108,7 +108,14 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-add-element-badge vcv-ui-badge--warning': false
         })
 
-        let publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+        let publicPathThumbnail
+
+        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+          publicPathThumbnail = vcCake.getService('wip-assets-manager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+        } else {
+          publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+        }
+
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-add-element-list-item'>
           <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, {tag: tag})}>
             <span className='vcv-ui-add-element-element-content'>

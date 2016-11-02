@@ -98,10 +98,14 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    if (editor) {
+      innerClasses += ' vce-tweet-button-disabled'
+    }
+
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
       <div className={innerClasses}>
         <a href={buttonLink} className={buttonClass} {...twitterButtonProps}>{buttonContent}</a>
-        <div className='vce-tweet-button-script'></div>
+        <div className='vce-tweet-button-script' />
       </div>
     </div>
   }
