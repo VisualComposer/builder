@@ -34,14 +34,6 @@
     "access": "protected",
     "value": "thumbnail-flat-button.jpg"
   },
-  "addUrl": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Add URL"
-    }
-  },
   "buttonUrl": {
     "type": "url",
     "access": "public",
@@ -52,19 +44,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Button URL",
-      "onChange": {
-        "addUrl": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      }
+      "label": "Button URL"
     }
   },
   "toggleCustomHover": {
@@ -193,7 +173,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "addUrl",
       "buttonUrl",
       "buttonText",
       "shape",
