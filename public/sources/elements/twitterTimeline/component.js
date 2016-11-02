@@ -6,10 +6,11 @@ class Component extends vcvAPI.elementComponent {
   componentDidMount () {
     let atts = this.props.atts
 
-    if (atts.gridUrl) {
+    if (atts.timelineUrl) {
       this.insertTwitter(
-        atts.gridUrl,
-        atts.tweetCount && atts.customOptions ? atts.tweetCount : ''
+        atts.timelineUrl,
+        atts.tweetCount && atts.customOptions ? atts.tweetCount : '',
+        atts.tweetTheme && atts.customOptions ? atts.tweetTheme : ''
       )
     }
   }
@@ -18,16 +19,17 @@ class Component extends vcvAPI.elementComponent {
     let nextAtts = nextProps.atts
     let atts = this.props.atts
 
-    if ((atts.gridUrl !== nextAtts.gridUrl || atts.tweetCount !== nextAtts.tweetCount || atts.customOptions !== nextAtts.customOptions) && nextAtts.gridUrl) {
+    if ((atts.timelineUrl !== nextAtts.timelineUrl || atts.tweetCount !== nextAtts.tweetCount || atts.tweetTheme !== nextAtts.tweetTheme || atts.customOptions !== nextAtts.customOptions) && nextAtts.timelineUrl) {
       this.insertTwitter(
-        nextAtts.gridUrl,
-        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : ''
+        nextAtts.timelineUrl,
+        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : '',
+        nextAtts.tweetTheme && nextAtts.customOptions ? nextAtts.tweetTheme : ''
       )
     }
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterGrid_' + Component.unique++
+    let name = '_jsonp_twitterTimeline_' + Component.unique++
     if (url.match(/\?/)) {
       url += '&callback=' + name
     } else {
@@ -59,8 +61,8 @@ class Component extends vcvAPI.elementComponent {
     document.getElementsByTagName('head')[ 0 ].appendChild(script)
   }
 
-  insertTwitter (url, tweetCount) {
-    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&limit=' + tweetCount + '&widget_type=grid'
+  insertTwitter (url, tweetCount, tweetTheme) {
+    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&theme=' + tweetTheme + '&limit=' + tweetCount + '&widget_type=timeline'
     this.loadJSONP(
       createdUrl,
       (data) => {
@@ -70,7 +72,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   appendTwitter (tagString = '') {
-    const component = this.getDomNode().querySelector('.vce-twitter-grid-inner')
+    const component = this.getDomNode().querySelector('.vce-twitter-timeline-inner')
     component.innerHTML = ''
 
     if (this.props.editor) {
@@ -85,8 +87,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
-    let classes = 'vce-twitter-grid vce'
-
+    let classes = 'vce-twitter-timeline vce'
     let customProps = {}
     let innerCustomProps = {}
 
@@ -95,7 +96,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (alignment && customOptions) {
-      classes += ` vce-twitter-grid--align-${alignment}`
+      classes += ` vce-twitter-timeline--align-${alignment}`
     }
 
     if (width && customOptions) {
@@ -120,7 +121,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className='vce-twitter-grid-inner' {...innerCustomProps} />
+      <div className='vce-twitter-timeline-inner' {...innerCustomProps} />
     </div>
   }
 }

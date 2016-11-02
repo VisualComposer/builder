@@ -23,8 +23,8 @@ vcCake.addService('assets-manager', {
    *
    * @param {Object}
    */
-  elements: {},// @AS
-  columns: {},// @AS
+  elements: {}, // @AS
+  columns: {}, // @AS
 
   /**
    * Get cook service
@@ -107,7 +107,7 @@ vcCake.addService('assets-manager', {
    * Get css files list
    * @returns {*}
    */
-  getCssFiles () { //@AM
+  getCssFiles () { // @AM
     let tags = Object.keys(this.getTags())
     tags.forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
@@ -134,7 +134,7 @@ vcCake.addService('assets-manager', {
     }
   },
 
-  getAssetsLibraryJsFiles (lib) { //@AM
+  getAssetsLibraryJsFiles (lib) { // @AM
     let assetsLibrary = vcCake.getService('assets-library')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicJs && libData.publicJs.length) {
@@ -614,7 +614,7 @@ vcCake.addService('assets-manager', {
    * Remove column
    * @param column
    */
-  removeColumn (column) { //@AS
+  removeColumn (column) { // @AS
     let columns = []
     if (Array.isArray(column)) {
       columns = column

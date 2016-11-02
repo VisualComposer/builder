@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Twitter Grid"
+    "value": "Twitter Tweet"
   },
   "metaIntro": {
     "type": "textarea",
@@ -41,15 +41,15 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "gridUrl",
+      "tweetUrl",
       "customClass",
       "customOptions",
       "alignment",
-      "tweetCount",
+      "tweetTheme",
       "width"
     ],
     "options": {
-      "label": "Twitter Grid"
+      "label": "Twitter Tweet"
     }
   },
   "metaEditFormTabs": {
@@ -96,12 +96,12 @@
       "animate"
     ]
   },
-  "gridUrl": {
+  "tweetUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "value": "https://twitter.com/Interior/status/463440424141459456",
     "options": {
-      "label": "Add twitter grid url"
+      "label": "Add twitter tweet url"
     }
   },
   "alignment": {
@@ -138,27 +138,6 @@
       }
     }
   },
-  "tweetCount": {
-    "type": "number",
-    "access": "public",
-    "value": "20",
-    "options": {
-      "min": "0",
-      "label": "Add count of visible tweets",
-      "onChange": {
-        "customOptions": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
   "width": {
     "type": "number",
     "access": "public",
@@ -179,6 +158,36 @@
         ]
       },
       "description": "Set width in px, minimal width 220"
+    }
+  },
+  "tweetTheme": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "light",
+    "options": {
+      "label": "Theme options",
+      "values": [
+        {
+          "label": "Light",
+          "value": "light"
+        },
+        {
+          "label": "Dark",
+          "value": "dark"
+        }
+      ],
+      "onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
     }
   }
 }

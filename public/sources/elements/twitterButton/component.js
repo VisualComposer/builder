@@ -11,10 +11,16 @@ class Component extends vcvAPI.elementComponent {
 
   insertTwitterJs () {
     let twitterScript = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
-    const component = this.getDomNode()
-    let range = document.createRange()
-    let documentFragment = range.createContextualFragment(twitterScript)
-    component.appendChild(documentFragment)
+    const component = this.getDomNode().querySelector('.vce-tweet-button-script')
+    component.innerHTML = ''
+
+    if (this.props.editor) {
+      let range = document.createRange()
+      let documentFragment = range.createContextualFragment(twitterScript)
+      component.appendChild(documentFragment)
+    } else {
+      component.innerHTML = twitterScript
+    }
   }
 
   render () {
@@ -95,6 +101,7 @@ class Component extends vcvAPI.elementComponent {
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
       <div className={innerClasses}>
         <a href={buttonLink} className={buttonClass} {...twitterButtonProps}>{buttonContent}</a>
+        <div className='vce-tweet-button-script'></div>
       </div>
     </div>
   }

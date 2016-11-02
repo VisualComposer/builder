@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Twitter Grid"
+    "value": "Twitter Timeline"
   },
   "metaIntro": {
     "type": "textarea",
@@ -41,15 +41,16 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "gridUrl",
+      "timelineUrl",
       "customClass",
       "customOptions",
       "alignment",
       "tweetCount",
+      "tweetTheme",
       "width"
     ],
     "options": {
-      "label": "Twitter Grid"
+      "label": "Twitter Timeline"
     }
   },
   "metaEditFormTabs": {
@@ -96,12 +97,12 @@
       "animate"
     ]
   },
-  "gridUrl": {
+  "timelineUrl": {
     "type": "string",
     "access": "public",
     "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
     "options": {
-      "label": "Add twitter grid url"
+      "label": "Add twitter timeline url"
     }
   },
   "alignment": {
@@ -145,6 +146,36 @@
     "options": {
       "min": "0",
       "label": "Add count of visible tweets",
+      "onChange": {
+        "customOptions": [
+          {
+            "rule": "toggle",
+            "actions": [
+              {
+                "action": "toggleVisibility"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "tweetTheme": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "light",
+    "options": {
+      "label": "Theme options",
+      "values": [
+        {
+          "label": "Light",
+          "value": "light"
+        },
+        {
+          "label": "Dark",
+          "value": "dark"
+        }
+      ],
       "onChange": {
         "customOptions": [
           {

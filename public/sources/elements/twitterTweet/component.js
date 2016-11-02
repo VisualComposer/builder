@@ -6,10 +6,10 @@ class Component extends vcvAPI.elementComponent {
   componentDidMount () {
     let atts = this.props.atts
 
-    if (atts.gridUrl) {
+    if (atts.tweetUrl) {
       this.insertTwitter(
-        atts.gridUrl,
-        atts.tweetCount && atts.customOptions ? atts.tweetCount : ''
+        atts.tweetUrl,
+        atts.tweetTheme && atts.customOptions ? atts.tweetTheme : ''
       )
     }
   }
@@ -18,16 +18,16 @@ class Component extends vcvAPI.elementComponent {
     let nextAtts = nextProps.atts
     let atts = this.props.atts
 
-    if ((atts.gridUrl !== nextAtts.gridUrl || atts.tweetCount !== nextAtts.tweetCount || atts.customOptions !== nextAtts.customOptions) && nextAtts.gridUrl) {
+    if ((atts.tweetUrl !== nextAtts.tweetUrl || atts.tweetTheme !== nextAtts.tweetTheme || atts.customOptions !== nextAtts.customOptions) && nextAtts.tweetUrl) {
       this.insertTwitter(
-        nextAtts.gridUrl,
-        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : ''
+        nextAtts.tweetUrl,
+        nextAtts.tweetTheme && nextAtts.customOptions ? nextAtts.tweetTheme : ''
       )
     }
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterGrid_' + Component.unique++
+    let name = '_jsonp_twitterTweet_' + Component.unique++
     if (url.match(/\?/)) {
       url += '&callback=' + name
     } else {
@@ -59,8 +59,8 @@ class Component extends vcvAPI.elementComponent {
     document.getElementsByTagName('head')[ 0 ].appendChild(script)
   }
 
-  insertTwitter (url, tweetCount) {
-    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&limit=' + tweetCount + '&widget_type=grid'
+  insertTwitter (url, tweetTheme) {
+    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&theme=' + tweetTheme + '&widget_type=tweet'
     this.loadJSONP(
       createdUrl,
       (data) => {
@@ -70,7 +70,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   appendTwitter (tagString = '') {
-    const component = this.getDomNode().querySelector('.vce-twitter-grid-inner')
+    const component = this.getDomNode().querySelector('.vce-twitter-tweet-inner')
     component.innerHTML = ''
 
     if (this.props.editor) {
@@ -85,7 +85,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
-    let classes = 'vce-twitter-grid vce'
+    let classes = 'vce-twitter-tweet vce'
 
     let customProps = {}
     let innerCustomProps = {}
@@ -95,7 +95,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (alignment && customOptions) {
-      classes += ` vce-twitter-grid--align-${alignment}`
+      classes += ` vce-twitter-tweet--align-${alignment}`
     }
 
     if (width && customOptions) {
@@ -120,7 +120,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className='vce-twitter-grid-inner' {...innerCustomProps} />
+      <div className='vce-twitter-tweet-inner' {...innerCustomProps} />
     </div>
   }
 }

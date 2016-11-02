@@ -1,0 +1,17 @@
+.vce-twitter-tweet--align-center {
+  text-align: center;
+}
+
+.vce-twitter-tweet--align-right {
+  text-align: right;
+}
+
+.vce-twitter-tweet--align-left {
+  text-align: left;
+}
+
+.vce-twitter-tweet-inner {
+  vertical-align: top;
+  display: inline-block;
+  max-width: 100%;
+}
