@@ -44,7 +44,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Button URL"
+      "label": "Link selection"
     }
   },
   "toggleCustomHover": {
@@ -173,10 +173,10 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonUrl",
       "buttonText",
-      "shape",
+      "buttonUrl",
       "alignment",
+      "shape",
       "color",
       "background",
       "toggleCustomHover",
