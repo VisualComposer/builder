@@ -1,19 +1,22 @@
-.vce-tweet-button--align-center {
+.vce-twitter-grid--align-center {
   text-align: center;
 }
 
-.vce-tweet-button--align-right {
+.vce-twitter-grid--align-right {
   text-align: right;
 }
 
-.vce-tweet-button--align-left {
+.vce-twitter-grid--align-left {
   text-align: left;
 }
 
-.vce-tweet-button-inner {
+.vce-twitter-grid-inner {
   vertical-align: top;
   display: inline-block;
+  width: 100%;
 }
+
+/* overlay cannot be set to iframe */
 
 /*.vce-tweet-button-inner {*/
   /*position: relative;*/
