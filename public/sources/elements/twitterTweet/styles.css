@@ -13,5 +13,5 @@
 .vce-twitter-tweet-inner {
   vertical-align: top;
   display: inline-block;
-  width: 100%;
+  max-width: 100%;
 }
