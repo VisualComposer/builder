@@ -64,7 +64,8 @@ module.exports = {
         'actions-manager',
         'rules-manager',
         'api',
-        'categories'
+        'categories',
+        'wip-assets-manager'
       ]
     },
     wp: {
@@ -104,7 +105,8 @@ module.exports = {
         'actions-manager',
         'rules-manager',
         'api',
-        'categories'
+        'categories',
+        'wip-assets-manager'
       ]
     }
   },
