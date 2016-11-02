@@ -44,7 +44,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Button URL"
+      "label": "Link selection"
     }
   },
   "toggleCustomHover": {
@@ -60,7 +60,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Pick hover color",
+      "label": "Hover color",
       "cssMixin": {
         "mixin": "simpleHoverColor",
         "property": "hoverColor",
@@ -85,7 +85,7 @@
     "access": "public",
     "value": "#4d70ac",
     "options": {
-      "label": "Pick hover background",
+      "label": "Hover background color",
       "cssMixin": {
         "mixin": "simpleHoverColor",
         "property": "hoverBackground",
@@ -118,7 +118,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Pick color",
+      "label": "Color",
       "cssMixin": {
         "mixin": "simpleColor",
         "property": "color",
@@ -131,7 +131,7 @@
     "access": "public",
     "value": "#557cbf",
     "options": {
-      "label": "Pick background",
+      "label": "Background color",
       "cssMixin": {
         "mixin": "simpleColor",
         "property": "background",
@@ -173,10 +173,10 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonUrl",
       "buttonText",
-      "shape",
+      "buttonUrl",
       "alignment",
+      "shape",
       "color",
       "background",
       "toggleCustomHover",
@@ -220,7 +220,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",
