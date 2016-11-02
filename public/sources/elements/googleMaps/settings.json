@@ -100,8 +100,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Image size",
-      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200 (Width))."
+      "label": "Size",
+      "description": "Enter size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
     }
   },
   "alignment": {
