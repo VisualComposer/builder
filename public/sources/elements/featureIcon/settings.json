@@ -154,7 +154,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Custom hover colors"
+      "label": "Add hover effect"
     }
   },
   "shapeColorHover": {
@@ -162,7 +162,7 @@
     "access": "public",
     "value": "#3cb878",
     "options": {
-      "label": "Custom shape hover",
+      "label": "Shape hover color",
       "cssMixin": {
         "mixin": "shapeColorHover",
         "property": "shapeColorHover",
@@ -187,7 +187,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Custom icon hover",
+      "label": "Icon hover color",
       "cssMixin": {
         "mixin": "iconColorHover",
         "property": "iconColorHover",
