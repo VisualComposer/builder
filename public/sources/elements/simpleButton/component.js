@@ -11,7 +11,7 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
     let CustomTag = 'button'
 
-    if (addUrl) {
+    if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
       let { url, title, targetBlank, relNofollow } = buttonUrl
       customProps = {
