@@ -5,7 +5,7 @@ import React from 'react'
 // const assetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 class SaveController {
   constructor (props) {

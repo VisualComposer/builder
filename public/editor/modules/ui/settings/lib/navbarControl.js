@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 const {getService, getData, setData} = vcCake
 const assetManager = getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 export default class SettingsButtonControl extends React.Component {
   constructor (props) {
