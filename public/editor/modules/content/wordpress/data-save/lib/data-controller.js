@@ -52,7 +52,7 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.get() : assetsManager.get()
+    let elements = assetsManager.get()
     promises.push(assetsManager.getCompiledCss().then((data) => {
       globalStyles = data
     }))
