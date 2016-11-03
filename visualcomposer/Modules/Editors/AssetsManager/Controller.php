@@ -274,7 +274,7 @@ class Controller extends Container implements Module
         // remove file
         $bundleUrl = '';
         $this->deleteAssetsBundles('global.js');
-        if (!empty($files)) {
+        if (!empty($files) && is_array($files)) {
             /** @var $app Application */
             $app = vcapp();
             $frontMainFile = $app->path('public/dist/front.bundle.js');
@@ -304,7 +304,7 @@ class Controller extends Container implements Module
         $files = $this->options->get('shared-library-styles', []);
         $bundleUrl = '';
         $this->deleteAssetsBundles('sharedglobal.css');
-        if (!empty($files)) {
+        if (!empty($files) && is_array($files)) {
             /** @var $app Application */
             $app = vcapp();
             $contents = '';
