@@ -2,11 +2,6 @@
   height: auto;
 }
 
-.vce-flickr-image-inner {
-  width: 100%;
-  display: inline-block;
-}
-
 .vce-flickr-image--align-center {
   text-align: center;
 }
@@ -17,4 +12,18 @@
 
 .vce-flickr-image--align-left {
   text-align: left;
+}
+
+.vce-flickr-image.vce-flickr-image-disabled {
+  position: relative;
+}
+
+.vce-flickr-image.vce-flickr-image-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
 }

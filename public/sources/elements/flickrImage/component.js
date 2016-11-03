@@ -38,6 +38,11 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
+    if (editor) {
+      classes += ' vce-instagram-image-disabled'
+    }
+
     return <div {...customProps} className={classes} id={'el-' + id} {...editor} />
   }
 }

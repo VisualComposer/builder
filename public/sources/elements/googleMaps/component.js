@@ -112,6 +112,11 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
+    if (editor) {
+      innerClasses += ' vce-google-maps-disabled'
+    }
+
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
       <div {...wrapperProps} className={wrapperClasses}>
         <div className={innerClasses} {...innerProps} dangerouslySetInnerHTML={{__html:embed}} />

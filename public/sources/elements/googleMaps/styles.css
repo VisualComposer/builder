@@ -35,3 +35,17 @@
 .vce-google-maps--align-left {
   text-align: left;
 }
+
+.vce-google-maps-inner.vce-google-maps-disabled {
+  position: relative;
+}
+
+.vce-google-maps-inner.vce-google-maps-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
