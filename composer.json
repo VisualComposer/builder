@@ -18,6 +18,9 @@
     ],
     "post-install-cmd": [
       "ComposerHooks\\Registry::postInstallCmd"
+    ],
+    "post-autoload-dump": [
+      "ComposerHooks\\Registry::postUpdateCmd"
     ]
   }
 }

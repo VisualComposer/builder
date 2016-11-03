@@ -6,7 +6,17 @@ export default class EditElementController extends ActivitiesManager {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
-    activeState: React.PropTypes.string
+    activeTabId: React.PropTypes.string
+  }
+
+  getActiveTabId () {
+    let formWrapper = this.refs[ 'formWrapper' ]
+    return formWrapper.allTabs[ formWrapper.state.activeTabIndex ].data.id
+  }
+
+  setActiveTabId (tabId) {
+    let formWrapper = this.refs[ 'formWrapper' ]
+    formWrapper.onChangeActiveTab(formWrapper.getActiveTabIndex(tabId))
   }
 
   render () {
@@ -17,6 +27,7 @@ export default class EditElementController extends ActivitiesManager {
         setFieldUnmount={this.setFieldUnmount}
         callFieldActivities={this.callFieldActivities}
         onElementChange={this.onElementChange}
+        ref='formWrapper'
       />
     )
   }

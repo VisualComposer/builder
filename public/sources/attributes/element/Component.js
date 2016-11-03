@@ -111,7 +111,7 @@ export default class ElementAttribute extends Attribute {
         let publicPathThumbnail
 
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          publicPathThumbnail = vcCake.getService('wip-assets-manager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+          publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
         } else {
           publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
         }

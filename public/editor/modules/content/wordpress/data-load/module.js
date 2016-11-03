@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 
 const TimeMachine = vcCake.getService('time-machine')
 const assetsManager = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {

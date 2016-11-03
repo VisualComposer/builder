@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import Group from './lib/group'
 import {sortingTool, getCategoriesList} from './lib/tools'
-const assetsManager = vcCake.getService('assets-manager')
 let tempData = {
   groups: [
     {
@@ -121,6 +120,12 @@ if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
 const data = tempData
 
 const service = {
+  getAssetsManager: () => {
+    return vcCake.getService('assets-manager')
+  },
+  getWipAssetsManager: () => {
+    return vcCake.getService('wipAssetsManager')
+  },
   set groups (groups) {
     data.groups = groups
   },
@@ -145,11 +150,10 @@ const service = {
   },
   getElementIcon (tag) {
     let category = this.categoryByTag(tag)
-    const wipAssetsManager = vcCake.getService('wip-assets-manager')
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      return category && category.icon ? wipAssetsManager.getSourcePath(category.icon) : wipAssetsManager.getSourcePath('categories/icons/Misc.svg')
+      return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
     } else {
-      return category && category.icon ? assetsManager.getSourcePath(category.icon) : assetsManager.getSourcePath('categories/icons/Misc.svg')
+      return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
     }
   }
 }

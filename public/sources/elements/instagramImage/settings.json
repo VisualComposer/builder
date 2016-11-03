@@ -34,7 +34,7 @@
     "access": "public",
     "value": "https://www.instagram.com/p/BJPIEc8BHEI/",
     "options": {
-      "label": "Add Instagram url"
+      "label": "Instagram URL (Link)"
     }
   },
   "designOptions": {
@@ -100,7 +100,7 @@
     "value": "",
     "options": {
       "label": "Image size",
-      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200 (Width))."
+      "description": "Enter image size (Example: \"thumbnail\", \"medium\", \"large\", \"full\" or other sizes defined by theme). Alternatively enter width in pixels (Example: 200 (Width))."
     }
   },
   "alignment": {
@@ -108,7 +108,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",

@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 vcCake.add('content-local-storage-data-save', (api) => {
   api.reply('node:save', () => {

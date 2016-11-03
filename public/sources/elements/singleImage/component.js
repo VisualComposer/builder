@@ -220,7 +220,7 @@ class Component extends vcvAPI.elementComponent {
     const vcCake = require('vc-cake')
     let assetsManager
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wip-assets-manager')
+      assetsManager = vcCake.getService('wipAssetsManager')
     } else {
       assetsManager = vcCake.getService('assets-manager')
     }

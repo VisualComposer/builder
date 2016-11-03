@@ -5,7 +5,8 @@ import React from 'react'
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 class SaveController {
   constructor (props) {
@@ -49,8 +50,8 @@ class SaveController {
           'vcv-action': 'setData:adminNonce',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
-          'vcv-shared-library-styles': assetsManager.getCssFiles(),
+          'vcv-scripts': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getTagsList()) : assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
+          'vcv-shared-library-styles': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getTagsList()) : assetsManager.getCssFiles(),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,
