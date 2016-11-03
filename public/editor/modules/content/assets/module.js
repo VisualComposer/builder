@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const assetManager = vcCake.getService('assets-manager')
+const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
@@ -22,24 +22,24 @@ vcCake.add('assets', (api) => {
       doElement.id = 'do-styles'
       iframeDocument.body.appendChild(doElement)
     }
-    assetManager.getCompiledCss(true).then((result) => {
+    assetsManager.getCompiledCss(true).then((result) => {
       styleElement.innerHTML = result
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         styleElement.innerHTML += wipAssetsStorage.getGlobalCss()
       } else {
-        styleElement.innerHTML += assetManager.getGlobalCss()
+        styleElement.innerHTML += assetsManager.getGlobalCss()
       }
     })
-    assetManager.getCompiledDesignOptions().then((result) => {
+    assetsManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         doElement.innerHTML += wipAssetsStorage.getCustomCss()
       } else {
-        doElement.innerHTML += assetManager.getCustomCss()
+        doElement.innerHTML += assetsManager.getCustomCss()
       }
     })
     var jsAssetsLoaders = []
-    let jsFiles = assetManager.getJsFiles()
+    let jsFiles = assetsManager.getJsFiles()
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getTagsList())
@@ -51,7 +51,7 @@ vcCake.add('assets', (api) => {
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
           jsAssetsLoaders.push(iframeWindow.$.getScript(wipAssetsManager.getSourcePath(file)))
         } else {
-          jsAssetsLoaders.push(iframeWindow.$.getScript(assetManager.getSourcePath(file)))
+          jsAssetsLoaders.push(iframeWindow.$.getScript(assetsManager.getSourcePath(file)))
         }
       }
     })
@@ -61,7 +61,7 @@ vcCake.add('assets', (api) => {
 
     let d = iframeWindow.document
 
-    let cssFiles = assetManager.getCssFiles()
+    let cssFiles = assetsManager.getCssFiles()
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getTagsList())
@@ -75,7 +75,7 @@ vcCake.add('assets', (api) => {
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
           cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
         } else {
-          cssLink.setAttribute('href', assetManager.getSourcePath(file))
+          cssLink.setAttribute('href', assetsManager.getSourcePath(file))
         }
         d.querySelector('head').appendChild(cssLink)
       }
@@ -88,14 +88,14 @@ vcCake.add('assets', (api) => {
   api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
-    assetManager.add(ids)
+    assetsManager.add(ids)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       wipAssetsStorage.add(ids)
     }
   })
 
   api.reply('data:afterUpdate', (id, element) => {
-    assetManager.update(id)
+    assetsManager.update(id)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       wipAssetsStorage.update(id)
     }
@@ -111,7 +111,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    assetManager.remove(elements)
+    assetsManager.remove(elements)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       wipAssetsStorage.remove(elements)
     }
@@ -125,7 +125,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      assetManager.update(elements)
+      assetsManager.update(elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         wipAssetsStorage.update(elements)
       }
@@ -140,7 +140,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      assetManager.update(elements)
+      assetsManager.update(elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         wipAssetsStorage.update(elements)
       }
@@ -157,7 +157,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    assetManager.add(elements)
+    assetsManager.add(elements)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       wipAssetsStorage.add(elements)
     }

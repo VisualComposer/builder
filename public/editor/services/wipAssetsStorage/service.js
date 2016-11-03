@@ -21,7 +21,7 @@ vcCake.addService('wipAssetsStorage', {
    */
   set (elements) {
     // todo: validate elements
-    this.elements = elements
+    this.elements = Object.assign({}, elements)
   },
 
   /**
