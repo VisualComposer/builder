@@ -1,8 +1,8 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 const loadedJsFiles = []
 const loadedCssFiles = []

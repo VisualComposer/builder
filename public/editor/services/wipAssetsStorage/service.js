@@ -5,7 +5,7 @@ import GlobalCss from './lib/globalCss'
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
-vcCake.addService('wip-assets-storage', {
+vcCake.addService('wipAssetsStorage', {
   /**
    * Up-to-date list of all elements
    *
