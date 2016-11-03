@@ -34,7 +34,7 @@
     "access": "public",
     "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
     "options": {
-      "label": "Add Flickr image url"
+      "label": "Flickr URL (Link)"
     }
   },
   "designOptions": {
@@ -98,7 +98,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",
