@@ -16,47 +16,10 @@ class Component extends vcvAPI.elementComponent {
         imgSize: null
       })
     }
-    this.updateInstagramHtml(nextProps.atts.embed)
-  }
 
-  render () {
-    let { id, atts, editor } = this.props
-    let { embed, designOptions, customClass, size, alignment } = atts
-    let classes = 'vce-instagram-image vce'
-    let customProps = {}
-    let innerCustomProps = {}
-
-    if (typeof customClass === 'string' && customClass) {
-      classes += ' ' + customClass
+    if (nextProps.atts.embed !== this.props.atts.embed) {
+      this.updateInstagramHtml(nextProps.atts.embed)
     }
-
-    if (typeof size === 'string' && size) {
-      innerCustomProps.style = this.state ? this.state.imgSize : null
-    }
-
-    if (alignment) {
-      classes += ` vce-instagram-image--align-${alignment}`
-    }
-
-    customProps.key = `customProps:${id}`
-
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-    <div className='vce-instagram-image-inner' {...innerCustomProps} />
-  </div>
   }
 
   checkCustomSize (size) {
@@ -97,5 +60,51 @@ class Component extends vcvAPI.elementComponent {
     let documentFragment = range.createContextualFragment(tagString)
     component.innerHTML = ''
     component.appendChild(documentFragment)
+  }
+
+  render () {
+    let { id, atts, editor } = this.props
+    let { embed, designOptions, customClass, size, alignment } = atts
+    let classes = 'vce-instagram-image vce'
+    let customProps = {}
+    let innerClasses = 'vce-instagram-image-inner'
+    let innerCustomProps = {}
+
+    if (typeof customClass === 'string' && customClass) {
+      classes += ' ' + customClass
+    }
+
+    if (typeof size === 'string' && size) {
+      innerCustomProps.style = this.state ? this.state.imgSize : null
+    }
+
+    if (alignment) {
+      classes += ` vce-instagram-image--align-${alignment}`
+    }
+
+    customProps.key = `customProps:${id}`
+
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations.length) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+
+    if (editor) {
+      innerClasses += ' vce-instagram-image-disabled'
+    }
+
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
+      <div className={innerClasses} {...innerCustomProps} />
+    </div>
   }
 }

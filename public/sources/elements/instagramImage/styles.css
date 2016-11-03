@@ -15,13 +15,11 @@
   text-align: left;
 }
 
-/* overlay cannot be set to iframe */
-
-.vce-instagram-image-inner {
+.vce-instagram-image-inner.vce-instagram-image-disabled {
   position: relative;
 }
 
-.vce-instagram-image-inner::after {
+.vce-instagram-image-inner.vce-instagram-image-disabled::after {
   content: "";
   position: absolute;
   top: 0;
