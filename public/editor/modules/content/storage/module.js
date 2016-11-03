@@ -2,6 +2,7 @@ import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
 const assetsManger = vcCake.getService('assets-manager')
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
@@ -117,9 +118,15 @@ vcCake.add('storage', (api) => {
   api.reply('settings:update', (settings) => {
     if (settings.customStyles && settings.customStyles.global !== undefined) {
       assetsManger.setGlobalCss(settings.customStyles.global || '')
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        wipAssetsStorage.setGlobalCss(settings.customStyles.global || '')
+      }
     }
     if (settings.customStyles && settings.customStyles.local !== undefined) {
       assetsManger.setCustomCss(settings.customStyles.local || '')
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        wipAssetsStorage.setCustomCss(settings.customStyles.local || '')
+      }
     }
     api.request('settings:changed', settings)
   })

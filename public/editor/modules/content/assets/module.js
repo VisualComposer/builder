@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
 const assetManager = vcCake.getService('assets-manager')
-
 const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 
 const loadedJsFiles = []
@@ -24,9 +23,19 @@ vcCake.add('assets', (api) => {
     }
     assetManager.getCompiledCss(true).then((result) => {
       styleElement.innerHTML = result
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        styleElement.innerHTML += wipAssetsStorage.getGlobalCss()
+      } else {
+        styleElement.innerHTML += assetManager.getGlobalCss()
+      }
     })
     assetManager.getCompiledDesignOptions().then((result) => {
-      doElement.innerHTML = result + assetManager.getGlobalCss() + assetManager.getCustomCss()
+      doElement.innerHTML = result
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        doElement.innerHTML += wipAssetsStorage.getCustomCss()
+      } else {
+        doElement.innerHTML += assetManager.getCustomCss()
+      }
     })
     var jsAssetsLoaders = []
     assetManager.getJsFiles().forEach((file) => {
@@ -57,11 +66,10 @@ vcCake.add('assets', (api) => {
   api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
+    assetManager.add(ids)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       wipAssetsStorage.add(ids)
-      console.log(wipAssetsStorage.get())
     }
-    assetManager.add(ids)
   })
 
   api.reply('data:afterUpdate', (id, element) => {
