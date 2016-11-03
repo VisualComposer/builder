@@ -39,7 +39,13 @@ vcCake.add('assets', (api) => {
       }
     })
     var jsAssetsLoaders = []
-    assetManager.getJsFiles().forEach((file) => {
+    let jsFiles = assetManager.getJsFiles()
+
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getTagsList())
+    }
+
+    jsFiles.forEach((file) => {
       if (loadedJsFiles.indexOf(file) === -1) {
         loadedJsFiles.push(file)
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
@@ -54,7 +60,14 @@ vcCake.add('assets', (api) => {
     })
 
     let d = iframeWindow.document
-    assetManager.getCssFiles().forEach((file) => {
+
+    let cssFiles = assetManager.getCssFiles()
+
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getTagsList())
+    }
+
+    cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')

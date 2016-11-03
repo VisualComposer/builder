@@ -1,7 +1,8 @@
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
+
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
-
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
@@ -11,14 +12,14 @@ vcCake.addService('wipAssetsStorage', {
    *
    * @param {Object}
    */
-  elements: {}, // @AS
-  columns: {}, // @AS
+  elements: {},
+  columns: {},
 
   /**
    * Set elements
    * @param elements
    */
-  set (elements) { // @AS
+  set (elements) {
     // todo: validate elements
     this.elements = elements
   },
@@ -27,7 +28,7 @@ vcCake.addService('wipAssetsStorage', {
    * Set custom css
    * @param value
    */
-  setCustomCss (value) { // @AS
+  setCustomCss (value) {
     customCss.data = value
   },
 
@@ -35,7 +36,7 @@ vcCake.addService('wipAssetsStorage', {
    * Get custom css data
    * @returns {*}
    */
-  getCustomCss () { // @AS
+  getCustomCss () {
     return customCss.data
   },
 
@@ -43,7 +44,7 @@ vcCake.addService('wipAssetsStorage', {
    * Set global css
    * @param value
    */
-  setGlobalCss (value) { // @AS
+  setGlobalCss (value) {
     globalCss.data = value
   },
 
@@ -51,7 +52,7 @@ vcCake.addService('wipAssetsStorage', {
    * Get global css data
    * @returns {*}
    */
-  getGlobalCss () { // @AS
+  getGlobalCss () {
     return globalCss.data
   },
 
@@ -59,7 +60,7 @@ vcCake.addService('wipAssetsStorage', {
    * Add element by id
    * @param id
    */
-  add (id) { // @AS
+  add (id) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -78,7 +79,7 @@ vcCake.addService('wipAssetsStorage', {
    * @param assetKey
    * @returns {*}
    */
-  get (assetKey = false) { // @AS
+  get (assetKey = false) {
     if (!assetKey) {
       return this.elements
     }
@@ -92,7 +93,7 @@ vcCake.addService('wipAssetsStorage', {
    * Update element by id
    * @param id
    */
-  update (id, force = false) { // @AS
+  update (id, force = false) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -110,7 +111,7 @@ vcCake.addService('wipAssetsStorage', {
    * Remove element by id
    * @param id
    */
-  remove (id) { // @AS
+  remove (id) {
     let ids = []
     if (Array.isArray(id)) {
       ids = id
@@ -129,7 +130,7 @@ vcCake.addService('wipAssetsStorage', {
    * Set columns
    * @param columns
    */
-  setColumns (columns) { // @AS
+  setColumns (columns) {
     // todo: validate elements
     this.columns = columns
   },
@@ -138,7 +139,7 @@ vcCake.addService('wipAssetsStorage', {
    * add column
    * @param column
    */
-  addColumn (column) { // @AS
+  addColumn (column) {
     let columns = []
     if (Array.isArray(column)) {
       columns = column
@@ -169,7 +170,7 @@ vcCake.addService('wipAssetsStorage', {
    * @param assetKey
    * @returns {*}
    */
-  getColumn (assetKey = false) { // @AS
+  getColumn (assetKey = false) {
     if (!assetKey) {
       return this.columns
     }
@@ -183,7 +184,7 @@ vcCake.addService('wipAssetsStorage', {
    * Remove column
    * @param column
    */
-  removeColumn (column) { // @AS
+  removeColumn (column) {
     let columns = []
     if (Array.isArray(column)) {
       columns = column
@@ -201,12 +202,33 @@ vcCake.addService('wipAssetsStorage', {
     })
   },
 
-  updateColumns () { // @AS
+  updateColumns () {
     // for this.get()
     for (let id in this.elements) {
       if (this.elements[ id ].columnSizes && this.elements[ id ].columnSizes.length) {
         this.addColumn(this.elements[ id ].columnSizes)
       }
     }
+  },
+
+  /**
+   * Get all used elements tags
+   * @returns {{}}
+   */
+  getTags () {
+    let tags = {}
+    for (let id in this.elements) {
+      let elementTags = this.elements[ id ].tags
+      lodash.merge(tags, elementTags)
+    }
+    return tags
+  },
+
+  /**
+   * Get all used element tags as array
+   * @returns {Array}
+   */
+  getTagsList () {
+    return Object.keys(this.getTags())
   }
 })

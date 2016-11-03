@@ -34,7 +34,6 @@ task(
         cd($sharedPath);
         run('npm update --loglevel=error');
         cd('{{release_path}}');
-        run('npm run collect-css');
         run('composer update --prefer-dist --no-progress');
         run('webpack');
     }
