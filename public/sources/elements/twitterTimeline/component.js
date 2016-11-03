@@ -88,6 +88,7 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
     let classes = 'vce-twitter-timeline vce'
+    let innerClasses = 'vce-twitter-timeline-inner'
     let customProps = {}
     let innerCustomProps = {}
 
@@ -120,8 +121,12 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    if (editor) {
+      innerClasses += ' vce-twitter-timeline-disabled'
+    }
+
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className='vce-twitter-timeline-inner' {...innerCustomProps} />
+      <div className={innerClasses} {...innerCustomProps} />
     </div>
   }
 }

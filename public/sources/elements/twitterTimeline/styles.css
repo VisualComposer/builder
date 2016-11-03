@@ -16,18 +16,16 @@
   width: 100%;
 }
 
-/* overlay cannot be set to iframe */
+.vce-twitter-timeline-inner.vce-twitter-timeline-disabled {
+  position: relative;
+}
 
-/*.vce-tweet-button-inner {*/
-  /*position: relative;*/
-/*}*/
-
-/*.vce-tweet-button-inner::after {*/
-  /*content: "";*/
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*right: 0;*/
-  /*bottom: 0;*/
-  /*left: 0;*/
-  /*z-index: 999;*/
-/*}*/
+.vce-twitter-timeline-inner.vce-twitter-timeline-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}

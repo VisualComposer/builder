@@ -86,7 +86,7 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
     let classes = 'vce-twitter-grid vce'
-
+    let innerClasses = 'vce-twitter-grid-inner'
     let customProps = {}
     let innerCustomProps = {}
 
@@ -119,8 +119,12 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    if (editor) {
+      innerClasses += ' vce-twitter-grid-disabled'
+    }
+
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className='vce-twitter-grid-inner' {...innerCustomProps} />
+      <div className={innerClasses} {...innerCustomProps} />
     </div>
   }
 }
