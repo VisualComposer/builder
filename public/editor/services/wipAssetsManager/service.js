@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 
-vcCake.addService('wip-assets-manager', {
+vcCake.addService('wipAssetsManager', {
 
   /**
    * Get element's public path
