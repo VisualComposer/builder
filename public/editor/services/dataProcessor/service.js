@@ -1,4 +1,5 @@
 import vcCake from 'vc-cake'
+import $ from 'jquery'
 let processes = []
 const Service = {
   http (url) {
@@ -7,28 +8,17 @@ const Service = {
       // Method that performs the ajax request
       ajax: function (method, url, args) {
         // Creating a promise
+
         let promise = new Promise(function (resolve, reject) {
           // Instantiates the XMLHttpRequest
-          let client = new window.XMLHttpRequest()
-          let uri = url
-
-          if (args && (method === 'POST' || method === 'PUT')) {
-            uri += '?'
-            let argCount = 0
-            for (let key in args) {
-              if (args.hasOwnProperty(key)) {
-                if (argCount++) {
-                  uri += '&'
-                }
-                uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[ key ])
-              }
-            }
+          let request = new window.XMLHttpRequest()
+          request.open(method, url)
+          if (method === 'POST' || method === 'PUT') {
+            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
           }
+          request.send($.param(args))
 
-          client.open(method, uri)
-          client.send()
-
-          client.onload = function () {
+          request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
               // Performs the function "resolve" when this.status is equal to 2xx
               resolve(this.response)
@@ -37,7 +27,7 @@ const Service = {
               reject(this.statusText)
             }
           }
-          client.onerror = function () {
+          request.onerror = function () {
             reject(this.statusText)
           }
         })
@@ -49,16 +39,16 @@ const Service = {
 
     // Adapter pattern
     return {
-      'get': function (args) {
+      get (args) {
         return core.ajax('GET', url, args)
       },
-      'post': function (args) {
+      post (args) {
         return core.ajax('POST', url, args)
       },
-      'put': function (args) {
+      put (args) {
         return core.ajax('PUT', url, args)
       },
-      'delete': function (args) {
+      delete (args) {
         return core.ajax('DELETE', url, args)
       }
     }
@@ -71,7 +61,7 @@ const Service = {
     }, args)
     return this.http(url).post(args)
   },
-  allDone () {
+  appAllDone () {
     return Promise.all(processes).then(() => {
       processes = []
     })

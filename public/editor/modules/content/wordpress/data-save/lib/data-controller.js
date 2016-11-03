@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import React from 'react'
 
-// const assetManager = vcCake.getService('assets-manager')
+const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsStorage = vcCake.getService('wip-assets-storage')
@@ -24,25 +24,9 @@ class SaveController {
   }
 
   ajax (data, successCallback, failureCallback) {
-    data = $.extend({}, {
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
-    }, data)
-
-    let request = new window.XMLHttpRequest()
-    request.open('POST', window.vcvAjaxUrl, true)
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    request.onload = () => {
-      if (request.status >= 200 && request.status < 400) {
-        successCallback.call(this, request)
-      } else {
-        if (typeof failureCallback === 'function') {
-          failureCallback.call(this, request)
-        }
-      }
-    }
-
-    request.send($.param(data))
+    dataProcessor.appAllDone().then(() => {
+      dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
+    })
   }
   normalizeHtML (data) {
     return data.replace(/&quot;/g, "'")
@@ -105,8 +89,8 @@ class SaveController {
         'vcv-action': 'getData:adminNonce',
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
-      this.loadSuccess,
-      this.loadFailed
+      this.loadSuccess.bind(this),
+      this.loadFailed.bind(this)
     )
   }
 

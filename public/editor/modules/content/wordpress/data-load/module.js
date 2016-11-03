@@ -11,10 +11,9 @@ vcCake.add('content-wordpress-data-load', (api) => {
 
   api.reply('wordpress:data:loaded', (data) => {
     vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
-    let responseData
     let { status, request } = data
     if (status === 'success') {
-      responseData = JSON.parse(request.responseText || '{}')
+      let responseData = JSON.parse(request || '{}')
       if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         // Todo fix saving ( empty Name, params all undefined toJS function)
