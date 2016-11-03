@@ -11,7 +11,7 @@ vcCake.add('content-local-storage-data-save', (api) => {
     })
     LocalStorage.save({
       data: DocumentData.all(),
-      elements: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.get() : assetsManager.get(),
+      elements: assetsManager.get(),
       cssSettings: {
         custom: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getCustomCss() : assetsManager.getCustomCss(),
         global: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getGlobalCss() : assetsManager.getGlobalCss()

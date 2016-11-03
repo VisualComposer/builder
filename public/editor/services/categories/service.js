@@ -152,10 +152,9 @@ const service = {
     let category = this.categoryByTag(tag)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
+    } else {
+      return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
     }
-    // else {
-    //   return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
-    // }
   }
 }
 vcCake.addService('categories', service)
