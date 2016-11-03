@@ -96,6 +96,9 @@ vcCake.add('assets', (api) => {
 
   api.reply('data:afterUpdate', (id, element) => {
     assetManager.update(id)
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      wipAssetsStorage.update(id)
+    }
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -109,6 +112,9 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     assetManager.remove(elements)
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      wipAssetsStorage.remove(elements)
+    }
   })
 
   api.reply('node:beforeSave', (data) => {
@@ -120,6 +126,9 @@ vcCake.add('assets', (api) => {
         }
       }
       assetManager.update(elements)
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        wipAssetsStorage.update(elements)
+      }
     }
   })
 
@@ -132,6 +141,9 @@ vcCake.add('assets', (api) => {
         }
       }
       assetManager.update(elements)
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        wipAssetsStorage.update(elements)
+      }
     }
   })
 
@@ -146,5 +158,8 @@ vcCake.add('assets', (api) => {
     }
     walkChildren(id)
     assetManager.add(elements)
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      wipAssetsStorage.add(elements)
+    }
   })
 })

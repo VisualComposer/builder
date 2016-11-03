@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import $ from 'jquery'
 import React from 'react'
 
-// const assetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
@@ -53,7 +52,7 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = assetsManager.get()
+    let elements = vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.get() : assetsManager.get()
     promises.push(assetsManager.getCompiledCss().then((data) => {
       globalStyles = data
     }))
