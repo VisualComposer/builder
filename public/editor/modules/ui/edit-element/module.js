@@ -21,6 +21,7 @@ vcCake.add('ui-edit-element', (api) => {
   api
     .reply('bar-content-end:hide', () => {
       currentElementId = null
+      currentElementRef = null
       api.module('ui-layout-bar').do('setEndContent', null)
     })
     .on('show', (id, activeTabId) => {
