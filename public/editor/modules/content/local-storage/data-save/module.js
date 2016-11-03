@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 
 vcCake.add('content-local-storage-data-save', (api) => {
   api.reply('node:save', () => {
@@ -12,8 +13,8 @@ vcCake.add('content-local-storage-data-save', (api) => {
       data: DocumentData.all(),
       elements: assetsManager.get(),
       cssSettings: {
-        custom: assetsManager.getCustomCss(),
-        global: assetsManager.getGlobalCss()
+        custom: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getCustomCss() : assetsManager.getCustomCss(),
+        global: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getGlobalCss() : assetsManager.getGlobalCss()
       }
     })
   })

@@ -5,6 +5,7 @@ import React from 'react'
 // const assetManager = vcCake.getService('assets-manager')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 
 class SaveController {
   constructor (props) {
@@ -70,8 +71,8 @@ class SaveController {
           // 'vcv-styles': styles,
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': assetsManager.getCustomCss(),
-          'vcv-global-css': assetsManager.getGlobalCss()
+          'vcv-custom-css': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getCustomCss() : assetsManager.getCustomCss(),
+          'vcv-global-css': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getGlobalCss() : assetsManager.getGlobalCss()
         },
         this.saveSuccess.bind(this),
         this.saveFailed.bind(this)

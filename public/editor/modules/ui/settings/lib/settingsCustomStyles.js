@@ -1,9 +1,11 @@
 import React from 'react'
 import StyleControl from './styleControl'
 import StyleEditor from './styleEditor'
-import {getService, setData} from 'vc-cake'
+import vcCake from 'vc-cake'
+const {getService, setData} = vcCake
 
 const assetManager = getService('assets-manager')
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
 
 export default class SettingsCustomStyles extends React.Component {
   static propTypes = {
@@ -28,8 +30,8 @@ export default class SettingsCustomStyles extends React.Component {
   constructor (props) {
     super(props)
     let customStyles = {
-      local: assetManager.getCustomCss(),
-      global: assetManager.getGlobalCss()
+      local: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getCustomCss() : assetManager.getCustomCss(),
+      global: vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getGlobalCss() : assetManager.getGlobalCss()
     }
     setData('ui:settings:customStyles:global', customStyles.global)
     setData('ui:settings:customStyles:local', customStyles.local)
