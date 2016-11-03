@@ -24,7 +24,7 @@ if (image) {
   let cookElement = cook.get(atts)
   let assetsManager
   if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-    assetsManager = vcCake.getService('wip-assets-manager')
+    assetsManager = vcCake.getService('wipAssetsManager')
   }
   else {
     assetsManager = vcCake.getService('assets-manager')

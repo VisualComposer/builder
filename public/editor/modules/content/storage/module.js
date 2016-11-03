@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
 const assetsManger = vcCake.getService('assets-manager')
-const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')

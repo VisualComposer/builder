@@ -171,8 +171,8 @@ export default class ElementControl extends React.Component {
     let publicPathPreview
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      publicPathThumbnail = vcCake.getService('wip-assets-manager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-      publicPathPreview = vcCake.getService('wip-assets-manager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+      publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+      publicPathPreview = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
     } else {
       publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
       publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))

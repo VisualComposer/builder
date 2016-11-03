@@ -1,5 +1,5 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
@@ -52,8 +52,8 @@ class Component extends vcvAPI.elementComponent {
     }
     return <section className={wrapperClasses} id={'el-' + id} {...editor}>
       <div className={rowClasses} style={rowStyles} {...customProps}>
-        <div className="vce-hero-section__wrap">
-          <div className="vce-hero-section__content">
+        <div className='vce-hero-section__wrap'>
+          <div className='vce-hero-section__content'>
             {title}
             {description}
             {buttonOutput}
@@ -67,9 +67,8 @@ class Component extends vcvAPI.elementComponent {
     const vcCake = require('vc-cake')
     let assetsManager
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wip-assets-manager')
-    }
-    else {
+      assetsManager = vcCake.getService('wipAssetsManager')
+    } else {
       assetsManager = vcCake.getService('assets-manager')
     }
     var { tag } = this.props.atts
