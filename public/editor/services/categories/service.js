@@ -145,7 +145,12 @@ const service = {
   },
   getElementIcon (tag) {
     let category = this.categoryByTag(tag)
-    return category && category.icon ? assetsManager.getSourcePath(category.icon) : assetsManager.getSourcePath('categories/icons/Misc.svg')
+    const wipAssetsManager = vcCake.getService('wip-assets-manager')
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      return category && category.icon ? wipAssetsManager.getSourcePath(category.icon) : wipAssetsManager.getSourcePath('categories/icons/Misc.svg')
+    } else {
+      return category && category.icon ? assetsManager.getSourcePath(category.icon) : assetsManager.getSourcePath('categories/icons/Misc.svg')
+    }
   }
 }
 vcCake.addService('categories', service)

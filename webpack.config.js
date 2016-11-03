@@ -66,7 +66,8 @@ module.exports = {
         'api',
         'categories',
         'wipAssetsStorage',
-        'wip-assets-manager'
+        'wip-assets-manager',
+        'dataProcessor'
       ]
     },
     wp: {
@@ -108,7 +109,8 @@ module.exports = {
         'api',
         'categories',
         'wipAssetsStorage',
-        'wip-assets-manager'
+        'wip-assets-manager',
+        'dataProcessor'
       ]
     }
   },

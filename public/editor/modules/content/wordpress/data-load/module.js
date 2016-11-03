@@ -2,6 +2,8 @@ import vcCake from 'vc-cake'
 
 const TimeMachine = vcCake.getService('time-machine')
 const assetsManager = vcCake.getService('assets-manager')
+const wipAssetsStorage = vcCake.getService('wip-assets-storage')
+
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
     api.request('wordpress:load')
@@ -22,12 +24,21 @@ vcCake.add('content-wordpress-data-load', (api) => {
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && assetsManager.set(globalElements)
+        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+          globalElements && wipAssetsStorage.set(globalElements)
+        }
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
         assetsManager.setCustomCss(responseData.cssSettings.custom)
+        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+          wipAssetsStorage.setCustomCss(responseData.cssSettings.custom)
+        }
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
         assetsManager.setGlobalCss(responseData.cssSettings.global)
+        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+          wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
+        }
       }
     } else {
       throw new Error('Failed to load wordpress:data:loaded')
