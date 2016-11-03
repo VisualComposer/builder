@@ -20,7 +20,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (this.props.atts.instagramUrl !== nextProps.atts.instagramUrl) {
-      this.insertInstagram(this.props.atts.instagramUrl)
+      this.insertInstagram(nextProps.atts.instagramUrl)
     }
   }
 
@@ -64,6 +64,11 @@ class Component extends vcvAPI.elementComponent {
       let range = document.createRange()
       let documentFragment = range.createContextualFragment(tagString)
       component.appendChild(documentFragment)
+
+      let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+      if (iframe && iframe.instgrm && iframe.instgrm.Embeds ) {
+        iframe.instgrm.Embeds.process()
+      }
     } else {
       component.innerHTML = tagString
     }
