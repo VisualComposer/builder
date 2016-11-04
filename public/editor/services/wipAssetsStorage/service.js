@@ -186,8 +186,14 @@ vcCake.addService('wipAssetsStorage', {
    * @param element
    */
   getColumnSizesByElement (element) {
+    let settings = this.cook().get(element).get('settings')
+    let value = settings.relatedTo ? settings.relatedTo.value : []
+    let isColumn = value.filter((item) => {
+      return item.toLowerCase() === 'column'
+    })
+
     let sizes = null
-    if (element.tag === 'column' && element.size) {
+    if (isColumn.length && element.size) {
       sizes = [ element.size ]
     }
     return sizes
