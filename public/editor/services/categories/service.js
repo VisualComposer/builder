@@ -36,7 +36,7 @@ let tempData = {
   categories: {
     'Button': {
       'name': 'Simple Button',
-      'elements': ['button'],
+      'elements': ['button', 'simpleButton'],
       'icon': 'categories/icons/Button.svg'
     },
     'Row': {
@@ -92,9 +92,6 @@ if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
 }
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
   tempData.categories['Social'].elements.push('instagramImage')
-}
-if (vcCake.env('FEATURE_SIMPLE_BUTTON')) {
-  tempData.categories['Button'].elements.push('simpleButton')
 }
 if (vcCake.env('FEATURE_TWEET_BUTTON')) {
   tempData.categories['Social'].elements.push('tweetButton')

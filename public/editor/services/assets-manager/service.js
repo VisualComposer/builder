@@ -40,6 +40,7 @@ vcCake.addService('assets-manager', {
    */
   set (elements) { // @AS
     // todo: validate elements
+    Object.assign({}, elements)
     this.elements = elements
   },
 

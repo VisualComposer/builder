@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
     if (this.props.atts.size) {
       this.checkCustomSize(this.props.atts.size)
     }
-    this.insertInstagram(this.props.atts.instagramUrl)
+    this.insertInstagram(this.props.atts.instagramUrl, this.props.atts.includeCaption)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -19,8 +19,8 @@ class Component extends vcvAPI.elementComponent {
       })
     }
 
-    if (this.props.atts.instagramUrl !== nextProps.atts.instagramUrl) {
-      this.insertInstagram(nextProps.atts.instagramUrl)
+    if (this.props.atts.instagramUrl !== nextProps.atts.instagramUrl || this.props.atts.includeCaption !== nextProps.atts.includeCaption) {
+      this.insertInstagram(nextProps.atts.instagramUrl, nextProps.atts.includeCaption)
     }
   }
 
@@ -107,8 +107,8 @@ class Component extends vcvAPI.elementComponent {
     document.getElementsByTagName('head')[ 0 ].appendChild(script)
   }
 
-  insertInstagram (url) {
-    let createdUrl = 'https://api.instagram.com/oembed/?url=' + url
+  insertInstagram (url, includeCaption) {
+    let createdUrl = 'https://api.instagram.com/oembed/?url=' + url + '&hidecaption=' + !includeCaption
     this.loadJSONP(
       createdUrl,
       (data) => {
