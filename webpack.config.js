@@ -65,6 +65,7 @@ module.exports = {
         'rules-manager',
         'api',
         'categories',
+        'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
         'wipStylesManager'
@@ -108,6 +109,7 @@ module.exports = {
         'rules-manager',
         'api',
         'categories',
+        'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
         'wipStylesManager'

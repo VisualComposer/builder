@@ -77,7 +77,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Set customization options."
+      "label": "Custom options"
     }
   },
   "customClass": {
@@ -101,7 +101,7 @@
     "access": "public",
     "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
     "options": {
-      "label": "Add twitter grid url"
+      "label": "Twitter grid URL (Link)"
     }
   },
   "alignment": {
@@ -109,7 +109,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",
@@ -144,7 +144,7 @@
     "value": "20",
     "options": {
       "min": "0",
-      "label": "Add count of visible tweets",
+      "label": "Count of visible tweets",
       "onChange": {
         "customOptions": [
           {
@@ -165,7 +165,7 @@
     "value": "220",
     "options": {
       "min": "220",
-      "label": "Add width",
+      "label": "Width",
       "onChange": {
         "customOptions": [
           {
@@ -178,7 +178,7 @@
           }
         ]
       },
-      "description": "Set width in px, minimal width 220"
+      "description": "Enter width in px (Minimal: 220)."
     }
   }
 }

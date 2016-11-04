@@ -88,7 +88,7 @@
     "access": "public",
     "value": "share",
     "options": {
-      "label": "Theme options",
+      "label": "Button type",
       "values": [
         {
           "label": "Share Button",
@@ -114,7 +114,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Tweet Text",
+      "label": "Tweet text",
       "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically.",
       "onChange": {
         "buttonType": [
@@ -176,34 +176,12 @@
       }
     }
   },
-  "user": {
-    "type": "string",
-    "access": "public",
-    "value": "wpbakery",
-    "options": {
-      "label": "Paste a profile URL or @username",
-      "onChange": {
-        "buttonType": [
-          {
-            "rule": "value",
-            "options": "share",
-            "actions": [
-              {
-                "action": "toggleVisibility",
-                "options": true
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
   "tweetButtonSize": {
     "type": "dropdown",
     "access": "public",
     "value": "normal",
     "options": {
-      "label": "Size options",
+      "label": "Size",
       "values": [
         {
           "label": "Normal",
@@ -228,7 +206,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",
@@ -251,7 +229,6 @@
     "value": true,
     "options": {
       "label": "Show username",
-      "description": "Show username on button",
       "onChange": {
         "buttonType": [
           {
