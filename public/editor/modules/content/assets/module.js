@@ -127,6 +127,8 @@ vcCake.add('assets', (api) => {
       }
       assetsManager.update(elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        // console.log(wipAssetsStorage.getCssMixins())
+        // console.log(wipAssetsStorage.getCssElements())
         wipAssetsStorage.update(elements)
       }
     }
