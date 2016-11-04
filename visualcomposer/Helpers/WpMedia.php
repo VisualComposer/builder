@@ -211,6 +211,7 @@ class Wpmedia implements Helper
 
         return $thumb_size;
     }
+
     /**
      * Convert array of named params to string version
      * All values will be escaped
@@ -221,11 +222,13 @@ class Wpmedia implements Helper
      *
      * @return string
      */
-    protected function stringifyAttributes( $attributes ) {
-        $atts = array();
-        foreach ( $attributes as $name => $value ) {
-            $atts[] = $name . '="' . esc_attr( $value ) . '"';
+    protected function stringifyAttributes($attributes)
+    {
+        $atts = [];
+        foreach ($attributes as $name => $value) {
+            $atts[] = $name . '="' . esc_attr($value) . '"';
         }
-        return implode( ' ', $atts );
+
+        return implode(' ', $atts);
     }
 }
