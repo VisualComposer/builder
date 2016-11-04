@@ -51,6 +51,7 @@
     "value": [
       "instagramUrl",
       "size",
+      "includeCaption",
       "alignment",
       "customClass"
     ],
@@ -123,6 +124,14 @@
           "value": "right"
         }
       ]
+    }
+  },
+  "includeCaption": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Include caption"
     }
   }
 }
