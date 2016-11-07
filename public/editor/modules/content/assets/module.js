@@ -36,7 +36,7 @@ vcCake.add('assets', (api) => {
       let stylesManager = wipStylesManager.create()
         .add(wipAssetsStorage.getCssElements())
         .add(wipAssetsStorage.getCssMixins())
-        .compile()
+        // .compile()
       console.log(stylesManager.get())
       // console.log(stylesManager.get())
     }
