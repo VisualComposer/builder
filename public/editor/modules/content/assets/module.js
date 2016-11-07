@@ -34,9 +34,10 @@ vcCake.add('assets', (api) => {
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-        .add(wipAssetsStorage.getCssDesignOptions())
+        .add(wipAssetsStorage.getCssColumns())
+
       stylesManager.compile().then((result) => {
-        console.log(result)
+        console.log('== final result ==', result)
       })
     }
 

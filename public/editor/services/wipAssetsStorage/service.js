@@ -3,6 +3,7 @@ import lodash from 'lodash'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
 import designOptions from './lib/design-options'
+import rowColumn from './lib/row-column'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
@@ -470,6 +471,32 @@ vcCake.addService('wipAssetsStorage', {
           src: designOptions.getCss(id, designOptionsData[ id ])
         })
       }
+    }
+
+    return outputCss
+  },
+
+  /**
+   * get compiled columns
+   * @returns {Array}
+   */
+  getCssColumns () {
+    let devices = rowColumn.getDevices()
+    let viewPortBreakpoints = {}
+    for (let device in devices) {
+      viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
+    }
+    this.updateColumns()
+    console.log(this.getColumn())
+    console.log()
+
+    let outputCss = []
+    let columnCssData = rowColumn.getCss(this.getColumn())
+    if (columnCssData) {
+      outputCss.push({
+        viewports: viewPortBreakpoints,
+        src: columnCssData
+      })
     }
 
     return outputCss

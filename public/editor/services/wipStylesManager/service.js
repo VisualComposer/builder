@@ -5,6 +5,7 @@ import postcssCustomProps from 'postcss-custom-properties'
 import postcssAdvancedVars from 'postcss-advanced-variables'
 import postcssColor from 'postcss-color-function'
 import postcssNested from 'postcss-nested'
+import postcssMedia from 'postcss-custom-media'
 
 class StylesManager {
   constructor (styles = []) {
@@ -24,19 +25,26 @@ class StylesManager {
     let iterations = []
     this.get().forEach((style) => {
       console.log(style)
-      if (!style.hasOwnProperty('variables')) {
-        style.variables = {}
-      }
       let stylePromise = new Promise((resolve, reject) => {
-        postcss()
-          .use(postcssAdvancedVars({
+        let use = []
+        if (style.hasOwnProperty('variables')) {
+          use.push(postcssAdvancedVars({
             variables: style.variables
           }))
-          .use(postcssCustomProps(style.variables))
-          .use(postcssNested)
-          .use(postcssColor)
-          .use(postcssClean)
-          .process(style.src)
+          use.push(postcssCustomProps(style.variables))
+        }
+
+        if (style.hasOwnProperty('viewports')) {
+          use.push(postcssMedia({
+            extensions: style.viewports
+          }))
+        }
+
+        use.push(postcssNested)
+        use.push(postcssColor)
+        use.push(postcssClean)
+
+        postcss().process(style.src)
           .then((result) => {
             resolve(result.css)
           })
