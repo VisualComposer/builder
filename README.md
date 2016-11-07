@@ -1,6 +1,7 @@
 # Visual Composer 5.0 (Сurry)
 
-[![build status](https://ci.visualcomposer.io/vcb/vcb/badges/master/build.svg)](https://ci.visualcomposer.io/vcb/vcb/commits/master)
+[![build status](https://gitlab.com/visual-composer-website-builder/builder/badges/master/build.svg)](https://gitlab.com/visual-composer-website-builder/builder/commits/master)
+[![coverage report](https://gitlab.com/visual-composer-website-builder/builder/badges/master/coverage.svg)](https://gitlab.com/visual-composer-website-builder/builder/commits/master)
 
 
 ## Javascript Code Style
