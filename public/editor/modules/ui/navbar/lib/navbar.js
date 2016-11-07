@@ -178,7 +178,7 @@ class Navbar extends React.Component {
 
   componentDidUpdate (prevProps, prevState) {
     if (prevState.navbarPosition !== this.state.navbarPosition) {
-      this.props.api.notify('positionChanged', this.state.navbarPosition)
+      this.props.api.request('ui:settingsUpdated', this.state.navbarPosition)
     }
   }
 
