@@ -86,6 +86,7 @@
     "perfect-scrollbar": "0.6.13",
     "postcss": "5.2.5",
     "postcss-advanced-variables": "^1.2.2",
+    "postcss-clean": "^1.0.2",
     "postcss-color-function": "2.0.1",
     "postcss-conditionals": "^2.0.2",
     "postcss-custom-media": "5.0.1",

@@ -36,9 +36,9 @@ vcCake.add('assets', (api) => {
       let stylesManager = wipStylesManager.create()
         .add(wipAssetsStorage.getCssElements())
         .add(wipAssetsStorage.getCssMixins())
-        // .compile()
-      console.log(stylesManager.get())
-      // console.log(stylesManager.get())
+      stylesManager.compile().then((result) => {
+        console.log(result)
+      })
     }
 
     assetsManager.getCompiledDesignOptions().then((result) => {
@@ -132,7 +132,7 @@ vcCake.add('assets', (api) => {
     if (data.hasOwnProperty('pageElements')) {
       let elements = []
       for (let id in data.pageElements) {
-        if (data.pageElements[id].hasOwnProperty('tag')) {
+        if (data.pageElements[ id ].hasOwnProperty('tag')) {
           elements.push(id)
         }
       }
@@ -149,7 +149,7 @@ vcCake.add('assets', (api) => {
     if (data.hasOwnProperty('pageElements')) {
       let elements = []
       for (let id in data.pageElements) {
-        if (data.pageElements[id].hasOwnProperty('tag')) {
+        if (data.pageElements[ id ].hasOwnProperty('tag')) {
           elements.push(id)
         }
       }
