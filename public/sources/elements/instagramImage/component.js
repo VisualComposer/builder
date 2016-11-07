@@ -108,13 +108,17 @@ class Component extends vcvAPI.elementComponent {
   }
 
   insertInstagram (url, includeCaption) {
-    let createdUrl = 'https://api.instagram.com/oembed/?url=' + url + '&hidecaption=' + !includeCaption
-    this.loadJSONP(
-      createdUrl,
-      (data) => {
-        this.updateInstagramHtml(data.html)
-      }
-    )
+    if (url.match('instagram-media')) {
+      this.updateInstagramHtml(url)
+    } else {
+      let createdUrl = 'https://api.instagram.com/oembed/?url=' + url + '&hidecaption=' + !includeCaption
+      this.loadJSONP(
+        createdUrl,
+        (data) => {
+          this.updateInstagramHtml(data.html)
+        }
+      )
+    }
   }
 
   render () {
