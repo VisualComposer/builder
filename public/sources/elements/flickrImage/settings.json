@@ -34,7 +34,7 @@
     "access": "public",
     "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
     "options": {
-      "label": "Flickr URL (Link)"
+      "label": "Flickr URL (Link) or embed code"
     }
   },
   "designOptions": {

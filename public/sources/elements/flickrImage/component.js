@@ -47,13 +47,17 @@ class Component extends vcvAPI.elementComponent {
   }
 
   insertFlickr (url) {
-    let createdUrl = 'http://www.flickr.com/services/oembed/?url=' + url
-    this.loadJSONP(
-      createdUrl,
-      (data) => {
-        this.appendFlickr(data.html)
-      }
-    )
+    if (url.match('data-flickr-embed')) {
+      this.appendFlickr(url)
+    } else {
+      let createdUrl = 'http://www.flickr.com/services/oembed/?url=' + url
+      this.loadJSONP(
+        createdUrl,
+        (data) => {
+          this.appendFlickr(data.html)
+        }
+      )
+    }
   }
 
   appendFlickr (tagString = '') {
