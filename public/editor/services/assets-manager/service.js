@@ -495,7 +495,7 @@ vcCake.addService('assets-manager', {
    * get design options
    * @returns {{}}
    */
-  getDesignOptions () { // @SM
+  getDesignOptions () { // @AS
     let documentService = vcCake.getService('document')
     let returnOptions = {}
     let elements = this.get()
@@ -518,7 +518,7 @@ vcCake.addService('assets-manager', {
    * Get compiled design options css
    * @returns {Promise.<TResult>}
    */
-  getCompiledDesignOptions () { // @SM
+  getCompiledDesignOptions () { // @AS
     let devices = designOptions.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {

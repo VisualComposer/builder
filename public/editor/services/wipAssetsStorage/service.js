@@ -411,9 +411,11 @@ vcCake.addService('wipAssetsStorage', {
     this.getTagsList().forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
       let cssSettings = elementObject.get('cssSettings')
-      styles.push({
-        src: cssSettings.css
-      })
+      if (cssSettings.css) {
+        styles.push({
+          src: cssSettings.css
+        })
+      }
     })
     return styles
   }

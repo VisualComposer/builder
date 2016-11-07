@@ -1,8 +1,27 @@
 import vcCake from 'vc-cake'
+
 class StylesManager {
-  checkIt () {
-    console.log('it works')
-    return 'matrix has you...'
+  constructor (styles = []) {
+    this.styles = styles
+  }
+
+  get () {
+    return this.styles
+  }
+
+  add (styles) {
+    this.styles = this.styles.concat(styles)
+    return this
+  }
+
+  compile () {
+    // let iterations = []
+    // this.get().forEach((style) => {
+      // console.log(style)
+      // let stylePromise = new Promise((resolve, reject) => {
+      //
+      // })
+    // })
   }
 }
 const service = {
