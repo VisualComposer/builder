@@ -358,4 +358,5 @@ ControlsHandler.prototype.setControlsPosition = function () {
   }
   return this
 }
-module.exports = new ControlsHandler()
+
+export default ControlsHandler

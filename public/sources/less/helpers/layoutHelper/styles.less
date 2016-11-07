@@ -16,6 +16,19 @@
   &:hover {
     opacity: 1;
   }
+
+  a {
+    &.vcv-row-control {
+      border: none;
+      color: @row-color-base;
+    }
+
+    &:hover {
+      &.vcv-row-control {
+        color: @row-color-base;
+      }
+    }
+  }
 }
 
 .vcv-row-control-container-hide-labels {
@@ -35,7 +48,6 @@
   padding: @row-gold-value;
   min-width: @row-size;
   min-height: @row-size;
-  color: @row-color-base;
   text-decoration: none;
   display: flex;
   flex-direction: column;
