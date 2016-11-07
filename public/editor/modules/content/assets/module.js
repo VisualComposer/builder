@@ -3,6 +3,7 @@ const documentService = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const wipStylesManager = vcCake.getService('wipStylesManager')
 
 const loadedJsFiles = []
 const loadedCssFiles = []
@@ -30,6 +31,16 @@ vcCake.add('assets', (api) => {
         styleElement.innerHTML += assetsManager.getGlobalCss()
       }
     })
+
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      let stylesManager = wipStylesManager.create()
+        .add(wipAssetsStorage.getCssElements())
+        .add(wipAssetsStorage.getCssMixins())
+        .compile()
+      console.log(stylesManager.get())
+      // console.log(stylesManager.get())
+    }
+
     assetsManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
