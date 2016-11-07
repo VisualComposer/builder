@@ -2,6 +2,8 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import CustomCss from './lib/customCss'
 import GlobalCss from './lib/globalCss'
+import designOptions from './lib/design-options'
+
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 
@@ -418,5 +420,58 @@ vcCake.addService('wipAssetsStorage', {
       }
     })
     return styles
+  },
+
+  /**
+   * get design options
+   * @returns {{}}
+   */
+  getDesignOptions () {
+    let documentService = vcCake.getService('document')
+    let returnOptions = {}
+    let elements = this.get()
+    for (let id in elements) {
+      if (elements[ id ].useDesignOptions) {
+        let element = documentService.get(id)
+        if (element) {
+          let designOptionsData = this.cook().get(element).get('designOptions')
+          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
+            returnOptions[ id ] = designOptionsData
+          }
+        }
+      }
+    }
+    return returnOptions
+  },
+
+  /**
+   * Get compiled design options css
+   * @returns {Array}
+   */
+  getCssDesignOptions () {
+    let devices = designOptions.getDevices()
+    let viewPortBreakpoints = {}
+    for (let device in devices) {
+      let sizes = []
+      if (devices[ device ].min) {
+        sizes.push('(min-width: ' + devices[ device ].min + ')')
+      }
+      if (devices[ device ].max) {
+        sizes.push('(max-width: ' + devices[ device ].max + ')')
+      }
+      viewPortBreakpoints[ '--' + device ] = sizes.join(' and ')
+    }
+
+    let outputCss = []
+    let designOptionsData = this.getDesignOptions()
+    for (let id in designOptionsData) {
+      if (designOptions.getCss(id, designOptionsData[ id ])) {
+        outputCss.push({
+          src: designOptions.getCss(id, designOptionsData[ id ])
+        })
+      }
+    }
+
+    return outputCss
   }
 })
