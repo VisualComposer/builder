@@ -9,7 +9,7 @@ server('test', 'test.hubpen.visualcomposer.io', 22)
     ->stage('staging')
     ->env('deploy_path', '/var/www/test.alpha.visualcomposer.io/dist/vc-five/');
 
-set('repository', 'git@ci.visualcomposer.io:vcb/vcb.git');
+set('repository', 'git@gitlab.com:visual-composer-website-builder/builder.git');
 env('branch', 'master');
 
 set('http_user', getenv('CI_DEPLOY_USER'));
