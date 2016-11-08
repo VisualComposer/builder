@@ -24,7 +24,7 @@ vcCake.add('content-wordpress-data-load', (api) => {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && assetsManager.set(globalElements)
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          globalElements && wipAssetsStorage.set(globalElements)
+          globalElements && wipAssetsStorage.setElements(globalElements)
         }
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {

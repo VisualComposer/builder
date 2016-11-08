@@ -25,35 +25,35 @@ vcCake.add('assets', (api) => {
     }
     assetsManager.getCompiledCss(true).then((result) => {
       styleElement.innerHTML = result
-      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        styleElement.innerHTML += wipAssetsStorage.getGlobalCss()
-      } else {
-        styleElement.innerHTML += assetsManager.getGlobalCss()
-      }
+      styleElement.innerHTML += assetsManager.getGlobalCss()
     })
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-        .add(wipAssetsStorage.getCssColumns())
-
+      stylesManager.add(wipAssetsStorage.getSiteCssData())
       stylesManager.compile().then((result) => {
-        console.log('== final result ==', result)
+        styleElement.innerHTML = result
       })
     }
 
     assetsManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result
-      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        doElement.innerHTML += wipAssetsStorage.getCustomCss()
-      } else {
-        doElement.innerHTML += assetsManager.getCustomCss()
-      }
+      doElement.innerHTML += assetsManager.getCustomCss()
     })
-    var jsAssetsLoaders = []
+
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      let stylesManager = wipStylesManager.create()
+      stylesManager.add(wipAssetsStorage.getPageCssData())
+      stylesManager.compile().then((result) => {
+        doElement.innerHTML = result
+      })
+    }
+
+    let jsAssetsLoaders = []
     let jsFiles = assetsManager.getJsFiles()
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getTagsList())
+      jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
     }
 
     jsFiles.forEach((file) => {
@@ -75,7 +75,7 @@ vcCake.add('assets', (api) => {
     let cssFiles = assetsManager.getCssFiles()
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getTagsList())
+      cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
     }
 
     cssFiles.forEach((file) => {
@@ -101,14 +101,14 @@ vcCake.add('assets', (api) => {
   api.reply('data:afterAdd', (ids) => {
     assetsManager.add(ids)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.add(ids)
+      wipAssetsStorage.addElement(ids)
     }
   })
 
   api.reply('data:afterUpdate', (id, element) => {
     assetsManager.update(id)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.update(id)
+      wipAssetsStorage.updateElement(id)
     }
   })
 
@@ -124,7 +124,7 @@ vcCake.add('assets', (api) => {
     walkChildren(id)
     assetsManager.remove(elements)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.remove(elements)
+      wipAssetsStorage.removeElement(elements)
     }
   })
 
@@ -138,9 +138,7 @@ vcCake.add('assets', (api) => {
       }
       assetsManager.update(elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        // console.log(wipAssetsStorage.getCssMixins())
-        // console.log(wipAssetsStorage.getCssElements())
-        wipAssetsStorage.update(elements)
+        wipAssetsStorage.updateElement(elements)
       }
     }
   })
@@ -155,7 +153,7 @@ vcCake.add('assets', (api) => {
       }
       assetsManager.update(elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        wipAssetsStorage.update(elements)
+        wipAssetsStorage.updateElement(elements)
       }
     }
   })
@@ -172,7 +170,7 @@ vcCake.add('assets', (api) => {
     walkChildren(id)
     assetsManager.add(elements)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.add(elements)
+      wipAssetsStorage.addElement(elements)
     }
   })
 })

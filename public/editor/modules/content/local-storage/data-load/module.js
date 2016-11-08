@@ -14,7 +14,7 @@ vcCake.add('content-local-storage-data-load', (api) => {
     if (data.elements) {
       assetsManager.set(data.elements)
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        wipAssetsStorage.set(data.elements)
+        wipAssetsStorage.setElements(data.elements)
       }
     }
     if (data.cssSettings && data.cssSettings.custom) {

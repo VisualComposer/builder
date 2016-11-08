@@ -1,0 +1,89 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Video Player"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Video player allows you to display video element from YouTube or Vimeo on your website by simply copy/paste link to video."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "video-player-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "video-player-thumbnail.png"
+  },
+  "videoPlayer": {
+    "type": "string",
+    "access": "public",
+    "value": "https://vimeo.com/channels/staffpicks/181907337",
+    "options": {
+      "label": "Video link",
+      "description": "Enter link to video"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "videoPlayer",
+      "customClass"
+    ],
+    "options": {
+      "label": "Video Player"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 4
+  }
+}

@@ -7,6 +7,7 @@ const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const wipStylesManager = vcCake.getService('wipStylesManager')
 
 class SaveController {
   constructor (props) {
@@ -29,40 +30,79 @@ class SaveController {
       dataProcessor.appServerRequest(data).then(successCallback, failureCallback)
     })
   }
+
   normalizeHtML (data) {
     return data.replace(/&quot;/g, "'")
   }
+
   save (data) {
-    let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
-    let globalStyles = ''
-    let designOptions = ''
-    let promises = []
-    let elements = assetsManager.get()
-    promises.push(assetsManager.getCompiledCss().then((data) => {
-      globalStyles = data
-    }))
-    promises.push(assetsManager.getCompiledDesignOptions().then((data) => {
-      designOptions = data
-    }))
-    Promise.all(promises).then(() => {
-      this.ajax(
-        {
-          'vcv-action': 'setData:adminNonce',
-          'vcv-content': content,
-          'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getTagsList()) : assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
-          'vcv-shared-library-styles': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getTagsList()) : assetsManager.getCssFiles(),
-          'vcv-global-styles': globalStyles,
-          // 'vcv-styles': styles,
-          'vcv-design-options': designOptions,
-          'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getCustomCss() : assetsManager.getCustomCss(),
-          'vcv-global-css': vcCake.env('FEATURE_ASSETS_MANAGER') ? wipAssetsStorage.getGlobalCss() : assetsManager.getGlobalCss()
-        },
-        this.saveSuccess.bind(this),
-        this.saveFailed.bind(this)
-      )
-    })
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
+      let globalStyles = ''
+      let designOptions = ''
+      let promises = []
+      let elements = wipAssetsStorage.getElements()
+      let globalStylesManager = wipStylesManager.create()
+      globalStylesManager.add(wipAssetsStorage.getSiteCssData())
+      promises.push(globalStylesManager.compile().then((result) => {
+        globalStyles = result
+      }))
+      let localStylesManager = wipStylesManager.create()
+      localStylesManager.add(wipAssetsStorage.getPageCssData())
+      promises.push(localStylesManager.compile().then((result) => {
+        designOptions = result
+      }))
+      Promise.all(promises).then(() => {
+        this.ajax(
+          {
+            'vcv-action': 'setData:adminNonce',
+            'vcv-content': content,
+            'vcv-data': encodeURIComponent(JSON.stringify(data)),
+            'vcv-scripts': wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList()),
+            'vcv-shared-library-styles': wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList()),
+            'vcv-global-styles': globalStyles,
+            // 'vcv-styles': styles,
+            'vcv-design-options': designOptions,
+            'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
+            'vcv-custom-css': wipAssetsStorage.getCustomCss(),
+            'vcv-global-css': wipAssetsStorage.getGlobalCss()
+          },
+          this.saveSuccess.bind(this),
+          this.saveFailed.bind(this)
+        )
+      })
+    } else {
+      let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
+      let globalStyles = ''
+      let designOptions = ''
+      let promises = []
+      let elements = assetsManager.get()
+      promises.push(assetsManager.getCompiledCss().then((data) => {
+        globalStyles = data
+      }))
+      promises.push(assetsManager.getCompiledDesignOptions().then((data) => {
+        designOptions = data
+      }))
+      Promise.all(promises).then(() => {
+        this.ajax(
+          {
+            'vcv-action': 'setData:adminNonce',
+            'vcv-content': content,
+            'vcv-data': encodeURIComponent(JSON.stringify(data)),
+            'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
+            'vcv-shared-library-styles': assetsManager.getCssFiles(),
+            'vcv-global-styles': globalStyles,
+            // 'vcv-styles': styles,
+            'vcv-design-options': designOptions,
+            'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
+            'vcv-custom-css': assetsManager.getCustomCss(),
+            'vcv-global-css': assetsManager.getGlobalCss()
+          },
+          this.saveSuccess.bind(this),
+          this.saveFailed.bind(this)
+        )
+      })
+    }
   }
 
   saveSuccess (request) {
