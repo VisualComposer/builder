@@ -1,10 +1,10 @@
-a.vce-single-image {
+a.vce-single-image-inner {
   color: transparent;
   border-bottom: 0;
   text-decoration: none;
 }
 
-.vce-single-image {
+.vce-single-image-inner {
   display: inline-block;
 }
 

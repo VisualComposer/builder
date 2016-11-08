@@ -1,9 +1,10 @@
-/* global React, vcvAPI */
+/* global React, vcvAPI, vcCake */
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
     this.getCustomSizeImage = this.getCustomSizeImage.bind(this)
+    this.insertImage = this.insertImage.bind(this)
   }
 
   checkImageSize (image, callback, isRound, size, originalSrc) {
@@ -15,13 +16,10 @@ class Component extends vcvAPI.elementComponent {
       }
       callback(image, size, isRound, originalSrc)
     }
-    img.onerror = () => {
-    }
     img.src = this.getImageUrl(image, size)
   }
 
   getPublicImage (filename) {
-    const vcCake = require('vc-cake')
     let assetsManager
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       assetsManager = vcCake.getService('wipAssetsManager')
@@ -66,14 +64,12 @@ class Component extends vcvAPI.elementComponent {
         height: size[ 1 ]
       }
     }
-
     return size
   }
 
   getCustomSizeImage (image, size, isRound, originalSrc) {
     let id = image.id
     size = this.parseSize(size, isRound)
-    let vcCake = require('vc-cake')
     vcCake.getService('dataProcessor').appServerRequest({
       'vcv-action': 'elements:imageController:customSize',
       'vcv-image-id': id,
@@ -85,20 +81,19 @@ class Component extends vcvAPI.elementComponent {
   }
 
   insertImage (imgSrc, originalSrc) {
-    const component = this.getDomNode().querySelector('.vce-single-image')
     let img = new window.Image()
     img.onload = () => {
-      component.innerHTML = ''
-      component.appendChild(img)
-      // window.vcv.trigger('singleImageReady')
-
-      const vcCake = require('vc-cake')
-      vcCake.getService('api').publicEvents.trigger('singleImageReady')
-    }
-    img.onerror = () => {
+      this.refs.imageContainer.innerHTML = ''
+      this.refs.imageContainer.appendChild(img)
+      vcCake.env('iframe').vcv.trigger('singleImageReady')
+      if (this.props.atts.shape === 'round') {
+        this.refs.imageContainer.classList.add('vce-single-image--border-round')
+      } else {
+        this.refs.imageContainer.classList.remove('vce-single-image--border-round')
+      }
     }
     img.src = imgSrc
-    img['data-img-src'] = originalSrc
+    img.setAttribute('data-img-src', originalSrc)
     img.className = 'vce-single-image'
   }
 
@@ -106,15 +101,15 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, imageUrl, customClass, size, alignment } = atts
     let containerClasses = 'vce-single-image-container vce'
-    let classes = 'vce-single-image'
+    let classes = 'vce-single-image-inner'
     let customProps = {}
     let CustomTag = 'div'
+    let originalSrc = this.getImageUrl(image, 'full')
     let customImageProps = {
-      'data-img-src': this.getImageUrl(image)
+      'data-img-src': originalSrc
     }
 
-    let imgSrc = ''
-    let originalSrc = this.getImageUrl(image, size)
+    let imgSrc = originalSrc
 
     if (size && size.match(/\d*(x)\d*/) && image.id) {
       this.getCustomSizeImage(image, size, shape === 'round', originalSrc)
@@ -140,25 +135,25 @@ class Component extends vcvAPI.elementComponent {
     } else if (clickableOptions === 'imageNewTab') {
       CustomTag = 'a'
       customProps = {
-        'href': imgSrc,
+        'href': originalSrc,
         'target': '_blank'
       }
     } else if (clickableOptions === 'lightbox') {
       CustomTag = 'a'
       customProps = {
-        'href': imgSrc,
+        'href': originalSrc,
         'data-lightbox': `lightbox-${id}`
       }
     } else if (clickableOptions === 'zoom') {
       classes += ' vce-single-image-zoom-container'
     }
 
-    if (shape && shape !== 'square') {
-      classes += ` vce-single-image--border-${shape}`
-    }
-
     if (alignment) {
       containerClasses += ` vce-single-image--align-${alignment}`
+    }
+
+    if (shape === 'rounded') {
+      classes += ' vce-single-image--border-rounded'
     }
 
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
@@ -178,7 +173,7 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     return <div className={containerClasses} id={'el-' + id} {...editor}>
-      <CustomTag {...customProps} className={classes}>
+      <CustomTag {...customProps} className={classes} ref='imageContainer'>
         <img className='vce-single-image' src={imgSrc} {...customImageProps} />
       </CustomTag>
     </div>

@@ -11,7 +11,8 @@ $(() => {
   let $iframe = $('#vcv-editor-iframe')
 
   let iframeLoadEvent = () => {
-    let iframeDocument = $iframe.get(0).contentWindow.document
+    let iframe = $iframe.get(0).contentWindow
+    let iframeDocument = iframe.document
     // Disable iframe clicks
     $('a', iframeDocument).each((i, el) => {
       $(el).attr('target', '_blank')
@@ -20,6 +21,7 @@ $(() => {
     vcCake.env('platform', 'wordpress').start(() => {
       require('./config/wp-modules')
     })
+    vcCake.env('iframe', iframe)
   }
 
   $iframe.on('load', iframeLoadEvent)

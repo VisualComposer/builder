@@ -1,17 +1,18 @@
 /* global vcv, $ */
 vcv.on('singleImageReady', () => {
-  console.log('single image ready')
-  let zoomItem = $('.vce-single-image-zoom-container:not(.vce-single-image-zoom-built)')
-
+  let zoomItem = $('.vce-single-image-zoom-container')
   zoomItem.each(function () {
-    let $this = $(this)
-    let imgSrc = $this.find('.vce-single-image').data('img-src')
-
-    $this.zoom({
-      url: imgSrc,
-      callback: function () {
-        this.parentNode.classList.add('vce-single-image-zoom-built')
-      }
+    let $source = $(this)
+    $source.trigger('zoom.destroy')
+    let imgSrc = $source.find('.vce-single-image').data('img-src')
+    $source.zoom({
+      url: imgSrc
     })
+  })
+})
+
+vcv.on('ready', () => {
+  $(() => {
+    vcv.trigger('singleImageReady')
   })
 })
