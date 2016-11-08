@@ -61,7 +61,7 @@ let tempData = {
     },
     'Single image': {
       'name': 'Single Image',
-      'elements': ['singleImage'],
+      'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
     },
     'Text block': {
@@ -104,6 +104,9 @@ if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
 }
 if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
   tempData.categories['Social'].elements.push('googleMaps')
+}
+if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
+  tempData.categories['Single image'].elements.push('singleImage')
 }
 const data = tempData
 

@@ -78,6 +78,7 @@ class AttachImage extends Attribute {
     for (let size in attachment.sizes) {
       srcUrl[ size ] = attachment.sizes[ size ].url
     }
+    srcUrl.id = attachment.id
     urls.push(srcUrl)
     this.setFieldValue({
       ids: ids,
