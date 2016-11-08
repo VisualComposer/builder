@@ -1,0 +1,7 @@
+/* ----------------------------------------------
+ * Video Player
+ * ---------------------------------------------- */
+.vce-video-player-iframe-container {
+  position: relative;
+  width: 100%;
+}

@@ -78,6 +78,11 @@ let tempData = {
       'name': 'Social',
       'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps'],
       'icon': 'categories/icons/Social.svg'
+    },
+    'Video': {
+      'name': 'Video',
+      'elements': [],
+      'icon': 'categories/icons/Video.svg'
     }
   }
 }
@@ -104,6 +109,9 @@ if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
 }
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories['Single image'].elements.push('singleImage')
+}
+if (vcCake.env('FEATURE_VIDEO_PLAYER')) {
+  tempData.categories['Video'].elements.push('videoPlayer')
 }
 const data = tempData
 
