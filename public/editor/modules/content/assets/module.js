@@ -49,7 +49,7 @@ vcCake.add('assets', (api) => {
       })
     }
 
-    var jsAssetsLoaders = []
+    let jsAssetsLoaders = []
     let jsFiles = assetsManager.getJsFiles()
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
