@@ -1,14 +1,7 @@
 import vcCake from 'vc-cake'
+import assetsManager from './lib/assetsManager'
 
-vcCake.addService('wipAssetsManager', {
-
-  /**
-   * Get cook service
-   * @returns {*}
-   */
-  cook () {
-    return vcCake.getService('cook')
-  },
+let publicApi = {
 
   /**
    * Get element's public path
@@ -16,17 +9,8 @@ vcCake.addService('wipAssetsManager', {
    * @param file
    * @returns {*}
    */
-  getPublicPath (tag, file) { // @AM
-    let path = this.getSourcePath() + '/elements/' + tag + '/public'
-    let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
-    if ($element) {
-      path = $element.dataset.vcElementUrl + '/public'
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
+  getPublicPath (tag, file) {
+    return assetsManager.getPublicPath(tag, file)
   },
 
   /**
@@ -34,18 +18,8 @@ vcCake.addService('wipAssetsManager', {
    * @param file
    * @returns {*}
    */
-  getSourcePath (file = null) { // @AM
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources'
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
+  getSourcePath (file = null) {
+    return assetsManager.getSourcePath(file)
   },
 
   /**
@@ -53,27 +27,7 @@ vcCake.addService('wipAssetsManager', {
    * @returns {*}
    */
   getJsFilesByTags (tags) {
-    let jsFilesList = []
-    tags.forEach((tag) => {
-      // get js files from elements
-      let elementObject = this.cook().get({ tag: tag })
-      let jsFiles = elementObject.get('metaPublicJs')
-      if (jsFiles && jsFiles.length) {
-        jsFilesList = jsFilesList.concat(jsFiles)
-      }
-      let assetsLibrary = elementObject.get('assetsLibrary')
-      // get js file from shared assets
-      if (assetsLibrary && assetsLibrary.length) {
-        assetsLibrary.forEach((lib) => {
-          jsFiles = this.getAssetsLibraryJsFiles(lib)
-          if (jsFiles && jsFiles.length) {
-            jsFilesList = jsFilesList.concat(jsFiles)
-          }
-        })
-      }
-    })
-    jsFilesList = [ ...new Set(jsFilesList) ]
-    return jsFilesList
+    return assetsManager.getJsFilesByTags(tags)
   },
 
   /**
@@ -81,22 +35,7 @@ vcCake.addService('wipAssetsManager', {
    * @returns {*}
    */
   getCssFilesByTags (tags) {
-    let cssFilesList = []
-    tags.forEach((tag) => {
-      let elementObject = this.cook().get({ tag: tag })
-      let assetsLibrary = elementObject.get('assetsLibrary')
-
-      if (assetsLibrary && assetsLibrary.length) {
-        assetsLibrary.forEach((lib) => {
-          let cssFiless = this.getAssetsLibraryCssFiles(lib)
-          if (cssFiless && cssFiless.length) {
-            cssFilesList = cssFilesList.concat(cssFiless)
-          }
-        })
-      }
-    })
-    cssFilesList = [ ...new Set(cssFilesList) ]
-    return cssFilesList
+    return assetsManager.getCssFilesByTags(tags)
   },
 
   /**
@@ -105,11 +44,7 @@ vcCake.addService('wipAssetsManager', {
    * @returns {Array}
    */
   getAssetsLibraryJsFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
-    let libData = assetsLibrary.get(lib)
-    if (libData && libData.publicJs && libData.publicJs.length) {
-      return libData.publicJs
-    }
+    return assetsManager.getAssetsLibraryJsFiles(lib)
   },
 
   /**
@@ -118,10 +53,8 @@ vcCake.addService('wipAssetsManager', {
    * @returns {Array}
    */
   getAssetsLibraryCssFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
-    let libData = assetsLibrary.get(lib)
-    if (libData && libData.publicCss && libData.publicCss.length) {
-      return libData.publicCss
-    }
+    return assetsManager.getAssetsLibraryCssFiles(lib)
   }
-})
+}
+
+vcCake.addService('wipAssetsManager', publicApi)
