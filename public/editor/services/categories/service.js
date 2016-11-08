@@ -76,7 +76,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline'],
+      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps'],
       'icon': 'categories/icons/Social.svg'
     }
   }
@@ -101,9 +101,6 @@ if (vcCake.env('FEATURE_TWITTER_BUTTON')) {
 }
 if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories['Social'].elements.push('twitterPublisher')
-}
-if (vcCake.env('FEATURE_GOOGLE_MAPS')) {
-  tempData.categories['Social'].elements.push('googleMaps')
 }
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories['Single image'].elements.push('singleImage')
