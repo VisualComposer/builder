@@ -21,10 +21,9 @@ class StylesManager {
     return this
   }
 
-  compile () {
+  compile (join = true) {
     let iterations = []
     this.get().forEach((style) => {
-      console.log(style)
       let stylePromise = new Promise((resolve, reject) => {
         let use = []
         if (style.hasOwnProperty('variables')) {
@@ -33,7 +32,6 @@ class StylesManager {
           }))
           use.push(postcssCustomProps(style.variables))
         }
-
         if (style.hasOwnProperty('viewports')) {
           use.push(postcssMedia({
             extensions: style.viewports
@@ -44,16 +42,20 @@ class StylesManager {
         use.push(postcssColor)
         use.push(postcssClean)
 
-        postcss().process(style.src)
+        postcss(use).process(style.src)
           .then((result) => {
             resolve(result.css)
           })
       })
       iterations.push(stylePromise)
     })
-    return Promise.all(iterations).then((output) => {
-      return output.join(' ')
-    })
+
+    if (join) {
+      return Promise.all(iterations).then((output) => {
+        return output.join(' ')
+      })
+    }
+    return Promise.all(iterations)
   }
 }
 const service = {

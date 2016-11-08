@@ -1,4 +1,6 @@
 export default {
+  columns: {},
+
   devices: {
     'xs': {
       min: '0',
@@ -49,6 +51,75 @@ export default {
       css.push('@media (--' + device + ') { ' + this.getDeviceCss(device, data) + ' }')
     }
     return css.join(' ')
+  },
+
+  /**
+   * add column
+   * @param column
+   */
+  addColumn (column) {
+    let columns = []
+    if (Array.isArray(column)) {
+      columns = column
+    } else {
+      columns.push(column)
+    }
+    let validFormat = /^\d+\/\d+$/
+    columns.forEach((column) => {
+      if (validFormat.test(column)) {
+        if (!this.getColumn(column)) {
+          let data = column.split('/')
+          if (data[ 0 ] <= data[ 1 ]) {
+            this.columns[ column ] = {
+              numerator: data[ 0 ],
+              denominator: data[ 1 ],
+              count: 1
+            }
+          }
+        } else {
+          this.columns[ column ].count++
+        }
+      }
+    })
+  },
+
+  /**
+   * Get column
+   * @param assetKey
+   * @returns {*}
+   */
+  getColumn (assetKey = false) {
+    if (!assetKey) {
+      return this.columns
+    }
+    if (typeof this.columns[ assetKey ] === 'undefined') {
+      return null
+    }
+    return this.columns[ assetKey ]
+  },
+
+  /**
+   * Update columns data
+   * @param elements
+   */
+  updateColumns (elements) {
+    this.columns = {}
+    for (let id in elements) {
+      if (elements[ id ].columnSizes && elements[ id ].columnSizes.length) {
+        this.addColumn(elements[ id ].columnSizes)
+      }
+    }
+  },
+
+  /**
+   * Get columns by elements
+   * @param elements
+   * @returns {columns|{}}
+   */
+  getColumnsByElements (elements) {
+    this.updateColumns(elements)
+    return this.columns
   }
+
 }
 

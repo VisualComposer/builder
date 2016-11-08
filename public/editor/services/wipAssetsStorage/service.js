@@ -15,7 +15,6 @@ vcCake.addService('wipAssetsStorage', {
    * @param {Object}
    */
   elements: {},
-  columns: {},
 
   /**
    * Get cook service
@@ -267,91 +266,6 @@ vcCake.addService('wipAssetsStorage', {
   },
 
   /**
-   * Set columns
-   * @param columns
-   */
-  setColumns (columns) {
-    // todo: validate elements
-    this.columns = columns
-  },
-
-  /**
-   * add column
-   * @param column
-   */
-  addColumn (column) {
-    let columns = []
-    if (Array.isArray(column)) {
-      columns = column
-    } else {
-      columns.push(column)
-    }
-    let validFormat = /^\d+\/\d+$/
-    columns.forEach((column) => {
-      if (validFormat.test(column)) {
-        if (!this.getColumn(column)) {
-          let data = column.split('/')
-          if (data[ 0 ] <= data[ 1 ]) {
-            this.columns[ column ] = {
-              numerator: data[ 0 ],
-              denominator: data[ 1 ],
-              count: 1
-            }
-          }
-        } else {
-          this.columns[ column ].count++
-        }
-      }
-    })
-  },
-
-  /**
-   * Get column
-   * @param assetKey
-   * @returns {*}
-   */
-  getColumn (assetKey = false) {
-    if (!assetKey) {
-      return this.columns
-    }
-    if (typeof this.columns[ assetKey ] === 'undefined') {
-      return null
-    }
-    return this.columns[ assetKey ]
-  },
-
-  /**
-   * Remove column
-   * @param column
-   */
-  removeColumn (column) {
-    let columns = []
-    if (Array.isArray(column)) {
-      columns = column
-    } else {
-      columns.push(column)
-    }
-    columns.forEach((column) => {
-      if (!this.getColumn(column)) {
-        return
-      }
-      this.columns[ column ].count--
-      if (this.columns[ column ].count < 1) {
-        delete this.columns[ column ]
-      }
-    })
-  },
-
-  updateColumns () {
-    // for this.get()
-    for (let id in this.elements) {
-      if (this.elements[ id ].columnSizes && this.elements[ id ].columnSizes.length) {
-        this.addColumn(this.elements[ id ].columnSizes)
-      }
-    }
-  },
-
-  /**
    * Get all used elements tags
    * @returns {{}}
    */
@@ -370,6 +284,28 @@ vcCake.addService('wipAssetsStorage', {
    */
   getTagsList () {
     return Object.keys(this.getTags())
+  },
+
+  /**
+   * get design options
+   * @returns {{}}
+   */
+  getDesignOptions () {
+    let documentService = vcCake.getService('document')
+    let returnOptions = {}
+    let elements = this.get()
+    for (let id in elements) {
+      if (elements[ id ].useDesignOptions) {
+        let element = documentService.get(id)
+        if (element) {
+          let designOptionsData = this.cook().get(element).get('designOptions')
+          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
+            returnOptions[ id ] = designOptionsData
+          }
+        }
+      }
+    }
+    return returnOptions
   },
 
   /**
@@ -424,28 +360,6 @@ vcCake.addService('wipAssetsStorage', {
   },
 
   /**
-   * get design options
-   * @returns {{}}
-   */
-  getDesignOptions () {
-    let documentService = vcCake.getService('document')
-    let returnOptions = {}
-    let elements = this.get()
-    for (let id in elements) {
-      if (elements[ id ].useDesignOptions) {
-        let element = documentService.get(id)
-        if (element) {
-          let designOptionsData = this.cook().get(element).get('designOptions')
-          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
-            returnOptions[ id ] = designOptionsData
-          }
-        }
-      }
-    }
-    return returnOptions
-  },
-
-  /**
    * Get compiled design options css
    * @returns {Array}
    */
@@ -486,12 +400,8 @@ vcCake.addService('wipAssetsStorage', {
     for (let device in devices) {
       viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
     }
-    this.updateColumns()
-    console.log(this.getColumn())
-    console.log()
-
     let outputCss = []
-    let columnCssData = rowColumn.getCss(this.getColumn())
+    let columnCssData = rowColumn.getCss(rowColumn.getColumnsByElements(this.get()))
     if (columnCssData) {
       outputCss.push({
         viewports: viewPortBreakpoints,
