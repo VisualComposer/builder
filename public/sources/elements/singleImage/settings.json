@@ -51,12 +51,12 @@
           "value": "square"
         },
         {
-          "label": "Round",
-          "value": "round"
-        },
-        {
           "label": "Rounded",
           "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
         }
       ]
     }
@@ -117,9 +117,9 @@
   "size": {
     "type": "string",
     "access": "public",
-    "value": "",
+    "value": "full",
     "options": {
-      "label": "Image size",
+      "label": "Size",
       "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
     }
   },
@@ -158,7 +158,7 @@
     "access": "public",
     "value": "left",
     "options": {
-      "label": "Alignment options",
+      "label": "Alignment",
       "values": [
         {
           "label": "Left",
@@ -185,7 +185,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Image URL",
+      "label": "Image URL (Link)",
       "onChange": {
         "clickableOptions": [
           {

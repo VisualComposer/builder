@@ -1,59 +1,33 @@
-.vce-single-image-inner {
-  display: inline-block;
-}
-
-a.vce-single-image-inner {
+a.vce-single-image {
   color: transparent;
   border-bottom: 0;
   text-decoration: none;
 }
 
+.vce-single-image {
+  display: inline-block;
+}
+
 .vce-single-image--border-rounded {
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
-  display: block;
 }
 
 .vce-single-image--border-round {
-  display: block;
   border-radius: 50%;
   overflow: hidden;
-  background-size: cover;
-  background-position: center;
-}
-
-.vce-single-image--size-thumbnail,
-.vce-single-image--size-custom {
-  background-size: cover;
-  background-position: center;
-}
-
-.vce-single-image--border-round::after,
-.vce-single-image--size-thumbnail::after {
-  content:'';
-  display: block;
-  padding-bottom: 100%;
-}
-
-.vce-single-image--border-round .vce-single-image,
-.vce-single-image--size-thumbnail .vce-single-image,
-.vce-single-image--size-custom .vce-single-image {
-  display: none;
 }
 
 .vce-single-image--align-center {
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
 }
 
 .vce-single-image--align-right {
-  margin-left: auto;
-  margin-right: 0;
+  text-align: right;
 }
 
 .vce-single-image--align-left {
-  margin-left: 0;
-  margin-right: auto;
+  text-align: left;
 }
 
 /* =====  Lightbox  ===== */
