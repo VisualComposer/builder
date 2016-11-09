@@ -73,12 +73,6 @@ export default class ControlsManager {
         this.controlsHandler.setTimer()
       }
     })
-    window.clearInterval(this.removeControlsInterval)
-    this.removeControlsInterval = window.setInterval(() => {
-      if (this.removeControls) {
-        this.controlsHandler.hideOutline()
-      }
-    }, 200)
   }
 
   init () {
@@ -135,7 +129,7 @@ export default class ControlsManager {
   triggerHideFrame () {
     this.removeControls = true
     window.clearInterval(this.removeControlsInterval)
-    this.removeControlsInterval = window.setInterval(function () {
+    this.removeControlsInterval = window.setInterval(() => {
       if (this.removeControls) {
         this.controlsHandler.hideOutline()
       }
