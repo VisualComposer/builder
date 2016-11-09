@@ -42,12 +42,12 @@
     "access": "protected",
     "value": [
       "timelineUrl",
+      "width",
       "customClass",
       "customOptions",
       "alignment",
       "tweetCount",
-      "tweetTheme",
-      "width"
+      "tweetTheme"
     ],
     "options": {
       "label": "Twitter Timeline"
@@ -193,23 +193,16 @@
   "width": {
     "type": "number",
     "access": "public",
-    "value": "220",
+    "value": "500",
     "options": {
       "min": "220",
       "label": "Width",
-      "onChange": {
-        "customOptions": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      },
-      "description": "Enter width in px (Minimal: 220)."
+      "description": "Enter width in px (Minimal: 220).",
+      "cssMixin": {
+        "mixin": "timelineWidth",
+        "property": "width",
+        "namePattern": "[\\da-f]+"
+      }
     }
   }
 }

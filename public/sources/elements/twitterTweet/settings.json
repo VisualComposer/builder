@@ -42,11 +42,11 @@
     "access": "protected",
     "value": [
       "tweetUrl",
+      "width",
       "customClass",
       "customOptions",
       "alignment",
-      "tweetTheme",
-      "width"
+      "tweetTheme"
     ],
     "options": {
       "label": "Twitter Tweet"
@@ -141,23 +141,17 @@
   "width": {
     "type": "number",
     "access": "public",
-    "value": "220",
+    "value": "500",
     "options": {
       "min": "220",
+      "max": "500",
       "label": "Width",
-      "onChange": {
-        "customOptions": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      },
-      "description": "Enter width in px (Minimal: 220)."
+      "description": "Enter width in px (Minimal: 220, maximal: 500).",
+      "cssMixin": {
+        "mixin": "tweetWidth",
+        "property": "width",
+        "namePattern": "[\\da-f]+"
+      }
     }
   },
   "tweetTheme": {

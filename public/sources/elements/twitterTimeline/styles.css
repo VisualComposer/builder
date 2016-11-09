@@ -14,6 +14,7 @@
   vertical-align: top;
   display: inline-block;
   width: 100%;
+  max-width: 100%;
 }
 
 .vce-twitter-timeline-inner.vce-twitter-timeline-disabled {

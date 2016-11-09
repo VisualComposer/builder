@@ -1,8 +1,8 @@
 .vce-google-maps-wrapper {
-  max-width: 600px;
+  width: 600px;
   display: inline-block;
   vertical-align: top;
-  width: 100%;
+  max-width: 100%;
 }
 
 .vce-google-maps-inner {
