@@ -42,11 +42,11 @@
     "access": "protected",
     "value": [
       "gridUrl",
+      "width",
       "customClass",
       "customOptions",
       "alignment",
-      "tweetCount",
-      "width"
+      "tweetCount"
     ],
     "options": {
       "label": "Twitter Grid"
@@ -162,23 +162,16 @@
   "width": {
     "type": "number",
     "access": "public",
-    "value": "220",
+    "value": "600",
     "options": {
       "min": "220",
       "label": "Width",
-      "onChange": {
-        "customOptions": [
-          {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
-          }
-        ]
-      },
-      "description": "Enter width in px (Minimal: 220)."
+      "description": "Enter width in px (Minimal: 220).",
+      "cssMixin": {
+        "mixin": "gridWidth",
+        "property": "width",
+        "namePattern": "[\\da-f]+"
+      }
     }
   }
 }

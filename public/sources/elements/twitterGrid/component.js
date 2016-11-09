@@ -98,8 +98,11 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-twitter-grid--align-${alignment}`
     }
 
-    if (width && customOptions) {
-      innerCustomProps.style = { maxWidth: width + 'px' }
+    if (width) {
+      let mixinData = this.getMixinData('gridWidth')
+      if (mixinData) {
+        classes += ` vce-twitter-grid--width-${mixinData.selector}`
+      }
     }
 
     customProps.key = `customProps:${id}`
