@@ -162,7 +162,7 @@
   "width": {
     "type": "number",
     "access": "public",
-    "value": "600",
+    "value": "500",
     "options": {
       "min": "220",
       "label": "Width",

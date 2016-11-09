@@ -4,25 +4,31 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let atts = this.props.atts
+    let { customOptions, gridUrl, tweetCount } = this.props.atts
+    if (!customOptions) {
+      tweetCount = '20'
+    }
 
-    if (atts.gridUrl) {
-      this.insertTwitter(
-        atts.gridUrl,
-        atts.tweetCount && atts.customOptions ? atts.tweetCount : ''
-      )
+    if (gridUrl) {
+      this.insertTwitter(gridUrl, tweetCount)
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    let nextAtts = nextProps.atts
-    let atts = this.props.atts
+    let { customOptions, gridUrl, tweetCount } = this.props.atts
+    if (!customOptions) {
+      tweetCount = '20'
+    }
+    let elementKey = `customProps:${this.props.id}-${gridUrl}-${tweetCount}`
 
-    if ((atts.gridUrl !== nextAtts.gridUrl || atts.tweetCount !== nextAtts.tweetCount || atts.customOptions !== nextAtts.customOptions) && nextAtts.gridUrl) {
-      this.insertTwitter(
-        nextAtts.gridUrl,
-        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : ''
-      )
+    let nextAtts = nextProps.atts
+    if (!nextAtts.customOptions) {
+      nextAtts.tweetCount = '20'
+    }
+    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.gridUrl}-${nextAtts.tweetCount}`
+
+    if (nextAtts.gridUrl && elementKey !== nextElementKey) {
+      this.insertTwitter(nextAtts.gridUrl, nextAtts.tweetCount)
     }
   }
 
@@ -101,7 +107,7 @@ class Component extends vcvAPI.elementComponent {
     if (width) {
       let mixinData = this.getMixinData('gridWidth')
       if (mixinData) {
-        classes += ` vce-twitter-grid--width-${mixinData.selector}`
+        innerClasses += ` vce-twitter-grid--width-${mixinData.selector}`
       }
     }
 

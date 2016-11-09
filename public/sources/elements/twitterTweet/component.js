@@ -4,25 +4,31 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let atts = this.props.atts
+    let { customOptions, tweetUrl, tweetTheme } = this.props.atts
+    if (!customOptions) {
+      tweetTheme = 'light'
+    }
 
-    if (atts.tweetUrl) {
-      this.insertTwitter(
-        atts.tweetUrl,
-        atts.tweetTheme && atts.customOptions ? atts.tweetTheme : ''
-      )
+    if (tweetUrl) {
+      this.insertTwitter(tweetUrl, tweetTheme)
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    let nextAtts = nextProps.atts
-    let atts = this.props.atts
+    let { customOptions, tweetUrl, tweetTheme } = this.props.atts
+    if (!customOptions) {
+      tweetTheme = 'light'
+    }
+    let elementKey = `customProps:${this.props.id}-${tweetUrl}-${tweetTheme}`
 
-    if ((atts.tweetUrl !== nextAtts.tweetUrl || atts.tweetTheme !== nextAtts.tweetTheme || atts.customOptions !== nextAtts.customOptions) && nextAtts.tweetUrl) {
-      this.insertTwitter(
-        nextAtts.tweetUrl,
-        nextAtts.tweetTheme && nextAtts.customOptions ? nextAtts.tweetTheme : ''
-      )
+    let nextAtts = nextProps.atts
+    if (!nextAtts.customOptions) {
+      nextAtts.tweetTheme = 'light'
+    }
+    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.tweetUrl}-${nextAtts.tweetTheme}`
+
+    if (nextAtts.tweetUrl && elementKey !== nextElementKey) {
+      this.insertTwitter(nextAtts.tweetUrl, nextAtts.tweetTheme)
     }
   }
 
@@ -98,8 +104,11 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-twitter-tweet--align-${alignment}`
     }
 
-    if (width && customOptions) {
-      innerCustomProps.style = { maxWidth: width + 'px' }
+    if (width) {
+      let mixinData = this.getMixinData('tweetWidth')
+      if (mixinData) {
+        innerClasses += ` vce-twitter-tweet--width-${mixinData.selector}`
+      }
     }
 
     customProps.key = `customProps:${id}`

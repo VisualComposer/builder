@@ -4,27 +4,34 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let atts = this.props.atts
+    let { customOptions, timelineUrl, tweetCount, tweetTheme } = this.props.atts
+    if (!customOptions) {
+      tweetCount = '20'
+      tweetTheme = 'light'
+    }
 
-    if (atts.timelineUrl) {
-      this.insertTwitter(
-        atts.timelineUrl,
-        atts.tweetCount && atts.customOptions ? atts.tweetCount : '',
-        atts.tweetTheme && atts.customOptions ? atts.tweetTheme : ''
-      )
+    if (timelineUrl) {
+      this.insertTwitter(timelineUrl, tweetCount, tweetTheme)
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    let nextAtts = nextProps.atts
-    let atts = this.props.atts
+    let { customOptions, timelineUrl, tweetCount, tweetTheme } = this.props.atts
+    if (!customOptions) {
+      tweetCount = '20'
+      tweetTheme = 'light'
+    }
+    let elementKey = `customProps:${this.props.id}-${timelineUrl}-${tweetCount}-${tweetTheme}`
 
-    if ((atts.timelineUrl !== nextAtts.timelineUrl || atts.tweetCount !== nextAtts.tweetCount || atts.tweetTheme !== nextAtts.tweetTheme || atts.customOptions !== nextAtts.customOptions) && nextAtts.timelineUrl) {
-      this.insertTwitter(
-        nextAtts.timelineUrl,
-        nextAtts.tweetCount && nextAtts.customOptions ? nextAtts.tweetCount : '',
-        nextAtts.tweetTheme && nextAtts.customOptions ? nextAtts.tweetTheme : ''
-      )
+    let nextAtts = nextProps.atts
+    if (!nextAtts.customOptions) {
+      nextAtts.tweetCount = '20'
+      nextAtts.tweetTheme = 'light'
+    }
+    let nextElementKey = `customProps:${nextProps.id}-${nextAtts.timelineUrl}-${nextAtts.tweetCount}-${nextAtts.tweetTheme}`
+
+    if (nextAtts.timelineUrl && elementKey !== nextElementKey) {
+      this.insertTwitter(nextAtts.timelineUrl, nextAtts.tweetCount, nextAtts.tweetTheme)
     }
   }
 
@@ -100,8 +107,11 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-twitter-timeline--align-${alignment}`
     }
 
-    if (width && customOptions) {
-      innerCustomProps.style = { maxWidth: width + 'px' }
+    if (width) {
+      let mixinData = this.getMixinData('timelineWidth')
+      if (mixinData) {
+        innerClasses += ` vce-twitter-timeline--width-${mixinData.selector}`
+      }
     }
 
     customProps.key = `customProps:${id}`
