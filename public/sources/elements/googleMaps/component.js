@@ -5,9 +5,14 @@ class Component extends vcvAPI.elementComponent {
     super(props)
     this.checkCustomSize = this.checkCustomSize.bind(this)
   }
+
   componentDidMount () {
     if (this.props.atts.size) {
       this.checkCustomSize(this.props.atts.size)
+    }
+
+    if (this.props.atts.embed) {
+      this.appendMap(this.props.atts.embed)
     }
   }
 
@@ -18,6 +23,9 @@ class Component extends vcvAPI.elementComponent {
       this.setState({
         imgSize: null
       })
+    }
+    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.size !== nextProps.atts.size )) {
+      this.appendMap(nextProps.atts.embed)
     }
   }
 
@@ -66,15 +74,20 @@ class Component extends vcvAPI.elementComponent {
   setSizeState (size) {
     this.setState({
       imgSize: {
-        maxWidth: size ? size.width + 'px' : null,
+        width: size ? size.width + 'px' : null,
         paddingBottom: size ? size.height / size.width * 100 + '%' : null
       }
     })
   }
 
+  appendMap (tagString = '') {
+    let component = this.refs.mapInner
+    component.innerHTML = tagString
+  }
+
   render () {
     let { id, atts, editor } = this.props
-    let { embed, designOptions, customClass, size, alignment } = atts
+    let { designOptions, customClass, size, alignment } = atts
     let classes = 'vce-google-maps vce'
     let innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper'
@@ -87,7 +100,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (typeof size === 'string' && size) {
-      wrapperProps.style = { maxWidth: this.state ? (this.state.imgSize ? this.state.imgSize.maxWidth : null) : null }
+      wrapperProps.style = { width: this.state ? (this.state.imgSize ? this.state.imgSize.width : null) : null }
       innerProps.style = { paddingBottom: this.state ? (this.state.imgSize ? this.state.imgSize.paddingBottom : null) : null }
       wrapperClasses += ` vce-google-maps--size-custom`
     }
@@ -96,7 +109,7 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-google-maps--align-${alignment}`
     }
 
-    customProps.key = `customProps:${id}-${size}`
+    customProps.key = `customProps:${id}`
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -119,7 +132,7 @@ class Component extends vcvAPI.elementComponent {
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
       <div {...wrapperProps} className={wrapperClasses}>
-        <div className={innerClasses} {...innerProps} dangerouslySetInnerHTML={{__html:embed}} />
+        <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>
   }
