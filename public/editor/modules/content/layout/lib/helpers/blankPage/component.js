@@ -29,7 +29,7 @@ export default class BlankPage extends React.Component {
     },
     controlsData: {
       elementControls: [
-        'row', 'textBlock', 'button', 'singleImage'
+        'row', 'textBlock', 'basicButton', 'singleImage'
       ],
       addControl: {
         title: 'Add Element',

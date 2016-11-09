@@ -6,7 +6,7 @@ class Component extends vcvAPI.elementComponent {
     let { addUrl, buttonUrl, buttonText, shape, color, designOptions, alignment, background, customClass, toggleCustomHover } = atts
 
     let containerClasses = 'vce-button-container vce'
-    let classes = 'vce-button vce-button--style-simple'
+    let classes = 'vce-button vce-button--style-basic'
     let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
@@ -34,17 +34,17 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ` vce-button-container--align-${alignment}`
     }
 
-    let mixinData = this.getMixinData('simpleColor')
+    let mixinData = this.getMixinData('basicColor')
 
     if (mixinData) {
-      classes += ` vce-button--style-simple--color-${mixinData.selector}`
+      classes += ` vce-button--style-basic--color-${mixinData.selector}`
     }
 
     if (toggleCustomHover) {
-      mixinData = this.getMixinData('simpleHoverColor')
+      mixinData = this.getMixinData('basicHoverColor')
 
       if (mixinData) {
-        classes += ` vce-button--style-simple--hover-color-${mixinData.selector}`
+        classes += ` vce-button--style-basic--hover-color-${mixinData.selector}`
       }
     }
 

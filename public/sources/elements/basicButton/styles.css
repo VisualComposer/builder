@@ -47,9 +47,9 @@ button.vce-button:focus {
 button.vce-button {
   -webkit-appearance: none;
 }
-.vce-button--style-simple,
-a.vce-button--style-simple,
-button.vce-button--style-simple {
+.vce-button--style-basic,
+a.vce-button--style-basic,
+button.vce-button--style-basic {
   border-radius: 0;
   transition: all 0.2s ease-in-out;
 }

@@ -7,7 +7,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Simple Button"
+    "value": "Basic Button"
   },
   "metaIntro": {
     "type": "textarea",
@@ -27,12 +27,12 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-flat-button.jpg"
+    "value": "preview-basic-button.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-flat-button.jpg"
+    "value": "thumbnail-basic-button.jpg"
   },
   "buttonUrl": {
     "type": "url",
@@ -60,9 +60,9 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Hover color",
+      "label": "Title hover color",
       "cssMixin": {
-        "mixin": "simpleHoverColor",
+        "mixin": "basicHoverColor",
         "property": "hoverColor",
         "namePattern": "[\\da-f]+"
       },
@@ -87,7 +87,7 @@
     "options": {
       "label": "Hover background color",
       "cssMixin": {
-        "mixin": "simpleHoverColor",
+        "mixin": "basicHoverColor",
         "property": "hoverBackground",
         "namePattern": "[\\da-f]+"
       },
@@ -118,9 +118,9 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Color",
+      "label": "Title color",
       "cssMixin": {
-        "mixin": "simpleColor",
+        "mixin": "basicColor",
         "property": "color",
         "namePattern": "[\\da-f]+"
       }
@@ -133,7 +133,7 @@
     "options": {
       "label": "Background color",
       "cssMixin": {
-        "mixin": "simpleColor",
+        "mixin": "basicColor",
         "property": "background",
         "namePattern": "[\\da-f]+"
       }
@@ -151,12 +151,12 @@
           "value": "square"
         },
         {
-          "label": "Round",
-          "value": "round"
-        },
-        {
           "label": "Rounded",
           "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
         }
       ]
     }
@@ -185,7 +185,7 @@
       "customClass"
     ],
     "options": {
-      "label": "Simple Button"
+      "label": "Basic Button"
     }
   },
   "metaEditFormTabs": {

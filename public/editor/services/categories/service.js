@@ -36,7 +36,7 @@ let tempData = {
   categories: {
     'Button': {
       'name': 'Simple Button',
-      'elements': ['button', 'simpleButton'],
+      'elements': ['button', 'basicButton'],
       'icon': 'categories/icons/Button.svg'
     },
     'Row': {
