@@ -156,6 +156,10 @@ class Component extends vcvAPI.elementComponent {
       classes += ' vce-single-image--border-rounded'
     }
 
+    if (!editor && shape === 'round') {
+      classes += ' vce-single-image--border-round'
+    }
+
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
