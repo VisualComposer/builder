@@ -56,7 +56,7 @@
       "onChange": {
         "rules": {
           "addUrl": {
-            "name": "toggle"
+            "rule": "toggle"
           }
         },
         "actions": [

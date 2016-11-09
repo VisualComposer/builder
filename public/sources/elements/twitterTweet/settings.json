@@ -125,14 +125,14 @@
         }
       ],
       "onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -171,14 +171,14 @@
         }
       ],
       "onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }

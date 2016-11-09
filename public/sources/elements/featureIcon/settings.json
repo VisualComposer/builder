@@ -134,16 +134,17 @@
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
-        "shape": [
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          }
+        },
+        "actions": [
           {
-            "rule": "value",
-            "options": "none",
-            "actions": [
-              {
-                "action": "toggleVisibility",
-                "options": true
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -169,14 +170,20 @@
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
-        "toggleCustomHover": [
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          },
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -194,14 +201,14 @@
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
-        "toggleCustomHover": [
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }

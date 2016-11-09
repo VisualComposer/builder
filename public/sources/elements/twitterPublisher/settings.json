@@ -138,15 +138,17 @@
     "options": {
       "label": "Add twitter grid url",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "grid",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "grid"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -159,15 +161,17 @@
     "options": {
       "label": "Add twitter tweet url",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "tweet",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "tweet"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -180,15 +184,17 @@
     "options": {
       "label": "Add twitter timeline url",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "timeline",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "timeline"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -215,14 +221,14 @@
         }
       ],
       "_onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -235,14 +241,14 @@
     "options": {
       "label": "Add count of visible tweets",
       "_onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -255,14 +261,14 @@
     "options": {
       "label": "Add width",
       "_onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       },
@@ -286,14 +292,14 @@
         }
       ],
       "_onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -328,15 +334,17 @@
         }
       ],
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "button",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "button"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -350,15 +358,17 @@
       "label": "Tweet Text",
       "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically.",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "button",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "button"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -372,15 +382,17 @@
       "label": "Recommend Account (@username)",
       "description": "Adds via @username at the end of the tweet.",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "button",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "button"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -403,15 +415,17 @@
         }
       ],
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "button",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "button"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -424,15 +438,17 @@
     "options": {
       "label": "Add a profile URL or @username",
       "_onChange": {
-        "twitterOptions": [
-          {
+        "rules": {
+          "twitterOptions": {
             "rule": "value",
-            "options": "button",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "button"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }

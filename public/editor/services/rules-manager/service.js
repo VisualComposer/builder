@@ -89,11 +89,11 @@ const Rules = {
   }
 }
 
-function createPromise (rule, value) {
+function createPromise (ruleData, value) {
   return new Promise((resolve, reject) => {
-    let ruleName = rule.name.replace('!', '')
-    let reversed = rule.name[ 0 ] === '!'
-    let result = Rules[ ruleName ](value, rule.options || {})
+    let ruleName = ruleData.rule.replace('!', '')
+    let reversed = ruleData.rule[ 0 ] === '!'
+    let result = Rules[ ruleName ](value, ruleData.options || {})
     if (reversed) {
       result = !result
     }

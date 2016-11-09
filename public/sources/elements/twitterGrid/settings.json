@@ -125,14 +125,14 @@
         }
       ],
       "onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -146,14 +146,14 @@
       "min": "0",
       "label": "Count of visible tweets",
       "onChange": {
-        "customOptions": [
+        "rules": {
+          "customOptions": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }

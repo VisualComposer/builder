@@ -112,14 +112,14 @@
       "category": "Button",
       "tabLabel": "Button",
       "onChange": {
-        "addButton": [
+        "rules": {
+          "addButton": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }

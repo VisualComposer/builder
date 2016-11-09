@@ -187,15 +187,17 @@
     "options": {
       "label": "Image URL (Link)",
       "onChange": {
-        "clickableOptions": [
-          {
+        "rules": {
+          "clickableOptions": {
             "rule": "value",
-            "options": "url",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
