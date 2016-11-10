@@ -1,3 +1,8 @@
+.vce-twitter-timeline iframe {
+  display: block;
+  vertical-align: top;
+}
+
 .vce-twitter-timeline--align-center {
   text-align: center;
 }

@@ -19,7 +19,7 @@ class Component extends vcvAPI.elementComponent {
 
   insertTwitterJs (props) {
     let tag = this.createElementTag(props)
-    let twitterScript = '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
+    let twitterScript = '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
     twitterScript = tag + twitterScript
 
     const component = this.getDomNode().querySelector('.vce-tweet-button-inner')

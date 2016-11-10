@@ -1,6 +1,16 @@
-.vce-instagram-image-inner {
+.vce-twitter-tweet {
+  line-height: 1;
+}
+
+.vce-twitter-tweet iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-twitter-tweet-inner {
   width: 100%;
   display: inline-block;
+  vertical-align: top;
 }
 
 .vce-instagram-image--align-center {

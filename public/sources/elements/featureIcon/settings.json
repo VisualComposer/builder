@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Feature Icon"
+    "value": "Icon"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,17 +17,17 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Simple icon element with various icons from library and background shape control options."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-feature-icon.jpg"
+    "value": "preview-icon.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-feature-icon.jpg"
+    "value": "thumbnail-icon.jpg"
   },
   "iconUrl": {
     "type": "url",
@@ -295,7 +295,7 @@
       "customClass"
     ],
     "options": {
-      "label": "Feature Icon"
+      "label": "Icon"
     }
   },
   "metaEditFormTabs": {
