@@ -15,7 +15,7 @@ class Component extends vcvAPI.elementComponent {
 
   loadJSONP (url, callback, context) {
     let name = '_jsonp_flickrImage_' + Component.unique++
-    if (url.match(/\?/)) {
+    if (url.indexOf('?')) {
       url += '&jsoncallback=' + name + '&format=json'
     } else {
       url += '?jsoncallback=' + name + '&format=json'
@@ -27,7 +27,7 @@ class Component extends vcvAPI.elementComponent {
     script.src = url
 
     let clearScript = () => {
-      document.getElementsByTagName('head')[ 0 ].removeChild(script)
+      document.head.removeChild(script)
       script = null
       delete window[ name ]
     }
@@ -50,7 +50,7 @@ class Component extends vcvAPI.elementComponent {
     if (url.match('data-flickr-embed')) {
       this.appendFlickr(url)
     } else {
-      let createdUrl = 'http://www.flickr.com/services/oembed/?url=' + url
+      let createdUrl = 'https://www.flickr.com/services/oembed/?url=' + url
       this.loadJSONP(
         createdUrl,
         (data) => {
