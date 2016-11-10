@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { addUrl, buttonUrl, buttonText, shape, color, designOptions, alignment, background, customClass, toggleCustomHover } = atts
+    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover } = atts
 
     let containerClasses = 'vce-button-container vce'
     let classes = 'vce-button vce-button--style-basic'
