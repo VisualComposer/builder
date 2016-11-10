@@ -12,6 +12,7 @@
   width: 2.9em;
   height: 2.9em;
   display: inline-block;
+  vertical-align: top;
 }
 .vce-features__icon span {
   position: absolute;

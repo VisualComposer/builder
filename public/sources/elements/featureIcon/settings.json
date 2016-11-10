@@ -92,20 +92,20 @@
           "value": "outlined-rounded"
         },
         {
-          "label": "Diamond",
-          "value": "filled-diamond"
-        },
-        {
-          "label": "Diamond outline",
-          "value": "outlined-diamond"
-        },
-        {
           "label": "Circle",
           "value": "filled-circle"
         },
         {
           "label": "Circle outline",
           "value": "outlined-circle"
+        },
+        {
+          "label": "Diamond",
+          "value": "filled-diamond"
+        },
+        {
+          "label": "Diamond outline",
+          "value": "outlined-diamond"
         },
         {
           "label": "Hexagon",
