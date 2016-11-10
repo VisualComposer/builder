@@ -1,3 +1,8 @@
+.vce-twitter-grid iframe {
+  display: block;
+  vertical-align: top;
+}
+
 .vce-twitter-grid--align-center {
   text-align: center;
 }
