@@ -6,6 +6,7 @@ import Toggle from '../toggle/Component'
 import AnimateDropdown from '../animateDropdown/Component'
 import Color from '../color/Component'
 import Devices from './devices'
+import DeviceList from './deviceList'
 import Attribute from '../attribute'
 import vcCake from 'vc-cake'
 
@@ -480,16 +481,8 @@ class DesignOptions extends Attribute {
       </div>
     )
 
-    let devicesListOutput = null
     let showOnDeviceCustomOutput = null
     if (this.state.deviceTypes === 'custom') {
-      devicesListOutput = (
-        <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-          <div className='vcv-ui-form-group'>
-            <Devices value={this.state.device} onChange={this.changeDevice} />
-          </div>
-        </div>
-      )
       showOnDeviceCustomOutput = (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <Toggle
@@ -503,17 +496,12 @@ class DesignOptions extends Attribute {
     }
     return (
       <div className='vcv-ui-design-options-container'>
-        <div className='vcv-ui-row vcv-ui-row-gap--md'>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            <div className='vcv-ui-form-group'>
-              <select className='vcv-ui-form-dropdown' onChange={this.changeDeviceType} value={this.state.deviceTypes}>
-                <option value='all'>All devices</option>
-                <option value='custom'>Custom device settings</option>
-              </select>
-            </div>
-          </div>
-          {devicesListOutput}
-        </div>
+        <DeviceList
+          onChangeDropdown={this.changeDeviceType}
+          onChangeDevice={this.changeDevice}
+          deviceTypeValue={this.state.deviceTypes}
+          deviceValue={this.state.device}
+        />
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {showOnDeviceCustomOutput}
