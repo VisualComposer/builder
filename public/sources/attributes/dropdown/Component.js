@@ -30,19 +30,24 @@ export default class Dropdown extends Attribute {
     let label = values[ key ].label
     return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
   }
-  getSelectOptions () {
-    let { values } = this.props.options || {}
+
+  getSelectOptions (props) {
+    if (!props) {
+      props = this.props
+    }
+    let { values } = props.options || {}
     return values
   }
+
   generateSelectChildren (props) {
     let optionElements = []
-    let values = this.getSelectOptions()
+    let values = this.getSelectOptions(props)
     let { fieldKey } = props
 
     for (let key in values) {
       if (values.hasOwnProperty(key)) {
-        if (values[key].hasOwnProperty('group')) {
-          optionElements.push(this.createGroup(key, values[key].group, fieldKey))
+        if (values[ key ].hasOwnProperty('group')) {
+          optionElements.push(this.createGroup(key, values[ key ].group, fieldKey))
         } else {
           optionElements.push(this.createOptions(key, values, fieldKey))
         }
