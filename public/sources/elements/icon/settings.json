@@ -17,34 +17,257 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Simple icon element with various icons from library and background shape control options."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.png"
+    "value": "preview-icon.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.png"
+    "value": "thumbnail-icon.jpg"
   },
-  "icon": {
+  "iconUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Icon URL"
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "medium",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ]
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "filled-circle",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Square",
+          "value": "filled-square"
+        },
+        {
+          "label": "Square outline",
+          "value": "outlined-square"
+        },
+        {
+          "label": "Rounded",
+          "value": "filled-rounded"
+        },
+        {
+          "label": "Rounded outline",
+          "value": "outlined-rounded"
+        },
+        {
+          "label": "Circle",
+          "value": "filled-circle"
+        },
+        {
+          "label": "Circle outline",
+          "value": "outlined-circle"
+        },
+        {
+          "label": "Diamond",
+          "value": "filled-diamond"
+        },
+        {
+          "label": "Diamond outline",
+          "value": "outlined-diamond"
+        },
+        {
+          "label": "Hexagon",
+          "value": "filled-hexagon"
+        },
+        {
+          "label": "Hexagon outline",
+          "value": "outlined-hexagon"
+        },
+        {
+          "label": "Underline",
+          "value": "outlined-underlined"
+        }
+      ]
+    }
+  },
+  "shapeColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Shape color",
+      "cssMixin": {
+        "mixin": "shapeColor",
+        "property": "shapeColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "toggleCustomHover": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add hover effect"
+    }
+  },
+  "shapeColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Shape hover color",
+      "cssMixin": {
+        "mixin": "shapeColorHover",
+        "property": "shapeColorHover",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          },
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "iconColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Icon hover color",
+      "cssMixin": {
+        "mixin": "iconColorHover",
+        "property": "iconColorHover",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "iconPicker": {
     "type": "iconpicker",
     "access": "public",
-    "value": "fa fa-heart",
+    "value": {
+      "icon": "fa fa-video-camera",
+      "iconSet": "fontawesome"
+    },
     "options": {
-      "label": "Icons",
+      "label": "Icon",
       "description": "Select the icon"
     }
   },
-  "color": {
+  "iconColor": {
     "type": "color",
     "access": "public",
-    "value": "#000",
+    "value": "#fff",
     "options": {
-      "label": "Icons",
-      "description": "Select the icon"
+      "label": "Icon color",
+      "cssMixin": {
+        "mixin": "iconColor",
+        "property": "iconColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "iconAlignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Icon alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
   "designOptions": {
@@ -59,11 +282,20 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "icon",
-      "color"
+      "iconPicker",
+      "iconColor",
+      "iconUrl",
+      "size",
+      "shape",
+      "shapeColor",
+      "toggleCustomHover",
+      "iconColorHover",
+      "shapeColorHover",
+      "iconAlignment",
+      "customClass"
     ],
     "options": {
-      "label": "Options"
+      "label": "Icon"
     }
   },
   "metaEditFormTabs": {
@@ -81,10 +313,10 @@
       "General"
     ]
   },
-  "group": {
-    "type": "string",
+  "metaOrder": {
+    "type": "number",
     "access": "protected",
-    "value": "icon"
+    "value": 4
   },
   "assetsLibrary": {
     "access": "public",

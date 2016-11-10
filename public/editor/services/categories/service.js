@@ -89,9 +89,6 @@ let tempData = {
 if (vcCake.env('FEATURE_XO_WORK')) {
   tempData.categories['Button'].elements.push('xoButton')
 }
-if (vcCake.env('ELEMENT_FEATURE_ICON')) {
-  tempData.categories['Icon'].elements.push('featureIcon')
-}
 if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
   tempData.categories['Social'].elements.push('flickrImage')
 }
