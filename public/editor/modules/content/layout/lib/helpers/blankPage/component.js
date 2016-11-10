@@ -115,8 +115,8 @@ export default class BlankPage extends React.Component {
       isActiveDescription: false
     })
   }
-  handleElementControl (tag) {
-    this.props.api.request('data:add', {tag: tag})
+  handleElementControl (data) {
+    this.props.api.request('data:add', data)
   }
   handleAddElementControl () {
     this.props.api.request('app:add', '')
@@ -134,7 +134,8 @@ export default class BlankPage extends React.Component {
       setActive: this.setActiveControl,
       unsetActive: this.unsetActiveControl,
       tag: tag,
-      handleClick: this.handleElementControl
+      handleClick: this.handleElementControl,
+      data: element.toJS()
     }
   }
   getElementControls () {

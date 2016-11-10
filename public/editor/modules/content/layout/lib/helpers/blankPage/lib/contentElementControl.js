@@ -9,7 +9,8 @@ export default class ContentElementControl extends React.Component {
     description: React.PropTypes.string.isRequired,
     setActive: React.PropTypes.func.isRequired,
     unsetActive: React.PropTypes.func.isRequired,
-    handleClick: React.PropTypes.func
+    handleClick: React.PropTypes.func,
+    data: React.PropTypes.object.isRequired
   }
   constructor (props) {
     super(props)
@@ -32,7 +33,7 @@ export default class ContentElementControl extends React.Component {
       title={this.props.title}
       onMouseOver={this.displayDescription}
       onMouseOut={this.hideDescription}
-      onClick={this.props.handleClick.bind(null, this.props.tag)}
+      onClick={this.props.handleClick.bind(null, this.props.data)}
     >
       <span className='vcv-ui-element-control-content'>
         <img className='vcv-ui-icon' src={this.props.icon} alt={this.props.title} />
