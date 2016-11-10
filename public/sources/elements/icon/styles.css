@@ -62,7 +62,7 @@
 .vce-features--style-filled-diamond .vce-features__icon {
   transform-origin: center center;
   transform: translate(0.6em, 0.6em) rotate(45deg);
-  margin: 0 0 0.8em;
+  margin: 0 0 1.25em;
 }
 .vce-features--style-filled-diamond .vce-features__icon span {
   transform: rotate(-45deg);
@@ -103,7 +103,7 @@
 .vce-features--style-outlined-diamond .vce-features__icon {
   transform-origin: center center;
   transform: translate(0.6em, 0.6em) rotate(45deg);
-  margin: 0 0 0.8em;
+  margin: 0 0 1.25em;
 }
 .vce-features--style-outlined-diamond .vce-features__icon span {
   transform: rotate(-45deg);
