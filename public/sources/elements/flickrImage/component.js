@@ -15,7 +15,7 @@ class Component extends vcvAPI.elementComponent {
 
   loadJSONP (url, callback, context) {
     let name = '_jsonp_flickrImage_' + Component.unique++
-    if (url.indexOf('?')) {
+    if (url.indexOf('?') >= 0) {
       url += '&jsoncallback=' + name + '&format=json'
     } else {
       url += '?jsoncallback=' + name + '&format=json'
