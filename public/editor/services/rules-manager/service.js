@@ -1,73 +1,129 @@
 import vcCake from 'vc-cake'
-import {Deferred} from 'simply-deferred'
-
-const RulesManager = {
-  check: (ruleData, value, callback) => {
-    let { rule, options } = ruleData
-    let deferred = new Deferred()
-    deferred.always(callback)
-    RulesManager.rules[ rule || 'true' ].call(RulesManager, deferred, value, options)
+import {indexOf, get} from 'lodash'
+const Rules = {
+  true: () => {
+    return true
   },
-  rules: {
-    true: (deferred) => {
-      RulesManager.result(deferred, true)
-    },
-    toggle: (deferred, value, options) => {
-      if (typeof options !== 'undefined') {
-        RulesManager.result(deferred, !!value === options)
-      } else {
-        RulesManager.result(deferred, !!value)
-      }
-    },
-    minlength: (deferred, value, options) => {
-      RulesManager.result(deferred, value.length >= parseInt(options))
-    },
-    maxlength: (deferred, value, options) => {
-      RulesManager.result(deferred, value.length <= parseInt(options))
-    },
-    range: (deferred, value, options) => {
-      let min = parseInt(options[ 0 ])
-      let max = parseInt(options[ 1 ])
-
-      RulesManager.result(deferred, min <= value.length && value.length <= max)
-    },
-    minvalue: (deferred, value, options) => {
-      let fl = parseFloat(value)
-      let min = parseFloat(options)
-
-      RulesManager.result(deferred, !isNaN(fl) && fl >= min)
-    },
-    maxvalue: (deferred, value, options) => {
-      let fl = parseFloat(value)
-      let max = parseFloat(options)
-
-      RulesManager.result(deferred, !isNaN(fl) && fl <= max)
-    },
-    between: (deferred, value, options) => {
-      let min = parseFloat(options[ 0 ])
-      let max = parseFloat(options[ 1 ])
-      let fl = parseFloat(value)
-
-      RulesManager.result(deferred, !isNaN(fl) && min <= fl && fl <= max)
-    },
-    value: (deferred, value, options) => {
-      RulesManager.result(deferred, value.localeCompare(options) === 0)
-    },
-    url: (deferred, value) => {
-      // TODO: options for value[] in required
-      RulesManager.result(deferred, value.url.length)
-    },
-    required: (deferred, value) => {
-      RulesManager.result(deferred, value.length)
+  toggle: (value, options) => {
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
     }
+    return !!checkValue
   },
-  result: (deferred, ok) => {
-    if (ok) {
-      deferred.resolve(ok)
-    } else {
-      deferred.reject(false)
+  minlength: (value, options) => {
+    let length = options.length
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
     }
+    return checkValue.length >= parseInt(length)
+  },
+  maxlength: (value, options) => {
+    let length = options.length
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return checkValue.length <= parseInt(length)
+  },
+  range: (value, options) => {
+    let min = parseInt(options.min)
+    let max = parseInt(options.max)
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return min <= checkValue.length && checkValue.length <= max
+  },
+  minvalue: (value, options) => {
+    let min = parseFloat(options.min)
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    let fl = parseFloat(checkValue)
+    return !isNaN(fl) && fl >= min
+  },
+  maxvalue: (value, options) => {
+    let max = parseFloat(options.max)
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    let fl = parseFloat(checkValue)
+
+    return !isNaN(fl) && fl <= max
+  },
+  between: (value, options) => {
+    let min = parseFloat(options.min)
+    let max = parseFloat(options.max)
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    let fl = parseFloat(checkValue)
+
+    return !isNaN(fl) && min <= fl && fl <= max
+  },
+  value: (value, options) => {
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return checkValue.localeCompare(options.value) === 0
+  },
+  valueIn: (value, options) => {
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return indexOf(options.values, checkValue) > -1
+  },
+  required: (value, options) => {
+    let checkValue = value
+    if (options.key) {
+      checkValue = get(value, options.key)
+    }
+    return checkValue.length
   }
 }
 
-vcCake.addService('rules-manager', RulesManager)
+function createPromise (ruleData, value) {
+  return new Promise((resolve, reject) => {
+    let ruleName = ruleData.rule.replace('!', '')
+    let reversed = ruleData.rule[ 0 ] === '!'
+    let result = Rules[ ruleName ](value, ruleData.options || {})
+    if (reversed) {
+      result = !result
+    }
+    if (result) {
+      resolve(result)
+    } else {
+      reject(result)
+    }
+  })
+}
+const RulesManagerAPI = {
+  check: (values, rules, resultCallback) => {
+    let keys = Object.keys(rules)
+    let checks = []
+    keys.forEach((key) => {
+      let rulePromise = createPromise(rules[ key ], values[ key ])
+      checks.push(rulePromise)
+    })
+    Promise.all(checks)
+      .then(
+        () => {
+          resultCallback(true)
+        }
+      )
+      .catch(
+        () => {
+          resultCallback(false)
+        }
+      )
+  }
+}
+
+vcCake.addService('rules-manager', RulesManagerAPI)

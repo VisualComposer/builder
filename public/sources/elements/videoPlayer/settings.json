@@ -38,6 +38,28 @@
       "description": "Enter link to video"
     }
   },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -60,6 +82,7 @@
     "access": "protected",
     "value": [
       "videoPlayer",
+      "alignment",
       "customClass"
     ],
     "options": {

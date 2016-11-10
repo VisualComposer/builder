@@ -19,6 +19,8 @@ vcCake.add('content-wordpress-data-load', (api) => {
         // Todo fix saving ( empty Name, params all undefined toJS function)
         TimeMachine.setZeroState(data.elements)
         api.request('data:reset', data.elements)
+      } else {
+        api.request('data:reset', {})
       }
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')

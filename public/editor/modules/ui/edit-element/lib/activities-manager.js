@@ -30,14 +30,14 @@ export default class ActivitiesManager extends React.Component {
 
   initListeners (element) {
     let listeners = []
-    lodash.forIn(element.data, (value, key) => {
-      let onChange = this.getOnChange(element.settings(key))
+    lodash.forEach(element.data, (value, key) => {
+      let onChange = this.getRules(element.settings(key))
       if (onChange) {
-        lodash.forIn(onChange, (valueOnChange, keyOnChange) => {
+        lodash.forEach(onChange, (valueOnChange, keyOnChange) => {
           if (!listeners[ keyOnChange ]) {
             listeners[ keyOnChange ] = []
           }
-          listeners[ keyOnChange ].push({ key: key, rules: valueOnChange })
+          listeners[ keyOnChange ].push({ key: key })
           this.addInitialStack(key, keyOnChange)
         })
       }
@@ -46,12 +46,23 @@ export default class ActivitiesManager extends React.Component {
     return listeners
   }
 
-  getOnChange (data) {
+  getRules (data) {
     return (
       data &&
       data.settings &&
       data.settings.options &&
-      data.settings.options.onChange ? data.settings.options.onChange : false
+      data.settings.options.onChange &&
+      data.settings.options.onChange.rules ? data.settings.options.onChange.rules : false
+    )
+  }
+
+  getActions (data) {
+    return (
+      data &&
+      data.settings &&
+      data.settings.options &&
+      data.settings.options.onChange &&
+      data.settings.options.onChange.actions ? data.settings.options.onChange.actions : false
     )
   }
 
@@ -155,31 +166,33 @@ export default class ActivitiesManager extends React.Component {
       current.tab = this.mount[ listener.key ].tab.ref
     }
 
-    listener.rules.forEach((ruleData) => {
-      let actionsCallback = (ruleState) => {
-        if (ruleData.actions) {
-          if (current.field) {
-            ruleData.actions.forEach((action) => {
-              ActionsManager.do(action, ruleState, {
-                ref: current.field,
-                value: current.value,
-                key: current.key
-              })
+    let actionsCallback = (ruleState, listener) => {
+      let actions = this.getActions(this.props.element.settings(listener.key))
+      if (actions) {
+        if (current.field) {
+          actions.forEach((action) => {
+            ActionsManager.do(action, ruleState, {
+              ref: current.field,
+              value: current.value,
+              key: current.key
             })
-          }
-          if (current.tab) {
-            ruleData.actions.forEach((action) => {
-              ActionsManager.do(action, ruleState, {
-                ref: current.tab,
-                value: current.value,
-                key: current.key
-              })
+          })
+        }
+        if (current.tab) {
+          actions.forEach((action) => {
+            ActionsManager.do(action, ruleState, {
+              ref: current.tab,
+              value: current.value,
+              key: current.key
             })
-          }
+          })
         }
       }
-      RulesManager.check(ruleData, this.props.element.get(targetKey), actionsCallback)
+    }
+    RulesManager.check(this.props.element.toJS(), this.getRules(this.props.element.settings(listener.key)), (status) => {
+      actionsCallback(status, listener)
     })
+
     return false
   }
 

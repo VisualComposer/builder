@@ -6,12 +6,20 @@ import Toggle from '../toggle/Component'
 import AnimateDropdown from '../animateDropdown/Component'
 import Color from '../color/Component'
 import Devices from './devices'
+import DeviceList from './deviceList'
 import Attribute from '../attribute'
 import vcCake from 'vc-cake'
 
 class DesignOptions extends Attribute {
   static propTypes = {
     value: React.PropTypes.any
+  }
+
+  static defaultState = {
+    deviceTypes: 'all',
+    device: 'all',
+    used: false,
+    visibleDevices: {}
   }
 
   updateState (props) {
@@ -132,7 +140,7 @@ class DesignOptions extends Attribute {
     for (let i = 0, len = backgroundStyleValues.length; i < len; i++) {
       let value = backgroundStyleValues[ i ].value
       let label = backgroundStyleValues[ i ].label
-      backgroundStyles.push(<option key={'backgroundStyle:' + value} value={value}>{label}</option>)
+      backgroundStyles.push(<option key={`${this.props.fieldKey}.backgroundStyle:${value}`} value={value}>{label}</option>)
     }
 
     this.backgroundStyles = backgroundStyles
@@ -159,7 +167,7 @@ class DesignOptions extends Attribute {
     for (let i = 0, len = borderStyleValues.length; i < len; i++) {
       let value = borderStyleValues[ i ].value
       let label = borderStyleValues[ i ].label
-      borderStyles.push(<option key={'borderStyle:' + value} value={value}>{label}</option>)
+      borderStyles.push(<option key={`${this.props.fieldKey}.borderStyle:${value}`} value={value}>{label}</option>)
     }
 
     this.borderStyles = borderStyles
@@ -412,7 +420,7 @@ class DesignOptions extends Attribute {
   render () {
     let backgroundImageProps = {
       updater: this.changeBackgroundImage,
-      fieldKey: 'backgroundImage',
+      fieldKey: `${this.props.fieldKey}.backgroundImage`,
       value: this.state[ this.state.device ].backgroundImage,
       options: {
         multiple: false
@@ -453,7 +461,7 @@ class DesignOptions extends Attribute {
           <Color
             value={this.state[ this.state.device ].borderColor}
             updater={this.changeBorderColor}
-            fieldKey='borderColor'
+            fieldKey={`${this.props.fieldKey}.borderColor`}
             api={this.props.api}
           />
         </div>
@@ -467,27 +475,19 @@ class DesignOptions extends Attribute {
         <AnimateDropdown
           value={this.state[ this.state.device ].animation}
           updater={this.changeAnimation}
-          fieldKey='animation'
+          fieldKey={`${this.props.fieldKey}.animation`}
           api={this.props.api}
         />
       </div>
     )
 
-    let devicesListOutput = null
     let showOnDeviceCustomOutput = null
     if (this.state.deviceTypes === 'custom') {
-      devicesListOutput = (
-        <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-          <div className='vcv-ui-form-group'>
-            <Devices value={this.state.device} onChange={this.changeDevice} />
-          </div>
-        </div>
-      )
       showOnDeviceCustomOutput = (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <Toggle
             value={this.state[ this.state.device ].showOnDevice}
-            fieldKey='showOnDevice'
+            fieldKey={`${this.props.fieldKey}.showOnDevice`}
             updater={this.changeShowOnDevice}
           />
           <span className='vcv-ui-form-group-heading'>Show on device</span>
@@ -496,17 +496,12 @@ class DesignOptions extends Attribute {
     }
     return (
       <div className='vcv-ui-design-options-container'>
-        <div className='vcv-ui-row vcv-ui-row-gap--md'>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            <div className='vcv-ui-form-group'>
-              <select className='vcv-ui-form-dropdown' onChange={this.changeDeviceType} value={this.state.deviceTypes}>
-                <option value='all'>All devices</option>
-                <option value='custom'>Custom device settings</option>
-              </select>
-            </div>
-          </div>
-          {devicesListOutput}
-        </div>
+        <DeviceList
+          onChangeDropdown={this.changeDeviceType}
+          onChangeDevice={this.changeDevice}
+          deviceTypeValue={this.state.deviceTypes}
+          deviceValue={this.state.device}
+        />
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {showOnDeviceCustomOutput}
@@ -558,7 +553,7 @@ class DesignOptions extends Attribute {
               <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
                 <Toggle
                   value={this.state[ this.state.device ].simplified}
-                  fieldKey='showOnDevice'
+                  fieldKey={`${this.props.fieldKey}.showOnDevice`}
                   updater={this.toggleSimplifyControls}
                   api={this.props.api}
                 />
@@ -575,7 +570,7 @@ class DesignOptions extends Attribute {
                 <Color
                   value={this.state[ this.state.device ].backgroundColor}
                   updater={this.changeBackgroundColor}
-                  fieldKey='backgroundColor'
+                  fieldKey={`${this.props.fieldKey}.backgroundColor`}
                   api={this.props.api}
                 />
               </div>
@@ -611,12 +606,6 @@ class DesignOptions extends Attribute {
   }
 }
 
-DesignOptions.defaultState = {
-  deviceTypes: 'all',
-  device: 'all',
-  used: false,
-  visibleDevices: {}
-}
 Devices.getAll().map((device) => {
   DesignOptions.defaultState[ device.strid ] = {
     showOnDevice: true,

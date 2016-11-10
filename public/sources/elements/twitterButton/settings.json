@@ -117,16 +117,17 @@
       "label": "Tweet text",
       "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically.",
       "onChange": {
-        "buttonType": [
+        "rules": {
+          "buttonType": {
+            "rule": "!value",
+            "options": {
+              "value": "follow"
+            }
+          }
+        },
+        "actions": [
           {
-            "rule": "value",
-            "options": "follow",
-            "actions": [
-              {
-                "action": "toggleVisibility",
-                "options": true
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -140,15 +141,19 @@
       "label": "Recommend Account (@username)",
       "description": "Adds via @username at the end of the tweet.",
       "onChange": {
-        "buttonType": [
-          {
-            "rule": "value",
-            "options": "share",
-            "actions": [
-              {
-                "action": "toggleVisibility"
+        "rules": {
+          "buttonType": [
+            {
+              "rule": "value",
+              "options": {
+                "value": "share"
               }
-            ]
+            }
+          ]
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -161,16 +166,17 @@
     "options": {
       "label": "Paste a profile URL or @username",
       "onChange": {
-        "buttonType": [
+        "rules": {
+          "buttonType": {
+            "rule": "!value",
+            "options": {
+              "value": "share"
+            }
+          }
+        },
+        "actions": [
           {
-            "rule": "value",
-            "options": "share",
-            "actions": [
-              {
-                "action": "toggleVisibility",
-                "options": true
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -230,15 +236,17 @@
     "options": {
       "label": "Show username",
       "onChange": {
-        "buttonType": [
-          {
+        "rules": {
+          "buttonType": {
             "rule": "value",
-            "options": "follow",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "options": {
+              "value": "follow"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
           }
         ]
       }

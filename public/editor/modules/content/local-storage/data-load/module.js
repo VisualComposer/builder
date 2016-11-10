@@ -10,6 +10,8 @@ vcCake.add('content-local-storage-data-load', (api) => {
     TimeMachine.setZeroState(data.data)
     if (data.data) {
       api.request('data:reset', data.data)
+    } else {
+      api.request('data:reset', {})
     }
     if (data.elements) {
       assetsManager.set(data.elements)

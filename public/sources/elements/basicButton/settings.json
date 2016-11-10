@@ -67,14 +67,14 @@
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
-        "toggleCustomHover": [
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
@@ -92,14 +92,14 @@
         "namePattern": "[\\da-f]+"
       },
       "onChange": {
-        "toggleCustomHover": [
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }

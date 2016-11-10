@@ -54,14 +54,14 @@
     "options": {
       "label": "Button URL",
       "onChange": {
-        "addUrl": [
+        "rules": {
+          "addUrl": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
           {
-            "rule": "toggle",
-            "actions": [
-              {
-                "action": "toggleVisibility"
-              }
-            ]
+            "action": "toggleVisibility"
           }
         ]
       }
