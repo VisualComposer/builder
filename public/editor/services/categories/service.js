@@ -76,7 +76,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton'],
+      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage'],
       'icon': 'categories/icons/Social.svg'
     },
     'Video': {

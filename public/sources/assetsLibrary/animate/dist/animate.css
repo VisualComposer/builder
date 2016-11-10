@@ -1,5 +1,5 @@
 .vce-o-animate--animated {
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
   animation-fill-mode: both;
 }
 .vce-o-animate--animated.vce-o-animate--infinite {
@@ -271,7 +271,7 @@
 }
 .vce-o-animate--bounceIn {
   animation-name: vce-o-animate--bounceIn;
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
 }
 @keyframes vce-o-animate--bounceInDown {
   from,
@@ -405,7 +405,7 @@
 }
 .vce-o-animate--bounceOut {
   animation-name: vce-o-animate--bounceOut;
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
 }
 @keyframes vce-o-animate--bounceOutDown {
   20% {
@@ -769,7 +769,7 @@
 .vce-o-animate--flipOutX {
   animation-name: vce-o-animate--flipOutX;
   backface-visibility: visible !important;
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
 }
 @keyframes vce-o-animate--flipOutY {
   from {
@@ -787,7 +787,7 @@
 .vce-o-animate--flipOutY {
   backface-visibility: visible !important;
   animation-name: vce-o-animate--flipOutY;
-  animation-duration: 0.5s;
+  animation-duration: 0.7s;
 }
 @keyframes vce-o-animate--lightSpeedIn {
   from {
@@ -1090,7 +1090,7 @@
 }
 .vce-o-animate--hinge {
   animation-name: vce-o-animate--hinge;
-  animation-duration: 1s;
+  animation-duration: 1.5s;
 }
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @keyframes vce-o-animate--rollIn {

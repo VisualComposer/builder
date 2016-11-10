@@ -76,7 +76,7 @@ class Component extends vcvAPI.elementComponent {
 
   loadJSONP (url, callback, context) {
     let name = '_jsonp_instagramImage_' + Component.unique++
-    if (url.match(/\?/)) {
+    if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {
       url += '?callback=' + name
