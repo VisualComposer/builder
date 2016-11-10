@@ -76,7 +76,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton'],
+      'elements': ['twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage'],
       'icon': 'categories/icons/Social.svg'
     },
     'Video': {
@@ -91,9 +91,6 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 }
 if (vcCake.env('ELEMENT_FEATURE_ICON')) {
   tempData.categories['Icon'].elements.push('featureIcon')
-}
-if (vcCake.env('FEATURE_FLICKR_IMAGE')) {
-  tempData.categories['Social'].elements.push('flickrImage')
 }
 if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
   tempData.categories['Social'].elements.push('instagramImage')
