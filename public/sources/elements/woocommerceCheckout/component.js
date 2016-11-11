@@ -6,12 +6,12 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    let innerAjax = require('../_woocommerce/shared.js')
+    let ajax = require('../_woocommerce/shared').ajax
 
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
-    this.serverRequest = innerAjax({
+    this.serverRequest = ajax({
       'vcv-action': 'elements:woocommerce:woocommerce_checkout'
     }, (result) => {
       this.setState({
@@ -21,28 +21,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { designOptions } = atts
-
-    let customProps = {}
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-    return (
-      <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor}>
-        <div dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
-      </div>
-    )
+    let render = require('../_woocommerce/shared').render
+    return render(this.props, this.state)
   }
 }

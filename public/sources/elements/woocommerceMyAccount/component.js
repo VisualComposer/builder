@@ -12,7 +12,8 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     this.serverRequest = ajax({
-      'vcv-action': 'elements:woocommerce:woocommerce_cart'
+      'vcv-action': 'elements:woocommerce:woocommerce_my_account',
+      'vcv-atts': this.props.atts // TODO: Pass only needed atts...
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }
