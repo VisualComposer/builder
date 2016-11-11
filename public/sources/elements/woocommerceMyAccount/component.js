@@ -6,6 +6,14 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
+    this.requestToServer()
+  }
+
+  componentDidUpdate () {
+    this.requestToServer()
+  }
+
+  requestToServer () {
     let ajax = require('../_woocommerce/shared').ajax
 
     if (this.serverRequest) {
