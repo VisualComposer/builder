@@ -38,7 +38,7 @@ class WooCommerceProducts extends Container implements Module
         $skus = isset($atts['productSkus']) ? $atts['productSkus'] : '';
         $columns = isset($atts['columns']) ? $atts['columns'] : 4;
         $orderby = isset($atts['orderby']) ? $atts['orderby'] : 'title';
-        $order = isset($atts['order']) ? $atts['order'] : 'asc';
+        $order = isset($atts['productsOrder']) ? $atts['productsOrder'] : 'asc';
         $queryData = [];
         if ($selector === 'ids') {
             $queryData[] = sprintf('ids="%d"', $ids);
@@ -55,7 +55,6 @@ class WooCommerceProducts extends Container implements Module
                 $order
             )
         );
-        echo do_shortcode('[products]');
         wp_print_styles();
         print_late_styles();
         wp_print_head_scripts();

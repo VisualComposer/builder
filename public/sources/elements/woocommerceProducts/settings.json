@@ -118,7 +118,7 @@
       "label": "Order by"
     }
   },
-  "order": {
+  "productsOrder": {
     "type": "string",
     "access": "public",
     "value": "asc",
@@ -135,7 +135,7 @@
       "productSkus",
       "columns",
       "orderby",
-      "order"
+      "productsOrder"
     ],
     "options": {
       "label": "Products"
