@@ -23,7 +23,7 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     this.serverRequest = ajax({
-      'vcv-action': 'elements:woocommerce:woocommerce_cart'
+      'vcv-action': `elements:woocommerce:woocommerce_cart${((this.props.clean) ? ':clean' : '')}`
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }

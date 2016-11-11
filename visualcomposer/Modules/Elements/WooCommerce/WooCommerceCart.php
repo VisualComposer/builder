@@ -21,6 +21,11 @@ class WooCommerceCart extends Container implements Module
             'vcv:ajax:elements:woocommerce:woocommerce_cart',
             'render'
         );
+        /** @see \VisualComposer\Modules\Elements\WooCommerce\WooCommerceCart::renderClean */
+        $this->addFilter(
+            'vcv:ajax:elements:woocommerce:woocommerce_cart:clean',
+            'renderClean'
+        );
     }
 
     /**
@@ -39,5 +44,15 @@ class WooCommerceCart extends Container implements Module
         $response = ob_get_clean();
 
         return $response;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Request $request
+     *
+     * @return string
+     */
+    private function renderClean(Request $request)
+    {
+        return '[woocommerce_cart]';
     }
 }
