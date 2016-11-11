@@ -37,10 +37,56 @@
       "label": "Design Options"
     }
   },
+  "per_page": {
+    "type": "string",
+    "access": "public",
+    "value": "12",
+    "options": {
+      "label": "Per page"
+    }
+  },
+  "columns": {
+    "type": "string",
+    "access": "public",
+    "value": "4",
+    "options": {
+      "label": "Columns"
+    }
+  },
+  "orderby": {
+    "type": "string",
+    "access": "public",
+    "value": "date",
+    "options": {
+      "label": "Order by"
+    }
+  },
+  "order": {
+    "type": "string",
+    "access": "public",
+    "value": "desc",
+    "options": {
+      "label": "Order"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "per_page",
+      "columns",
+      "orderby",
+      "order"
+    ],
+    "options": {
+      "label": "Recent Products"
+    }
+  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
+      "editFormTab1",
       "designOptions"
     ]
   },
