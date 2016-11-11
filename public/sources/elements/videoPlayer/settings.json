@@ -60,6 +60,60 @@
       ]
     }
   },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "560x315",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Default 560x315",
+          "value": "560x315"
+        },
+        {
+          "label": "1280x720",
+          "value": "1280x720"
+        },
+        {
+          "label": "853x480",
+          "value": "853x480"
+        },
+        {
+          "label": "640x360",
+          "value": "640x360"
+        },
+        {
+          "label": "Custom size",
+          "value": "custom"
+        }
+      ]
+    }
+  },
+  "customSize": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Custom width",
+      "description": "Enter custom width and the height will be automatically calculated for 16:9 aspect ratio.",
+      "onChange": {
+        "rules": {
+          "size": {
+            "rule": "value",
+            "options": {
+              "value": "custom"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -82,6 +136,8 @@
     "access": "protected",
     "value": [
       "videoPlayer",
+      "size",
+      "customSize",
       "alignment",
       "customClass"
     ],

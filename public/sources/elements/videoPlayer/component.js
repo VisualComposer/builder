@@ -2,13 +2,31 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment } = atts
+    let { customClass, videoPlayer, alignment, size, customSize } = atts
     let classes = 'vce-video-player vce'
     let wrapperClasses = 'vce-video-player-wrapper'
     let innerClasses = 'vce-video-player-inner'
-    let source, url
+    let source, url, videoWidth
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    let validUnits = (src) => {
+      switch (src) {
+        case 'px':
+          return src
+        case 'em':
+          return src
+        case 'rem':
+          return src
+        case 'pt':
+          return src
+        case 'pc':
+          return src
+        case '%':
+          return src
+        default:
+          return 'px'
+      }
+    }
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
     }
@@ -17,6 +35,21 @@ class Component extends vcvAPI.elementComponent {
     }
     if (alignment) {
       classes += ` vce-video-player--align-${alignment}`
+    }
+    if (size) {
+      if (size === 'custom') {
+        if (/^[0-9.]+$/.test(customSize)) {
+          videoWidth = `${parseFloat(customSize)}px`
+        } else if (parseFloat(customSize)) {
+          let chars = customSize.slice(parseFloat(customSize).toString().length)
+          videoWidth = `${parseFloat(customSize)}${validUnits(chars)}`
+        } else {
+          videoWidth = '560px'
+        }
+      } else {
+        videoWidth = `${size.slice(0, size.indexOf('x'))}px`
+      }
+      classes += ` vce-video-player--size-${size}`
     }
     if (videoPlayer.match(vrx)) {
       url = videoPlayer.match(vrx)
@@ -34,7 +67,7 @@ class Component extends vcvAPI.elementComponent {
 
     return <div className={classes} id={'el-' + id} {...editor}>
       <div className={wrapperClasses}>
-        <div className={innerClasses}>
+        <div className={innerClasses} style={{width: videoWidth}}>
           <iframe
             className='vce-video-player-iframe'
             src={source}
