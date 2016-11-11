@@ -4,8 +4,18 @@ class Component extends vcvAPI.elementComponent {
   state = {
     shortcodeContent: { __html: '' }
   }
-
   componentDidMount () {
+    this.requestToServer()
+  }
+
+  componentDidUpdate (prevProps) {
+    let isEqual = require('lodash').isEqual
+    if (!isEqual(this.props.atts, prevProps.atts)) {
+      this.requestToServer()
+    }
+  }
+
+  requestToServer () {
     let ajax = require('../_woocommerce/shared').ajax
 
     if (this.serverRequest) {
