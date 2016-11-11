@@ -1,0 +1,159 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "WooCommerce Products"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "selector": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "ids",
+    "options": {
+      "label": "Choose selector",
+      "description": "Show multiple products by ID or SKU. Make note of the plural ‘products.’ Separate by comma. *If the product is not showing, make sure it is not set to Hidden in the Catalog Visibility.",
+      "values": [
+        {
+          "label": "IDs",
+          "value": "ids"
+        },
+        {
+          "label": "SKUs",
+          "value": "skus"
+        }
+      ]
+    }
+  },
+  "productIds": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Product IDs",
+      "onChange": {
+        "rules": {
+          "selector": {
+            "rule": "value",
+            "options": {
+              "value": "ids"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "productSkus": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Product SKUs",
+      "onChange": {
+        "rules": {
+          "selector": {
+            "rule": "value",
+            "options": {
+              "value": "skus"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "columns": {
+    "type": "string",
+    "access": "public",
+    "value": "4",
+    "options": {
+      "label": "Columns"
+    }
+  },
+  "orderby": {
+    "type": "string",
+    "access": "public",
+    "value": "title",
+    "options": {
+      "label": "Order by"
+    }
+  },
+  "order": {
+    "type": "string",
+    "access": "public",
+    "value": "asc",
+    "options": {
+      "label": "Order"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "selector",
+      "productIds",
+      "productSkus",
+      "columns",
+      "orderby",
+      "order"
+    ],
+    "options": {
+      "label": "Products"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
