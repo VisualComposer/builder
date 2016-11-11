@@ -9,8 +9,11 @@ class Component extends vcvAPI.elementComponent {
     this.requestToServer()
   }
 
-  componentDidUpdate () {
-    this.requestToServer()
+  componentDidUpdate (prevProps) {
+    let isEqual = require('lodash').isEqual
+    if (!isEqual(this.props.atts, prevProps.atts)) {
+      this.requestToServer()
+    }
   }
 
   requestToServer () {
