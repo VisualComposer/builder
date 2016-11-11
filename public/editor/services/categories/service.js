@@ -116,6 +116,7 @@ if (vcCake.env('FEATURE_VIDEO_PLAYER')) {
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceOrderTracking')
 }
 const data = tempData
 
