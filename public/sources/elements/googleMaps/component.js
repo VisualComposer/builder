@@ -3,12 +3,12 @@
 class Component extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
-    this.checkCustomSize = this.checkCustomSize.bind(this)
+    this.setCustomSize = this.setCustomSize.bind(this)
   }
 
   componentDidMount () {
-    if (this.props.atts.size) {
-      this.checkCustomSize(this.props.atts.size)
+    if (this.props.atts.height || this.props.atts.width || this.props.atts.proportional) {
+      this.setCustomSize(this.props.atts)
     }
 
     if (this.props.atts.embed) {
@@ -17,67 +17,97 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.atts.size) {
-      this.checkCustomSize(nextProps.atts.size)
+    if (this.props.atts.height || this.props.atts.width || this.props.atts.proportional) {
+      this.setCustomSize(nextProps.atts)
     } else {
       this.setState({
         imgSize: null
       })
     }
-    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.size !== nextProps.atts.size )) {
+
+    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height || this.props.atts.proportional !== nextProps.atts.proportional )) {
       this.appendMap(nextProps.atts.embed)
     }
   }
 
-  checkCustomSize (size) {
-    size = size.toLowerCase().split(' ').join('')
+  setCustomSize (atts) {
+    let width = this.validateSize(atts.width)
+    let height = this.validateSize(atts.height)
 
-    if (size.match(/\d*(x)\d*/)) {
-      size = size.split('x')
-      size = {
-        width: size[0],
-        height: size[1]
-      }
-    } else {
-      switch (size) {
-        case 'thumbnail':
-          size = {
-            width: 150,
-            height: 150
-          }
-          break
-        case 'medium':
-          size = {
-            width: 300,
-            height: 225
-          }
-          break
-        case 'large':
-          size = {
-            width: 660,
-            height: 500
-          }
-          break
-        case 'full':
-          size = null
-          break
-        default:
-          size = {
-            width: 600,
-            height: 450
-          }
-      }
+    width = /^\d+$/.test(width) ? width + 'px' : width
+    height = /^\d+$/.test(height) ? height + 'px' : height
+
+    let size = {
+      width: width || null,
+      height: height || null
     }
+
+    if (atts.proportional) {
+      size.paddingBottom = this.setProportions(size.width, size.height)
+      size.height = 'auto'
+    }
+
     this.setSizeState(size)
   }
 
-  setSizeState (size) {
-    this.setState({
-      imgSize: {
-        width: size ? size.width + 'px' : null,
-        paddingBottom: size ? size.height / size.width * 100 + '%' : null
+  setProportions (width, height) {
+    if (!width) {
+      width = '600px'
+    }
+    if (!height) {
+      height = '450px'
+    }
+
+    let customWidth = width.indexOf('px') < 0
+    let customHeight = height.indexOf('px') < 0
+
+    if (customWidth || customHeight) {
+      let div = document.createElement('div')
+      this.refs.mapContainer.appendChild(div)
+
+      if (customWidth) {
+        div.style.width = width
+        div.style.maxWidth = '100%'
+        width = div.getBoundingClientRect().width
       }
-    })
+      if (customHeight) {
+        if (height.indexOf('%') >= 0) {
+          div.style.minHeight = '150px'
+          this.refs.mapContainer.style.height = '100%'
+        }
+
+        div.style.height = height
+        height = div.getBoundingClientRect().height
+
+        div.style.minHeight = ''
+        this.refs.mapContainer.style.height = ''
+      }
+      this.refs.mapContainer.removeChild(div)
+    }
+
+    if (!customWidth) {
+      width = typeof width === 'string' ? width.replace('px', '') : width
+    }
+
+    if (!customHeight) {
+      height = typeof height === 'string' ? height.replace('px', '') : height
+    }
+
+    return height / width * 100 + '%'
+  }
+
+  setSizeState (size) {
+    this.setState({ size })
+  }
+
+  validateSize (value) {
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    if (value === '' || value.match(re)) {
+      return value
+    } else {
+      return null
+    }
   }
 
   appendMap (tagString = '') {
@@ -87,7 +117,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, size, alignment } = atts
+    let { designOptions, customClass, alignment, width, height, proportional } = atts
     let classes = 'vce-google-maps vce'
     let innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper'
@@ -99,10 +129,29 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (typeof size === 'string' && size) {
-      wrapperProps.style = { width: this.state ? (this.state.imgSize ? this.state.imgSize.width : null) : null }
-      innerProps.style = { paddingBottom: this.state ? (this.state.imgSize ? this.state.imgSize.paddingBottom : null) : null }
-      wrapperClasses += ` vce-google-maps--size-custom`
+    customProps.style = {
+      height: this.state ? (this.state.size ? this.state.size.height : null) : null
+    }
+
+    wrapperProps.style = {
+      width: this.state ? (this.state.size ? this.state.size.width : null) : null,
+      height: this.state ? (this.state.size ? this.state.size.height : null) : null
+    }
+
+    innerProps.style = {
+      paddingBottom: this.state ? (this.state.size ? this.state.size.paddingBottom : null) : null
+    }
+
+    if (width) {
+      wrapperClasses += ' vce-google-maps--width-custom'
+    }
+
+    if (height) {
+      wrapperClasses += ' vce-google-maps--height-custom'
+    }
+
+    if (proportional) {
+      wrapperClasses += ' vce-google-maps-proportional'
     }
 
     if (alignment) {
@@ -130,8 +179,8 @@ class Component extends vcvAPI.elementComponent {
       innerClasses += ' vce-google-maps-disabled'
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div {...wrapperProps} className={wrapperClasses}>
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor} ref='mapContainer'>
+      <div className={wrapperClasses} {...wrapperProps} >
         <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>

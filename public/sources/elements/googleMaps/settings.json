@@ -51,7 +51,9 @@
     "access": "protected",
     "value": [
       "embed",
-      "size",
+      "width",
+      "height",
+      "proportional",
       "alignment",
       "customClass"
     ],
@@ -95,13 +97,30 @@
       "animate"
     ]
   },
-  "size": {
+  "width": {
     "type": "string",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Size",
-      "description": "Enter size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
+      "label": "Width",
+      "description": "Enter width in pixels or percentages (Example: 200px)."
+    }
+  },
+  "height": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Height",
+      "description": "Enter height in pixels or percentages (Example: 200px)."
+    }
+  },
+  "proportional": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Save proportions"
     }
   },
   "alignment": {
