@@ -119,6 +119,8 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceOrderTracking')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceMyAccount')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRecentProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceFeaturedProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProduct')
 }
 const data = tempData
 
