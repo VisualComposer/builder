@@ -5,30 +5,22 @@ namespace VisualComposer\Modules\Elements\WooCommerce;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
 class WooCommerceFeaturedProducts extends Container implements Module
 {
-    use EventsFilters;
+    use ShortcodesTrait;
 
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see \VisualComposer\Modules\Elements\WooCommerce\WooCommerceFeaturedProducts::render */
-        $this->addFilter(
-            'vcv:ajax:elements:woocommerce:featured_products',
-            'render'
-        );
-    }
+    private $shortcodeTag = 'featured_products';
+
+    private $shortcodeNs = 'woocommerce:';
 
     /**
      * @param \VisualComposer\Helpers\Request $request
      *
      * @return string
      */
-    private function render(Request $request)
+    protected function renderEditor(Request $request)
     {
         ob_start();
         $atts = $request->input('vcv-atts');
@@ -36,7 +28,8 @@ class WooCommerceFeaturedProducts extends Container implements Module
         $columns = isset($atts['columns']) ? $atts['columns'] : 4;
         $orderby = isset($atts['orderby']) ? $atts['orderby'] : 'date';
         $order = isset($atts['order']) ? $atts['order'] : 'desc';
-        // TODO: Check \WC_Shortcodes::recent_products category and operator attributes (not documented)
+        // TODO: Check \WC_Shortcodes::recent_products `category` and `operator` attributes (not documented)
+        // TODO: Use strHelper to build query
         echo do_shortcode(
             sprintf(
                 '[featured_products per_page="%d" columns="%d" orderby="%s" order="%s"]',

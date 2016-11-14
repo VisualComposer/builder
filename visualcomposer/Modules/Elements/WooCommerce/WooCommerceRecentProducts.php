@@ -5,30 +5,22 @@ namespace VisualComposer\Modules\Elements\WooCommerce;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
 class WooCommerceRecentProducts extends Container implements Module
 {
-    use EventsFilters;
+    use ShortcodesTrait;
 
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see \VisualComposer\Modules\Elements\WooCommerce\WooCommerceRecentProducts::render */
-        $this->addFilter(
-            'vcv:ajax:elements:woocommerce:recent_products',
-            'render'
-        );
-    }
+    private $shortcodeTag = 'recent_products';
+
+    private $shortcodeNs = 'woocommerce:';
 
     /**
      * @param \VisualComposer\Helpers\Request $request
      *
      * @return string
      */
-    private function render(Request $request)
+    protected function renderEditor(Request $request)
     {
         ob_start();
         $atts = $request->input('vcv-atts');

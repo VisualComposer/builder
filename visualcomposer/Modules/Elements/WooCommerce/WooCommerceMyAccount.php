@@ -5,30 +5,22 @@ namespace VisualComposer\Modules\Elements\WooCommerce;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
 class WooCommerceMyAccount extends Container implements Module
 {
-    use EventsFilters;
+    use ShortcodesTrait;
 
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see \VisualComposer\Modules\Elements\WooCommerce\WooCommerceMyAccount::render */
-        $this->addFilter(
-            'vcv:ajax:elements:woocommerce:woocommerce_my_account',
-            'render'
-        );
-    }
+    private $shortcodeTag = 'woocommerce_my_account';
+
+    private $shortcodeNs = 'woocommerce:';
 
     /**
      * @param \VisualComposer\Helpers\Request $request
      *
      * @return string
      */
-    private function render(Request $request)
+    protected function renderEditor(Request $request)
     {
         ob_start();
         $atts = $request->input('vcv-atts');
