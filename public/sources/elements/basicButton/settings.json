@@ -17,12 +17,12 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Basic flat style button with hover effect to catch visitor's attention."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Simple flat style button with hover effect to catch visitor's attention."
+    "value": "Basic flat style button with hover effect to catch visitor's attention."
   },
   "metaPreview": {
     "type": "attachimage",
