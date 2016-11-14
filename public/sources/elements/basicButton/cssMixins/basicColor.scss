@@ -1,7 +1,6 @@
 .vce-button {
   &--style-basic {
     &--color-$selector {
-    &,
     a&,
     button& {
       @if $color != false {
