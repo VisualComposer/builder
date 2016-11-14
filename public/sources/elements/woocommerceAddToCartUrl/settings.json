@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "WooCommerce Add to Cart"
+    "value": "WooCommerce Add to Cart URL"
   },
   "metaIntro": {
     "type": "textarea",
@@ -102,25 +102,16 @@
       }
     }
   },
-  "atts_style": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Inline style"
-    }
-  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
       "selector",
       "atts_id",
-      "atts_sku",
-      "atts_style"
+      "atts_sku"
     ],
     "options": {
-      "label": "Add To Cart"
+      "label": "Add To Cart Url"
     }
   },
   "metaEditFormTabs": {
