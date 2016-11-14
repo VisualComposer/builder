@@ -61,12 +61,13 @@ class Controller extends Container implements Module
 
     private function addTheContentFilteringForPost()
     {
-        remove_all_filters('the_content');
+        //remove_all_filters('the_content'); // TODO: Check this. causes a bunch of problems with assets/enqueue
         $this->wpAddFilter(
             'the_content',
             function () {
                 return vcview('editor/pageEditable/pageEditable.php');
-            }
+            },
+            9999
         );
     }
 }
