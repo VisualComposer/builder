@@ -287,11 +287,11 @@
       "iconUrl",
       "size",
       "shape",
+      "iconAlignment",
       "shapeColor",
       "toggleCustomHover",
       "iconColorHover",
       "shapeColorHover",
-      "iconAlignment",
       "customClass"
     ],
     "options": {
