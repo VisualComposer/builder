@@ -1,0 +1,74 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "WooCommerce My Account"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "order_count": {
+    "type": "string",
+    "access": "public",
+    "value": "15",
+    "options": {
+      "label": "Orders Count",
+      "description": "Shows the ‘my account’ section where the customer can view past orders and update their information. You can specify the number of orders to show. By default, it’s set to 15 (use -1 to display all orders.)"
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "order_count"
+    ],
+    "options": {
+      "label": "My Account"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}

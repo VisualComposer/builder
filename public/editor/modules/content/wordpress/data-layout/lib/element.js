@@ -32,7 +32,7 @@ export default class Element extends React.Component {
     let el = cook.get(this.props.element)
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
-    return <ContentComponent id={id} key={'vcvLayoutWordpressComponent' + id} atts={this.prepareAttributes(el.getAll())}>
+    return <ContentComponent id={id} clean key={'vcvLayoutWordpressComponent' + id} atts={this.prepareAttributes(el.getAll())}>
       {this.getContent()}
     </ContentComponent>
   }

@@ -33,7 +33,8 @@ class Application extends ApplicationFactory
             [
                 $this,
                 'init',
-            ]
+            ],
+            11 // TODO: Required for WooCommerce, but not cool at all for whole system.
         );
     }
 

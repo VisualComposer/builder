@@ -4,14 +4,12 @@
 .vce-video-player-wrapper {
   display: inline-block;
   max-width: 100%;
-  width: 640px;
   vertical-align: top;
 }
 .vce-video-player-inner {
   position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 75%;
+  max-width: 100%;
+  padding-top: 56.25%;
 }
 .vce-video-player-inner.vce-video-player-disabled::after {
   content: "";
