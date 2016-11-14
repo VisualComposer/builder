@@ -22,10 +22,12 @@ export default class TreeViewElement extends React.Component {
   constructor (props) {
     super(props)
     this.scrollToElement = this.scrollToElement.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.state = {
       childExpand: true,
       activeEditElementId: null,
-      hasChild: false
+      hasChild: false,
+      hoverElementId: null
     }
   }
 
@@ -100,6 +102,25 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
+  getElementId (element) {
+    // console.log('element contains class:', element.classList.contains('vcv-ui-tree-layout-node-child'))
+    if (element.classList.contains('vcv-ui-tree-layout-node-child')) {
+      // console.log('element in recursive func: ', element)
+      // console.log('element dataset: ', element.dataset.vcvElement)
+      this.setState({ hoverElementId: element.dataset.vcvElement })
+      // return element.dataset.vcvElement
+    } else {
+      this.getElementId(element.parentElement)
+    }
+  }
+
+  handleMouseEnter (e) {
+    // console.log('target element', e.target)
+    // console.log(this.getElementId(e.target))
+    this.getElementId(e.target)
+    // console.log('id: ', this.state.hoverElementId)
+  }
+
   render () {
     let element = cook.get(this.props.element)
     let treeChildClasses = classNames({
@@ -172,7 +193,7 @@ export default class TreeViewElement extends React.Component {
         name={element.get('name')}
         onClick={this.scrollToElement}
       >
-        <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
+        <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }} onMouseEnter={this.handleMouseEnter}>
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
