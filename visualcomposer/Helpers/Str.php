@@ -271,4 +271,16 @@ class Str implements Helper
 
         return static::$studlyCache[ $key ] = str_replace(' ', '', $value);
     }
+
+    public function buildQueryString($atts)
+    {
+        $output = [];
+        if (is_array($atts)) {
+            foreach ($atts as $key => $value) {
+                $output [] = $key . '="' . $value . '"';
+            }
+        }
+
+        return implode(' ', $output);
+    }
 }
