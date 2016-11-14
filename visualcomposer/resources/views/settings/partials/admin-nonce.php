@@ -5,7 +5,8 @@ if (!defined('ABSPATH')) {
 }
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
+// TODO: Check vcvNonce in frontend.php
 ?>
 <script>
-    var vcvAdminNonce = '<?php echo $nonceHelper->admin(); ?>';
+    var vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
 </script>

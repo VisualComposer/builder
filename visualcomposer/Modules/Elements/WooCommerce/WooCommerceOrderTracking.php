@@ -3,41 +3,14 @@
 namespace VisualComposer\Modules\Elements\WooCommerce;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
 class WooCommerceOrderTracking extends Container implements Module
 {
-    use EventsFilters;
+    use ShortcodesTrait;
 
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see \VisualComposer\Modules\Elements\WooCommerce\WooCommerceOrderTracking::render */
-        $this->addFilter(
-            'vcv:ajax:elements:woocommerce:woocommerce_order_tracking',
-            'render'
-        );
-    }
+    private $shortcodeTag = 'woocommerce_order_tracking';
 
-    /**
-     * @param \VisualComposer\Helpers\Request $request
-     *
-     * @return string
-     */
-    private function render(Request $request)
-    {
-        ob_start();
-        echo do_shortcode('[woocommerce_order_tracking]');
-        wp_print_styles();
-        print_late_styles();
-        wp_print_head_scripts();
-        wp_print_footer_scripts();
-        $response = ob_get_clean();
-
-        return $response;
-    }
+    private $shortcodeNs = 'woocommerce:';
 }

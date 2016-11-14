@@ -4,6 +4,7 @@ class Component extends vcvAPI.elementComponent {
   state = {
     shortcodeContent: { __html: '' }
   }
+
   componentDidMount () {
     this.requestToServer()
   }
@@ -22,7 +23,8 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     this.serverRequest = ajax({
-      'vcv-action': 'elements:woocommerce:woocommerce_order_tracking'
+      'vcv-action': `elements:woocommerce:woocommerce_order_tracking${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-nonce': window.vcvNonce
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }

@@ -28,8 +28,6 @@ $frontendModule = vcapp('EditorsFrontendController');
     <?php
     /** @todo add jquery into bundle.js. */
     do_action('embed_head');
-    do_action('wp_enqueue_scripts');
-    do_action('wp_enqueue_styles');
     wp_print_head_scripts();
     ?>
 </head>

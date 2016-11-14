@@ -17,12 +17,12 @@ trait ShortcodesTrait
     {
         /** @see ShortcodesFactory::renderEditor */
         $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag,
+            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag.':adminNonce',
             'renderEditor'
         );
         /** @see ShortcodesFactory::renderShortcode */
         $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':clean',
+            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':clean'.':adminNonce',
             'renderShortcode'
         );
     }
