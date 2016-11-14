@@ -1,6 +1,6 @@
 let items = {}
 const notFound = function (name) {
-  throw new Error('Element Component: ' + name + ' not found.')
+  console.error('Element Component: ' + name + ' not found.')
 }
 export default {
   add (name, Component) {

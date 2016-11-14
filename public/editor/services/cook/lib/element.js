@@ -75,7 +75,7 @@ class CookElement {
 
   getContentComponent () {
     if (!this[ elComponent ].has()) {
-      elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
+      elementSettings.get(this[ elData ].tag) && elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
     return this[ elComponent ].get()
   }

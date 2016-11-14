@@ -74,7 +74,6 @@ module.exports = {
         'content/storage',
         'content/assets',
         'content/layout',
-        'content/wordpress/data-layout',
         'content/wordpress/data-load',
         'content/wordpress/data-save',
         'content/wordpress/data-unload',

@@ -12,6 +12,7 @@ export default class Element extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired
   }
+
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
   }
@@ -29,33 +30,40 @@ export default class Element extends React.Component {
     if (elementsList.length) {
       returnData = elementsList
     } else {
-      returnData = currentElement.containerFor().length > 0 ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
+      returnData = currentElement.containerFor().length > 0
+        ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
     }
     return returnData
   }
+
   visualizeAttributes (element) {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
       if (attrSettings.settings.type === 'htmleditor' && attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[key] = <ContentEditable id={atts.id} field={key} api={this.props.api}>
-          {atts[key] || ''}
+        layoutAtts[ key ] = <ContentEditable id={atts.id} field={key} api={this.props.api}>
+          {atts[ key ] || ''}
         </ContentEditable>
       } else {
-        layoutAtts[key] = atts[key]
+        layoutAtts[ key ] = atts[ key ]
       }
     })
     return layoutAtts
   }
+
   render () {
     let el = cook.get(this.props.element)
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
+    if (!ContentComponent) {
+      return null
+    }
     let editor = {
       'data-vcv-element': id
     }
-    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)} editor={editor}>
+    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
+      editor={editor}>
       {this.getContent()}
     </ContentComponent>
   }

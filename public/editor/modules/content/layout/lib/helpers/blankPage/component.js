@@ -167,7 +167,7 @@ export default class BlankPage extends React.Component {
     })
 
     return (
-      <div className='vcv-blank-page-container'>
+      <vcvhelper className='vcv-blank-page-container'>
         <div className='vcv-blank-page-heading-container'>
           <span className='vcv-blank-page-heading'>A Blank Page.</span>
           <span className='vcv-blank-page-heading'>Add Your First Content Element or Select A Template.</span>
@@ -185,7 +185,7 @@ export default class BlankPage extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </vcvhelper>
     )
   }
 }
