@@ -17,12 +17,12 @@ trait ShortcodesTrait
     {
         /** @see ShortcodesFactory::renderEditor */
         $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag.':adminNonce',
+            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':adminNonce',
             'renderEditor'
         );
         /** @see ShortcodesFactory::renderShortcode */
         $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':clean'.':adminNonce',
+            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':clean' . ':adminNonce',
             'renderShortcode'
         );
     }
@@ -31,7 +31,8 @@ trait ShortcodesTrait
     {
         ob_start();
         $atts = $request->input('vcv-atts');
-        echo do_shortcode(
+        echo apply_filters(
+            'the_content',
             sprintf(
                 '[%s %s]',
                 $this->shortcodeTag,
