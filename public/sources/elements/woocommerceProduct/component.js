@@ -22,10 +22,16 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
+    let atts = {}
+    if (this.props.atts.selector === 'sku') {
+      atts.sku = this.props.atts.atts_sku
+    } else {
+      atts.id = this.props.atts.atts_id
+    }
     this.serverRequest = ajax({
       'vcv-action': `elements:woocommerce:product${(this.props.clean ? ':clean' : '')}:adminNonce`,
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': this.props.atts // TODO: Pass only needed atts...
+      'vcv-atts': atts
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }
