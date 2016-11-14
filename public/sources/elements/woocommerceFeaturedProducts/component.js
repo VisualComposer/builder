@@ -25,7 +25,12 @@ class Component extends vcvAPI.elementComponent {
     this.serverRequest = ajax({
       'vcv-action': `elements:woocommerce:featured_products${(this.props.clean ? ':clean' : '')}:adminNonce`,
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': this.props.atts // TODO: Pass only needed atts...
+      'vcv-atts': {
+        'per_page': this.props.atts.atts_per_page,
+        'columns': this.props.atts.atts_columns,
+        'orderby': this.props.atts.atts_orderby,
+        'order': this.props.atts.atts_order
+      }// TODO: Pass only needed atts...
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }
