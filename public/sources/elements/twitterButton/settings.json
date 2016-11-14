@@ -12,12 +12,12 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Add standard Tweet button to your WordPress website for quick content sharing on Twitter."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Add standard Tweet button to your WordPress website for quick content sharing on Twitter."
   },
   "metaPreview": {
     "type": "attachimage",
