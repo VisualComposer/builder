@@ -118,7 +118,7 @@
     "options": {
       "label": "Tweet text",
       "description": "Add custom tweet text or leave empty to use Auto-suggested. Link to the page will be added automatically.",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "value",
@@ -141,7 +141,7 @@
     "value": "",
     "options": {
       "label": "Tweet text",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "valueIn",
@@ -165,7 +165,7 @@
     "options": {
       "label": "Recommend Account (@username)",
       "description": "Adds via @username at the end of the tweet.",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "value",
@@ -188,7 +188,7 @@
     "value": "",
     "options": {
       "label": "Paste a hastag URL or #hashtag",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "value",
@@ -211,7 +211,7 @@
     "value": "wpbakery",
     "options": {
       "label": "Paste a profile URL or @username",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "valueIn",
@@ -281,7 +281,7 @@
     "value": true,
     "options": {
       "label": "Show username",
-      "_onChange": {
+      "onChange": {
         "rules": {
           "buttonType": {
             "rule": "value",

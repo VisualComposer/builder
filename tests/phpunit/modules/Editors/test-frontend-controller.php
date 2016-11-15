@@ -12,7 +12,7 @@ class FrontendControllerTest extends WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
-
+        wp_set_current_user(1);
         // Create test post.
         $this->post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $this->post->create(['post_title' => 'Test Post']);
