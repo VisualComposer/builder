@@ -27,7 +27,6 @@ export default class TreeViewElement extends React.Component {
       childExpand: true,
       activeEditElementId: null,
       hasChild: false,
-      hoverElementId: null,
       editorHoverElement: null
     }
   }
@@ -112,23 +111,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  getElementId (element) {
-    // console.log('element contains class:', element.classList.contains('vcv-ui-tree-layout-node-child'))
-    if (element.classList.contains('vcv-ui-tree-layout-node-child')) {
-      // console.log('element in recursive func: ', element)
-      // console.log('element dataset: ', element.dataset.vcvElement)
-      this.setState({ hoverElementId: element.dataset.vcvElement })
-      // return element.dataset.vcvElement
-    } else {
-      this.getElementId(element.parentElement)
-    }
-  }
-
   handleMouseEnter (e) {
-    // console.log('target element', e.target)
-    // console.log(this.getElementId(e.target))
-    // this.getElementId(e.target)
-    // console.log('id: ', this.state.hoverElementId)
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
       if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
         this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)

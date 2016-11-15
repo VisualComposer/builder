@@ -22,12 +22,19 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
+    let atts = {
+      style: this.props.atts.atts_style
+    }
+    if (this.props.atts.selector === 'sku') {
+      atts.sku = this.props.atts.atts_sku
+    } else {
+      atts.id = this.props.atts.atts_id
+    }
+    // TODO: Check undocumented `show_price`, `class`, `quantity`
     this.serverRequest = ajax({
-      'vcv-action': `elements:woocommerce:woocommerce_my_account${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-action': `elements:woocommerce:add_to_cart${(this.props.clean ? ':clean' : '')}:adminNonce`,
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': {
-        'order_count': this.props.atts.order_count
-      } // TODO: Pass only needed atts...
+      'vcv-atts': atts
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }

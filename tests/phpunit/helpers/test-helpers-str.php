@@ -305,4 +305,54 @@ class HelpersStrTest extends WP_UnitTestCase
 
         $this->assertEquals('', $helper->studly(''));
     }
+
+    public function testbuildQueryString()
+    {
+        $helper = vchelper('Str');
+
+        $this->assertEquals(
+            '',
+            $helper->buildQueryString(
+                [
+                ]
+            )
+        );
+        $this->assertEquals(
+            'key="value"',
+            $helper->buildQueryString(
+                [
+                    'key' => 'value',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'key="value" key2="value2"',
+            $helper->buildQueryString(
+                [
+                    'key' => 'value',
+                    'key2' => 'value2',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'key="value" key2="value2" something=""',
+            $helper->buildQueryString(
+                [
+                    'key' => 'value',
+                    'key2' => 'value2',
+                    'something' => '',
+                ]
+            )
+        );
+        $this->assertEquals(
+            'key="value" key2="value2" something="1"',
+            $helper->buildQueryString(
+                [
+                    'key' => 'value',
+                    'key2' => 'value2',
+                    'something' => 1,
+                ]
+            )
+        );
+    }
 }
