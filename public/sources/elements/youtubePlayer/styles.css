@@ -1,0 +1,39 @@
+/* ----------------------------------------------
+ * YouTube Video Player
+ * ---------------------------------------------- */
+.vce-yt-video-player-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+.vce-yt-video-player-inner {
+  position: relative;
+  max-width: 100%;
+  padding-top: 56.25%;
+}
+.vce-yt-video-player-inner.vce-yt-video-player-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
+.vce-yt-video-player-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.vce-yt-video-player--align-center {
+  text-align: center;
+}
+.vce-yt-video-player--align-right {
+  text-align: right;
+}
+.vce-yt-video-player--align-left {
+  text-align: left;
+}
