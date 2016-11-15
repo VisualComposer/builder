@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "WooCommerce Product Category"
+    "value": "WooCommerce Product Attribute"
   },
   "metaIntro": {
     "type": "textarea",
@@ -37,14 +37,6 @@
       "label": "Design Options"
     }
   },
-  "atts_category": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Categories Slug"
-    }
-  },
   "atts_per_page": {
     "type": "string",
     "access": "public",
@@ -77,18 +69,35 @@
       "label": "Order"
     }
   },
+  "atts_attribute": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Attribute"
+    }
+  },
+  "atts_filter": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Filter"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "atts_category",
       "atts_per_page",
       "atts_columns",
       "atts_orderby",
-      "atts_order"
+      "atts_order",
+      "atts_attribute",
+      "atts_filter"
     ],
     "options": {
-      "label": "Product Category"
+      "label": "Product Attribute"
     }
   },
   "metaEditFormTabs": {

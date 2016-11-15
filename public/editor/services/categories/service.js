@@ -128,6 +128,7 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceBestSellingProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
 }
 const data = tempData
 
