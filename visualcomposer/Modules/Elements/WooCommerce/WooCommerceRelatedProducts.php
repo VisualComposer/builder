@@ -6,11 +6,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
-class WooCommerceRecentProducts extends Container implements Module
+class WooCommerceRelatedProducts extends Container implements Module
 {
     use ShortcodesTrait;
 
-    private $shortcodeTag = 'recent_products';
+    private $shortcodeTag = 'related_products';
 
     private $shortcodeNs = 'woocommerce:';
 }
