@@ -10,41 +10,32 @@ let googleFonts = require('./lib/google-fonts-set')
 export default class GoogleFonts extends Attribute {
   constructor (props) {
     super(props)
+
+    this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
+    this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
+
     let fontFamily = this.createOptionsArray('family')[ 0 ].value
     let fontStyleOptions = this.createStyleArray(fontFamily)
 
-    this.state = {
+    this.setFieldValue = {
       fontText: 'The sky was cloudless and of a deep dark blue.',
       fontFamily: fontFamily,
-      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value,
-      fontStyleOptions: {
-        values: fontStyleOptions
-      }
+      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value
     }
   }
 
-  handleFontFamilyChange = (fieldKey, value) => {
+  handleFontFamilyChange (fieldKey, value) {
     let fontStyleOptions = this.createStyleArray(value)
-    this.setState({
+    this.setFieldValue({
       fontFamily: value,
-      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value,
-      fontStyleOptions: {
-        values: fontStyleOptions
-      }
+      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value
     })
-    // TODO: use this.setFieldValue({
-    //  fontFamily: value,
-    // fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value,
-    //   fontStyleOptions: {
-    //   values: fontStyleOptions
-    // }
-    // })
   }
 
-  handleFontStyleChange = (fieldKey, value) => {
-    // this.setState({
-    //   fontStyle: value
-    // })
+  handleFontStyleChange (fieldKey, value) {
+    this.setFieldValue({
+      fontStyle: value
+    })
 
     // this.setFieldValue({
     //   fontFamily: '', // use this.state.value.fontFamily
