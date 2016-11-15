@@ -19,6 +19,7 @@
   vertical-align: top;
   display: inline-block;
   width: 100%;
+  min-width: 220px;
   max-width: 100%;
 }
 
