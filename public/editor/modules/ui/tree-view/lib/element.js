@@ -22,10 +22,13 @@ export default class TreeViewElement extends React.Component {
   constructor (props) {
     super(props)
     this.scrollToElement = this.scrollToElement.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.state = {
       childExpand: true,
       activeEditElementId: null,
-      hasChild: false
+      hasChild: false,
+      hoverElementId: null,
+      editorHoverElement: null
     }
   }
 
@@ -38,6 +41,15 @@ export default class TreeViewElement extends React.Component {
       .reply('bar-content-end:hide', this.unsetElementId)
       .on('hide', this.unsetElementId)
       .on('form:hide', this.unsetElementId)
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      this.props.api.reply('editorContent:element:mouseEnter', this.interactWithContent)
+    }
+  }
+
+  interactWithContent = (data) => {
+    this.setState({
+      editorHoverElement: data.element.dataset.vcvElement
+    })
   }
 
   setElementId = (id) => {
@@ -100,6 +112,30 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
+  getElementId (element) {
+    // console.log('element contains class:', element.classList.contains('vcv-ui-tree-layout-node-child'))
+    if (element.classList.contains('vcv-ui-tree-layout-node-child')) {
+      // console.log('element in recursive func: ', element)
+      // console.log('element dataset: ', element.dataset.vcvElement)
+      this.setState({ hoverElementId: element.dataset.vcvElement })
+      // return element.dataset.vcvElement
+    } else {
+      this.getElementId(element.parentElement)
+    }
+  }
+
+  handleMouseEnter (e) {
+    // console.log('target element', e.target)
+    // console.log(this.getElementId(e.target))
+    // this.getElementId(e.target)
+    // console.log('id: ', this.state.hoverElementId)
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+        this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
+      }
+    }
+  }
+
   render () {
     let element = cook.get(this.props.element)
     let treeChildClasses = classNames({
@@ -158,7 +194,8 @@ export default class TreeViewElement extends React.Component {
 
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
-      'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId
+      'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId,
+      'vcv-ui-state--outline': this.props.element.id === this.state.editorHoverElement
     })
 
     let publicPath = categoriesService.getElementIcon(element.get('tag'))
@@ -172,7 +209,7 @@ export default class TreeViewElement extends React.Component {
         name={element.get('name')}
         onClick={this.scrollToElement}
       >
-        <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}>
+        <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }} onMouseEnter={this.handleMouseEnter}>
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>

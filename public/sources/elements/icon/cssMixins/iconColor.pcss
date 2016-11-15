@@ -1,10 +1,12 @@
-.vce-icon--style {
-  &--icon-color-$selector {
+.vce-features {
+  &.vce-icon--style {
+    &--icon-color-$selector {
 
-    .vce-icon-container {
-      @if $iconColor != false {
-        color: $iconColor;
-        transition: color .2s ease-in-out;
+      .vce-icon-container {
+        @if $iconColor != false {
+          color: $iconColor;
+          transition: color .2s ease-in-out;
+        }
       }
     }
   }

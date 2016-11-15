@@ -3,20 +3,35 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce vce-features'
     let {atts, editor, id} = this.props
-    let {iconPicker, iconColor, shapeColor, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover} = atts
+    let {iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover} = atts
     let customProps = {}
+    let customIconProps = {}
     let CustomTag = 'div'
+    let CustomIconTag = 'span'
     let { url, title, targetBlank, relNofollow } = iconUrl
-    let iconClasses = 'vce-icon-container' + ` ${iconPicker.icon}`
+    let iconClasses = `vce-icon-container ${iconPicker.icon}`
 
     if (url) {
-      CustomTag = 'a'
-      customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
+      if (shape !== 'none') {
+        CustomTag = 'a'
+        customProps = {
+          'href': url,
+          'title': title,
+          'target': targetBlank ? '_blank' : undefined,
+          'rel': relNofollow ? 'nofollow' : undefined
+        }
+      } else {
+        CustomIconTag = 'a'
+        customIconProps = {
+          'href': url,
+          'title': title,
+          'target': targetBlank ? '_blank' : undefined,
+          'rel': relNofollow ? 'nofollow' : undefined
+        }
       }
+    } else {
+      CustomTag = 'div'
+      CustomIconTag = 'span'
     }
 
     if (shape) {
@@ -74,12 +89,12 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
     }
 
-    return <div className={classes} id={'el-' + id} {...editor} {...customProps}>
-      <CustomTag className='vce-features__icon vce-icon'>
+    return <div className={classes} id={'el-' + id} {...editor}>
+      <CustomTag className='vce-features__icon vce-icon' {...customProps}>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
           <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
         </svg>
-        <span className={iconClasses} />
+        <CustomIconTag className={iconClasses} {...customIconProps} />
       </CustomTag>
     </div>
   }
