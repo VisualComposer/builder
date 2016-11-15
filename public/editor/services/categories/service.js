@@ -121,6 +121,7 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceAddToCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceAddToCartUrl')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductCategory')
 }
 const data = tempData
 
