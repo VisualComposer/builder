@@ -165,7 +165,7 @@
     "value": "500px",
     "options": {
       "label": "Width",
-      "description": "Enter width in pixels or percentages (Example: 200px)."
+      "description": "Enter width in pixels. Minimal width 220px (Example: 220px)."
     }
   }
 }
