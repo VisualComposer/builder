@@ -8,27 +8,35 @@ import Dropdown from '../dropdown/Component'
 let googleFonts = require('./lib/google-fonts-set')
 
 export default class GoogleFonts extends Attribute {
-  constructor (props) {
-    super(props)
+  // constructor (props) {
+  //   super(props)
+  //
+  //   // this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
+  //   // this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
+  // }
 
-    this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
-    this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
-
+  componentWillMount () {
     let fontFamily = this.createOptionsArray('family')[ 0 ].value
     let fontStyleOptions = this.createStyleArray(fontFamily)
 
-    this.setFieldValue = {
+    this.setFieldValue({
       fontText: 'The sky was cloudless and of a deep dark blue.',
       fontFamily: fontFamily,
-      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value
-    }
+      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value,
+      fontStyleOptions: {
+        values: fontStyleOptions
+      }
+    })
   }
 
-  handleFontFamilyChange (fieldKey, value) {
+  handleFontFamilyChange = (fieldKey, value) => {
     let fontStyleOptions = this.createStyleArray(value)
     this.setFieldValue({
       fontFamily: value,
-      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value
+      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value,
+      fontStyleOptions: {
+        values: fontStyleOptions
+      }
     })
   }
 
@@ -36,11 +44,6 @@ export default class GoogleFonts extends Attribute {
     this.setFieldValue({
       fontStyle: value
     })
-
-    // this.setFieldValue({
-    //   fontFamily: '', // use this.state.value.fontFamily
-    //   fontStyle: value
-    // })
   }
 
   createOptionsArray (key) {
@@ -113,7 +116,7 @@ export default class GoogleFonts extends Attribute {
               </span>
               <Dropdown
                 options={this.state.fontStyleOptions}
-                value={''}
+                value={this.state.fontStyle}
                 updater={this.handleFontStyleChange}
                 api={this.props.api}
                 fieldKey={`${this.props.fieldKey}.fontStyle`}
