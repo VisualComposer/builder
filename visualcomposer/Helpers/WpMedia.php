@@ -8,7 +8,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  * Class Url.
  * @codeCoverageIgnore
  */
-class Wpmedia implements Helper
+class WpMedia implements Helper
 {
     public function getImageBySize($params = [])
     {
