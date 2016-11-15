@@ -100,7 +100,7 @@
   "timelineUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "value": "https://twitter.com/Twitter",
     "options": {
       "label": "Twitter timeline URL (Link)"
     }
