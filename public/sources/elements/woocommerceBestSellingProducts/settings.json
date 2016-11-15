@@ -1,0 +1,82 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "WooCommerce Best-Selling Products"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "atts_per_page": {
+    "type": "string",
+    "access": "public",
+    "value": "12",
+    "options": {
+      "label": "Per Page"
+    }
+  },
+  "atts_columns": {
+    "type": "string",
+    "access": "public",
+    "value": "4",
+    "options": {
+      "label": "Columns"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "atts_per_page",
+      "atts_columns"
+    ],
+    "options": {
+      "label": "Best-Selling Products"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
