@@ -4,10 +4,14 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let { customOptions, timelineUrl, tweetCount, tweetTheme } = this.props.atts
+    let { customOptions, timelineUrl, tweetCount, tweetTheme, width } = this.props.atts
     if (!customOptions) {
       tweetCount = '20'
       tweetTheme = 'light'
+    }
+
+    if (width) {
+      this.checkCustomSize(width)
     }
 
     if (timelineUrl) {
@@ -27,6 +31,13 @@ class Component extends vcvAPI.elementComponent {
     if (!nextAtts.customOptions) {
       nextAtts.tweetCount = '20'
       nextAtts.tweetTheme = 'light'
+    }
+    if (nextAtts.width) {
+      this.checkCustomSize(nextAtts.width)
+    } else {
+      this.setState({
+        size: null
+      })
     }
     let nextElementKey = `customProps:${nextProps.id}-${nextAtts.timelineUrl}-${nextAtts.tweetCount}-${nextAtts.tweetTheme}`
 
@@ -91,6 +102,27 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
+  checkCustomSize (width) {
+    width = this.validateSize(width)
+    width = /^\d+$/.test(width) ? width + 'px' : width
+    let size = { width }
+    this.setSizeState(size)
+  }
+
+  validateSize (value) {
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    if (value === '' || value.match(re)) {
+      return value
+    } else {
+      return null
+    }
+  }
+
+  setSizeState (size) {
+    this.setState({ size })
+  }
+
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
@@ -108,10 +140,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (width) {
-      let mixinData = this.getMixinData('timelineWidth')
-      if (mixinData) {
-        innerClasses += ` vce-twitter-timeline--width-${mixinData.selector}`
-      }
+      innerCustomProps.style = this.state ? this.state.size : null
     }
 
     customProps.key = `customProps:${id}`

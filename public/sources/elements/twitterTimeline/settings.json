@@ -191,18 +191,12 @@
     }
   },
   "width": {
-    "type": "number",
+    "type": "string",
     "access": "public",
-    "value": "500",
+    "value": "500px",
     "options": {
-      "min": "220",
       "label": "Width",
-      "description": "Enter width in px (Minimal: 220).",
-      "cssMixin": {
-        "mixin": "timelineWidth",
-        "property": "width",
-        "namePattern": "[\\da-f]+"
-      }
+      "description": "Enter width in pixels or percentages (Example: 200px)."
     }
   }
 }
