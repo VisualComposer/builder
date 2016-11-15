@@ -1,14 +1,11 @@
-.vce-twitter-tweet {
-  line-height: 1;
-}
-
-.vce-twitter-tweet iframe {
+.vce-instagram-image iframe {
   display: block;
   vertical-align: top;
 }
 
-.vce-twitter-tweet-inner {
+.vce-instagram-image-inner {
   width: 100%;
+  max-width: 100%;
   display: inline-block;
   vertical-align: top;
 }

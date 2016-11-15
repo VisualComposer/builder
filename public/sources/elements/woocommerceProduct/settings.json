@@ -56,7 +56,7 @@
       ]
     }
   },
-  "productId": {
+  "atts_id": {
     "type": "string",
     "access": "public",
     "value": "",
@@ -79,7 +79,7 @@
       }
     }
   },
-  "productSku": {
+  "atts_sku": {
     "type": "string",
     "access": "public",
     "value": "",
@@ -107,8 +107,8 @@
     "access": "protected",
     "value": [
       "selector",
-      "productId",
-      "productSku"
+      "atts_id",
+      "atts_sku"
     ],
     "options": {
       "label": "Product"

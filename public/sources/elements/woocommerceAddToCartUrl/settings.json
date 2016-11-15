@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "WooCommerce Products"
+    "value": "WooCommerce Add to Cart URL"
   },
   "metaIntro": {
     "type": "textarea",
@@ -40,34 +40,34 @@
   "selector": {
     "type": "dropdown",
     "access": "public",
-    "value": "ids",
+    "value": "id",
     "options": {
       "label": "Choose selector",
-      "description": "Show multiple products by ID or SKU. Make note of the plural ‘products.’ Separate by comma. *If the product is not showing, make sure it is not set to Hidden in the Catalog Visibility.",
+      "description": "Show the price and add to cart button of a single product by ID or SKU.",
       "values": [
         {
-          "label": "IDs",
-          "value": "ids"
+          "label": "ID",
+          "value": "id"
         },
         {
-          "label": "SKUs",
-          "value": "skus"
+          "label": "SKU",
+          "value": "sku"
         }
       ]
     }
   },
-  "atts_ids": {
+  "atts_id": {
     "type": "string",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Product IDs",
+      "label": "Product ID",
       "onChange": {
         "rules": {
           "selector": {
             "rule": "value",
             "options": {
-              "value": "ids"
+              "value": "id"
             }
           }
         },
@@ -79,18 +79,18 @@
       }
     }
   },
-  "atts_skus": {
+  "atts_sku": {
     "type": "string",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Product SKUs",
+      "label": "Product SKU",
       "onChange": {
         "rules": {
           "selector": {
             "rule": "value",
             "options": {
-              "value": "skus"
+              "value": "sku"
             }
           }
         },
@@ -100,30 +100,6 @@
           }
         ]
       }
-    }
-  },
-  "atts_columns": {
-    "type": "string",
-    "access": "public",
-    "value": "4",
-    "options": {
-      "label": "Columns"
-    }
-  },
-  "atts_orderby": {
-    "type": "string",
-    "access": "public",
-    "value": "title",
-    "options": {
-      "label": "Order by"
-    }
-  },
-  "atts_order": {
-    "type": "string",
-    "access": "public",
-    "value": "asc",
-    "options": {
-      "label": "Order"
     }
   },
   "editFormTab1": {
@@ -131,14 +107,11 @@
     "access": "protected",
     "value": [
       "selector",
-      "atts_ids",
-      "atts_skus",
-      "atts_columns",
-      "atts_orderby",
-      "atts_order"
+      "atts_id",
+      "atts_sku"
     ],
     "options": {
-      "label": "Products"
+      "label": "Add To Cart Url"
     }
   },
   "metaEditFormTabs": {
