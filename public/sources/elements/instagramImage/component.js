@@ -4,18 +4,18 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    if (this.props.atts.size) {
-      this.checkCustomSize(this.props.atts.size)
+    if (this.props.atts.width) {
+      this.checkCustomSize(this.props.atts.width)
     }
     this.insertInstagram(this.props.atts.instagramUrl, this.props.atts.includeCaption)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.atts.size) {
-      this.checkCustomSize(nextProps.atts.size)
+    if (nextProps.atts.width) {
+      this.checkCustomSize(nextProps.atts.width)
     } else {
       this.setState({
-        imgSize: null
+        size: null
       })
     }
 
@@ -24,36 +24,25 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
-  checkCustomSize (size) {
-    size = size.toLowerCase()
-
-    if (size.match(/\d*/)[0] === '') {
-      switch (size) {
-        case 'thumbnail':
-          size = 150
-          break
-        case 'medium':
-          size = 300
-          break
-        case 'large':
-          size = 660
-          break
-        case 'full':
-          size = ''
-          break
-        default:
-          size = ''
-      }
-    }
+  checkCustomSize (width) {
+    width = this.validateSize(width)
+    width = /^\d+$/.test(width) ? width + 'px' : width
+    let size = { width }
     this.setSizeState(size)
   }
 
+  validateSize (value) {
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    if (value === '' || value.match(re)) {
+      return value
+    } else {
+      return null
+    }
+  }
+
   setSizeState (size) {
-    this.setState({
-      imgSize: {
-        maxWidth: size + 'px'
-      }
-    })
+    this.setState({ size })
   }
 
   updateInstagramHtml (tagString = '') {
@@ -66,7 +55,7 @@ class Component extends vcvAPI.elementComponent {
       component.appendChild(documentFragment)
 
       let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
-      if (iframe && iframe.instgrm && iframe.instgrm.Embeds ) {
+      if (iframe && iframe.instgrm && iframe.instgrm.Embeds) {
         iframe.instgrm.Embeds.process()
       }
     } else {
@@ -123,7 +112,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, size, alignment } = atts
+    let { designOptions, customClass, width, alignment } = atts
     let classes = 'vce-instagram-image vce'
     let customProps = {}
     let innerClasses = 'vce-instagram-image-inner'
@@ -133,8 +122,8 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (typeof size === 'string' && size) {
-      innerCustomProps.style = this.state ? this.state.imgSize : null
+    if (width) {
+      innerCustomProps.style = this.state ? this.state.size : null
     }
 
     if (alignment) {
