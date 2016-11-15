@@ -4,9 +4,13 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let { customOptions, tweetUrl, tweetTheme } = this.props.atts
+    let { customOptions, tweetUrl, tweetTheme, width } = this.props.atts
     if (!customOptions) {
       tweetTheme = 'light'
+    }
+
+    if (width) {
+      this.checkCustomSize(width)
     }
 
     if (tweetUrl) {
@@ -24,6 +28,13 @@ class Component extends vcvAPI.elementComponent {
     let nextAtts = nextProps.atts
     if (!nextAtts.customOptions) {
       nextAtts.tweetTheme = 'light'
+    }
+    if (nextAtts.width) {
+      this.checkCustomSize(nextAtts.width)
+    } else {
+      this.setState({
+        size: null
+      })
     }
     let nextElementKey = `customProps:${nextProps.id}-${nextAtts.tweetUrl}-${nextAtts.tweetTheme}`
 
@@ -88,6 +99,27 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
+  checkCustomSize (width) {
+    width = this.validateSize(width)
+    width = /^\d+$/.test(width) ? width + 'px' : width
+    let size = { width }
+    this.setSizeState(size)
+  }
+
+  validateSize (value) {
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    if (value === '' || value.match(re)) {
+      return value
+    } else {
+      return null
+    }
+  }
+
+  setSizeState (size) {
+    this.setState({ size })
+  }
+
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, customOptions } = atts
@@ -105,10 +137,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (width) {
-      let mixinData = this.getMixinData('tweetWidth')
-      if (mixinData) {
-        innerClasses += ` vce-twitter-tweet--width-${mixinData.selector}`
-      }
+      innerCustomProps.style = this.state ? this.state.size : null
     }
 
     customProps.key = `customProps:${id}`
