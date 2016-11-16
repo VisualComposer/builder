@@ -105,15 +105,15 @@ class SaveController {
     }
   }
 
-  saveSuccess (request) {
-    let data = JSON.parse(request.responseText || '{}')
+  saveSuccess (responseText) {
+    let data = JSON.parse(responseText || '{}')
     if (data.postData) {
       window.vcvPostData = data.postData
     }
 
     this.props.api.request('wordpress:data:saved', {
       status: 'success',
-      request: request
+      request: responseText
     })
   }
 
