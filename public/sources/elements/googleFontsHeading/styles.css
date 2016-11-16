@@ -1,0 +1,19 @@
+.vce-google-fonts-heading-inner {
+  /*width: 100%;*/
+  /*max-width: 100%;*/
+  /*display: inline-block;*/
+  /*vertical-align: top;*/
+}
+
+.vce-google-fonts-heading--align-center {
+  text-align: center;
+}
+
+.vce-google-fonts-heading--align-right {
+  text-align: right;
+}
+
+.vce-google-fonts-heading--align-left {
+  text-align: left;
+}
+
