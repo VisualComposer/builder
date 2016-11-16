@@ -130,6 +130,9 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
 }
+if (vcCake.env('FEATURE_YOUTUBE_PLAYER')) {
+  tempData.categories[ 'Video' ].elements.push('youtubePlayer')
+}
 const data = tempData
 
 const service = {
