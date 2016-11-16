@@ -224,7 +224,7 @@
     "value": false,
     "options": {
       "label": "Loop",
-      "description": "Loop a video.",
+      "description": "Play the video again when it reaches the end.",
       "onChange": {
         "rules": {
           "advanced": {

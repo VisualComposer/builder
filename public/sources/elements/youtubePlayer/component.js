@@ -111,9 +111,6 @@ class Component extends vcvAPI.elementComponent {
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
     }
-    if (editor) {
-      innerClasses += ' vce-yt-video-player-disabled'
-    }
     if (alignment) {
       classes += ` vce-yt-video-player--align-${alignment}`
     }
@@ -149,7 +146,7 @@ class Component extends vcvAPI.elementComponent {
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
-    return <div className={classes} id={'el-' + id} {...editor}>
+    return <div className={classes} id={'el-' + id} {...editor} data-vcv-element-disabled='true'>
       <div className={wrapperClasses}>
         <div className={innerClasses} style={{width: videoWidth}}>
           <iframe
