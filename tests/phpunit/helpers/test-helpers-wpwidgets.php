@@ -41,4 +41,16 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
             $this->assertTrue($exists, 'Widget with id:' . $widgetId . ' are default and should exist');
         }
     }
+
+    public function testGetWidget()
+    {
+        $this->assertTrue(is_object(vchelper('WpWidgets')->get('WP_Widget_Pages')));
+        $this->assertNull(vchelper('WpWidgets')->get('wp_widget_pages'));
+    }
+
+    public function testExistsWidget()
+    {
+        $this->assertTrue(vchelper('WpWidgets')->exists('WP_Widget_Pages'));
+        $this->assertFalse(vchelper('WpWidgets')->exists('wp_widget_pages'));
+    }
 }

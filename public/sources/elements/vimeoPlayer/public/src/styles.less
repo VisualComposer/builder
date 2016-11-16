@@ -1,0 +1,51 @@
+// Styles for Vimeo Video Player
+//-----------------------------------------
+
+.vce-vim-video-player-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.vce-vim-video-player-inner {
+  position: relative;
+  max-width: 100%;
+  padding-top: 56.25%;
+}
+
+[data-vcv-element-disabled="true"] {
+  .vce-vim-video-player-inner {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 999;
+    }
+  }
+}
+
+.vce-vim-video-player-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.vce-vim-video-player--align {
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+
+  &-left {
+    text-align: left;
+  }
+}
