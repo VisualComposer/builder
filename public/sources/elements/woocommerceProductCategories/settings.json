@@ -1,0 +1,130 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "WooCommerce Product Categories"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "atts_number": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Number",
+      "description": "The `number` field is used to display the number of products"
+    }
+  },
+  "atts_ids": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "ID`s",
+      "description": "The `ids` field is to tell the shortcode which categories to display. Set IDs to a comma separated list of category IDs to only show those."
+    }
+  },
+  "atts_columns": {
+    "type": "string",
+    "access": "public",
+    "value": "4",
+    "options": {
+      "label": "Columns"
+    }
+  },
+  "atts_orderby": {
+    "type": "string",
+    "access": "public",
+    "value": "title",
+    "options": {
+      "label": "Order by"
+    }
+  },
+  "atts_order": {
+    "type": "string",
+    "access": "public",
+    "value": "asc",
+    "options": {
+      "label": "Order"
+    }
+  },
+  "atts_hide_empty": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Hide Empty"
+    }
+  },
+  "atts_parent": {
+    "type": "string",
+    "access": "public",
+    "value": "0",
+    "options": {
+      "label": "Parent",
+      "description": "Set the parent parameter to 0 to only display top level categories."
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "atts_number",
+      "atts_ids",
+      "atts_columns",
+      "atts_orderby",
+      "atts_order",
+      "atts_hide_empty",
+      "atts_parent"
+    ],
+    "options": {
+      "label": "Product Categories"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
