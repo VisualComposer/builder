@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-thumbnail.jpg"
+    "value": "twitter-tweet-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
