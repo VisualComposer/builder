@@ -11,22 +11,41 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, width, alignment } = atts
+    let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass } = atts
     let classes = 'vce-google-fonts-heading vce'
     let customProps = {}
     let innerClasses = 'vce-google-fonts-heading-inner'
     let innerCustomProps = {}
+    let CustomTag = elementTag
+    let headingHtml = text
+
+    if (link && link.url) {
+      CustomTag = 'a'
+      let { url, title, targetBlank, relNofollow } = link
+      customProps = {
+        'href': url,
+        'title': title,
+        'target': targetBlank ? '_blank' : undefined,
+        'rel': relNofollow ? 'nofollow' : undefined
+      }
+    }
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
     }
 
-    if (width) {
-      innerCustomProps.style = this.state ? this.state.size : null
+    if (fontSize) {
+
     }
 
     if (alignment) {
       classes += ` vce-google-fonts-heading--align-${alignment}`
+    }
+
+    let mixinData = this.getMixinData('textColor')
+
+    if (mixinData) {
+      classes += ` vce-google-fonts-heading--color-${mixinData.selector}`
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
@@ -45,7 +64,9 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} />
+      <CustomTag className={innerClasses} {...innerCustomProps}>
+        {headingHtml}
+      </CustomTag>
     </div>
   }
 }
