@@ -9,7 +9,6 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
         $widgets = $helper->all();
         $this->assertTrue(is_array($widgets));
         $this->assertTrue(!empty($widgets));
-        var_dump($widgets);
     }
 
     public function testDefaultWpWidgets()
