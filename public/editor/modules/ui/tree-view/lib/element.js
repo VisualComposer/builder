@@ -25,49 +25,51 @@ export default class TreeViewElement extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.state = {
       childExpand: true,
-      activeEditElementId: null,
+      isActive: false,
       hasChild: false,
-      editorHoverElement: null
+      showOutline: false
     }
   }
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
     this.props.api
-      .reply('app:edit', this.setElementId)
-      .reply('app:add', this.setElementId)
-      .reply('data:add', this.unsetElementId)
-      .reply('bar-content-end:hide', this.unsetElementId)
-      .on('hide', this.unsetElementId)
-      .on('form:hide', this.unsetElementId)
+      .reply('app:edit', this.checkActive)
+      .reply('app:add', this.checkActive)
+      .reply('data:add', this.checkActive)
+      .reply('bar-content-end:hide', this.checkActive)
+      .on('hide', this.checkActive)
+      .on('form:hide', this.checkActive)
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
       this.props.api.reply('editorContent:element:mouseEnter', this.interactWithContent)
     }
   }
 
-  interactWithContent = (data) => {
-    this.setState({
-      editorHoverElement: data.element.dataset.vcvElement
-    })
-  }
-
-  setElementId = (id) => {
-    this.setState({ activeEditElementId: id })
-  }
-
-  unsetElementId = () => {
-    this.setState({ activeEditElementId: null })
-  }
-
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.props.element.id)
     this.props.api
-      .forget('app:edit', this.setElementId)
-      .forget('app:add', this.setElementId)
-      .forget('data:add', this.unsetElementId)
-      .forget('bar-content-end:hide', this.unsetElementId)
-      .off('hide', this.unsetElementId)
-      .off('form:hide', this.unsetElementId)
+      .forget('app:edit', this.checkActive)
+      .forget('app:add', this.checkActive)
+      .forget('data:add', this.checkActive)
+      .forget('bar-content-end:hide', this.checkActive)
+      .off('hide', this.checkActive)
+      .off('form:hide', this.checkActive)
+  }
+
+  checkActive = (data = false) => {
+    if (this.state.isActive !== (data === this.props.element.id)) {
+      this.setState({
+        isActive: data === this.props.element.id
+      })
+    }
+  }
+
+  interactWithContent = (data) => {
+    if (this.state.showOutline !== (data.element.dataset.vcvElement === this.props.element.id)) {
+      this.setState({
+        showOutline: data.element.dataset.vcvElement === this.props.element.id
+      })
+    }
   }
 
   clickChildExpand = () => {
@@ -176,8 +178,8 @@ export default class TreeViewElement extends React.Component {
 
     let controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
-      'vcv-ui-state--active': this.props.element.id === this.state.activeEditElementId,
-      'vcv-ui-state--outline': this.props.element.id === this.state.editorHoverElement
+      'vcv-ui-state--active': this.state.isActive,
+      'vcv-ui-state--outline': this.state.showOutline
     })
 
     let publicPath = categoriesService.getElementIcon(element.get('tag'))

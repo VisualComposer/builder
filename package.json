@@ -110,6 +110,7 @@
     "simply-deferred": "3.0.0",
     "tinymce": "4.4.3",
     "vc-cake": "0.4.1",
+    "webfontloader": "^1.6.26",
     "webpack": "1.13.2"
   },
   "babel": {

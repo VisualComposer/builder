@@ -224,7 +224,7 @@
     "value": false,
     "options": {
       "label": "Loop",
-      "description": "Loop a video.",
+      "description": "Play the video again when it reaches the end.",
       "onChange": {
         "rules": {
           "advanced": {
@@ -244,7 +244,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Relative videos",
+      "label": "Related videos",
       "description": "Indicates whether the player should show related videos when playback of the initial video ends.",
       "onChange": {
         "rules": {

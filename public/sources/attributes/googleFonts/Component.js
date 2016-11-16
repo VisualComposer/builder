@@ -1,40 +1,47 @@
 import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
+import './css/styles.less'
 
 import Dropdown from '../dropdown/Component'
 
-// let webFontLoader = require('webfontloader') // update package.json
+let webFontLoader = require('webfontloader') // update package.json
 let googleFonts = require('./lib/google-fonts-set')
 
 export default class GoogleFonts extends Attribute {
+  static fontWeight = {
+    100: 'Thin',
+    200: 'Extra Light',
+    300: 'Light',
+    400: 'Normal',
+    500: 'Medium',
+    600: 'Semi Bold',
+    700: 'Bold',
+    800: 'Extra Bold',
+    900: 'Black'
+  }
+
   constructor (props) {
     super(props)
-
     this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
     this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
     this.updateFieldValue = this.updateFieldValue.bind(this)
   }
 
+  componentWillMount () {
+    this.loadFonts(this.state.value.fontFamily, this.state.value.fontStyle)
+  }
+
   handleFontFamilyChange (fieldKey, value) {
     let fontStyleOptions = this.createStyleArray(value)
-    this.updateFieldValue()
-    this.setFieldValue({
-      fontFamily: value,
-      fontStyle: lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' }).value
-    })
+    let regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' })
+    let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[ 0 ].value
+
+    this.loadFonts(value, defaultFontStyle)
   }
 
   handleFontStyleChange (fieldKey, value) {
-    // this.setFieldValue({
-    //   fontStyle: value
-    // })
-  }
-
-  updateFieldValue (value) {
-    this.setFieldValue({
-      fontStyle: value
-    })
+    this.loadFonts(this.state.value.fontFamily, value)
   }
 
   createOptionsArray (key) {
@@ -42,7 +49,7 @@ export default class GoogleFonts extends Attribute {
     googleFonts.forEach((item) => {
       let arrayItem = {
         label: item[ key ],
-        value: item[ key ].replace(/\s+/g, '-')
+        value: item[ key ]
       }
       newArray.push(arrayItem)
     })
@@ -52,7 +59,6 @@ export default class GoogleFonts extends Attribute {
   createStyleArray (fontFamily) {
     let newArray = []
     let variants = ''
-    fontFamily = fontFamily.replace('-', ' ')
 
     googleFonts.forEach((item) => {
       if (item.family === fontFamily) {
@@ -62,7 +68,7 @@ export default class GoogleFonts extends Attribute {
 
     variants.forEach((item) => {
       newArray.push({
-        label: item,
+        label: this.parseFontVariant(item),
         value: item
       })
     })
@@ -70,13 +76,41 @@ export default class GoogleFonts extends Attribute {
     return newArray
   }
 
-  // loadFonts () {
-  //   webFontLoader.load({
-  //     google: {
-  //       families: ['Droid Sans', 'Droid Serif']
-  //     }
-  //   })
-  // }
+  getFontVariant (variant) {
+    let number = variant.match(/\d+/g)
+    let word = variant.match(/[a-z]+$/i)
+    let fontWeight = number ? number[ 0 ] : '400'
+    let fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : ''
+    return { weight: fontWeight, style: fontStyle }
+  }
+
+  parseFontVariant (variant) {
+    let fontVariant = this.getFontVariant(variant)
+    let fontWeightDefinition = GoogleFonts.fontWeight[ fontVariant.weight ]
+    let fontStyle = fontVariant.style === 'italic' ? ' Italic' : ''
+    return `${fontWeightDefinition} (${fontVariant.weight})` + fontStyle
+  }
+
+  updateFieldValue (family, style, status) {
+    let value = {
+      fontFamily: family,
+      fontStyle: style,
+      status: status
+    }
+    let mergedValue = lodash.merge(this.state.value, value)
+    this.setFieldValue(mergedValue)
+  }
+
+  loadFonts (family, style) {
+    webFontLoader.load({
+      google: {
+        families: [ `${family}:${style}` ]
+      },
+      inactive: this.updateFieldValue.bind(this, family, style, 'inactive'),
+      active: this.updateFieldValue.bind(this, family, style, 'active'),
+      loading: this.updateFieldValue.bind(this, family, style, 'loading')
+    })
+  }
 
   render () {
     let fontStyleArray = this.createStyleArray(this.state.value.fontFamily)
@@ -88,7 +122,23 @@ export default class GoogleFonts extends Attribute {
       values: this.createOptionsArray('family')
     }
 
-    // let fontStyle = lodash.find(fontStyleArray, (o) => { return o.value === 'regular' }).value
+    let fontTextProps = {}
+
+    let previewText = ''
+
+    if (this.state.value.status === 'loading') {
+      previewText = 'Loading Font...'
+    } else if (this.state.value.status === 'active') {
+      previewText = this.state.value.fontText
+
+      fontTextProps.style = {
+        fontFamily: this.state.value.fontFamily,
+        fontWeight: this.getFontVariant(this.state.value.fontStyle).weight,
+        fontStyle: this.getFontVariant(this.state.value.fontStyle).style
+      }
+    } else if (this.state.value.status === 'inactive') {
+      previewText = 'Loading google font failed.'
+    }
 
     return (
       <div className='vcv-ui-google-fonts-container'>
@@ -122,11 +172,9 @@ export default class GoogleFonts extends Attribute {
             </div>
           </div>
         </div>
-        <div className='vcv-ui-row vcv-ui-row-gap--md'>
-          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
-            <p>{this.state.value.fontText}</p>
-            <p className='vcv-ui-form-helper'>Click on preview to change it to your preferences</p>
-          </div>
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-font-preview-text' {...fontTextProps}>{previewText}</span>
+          <p className='vcv-ui-form-helper'>Click on preview to change it to your preferences</p>
         </div>
       </div>
     )

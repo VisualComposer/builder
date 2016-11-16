@@ -11,8 +11,10 @@
   position: relative;
   max-width: 100%;
   padding-top: 56.25%;
+}
 
-  &.vce-yt-video-player-disabled {
+[data-vcv-element-disabled="true"] {
+  .vce-yt-video-player-inner {
     &::after {
       content: "";
       position: absolute;
