@@ -162,7 +162,7 @@ export default class DnD {
       .on('mousedown', this.handleDragFunction)
   }
   removeItem (id) {
-    this.items[ id ]
+    this.items[ id ] && this.items[ id ]
       .off('mousedown', this.handleDragStartFunction)
       .off('mousedown', this.handleDragFunction)
     delete this.items[ id ]

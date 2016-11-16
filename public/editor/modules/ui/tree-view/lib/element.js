@@ -112,7 +112,6 @@ export default class TreeViewElement extends React.Component {
       this.props.iframe.querySelector('#el-' + this.props.element.id).scrollIntoView()
     }
   }
-
   handleMouseEnter (e) {
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
       if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {

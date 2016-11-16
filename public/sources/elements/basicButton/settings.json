@@ -203,11 +203,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 4
-  },
   "assetsLibrary": {
     "access": "public",
     "type": "string",

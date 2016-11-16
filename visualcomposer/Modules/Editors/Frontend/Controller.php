@@ -39,7 +39,8 @@ class Controller extends Container implements Module
     private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
     {
         if (!is_user_logged_in()) {
-            return wp_redirect(wp_login_url());
+            wp_redirect(wp_login_url());
+            die;
         }
         $sourceId = (int)$request->input('vcv-source-id');
         $this->setupPost($sourceId);

@@ -346,10 +346,5 @@
     "value": [
       "General"
     ]
-  },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 4
   }
 }
