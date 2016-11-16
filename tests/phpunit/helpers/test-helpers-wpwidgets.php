@@ -53,4 +53,18 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
         $this->assertTrue(vchelper('WpWidgets')->exists('WP_Widget_Pages'));
         $this->assertFalse(vchelper('WpWidgets')->exists('wp_widget_pages'));
     }
+
+    public function testGetWidgetUrl()
+    {
+        $url = get_site_url() .
+            '/?vcv-ajax=1&vcv-action=' .
+            rawurlencode('elements:widget:script:adminNonce') .
+            '&vcv-widget-key=WP_Widget_Pages&vcv-nonce=' .
+            vchelper('Nonce')->admin();
+
+        $this->assertEquals(
+            $url,
+            vchelper('WpWidgets')->getWidgetUrl('WP_Widget_Pages', vchelper('Url'), vchelper('Nonce'))
+        );
+    }
 }

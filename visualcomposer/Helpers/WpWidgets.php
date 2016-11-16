@@ -42,4 +42,17 @@ class WpWidgets implements Helper
 
         return $wp_widget_factory instanceof \WP_Widget_Factory && array_key_exists($key, $wp_widget_factory->widgets);
     }
+
+    public function getWidgetUrl($widgetKey, Url $urlHelper, Nonce $nonceHelper)
+    {
+        $url = $urlHelper->ajax(
+            [
+                'vcv-action' => 'elements:widget:script:adminNonce',
+                'vcv-widget-key' => $widgetKey,
+                'vcv-nonce' => $nonceHelper->admin(),
+            ]
+        );
+
+        return $url;
+    }
 }
