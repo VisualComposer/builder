@@ -110,6 +110,9 @@ if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
 if (vcCake.env('FEATURE_VIDEO_PLAYER')) {
   tempData.categories[ 'Video' ].elements.push('videoPlayer')
 }
+if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
+  tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')
+}
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')

@@ -5,7 +5,7 @@ import './css/styles.less'
 
 import Dropdown from '../dropdown/Component'
 
-let webFontLoader = require('webfontloader') // update package.json
+let webFontLoader = require('webfontloader')
 let googleFonts = require('./lib/google-fonts-set')
 
 export default class GoogleFonts extends Attribute {

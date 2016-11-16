@@ -1,0 +1,127 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Google Fonts Heading"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "google-fonts-preview.png"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "google-fonts-thumbnail.png"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "width",
+      "alignment",
+      "customClass",
+      "font"
+    ],
+    "options": {
+      "label": "Google Fonts Heading"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "width": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Width",
+      "description": "Enter width in pixels or percentages (Example: 200px)."
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "font": {
+    "type": "googleFonts",
+    "access": "public",
+    "value": {
+      "fontText": "The sky was cloudless and of a deep dark blue.",
+      "fontFamily": "Abril Fatface",
+      "fontStyle": "regular"
+    },
+    "options": {
+      "label": ""
+    }
+  }
+}
