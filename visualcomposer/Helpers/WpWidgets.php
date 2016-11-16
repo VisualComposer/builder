@@ -16,4 +16,30 @@ class WpWidgets implements Helper
 
         return $wp_widget_factory instanceof \WP_Widget_Factory ? $wp_widget_factory->widgets : [];
     }
+
+    /**
+     * @param $key
+     *
+     * @return \WP_Widget
+     */
+    public function get($key)
+    {
+        /** @var \WP_Widget_Factory $wp_widget_factory */
+        global $wp_widget_factory;
+
+        return $this->exists($key) ? $wp_widget_factory->widgets[ $key ] : null;
+    }
+
+    /**
+     * @param $key
+     *
+     * @return bool
+     */
+    public function exists($key)
+    {
+        /** @var \WP_Widget_Factory $wp_widget_factory */
+        global $wp_widget_factory;
+
+        return $wp_widget_factory instanceof \WP_Widget_Factory && array_key_exists($key, $wp_widget_factory->widgets);
+    }
 }
