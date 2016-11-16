@@ -23,8 +23,11 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     this.serverRequest = ajax({
-      'vcv-action': 'elements:woocommerce:woocommerce_my_account',
-      'vcv-atts': this.props.atts // TODO: Pass only needed atts...
+      'vcv-action': `elements:woocommerce:woocommerce_my_account${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-nonce': window.vcvNonce,
+      'vcv-atts': {
+        'order_count': this.props.atts.order_count
+      } // TODO: Pass only needed atts...
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }

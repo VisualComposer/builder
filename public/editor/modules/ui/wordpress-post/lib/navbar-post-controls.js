@@ -42,8 +42,8 @@ class WordPressAdminControl extends React.Component {
       <a
         className='vcv-ui-navbar-control'
         title={previewText}
+        href={PostData.previewUrl()}
         target='_blank'
-        disabled='disabled'
       ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
     )
 

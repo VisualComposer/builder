@@ -119,6 +119,19 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceFeaturedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProduct')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceAddToCart')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceAddToCartUrl')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductCategory')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductCategories')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductPage')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceSaleProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceBestSellingProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
+  tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
+}
+if (vcCake.env('FEATURE_YOUTUBE_PLAYER')) {
+  tempData.categories[ 'Video' ].elements.push('youtubePlayer')
 }
 const data = tempData
 

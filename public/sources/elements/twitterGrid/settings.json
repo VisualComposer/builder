@@ -67,11 +67,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
-  },
   "customOptions": {
     "type": "toggle",
     "access": "public",
@@ -160,18 +155,12 @@
     }
   },
   "width": {
-    "type": "number",
+    "type": "string",
     "access": "public",
-    "value": "500",
+    "value": "500px",
     "options": {
-      "min": "220",
       "label": "Width",
-      "description": "Enter width in px (Minimal: 220).",
-      "cssMixin": {
-        "mixin": "gridWidth",
-        "property": "width",
-        "namePattern": "[\\da-f]+"
-      }
+      "description": "Enter width in pixels. Minimal width 220px (Example: 220px)."
     }
   }
 }

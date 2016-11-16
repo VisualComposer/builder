@@ -37,7 +37,7 @@
       "label": "Design Options"
     }
   },
-  "per_page": {
+  "atts_per_page": {
     "type": "string",
     "access": "public",
     "value": "12",
@@ -45,7 +45,7 @@
       "label": "Per page"
     }
   },
-  "columns": {
+  "atts_columns": {
     "type": "string",
     "access": "public",
     "value": "4",
@@ -53,7 +53,7 @@
       "label": "Columns"
     }
   },
-  "orderby": {
+  "atts_orderby": {
     "type": "string",
     "access": "public",
     "value": "date",
@@ -61,7 +61,7 @@
       "label": "Order by"
     }
   },
-  "order": {
+  "atts_order": {
     "type": "string",
     "access": "public",
     "value": "desc",
@@ -73,10 +73,10 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "per_page",
-      "columns",
-      "orderby",
-      "order"
+      "atts_per_page",
+      "atts_columns",
+      "atts_orderby",
+      "atts_order"
     ],
     "options": {
       "label": "Recent Products"

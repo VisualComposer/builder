@@ -50,7 +50,7 @@
     "access": "protected",
     "value": [
       "instagramUrl",
-      "size",
+      "width",
       "includeCaption",
       "alignment",
       "customClass"
@@ -74,11 +74,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
-  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -95,13 +90,13 @@
       "animate"
     ]
   },
-  "size": {
+  "width": {
     "type": "string",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Image size",
-      "description": "Enter image size (Example: \"thumbnail\", \"medium\", \"large\", \"full\" or other sizes defined by theme). Alternatively enter width in pixels (Example: 200 (Width))."
+      "label": "Width",
+      "description": "Enter width in pixels or percentages (Example: 200px)."
     }
   },
   "alignment": {

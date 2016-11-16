@@ -23,8 +23,15 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     this.serverRequest = ajax({
-      'vcv-action': 'elements:woocommerce:recent_products',
-      'vcv-atts': this.props.atts // TODO: Pass only needed atts...
+      'vcv-action': `elements:woocommerce:recent_products${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-nonce': window.vcvNonce,
+      'vcv-atts': {
+        'per_page': this.props.atts.atts_per_page,
+        'order': this.props.atts.atts_order,
+        'columns': this.props.atts.atts_columns,
+        'orderby': this.props.atts.atts_orderby
+      } // TODO: Pass only needed atts...
+      // TODO: Check \WC_Shortcodes::recent_products `category` and `operator` attributes (not documented)
     }, (result) => {
       this.setState({
         shortcodeContent: { __html: result.response }

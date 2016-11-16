@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-thumbnail.jpg"
+    "value": "twitter-tweet-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
@@ -66,11 +66,6 @@
     "value": [
       "General"
     ]
-  },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
   },
   "customOptions": {
     "type": "toggle",
@@ -139,19 +134,12 @@
     }
   },
   "width": {
-    "type": "number",
+    "type": "string",
     "access": "public",
-    "value": "500",
+    "value": "500px",
     "options": {
-      "min": "220",
-      "max": "500",
       "label": "Width",
-      "description": "Enter width in px (Minimal: 220, maximal: 500).",
-      "cssMixin": {
-        "mixin": "tweetWidth",
-        "property": "width",
-        "namePattern": "[\\da-f]+"
-      }
+      "description": "Enter width in pixels. Minimal width 220px (Example: 220px)."
     }
   },
   "tweetTheme": {

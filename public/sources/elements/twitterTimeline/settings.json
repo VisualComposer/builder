@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-thumbnail.jpg"
+    "value": "twitter-timeline-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
@@ -68,11 +68,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
-  },
   "customOptions": {
     "type": "toggle",
     "access": "public",
@@ -100,7 +95,7 @@
   "timelineUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "value": "https://twitter.com/Twitter",
     "options": {
       "label": "Twitter timeline URL (Link)"
     }
@@ -191,18 +186,12 @@
     }
   },
   "width": {
-    "type": "number",
+    "type": "string",
     "access": "public",
-    "value": "500",
+    "value": "500px",
     "options": {
-      "min": "220",
       "label": "Width",
-      "description": "Enter width in px (Minimal: 220).",
-      "cssMixin": {
-        "mixin": "timelineWidth",
-        "property": "width",
-        "namePattern": "[\\da-f]+"
-      }
+      "description": "Enter width in pixels. Minimal width 220px (Example: 220px)."
     }
   }
 }

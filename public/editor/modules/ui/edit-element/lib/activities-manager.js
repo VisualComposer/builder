@@ -10,17 +10,17 @@ export default class ActivitiesManager extends React.Component {
     element: React.PropTypes.object.isRequired,
     activeState: React.PropTypes.string
   }
-  mount = []
-  stack = []
-  mountStack = []
-  initialStack = []
+  mount = {}
+  stack = {}
+  mountStack = {}
+  initialStack = {}
   listeners = this.initListeners(this.props.element)
 
   componentWillUpdate (nextProps) {
-    this.mount = []
-    this.stack = []
-    this.mountStack = []
-    this.initialStack = []
+    this.mount = {}
+    this.stack = {}
+    this.mountStack = {}
+    this.initialStack = {}
     this.listeners = this.initListeners(nextProps.element)
   }
 
@@ -75,13 +75,13 @@ export default class ActivitiesManager extends React.Component {
     } else {
       this.mount[ field ].field = data
     }
-    this.callMountStack(field)
     this.callInitialStack(field)
+    this.callMountStack(field)
   }
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
-    this.callFieldActivities(key)
+    this.callFieldActivities(null, key)
   }
 
   setFieldUnmount = (field, isTab) => {
@@ -102,10 +102,12 @@ export default class ActivitiesManager extends React.Component {
     }
   }
 
-  callFieldActivities = (field) => {
+  callFieldActivities = (targetKey, field) => {
     if (this.listeners[ field ]) {
       lodash.each(this.listeners[ field ], (listener) => {
-        this.addStack(listener, field)
+        if (this.mount[ listener.key ] && (!targetKey || listener.key === targetKey)) {
+          this.addStack(listener, field)
+        }
       })
     }
     if (this.stack[ field ]) {
@@ -113,15 +115,15 @@ export default class ActivitiesManager extends React.Component {
     }
   }
 
-  callMountStack = (field) => {
-    if (this.mountStack[ field ]) {
-      this.mountStack[ field ] = this.mountStack[ field ].filter(this.callFieldActivities)
+  callMountStack = (targetKey) => {
+    if (this.mountStack[ targetKey ]) {
+      this.mountStack[ targetKey ] = this.mountStack[ targetKey ].filter(this.callFieldActivities.bind(this, targetKey))
     }
   }
 
-  callInitialStack = (field) => {
-    if (this.initialStack[ field ]) {
-      this.initialStack[ field ].map(this.callFieldActivities)
+  callInitialStack = (targetKey) => {
+    if (this.initialStack[ targetKey ]) {
+      this.initialStack[ targetKey ].map(this.callFieldActivities.bind(this, targetKey))
     }
   }
 
@@ -132,7 +134,7 @@ export default class ActivitiesManager extends React.Component {
     this.stack[ field ].push(listener)
   }
 
-  addMountStack (targetKey, listener) {
+  addMountStack (listener, targetKey) {
     if (!this.mountStack[ listener.key ]) {
       this.mountStack[ listener.key ] = []
     }
@@ -148,7 +150,7 @@ export default class ActivitiesManager extends React.Component {
 
   callStack = (targetKey, listener) => {
     if (!this.mount[ listener.key ]) {
-      this.addMountStack(targetKey, listener)
+      this.addMountStack(listener, targetKey)
       return true
     }
 

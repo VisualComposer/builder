@@ -56,7 +56,7 @@
       ]
     }
   },
-  "productIds": {
+  "atts_ids": {
     "type": "string",
     "access": "public",
     "value": "",
@@ -79,7 +79,7 @@
       }
     }
   },
-  "productSkus": {
+  "atts_skus": {
     "type": "string",
     "access": "public",
     "value": "",
@@ -102,7 +102,7 @@
       }
     }
   },
-  "columns": {
+  "atts_columns": {
     "type": "string",
     "access": "public",
     "value": "4",
@@ -110,7 +110,7 @@
       "label": "Columns"
     }
   },
-  "orderby": {
+  "atts_orderby": {
     "type": "string",
     "access": "public",
     "value": "title",
@@ -118,7 +118,7 @@
       "label": "Order by"
     }
   },
-  "productsOrder": {
+  "atts_order": {
     "type": "string",
     "access": "public",
     "value": "asc",
@@ -131,11 +131,11 @@
     "access": "protected",
     "value": [
       "selector",
-      "productIds",
-      "productSkus",
-      "columns",
-      "orderby",
-      "productsOrder"
+      "atts_ids",
+      "atts_skus",
+      "atts_columns",
+      "atts_orderby",
+      "atts_order"
     ],
     "options": {
       "label": "Products"

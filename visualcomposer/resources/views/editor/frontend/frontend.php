@@ -27,8 +27,8 @@ $frontendModule = vcapp('EditorsFrontendController');
 
     <?php
     /** @todo add jquery into bundle.js. */
-    wp_print_head_scripts();
     do_action('embed_head');
+    wp_print_head_scripts();
     ?>
 </head>
 <body class="vcv-wb-editor">
