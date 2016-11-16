@@ -62,7 +62,7 @@ class Component extends vcvAPI.elementComponent {
         seconds += url[10] === undefined ? 0 : (Number(url[10]) * 60)
         seconds += url[11] === undefined ? 0 : (Number(url[11]))
       }
-      source = `https://www.youtube.com/embed/${url[7]}?start=${seconds}&loop=0&cc_load_policy=0&iv_load_policy=3`
+      source = `https://www.youtube.com/embed/${url[7]}?start=${seconds}&loop=0&cc_load_policy=0&iv_load_policy=3&rel=0`
     }
 
     return <div className={classes} id={'el-' + id} {...editor}>

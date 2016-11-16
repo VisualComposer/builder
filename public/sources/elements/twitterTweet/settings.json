@@ -67,11 +67,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
-  },
   "customOptions": {
     "type": "toggle",
     "access": "public",

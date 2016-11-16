@@ -8,7 +8,7 @@ export const sortingTool = (a, b) => {
   } else if (a.metaOrder && b.metaOrder) {
     return a.metaOrder - b.metaOrder
   }
-  return a.name.localeCompare(b.name, {kn: true}, {sensitivity: 'base'})
+  return a.name ? a.name.localeCompare(b.name, {kn: true}, {sensitivity: 'base'}) : -1
 }
 export const getCategoriesList = (filter, data) => {
   let dataList = filter === true ? Object.keys(data) : filter

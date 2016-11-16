@@ -17,7 +17,7 @@ export default class ContentControls extends React.Component {
       addTitle = `Add ${children[0].name}`
       addElementTag = children[0].tag
     }
-    return <div className='vcv-row-control-container vcv-row-control-container-hide-labels'>
+    return <vcvhelper className='vcv-row-control-container vcv-row-control-container-hide-labels'>
       <RowControl
         api={this.props.api}
         id={this.props.id}
@@ -36,6 +36,6 @@ export default class ContentControls extends React.Component {
         icon='template'
         action='app:template'
       />
-    </div>
+    </vcvhelper>
   }
 }

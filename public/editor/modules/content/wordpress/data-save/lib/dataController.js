@@ -32,12 +32,19 @@ class SaveController {
   }
 
   normalizeHtML (data) {
-    return data.replace(/&quot;/g, "'")
+    return data
+      .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
+      .replace(/<(vcvhelper)([^>]*)>(.(?!<\/\1))*.?<\/\1>/ig, '')
+      .replace(/<!\-\-\[vcvSourceHtml]/g, '')
+      .replace(/\[\/vcvSourceHtml]\-\->/g, '')
+      .replace(/&quot;/g, "'")
   }
 
   save (data) {
+    const iframe = document.getElementById('vcv-editor-iframe')
+    const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
+    let content = contentLayout ? this.normalizeHtML(contentLayout.innerHTML) : ''
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
       let globalStyles = ''
       let designOptions = ''
       let promises = []
@@ -72,7 +79,6 @@ class SaveController {
         )
       })
     } else {
-      let content = this.normalizeHtML(document.getElementsByClassName('vcv-layouts-clean-html')[ 0 ].innerHTML)
       let globalStyles = ''
       let designOptions = ''
       let promises = []
@@ -105,15 +111,15 @@ class SaveController {
     }
   }
 
-  saveSuccess (request) {
-    let data = JSON.parse(request.responseText || '{}')
+  saveSuccess (responseText) {
+    let data = JSON.parse(responseText || '{}')
     if (data.postData) {
       window.vcvPostData = data.postData
     }
 
     this.props.api.request('wordpress:data:saved', {
       status: 'success',
-      request: request
+      request: responseText
     })
   }
 

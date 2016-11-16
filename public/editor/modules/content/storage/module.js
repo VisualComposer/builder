@@ -69,7 +69,7 @@ vcCake.add('storage', (api) => {
     api.request('data:beforeRemove', id)
     let element = DocumentData.get(id)
     DocumentData.delete(id)
-    if (element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
+    if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
       DocumentData.delete(element.parent)
     }
     api.request('data:changed', DocumentData.children(false), 'remove')
