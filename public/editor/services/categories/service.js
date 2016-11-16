@@ -133,6 +133,9 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
 if (vcCake.env('FEATURE_YOUTUBE_PLAYER')) {
   tempData.categories[ 'Video' ].elements.push('youtubePlayer')
 }
+if (vcCake.env('FEATURE_VIMEO_PLAYER')) {
+  tempData.categories[ 'Video' ].elements.push('vimeoPlayer')
+}
 const data = tempData
 
 const service = {
