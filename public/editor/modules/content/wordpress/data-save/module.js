@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
-import DataController from './lib/data-controller'
+import DataController from './lib/dataController'
 
-vcCake.add('content-wordpress-data-save', (api) => {
+vcCake.add('contentWordpressDataSave', (api) => {
   return new DataController({ api: api })
 })

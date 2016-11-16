@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../../resources/dnd/dnd'
-import $ from 'jquery'
 
 require('../../css/dnd/init.less')
 export default class DndManager {
@@ -47,9 +46,9 @@ export default class DndManager {
 
   buildItems () {
     if (!this.items) {
-      this.iframe = $('#vcv-editor-iframe')
-      if (!this.documentDOM && this.iframe.get(0)) {
-        this.documentDOM = this.iframe.get(0).contentWindow.document
+      this.iframe = document.getElementById('vcv-editor-iframe')
+      if (!this.documentDOM && this.iframe) {
+        this.documentDOM = this.iframe.contentWindow.document
       }
       this.items = new DnD(this.documentDOM.querySelector('[data-vcv-module="content-layout"]'), {
         cancelMove: true,

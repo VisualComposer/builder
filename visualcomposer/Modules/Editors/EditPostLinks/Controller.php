@@ -93,6 +93,7 @@ class Controller extends Container implements Module
             );
             $wpAdminBar->add_menu(
                 [
+                    'id' => __('Edit with Visual Composer', 'vc5'),
                     'title' => __('Edit with Visual Composer', 'vc5'),
                     'href' => $url,
                 ]

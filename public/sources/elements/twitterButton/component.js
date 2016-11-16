@@ -23,15 +23,15 @@ class Component extends vcvAPI.elementComponent {
     twitterScript = tag + twitterScript
 
     const component = this.getDomNode().querySelector('.vce-tweet-button-inner')
+    const helper = document.createElement('VcvHelper')
+    const comment = document.createComment('[vcvSourceHtml]' + twitterScript + '[/vcvSourceHtml]')
     component.innerHTML = ''
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(twitterScript)
 
-    if (this.props.editor) {
-      let range = document.createRange()
-      let documentFragment = range.createContextualFragment(twitterScript)
-      component.appendChild(documentFragment)
-    } else {
-      component.innerHTML = twitterScript
-    }
+    helper.appendChild(documentFragment)
+    component.appendChild(comment)
+    component.appendChild(helper)
   }
 
   createElementTag (props) {
@@ -79,7 +79,7 @@ class Component extends vcvAPI.elementComponent {
       mention: 'https://twitter.com/intent/tweet?screen_name=' + username,
       hashtag: 'https://twitter.com/intent/tweet?button_hashtag=' + hashtagTopic
     }
-    let buttonLink = links[buttonType]
+    let buttonLink = links[ buttonType ]
 
     let defaultContent = {
       share: 'Tweet',
@@ -129,11 +129,7 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    if (editor) {
-      innerClasses += ' vce-tweet-button-disabled'
-    }
-
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor} data-vcv-elemnt-disabled='true'>
       <div className={innerClasses} />
     </div>
   }

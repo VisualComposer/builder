@@ -15,9 +15,7 @@ export default class TreeViewLayout extends React.Component {
     super(props)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMousePos = this.handleMousePos.bind(this)
-    this.props.api.reply('bar-content-start:show', (scrollToElement) => {
-      this.handleScrollToElement(scrollToElement)
-    })
+    this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.state = {
       data: [],
       selectedItem: null
@@ -35,6 +33,11 @@ export default class TreeViewLayout extends React.Component {
       header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
     })
     setTimeout(() => { document.addEventListener('click', this.handleMousePos) }, 500)
+    this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
+  }
+
+  componentWillUnmount () {
+    this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
   }
 
   handleMousePos (e) {
@@ -60,19 +63,17 @@ export default class TreeViewLayout extends React.Component {
     this.handleSelectedItem()
   }
 
-  handleSelectedItem (selectedItem) {
+  handleSelectedItem (selectedItem = null) {
     if (this.state.selectedItem) {
       this.state.selectedItem.classList.remove('vcv-ui-state--active')
     }
-    if (arguments.length) {
+    if (this.state.selectedItem !== selectedItem) {
       this.setState({
         selectedItem: selectedItem
       })
+    }
+    if (selectedItem) {
       selectedItem.classList.add('vcv-ui-state--active')
-    } else {
-      this.setState({
-        selectedItem: null
-      })
     }
   }
 
@@ -108,7 +109,6 @@ export default class TreeViewLayout extends React.Component {
           key={element.id}
           level={1}
           api={this.props.api}
-          selected={this.state.selectedItem}
         />
       }, this)
     }

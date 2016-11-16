@@ -27,7 +27,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-thumbnail.jpg"
+    "value": "twitter-tweet-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
@@ -66,11 +66,6 @@
     "value": [
       "General"
     ]
-  },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
   },
   "customOptions": {
     "type": "toggle",
