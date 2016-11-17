@@ -6,12 +6,16 @@ export default class ElementComponent extends Component {
     atts: PropTypes.object,
     editor: PropTypes.object
   }
-  updateInlineHtml (tagString = '') {
-    const component = ReactDOM.findDOMNode(this)
+  updateInlineHtml (elementWrapper, tagString = '') {
+    const helper = document.createElement('vcvhelper')
+    const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
+    elementWrapper.innerHTML = ''
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(tagString)
-    component.innerHTML = ''
-    component.appendChild(documentFragment)
+
+    helper.appendChild(documentFragment)
+    elementWrapper.appendChild(comment)
+    elementWrapper.appendChild(helper)
   }
   getDomNode () {
     return ReactDOM.findDOMNode(this)

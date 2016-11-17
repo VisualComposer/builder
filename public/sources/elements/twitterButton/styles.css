@@ -24,11 +24,11 @@
   display: inline-block;
 }
 
-[data-vcv-elemnt-disabled="true"] .vce-tweet-button-inner {
+[data-vcv-element-disable-interaction="true"] .vce-tweet-button-inner {
   position: relative;
 }
 
-[data-vcv-elemnt-disabled="true"] .vce-tweet-button-inner::after {
+[data-vcv-element-disable-interaction="true"] .vce-tweet-button-inner::after {
   content: "";
   position: absolute;
   top: 0;

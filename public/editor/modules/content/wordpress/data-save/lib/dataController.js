@@ -31,19 +31,29 @@ class SaveController {
     })
   }
 
-  normalizeHtML (data) {
-    return data
+  normalizeHtml (data) {
+    data = data
       .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
-      .replace(/<(vcvhelper)([^>]*)>(.(?!<\/\1))*.?<\/\1>/ig, '')
       .replace(/<!\-\-\[vcvSourceHtml]/g, '')
       .replace(/\[\/vcvSourceHtml]\-\->/g, '')
       .replace(/&quot;/g, "'")
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(data)
+    documentFragment.querySelectorAll('vcvhelper').forEach((node) => {
+      node.parentNode.removeChild(node)
+    })
+    let html = ''
+    let elementChildren = documentFragment.children
+    for (let i = 0; i < elementChildren.length; i++) {
+      html += elementChildren[i].outerHTML
+    }
+    return html
   }
 
   save (data) {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
-    let content = contentLayout ? this.normalizeHtML(contentLayout.innerHTML) : ''
+    let content = contentLayout ? this.normalizeHtml(contentLayout.innerHTML) : ''
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let globalStyles = ''
       let designOptions = ''

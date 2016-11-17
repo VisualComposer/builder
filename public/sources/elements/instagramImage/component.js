@@ -47,20 +47,7 @@ class Component extends vcvAPI.elementComponent {
 
   updateInstagramHtml (tagString = '') {
     const component = this.getDomNode().querySelector('.vce-instagram-image-inner')
-    component.innerHTML = ''
-
-    if (this.props.editor) {
-      let range = document.createRange()
-      let documentFragment = range.createContextualFragment(tagString)
-      component.appendChild(documentFragment)
-
-      let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
-      if (iframe && iframe.instgrm && iframe.instgrm.Embeds) {
-        iframe.instgrm.Embeds.process()
-      }
-    } else {
-      component.innerHTML = tagString
-    }
+    this.updateInlineHtml(component, tagString)
   }
 
   loadJSONP (url, callback, context) {
@@ -145,10 +132,6 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-
-    if (editor) {
-      innerClasses += ' vce-instagram-image-disabled'
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>

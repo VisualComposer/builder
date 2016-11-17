@@ -22,11 +22,11 @@
   text-align: left;
 }
 
-.vce-instagram-image-inner.vce-instagram-image-disabled {
+[data-vcv-element-disable-interaction="true"] .vce-instagram-image-inner {
   position: relative;
 }
 
-.vce-instagram-image-inner.vce-instagram-image-disabled::after {
+[data-vcv-element-disable-interaction="true"] .vce-instagram-image-inner::after {
   content: "";
   position: absolute;
   top: 0;

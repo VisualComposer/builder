@@ -128,5 +128,10 @@
     "options": {
       "label": "Include caption"
     }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
   }
 }
