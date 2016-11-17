@@ -81,11 +81,7 @@
   "font": {
     "type": "googleFonts",
     "access": "public",
-    "value": {
-      "fontText": "The sky was cloudless and of a deep dark blue.",
-      "fontFamily": "Abril Fatface",
-      "fontStyle": "regular"
-    },
+    "value": "",
     "options": {
       "label": ""
     }
