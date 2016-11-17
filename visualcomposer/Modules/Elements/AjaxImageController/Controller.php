@@ -6,7 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Wpmedia;
+use VisualComposer\Helpers\WpMedia;
 
 /**
  * Class Controller.
@@ -32,7 +32,7 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function customSize(Request $request, $response, Wpmedia $mediaHelper)
+    private function customSize(Request $request, $response, WpMedia $mediaHelper)
     {
         $id = $request->input('vcv-image-id');
         $size = $request->input('vcv-size');
@@ -40,6 +40,5 @@ class Controller extends Container implements Module
         $response['img'] = $image;
 
         return $response;
-
     }
 }
