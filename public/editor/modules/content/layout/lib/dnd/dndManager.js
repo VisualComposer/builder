@@ -69,7 +69,11 @@ export default class DndManager {
   }
 
   getOffsetTop () {
-    return this.iframe ? this.iframe.offset().top : 0
+    if (this.iframe) {
+      let rect = this.iframe.getBoundingClientRect()
+      return rect.top
+    }
+    return 0
   }
 
   updateOffsetTop () {
