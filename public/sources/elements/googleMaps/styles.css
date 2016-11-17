@@ -64,11 +64,11 @@
   text-align: left;
 }
 
-.vce-google-maps-inner.vce-google-maps-disabled {
+[data-vcv-element-disable-interaction="true"] .vce-google-maps-inner {
   position: relative;
 }
 
-.vce-google-maps-inner.vce-google-maps-disabled::after {
+[data-vcv-element-disable-interaction="true"] .vce-google-maps-inner::after {
   content: "";
   position: absolute;
   top: 0;

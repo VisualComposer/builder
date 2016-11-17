@@ -139,5 +139,10 @@
         }
       ]
     }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
   }
 }
