@@ -182,7 +182,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Paste a hastag URL or #hashtag",
+      "label": "Paste a hashtag URL or #hashtag",
       "onChange": {
         "rules": {
           "buttonType": {
