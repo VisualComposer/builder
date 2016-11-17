@@ -81,7 +81,9 @@
   "font": {
     "type": "googleFonts",
     "access": "public",
-    "value": "",
+    "value": {
+      "fontFamily": "Abril Fatface"
+    },
     "options": {
       "label": ""
     }

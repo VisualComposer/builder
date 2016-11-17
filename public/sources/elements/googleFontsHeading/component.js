@@ -72,14 +72,21 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (font) {
-      let fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+      let fontHref = ''
+
+      if (font.fontStyle) {
+        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+      } else {
+        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
+      }
+
       googleFontLink = (
         <link href={fontHref} rel='stylesheet' />
       )
 
       innerCustomProps.style.fontFamily = font.fontFamily
-      innerCustomProps.style.fontWeight = font.fontStyle.weight
-      innerCustomProps.style.fontStyle = font.fontStyle.style
+      innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
+      innerCustomProps.style.fontStyle = font.fontStyle ? font.fontStyle.style : null
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
