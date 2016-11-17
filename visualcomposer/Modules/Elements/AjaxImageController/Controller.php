@@ -22,7 +22,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
         $this->addFilter(
-            'vcv:ajax:elements:imageController:customSize',
+            'vcv:ajax:elements:imageController:customSize:adminNonce',
             'customSize'
         );
     }
