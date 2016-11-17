@@ -22,16 +22,8 @@ class Component extends vcvAPI.elementComponent {
     let twitterScript = '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
     twitterScript = tag + twitterScript
 
-    const component = this.getDomNode().querySelector('.vce-tweet-button-inner')
-    const helper = document.createElement('VcvHelper')
-    const comment = document.createComment('[vcvSourceHtml]' + twitterScript + '[/vcvSourceHtml]')
-    component.innerHTML = ''
-    let range = document.createRange()
-    let documentFragment = range.createContextualFragment(twitterScript)
-
-    helper.appendChild(documentFragment)
-    component.appendChild(comment)
-    component.appendChild(helper)
+    const wrapper = this.getDomNode().querySelector('.vce-tweet-button-inner')
+    this.updateInlineHtml(wrapper, twitterScript)
   }
 
   createElementTag (props) {
@@ -129,7 +121,7 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor} data-vcv-elemnt-disabled='true'>
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
       <div className={innerClasses} />
     </div>
   }

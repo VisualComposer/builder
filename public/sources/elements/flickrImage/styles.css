@@ -19,11 +19,11 @@
   text-align: left;
 }
 
-.vce-flickr-image.vce-flickr-image-disabled {
+[data-vcv-element-disable-interaction="true"].vce-flickr-image {
   position: relative;
 }
 
-.vce-flickr-image.vce-flickr-image-disabled::after {
+[data-vcv-element-disable-interaction="true"].vce-flickr-image::after {
   content: "";
   position: absolute;
   top: 0;

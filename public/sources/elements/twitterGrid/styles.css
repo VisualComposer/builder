@@ -23,11 +23,11 @@
   max-width: 100%;
 }
 
-.vce-twitter-grid-inner.vce-twitter-grid-disabled {
+[data-vcv-element-disable-interaction="true"] .vce-twitter-grid-inner {
   position: relative;
 }
 
-.vce-twitter-grid-inner.vce-twitter-grid-disabled::after {
+[data-vcv-element-disable-interaction="true"] .vce-twitter-grid-inner::after {
   content: "";
   position: absolute;
   top: 0;

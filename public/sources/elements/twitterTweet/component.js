@@ -88,15 +88,7 @@ class Component extends vcvAPI.elementComponent {
 
   appendTwitter (tagString = '') {
     const component = this.getDomNode().querySelector('.vce-twitter-tweet-inner')
-    component.innerHTML = ''
-
-    if (this.props.editor) {
-      let range = document.createRange()
-      let documentFragment = range.createContextualFragment(tagString)
-      component.appendChild(documentFragment)
-    } else {
-      component.innerHTML = tagString
-    }
+    this.updateInlineHtml(component, tagString)
   }
 
   checkCustomSize (width) {
@@ -155,10 +147,6 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-
-    if (editor) {
-      innerClasses += ' vce-twitter-tweet-disabled'
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor}>

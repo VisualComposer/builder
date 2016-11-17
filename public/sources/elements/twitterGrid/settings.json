@@ -162,5 +162,10 @@
       "label": "Width",
       "description": "Enter width in pixels. Minimal width 220px (Example: 220px)."
     }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
   }
 }

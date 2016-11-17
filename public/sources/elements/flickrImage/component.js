@@ -63,14 +63,7 @@ class Component extends vcvAPI.elementComponent {
   appendFlickr (tagString = '') {
     const component = this.getDomNode()
     component.innerHTML = ''
-
-    if (this.props.editor) {
-      let range = document.createRange()
-      let documentFragment = range.createContextualFragment(tagString)
-      component.appendChild(documentFragment)
-    } else {
-      component.innerHTML = tagString
-    }
+    this.updateInlineHtml(component, tagString)
   }
 
   render () {
@@ -102,10 +95,6 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-
-    if (editor) {
-      classes += ' vce-flickr-image-disabled'
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor} />
