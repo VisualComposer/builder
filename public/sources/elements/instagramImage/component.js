@@ -48,6 +48,10 @@ class Component extends vcvAPI.elementComponent {
   updateInstagramHtml (tagString = '') {
     const component = this.getDomNode().querySelector('.vce-instagram-image-inner')
     this.updateInlineHtml(component, tagString)
+    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    if (iframe && iframe.instgrm && iframe.instgrm.Embeds) {
+      iframe.instgrm.Embeds.process()
+    }
   }
 
   loadJSONP (url, callback, context) {
