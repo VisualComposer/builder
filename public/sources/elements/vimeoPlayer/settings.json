@@ -180,6 +180,7 @@
     "options": {
       "label": "Color",
       "format": "hex",
+      "disableAlpha": true,
       "description": "Specify the color of the video controls.",
       "onChange": {
         "rules": {
