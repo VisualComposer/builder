@@ -46,6 +46,10 @@ $frontendModule = vcapp('EditorsFrontendController');
 
 <?php
 do_action('wp_footer');
+$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
+foreach ($extraOutput as $output) {
+    echo $output;
+}
 wp_print_footer_scripts();
 ?>
 

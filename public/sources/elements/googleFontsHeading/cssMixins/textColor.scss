@@ -1,0 +1,7 @@
+.vce-google-fonts-heading {
+  &--color-$selector {
+    @if $color != false {
+      color: $color;
+    }
+  }
+}
