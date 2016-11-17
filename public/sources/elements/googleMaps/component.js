@@ -101,7 +101,6 @@ class Component extends vcvAPI.elementComponent {
         div.style.width = width
         div.style.maxWidth = '100%'
         width = div.getBoundingClientRect().width
-        console.log(width)
       }
       if (customHeight) {
         if (height.indexOf('%') >= 0) {
