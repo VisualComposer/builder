@@ -45,7 +45,7 @@
       "font",
       "elementTag",
       "color",
-      "size",
+      "fontSize",
       "alignment",
       "lineHeight",
       "link",
@@ -75,7 +75,7 @@
     "access": "public",
     "value": "The sky was cloudless and of a deep dark blue.",
     "options": {
-      "label": "Text"
+      "label": "Title text"
     }
   },
   "font": {
