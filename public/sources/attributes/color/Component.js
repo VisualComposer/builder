@@ -88,6 +88,7 @@ class Color extends Attribute {
   }
 
   render () {
+    let disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
     let { value, displayColorPicker } = this.state
     let color = tinycolor(value)
     let colorStyle = {
@@ -114,7 +115,7 @@ class Color extends Attribute {
       colorPicker = (
         <div className='vcv-ui-sketch-picker-container'>
           <div className='vcv-ui-sketch-picker'>
-            <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} />
+            <VcSketchPicker color={color} presetColors={this.props.presetColors} onChange={this.handleChange} disableAlpha={disableAlpha} />
           </div>
         </div>
       )
