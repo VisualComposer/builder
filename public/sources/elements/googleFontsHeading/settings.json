@@ -146,7 +146,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "fontSize"
+      "label": "Font size"
     }
   },
   "alignment": {
@@ -185,7 +185,7 @@
     "value": {
       "url": "",
       "title": "",
-      "targetBlank": false,
+      "targetBlank": true,
       "relNofollow": false
     },
     "options": {
