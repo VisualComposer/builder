@@ -231,4 +231,26 @@ class WpMedia implements Helper
 
         return implode(' ', $atts);
     }
+
+    public function getSizes()
+    {
+        global $_wp_additional_image_sizes;
+        $sizes = [];
+
+        foreach (get_intermediate_image_sizes() as $_size) {
+            if (in_array($_size, ['thumbnail', 'medium', 'medium_large', 'large'])) {
+                $sizes[ $_size ]['width'] = (int)get_option("{$_size}_size_w");
+                $sizes[ $_size ]['height'] = (int)get_option("{$_size}_size_h");
+                $sizes[ $_size ]['crop'] = (bool)get_option("{$_size}_crop");
+            } elseif (isset($_wp_additional_image_sizes[ $_size ])) {
+                $sizes[ $_size ] = [
+                    'width' => (int)$_wp_additional_image_sizes[ $_size ]['width'],
+                    'height' => (int)$_wp_additional_image_sizes[ $_size ]['height'],
+                    'crop' => (bool)$_wp_additional_image_sizes[ $_size ]['crop'],
+                ];
+            }
+        }
+
+        return $sizes;
+    }
 }

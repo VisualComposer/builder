@@ -71,9 +71,10 @@ class Component extends vcvAPI.elementComponent {
     let id = image.id
     size = this.parseSize(size, isRound)
     vcCake.getService('dataProcessor').appServerRequest({
-      'vcv-action': 'elements:imageController:customSize',
+      'vcv-action': 'elements:imageController:customSize:adminNonce',
       'vcv-image-id': id,
-      'vcv-size': size.width + 'x' + size.height
+      'vcv-size': size.width + 'x' + size.height,
+      'vcv-nonce': window.vcvNonce
     }).then((data) => {
       let imageData = JSON.parse(data)
       this.insertImage(imageData.img.imgUrl, originalSrc)
