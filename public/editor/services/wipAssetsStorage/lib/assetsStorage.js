@@ -351,7 +351,7 @@ export default {
 
       mixins.forEach((mixin) => {
         for (let selector in mixinsData[ tag ][ mixin ]) {
-          if (cssSettings.mixins[ mixin ]) {
+          if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
             styles.push({
               variables: mixinsData[ tag ][ mixin ][ selector ],
               src: cssSettings.mixins[ mixin ].mixin

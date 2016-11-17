@@ -420,7 +420,7 @@ vcCake.addService('assets-manager', {
 
       mixins.forEach((mixin) => {
         for (let selector in mixinsData[ tag ][ mixin ]) {
-          if (cssSettings.mixins[ mixin ]) {
+          if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
             styles.push({
               variables: mixinsData[ tag ][ mixin ][ selector ],
               mixin: cssSettings.mixins[ mixin ].mixin
