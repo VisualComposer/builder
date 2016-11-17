@@ -6,9 +6,19 @@ class Component extends vcvAPI.elementComponent {
     this.setCustomSize = this.setCustomSize.bind(this)
   }
 
+  defaultSize = {
+    width: '600',
+    height: '450'
+  }
+
   componentDidMount () {
     if (this.props.atts.height || this.props.atts.width || this.props.atts.proportional) {
-      this.setCustomSize(this.props.atts)
+      let size = this.props.atts.embed ? this.getDefaultSize(this.props.atts.embed) : ''
+      let defaultSize = {
+        width: size && size.width ? size.width : this.defaultSize.width,
+        height: size && size.height ? size.height : this.defaultSize.height
+      }
+      this.setCustomSize(this.props.atts, defaultSize)
     }
 
     if (this.props.atts.embed) {
@@ -17,47 +27,69 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.atts.height || this.props.atts.width || this.props.atts.proportional) {
-      this.setCustomSize(nextProps.atts)
+    if (nextProps.atts.height || nextProps.atts.width || nextProps.atts.proportional) {
+      let size = this.getDefaultSize(nextProps.atts.embed)
+
+      let defaultSize = {
+        width: size && size.width ? size.width : this.defaultSize.width,
+        height: size && size.height ? size.height : this.defaultSize.height
+      }
+      this.setCustomSize(nextProps.atts, defaultSize)
     } else {
       this.setState({
-        imgSize: null
+        size: null
       })
     }
 
-    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height || this.props.atts.proportional !== nextProps.atts.proportional )) {
+    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height || this.props.atts.proportional !== nextProps.atts.proportional)) {
       this.appendMap(nextProps.atts.embed)
     }
   }
 
-  setCustomSize (atts) {
+  getDefaultSize (embed) {
+    let size = {}
+
+    let widthAttr = embed.match(/width="\d+"/g)
+    widthAttr = widthAttr ? widthAttr[0] : ''
+
+    if (widthAttr) {
+      let width = widthAttr.match(/\d+/g)
+      width = width ? width[0] : ''
+      size.width = width
+    }
+
+    let heightAttr = embed.match(/height="\d+"/g)
+    heightAttr = heightAttr ? heightAttr[0] : ''
+
+    if (heightAttr) {
+      let height = heightAttr.match(/\d+/g)
+      height = height ? height[0] : ''
+      size.height = height
+    }
+    return size
+  }
+
+  setCustomSize (atts, defaultSize) {
     let width = this.validateSize(atts.width)
     let height = this.validateSize(atts.height)
 
-    width = /^\d+$/.test(width) ? width + 'px' : width
-    height = /^\d+$/.test(height) ? height + 'px' : height
+    width = /^\d+$/.test(width) ? `${width}px` : width
+    height = /^\d+$/.test(height) ? `${height}px` : height
 
-    let size = {
-      width: width || null,
-      height: height || null
+    let customSize = {
+      width: width ? width : `${defaultSize.width}px`,
+      height: height ? height : `${defaultSize.height}px`
     }
 
     if (atts.proportional) {
-      size.paddingBottom = this.setProportions(size.width, size.height)
-      size.height = 'auto'
+      customSize.paddingBottom = this.setProportions(customSize.width, customSize.height)
+      customSize.height = 'auto'
     }
 
-    this.setSizeState(size)
+    this.setSizeState(customSize)
   }
 
   setProportions (width, height) {
-    if (!width) {
-      width = '600px'
-    }
-    if (!height) {
-      height = '450px'
-    }
-
     let customWidth = width.indexOf('px') < 0
     let customHeight = height.indexOf('px') < 0
 
@@ -69,6 +101,7 @@ class Component extends vcvAPI.elementComponent {
         div.style.width = width
         div.style.maxWidth = '100%'
         width = div.getBoundingClientRect().width
+        console.log(width)
       }
       if (customHeight) {
         if (height.indexOf('%') >= 0) {
