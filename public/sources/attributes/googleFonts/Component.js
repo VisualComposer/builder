@@ -20,28 +20,39 @@ export default class GoogleFonts extends Attribute {
     800: 'Extra Bold',
     900: 'Black'
   }
+  static defaultFontOptions = {
+    fontText: 'The sky was cloudless and of a deep dark blue.',
+    fontFamily: 'Abril Fatface',
+    fontStyle: {
+      weight: '',
+      style: 'regular'
+    },
+    loading: ''
+  }
 
   constructor (props) {
     super(props)
     this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
     this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
+    this.createFieldValue = this.createFieldValue.bind(this)
     this.updateFieldValue = this.updateFieldValue.bind(this)
   }
 
   componentWillMount () {
-    this.loadFonts(this.state.value.fontFamily, this.state.value.fontStyle)
+    let mergedValue = lodash.merge(GoogleFonts.defaultFontOptions, this.state.value)
+    this.loadFonts(mergedValue.fontFamily, mergedValue.fontStyle, mergedValue.fontText)
   }
 
   handleFontFamilyChange (fieldKey, value) {
     let fontStyleOptions = this.createStyleArray(value)
     let regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' })
     let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[ 0 ].value
-
+    defaultFontStyle = this.getFontVariant(defaultFontStyle)
     this.loadFonts(value, defaultFontStyle)
   }
 
   handleFontStyleChange (fieldKey, value) {
-    this.loadFonts(this.state.value.fontFamily, value)
+    this.loadFonts(this.state.value.fontFamily, this.getFontVariant(value))
   }
 
   createOptionsArray (key) {
@@ -91,24 +102,31 @@ export default class GoogleFonts extends Attribute {
     return `${fontWeightDefinition} (${fontVariant.weight})` + fontStyle
   }
 
-  updateFieldValue (family, style, status) {
+  createFieldValue (family, style, text, status) {
     let value = {
       fontFamily: family,
       fontStyle: style,
       status: status
     }
+
+    text || text === '' ? value.fontText = text : ''
+
+    this.updateFieldValue(value)
+  }
+
+  updateFieldValue (value) {
     let mergedValue = lodash.merge(this.state.value, value)
     this.setFieldValue(mergedValue)
   }
 
-  loadFonts (family, style) {
+  loadFonts (family, style, text) {
     webFontLoader.load({
       google: {
-        families: [ `${family}:${style}` ]
+        families: [ `${family}:${style.weight + style.style}` ]
       },
-      inactive: this.updateFieldValue.bind(this, family, style, 'inactive'),
-      active: this.updateFieldValue.bind(this, family, style, 'active'),
-      loading: this.updateFieldValue.bind(this, family, style, 'loading')
+      inactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
+      active: this.createFieldValue.bind(this, family, style, text, 'active'),
+      loading: this.createFieldValue.bind(this, family, style, text, 'loading')
     })
   }
 
@@ -124,17 +142,15 @@ export default class GoogleFonts extends Attribute {
 
     let fontTextProps = {}
 
-    let previewText = ''
+    let previewText = this.state.value.fontText
 
     if (this.state.value.status === 'loading') {
       previewText = 'Loading Font...'
     } else if (this.state.value.status === 'active') {
-      previewText = this.state.value.fontText
-
       fontTextProps.style = {
         fontFamily: this.state.value.fontFamily,
-        fontWeight: this.getFontVariant(this.state.value.fontStyle).weight,
-        fontStyle: this.getFontVariant(this.state.value.fontStyle).style
+        fontWeight: this.state.value.fontStyle.weight,
+        fontStyle: this.state.value.fontStyle.style
       }
     } else if (this.state.value.status === 'inactive') {
       previewText = 'Loading google font failed.'
@@ -164,7 +180,7 @@ export default class GoogleFonts extends Attribute {
               </span>
               <Dropdown
                 options={fontStyleOptions}
-                value={this.state.value.fontStyle}
+                value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
                 updater={this.handleFontStyleChange}
                 api={this.props.api}
                 fieldKey={`${this.props.fieldKey}.fontStyle`}

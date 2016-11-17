@@ -11,14 +11,6 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
-  getFontVariant (variant) {
-    let number = variant.match(/\d+/g)
-    let word = variant.match(/[a-z]+$/i)
-    let fontWeight = number ? number[ 0 ] : '400'
-    let fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : ''
-    return { weight: fontWeight, style: fontStyle }
-  }
-
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass } = atts
@@ -80,14 +72,14 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (font) {
-      let fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle}`
+      let fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
       googleFontLink = (
         <link href={fontHref} rel='stylesheet' />
       )
 
       innerCustomProps.style.fontFamily = font.fontFamily
-      innerCustomProps.style.fontWeight = this.getFontVariant(font.fontStyle).weight
-      innerCustomProps.style.fontStyle = this.getFontVariant(font.fontStyle).style
+      innerCustomProps.style.fontWeight = font.fontStyle.weight
+      innerCustomProps.style.fontStyle = font.fontStyle.style
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
