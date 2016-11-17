@@ -108,9 +108,16 @@ export default class TreeViewElement extends React.Component {
   }
 
   scrollToElement () {
-    if (!this.props.element.parent) {
-      this.props.iframe.querySelector('#el-' + this.props.element.id).scrollIntoView()
-    }
+    let elId = this.props.element.id
+    let editorEl = this.props.iframe.querySelector(`#el-${elId}`)
+    // let editorElTop = editorEl.getBoundingClientRect().top
+    // let iframeWindow = document.getElementById('vcv-editor-iframe').contentWindow
+    // TODO finish condition and add smooth scroll
+    // if (!(editorElTop > iframeWindow.scrollY && editorElTop < iframeWindow.scrollY + window.innerHeight)) {
+    //   console.log('scrolIntoView')
+    //   editorEl.scrollIntoView({behavior: 'smooth'})
+    // }
+    editorEl.scrollIntoView()
   }
   handleMouseEnter (e) {
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
@@ -191,9 +198,13 @@ export default class TreeViewElement extends React.Component {
         data-vcv-element={this.props.element.id}
         type={element.get('type')}
         name={element.get('name')}
-        onClick={this.scrollToElement}
       >
-        <div className={controlClasses} style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }} onMouseEnter={this.handleMouseEnter}>
+        <div
+          className={controlClasses}
+          style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
+          onMouseEnter={this.handleMouseEnter}
+          onClick={this.scrollToElement}
+        >
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
