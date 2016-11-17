@@ -137,7 +137,7 @@
   "tweetCount": {
     "type": "number",
     "access": "public",
-    "value": "20",
+    "value": "5",
     "options": {
       "min": "0",
       "label": "Count of visible tweets",

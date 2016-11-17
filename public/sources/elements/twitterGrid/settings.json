@@ -94,7 +94,7 @@
   "gridUrl": {
     "type": "string",
     "access": "public",
-    "value": "https://twitter.com/TwitterDev/timelines/539487832448843776",
+    "value": "https://twitter.com/Twitter/timelines/539487832448843776",
     "options": {
       "label": "Twitter grid URL (Link)"
     }
@@ -136,7 +136,7 @@
   "tweetCount": {
     "type": "number",
     "access": "public",
-    "value": "20",
+    "value": "5",
     "options": {
       "min": "0",
       "label": "Count of visible tweets",

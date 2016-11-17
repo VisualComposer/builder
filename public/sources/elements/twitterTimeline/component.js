@@ -2,12 +2,16 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   static unique = 0
+  static tweetSettings = {
+    count: '5',
+    theme: 'light'
+  }
 
   componentDidMount () {
     let { customOptions, timelineUrl, tweetCount, tweetTheme, width } = this.props.atts
     if (!customOptions) {
-      tweetCount = '20'
-      tweetTheme = 'light'
+      tweetCount = Component.tweetSettings.count
+      tweetTheme = Component.tweetSettings.theme
     }
 
     if (width) {
@@ -22,15 +26,15 @@ class Component extends vcvAPI.elementComponent {
   componentWillReceiveProps (nextProps) {
     let { customOptions, timelineUrl, tweetCount, tweetTheme } = this.props.atts
     if (!customOptions) {
-      tweetCount = '20'
-      tweetTheme = 'light'
+      tweetCount = Component.tweetSettings.count
+      tweetTheme = Component.tweetSettings.theme
     }
     let elementKey = `customProps:${this.props.id}-${timelineUrl}-${tweetCount}-${tweetTheme}`
 
     let nextAtts = nextProps.atts
     if (!nextAtts.customOptions) {
-      nextAtts.tweetCount = '20'
-      nextAtts.tweetTheme = 'light'
+      nextAtts.tweetCount = Component.tweetSettings.count
+      nextAtts.tweetTheme = Component.tweetSettings.theme
     }
     if (nextAtts.width) {
       this.checkCustomSize(nextAtts.width)

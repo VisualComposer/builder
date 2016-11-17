@@ -2,11 +2,12 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   static unique = 0
+  static tweetCount = '5'
 
   componentDidMount () {
     let { customOptions, gridUrl, tweetCount, width } = this.props.atts
     if (!customOptions) {
-      tweetCount = '20'
+      tweetCount = Component.tweetCount
     }
 
     if (width) {
@@ -21,13 +22,13 @@ class Component extends vcvAPI.elementComponent {
   componentWillReceiveProps (nextProps) {
     let { customOptions, gridUrl, tweetCount } = this.props.atts
     if (!customOptions) {
-      tweetCount = '20'
+      tweetCount = Component.tweetCount
     }
     let elementKey = `customProps:${this.props.id}-${gridUrl}-${tweetCount}`
 
     let nextAtts = nextProps.atts
     if (!nextAtts.customOptions) {
-      nextAtts.tweetCount = '20'
+      nextAtts.tweetCount = Component.tweetCount
     }
     if (nextAtts.width) {
       this.checkCustomSize(nextAtts.width)
