@@ -93,7 +93,7 @@
   "width": {
     "type": "string",
     "access": "public",
-    "value": "",
+    "value": "660",
     "options": {
       "label": "Width",
       "description": "Enter width in pixels or percentages (Example: 200px)."
