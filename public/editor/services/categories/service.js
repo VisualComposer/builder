@@ -104,9 +104,6 @@ if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories[ 'Single image' ].elements.push('singleImage')
 }
-if (vcCake.env('FEATURE_VIDEO_PLAYER')) {
-  tempData.categories[ 'Video' ].elements.push('videoPlayer')
-}
 if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
   tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')
 }
