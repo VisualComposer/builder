@@ -201,7 +201,6 @@ export default class DnD {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
       parentDOMElement = this.items[domElement.parent()] || null
     }
-    if (this.isDraggingElementParent(domElement)) { return }
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
       allowAppend: domElement && this.draggingElement.isChild(domElement) && !documentManager.children(domElement.id).length

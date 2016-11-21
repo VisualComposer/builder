@@ -13,7 +13,10 @@ export default class EditFormFooter extends React.Component {
 
   onSave = () => {
     let { element, api } = this.props
-    api.request('data:update', element.get('id'), element.toJS())
+    let elementData = element.toJS()
+    delete elementData.order
+    delete elementData.parent
+    api.request('data:update', element.get('id'), elementData)
     this.effect()
   }
   componentDidMount () {

@@ -40,7 +40,7 @@ let tempData = {
   categories: {
     'Button': {
       'name': 'Simple Button',
-      'elements': ['basicButton'],
+      'elements': [ 'basicButton' ],
       'icon': 'categories/icons/Button.svg'
     },
     'Row': {
@@ -80,7 +80,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage' ],
+      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage' ],
       'icon': 'categories/icons/Social.svg'
     },
     'Video': {
@@ -98,17 +98,11 @@ let tempData = {
 if (vcCake.env('FEATURE_XO_WORK')) {
   tempData.categories[ 'Button' ].elements.push('xoButton')
 }
-if (vcCake.env('FEATURE_INSTAGRAM_IMAGE')) {
-  tempData.categories[ 'Social' ].elements.push('instagramImage')
-}
 if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories[ 'Social' ].elements.push('twitterPublisher')
 }
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories[ 'Single image' ].elements.push('singleImage')
-}
-if (vcCake.env('FEATURE_VIDEO_PLAYER')) {
-  tempData.categories[ 'Video' ].elements.push('videoPlayer')
 }
 if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
   tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')

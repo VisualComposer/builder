@@ -46,6 +46,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   updateInstagramHtml (tagString = '') {
+    tagString = tagString.replace(/max-width\:\d+px\;/g, 'max-width:100%;')
     const component = this.getDomNode().querySelector('.vce-instagram-image-inner')
     this.updateInlineHtml(component, tagString)
     let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
