@@ -26,7 +26,7 @@ class ControlsHandler {
   }
 
   showOutline (element) {
-    this.hideOutline()
+    // this.hideOutline()
     this.outline.classList.add('vcv-state--visible')
     let elementPos = element.getBoundingClientRect()
     this.outline.style.top = elementPos.top + 'px'

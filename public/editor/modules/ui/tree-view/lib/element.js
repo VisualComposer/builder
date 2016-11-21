@@ -24,6 +24,7 @@ export default class TreeViewElement extends React.Component {
     this.scrollToElement = this.scrollToElement.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
+    this.handleOutline = this.handleOutline.bind(this)
     this.state = {
       childExpand: true,
       isActive: false,
@@ -42,8 +43,7 @@ export default class TreeViewElement extends React.Component {
       .on('hide', this.checkActive)
       .on('form:hide', this.checkActive)
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      this.props.api.reply('editorContent:element:mouseEnter', this.interactWithContent)
-      this.props.api.reply('editorContent:element:mouseLeave', this.interactWithContent)
+      vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
     }
   }
 
@@ -57,8 +57,7 @@ export default class TreeViewElement extends React.Component {
       .off('hide', this.checkActive)
       .off('form:hide', this.checkActive)
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      this.props.api.forget('editorContent:element:mouseEnter', this.interactWithContent)
-      this.props.api.forget('editorContent:element:mouseLeave', this.interactWithContent)
+      vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
     }
   }
 
@@ -70,20 +69,12 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  interactWithContent = (data) => {
-    if (data.vcElementId === this.props.element.id) {
-      let showOutline
-      if (data.type === 'mouseEnter') {
-        showOutline = true
-      }
-      if (data.type === 'mouseLeave') {
-        showOutline = false
-      }
-      if (this.state.showOutline !== showOutline) {
-        this.setState({
-          showOutline: showOutline
-        })
-      }
+  handleOutline (outlineElementId) {
+    let showOutline = outlineElementId === this.props.element.id
+    if (this.state.showOutline !== showOutline) {
+      this.setState({
+        showOutline: showOutline
+      })
     }
   }
 

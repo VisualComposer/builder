@@ -16,6 +16,7 @@ export default class TreeViewLayout extends React.Component {
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMousePos = this.handleMousePos.bind(this)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
+    this.interactWithContent = this.interactWithContent.bind(this)
     this.state = {
       data: [],
       selectedItem: null
@@ -34,10 +35,33 @@ export default class TreeViewLayout extends React.Component {
     })
     setTimeout(() => { document.addEventListener('click', this.handleMousePos) }, 500)
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      this.props.api.reply('editorContent:element:mouseEnter', this.interactWithContent)
+      this.props.api.reply('editorContent:element:mouseLeave', this.interactWithContent)
+    }
   }
 
   componentWillUnmount () {
     this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      this.props.api.forget('editorContent:element:mouseEnter', this.interactWithContent)
+      this.props.api.forget('editorContent:element:mouseLeave', this.interactWithContent)
+    }
+  }
+
+  interactWithContent (data = null) {
+    let outlineElementId = null
+    if (data && data.vcElementId) {
+      if (data.type === 'mouseEnter') {
+        outlineElementId = data.vcElementId
+      }
+      if (data.type === 'mouseLeave') {
+        outlineElementId = null
+      }
+    }
+    if (vcCake.getData('vcv:treeLayout:outlineElementId') !== outlineElementId) {
+      vcCake.setData('vcv:treeLayout:outlineElementId', outlineElementId)
+    }
   }
 
   handleMousePos (e) {
@@ -60,6 +84,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleMouseOver () {
+    this.interactWithContent()
     this.handleSelectedItem()
   }
 
