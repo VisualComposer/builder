@@ -23,6 +23,7 @@ export default class TreeViewElement extends React.Component {
     super(props)
     this.scrollToElement = this.scrollToElement.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.state = {
       childExpand: true,
       isActive: false,
@@ -42,6 +43,7 @@ export default class TreeViewElement extends React.Component {
       .on('form:hide', this.checkActive)
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
       this.props.api.reply('editorContent:element:mouseEnter', this.interactWithContent)
+      this.props.api.reply('editorContent:element:mouseLeave', this.interactWithContent)
     }
   }
 
@@ -54,6 +56,10 @@ export default class TreeViewElement extends React.Component {
       .forget('bar-content-end:hide', this.checkActive)
       .off('hide', this.checkActive)
       .off('form:hide', this.checkActive)
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      this.props.api.forget('editorContent:element:mouseEnter', this.interactWithContent)
+      this.props.api.forget('editorContent:element:mouseLeave', this.interactWithContent)
+    }
   }
 
   checkActive = (data = false) => {
@@ -65,10 +71,19 @@ export default class TreeViewElement extends React.Component {
   }
 
   interactWithContent = (data) => {
-    if (this.state.showOutline !== (data.element.dataset.vcvElement === this.props.element.id)) {
-      this.setState({
-        showOutline: data.element.dataset.vcvElement === this.props.element.id
-      })
+    if (data.vcElementId === this.props.element.id) {
+      let showOutline
+      if (data.type === 'mouseEnter') {
+        showOutline = true
+      }
+      if (data.type === 'mouseLeave') {
+        showOutline = false
+      }
+      if (this.state.showOutline !== showOutline) {
+        this.setState({
+          showOutline: showOutline
+        })
+      }
     }
   }
 
@@ -119,10 +134,19 @@ export default class TreeViewElement extends React.Component {
     // }
     editorEl.scrollIntoView()
   }
+
   handleMouseEnter (e) {
     if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
       if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
         this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
+      }
+    }
+  }
+
+  handleMouseLeave (e) {
+    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
+      if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+        this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
       }
     }
   }
@@ -146,16 +170,18 @@ export default class TreeViewElement extends React.Component {
       let addElementTag = ''
       let children = cook.getChildren(this.props.element.tag)
       if (children.length === 1) {
-        title = `Add ${children[0].name}`
-        addElementTag = children[0].tag
+        title = `Add ${children[ 0 ].name}`
+        addElementTag = children[ 0 ].tag
       }
       addChildControl = (
-        <a className='vcv-ui-tree-layout-control-action' title={title} onClick={this.clickAddChild.bind(this, addElementTag)}>
+        <a className='vcv-ui-tree-layout-control-action' title={title}
+          onClick={this.clickAddChild.bind(this, addElementTag)}>
           <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
         </a>
       )
       if (this.props.element.tag === 'row') {
-        editRowLayoutControl = <a className='vcv-ui-tree-layout-control-action' title='Row Layout' onClick={this.clickEdit.bind(this, 'layout')}>
+        editRowLayoutControl = <a className='vcv-ui-tree-layout-control-action' title='Row Layout'
+          onClick={this.clickEdit.bind(this, 'layout')}>
           <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
         </a>
       }
@@ -198,12 +224,13 @@ export default class TreeViewElement extends React.Component {
         data-vcv-element={this.props.element.id}
         type={element.get('type')}
         name={element.get('name')}
+        onClick={this.scrollToElement}
       >
         <div
           className={controlClasses}
           style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
-          onMouseEnter={this.handleMouseEnter}
-          onClick={this.scrollToElement}
+          onMouseOver={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         >
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />

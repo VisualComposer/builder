@@ -4,8 +4,6 @@
   position: absolute;
   pointer-events: none;
   box-sizing: border-box;
-  //opacity: 0;
-  //transition: all .15s ease-in-out;
   z-index: @controls-outline-z-index;
   #vcv-ui-outline-controls > .create-outline-type(@color: @controls-outline-color-element);
   &.vcv-ui-outline-element {
@@ -27,10 +25,27 @@
 
 //== states
 .vcv-ui-outline {
+  &.vcv-state-highlight {
+    border: @outlines-highlight-border-width @outlines-highlight-border-style @outlines-highlight-border-color;
+  }
+}
+
+
+// frames
+.vcv-ui-element-outline {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity @controls-transition-duration @controls-transition-timing-function;
+  z-index: @controls-outline-z-index;
+}
+//== states
+.vcv-ui-element-outline {
+  border: none;
+  box-shadow: 0 0 0 @outlines-highlight-border-width @outlines-highlight-border-color;
   &.vcv-state--visible {
     opacity: 1;
   }
-  &.vcv-state-highlight {
-    border: @outlines-highlight-border-width @outlines-highlight-border-style @outlines-highlight-border-color
-  }
 }
+// frame-outline

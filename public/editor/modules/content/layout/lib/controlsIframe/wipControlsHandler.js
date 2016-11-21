@@ -16,7 +16,7 @@ class ControlsHandler {
     this.iframe = document.querySelector('#vcv-editor-iframe')
     this.iframeDocument = this.iframe && this.iframe.contentWindow.document
     this.outline = document.createElement('svg')
-    this.outline.classList.add('vcv-ui-outline', 'vcv-state-highlight')
+    this.outline.classList.add('vcv-ui-element-outline')
     this.iframeOverlay.appendChild(this.outline)
 
     this.state = {
@@ -26,10 +26,9 @@ class ControlsHandler {
   }
 
   showOutline (element) {
-    // console.log('show', element)
-    // this.outline.classList.add('vcv-state--visible')
+    this.hideOutline()
+    this.outline.classList.add('vcv-state--visible')
     let elementPos = element.getBoundingClientRect()
-    // console.log(elementPos)
     this.outline.style.top = elementPos.top + 'px'
     this.outline.style.left = elementPos.left + 'px'
     this.outline.style.width = elementPos.width + 'px'
@@ -37,8 +36,7 @@ class ControlsHandler {
   }
 
   hideOutline (element) {
-    // console.log('hide', element)
-    // this.outline.classList.remove('vcv-state--visible')
+    this.outline.classList.remove('vcv-state--visible')
   }
 }
 

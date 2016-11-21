@@ -43,17 +43,22 @@ export default class ControlsManager {
         // unset prev element
         if (this.prevElement) {
           this.api.request('editorContent:element:mouseLeave', {
+            type: 'mouseLeave',
             element: this.prevElement,
+            vcElementId: this.prevElement.dataset.vcvElement,
             path: this.prevElementPath
           })
         }
         // set new element
         if (element) {
           this.api.request('editorContent:element:mouseEnter', {
+            type: 'mouseEnter',
             element: element,
+            vcElementId: element.dataset.vcvElement,
             path: elPath
           })
         }
+
         this.prevElement = element
         this.prevElementPath = elPath
       }
@@ -96,9 +101,14 @@ export default class ControlsManager {
     })
     this.api.reply('treeContent:element:mouseEnter', (id) => {
       let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-      // console.log(element)
       if (element) {
         this.controlsHandler.showOutline(element)
+      }
+    })
+    this.api.reply('treeContent:element:mouseLeave', (id) => {
+      let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+      if (element) {
+        this.controlsHandler.hideOutline(element)
       }
     })
   }
