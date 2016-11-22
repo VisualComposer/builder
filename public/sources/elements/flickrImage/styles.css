@@ -3,8 +3,11 @@
   vertical-align: top;
 }
 
-.vce-flickr-image img {
-  height: auto;
+.vce-flickr-image-inner {
+  /*width: 100%;*/
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .vce-flickr-image--align-center {

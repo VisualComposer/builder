@@ -2,13 +2,27 @@
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
   static unique = 0
+  static imageSizes = {
+    thumbnail: {
+      height: '150',
+      width: '150'
+    },
+    medium: {
+      height: '300',
+      width: '300'
+    },
+    large: {
+      height: '1024',
+      width: '1024'
+    }
+  }
 
   componentDidMount () {
     this.insertFlickr(this.props.atts.flickrUrl)
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl) {
+    if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl || this.props.atts.size !== nextProps.atts.size) {
       this.insertFlickr(nextProps.atts.flickrUrl)
     }
   }
@@ -61,16 +75,33 @@ class Component extends vcvAPI.elementComponent {
   }
 
   appendFlickr (tagString = '') {
-    const component = this.getDomNode()
+    const component = this.refs.flickerInner
     component.innerHTML = ''
     this.updateInlineHtml(component, tagString)
   }
 
+  checkImageSize (size) {
+    let relatedSize = ''
+    if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
+      relatedSize = window.vcvImageSizes[ size ]
+    } else if (Component.imageSizes[ size ]) {
+      relatedSize = Component.imageSizes[ size ]
+    }
+    return relatedSize
+  }
+
+  parseSize (size) {
+    size = size.split('x')
+    return { width: size[ 0 ], height: size[ 1 ] }
+  }
+
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment } = atts
+    let { designOptions, customClass, alignment, size } = atts
     let classes = 'vce-flickr-image vce'
     let customProps = {}
+    let innerClasses = 'vce-flickr-image-inner'
+    let innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -78,6 +109,20 @@ class Component extends vcvAPI.elementComponent {
 
     if (alignment) {
       classes += ` vce-flickr-image--align-${alignment}`
+    }
+
+    size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
+
+    if (size && size === 'full') {
+      innerCustomProps.style = { width: '100%' }
+    } else if (size && size.match(/\d*(x)\d*/)) {
+      size = this.parseSize(size)
+    } else if (size) {
+      size = this.checkImageSize(size)
+    }
+
+    if (size && size.width) {
+      innerCustomProps.style = { width: `${size.width}px` }
     }
 
     customProps.key = `customProps:${id}`
@@ -97,6 +142,8 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor} />
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
+      <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+    </div>
   }
 }
