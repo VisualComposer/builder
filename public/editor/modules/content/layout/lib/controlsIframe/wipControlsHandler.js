@@ -21,13 +21,34 @@ class ControlsHandler {
 
     this.state = {
       outlines: [],
-      frames: []
+      frames: [],
+      outlineTimeout: null
     }
   }
 
+  /**
+   * Show outline
+   * @param element
+   */
   showOutline (element) {
-    // this.hideOutline()
     this.outline.classList.add('vcv-state--visible')
+    this.autoUpdateOutline(element)
+  }
+
+  /**
+   * Hide outline
+   * @param element
+   */
+  hideOutline (element) {
+    this.outline.classList.remove('vcv-state--visible')
+    this.stopAutoUpdateOutline(element)
+  }
+
+  /**
+   * Update outline position
+   * @param element
+   */
+  updateOutline (element) {
     let elementPos = element.getBoundingClientRect()
     this.outline.style.top = elementPos.top + 'px'
     this.outline.style.left = elementPos.left + 'px'
@@ -35,8 +56,26 @@ class ControlsHandler {
     this.outline.style.height = elementPos.height + 'px'
   }
 
-  hideOutline (element) {
-    this.outline.classList.remove('vcv-state--visible')
+  /**
+   * Automatically update outline position after timeout
+   * @param element
+   */
+  autoUpdateOutline (element) {
+    this.stopAutoUpdateOutline()
+    if (!this.state.outlineTimeout) {
+      this.updateOutline(element)
+      this.state.outlineTimeout = window.setInterval(this.updateOutline.bind(this, element), 30)
+    }
+  }
+
+  /**
+   * Stop automatically update outline position and clear timeout
+   */
+  stopAutoUpdateOutline () {
+    if (this.state.outlineTimeout) {
+      window.clearInterval(this.state.outlineTimeout)
+      this.state.outlineTimeout = null
+    }
   }
 }
 
