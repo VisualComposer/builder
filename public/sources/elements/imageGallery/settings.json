@@ -1,0 +1,208 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Image Gallery"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Image gallery is a basic element for adding simple image gallery from Media Library into the content area."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "image-gallery-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "image-gallery-thumbnail.png"
+  },
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": "single-image.jpg",
+    "options": {
+      "label": "Image",
+      "multiple": false,
+      "defaultValue": "single-image.jpg"
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        }
+      ]
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "image",
+      "shape",
+      "clickableOptions",
+      "imageUrl",
+      "size",
+      "alignment",
+      "customClass"
+    ],
+    "options": {
+      "label": "Image Gallery"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "size": {
+    "type": "string",
+    "access": "public",
+    "value": "full",
+    "options": {
+      "label": "Size",
+      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
+    }
+  },
+  "clickableOptions": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Click options",
+      "values": [
+        {
+          "label": "None",
+          "value": ""
+        },
+        {
+          "label": "Link selector",
+          "value": "url"
+        },
+        {
+          "label": "Lightbox",
+          "value": "lightbox"
+        },
+        {
+          "label": "Zoom",
+          "value": "zoom"
+        },
+        {
+          "label": "Open Image in New Tab",
+          "value": "imageNewTab"
+        }
+      ]
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "imageUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": true,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Image URL (Link)",
+      "onChange": {
+        "rules": {
+          "clickableOptions": {
+            "rule": "value",
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  }
+}
