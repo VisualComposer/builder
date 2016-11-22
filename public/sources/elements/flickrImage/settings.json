@@ -50,6 +50,7 @@
     "access": "protected",
     "value": [
       "flickrUrl",
+      "size",
       "alignment",
       "customClass"
     ],
@@ -114,5 +115,14 @@
     "type": "toggle",
     "access": "protected",
     "value": true
+  },
+  "size": {
+    "type": "string",
+    "access": "public",
+    "value": "full",
+    "options": {
+      "label": "Size",
+      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
+    }
   }
 }
