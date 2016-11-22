@@ -34,14 +34,13 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Templates $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
      *
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     *
      * @return string
      */
-    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce)
+    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce, Url $urlHelper)
     {
-        if (!is_user_logged_in()) {
-            wp_redirect(wp_login_url());
-            die;
-        }
+        $urlHelper->redirectIfUnauthorized();
         $sourceId = (int)$request->input('vcv-source-id');
         $this->setupPost($sourceId);
 

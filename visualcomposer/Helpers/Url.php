@@ -61,4 +61,36 @@ class Url implements Helper
 
         return $url . $q . http_build_query($query);
     }
+
+    /**
+     * @return string
+     */
+    public function current()
+    {
+        $currentUrl = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+
+        return $currentUrl;
+    }
+
+    /**
+     * @return bool|void
+     */
+    public function redirectIfUnauthorized()
+    {
+        if (!is_user_logged_in()) {
+            wp_redirect(wp_login_url($this->current()));
+
+            return $this->terminate();
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function terminate($message = '')
+    {
+        die($message);
+    }
 }
