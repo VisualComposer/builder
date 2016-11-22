@@ -34,8 +34,8 @@ task(
         cd($sharedPath);
         run('npm update --loglevel=error');
         cd('{{release_path}}');
-        run('composer update --prefer-dist --no-progress');
-        run('webpack');
+        run('php ci/composer.phar update --prefer-dist --no-progress');
+        run('npm run build');
     }
 )->desc('Install npm, composer and bower packages');
 

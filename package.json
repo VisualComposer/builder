@@ -8,7 +8,9 @@
     "start": "node server.js",
     "standard": "standard",
     "build-module": "node ./tools/module-builder/index.js",
-    "build-element": "node --harmony ./tools/element-builder/index"
+    "build-element": "node --harmony ./tools/element-builder/index",
+    "build": "webpack --progress --colors",
+    "watch": "webpack --progress --colors --watch"
   },
   "author": "@vv",
   "license": "",
@@ -57,6 +59,7 @@
     "swig": "1.4.2",
     "uglifyjs": "2.4.10",
     "url-loader": "0.5.7",
+    "webpack": "1.13.2",
     "webpack-dev-server": "1.16.2",
     "webpack-sources": "0.1.2"
   },
@@ -110,8 +113,7 @@
     "simply-deferred": "3.0.0",
     "tinymce": "4.4.3",
     "vc-cake": "0.4.1",
-    "webfontloader": "^1.6.26",
-    "webpack": "1.13.2"
+    "webfontloader": "^1.6.26"
   },
   "babel": {
     "presets": [
