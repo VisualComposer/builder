@@ -178,9 +178,10 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Color",
+      "label": "Controls color",
       "format": "hex",
       "disableAlpha": true,
+      "showTransparent": false,
       "description": "Specify the color of the video controls.",
       "onChange": {
         "rules": {
@@ -201,7 +202,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Loop",
+      "label": "Repeat video",
       "description": "Play the video again when it reaches the end.",
       "onChange": {
         "rules": {
@@ -232,13 +233,13 @@
       "videoPlayer",
       "size",
       "customSize",
+      "alignment",
+      "customClass",
       "advanced",
       "autopause",
       "autoplay",
       "color",
-      "loop",
-      "alignment",
-      "customClass"
+      "loop"
     ],
     "options": {
       "label": "Vimeo Player"

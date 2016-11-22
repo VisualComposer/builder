@@ -8,11 +8,9 @@ class Component extends vcvAPI.elementComponent {
         return src
       case 'rem':
         return src
-      case 'pt':
-        return src
-      case 'pc':
-        return src
       case '%':
+        return src
+      case 'vw':
         return src
       default:
         return 'px'
@@ -21,16 +19,21 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment, size, customSize } = atts
+    let { customClass, videoPlayer, alignment, size, customSize, advanced } = atts
     let classes = 'vce-vim-video-player vce'
-    let wrapperClasses = 'vce-vim-video-player-wrapper'
     let innerClasses = 'vce-vim-video-player-inner'
     let source, videoWidth, videoId
-    let autopause = atts.autopause ? 1 : 0
-    let autoplay = atts.autoplay ? 1 : 0
-    let loop = atts.loop ? 1 : 0
-    let color = atts.color.slice(1)
+    let autopause = 0
+    let autoplay = 0
+    let loop = 0
+    let color = '00adef'
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+    if (advanced) {
+      autopause = atts.autopause ? 1 : 0
+      autoplay = atts.autoplay ? 1 : 0
+      loop = atts.loop ? 1 : 0
+      color = atts.color.slice(1)
+    }
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
     }
@@ -60,17 +63,13 @@ class Component extends vcvAPI.elementComponent {
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
     return <div className={classes} id={'el-' + id} {...editor} data-vcv-element-disabled='true'>
-      <div className={wrapperClasses}>
-        <div className={innerClasses} style={{width: videoWidth}}>
-          <iframe
-            className='vce-vim-video-player-iframe'
-            src={source}
-            width='640'
-            height='390'
-            frameBorder='0'
-            allowFullScreen='true'
-          />
-        </div>
+      <div className={innerClasses} style={{width: videoWidth}}>
+        <iframe
+          className='vce-vim-video-player-iframe'
+          src={source}
+          frameBorder='0'
+          allowFullScreen='true'
+        />
       </div>
     </div>
   }
