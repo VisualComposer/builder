@@ -23,17 +23,12 @@ class Component extends vcvAPI.elementComponent {
     let classes = 'vce-vim-video-player vce'
     let innerClasses = 'vce-vim-video-player-inner'
     let source, videoWidth, videoId
-    let autopause = 0
-    let autoplay = 0
-    let loop = 0
-    let color = '00adef'
+    let autopause = advanced && atts.autopause ? 1 : 0
+    let autoplay = advanced && atts.autoplay ? 1 : 0
+    let loop = advanced && atts.loop ? 1 : 0
+    let color = advanced ? atts.color.slice(1) : '00adef'
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
-    if (advanced) {
-      autopause = atts.autopause ? 1 : 0
-      autoplay = atts.autoplay ? 1 : 0
-      loop = atts.loop ? 1 : 0
-      color = atts.color.slice(1)
-    }
+
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
     }
