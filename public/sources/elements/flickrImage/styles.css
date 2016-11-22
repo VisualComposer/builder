@@ -4,8 +4,8 @@
 }
 
 .vce-flickr-image-inner {
-  /*width: 100%;*/
   max-width: 100%;
+  min-width: 151px;
   display: inline-block;
   vertical-align: top;
 }
