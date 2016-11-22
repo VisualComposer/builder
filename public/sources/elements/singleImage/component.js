@@ -1,10 +1,71 @@
 /* global React, vcvAPI, vcCake */
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
+  static imageSizes = {
+    thumbnail: {
+      height: '150',
+      width: '150'
+    },
+    medium: {
+      height: '300',
+      width: '300'
+    },
+    large: {
+      height: '1024',
+      width: '1024'
+    }
+  }
+
   constructor (props) {
     super(props)
     this.getCustomSizeImage = this.getCustomSizeImage.bind(this)
     this.insertImage = this.insertImage.bind(this)
+    this.setCustomSizeState = this.setCustomSizeState.bind(this)
+  }
+
+  componentDidMount () {
+    if (this.props.atts.size === 'full' && this.props.atts.shape !== 'round') {
+      return true
+    }
+    if (this.props.atts.image && !this.props.atts.image.id) {
+      if (this.props.atts.size) {
+        if (this.props.atts.size.match(/\d*(x)\d*/)) {
+          this.setCustomSizeState(this.props.atts.image, this.props.atts.size, this.props.atts.shape === 'round')
+        } else if (this.props.atts.size === 'full') {
+          this.checkImageSize(this.props.atts.image, this.setCustomSizeState, this.props.atts.shape === 'round')
+        } else {
+          this.setCustomSizeState(this.props.atts.image, this.checkRelatedSize(this.props.atts.size), this.props.atts.shape === 'round')
+        }
+      } else {
+        this.checkImageSize(this.props.atts.image, this.setCustomSizeState, this.props.atts.shape === 'round')
+      }
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.atts.size === 'full' && nextProps.atts.shape !== 'round') {
+      this.setState({
+        imgSize: null
+      })
+      return true
+    }
+    if (nextProps.atts.image && !nextProps.atts.image.id) {
+      if (nextProps.atts.size) {
+        if (nextProps.atts.size.match(/\d*(x)\d*/)) {
+          this.setCustomSizeState(nextProps.atts.image, nextProps.atts.size, nextProps.atts.shape === 'round')
+        } else if (nextProps.atts.size === 'full') {
+          this.checkImageSize(nextProps.atts.image, this.setCustomSizeState, nextProps.atts.shape === 'round')
+        } else {
+          this.setCustomSizeState(nextProps.atts.image, this.checkRelatedSize(nextProps.atts.size), nextProps.atts.shape === 'round')
+        }
+      } else {
+        this.checkImageSize(nextProps.atts.image, this.setCustomSizeState, nextProps.atts.shape === 'round')
+      }
+    } else {
+      this.setState({
+        imgSize: null
+      })
+    }
   }
 
   checkImageSize (image, callback, isRound, size, originalSrc) {
@@ -98,6 +159,28 @@ class Component extends vcvAPI.elementComponent {
     img.className = 'vce-single-image'
   }
 
+  checkRelatedSize (size) {
+    let relatedSize = ''
+    if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
+      relatedSize = window.vcvImageSizes[ size ]
+    } else if (Component.imageSizes[ size ]) {
+      relatedSize = Component.imageSizes[ size ]
+    }
+    return relatedSize
+  }
+
+  setCustomSizeState (image, size, isRound) {
+    let imgSrc = this.getImageUrl(image)
+    let currentSize = this.parseSize(size, isRound)
+
+    this.setState({
+      imgSize: {
+        width: currentSize.width + 'px',
+        backgroundImage: currentSize.width ? 'url(' + imgSrc + ')' : ''
+      }
+    })
+  }
+
   render () {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, imageUrl, customClass, size, alignment } = atts
@@ -112,12 +195,20 @@ class Component extends vcvAPI.elementComponent {
 
     let imgSrc = originalSrc
 
-    if (size && size.match(/\d*(x)\d*/) && image.id) {
-      this.getCustomSizeImage(image, size, shape === 'round', originalSrc)
-    } else if (shape === 'round' && image.id) {
-      this.checkImageSize(image, this.getCustomSizeImage, true, size, originalSrc)
-    } else {
-      imgSrc = this.getImageUrl(image, size)
+    size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
+
+    if (image && image.id) {
+      if (size && size.match(/\d*(x)\d*/)) {
+        this.getCustomSizeImage(image, size, shape === 'round', originalSrc)
+      } else if (shape === 'round') {
+        this.checkImageSize(image, this.getCustomSizeImage, true, size, originalSrc)
+      } else {
+        imgSrc = this.getImageUrl(image, size)
+      }
+    }
+
+    if (this.state && this.state.imgSize) {
+      classes += ' vce-single-image--size-custom'
     }
 
     if (typeof customClass === 'string' && customClass) {
@@ -157,7 +248,7 @@ class Component extends vcvAPI.elementComponent {
       classes += ' vce-single-image--border-rounded'
     }
 
-    if (!editor && shape === 'round') {
+    if (shape === 'round') {
       classes += ' vce-single-image--border-round'
     }
 
@@ -177,6 +268,9 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
+    customProps.style = this.state ? this.state.imgSize : null
+
     return <div className={containerClasses} id={'el-' + id} {...editor}>
       <CustomTag {...customProps} className={classes} ref='imageContainer'>
         <img className='vce-single-image' src={imgSrc} {...customImageProps} />
