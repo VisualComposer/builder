@@ -6,6 +6,7 @@ a.vce-single-image-inner {
 
 .vce-single-image-inner {
   display: inline-block;
+  vertical-align: top;
 }
 
 .vce-single-image--border-rounded {
@@ -16,6 +17,26 @@ a.vce-single-image-inner {
 .vce-single-image--border-round {
   border-radius: 50%;
   overflow: hidden;
+}
+
+.vce-single-image--size-custom {
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+}
+
+.vce-single-image--size-custom::after {
+  content:'';
+  display: block;
+  padding-bottom: 66.66%;
+}
+
+.vce-single-image--border-round.vce-single-image--size-custom::after {
+  padding-bottom: 100%;
+}
+
+.vce-single-image--size-custom .vce-single-image {
+  display: none;
 }
 
 .vce-single-image--align-center {
