@@ -68,6 +68,11 @@ let tempData = {
       'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
     },
+    'Image gallery': {
+      'name': 'Image Gallery',
+      'elements': [],
+      'icon': 'categories/icons/Image-Gallery.svg'
+    },
     'Text block': {
       'name': 'Text Block',
       'elements': [ 'textBlock' ],
@@ -106,6 +111,9 @@ if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
 }
 if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
   tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')
+}
+if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
+  tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')

@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Single Image"
+    "value": "Image Gallery"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,17 +17,17 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations."
+    "value": "Image gallery is a basic element for adding simple image gallery from Media Library into the content area."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-single-image.jpg"
+    "value": "image-gallery-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-single-image.png"
+    "value": "image-gallery-thumbnail.png"
   },
   "image": {
     "type": "attachimage",
@@ -82,7 +82,7 @@
       "customClass"
     ],
     "options": {
-      "label": "Single Image"
+      "label": "Image Gallery"
     }
   },
   "metaEditFormTabs": {
@@ -99,11 +99,6 @@
     "value": [
       "General"
     ]
-  },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
   },
   "customClass": {
     "type": "string",
