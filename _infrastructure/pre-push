@@ -8,7 +8,7 @@ RED='\033[0;31m'
 
 printf "${YELLOW}Running phpunit tests...${NOCOLOR}\n"
 
-OUTPUT=`phpunit --configuration=ci/phpunit.xml`
+OUTPUT=`php ci/phpunit-5.6.5.phar --configuration=ci/phpunit.xml`
 
 # Check last return code (#?).
 if [ $? -ne 0 ]

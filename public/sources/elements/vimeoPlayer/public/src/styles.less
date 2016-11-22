@@ -1,16 +1,18 @@
 // Styles for Vimeo Video Player
 //-----------------------------------------
 
-.vce-vim-video-player-wrapper {
+.vce-vim-video-player-inner {
+  position: relative;
   display: inline-block;
   max-width: 100%;
   vertical-align: top;
-}
 
-.vce-vim-video-player-inner {
-  position: relative;
-  max-width: 100%;
-  padding-top: 56.25%;
+  &::before {
+    content: '';
+    width: 100%;
+    display: block;
+    padding-top: 56%;
+  }
 }
 
 [data-vcv-element-disabled="true"] {

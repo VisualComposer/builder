@@ -184,26 +184,12 @@
     }
   },
   "controls": {
-    "type": "dropdown",
+    "type": "toggle",
     "access": "public",
-    "value": "1",
+    "value": true,
     "options": {
-      "label": "Controls",
+      "label": "Show controls",
       "description": "Indicates whether the video player controls are displayed.",
-      "values": [
-        {
-          "label": "Don't display",
-          "value": "0"
-        },
-        {
-          "label": "Display immediately",
-          "value": "1"
-        },
-        {
-          "label": "Display upon playback",
-          "value": "2"
-        }
-      ],
       "onChange": {
         "rules": {
           "advanced": {
@@ -223,7 +209,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Loop",
+      "label": "Repeat video",
       "description": "Play the video again when it reaches the end.",
       "onChange": {
         "rules": {
@@ -244,7 +230,7 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Related videos",
+      "label": "Show related videos",
       "description": "Indicates whether the player should show related videos when playback of the initial video ends.",
       "onChange": {
         "rules": {
@@ -317,6 +303,8 @@
       "videoPlayer",
       "size",
       "customSize",
+      "alignment",
+      "customClass",
       "advanced",
       "autoplay",
       "color",
@@ -324,9 +312,7 @@
       "loop",
       "rel",
       "start",
-      "end",
-      "alignment",
-      "customClass"
+      "end"
     ],
     "options": {
       "label": "YouTube Player"

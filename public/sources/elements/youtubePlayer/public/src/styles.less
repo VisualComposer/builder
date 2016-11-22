@@ -1,16 +1,18 @@
 // Styles for YouTube Video Player
 //-----------------------------------------
 
-.vce-yt-video-player-wrapper {
+.vce-yt-video-player-inner {
+  position: relative;
   display: inline-block;
   max-width: 100%;
   vertical-align: top;
-}
 
-.vce-yt-video-player-inner {
-  position: relative;
-  max-width: 100%;
-  padding-top: 56.25%;
+  &::before {
+    content: '';
+    width: 100%;
+    display: block;
+    padding-top: 56.25%;
+  }
 }
 
 [data-vcv-element-disabled="true"] {

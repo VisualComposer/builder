@@ -83,9 +83,9 @@ let tempData = {
       'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage' ],
       'icon': 'categories/icons/Social.svg'
     },
-    'Video': {
-      'name': 'Video',
-      'elements': [],
+    'Videos': {
+      'name': 'Videos',
+      'elements': ['youtubePlayer', 'vimeoPlayer'],
       'icon': 'categories/icons/Video.svg'
     },
     'WooCommerce': {
@@ -126,12 +126,6 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
-}
-if (vcCake.env('FEATURE_YOUTUBE_PLAYER')) {
-  tempData.categories[ 'Video' ].elements.push('youtubePlayer')
-}
-if (vcCake.env('FEATURE_VIMEO_PLAYER')) {
-  tempData.categories[ 'Video' ].elements.push('vimeoPlayer')
 }
 const data = tempData
 
