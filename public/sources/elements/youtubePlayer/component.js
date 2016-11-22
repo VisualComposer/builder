@@ -86,6 +86,8 @@ class Component extends vcvAPI.elementComponent {
         return src
       case 'vw':
         return src
+      case 'vh':
+        return src
       case '%':
         return src
       default:
