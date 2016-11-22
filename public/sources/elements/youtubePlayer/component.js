@@ -84,9 +84,7 @@ class Component extends vcvAPI.elementComponent {
         return src
       case 'rem':
         return src
-      case 'pt':
-        return src
-      case 'pc':
+      case 'vw':
         return src
       case '%':
         return src
@@ -97,17 +95,21 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment, size, customSize, color, controls } = atts
+    let { customClass, videoPlayer, alignment, size, customSize, advanced } = atts
     let classes = 'vce-yt-video-player vce'
-    let wrapperClasses = 'vce-yt-video-player-wrapper'
     let innerClasses = 'vce-yt-video-player-inner'
     let source, videoWidth, videoId, loop
-    let autoplay = atts.autoplay ? 1 : 0
-    let rel = atts.rel ? 1 : 0
-    let start = 0
-    let end = atts.end ? `&end=${this.parseTime(atts.end)}` : ''
+    let autoplay = advanced && atts.autoplay ? 1 : 0
+    let color = advanced && atts.color ? atts.color : 'red'
+    let controls = 2
+    let rel = advanced && atts.rel ? 1 : 0
+    let start = advanced && atts.start ? this.parseTime(atts.start) : 0
+    let end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
 
+    if (advanced) {
+      controls = atts.controls ? 2 : 0
+    }
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
     }
@@ -129,35 +131,30 @@ class Component extends vcvAPI.elementComponent {
         videoWidth = `${size.slice(0, size.indexOf('x'))}px`
       }
     }
-    if (videoPlayer.match(ytrx)) {
-      let url
-      url = videoPlayer.match(ytrx)
+    if (videoPlayer && videoPlayer.match(ytrx)) {
+      let url = videoPlayer.trim()
+      url = url.match(ytrx)
       videoId = url[ 7 ]
-      loop = atts.loop ? `&loop=1&playlist=${videoId}` : `&loop=0`
+      loop = advanced && atts.loop ? `&loop=1&playlist=${videoId}` : `&loop=0`
       if (url[ 8 ]) {
         start += url[ 9 ] === undefined ? 0 : (Number(url[ 9 ]) * 60 * 60)
         start += url[ 10 ] === undefined ? 0 : (Number(url[ 10 ]) * 60)
         start += url[ 11 ] === undefined ? 0 : (Number(url[ 11 ]))
       }
     }
-    if (atts.start) {
-      start = this.parseTime(atts.start)
-    }
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
     return <div className={classes} id={'el-' + id} {...editor} data-vcv-element-disabled='true'>
-      <div className={wrapperClasses}>
-        <div className={innerClasses} style={{width: videoWidth}}>
-          <iframe
-            className='vce-yt-video-player-iframe'
-            src={source}
-            width='640'
-            height='390'
-            frameBorder='0'
-            allowFullScreen='true'
-          />
-        </div>
+      <div className={innerClasses} style={{width: videoWidth}}>
+        <iframe
+          className='vce-yt-video-player-iframe'
+          src={source}
+          width='640'
+          height='390'
+          frameBorder='0'
+          allowFullScreen='true'
+        />
       </div>
     </div>
   }
