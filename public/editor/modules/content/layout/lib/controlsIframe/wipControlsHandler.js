@@ -38,9 +38,8 @@ class ControlsHandler {
 
   /**
    * Hide outline
-   * @param element
    */
-  hideOutline (element) {
+  hideOutline () {
     this.outline.classList.remove('vcv-state--visible')
     this.stopAutoUpdateOutline()
   }

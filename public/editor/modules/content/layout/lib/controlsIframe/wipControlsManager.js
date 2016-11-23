@@ -1,3 +1,4 @@
+import vcCake from 'vc-cake'
 import ControlsHandler from './wipControlsHandler'
 
 require('../../css/controls/init.less')
@@ -19,7 +20,8 @@ export default class ControlsManager {
     this.state = {
       prevTarget: null,
       prevElement: null,
-      prevElementPath: []
+      prevElementPath: [],
+      showOutline: true
     }
 
     this.findElement = this.findElement.bind(this)
@@ -39,7 +41,13 @@ export default class ControlsManager {
     return path
   }
 
-  findElement (e) {
+  findElement (e = null) {
+    // need to run all events, so creating fake event
+    if (!e) {
+      e = {
+        target: null
+      }
+    }
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
@@ -110,16 +118,28 @@ export default class ControlsManager {
 
   init () {
     this.setup()
+    vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
+      this.state.showOutline = !state
+      this.findElement()
+    })
+
+    // Interact with content
     this.api.reply('editorContent:element:mouseEnter', (data) => {
-      this.controlsHandler.showOutline(data.element)
+      if (this.state.showOutline) {
+        this.controlsHandler.showOutline(data.element)
+      }
     })
     this.api.reply('editorContent:element:mouseLeave', (data) => {
       this.controlsHandler.hideOutline(data.element)
     })
+
+    // Interact with tree
     this.api.reply('treeContent:element:mouseEnter', (id) => {
-      let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-      if (element) {
-        this.controlsHandler.showOutline(element)
+      if (this.state.showOutline) {
+        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+        if (element) {
+          this.controlsHandler.showOutline(element)
+        }
       }
     })
     this.api.reply('treeContent:element:mouseLeave', (id) => {
