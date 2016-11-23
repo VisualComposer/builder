@@ -1,10 +1,6 @@
 /* global React, vcvAPI, vcCake */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  constructor (props) {
-    super(props)
-  }
-
   componentDidMount () {
 
   }
@@ -45,7 +41,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, alignment } = atts
+    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, alignment, columns } = atts
     let containerClasses = 'vce-image-gallery vce'
     let classes = 'vce-image-gallery-inner'
     let customProps = {}
@@ -57,11 +53,14 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ' ' + customClass
     }
 
-
     let mixinData = this.getMixinData('imageGalleryGap')
-
     if (mixinData) {
       containerClasses += ` vce-image-gallery--gap-${mixinData.selector}`
+    }
+
+    mixinData = this.getMixinData('imageGalleryColumns')
+    if (mixinData) {
+      containerClasses += ` vce-image-gallery--columns-${mixinData.selector}`
     }
 
     if (clickableOptions === 'url' && imageUrl && imageUrl.url) {
@@ -116,39 +115,21 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    let halfUrls = Math.ceil(imgSrc.length / 2)
-    let firstUrls = imgSrc.splice(0, halfUrls)
-
-    let firstColumns = []
-
-    firstUrls.forEach((src, index) => {
-      firstColumns.push(
-        <div className='vce-image-gallery-col' key={index}>
-          <CustomTag {...customProps} className={classes} ref='imageContainer'>
-            <img className='vce-image-gallery' src={src} {...customImageProps} />
-          </CustomTag>
-        </div>
-      )
-    })
-
-    let secondColumns = []
+    let galleryItems = []
 
     imgSrc.forEach((src, index) => {
-      secondColumns.push(
-        <div className='vce-image-gallery-col' key={index}>
+      galleryItems.push(
+        <div className='vce-image-gallery-item' key={index}>
           <CustomTag {...customProps} className={classes} ref='imageContainer'>
-            <img className='vce-image-gallery' src={src} {...customImageProps} />
+            <img className='vce-image-gallery-img' src={src} {...customImageProps} />
           </CustomTag>
         </div>
       )
     })
 
     return <div className={containerClasses} id={'el-' + id} {...editor}>
-      <div className='vce-image-gallery-row'>
-        {firstColumns}
-      </div>
-      <div className='vce-image-gallery-row'>
-        {secondColumns}
+      <div className='vce-image-gallery-list'>
+        {galleryItems}
       </div>
     </div>
   }
