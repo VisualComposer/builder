@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import Resizer from '../../../../../resources/resizer/resizer'
 
-class BarContentEnd extends React.Component {
+export default class BarContentEnd extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
@@ -86,8 +86,12 @@ class BarContentEnd extends React.Component {
 
   render () {
     let content = null
+    let aligned = false
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
+    }
+    if (this.state.contentProps.api && this.state.contentProps.api.name === 'ui-add-element') {
+      aligned = true
     }
     let contentClasses = classNames({
       'vcv-layout-bar-content-end': true,
@@ -98,10 +102,14 @@ class BarContentEnd extends React.Component {
       'vcv-media--lg': this.state.realWidth > 1200,
       'vcv-media--xl': this.state.realWidth > 1600
     })
+    let closeBtnClasses = classNames({
+      'vcv-layout-bar-content-hide': true,
+      'vcv-layout-bar-content-aligned': aligned
+    })
 
     return (
       <div className={contentClasses} id='vcv-editor-end'>
-        <a className='vcv-layout-bar-content-hide' href='#' title='Close'
+        <a className={closeBtnClasses} href='#' title='Close'
           onClick={this.closeContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
         </a>
@@ -133,5 +141,3 @@ class BarContentEnd extends React.Component {
     )
   }
 }
-
-export default BarContentEnd
