@@ -4,13 +4,18 @@ import lodash from 'lodash'
 import classNames from 'classnames'
 import CategoryTab from './category-tab'
 import ElementControl from './element-control'
+import Search from './search'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import '../css/init.less'
-import {getService} from 'vc-cake'
-const categoriesService = getService('categories')
+import vcCake from 'vc-cake'
+const categoriesService = vcCake.getService('categories')
 let allTabs = []
 
-class Categories extends React.Component {
+export default class Categories extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    elements: React.PropTypes.array.isRequired
+  }
 
   constructor (props) {
     super(props)
@@ -20,6 +25,7 @@ class Categories extends React.Component {
       activeTabIndex: 0
     }
     this.tabsFromProps = this.tabsFromProps.bind(this)
+    this.getSearchProps = this.getSearchProps.bind(this)
   }
 
   componentWillMount () {
@@ -206,6 +212,21 @@ class Categories extends React.Component {
     }
   }
 
+  updateTabs (index, result) {
+    allTabs[index].elements = result
+  }
+
+  getSearchProps () {
+    return {
+      key: 'vcv-ui-editor-search',
+      allTabs: allTabs,
+      index: this.state.activeTabIndex,
+      changeActive: this.changeActiveTab,
+      elements: this.props.elements,
+      updateTabs: this.updateTabs
+    }
+  }
+
   render () {
     let { activeTabIndex } = this.state
     var visibleTabsHeaderOutput = []
@@ -271,7 +292,16 @@ class Categories extends React.Component {
       'vcv-ui-tree-content': true
     })
 
+    // TODO handle error on blur, remove feature toggle
+    let searchField, searchProps
+    if (vcCake.env('FEATURE_ADD_ELEMENT_SEARCH')) {
+      // <img className='testing' src='searchbar.png' alt='' />
+      searchProps = this.getSearchProps()
+      searchField = <Search {...searchProps} />
+    }
+
     return <div className={treeContentClasses}>
+      {searchField}
       <div className='vcv-ui-editor-tabs-container'>
         <nav className='vcv-ui-editor-tabs'>
           {visibleTabsHeaderOutput}
@@ -295,9 +325,3 @@ class Categories extends React.Component {
     </div>
   }
 }
-Categories.propTypes = {
-  api: React.PropTypes.object.isRequired,
-  elements: React.PropTypes.array.isRequired
-}
-
-export default Categories
