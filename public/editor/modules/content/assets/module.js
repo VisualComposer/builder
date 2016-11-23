@@ -24,8 +24,11 @@ vcCake.add('assets', (api) => {
       iframeDocument.body.appendChild(doElement)
     }
     assetsManager.getCompiledCss(true).then((result) => {
-      styleElement.innerHTML = result
-      styleElement.innerHTML += assetsManager.getGlobalCss()
+      let cssString = result
+      cssString += assetsManager.getGlobalCss()
+      styleElement.innerHTML = cssString
+    }).then(() => {
+      vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
