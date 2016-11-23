@@ -14,7 +14,8 @@ class ControlsHandler {
     this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
     this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
     this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeDocument = this.iframe && this.iframe.contentWindow.document
+    this.iframeWindow = this.iframe && this.iframe.contentWindow
+    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
     this.outline = document.createElement('svg')
     this.outline.classList.add('vcv-ui-element-outline')
     this.iframeOverlay.appendChild(this.outline)
@@ -41,7 +42,7 @@ class ControlsHandler {
    */
   hideOutline (element) {
     this.outline.classList.remove('vcv-state--visible')
-    this.stopAutoUpdateOutline(element)
+    this.stopAutoUpdateOutline()
   }
 
   /**
@@ -64,7 +65,7 @@ class ControlsHandler {
     this.stopAutoUpdateOutline()
     if (!this.state.outlineTimeout) {
       this.updateOutline(element)
-      this.state.outlineTimeout = window.setInterval(this.updateOutline.bind(this, element), 30)
+      this.state.outlineTimeout = this.iframeWindow.setInterval(this.updateOutline.bind(this, element), 16)
     }
   }
 
@@ -73,7 +74,7 @@ class ControlsHandler {
    */
   stopAutoUpdateOutline () {
     if (this.state.outlineTimeout) {
-      window.clearInterval(this.state.outlineTimeout)
+      this.iframeWindow.clearInterval(this.state.outlineTimeout)
       this.state.outlineTimeout = null
     }
   }

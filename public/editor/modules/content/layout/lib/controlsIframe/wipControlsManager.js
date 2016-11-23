@@ -25,11 +25,26 @@ export default class ControlsManager {
     this.findElement = this.findElement.bind(this)
   }
 
+  findPath (e) {
+    if (e.path) {
+      return e.path
+    }
+    let path = []
+    let node = e.target
+
+    while (node) {
+      path.push(node)
+      node = node.parentNode
+    }
+    return path
+  }
+
   findElement (e) {
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
-      let elPath = e.path.filter((el) => {
+      let path = e.path || this.findPath(e)
+      let elPath = path.filter((el) => {
         if (el.dataset && el.dataset.hasOwnProperty('vcvElement')) {
           return true
         }
@@ -89,6 +104,8 @@ export default class ControlsManager {
 
     // this.api.request(event, elementId, options)
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    this.iframeDocument.addEventListener('mouseenter', this.findElement)
+    this.iframeDocument.addEventListener('mouseleave', this.findElement)
   }
 
   init () {
