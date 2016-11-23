@@ -90,9 +90,10 @@ export default class BarContentEnd extends React.Component {
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
-    if (this.state.contentProps.api && this.state.contentProps.api.name === 'ui-add-element') {
-      aligned = true
-    }
+    // TODO handle this condition when search is finished
+    // if (this.state.contentProps.api && this.state.contentProps.api.name === 'ui-add-element') {
+    //   aligned = true
+    // }
     let contentClasses = classNames({
       'vcv-layout-bar-content-end': true,
       'vcv-ui-state--visible': this.state.showContent,
