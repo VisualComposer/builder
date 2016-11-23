@@ -1,6 +1,6 @@
 import lodash from 'lodash'
 module.exports = (data, key, settings) => {
-  let isMultiple = !!settings.multiple
+  let isMultiple = settings.options && settings.options.multiple
   let value = data[ key ]
   let returnValue = value
   if (lodash.isString(value) && isMultiple) {

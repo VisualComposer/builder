@@ -24,8 +24,11 @@ vcCake.add('assets', (api) => {
       iframeDocument.body.appendChild(doElement)
     }
     assetsManager.getCompiledCss(true).then((result) => {
-      styleElement.innerHTML = result
-      styleElement.innerHTML += assetsManager.getGlobalCss()
+      let cssString = result
+      cssString += assetsManager.getGlobalCss()
+      styleElement.innerHTML = cssString
+    }).then(() => {
+      vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
@@ -174,3 +177,12 @@ vcCake.add('assets', (api) => {
     }
   })
 })
+if (vcCake.env('FIX_HASHTAG_FROM_URL')) {
+// Remove useless fragment in editor to control data management
+  const resetURLWithFragment = () => {
+    window.location.href.match(/#/) && window.history.pushState('', document.title, window.location.pathname +
+      window.location.search)
+  }
+  window.onpopstate = resetURLWithFragment
+  resetURLWithFragment()
+}

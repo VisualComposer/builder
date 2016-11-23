@@ -24,6 +24,7 @@ class Component extends vcvAPI.elementComponent {
     if (this.props.atts.embed) {
       this.appendMap(this.props.atts.embed)
     }
+
   }
 
   componentWillReceiveProps (nextProps) {
@@ -70,6 +71,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   setCustomSize (atts, defaultSize) {
+
     let width = this.validateSize(atts.width)
     let height = this.validateSize(atts.height)
 
@@ -80,13 +82,15 @@ class Component extends vcvAPI.elementComponent {
       width: width ? width : `${defaultSize.width}px`,
       height: height ? height : `${defaultSize.height}px`
     }
-
-    if (atts.proportional) {
-      customSize.paddingBottom = this.setProportions(customSize.width, customSize.height)
-      customSize.height = 'auto'
+    if(atts.proportional) {
+      vcCake.getService('api').publicEvents.once('css:ready', () => {
+        customSize.paddingBottom = this.setProportions(customSize.width, customSize.height)
+        customSize.height = 'auto'
+        this.setSizeState(customSize)
+      })
+    } else {
+      this.setSizeState(customSize)
     }
-
-    this.setSizeState(customSize)
   }
 
   setProportions (width, height) {
@@ -107,12 +111,14 @@ class Component extends vcvAPI.elementComponent {
           div.style.minHeight = '150px'
           this.refs.mapContainer.style.height = '100%'
         }
-
+        this.refs.mapContainer.style.position = 'relative'
         div.style.height = height
+        div.style.position = 'absolute'
+        div.style.top = '0'
+        div.style.bottom = '0'
         height = div.getBoundingClientRect().height
-
-        div.style.minHeight = ''
         this.refs.mapContainer.style.height = ''
+        this.refs.mapContainer.style.position = ''
       }
       this.refs.mapContainer.removeChild(div)
     }

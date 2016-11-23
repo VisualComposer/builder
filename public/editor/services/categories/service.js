@@ -68,6 +68,11 @@ let tempData = {
       'elements': [],
       'icon': 'categories/icons/Single-Image.svg'
     },
+    'Image gallery': {
+      'name': 'Image Gallery',
+      'elements': [],
+      'icon': 'categories/icons/Image-Gallery.svg'
+    },
     'Text block': {
       'name': 'Text Block',
       'elements': [ 'textBlock' ],
@@ -85,7 +90,7 @@ let tempData = {
     },
     'Videos': {
       'name': 'Videos',
-      'elements': [],
+      'elements': ['youtubePlayer', 'vimeoPlayer'],
       'icon': 'categories/icons/Video.svg'
     },
     'WooCommerce': {
@@ -107,6 +112,9 @@ if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
 if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
   tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')
 }
+if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
+  tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
+}
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')
@@ -126,12 +134,6 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
-}
-if (vcCake.env('FEATURE_YOUTUBE_PLAYER')) {
-  tempData.categories[ 'Videos' ].elements.push('youtubePlayer')
-}
-if (vcCake.env('FEATURE_VIMEO_PLAYER')) {
-  tempData.categories[ 'Videos' ].elements.push('vimeoPlayer')
 }
 const data = tempData
 

@@ -55,7 +55,7 @@
       "customClass"
     ],
     "options": {
-      "label": "Element"
+      "label": "Flickr Image"
     }
   },
   "metaEditFormTabs": {
@@ -122,7 +122,7 @@
     "value": "full",
     "options": {
       "label": "Size",
-      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
+      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height)). Minimal width 151px."
     }
   }
 }

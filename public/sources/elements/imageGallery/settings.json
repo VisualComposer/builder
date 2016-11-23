@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Single Image"
+    "value": "Image Gallery"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,26 +17,26 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations."
+    "value": "Image gallery is a basic element for adding simple image gallery from Media Library into the content area."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-single-image.jpg"
+    "value": "image-gallery-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-single-image.png"
+    "value": "image-gallery-thumbnail.png"
   },
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": "single-image.jpg",
+    "value": ["image-gallery-1.jpg", "image-gallery-2.jpg", "image-gallery-3.jpg", "image-gallery-4.jpg", "image-gallery-5.jpg", "image-gallery-6.jpg"],
     "options": {
       "label": "Image",
-      "multiple": false,
-      "defaultValue": "single-image.jpg"
+      "multiple": true,
+      "defaultValue": ["image-gallery-1.jpg", "image-gallery-2.jpg", "image-gallery-3.jpg", "image-gallery-4.jpg", "image-gallery-5.jpg", "image-gallery-6.jpg"]
     }
   },
   "shape": {
@@ -74,15 +74,16 @@
     "access": "protected",
     "value": [
       "image",
+      "columns",
+      "gap",
       "shape",
       "clickableOptions",
       "imageUrl",
-      "size",
       "alignment",
       "customClass"
     ],
     "options": {
-      "label": "Single Image"
+      "label": "Image Gallery"
     }
   },
   "metaEditFormTabs": {
@@ -100,11 +101,6 @@
       "General"
     ]
   },
-  "metaOrder": {
-    "type": "number",
-    "access": "protected",
-    "value": 3
-  },
   "customClass": {
     "type": "string",
     "access": "public",
@@ -112,15 +108,6 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
-    }
-  },
-  "size": {
-    "type": "string",
-    "access": "public",
-    "value": "full",
-    "options": {
-      "label": "Size",
-      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
     }
   },
   "clickableOptions": {
@@ -209,5 +196,32 @@
     "value": [
       "animate"
     ]
+  },
+  "gap": {
+    "type": "number",
+    "access": "public",
+    "value": "5",
+    "options": {
+      "label": "Gap",
+      "description": "Enter gap in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "imageGalleryGap",
+        "property": "gap",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "columns": {
+    "type": "number",
+    "access": "public",
+    "value": "3",
+    "options": {
+      "label": "Number of Columns",
+      "cssMixin": {
+        "mixin": "imageGalleryColumns",
+        "property": "columns",
+        "namePattern": "[\\da-f]+"
+      }
+    }
   }
 }
