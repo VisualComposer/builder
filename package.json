@@ -7,10 +7,10 @@
     "test": "jest",
     "start": "babel-node server.js",
     "standard": "standard",
-    "build-module": "node ./tools/module-builder/index.js",
-    "build-element": "node --harmony ./tools/element-builder/index",
     "build": "webpack --progress --colors",
     "watch": "webpack --progress --colors --watch"
+    "build-module": "babel-node ./tools/module-builder/index",
+    "build-element": "babel-node ./tools/element-builder/index",
   },
   "author": "@vv",
   "license": "",
