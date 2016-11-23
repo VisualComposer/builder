@@ -21,26 +21,17 @@ export default class ControlsManager {
       prevTarget: null,
       prevElement: null,
       prevElementPath: [],
-      showOutline: true
+      showOutline: true,
+      showFrames: true
     }
 
     this.findElement = this.findElement.bind(this)
   }
 
-  findPath (e) {
-    if (e.path) {
-      return e.path
-    }
-    let path = []
-    let node = e.target
-
-    while (node) {
-      path.push(node)
-      node = node.parentNode
-    }
-    return path
-  }
-
+  /**
+   * Find element by event and run cake events on element over and out
+   * @param e
+   */
   findElement (e = null) {
     // need to run all events, so creating fake event
     if (!e) {
@@ -51,7 +42,7 @@ export default class ControlsManager {
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
-      let path = e.path || this.findPath(e)
+      let path = e.path || this.getPath(e)
       let elPath = path.filter((el) => {
         if (el.dataset && el.dataset.hasOwnProperty('vcvElement')) {
           return true
@@ -88,6 +79,28 @@ export default class ControlsManager {
     }
   }
 
+  /**
+   * Event.path shadow dom polyfill
+   * @param e
+   * @returns {*}
+   */
+  getPath (e) {
+    if (e.path) {
+      return e.path
+    }
+    let path = []
+    let node = e.target
+
+    while (node) {
+      path.push(node)
+      node = node.parentNode
+    }
+    return path
+  }
+
+  /**
+   * Setup
+   */
   setup () {
     Object.defineProperties(this, {
       /**
@@ -116,21 +129,38 @@ export default class ControlsManager {
     this.iframeDocument.addEventListener('mouseleave', this.findElement)
   }
 
+  /**
+   * Initialize
+   */
   init () {
     this.setup()
+
+    // Check custom layout mode
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
+      this.state.showFrames = !state
       this.findElement()
     })
 
     // Interact with content
+    // Outline interaction
+    // this.api.reply('editorContent:element:mouseEnter', (data) => {
+    //   if (this.state.showOutline) {
+    //     this.controlsHandler.showOutline(data.element)
+    //   }
+    // })
+    // this.api.reply('editorContent:element:mouseLeave', (data) => {
+    //   this.controlsHandler.hideOutline()
+    // })
+
+    // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
-      if (this.state.showOutline) {
-        this.controlsHandler.showOutline(data.element)
+      if (this.state.showFrames) {
+        this.controlsHandler.showFrames({ element: data.element, path: data.path })
       }
     })
-    this.api.reply('editorContent:element:mouseLeave', (data) => {
-      this.controlsHandler.hideOutline(data.element)
+    this.api.reply('editorContent:element:mouseLeave', () => {
+      this.controlsHandler.hideFrames()
     })
 
     // Interact with tree
@@ -142,11 +172,8 @@ export default class ControlsManager {
         }
       }
     })
-    this.api.reply('treeContent:element:mouseLeave', (id) => {
-      let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-      if (element) {
-        this.controlsHandler.hideOutline(element)
-      }
+    this.api.reply('treeContent:element:mouseLeave', () => {
+      this.controlsHandler.hideOutline()
     })
   }
 }
