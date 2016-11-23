@@ -5,7 +5,7 @@
   "main": "index.php",
   "scripts": {
     "test": "jest",
-    "start": "node server.js",
+    "start": "babel-node server.js",
     "standard": "standard",
     "build-module": "node ./tools/module-builder/index.js",
     "build-element": "node --harmony ./tools/element-builder/index",
@@ -112,7 +112,7 @@
     "simple-react-modal": "0.5.1",
     "simply-deferred": "3.0.0",
     "tinymce": "4.4.3",
-    "vc-cake": "0.4.1",
+    "vc-cake": "0.4.2",
     "webfontloader": "^1.6.26"
   },
   "babel": {
