@@ -89,7 +89,7 @@ class AttachImage extends Attribute {
   onMediaOpen = () => {
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
-    ids.forEach(function (id) {
+    ids && ids.forEach(function (id) {
       if (id) {
         let attachment = window.wp.media.attachment(id)
         attachment.fetch()
@@ -159,7 +159,7 @@ class AttachImage extends Attribute {
   }
 }
 AttachImage.propTypes = {
-  value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object ]).isRequired,
+  value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
   fieldKey: React.PropTypes.string.isRequired
 }
 
