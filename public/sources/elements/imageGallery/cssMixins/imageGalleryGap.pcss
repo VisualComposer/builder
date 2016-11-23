@@ -1,0 +1,17 @@
+.vce-image-gallery {
+  &--gap-$selector {
+    .vce-image-gallery-row {
+      @if $gap != false {
+        margin-left: -$(gap)px;
+        margin-right: -$(gap)px;
+      }
+    }
+    .vce-image-gallery-col {
+      @if $gap != false {
+        padding-left: $(gap)px;
+        padding-right: $(gap)px;
+        margin-bottom: calc(2 * $(gap)px);
+      }
+    }
+  }
+}

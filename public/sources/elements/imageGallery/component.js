@@ -46,7 +46,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, imageUrl, customClass, alignment } = atts
-    let containerClasses = 'vce-image-gallery-container vce'
+    let containerClasses = 'vce-image-gallery vce'
     let classes = 'vce-image-gallery-inner'
     let customProps = {}
     let CustomTag = 'div'
@@ -55,6 +55,13 @@ class Component extends vcvAPI.elementComponent {
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
+    }
+
+
+    let mixinData = this.getMixinData('imageGalleryGap')
+
+    if (mixinData) {
+      containerClasses += ` vce-image-gallery--gap-${mixinData.selector}`
     }
 
     if (clickableOptions === 'url' && imageUrl && imageUrl.url) {

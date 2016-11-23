@@ -74,6 +74,7 @@
     "access": "protected",
     "value": [
       "image",
+      "gap",
       "shape",
       "clickableOptions",
       "imageUrl",
@@ -194,5 +195,19 @@
     "value": [
       "animate"
     ]
+  },
+  "gap": {
+    "type": "number",
+    "access": "public",
+    "value": "5",
+    "options": {
+      "label": "Gap",
+      "description": "Enter gap in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "imageGalleryGap",
+        "property": "gap",
+        "namePattern": "[\\da-f]+"
+      }
+    }
   }
 }
