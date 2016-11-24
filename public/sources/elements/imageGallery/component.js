@@ -1,12 +1,110 @@
 /* global React, vcvAPI, vcCake */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  componentDidMount () {
+  static imageSources = []
+  static imageOrder = {}
 
+  constructor (props) {
+    super(props)
+    this.createCustomSizeImage = this.createCustomSizeImage.bind(this)
+  }
+
+  componentDidMount () {
+    this.prepareImage(this.props.atts.image)
   }
 
   componentWillReceiveProps (nextProps) {
+    if (!this.isArraysEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
+      Component.imageSources = []
+      Component.imageOrder = {}
+      this.prepareImage(nextProps.atts.image)
+    }
+  }
 
+  isArraysEqual (arrayOne, arrayTwo) {
+    if (!arrayOne || !arrayTwo) {
+      return false
+    }
+
+    if (arrayOne.length !== arrayTwo.length) {
+      return false
+    }
+
+    for (let i = 0, l = arrayOne.length; i < l; i++) {
+      if (arrayOne[ i ] !== arrayTwo[ i ]) {
+        return false
+      }
+    }
+    return true
+  }
+
+  prepareImage (image) {
+    if (image.id || (image[ 0 ] && image[ 0 ].id)) {
+      this.resizeImage(image)
+      this.setImageOrder(image)
+    } else {
+      let imgArr = []
+      image.forEach((img) => {
+        imgArr.push({ imgSrc: this.getImageUrl(img) })
+      })
+      this.setImgSrcState(imgArr)
+    }
+  }
+
+  setImageOrder (imageArray) {
+    imageArray.forEach((image, index) => {
+      Component.imageOrder[ index ] = image.id
+    })
+  }
+
+  checkImageSize (image, callback, imgCount) {
+    let img = new window.Image()
+    img.onload = () => {
+      let size = {
+        width: img.width,
+        height: img.height
+      }
+      callback(image, size, imgCount)
+    }
+    img.src = this.getImageUrl(image, 'medium')
+  }
+
+  resizeImage (imageArray) {
+    imageArray.forEach((image) => {
+      this.checkImageSize(image, this.createCustomSizeImage, imageArray.length)
+    })
+  }
+
+  createCustomSizeImage (image, size, imgCount) {
+    image.orientation = this.checkOrientation(size)
+    Component.imageSources.push(image)
+
+    if (Component.imageSources.length === imgCount) {
+      this.orderImages()
+    }
+  }
+
+  orderImages () {
+    let imagesInOrder = []
+    Component.imageSources.forEach((img, index) => {
+      let imgObj = Component.imageSources.filter((obj) => {
+        return obj.id === Component.imageOrder[ index ]
+      })
+      imagesInOrder.push({
+        imgSrc: this.getImageUrl(imgObj[ 0 ], 'medium'),
+        orientation: imgObj[ 0 ].orientation,
+        originalSrc: this.getImageUrl(imgObj[ 0 ])
+      })
+    })
+    this.setImgSrcState(imagesInOrder)
+  }
+
+  checkOrientation (size) {
+    return size.width >= size.height ? 'lanscape' : 'portrait'
+  }
+
+  setImgSrcState (imgSrc) {
+    this.setState({ imgSrc })
   }
 
   getPublicImage (filename) {
@@ -41,12 +139,12 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, alignment, columns } = atts
+    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, columns } = atts
     let containerClasses = 'vce-image-gallery vce'
-    let classes = 'vce-image-gallery-inner'
+    let classes = 'vce-image-gallery-item-inner'
     let customProps = {}
     let CustomTag = 'div'
-    let imgSrc = this.getImageUrl(image)
+    let imgSrc = this.state && this.state.imgSrc
     let customImageProps = ''
 
     if (typeof customClass === 'string' && customClass) {
@@ -63,33 +161,6 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ` vce-image-gallery--columns-${mixinData.selector}`
     }
 
-    if (clickableOptions === 'url' && imageUrl && imageUrl.url) {
-      CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = imageUrl
-      customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
-      }
-    } else if (clickableOptions === 'imageNewTab') {
-      CustomTag = 'a'
-      customProps = {
-        'href': imgSrc,
-        'target': '_blank'
-      }
-    } else if (clickableOptions === 'lightbox') {
-      CustomTag = 'a'
-      customProps = {
-        'href': imgSrc,
-        'data-lightbox': `lightbox-${id}`
-      }
-    }
-
-    if (alignment) {
-      containerClasses += ` vce-image-gallery--align-${alignment}`
-    }
-
     if (shape === 'rounded') {
       classes += ' vce-image-gallery--border-rounded'
     }
@@ -97,8 +168,6 @@ class Component extends vcvAPI.elementComponent {
     if (shape === 'round') {
       classes += ' vce-image-gallery--border-round'
     }
-
-    // customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}`
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -117,11 +186,40 @@ class Component extends vcvAPI.elementComponent {
 
     let galleryItems = []
 
-    imgSrc.forEach((src, index) => {
+    imgSrc && imgSrc.forEach((src, index) => {
+      let imgClasses = 'vce-image-gallery-img'
+
+      if (src.orientation === 'portrait') {
+        imgClasses += ' vce-image-gallery-img--orientation-portrait'
+      }
+
+      if (clickableOptions === 'url' && imageUrl && imageUrl.url) {
+        CustomTag = 'a'
+        let { url, title, targetBlank, relNofollow } = imageUrl
+        customProps = {
+          'href': url,
+          'title': title,
+          'target': targetBlank ? '_blank' : undefined,
+          'rel': relNofollow ? 'nofollow' : undefined
+        }
+      } else if (clickableOptions === 'imageNewTab') {
+        CustomTag = 'a'
+        customProps = {
+          'href': src.originalSrc || src.imgSrc,
+          'target': '_blank'
+        }
+      } else if (clickableOptions === 'lightbox') {
+        CustomTag = 'a'
+        customProps = {
+          'href': src.originalSrc || src.imgSrc,
+          'data-lightbox': `lightbox-${id}`
+        }
+      }
+
       galleryItems.push(
         <div className='vce-image-gallery-item' key={index}>
-          <CustomTag {...customProps} className={classes} ref='imageContainer'>
-            <img className='vce-image-gallery-img' src={src} {...customImageProps} />
+          <CustomTag {...customProps} className={classes}>
+            <img className={imgClasses} src={src.imgSrc} {...customImageProps} />
           </CustomTag>
         </div>
       )

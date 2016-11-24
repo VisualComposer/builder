@@ -6,7 +6,6 @@
   align-items: stretch;
   align-content: flex-start;
   flex-wrap: wrap;
-  margin-bottom: -10px;
 }
 
 .vce-image-gallery-item {
@@ -15,7 +14,28 @@
   box-sizing: border-box;
 }
 
+.vce-image-gallery-item-inner {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.vce-image-gallery-item-inner::after {
+  content: "";
+  padding-bottom: 100%;
+  display: block;
+}
+
 .vce-image-gallery-img {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  max-width: none;
+  height: 100%;
+}
+
+.vce-image-gallery-img--orientation-portrait {
   max-width: 100%;
   height: auto;
 }
@@ -27,24 +47,11 @@
   }
 }
 
-
-
-a.vce-image-gallery-inner {
+a.vce-image-gallery-item-inner {
   color: transparent;
   border-bottom: 0;
   text-decoration: none;
 }
-
-.vce-image-gallery-inner {
-  display: inline-block;
-  vertical-align: top;
-}
-
-
-
-
-
-
 
 .vce-image-gallery--border-rounded {
   border-radius: 5px;
@@ -55,34 +62,6 @@ a.vce-image-gallery-inner {
   border-radius: 50%;
   overflow: hidden;
 }
-
-
-
-
-.vce-image-gallery--align-center {
-  text-align: center;
-}
-
-.vce-image-gallery--align-right {
-  text-align: right;
-}
-
-.vce-image-gallery--align-left {
-  text-align: left;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* =====  Lightbox  ===== */
 /* Preload images */
