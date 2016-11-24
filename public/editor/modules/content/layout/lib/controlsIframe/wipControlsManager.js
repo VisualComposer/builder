@@ -1,4 +1,7 @@
+import vcCake from 'vc-cake'
 import ControlsHandler from './wipControlsHandler'
+import OutlineHandler from './outline'
+import FramesHandler from './frames'
 
 require('../../css/controls/init.less')
 export default class ControlsManager {
@@ -19,17 +22,72 @@ export default class ControlsManager {
     this.state = {
       prevTarget: null,
       prevElement: null,
-      prevElementPath: []
+      prevElementPath: [],
+      showOutline: true,
+      showFrames: true
     }
 
     this.findElement = this.findElement.bind(this)
   }
 
-  findElement (e) {
+  /**
+   * Setup
+   */
+  setup (options) {
+    Object.defineProperties(this, {
+      /**
+       * @memberOf! ControlsManager
+       */
+      controls: {
+        value: new ControlsHandler(),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+
+      /**
+       * @memberOf! OutlineManager
+       */
+      outline: {
+        value: new OutlineHandler(),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+
+      /**
+       * @memberOf! FramesManager
+       */
+      frames: {
+        value: new FramesHandler(options.framesCount),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      }
+    })
+
+    // this.api.request(event, elementId, options)
+    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    this.iframeDocument.addEventListener('mouseenter', this.findElement)
+    this.iframeDocument.addEventListener('mouseleave', this.findElement)
+  }
+
+  /**
+   * Find element by event and run cake events on element over and out
+   * @param e
+   */
+  findElement (e = null) {
+    // need to run all events, so creating fake event
+    if (!e) {
+      e = {
+        target: null
+      }
+    }
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
-      let elPath = e.path.filter((el) => {
+      let path = e.path || this.getPath(e)
+      let elPath = path.filter((el) => {
         if (el.dataset && el.dataset.hasOwnProperty('vcvElement')) {
           return true
         }
@@ -65,51 +123,70 @@ export default class ControlsManager {
     }
   }
 
-  setup () {
-    Object.defineProperties(this, {
-      /**
-       * @memberOf! ControlsManager
-       */
-      controlsHandler: {
-        value: new ControlsHandler(),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      },
-      /**
-       * @memberOf! ControlsManager
-       */
-      hideControls: {
-        value: false,
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    })
+  /**
+   * Event.path shadow dom polyfill
+   * @param e
+   * @returns {*}
+   */
+  getPath (e) {
+    if (e.path) {
+      return e.path
+    }
+    let path = []
+    let node = e.target
 
-    // this.api.request(event, elementId, options)
-    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    while (node) {
+      path.push(node)
+      node = node.parentNode
+    }
+    return path
   }
 
+  /**
+   * Initialize
+   */
   init () {
-    this.setup()
+    this.setup({framesCount: 3})
+
+    // Check custom layout mode
+    vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
+      this.state.showOutline = !state
+      this.state.showFrames = !state
+      this.findElement()
+    })
+
+    // Interact with content
+    // Outline interaction
+    // this.api.reply('editorContent:element:mouseEnter', (data) => {
+    //   if (this.state.showOutline) {
+    //     this.outline.show(data.element)
+    //   }
+    // })
+    // this.api.reply('editorContent:element:mouseLeave', (data) => {
+    //   this.outline.hide()
+    // })
+
+    // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
-      this.controlsHandler.showOutline(data.element)
+      if (this.state.showFrames) {
+        this.frames.show({ element: data.element, path: data.path })
+      }
     })
-    this.api.reply('editorContent:element:mouseLeave', (data) => {
-      this.controlsHandler.hideOutline(data.element)
+    this.api.reply('editorContent:element:mouseLeave', () => {
+      this.frames.hide()
     })
+
+    // Interact with tree
     this.api.reply('treeContent:element:mouseEnter', (id) => {
-      let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-      if (element) {
-        this.controlsHandler.showOutline(element)
+      if (this.state.showOutline) {
+        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+        if (element) {
+          this.outline.show(element)
+        }
       }
     })
-    this.api.reply('treeContent:element:mouseLeave', (id) => {
-      let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-      if (element) {
-        this.controlsHandler.hideOutline(element)
-      }
+    this.api.reply('treeContent:element:mouseLeave', () => {
+      this.outline.hide()
     })
   }
 }

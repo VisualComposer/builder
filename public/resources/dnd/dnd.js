@@ -275,7 +275,9 @@ export default class DnD {
     this.position = null
     this.helper = null
     this.startPoint = null
-    getData('vcv:layoutCustomMode') !== 'contentEditable' && setData('vcv:layoutCustomMode', null)
+    if (getData('vcv:layoutCustomMode') !== 'contentEditable' && getData('vcv:layoutCustomMode') !== null) {
+      setData('vcv:layoutCustomMode', null)
+    }
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
@@ -284,7 +286,9 @@ export default class DnD {
       this.handleDragEnd()
       return
     }
-    setData('vcv:layoutCustomMode', 'dnd')
+    if (getData('vcv:layoutCustomMode') !== 'dnd') {
+      setData('vcv:layoutCustomMode', 'dnd')
+    }
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
