@@ -10,3 +10,5 @@ vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION', false)
 vcCake.env('FEATURE_GOOGLE_FONTS_HEADING', false)
 vcCake.env('FIX_HASHTAG_FROM_URL', false)
 vcCake.env('FEATURE_IMAGE_GALLERY', false)
+vcCake.env('FEATURE_ADD_ELEMENT_SEARCH', false)
+

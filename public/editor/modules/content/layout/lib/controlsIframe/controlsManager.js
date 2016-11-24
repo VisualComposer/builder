@@ -63,7 +63,7 @@ export default class ControlsManager {
         this.controlsHandler.removeControls()
       }
     })
-    vcCake.onDataChange('layoutCustomMode', (value) => {
+    vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
       if (value) {
         this.controlsHandler.hideOutline()
         this.controlsHandler.removeControls()
@@ -118,10 +118,10 @@ export default class ControlsManager {
     e.stopPropagation()
     window.clearInterval(this.removeControlsInterval)
     this.removeControlsInterval = 0
-    if (vcCake.getData('layoutCustomMode') === 'dnd') {
+    if (vcCake.getData('vcv:layoutCustomMode') === 'dnd') {
       this.hideControls = true
     }
-    if (vcCake.getData('layoutCustomMode') !== 'contentEditable') {
+    if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
       this.controlsHandler.showOutline($(e.currentTarget), this.hideControls)
     }
   }
@@ -138,7 +138,7 @@ export default class ControlsManager {
 
   triggerRedrawFrame () {
     this.controlsHandler.drawOutlines()
-    if (!vcCake.getData('layoutCustomMode')) {
+    if (!vcCake.getData('vcv:layoutCustomMode')) {
       this.controlsHandler.setControlsPosition()
       this.controlsHandler.setTimer()
     }

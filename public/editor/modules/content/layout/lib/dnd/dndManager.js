@@ -62,7 +62,7 @@ export default class DndManager {
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
-      vcCake.onDataChange('layoutCustomMode', (value) => {
+      vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
         this.items.option('disabled', value === 'contentEditable')
       })
     }

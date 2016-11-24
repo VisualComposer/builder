@@ -1,14 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import lodash from 'lodash'
 import classNames from 'classnames'
-import CategoryTab from './category-tab'
-import ElementControl from './element-control'
-import Search from './search'
+import CategoryTab from './categoryTab'
+import ElementControl from './elementControl'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import '../css/init.less'
-import vcCake from 'vc-cake'
-const categoriesService = vcCake.getService('categories')
+import {getService} from 'vc-cake'
+const categoriesService = getService('categories')
 let allTabs = []
 
 export default class Categories extends React.Component {
@@ -21,11 +19,12 @@ export default class Categories extends React.Component {
     super(props)
     this.state = {
       tabsHash: '',
+      searchTerm: '',
       visibleTabsCount: 0,
       activeTabIndex: 0
     }
+    this.changeActiveTab = this.changeActiveTab.bind(this)
     this.tabsFromProps = this.tabsFromProps.bind(this)
-    this.getSearchProps = this.getSearchProps.bind(this)
   }
 
   componentWillMount () {
@@ -38,7 +37,7 @@ export default class Categories extends React.Component {
 
   componentDidMount () {
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.handleElementResize)
-    this.handleElementResize()
+    window.setTimeout(this.handleElementResize.bind(this), 0)
   }
 
   componentWillUnmount () {
@@ -54,7 +53,7 @@ export default class Categories extends React.Component {
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
+      this && this.contentDocument && this.contentDocument.defaultView.addEventListener('resize', fn)
     }
     obj.type = 'text/html'
     if (isIE) {
@@ -67,8 +66,10 @@ export default class Categories extends React.Component {
   }
 
   removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    if (element.__resizeTrigger__) {
+      element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+      element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    }
   }
 
   handleElementResize = () => {
@@ -82,32 +83,37 @@ export default class Categories extends React.Component {
     }
     return hash
   }
+
   getElementsList (groupCategories, elements) {
     const tags = elements.map((e) => { return e.tag })
     return groupCategories.filter((element) => {
       return tags.indexOf(element.tag) > -1
     })
   }
+
   tabsFromProps (props) {
+    let groupsStore = {}
     let groups = categoriesService.groups
-    allTabs = groups.filter((group) => {
-      return this.getElementsList(group.elements, props.elements).length > 0
-    }).map((group, index) => {
-      return {
-        id: group.label + index, // TODO: Should it be more unique?
-        index: index,
-        title: group.label,
-        elements: this.getElementsList(group.elements, props.elements),
-        isVisible: true,
-        pinned: false // TODO: Actual logic.
-      }
-    })
+    if (!allTabs.length) {
+      allTabs = groups.filter((group) => {
+        groupsStore[ group.label ] = this.getElementsList(group.elements, props.elements)
+        return groupsStore[ group.label ].length > 0
+      }).map((group, index) => {
+        return {
+          id: group.label + index, // TODO: Should it be more unique?
+          index: index,
+          title: group.label,
+          elements: groupsStore[ group.label ],
+          isVisible: true
+        }
+      })
+    }
     this.setState({
       tabsHash: this.getTabsHash(allTabs)
     })
   }
 
-  changeActiveTab = (tabIndex) => {
+  changeActiveTab (tabIndex) {
     this.setState({
       activeTabIndex: tabIndex
     })
@@ -129,29 +135,21 @@ export default class Categories extends React.Component {
     return tabs
   }
 
-  getVisibleAndUnpinnedTabs () {
-    return this.getVisibleTabs().filter((tab) => {
-      return tab.isVisible && !tab.pinned
-    })
-  }
-
   refreshTabs () {
     let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
     let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
     let freeSpace = $freeSpaceEl.offsetWidth
-
     // If there is no space move tab from visible to hidden tabs.
-    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
+    let visibleAndUnpinnedTabs = this.getVisibleTabs()
     if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
       let lastTab = visibleAndUnpinnedTabs.pop()
       allTabs[ lastTab.index ].isVisible = false
       this.setState({
-        visibleTabsCount: this.getVisibleTabs().length
+        visibleTabsCount: visibleAndUnpinnedTabs.length
       })
       this.refreshTabs()
       return
     }
-
     // If we have free space move tab from hidden tabs to visible.
     let hiddenTabs = this.getHiddenTabs()
     if (hiddenTabs.length) {
@@ -168,24 +166,27 @@ export default class Categories extends React.Component {
           allTabs[ lastTab.index ].isVisible = true
         }
       }
-
       this.setState({
         visibleTabsCount: this.getVisibleTabs().length
       })
     }
   }
 
-  getRenderedElements (tabIndex) {
+  getRenderedElements () {
+    let { activeTabIndex, searchTerm } = this.state
     let itemsOutput = []
-    allTabs[ tabIndex ].elements.map((element) => {
-      itemsOutput.push(<ElementControl
-        api={this.props.api}
-        key={'vcv-element-control-' + element.tag}
-        element={element}
-        tag={element.tag}
-        name={element.name} />)
-    })
-
+    if (searchTerm) {
+      // here comes search results
+    } else {
+      itemsOutput = allTabs[ activeTabIndex ].elements.map((element) => {
+        return <ElementControl
+          api={this.props.api}
+          key={'vcv-element-control-' + element.tag}
+          element={element}
+          tag={element.tag}
+          name={element.name} />
+      })
+    }
     return <div className='vcv-ui-add-element-list-container'>
       <ul className='vcv-ui-add-element-list'>
         {itemsOutput}
@@ -212,100 +213,43 @@ export default class Categories extends React.Component {
     }
   }
 
-  updateTabs (index, result) {
-    allTabs[index].elements = result
-  }
-
-  getSearchProps () {
-    return {
-      key: 'vcv-ui-editor-search',
-      allTabs: allTabs,
-      index: this.state.activeTabIndex,
-      changeActive: this.changeActiveTab,
-      elements: this.props.elements,
-      updateTabs: this.updateTabs
-    }
-  }
-
   render () {
     let { activeTabIndex } = this.state
-    var visibleTabsHeaderOutput = []
-    lodash.each(this.getVisibleTabs(), (tab) => {
+    let visibleTabs = []
+    let hiddenTabs = []
+    allTabs.forEach((tab) => {
       let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
-      visibleTabsHeaderOutput.push(
-        <CategoryTab {...tabProps} />
-      )
+      if (tab.isVisible) {
+        visibleTabs.push(<CategoryTab {...tabProps} />)
+      } else {
+        hiddenTabs.push(<CategoryTab {...tabProps} />)
+      }
     })
-    var hiddenTabsHeaderOutput = ''
-    if (this.getHiddenTabs().length) {
-      var hiddenTabsHeader = []
-      lodash.each(this.getHiddenTabs(), (tab) => {
-        let { ...tabProps } = this.getTabProps(tab.index, activeTabIndex)
-        hiddenTabsHeader.push(
-          <CategoryTab {...tabProps} />
-        )
-      })
-
+    let hiddenTabsComponent = ''
+    if (hiddenTabs.length) {
       let dropdownClasses = classNames({
         'vcv-ui-editor-tab-dropdown': true,
         'vcv-ui-editor-tab-collapse': true,
-        'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
+        'vcv-ui-state--active': !!hiddenTabs.filter(function (tab) {
           return tab.index === activeTabIndex
         }).length
       })
-      hiddenTabsHeaderOutput = (
-        <dl className={dropdownClasses}>
-          <dt className='vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab' title='More'>
-            <span className='vcv-ui-editor-tab-content'>
-              <i className='vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots' />
-            </span>
-          </dt>
-          <dd className='vcv-ui-editor-tab-dropdown-content'>
-            {hiddenTabsHeader}
-          </dd>
-        </dl>
-      )
+      hiddenTabsComponent = <dl className={dropdownClasses}>
+        <dt className='vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab' title='More'>
+          <span className='vcv-ui-editor-tab-content'>
+            <i className='vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots' />
+          </span>
+        </dt>
+        <dd className='vcv-ui-editor-tab-dropdown-content'>
+          {hiddenTabs}
+        </dd>
+      </dl>
     }
-    var visibleTabsContentOutput = []
-    lodash.each(this.getVisibleTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-visible' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getRenderedElements(tab.index)}
-      </div>)
-    })
-
-    var hiddenTabsContentOutput = []
-    lodash.each(this.getHiddenTabs(), (tab) => {
-      let plateClass = 'vcv-ui-editor-plate'
-      if (tab.index === activeTabIndex) {
-        plateClass += ' vcv-ui-state--active'
-      }
-      visibleTabsContentOutput.push(<div key={'plate-hidden' + allTabs[ tab.index ].id} className={plateClass}>
-        {this.getRenderedElements(tab.index)}
-      </div>)
-    })
-
-    let treeContentClasses = classNames({
-      'vcv-ui-tree-content': true
-    })
-
-    // TODO handle error on blur, remove feature toggle
-    let searchField, searchProps
-    if (vcCake.env('FEATURE_ADD_ELEMENT_SEARCH')) {
-      // <img className='testing' src='searchbar.png' alt='' />
-      searchProps = this.getSearchProps()
-      searchField = <Search {...searchProps} />
-    }
-
-    return <div className={treeContentClasses}>
-      {searchField}
+    return <div className='vcv-ui-tree-content'>
       <div className='vcv-ui-editor-tabs-container'>
         <nav className='vcv-ui-editor-tabs'>
-          {visibleTabsHeaderOutput}
-          {hiddenTabsHeaderOutput}
+          {visibleTabs}
+          {hiddenTabsComponent}
           <span className='vcv-ui-editor-tabs-free-space' />
         </nav>
       </div>
@@ -315,8 +259,9 @@ export default class Categories extends React.Component {
           <div className='vcv-ui-tree-content-section-inner'>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
-                {visibleTabsContentOutput}
-                {hiddenTabsContentOutput}
+                <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                  {this.getRenderedElements()}
+                </div>
               </div>
             </div>
           </div>
