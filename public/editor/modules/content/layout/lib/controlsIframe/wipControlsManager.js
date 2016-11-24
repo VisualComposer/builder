@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
 import ControlsHandler from './wipControlsHandler'
+import OutlineHandler from './outline'
+import FramesHandler from './frames'
 
 require('../../css/controls/init.less')
 export default class ControlsManager {
@@ -26,6 +28,48 @@ export default class ControlsManager {
     }
 
     this.findElement = this.findElement.bind(this)
+  }
+
+  /**
+   * Setup
+   */
+  setup (options) {
+    Object.defineProperties(this, {
+      /**
+       * @memberOf! ControlsManager
+       */
+      controls: {
+        value: new ControlsHandler(),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+
+      /**
+       * @memberOf! OutlineManager
+       */
+      outline: {
+        value: new OutlineHandler(),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+
+      /**
+       * @memberOf! FramesManager
+       */
+      frames: {
+        value: new FramesHandler(options.framesCount),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      }
+    })
+
+    // this.api.request(event, elementId, options)
+    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    this.iframeDocument.addEventListener('mouseenter', this.findElement)
+    this.iframeDocument.addEventListener('mouseleave', this.findElement)
   }
 
   /**
@@ -99,41 +143,10 @@ export default class ControlsManager {
   }
 
   /**
-   * Setup
-   */
-  setup () {
-    Object.defineProperties(this, {
-      /**
-       * @memberOf! ControlsManager
-       */
-      controlsHandler: {
-        value: new ControlsHandler(),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      },
-      /**
-       * @memberOf! ControlsManager
-       */
-      hideControls: {
-        value: false,
-        writable: true,
-        enumerable: true,
-        configurable: true
-      }
-    })
-
-    // this.api.request(event, elementId, options)
-    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
-    this.iframeDocument.addEventListener('mouseenter', this.findElement)
-    this.iframeDocument.addEventListener('mouseleave', this.findElement)
-  }
-
-  /**
    * Initialize
    */
   init () {
-    this.setup()
+    this.setup({framesCount: 3})
 
     // Check custom layout mode
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
@@ -146,21 +159,21 @@ export default class ControlsManager {
     // Outline interaction
     // this.api.reply('editorContent:element:mouseEnter', (data) => {
     //   if (this.state.showOutline) {
-    //     this.controlsHandler.showOutline(data.element)
+    //     this.outline.show(data.element)
     //   }
     // })
     // this.api.reply('editorContent:element:mouseLeave', (data) => {
-    //   this.controlsHandler.hideOutline()
+    //   this.outline.hide()
     // })
 
     // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
       if (this.state.showFrames) {
-        this.controlsHandler.showFrames({ element: data.element, path: data.path })
+        this.frames.show({ element: data.element, path: data.path })
       }
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
-      this.controlsHandler.hideFrames()
+      this.frames.hide()
     })
 
     // Interact with tree
@@ -168,12 +181,12 @@ export default class ControlsManager {
       if (this.state.showOutline) {
         let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
         if (element) {
-          this.controlsHandler.showOutline(element)
+          this.outline.show(element)
         }
       }
     })
     this.api.reply('treeContent:element:mouseLeave', () => {
-      this.controlsHandler.hideOutline()
+      this.outline.hide()
     })
   }
 }
