@@ -32,11 +32,25 @@
   "image": {
     "type": "attachimage",
     "access": "public",
-    "value": ["image-gallery-1.jpg", "image-gallery-2.jpg", "image-gallery-3.jpg", "image-gallery-4.jpg", "image-gallery-5.jpg", "image-gallery-6.jpg"],
+    "value": [
+      "image-gallery-1.jpg",
+      "image-gallery-2.jpg",
+      "image-gallery-3.jpg",
+      "image-gallery-4.jpg",
+      "image-gallery-5.jpg",
+      "image-gallery-6.jpg"
+    ],
     "options": {
       "label": "Image",
       "multiple": true,
-      "defaultValue": ["image-gallery-1.jpg", "image-gallery-2.jpg", "image-gallery-3.jpg", "image-gallery-4.jpg", "image-gallery-5.jpg", "image-gallery-6.jpg"]
+      "defaultValue": [
+        "image-gallery-1.jpg",
+        "image-gallery-2.jpg",
+        "image-gallery-3.jpg",
+        "image-gallery-4.jpg",
+        "image-gallery-5.jpg",
+        "image-gallery-6.jpg"
+      ]
     }
   },
   "shape": {
@@ -79,7 +93,6 @@
       "shape",
       "clickableOptions",
       "imageUrl",
-      "alignment",
       "customClass"
     ],
     "options": {
@@ -113,7 +126,7 @@
   "clickableOptions": {
     "type": "dropdown",
     "access": "public",
-    "value": "",
+    "value": "lightbox",
     "options": {
       "label": "Click options",
       "values": [
@@ -130,34 +143,8 @@
           "value": "lightbox"
         },
         {
-          "label": "Zoom",
-          "value": "zoom"
-        },
-        {
           "label": "Open Image in New Tab",
           "value": "imageNewTab"
-        }
-      ]
-    }
-  },
-  "alignment": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "left",
-    "options": {
-      "label": "Alignment",
-      "values": [
-        {
-          "label": "Left",
-          "value": "left"
-        },
-        {
-          "label": "Center",
-          "value": "center"
-        },
-        {
-          "label": "Right",
-          "value": "right"
         }
       ]
     }
