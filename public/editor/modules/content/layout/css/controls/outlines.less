@@ -10,6 +10,7 @@
     #vcv-ui-outline-controls > .create-outline-type(@color: transparent);
   }
 }
+
 //== outline types
 
 #vcv-ui-outline-controls > .create-outline-type(base, @controls-outline-color-base);
@@ -30,22 +31,27 @@
   }
 }
 
-
 // frames
-.vcv-ui-element-outline {
+.vcv-ui-element-outline,
+.vcv-ui-element-frame {
   position: absolute;
   pointer-events: none;
   box-sizing: border-box;
   opacity: 0;
   transition: opacity @controls-transition-duration @controls-transition-timing-function;
   z-index: @controls-outline-z-index;
-}
-//== states
-.vcv-ui-element-outline {
-  border: none;
-  box-shadow: 0 0 0 @outlines-highlight-border-width @outlines-highlight-border-color;
   &.vcv-state--visible {
     opacity: 1;
   }
 }
+
+//== states
+.vcv-ui-element-outline {
+  border: none;
+  box-shadow: 0 0 0 @outlines-highlight-border-width @outlines-highlight-border-color;
+}
+
 // frame-outline
+.vcv-ui-element-frame {
+  border: @outline-frame-width @outline-frame-style @outline-frame-color;
+}
