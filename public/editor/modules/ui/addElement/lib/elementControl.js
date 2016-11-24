@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 const cook = vcCake.getService('cook')
-// const AssetsManager = vcCake.getService('assets-manager')
+const AssetsManager = vcCake.getService('assets-manager')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -16,12 +16,17 @@ export default class ElementControl extends React.Component {
 
   state = {
     previewVisible: false,
-    previewStyle: {}
+    previewStyle: {},
+    imageThumbnail: null,
+    imagePreview: null
   }
 
   componentDidMount () {
     this.ellipsize('.vcv-ui-add-element-element-name')
     this.ellipsize('.vcv-ui-add-element-preview-text')
+    window.setTimeout(() => {
+      this.setState({showImages: true})
+    }, 0)
   }
 
   addElement (e) {
@@ -167,18 +172,16 @@ export default class ElementControl extends React.Component {
     //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-    /*
-     let publicPathThumbnail
-     let publicPathPreview
+    let publicPathThumbnail
+    let publicPathPreview
 
-     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-     publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-     publicPathPreview = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
-     } else {
-     publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-     publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
-     } */
-
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+      publicPathPreview = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+    } else {
+      publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+      publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+    }
     return (
       <li className='vcv-ui-add-element-list-item'>
         <a className='vcv-ui-add-element-element'
@@ -186,6 +189,8 @@ export default class ElementControl extends React.Component {
           onMouseEnter={this.showPreview.bind(this)}
           onMouseLeave={this.hidePreview.bind(this)}>
           <span className='vcv-ui-add-element-element-content'>
+            <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+              alt='' />
             <span className='vcv-ui-add-element-overlay'>
               <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add' />
             </span>
@@ -196,6 +201,7 @@ export default class ElementControl extends React.Component {
             </span>
           </span>
           <figure className={previewClasses} style={previewStyle}>
+            <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
             <figcaption className='vcv-ui-add-element-preview-caption'>
               <div className='vcv-ui-add-element-preview-text'>
                 {cookElement.get('metaPreviewDescription')}
