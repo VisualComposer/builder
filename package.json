@@ -6,9 +6,12 @@
   "scripts": {
     "test": "jest",
     "start": "babel-node server.js",
+    "start-new": "babel-node server.babel.js",
     "standard": "standard",
     "build": "webpack --progress --colors",
     "watch": "webpack --progress --colors --watch",
+    "build-new": "webpack --config webpack.config.babel.js --progress --colors",
+    "watch-new": "webpack --config webpack.config.babel.js --progress --colors --watch",
     "build-module": "babel-node ./tools/module-builder/index",
     "build-element": "babel-node ./tools/element-builder/index"
   },
@@ -59,6 +62,7 @@
     "swig": "1.4.2",
     "uglifyjs": "2.4.10",
     "url-loader": "0.5.7",
+    "virtual-module-webpack-plugin": "github:angeiii/virtual-module-webpack-plugin.git#v0.1.2",
     "webpack": "1.13.2",
     "webpack-dev-server": "1.16.2",
     "webpack-sources": "0.1.2"

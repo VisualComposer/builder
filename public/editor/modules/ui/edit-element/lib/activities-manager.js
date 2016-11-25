@@ -162,7 +162,7 @@ export default class ActivitiesManager extends React.Component {
     }
 
     if (this.mount[ listener.key ].field) {
-      current.field = this.mount[ listener.key ].field.ref
+      current.field = this.mount[ listener.key ].field
     }
     if (this.mount[ listener.key ].tab) {
       current.tab = this.mount[ listener.key ].tab.ref
@@ -174,19 +174,21 @@ export default class ActivitiesManager extends React.Component {
         if (current.field) {
           actions.forEach((action) => {
             ActionsManager.do(action, ruleState, {
-              ref: current.field,
+              ref: current.field.ref,
+              refComponent: current.field.refComponent,
               value: current.value,
               key: current.key
-            })
+            }, this.props.element)
           })
         }
         if (current.tab) {
           actions.forEach((action) => {
             ActionsManager.do(action, ruleState, {
-              ref: current.tab,
+              ref: current.tab.ref,
+              refComponent: current.tab.refComponent,
               value: current.value,
               key: current.key
-            })
+            }, this.props.element)
           })
         }
       }

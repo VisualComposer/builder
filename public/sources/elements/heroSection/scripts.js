@@ -1,3 +1,4 @@
+/* global React, vcvAPI, vcCake */
 let classNames = require('classnames')
 let customProps = {}
 
@@ -19,7 +20,6 @@ if (typeof customClass === 'string' && customClass) {
 
 let rowStyles = {}
 if (image) {
-  let vcCake = require('vc-cake')
   const cook = vcCake.getService('cook')
   let cookElement = cook.get(atts)
   let assetsManager
@@ -42,7 +42,6 @@ if (image) {
 
 let buttonOutput = ''
 if (addButton) {
-  let vcCake = require('vc-cake')
   const Cook = vcCake.getService('cook')
   let Button = Cook.get(button)
   buttonOutput = Button.render(null, false)

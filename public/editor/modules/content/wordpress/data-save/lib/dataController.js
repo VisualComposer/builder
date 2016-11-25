@@ -40,13 +40,18 @@ class SaveController {
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
     documentFragment.querySelectorAll('vcvhelper').forEach((node) => {
-      node.parentNode.removeChild(node)
+      let sourceHtml = node.getAttribute('data-vcvs-html')
+      let textNode = range.createContextualFragment(sourceHtml)
+      let parentNode = node.parentNode
+      parentNode.insertBefore(textNode, node)
+      parentNode.removeChild(node)
     })
     let html = ''
     let elementChildren = documentFragment.children
     for (let i = 0; i < elementChildren.length; i++) {
       html += elementChildren[i].outerHTML
     }
+
     return html
   }
 
