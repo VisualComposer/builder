@@ -8,9 +8,9 @@
     "start": "babel-node server.js",
     "standard": "standard",
     "build": "webpack --progress --colors",
-    "watch": "webpack --progress --colors --watch"
+    "watch": "webpack --progress --colors --watch",
     "build-module": "babel-node ./tools/module-builder/index",
-    "build-element": "babel-node ./tools/element-builder/index",
+    "build-element": "babel-node ./tools/element-builder/index"
   },
   "author": "@vv",
   "license": "",
