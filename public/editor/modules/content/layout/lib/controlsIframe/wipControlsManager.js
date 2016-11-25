@@ -24,7 +24,8 @@ export default class ControlsManager {
       prevElement: null,
       prevElementPath: [],
       showOutline: true,
-      showFrames: true
+      showFrames: true,
+      showControls: true
     }
 
     this.findElement = this.findElement.bind(this)
@@ -39,7 +40,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(),
+        value: new ControlsHandler(this.api, options.framesCount),
         writable: false,
         enumerable: false,
         configurable: false
@@ -68,8 +69,8 @@ export default class ControlsManager {
 
     // this.api.request(event, elementId, options)
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
-    this.iframeDocument.addEventListener('mouseenter', this.findElement)
-    this.iframeDocument.addEventListener('mouseleave', this.findElement)
+    // this.iframeDocument.addEventListener('mouseenter', this.findElement)
+    // this.iframeDocument.addEventListener('mouseleave', this.findElement)
   }
 
   /**
@@ -86,12 +87,9 @@ export default class ControlsManager {
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
-      let path = e.path || this.getPath(e)
+      let path = this.getPath(e)
       let elPath = path.filter((el) => {
-        if (el.dataset && el.dataset.hasOwnProperty('vcvElement')) {
-          return true
-        }
-        return false
+        return el.dataset && el.dataset.hasOwnProperty('vcvElement')
       })
       let element = null
       if (elPath.length) {
@@ -104,7 +102,10 @@ export default class ControlsManager {
             type: 'mouseLeave',
             element: this.prevElement,
             vcElementId: this.prevElement.dataset.vcvElement,
-            path: this.prevElementPath
+            path: this.prevElementPath,
+            vcElementsPath: this.prevElementPath.map((el) => {
+              return el.dataset.vcvElement
+            })
           })
         }
         // set new element
@@ -113,7 +114,10 @@ export default class ControlsManager {
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
-            path: elPath
+            path: elPath,
+            vcElementsPath: elPath.map((el) => {
+              return el.dataset.vcvElement
+            })
           })
         }
 
@@ -146,25 +150,31 @@ export default class ControlsManager {
    * Initialize
    */
   init () {
-    this.setup({framesCount: 3})
+    this.setup({ framesCount: 3 })
 
     // Check custom layout mode
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
+      this.state.showControls = !state
+      this.findElement()
+    })
+
+    // check remove element
+    this.api.reply('data:remove', () => {
       this.findElement()
     })
 
     // Interact with content
-    // Outline interaction
-    // this.api.reply('editorContent:element:mouseEnter', (data) => {
-    //   if (this.state.showOutline) {
-    //     this.outline.show(data.element)
-    //   }
-    // })
-    // this.api.reply('editorContent:element:mouseLeave', (data) => {
-    //   this.outline.hide()
-    // })
+    // Controls interaction
+    this.api.reply('editorContent:element:mouseEnter', (data) => {
+      if (this.state.showControls) {
+        this.controls.show(data)
+      }
+    })
+    this.api.reply('editorContent:element:mouseLeave', () => {
+      this.controls.hide()
+    })
 
     // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {

@@ -1,15 +1,24 @@
-// import {getService} from 'vc-cake'
-// const documentManager = getService('document')
-// const cook = getService('cook')
-// const categoriesService = getService('categories')
+import vcCake from 'vc-cake'
+const { getService } = vcCake
+const documentManager = getService('document')
+const cook = getService('cook')
+const categoriesService = getService('categories')
 
 class ControlsHandler {
-  constructor () {
-    Object.defineProperty(this, 'sliceSize', {
-      enumerable: false,
-      configurable: false,
-      writable: false,
-      value: 3
+  constructor (api, sliceSize) {
+    Object.defineProperties(this, {
+      api: {
+        value: api,
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+      sliceSize: {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: sliceSize
+      }
     })
     this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
     this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
@@ -17,126 +26,360 @@ class ControlsHandler {
     this.iframeWindow = this.iframe && this.iframe.contentWindow
     this.iframeDocument = this.iframeWindow && this.iframeWindow.document
 
-    this.outline = null
-    this.frames = []
+    this.controlsContainer = null
 
     this.state = {
-      outlineTimeout: null,
-      framesTimeout: []
+      containerTimeout: null
     }
 
-    this.setupOutline()
-    this.setupFrames()
+    this.setup()
   }
 
-  setupOutline () {
-    this.outline = document.createElement('svg')
-    this.outline.classList.add('vcv-ui-element-outline')
-    this.iframeOverlay.appendChild(this.outline)
+  setup () {
+    // vcv-ui-outline-controls-container
+    this.controlsContainer = document.createElement('div')
+    this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
+    this.iframeOverlay.appendChild(this.controlsContainer)
+    // add click listener
+    this.controlsContainer.addEventListener('click',
+      (e) => {
+        e && e.button === 0 && e.preventDefault()
+        if (e.button === 0) {
+          let path = this.getPath(e)
+          // search for event
+          let i = 0
+          let el = null
+          while (i < path.length && path[ i ] !== this.controlsContainer) {
+            if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
+              el = path[ i ]
+              i = path.length
+            }
+            i++
+          }
+          if (el) {
+            let event = el.dataset.vcControlEvent
+            let options = el.dataset.vcControlEventOptions
+            let elementId = el.dataset.vcvElementId
+            this.api.request(event, elementId, options)
+          }
+        }
+      }
+    )
+
+    // add mouse down listener
+    this.controlsContainer.addEventListener('mousedown',
+      (e) => {
+        e && e.button === 0 && e.preventDefault()
+        if (e.button === 0) {
+          let path = this.getPath(e)
+          // search for event
+          let i = 0
+          let el = null
+          while (i < path.length && path[ i ] !== this.controlsContainer) {
+            if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
+              el = path[ i ]
+              i = path.length
+            }
+            i++
+          }
+          if (el) {
+            vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
+          }
+        }
+      }
+    )
   }
 
-  setupFrames () {
-    for (let i = 0; i < this.sliceSize; i++) {
-      let frame = document.createElement('svg')
-      frame.classList.add('vcv-ui-element-frame')
-      this.iframeOverlay.appendChild(frame)
-      this.frames.push(frame)
+  /**
+   * Event.path shadow dom polyfill
+   * @param e
+   * @returns {*}
+   */
+  getPath (e) {
+    if (e.path) {
+      return e.path
     }
+    let path = []
+    let node = e.target
+
+    while (node) {
+      path.push(node)
+      node = node.parentNode
+    }
+    return path
   }
 
   /**
    * Show outline
-   * @param element
+   * @param data
    */
-  showOutline (element) {
-    this.outline.classList.add('vcv-state--visible')
-    this.autoUpdateOutline(element)
+  show (data) {
+    this.createControls(data)
+    this.autoUpdateContainerPosition(data.element)
   }
 
   /**
    * Hide outline
    */
-  hideOutline () {
-    this.outline.classList.remove('vcv-state--visible')
-    this.stopAutoUpdateOutline()
+  hide () {
+    this.destroyControls()
+    this.stopAutoUpdateContainerPosition()
+  }
+
+  createControls (data) {
+    if (this.sliceSize) {
+      let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
+      slicedElements.reverse()
+      let treeTrigger = data.vcElementsPath[ this.sliceSize ]
+      // create controls
+      let controlsList = document.createElement('nav')
+      controlsList.classList.add('vcv-ui-outline-controls')
+      this.controlsContainer.appendChild(controlsList)
+
+      // create tree trigger
+      if (treeTrigger) {
+        controlsList.appendChild(this.createControlForTrigger(
+          treeTrigger,
+          {
+            title: 'Tree View',
+            event: 'bar-content-start:show'
+          }
+        ))
+      }
+
+      // create element controls
+      slicedElements.forEach((elementId) => {
+        controlsList.appendChild(this.createControlForElement(elementId))
+      })
+    }
+  }
+
+  createControlForTrigger (element, options) {
+    // create trigger
+    let trigger = document.createElement('a')
+    trigger.classList.add('vcv-ui-outline-control', 'vcv-ui-outline-control-more')
+    trigger.dataset.vcvElememtId = element
+    trigger.dataset.vcControlEvent = options.event
+    trigger.title = options.title
+
+    // crate trigger content
+    let triggerContent = document.createElement('span')
+    triggerContent.classList.add('vcv-ui-outline-control-content')
+    trigger.appendChild(triggerContent)
+
+    // create trigger icon
+    let triggerIcon = document.createElement('i')
+    triggerIcon.classList.add('vcv-ui-outline-control-icon', 'vcv-ui-icon', 'vcv-ui-icon-layers')
+    triggerContent.appendChild(triggerIcon)
+    return trigger
+  }
+
+  createControlForElement (elementId) {
+    let vcElement = this.getVcElement(elementId)
+    let colorIndex = this.getElementColorIndex(vcElement)
+
+    let control = document.createElement('div')
+    control.classList.add('vcv-ui-outline-control-dropdown', `vcv-ui-outline-control-type-index-${colorIndex}`)
+    control.dataset.vcvElementControls = elementId
+    // create control trigger
+    control.appendChild(this.createControlTrigger(
+      elementId,
+      {
+        title: vcElement.get('name'),
+        icon: categoriesService.getElementIcon(vcElement.get('tag'))
+      }
+    ))
+    // create control dropdown
+    control.appendChild(this.createControlDropdown(
+      elementId,
+      {
+        isContainer: colorIndex < 2,
+        title: vcElement.get('name'),
+        tag: vcElement.get('tag')
+      }
+    ))
+
+    return control
+  }
+
+  createControlTrigger (elementId, options) {
+    let trigger = document.createElement('div')
+    trigger.classList.add('vcv-ui-outline-control-dropdown-trigger', 'vcv-ui-outline-control')
+    trigger.title = options.title
+
+    // crate trigger content
+    let triggerContent = document.createElement('span')
+    triggerContent.classList.add('vcv-ui-outline-control-content')
+    triggerContent.dataset.vcDragHelper = elementId
+    trigger.appendChild(triggerContent)
+
+    // create icon
+    let icon = document.createElement('img')
+    icon.classList.add('vcv-ui-outline-control-icon')
+    icon.src = options.icon
+    icon.alt = options.title
+    triggerContent.appendChild(icon)
+
+    return trigger
+  }
+
+  createControlDropdown (elementId, options) {
+    let dropdown = document.createElement('div')
+    dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
+
+    // prepare actions
+    let actions = []
+
+    // add move action
+    actions.push({
+      label: `Move ${options.title}`,
+      icon: 'vcv-ui-icon-move',
+      data: {
+        vcDragHelper: elementId
+      }
+    })
+
+    // add element action
+    if (options.isContainer) {
+      let label = 'Add Element'
+      let addElementTag = ''
+      let children = cook.getChildren(options.tag)
+      if (children.length === 1) {
+        label = `Add ${children[ 0 ].name}`
+        addElementTag = children[ 0 ].tag
+      }
+      actions.push({
+        label: label,
+        icon: 'vcv-ui-icon-add-thin',
+        data: {
+          vcControlEvent: 'app:add',
+          vcControlEventOptions: addElementTag
+        }
+      })
+    }
+
+    // add controls for row
+    if (options.tag === 'row') {
+      actions.push({
+        label: 'Row Layout',
+        icon: 'vcv-ui-icon-row-layout',
+        data: {
+          vcControlEvent: 'app:edit',
+          vcControlEventOptions: 'layout'
+        }
+      })
+    }
+
+    // edit control
+    actions.push({
+      label: 'Edit',
+      icon: 'vcv-ui-icon-edit',
+      data: {
+        vcControlEvent: 'app:edit'
+      }
+    })
+
+    // clone control
+    actions.push({
+      label: 'Clone',
+      icon: 'vcv-ui-icon-copy',
+      data: {
+        vcControlEvent: 'data:clone'
+      }
+    })
+
+    // remove control
+    actions.push({
+      label: 'Remove',
+      icon: 'vcv-ui-icon-trash',
+      data: {
+        vcControlEvent: 'data:remove'
+      }
+    })
+
+    actions.forEach((action) => {
+      dropdown.appendChild(this.createControlAction(elementId, action))
+    })
+
+    return dropdown
+  }
+
+  createControlAction (elementId, options) {
+    let action = document.createElement('a')
+    action.classList.add('vcv-ui-outline-control')
+    action.dataset.vcvElementId = elementId
+
+    if (options.data) {
+      for (let key in options.data) {
+        action.dataset[ key ] = options.data[ key ]
+      }
+    }
+
+    let actionContent = document.createElement('span')
+    actionContent.classList.add('vcv-ui-outline-control-content')
+    action.appendChild(actionContent)
+
+    let icon = document.createElement('i')
+    icon.classList.add('vcv-ui-outline-control-icon', 'vcv-ui-icon', options.icon)
+    actionContent.appendChild(icon)
+
+    let label = document.createElement('span')
+    label.classList.add('vcv-ui-outline-control-label')
+    label.appendChild(document.createTextNode(options.label))
+    actionContent.appendChild(label)
+
+    return action
+  }
+
+  getVcElement (elementId) {
+    return cook.get(documentManager.get(elementId))
+  }
+
+  getElementColorIndex (vcElement) {
+    var colorIndex = 2
+    if (vcElement && vcElement.containerFor().length > 0) {
+      colorIndex = vcElement.containerFor().indexOf('Column') > -1 ? 0 : 1
+    }
+    return colorIndex
+  }
+
+  destroyControls () {
+    while (this.controlsContainer && this.controlsContainer.firstChild) {
+      this.controlsContainer.removeChild(this.controlsContainer.firstChild)
+    }
   }
 
   /**
-   * Update frame position
+   * Update controls container position
    * @param element
-   * @param frame
    */
-  updateFrame (element, frame) {
+  updateContainerPosition (element) {
     let elementPos = element.getBoundingClientRect()
-    frame.style.top = elementPos.top + 'px'
-    frame.style.left = elementPos.left + 'px'
-    frame.style.width = elementPos.width + 'px'
-    frame.style.height = elementPos.height + 'px'
+    this.controlsContainer.style.top = elementPos.top + 'px'
+    this.controlsContainer.style.left = elementPos.left + 'px'
+    this.controlsContainer.style.width = elementPos.width + 'px'
   }
 
   /**
-   * Automatically update outline position after timeout
+   * Automatically update controls container position after timeout
    * @param element
    */
-  autoUpdateOutline (element) {
-    this.stopAutoUpdateOutline()
-    if (!this.state.outlineTimeout) {
-      this.updateFrame(element, this.outline)
-      this.state.outlineTimeout = this.iframeWindow.setInterval(this.updateFrame.bind(this, element, this.outline), 16)
+  autoUpdateContainerPosition (element) {
+    this.stopAutoUpdateContainerPosition()
+    if (!this.state.containerTimeout) {
+      this.updateContainerPosition(element, this.outline)
+      this.state.containerTimeout = this.iframeWindow.setInterval(this.updateContainerPosition.bind(this, element, this.outline), 16)
     }
   }
 
   /**
-   * Stop automatically update outline position and clear timeout
+   * Stop automatically update controls container position and clear timeout
    */
-  stopAutoUpdateOutline () {
-    if (this.state.outlineTimeout) {
-      this.iframeWindow.clearInterval(this.state.outlineTimeout)
-      this.state.outlineTimeout = null
+  stopAutoUpdateContainerPosition () {
+    if (this.state.containerTimeout) {
+      this.iframeWindow.clearInterval(this.state.containerTimeout)
+      this.state.containerTimeout = null
     }
-  }
-
-  /**
-   * Show frames
-   * @param element
-   */
-  showFrames (data) {
-    let slicedElements = data.path.slice(0, this.sliceSize)
-    slicedElements.forEach((element, index) => {
-      this.frames[index].classList.add('vcv-state--visible')
-    })
-    this.autoUpdateFrames(slicedElements)
-  }
-
-  /**
-   * Hide frames
-   */
-  hideFrames () {
-    this.frames.forEach((frame) => {
-      frame.classList.remove('vcv-state--visible')
-    })
-    this.stopAutoUpdateFrames()
-  }
-  /**
-   * Automatically update outline position after timeout
-   * @param element
-   */
-  autoUpdateFrames (elements) {
-    this.stopAutoUpdateFrames()
-    elements.forEach((element, index) => {
-      this.updateFrame(element, this.frames[index])
-      this.state.framesTimeout.push(this.iframeWindow.setInterval(this.updateFrame.bind(this, element, this.frames[index]), 16))
-    })
-  }
-
-  /**
-   * Stop automatically update outline position and clear timeout
-   */
-  stopAutoUpdateFrames () {
-    this.state.framesTimeout.forEach((timeout) => {
-      this.iframeWindow.clearInterval(timeout)
-    })
-    this.state.framesTimeout = []
   }
 }
 
