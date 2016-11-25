@@ -62,7 +62,7 @@
   position: relative;
   display: block;
   height: @add-element-element-height;
-  // #make-vcv-ui-add-element > .make-chess-background(@add-element-chess-grid-main-color, @add-element-chess-grid-secondary-color, @add-element-chess-grid-size);
+  #make-vcv-ui-add-element > .make-chess-background(@add-element-chess-grid-main-color, @add-element-chess-grid-secondary-color, @add-element-chess-grid-size);
 }
 
 .vcv-ui-add-element-image {
@@ -175,4 +175,45 @@
   // max-height: @add-element-preview-line-height * @add-element-preview-max-lines;
   line-height: @add-element-preview-line-height;
   overflow: hidden;
+}
+
+.vcv-ui-editor-search-container {
+  display: flex;
+  background: @add-element-search-field-container-bg-color;
+  border-radius: @add-element-search-field-container-border-radius;
+  margin: @add-element-search-field-container-margin;
+
+  .vcv-ui-form-dropdown {
+    flex: 0 0 125px;
+    border-radius: 0;
+    color: #707070;
+    background-color: #eaeaea;
+  }
+}
+
+.vcv-ui-editor-search-icon-container {
+  width: @add-element-search-icon-width;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 60px;
+
+  .vcv-ui-icon-search {
+    color: @add-element-search-icon-color;
+    font-size: @add-element-search-icon-font-size;
+  }
+}
+
+.vcv-layout-bar-content-aligned {
+  height: @add-element-close-button-height;
+}
+
+.vcv-ui-editor-search-field {
+  flex: 2 0 auto;
+  padding: @add-element-search-field-padding;
+  border: none;
+  background: transparent;
+  font-style: italic;
+  font-size: @add-element-search-field-font-size;
+  color: @text-color-root;
 }
