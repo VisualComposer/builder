@@ -32,6 +32,7 @@ $frontendModule = vcapp('EditorsFrontendController');
     ?>
 </head>
 <body class="vcv-wb-editor">
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
 <script>
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
@@ -39,6 +40,14 @@ $frontendModule = vcapp('EditorsFrontendController');
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
     window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
 </script>
+<?php
+do_action('wp_footer');
+$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
+foreach ($extraOutput as $output) {
+    echo $output;
+}
+wp_print_footer_scripts();
+?>
 <div class="vcv-layout-container">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">
@@ -54,15 +63,6 @@ $frontendModule = vcapp('EditorsFrontendController');
         </div>
     </div>
 </div>
-<?php
-do_action('wp_footer');
-$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
-foreach ($extraOutput as $output) {
-    echo $output;
-}
-wp_print_footer_scripts();
-?>
-<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
 <!--
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid()); /** @todo: use assets  */ ?>"></script>
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
