@@ -139,7 +139,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, columns } = atts
+    let { image, designOptions, shape, clickableOptions, customClass, columns } = atts
     let containerClasses = 'vce-image-gallery vce'
     let classes = 'vce-image-gallery-item-inner'
     let customProps = {}
@@ -193,9 +193,9 @@ class Component extends vcvAPI.elementComponent {
         imgClasses += ' vce-image-gallery-img--orientation-portrait'
       }
 
-      if (clickableOptions === 'url' && imageUrl && imageUrl.url) {
+      if (clickableOptions === 'url' && image[ index ].link && image[ index ].link.url) {
         CustomTag = 'a'
-        let { url, title, targetBlank, relNofollow } = imageUrl
+        let { url, title, targetBlank, relNofollow } = image[ index ].link
         customProps = {
           'href': url,
           'title': title,

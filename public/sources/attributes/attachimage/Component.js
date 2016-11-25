@@ -75,31 +75,29 @@ class AttachImage extends Attribute {
     attachment = attachment.toJSON()
     let ids = lodash.compact(this.state.value.ids)
     let urls = lodash.compact(this.state.value.urls)
-    let links = lodash.compact(this.state.value.links)
+    let defaultLinkValue = {
+      relNofollow: false,
+      targetBlank: true,
+      title: '',
+      url: ''
+    }
     ids.push(attachment.id)
     let srcUrl = {}
     for (let size in attachment.sizes) {
       srcUrl[ size ] = attachment.sizes[ size ].url
     }
     srcUrl.id = attachment.id
+    srcUrl.link = defaultLinkValue
     urls.push(srcUrl)
-    links.push({
-      relNofollow: false,
-      targetBlank: true,
-      title: '',
-      url: ''
-    })
     this.setFieldValue({
       ids: ids,
-      urls: urls,
-      links: links
+      urls: urls
     })
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
-    let links = this.state.value.links
-    links[ key ] = urlValue
-    this.updateFieldValue({ links: links })
+    this.state.value.urls[ key ].link = urlValue
+    this.updateFieldValue()
   }
 
   updateFieldValue (value) {
@@ -145,7 +143,7 @@ class AttachImage extends Attribute {
     if (this.props.options.url) {
       imageUrl = (key) => (
         <Url
-          value={this.state.value.links[ key ]}
+          value={this.state.value.urls[ key ].link}
           updater={this.handleUrlChange.bind(this, key)}
           api={this.props.api}
           fieldKey={`${this.props.fieldKey}.linkUrl`}
