@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 
 const ActionsManager = {
-  do: (actionData, state, target) => {
+  do: (actionData, state, target, element) => {
     let { action, options } = actionData
-    ActionsManager.actions[ action || 'ping' ].call(ActionsManager, state, target, options)
+    ActionsManager.actions[ action || 'ping' ].call(ActionsManager, state, target, options, element)
   },
   actions: {
     ping: (state, target, options) => {
@@ -37,6 +37,13 @@ const ActionsManager = {
           $dropdownContent.parentNode.classList.toggle('vcv-ui-state--hidden', hideTab)
         }
       }
+    },
+    attachImageUrls: (state, target, options, element) => {
+      if (element.settings(target.key).settings.options.url === state) {
+        return
+      }
+      element.settings(target.key).settings.options.url = state
+      target.refComponent.forceUpdate()
     },
     preset: (state, target, options) => {
     }

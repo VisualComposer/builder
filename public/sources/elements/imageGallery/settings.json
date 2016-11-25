@@ -51,6 +51,21 @@
         "image-gallery-5.jpg",
         "image-gallery-6.jpg"
       ],
+      "onChange": {
+        "rules": {
+          "clickableOptions": {
+            "rule": "value",
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "attachImageUrls"
+          }
+        ]
+      },
       "url": false
     }
   },
@@ -93,7 +108,6 @@
       "gap",
       "shape",
       "clickableOptions",
-      "imageUrl",
       "customClass"
     ],
     "options": {
@@ -148,34 +162,6 @@
           "value": "url"
         }
       ]
-    }
-  },
-  "imageUrl": {
-    "type": "url",
-    "access": "public",
-    "value": {
-      "url": "",
-      "title": "",
-      "targetBlank": true,
-      "relNofollow": false
-    },
-    "options": {
-      "label": "Image URL (Link)",
-      "onChange": {
-        "rules": {
-          "clickableOptions": {
-            "rule": "value",
-            "options": {
-              "value": "url"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
     }
   },
   "assetsLibrary": {
