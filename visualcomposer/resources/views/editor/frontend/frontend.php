@@ -32,10 +32,6 @@ $frontendModule = vcapp('EditorsFrontendController');
     ?>
 </head>
 <body class="vcv-wb-editor">
-
-<script type="text/javascript" src="<?php echo $urlHelper->to(
-    'public/dist/wp.bundle.js?' . uniqid()
-); /** @todo: use assets folder */ ?>"></script>
 <script>
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
@@ -43,16 +39,6 @@ $frontendModule = vcapp('EditorsFrontendController');
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
     window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
 </script>
-
-<?php
-do_action('wp_footer');
-$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
-foreach ($extraOutput as $output) {
-    echo $output;
-}
-wp_print_footer_scripts();
-?>
-
 <div class="vcv-layout-container">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">
@@ -68,5 +54,57 @@ wp_print_footer_scripts();
         </div>
     </div>
 </div>
+<?php
+do_action('wp_footer');
+$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
+foreach ($extraOutput as $output) {
+    echo $output;
+}
+wp_print_footer_scripts();
+?>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<!--
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid()); /** @todo: use assets  */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-basicButton.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-column.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-flickrImage.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-googleFontsHeading.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-googleMaps.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-heroSection.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-icon.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-imageGallery.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-instagramImage.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-rawHtml.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-rawJs.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-row.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-singleImage.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-textBlock.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-twitterButton.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-twitterGrid.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-twitterPublisher.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-twitterTimeline.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-twitterTweet.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-vimeoPlayer.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceAddToCart.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceAddToCartUrl.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceBestSellingProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceCart.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceCheckout.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceFeaturedProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceMyAccount.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceOrderTracking.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProduct.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProductAttribute.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProductCategories.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProductCategory.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProductPage.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceRecentProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceRelatedProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceSaleProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceTopRatedProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+<script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-youtubePlayer.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
+!-->
 </body>
 </html>

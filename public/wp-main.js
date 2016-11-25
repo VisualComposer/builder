@@ -25,11 +25,15 @@ $(() => {
   }
 
   $iframe.on('load', iframeLoadEvent)
+  if ($iframe.get(0).contentWindow.document.readyState === 'complete') {
+    iframeLoadEvent()
+  }
 })
 
 window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
 window.React = React
 window.vcvAPI = vcCake.getService('api')
-
-require('./config/elements')
+if (!vcCake.env('FEATURE_WEBPACK')) {
+  require('./config/elements')
+}
