@@ -1,11 +1,11 @@
-import {Component, PropTypes} from 'react'
+import React from 'react'
 import {getData} from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import BlankPage from './helpers/blankPage/component'
 
-export default class LayoutEditor extends Component {
+export default class LayoutEditor extends React.Component {
   static propTypes = {
-    api: PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired
   }
   constructor (props) {
     super(props)

@@ -1,0 +1,16 @@
+import vcCake from 'vc-cake'
+import React from 'react'
+const addElement = vcCake.getService('cook').add
+const vcvAPI = vcCake.getService('api')
+addElement(
+  {{ settings() }},
+  // Component callback
+  function(component) {
+    // {{ cssFile() }}
+    component.add({{ elementComponent() }});
+  },
+  // css settings // css for element
+  {{ cssSettings() }},
+  // javascript callback
+  {{ jsCallback() }}
+)

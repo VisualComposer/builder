@@ -11,4 +11,5 @@ vcCake.env('FEATURE_GOOGLE_FONTS_HEADING', false)
 vcCake.env('FEATURE_IMAGE_GALLERY', false)
 vcCake.env('FEATURE_ADD_ELEMENT_SEARCH', false)
 vcCake.env('FEATURE_SHORTCODES_SERVER_RENDER', false)
+vcCake.env('FEATURE_WEBPACK', false)
 

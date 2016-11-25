@@ -12,7 +12,8 @@ export default class FieldDependencyManager extends React.Component {
 
   componentDidMount () {
     this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.refs[ 'field' ]
+      ref: this.refs[ 'field' ],
+      refComponent: this
     })
   }
 
@@ -22,7 +23,8 @@ export default class FieldDependencyManager extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.props.setFieldMount(nextProps.fieldKey, {
-      ref: this.refs[ 'field' ]
+      ref: this.refs[ 'field' ],
+      refComponent: this
     })
   }
 

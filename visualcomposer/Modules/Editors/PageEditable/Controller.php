@@ -57,6 +57,17 @@ class Controller extends Container implements Module
             'addTheContentFilteringForPost',
             9999 // Do with high weight - when all other actions is done
         );
+        $url = vchelper('Url');
+        $bundleCssUrl = $url->to('public/dist/pe.bundle.css?' . uniqid());
+        $vendorBundleJsUrl = $url->to('public/dist/vendor.pe.bundle.js?' . uniqid());
+        $bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
+        $a = false;
+        if ($a) {
+            // TODO: Feature toggle.
+            wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
+        }
+        wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl);
+        wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);
     }
 
     private function addTheContentFilteringForPost()

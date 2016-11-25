@@ -1,4 +1,4 @@
-/* global React, vcvAPI */
+/* global React, vcvAPI, vcCake */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
@@ -31,7 +31,6 @@ class Component extends vcvAPI.elementComponent {
 
     let buttonOutput = ''
     if (addButton) {
-      let vcCake = require('vc-cake')
       const Cook = vcCake.getService('cook')
       let Button = Cook.get(button)
       buttonOutput = Button.render(null, false)
@@ -64,7 +63,6 @@ class Component extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    const vcCake = require('vc-cake')
     let assetsManager
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       assetsManager = vcCake.getService('wipAssetsManager')

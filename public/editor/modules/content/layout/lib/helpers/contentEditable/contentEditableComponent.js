@@ -17,24 +17,28 @@ export default class ContentEditableComponent extends React.Component {
     children: React.PropTypes.string,
     className: React.PropTypes.string
   }
+
   constructor (props) {
     super(props)
     this.state = {
       contentEditable: false,
       trackMouse: false,
       html: ContentEditableComponent.spinnerHTML,
-      realContent: this.props.children
+      realContent: this.props.children,
+      mouse: null
     }
     this.handleDndState = this.handleDndState.bind(this)
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
   }
+
   handleDndState (dndState) {
-    this.setState({contentEditable: !dndState})
+    this.setState({ contentEditable: !dndState })
   }
+
   handleLayoutModeChange (mode) {
     const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
-    mode !== 'dnd' && this.setState({contentEditable: mode === 'contentEditable', trackMouse: false})
+    mode !== 'dnd' && this.setState({ contentEditable: mode === 'contentEditable', trackMouse: false })
     if (mode !== 'contentEditable') {
       contentWindow.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
@@ -44,19 +48,25 @@ export default class ContentEditableComponent extends React.Component {
     this.medium.setup()
     this.medium.subscribe('editableInput', () => {
       this.updateElementData()
+      if (this.mediumSelection) {
+        this.medium.importSelection(this.mediumSelection)
+        this.mediumSelection = undefined
+      }
     })
+    this.mediumSelection = this.medium.exportSelection()
   }
+
   componentDidMount () {
     const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
     const dom = ReactDOM.findDOMNode(this)
     this.medium = new MediumEditor(dom, {
       delay: 1000,
-      toolbar: {buttons: ['bold', 'italic', 'underline']},
+      toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
       paste: {
         cleanPastedHTML: true,
-        cleanAttrs: ['style', 'dir'],
-        cleanTags: ['label', 'meta'],
-        unwrapTags: ['sub', 'sup']
+        cleanAttrs: [ 'style', 'dir' ],
+        cleanTags: [ 'label', 'meta' ],
+        unwrapTags: [ 'sub', 'sup' ]
       },
       contentWindow: contentWindow,
       ownerDocument: contentWindow.document,
@@ -66,30 +76,35 @@ export default class ContentEditableComponent extends React.Component {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
     this.updateHtmlWithServer(this.props.children)
   }
+
   updateHtmlWithServer (content) {
     dataProcessor.appServerRequest({
       'vcv-action': 'elements:ajaxShortcodeRender:adminNonce',
       'vcv-shortcode-string': content,
       'vcv-nonce': window.vcvNonce
     }).then((data) => {
-      this.setState({html: data})
+      this.setState({ html: data })
     })
   }
+
   componentWillUnmount () {
     vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
   }
+
   updateElementData () {
     const dom = ReactDOM.findDOMNode(this)
     const data = documentManager.get(this.props.id)
     const element = cook.get(data)
     let content = dom.innerHTML
     element.set(this.props.field, dom.innerHTML)
-    this.setState({realContent: content})
+    this.setState({ realContent: content })
     documentManager.update(this.props.id, element.toJS())
   }
+
   handleChange () {
     this.updateElementData()
   }
+
   handleGlobalClick (e) {
     const $target = $(e.target)
     if (!$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
@@ -97,21 +112,24 @@ export default class ContentEditableComponent extends React.Component {
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
         vcCake.setData('vcv:layoutCustomMode', null)
       }
-      this.setState({html: ContentEditableComponent.spinnerHTML})
+      this.setState({ html: ContentEditableComponent.spinnerHTML })
       this.updateHtmlWithServer(this.state.realContent)
     }
   }
+
   handleMouseMove () {
     if (this.state.trackMouse === true) {
-      this.setState({trackMouse: false, contentEditable: false})
+      this.setState({ trackMouse: false, contentEditable: false })
       this.medium.destroy()
     }
   }
+
   handleMouseDown () {
     if (this.state.trackMouse === false && this.state.contentEditable === false) {
-      this.setState({trackMouse: true, contentEditable: true})
+      this.setState({ trackMouse: true, contentEditable: true })
     }
   }
+
   handleMouseUp () {
     if (this.state.trackMouse === true) {
       this.mediumSetup()
@@ -120,9 +138,10 @@ export default class ContentEditableComponent extends React.Component {
       }
       const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
       contentWindow.addEventListener('click', this.handleGlobalClick)
-      this.setState({html: this.state.realContent})
+      this.setState({ html: this.state.realContent })
     }
   }
+
   render () {
     const props = {
       dangerouslySetInnerHTML: { __html: this.state.html },
@@ -132,6 +151,12 @@ export default class ContentEditableComponent extends React.Component {
       onMouseMove: this.handleMouseMove.bind(this),
       onMouseUp: this.handleMouseUp.bind(this),
       'data-vcvs-html': this.state.realContent
+    }
+    if (this.mediumSelection) {
+      window.setTimeout(() => {
+        this.medium && this.medium.importSelection(this.mediumSelection)
+        this.mediumSelection = undefined
+      }, 0)
     }
     return React.createElement('vcvhelper', props)
   }
