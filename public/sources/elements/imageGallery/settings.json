@@ -50,7 +50,8 @@
         "image-gallery-4.jpg",
         "image-gallery-5.jpg",
         "image-gallery-6.jpg"
-      ]
+      ],
+      "url": false
     }
   },
   "shape": {
@@ -135,16 +136,16 @@
           "value": ""
         },
         {
-          "label": "Link selector",
-          "value": "url"
-        },
-        {
           "label": "Lightbox",
           "value": "lightbox"
         },
         {
           "label": "Open Image in New Tab",
           "value": "imageNewTab"
+        },
+        {
+          "label": "Link selector",
+          "value": "url"
         }
       ]
     }

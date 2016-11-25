@@ -31,12 +31,13 @@
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
+  width: auto;
   max-width: none;
   height: 100%;
 }
 
 .vce-image-gallery-img--orientation-portrait {
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 

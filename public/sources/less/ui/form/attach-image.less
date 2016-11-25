@@ -3,6 +3,8 @@
   margin: 0 -@vcui-attach-image-gap/2;
 }
 
+
+
 .vcv-ui-form-attach-image-items {
   padding: 0;
   margin: 0;
@@ -16,9 +18,12 @@
 
 .vcv-ui-form-attach-image-item {
   margin: @vcui-attach-image-gap/2;
-  position: relative;
   overflow: hidden;
   float: left;
+}
+
+.vcv-ui-form-attach-image-item-inner {
+  position: relative;
 }
 
 .vcv-ui-form-attach-image-thumbnail {
@@ -113,3 +118,27 @@
   }
 }
 
+// url button styling
+
+.vcv-ui-form-attach-image .vcv-ui-form-link .vcv-ui-form-link-button {
+  padding: @vcui-attach-image-url-button-padding 0;
+  width: 100%;
+  font-size: @vcui-attach-image-url-button-font-size;
+}
+
+.vcv-ui-form-attach-image .vcv-ui-form-button .vcv-ui-icon + * {
+  margin-left: .6em;
+}
+
+.vcv-ui-form-attach-image .vcv-ui-form-button .vcv-ui-icon {
+  font-size: @vcui-attach-image-url-button-icon-size;
+}
+
+.vcv-ui-form-attach-image .vcv-ui-form-link {
+  margin-top: @vcui-attach-image-url-button-padding;
+  margin-bottom: @vcui-attach-image-url-button-padding;
+}
+
+.vcv-ui-form-attach-image .vcv-ui-form-link-title {
+   display: none;
+}
