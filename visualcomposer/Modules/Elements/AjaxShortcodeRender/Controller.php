@@ -2,7 +2,7 @@
 
 namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
 
-//use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -10,7 +10,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 /**
  * Class Controller.
  */
-class Controller extends Container /*implements Module*/
+class Controller extends Container implements Module
 {
     use EventsFilters;
 
@@ -21,7 +21,7 @@ class Controller extends Container /*implements Module*/
     {
         /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
         $this->addFilter(
-            'vcv:ajax:elements:ajaxShortcodeRender',
+            'vcv:ajax:elements:ajaxShortcodeRender:adminNonce',
             'ajaxShortcodeRender'
         );
     }
@@ -35,8 +35,10 @@ class Controller extends Container /*implements Module*/
     {
         ob_start();
         echo do_shortcode($request->input('vcv-shortcode-string'));
-        wp_print_head_scripts();
-        wp_print_footer_scripts();
+        // wp_print_head_scripts();
+        // wp_print_footer_scripts();
+        wp_print_styles();
+        print_late_styles();
         $response = ob_get_clean();
 
         return $response;
