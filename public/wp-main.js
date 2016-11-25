@@ -25,6 +25,9 @@ $(() => {
   }
 
   $iframe.on('load', iframeLoadEvent)
+  if ($iframe.get(0).contentWindow.document.readyState === 'complete') {
+    iframeLoadEvent()
+  }
 })
 
 window.app = vcCake
