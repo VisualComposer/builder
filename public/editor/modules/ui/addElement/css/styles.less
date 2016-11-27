@@ -180,7 +180,7 @@
 .vcv-ui-editor-search-container {
   display: flex;
   background: @add-element-search-field-container-bg-color;
-  border-radius: @add-element-search-field-container-border-radius;
+  border-radius: @add-element-search-border-radius;
   margin: @add-element-search-field-container-margin;
 
   .vcv-ui-form-dropdown {
@@ -216,4 +216,41 @@
   font-style: italic;
   font-size: @add-element-search-field-font-size;
   color: @text-color-root;
+}
+
+.vcv-ui-add-element-search-result {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .vcv-ui-form-helper {
+    margin: @add-element-search-result-helper-margin;
+    font-size: @add-element-search-result-helper-font-size;
+  }
+}
+
+.vcv-ui-search-result-action {
+  min-height: @add-element-search-result-action-min-height;
+  padding: @add-element-search-result-action-padding;
+  border-radius: @add-element-search-border-radius;
+  border: none;
+  background: @add-element-search-result-action;
+  color: @color-inverted;
+  cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
+
+  &:hover {
+    background: @color-base-active;
+  }
+}
+
+.vcv-ui-search-result-image {
+  display: block;
+  margin: @add-element-search-result-image-margin;
 }

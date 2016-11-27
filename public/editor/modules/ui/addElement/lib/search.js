@@ -27,10 +27,8 @@ export default class Categories extends React.Component {
       activeIndex: 0
     })
     this.props.changeActive(0)
-    this.props.changeTerm('term')
-    if (inputVal.trim()) {
-      this.props.changeInput(inputVal)
-    }
+    this.props.changeTerm('search')
+    this.props.changeInput(inputVal)
   }
 
   handleCategorySelect (e) {
