@@ -290,7 +290,16 @@ class ControlsHandler {
    */
   updateContainerPosition (element) {
     let elementPos = element.getBoundingClientRect()
-    this.controlsContainer.style.top = elementPos.top + 'px'
+    let controls = this.controlsContainer.firstElementChild
+    let controlsHeight = 0
+    if (controls) {
+      controlsHeight = controls.getBoundingClientRect().height
+    }
+    let posTop = elementPos.top
+    if (posTop - controlsHeight < 0) {
+      posTop = controlsHeight
+    }
+    this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = elementPos.left + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
   }
