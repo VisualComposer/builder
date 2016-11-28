@@ -5,7 +5,11 @@ import {default as Categories} from './categories'
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
-class AddElement extends React.Component {
+export default class AddElement extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    parent: React.PropTypes.string
+  }
   getElementList () {
     let parentContainerFor = ['General']
     let allElements = cook.list.settings()
@@ -32,10 +36,3 @@ class AddElement extends React.Component {
     )
   }
 }
-AddElement.propTypes = {
-  api: React.PropTypes.object.isRequired,
-  parent: React.PropTypes.string
-}
-
-export default AddElement
-

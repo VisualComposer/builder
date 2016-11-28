@@ -8,7 +8,7 @@ const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 const wipStylesManager = vcCake.getService('wipStylesManager')
-
+const myTemplates = vcCake.getService('myTemplates')
 class SaveController {
   constructor (props) {
     this.props = props
@@ -87,7 +87,8 @@ class SaveController {
             'vcv-design-options': designOptions,
             'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
             'vcv-custom-css': wipAssetsStorage.getCustomCss(),
-            'vcv-global-css': wipAssetsStorage.getGlobalCss()
+            'vcv-global-css': wipAssetsStorage.getGlobalCss(),
+            'vcv-my-templates': JSON.stringify(myTemplates.all())
           },
           this.saveSuccess.bind(this),
           this.saveFailed.bind(this)
@@ -117,7 +118,8 @@ class SaveController {
             'vcv-design-options': designOptions,
             'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
             'vcv-custom-css': assetsManager.getCustomCss(),
-            'vcv-global-css': assetsManager.getGlobalCss()
+            'vcv-global-css': assetsManager.getGlobalCss(),
+            'vcv-my-templates': JSON.stringify(myTemplates.all())
           },
           this.saveSuccess.bind(this),
           this.saveFailed.bind(this)
