@@ -80,14 +80,11 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    return <div className='vcv-ui-add-element-search-result'>
-      <img
-        className='vcv-ui-search-result-image'
-        src='../../../../../sources/images/search-element-no-result.png'
-        alt='Nothing found'
-      />
-      <button className='vcv-ui-search-result-action'>No Results. Open Visual Composer Hub</button>
-      <p className='vcv-ui-form-helper'>Didn't find the right element? Check out Visual Composer Hub for more content elements.</p>
+    return <div className='vcv-ui-add-element-search-result-container'>
+      <div className='vcv-ui-add-element-search-result-content'>
+        <button className='vcv-ui-search-result-action'>No Results. Open Visual Composer Hub</button>
+        <p className='vcv-ui-form-helper'>Didn't find the right element? Check out Visual Composer Hub for more content elements.</p>
+      </div>
     </div>
   }
 
