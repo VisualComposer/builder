@@ -184,10 +184,10 @@
   margin: @add-element-search-field-container-margin;
 
   .vcv-ui-form-dropdown {
-    flex: 0 0 125px;
+    height: 100%;
     border-radius: 0;
-    color: #707070;
-    background-color: #eaeaea;
+    color: transparent;
+    background-color: transparent;
   }
 }
 
@@ -218,7 +218,7 @@
   color: @text-color-root;
 }
 
-.vcv-ui-add-element-search-result {
+.vcv-ui-add-element-search-result-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -228,6 +228,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-height: @add-element-search-result-min-height;
 
   .vcv-ui-form-helper {
     margin: @add-element-search-result-helper-margin;
@@ -235,7 +236,27 @@
   }
 }
 
+.vcv-ui-add-element-search-result-content {
+  position: relative;
+  min-height: @add-element-search-result-min-height;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: @add-element-search-result-image-height;
+    background: url('../../../../../sources/images/search-element-no-result.png') no-repeat center;
+  }
+}
+
 .vcv-ui-search-result-action {
+  position: relative;
   min-height: @add-element-search-result-action-min-height;
   padding: @add-element-search-result-action-padding;
   border-radius: @add-element-search-border-radius;
@@ -250,7 +271,27 @@
   }
 }
 
-.vcv-ui-search-result-image {
-  display: block;
-  margin: @add-element-search-result-image-margin;
+.vcv-ui-editor-dropdown-container {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 125px;
+  background-color: @add-element-search-field-mask-bgcolor;
+
+  &::before {
+    content: attr(data-content);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-transform: capitalize;
+    pointer-events: none;
+    color: @add-element-search-field-mask-pseudo-color;
+    padding: @add-element-search-field-mask-pseudo-padding;
+    padding-right: @add-element-search-field-mask-pseudo-padding-right;
+    line-height: @add-element-search-field-mask-line-height;
+  }
 }
