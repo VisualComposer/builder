@@ -29,6 +29,7 @@ export default class ControlsManager {
     }
 
     this.findElement = this.findElement.bind(this)
+    this.controlElementFind = this.controlElementFind.bind(this)
   }
 
   /**
@@ -40,7 +41,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(this.api, options.framesCount),
+        value: new ControlsHandler(options.framesCount),
         writable: false,
         enumerable: false,
         configurable: false
@@ -77,13 +78,14 @@ export default class ControlsManager {
    * Find element by event and run cake events on element over and out
    * @param e
    */
-  findElement (e = null) {
+  findElement (e = null, state = {}) {
     // need to run all events, so creating fake event
     if (!e) {
       e = {
         target: null
       }
     }
+
     if (e.target !== this.prevTarget) {
       this.prevTarget = e.target
       // get all vcv elements
@@ -158,6 +160,7 @@ export default class ControlsManager {
       this.state.showFrames = !state
       this.state.showControls = !state
       this.findElement()
+      this.controlElementFind()
     })
 
     // check remove element
@@ -166,6 +169,16 @@ export default class ControlsManager {
     })
 
     // Interact with content
+    this.interactWithContent()
+
+    // Interact with tree
+    this.interactWithTree()
+
+    // interact with controls
+    this.interactWithControls()
+  }
+
+  interactWithContent () {
     // Controls interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
       if (this.state.showControls) {
@@ -175,7 +188,6 @@ export default class ControlsManager {
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.controls.hide()
     })
-
     // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
       if (this.state.showFrames) {
@@ -185,8 +197,9 @@ export default class ControlsManager {
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.frames.hide()
     })
+  }
 
-    // Interact with tree
+  interactWithTree () {
     this.api.reply('treeContent:element:mouseEnter', (id) => {
       if (this.state.showOutline) {
         let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
@@ -198,6 +211,119 @@ export default class ControlsManager {
     this.api.reply('treeContent:element:mouseLeave', () => {
       this.outline.hide()
     })
+  }
+
+  interactWithControls () {
+    // click on action
+    this.controls.getControlsContainer().addEventListener('click',
+      (e) => {
+        e && e.button === 0 && e.preventDefault()
+        if (e.button === 0) {
+          let path = this.getPath(e)
+          // search for event
+          let i = 0
+          let el = null
+          while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
+            if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
+              el = path[ i ]
+              i = path.length
+            }
+            i++
+          }
+          if (el) {
+            let event = el.dataset.vcControlEvent
+            let options = el.dataset.vcControlEventOptions
+            let elementId = el.dataset.vcvElementId
+            this.api.request(event, elementId, options)
+          }
+        }
+      }
+    )
+    // drag control
+    this.controls.getControlsContainer().addEventListener('mousedown',
+      (e) => {
+        e && e.button === 0 && e.preventDefault()
+        if (e.button === 0) {
+          let path = this.getPath(e)
+          // search for event
+          let i = 0
+          let el = null
+          while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
+            if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
+              el = path[ i ]
+              i = path.length
+            }
+            i++
+          }
+          if (el) {
+            vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
+          }
+        }
+      }
+    )
+
+    // add controls interaction with content
+    if (!this.hasOwnProperty('controlsPrevTarget')) {
+      this.controlsPrevTarget = null
+    }
+    if (!this.hasOwnProperty('controlsPrevElement')) {
+      this.controlsPrevElement = null
+    }
+    this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
+    this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
+  }
+
+  controlElementFind (e) {
+    // need to run all events, so creating fake event
+    if (!e) {
+      e = {
+        target: null
+      }
+    }
+    if (e.target !== this.controlsPrevTarget) {
+      this.controlsPrevTarget = e.target
+      // get all vcv elements
+      let path = this.getPath(e)
+      // search for event
+      let i = 0
+      let element = null
+      while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
+        if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
+          element = path[ i ].dataset.vcDragHelper
+          i = path.length
+        }
+        i++
+      }
+      if (this.controlsPrevElement !== element) {
+        // unset prev element
+        if (this.controlsPrevElement) {
+          // remove highlight from tree view
+          this.api.request('editorContent:control:mouseLeave', {
+            type: 'mouseLeave',
+            vcElementId: this.controlsPrevElement
+          })
+          // hide ouutline from tree element
+          this.outline.hide()
+        }
+        // set new element
+        if (element) {
+          if (this.state.showOutline) {
+            // highlight tree view
+            this.api.request('editorContent:control:mouseEnter', {
+              type: 'mouseEnter',
+              vcElementId: element
+            })
+            // show outline over content element
+            let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${element}"]`)
+            if (contentElement) {
+              this.outline.show(contentElement)
+            }
+          }
+        }
+
+        this.controlsPrevElement = element
+      }
+    }
   }
 }
 

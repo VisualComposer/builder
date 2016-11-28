@@ -5,14 +5,8 @@ const cook = getService('cook')
 const categoriesService = getService('categories')
 
 class ControlsHandler {
-  constructor (api, sliceSize) {
+  constructor (sliceSize) {
     Object.defineProperties(this, {
-      api: {
-        value: api,
-        writable: false,
-        enumerable: false,
-        configurable: false
-      },
       sliceSize: {
         enumerable: false,
         configurable: false,
@@ -36,77 +30,17 @@ class ControlsHandler {
   }
 
   setup () {
-    // vcv-ui-outline-controls-container
     this.controlsContainer = document.createElement('div')
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
     this.iframeOverlay.appendChild(this.controlsContainer)
-    // add click listener
-    this.controlsContainer.addEventListener('click',
-      (e) => {
-        e && e.button === 0 && e.preventDefault()
-        if (e.button === 0) {
-          let path = this.getPath(e)
-          // search for event
-          let i = 0
-          let el = null
-          while (i < path.length && path[ i ] !== this.controlsContainer) {
-            if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
-              el = path[ i ]
-              i = path.length
-            }
-            i++
-          }
-          if (el) {
-            let event = el.dataset.vcControlEvent
-            let options = el.dataset.vcControlEventOptions
-            let elementId = el.dataset.vcvElementId
-            this.api.request(event, elementId, options)
-          }
-        }
-      }
-    )
-
-    // add mouse down listener
-    this.controlsContainer.addEventListener('mousedown',
-      (e) => {
-        e && e.button === 0 && e.preventDefault()
-        if (e.button === 0) {
-          let path = this.getPath(e)
-          // search for event
-          let i = 0
-          let el = null
-          while (i < path.length && path[ i ] !== this.controlsContainer) {
-            if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
-              el = path[ i ]
-              i = path.length
-            }
-            i++
-          }
-          if (el) {
-            vcCake.setData('draggingElement', { id: el.dataset.vcDragHelper, point: { x: e.clientX, y: e.clientY } })
-          }
-        }
-      }
-    )
   }
 
   /**
-   * Event.path shadow dom polyfill
-   * @param e
-   * @returns {*}
+   * Get controls container
+   * @returns {null|*}
    */
-  getPath (e) {
-    if (e.path) {
-      return e.path
-    }
-    let path = []
-    let node = e.target
-
-    while (node) {
-      path.push(node)
-      node = node.parentNode
-    }
-    return path
+  getControlsContainer () {
+    return this.controlsContainer
   }
 
   /**
@@ -205,6 +139,7 @@ class ControlsHandler {
   createControlTrigger (elementId, options) {
     let trigger = document.createElement('div')
     trigger.classList.add('vcv-ui-outline-control-dropdown-trigger', 'vcv-ui-outline-control')
+    trigger.dataset.vcvElementId = elementId
     trigger.title = options.title
 
     // crate trigger content
