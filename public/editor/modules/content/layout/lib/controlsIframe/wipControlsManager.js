@@ -38,15 +38,14 @@ export default class ControlsManager {
   setup (options) {
     Object.defineProperties(this, {
       /**
-       * @memberOf! ControlsManager
+       * @memberOf! FramesManager
        */
-      controls: {
-        value: new ControlsHandler(options.framesCount),
+      frames: {
+        value: new FramesHandler(options.framesCount),
         writable: false,
         enumerable: false,
         configurable: false
       },
-
       /**
        * @memberOf! OutlineManager
        */
@@ -56,16 +55,16 @@ export default class ControlsManager {
         enumerable: false,
         configurable: false
       },
-
       /**
-       * @memberOf! FramesManager
+       * @memberOf! ControlsManager
        */
-      frames: {
-        value: new FramesHandler(options.framesCount),
+      controls: {
+        value: new ControlsHandler(options.framesCount),
         writable: false,
         enumerable: false,
         configurable: false
       }
+
     })
 
     // this.api.request(event, elementId, options)
@@ -166,6 +165,7 @@ export default class ControlsManager {
     // check remove element
     this.api.reply('data:remove', () => {
       this.findElement()
+      this.controlElementFind()
     })
 
     // Interact with content

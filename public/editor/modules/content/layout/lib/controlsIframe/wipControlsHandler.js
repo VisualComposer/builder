@@ -25,6 +25,7 @@ class ControlsHandler {
     this.state = {
       containerTimeout: null
     }
+    this.updateDropdownsPosition = this.updateDropdownsPosition.bind(this)
 
     this.setup()
   }
@@ -33,6 +34,7 @@ class ControlsHandler {
     this.controlsContainer = document.createElement('div')
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
     this.iframeOverlay.appendChild(this.controlsContainer)
+    this.controlsContainer.addEventListener('mouseenter', this.updateDropdownsPosition)
   }
 
   /**
@@ -85,6 +87,9 @@ class ControlsHandler {
       slicedElements.forEach((elementId) => {
         controlsList.appendChild(this.createControlForElement(elementId))
       })
+
+      // change controls direction
+      this.updateControlsPosition(data.element)
     }
   }
 
@@ -295,10 +300,15 @@ class ControlsHandler {
     if (controls) {
       controlsHeight = controls.getBoundingClientRect().height
     }
+    // set sticky controls
     let posTop = elementPos.top
     if (posTop - controlsHeight < 0) {
+      this.controlsContainer.classList.add('vcv-ui-controls-o-inset')
       posTop = controlsHeight
+    } else {
+      this.controlsContainer.classList.remove('vcv-ui-controls-o-inset')
     }
+
     this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = elementPos.left + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
@@ -324,6 +334,36 @@ class ControlsHandler {
       this.iframeWindow.clearInterval(this.state.containerTimeout)
       this.state.containerTimeout = null
     }
+  }
+
+  updateControlsPosition (element) {
+    let elementPos = element.getBoundingClientRect()
+    let controlsList = this.controlsContainer.querySelector('.vcv-ui-outline-controls')
+    let controlsListPos = controlsList.getBoundingClientRect()
+    let iframePos = this.iframe.getBoundingClientRect()
+    if (elementPos.left + controlsListPos.width > iframePos.width) {
+      this.controlsContainer.classList.add('vcv-ui-controls-o-controls-right')
+    } else {
+      this.controlsContainer.classList.remove('vcv-ui-controls-o-controls-right')
+    }
+  }
+
+  updateDropdownsPosition (e) {
+    let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
+    let iframePos = this.iframe.getBoundingClientRect()
+    dropdowns.forEach((dropdown) => {
+      let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()
+      // drop up
+      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-up')
+      if (dropdownPos.top + dropdownPos.height > iframePos.top + iframePos.height) {
+        dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-up')
+      }
+      // drop right
+      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-right')
+      if (dropdownPos.left + dropdownPos.width > iframePos.left + iframePos.width) {
+        dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-right')
+      }
+    })
   }
 }
 
