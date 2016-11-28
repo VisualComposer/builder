@@ -27,13 +27,15 @@ export default class ContentEditableComponent extends React.Component {
       realContent: this.props.children,
       mouse: null
     }
-    this.handleDndState = this.handleDndState.bind(this)
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
   }
 
-  handleDndState (dndState) {
-    this.setState({ contentEditable: !dndState })
+  componentWillReceiveProps (nextProps) {
+    if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
+      this.setState({ realContent: nextProps.children })
+      this.updateHtmlWithServer(nextProps.children)
+    }
   }
 
   handleLayoutModeChange (mode) {
@@ -44,6 +46,11 @@ export default class ContentEditableComponent extends React.Component {
       this.medium.destroy()
     }
   }
+
+  getShortcodesRegexp () {
+    return RegExp('\\[(\\[?)(\\w+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
+  }
+
   mediumSetup () {
     this.medium.setup()
     this.medium.subscribe('editableInput', () => {
@@ -78,13 +85,18 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    dataProcessor.appServerRequest({
-      'vcv-action': 'elements:ajaxShortcodeRender:adminNonce',
-      'vcv-shortcode-string': content,
-      'vcv-nonce': window.vcvNonce
-    }).then((data) => {
-      this.setState({ html: data })
-    })
+    if (content.match(this.getShortcodesRegexp())) {
+      this.setState({ html: ContentEditableComponent.spinnerHTML })
+      dataProcessor.appServerRequest({
+        'vcv-action': 'elements:ajaxShortcodeRender:adminNonce',
+        'vcv-shortcode-string': content,
+        'vcv-nonce': window.vcvNonce
+      }).then((data) => {
+        this.setState({ html: data })
+      })
+    } else {
+      this.setState({ html: content })
+    }
   }
 
   componentWillUnmount () {
@@ -112,7 +124,6 @@ export default class ContentEditableComponent extends React.Component {
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
         vcCake.setData('vcv:layoutCustomMode', null)
       }
-      this.setState({ html: ContentEditableComponent.spinnerHTML })
       this.updateHtmlWithServer(this.state.realContent)
     }
   }
