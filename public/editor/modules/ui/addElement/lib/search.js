@@ -14,7 +14,8 @@ export default class Categories extends React.Component {
     super(props)
     this.state = {
       inputValue: '',
-      activeIndex: this.props.index
+      activeIndex: this.props.index,
+      content: this.props.allCategories[this.props.index].title
     }
     this.searchElements = this.searchElements.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
@@ -24,7 +25,8 @@ export default class Categories extends React.Component {
     let inputVal = e.currentTarget.value.toLowerCase()
     this.setState({
       inputValue: e.currentTarget.value,
-      activeIndex: 0
+      activeIndex: 0,
+      content: this.props.allCategories[0].title
     })
     this.props.changeActive(0)
     this.props.changeTerm('search')
@@ -34,7 +36,8 @@ export default class Categories extends React.Component {
   handleCategorySelect (e) {
     this.setState({
       inputValue: '',
-      activeIndex: e.currentTarget.value
+      activeIndex: e.currentTarget.value,
+      content: this.props.allCategories[e.currentTarget.value].title
     })
     this.props.changeActive(e.currentTarget.value)
     this.props.changeTerm('')
@@ -56,7 +59,9 @@ export default class Categories extends React.Component {
 
   render () {
     return <div className='vcv-ui-editor-search-container'>
-      {this.getCategorySelect()}
+      <div className='vcv-ui-editor-dropdown-container' data-content={this.state.content}>
+        {this.getCategorySelect()}
+      </div>
       <label className='vcv-ui-editor-search-icon-container'>
         <i className='vcv-ui-icon vcv-ui-icon-search' />
       </label>
