@@ -29,7 +29,8 @@ export default class TabDependencyManager extends React.Component {
 
   componentDidMount () {
     this.props.setFieldMount(this.props.fieldKey, {
-      ref: this.refs[ 'tab' ]
+      ref: this.refs[ 'tab' ],
+      refComponent: this
     }, true)
   }
 

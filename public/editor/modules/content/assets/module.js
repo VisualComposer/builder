@@ -177,12 +177,9 @@ vcCake.add('assets', (api) => {
     }
   })
 })
-if (vcCake.env('FIX_HASHTAG_FROM_URL')) {
-// Remove useless fragment in editor to control data management
-  const resetURLWithFragment = () => {
-    window.location.href.indexOf('#') > 0 && window.history.pushState('', document.title, window.location.pathname +
-      window.location.search)
-  }
-  window.onpopstate = resetURLWithFragment
-  resetURLWithFragment()
+const resetURLWithFragment = () => {
+  window.location.href.indexOf('#') > -1 && window.history.pushState('', document.title, window.location.pathname +
+    window.location.search)
 }
+window.onpopstate = resetURLWithFragment
+resetURLWithFragment()

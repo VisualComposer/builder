@@ -62,7 +62,7 @@
   position: relative;
   display: block;
   height: @add-element-element-height;
-  // #make-vcv-ui-add-element > .make-chess-background(@add-element-chess-grid-main-color, @add-element-chess-grid-secondary-color, @add-element-chess-grid-size);
+  #make-vcv-ui-add-element > .make-chess-background(@add-element-chess-grid-main-color, @add-element-chess-grid-secondary-color, @add-element-chess-grid-size);
 }
 
 .vcv-ui-add-element-image {
@@ -175,4 +175,123 @@
   // max-height: @add-element-preview-line-height * @add-element-preview-max-lines;
   line-height: @add-element-preview-line-height;
   overflow: hidden;
+}
+
+.vcv-ui-editor-search-container {
+  display: flex;
+  background: @add-element-search-field-container-bg-color;
+  border-radius: @add-element-search-border-radius;
+  margin: @add-element-search-field-container-margin;
+
+  .vcv-ui-form-dropdown {
+    height: 100%;
+    border-radius: 0;
+    color: transparent;
+    background-color: transparent;
+  }
+}
+
+.vcv-ui-editor-search-icon-container {
+  width: @add-element-search-icon-width;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 60px;
+
+  .vcv-ui-icon-search {
+    color: @add-element-search-icon-color;
+    font-size: @add-element-search-icon-font-size;
+  }
+}
+
+.vcv-layout-bar-content-aligned {
+  height: @add-element-close-button-height;
+}
+
+.vcv-ui-editor-search-field {
+  flex: 2 0 auto;
+  padding: @add-element-search-field-padding;
+  border: none;
+  background: transparent;
+  font-style: italic;
+  font-size: @add-element-search-field-font-size;
+  color: @text-color-root;
+}
+
+.vcv-ui-add-element-search-result-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: @add-element-search-result-min-height;
+
+  .vcv-ui-form-helper {
+    margin: @add-element-search-result-helper-margin;
+    font-size: @add-element-search-result-helper-font-size;
+  }
+}
+
+.vcv-ui-add-element-search-result-content {
+  position: relative;
+  min-height: @add-element-search-result-min-height;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: @add-element-search-result-image-height;
+    background: url('../../../../../sources/images/search-element-no-result.png') no-repeat center;
+  }
+}
+
+.vcv-ui-search-result-action {
+  position: relative;
+  min-height: @add-element-search-result-action-min-height;
+  padding: @add-element-search-result-action-padding;
+  border-radius: @add-element-search-border-radius;
+  border: none;
+  background: @add-element-search-result-action;
+  color: @color-inverted;
+  cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
+
+  &:hover {
+    background: @color-base-active;
+  }
+}
+
+.vcv-ui-editor-dropdown-container {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 125px;
+  background-color: @add-element-search-field-mask-bgcolor;
+
+  &::before {
+    content: attr(data-content);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-transform: capitalize;
+    pointer-events: none;
+    color: @add-element-search-field-mask-pseudo-color;
+    padding: @add-element-search-field-mask-pseudo-padding;
+    padding-right: @add-element-search-field-mask-pseudo-padding-right;
+    line-height: @add-element-search-field-mask-line-height;
+  }
 }
