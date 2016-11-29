@@ -1,6 +1,9 @@
 import {addService, setData, getData, getService} from 'vc-cake'
 
 const utils = getService('utils')
+const documentManager = getService('document')
+let getType = {}.toString
+
 addService('myTemplates', {
   add (name, data) {
     let myTemplates = this.all()
@@ -11,6 +14,13 @@ addService('myTemplates', {
     myTemplates.push({ id: id, name: name, data: data })
     setData('myTemplates', myTemplates)
     return id
+  },
+  addCurrentLayout (name) {
+    let currentLayout = documentManager.all()
+    if (getType.call(name) === '[object String]' && name.length) {
+      return this.add(name, currentLayout)
+    }
+    return false
   },
   remove (id) {
     let myTemplates = this.all()
@@ -32,7 +42,6 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let getType = {}.toString
     let myTemplates = getData('myTemplates') || []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)

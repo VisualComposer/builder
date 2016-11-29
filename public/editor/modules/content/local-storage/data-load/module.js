@@ -31,6 +31,9 @@ vcCake.add('content-local-storage-data-load', (api) => {
         wipAssetsStorage.setGlobalCss(data.cssSettings.global)
       }
     }
+    if (data.myTemplates) {
+      vcCake.setData('myTemplates', data.myTemplates)
+    }
     api.request('data:added', true)
   })
 })

@@ -64,7 +64,9 @@ vcCake.add('storage', (api) => {
     api.request('data:afterAdd', createdElements)
     api.request('data:changed', DocumentData.children(false), 'add')
   })
+  api.reply('data:addTemplate', (data) => {
 
+  })
   api.reply('data:remove', (id) => {
     api.request('data:beforeRemove', id)
     let element = DocumentData.get(id)
@@ -101,7 +103,12 @@ vcCake.add('storage', (api) => {
     }
     api.request('data:changed', DocumentData.children(false))
   })
-
+  api.reply('data:merge', (content) => {
+    let currentContent = DocumentData.all()
+    let newContent = currentContent.concat(content)
+    DocumentData.reset(newContent || {})
+    api.request('data:changed', DocumentData.children(false), 'reset')
+  })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
     api.request('data:changed', DocumentData.children(false), 'reset')
