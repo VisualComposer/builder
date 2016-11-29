@@ -183,9 +183,9 @@
 
 .vcv-ui-editor-search-container {
   display: flex;
-  background: @add-element-search-field-container-bg-color;
+  background: @add-element-search-container-bg-color;
   border-radius: @add-element-search-border-radius;
-  margin: @add-element-search-field-container-margin;
+  margin: @add-element-search-container-margin;
 
   .vcv-ui-form-dropdown {
     height: 100%;
@@ -208,6 +208,7 @@
 .vcv-ui-editor-search-field-container {
   display: flex;
   flex: 1 0 auto;
+  margin: @add-element-search-field-container-margin;
 }
 
 .vcv-ui-editor-search-icon-container {
@@ -252,11 +253,6 @@
     line-height: @add-element-search-field-mask-line-height;
     border-right: 1px solid #d1d1d1;
     background: url(@vcui-dropdown-handler-img) right 1em center no-repeat;
-  }
-
-  &-highlight {
-    //animation: vcv-ui-form-shadow-blink 0.4s ease-out;
-    box-shadow: inset 0 6px 6px -6px rgba(0, 0, 0, 0.1);
   }
 }
 
