@@ -87,10 +87,11 @@ export default class BarContentEnd extends React.Component {
   render () {
     let content = null
     let aligned = false
+    let { contentProps } = this.state
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
-    if (this.state.contentProps.api && this.state.contentProps.api.name === 'uiAddElement') {
+    if (contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
       aligned = true
     }
     let contentClasses = classNames({

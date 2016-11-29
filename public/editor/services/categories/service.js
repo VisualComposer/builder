@@ -104,7 +104,7 @@ let tempData = {
     },
     'WP Widgets': {
       'name': 'WP Widgets',
-      'elements': ['WP_Nav_Menu_Widget'],
+      'elements': ['WpWidgetsDefault', 'WpWidgetsCustom'],
       'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
     }
   }

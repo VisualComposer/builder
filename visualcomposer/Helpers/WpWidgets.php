@@ -4,8 +4,31 @@ namespace VisualComposer\Helpers;
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
+/**
+ * Class WpWidgets
+ * @package VisualComposer\Helpers
+ */
 class WpWidgets implements Helper
 {
+    /**
+     * @var array
+     */
+    protected $defaultWidgets = [
+        'WP_Widget_Pages',
+        'WP_Widget_Calendar',
+        'WP_Widget_Archives',
+        'WP_Widget_Links',
+        'WP_Widget_Meta',
+        'WP_Widget_Search',
+        'WP_Widget_Text',
+        'WP_Widget_Categories',
+        'WP_Widget_Recent_Posts',
+        'WP_Widget_Recent_Comments',
+        'WP_Widget_RSS',
+        'WP_Widget_Tag_Cloud',
+        'WP_Nav_Menu_Widget',
+    ];
+
     /**
      * @return array List of widgets instanceof \Wp_Widget
      */
@@ -15,6 +38,30 @@ class WpWidgets implements Helper
         global $wp_widget_factory;
 
         return $wp_widget_factory instanceof \WP_Widget_Factory ? $wp_widget_factory->widgets : [];
+    }
+
+    /**
+     * @return array
+     */
+    public function allGrouped()
+    {
+        $all = $this->all();
+        $data = [
+            'default' => [],
+            'custom' => [],
+        ];
+
+        foreach ($all as $widget) {
+            if (is_object($widget)) {
+                if ($this->isDefault(get_class($widget))) {
+                    $data['default'][] = $widget;
+                } else {
+                    $data['custom'][] = $widget;
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -43,16 +90,31 @@ class WpWidgets implements Helper
         return $wp_widget_factory instanceof \WP_Widget_Factory && array_key_exists($key, $wp_widget_factory->widgets);
     }
 
-    public function getWidgetUrl($widgetKey, Url $urlHelper, Nonce $nonceHelper)
+    /**
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Nonce $nonceHelper
+     *
+     * @return string
+     */
+    public function getWidgetsUrl(Url $urlHelper, Nonce $nonceHelper)
     {
         $url = $urlHelper->ajax(
             [
                 'vcv-action' => 'elements:widget:script:adminNonce',
-                'vcv-widget-key' => $widgetKey,
                 'vcv-nonce' => $nonceHelper->admin(),
             ]
         );
 
         return $url;
+    }
+
+    /**
+     * @param $widgetClass
+     *
+     * @return bool
+     */
+    public function isDefault($widgetClass)
+    {
+        return in_array($widgetClass, $this->defaultWidgets);
     }
 }

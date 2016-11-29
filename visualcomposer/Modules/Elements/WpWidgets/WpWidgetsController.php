@@ -42,15 +42,11 @@ class WpWidgetsController extends Container implements Module
      */
     protected function generateElements($scripts, WpWidgets $widgetsHelper)
     {
-        $widgets = $widgetsHelper->all();
         $widgetScripts = [];
-        foreach ($widgets as $widgetKey => $widget) {
-            /** @see \VisualComposer\Helpers\WpWidgets::getWidgetUrl */
-            $widgetScripts[] = sprintf(
-                '<script src="%s"></script>',
-                $this->call([$widgetsHelper, 'getWidgetUrl'], [$widgetKey])
-            );
-        }
+        $widgetScripts[] = sprintf(
+            '<script src="%s"></script>',
+            $this->call([$widgetsHelper, 'getWidgetsUrl'])
+        );
 
         return array_merge($scripts, $widgetScripts);
     }

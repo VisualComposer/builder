@@ -1,8 +1,14 @@
 <?php
-/**
- * @var $title
- * @var $key
- */
+$widgets = vchelper('WpWidgets')->allGrouped();
+$scripts = [];
+if (!empty($widgets['default'])) {
+    $scripts['WpWidgetsDefault'] = 'Default WordPress Widget';
+}
+if (!empty($widgets['custom'])) {
+    $scripts['WpWidgetsCustom'] = 'Custom WordPress Widget';
+}
+
+foreach ($widgets as $key => $title):
 ?>
 webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 	/* 0 */
@@ -10,39 +16,39 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 
     'use strict';
 
-    var _extends2 = __webpack_require__(108);
+    var _extends2 = __webpack_require__(109);
 
     var _extends3 = _interopRequireDefault(_extends2);
 
-    var _keys = __webpack_require__(146);
+    var _keys = __webpack_require__(147);
 
     var _keys2 = _interopRequireDefault(_keys);
 
-    var _getPrototypeOf = __webpack_require__(150);
+    var _getPrototypeOf = __webpack_require__(151);
 
     var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-    var _classCallCheck2 = __webpack_require__(154);
+    var _classCallCheck2 = __webpack_require__(155);
 
     var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-    var _createClass2 = __webpack_require__(155);
+    var _createClass2 = __webpack_require__(156);
 
     var _createClass3 = _interopRequireDefault(_createClass2);
 
-    var _possibleConstructorReturn2 = __webpack_require__(159);
+    var _possibleConstructorReturn2 = __webpack_require__(160);
 
     var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-    var _inherits2 = __webpack_require__(194);
+    var _inherits2 = __webpack_require__(195);
 
     var _inherits3 = _interopRequireDefault(_inherits2);
 
-    var _vcCake = __webpack_require__(202);
+    var _vcCake = __webpack_require__(203);
 
     var _vcCake2 = _interopRequireDefault(_vcCake);
 
-    var _react = __webpack_require__(220);
+    var _react = __webpack_require__(221);
 
     var _react2 = _interopRequireDefault(_react);
 
@@ -168,3 +174,4 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 
 		/***/ }
 ]);
+<?php endforeach; ?>
