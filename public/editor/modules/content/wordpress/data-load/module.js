@@ -40,7 +40,7 @@ vcCake.add('content-wordpress-data-load', (api) => {
           wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
         }
       }
-      if (responseData.myTemplates && responseData.myTemplates) {
+      if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')
         vcCake.setData('myTemplates', templates)
       }

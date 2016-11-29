@@ -1,4 +1,4 @@
-class Frames {
+export default class Frames {
   constructor (sliceSize) {
     Object.defineProperty(this, 'sliceSize', {
       enumerable: false,
@@ -93,4 +93,3 @@ class Frames {
   }
 }
 
-export default Frames

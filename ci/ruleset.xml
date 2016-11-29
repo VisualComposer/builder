@@ -65,6 +65,12 @@
     <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
     </rule>
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent.TabsUsed">
+        <exclude-pattern type="relative">./visualcomposer/resources/*</exclude-pattern>
+    </rule>
 
     <file>./visualcomposer</file>
     <file>./bootstrap</file>

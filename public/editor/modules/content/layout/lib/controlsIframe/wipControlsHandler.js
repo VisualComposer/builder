@@ -3,7 +3,7 @@ const documentManager = getService('document')
 const cook = getService('cook')
 const categoriesService = getService('categories')
 
-class ControlsHandler {
+export default class ControlsHandler {
   constructor (sliceSize) {
     Object.defineProperties(this, {
       sliceSize: {
@@ -366,4 +366,3 @@ class ControlsHandler {
   }
 }
 
-export default ControlsHandler

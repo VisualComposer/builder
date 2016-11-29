@@ -1,4 +1,4 @@
-class Outline {
+export default class Outline {
   constructor () {
     this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
     this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
@@ -77,4 +77,3 @@ class Outline {
   }
 }
 
-export default Outline

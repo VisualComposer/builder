@@ -20,12 +20,16 @@ export default class ContentEditableComponent extends React.Component {
 
   constructor (props) {
     super(props)
+    this.iframe = document.querySelector('#vcv-editor-iframe')
+    this.iframeWindow = this.iframe && this.iframe.contentWindow
+    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
     this.state = {
       contentEditable: false,
       trackMouse: false,
       html: ContentEditableComponent.spinnerHTML,
       realContent: this.props.children,
-      mouse: null
+      mouse: null,
+      overlayTimeout: null
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
@@ -39,11 +43,126 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   handleLayoutModeChange (mode) {
-    const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
     mode !== 'dnd' && this.setState({ contentEditable: mode === 'contentEditable', trackMouse: false })
     if (mode !== 'contentEditable') {
-      contentWindow.removeEventListener('click', this.handleGlobalClick)
+      this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
+      this.removeOverlay()
+    }
+    // add overlay
+    if (this.state.contentEditable) {
+      this.drawOverlay()
+    }
+  }
+
+  drawOverlay () {
+    console.log('draw iframeOverlay')
+    let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
+    if (!elementOverlay) {
+      elementOverlay = this.iframeDocument.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      elementOverlay.id = 'vcv-ui-content-overlay'
+      elementOverlay.classList.add('vcv-ui-content-overlay-container')
+      // todo: remove styles from js
+      let styles = {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        zIndex: 1900
+      }
+      for (let prop in styles) {
+        elementOverlay.style[ prop ] = styles[ prop ]
+      }
+      this.iframeDocument.body.appendChild(elementOverlay)
+    }
+
+    let overlay = this.iframeDocument.querySelector('.vcv-ui-content-overlay')
+    if (!overlay) {
+      overlay = this.iframeDocument.createElementNS('http://www.w3.org/2000/svg', 'path')
+      overlay.classList.add('vcv-ui-content-overlay')
+      overlay.setAttribute('fill', 'rgba(0, 0, 0, .3)')
+      overlay.setAttribute('fill-rule', 'evenodd')
+      // todo: remove styles from js
+      let styles = {
+        pointerEvents: 'all',
+        stroke: 'rgba(183, 183, 183, .8)',
+        strokeWidth: 1,
+        strokeLinejoin: 'miter',
+        strokeLinecap: 'butt',
+        strokeMiterlimit: 3,
+        strokeDasharray: 3,
+        strokeDashoffset: 1
+      }
+      for (let prop in styles) {
+        overlay.style[ prop ] = styles[ prop ]
+      }
+      elementOverlay.appendChild(overlay)
+    }
+
+    let data = {
+      domElement: ReactDOM.findDOMNode(this),
+      overlayContainer: elementOverlay,
+      overlay: overlay
+    }
+    this.autoUpdateOverlayPosition(data)
+  }
+
+  removeOverlay () {
+    console.log('remove iframeOverlay')
+    this.stopAutoUpdateOverlayPosition()
+    while (this.iframeDocument.body && this.iframeDocument.body.querySelector('#vcv-ui-content-overlay')) {
+      this.iframeDocument.body.removeChild(this.iframeDocument.body.querySelector('#vcv-ui-content-overlay'))
+    }
+  }
+
+  updateOverlayPosition (data) {
+    // console.log(data)
+    let paddingSize = 5
+    let domElement = data.domElement
+    let overlayContainer = data.overlayContainer
+    let overlay = data.overlay
+    let bodyPos = this.iframeDocument.body.getBoundingClientRect()
+
+    // set main svg width and height
+    overlayContainer.style.width = bodyPos.width
+    overlayContainer.style.height = bodyPos.height
+
+    // draw overlay for svg
+    let containerSize = `M 0 0 H ${bodyPos.width} V ${bodyPos.height} H 0 V 0`
+    let elementPos = domElement.getBoundingClientRect()
+    let elPos = {
+      x: Math.floor(elementPos.left - bodyPos.left - paddingSize),
+      y: Math.floor(elementPos.top - bodyPos.top - paddingSize),
+      w: Math.ceil(elementPos.width + paddingSize * 2),
+      h: Math.ceil(elementPos.height + paddingSize * 2)
+    }
+    let elementSize = `M ${elPos.x} ${elPos.y} h ${elPos.w} v ${elPos.h} h -${elPos.w} z`
+    overlay.setAttribute('d', `${containerSize} ${elementSize}`)
+  }
+
+  /**
+   * Automatically update controls container position after timeout
+   * @param element
+   */
+  autoUpdateOverlayPosition (data) {
+    this.stopAutoUpdateOverlayPosition()
+    if (!this.state.overlayTimeout) {
+      this.updateOverlayPosition(data)
+      this.setState({
+        overlayTimeout: this.iframeWindow.setInterval(this.updateOverlayPosition.bind(this, data), 16)
+      })
+    }
+  }
+
+  /**
+   * Stop automatically update controls container position and clear timeout
+   */
+  stopAutoUpdateOverlayPosition () {
+    if (this.state.overlayTimeout) {
+      this.iframeWindow.clearInterval(this.state.overlayTimeout)
+      this.setState({
+        overlayTimeout: null
+      })
     }
   }
 
@@ -64,7 +183,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   componentDidMount () {
-    const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
     const dom = ReactDOM.findDOMNode(this)
     this.medium = new MediumEditor(dom, {
       delay: 1000,
@@ -75,9 +193,9 @@ export default class ContentEditableComponent extends React.Component {
         cleanTags: [ 'label', 'meta' ],
         unwrapTags: [ 'sub', 'sup' ]
       },
-      contentWindow: contentWindow,
-      ownerDocument: contentWindow.document,
-      elementsContainer: contentWindow.document.body
+      contentWindow: this.iframeWindow,
+      ownerDocument: this.iframeDocument,
+      elementsContainer: this.iframeDocument.body
     })
     this.medium.destroy()
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
@@ -147,8 +265,7 @@ export default class ContentEditableComponent extends React.Component {
       if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
         vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
       }
-      const contentWindow = document.getElementById('vcv-editor-iframe').contentWindow
-      contentWindow.addEventListener('click', this.handleGlobalClick)
+      this.iframeWindow.addEventListener('click', this.handleGlobalClick)
       this.setState({ html: this.state.realContent })
     }
   }
