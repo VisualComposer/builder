@@ -1,5 +1,7 @@
 import React from 'react'
+import classNames from 'classnames'
 import vcCake from 'vc-cake'
+const {getData, setData} = vcCake
 
 export default class AddTemplateControl extends React.Component {
   static propTypes = {
@@ -10,25 +12,52 @@ export default class AddTemplateControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isWindowOpen: false
+      isWindowOpen: getData('template:isWindowOpen')
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
+    this.updateWindow = this.updateWindow.bind(this)
   }
 
-  handleClick = (e) => {
+  componentWillMount () {
+    this.props.api
+      .reply('bar-content-end:show', this.updateWindow)
+      .reply('bar-content-end:hide', this.updateWindow)
+  }
+
+  componentWillUnmount () {
+    this.props.api
+      .reply('bar-content-end:show', this.updateWindow)
+      .reply('bar-content-end:hide', this.updateWindow)
+  }
+
+  updateWindow (isOpen = false) {
+    setData('templates:isWindowOpen', isOpen === 'add-template')
+    this.setState({ isWindowOpen: isOpen === 'add-template' })
+  }
+
+  toggleAddTemplate (e) {
     e && e.preventDefault()
-    console.log(this)
+    if (this.state.isWindowOpen) {
+      this.props.api.request('app:templates', false)
+    } else {
+      this.props.api.request('app:templates', true)
+    }
   }
 
   render () {
+    let controlClass = classNames({
+      'vcv-ui-navbar-control': true,
+      'vcv-ui-state--active': this.state.isWindowOpen
+    })
     let isDisabled = true
     if (vcCake.env('FEATURE_ADD_ELEMENT_SEARCH')) {
       isDisabled = false
     }
     return (
       <a
-        className='vcv-ui-navbar-control'
-        onClick={this.handleClick}
+        className={controlClass}
+        onClick={this.toggleAddTemplate}
+        href='#'
         disabled={isDisabled}
         title='Template'
       >
