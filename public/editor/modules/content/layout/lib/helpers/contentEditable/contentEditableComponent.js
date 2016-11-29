@@ -56,7 +56,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   drawOverlay () {
-    console.log('draw iframeOverlay')
     let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
     if (!elementOverlay) {
       elementOverlay = this.iframeDocument.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -64,9 +63,11 @@ export default class ContentEditableComponent extends React.Component {
       elementOverlay.classList.add('vcv-ui-content-overlay-container')
       // todo: remove styles from js
       let styles = {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
+        opacity: 0,
+        transition: 'opacity .2s ease-in-out',
         pointerEvents: 'none',
         zIndex: 1900
       }
@@ -76,22 +77,15 @@ export default class ContentEditableComponent extends React.Component {
       this.iframeDocument.body.appendChild(elementOverlay)
     }
 
-    let overlay = this.iframeDocument.querySelector('.vcv-ui-content-overlay')
+    let overlay = elementOverlay.querySelector('.vcv-ui-content-overlay')
     if (!overlay) {
       overlay = this.iframeDocument.createElementNS('http://www.w3.org/2000/svg', 'path')
       overlay.classList.add('vcv-ui-content-overlay')
-      overlay.setAttribute('fill', 'rgba(0, 0, 0, .3)')
+      overlay.setAttribute('fill', 'rgba(0, 0, 0, .6)')
       overlay.setAttribute('fill-rule', 'evenodd')
       // todo: remove styles from js
       let styles = {
-        pointerEvents: 'all',
-        stroke: 'rgba(183, 183, 183, .8)',
-        strokeWidth: 1,
-        strokeLinejoin: 'miter',
-        strokeLinecap: 'butt',
-        strokeMiterlimit: 3,
-        strokeDasharray: 3,
-        strokeDashoffset: 1
+        pointerEvents: 'all'
       }
       for (let prop in styles) {
         overlay.style[ prop ] = styles[ prop ]
@@ -99,45 +93,87 @@ export default class ContentEditableComponent extends React.Component {
       elementOverlay.appendChild(overlay)
     }
 
+    let overlayShadow = this.iframeDocument.querySelector('#vcv-ui-content-overlay-shadow')
+    if (!overlayShadow) {
+      overlayShadow = this.iframeDocument.createElement('div')
+      overlayShadow.id = 'vcv-ui-content-overlay-shadow'
+      overlayShadow.classList.add('vcv-ui-content-overlay-shadow')
+      // todo: remove styles from js
+      let styles = {
+        pointerEvents: 'none',
+        boxShadow: 'rgba(0, 0, 0, 0.3) 1px 0 10px 0',
+        position: 'fixed'
+      }
+      for (let prop in styles) {
+        overlayShadow.style[ prop ] = styles[ prop ]
+      }
+      this.iframeDocument.body.appendChild(overlayShadow)
+    }
+
     let data = {
       domElement: ReactDOM.findDOMNode(this),
       overlayContainer: elementOverlay,
-      overlay: overlay
+      overlay: overlay,
+      overlayShadow: overlayShadow
     }
     this.autoUpdateOverlayPosition(data)
   }
 
   removeOverlay () {
-    console.log('remove iframeOverlay')
     this.stopAutoUpdateOverlayPosition()
-    while (this.iframeDocument.body && this.iframeDocument.body.querySelector('#vcv-ui-content-overlay')) {
-      this.iframeDocument.body.removeChild(this.iframeDocument.body.querySelector('#vcv-ui-content-overlay'))
+    let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
+    if (elementOverlay) {
+      elementOverlay.addEventListener('transitionend', clearAfterTransition.bind(this))
+      elementOverlay.style.opacity = 0
+    }
+    function clearAfterTransition () {
+      let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
+      if (elementOverlay) {
+        elementOverlay.removeEventListener('transitionend', clearAfterTransition.bind(this))
+        elementOverlay.parentNode.removeChild(elementOverlay)
+      }
+      let elementOverlayShadow = this.iframeDocument.querySelector('#vcv-ui-content-overlay-shadow')
+      if (elementOverlayShadow) {
+        elementOverlayShadow.parentNode.removeChild(elementOverlayShadow)
+      }
     }
   }
 
   updateOverlayPosition (data) {
-    // console.log(data)
-    let paddingSize = 5
+    let paddingSize = {
+      horizontal: 15,
+      vertical: 5
+    }
     let domElement = data.domElement
     let overlayContainer = data.overlayContainer
     let overlay = data.overlay
-    let bodyPos = this.iframeDocument.body.getBoundingClientRect()
+    let overlayShadow = data.overlayShadow
 
     // set main svg width and height
-    overlayContainer.style.width = bodyPos.width
-    overlayContainer.style.height = bodyPos.height
+    overlayContainer.style.width = this.iframeWindow.innerWidth
+    overlayContainer.style.height = this.iframeWindow.innerHeight
 
     // draw overlay for svg
-    let containerSize = `M 0 0 H ${bodyPos.width} V ${bodyPos.height} H 0 V 0`
+    let containerSize = `M 0 0 H ${this.iframeWindow.innerWidth} V ${this.iframeWindow.innerHeight} H 0 V 0`
     let elementPos = domElement.getBoundingClientRect()
     let elPos = {
-      x: Math.floor(elementPos.left - bodyPos.left - paddingSize),
-      y: Math.floor(elementPos.top - bodyPos.top - paddingSize),
-      w: Math.ceil(elementPos.width + paddingSize * 2),
-      h: Math.ceil(elementPos.height + paddingSize * 2)
+      x: Math.ceil(elementPos.left - paddingSize.horizontal),
+      y: Math.ceil(elementPos.top - paddingSize.vertical),
+      width: Math.floor(elementPos.width + paddingSize.horizontal * 2),
+      height: Math.floor(elementPos.height + paddingSize.vertical * 2)
     }
-    let elementSize = `M ${elPos.x} ${elPos.y} h ${elPos.w} v ${elPos.h} h -${elPos.w} z`
+    let elementSize = `M ${elPos.x} ${elPos.y} h ${elPos.width} v ${elPos.height} h -${elPos.width} z`
     overlay.setAttribute('d', `${containerSize} ${elementSize}`)
+
+    let shadowSize = {
+      left: elPos.x,
+      top: elPos.y,
+      width: elPos.width,
+      height: elPos.height
+    }
+    for (let prop in shadowSize) {
+      overlayShadow.style[ prop ] = shadowSize[ prop ] + 'px'
+    }
   }
 
   /**
@@ -148,6 +184,7 @@ export default class ContentEditableComponent extends React.Component {
     this.stopAutoUpdateOverlayPosition()
     if (!this.state.overlayTimeout) {
       this.updateOverlayPosition(data)
+      data.overlayContainer.style.opacity = 1
       this.setState({
         overlayTimeout: this.iframeWindow.setInterval(this.updateOverlayPosition.bind(this, data), 16)
       })

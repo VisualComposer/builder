@@ -3,7 +3,6 @@ import vcCake from 'vc-cake'
 const cook = vcCake.getService('cook')
 const assetsManger = vcCake.getService('assets-manager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
-
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
@@ -11,12 +10,12 @@ vcCake.add('storage', (api) => {
     let columns = DocumentData.children(id)
     let lastColumnObject = null
     layout.forEach((size, i) => {
-      if (columns[i] !== undefined) {
-        lastColumnObject = columns[i]
+      if (columns[ i ] !== undefined) {
+        lastColumnObject = columns[ i ]
         lastColumnObject.size = size
         api.request('data:update', lastColumnObject.id, lastColumnObject)
       } else {
-        let createdElement = DocumentData.create({tag: 'column', parent: id, size: size})
+        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size })
         createdElements.push(createdElement.id)
       }
     })
@@ -37,7 +36,7 @@ vcCake.add('storage', (api) => {
     let element = DocumentData.get(parent)
     let children = cook.getChildren(element.tag)
     if (children.length === 1) {
-      return children[0].tag
+      return children[ 0 ].tag
     }
     return false
   }
