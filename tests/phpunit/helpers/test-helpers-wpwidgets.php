@@ -67,4 +67,18 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
             vchelper('WpWidgets')->getWidgetsUrl(vchelper('Url'), vchelper('Nonce'))
         );
     }
+
+    public function testIsDefault()
+    {
+        $this->assertTrue(vchelper('WpWidgets')->isDefault('WP_Widget_Pages'));
+    }
+
+    public function testGetAllGrouped()
+    {
+        $helper = vchelper('WpWidgets');
+        $all = $helper->allGrouped();
+        $this->assertTrue(array_key_exists('default', $all));
+        $this->assertTrue(array_key_exists('custom', $all));
+        $this->assertTrue(!empty($all['default']));
+    }
 }
