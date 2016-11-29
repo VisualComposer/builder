@@ -36,10 +36,14 @@ class Controller extends Container implements Module
         $content = $request->input('vcv-content');
         $editorId = 'vcv_wpeditor_' . $request->input('vcv-field-key');
         ob_start();
-        wp_editor( $content, $editorId, $settings = array(
-            'media_buttons' => true,
-            'wpautop' => false,
-        ) );
+        wp_editor(
+            $content,
+            $editorId,
+            $settings = array (
+                'media_buttons' => true,
+                'wpautop' => false,
+            )
+        );
         wp_print_styles();
         print_late_styles();
         $response = ob_get_clean();
