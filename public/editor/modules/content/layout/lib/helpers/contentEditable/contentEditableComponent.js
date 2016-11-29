@@ -56,7 +56,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   drawOverlay () {
-    console.log('draw iframeOverlay')
     let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
     if (!elementOverlay) {
       elementOverlay = this.iframeDocument.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -108,7 +107,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   removeOverlay () {
-    console.log('remove iframeOverlay')
     this.stopAutoUpdateOverlayPosition()
     while (this.iframeDocument.body && this.iframeDocument.body.querySelector('#vcv-ui-content-overlay')) {
       this.iframeDocument.body.removeChild(this.iframeDocument.body.querySelector('#vcv-ui-content-overlay'))
@@ -116,7 +114,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateOverlayPosition (data) {
-    // console.log(data)
     let paddingSize = 5
     let domElement = data.domElement
     let overlayContainer = data.overlayContainer
