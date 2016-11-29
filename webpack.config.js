@@ -66,7 +66,8 @@ module.exports = {
         'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
-        'wipStylesManager'
+        'wipStylesManager',
+        'myTemplates'
       ]
     },
     wp: {
@@ -107,7 +108,8 @@ module.exports = {
         'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
-        'wipStylesManager'
+        'wipStylesManager',
+        'myTemplates'
       ]
     }
   },

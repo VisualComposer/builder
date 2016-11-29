@@ -3,7 +3,6 @@ import vcCake from 'vc-cake'
 const TimeMachine = vcCake.getService('time-machine')
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
-
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
     api.request('wordpress:load')
@@ -40,6 +39,10 @@ vcCake.add('content-wordpress-data-load', (api) => {
         if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
           wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
         }
+      }
+      if (responseData.myTemplates && responseData.myTemplates) {
+        let templates = JSON.parse(responseData.myTemplates || '{}')
+        vcCake.setData('myTemplates', templates)
       }
     } else {
       throw new Error('Failed to load wordpress:data:loaded')

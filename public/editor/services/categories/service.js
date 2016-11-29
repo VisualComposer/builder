@@ -32,6 +32,10 @@ let tempData = {
       'categories': [ 'WooCommerce' ]
     },
     {
+      'name': 'WP Widgets',
+      'categories': [ 'WP Widgets' ]
+    },
+    {
       'name': 'All',
       'metaOrder': 1,
       'categories': true
@@ -96,6 +100,11 @@ let tempData = {
     'WooCommerce': {
       'name': 'WooCommerce',
       'elements': [],
+      'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
+    },
+    'WP Widgets': {
+      'name': 'WP Widgets',
+      'elements': ['WP_Nav_Menu_Widget'],
       'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
     }
   }
