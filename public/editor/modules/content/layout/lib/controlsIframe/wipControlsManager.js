@@ -77,7 +77,7 @@ export default class ControlsManager {
    * Find element by event and run cake events on element over and out
    * @param e
    */
-  findElement (e = null, state = {}) {
+  findElement (e = null) {
     // need to run all events, so creating fake event
     if (!e) {
       e = {
