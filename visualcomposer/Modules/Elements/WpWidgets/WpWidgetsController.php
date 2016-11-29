@@ -69,6 +69,28 @@ class WpWidgetsController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\WpWidgets $widgets
+     *
+     * @return string
+     */
+    protected function renderForm(Request $requestHelper, WpWidgets $widgets)
+    {
+        $widget = $requestHelper->input('vcv-widget-key');
+        $data = $requestHelper->input('vcv-data');
+
+        ob_start();
+        $noform = $widgets->get($widget)->form($data);
+        $form = ob_get_clean();
+        // In case If Widget doesn't have settings
+        if ($noform === 'noform') {
+            $form = '';
+        }
+
+        return $form;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
      *
      * @return string
      */
