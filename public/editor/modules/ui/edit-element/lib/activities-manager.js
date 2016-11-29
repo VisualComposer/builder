@@ -165,7 +165,7 @@ export default class ActivitiesManager extends React.Component {
       current.field = this.mount[ listener.key ].field
     }
     if (this.mount[ listener.key ].tab) {
-      current.tab = this.mount[ listener.key ].tab.ref
+      current.tab = this.mount[ listener.key ].tab
     }
 
     let actionsCallback = (ruleState, listener) => {
