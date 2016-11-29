@@ -37,10 +37,12 @@ export default class AddTemplateControl extends React.Component {
 
   toggleAddTemplate (e) {
     e && e.preventDefault()
-    if (this.state.isWindowOpen) {
-      this.props.api.request('app:templates', false)
-    } else {
-      this.props.api.request('app:templates', true)
+    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
+      if (this.state.isWindowOpen) {
+        this.props.api.request('app:templates', false)
+      } else {
+        this.props.api.request('app:templates', true)
+      }
     }
   }
 
@@ -50,7 +52,7 @@ export default class AddTemplateControl extends React.Component {
       'vcv-ui-state--active': this.state.isWindowOpen
     })
     let isDisabled = true
-    if (vcCake.env('FEATURE_ADD_ELEMENT_SEARCH')) {
+    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
       isDisabled = false
     }
     return (
