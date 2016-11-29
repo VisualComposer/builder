@@ -7,14 +7,15 @@ import './css/skin.css'
 import './css/content.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
+import vcCake from 'vc-cake'
+const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class HtmlEditorComponent extends Attribute {
   handleChange = (event) => {
     let value = event.target.getContent()
     this.setFieldValue(value)
   }
-
-  render () {
+  renderEditor () {
     let { value } = this.state
     let { options } = this.props
     let tinymceConfig = lodash.extend({}, {
@@ -32,5 +33,25 @@ export default class HtmlEditorComponent extends Attribute {
           content={value} />
       </div>
     )
+  }
+  componentDidMount () {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
+      let { value } = this.state
+      dataProcessor.appServerRequest({
+        'vcv-action': 'elements:ajaxWpEditor:adminNonce',
+        'vcv-content': value,
+        'vcv-field-key': this.props.fieldKey,
+        'vcv-nonce': window.vcvNonce
+      }).then((data) => {
+        this.setState({editor: data})
+      })
+    }
+  }
+  render () {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
+      let editorContent = this.state.editor || '<span className="vcv-ui-wp-spinner">Loading...</span>'
+      return <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{ __html: editorContent }} />
+    }
+    return this.renderEditor()
   }
 }
