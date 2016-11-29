@@ -64,7 +64,7 @@ export default class ContentEditableComponent extends React.Component {
       elementOverlay.classList.add('vcv-ui-content-overlay-container')
       // todo: remove styles from js
       let styles = {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         pointerEvents: 'none',
@@ -121,18 +121,17 @@ export default class ContentEditableComponent extends React.Component {
     let domElement = data.domElement
     let overlayContainer = data.overlayContainer
     let overlay = data.overlay
-    let bodyPos = this.iframeDocument.body.getBoundingClientRect()
 
     // set main svg width and height
-    overlayContainer.style.width = bodyPos.width
-    overlayContainer.style.height = bodyPos.height
+    overlayContainer.style.width = this.iframeWindow.innerWidth
+    overlayContainer.style.height = this.iframeWindow.innerHeight
 
     // draw overlay for svg
-    let containerSize = `M 0 0 H ${bodyPos.width} V ${bodyPos.height} H 0 V 0`
+    let containerSize = `M 0 0 H ${overlayContainer.style.width} V ${overlayContainer.style.height} H 0 V 0`
     let elementPos = domElement.getBoundingClientRect()
     let elPos = {
-      x: Math.floor(elementPos.left - bodyPos.left - paddingSize),
-      y: Math.floor(elementPos.top - bodyPos.top - paddingSize),
+      x: Math.floor(elementPos.left - paddingSize),
+      y: Math.floor(elementPos.top - paddingSize),
       w: Math.ceil(elementPos.width + paddingSize * 2),
       h: Math.ceil(elementPos.height + paddingSize * 2)
     }
