@@ -33,17 +33,7 @@ class WpWidgetsScript extends Container implements Module
     {
         // This actually not a filter. we output header (application/javascript) and etc.
         header('Content-Type: application/javascript; charset=utf-8');
-        $key = $requestHelper->input('vcv-widget-key');
-        $widget = $widgets->get($key);
-        if ($widget) {
-            echo vcview(
-                'elements/widgets/element.php',
-                [
-                    'title' => $widget->name,
-                    'key' => $key,
-                ]
-            );
-        }
+        echo vcview('elements/widgets/element.php');
         die;
     }
 }
