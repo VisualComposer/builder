@@ -1,5 +1,4 @@
-import vcCake from 'vc-cake'
-const { getService } = vcCake
+import {getService} from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 const categoriesService = getService('categories')

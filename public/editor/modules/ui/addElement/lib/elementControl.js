@@ -16,17 +16,12 @@ export default class ElementControl extends React.Component {
 
   state = {
     previewVisible: false,
-    previewStyle: {},
-    imageThumbnail: null,
-    imagePreview: null
+    previewStyle: {}
   }
 
   componentDidMount () {
     this.ellipsize('.vcv-ui-add-element-element-name')
     this.ellipsize('.vcv-ui-add-element-preview-text')
-    window.setTimeout(() => {
-      this.setState({showImages: true})
-    }, 0)
   }
 
   addElement (e) {

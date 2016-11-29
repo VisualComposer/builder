@@ -1,8 +1,5 @@
 /* global vcv */
 /* global Waypoint */
-vcv.ready(() => {
-  // vceAnimate.enableAnimate()
-})
 vcv.on('ready', () => {
   vceAnimate.enableAnimate()
 })
@@ -22,7 +19,7 @@ let vceAnimate = {
         }
       })
       oldClasses.forEach((className) => {
-        element.classList.remove(className)
+       // element.classList.remove(className)
       })
       let waypoint = new Waypoint({
         element: element,

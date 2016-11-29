@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 export default class Categories extends React.Component {
   static propTypes = {
@@ -15,10 +16,14 @@ export default class Categories extends React.Component {
     this.state = {
       inputValue: '',
       activeIndex: this.props.index,
-      content: this.props.allCategories[this.props.index].title
+      content: this.props.allCategories[this.props.index].title,
+      dropdown: false,
+      input: false
     }
     this.searchElements = this.searchElements.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
+    this.handleCategoryClick = this.handleCategoryClick.bind(this)
+    this.handleInputFocus = this.handleInputFocus.bind(this)
   }
 
   searchElements (e) {
@@ -57,21 +62,51 @@ export default class Categories extends React.Component {
     </select>
   }
 
+  handleCategoryClick () {
+    this.setState({dropdown: true})
+    setTimeout(() => {
+      this.setState({dropdown: false})
+    }, 400)
+  }
+
+  handleInputFocus () {
+    this.setState({input: true})
+    setTimeout(() => {
+      this.setState({input: false})
+    }, 400)
+  }
+
   render () {
+    let dropdownContainerClasses = classNames({
+      'vcv-ui-editor-search-dropdown-container': true,
+      'vcv-ui-editor-field-highlight': this.state.dropdown
+    })
+    let inputContainerClasses = classNames({
+      'vcv-ui-editor-search-field-container': true,
+      'vcv-ui-editor-field-highlight': this.state.input
+    })
     return <div className='vcv-ui-editor-search-container'>
-      <div className='vcv-ui-editor-dropdown-container' data-content={this.state.content}>
+      <div
+        className={dropdownContainerClasses}
+        data-content={this.state.content}
+        onClick={this.handleCategoryClick}
+      >
         {this.getCategorySelect()}
       </div>
-      <label className='vcv-ui-editor-search-icon-container'>
-        <i className='vcv-ui-icon vcv-ui-icon-search' />
-      </label>
-      <input
-        className='vcv-ui-editor-search-field'
-        onChange={this.searchElements}
-        type='text'
-        value={this.state.inputValue}
-        placeholder='Search content elements by name, category and description'
-      />
+      <div className={inputContainerClasses}>
+        <label className='vcv-ui-editor-search-icon-container'>
+          <i className='vcv-ui-icon vcv-ui-icon-search' />
+        </label>
+        <input
+          className='vcv-ui-form-input vcv-ui-editor-search-field'
+          onChange={this.searchElements}
+          onFocus={this.handleInputFocus}
+          type='text'
+          value={this.state.inputValue}
+          placeholder='Search content elements'
+          autoFocus='true'
+        />
+      </div>
     </div>
   }
 }
