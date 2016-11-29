@@ -124,7 +124,7 @@ export default class ContentEditableComponent extends React.Component {
     overlayContainer.style.height = this.iframeWindow.innerHeight
 
     // draw overlay for svg
-    let containerSize = `M 0 0 H ${overlayContainer.style.width} V ${overlayContainer.style.height} H 0 V 0`
+    let containerSize = `M 0 0 H ${this.iframeWindow.innerWidth} V ${this.iframeWindow.innerHeight} H 0 V 0`
     let elementPos = domElement.getBoundingClientRect()
     let elPos = {
       x: Math.floor(elementPos.left - paddingSize),
