@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-export default class Categories extends React.Component {
+export default class SearchElement extends React.Component {
   static propTypes = {
     allCategories: React.PropTypes.array.isRequired,
     index: React.PropTypes.any.isRequired,
@@ -94,11 +94,12 @@ export default class Categories extends React.Component {
         {this.getCategorySelect()}
       </div>
       <div className={inputContainerClasses}>
-        <label className='vcv-ui-editor-search-icon-container'>
+        <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
           <i className='vcv-ui-icon vcv-ui-icon-search' />
         </label>
         <input
           className='vcv-ui-form-input vcv-ui-editor-search-field'
+          id='add-element-search'
           onChange={this.searchElements}
           onFocus={this.handleInputFocus}
           type='text'

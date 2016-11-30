@@ -1,0 +1,54 @@
+.vcv-ui-editor-no-items {
+  &-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: @vcui-graphics-min-height;
+
+    .vcv-ui-form-helper {
+      margin: @vcui-graphics-helper-margin;
+      font-size: @vcui-graphics-helper-font-size;
+    }
+  }
+
+  &-content {
+    position: relative;
+    min-height: @vcui-graphics-min-height;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: @vcui-graphics-image-height;
+      background: url('../../../../sources/images/search-element-no-result.png') no-repeat center;
+    }
+  }
+
+  &-action {
+    position: relative;
+    min-height: @vcui-graphics-action-min-height;
+    padding: @vcui-graphics-action-padding;
+    border-radius: @vcui-editor-element-border-radius;
+    border: none;
+    background: @vcui-graphics-action;
+    color: @color-inverted;
+    cursor: pointer;
+    transition: background @transition-duration @transition-timing-function;
+
+    &:hover {
+      background: @color-base-active;
+    }
+  }
+}
