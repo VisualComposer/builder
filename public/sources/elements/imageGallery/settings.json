@@ -104,10 +104,10 @@
     "access": "protected",
     "value": [
       "image",
+      "clickableOptions",
       "columns",
       "gap",
       "shape",
-      "clickableOptions",
       "customClass"
     ],
     "options": {
