@@ -8,7 +8,7 @@ if (!empty($widgets['custom'])) {
     $scripts['WpWidgetsCustom'] = 'Custom WordPress Widget';
 }
 
-foreach ($widgets as $key => $title):
+foreach ($widgets as $key => $title) :
 ?>
 webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 	/* 0 */

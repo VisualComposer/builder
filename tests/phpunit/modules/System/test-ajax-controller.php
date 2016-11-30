@@ -48,7 +48,7 @@ class AjaxControllerTest extends WP_UnitTestCase
             )
         );
 
-        $requestHelper->setData(['vcv-nonce' => 'someInvalidNonce']);
+        $requestHelper->setData(['vcv-nonce' => 'someInvalidNonce11']);
         $this->assertFalse(
             $module->call(
                 'validateNonce',

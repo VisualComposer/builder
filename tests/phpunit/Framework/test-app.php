@@ -85,6 +85,8 @@ class AppTest extends WP_UnitTestCase
     {
         /** @var \VisualComposer\Helpers\Events $helper */
         $helper = vchelper('Events');
+        // Backup listeners
+        $listeners = $helper->getListeners('vcv:inited');
         $helper->forget('vcv:inited');
         $called = false;
         $arg = false;
@@ -98,5 +100,9 @@ class AppTest extends WP_UnitTestCase
         $this->assertTrue(is_object($arg));
         $this->assertTrue($arg instanceof \VisualComposer\Application);
         $helper->forget('vcv:inited');
+        // Return back
+        foreach ($listeners as $listener) {
+            $helper->listen('vcv:inited', $listener);
+        }
     }
 }
