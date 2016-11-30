@@ -22,8 +22,8 @@ class WpWidgetsController extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::generateElements */
-        $a = false;
-        if ($a) {
+        $featureToggle = false;
+        if ($featureToggle) {
             // TODO: Feature toggle.
             $this->addFilter('vcv:frontend:extraOutput', 'generateElements');
         }

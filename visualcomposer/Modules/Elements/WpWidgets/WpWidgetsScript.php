@@ -4,9 +4,7 @@ namespace VisualComposer\Modules\Elements\WpWidgets;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\WpWidgets;
 
 /**
  * Class WpWidgetsScript
@@ -25,11 +23,7 @@ class WpWidgetsScript extends Container implements Module
         $this->addFilter('vcv:ajax:elements:widget:script:adminNonce', 'script');
     }
 
-    /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\WpWidgets $widgets
-     */
-    protected function script(Request $requestHelper, WpWidgets $widgets)
+    protected function script()
     {
         // This actually not a filter. we output header (application/javascript) and etc.
         header('Content-Type: application/javascript; charset=utf-8');
