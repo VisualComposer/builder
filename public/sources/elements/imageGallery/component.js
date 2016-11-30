@@ -1,8 +1,8 @@
 /* global React, vcvAPI, vcCake */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  static imageSources = []
-  static imageOrder = {}
+  imageSources = []
+  imageOrder = {}
 
   constructor (props) {
     super(props)
@@ -15,8 +15,8 @@ class Component extends vcvAPI.elementComponent {
 
   componentWillReceiveProps (nextProps) {
     if (!this.isArraysEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
-      Component.imageSources = []
-      Component.imageOrder = {}
+      this.imageSources = []
+      this.imageOrder = {}
       this.prepareImage(nextProps.atts.image)
     }
   }
@@ -40,8 +40,8 @@ class Component extends vcvAPI.elementComponent {
 
   prepareImage (image) {
     if (image.id || (image[ 0 ] && image[ 0 ].id)) {
-      this.resizeImage(image)
       this.setImageOrder(image)
+      this.resizeImage(image)
     } else {
       let imgArr = []
       image.forEach((img) => {
@@ -53,7 +53,7 @@ class Component extends vcvAPI.elementComponent {
 
   setImageOrder (imageArray) {
     imageArray.forEach((image, index) => {
-      Component.imageOrder[ index ] = image.id
+      this.imageOrder[ index ] = image.id
     })
   }
 
@@ -77,18 +77,18 @@ class Component extends vcvAPI.elementComponent {
 
   createCustomSizeImage (image, size, imgCount) {
     image.orientation = this.checkOrientation(size)
-    Component.imageSources.push(image)
+    this.imageSources.push(image)
 
-    if (Component.imageSources.length === imgCount) {
+    if (this.imageSources.length === imgCount) {
       this.orderImages()
     }
   }
 
   orderImages () {
     let imagesInOrder = []
-    Component.imageSources.forEach((img, index) => {
-      let imgObj = Component.imageSources.filter((obj) => {
-        return obj.id === Component.imageOrder[ index ]
+    this.imageSources.forEach((img, index) => {
+      let imgObj = this.imageSources.filter((obj) => {
+        return obj.id === this.imageOrder[ index ]
       })
       imagesInOrder.push({
         imgSrc: this.getImageUrl(imgObj[ 0 ], 'medium'),
@@ -96,11 +96,12 @@ class Component extends vcvAPI.elementComponent {
         originalSrc: this.getImageUrl(imgObj[ 0 ])
       })
     })
+
     this.setImgSrcState(imagesInOrder)
   }
 
   checkOrientation (size) {
-    return size.width >= size.height ? 'lanscape' : 'portrait'
+    return size.width >= size.height ? 'landscape' : 'portrait'
   }
 
   setImgSrcState (imgSrc) {
