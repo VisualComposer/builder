@@ -43,10 +43,9 @@
     "value": [
       "tweetUrl",
       "width",
-      "customClass",
-      "customOptions",
       "alignment",
-      "tweetTheme"
+      "tweetTheme",
+      "customClass"
     ],
     "options": {
       "label": "Twitter Tweet"
@@ -66,14 +65,6 @@
     "value": [
       "General"
     ]
-  },
-  "customOptions": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Custom options"
-    }
   },
   "customClass": {
     "type": "string",
@@ -118,19 +109,7 @@
           "label": "Right",
           "value": "right"
         }
-      ],
-      "onChange": {
-        "rules": {
-          "customOptions": {
-            "rule": "toggle"
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      ]
     }
   },
   "width": {
@@ -157,19 +136,7 @@
           "label": "Dark",
           "value": "dark"
         }
-      ],
-      "onChange": {
-        "rules": {
-          "customOptions": {
-            "rule": "toggle"
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      ]
     }
   },
   "metaDisableInteractionInEditor": {

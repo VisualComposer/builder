@@ -12,9 +12,9 @@ module.exports = {
         'ui/layout-bar',
         'ui/navbar',
         'ui/brand-logo',
-        'ui/add-element',
+        'ui/addElement',
         'ui/edit-element',
-        'ui/add-template',
+        'ui/addTemplate',
         'ui/tree-view',
         'ui/undo-redo',
         'ui/layout-control',
@@ -38,7 +38,8 @@ module.exports = {
         'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
-        'wipStylesManager'
+        'wipStylesManager',
+        'myTemplates'
       ]
     },
     wp: {
@@ -53,9 +54,9 @@ module.exports = {
         'ui/layout-bar',
         'ui/navbar',
         'ui/brand-logo',
-        'ui/add-element',
+        'ui/addElement',
         'ui/edit-element',
-        'ui/add-template',
+        'ui/addTemplate',
         'ui/tree-view',
         'ui/undo-redo',
         'ui/layout-control',
@@ -79,7 +80,8 @@ module.exports = {
         'dataProcessor',
         'wipAssetsStorage',
         'wipAssetsManager',
-        'wipStylesManager'
+        'wipStylesManager',
+        'myTemplates'
       ]
     }
   }

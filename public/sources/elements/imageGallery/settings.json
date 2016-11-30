@@ -41,7 +41,7 @@
       "image-gallery-6.jpg"
     ],
     "options": {
-      "label": "Image",
+      "label": "Images",
       "multiple": true,
       "defaultValue": [
         "image-gallery-1.jpg",

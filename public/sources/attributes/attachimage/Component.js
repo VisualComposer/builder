@@ -158,7 +158,7 @@ class AttachImage extends Attribute {
         <li className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + url.full}>
           <div className='vcv-ui-form-attach-image-item-inner'>
             <figure className='vcv-ui-form-attach-image-thumbnail'>
-              <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail} />
+              <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail || url.full} />
             </figure>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
               {oneMoreControl}
