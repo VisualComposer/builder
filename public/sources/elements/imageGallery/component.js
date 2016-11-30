@@ -93,7 +93,9 @@ class Component extends vcvAPI.elementComponent {
       imagesInOrder.push({
         imgSrc: this.getImageUrl(imgObj[ 0 ], 'medium'),
         orientation: imgObj[ 0 ].orientation,
-        originalSrc: this.getImageUrl(imgObj[ 0 ])
+        originalSrc: this.getImageUrl(imgObj[ 0 ]),
+        alt: imgObj[ 0 ].alt,
+        title: imgObj[ 0 ].title
       })
     })
 
@@ -146,7 +148,6 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
     let CustomTag = 'div'
     let imgSrc = this.state && this.state.imgSrc
-    let customImageProps = ''
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
@@ -189,6 +190,10 @@ class Component extends vcvAPI.elementComponent {
 
     imgSrc && imgSrc.forEach((src, index) => {
       let imgClasses = 'vce-image-gallery-img'
+      let customImageProps = {
+        'alt': src && src.alt ? src.alt : '',
+        'title': src && src.title ? src.title : ''
+      }
 
       if (src.orientation === 'portrait') {
         imgClasses += ' vce-image-gallery-img--orientation-portrait'
