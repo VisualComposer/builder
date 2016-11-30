@@ -36,7 +36,23 @@
     "options": {
       "label": "Image",
       "multiple": false,
-      "defaultValue": "single-image.jpg"
+      "defaultValue": "single-image.jpg",
+      "onChange": {
+        "rules": {
+          "clickableOptions": {
+            "rule": "value",
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "attachImageUrls"
+          }
+        ]
+      },
+      "url": false
     }
   },
   "shape": {
@@ -74,9 +90,8 @@
     "access": "protected",
     "value": [
       "image",
-      "shape",
       "clickableOptions",
-      "imageUrl",
+      "shape",
       "size",
       "alignment",
       "customClass"
@@ -173,34 +188,6 @@
           "value": "right"
         }
       ]
-    }
-  },
-  "imageUrl": {
-    "type": "url",
-    "access": "public",
-    "value": {
-      "url": "",
-      "title": "",
-      "targetBlank": true,
-      "relNofollow": false
-    },
-    "options": {
-      "label": "Image URL (Link)",
-      "onChange": {
-        "rules": {
-          "clickableOptions": {
-            "rule": "value",
-            "options": {
-              "value": "url"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
     }
   },
   "assetsLibrary": {

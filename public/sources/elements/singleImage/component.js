@@ -16,6 +16,8 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
+  static imgProps = {}
+
   constructor (props) {
     super(props)
     this.getCustomSizeImage = this.getCustomSizeImage.bind(this)
@@ -24,6 +26,10 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
+    Component.imgProps['data-img-src'] = this.getImageUrl(this.props.atts.image, 'full')
+    Component.imgProps['alt'] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
+    Component.imgProps['title'] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
+
     if (this.props.atts.size === 'full' && this.props.atts.shape !== 'round') {
       return true
     }
@@ -43,6 +49,10 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
+    Component.imgProps['data-img-src'] = this.getImageUrl(nextProps.atts.image, 'full')
+    Component.imgProps['alt'] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
+    Component.imgProps['title'] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
+
     if (nextProps.atts.size === 'full' && nextProps.atts.shape !== 'round') {
       this.setState({
         imgSize: null
@@ -68,14 +78,14 @@ class Component extends vcvAPI.elementComponent {
     }
   }
 
-  checkImageSize (image, callback, isRound, size, originalSrc) {
+  checkImageSize (image, callback, isRound, size) {
     let img = new window.Image()
     img.onload = () => {
       let size = {
         width: img.width,
         height: img.height
       }
-      callback(image, size, isRound, originalSrc)
+      callback(image, size, isRound)
     }
     img.src = this.getImageUrl(image, size)
   }
@@ -128,7 +138,7 @@ class Component extends vcvAPI.elementComponent {
     return size
   }
 
-  getCustomSizeImage (image, size, isRound, originalSrc) {
+  getCustomSizeImage (image, size, isRound) {
     let id = image.id
     size = this.parseSize(size, isRound)
     vcCake.getService('dataProcessor').appServerRequest({
@@ -138,11 +148,11 @@ class Component extends vcvAPI.elementComponent {
       'vcv-nonce': window.vcvNonce
     }).then((data) => {
       let imageData = JSON.parse(data)
-      this.insertImage(imageData.img.imgUrl, originalSrc)
+      this.insertImage(imageData.img.imgUrl)
     })
   }
 
-  insertImage (imgSrc, originalSrc) {
+  insertImage (imgSrc) {
     let img = new window.Image()
     img.onload = () => {
       this.refs.imageContainer.innerHTML = ''
@@ -155,7 +165,9 @@ class Component extends vcvAPI.elementComponent {
       }
     }
     img.src = imgSrc
-    img.setAttribute('data-img-src', originalSrc)
+    img.setAttribute('data-img-src', Component.imgProps['data-img-src'])
+    img.setAttribute('alt', Component.imgProps['alt'])
+    img.setAttribute('title', Component.imgProps['title'])
     img.className = 'vce-single-image'
   }
 
@@ -183,25 +195,22 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, imageUrl, customClass, size, alignment } = atts
+    let { image, designOptions, shape, clickableOptions, customClass, size, alignment } = atts
     let containerClasses = 'vce-single-image-container vce'
     let classes = 'vce-single-image-inner'
     let customProps = {}
     let CustomTag = 'div'
     let originalSrc = this.getImageUrl(image, 'full')
-    let customImageProps = {
-      'data-img-src': originalSrc
-    }
-
+    let customImageProps = Component.imgProps
     let imgSrc = originalSrc
 
     size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
 
     if (image && image.id) {
       if (size && size.match(/\d*(x)\d*/)) {
-        this.getCustomSizeImage(image, size, shape === 'round', originalSrc)
+        this.getCustomSizeImage(image, size, shape === 'round')
       } else if (shape === 'round') {
-        this.checkImageSize(image, this.getCustomSizeImage, true, size, originalSrc)
+        this.checkImageSize(image, this.getCustomSizeImage, true, size)
       } else {
         imgSrc = this.getImageUrl(image, size)
       }
@@ -215,9 +224,9 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ' ' + customClass
     }
 
-    if (clickableOptions === 'url' && imageUrl && imageUrl.url) {
+    if (clickableOptions === 'url' && image.link && image.link.url) {
       CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = imageUrl
+      let { url, title, targetBlank, relNofollow } = image.link
       customProps = {
         'href': url,
         'title': title,
