@@ -45,4 +45,13 @@ interface Events
      * @return void
      */
     public function forgetWildcard($event);
+
+    /**
+     * Get all of the listeners for a given event name.
+     *
+     * @param  string $eventName
+     *
+     * @return array
+     */
+    public function getListeners($eventName);
 }
