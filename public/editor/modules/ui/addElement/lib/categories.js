@@ -1,7 +1,7 @@
 import React from 'react'
 import ElementControl from './elementControl'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
-import Search from './search'
+import SearchElement from './searchElement'
 import '../css/init.less'
 import {getService} from 'vc-cake'
 const categoriesService = getService('categories')
@@ -80,9 +80,9 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    return <div className='vcv-ui-add-element-search-result-container'>
-      <div className='vcv-ui-add-element-search-result-content'>
-        <button className='vcv-ui-search-result-action'>No Results. Open Visual Composer Hub</button>
+    return <div className='vcv-ui-editor-no-items-container'>
+      <div className='vcv-ui-editor-no-items-content'>
+        <button className='vcv-ui-editor-no-items-action'>No Results. Open Visual Composer Hub</button>
         <p className='vcv-ui-form-helper'>Didn't find the right element? Check out Visual Composer Hub for more content elements.</p>
       </div>
     </div>
@@ -101,7 +101,10 @@ export default class Categories extends React.Component {
     let { activeCategoryIndex, searchTerm, inputValue } = this.state
     let itemsOutput = []
     if (searchTerm && inputValue.trim()) {
-      this.props.elements.filter((val) => {
+      let getIndex = allCategories.findIndex((val) => {
+        return val.title === 'All'
+      })
+      allCategories[getIndex].elements.filter((val) => {
         let elName = val.name.toLowerCase()
         return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
       }).forEach((element) => {
@@ -137,7 +140,7 @@ export default class Categories extends React.Component {
 
   getSearchElement () {
     let searchProps = this.getSearchProps()
-    return <Search {...searchProps} />
+    return <SearchElement {...searchProps} />
   }
 
   render () {
