@@ -1,5 +1,5 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
@@ -12,66 +12,51 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    if (this.props.atts.height || this.props.atts.width || this.props.atts.proportional) {
-      let size = this.props.atts.embed ? this.getDefaultSize(this.props.atts.embed) : ''
-      let defaultSize = {
-        width: size && size.width ? size.width : this.defaultSize.width,
-        height: size && size.height ? size.height : this.defaultSize.height
-      }
-      this.setCustomSize(this.props.atts, defaultSize)
-    }
-
     if (this.props.atts.embed) {
+      this.setCustomSize(this.props.atts, this.getDefaultSize(this.props.atts.embed))
       this.appendMap(this.props.atts.embed)
     }
-
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.atts.height || nextProps.atts.width || nextProps.atts.proportional) {
-      let size = this.getDefaultSize(nextProps.atts.embed)
-
-      let defaultSize = {
-        width: size && size.width ? size.width : this.defaultSize.width,
-        height: size && size.height ? size.height : this.defaultSize.height
-      }
-      this.setCustomSize(nextProps.atts, defaultSize)
-    } else {
-      this.setState({
-        size: null
-      })
-    }
-
-    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height || this.props.atts.proportional !== nextProps.atts.proportional)) {
+    if (nextProps.atts.embed && (this.props.atts.embed !== nextProps.atts.embed || this.props.atts.width !== nextProps.atts.width || this.props.atts.height !== nextProps.atts.height)) {
+      this.setCustomSize(nextProps.atts, this.getDefaultSize(nextProps.atts.embed))
       this.appendMap(nextProps.atts.embed)
     }
   }
 
-  getDefaultSize (embed) {
+  getSizeFromEmbed (embed) {
     let size = {}
 
     let widthAttr = embed.match(/width="\d+"/g)
-    widthAttr = widthAttr ? widthAttr[0] : ''
+    widthAttr = widthAttr ? widthAttr[ 0 ] : ''
 
     if (widthAttr) {
       let width = widthAttr.match(/\d+/g)
-      width = width ? width[0] : ''
+      width = width ? width[ 0 ] : ''
       size.width = width
     }
 
     let heightAttr = embed.match(/height="\d+"/g)
-    heightAttr = heightAttr ? heightAttr[0] : ''
+    heightAttr = heightAttr ? heightAttr[ 0 ] : ''
 
     if (heightAttr) {
       let height = heightAttr.match(/\d+/g)
-      height = height ? height[0] : ''
+      height = height ? height[ 0 ] : ''
       size.height = height
     }
     return size
   }
 
-  setCustomSize (atts, defaultSize) {
+  getDefaultSize (embed) {
+    let size = embed ? this.getSizeFromEmbed(embed) : ''
+    return {
+      width: size && size.width ? size.width : this.defaultSize.width,
+      height: size && size.height ? size.height : this.defaultSize.height
+    }
+  }
 
+  setCustomSize (atts, defaultSize) {
     let width = this.validateSize(atts.width)
     let height = this.validateSize(atts.height)
 
@@ -82,11 +67,12 @@ class Component extends vcvAPI.elementComponent {
       width: width ? width : `${defaultSize.width}px`,
       height: height ? height : `${defaultSize.height}px`
     }
-    if(atts.proportional) {
+    if (!height) {
       vcCake.getService('api').publicEvents.once('css:ready', () => {
         customSize.paddingBottom = this.setProportions(customSize.width, customSize.height)
         customSize.height = 'auto'
         this.setSizeState(customSize)
+        this.refs.mapWrapper.classList.add('vce-google-maps-proportional')
       })
     } else {
       this.setSizeState(customSize)
@@ -155,7 +141,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, height, proportional } = atts
+    let { designOptions, customClass, alignment, width, height } = atts
     let classes = 'vce-google-maps vce'
     let innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper'
@@ -188,10 +174,6 @@ class Component extends vcvAPI.elementComponent {
       wrapperClasses += ' vce-google-maps--height-custom'
     }
 
-    if (proportional) {
-      wrapperClasses += ' vce-google-maps-proportional'
-    }
-
     if (alignment) {
       classes += ` vce-google-maps--align-${alignment}`
     }
@@ -214,7 +196,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} id={'el-' + id} {...editor} ref='mapContainer'>
-      <div className={wrapperClasses} {...wrapperProps} >
+      <div className={wrapperClasses} {...wrapperProps} ref='mapWrapper'>
         <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>
