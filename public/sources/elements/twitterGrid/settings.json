@@ -43,10 +43,9 @@
     "value": [
       "gridUrl",
       "width",
-      "customClass",
-      "customOptions",
       "alignment",
-      "tweetCount"
+      "tweetCount",
+      "customClass"
     ],
     "options": {
       "label": "Twitter Grid"
@@ -66,14 +65,6 @@
     "value": [
       "General"
     ]
-  },
-  "customOptions": {
-    "type": "toggle",
-    "access": "public",
-    "value": false,
-    "options": {
-      "label": "Custom options"
-    }
   },
   "customClass": {
     "type": "string",
@@ -118,19 +109,7 @@
           "label": "Right",
           "value": "right"
         }
-      ],
-      "onChange": {
-        "rules": {
-          "customOptions": {
-            "rule": "toggle"
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      ]
     }
   },
   "tweetCount": {
@@ -139,19 +118,7 @@
     "value": "5",
     "options": {
       "min": "0",
-      "label": "Count of visible tweets",
-      "onChange": {
-        "rules": {
-          "customOptions": {
-            "rule": "toggle"
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      "label": "Count of visible tweets"
     }
   },
   "width": {
