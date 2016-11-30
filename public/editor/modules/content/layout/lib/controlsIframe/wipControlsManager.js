@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
-import ControlsHandler from './controls'
-import OutlineHandler from './outline'
-import FramesHandler from './frames'
+import ControlsHandler from './controlsHandler'
+import OutlineHandler from './outlineHandler'
+import FramesHandler from './framesHandler'
 
 require('../../css/controls/init.less')
 export default class ControlsManager {
