@@ -1,0 +1,72 @@
+.vcv-ui-editor-search-container {
+  display: flex;
+  background: @vcui-form-input-background;
+  border-radius: @vcui-form-border-radius;
+  margin: @vcui-form-search-container-margin;
+
+  .vcv-ui-form-dropdown {
+    height: 100%;
+    border-radius: 0;
+    opacity: 0;
+  }
+
+  .vcv-ui-form-input {
+    width: auto;
+    border: none;
+    padding-left: 0;
+
+    &:focus {
+      animation: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.vcv-ui-editor-search-field-container {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.vcv-ui-editor-search-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: @vcui-form-search-addon-icon-container-flex;
+
+  .vcv-ui-icon-search {
+    color: @vcui-form-input-placeholder-color;
+    font-size: @vcui-form-search-addon-icon-font-size;
+  }
+}
+
+.vcv-ui-editor-search-field {
+  flex: 1 0 auto;
+}
+
+.vcv-ui-editor-search-dropdown-container {
+  position: relative;
+  display: inline-block;
+  flex: @vcui-dropdown-search-container-flex;
+  background-color: @vcui-button-default-background;
+  border-top-left-radius: @vcui-form-border-radius;
+  border-bottom-left-radius: @vcui-form-border-radius;
+
+  &::before {
+    content: attr(data-content);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-transform: capitalize;
+    pointer-events: none;
+    color: @vcui-form-controls-color;
+    padding: @vcui-dropdown-search-mask-padding;
+    line-height: @vcui-dropdown-search-mask-line-height;
+    border-right: 1px solid @vcui-button-link-border-color;
+    background: url(@vcui-dropdown-handler-img) right @vcui-dropdown-handler-img-position-x center no-repeat;
+  }
+}
