@@ -18,6 +18,7 @@ function vcvboot()
 {
     require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
     require_once __DIR__ . '/app.php';
+
     return vcapp();
 }
 
@@ -30,9 +31,10 @@ if (VCV_LAZY_LOAD) {
 /**
  * Add action for init state.
  */
-add_action('init','vcvinit');
+add_action('init', 'vcvinit');
 
-function vcvinit() {
+function vcvinit()
+{
     require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
     require_once __DIR__ . '/app.php';
     vcapp()->init();
