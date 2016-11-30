@@ -1,18 +1,23 @@
 <?php
-$widgets = vchelper('WpWidgets')->allGrouped();
+$groups = vchelper('WpWidgets')->allGrouped();
 $scripts = [];
 if (!empty($widgets['default'])) {
-    $scripts['WpWidgetsDefault'] = 'Default WordPress Widget';
+    $scripts['WpWidgetsDefault'] = [
+        'title' => 'Default WordPress Widget',
+    ];
 }
 if (!empty($widgets['custom'])) {
-    $scripts['WpWidgetsCustom'] = 'Custom WordPress Widget';
+    $scripts['WpWidgetsCustom'] = [
+        'title' => 'Custom WordPress Widget',
+    ];
 }
 
-foreach ($widgets as $key => $title) :
+foreach ($scripts as $key => $data) :
+    $title = $data['title'];
 ?>
 webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
-	/* 0 */
-	/***/ function(module, exports, __webpack_require__) {
+    /* 0 */
+    /***/ function(module, exports, __webpack_require__) {
 
     'use strict';
 
@@ -61,7 +66,7 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
       function (component) {
         //
         component.add( /* global React, vcvAPI, vcCake */
-				/* eslint no-unused-vars: 0 */
+          /* eslint no-unused-vars: 0 */
           function (_vcvAPI$elementCompon) {
             (0, _inherits3.default)(Component, _vcvAPI$elementCompon);
 
@@ -172,6 +177,6 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
       // javascript callback
       '');
 
-		/***/ }
+/***/ }
 ]);
 <?php endforeach; ?>

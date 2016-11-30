@@ -1,39 +1,36 @@
+.vcv-ui-tree-content-section-inner {
+  &.vcv-ui-state--centered-content {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100%;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .vcv-ui-editor-plates-container {
+    display: flex;
+    flex-grow: 1;
+    flex-flow: column nowrap;
+    justify-content: center;
+  }
+}
+
 .vcv-ui-editor-no-items {
   &-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: @vcui-graphics-min-height;
+    max-width: @vcui-container-max-width;
+    margin: auto;
+    text-align: center;
 
     .vcv-ui-form-helper {
       margin: @vcui-graphics-helper-margin;
       font-size: @vcui-graphics-helper-font-size;
+      display: inline-block;
+      text-align: left;
     }
   }
 
-  &-content {
-    position: relative;
-    min-height: @vcui-graphics-min-height;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: @vcui-graphics-image-height;
-      background: url('../../../../sources/images/search-element-no-result.png') no-repeat center;
-    }
+  &-image {
+    margin: @vcui-graphics-image-margin;
   }
 
   &-action {

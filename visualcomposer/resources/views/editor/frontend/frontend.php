@@ -40,29 +40,6 @@ $frontendModule = vcapp('EditorsFrontendController');
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
     window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
 </script>
-<?php
-do_action('wp_footer');
-$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
-foreach ($extraOutput as $output) {
-    echo $output;
-}
-wp_print_footer_scripts();
-?>
-<div class="vcv-layout-container">
-    <div class="vcv-layout" id="vcv-layout">
-        <div class="vcv-layout-header" id="vcv-layout-header">
-
-        </div>
-        <div class="vcv-layout-content">
-            <div class="vcv-layout-iframe-container">
-                <iframe class="vcv-layout-iframe"
-                    src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
-                    frameborder="0" scrolling="auto"></iframe>
-                <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
-            </div>
-        </div>
-    </div>
-</div>
 <!--
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid()); /** @todo: use assets  */ ?>"></script>
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/wp.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
@@ -106,5 +83,29 @@ wp_print_footer_scripts();
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-woocommerceTopRatedProducts.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/element-youtubePlayer.bundle.js?' . uniqid()); /** @todo: use assets folder */ ?>"></script>
 !-->
+<?php
+$extraOutput = vcfilter('vcv:frontend:extraOutput', []);
+foreach ($extraOutput as $output) {
+    echo $output;
+}
+?>
+<div class="vcv-layout-container">
+	<div class="vcv-layout" id="vcv-layout">
+		<div class="vcv-layout-header" id="vcv-layout-header">
+		</div>
+		<div class="vcv-layout-content">
+			<div class="vcv-layout-iframe-container">
+				<iframe class="vcv-layout-iframe"
+						src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
+						frameborder="0" scrolling="auto"></iframe>
+				<div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php
+do_action('wp_footer');
+wp_print_footer_scripts();
+?>
 </body>
 </html>

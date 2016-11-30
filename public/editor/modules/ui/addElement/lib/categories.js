@@ -1,10 +1,13 @@
 import React from 'react'
+import classNames from 'classnames'
 import ElementControl from './elementControl'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import '../css/init.less'
-import {getService} from 'vc-cake'
-const categoriesService = getService('categories')
+import vcCake from 'vc-cake'
+const categoriesService = vcCake.getService('categories')
+const assetsManager = vcCake.getService('assets-manager')
+const wipAssetsManager = vcCake.getService('wipAssetsManager')
 let allCategories = []
 
 export default class Categories extends React.Component {
@@ -18,10 +21,11 @@ export default class Categories extends React.Component {
     this.state = {
       activeCategoryIndex: 0,
       inputValue: '',
-      searchTerm: ''
+      isSearching: '',
+      centered: false
     }
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
-    this.changeTerm = this.changeTerm.bind(this)
+    this.changeSearchState = this.changeSearchState.bind(this)
     this.changeInput = this.changeInput.bind(this)
   }
 
@@ -71,18 +75,25 @@ export default class Categories extends React.Component {
     })
   }
 
-  getElementListContainer (itemsOutput) {
-    return <div className='vcv-ui-add-element-list-container'>
-      <ul className='vcv-ui-add-element-list'>
-        {itemsOutput}
-      </ul>
-    </div>
-  }
-
   getNoResultsElement () {
+    let source
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      source = wipAssetsManager.getSourcePath('images/search-element-no-result.png')
+    } else {
+      source = assetsManager.getSourcePath('images/search-element-no-result.png')
+    }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
+        <img
+          className='vcv-ui-editor-no-items-image'
+          src={source}
+          alt='Nothing Found'
+        />
+      </div>
+      <div className='vcv-ui-editor-no-items-content'>
         <button className='vcv-ui-editor-no-items-action'>No Results. Open Visual Composer Hub</button>
+      </div>
+      <div className='vcv-ui-editor-no-items-content'>
         <p className='vcv-ui-form-helper'>Didn't find the right element? Check out Visual Composer Hub for more content elements.</p>
       </div>
     </div>
@@ -97,33 +108,9 @@ export default class Categories extends React.Component {
       name={element.name} />
   }
 
-  getRenderedElements () {
-    let { activeCategoryIndex, searchTerm, inputValue } = this.state
-    let itemsOutput = []
-    if (searchTerm && inputValue.trim()) {
-      let getIndex = allCategories.findIndex((val) => {
-        return val.title === 'All'
-      })
-      allCategories[getIndex].elements.filter((val) => {
-        let elName = val.name.toLowerCase()
-        return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
-      }).forEach((element) => {
-        itemsOutput.push(this.getElementControl(element))
-      })
-    } else {
-      itemsOutput = allCategories[ activeCategoryIndex ].elements.map((element) => {
-        return this.getElementControl(element)
-      })
-    }
-    if (!itemsOutput.length) {
-      return this.getNoResultsElement()
-    }
-    return this.getElementListContainer(itemsOutput)
-  }
-
-  changeTerm (term) {
+  changeSearchState (state) {
     this.setState({
-      searchTerm: term
+      isSearching: state
     })
   }
 
@@ -133,7 +120,7 @@ export default class Categories extends React.Component {
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
       elements: this.props.elements,
-      changeTerm: this.changeTerm,
+      changeTerm: this.changeSearchState,
       changeInput: this.changeInput
     }
   }
@@ -143,16 +130,55 @@ export default class Categories extends React.Component {
     return <SearchElement {...searchProps} />
   }
 
+  getSearchResults () {
+    let { inputValue } = this.state
+    let getIndex = allCategories.findIndex((val) => {
+      return val.title === 'All'
+    })
+    return allCategories[getIndex].elements.filter((val) => {
+      let elName = val.name.toLowerCase()
+      return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
+    }).map((element) => {
+      return this.getElementControl(element)
+    })
+  }
+
+  getElementsByCategory () {
+    let { activeCategoryIndex } = this.state
+
+    return allCategories[ activeCategoryIndex ].elements.map((element) => {
+      return this.getElementControl(element)
+    })
+  }
+
+  getElementListContainer (itemsOutput) {
+    return itemsOutput.length ? <div className='vcv-ui-add-element-list-container'>
+      <ul className='vcv-ui-add-element-list'>
+        {itemsOutput}
+      </ul>
+    </div> : this.getNoResultsElement()
+  }
+
+  isSearching () {
+    let { isSearching, inputValue } = this.state
+    return isSearching && inputValue.trim()
+  }
+
   render () {
+    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getElementsByCategory()
+    let innerSectionClasses = classNames({
+      'vcv-ui-tree-content-section-inner': true,
+      'vcv-ui-state--centered-content': !itemsOutput.length
+    })
     return <div className='vcv-ui-tree-content'>
       {this.getSearchElement()}
       <div className='vcv-ui-tree-content-section'>
         <Scrollbar>
-          <div className='vcv-ui-tree-content-section-inner'>
+          <div className={innerSectionClasses}>
             <div className='vcv-ui-editor-plates-container'>
               <div className='vcv-ui-editor-plates'>
                 <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                  {this.getRenderedElements()}
+                  {this.getElementListContainer(itemsOutput)}
                 </div>
               </div>
             </div>

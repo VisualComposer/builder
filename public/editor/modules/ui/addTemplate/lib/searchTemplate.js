@@ -37,11 +37,12 @@ export default class SearchTemplate extends React.Component {
     })
     return <div className='vcv-ui-editor-search-container'>
       <div className={inputContainerClasses}>
-        <label className='vcv-ui-editor-search-icon-container'>
+        <label className='vcv-ui-editor-search-icon-container' htmlFor='add-template-search'>
           <i className='vcv-ui-icon vcv-ui-icon-search' />
         </label>
         <input
           className='vcv-ui-form-input vcv-ui-editor-search-field'
+          id='add-template-search'
           onChange={this.searchTemplates}
           onFocus={this.handleInputFocus}
           type='text'
