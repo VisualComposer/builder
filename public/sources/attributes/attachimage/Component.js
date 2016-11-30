@@ -67,7 +67,7 @@ class AttachImage extends Attribute {
   onMediaSelect = () => {
     let selection
     selection = this.mediaUploader.state().get('selection')
-    this.setFieldValue({ ids: [], urls: [], links: [] })
+    this.setFieldValue({ ids: [], urls: [] })
     selection.map(this.mediaAttachmentParse)
   }
 
@@ -88,6 +88,8 @@ class AttachImage extends Attribute {
     }
     srcUrl.id = attachment.id
     srcUrl.link = defaultLinkValue
+    srcUrl.title = attachment.title
+    srcUrl.alt = attachment.alt
     urls.push(srcUrl)
     this.setFieldValue({
       ids: ids,
