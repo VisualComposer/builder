@@ -17,12 +17,12 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Showcase Twitter stories that are primarily told with photos, videos, GIFs, and Vines."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-preview.jpg"
+    "value": "twitter-grid-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",

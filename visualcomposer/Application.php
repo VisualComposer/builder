@@ -12,32 +12,6 @@ use VisualComposer\Framework\Application as ApplicationFactory;
  */
 class Application extends ApplicationFactory
 {
-    /**
-     * Create a new Application instance.
-     *
-     * @overrides parent::__construct()
-     *
-     * @param  string|null $basePath
-     *
-     * @noinspection PhpMissingParentConstructorInspection
-     */
-    public function __construct($basePath = null)
-    {
-        parent::__construct($basePath);
-
-        /**
-         * Add action for init state.
-         */
-        add_action(
-            'init',
-            [
-                $this,
-                'init',
-            ],
-            11 // TODO: Required for WooCommerce, but not cool at all for whole system.
-        );
-    }
-
     public function init()
     {
         vcevent('vcv:inited', $this);

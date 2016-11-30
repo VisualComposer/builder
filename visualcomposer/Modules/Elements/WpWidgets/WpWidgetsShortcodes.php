@@ -19,7 +19,7 @@ class WpWidgetsShortcodes extends Container implements Module
         $this->addEvent('vcv:inited', 'registerShortcode');
     }
 
-    protected function registerShortcode(WpWidgets $widgets)
+    protected function registerShortcode()
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsShortcodes::render */
         $this->addShortcode('vcv_widget', 'render');

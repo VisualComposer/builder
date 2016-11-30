@@ -17,12 +17,12 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-preview.jpg"
+    "value": "twitter-tweet-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",

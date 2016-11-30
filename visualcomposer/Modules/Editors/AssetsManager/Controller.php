@@ -55,7 +55,7 @@ class Controller extends Container implements Module
         $this->file = $fileHelper;
 
         $this->filter->listen(
-            'vcv:postAjax:setPostData',
+            'vcv:dataAjax:setData',
             function ($response, $payload) {
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::setPostDataHook */
                 $data = $this->call('setPostDataHook', [$payload['sourceId']]);
@@ -84,19 +84,20 @@ class Controller extends Container implements Module
             }
         );
         $this->filter->listen(
-            'vcv:ajax:getData:adminNonce',
+            'vcv:dataAjax:getData',
             function ($response, $payload, Request $requestHelper) {
                 $response['globalElements'] = $this->options->get('global-elements', '');
                 $customCss = $this->options->get('custom-css', []);
                 $postCustomCss = '';
                 $id = $requestHelper->input('vcv-source-id');
-                if (isset($customCss[$id])) {
-                    $postCustomCss = $customCss[$id];
+                if (isset($customCss[ $id ])) {
+                    $postCustomCss = $customCss[ $id ];
                 }
                 $response['cssSettings'] = [
                     'custom' => $postCustomCss,
-                    'global' => $this->options->get('global-css', '')
+                    'global' => $this->options->get('global-css', ''),
                 ];
+
                 return $response;
             }
         );
@@ -262,6 +263,7 @@ class Controller extends Container implements Module
 
         return $bundleUrl;
     }
+
     /**
      * Generate (save to fs and update db) scripts bundle.
      * Old files are deleted.
@@ -320,6 +322,7 @@ class Controller extends Container implements Module
 
         return $bundleUrl;
     }
+
     /**
      * Generate (save to fs and update db) scripts bundle.
      * Old files are deleted.
@@ -400,7 +403,7 @@ class Controller extends Container implements Module
         $styles = $this->options->get('global-styles', '');
         $globalCss = $this->options->get('global-css', '');
         $this->deleteAssetsBundles('global.css');
-        $bundleUrl = $this->createBundleFile($styles.$globalCss, 'global.css');
+        $bundleUrl = $this->createBundleFile($styles . $globalCss, 'global.css');
         $this->options->set('stylesGlobalFile', $bundleUrl);
 
         // remove file
@@ -423,8 +426,8 @@ class Controller extends Container implements Module
             $style = $postsStyles[ $postId ];
         }
         $postsCustomCss = $this->options->get('custom-css');
-        if (isset($postsCustomCss[$postId])) {
-            $style .= $postsCustomCss[$postId];
+        if (isset($postsCustomCss[ $postId ])) {
+            $style .= $postsCustomCss[ $postId ];
         }
         $bundleUrl = $this->createBundleFile($style, 'css');
         $this->options->set('postStyles-' . $postId, $bundleUrl);

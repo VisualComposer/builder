@@ -42,14 +42,18 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
+     * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param $response
      *
      * @return mixed|string
      */
-    private function getData(Request $requestHelper, $response)
+    private function getData(Request $requestHelper, Filters $filterHelper, $response)
     {
         $data = '';
         $sourceId = $requestHelper->input('vcv-source-id');
+        if (!is_array($response)) {
+            $response = [];
+        }
         if (is_numeric($sourceId)) {
             // TODO: fix react components if there is empty page content.
             $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
@@ -57,6 +61,16 @@ class Controller extends Container implements Module
                 $data = $postMeta;
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             }
+            $responseExtra = $filterHelper->fire(
+                'vcv:dataAjax:getData',
+                [
+                    'status' => true,
+                ],
+                [
+                    'sourceId' => $sourceId,
+                ]
+            );
+            $response = array_merge($response, $responseExtra);
         }
         $response['data'] = $data;
 
@@ -69,13 +83,19 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
+     * @param $response
+     *
      * @return array|null
      */
-    private function setData(Filters $filterHelper, Request $requestHelper)
+    private function setData(Filters $filterHelper, Request $requestHelper, $response)
     {
         $data = $requestHelper->input('vcv-data');
         $content = $requestHelper->input('vcv-content');
         $sourceId = $requestHelper->input('vcv-source-id');
+
+        if (!is_array($response)) {
+            $response = [];
+        }
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
             if ($post) {
@@ -99,8 +119,8 @@ class Controller extends Container implements Module
                 /** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
                 $frontendModule = vcapp('EditorsFrontendController');
                 $frontendModule->setupPost($sourceId);
-                $response = $filterHelper->fire(
-                    'vcv:postAjax:setPostData',
+                $responseExtra = $filterHelper->fire(
+                    'vcv:dataAjax:setData',
                     [
                         'status' => true,
                         'postData' => $frontendModule->getPostData(),
@@ -112,12 +132,14 @@ class Controller extends Container implements Module
                     ]
                 );
 
-                return $response;
+                return array_merge($response, $responseExtra);
             }
         }
+        if (!is_array($response)) {
+            $response = [];
+        }
+        $response['status'] = false;
 
-        return [
-            'status' => false,
-        ];
+        return $response;
     }
 }

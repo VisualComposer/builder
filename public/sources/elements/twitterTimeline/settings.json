@@ -17,12 +17,12 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Embedded timeline to display a stream of Tweets on your site. Use it to showcase profiles, lists, and favorites, as well as the stories."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "twitter-publisher-preview.jpg"
+    "value": "twitter-timeline-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",

@@ -26,13 +26,13 @@ class Controller extends Container implements Module
         $this->options = $optionsHelper;
         /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
         $this->addFilter(
-            'vcv:ajax:getData:adminNonce',
+            'vcv:dataAjax:getData',
             'getMyTemplates'
         );
 
         /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::setMyTemplates */
         $this->addFilter(
-            'vcv:ajax:setData:adminNonce',
+            'vcv:dataAjax:setData',
             'setMyTemplates'
         );
     }

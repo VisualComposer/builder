@@ -180,7 +180,7 @@
   "hashtagTopic": {
     "type": "string",
     "access": "public",
-    "value": "",
+    "value": "#madeinvc",
     "options": {
       "label": "Paste a hashtag URL or #hashtag",
       "onChange": {
