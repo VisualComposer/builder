@@ -313,6 +313,11 @@ export default class DnD {
    * Drag handlers
    */
   handleDrag (e) {
+    // disable dnd on right button click
+    if (e.button && e.button === 2) {
+      this.handleDragEnd()
+      return false
+    }
     e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX, y: e.clientY })
   }
   /**
