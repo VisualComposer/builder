@@ -1,11 +1,6 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  constructor (props) {
-    super(props)
-    this.setCustomSize = this.setCustomSize.bind(this)
-  }
-
   defaultSize = {
     width: '600',
     height: '450'
@@ -64,60 +59,16 @@ class Component extends vcvAPI.elementComponent {
     height = /^\d+$/.test(height) ? `${height}px` : height
 
     let customSize = {
-      width: width ? width : `${defaultSize.width}px`,
-      height: height ? height : `${defaultSize.height}px`
+      width: width || `${defaultSize.width}px`,
+      height: height || `${defaultSize.height}px`
     }
     if (!height) {
-      vcCake.getService('api').publicEvents.once('css:ready', () => {
-        customSize.paddingBottom = this.setProportions(customSize.width, customSize.height)
-        customSize.height = 'auto'
-        this.setSizeState(customSize)
-        this.refs.mapWrapper.classList.add('vce-google-maps-proportional')
-      })
+      customSize.paddingBottom = defaultSize.height / defaultSize.width * 100 + '%'
+      customSize.height = 'auto'
+      this.setSizeState(customSize)
     } else {
       this.setSizeState(customSize)
     }
-  }
-
-  setProportions (width, height) {
-    let customWidth = width.indexOf('px') < 0
-    let customHeight = height.indexOf('px') < 0
-
-    if (customWidth || customHeight) {
-      let div = document.createElement('div')
-      this.refs.mapContainer.appendChild(div)
-
-      if (customWidth) {
-        div.style.width = width
-        div.style.maxWidth = '100%'
-        width = div.getBoundingClientRect().width
-      }
-      if (customHeight) {
-        if (height.indexOf('%') >= 0) {
-          div.style.minHeight = '150px'
-          this.refs.mapContainer.style.height = '100%'
-        }
-        this.refs.mapContainer.style.position = 'relative'
-        div.style.height = height
-        div.style.position = 'absolute'
-        div.style.top = '0'
-        div.style.bottom = '0'
-        height = div.getBoundingClientRect().height
-        this.refs.mapContainer.style.height = ''
-        this.refs.mapContainer.style.position = ''
-      }
-      this.refs.mapContainer.removeChild(div)
-    }
-
-    if (!customWidth) {
-      width = typeof width === 'string' ? width.replace('px', '') : width
-    }
-
-    if (!customHeight) {
-      height = typeof height === 'string' ? height.replace('px', '') : height
-    }
-
-    return height / width * 100 + '%'
   }
 
   setSizeState (size) {
@@ -172,6 +123,8 @@ class Component extends vcvAPI.elementComponent {
 
     if (height) {
       wrapperClasses += ' vce-google-maps--height-custom'
+    } else {
+      wrapperClasses += ' vce-google-maps-proportional'
     }
 
     if (alignment) {
@@ -195,8 +148,8 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor} ref='mapContainer'>
-      <div className={wrapperClasses} {...wrapperProps} ref='mapWrapper'>
+    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
+      <div className={wrapperClasses} {...wrapperProps}>
         <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>
