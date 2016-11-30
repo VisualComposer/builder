@@ -12,7 +12,7 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations."
   },
   "metaPreviewDescription": {
     "type": "textarea",
