@@ -42,9 +42,7 @@ export default class TreeViewElement extends React.Component {
       .reply('bar-content-end:hide', this.checkActive)
       .on('hide', this.checkActive)
       .on('form:hide', this.checkActive)
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-    }
+    vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
   }
 
   componentWillUnmount () {
@@ -56,9 +54,7 @@ export default class TreeViewElement extends React.Component {
       .forget('bar-content-end:hide', this.checkActive)
       .off('hide', this.checkActive)
       .off('form:hide', this.checkActive)
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
-    }
+    vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
   }
 
   checkActive = (data = false) => {
@@ -127,18 +123,14 @@ export default class TreeViewElement extends React.Component {
   }
 
   handleMouseEnter (e) {
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
-        this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
-      }
+    if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+      this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }
 
   handleMouseLeave (e) {
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
-        this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
-      }
+    if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+      this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }
 

@@ -34,18 +34,14 @@ export default class TreeViewLayout extends React.Component {
       header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
     })
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
-      this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
-    }
+    this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
+    this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
   }
 
   componentWillUnmount () {
     this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
-    if (vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION')) {
-      this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
-      this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
-    }
+    this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
+    this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
   }
 
   interactWithContent (data = null) {

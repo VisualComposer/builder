@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import Editor from './lib/editor'
 import $ from 'jquery'
 import DndManager from './lib/dnd/dndManager'
-import ControlsManager from './lib/controlsIframe/controlsManager'
 import WipControlsManager from './lib/controlsIframe/wipControlsManager'
 
 vcCake.add('contentLayout', (api) => {
@@ -15,6 +14,6 @@ vcCake.add('contentLayout', (api) => {
   )
   let dnd = new DndManager(api)
   dnd.init()
-  let controls = vcCake.env('FEATURE_TREE_AND_CONTROLS_INTERACTION') ? new WipControlsManager(api) : new ControlsManager(api)
+  let controls = new WipControlsManager(api)
   controls.init()
 })
