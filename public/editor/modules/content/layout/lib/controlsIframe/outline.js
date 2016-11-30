@@ -1,10 +1,10 @@
 export default class Outline {
-  constructor () {
-    this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
-    this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeWindow = this.iframe && this.iframe.contentWindow
-    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+  constructor (props) {
+    this.iframeContainer = props.iframeContainer
+    this.iframeOverlay = props.iframeOverlay
+    this.iframe = props.iframe
+    this.iframeWindow = props.iframeWindow
+    this.iframeDocument = props.iframeDocument
 
     this.outline = null
 

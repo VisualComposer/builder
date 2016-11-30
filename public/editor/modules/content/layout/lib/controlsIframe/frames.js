@@ -1,16 +1,16 @@
 export default class Frames {
-  constructor (sliceSize) {
+  constructor (sliceSize, props) {
     Object.defineProperty(this, 'sliceSize', {
       enumerable: false,
       configurable: false,
       writable: false,
       value: sliceSize
     })
-    this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
-    this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeWindow = this.iframe && this.iframe.contentWindow
-    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+    this.iframeContainer = props.iframeContainer
+    this.iframeOverlay = props.iframeOverlay
+    this.iframe = props.iframe
+    this.iframeWindow = props.iframeWindow
+    this.iframeDocument = props.iframeDocument
 
     this.frames = []
 

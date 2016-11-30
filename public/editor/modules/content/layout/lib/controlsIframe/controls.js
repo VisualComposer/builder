@@ -4,7 +4,7 @@ const cook = getService('cook')
 const categoriesService = getService('categories')
 
 export default class ControlsHandler {
-  constructor (sliceSize) {
+  constructor (sliceSize, props) {
     Object.defineProperties(this, {
       sliceSize: {
         enumerable: false,
@@ -13,11 +13,11 @@ export default class ControlsHandler {
         value: sliceSize
       }
     })
-    this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
-    this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeWindow = this.iframe && this.iframe.contentWindow
-    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+    this.iframeContainer = props.iframeContainer
+    this.iframeOverlay = props.iframeOverlay
+    this.iframe = props.iframe
+    this.iframeWindow = props.iframeWindow
+    this.iframeDocument = props.iframeDocument
 
     this.controlsContainer = null
 
@@ -61,6 +61,10 @@ export default class ControlsHandler {
     this.stopAutoUpdateContainerPosition()
   }
 
+  /**
+   * Create controls
+   * @param data
+   */
   createControls (data) {
     if (this.sliceSize) {
       let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
@@ -92,6 +96,12 @@ export default class ControlsHandler {
     }
   }
 
+  /**
+   * Create control for trigger
+   * @param element
+   * @param options
+   * @returns {Element}
+   */
   createControlForTrigger (element, options) {
     // create trigger
     let trigger = document.createElement('a')
@@ -109,9 +119,15 @@ export default class ControlsHandler {
     let triggerIcon = document.createElement('i')
     triggerIcon.classList.add('vcv-ui-outline-control-icon', 'vcv-ui-icon', 'vcv-ui-icon-layers')
     triggerContent.appendChild(triggerIcon)
+
     return trigger
   }
 
+  /**
+   * Create control for element
+   * @param elementId
+   * @returns {Element}
+   */
   createControlForElement (elementId) {
     let vcElement = this.getVcElement(elementId)
     let colorIndex = this.getElementColorIndex(vcElement)
@@ -140,6 +156,12 @@ export default class ControlsHandler {
     return control
   }
 
+  /**
+   * Create control trigger
+   * @param elementId
+   * @param options
+   * @returns {Element}
+   */
   createControlTrigger (elementId, options) {
     let trigger = document.createElement('div')
     trigger.classList.add('vcv-ui-outline-control-dropdown-trigger', 'vcv-ui-outline-control')
@@ -162,6 +184,12 @@ export default class ControlsHandler {
     return trigger
   }
 
+  /**
+   * Create control dropdown
+   * @param elementId
+   * @param options
+   * @returns {Element}
+   */
   createControlDropdown (elementId, options) {
     let dropdown = document.createElement('div')
     dropdown.classList.add('vcv-ui-outline-control-dropdown-content')
@@ -243,6 +271,12 @@ export default class ControlsHandler {
     return dropdown
   }
 
+  /**
+   * Create control action
+   * @param elementId
+   * @param options
+   * @returns {Element}
+   */
   createControlAction (elementId, options) {
     let action = document.createElement('a')
     action.classList.add('vcv-ui-outline-control')
@@ -270,10 +304,19 @@ export default class ControlsHandler {
     return action
   }
 
+  /**
+   * Get vc element
+   * @param elementId
+   */
   getVcElement (elementId) {
     return cook.get(documentManager.get(elementId))
   }
 
+  /**
+   * Get vc element color index
+   * @param vcElement
+   * @returns {number}
+   */
   getElementColorIndex (vcElement) {
     var colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
@@ -282,6 +325,9 @@ export default class ControlsHandler {
     return colorIndex
   }
 
+  /**
+   * Destroy controls
+   */
   destroyControls () {
     while (this.controlsContainer && this.controlsContainer.firstChild) {
       this.controlsContainer.removeChild(this.controlsContainer.firstChild)
@@ -335,6 +381,10 @@ export default class ControlsHandler {
     }
   }
 
+  /**
+   * Update controls position
+   * @param element
+   */
   updateControlsPosition (element) {
     let elementPos = element.getBoundingClientRect()
     let controlsList = this.controlsContainer.querySelector('.vcv-ui-outline-controls')
@@ -347,6 +397,10 @@ export default class ControlsHandler {
     }
   }
 
+  /**
+   * Update dropdowns position
+   * @param e
+   */
   updateDropdownsPosition (e) {
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
     let iframePos = this.iframe.getBoundingClientRect()

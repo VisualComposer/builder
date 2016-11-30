@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import ControlsHandler from './wipControlsHandler'
+import ControlsHandler from './controls'
 import OutlineHandler from './outline'
 import FramesHandler from './frames'
 
@@ -17,8 +17,7 @@ export default class ControlsManager {
         configurable: false
       }
     })
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeDocument = this.iframe && this.iframe.contentWindow.document
+
     this.state = {
       prevTarget: null,
       prevElement: null,
@@ -36,12 +35,28 @@ export default class ControlsManager {
    * Setup
    */
   setup (options) {
+    // get system data
+    this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
+    this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
+    this.iframe = document.querySelector('#vcv-editor-iframe')
+    this.iframeWindow = this.iframe && this.iframe.contentWindow
+    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+
+    let systemData = {
+      iframeContainer: this.iframeContainer,
+      iframeOverlay: this.iframeOverlay,
+      iframe: this.iframe,
+      iframeWindow: this.iframeWindow,
+      iframeDocument: this.iframeDocument
+    }
+
+    // define helpers
     Object.defineProperties(this, {
       /**
        * @memberOf! FramesManager
        */
       frames: {
-        value: new FramesHandler(options.framesCount),
+        value: new FramesHandler(options.framesCount, systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -50,7 +65,7 @@ export default class ControlsManager {
        * @memberOf! OutlineManager
        */
       outline: {
-        value: new OutlineHandler(),
+        value: new OutlineHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -59,18 +74,15 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount),
+        value: new ControlsHandler(options.framesCount, systemData),
         writable: false,
         enumerable: false,
         configurable: false
       }
-
     })
 
-    // this.api.request(event, elementId, options)
+    // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
-    // this.iframeDocument.addEventListener('mouseenter', this.findElement)
-    // this.iframeDocument.addEventListener('mouseleave', this.findElement)
   }
 
   /**
@@ -178,6 +190,9 @@ export default class ControlsManager {
     this.interactWithControls()
   }
 
+  /**
+   * Interact with content
+   */
   interactWithContent () {
     // Controls interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
@@ -199,6 +214,9 @@ export default class ControlsManager {
     })
   }
 
+  /**
+   * Interact with tree
+   */
   interactWithTree () {
     this.api.reply('treeContent:element:mouseEnter', (id) => {
       if (this.state.showOutline) {
@@ -213,6 +231,9 @@ export default class ControlsManager {
     })
   }
 
+  /**
+   * Interact with controls
+   */
   interactWithControls () {
     // click on action
     this.controls.getControlsContainer().addEventListener('click',
@@ -273,6 +294,10 @@ export default class ControlsManager {
     this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
   }
 
+  /**
+   * Find element in controls (needed for controls interaction)
+   * @param e
+   */
   controlElementFind (e) {
     // need to run all events, so creating fake event
     if (!e) {
