@@ -144,8 +144,7 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, customClass, columns } = atts
     let containerClasses = 'vce-image-gallery vce'
-    let classes = 'vce-image-gallery-item-inner'
-    let customProps = {}
+    let listProps = {}
     let CustomTag = 'div'
     let imgSrc = this.state && this.state.imgSrc
 
@@ -164,11 +163,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (shape === 'rounded') {
-      classes += ' vce-image-gallery--border-rounded'
+      containerClasses += ' vce-image-gallery--border-rounded'
     }
 
     if (shape === 'round') {
-      classes += ' vce-image-gallery--border-round'
+      containerClasses += ' vce-image-gallery--border-round'
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
@@ -183,12 +182,14 @@ class Component extends vcvAPI.elementComponent {
       }
     })
     if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
+      listProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
     let galleryItems = []
 
     imgSrc && imgSrc.forEach((src, index) => {
+      let customProps = {}
+      let classes = 'vce-image-gallery-item-inner'
       let imgClasses = 'vce-image-gallery-img'
       let customImageProps = {
         'alt': src && src.alt ? src.alt : '',
@@ -232,7 +233,7 @@ class Component extends vcvAPI.elementComponent {
     })
 
     return <div className={containerClasses} id={'el-' + id} {...editor}>
-      <div className='vce-image-gallery-list'>
+      <div className='vce-image-gallery-list' {...listProps}>
         {galleryItems}
       </div>
     </div>

@@ -103,8 +103,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "image",
       "clickableOptions",
+      "image",
       "columns",
       "gap",
       "shape",
