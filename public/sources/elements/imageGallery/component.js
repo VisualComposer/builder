@@ -144,7 +144,7 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, customClass, columns } = atts
     let containerClasses = 'vce-image-gallery vce'
-    let listProps = {}
+    let containerProps = {}
     let CustomTag = 'div'
     let imgSrc = this.state && this.state.imgSrc
 
@@ -182,7 +182,7 @@ class Component extends vcvAPI.elementComponent {
       }
     })
     if (animations.length) {
-      listProps[ 'data-vce-animate' ] = animations.join(' ')
+      containerProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
     let galleryItems = []
@@ -232,8 +232,8 @@ class Component extends vcvAPI.elementComponent {
       )
     })
 
-    return <div className={containerClasses} id={'el-' + id} {...editor}>
-      <div className='vce-image-gallery-list' {...listProps}>
+    return <div className={containerClasses} id={'el-' + id} {...editor} {...containerProps}>
+      <div className='vce-image-gallery-list'>
         {galleryItems}
       </div>
     </div>
