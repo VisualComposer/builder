@@ -280,8 +280,8 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.style = this.state ? this.state.imgSize : null
 
-    return <div className={containerClasses} id={'el-' + id} {...editor}>
-      <CustomTag {...customProps} className={classes} ref='imageContainer'>
+    return <div className={containerClasses} {...editor}>
+      <CustomTag {...customProps} className={classes} id={'el-' + id} ref='imageContainer'>
         <img className='vce-single-image' src={imgSrc} {...customImageProps} />
       </CustomTag>
     </div>
