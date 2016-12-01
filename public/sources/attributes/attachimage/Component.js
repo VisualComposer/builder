@@ -2,6 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
+import AttachImageItem from './attachImageItem'
+import {sortable} from 'react-sortable'
+
+let SortableImageItem = sortable(AttachImageItem)
 
 class AttachImage extends Attribute {
 
@@ -10,6 +14,23 @@ class AttachImage extends Attribute {
     this.mediaUploader = null
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
+    this.updateSortable = this.updateSortable.bind(this)
+    this.getUrlHtml = this.getUrlHtml.bind(this)
+    this.state.value.draggingIndex = null
+  }
+
+  updateSortable (obj) {
+    let sortedValue = {
+      draggingIndex: obj.draggingIndex
+    }
+    if (obj.items) {
+      sortedValue.ids = []
+      sortedValue.urls = obj.items
+      obj.items.forEach((item) => {
+        sortedValue.ids.push(item.id)
+      })
+    }
+    this.updateFieldValue(sortedValue)
   }
 
   updateState (props) {
@@ -121,6 +142,21 @@ class AttachImage extends Attribute {
     })
   }
 
+  getUrlHtml (key) {
+    let urlHtml = ''
+    if (this.props.options.url) {
+      urlHtml = (
+        <Url
+          value={this.state.value.urls[ key ].link}
+          updater={this.handleUrlChange.bind(this, key)}
+          api={this.props.api}
+          fieldKey={`${this.props.fieldKey}.linkUrl`}
+        />
+      )
+    }
+    return urlHtml
+  }
+
   render () {
     let { value } = this.state
     let { fieldKey } = this.props
@@ -141,36 +177,40 @@ class AttachImage extends Attribute {
       )
     }
 
-    let imageUrl = () => ''
-    if (this.props.options.url) {
-      imageUrl = (key) => (
-        <Url
-          value={this.state.value.urls[ key ].link}
-          updater={this.handleUrlChange.bind(this, key)}
-          api={this.props.api}
-          fieldKey={`${this.props.fieldKey}.linkUrl`}
-        />
-      )
-    }
-
     value && value.urls && value.urls.forEach((url, key) => {
-      value.ids[ key ] && images.push(
-        <li className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + url.full}>
-          <div className='vcv-ui-form-attach-image-item-inner'>
-            <figure className='vcv-ui-form-attach-image-thumbnail'>
-              <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail || url.full} />
-            </figure>
-            <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
-              {oneMoreControl}
-              <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
-                onClick={this.handleRemove.bind(this, key)}>
-                <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-              </a>
-            </div>
-          </div>
-          {imageUrl(key)}
-        </li>
-      )
+      let innerChildProps = {
+        key: key,
+        fieldKey: fieldKey,
+        url: url,
+        oneMoreControl: oneMoreControl,
+        handleRemove: this.handleRemove,
+        getUrlHtml: this.getUrlHtml
+      }
+
+      if (this.props.options.multiple) {
+        let childProps = {
+          childProps: innerChildProps
+        }
+
+        value.ids[ key ] && images.push(
+          <SortableImageItem
+            key={key}
+            updateState={this.updateSortable}
+            items={value.urls}
+            draggingIndex={this.state.value.draggingIndex}
+            sortId={key}
+            outline='grid'
+            childProps={childProps}
+          />
+        )
+      } else {
+        value.ids[ key ] && images.push(
+          <AttachImageItem
+            key={key}
+            childProps={innerChildProps}
+          />
+        )
+      }
     })
 
     let addControl = (
