@@ -78,9 +78,9 @@ export default class Categories extends React.Component {
   getNoResultsElement () {
     let source
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      source = wipAssetsManager.getSourcePath('images/search-element-no-result.png')
+      source = wipAssetsManager.getSourcePath('images/search-no-result.png')
     } else {
-      source = assetsManager.getSourcePath('images/search-element-no-result.png')
+      source = assetsManager.getSourcePath('images/search-no-result.png')
     }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
