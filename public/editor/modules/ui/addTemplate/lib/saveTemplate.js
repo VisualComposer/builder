@@ -2,6 +2,7 @@ import React from 'react'
 
 export default class SaveTemplate extends React.Component {
   static propTypes = {
+    changeTemplateName: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -14,6 +15,7 @@ export default class SaveTemplate extends React.Component {
 
   handleInputChange (e) {
     this.setState({inputValue: e.currentTarget.value})
+    this.props.changeTemplateName(e.currentTarget.value)
   }
 
   render () {

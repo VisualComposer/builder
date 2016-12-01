@@ -6,7 +6,8 @@ export default class TemplateTab extends React.Component {
     title: React.PropTypes.string.isRequired,
     active: React.PropTypes.number.isRequired,
     index: React.PropTypes.number.isRequired,
-    changeActive: React.PropTypes.func.isRequired
+    changeActive: React.PropTypes.func.isRequired,
+    changeTabTitle: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -17,6 +18,7 @@ export default class TemplateTab extends React.Component {
   handleClick (e) {
     e && e.preventDefault()
     this.props.changeActive(this.props.index)
+    this.props.changeTabTitle(this.props.title)
   }
 
   render () {
