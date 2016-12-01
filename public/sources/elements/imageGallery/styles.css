@@ -54,12 +54,12 @@ a.vce-image-gallery-item-inner {
   text-decoration: none;
 }
 
-.vce-image-gallery--border-rounded {
+.vce-image-gallery--border-rounded .vce-image-gallery-item-inner {
   border-radius: 5px;
   overflow: hidden;
 }
 
-.vce-image-gallery--border-round {
+.vce-image-gallery--border-round .vce-image-gallery-item-inner {
   border-radius: 50%;
   overflow: hidden;
 }
