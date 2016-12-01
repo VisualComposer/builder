@@ -22,7 +22,7 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "vimeo-player-preview.png"
+    "value": "vimeo-player-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
@@ -234,12 +234,12 @@
       "size",
       "customSize",
       "alignment",
-      "customClass",
       "advanced",
       "autopause",
       "autoplay",
       "color",
-      "loop"
+      "loop",
+      "customClass"
     ],
     "options": {
       "label": "Vimeo Player"
