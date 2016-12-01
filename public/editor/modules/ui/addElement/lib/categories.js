@@ -152,8 +152,8 @@ export default class Categories extends React.Component {
   }
 
   getElementListContainer (itemsOutput) {
-    return itemsOutput.length ? <div className='vcv-ui-add-element-list-container'>
-      <ul className='vcv-ui-add-element-list'>
+    return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
+      <ul className='vcv-ui-item-list'>
         {itemsOutput}
       </ul>
     </div> : this.getNoResultsElement()
