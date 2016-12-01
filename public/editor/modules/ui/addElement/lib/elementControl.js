@@ -20,8 +20,8 @@ export default class ElementControl extends React.Component {
   }
 
   componentDidMount () {
-    this.ellipsize('.vcv-ui-add-element-element-name')
-    this.ellipsize('.vcv-ui-add-element-preview-text')
+    this.ellipsize('.vcv-ui-item-element-name')
+    this.ellipsize('.vcv-ui-item-preview-text')
   }
 
   addElement (e) {
@@ -72,13 +72,13 @@ export default class ElementControl extends React.Component {
 
     let container
     if (element.closest === undefined) {
-      container = this.getClosest(element, '.vcv-ui-add-element-list')
+      container = this.getClosest(element, '.vcv-ui-item-list')
     } else {
-      container = element.closest('.vcv-ui-add-element-list')
+      container = element.closest('.vcv-ui-item-list')
     }
-    let firstElement = container.querySelector('.vcv-ui-add-element-list-item')
-    let trigger = element.querySelector('.vcv-ui-add-element-element-content')
-    let preview = element.querySelector('.vcv-ui-add-element-preview-container')
+    let firstElement = container.querySelector('.vcv-ui-item-list-item')
+    let trigger = element.querySelector('.vcv-ui-item-element-content')
+    let preview = element.querySelector('.vcv-ui-item-preview-container')
 
     let triggerSizes = trigger.getBoundingClientRect()
     let firsElementSize = firstElement.getBoundingClientRect()
@@ -151,21 +151,21 @@ export default class ElementControl extends React.Component {
 
     let cookElement = cook.get(element)
     let nameClasses = classNames({
-      'vcv-ui-add-element-badge vcv-ui-badge--success': false,
-      'vcv-ui-add-element-badge vcv-ui-badge--warning': false
+      'vcv-ui-item-badge vcv-ui-badge--success': false,
+      'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
     let previewClasses = classNames({
-      'vcv-ui-add-element-preview-container': true,
+      'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
     // Possible overlays:
 
-    // <span className="vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add"></span>
+    // <span className="vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add"></span>
 
-    // <span className='vcv-ui-add-element-edit'>
-    //   <span className='vcv-ui-add-element-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
-    //   <span className='vcv-ui-add-element-remove vcv-ui-icon vcv-ui-icon-close'></span>
+    // <span className='vcv-ui-item-edit'>
+    //   <span className='vcv-ui-item-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
+    //   <span className='vcv-ui-item-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
     let publicPathThumbnail
     let publicPathPreview
@@ -178,27 +178,27 @@ export default class ElementControl extends React.Component {
       publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
     }
     return (
-      <li className='vcv-ui-add-element-list-item'>
-        <a className='vcv-ui-add-element-element'
+      <li className='vcv-ui-item-list-item'>
+        <a className='vcv-ui-item-element'
           onClick={this.addElement.bind(this)}
           onMouseEnter={this.showPreview.bind(this)}
           onMouseLeave={this.hidePreview.bind(this)}>
-          <span className='vcv-ui-add-element-element-content'>
-            <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+          <span className='vcv-ui-item-element-content'>
+            <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt='' />
-            <span className='vcv-ui-add-element-overlay'>
-              <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add' />
+            <span className='vcv-ui-item-overlay'>
+              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
             </span>
           </span>
-          <span className='vcv-ui-add-element-element-name'>
+          <span className='vcv-ui-item-element-name'>
             <span className={nameClasses}>
               {name}
             </span>
           </span>
           <figure className={previewClasses} style={previewStyle}>
-            <img className='vcv-ui-add-element-preview-image' src={publicPathPreview} alt='' />
-            <figcaption className='vcv-ui-add-element-preview-caption'>
-              <div className='vcv-ui-add-element-preview-text'>
+            <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt='' />
+            <figcaption className='vcv-ui-item-preview-caption'>
+              <div className='vcv-ui-item-preview-text'>
                 {cookElement.get('metaPreviewDescription')}
               </div>
             </figcaption>
