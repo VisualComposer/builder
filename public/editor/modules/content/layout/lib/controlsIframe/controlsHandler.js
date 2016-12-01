@@ -91,6 +91,15 @@ export default class ControlsHandler {
         controlsList.appendChild(this.createControlForElement(elementId))
       })
 
+      // apply delimiter
+      let children = [].slice.call(controlsList.childNodes)
+      children = children.slice(1)
+      children.forEach((child) => {
+        let delimiter = document.createElement('i')
+        delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
+        controlsList.insertBefore(delimiter, child)
+      })
+
       // change controls direction
       this.updateControlsPosition(data.element)
     }
