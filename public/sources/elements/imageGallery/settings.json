@@ -143,7 +143,7 @@
     "access": "public",
     "value": "lightbox",
     "options": {
-      "label": "Click options",
+      "label": "OnClick action",
       "values": [
         {
           "label": "None",
