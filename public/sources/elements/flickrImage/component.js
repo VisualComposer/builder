@@ -113,11 +113,9 @@ class Component extends vcvAPI.elementComponent {
 
     size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
 
-    if (size && size === 'full') {
-      innerCustomProps.style = { width: '100%' }
-    } else if (size && size.match(/\d*(x)\d*/)) {
+    if (size && size.match(/\d*(x)\d*/)) {
       size = this.parseSize(size)
-    } else if (size) {
+    } else if (size && size !== 'full') {
       size = this.checkImageSize(size)
     }
 
@@ -142,8 +140,8 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={innerClasses} {...innerCustomProps} id={'el-' + id} ref='flickerInner' />
     </div>
   }
 }
