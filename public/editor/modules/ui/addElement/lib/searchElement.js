@@ -5,7 +5,6 @@ export default class SearchElement extends React.Component {
   static propTypes = {
     allCategories: React.PropTypes.array.isRequired,
     index: React.PropTypes.any.isRequired,
-    elements: React.PropTypes.array.isRequired,
     changeActive: React.PropTypes.func.isRequired,
     changeTerm: React.PropTypes.func.isRequired,
     changeInput: React.PropTypes.func.isRequired

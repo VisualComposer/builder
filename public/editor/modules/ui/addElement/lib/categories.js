@@ -119,7 +119,6 @@ export default class Categories extends React.Component {
       allCategories: allCategories,
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
-      elements: this.props.elements,
       changeTerm: this.changeSearchState,
       changeInput: this.changeInput
     }
