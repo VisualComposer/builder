@@ -22,7 +22,7 @@
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "youtube-player-preview.png"
+    "value": "youtube-player-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
@@ -32,7 +32,7 @@
   "videoPlayer": {
     "type": "string",
     "access": "public",
-    "value": "https://www.youtube.com/watch?v=Rk6_hdRtJOE",
+    "value": "https://www.youtube.com/watch?v=Im6gfxoiHeU",
     "options": {
       "label": "YouTube video link",
       "description": "Enter link to YouTube video."
@@ -304,7 +304,6 @@
       "size",
       "customSize",
       "alignment",
-      "customClass",
       "advanced",
       "autoplay",
       "color",
@@ -312,7 +311,8 @@
       "loop",
       "rel",
       "start",
-      "end"
+      "end",
+      "customClass"
     ],
     "options": {
       "label": "YouTube Player"

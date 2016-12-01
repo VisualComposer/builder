@@ -59,8 +59,8 @@ class Component extends vcvAPI.elementComponent {
 
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
-    return <div className={classes} id={'el-' + id} {...editor} data-vcv-element-disabled='true'>
-      <div className={innerClasses} style={{width: videoWidth}}>
+    return <div className={classes} {...editor} data-vcv-element-disabled='true'>
+      <div className={innerClasses} id={'el-' + id} style={{width: videoWidth}}>
         <iframe
           className='vce-vim-video-player-iframe'
           src={source}

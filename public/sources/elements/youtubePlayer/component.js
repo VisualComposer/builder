@@ -147,8 +147,8 @@ class Component extends vcvAPI.elementComponent {
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
-    return <div className={classes} id={'el-' + id} {...editor} data-vcv-element-disabled='true'>
-      <div className={innerClasses} style={{width: videoWidth}}>
+    return <div className={classes} {...editor} data-vcv-element-disabled='true'>
+      <div className={innerClasses} id={'el-' + id} style={{width: videoWidth}}>
         <iframe
           className='vce-yt-video-player-iframe'
           src={source}
