@@ -3,7 +3,8 @@ import classNames from 'classnames'
 
 export default class SearchTemplate extends React.Component {
   static propTypes = {
-
+    changeSearchState: React.PropTypes.func.isRequired,
+    changeSearchInput: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -17,10 +18,11 @@ export default class SearchTemplate extends React.Component {
   }
 
   searchTemplates (e) {
-    // let inputVal = e.currentTarget.value.toLowerCase()
     this.setState({
       inputValue: e.currentTarget.value
     })
+    this.props.changeSearchInput(e.currentTarget.value)
+    this.props.changeSearchState('search')
   }
 
   handleInputFocus () {
