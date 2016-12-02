@@ -1,10 +1,11 @@
 import vcCake from 'vc-cake'
 
-let TimeMachine = {
+let timeMachine = {
   stack: [],
   stackPosition: 0,
   stackHash: '',
   zeroState: {},
+  locked: false,
   add: function (data) {
     // Do not store same data again
     if (this.stackHash === JSON.stringify(data)) {
@@ -61,31 +62,40 @@ let TimeMachine = {
 }
 
 const API = {
-  add: (document) => {
-    TimeMachine.add(document)
+  add (document) {
+    timeMachine.lock !== true && timeMachine.add(document)
   },
-  getCurrentPosition: () => {
-    return TimeMachine.stackPosition
+  getCurrentPosition () {
+    return timeMachine.stackPosition
   },
-  undo: () => {
-    TimeMachine.undo()
+  undo () {
+    timeMachine.undo()
     return API.get()
   },
-  redo: () => {
-    TimeMachine.redo()
+  redo () {
+    timeMachine.redo()
     return API.get()
   },
-  get: () => {
-    return TimeMachine.get()
+  get () {
+    return timeMachine.get()
   },
-  canUndo: () => {
-    return TimeMachine.can('undo')
+  canUndo () {
+    return timeMachine.can('undo')
   },
-  canRedo: () => {
-    return TimeMachine.can('redo')
+  canRedo () {
+    return timeMachine.can('redo')
   },
-  setZeroState: (data) => {
-    TimeMachine.setZeroState(data)
+  setZeroState (data) {
+    timeMachine.setZeroState(data)
+  },
+  lock () {
+    timeMachine.lock = true
+  },
+  unlock () {
+    timeMachine.lock = false
+  },
+  isLocked () {
+    return timeMachine.lock === true
   }
 }
 
