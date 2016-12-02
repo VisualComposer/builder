@@ -50,7 +50,7 @@
     "access": "protected",
     "value": [
       "flickrUrl",
-      "size",
+      "width",
       "alignment",
       "customClass"
     ],
@@ -116,13 +116,13 @@
     "access": "protected",
     "value": true
   },
-  "size": {
+  "width": {
     "type": "string",
     "access": "public",
     "value": "full",
     "options": {
-      "label": "Size",
-      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height)). Minimal width 151px."
+      "label": "Width",
+      "description": "Enter image width (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200). Minimal width 151px."
     }
   }
 }
