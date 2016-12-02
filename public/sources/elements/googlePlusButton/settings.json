@@ -42,6 +42,7 @@
     "access": "protected",
     "value": [
       "size",
+      "annotation",
       "alignment",
       "customClass"
     ],
@@ -76,17 +77,47 @@
   "size": {
     "type": "dropdown",
     "access": "public",
-    "value": "normal",
+    "value": "standard",
     "options": {
       "label": "Size",
       "values": [
         {
-          "label": "Normal",
-          "value": "normal"
+          "label": "Small",
+          "value": "small"
         },
         {
-          "label": "Large",
-          "value": "large"
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Standard",
+          "value": "standard"
+        },
+        {
+          "label": "Tall",
+          "value": "tall"
+        }
+      ]
+    }
+  },
+  "annotation": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "bubble",
+    "options": {
+      "label": "Annotation",
+      "values": [
+        {
+          "label": "Inline",
+          "value": "inline"
+        },
+        {
+          "label": "Bubble",
+          "value": "bubble"
+        },
+        {
+          "label": "None",
+          "value": "none"
         }
       ]
     }

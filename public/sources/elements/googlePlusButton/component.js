@@ -2,16 +2,47 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   componentDidMount () {
-
+    this.insertHtml(this.props.atts)
   }
 
   componentWillReceiveProps (nextProps) {
+    let { size, annotation } = this.props.atts
 
+    if (size !== nextProps.atts.size || annotation !== nextProps.atts.annotation) {
+      this.insertHtml(nextProps.atts)
+    }
+  }
+
+  insertHtml (props) {
+    let button = this.createHtml(props)
+    let script = '<script src="https://apis.google.com/js/platform.js" async defer></script>'
+    let html = button + script
+    const wrapper = this.refs.googlePlusInner
+    this.updateInlineHtml(wrapper, html)
+  }
+
+  createHtml (props) {
+    let element = document.createElement('div')
+    let { size, annotation } = props
+
+    element.className = 'g-plusone'
+
+    if (size && size !== 'standard') {
+      element.setAttribute('data-size', size)
+    }
+
+    if (annotation && annotation !== 'bubble') {
+      element.setAttribute('data-annotation', annotation)
+    }
+
+    let elementWrapper = document.createElement('div')
+    elementWrapper.appendChild(element)
+    return elementWrapper.innerHTML
   }
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, size, customClass, alignment } = atts
+    let { designOptions, customClass, alignment } = atts
     let classes = 'vce-google-plus-button vce'
     let innerClasses = 'vce-google-plus-button-inner'
     let customProps = {}
@@ -39,8 +70,8 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses}>Google Plus Button</div>
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={innerClasses} ref='googlePlusInner' id={'el-' + id}>Google Plus Button</div>
     </div>
   }
 }

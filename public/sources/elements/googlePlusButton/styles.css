@@ -22,6 +22,12 @@
 .vce-google-plus-button-inner {
   vertical-align: top;
   display: inline-block;
+  font-size: 0;
+  max-width: 100%;
+}
+
+.vce-google-plus-button-inner div {
+  max-width: 100%;
 }
 
 [data-vcv-element-disable-interaction="true"] .vce-google-plus-button-inner {
