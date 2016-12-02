@@ -4,11 +4,12 @@ import vcCake from 'vc-cake'
 
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
-
+const timeMachine = vcCake.getService('time-machine')
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    activeState: React.PropTypes.string
+    activeState: React.PropTypes.string,
+    api: React.PropTypes.object.isRequired
   }
   mount = {}
   stack = {}
@@ -81,6 +82,14 @@ export default class ActivitiesManager extends React.Component {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
+    if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
+      let { element, api } = this.props
+      let elementData = element.toJS()
+      delete elementData.order
+      delete elementData.parent
+      timeMachine.lock()
+      api.request('data:update', element.get('id'), elementData)
+    }
     this.callFieldActivities(null, key)
   }
 

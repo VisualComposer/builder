@@ -4,9 +4,11 @@ import SearchTemplate from './searchTemplate'
 import TemplateTab from './templateTab'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import SaveTemplate from './saveTemplate'
+import TemplateControl from './templateControl'
 import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const templateManager = vcCake.getService('myTemplates')
 
 export default class addTemplate extends React.Component {
   static propTypes = {
@@ -46,13 +48,16 @@ export default class addTemplate extends React.Component {
       templatesExist: false
     }
     this.changeActiveTab = this.changeActiveTab.bind(this)
-    this.changeTabTitle = this.changeTabTitle.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToSaveTemplate = this.handleGoToSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
+  }
+
+  componentWillMount () {
+
   }
 
   // Check state
@@ -68,12 +73,14 @@ export default class addTemplate extends React.Component {
     this.setState({templateName: name})
   }
 
-  changeActiveTab (index) {
-    this.setState({activeTab: index})
-  }
-
-  changeTabTitle (title) {
-    this.setState({tabTitle: title})
+  changeActiveTab (index, title) {
+    this.setState({
+      activeTab: index,
+      tabTitle: title,
+      isSearching: false,
+      inputValue: '',
+      templatesExist: title === 'My Templates' && templateManager.all().length // TODO get template list in condition depending on the active tab
+    })
   }
 
   changeSearchState (state) {
@@ -98,16 +105,25 @@ export default class addTemplate extends React.Component {
       title: tab.title,
       active: this.state.activeTab,
       index: tab.index,
-      changeActive: this.changeActiveTab,
-      changeTabTitle: this.changeTabTitle,
-      changeActiveSave: this.changeActiveSave
+      changeActive: this.changeActiveTab
     }
   }
 
   getSearchProps () {
     return {
+      inputValue: this.state.inputValue,
       changeSearchState: this.changeSearchState,
       changeSearchInput: this.changeSearchInput
+    }
+  }
+
+  getTemplateControlProps (template) {
+    return {
+      api: this.props.api,
+      key: 'vcv-element-control-' + template.id,
+      data: template.data,
+      id: template.id,
+      name: template.name
     }
   }
 
@@ -124,16 +140,8 @@ export default class addTemplate extends React.Component {
   }
 
   getNoResultsElement (tab) {
-    let source
-    let btnText = 'No Results. Open Visual Composer Hub'
-    let helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
-    let button = <button className='vcv-ui-editor-no-items-action'>{btnText}</button>
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      source = wipAssetsManager.getSourcePath('images/search-no-result.png')
-    } else {
-      source = assetsManager.getSourcePath('images/search-no-result.png')
-    }
-    if (!this.state.templatesExist) {
+    let source, btnText, helper, button
+    if (!this.state.templatesExist && !this.state.isSearching) {
       switch (tab) {
         case 'MyTemplates':
           btnText = 'Save Your First Template'
@@ -150,6 +158,15 @@ export default class addTemplate extends React.Component {
         source = wipAssetsManager.getSourcePath('images/add-item.png')
       } else {
         source = assetsManager.getSourcePath('images/add-item.png')
+      }
+    } else {
+      btnText = 'No Results. Open Visual Composer Hub'
+      helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
+      button = <button className='vcv-ui-editor-no-items-action'>{btnText}</button>
+      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+        source = wipAssetsManager.getSourcePath('images/search-no-result.png')
+      } else {
+        source = assetsManager.getSourcePath('images/search-no-result.png')
       }
     }
     return <div className='vcv-ui-editor-no-items-container'>
@@ -169,12 +186,38 @@ export default class addTemplate extends React.Component {
     </div>
   }
 
-  getSearchResults () {
-    return []
+  getTemplateControl (template) {
+    return <TemplateControl {...this.getTemplateControlProps(template)} />
   }
 
-  getTemplateList () {
-    return []
+  getSearchResults (tab) {
+    let { inputValue } = this.state
+    let templateList
+    switch (tab) {
+      case 'MyTemplates':
+        templateList = templateManager.all()
+        break
+      case 'HubTemplates':
+        templateList = []
+        break
+    }
+    return templateList.filter((val) => {
+      let name = val.name.toLowerCase()
+      return val.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
+    }).map((template) => {
+      return this.getTemplateControl(template)
+    })
+  }
+
+  getTemplateList (tab) {
+    switch (tab) {
+      case 'MyTemplates':
+        return templateManager.all().map((template) => {
+          return this.getTemplateControl(template)
+        })
+      case 'HubTemplates':
+        return []
+    }
   }
 
   getTemplateListContainer (itemsOutput, tab) {
@@ -193,7 +236,7 @@ export default class addTemplate extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
-    console.log('Template name: ', this.state.templateName)
+    templateManager.addCurrentLayout(this.state.templateName)
     let myTemplates = this.props.tabs.findIndex((tab) => {
       return tab.id === 'MyTemplates'
     })
@@ -204,8 +247,7 @@ export default class addTemplate extends React.Component {
     let saveIndex = this.props.tabs.findIndex((tab) => {
       return tab.id === 'SaveTemplate'
     })
-    this.changeActiveTab(saveIndex)
-    this.changeTabTitle('Save Template')
+    this.changeActiveTab(saveIndex, 'Save Template')
   }
 
   handleGoToHub () {
@@ -214,11 +256,16 @@ export default class addTemplate extends React.Component {
 
   render () {
     let output, itemsOutput
-    switch (this.props.tabs[this.state.activeTab].id) {
+    let activeTabId = this.props.tabs[this.state.activeTab].id
+    // TODO refactor switch after interaction with HUB is complete
+    switch (activeTabId) {
       case 'MyTemplates':
+        itemsOutput = this.isSearching(activeTabId) ? this.getSearchResults(activeTabId) : this.getTemplateList(activeTabId)
+        output = this.getTemplateListContainer(itemsOutput, activeTabId)
+        break
       case 'HubTemplates':
-        itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplateList()
-        output = this.getTemplateListContainer(itemsOutput, this.props.tabs[this.state.activeTab].id)
+        itemsOutput = this.getTemplateList(activeTabId)
+        output = this.getTemplateListContainer(itemsOutput, activeTabId)
         break
       case 'SaveTemplate':
         output = this.getSaveTemplate()
