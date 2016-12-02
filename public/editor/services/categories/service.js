@@ -89,12 +89,12 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage' ],
+      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton' ],
       'icon': 'categories/icons/Social.svg'
     },
     'Videos': {
       'name': 'Videos',
-      'elements': ['youtubePlayer', 'vimeoPlayer'],
+      'elements': [ 'youtubePlayer', 'vimeoPlayer' ],
       'icon': 'categories/icons/Video.svg'
     },
     'WooCommerce': {
@@ -104,7 +104,7 @@ let tempData = {
     },
     'WP Widgets': {
       'name': 'WP Widgets',
-      'elements': ['WpWidgetsDefault', 'WpWidgetsCustom'],
+      'elements': [ 'WpWidgetsDefault', 'WpWidgetsCustom' ],
       'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
     }
   }
@@ -123,9 +123,6 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
-}
-if (vcCake.env('FEATURE_GOOGLE_PLUS_BUTTON')) {
-  tempData.categories[ 'Social' ].elements.push('googlePlusButton')
 }
 if (vcCake.env('FEATURE_PINTEREST_PINIT')) {
   tempData.categories[ 'Social' ].elements.push('pinterestPinit')
