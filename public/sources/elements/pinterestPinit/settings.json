@@ -1,0 +1,140 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Pinterest Pinit"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "pinterest-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "pinterest-thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "type",
+      "alignment",
+      "customClass"
+    ],
+    "options": {
+      "label": "Pinterest Pinit"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "type": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "default",
+    "options": {
+      "label": "Type",
+      "values": [
+        {
+          "label": "Default",
+          "value": "default"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        },
+        {
+          "label": "Tall Bubble",
+          "value": "tallBubble"
+        },
+        {
+          "label": "Tall Counter",
+          "value": "tallCounter"
+        }
+      ]
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
+  }
+}
