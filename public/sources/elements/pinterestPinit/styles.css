@@ -17,7 +17,6 @@
 .vce-pinterest-pinit-inner {
   vertical-align: top;
   display: inline-block;
-  font-size: 0;
 }
 
 [data-vcv-element-disable-interaction="true"] .vce-pinterest-pinit-inner {
