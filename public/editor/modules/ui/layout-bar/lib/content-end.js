@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {getService} from 'vc-cake'
+import {getService, env} from 'vc-cake'
 const timeMachine = getService('time-machine')
 
 import Resizer from '../../../../../resources/resizer/resizer'
@@ -83,13 +83,18 @@ export default class BarContentEnd extends React.Component {
 
   closeContent = (e) => {
     e && e.preventDefault()
-    let {api} = this.props
+    let { api } = this.props
+    if (env('FEATURE_INSTANT_UPDATE')) {
+      if (timeMachine.isLocked()) {
+        if (!window.confirm('Are you sure you want to close editor?')) {
+          return
+        }
+        timeMachine.unlock()
+        api.request('data:reset', timeMachine.get())
+      }
+    }
     api.request('bar-content-start:hide')
     api.request('bar-content-end:hide')
-    if (timeMachine.isLocked()) {
-      timeMachine.unlock()
-      api.request('data:reset', timeMachine.get())
-    }
   }
 
   render () {
