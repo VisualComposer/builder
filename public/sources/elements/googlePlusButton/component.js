@@ -43,8 +43,8 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment } = atts
-    let classes = 'vce-google-plus-button vce'
-    let innerClasses = 'vce-google-plus-button-inner'
+    let classes = 'vce-google-plus-button'
+    let innerClasses = 'vce-google-plus-button-inner vce'
     let customProps = {}
 
     if (customClass) {
