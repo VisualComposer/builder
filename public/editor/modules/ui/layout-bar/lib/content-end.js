@@ -7,11 +7,20 @@ export default class BarContentEnd extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
-  state = {
-    contentComponent: null,
-    contentProps: {},
-    showContent: false,
-    realWidth: 0
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      contentComponent: null,
+      contentProps: {},
+      showContent: false,
+      realWidth: 0
+    }
+
+    this.handleElementResize = this.handleElementResize.bind(this)
+    this.closeContent = this.closeContent.bind(this)
+    this.showContent = this.showContent.bind(this)
+    this.hideContent = this.hideContent.bind(this)
   }
 
   componentDidMount () {
@@ -22,20 +31,15 @@ export default class BarContentEnd extends React.Component {
       })
     })
     this.props.api
-      .reply('bar-content-end:show', () => {
-        this.setState({ showContent: true })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({
-          showContent: false,
-          contentComponent: null,
-          contentProps: null
-        })
-      })
+      .reply('bar-content-end:show', this.showContent)
+      .reply('bar-content-end:hide', this.hideContent)
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
   componentWillUnmount () {
+    this.props.api
+      .forget('bar-content-end:show', this.showContent)
+      .forget('bar-content-end:hide', this.hideContent)
     this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
@@ -45,7 +49,19 @@ export default class BarContentEnd extends React.Component {
     }
   }
 
-  handleElementResize = () => {
+  showContent () {
+    this.setState({ showContent: true })
+  }
+
+  hideContent () {
+    this.setState({
+      showContent: false,
+      contentComponent: null,
+      contentProps: {}
+    })
+  }
+
+  handleElementResize () {
     let element = ReactDOM.findDOMNode(this)
     this.setState({
       realWidth: element.offsetWidth
@@ -78,7 +94,7 @@ export default class BarContentEnd extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  closeContent = (e) => {
+  closeContent (e) {
     e && e.preventDefault()
     this.props.api.request('bar-content-start:hide')
     this.props.api.request('bar-content-end:hide')
@@ -91,7 +107,7 @@ export default class BarContentEnd extends React.Component {
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
     }
-    if (contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
+    if (contentProps && contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
       aligned = true
     }
     let contentClasses = classNames({

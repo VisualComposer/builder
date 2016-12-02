@@ -2,28 +2,35 @@ import React from 'react'
 import classNames from 'classnames'
 
 class AddElementControl extends React.Component {
-  state = {
-    isWindowOpen: false
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      isWindowOpen: false
+    }
+
+    this.setWindowOpen = this.setWindowOpen.bind(this)
+    this.setWindowClose = this.setWindowClose.bind(this)
   }
 
   componentWillMount () {
     this.props.api
-      .reply('bar-content-end:show', (key) => {
-        this.setState({ isWindowOpen: key === 'add-element' })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({ isWindowOpen: false })
-      })
+      .reply('bar-content-end:show', this.setWindowOpen)
+      .reply('bar-content-end:hide', this.setWindowClose)
   }
 
   componentWillUnmount () {
     this.props.api
-      .forget('bar-content-end:show', (key) => {
-        this.setState({ isWindowOpen: true })
-      })
-      .forget('bar-content-end:hide', () => {
-        this.setState({ isWindowOpen: false })
-      })
+      .forget('bar-content-end:show', this.setWindowOpen)
+      .forget('bar-content-end:hide', this.setWindowClose)
+  }
+
+  setWindowOpen (key) {
+    this.setState({ isWindowOpen: key === 'add-element' })
+  }
+
+  setWindowClose () {
+    this.setState({ isWindowOpen: false })
   }
 
   toggleAddElement (e) {

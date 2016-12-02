@@ -21,16 +21,19 @@ export default class TreeViewElement extends React.Component {
 
   constructor (props) {
     super(props)
-    this.scrollToElement = this.scrollToElement.bind(this)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    this.handleMouseLeave = this.handleMouseLeave.bind(this)
-    this.handleOutline = this.handleOutline.bind(this)
+
     this.state = {
       childExpand: true,
       isActive: false,
       hasChild: false,
       showOutline: false
     }
+
+    this.scrollToElement = this.scrollToElement.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
+    this.handleOutline = this.handleOutline.bind(this)
+    this.checkActive = this.checkActive.bind(this)
   }
 
   componentDidMount () {
@@ -39,25 +42,24 @@ export default class TreeViewElement extends React.Component {
       .reply('app:edit', this.checkActive)
       .reply('app:add', this.checkActive)
       .reply('data:add', this.checkActive)
-      .reply('bar-content-end:hide', this.checkActive)
       .on('hide', this.checkActive)
       .on('form:hide', this.checkActive)
     vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
   }
 
   componentWillUnmount () {
-    this.props.api.notify('element:unmount', this.props.element.id)
     this.props.api
       .forget('app:edit', this.checkActive)
       .forget('app:add', this.checkActive)
       .forget('data:add', this.checkActive)
-      .forget('bar-content-end:hide', this.checkActive)
       .off('hide', this.checkActive)
       .off('form:hide', this.checkActive)
     vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
+    // should put after unmount component
+    this.props.api.notify('element:unmount', this.props.element.id)
   }
 
-  checkActive = (data = false) => {
+  checkActive (data = false) {
     if (this.state.isActive !== (data === this.props.element.id)) {
       this.setState({
         isActive: data === this.props.element.id
