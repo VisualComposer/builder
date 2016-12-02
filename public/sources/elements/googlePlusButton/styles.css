@@ -29,7 +29,7 @@
   max-width: 100%;
 }
 
-.vce-google-plus-button-inner p {
+.vce-google-plus-button-inner > * {
   margin: 0;
 }
 
