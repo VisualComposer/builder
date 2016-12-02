@@ -194,7 +194,7 @@ class AttachImage extends Attribute {
 
         value.ids[ key ] && images.push(
           <SortableImageItem
-            key={key}
+            key={`sortable-attach-image-item-${fieldKey}-${key}`}
             updateState={this.updateSortable}
             items={value.urls}
             draggingIndex={this.state.value.draggingIndex}

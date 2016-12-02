@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Flickr Image"
+    "value": "Google Plus Button"
   },
   "metaIntro": {
     "type": "textarea",
@@ -12,30 +12,22 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Add standard Google Plus button to your WordPress website for quick content sharing on Google Social Network."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Embed Flickr image directly to your WordPress website."
+    "value": "Add standard Google Plus button to your WordPress website for quick content sharing on Google Social Network."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-flickr-image.jpg"
+    "value": "google-plus-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-flickr-image.jpg"
-  },
-  "flickrUrl": {
-    "type": "string",
-    "access": "public",
-    "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
-    "options": {
-      "label": "Flickr URL (Link) or embed code"
-    }
+    "value": "google-plus-thumbnail.jpg"
   },
   "designOptions": {
     "type": "designOptions",
@@ -49,13 +41,13 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "flickrUrl",
-      "width",
+      "size",
+      "annotation",
       "alignment",
       "customClass"
     ],
     "options": {
-      "label": "Flickr Image"
+      "label": "Google Plus Button"
     }
   },
   "metaEditFormTabs": {
@@ -80,6 +72,54 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "standard",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Standard",
+          "value": "standard"
+        },
+        {
+          "label": "Tall",
+          "value": "tall"
+        }
+      ]
+    }
+  },
+  "annotation": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "bubble",
+    "options": {
+      "label": "Annotation",
+      "values": [
+        {
+          "label": "Inline",
+          "value": "inline"
+        },
+        {
+          "label": "Bubble",
+          "value": "bubble"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
     }
   },
   "assetsLibrary": {
@@ -115,14 +155,5 @@
     "type": "toggle",
     "access": "protected",
     "value": true
-  },
-  "width": {
-    "type": "string",
-    "access": "public",
-    "value": "full",
-    "options": {
-      "label": "Width",
-      "description": "Enter image width (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200). Minimal width 151px."
-    }
   }
 }

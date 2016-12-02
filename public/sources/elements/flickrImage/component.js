@@ -2,19 +2,10 @@
 /*eslint no-unused-vars: 0*/
 class Component extends vcvAPI.elementComponent {
   static unique = 0
-  static imageSizes = {
-    thumbnail: {
-      height: '150',
-      width: '150'
-    },
-    medium: {
-      height: '300',
-      width: '300'
-    },
-    large: {
-      height: '1024',
-      width: '1024'
-    }
+  imageSizes = {
+    thumbnail: '150',
+    medium: '300',
+    large: '1024'
   }
 
   componentDidMount () {
@@ -22,7 +13,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl || this.props.atts.size !== nextProps.atts.size) {
+    if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl || this.props.atts.width !== nextProps.atts.width) {
       this.insertFlickr(nextProps.atts.flickrUrl)
     }
   }
@@ -80,27 +71,32 @@ class Component extends vcvAPI.elementComponent {
     this.updateInlineHtml(component, tagString)
   }
 
+  validateSize (value) {
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    if (value === '' || value.match(re)) {
+      return value
+    } else {
+      return null
+    }
+  }
+
   checkImageSize (size) {
     let relatedSize = ''
     if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
-      relatedSize = window.vcvImageSizes[ size ]
-    } else if (Component.imageSizes[ size ]) {
-      relatedSize = Component.imageSizes[ size ]
+      relatedSize = window.vcvImageSizes[ size ].width
+    } else if (this.imageSizes[ size ]) {
+      relatedSize = this.imageSizes[ size ]
     }
-    return relatedSize
-  }
-
-  parseSize (size) {
-    size = size.split('x')
-    return { width: size[ 0 ], height: size[ 1 ] }
+    return relatedSize ? `${relatedSize}px` : ''
   }
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, size } = atts
-    let classes = 'vce-flickr-image vce'
+    let { designOptions, customClass, alignment, width } = atts
+    let classes = 'vce-flickr-image'
     let customProps = {}
-    let innerClasses = 'vce-flickr-image-inner'
+    let innerClasses = 'vce-flickr-image-inner vce'
     let innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
@@ -111,16 +107,17 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-flickr-image--align-${alignment}`
     }
 
-    size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
+    width = width.replace(/\s/g, '').toLowerCase()
 
-    if (size && size.match(/\d*(x)\d*/)) {
-      size = this.parseSize(size)
-    } else if (size && size !== 'full') {
-      size = this.checkImageSize(size)
+    if (width && width.match(/\d*/)[0]) {
+      width = this.validateSize(width)
+      width = /^\d+$/.test(width) ? `${width}px` : width
+    } else if (width && width !== 'full') {
+      width = this.checkImageSize(width)
     }
 
-    if (size && size.width) {
-      innerCustomProps.style = { width: `${size.width}px` }
+    if (width) {
+      innerCustomProps.style = { width: width }
     }
 
     customProps.key = `customProps:${id}`

@@ -89,12 +89,12 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage' ],
+      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit' ],
       'icon': 'categories/icons/Social.svg'
     },
     'Videos': {
       'name': 'Videos',
-      'elements': ['youtubePlayer', 'vimeoPlayer'],
+      'elements': [ 'youtubePlayer', 'vimeoPlayer' ],
       'icon': 'categories/icons/Video.svg'
     },
     'WooCommerce': {
@@ -104,7 +104,7 @@ let tempData = {
     },
     'WP Widgets': {
       'name': 'WP Widgets',
-      'elements': ['WpWidgetsDefault', 'WpWidgetsCustom'],
+      'elements': [ 'WpWidgetsDefault', 'WpWidgetsCustom' ],
       'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
     }
   }

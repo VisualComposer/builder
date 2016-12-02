@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Flickr Image"
+    "value": "Pinterest Pinit"
   },
   "metaIntro": {
     "type": "textarea",
@@ -12,30 +12,22 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Embed Flickr image directly to your WordPress website."
+    "value": "Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview-flickr-image.jpg"
+    "value": "pinterest-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail-flickr-image.jpg"
-  },
-  "flickrUrl": {
-    "type": "string",
-    "access": "public",
-    "value": "https://www.flickr.com/photos/thomasheaton/21171377373/",
-    "options": {
-      "label": "Flickr URL (Link) or embed code"
-    }
+    "value": "pinterest-thumbnail.jpg"
   },
   "designOptions": {
     "type": "designOptions",
@@ -49,13 +41,12 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "flickrUrl",
-      "width",
+      "type",
       "alignment",
       "customClass"
     ],
     "options": {
-      "label": "Flickr Image"
+      "label": "Pinterest Pinit"
     }
   },
   "metaEditFormTabs": {
@@ -80,6 +71,36 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "type": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "default",
+    "options": {
+      "label": "Type",
+      "values": [
+        {
+          "label": "Default",
+          "value": "default"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        },
+        {
+          "label": "Tall Bubble",
+          "value": "tallBubble"
+        },
+        {
+          "label": "Tall Counter",
+          "value": "tallCounter"
+        }
+      ]
     }
   },
   "assetsLibrary": {
@@ -115,14 +136,5 @@
     "type": "toggle",
     "access": "protected",
     "value": true
-  },
-  "width": {
-    "type": "string",
-    "access": "public",
-    "value": "full",
-    "options": {
-      "label": "Width",
-      "description": "Enter image width (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200). Minimal width 151px."
-    }
   }
 }
