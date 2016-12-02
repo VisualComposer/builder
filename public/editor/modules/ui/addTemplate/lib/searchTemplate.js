@@ -3,6 +3,7 @@ import classNames from 'classnames'
 
 export default class SearchTemplate extends React.Component {
   static propTypes = {
+    inputValue: React.PropTypes.string.isRequired,
     changeSearchState: React.PropTypes.func.isRequired,
     changeSearchInput: React.PropTypes.func.isRequired
   }
@@ -10,7 +11,6 @@ export default class SearchTemplate extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: '',
       input: false
     }
     this.searchTemplates = this.searchTemplates.bind(this)
@@ -18,9 +18,6 @@ export default class SearchTemplate extends React.Component {
   }
 
   searchTemplates (e) {
-    this.setState({
-      inputValue: e.currentTarget.value
-    })
     this.props.changeSearchInput(e.currentTarget.value)
     this.props.changeSearchState('search')
   }
@@ -48,7 +45,7 @@ export default class SearchTemplate extends React.Component {
           onChange={this.searchTemplates}
           onFocus={this.handleInputFocus}
           type='text'
-          value={this.state.inputValue}
+          value={this.props.inputValue}
           placeholder='Search templates by name and description'
           autoFocus='true'
         />
