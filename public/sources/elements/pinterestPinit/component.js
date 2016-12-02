@@ -17,16 +17,32 @@ class Component extends vcvAPI.elementComponent {
     let html = button + script
     const wrapper = this.refs.pinterestInner
     this.updateInlineHtml(wrapper, html)
+
+    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    if (iframe.PinUtils) {
+      iframe.PinUtils.build(this.getDomNode())
+    }
   }
 
   createHtml (props) {
     let element = document.createElement('a')
-    let type = props.type
+    element.href = 'https://www.pinterest.com/pin/create/button/'
 
-    element.className = 'g-plusone'
+    if (props.type === 'default') {
+      element.setAttribute('data-pin-do', 'buttonBookmark')
+    } else {
+      element.setAttribute('data-pin-do', 'buttonPin')
+    }
 
-    element.setAttribute('data-pin-do', 'buttonBookmark')
-    element.setAttribute('href', 'https://www.pinterest.com/pin/create/button/')
+    if (props.type === 'round') {
+      element.setAttribute('data-pin-shape', 'round')
+    } else if (props.type === 'large') {
+      element.setAttribute('data-pin-height', '28')
+    } else if (props.type === 'tallBubble') {
+      element.setAttribute('data-pin-config', 'above')
+    } else if (props.type === 'tallCounter') {
+      element.setAttribute('data-pin-config', 'beside')
+    }
 
     let elementWrapper = document.createElement('div')
     elementWrapper.appendChild(element)
