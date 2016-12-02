@@ -124,6 +124,9 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
 }
+if (vcCake.env('FEATURE_GOOGLE_PLUS_BUTTON')) {
+  tempData.categories[ 'Social' ].elements.push('googlePlusButton')
+}
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')
