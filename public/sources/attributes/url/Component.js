@@ -192,7 +192,7 @@ class Url extends Attribute {
     return (
       <table className='vcv-ui-form-table'>
         <tbody>
-        {items}
+          {items}
         </tbody>
       </table>
     )

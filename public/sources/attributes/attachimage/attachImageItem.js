@@ -1,6 +1,9 @@
 import React from 'react'
+import classNames from 'classnames'
 
 class AttachImageItem extends React.Component {
+  static displayName = 'vcv-ui-form-sortable-attach-image-item-inner'
+
   constructor (props) {
     super(props)
     this.getLinkHtml = this.getLinkHtml.bind(this)
@@ -15,11 +18,12 @@ class AttachImageItem extends React.Component {
   }
 
   render () {
-    let { childProps, ...rest } = this.props
+    let { childProps, className, ...rest } = this.props
     let { fieldKey, url, oneMoreControl, key } = childProps
+    className = classNames(className, 'vcv-ui-form-attach-image-item')
 
     return (
-      <li {...rest} className='vcv-ui-form-attach-image-item' key={fieldKey + '-li-:' + this.props.childProps.url.full}>
+      <li {...rest} className={className} key={fieldKey + '-li-:' + this.props.childProps.url.full}>
         <div className='vcv-ui-form-attach-image-item-inner'>
           <figure className='vcv-ui-form-attach-image-thumbnail'>
             <img key={fieldKey + '-li-img-:' + url.full} src={url.thumbnail || url.full} />
