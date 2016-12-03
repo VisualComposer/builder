@@ -203,7 +203,9 @@ export default class DnD {
     }
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-      allowAppend: domElement && this.draggingElement.isChild(domElement) && !documentManager.children(domElement.id).length
+      allowAppend: !this.isDraggingElementParent(domElement) &&
+        domElement && this.draggingElement.isChild(domElement) &&
+        !documentManager.children(domElement.id).length
     })
     if (position) {
       this.point = point
