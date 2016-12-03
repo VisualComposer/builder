@@ -1,0 +1,94 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Section"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Section is the basic structural element for building an initial content. You can insert other content elements into sections."
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Section is the basic structural element for building an initial content. You can insert other content elements into sections."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Section is the basic structural element for building an initial content. You can insert other content elements into sections."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.png"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.png"
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "customClass"
+    ],
+    "options": {
+      "label": "Section"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General",
+      "RootElements"
+    ]
+  },
+  "containerFor": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 1
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  }
+}

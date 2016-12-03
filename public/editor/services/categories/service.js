@@ -57,6 +57,11 @@ let tempData = {
       'elements': [ 'column' ],
       'icon': 'categories/icons/Column.svg'
     },
+    'Section': {
+      'name': 'Section',
+      'elements': [ 'section' ],
+      'icon': 'categories/icons/Section.svg'
+    },
     'Hero section': {
       'name': 'Hero Section',
       'elements': [ 'heroSection' ],
@@ -111,6 +116,9 @@ let tempData = {
 }
 if (vcCake.env('FEATURE_XO_WORK')) {
   tempData.categories[ 'Button' ].elements.push('xoButton')
+}
+if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
+  tempData.categories[ 'Section' ].elements.push('section')
 }
 if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
   tempData.categories[ 'Social' ].elements.push('twitterPublisher')
