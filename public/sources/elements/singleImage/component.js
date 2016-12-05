@@ -26,9 +26,9 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    Component.imgProps['data-img-src'] = this.getImageUrl(this.props.atts.image, 'full')
-    Component.imgProps['alt'] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
-    Component.imgProps['title'] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
+    Component.imgProps[ 'data-img-src' ] = this.getImageUrl(this.props.atts.image, 'full')
+    Component.imgProps[ 'alt' ] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
+    Component.imgProps[ 'title' ] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
 
     if (this.props.atts.size === 'full' && this.props.atts.shape !== 'round') {
       return true
@@ -49,9 +49,9 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    Component.imgProps['data-img-src'] = this.getImageUrl(nextProps.atts.image, 'full')
-    Component.imgProps['alt'] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
-    Component.imgProps['title'] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
+    Component.imgProps[ 'data-img-src' ] = this.getImageUrl(nextProps.atts.image, 'full')
+    Component.imgProps[ 'alt' ] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
+    Component.imgProps[ 'title' ] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
 
     if (nextProps.atts.size === 'full' && nextProps.atts.shape !== 'round') {
       this.setState({
@@ -165,9 +165,9 @@ class Component extends vcvAPI.elementComponent {
       }
     }
     img.src = imgSrc
-    img.setAttribute('data-img-src', Component.imgProps['data-img-src'])
-    img.setAttribute('alt', Component.imgProps['alt'])
-    img.setAttribute('title', Component.imgProps['title'])
+    img.setAttribute('data-img-src', Component.imgProps[ 'data-img-src' ])
+    img.setAttribute('alt', Component.imgProps[ 'alt' ])
+    img.setAttribute('title', Component.imgProps[ 'title' ])
     img.className = 'vce-single-image'
   }
 
@@ -196,9 +196,11 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, customClass, size, alignment } = atts
-    let containerClasses = 'vce-single-image-container vce'
+    let containerClasses = 'vce-single-image-container'
+    let wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner'
     let customProps = {}
+    let wrapperProps = {}
     let CustomTag = 'div'
     let originalSrc = this.getImageUrl(image, 'full')
     let customImageProps = Component.imgProps
@@ -255,10 +257,12 @@ class Component extends vcvAPI.elementComponent {
 
     if (shape === 'rounded') {
       classes += ' vce-single-image--border-rounded'
+      wrapperClasses += ' vce-single-image--border-rounded'
     }
 
     if (shape === 'round') {
       classes += ' vce-single-image--border-round'
+      wrapperClasses += ' vce-single-image--border-round'
     }
 
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
@@ -281,9 +285,11 @@ class Component extends vcvAPI.elementComponent {
     customProps.style = this.state ? this.state.imgSize : null
 
     return <div className={containerClasses} {...editor}>
-      <CustomTag {...customProps} className={classes} id={'el-' + id} ref='imageContainer'>
-        <img className='vce-single-image' src={imgSrc} {...customImageProps} />
-      </CustomTag>
+      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id}>
+        <CustomTag {...customProps} className={classes} ref='imageContainer'>
+          <img className='vce-single-image' src={imgSrc} {...customImageProps} />
+        </CustomTag>
+      </div>
     </div>
   }
 }

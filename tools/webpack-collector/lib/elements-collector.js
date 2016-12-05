@@ -22,7 +22,7 @@ const Collector = {
         // let isCssExists = fs.existsSync(cssPath) ? 'true' : 'false'
         let isCssExists = false // no need to add css to webpack build because we use asset manager to build css
 
-        exec(`node tools/element-builder/index.js public/sources/elements/${element} --output=file --uuid=${element} --add-css=${isCssExists}`)
+        exec(`node tools/element-builder/index.js public/sources/elements/${element} --output=file --root-url="http://test.alpha.visualcomposer.io/wp-content/plugins/vc-five/public/sources/elements/${element}" --uuid=${element} --add-css=${isCssExists}`)
 
         let elementRelativePath = join('..', config.elementsPath, element)
         content += uf("import {default as %sElement} from '%s'\n", element, join(elementRelativePath, 'element').replace(/\\/g, '/'))

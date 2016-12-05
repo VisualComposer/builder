@@ -7,6 +7,12 @@ a.vce-single-image-inner {
 .vce-single-image-inner {
   display: inline-block;
   vertical-align: top;
+  width: 100%;
+}
+
+.vce-single-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
 }
 
 .vce-single-image--border-rounded {
