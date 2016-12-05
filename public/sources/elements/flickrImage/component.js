@@ -110,14 +110,13 @@ class Component extends vcvAPI.elementComponent {
 
     width = width.replace(/\s/g, '').toLowerCase()
 
-    if (width && width.match(/\d*/)[0]) {
-      width = this.validateSize(width)
-      width = /^\d+$/.test(width) ? `${width}px` : width
-    } else if (width && width !== 'full') {
-      width = this.checkImageSize(width)
-    }
-
     if (width) {
+      if (width.match(/\d*/)[0]) {
+        width = this.validateSize(width)
+        width = /^\d+$/.test(width) ? `${width}px` : width
+      } else {
+        width = this.checkImageSize(width)
+      }
       innerCustomProps.style = { width: width }
     }
 
