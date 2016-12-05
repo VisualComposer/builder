@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { title, description, image, align, addButton, customClass, designOptions, button } = atts
+    let { description, image, align, addButton, customClass, designOptions, button } = atts
     let classNames = require('classnames')
     let customProps = {}
 
@@ -53,7 +53,6 @@ class Component extends vcvAPI.elementComponent {
       <div className={rowClasses} style={rowStyles} {...customProps}>
         <div className='vce-hero-section__wrap'>
           <div className='vce-hero-section__content'>
-            {title}
             {description}
             {buttonOutput}
           </div>
@@ -69,7 +68,7 @@ class Component extends vcvAPI.elementComponent {
     } else {
       assetsManager = vcCake.getService('assets-manager')
     }
-    var { tag } = this.props.atts
+    let { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }
 
