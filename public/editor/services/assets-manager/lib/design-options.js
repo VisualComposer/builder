@@ -143,6 +143,18 @@ export default {
     if (data[ device ].marginLeft !== '') {
       cssObj[ 'margin-left' ] = (parseFloat(data[ device ].marginLeft).toString() === data[ device ].marginLeft) ? data[ device ].marginLeft + 'px' : data[ device ].marginLeft
     }
+    if (cssObj.hasOwnProperty('margin-right') || cssObj.hasOwnProperty('margin-left')) {
+      let marginCalc = []
+      if (cssObj.hasOwnProperty('margin-right')) {
+        marginCalc.push(cssObj[ 'margin-right' ])
+      }
+      if (cssObj.hasOwnProperty('margin-left')) {
+        marginCalc.push(cssObj[ 'margin-left' ])
+      }
+      marginCalc = marginCalc.join(' + ')
+      cssObj[ 'max-width' ] = `calc(100% - (${marginCalc}))`
+    }
+
     // get padding
     if (data[ device ].paddingTop !== '') {
       cssObj[ 'padding-top' ] = (parseFloat(data[ device ].paddingTop).toString() === data[ device ].paddingTop) ? data[ device ].paddingTop + 'px' : data[ device ].paddingTop
