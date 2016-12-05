@@ -2,10 +2,12 @@
 
 namespace VisualComposer\Helpers;
 
+use VisualComposer\Framework\Illuminate\Support\Helper;
+
 /**
  * Class Core.
  */
-class Core implements \VisualComposer\Framework\Illuminate\Support\Helper
+class Core implements Helper
 {
     /**
      * @var null
