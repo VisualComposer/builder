@@ -7,8 +7,7 @@ class Component extends vcvAPI.elementComponent {
     this.props.editor && this.updateJsScript(nextProps.atts.rawJs)
   }
   updateJsScript (rawJs) {
-    const ReactDOM = require('react-dom')
-    let component = ReactDOM.findDOMNode(this)
+    let component = this.refs.rawJsWrapper
     component.innerHTML = ''
     let script = document.createElement('script')
     script.innerText = rawJs
@@ -18,11 +17,14 @@ class Component extends vcvAPI.elementComponent {
     var {id, atts, editor} = this.props
     var {customClass, rawJs} = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-js-container'
+    let wrapperClasses = 'vce-raw-js-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
     }
-    return <div id={'el-' + id} className={classes} {...editor}>
-      <script>{rawJs}</script>
+    return <div className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id} ref='rawJsWrapper'>
+        <script>{rawJs}</script>
+      </div>
     </div>
   }
 
