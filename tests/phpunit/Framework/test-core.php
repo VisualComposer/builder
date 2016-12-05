@@ -10,6 +10,8 @@ class CoreTest extends WP_UnitTestCase
         $this->assertTrue(defined('VCV_PLUGIN_BASE_NAME'));
         $this->assertTrue(defined('VCV_PLUGIN_FULL_PATH'));
         $this->assertTrue(defined('VCV_PLUGIN_DIRNAME'));
+        $this->assertTrue(strpos(VCV_PLUGIN_DIRNAME, '/') === false);
+        $this->assertTrue(strpos(VCV_PLUGIN_DIRNAME, '\\') === false);
         $this->assertTrue(defined('VCV_PREFIX'));
 
         // Used in requirements.php
