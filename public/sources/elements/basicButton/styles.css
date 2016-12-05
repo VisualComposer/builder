@@ -10,6 +10,11 @@
 .vce-button-container--align-center {
   text-align: center;
 }
+.vce-button-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
 .vce-button {
   font-size: 16px;
   padding: 18px 43px;
