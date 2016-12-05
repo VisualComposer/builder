@@ -10,6 +10,9 @@
   box-shadow: none;
   text-decoration: none;
 }
+.vce-features-icon-wrapper {
+  display: inline-block;
+}
 .vce-features__icon {
   position: relative;
   width: 2.9em;

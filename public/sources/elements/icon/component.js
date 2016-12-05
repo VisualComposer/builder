@@ -1,7 +1,7 @@
 /* global React, vcvAPI */
 class Component extends vcvAPI.elementComponent {
   render () {
-    let classes = 'vce vce-features'
+    let classes = 'vce-features'
     let {atts, editor, id} = this.props
     let {iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover} = atts
     let customProps = {}
@@ -89,13 +89,15 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
     }
 
-    return <div className={classes} id={'el-' + id} {...editor}>
-      <CustomTag className='vce-features__icon vce-icon' {...customProps}>
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
-          <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
-        </svg>
-        <CustomIconTag className={iconClasses} {...customIconProps} />
-      </CustomTag>
+    return <div className={classes} {...editor}>
+      <div id={'el-' + id} className='vce vce-features-icon-wrapper'>
+        <CustomTag className='vce-features__icon vce-icon' {...customProps}>
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
+            <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
+          </svg>
+          <CustomIconTag className={iconClasses} {...customIconProps} />
+        </CustomTag>
+      </div>
     </div>
   }
 }
