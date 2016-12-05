@@ -143,7 +143,8 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { image, designOptions, shape, clickableOptions, customClass, columns } = atts
-    let containerClasses = 'vce-image-gallery vce'
+    let containerClasses = 'vce-image-gallery'
+    let wrapperClasses = 'vce-image-gallery-wrapper vce'
     let containerProps = {}
     let CustomTag = 'div'
     let imgSrc = this.state && this.state.imgSrc
@@ -232,9 +233,11 @@ class Component extends vcvAPI.elementComponent {
       )
     })
 
-    return <div className={containerClasses} id={'el-' + id} {...editor} {...containerProps}>
-      <div className='vce-image-gallery-list'>
-        {galleryItems}
+    return <div className={containerClasses} {...editor} {...containerProps}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className='vce-image-gallery-list'>
+          {galleryItems}
+        </div>
       </div>
     </div>
   }
