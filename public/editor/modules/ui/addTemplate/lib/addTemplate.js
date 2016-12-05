@@ -45,7 +45,9 @@ export default class addTemplate extends React.Component {
       inputValue: '',
       isSearching: false,
       centered: false,
-      templatesExist: false
+      templatesExist: false,
+      error: false,
+      errorName: ''
     }
     this.changeActiveTab = this.changeActiveTab.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
@@ -54,10 +56,6 @@ export default class addTemplate extends React.Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToSaveTemplate = this.handleGoToSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
-  }
-
-  componentWillMount () {
-
   }
 
   // Check state
@@ -70,7 +68,10 @@ export default class addTemplate extends React.Component {
   // Change state
 
   changeTemplateName (name) {
-    this.setState({templateName: name})
+    this.setState({
+      templateName: name,
+      error: false
+    })
   }
 
   changeActiveTab (index, title) {
@@ -236,11 +237,29 @@ export default class addTemplate extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
-    templateManager.addCurrentLayout(this.state.templateName)
-    let myTemplates = this.props.tabs.findIndex((tab) => {
-      return tab.id === 'MyTemplates'
-    })
-    this.changeActiveTab(myTemplates)
+    if (this.state.templateName.trim()) {
+      let templateExists = templateManager.all().findIndex((template) => {
+        return template.name === this.state.templateName.trim()
+      })
+      if (templateExists < 0) {
+        templateManager.addCurrentLayout(this.state.templateName)
+        let myTemplates = this.props.tabs.findIndex((tab) => {
+          return tab.id === 'MyTemplates'
+        })
+        this.changeActiveTab(myTemplates)
+        this.setState({templateName: ''})
+      } else {
+        this.setState({
+          error: true,
+          errorName: 'Template with this title already exist. Please specify another title.'
+        })
+      }
+    } else {
+      this.setState({
+        error: true,
+        errorName: 'Please specify template title.'
+      })
+    }
   }
 
   handleGoToSaveTemplate () {
@@ -280,6 +299,10 @@ export default class addTemplate extends React.Component {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': itemsOutput && !itemsOutput.length
     })
+    let errorMessageClasses = classNames({
+      'vcv-ui-tree-content-error-message': true,
+      'vcv-ui-tree-content-error-message--visible': this.state.error
+    })
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
@@ -291,6 +314,9 @@ export default class addTemplate extends React.Component {
             </nav>
           </div>
           <div className='vcv-ui-tree-content-section'>
+            <div className='vcv-ui-tree-content-error-message-container'>
+              <div className={errorMessageClasses}>{this.state.errorName}</div>
+            </div>
             <Scrollbar>
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-editor-plates-container'>

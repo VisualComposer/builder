@@ -3,6 +3,10 @@
     margin: 0;
   }
 
+  .vcv-ui-tree-content-section {
+    overflow: hidden;
+  }
+
   .vcv-ui-tree-content-footer {
     &.vcv-ui-state--hidden {
       display: none;
@@ -23,6 +27,32 @@
       transform: translate(-50%, -50%);
       font-size: 50px;
       color: @color-inverted;
+    }
+  }
+
+  .vcv-ui-tree-content-error-message-container {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+  }
+
+  .vcv-ui-tree-content-error-message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: @error-message-background-color;
+    color: @text-color-base;
+    height: @error-message-height;
+    font-style: italic;
+    transform: translateY(100%);
+    transition: transform @transition-duration @transition-timing-function;
+
+    &--visible {
+      transform: translateY(0);
     }
   }
 }
