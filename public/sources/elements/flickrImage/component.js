@@ -138,7 +138,9 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} id={'el-' + id} ref='flickerInner' />
+      <div id={'el-' + id} >
+        <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+      </div>
     </div>
   }
 }
