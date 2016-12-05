@@ -59,7 +59,7 @@ let tempData = {
     },
     'Section': {
       'name': 'Section',
-      'elements': [ 'section' ],
+      'elements': [],
       'icon': 'categories/icons/Section.svg'
     },
     'Hero section': {
