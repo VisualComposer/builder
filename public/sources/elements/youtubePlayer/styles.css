@@ -1,11 +1,13 @@
 /* ----------------------------------------------
  * YouTube Video Player
  * ---------------------------------------------- */
-.vce-yt-video-player-inner {
-  position: relative;
+.vce-yt-video-player-wrapper {
   display: inline-block;
   max-width: 100%;
   vertical-align: top;
+}
+.vce-yt-video-player-inner {
+  position: relative;
 }
 .vce-yt-video-player-inner::before {
   content: '';
