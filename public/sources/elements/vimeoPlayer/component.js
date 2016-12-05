@@ -22,8 +22,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { customClass, videoPlayer, alignment, size, customSize, advanced } = atts
-    let classes = 'vce-vim-video-player vce'
-    let innerClasses = 'vce-vim-video-player-inner'
+    let classes = 'vce-vim-video-player'
     let source, videoWidth, videoId
     let autopause = advanced && atts.autopause ? 1 : 0
     let autoplay = advanced && atts.autoplay ? 1 : 0
@@ -60,13 +59,15 @@ class Component extends vcvAPI.elementComponent {
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
     return <div className={classes} {...editor} data-vcv-element-disabled='true'>
-      <div className={innerClasses} id={'el-' + id} style={{width: videoWidth}}>
-        <iframe
-          className='vce-vim-video-player-iframe'
-          src={source}
-          frameBorder='0'
-          allowFullScreen='true'
-        />
+      <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}}>
+        <div className='vce-vim-video-player-inner'>
+          <iframe
+            className='vce-vim-video-player-iframe'
+            src={source}
+            frameBorder='0'
+            allowFullScreen='true'
+          />
+        </div>
       </div>
     </div>
   }

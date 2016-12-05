@@ -120,6 +120,9 @@ let publicApi = {
       assetsStorage.getGlobalCssData()
     )
     return styles
+  },
+  getGoogleFontsData () {
+    return assetsStorage.getGoogleFontsData()
   }
 }
 

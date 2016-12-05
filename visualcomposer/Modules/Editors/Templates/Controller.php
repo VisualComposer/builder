@@ -24,13 +24,13 @@ class Controller extends Container implements Module
     public function __construct(Options $optionsHelper)
     {
         $this->options = $optionsHelper;
-        /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::getData */
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::getMyTemplates */
         $this->addFilter(
             'vcv:dataAjax:getData',
             'getMyTemplates'
         );
 
-        /** @see \VisualComposer\Modules\Editors\DataAjax\Controller::setMyTemplates */
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::setMyTemplates */
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setMyTemplates'
