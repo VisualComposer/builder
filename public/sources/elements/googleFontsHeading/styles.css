@@ -1,5 +1,11 @@
 .vce-google-fonts-heading-inner {
   color: inherit;
+  display: inline-block;
+}
+
+.vce-google-fonts-heading-wrapper {
+  max-width: 100%;
+  display: inline-block;
 }
 
 .vce-google-fonts-heading-link,

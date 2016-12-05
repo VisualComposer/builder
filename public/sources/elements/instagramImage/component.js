@@ -105,7 +105,8 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, width, alignment } = atts
-    let classes = 'vce-instagram-image vce'
+    let classes = 'vce-instagram-image'
+    let wrapperClasses = 'vce-instagram-image-wrapper vce'
     let customProps = {}
     let innerClasses = 'vce-instagram-image-inner'
     let innerCustomProps = {}
@@ -139,8 +140,10 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={innerClasses} {...innerCustomProps} />
+      </div>
     </div>
   }
 }
