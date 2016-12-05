@@ -14,6 +14,21 @@
   }
 }
 
+.vcv-ui-form-attach-image-items-dragging {
+  .vcv-ui-form-attach-image-item {
+    .vcv-ui-form-attach-image-item-controls {
+      opacity: 0;
+    }
+
+    &.vcv-ui-form-sortable-attach-image-item-inner-dragging {
+      .vcv-ui-form-attach-image-item-controls {
+        outline: none;
+        opacity: 1;
+      }
+    }
+  }
+}
+
 .vcv-ui-form-attach-image-item {
   margin: @vcui-attach-image-gap/2;
   overflow: hidden;

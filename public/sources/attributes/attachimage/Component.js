@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import Url from '../url/Component'
 import AttachImageItem from './attachImageItem'
 import {sortable} from 'react-sortable'
+import classNames from 'classnames'
 
 let SortableImageItem = sortable(AttachImageItem)
 
@@ -225,9 +226,15 @@ class AttachImage extends Attribute {
       addControl = ''
     }
 
+    console.log(this.state.value.draggingIndex)
+    let listClassName = classNames({
+      'vcv-ui-form-attach-image-items-dragging': this.state.value.draggingIndex || this.state.value.draggingIndex === 0,
+      'vcv-ui-form-attach-image-items': true
+    })
+
     return (
       <div className='vcv-ui-form-attach-image'>
-        <ul className='vcv-ui-form-attach-image-items'>
+        <ul className={listClassName}>
           {images}
           {addControl}
         </ul>
