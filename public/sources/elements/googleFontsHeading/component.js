@@ -22,6 +22,7 @@ class Component extends vcvAPI.elementComponent {
     innerCustomProps.style = {}
     let CustomTag = elementTag
     let headingHtml = text
+    let googleFontLink = ''
 
     if (link && link.url) {
       let { url, title, targetBlank, relNofollow } = link
@@ -72,6 +73,18 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (font) {
+      let fontHref = ''
+
+      if (font.fontStyle) {
+        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+      } else {
+        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
+      }
+
+      googleFontLink = (
+        <link href={fontHref} rel='stylesheet' />
+      )
+
       innerCustomProps.style.fontFamily = font.fontFamily
       innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
       innerCustomProps.style.fontStyle = font.fontStyle ? font.fontStyle.style : null
@@ -94,6 +107,7 @@ class Component extends vcvAPI.elementComponent {
 
     return <div {...customProps} className={classes} {...editor}>
       <div className={wrapperClasses} id={'el-' + id}>
+        <vcvhelper>{googleFontLink}</vcvhelper>
         <CustomTag className={innerClasses} {...innerCustomProps}>
           {headingHtml}
         </CustomTag>
