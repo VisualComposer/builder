@@ -26,8 +26,8 @@ class Controller extends Container implements Module
     {
         $this->options = $optionsHelper;
 
-        /** @see \VisualComposer\Modules\Editors\Attributes\GoogleFonts\Controller::enqueueGoogleFontsScripts */
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGoogleFontsScripts');
+        /** @see \VisualComposer\Modules\Editors\Attributes\GoogleFonts\Controller::enqueueGoogleFontsStyle */
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGoogleFontsStyle');
 
         /** @see \VisualComposer\Modules\Editors\Attributes\GoogleFonts\Controller::saveGoogleFonts */
         $this->addFilter(
@@ -39,12 +39,12 @@ class Controller extends Container implements Module
     /**
      * Enqueue google fonts assets.
      */
-    private function enqueueGoogleFontsScripts()
+    private function enqueueGoogleFontsStyle()
     {
         $googleFonts = $this->options->get('googleFonts', []);
 
         foreach ($googleFonts as $font) {
-            wp_enqueue_script('vcv:' . $font, $font);
+            wp_enqueue_style('vcv:' . $font, $font);
         }
     }
 
