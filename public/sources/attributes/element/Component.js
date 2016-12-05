@@ -104,8 +104,8 @@ export default class ElementAttribute extends Attribute {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
         let cookElement = Cook.get({tag: tag})
         let nameClasses = classNames({
-          'vcv-ui-add-element-badge vcv-ui-badge--success': false,
-          'vcv-ui-add-element-badge vcv-ui-badge--warning': false
+          'vcv-ui-item-badge vcv-ui-badge--success': false,
+          'vcv-ui-item-badge vcv-ui-badge--warning': false
         })
 
         let publicPathThumbnail
@@ -116,16 +116,16 @@ export default class ElementAttribute extends Attribute {
           publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
         }
 
-        return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-add-element-list-item'>
-          <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, {tag: tag})}>
-            <span className='vcv-ui-add-element-element-content'>
-              <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
+        return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
+          <a className='vcv-ui-item-element' onClick={this.onClickReplacement.bind(this, {tag: tag})}>
+            <span className='vcv-ui-item-element-content'>
+              <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
                 alt='' />
-              <span className='vcv-ui-add-element-overlay'>
-                <span className='vcv-ui-add-element-add vcv-ui-icon vcv-ui-icon-add' />
+              <span className='vcv-ui-item-overlay'>
+                <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
               </span>
             </span>
-            <span className='vcv-ui-add-element-element-name'>
+            <span className='vcv-ui-item-element-name'>
               <span className={nameClasses}>
                 {cookElement.get('name')}
               </span>
