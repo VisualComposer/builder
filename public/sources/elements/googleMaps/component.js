@@ -93,19 +93,15 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment, width, height } = atts
-    let classes = 'vce-google-maps vce'
+    let classes = 'vce-google-maps'
     let innerClasses = 'vce-google-maps-inner'
-    let wrapperClasses = 'vce-google-maps-wrapper'
+    let wrapperClasses = 'vce-google-maps-wrapper vce'
     let customProps = {}
     let innerProps = {}
     let wrapperProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
-    }
-
-    customProps.style = {
-      height: this.state ? (this.state.size ? this.state.size.height : null) : null
     }
 
     wrapperProps.style = {
@@ -148,8 +144,8 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={wrapperClasses} {...wrapperProps}>
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id}>
         <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>

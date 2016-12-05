@@ -3,6 +3,11 @@
   vertical-align: top;
 }
 
+.vce-instagram-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
 .vce-instagram-image-inner {
   width: 100%;
   max-width: 100%;

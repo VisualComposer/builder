@@ -1,3 +1,7 @@
+.vce-google-maps {
+  min-height: 100%;
+}
+
 .vce-google-maps-wrapper {
   display: inline-block;
   vertical-align: top;
