@@ -233,13 +233,9 @@ class Controller extends Container implements Module
         $files = array_unique($files);
 
         if (!empty($files)) {
-            $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5(implode(',', $files)) . '.js';
-            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles' . '/'
-                . $concatenatedFilename;
-
-            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/asset-bundles';
-            $bundle = $destinationDir . '/' . $concatenatedFilename;
+            $bundleUrl = $this->getFileUrl($concatenatedFilename);
+            $bundle = $this->getFilePath($concatenatedFilename);
             /** @var $app Application */
             $app = vcapp();
             if (!is_file($bundle)) {
@@ -334,14 +330,9 @@ class Controller extends Container implements Module
     private function generateStylesBundle($contents)
     {
         if ($contents) {
-            $uploadDir = wp_upload_dir();
             $concatenatedFilename = md5($contents) . '.css';
-            $bundleUrl = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
-                . $concatenatedFilename;
-
-            $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
-            $bundle = $destinationDir . '/' . $concatenatedFilename;
-
+            $bundleUrl = $this->getFileUrl($concatenatedFilename);
+            $bundle = $this->getFilePath($concatenatedFilename);
             if (!is_file($bundle)) {
                 $this->deleteAssetsBundles('css');
                 if (!$this->file->setContents($bundle, $contents)) {
@@ -509,9 +500,7 @@ class Controller extends Container implements Module
      */
     private function deleteAssetsBundles($extension = '')
     {
-        $uploadDir = wp_upload_dir();
-        $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
-
+        $destinationDir = $this->getFilePath();
         if ($extension) {
             $extension = '.' . $extension;
         }
@@ -527,21 +516,21 @@ class Controller extends Container implements Module
         return $files;
     }
 
-    private function getFilePath($filename)
+    private function getFilePath($filename = '')
     {
         $uploadDir = wp_upload_dir();
         $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
         $this->file->checkDir($destinationDir);
-        $path = $destinationDir . '/' . $filename;
+        $path = $destinationDir . (!empty($filename) ? '/' . $filename : '');
 
         return $path;
     }
 
-    private function getFileUrl($filename)
+    private function getFileUrl($filename = '')
     {
         $uploadDir = wp_upload_dir();
-        $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . '/'
-            . $filename;
+        $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . (!empty($filename) ? '/'
+                . $filename : '');
 
         return $url;
     }
