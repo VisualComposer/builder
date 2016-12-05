@@ -2,12 +2,12 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   static unique = 0
-  static tweetCount = '5'
+  tweetCount = '5'
 
   componentDidMount () {
-    let { customOptions, gridUrl, tweetCount, width } = this.props.atts
-    if (!customOptions) {
-      tweetCount = Component.tweetCount
+    let { gridUrl, tweetCount, width } = this.props.atts
+    if (!tweetCount) {
+      tweetCount = this.tweetCount
     }
 
     if (width) {
@@ -20,15 +20,16 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    let { customOptions, gridUrl, tweetCount } = this.props.atts
-    if (!customOptions) {
-      tweetCount = Component.tweetCount
+    let { gridUrl, tweetCount } = this.props.atts
+    if (!tweetCount) {
+      tweetCount = this.tweetCount
     }
     let elementKey = `customProps:${this.props.id}-${gridUrl}-${tweetCount}`
 
     let nextAtts = nextProps.atts
-    if (!nextAtts.customOptions) {
-      nextAtts.tweetCount = Component.tweetCount
+
+    if (!nextAtts.tweetCount) {
+      nextAtts.tweetCount = this.tweetCount
     }
     if (nextAtts.width) {
       this.checkCustomSize(nextAtts.width)
@@ -115,9 +116,10 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, customOptions } = atts
-    let classes = 'vce-twitter-grid vce'
+    let { designOptions, customClass, alignment, width } = atts
+    let classes = 'vce-twitter-grid'
     let innerClasses = 'vce-twitter-grid-inner'
+    let wrapperClasses = 'vce-twitter-grid-wrapper vce'
     let customProps = {}
     let innerCustomProps = {}
 
@@ -125,7 +127,7 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (alignment && customOptions) {
+    if (alignment) {
       classes += ` vce-twitter-grid--align-${alignment}`
     }
 
@@ -150,8 +152,10 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={innerClasses} {...innerCustomProps} />
+      </div>
     </div>
   }
 }

@@ -2,16 +2,12 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   static unique = 0
-  static tweetSettings = {
-    count: '5',
-    theme: 'light'
-  }
+  tweetCount = '5'
 
   componentDidMount () {
-    let { customOptions, timelineUrl, tweetCount, tweetTheme, width } = this.props.atts
-    if (!customOptions) {
-      tweetCount = Component.tweetSettings.count
-      tweetTheme = Component.tweetSettings.theme
+    let { timelineUrl, tweetCount, tweetTheme, width } = this.props.atts
+    if (!tweetCount) {
+      tweetCount = this.tweetCount
     }
 
     if (width) {
@@ -24,17 +20,15 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    let { customOptions, timelineUrl, tweetCount, tweetTheme } = this.props.atts
-    if (!customOptions) {
-      tweetCount = Component.tweetSettings.count
-      tweetTheme = Component.tweetSettings.theme
+    let { timelineUrl, tweetCount, tweetTheme } = this.props.atts
+    if (!tweetCount) {
+      tweetCount = this.tweetCount
     }
     let elementKey = `customProps:${this.props.id}-${timelineUrl}-${tweetCount}-${tweetTheme}`
 
     let nextAtts = nextProps.atts
-    if (!nextAtts.customOptions) {
-      nextAtts.tweetCount = Component.tweetSettings.count
-      nextAtts.tweetTheme = Component.tweetSettings.theme
+    if (!nextAtts.tweetCount) {
+      nextAtts.tweetCount = this.tweetCount
     }
     if (nextAtts.width) {
       this.checkCustomSize(nextAtts.width)
@@ -121,8 +115,9 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, customOptions } = atts
-    let classes = 'vce-twitter-timeline vce'
+    let { designOptions, customClass, alignment, width } = atts
+    let classes = 'vce-twitter-timeline'
+    let wrapperClasses = 'vce-twitter-timeline-wrapper vce'
     let innerClasses = 'vce-twitter-timeline-inner'
     let customProps = {}
     let innerCustomProps = {}
@@ -131,7 +126,7 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (alignment && customOptions) {
+    if (alignment) {
       classes += ` vce-twitter-timeline--align-${alignment}`
     }
 
@@ -156,8 +151,10 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={innerClasses} {...innerCustomProps} />
+      </div>
     </div>
   }
 }

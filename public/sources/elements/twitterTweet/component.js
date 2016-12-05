@@ -4,11 +4,7 @@ class Component extends vcvAPI.elementComponent {
   static unique = 0
 
   componentDidMount () {
-    let { customOptions, tweetUrl, tweetTheme, width } = this.props.atts
-    if (!customOptions) {
-      tweetTheme = 'light'
-    }
-
+    let { tweetUrl, tweetTheme, width } = this.props.atts
     if (width) {
       this.checkCustomSize(width)
     }
@@ -19,16 +15,10 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    let { customOptions, tweetUrl, tweetTheme } = this.props.atts
-    if (!customOptions) {
-      tweetTheme = 'light'
-    }
+    let { tweetUrl, tweetTheme } = this.props.atts
     let elementKey = `customProps:${this.props.id}-${tweetUrl}-${tweetTheme}`
 
     let nextAtts = nextProps.atts
-    if (!nextAtts.customOptions) {
-      nextAtts.tweetTheme = 'light'
-    }
     if (nextAtts.width) {
       this.checkCustomSize(nextAtts.width)
     } else {
@@ -114,8 +104,9 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, customOptions } = atts
-    let classes = 'vce-twitter-tweet vce'
+    let { designOptions, customClass, alignment, width } = atts
+    let classes = 'vce-twitter-tweet'
+    let wrapperClasses = 'vce-twitter-tweet-wrapper vce'
     let innerClasses = 'vce-twitter-tweet-inner'
     let customProps = {}
     let innerCustomProps = {}
@@ -124,7 +115,7 @@ class Component extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    if (alignment && customOptions) {
+    if (alignment) {
       classes += ` vce-twitter-tweet--align-${alignment}`
     }
 
@@ -149,8 +140,10 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} {...innerCustomProps} />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={innerClasses} {...innerCustomProps} />
+      </div>
     </div>
   }
 }

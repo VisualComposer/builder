@@ -2,6 +2,10 @@
   line-height: 1;
 }
 
+.vce-tweet-button-wrapper {
+  display: inline-block;
+}
+
 .vce-tweet-button iframe {
   display: block;
   vertical-align: top;

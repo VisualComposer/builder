@@ -7,20 +7,21 @@ class Component extends vcvAPI.elementComponent {
     let classNames = require('classnames')
     let customProps = {}
 
-    let wrapperClasses = classNames({
+    let containerClasses = classNames({
       'vce': true,
       'vce-hero-section': true,
       'vce-hero-section--min-height': true,
       'vce-hero-section--alignment-start': align === 'start',
       'vce-hero-section--alignment-end': align === 'end'
     })
+    let wrapperClasses = 'vce-hero-section-wrapper'
 
     let rowClasses = classNames({
       'vce-hero-section__wrap-row': true
     })
 
     if (typeof customClass === 'string' && customClass) {
-      wrapperClasses = wrapperClasses.concat(' ' + customClass)
+      containerClasses = containerClasses.concat(' ' + customClass)
     }
 
     let rowStyles = {}
@@ -49,13 +50,15 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-    return <section className={wrapperClasses} id={'el-' + id} {...editor}>
-      <div className={rowClasses} style={rowStyles} {...customProps}>
-        <div className='vce-hero-section__wrap'>
-          <div className='vce-hero-section__content'>
-            {title}
-            {description}
-            {buttonOutput}
+    return <section className={containerClasses} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={rowClasses} style={rowStyles} {...customProps}>
+          <div className='vce-hero-section__wrap'>
+            <div className='vce-hero-section__content'>
+              {title}
+              {description}
+              {buttonOutput}
+            </div>
           </div>
         </div>
       </div>

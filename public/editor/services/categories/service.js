@@ -105,12 +105,12 @@ let tempData = {
     'WooCommerce': {
       'name': 'WooCommerce',
       'elements': [],
-      'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
+      'icon': 'categories/icons/Misc.svg'
     },
     'WP Widgets': {
       'name': 'WP Widgets',
       'elements': [ 'WpWidgetsDefault', 'WpWidgetsCustom' ],
-      'icon': 'categories/icons/WooCommerce.jpg' // TODO: SVG!
+      'icon': 'categories/icons/WordPress.svg'
     }
   }
 }
