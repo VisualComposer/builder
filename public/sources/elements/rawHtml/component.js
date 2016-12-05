@@ -4,7 +4,7 @@ class Component extends vcvAPI.elementComponent {
     var {id, atts, editor} = this.props
     var {rawHtml, customClass} = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
-    let customProps = {}
+    let wrapperClasses = 'vce-raw-html-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
     }
@@ -12,6 +12,8 @@ class Component extends vcvAPI.elementComponent {
       return {__html: rawHtml}
     }
 
-    return <div className={classes} {...editor} {...customProps} id={'el-' + id} dangerouslySetInnerHTML={createMarkup()} />
+    return <div className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id} dangerouslySetInnerHTML={createMarkup()} />
+    </div>
   }
 }
