@@ -114,7 +114,8 @@
     "type": "element",
     "access": "public",
     "value": {
-      "tag": "basicButton"
+      "tag": "basicButton",
+      "alignment": "center"
     },
     "options": {
       "category": "Button",

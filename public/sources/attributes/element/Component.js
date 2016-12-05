@@ -4,10 +4,10 @@ import Attribute from '../attribute'
 import classNames from 'classnames'
 import './css/styles.less'
 import vcCake from 'vc-cake'
+import FieldWrapper from './field-tabs'
 const Cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 const categoriesService = vcCake.getService('categories')
-import FieldWrapper from './field-tabs'
 
 export default class ElementAttribute extends Attribute {
   static propTypes = {
@@ -98,11 +98,11 @@ export default class ElementAttribute extends Attribute {
   render () {
     let replacements = ''
 
+    let category = this.props.options.category || '*'
+    let categorySettings = categoriesService.category(category)
     if (this.state.showReplacements) {
-      let category = this.props.options.category || '*'
-      let categorySettings = categoriesService.category(category)
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
-        let cookElement = Cook.get({tag: tag})
+        let cookElement = Cook.get({ tag: tag })
         let nameClasses = classNames({
           'vcv-ui-add-element-badge vcv-ui-badge--success': false,
           'vcv-ui-add-element-badge vcv-ui-badge--warning': false
@@ -117,7 +117,7 @@ export default class ElementAttribute extends Attribute {
         }
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-add-element-list-item'>
-          <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, {tag: tag})}>
+          <a className='vcv-ui-add-element-element' onClick={this.onClickReplacement.bind(this, { tag: tag })}>
             <span className='vcv-ui-add-element-element-content'>
               <img className='vcv-ui-add-element-element-image' src={publicPathThumbnail}
                 alt='' />
@@ -160,18 +160,23 @@ export default class ElementAttribute extends Attribute {
       )
     }
 
-    return (
-      <div className='vcv-ui-form-element'>
+    let replacementBlock = ''
+    if (categorySettings.elements.length > 1) {
+      replacementBlock = (
         <div className='vcv-ui-replace-element-block'>
           {replacements}
         </div>
-        <FieldWrapper
-          api={this.props.api}
-          onChange={this.onChange}
-          element={this.state.element}
-          allTabs={this.state.allTabs}
-        />
-      </div>
-    )
+      )
+    }
+
+    return <div className='vcv-ui-form-element'>
+      {replacementBlock}
+      <FieldWrapper
+        api={this.props.api}
+        onChange={this.onChange}
+        element={this.state.element}
+        allTabs={this.state.allTabs}
+      />
+    </div>
   }
 }

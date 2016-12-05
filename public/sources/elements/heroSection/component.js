@@ -7,10 +7,14 @@ class Component extends vcvAPI.elementComponent {
     let classNames = require('classnames')
     let customProps = {}
 
+    let containerClasses = classNames({
+      'vce-hero-section-container': true
+    })
+
     let wrapperClasses = classNames({
       'vce': true,
       'vce-hero-section': true,
-      'vce-hero-section--min-height': true,
+      'vce-hero-section--min-height': false,
       'vce-hero-section--alignment-start': align === 'start',
       'vce-hero-section--alignment-end': align === 'end'
     })
@@ -49,12 +53,14 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-    return <section className={wrapperClasses} id={'el-' + id} {...editor}>
-      <div className={rowClasses} style={rowStyles} {...customProps}>
-        <div className='vce-hero-section__wrap'>
-          <div className='vce-hero-section__content'>
-            {description}
-            {buttonOutput}
+    return <section className={containerClasses} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={rowClasses} style={rowStyles} {...customProps}>
+          <div className='vce-hero-section__wrap'>
+            <div className='vce-hero-section__content'>
+              {description}
+              {buttonOutput}
+            </div>
           </div>
         </div>
       </div>
