@@ -21,7 +21,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment, size, customSize, advanced } = atts
+    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced } = atts
     let classes = 'vce-vim-video-player'
     let source, videoWidth, videoId
     let autopause = advanced && atts.autopause ? 1 : 0
@@ -29,6 +29,7 @@ class Component extends vcvAPI.elementComponent {
     let loop = advanced && atts.loop ? 1 : 0
     let color = advanced ? atts.color.slice(1) : '00adef'
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+    let customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
@@ -58,7 +59,22 @@ class Component extends vcvAPI.elementComponent {
 
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
-    return <div className={classes} {...editor} data-vcv-element-disabled='true'>
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations.length) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+
+    return <div className={classes} {...customProps} {...editor} data-vcv-element-disabled='true'>
       <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}}>
         <div className='vce-vim-video-player-inner'>
           <iframe
