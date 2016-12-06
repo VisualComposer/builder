@@ -75,7 +75,8 @@
     "access": "public",
     "value": "The sky was cloudless and of a deep dark blue.",
     "options": {
-      "label": "Title text"
+      "label": "Title text",
+      "inline": true
     }
   },
   "font": {
