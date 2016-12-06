@@ -25,6 +25,11 @@
     root.lightbox = factory(root.jQuery);
   }
 }(this, function () {
+  if (window.lightbox01613445) {
+    return false;
+  }
+  window.lightbox01613445 = true;
+
   function Lightbox(options) {
     this.album = [];
     this.currentImageIndex = void 0;
