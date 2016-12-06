@@ -43,6 +43,19 @@
       "inline": true
     }
   },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Description color",
+      "cssMixin": {
+        "mixin": "basicColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
   "image": {
     "type": "attachimage",
     "access": "public",
@@ -97,8 +110,7 @@
     "access": "public",
     "value": true,
     "options": {
-      "label": "Add button",
-      "description": "[ON] Will add the button to content"
+      "label": "Add button"
     }
   },
   "customClass": {
@@ -146,6 +158,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "color",
       "description",
       "image",
       "align",
