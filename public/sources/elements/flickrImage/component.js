@@ -117,7 +117,7 @@ class Component extends vcvAPI.elementComponent {
       } else {
         width = this.checkImageSize(width)
       }
-      innerCustomProps.style = { width: width }
+      innerCustomProps.style = { maxWidth: width }
     }
 
     customProps.key = `customProps:${id}`
