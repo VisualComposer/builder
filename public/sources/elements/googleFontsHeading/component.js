@@ -107,7 +107,7 @@ class Component extends vcvAPI.elementComponent {
 
     return <div {...customProps} className={classes} {...editor}>
       <div className={wrapperClasses} id={'el-' + id}>
-        {googleFontLink}
+        <vcvhelper>{googleFontLink}</vcvhelper>
         <CustomTag className={innerClasses} {...innerCustomProps}>
           {headingHtml}
         </CustomTag>

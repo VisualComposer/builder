@@ -3,6 +3,11 @@
   vertical-align: top;
 }
 
+.vce-twitter-grid-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
 .vce-twitter-grid--align-center {
   text-align: center;
 }

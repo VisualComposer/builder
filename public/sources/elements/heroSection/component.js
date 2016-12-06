@@ -24,7 +24,7 @@ class Component extends vcvAPI.elementComponent {
     })
 
     if (typeof customClass === 'string' && customClass) {
-      wrapperClasses = wrapperClasses.concat(' ' + customClass)
+      wrapperClasses = containerClasses.concat(' ' + customClass)
     }
 
     let rowStyles = {}

@@ -95,8 +95,9 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions, customClass, alignment } = atts
-    let classes = 'vce-tweet-button vce'
+    let classes = 'vce-tweet-button'
     let innerClasses = 'vce-tweet-button-inner'
+    let wrapperClasses = 'vce-tweet-button-wrapper vce'
     let customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
@@ -121,8 +122,10 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    return <div {...customProps} className={classes} id={'el-' + id} {...editor}>
-      <div className={innerClasses} />
+    return <div {...customProps} className={classes} {...editor}>
+      <div className={wrapperClasses} id={'el-' + id}>
+        <div className={innerClasses} />
+      </div>
     </div>
   }
 }

@@ -97,7 +97,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment, size, customSize, advanced } = atts
+    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced } = atts
     let classes = 'vce-yt-video-player'
     let source, videoWidth, videoId, loop
     let autoplay = advanced && atts.autoplay ? 1 : 0
@@ -107,6 +107,7 @@ class Component extends vcvAPI.elementComponent {
     let start = advanced && atts.start ? this.parseTime(atts.start) : 0
     let end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    let customProps = {}
 
     if (advanced) {
       controls = atts.controls ? 2 : 0
@@ -146,7 +147,22 @@ class Component extends vcvAPI.elementComponent {
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
-    return <div className={classes} {...editor} data-vcv-element-disabled='true'>
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations.length) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+
+    return <div className={classes} {...editor} {...customProps} data-vcv-element-disabled='true'>
       <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}}>
         <div className='vce-yt-video-player-inner'>
           <iframe
