@@ -10,6 +10,9 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
   }
 
   field = (field) => {
+    if (field.key === 'designOptions') {
+      return
+    }
     return (
       <EditFormFieldDependencies
         {...this.props}
