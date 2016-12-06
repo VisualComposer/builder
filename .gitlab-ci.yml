@@ -3,7 +3,7 @@ image: wpbakery/ci-wordpress
 stages:
   - codestyle
   - test
-#  - deploy
+  - deploy
 
 codestyle:js:
   image: wpbakery/standardjs
