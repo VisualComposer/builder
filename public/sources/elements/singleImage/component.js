@@ -187,7 +187,7 @@ class Component extends vcvAPI.elementComponent {
 
     this.setState({
       imgSize: {
-        width: currentSize.width.replace(/\s/g, '') + 'px',
+        width: currentSize.width + 'px',
         backgroundImage: currentSize.width ? 'url(' + imgSrc + ')' : ''
       }
     })
