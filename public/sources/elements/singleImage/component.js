@@ -118,7 +118,7 @@ class Component extends vcvAPI.elementComponent {
 
   parseSize (size, isRound) {
     if (typeof size === 'string') {
-      size = size.split('x')
+      size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase().split('x')
     } else if (typeof size === 'object') {
       size = [ size.width, size.height ]
     }
@@ -187,7 +187,7 @@ class Component extends vcvAPI.elementComponent {
 
     this.setState({
       imgSize: {
-        width: currentSize.width + 'px',
+        width: currentSize.width.replace(/\s/g, '') + 'px',
         backgroundImage: currentSize.width ? 'url(' + imgSrc + ')' : ''
       }
     })
