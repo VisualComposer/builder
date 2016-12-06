@@ -120,9 +120,6 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
   tempData.categories[ 'Section' ].elements.push('section')
 }
-if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
-  tempData.categories[ 'Social' ].elements.push('twitterPublisher')
-}
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories[ 'Single image' ].elements.push('singleImage')
 }
@@ -131,6 +128,9 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
+}
+if (vcCake.env('FEATURE_FACEBOOK_LIKE')) {
+  tempData.categories[ 'Social' ].elements.push('facebookLike')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
