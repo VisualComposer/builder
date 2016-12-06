@@ -120,9 +120,6 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
   tempData.categories[ 'Section' ].elements.push('section')
 }
-if (vcCake.env('FEATURE_TWITTER_PUBLISHER')) {
-  tempData.categories[ 'Social' ].elements.push('twitterPublisher')
-}
 if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
   tempData.categories[ 'Single image' ].elements.push('singleImage')
 }
