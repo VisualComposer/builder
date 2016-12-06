@@ -2,8 +2,9 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var {id, atts, editor} = this.props
-    var {rawHtml, customClass} = atts // destructuring assignment for attributes from settings.json with access public
+    var {rawHtml, customClass, designOptions} = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
+    let customProps = {}
     let wrapperClasses = 'vce-raw-html-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
@@ -12,7 +13,22 @@ class Component extends vcvAPI.elementComponent {
       return {__html: rawHtml}
     }
 
-    return <div className={classes} {...editor}>
+    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    let animations = []
+    devices.forEach((device) => {
+      let prefix = designOptions.visibleDevices[ device ]
+      if (designOptions[ device ].animation) {
+        if (prefix) {
+          prefix = `-${prefix}`
+        }
+        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      }
+    })
+    if (animations.length) {
+      customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+
+    return <div className={classes} {...editor} {...customProps}>
       <div className={wrapperClasses} id={'el-' + id} dangerouslySetInnerHTML={createMarkup()} />
     </div>
   }
