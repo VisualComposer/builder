@@ -88,12 +88,11 @@ test:php:modules:
   tags:
     - docker
 
-#deploy:test:alpha:
-#  image: wpbakery/ci-deployer
-#  stage: deploy
-#  script:
-#    - cd ci/deploy/test && dep deploy test
-#  tags:
-#   - docker
+deploy:test:alpha:
+  image: wpbakery/ci-deployer
+  stage: deploy
+  script:
+    - cd ci/deploy/test && dep deploy test
+  tags:
+   - docker
 
-## Last changed 07-11-2016
