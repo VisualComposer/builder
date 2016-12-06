@@ -24,7 +24,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
 
   onElementChange = (key, value) => {
     this.props.element.set(key, value)
-    this.callFieldActivities(key)
+    this.callFieldActivities(null, key)
     this.props.onChange()
   }
 

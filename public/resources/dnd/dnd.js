@@ -104,6 +104,15 @@ export default class DnD {
       /**
        * @memberOf! DnD
        */
+      manualScroll: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: false
+      },
+      /**
+       * @memberOf! DnD
+       */
       options: {
         enumerable: false,
         configurable: false,
@@ -194,6 +203,7 @@ export default class DnD {
   }
   checkItems (point) {
     let domNode = this.findDOMNode(point)
+
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
     let parentDOMElement = this.items[domElement.parent()] || null
@@ -265,6 +275,7 @@ export default class DnD {
     this.removePlaceholder()
     this.options.document.removeEventListener('scroll', this.scrollEvent)
     this.point = null
+    this.manualScroll = false
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
@@ -286,6 +297,21 @@ export default class DnD {
     // Set callback on dragEnd
     this.options.document.removeEventListener('mouseup', this.handleDragEndFunction, false)
   }
+  scrollManually (point) {
+    let body = this.options.document.body
+    let clientHeight = this.options.document.documentElement.clientHeight
+    let top = null
+    let speed = 30
+    let gap = 10
+    if (clientHeight - gap <= point.y) {
+      top = body.scrollTop + speed
+    } else if (point.y <= gap && body.scrollTop >= speed) {
+      top = body.scrollTop - speed
+    }
+    if (top !== null) {
+      body.scrollTop = top > 0 ? top : 0
+    }
+  }
   check (point = null) {
     if (this.options.disabled === true) {
       this.handleDragEnd()
@@ -294,10 +320,10 @@ export default class DnD {
     if (getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
+    this.manualScroll && this.scrollManually(point)
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
-      } else {
       }
     }, 0)
     this.helper && this.helper.setPosition(point)
