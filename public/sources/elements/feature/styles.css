@@ -1,0 +1,12 @@
+.vce-feature__wrap-row .vce {
+  margin: 0 0 25px;
+}
+.vce-feature--alignment--left {
+  text-align: left;
+}
+.vce-feature--alignment--right {
+  text-align: right;
+}
+.vce-feature--alignment--center {
+  text-align: center;
+}

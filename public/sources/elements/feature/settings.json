@@ -1,0 +1,133 @@
+{
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "feature"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Feature"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Feature element with an icon, title and description. Icon element contains controls for various background shapes."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview-feature.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail-feature.jpg"
+  },
+  "description": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<h3>VIDEO TUTORIALS</h3><p>Take full control over your website with our new exciting page builder. You'll be grinning in delight when you see just how easy it is to create stunning layouts with little effort.</p>",
+    "options": {
+      "label": "Description",
+      "inline": true
+    }
+  },
+  "align": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "center",
+    "options": {
+      "label": "Content alignment",
+      "description": "Select the content alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "icon": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "icon",
+      "iconAlignment": "center"
+    },
+    "options": {
+      "category": "Icon",
+      "tabLabel": "Icon"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "description",
+      "align",
+      "customClass"
+    ],
+    "options": {
+      "label": "Feature"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "icon",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  }
+}

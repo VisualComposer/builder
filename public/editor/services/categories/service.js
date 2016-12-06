@@ -152,6 +152,9 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
 }
+if (vcCake.env('FEATURE_FEATURE')) {
+  tempData.categories[ 'Misc' ].elements.push('feature')
+}
 const data = tempData
 
 const service = {
