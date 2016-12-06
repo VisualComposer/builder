@@ -34,19 +34,10 @@
     "access": "protected",
     "value": "thumbnail-hero-section.jpg"
   },
-  "title": {
-    "type": "htmleditor",
-    "access": "public",
-    "value": "<h1>Highland Traditions of Scotland</h1>",
-    "options": {
-      "label": "Title",
-      "inline": true
-    }
-  },
   "description": {
     "type": "htmleditor",
     "access": "public",
-    "value": "<p>The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
+    "value": "<h1>Highland Traditions of Scotland</h1><p>The region became culturally distinguishable from the Lowlands from the later Middle Ages into the modern period.</p>",
     "options": {
       "label": "Description",
       "inline": true
@@ -58,7 +49,24 @@
     "value": "hero-section-background.jpg",
     "options": {
       "label": "Image",
-      "multiple": false
+      "multiple": false,
+      "defaultValue": "hero-section-background.jpg",
+      "onChange": {
+        "rules": {
+          "clickableOptions": {
+            "rule": "value",
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "attachImageUrls"
+          }
+        ]
+      },
+      "url": false
     }
   },
   "align": {
@@ -106,7 +114,8 @@
     "type": "element",
     "access": "public",
     "value": {
-      "tag": "basicButton"
+      "tag": "basicButton",
+      "alignment": "center"
     },
     "options": {
       "category": "Button",
@@ -137,7 +146,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "title",
       "description",
       "image",
       "align",

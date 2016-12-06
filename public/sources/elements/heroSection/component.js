@@ -3,25 +3,28 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { title, description, image, align, addButton, customClass, designOptions, button } = atts
+    let { description, image, align, addButton, customClass, designOptions, button } = atts
     let classNames = require('classnames')
     let customProps = {}
 
     let containerClasses = classNames({
+      'vce-hero-section-container': true
+    })
+
+    let wrapperClasses = classNames({
       'vce': true,
       'vce-hero-section': true,
-      'vce-hero-section--min-height': true,
+      'vce-hero-section--min-height': false,
       'vce-hero-section--alignment-start': align === 'start',
       'vce-hero-section--alignment-end': align === 'end'
     })
-    let wrapperClasses = 'vce-hero-section-wrapper'
 
     let rowClasses = classNames({
       'vce-hero-section__wrap-row': true
     })
 
     if (typeof customClass === 'string' && customClass) {
-      containerClasses = containerClasses.concat(' ' + customClass)
+      wrapperClasses = containerClasses.concat(' ' + customClass)
     }
 
     let rowStyles = {}
@@ -55,7 +58,6 @@ class Component extends vcvAPI.elementComponent {
         <div className={rowClasses} style={rowStyles} {...customProps}>
           <div className='vce-hero-section__wrap'>
             <div className='vce-hero-section__content'>
-              {title}
               {description}
               {buttonOutput}
             </div>
@@ -72,7 +74,7 @@ class Component extends vcvAPI.elementComponent {
     } else {
       assetsManager = vcCake.getService('assets-manager')
     }
-    var { tag } = this.props.atts
+    let { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }
 
