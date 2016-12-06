@@ -52,6 +52,13 @@
 .vce-features__content > *:last-child {
   margin-bottom: 0;
 }
+.vce-features--style-none .vce-features__icon {
+  height: calc(1.45em);
+}
+.vce-features--style-none .vce-features__icon .vce-icon-container {
+  top: auto;
+  bottom: 0;
+}
 .vce-features--style-filled-circle,
 .vce-features--style-filled-rounded,
 .vce-features--style-filled-square,
