@@ -19,9 +19,14 @@ class Component extends vcvAPI.elementComponent {
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-    let rowClasses = classNames({
-      'vce-hero-section__wrap-row': true
-    })
+    let rowClasses = ['vce-hero-section__wrap-row']
+
+    let mixinData = this.getMixinData('basicColor')
+    if (mixinData) {
+      rowClasses.push(`vce-hero-section--color-${mixinData.selector}`)
+    }
+
+    rowClasses = classNames(rowClasses)
 
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses = containerClasses.concat(' ' + customClass)
