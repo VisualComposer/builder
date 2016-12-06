@@ -1,0 +1,159 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Facebook Like"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Add Facebook Like button to your WordPress website for quick content sharing on Facebook."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Add Facebook Like button to your WordPress website for quick content sharing on Facebook."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "facebook-like-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "facebook-like-thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "size",
+      "annotation",
+      "alignment",
+      "customClass"
+    ],
+    "options": {
+      "label": "Facebook Like"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "standard",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Standard",
+          "value": "standard"
+        },
+        {
+          "label": "Tall",
+          "value": "tall"
+        }
+      ]
+    }
+  },
+  "annotation": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "bubble",
+    "options": {
+      "label": "Annotation",
+      "values": [
+        {
+          "label": "Inline",
+          "value": "inline"
+        },
+        {
+          "label": "Bubble",
+          "value": "bubble"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
+  }
+}

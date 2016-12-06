@@ -1,0 +1,48 @@
+.vce-facebook-like {
+  line-height: 1;
+}
+
+.vce-facebook-like iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-facebook-like--align-center {
+  text-align: center;
+}
+
+.vce-facebook-like--align-right {
+  text-align: right;
+}
+
+.vce-facebook-like--align-left {
+  text-align: left;
+}
+
+.vce-facebook-like-inner {
+  vertical-align: top;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.vce-facebook-like-inner div {
+  max-width: 100%;
+}
+
+.vce-facebook-like-inner > * {
+  margin: 0;
+}
+
+[data-vcv-element-disable-interaction="true"] .vce-facebook-like-inner {
+  position: relative;
+}
+
+[data-vcv-element-disable-interaction="true"] .vce-facebook-like-inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
