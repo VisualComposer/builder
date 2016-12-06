@@ -63,7 +63,9 @@ class Component extends vcvAPI.elementComponent {
         <div className={rowClasses} style={rowStyles} {...customProps}>
           <div className='vce-hero-section__wrap'>
             <div className='vce-hero-section__content'>
-              {description}
+              <div className='vce-hero-section__content-container'>
+                {description}
+              </div>
               {buttonOutput}
             </div>
           </div>

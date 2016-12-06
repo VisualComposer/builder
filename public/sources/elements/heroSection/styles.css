@@ -9,8 +9,8 @@
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  padding-top: 45px;
-  padding-bottom: 45px;
+  padding-top: 75px;
+  padding-bottom: 75px;
 }
 
 .vce-hero-section__wrap-row {
@@ -51,6 +51,9 @@
   margin-right: auto;
   text-align: center;
 }
+.vce-hero-section__content-container:not(:last-child) {
+  margin-bottom: 35px;
+}
 
 .vce-hero-section__content h1,
 .vce-hero-section__content h2,
@@ -59,6 +62,10 @@
 .vce-hero-section__content h5,
 .vce-hero-section__content h6 {
   color: inherit;
+}
+
+.vce-hero-section__content h1 {
+  margin-bottom: 35px;
 }
 
 .vce-hero-section__content > *:first-child,
@@ -71,7 +78,6 @@
 }
 .vce-hero-section__content .vce {
   margin-bottom: 0;
-  margin-top: 35px;
 }
 .vce-hero-section--alignment-start .vce-hero-section__content {
   margin-left: 0;
