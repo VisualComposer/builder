@@ -91,14 +91,14 @@ export default class GoogleFonts extends Attribute {
     let number = variant.match(/\d+/g)
     let word = variant.match(/[a-z]+$/i)
     let fontWeight = number ? number[ 0 ] : '400'
-    let fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : ''
+    let fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : 'regular'
     return { weight: fontWeight, style: fontStyle }
   }
 
   parseFontVariant (variant) {
     let fontVariant = this.getFontVariant(variant)
     let fontWeightDefinition = GoogleFonts.fontWeight[ fontVariant.weight ]
-    let fontStyle = fontVariant.style === 'italic' ? ' Italic' : ''
+    let fontStyle = fontVariant.style === 'italic' ? ' Italic' : ' Regular'
     return `${fontWeightDefinition} (${fontVariant.weight})` + fontStyle
   }
 

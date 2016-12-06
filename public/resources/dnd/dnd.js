@@ -183,7 +183,7 @@ export default class DnD {
     return null
   }
   isDraggingElementParent (domElement) {
-    return domElement.$node.closest('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
+    return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
   findDOMNode (point) {
     let domNode = this.options.document.elementFromPoint(point.x, point.y)
@@ -200,6 +200,9 @@ export default class DnD {
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
       parentDOMElement = this.items[domElement.parent()] || null
+    }
+    if (this.isDraggingElementParent(domElement)) {
+      return
     }
     let position = this.placeholder.redraw(domElement.node, point, {
       allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
