@@ -3,7 +3,7 @@ image: wpbakery/ci-wordpress
 stages:
   - codestyle
   - test
-  - deploy
+#  - deploy
 
 codestyle:js:
   image: wpbakery/standardjs
@@ -88,11 +88,11 @@ test:php:modules:
   tags:
     - docker
 
-deploy:test:alpha:
-  image: wpbakery/ci-deployer
-  stage: deploy
-  script:
-    - cd ci/deploy/test && dep deploy test
-  tags:
-   - docker
+#deploy:test:alpha:
+#  image: wpbakery/ci-deployer
+#  stage: deploy
+#  script:
+#    - cd ci/deploy/test && dep deploy test
+#  tags:
+#   - docker
 
