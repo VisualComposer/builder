@@ -10,7 +10,8 @@ export default class TemplateControl extends React.Component {
     data: React.PropTypes.object.isRequired,
     name: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    applyTemplate: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -28,10 +29,7 @@ export default class TemplateControl extends React.Component {
 
   applyTemplate (e) {
     e && e.preventDefault()
-    console.log('apply template')
-    // let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
-    // this.props.api.request('data:add', data.toJS())
-    // this.props.api.notify('hide', true)
+    this.props.applyTemplate(this.props.data)
   }
 
   ellipsize (selector) {

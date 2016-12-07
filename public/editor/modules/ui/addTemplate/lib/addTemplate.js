@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import SearchTemplate from './searchTemplate'
 import TemplateTab from './templateTab'
@@ -21,17 +22,23 @@ export default class addTemplate extends React.Component {
       {
         title: 'My Templates',
         index: 0,
-        id: 'MyTemplates'
+        id: 'MyTemplates',
+        isVisible: true,
+        isPinned: false
       },
       {
         title: 'Hub Templates',
         index: 1,
-        id: 'HubTemplates'
+        id: 'HubTemplates',
+        isVisible: true,
+        isPinned: false
       },
       {
         title: 'Save Template',
         index: 2,
-        id: 'SaveTemplate'
+        id: 'SaveTemplate',
+        isVisible: true,
+        isPinned: false
       }
     ]
   }
@@ -41,6 +48,7 @@ export default class addTemplate extends React.Component {
     this.state = {
       activeTab: 0,
       tabTitle: 'My Templates',
+      visibleTabsCount: 0,
       templateName: '',
       inputValue: '',
       isSearching: false,
@@ -56,6 +64,97 @@ export default class addTemplate extends React.Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToSaveTemplate = this.handleGoToSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
+    this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
+  }
+
+  componentDidMount () {
+    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.refreshTabs)
+    this.refreshTabs()
+  }
+
+  componentWillUnmount () {
+    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.refreshTabs)
+  }
+
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    var obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
+
+  getVisibleTabs () {
+    return this.props.tabs.filter((tab) => {
+      if (tab.isVisible) {
+        return true
+      }
+    })
+  }
+
+  getHiddenTabs () {
+    let tabs = this.props.tabs.filter((tab) => {
+      return !tab.isVisible
+    })
+    tabs.reverse()
+    return tabs
+  }
+
+  getVisibleAndUnpinnedTabs () {
+    return this.getVisibleTabs().filter((tab) => {
+      return tab.isVisible && !tab.isPinned
+    })
+  }
+
+  refreshTabs = () => {
+    let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
+    let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
+    let freeSpace = $freeSpaceEl.offsetWidth
+
+    // If there is no space move tab from visible to hidden tabs.
+    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
+    if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
+      let lastTab = visibleAndUnpinnedTabs.pop()
+      this.props.tabs[ lastTab.index ].isVisible = false
+      this.refreshTabs()
+      return
+    }
+
+    // If we have free space move tab from hidden tabs to visible.
+    let hiddenTabs = this.getHiddenTabs()
+    if (hiddenTabs.length) {
+      // if it is last hidden tab than add dropdown width to free space
+      if (hiddenTabs.length === 1) {
+        let dropdown = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tab-dropdown')
+        freeSpace += dropdown.offsetWidth
+      }
+      while (freeSpace > 0 && hiddenTabs.length) {
+        let lastTab = hiddenTabs.pop()
+        let controlsSize = lastTab.ref.getRealWidth()
+        freeSpace -= controlsSize
+        if (freeSpace > 0) {
+          this.props.tabs[ lastTab.index ].isVisible = true
+        }
+      }
+    }
   }
 
   // Check state
@@ -100,13 +199,20 @@ export default class addTemplate extends React.Component {
     }
   }
 
-  getTabsProps (tab) {
+  getTabProps (tab) {
+    let allTabs = this.props.tabs
     return {
       key: `vcv${tab.id}`,
       title: tab.title,
       active: this.state.activeTab,
       index: tab.index,
-      changeActive: this.changeActiveTab
+      changeActive: this.changeActiveTab,
+      container: '.vcv-ui-editor-tabs',
+      ref: (ref) => {
+        if (allTabs[ tab.index ]) {
+          allTabs[ tab.index ].ref = ref
+        }
+      }
     }
   }
 
@@ -124,7 +230,8 @@ export default class addTemplate extends React.Component {
       key: 'vcv-element-control-' + template.id,
       data: template.data,
       id: template.id,
-      name: template.name
+      name: template.name,
+      applyTemplate: this.handleApplyTemplate
     }
   }
 
@@ -132,12 +239,6 @@ export default class addTemplate extends React.Component {
 
   getSearch () {
     return <SearchTemplate {...this.getSearchProps()} />
-  }
-
-  getTabs () {
-    return this.props.tabs.map((tab) => {
-      return <TemplateTab {...this.getTabsProps(tab)} />
-    })
   }
 
   getNoResultsElement (tab) {
@@ -163,7 +264,7 @@ export default class addTemplate extends React.Component {
     } else {
       btnText = 'No Results. Open Visual Composer Hub'
       helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
-      button = <button className='vcv-ui-editor-no-items-action'>{btnText}</button>
+      button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         source = wipAssetsManager.getSourcePath('images/search-no-result.png')
       } else {
@@ -273,6 +374,11 @@ export default class addTemplate extends React.Component {
     console.log('link to hub...')
   }
 
+  handleApplyTemplate (data) {
+    console.log(data)
+    // this.props.api.request('data:merge', data)
+  }
+
   render () {
     let output, itemsOutput
     let activeTabId = this.props.tabs[this.state.activeTab].id
@@ -289,6 +395,44 @@ export default class addTemplate extends React.Component {
       case 'SaveTemplate':
         output = this.getSaveTemplate()
         break
+    }
+
+    let { activeTab } = this.state
+    let visibleTabsHeaderOutput = []
+    this.getVisibleTabs().forEach((tab) => {
+      visibleTabsHeaderOutput.push(
+        <TemplateTab {...this.getTabProps(tab)} />
+      )
+    })
+
+    let hiddenTabsHeaderOutput = ''
+    if (this.getHiddenTabs().length) {
+      let hiddenTabsHeader = []
+      this.getHiddenTabs().forEach((tab) => {
+        hiddenTabsHeader.push(
+          <TemplateTab {...this.getTabProps(tab)} />
+        )
+      })
+
+      let dropdownClasses = classNames({
+        'vcv-ui-editor-tab-dropdown': true,
+        'vcv-ui-editor-tab-collapse': true,
+        'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
+          return tab.index === activeTab
+        }).length
+      })
+      hiddenTabsHeaderOutput = (
+        <dl className={dropdownClasses}>
+          <dt className='vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab' title='More'>
+            <span className='vcv-ui-editor-tab-content'>
+              <i className='vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots' />
+            </span>
+          </dt>
+          <dd className='vcv-ui-editor-tab-dropdown-content'>
+            {hiddenTabsHeader}
+          </dd>
+        </dl>
+      )
     }
 
     let footerClasses = classNames({
@@ -310,7 +454,9 @@ export default class addTemplate extends React.Component {
           {this.getSearch()}
           <div className='vcv-ui-editor-tabs-container'>
             <nav className='vcv-ui-editor-tabs'>
-              {this.getTabs()}
+              {visibleTabsHeaderOutput}
+              {hiddenTabsHeaderOutput}
+              <span className='vcv-ui-editor-tabs-free-space' />
             </nav>
           </div>
           <div className='vcv-ui-tree-content-section'>
