@@ -3,7 +3,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Templates;
+use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
@@ -31,14 +31,14 @@ class Controller extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Request $request
-     * @param \VisualComposer\Helpers\Templates $templates
+     * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return string
      */
-    private function renderEditorBase(Request $request, Templates $templates, Nonce $nonce, Url $urlHelper)
+    private function renderEditorBase(Request $request, Views $templates, Nonce $nonce, Url $urlHelper)
     {
         $urlHelper->redirectIfUnauthorized();
         $sourceId = (int)$request->input('vcv-source-id');

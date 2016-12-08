@@ -6,9 +6,9 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
  * Helper methods related to templates.
- * Class Templates.
+ * Class Views.
  */
-class Templates implements Helper
+class Views implements Helper
 {
     /**
      * Render template.
@@ -35,7 +35,7 @@ class Templates implements Helper
         /** @var Filters $filterHelper */
         $filterHelper = vchelper('Filters');
         $_path = $filterHelper->fire(
-            'vcv:helpers:templates:render:path',
+            'vcv:helpers:views:render:path',
             $_app->path('visualcomposer/resources/views/' . ltrim($_path, '/\\')),
             [
                 'path' => $_path,

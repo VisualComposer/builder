@@ -6,7 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Templates;
+use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 
@@ -75,11 +75,11 @@ class Controller extends Container implements Module
     /**
      * Output used assets.
      *
-     * @param \VisualComposer\Helpers\Templates $templatesHelper
+     * @param \VisualComposer\Helpers\Views $templatesHelper
      *
      * @return string
      */
-    public function outputScriptsFrontendEditor(Templates $templatesHelper)
+    public function outputScriptsFrontendEditor(Views $templatesHelper)
     {
         /** @see \VisualComposer\Modules\Site\Controller::getAssetsViewArgs */
         $args = $this->call('getAssetsViewArgs');
