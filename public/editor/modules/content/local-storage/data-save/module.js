@@ -24,4 +24,9 @@ vcCake.add('content-local-storage-data-save', (api) => {
       myTemplates: myTemplates.all()
     })
   })
+  api.reply('templates:remove', () => {
+    LocalStorage.save({
+      myTemplates: myTemplates.all()
+    })
+  })
 })
