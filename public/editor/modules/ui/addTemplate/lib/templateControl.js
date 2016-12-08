@@ -11,7 +11,8 @@ export default class TemplateControl extends React.Component {
     name: React.PropTypes.string.isRequired,
     id: React.PropTypes.string.isRequired,
     api: React.PropTypes.object.isRequired,
-    applyTemplate: React.PropTypes.func.isRequired
+    applyTemplate: React.PropTypes.func.isRequired,
+    removeTemplate: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -19,7 +20,8 @@ export default class TemplateControl extends React.Component {
     this.state = {
       letter: this.props.name.charAt(0).toUpperCase()
     }
-    this.applyTemplate = this.applyTemplate.bind(this)
+    this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
+    this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
   }
 
   componentDidMount () {
@@ -27,9 +29,13 @@ export default class TemplateControl extends React.Component {
     // this.ellipsize('.vcv-ui-item-preview-text')
   }
 
-  applyTemplate (e) {
+  handleApplyTemplate (e) {
     e && e.preventDefault()
     this.props.applyTemplate(this.props.data)
+  }
+
+  handleRemoveTemplate () {
+    this.props.removeTemplate(this.props.id)
   }
 
   ellipsize (selector) {
@@ -59,9 +65,7 @@ export default class TemplateControl extends React.Component {
     }
     return (
       <li className='vcv-ui-item-list-item'>
-        <a className='vcv-ui-item-element'
-          onClick={this.applyTemplate}
-        >
+        <span className='vcv-ui-item-element'>
           <span
             className='vcv-ui-item-element-content'
             data-letter={this.state.letter}
@@ -72,7 +76,14 @@ export default class TemplateControl extends React.Component {
               alt=''
             />
             <span className='vcv-ui-item-overlay'>
-              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+              <span
+                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add'
+                onClick={this.handleApplyTemplate}
+              />
+              <span
+                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close'
+                onClick={this.handleRemoveTemplate}
+              />
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
@@ -80,7 +91,7 @@ export default class TemplateControl extends React.Component {
               {name}
             </span>
           </span>
-        </a>
+        </span>
       </li>
     )
   }

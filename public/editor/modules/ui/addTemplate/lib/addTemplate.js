@@ -53,9 +53,9 @@ export default class addTemplate extends React.Component {
       inputValue: '',
       isSearching: false,
       centered: false,
-      templatesExist: false,
       error: false,
-      errorName: ''
+      errorName: '',
+      myTemplatesList: templateManager.all()
     }
     this.changeActiveTab = this.changeActiveTab.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
@@ -65,6 +65,7 @@ export default class addTemplate extends React.Component {
     this.handleGoToSaveTemplate = this.handleGoToSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
+    this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
   }
 
   componentDidMount () {
@@ -178,8 +179,7 @@ export default class addTemplate extends React.Component {
       activeTab: index,
       tabTitle: title,
       isSearching: false,
-      inputValue: '',
-      templatesExist: title === 'My Templates' && templateManager.all().length // TODO get template list in condition depending on the active tab
+      inputValue: ''
     })
   }
 
@@ -231,7 +231,8 @@ export default class addTemplate extends React.Component {
       data: template.data || {},
       id: template.id,
       name: template.name,
-      applyTemplate: this.handleApplyTemplate
+      applyTemplate: this.handleApplyTemplate,
+      removeTemplate: this.handleRemoveTemplate
     }
   }
 
@@ -243,7 +244,7 @@ export default class addTemplate extends React.Component {
 
   getNoResultsElement (tab) {
     let source, btnText, helper, button
-    if (!this.state.templatesExist && !this.state.isSearching) {
+    if (!this.state.myTemplatesList.length && !this.state.isSearching) {
       switch (tab) {
         case 'MyTemplates':
           btnText = 'Save Your First Template'
@@ -293,11 +294,11 @@ export default class addTemplate extends React.Component {
   }
 
   getSearchResults (tab) {
-    let { inputValue } = this.state
+    let { inputValue, myTemplatesList } = this.state
     let templateList
     switch (tab) {
       case 'MyTemplates':
-        templateList = templateManager.all()
+        templateList = myTemplatesList
         break
       case 'HubTemplates':
         templateList = []
@@ -314,7 +315,7 @@ export default class addTemplate extends React.Component {
   getTemplateList (tab) {
     switch (tab) {
       case 'MyTemplates':
-        return templateManager.all().map((template) => {
+        return this.state.myTemplatesList.map((template) => {
           return this.getTemplateControl(template)
         })
       case 'HubTemplates':
@@ -339,17 +340,20 @@ export default class addTemplate extends React.Component {
   handleSaveTemplate (e) {
     e && e.preventDefault()
     if (this.state.templateName.trim()) {
-      let templateExists = templateManager.all().findIndex((template) => {
+      let templateExists = this.state.myTemplatesList.findIndex((template) => {
         return template.name === this.state.templateName.trim()
       })
       if (templateExists < 0) {
         templateManager.addCurrentLayout(this.state.templateName)
-        this.props.api.request('templates:save', true)
+        this.props.api.request('templates:save', this.state.templateName)
         let myTemplates = this.props.tabs.findIndex((tab) => {
           return tab.id === 'MyTemplates'
         })
-        this.changeActiveTab(myTemplates)
-        this.setState({templateName: ''})
+        this.changeActiveTab(myTemplates, 'My Templates')
+        this.setState({
+          templateName: '',
+          myTemplatesList: templateManager.all()
+        })
       } else {
         this.setState({
           error: true,
@@ -376,8 +380,13 @@ export default class addTemplate extends React.Component {
   }
 
   handleApplyTemplate (data) {
-    console.log(data)
     this.props.api.request('data:merge', data)
+  }
+
+  handleRemoveTemplate (id) {
+    templateManager.remove(id)
+    this.props.api.request('templates:remove', id)
+    this.setState({myTemplatesList: templateManager.all()})
   }
 
   render () {
