@@ -15,7 +15,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Attributes\AjaxForm\Controller::render */
         $this->addFilter(
-            'vcv:ajax:attribute:ajaxForm:render',
+            'vcv:ajax:attribute:ajaxForm:render:adminNonce',
             'render'
         );
     }
