@@ -104,7 +104,7 @@ vcCake.add('storage', (api) => {
   })
   api.reply('data:merge', (content) => {
     let currentContent = DocumentData.all()
-    let newContent = currentContent.concat(content)
+    let newContent = Object.assign({}, currentContent, content)
     DocumentData.reset(newContent || {})
     api.request('data:changed', DocumentData.children(false), 'reset')
   })

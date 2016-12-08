@@ -228,7 +228,7 @@ export default class addTemplate extends React.Component {
     return {
       api: this.props.api,
       key: 'vcv-element-control-' + template.id,
-      data: template.data,
+      data: template.data || {},
       id: template.id,
       name: template.name,
       applyTemplate: this.handleApplyTemplate
@@ -344,6 +344,7 @@ export default class addTemplate extends React.Component {
       })
       if (templateExists < 0) {
         templateManager.addCurrentLayout(this.state.templateName)
+        this.props.api.request('templates:save', true)
         let myTemplates = this.props.tabs.findIndex((tab) => {
           return tab.id === 'MyTemplates'
         })
@@ -376,7 +377,7 @@ export default class addTemplate extends React.Component {
 
   handleApplyTemplate (data) {
     console.log(data)
-    // this.props.api.request('data:merge', data)
+    this.props.api.request('data:merge', data)
   }
 
   render () {

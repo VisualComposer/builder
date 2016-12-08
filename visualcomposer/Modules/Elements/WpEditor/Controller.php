@@ -44,6 +44,8 @@ class Controller extends Container implements Module
                 'wpautop' => false,
             )
         );
+        wp_print_head_scripts();
+        wp_print_footer_scripts();
         wp_print_styles();
         print_late_styles();
         $response = ob_get_clean();

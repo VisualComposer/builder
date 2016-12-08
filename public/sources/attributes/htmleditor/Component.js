@@ -8,11 +8,11 @@ import './css/content.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-const dataProcessor = vcCake.getService('dataProcessor')
+// const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class HtmlEditorComponent extends Attribute {
-  handleChange = (event) => {
-    let value = event.target.getContent()
+  handleChange = (event, editor) => {
+    let value = editor.getContent()
     this.setFieldValue(value)
   }
   renderEditor () {
@@ -30,21 +30,27 @@ export default class HtmlEditorComponent extends Attribute {
         <TinyMceEditor
           config={tinymceConfig}
           onChange={this.handleChange}
+          onKeyup={this.handleChange}
           content={value} />
       </div>
     )
   }
   componentDidMount () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
-      let { value } = this.state
-      dataProcessor.appServerRequest({
+      // let { value } = this.state
+      /* dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxWpEditor:adminNonce',
         'vcv-content': value,
         'vcv-field-key': this.props.fieldKey,
         'vcv-nonce': window.vcvNonce
       }).then((data) => {
-        this.setState({editor: data})
+        // let range = document.createRange()
+        // let wrapper =
+        // let documentFragment = range.createContextualFragment(data)
+
+        // this.setState({editor: data})
       })
+      */
     }
   }
   render () {
