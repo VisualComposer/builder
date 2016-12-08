@@ -11,8 +11,8 @@ import vcCake from 'vc-cake'
 const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class HtmlEditorComponent extends Attribute {
-  handleChange = (event) => {
-    let value = event.target.getContent()
+  handleChange = (event, editor) => {
+    let value = editor.getContent()
     this.setFieldValue(value)
   }
   renderEditor () {
@@ -30,6 +30,7 @@ export default class HtmlEditorComponent extends Attribute {
         <TinyMceEditor
           config={tinymceConfig}
           onChange={this.handleChange}
+          onKeyup={this.handleChange}
           content={value} />
       </div>
     )
@@ -43,7 +44,11 @@ export default class HtmlEditorComponent extends Attribute {
         'vcv-field-key': this.props.fieldKey,
         'vcv-nonce': window.vcvNonce
       }).then((data) => {
-        this.setState({editor: data})
+        let range = document.createRange()
+        // let wrapper =
+        let documentFragment = range.createContextualFragment(data)
+
+        // this.setState({editor: data})
       })
     }
   }

@@ -30,7 +30,8 @@ let defaultContent = { 'd18d1ab9': { 'name': 'Text block', 'output': '<h2><stron
 
 const service = {
   save: function (data) {
-    LocalStorage.update(data)
+    let dataToSave = Object.assign({}, this.get(), data)
+    LocalStorage.update(dataToSave)
   },
   get: () => {
     let savedContent = LocalStorage.getItem() || {}
