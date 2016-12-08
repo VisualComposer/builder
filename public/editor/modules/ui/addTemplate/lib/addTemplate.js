@@ -228,7 +228,7 @@ export default class addTemplate extends React.Component {
     return {
       api: this.props.api,
       key: 'vcv-element-control-' + template.id,
-      data: template.data,
+      data: template.data || {},
       id: template.id,
       name: template.name,
       applyTemplate: this.handleApplyTemplate
