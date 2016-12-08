@@ -69,6 +69,6 @@ function vcfilter($filter, $body = '', $payload = [])
  */
 function vcview($path, $args = [])
 {
-    /** @see \VisualComposer\Helpers\Templates::render */
-    return vchelper('Templates')->render($path, $args);
+    /** @see \VisualComposer\Helpers\Views::render */
+    return vchelper('Views')->render($path, $args);
 }

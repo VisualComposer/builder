@@ -45,7 +45,7 @@ class FrameworkHelpersTest extends WP_UnitTestCase
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $filterHelper */
         $filterHelper = vchelper('Filters');
         $filterHelper->listen(
-            'vcv:helpers:templates:render:path',
+            'vcv:helpers:views:render:path',
             $callback
         );
         $content = vcview('');
@@ -53,6 +53,6 @@ class FrameworkHelpersTest extends WP_UnitTestCase
 
         $content = vcview('', ['data' => ' DATA!']);
         $this->assertEquals('This is template for test! DATA!', $content);
-        $filterHelper->forget('vcv:helpers:templates:render:path');
+        $filterHelper->forget('vcv:helpers:views:render:path');
     }
 }

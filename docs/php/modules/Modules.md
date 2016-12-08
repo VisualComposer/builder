@@ -65,9 +65,9 @@ Modules is system main logic, they controls proccess flow and determines actions
 ##Resources like views(templates) usage:
 - Location: `visualcomposer/resources/views`
 - Views path __MUST__ be simillar to the module path ( e.g. visualcomposer/resources/views/saveManager/template.php )
-- Template can be rendered by `\VisualComposer\Helpers\Templates` helper:
-	* `vcapp('TemplatesHelper')`
-	* method/DI injection like: `public function __construct( \VisualComposer\Helpers\Templates $templatesHelper )`
+- Template can be rendered by `\VisualComposer\Helpers\Views` helper:
+	* `vcapp('ViewsHelper')`
+	* method/DI injection like: `public function __construct( \VisualComposer\Helpers\Views $templatesHelper )`
 	* e.g: `$templatesHelpers->render( $relativePathToTemplate, $args=[], $doEcho = true)`;
 	
 ##Best practices:

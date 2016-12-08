@@ -1,20 +1,20 @@
 <?php
 
-class HelpersTemplatesTest extends WP_UnitTestCase
+class HelpersViewsTest extends WP_UnitTestCase
 {
-    public function testHelpersTemplates()
+    public function testHelpersViews()
     {
         /**
-         * @var $helper VisualComposer\Helpers\Templates
+         * @var $helper VisualComposer\Helpers\Views
          */
-        $helper = vcapp('VisualComposer\Helpers\Templates');
-        $this->assertTrue(is_object($helper), 'Templates helper should be an object');
+        $helper = vcapp('VisualComposer\Helpers\Views');
+        $this->assertTrue(is_object($helper), 'Views helper should be an object');
         $this->assertTrue(method_exists($helper, 'render'), 'render method should exists');
 
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $filterHelper */
         $filterHelper = vchelper('Filters');
         $filterHelper->listen(
-            'vcv:helpers:templates:render:path',
+            'vcv:helpers:views:render:path',
             function ($path) {
                 if (strpos($path, 'test-helpers.php') > 0) {
                     return __DIR__ . '/template-for-test.php';
@@ -32,23 +32,23 @@ class HelpersTemplatesTest extends WP_UnitTestCase
             $helper->render('test-helpers.php', ['data' => ' Cool!'], false)
         );
 
-        $this->assertEquals($helper, vcapp('VisualComposer\Helpers\Templates'));
-        $this->assertEquals($helper, vcapp('TemplatesHelper'));
-        $this->assertEquals(vcapp('VisualComposer\Helpers\Templates'), vcapp('TemplatesHelper'));
-        $filterHelper->forget('vcv:helpers:templates:render:path');
+        $this->assertEquals($helper, vcapp('VisualComposer\Helpers\Views'));
+        $this->assertEquals($helper, vcapp('ViewsHelper'));
+        $this->assertEquals(vcapp('VisualComposer\Helpers\Views'), vcapp('ViewsHelper'));
+        $filterHelper->forget('vcv:helpers:views:render:path');
     }
 
     public function testHelpersDependencyInjection()
     {
         /**
-         * @var $helper VisualComposer\Helpers\Templates
+         * @var $helper VisualComposer\Helpers\Views
          */
-        $helper = vcapp('VisualComposer\Helpers\Templates');
+        $helper = vcapp('VisualComposer\Helpers\Views');
 
         $called = false;
         $teInstance = false;
 
-        $data = function (\VisualComposer\Helpers\Templates $templates) use (&$called, &$teInstance) {
+        $data = function (\VisualComposer\Helpers\Views $templates) use (&$called, &$teInstance) {
             $teInstance = $templates;
             $called = true;
         };
