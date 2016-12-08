@@ -27,8 +27,10 @@ addService('myTemplates', {
     let removeIndex = myTemplates.findIndex((template) => {
       return template.id === id
     })
-    myTemplates.splice(removeIndex, 1)
-    setData('myTemplates', myTemplates)
+    if (removeIndex > -1) {
+      myTemplates.splice(removeIndex, 1)
+      setData('myTemplates', myTemplates)
+    }
   },
   get (id) {
     let myTemplates = this.all()
