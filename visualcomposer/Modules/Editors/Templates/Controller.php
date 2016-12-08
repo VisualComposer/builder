@@ -19,13 +19,13 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
-        $this->addEvent('vcv:ajax:editorTemplates:all:adminNonce', 'all');
+        $this->addFilter('vcv:ajax:editorTemplates:all:adminNonce', 'all');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
-        $this->addEvent('vcv:ajax:editorTemplates:create:adminNonce', 'create');
+        $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
-        $this->addEvent('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
+        $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
     }
 
     private function all(EditorTemplates $editorTemplatesHelper)
