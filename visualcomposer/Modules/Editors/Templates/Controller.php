@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\Templates;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -17,11 +18,19 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
+        $this->addEvent('vcv:ajax:editorTemplates:all:adminNonce', 'all');
+
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addEvent('vcv:ajax:editorTemplates:create:adminNonce', 'create');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
         $this->addEvent('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
+    }
+
+    private function all(EditorTemplates $editorTemplatesHelper)
+    {
+        return $editorTemplatesHelper->all();
     }
 
     /**
