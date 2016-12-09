@@ -77,6 +77,24 @@ const API = {
   removeResizeListener: (element, options, fn) => {
     element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn.bind(this, element, options))
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  },
+  ajax: (data, successCallback, failureCallback) => {
+    let request
+    request = new window.XMLHttpRequest()
+    request.open('POST', window.vcvAjaxUrl, true)
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 400) {
+        successCallback(request)
+      } else {
+        if (typeof failureCallback === 'function') {
+          failureCallback(request)
+        }
+      }
+    }
+    request.send(window.$.param(data))
+
+    return request
   }
 }
 vcCake.addService('utils', API)

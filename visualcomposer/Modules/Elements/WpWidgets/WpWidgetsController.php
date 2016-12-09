@@ -32,6 +32,9 @@ class WpWidgetsController extends Container implements Module
         $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::clean */
         $this->addFilter('vcv:ajax:elements:widget:clean:adminNonce', 'renderShortcode');
+
+        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
+        $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
     }
 
     /**
@@ -69,20 +72,28 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderForm(Request $requestHelper, WpWidgets $widgets)
+    protected function renderForm(Request $requestHelper, WpWidgets $widgets, $response, $payload)
     {
-        $widget = $requestHelper->input('vcv-widget-key');
-        $data = $requestHelper->input('vcv-data');
+        if ($payload['action'] === 'vcv:wpWidgets:form') {
+            $data = $payload['data'];
+            $value = $data['value'];
+            $widget = $data['vcv-widget-key'];
 
-        ob_start();
-        $noform = $widgets->get($widget)->form($data);
-        $form = ob_get_clean();
-        // In case If Widget doesn't have settings
-        if ($noform === 'noform') {
+            ob_start();
+            $widget = $widgets->get($widget);
             $form = '';
+            if (is_object($widget)) {
+                $noform = $widget->form($value);
+                $form = ob_get_clean();
+                // In case If Widget doesn't have settings
+                if ($noform === 'noform') {
+                    $form = '';
+                }
+            }
+            $response['html'] = $form;
         }
 
-        return $form;
+        return $response;
     }
 
     /**

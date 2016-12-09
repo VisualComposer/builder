@@ -15,16 +15,12 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Attributes\AjaxForm\Controller::render */
         $this->addFilter(
-            'vcv:ajax:attribute:ajaxForm:render',
+            'vcv:ajax:attribute:ajaxForm:render:adminNonce',
             'render'
         );
     }
 
     /**
-     * Get list of 20 most recent posts and pages with ability to search.
-     *
-     * @todo Add user permissions check.
-     *
      * @param Request $request
      *
      * @return array
@@ -33,10 +29,12 @@ class Controller extends Container implements Module
     {
         $action = $request->input('vcv-form-action');
         $data = $request->input('vcv-form-data');
-        // Do Filter with action/data
+        // Output Result Form JSON.
+        $response['html'] = '';
+        $response['status'] = true;
 
-        // Output Result Form JSON
-        $response['result'] = '';
+        // Do Filter with action/data.
+        $response = vcfilter('vcv:ajaxForm:render:response', $response, ['action' => $action, 'data' => $data]);
 
         return $response;
     }
