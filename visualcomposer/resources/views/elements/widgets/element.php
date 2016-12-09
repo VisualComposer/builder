@@ -91,12 +91,12 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
         "access": "protected",
         "value": "thumbnail.jpg"
       },
-      "ajaxForm": {
+      "widget": {
         "type": "ajaxForm",
         "access": "public",
         "value": {},
         "options": {
-          "label": "Ajax Form",
+          "label": "Widget Form",
           "action": "vcv:wpWidgets:form",
           "data": {
             "widgetKey": "<?php echo array_keys($data['elements'])[0]; ?>"
@@ -113,7 +113,7 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
       }, "metaEditFormTabs": {
         "type": "group",
         "access": "protected",
-        "value": [ "ajaxForm", "designOptions" ]
+        "value": [ "widget", "designOptions" ]
       }, "relatedTo": {
         "type": "group",
         "access": "protected",
@@ -192,7 +192,7 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
                   'vcv-action': 'elements:widget' + (this.props.clean ? ':clean' : '') + ':adminNonce',
                   'vcv-nonce': window.vcvNonce,
                   'vcv-widget-key': '<?php echo $key; ?>',
-                  'vcv-atts': {}
+                  'vcv-atts': this.props.widget
                 }, function (result) {
                   _this2.setState({
                     shortcodeContent: { __html: result.response }

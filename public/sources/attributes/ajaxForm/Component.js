@@ -1,25 +1,42 @@
 import React from 'react'
 import Attribute from '../attribute'
-import lodash from 'lodash'
 import vcCake from 'vc-cake'
+import serialize from 'form-serialize'
 
 export default class AjaxForm extends Attribute {
 
   updateState (props) {
     return {
       value: props.value,
-      formContent: ''
-    }
-  }
-
-  componentDidUpdate (prevProps) {
-    if (!lodash.isEqual(this.props.atts, prevProps.atts)) {
-      this.requestToServer()
+      formContent: 'Loading...',
+      formStatus: false,
+      formBinded: false
     }
   }
 
   componentDidMount () {
     this.requestToServer()
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.formStatus && this.refs.form && !this.state.formBinded) {
+      this.bindFormChangeEvents()
+    }
+  }
+
+  bindFormChangeEvents () {
+    let elements = Array.from(this.refs.form.elements)
+    elements.forEach((node) => {
+      node.addEventListener('change', this.handleFormChange.bind(this))
+    })
+    this.setState({
+      formBinded: true
+    })
+  }
+
+  handleFormChange (e) {
+    let value = serialize(this.refs.form, { hash: true })
+    this.setFieldValue(value)
   }
 
   requestToServer () {

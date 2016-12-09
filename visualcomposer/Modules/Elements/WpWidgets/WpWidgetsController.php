@@ -103,6 +103,10 @@ class WpWidgetsController extends Container implements Module
      */
     protected function renderShortcode(Request $requestHelper)
     {
-        return sprintf('[vcv_widgets key="%s"]', $requestHelper->input('vcv-widget-key'));
+        return sprintf(
+            '[vcv_widgets key="%s" value="%s"]',
+            $requestHelper->input('vcv-widget-key'),
+            rawurlencode(json_encode($requestHelper->input('vcv-atts')))
+        );
     }
 }
