@@ -76,8 +76,8 @@ class WpWidgetsController extends Container implements Module
     {
         if ($payload['action'] === 'vcv:wpWidgets:form') {
             $data = $payload['data'];
-            $value = $data['value'];
-            $widget = $data['vcv-widget-key'];
+            $value = $payload['value'];
+            $widget = $data['widgetKey'];
 
             ob_start();
             $widget = $widgets->get($widget);

@@ -53,10 +53,11 @@ class WpWidgets implements Helper
 
         foreach ($all as $widget) {
             if (is_object($widget)) {
-                if ($this->isDefault(get_class($widget))) {
-                    $data['default'][] = $widget;
+                $widgetClass = get_class($widget);
+                if ($this->isDefault($widgetClass)) {
+                    $data['default'][ $widgetClass ] = $widget;
                 } else {
-                    $data['custom'][] = $widget;
+                    $data['custom'][ $widgetClass ] = $widget;
                 }
             }
         }
