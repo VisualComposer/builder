@@ -7,16 +7,6 @@
     overflow: hidden;
   }
 
-  .vcv-ui-tree-content-footer {
-    &.vcv-ui-state--hidden {
-      display: none;
-    }
-  }
-
-  .vcv-ui-form-dependency {
-    margin: @template-form-dependency-margin;
-  }
-
   .vcv-ui-item-element-content {
     &::before {
       content: attr(data-letter);
@@ -68,5 +58,38 @@
 
   .vcv-ui-item-control {
     cursor: pointer;
+  }
+
+  .vcv-ui-save-template-form {
+    display: flex;
+    justify-content: space-between;
+
+    .vcv-ui-form-input {
+      flex: 0 0 80%;
+    }
+
+    .vcv-ui-editor-no-items-action {
+      flex: 0 0 19%;
+      padding: 11px 32px;
+      min-height: auto;
+    }
+  }
+
+  .vcv-ui-editor-list-cta-wrapper {
+    text-align: center;
+  }
+
+  .vcv-ui-state--hidden {
+    display: none;
+  }
+
+  .vcv-ui-editor-no-items-container {
+    .vcv-ui-form-helper {
+      margin-bottom: 30px;
+    }
+  }
+
+  .vcv-ui-editor-no-items-image {
+    margin: 0 0 10px;
   }
 }

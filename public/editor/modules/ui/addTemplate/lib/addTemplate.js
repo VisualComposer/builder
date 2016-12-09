@@ -1,44 +1,47 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import SearchTemplate from './searchTemplate'
-import TemplateTab from './templateTab'
+// import TemplateTab from './templateTab'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
-import SaveTemplate from './saveTemplate'
+// import SaveTemplate from './saveTemplate'
 import TemplateControl from './templateControl'
 import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const templateManager = vcCake.getService('myTemplates')
+const allCategories = []
 
 export default class addTemplate extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    tabs: React.PropTypes.array
+    categories: React.PropTypes.array
   }
 
   static defaultProps = {
-    tabs: [
+    categories: [
+      {
+        title: 'All',
+        index: 0,
+        id: 'All',
+        templates: templateManager.all().concat([])
+      },
       {
         title: 'My Templates',
-        index: 0,
+        index: 1,
         id: 'MyTemplates',
-        isVisible: true,
-        isPinned: false
+        templates: templateManager.all()
       },
       {
         title: 'Hub Templates',
-        index: 1,
+        index: 2,
         id: 'HubTemplates',
-        isVisible: true,
-        isPinned: false
+        templates: [] // TODO get templates from HUB
       },
       {
-        title: 'Save Template',
-        index: 2,
-        id: 'SaveTemplate',
-        isVisible: true,
-        isPinned: false
+        title: 'Download More Templates',
+        index: 3,
+        id: 'DownloadMoreTemplates'
       }
     ]
   }
@@ -46,116 +49,43 @@ export default class addTemplate extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeTab: 0,
-      tabTitle: 'My Templates',
-      visibleTabsCount: 0,
+      activeCategoryIndex: 0,
+      categoryTitle: 'My Templates',
       templateName: '',
       inputValue: '',
       isSearching: false,
-      centered: false,
       error: false,
       errorName: '',
-      myTemplatesList: templateManager.all()
+      allTemplates: [],
+      visibleCategories: [0, this.props.categories.length - 1]
     }
-    this.changeActiveTab = this.changeActiveTab.bind(this)
+    this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
-    this.handleGoToSaveTemplate = this.handleGoToSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
   }
 
-  componentDidMount () {
-    this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.refreshTabs)
-    this.refreshTabs()
+  componentWillMount () {
+    this.getAllCategories()
   }
 
-  componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs-free-space'), this.refreshTabs)
+  getAllCategories () {
+    this.props.categories.forEach((category) => {
+      allCategories.push(category)
+    })
+    this.updateTemplatesList()
   }
 
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    var obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
-  }
-
-  getVisibleTabs () {
-    return this.props.tabs.filter((tab) => {
-      if (tab.isVisible) {
-        return true
+  updateTemplatesList () {
+    allCategories.forEach((category) => {
+      if (category.id === 'All') {
+        this.setState({allTemplates: category.templates})
       }
     })
-  }
-
-  getHiddenTabs () {
-    let tabs = this.props.tabs.filter((tab) => {
-      return !tab.isVisible
-    })
-    tabs.reverse()
-    return tabs
-  }
-
-  getVisibleAndUnpinnedTabs () {
-    return this.getVisibleTabs().filter((tab) => {
-      return tab.isVisible && !tab.isPinned
-    })
-  }
-
-  refreshTabs = () => {
-    let $tabsLine = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tabs')
-    let $freeSpaceEl = $tabsLine.querySelector('.vcv-ui-editor-tabs-free-space')
-    let freeSpace = $freeSpaceEl.offsetWidth
-
-    // If there is no space move tab from visible to hidden tabs.
-    let visibleAndUnpinnedTabs = this.getVisibleAndUnpinnedTabs()
-    if (freeSpace === 0 && visibleAndUnpinnedTabs.length > 0) {
-      let lastTab = visibleAndUnpinnedTabs.pop()
-      this.props.tabs[ lastTab.index ].isVisible = false
-      this.refreshTabs()
-      return
-    }
-
-    // If we have free space move tab from hidden tabs to visible.
-    let hiddenTabs = this.getHiddenTabs()
-    if (hiddenTabs.length) {
-      // if it is last hidden tab than add dropdown width to free space
-      if (hiddenTabs.length === 1) {
-        let dropdown = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-editor-tab-dropdown')
-        freeSpace += dropdown.offsetWidth
-      }
-      while (freeSpace > 0 && hiddenTabs.length) {
-        let lastTab = hiddenTabs.pop()
-        let controlsSize = lastTab.ref.getRealWidth()
-        freeSpace -= controlsSize
-        if (freeSpace > 0) {
-          this.props.tabs[ lastTab.index ].isVisible = true
-        }
-      }
-    }
   }
 
   // Check state
@@ -167,19 +97,17 @@ export default class addTemplate extends React.Component {
 
   // Change state
 
-  changeTemplateName (name) {
+  changeTemplateName (e) {
     this.setState({
-      templateName: name,
+      templateName: e.currentTarget.value,
       error: false
     })
   }
 
-  changeActiveTab (index, title) {
+  changeActiveCategory (index) {
     this.setState({
-      activeTab: index,
-      tabTitle: title,
-      isSearching: false,
-      inputValue: ''
+      activeCategoryIndex: index,
+      categoryTitle: this.props.categories[index].title
     })
   }
 
@@ -193,34 +121,15 @@ export default class addTemplate extends React.Component {
 
   // Get Props
 
-  getSaveTemplateProps () {
-    return {
-      changeTemplateName: this.changeTemplateName
-    }
-  }
-
-  getTabProps (tab) {
-    let allTabs = this.props.tabs
-    return {
-      key: `vcv${tab.id}`,
-      title: tab.title,
-      active: this.state.activeTab,
-      index: tab.index,
-      changeActive: this.changeActiveTab,
-      container: '.vcv-ui-editor-tabs',
-      ref: (ref) => {
-        if (allTabs[ tab.index ]) {
-          allTabs[ tab.index ].ref = ref
-        }
-      }
-    }
-  }
-
   getSearchProps () {
     return {
       inputValue: this.state.inputValue,
       changeSearchState: this.changeSearchState,
-      changeSearchInput: this.changeSearchInput
+      changeSearchInput: this.changeSearchInput,
+      index: this.state.activeCategoryIndex,
+      allCategories: this.props.categories,
+      changeActiveCategory: this.changeActiveCategory,
+      visibleCategories: this.state.visibleCategories
     }
   }
 
@@ -236,34 +145,25 @@ export default class addTemplate extends React.Component {
     }
   }
 
-  // Get HTML Elements
+  // Get HTML elements
 
   getSearch () {
     return <SearchTemplate {...this.getSearchProps()} />
   }
 
-  getNoResultsElement (tab) {
+  getNoResultsElement () {
     let source, btnText, helper, button
-    if (!this.state.myTemplatesList.length && !this.state.isSearching) {
-      switch (tab) {
-        case 'MyTemplates':
-          btnText = 'Save Your First Template'
-          helper = `You don't have any templates yet. Try to save your current layout as a template.`
-          button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToSaveTemplate}>{btnText}</button>
-          break
-        case 'HubTemplates':
-          btnText = 'Open Visual Composer Hub'
-          helper = 'Add templates from Visual Composer Element Hub for free.'
-          button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
-          break
-      }
+    if (!this.props.categories[0].templates.length && !this.state.isSearching) {
+      btnText = 'Download More Templates'
+      helper = `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
+      button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
         source = wipAssetsManager.getSourcePath('images/add-item.png')
       } else {
         source = assetsManager.getSourcePath('images/add-item.png')
       }
     } else {
-      btnText = 'No Results. Open Visual Composer Hub'
+      btnText = 'Download More Templates'
       helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
       if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
@@ -281,10 +181,10 @@ export default class addTemplate extends React.Component {
         />
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        {button}
+        <p className='vcv-ui-form-helper'>{helper}</p>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <p className='vcv-ui-form-helper'>{helper}</p>
+        {button}
       </div>
     </div>
   }
@@ -293,46 +193,34 @@ export default class addTemplate extends React.Component {
     return <TemplateControl {...this.getTemplateControlProps(template)} />
   }
 
-  getSearchResults (tab) {
-    let { inputValue, myTemplatesList } = this.state
-    let templateList
-    switch (tab) {
-      case 'MyTemplates':
-        templateList = myTemplatesList
-        break
-      case 'HubTemplates':
-        templateList = []
-        break
-    }
-    return templateList.filter((val) => {
-      let name = val.name.toLowerCase()
-      return val.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
+  getSearchResults () {
+    let { inputValue, allTemplates } = this.state
+    return allTemplates.filter((template) => {
+      let name = template.name.toLowerCase()
+      return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
       return this.getTemplateControl(template)
     })
   }
 
-  getTemplateList (tab) {
-    switch (tab) {
-      case 'MyTemplates':
-        return this.state.myTemplatesList.map((template) => {
-          return this.getTemplateControl(template)
-        })
-      case 'HubTemplates':
-        return []
+  getTemplatesByCategory () {
+    let { activeCategoryIndex } = this.state
+
+    if (allCategories[ activeCategoryIndex ].id === 'DownloadMoreTemplates') {
+      this.handleGoToHub()
+      return []
     }
+    return allCategories[ activeCategoryIndex ].templates.map((template) => {
+      return this.getElementControl(template)
+    })
   }
 
-  getTemplateListContainer (itemsOutput, tab) {
+  getTemplateListContainer (itemsOutput) {
     return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
       <ul className='vcv-ui-item-list'>
         {itemsOutput}
       </ul>
-    </div> : this.getNoResultsElement(tab)
-  }
-
-  getSaveTemplate () {
-    return <SaveTemplate {...this.getSaveTemplateProps()} />
+    </div> : this.getNoResultsElement()
   }
 
   // Event handlers
@@ -340,19 +228,15 @@ export default class addTemplate extends React.Component {
   handleSaveTemplate (e) {
     e && e.preventDefault()
     if (this.state.templateName.trim()) {
-      let templateExists = this.state.myTemplatesList.findIndex((template) => {
+      let templateExists = this.props.categories[0].templates.findIndex((template) => {
         return template.name === this.state.templateName.trim()
       })
       if (templateExists < 0) {
         templateManager.addCurrentLayout(this.state.templateName)
         this.props.api.request('templates:save', this.state.templateName)
-        let myTemplates = this.props.tabs.findIndex((tab) => {
-          return tab.id === 'MyTemplates'
-        })
-        this.changeActiveTab(myTemplates, 'My Templates')
         this.setState({
-          templateName: '',
-          myTemplatesList: templateManager.all()
+          templateName: ''
+          // myTemplatesList: templateManager.all()
         })
       } else {
         this.setState({
@@ -368,13 +252,6 @@ export default class addTemplate extends React.Component {
     }
   }
 
-  handleGoToSaveTemplate () {
-    let saveIndex = this.props.tabs.findIndex((tab) => {
-      return tab.id === 'SaveTemplate'
-    })
-    this.changeActiveTab(saveIndex, 'Save Template')
-  }
-
   handleGoToHub () {
     console.log('link to hub...')
   }
@@ -386,69 +263,12 @@ export default class addTemplate extends React.Component {
   handleRemoveTemplate (id) {
     templateManager.remove(id)
     this.props.api.request('templates:remove', id)
-    this.setState({myTemplatesList: templateManager.all()})
+    // this.setState({myTemplatesList: templateManager.all()})
   }
 
   render () {
-    let output, itemsOutput
-    let activeTabId = this.props.tabs[this.state.activeTab].id
-    // TODO refactor switch after interaction with HUB is complete
-    switch (activeTabId) {
-      case 'MyTemplates':
-        itemsOutput = this.isSearching(activeTabId) ? this.getSearchResults(activeTabId) : this.getTemplateList(activeTabId)
-        output = this.getTemplateListContainer(itemsOutput, activeTabId)
-        break
-      case 'HubTemplates':
-        itemsOutput = this.getTemplateList(activeTabId)
-        output = this.getTemplateListContainer(itemsOutput, activeTabId)
-        break
-      case 'SaveTemplate':
-        output = this.getSaveTemplate()
-        break
-    }
+    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
 
-    let { activeTab } = this.state
-    let visibleTabsHeaderOutput = []
-    this.getVisibleTabs().forEach((tab) => {
-      visibleTabsHeaderOutput.push(
-        <TemplateTab {...this.getTabProps(tab)} />
-      )
-    })
-
-    let hiddenTabsHeaderOutput = ''
-    if (this.getHiddenTabs().length) {
-      let hiddenTabsHeader = []
-      this.getHiddenTabs().forEach((tab) => {
-        hiddenTabsHeader.push(
-          <TemplateTab {...this.getTabProps(tab)} />
-        )
-      })
-
-      let dropdownClasses = classNames({
-        'vcv-ui-editor-tab-dropdown': true,
-        'vcv-ui-editor-tab-collapse': true,
-        'vcv-ui-state--active': !!this.getHiddenTabs().filter(function (tab) {
-          return tab.index === activeTab
-        }).length
-      })
-      hiddenTabsHeaderOutput = (
-        <dl className={dropdownClasses}>
-          <dt className='vcv-ui-editor-tab-dropdown-trigger vcv-ui-editor-tab' title='More'>
-            <span className='vcv-ui-editor-tab-content'>
-              <i className='vcv-ui-editor-tab-icon vcv-ui-icon vcv-ui-icon-more-dots' />
-            </span>
-          </dt>
-          <dd className='vcv-ui-editor-tab-dropdown-content'>
-            {hiddenTabsHeader}
-          </dd>
-        </dl>
-      )
-    }
-
-    let footerClasses = classNames({
-      'vcv-ui-tree-content-footer': true,
-      'vcv-ui-state--hidden': this.state.tabTitle !== 'Save Template'
-    })
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': itemsOutput && !itemsOutput.length
@@ -457,48 +277,56 @@ export default class addTemplate extends React.Component {
       'vcv-ui-tree-content-error-message': true,
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
+    let listCtaClasses = classNames({
+      'vcv-ui-editor-list-cta-wrapper': true,
+      'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
+    })
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
-          <div className='vcv-ui-editor-tabs-container'>
-            <nav className='vcv-ui-editor-tabs'>
-              {visibleTabsHeaderOutput}
-              {hiddenTabsHeaderOutput}
-              <span className='vcv-ui-editor-tabs-free-space' />
-            </nav>
-          </div>
           <div className='vcv-ui-tree-content-section'>
             <div className='vcv-ui-tree-content-error-message-container'>
               <div className={errorMessageClasses}>{this.state.errorName}</div>
             </div>
             <Scrollbar>
               <div className={innerSectionClasses}>
+                <div className='vcv-ui-form-dependency'>
+                  <div className='vcv-ui-form-group'>
+                    <span className='vcv-ui-form-group-heading'>Template name</span>
+                    <form
+                      className='vcv-ui-save-template-form'
+                      onSubmit={this.handleSaveTemplate}
+                    >
+                      <input
+                        className='vcv-ui-form-input'
+                        type='text'
+                        value={this.state.templateName}
+                        onChange={this.changeTemplateName}
+                      />
+                      <button
+                        className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
+                        type='submit'
+                      >Save Template</button>
+                    </form>
+                  </div>
+                </div>
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                      {output}
+                      {this.getTemplateListContainer(itemsOutput)}
                     </div>
                   </div>
                 </div>
+                <div className={listCtaClasses}>
+                  <button
+                    className='vcv-ui-editor-no-items-action'
+                    onClick={this.handleGoToHub}
+                  >Download More Templates</button>
+                </div>
               </div>
             </Scrollbar>
-          </div>
-          <div className={footerClasses}>
-            <div className='vcv-ui-tree-layout-actions'>
-              <a
-                className='vcv-ui-tree-layout-action'
-                href='#'
-                title='Save'
-                onClick={this.handleSaveTemplate}
-              >
-                <span className='vcv-ui-tree-layout-action-content'>
-                  <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-save' />
-                  <span>Save</span>
-                </span>
-              </a>
-            </div>
           </div>
         </div>
       </div>
