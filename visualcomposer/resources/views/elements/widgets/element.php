@@ -1,14 +1,16 @@
 <?php
 $groups = vchelper('WpWidgets')->allGrouped();
 $scripts = [];
-if (!empty($widgets['default'])) {
+if (!empty($groups['default'])) {
     $scripts['WpWidgetsDefault'] = [
         'title' => 'Default WordPress Widget',
+        'elements' => $groups['default'],
     ];
 }
-if (!empty($widgets['custom'])) {
+if (!empty($groups['custom'])) {
     $scripts['WpWidgetsCustom'] = [
         'title' => 'Custom WordPress Widget',
+        'elements' => $groups['custom'],
     ];
 }
 
@@ -21,39 +23,39 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 
     'use strict';
 
-    var _extends2 = __webpack_require__(109);
+    var _extends2 = __webpack_require__(120);
 
     var _extends3 = _interopRequireDefault(_extends2);
 
-    var _keys = __webpack_require__(147);
+    var _keys = __webpack_require__(158);
 
     var _keys2 = _interopRequireDefault(_keys);
 
-    var _getPrototypeOf = __webpack_require__(151);
+    var _getPrototypeOf = __webpack_require__(162);
 
     var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-    var _classCallCheck2 = __webpack_require__(155);
+    var _classCallCheck2 = __webpack_require__(166);
 
     var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-    var _createClass2 = __webpack_require__(156);
+    var _createClass2 = __webpack_require__(167);
 
     var _createClass3 = _interopRequireDefault(_createClass2);
 
-    var _possibleConstructorReturn2 = __webpack_require__(160);
+    var _possibleConstructorReturn2 = __webpack_require__(171);
 
     var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-    var _inherits2 = __webpack_require__(195);
+    var _inherits2 = __webpack_require__(206);
 
     var _inherits3 = _interopRequireDefault(_inherits2);
 
-    var _vcCake = __webpack_require__(203);
+    var _vcCake = __webpack_require__(214);
 
     var _vcCake2 = _interopRequireDefault(_vcCake);
 
-    var _react = __webpack_require__(221);
+    var _react = __webpack_require__(232);
 
     var _react2 = _interopRequireDefault(_react);
 
@@ -61,7 +63,67 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
 
     var addElement = _vcCake2.default.getService('cook').add;
     var vcvAPI = _vcCake2.default.getService('api');
-    addElement({ "name": { "type": "string", "access": "protected", "value": "<?php echo $title; ?>" }, "metaIntro": { "type": "textarea", "access": "protected", "value": "Short intro" }, "metaDescription": { "type": "textarea", "access": "protected", "value": "Long description" }, "metaPreviewDescription": { "type": "textarea", "access": "protected", "value": "Medium preview description" }, "metaPreview": { "type": "attachimage", "access": "protected", "value": "preview.jpg" }, "metaThumbnail": { "type": "attachimage", "access": "protected", "value": "thumbnail.jpg" }, "designOptions": { "type": "designOptions", "access": "public", "value": {}, "options": { "label": "Design Options" } }, "metaEditFormTabs": { "type": "group", "access": "protected", "value": ["designOptions"] }, "relatedTo": { "type": "group", "access": "protected", "value": ["General"] }, "tag": { "access": "protected", "type": "string", "value": "<?php echo $key; ?>" } },
+    addElement({
+      "name": {
+        "type": "string",
+        "access": "protected",
+        "value": "<?php echo $title; ?>"
+      },
+      "metaIntro": {
+        "type": "textarea",
+        "access": "protected",
+        "value": "Short intro"
+      }, "metaDescription": {
+        "type": "textarea",
+        "access": "protected",
+        "value": "Long description"
+      }, "metaPreviewDescription": {
+        "type": "textarea",
+        "access": "protected",
+        "value": "Medium preview description"
+      }, "metaPreview": {
+        "type": "attachimage",
+        "access": "protected",
+        "value": "preview.jpg"
+      },
+      "metaThumbnail": {
+        "type": "attachimage",
+        "access": "protected",
+        "value": "thumbnail.jpg"
+      },
+      "widget": {
+        "type": "ajaxForm",
+        "access": "public",
+        "value": {},
+        "options": {
+          "label": "Widget Form",
+          "action": "vcv:wpWidgets:form",
+          "data": {
+            "widgetKey": "<?php echo array_keys($data['elements'])[0]; ?>"
+          }
+        }
+      },
+      "designOptions": {
+        "type": "designOptions",
+        "access": "public",
+        "value": {},
+        "options": {
+          "label": "Design Options"
+        }
+      }, "metaEditFormTabs": {
+        "type": "group",
+        "access": "protected",
+        "value": [ "widget", "designOptions" ]
+      }, "relatedTo": {
+        "type": "group",
+        "access": "protected",
+        "value": [ "General" ]
+      }, "tag": {
+        "access": "protected",
+        "type": "string",
+        "value": "<?php echo $key; ?>"
+      }
+    },
       // Component callback
       function (component) {
         //
@@ -94,7 +156,7 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
             }, {
               key: 'componentDidUpdate',
               value: function componentDidUpdate(prevProps) {
-                var isEqual = __webpack_require__(206).isEqual;
+                var isEqual = __webpack_require__(218).isEqual;
                 if (!isEqual(this.props.atts, prevProps.atts)) {
                   this.requestToServer();
                 }
@@ -130,7 +192,7 @@ webpackJsonp(['wpWidgets-<?php echo $key; ?>'],[
                   'vcv-action': 'elements:widget' + (this.props.clean ? ':clean' : '') + ':adminNonce',
                   'vcv-nonce': window.vcvNonce,
                   'vcv-widget-key': '<?php echo $key; ?>',
-                  'vcv-atts': {}
+                  'vcv-atts': this.props.widget
                 }, function (result) {
                   _this2.setState({
                     shortcodeContent: { __html: result.response }

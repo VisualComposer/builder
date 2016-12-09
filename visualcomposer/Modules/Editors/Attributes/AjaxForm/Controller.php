@@ -29,12 +29,21 @@ class Controller extends Container implements Module
     {
         $action = $request->input('vcv-form-action');
         $data = $request->input('vcv-form-data');
+        $value = $request->input('vcv-form-value');
         // Output Result Form JSON.
         $response['html'] = '';
         $response['status'] = true;
 
         // Do Filter with action/data.
-        $response = vcfilter('vcv:ajaxForm:render:response', $response, ['action' => $action, 'data' => $data]);
+        $response = vcfilter(
+            'vcv:ajaxForm:render:response',
+            $response,
+            [
+                'action' => $action,
+                'data' => $data,
+                'value' => $value,
+            ]
+        );
 
         return $response;
     }
