@@ -83,6 +83,8 @@ class WpWidgetsController extends Container implements Module
             $widget = $widgets->get($widget);
             $form = '';
             if (is_object($widget)) {
+                $widget->number = 1; //
+                $widget->id_base = 'form'; // Encode input name strictly
                 $noform = $widget->form($value);
                 $form = ob_get_clean();
                 // In case If Widget doesn't have settings
