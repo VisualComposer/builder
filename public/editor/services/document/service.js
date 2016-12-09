@@ -37,7 +37,7 @@ let dataStore = {
 
 var api = {
   create: function (data) {
-    var id = createKey()
+    var id = data.id || createKey()
     var obj = Immutable.Map(data).mergeDeep({
       id: id,
       parent: data.parent || false,

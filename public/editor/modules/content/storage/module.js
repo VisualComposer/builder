@@ -40,10 +40,10 @@ vcCake.add('storage', (api) => {
     }
     return false
   }
-  api.reply('data:add', (elementData) => {
+  api.reply('data:add', (elementData, wrap = true) => {
     let createdElements = []
     let element = cook.get(elementData)
-    if (!element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
+    if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       let rowElement = DocumentData.create({ tag: 'row' })
       createdElements.push(rowElement.id)
       let columnElement = DocumentData.create({ tag: 'column', parent: rowElement.id })
@@ -53,7 +53,7 @@ vcCake.add('storage', (api) => {
     let data = DocumentData.create(elementData)
     createdElements.push(data.id)
 
-    if (element.get('tag') === 'row') {
+    if (wrap && element.get('tag') === 'row') {
       let columnData = cook.get({ tag: 'column', parent: data.id })
       if (columnData) {
         let columnElement = DocumentData.create(columnData.toJS())
@@ -62,9 +62,6 @@ vcCake.add('storage', (api) => {
     }
     api.request('data:afterAdd', createdElements)
     api.request('data:changed', DocumentData.children(false), 'add')
-  })
-  api.reply('data:addTemplate', (data) => {
-
   })
   api.reply('data:remove', (id) => {
     api.request('data:beforeRemove', id)
@@ -103,10 +100,22 @@ vcCake.add('storage', (api) => {
     api.request('data:changed', DocumentData.children(false))
   })
   api.reply('data:merge', (content) => {
-    let currentContent = DocumentData.all()
-    let newContent = Object.assign({}, currentContent, content)
-    DocumentData.reset(newContent || {})
-    api.request('data:changed', DocumentData.children(false), 'reset')
+    Object.keys(content).sort((a, b) => {
+      if (content[a].order === undefined || content[b].order === undefined) {
+        return 0
+      }
+      if (content[a].order > content[b].order) {
+        return 1
+      }
+      if (content[a].order < content[b].order) {
+        return -1
+      }
+      return 0
+    }).forEach((key) => {
+      let element = content[key]
+      delete element.order
+      api.request('data:add', element, false)
+    })
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
