@@ -2,11 +2,29 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   componentDidMount () {
-
+    this.insertHtml(this.props.atts)
   }
 
   componentWillReceiveProps (nextProps) {
+    let { url, layout, size } = this.props.atts
 
+    if (layout !== nextProps.atts.layout || size !== nextProps.atts.size || url !== nextProps.atts.url) {
+      this.insertHtml(nextProps.atts)
+    }
+  }
+
+  insertHtml (atts) {
+    let html = this.createHtml(atts)
+    const wrapper = this.refs.facebookLikeInner
+    this.updateInlineHtml(wrapper, html)
+  }
+
+  createHtml (atts) {
+    let { url, layout, size } = atts
+
+    let html = `<iframe src="https://www.facebook.com/plugins/like.php?href=${url}&width=450&layout=${layout}&action=like&size=${size}&show_faces=false&share=false&height=35" width="450" height="35" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>`
+
+    return html
   }
 
   render () {

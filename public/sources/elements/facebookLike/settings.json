@@ -41,8 +41,8 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "layout",
       "size",
-      "annotation",
       "alignment",
       "customClass"
     ],
@@ -74,10 +74,44 @@
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
-  "size": {
+  "url": {
+    "type": "string",
+    "access": "public",
+    "value": "https://vc.wpbakery.com/",
+    "options": {
+      "label": "URL to Like"
+    }
+  },
+  "layout": {
     "type": "dropdown",
     "access": "public",
     "value": "standard",
+    "options": {
+      "label": "Annotation",
+      "values": [
+        {
+          "label": "Standard",
+          "value": "standard"
+        },
+        {
+          "label": "Box Count",
+          "value": "box_count"
+        },
+        {
+          "label": "Button Count",
+          "value": "button_count"
+        },
+        {
+          "label": "Button",
+          "value": "button"
+        }
+      ]
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "small",
     "options": {
       "label": "Size",
       "values": [
@@ -86,38 +120,8 @@
           "value": "small"
         },
         {
-          "label": "Medium",
-          "value": "medium"
-        },
-        {
-          "label": "Standard",
-          "value": "standard"
-        },
-        {
-          "label": "Tall",
-          "value": "tall"
-        }
-      ]
-    }
-  },
-  "annotation": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "bubble",
-    "options": {
-      "label": "Annotation",
-      "values": [
-        {
-          "label": "Inline",
-          "value": "inline"
-        },
-        {
-          "label": "Bubble",
-          "value": "bubble"
-        },
-        {
-          "label": "None",
-          "value": "none"
+          "label": "Large",
+          "value": "large"
         }
       ]
     }
