@@ -30,8 +30,6 @@ class WpWidgetsController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
         $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
-        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::clean */
-        $this->addFilter('vcv:ajax:elements:widget:clean:adminNonce', 'renderShortcode');
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
         $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
@@ -60,38 +58,45 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderEditor(Request $requestHelper, WpWidgets $widgets)
+    protected function renderEditor($response, Request $requestHelper, WpWidgets $widgets)
     {
-        // TODO: Finish it.
-        return 'Hi From render';
+        if (!is_array($response)) {
+            $response = [];
+        }
+        $widgetKey = $requestHelper->input('vcv-widget-key');
+        $args = $requestHelper->input('vcv-atts');
+
+        $instance = $requestHelper->input('vcv-widget-value');
+        if (isset($instance['widget-form'])) {
+            $instance = $instance['widget-form'][1];
+        }
+
+        $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
+        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::getShortcode */
+        $response['shortcode'] = $this->call('getShortcode');
+
+        return $response;
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\WpWidgets $widgets
+     *
+     * @param $response
+     * @param $payload
      *
      * @return string
      */
-    protected function renderForm(Request $requestHelper, WpWidgets $widgets, $response, $payload)
+    protected function renderForm(WpWidgets $widgets, $response, $payload)
     {
         if ($payload['action'] === 'vcv:wpWidgets:form') {
-            $data = $payload['data'];
-            $value = $payload['value'];
-            $widget = $data['widgetKey'];
-
-            ob_start();
-            $widget = $widgets->get($widget);
-            $form = '';
-            if (is_object($widget)) {
-                $widget->number = 1; //
-                $widget->id_base = 'form'; // Encode input name strictly
-                $noform = $widget->form($value);
-                $form = ob_get_clean();
-                // In case If Widget doesn't have settings
-                if ($noform === 'noform') {
-                    $form = '';
-                }
+            $element = $payload['element'];
+            $widgetKey = $element['widgetKey'];
+            $instance = $payload['value'];
+            if (isset($instance['widget-form'])) {
+                $instance = $instance['widget-form'][1];
             }
+
+            $form = $widgets->form($widgetKey, $instance);
             $response['html'] = $form;
         }
 
@@ -103,11 +108,12 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderShortcode(Request $requestHelper)
+    protected function getShortcode(Request $requestHelper)
     {
         return sprintf(
-            '[vcv_widgets key="%s" value="%s"]',
+            '[vcv_widgets key="%s" instance="%s" args="%s"]',
             $requestHelper->input('vcv-widget-key'),
+            rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
             rawurlencode(json_encode($requestHelper->input('vcv-atts')))
         );
     }

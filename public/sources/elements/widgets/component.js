@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   state = {
+    shortcode: { __html: '' },
     shortcodeContent: { __html: '' }
   }
 
@@ -39,19 +40,23 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
-    let atts = {}
-    if (this.props.atts.selector === 'sku') {
-      atts.sku = this.props.atts.atts_sku
-    } else {
-      atts.id = this.props.atts.atts_id
+    let atts = {
+      before_title: this.props.atts.atts_before_title,
+      after_title: this.props.atts.atts_after_title,
+      before_widget: this.props.atts.atts_before_widget,
+      after_widget: this.props.atts.atts_after_widget
     }
     this.serverRequest = ajax({
-      'vcv-action': `elements:woocommerce:add_to_cart_url${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-action': 'elements:widget:adminNonce',
       'vcv-nonce': window.vcvNonce,
+      'vcv-widget-key': this.props.atts.widgetKey,
+      'vcv-widget-value': this.props.atts.widget,
       'vcv-atts': atts
     }, (result) => {
+      let response = JSON.parse(result.response)
       this.setState({
-        shortcodeContent: { __html: result.response }
+        shortcode: response.shortcode,
+        shortcodeContent: { __html: response.shortcodeContent }
       })
     })
   }
@@ -75,9 +80,10 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
     return (
-      <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor}>
-        <div dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
+      <div className='vce vce-widgets-wrapper' {...customProps} id={'el-' + id} {...editor}>
+        <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
       </div>
     )
   }

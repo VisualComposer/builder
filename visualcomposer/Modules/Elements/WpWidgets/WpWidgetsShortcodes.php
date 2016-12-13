@@ -22,7 +22,7 @@ class WpWidgetsShortcodes extends Container implements Module
     protected function registerShortcode()
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsShortcodes::render */
-        $this->addShortcode('vcv_widget', 'render');
+        $this->addShortcode('vcv_widgets', 'render');
     }
 
     protected function render($atts, $content, $tag, WpWidgets $widgets)
@@ -30,21 +30,18 @@ class WpWidgetsShortcodes extends Container implements Module
         $atts = shortcode_atts(
             [
                 'key' => '',
-                'value' => '',
+                'instance' => '',
+                'args' => '',
             ],
             $atts
         );
-        $value = json_decode(rawurldecode($atts['value']), true);
-        $output = '';
-        if ($widgets->exists($atts['key'])) {
-            $output = 'WP_Widget Shortcode';
-            $output .= var_export([$atts, $content, $tag], true);
-            // TODO:
-            $output .= var_export($value, true);
-            $output .= 'Exists';
+        $instance = json_decode(rawurldecode($atts['instance']), true);
+        if (is_array($instance) && isset($instance['widget-form'])) {
+            $instance = $instance['widget-form'][1];
         }
+        $args = json_decode(rawurldecode($atts['args']), true);
+        $output = $widgets->render($atts['key'], $args, $instance);
 
-        // Render WP_Widget
         return $output;
     }
 }

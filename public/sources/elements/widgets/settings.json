@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "WooCommerce Add to Cart URL"
+    "value": "{name}"
   },
   "metaIntro": {
     "type": "textarea",
@@ -37,81 +37,76 @@
       "label": "Design Options"
     }
   },
-  "selector": {
+  "widgetKey": {
     "type": "dropdown",
     "access": "public",
-    "value": "id",
+    "value": "{widgetKey}",
     "options": {
-      "label": "Choose selector",
-      "description": "Show the price and add to cart button of a single product by ID or SKU.",
-      "values": [
-        {
-          "label": "ID",
-          "value": "id"
-        },
-        {
-          "label": "SKU",
-          "value": "sku"
-        }
-      ]
+      "label": "Widget",
+      "values": "{+widgets+}"
     }
   },
-  "atts_id": {
-    "type": "string",
+  "atts_before_title": {
+    "type": "rawCode",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Product ID",
-      "onChange": {
-        "rules": {
-          "selector": {
-            "rule": "value",
-            "options": {
-              "value": "id"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      "label": "Before Title html",
+      "mode": "html"
     }
   },
-  "atts_sku": {
-    "type": "string",
+  "atts_after_title": {
+    "type": "rawCode",
     "access": "public",
     "value": "",
     "options": {
-      "label": "Product SKU",
-      "onChange": {
-        "rules": {
-          "selector": {
-            "rule": "value",
-            "options": {
-              "value": "sku"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      "label": "After Title html",
+      "mode": "html"
+    }
+  },
+  "atts_before_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Widget html",
+      "mode": "html"
+    }
+  },
+  "atts_after_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Widget html",
+      "mode": "html"
+    }
+  },
+  "widget": {
+    "type": "ajaxForm",
+    "access": "public",
+    "value": {
+      "key": "",
+      "value": ""
+    },
+    "options": {
+      "label": "Widget Form",
+      "action": "vcv:wpWidgets:form"
     }
   },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "selector",
-      "atts_id",
-      "atts_sku"
+      "widgetKey",
+      "atts_before_title",
+      "atts_after_title",
+      "atts_before_widget",
+      "atts_after_widget",
+      "widget"
     ],
     "options": {
-      "label": "Add To Cart Url"
+      "label": "{name}"
     }
   },
   "metaEditFormTabs": {

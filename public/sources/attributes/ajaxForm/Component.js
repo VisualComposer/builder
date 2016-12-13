@@ -10,7 +10,7 @@ export default class AjaxForm extends Attribute {
       value: props.value,
       formContent: 'Loading...',
       formStatus: false,
-      formBinded: false
+      formBound: false
     }
   }
 
@@ -18,8 +18,13 @@ export default class AjaxForm extends Attribute {
     this.requestToServer()
   }
 
+  componentWillReceiveProps (nextProps) {
+    // Intentionally left blank
+    // TODO: Possibly remove this hook in Attributes.js
+  }
+
   componentDidUpdate (prevProps, prevState) {
-    if (this.state.formStatus && this.refs.form && !this.state.formBinded) {
+    if (this.state.formStatus && this.refs.form && !this.state.formBound) {
       this.bindFormChangeEvents()
     }
   }
@@ -30,7 +35,7 @@ export default class AjaxForm extends Attribute {
       node.addEventListener('change', this.handleFormChange.bind(this))
     })
     this.setState({
-      formBinded: true
+      formBound: true
     })
   }
 
@@ -47,12 +52,11 @@ export default class AjaxForm extends Attribute {
     }
     let action = this.props.options.action
     let value = this.state.value
-    let data = this.props.options.data
 
     this.serverRequest = ajax({
       'vcv-action': `attribute:ajaxForm:render:adminNonce`,
       'vcv-form-action': action,
-      'vcv-form-data': data,
+      'vcv-form-element': this.props.element.toJS(),
       'vcv-form-value': value,
       'vcv-nonce': window.vcvNonce
     }, (result) => {
@@ -65,7 +69,8 @@ export default class AjaxForm extends Attribute {
       } else {
         this.setState({
           formContent: 'Failed to Load Form',
-          formStatus: false
+          formStatus: false,
+          formBound: false
         })
       }
     })

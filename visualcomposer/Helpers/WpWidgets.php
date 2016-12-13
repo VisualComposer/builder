@@ -118,4 +118,56 @@ class WpWidgets implements Helper
     {
         return in_array($widgetClass, $this->defaultWidgets);
     }
+
+    public function render($widgetKey, $args, $instance = [])
+    {
+        $widget = $this->get($widgetKey);
+        $output = '';
+        if (is_object($widget)) {
+            ob_start();
+            $widget->widget($args, $instance);
+            $output = ob_get_clean();
+        }
+
+        return $output;
+    }
+
+    public function form($widgetKey, $instance)
+    {
+        $widget = $this->get($widgetKey);
+        $form = '';
+        if (is_object($widget)) {
+            ob_start();
+            $widget->number = 1; //
+            $widget->id_base = 'form'; // Encode input name strictly
+            $noform = $widget->form($instance);
+            $form = ob_get_clean();
+            // In case If Widget doesn't have settings
+            if ($noform === 'noform') {
+                $form = '';
+            }
+        }
+
+        return $form;
+    }
+
+    public function getTemplateVariables($variables, $widgets)
+    {
+        // name
+        // widgetKey
+        // widgets
+        // ..
+        $variables['widgets'] = [];
+        $keys = array_keys($widgets);
+        $variables['widgetKey'] = $keys[0];
+        foreach ($widgets as $widgetKey => $widget) {
+            /** @var $widget \WP_Widget */
+            $variables['widgets'][] = [
+                'label' => $widget->name,
+                'value' => $widgetKey,
+            ];
+        }
+
+        return $variables;
+    }
 }

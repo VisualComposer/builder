@@ -28,7 +28,7 @@ class Controller extends Container implements Module
     private function render(Request $request, $response)
     {
         $action = $request->input('vcv-form-action');
-        $data = $request->input('vcv-form-data');
+        $element = $request->input('vcv-form-element');
         $value = $request->input('vcv-form-value');
         // Output Result Form JSON.
         $response['html'] = '';
@@ -40,7 +40,7 @@ class Controller extends Container implements Module
             $response,
             [
                 'action' => $action,
-                'data' => $data,
+                'element' => $element,
                 'value' => $value,
             ]
         );
