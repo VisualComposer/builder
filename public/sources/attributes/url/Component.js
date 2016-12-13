@@ -125,7 +125,7 @@ class Url extends Attribute {
 
   save = (e) => {
     let valueToSave = Object.assign({}, this.state.unsavedValue)
-    // check url format and add https
+    // check url format and add http
     if (valueToSave.url &&
       valueToSave.url.search(/^[a-z]+:\/\//i) === -1 && // search for protocol
       valueToSave.url.search(/^#/i) === -1 && // search for hash navigation
@@ -133,7 +133,7 @@ class Url extends Attribute {
       valueToSave.url.search(/^\//i) === -1 && // search for absolute page navigation
       valueToSave.url.search(/^[^/.]+(?:\/|$)/i) === -1 // search for relative page navigation
     ) {
-      valueToSave.url = `https://${valueToSave.url}`
+      valueToSave.url = `http://${valueToSave.url}`
     }
 
     this.setFieldValue(valueToSave)
