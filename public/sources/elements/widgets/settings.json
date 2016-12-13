@@ -43,9 +43,43 @@
     "value": "{widgetKey}",
     "options": {
       "label": "Widget",
-      "values": [
-        "{+widgets+}"
-      ]
+      "values": "{+widgets+}"
+    }
+  },
+  "atts_before_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Title html",
+      "mode": "html"
+    }
+  },
+  "atts_after_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Title html",
+      "mode": "html"
+    }
+  },
+  "atts_before_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Widget html",
+      "mode": "html"
+    }
+  },
+  "atts_after_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Widget html",
+      "mode": "html"
     }
   },
   "widget": {
@@ -64,6 +98,11 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "widgetKey",
+      "atts_before_title",
+      "atts_after_title",
+      "atts_before_widget",
+      "atts_after_widget",
       "widget"
     ],
     "options": {

@@ -63,7 +63,15 @@ class WpWidgetsController extends Container implements Module
         if (!is_array($response)) {
             $response = [];
         }
-        $response['shortcodeContent'] = 'Hi From Render'; // TODO: Finish it!
+        $widgetKey = $requestHelper->input('vcv-widget-key');
+        $args = $requestHelper->input('vcv-atts');
+
+        $instance = $requestHelper->input('vcv-widget-value');
+        if (isset($instance['widget-form'])) {
+            $instance = $instance['widget-form'][1];
+        }
+
+        $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::getShortcode */
         $response['shortcode'] = $this->call('getShortcode');
 
@@ -71,34 +79,24 @@ class WpWidgetsController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\WpWidgets $widgets
+     *
+     * @param $response
+     * @param $payload
      *
      * @return string
      */
-    protected function renderForm(Request $requestHelper, WpWidgets $widgets, $response, $payload)
+    protected function renderForm(WpWidgets $widgets, $response, $payload)
     {
         if ($payload['action'] === 'vcv:wpWidgets:form') {
             $element = $payload['element'];
-            $value = $payload['value'];
             $widgetKey = $element['widgetKey'];
-
-            ob_start();
-            $widget = $widgets->get($widgetKey);
-            $form = '';
-            if (is_object($widget)) {
-                $widget->number = 1; //
-                $widget->id_base = 'form'; // Encode input name strictly
-                if (isset($value['widget-form'])) {
-                    $value = $value['widget-form'][1];
-                }
-                $noform = $widget->form($value);
-                $form = ob_get_clean();
-                // In case If Widget doesn't have settings
-                if ($noform === 'noform') {
-                    $form = '';
-                }
+            $instance = $payload['value'];
+            if (isset($instance['widget-form'])) {
+                $instance = $instance['widget-form'][1];
             }
+
+            $form = $widgets->form($widgetKey, $instance);
             $response['html'] = $form;
         }
 
@@ -113,8 +111,9 @@ class WpWidgetsController extends Container implements Module
     protected function getShortcode(Request $requestHelper)
     {
         return sprintf(
-            '[vcv_widgets key="%s" value="%s"]',
+            '[vcv_widgets key="%s" instance="%s" args="%s"]',
             $requestHelper->input('vcv-widget-key'),
+            rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
             rawurlencode(json_encode($requestHelper->input('vcv-atts')))
         );
     }

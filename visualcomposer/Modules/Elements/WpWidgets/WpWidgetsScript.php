@@ -23,11 +23,22 @@ class WpWidgetsScript extends Container implements Module
         $this->addFilter('vcv:ajax:elements:widget:script:adminNonce', 'script');
     }
 
+    /**
+     * Outputs widget script content
+     */
     protected function script()
     {
         // This actually not a filter. we output header (application/javascript) and etc.
         header('Content-Type: application/javascript; charset=utf-8');
         echo vcview('elements/widgets/element.php');
-        die;
+        $this->terminate();
+    }
+
+    /**
+     * Can be used in Mock to override
+     */
+    protected function terminate()
+    {
+        die();
     }
 }

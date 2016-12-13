@@ -40,11 +40,18 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
+    let atts = {
+      before_title: this.props.atts.atts_before_title,
+      after_title: this.props.atts.atts_after_title,
+      before_widget: this.props.atts.atts_before_widget,
+      after_widget: this.props.atts.atts_after_widget
+    }
     this.serverRequest = ajax({
       'vcv-action': 'elements:widget:adminNonce',
       'vcv-nonce': window.vcvNonce,
       'vcv-widget-key': this.props.atts.widgetKey,
-      'vcv-atts': this.props.atts.widget
+      'vcv-widget-value': this.props.atts.widget,
+      'vcv-atts': atts
     }, (result) => {
       let response = JSON.parse(result.response)
       this.setState({
