@@ -12,7 +12,7 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor."
   },
   "metaPreviewDescription": {
     "type": "textarea",
