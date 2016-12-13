@@ -35,6 +35,9 @@ class WpWidgetsShortcodes extends Container implements Module
             $atts
         );
         $value = json_decode(rawurldecode($atts['value']), true);
+        if (isset($value['widget-form'])) {
+            $value = $value['widget-form'][1];
+        }
         $output = '';
         if ($widgets->exists($atts['key'])) {
             $output = 'WP_Widget Shortcode';

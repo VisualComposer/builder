@@ -1,7 +1,9 @@
 .vce-google-fonts-heading {
   &--color-$selector {
     @if $color != false {
-      color: $color;
+      .vce-google-fonts-heading-inner {
+        color: $color;
+      }
     }
   }
 }

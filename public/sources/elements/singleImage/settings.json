@@ -141,17 +141,13 @@
   "clickableOptions": {
     "type": "dropdown",
     "access": "public",
-    "value": "url",
+    "value": "lightbox",
     "options": {
       "label": "OnClick action",
       "values": [
         {
           "label": "None",
           "value": ""
-        },
-        {
-          "label": "Link selector",
-          "value": "url"
         },
         {
           "label": "Lightbox",
@@ -164,6 +160,10 @@
         {
           "label": "Open Image in New Tab",
           "value": "imageNewTab"
+        },
+        {
+          "label": "Link selector",
+          "value": "url"
         }
       ]
     }

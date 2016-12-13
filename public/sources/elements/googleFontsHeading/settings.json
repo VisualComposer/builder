@@ -134,7 +134,7 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#000",
+    "value": "#3e3d3d",
     "options": {
       "label": "Title color",
       "cssMixin": {

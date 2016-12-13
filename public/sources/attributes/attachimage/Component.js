@@ -66,7 +66,7 @@ class AttachImage extends Attribute {
       button: {
         text: 'Add image'
       },
-      multiple: !!this.props.options.multiple
+      multiple: this.props.options.multiple ? 'add' : false
     })
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
@@ -78,10 +78,16 @@ class AttachImage extends Attribute {
     let urls = this.state.value.urls
     ids.splice(key, 1)
     urls.splice(key, 1)
-    let fieldValue = ids.length ? {
-      ids: ids,
-      urls: urls
-    } : this.props.defaultValue ? this.props.defaultValue : { ids: [], urls: [] }
+    let fieldValue = { ids: [], urls: [] }
+    if (ids.length) {
+      fieldValue = {
+        ids: ids,
+        urls: urls
+      }
+    } else if (this.props.defaultValue) {
+      fieldValue = this.props.defaultValue
+    }
+
     this.setFieldValue(fieldValue)
   }
 
