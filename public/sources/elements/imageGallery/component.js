@@ -91,7 +91,7 @@ class Component extends vcvAPI.elementComponent {
         return obj.id === this.imageOrder[ index ]
       })
       imagesInOrder.push({
-        imgSrc: this.getImageUrl(imgObj[ 0 ], 'medium'),
+        imgSrc: this.getImageUrl(imgObj[ 0 ], 'large'),
         orientation: imgObj[ 0 ].orientation,
         originalSrc: this.getImageUrl(imgObj[ 0 ]),
         alt: imgObj[ 0 ].alt,
