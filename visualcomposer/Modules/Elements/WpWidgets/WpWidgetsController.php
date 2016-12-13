@@ -30,8 +30,6 @@ class WpWidgetsController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
         $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
-        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::clean */
-        $this->addFilter('vcv:ajax:elements:widget:clean:adminNonce', 'renderShortcode');
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
         $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
@@ -60,10 +58,16 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderEditor(Request $requestHelper, WpWidgets $widgets)
+    protected function renderEditor($response, Request $requestHelper, WpWidgets $widgets)
     {
-        // TODO: Finish it.
-        return 'Hi From render';
+        if (!is_array($response)) {
+            $response = [];
+        }
+        $response['shortcodeContent'] = 'Hi From Render'; // TODO: Finish it!
+        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::getShortcode */
+        $response['shortcode'] = $this->call('getShortcode');
+
+        return $response;
     }
 
     /**
@@ -75,12 +79,12 @@ class WpWidgetsController extends Container implements Module
     protected function renderForm(Request $requestHelper, WpWidgets $widgets, $response, $payload)
     {
         if ($payload['action'] === 'vcv:wpWidgets:form') {
-            $data = $payload['data'];
+            $element = $payload['element'];
             $value = $payload['value'];
-            $widget = $data['widgetKey'];
+            $widgetKey = $element['widgetKey'];
 
             ob_start();
-            $widget = $widgets->get($widget);
+            $widget = $widgets->get($widgetKey);
             $form = '';
             if (is_object($widget)) {
                 $widget->number = 1; //
@@ -106,7 +110,7 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderShortcode(Request $requestHelper)
+    protected function getShortcode(Request $requestHelper)
     {
         return sprintf(
             '[vcv_widgets key="%s" value="%s"]',

@@ -52,12 +52,11 @@ export default class AjaxForm extends Attribute {
     }
     let action = this.props.options.action
     let value = this.state.value
-    let data = this.props.options.data
 
     this.serverRequest = ajax({
       'vcv-action': `attribute:ajaxForm:render:adminNonce`,
       'vcv-form-action': action,
-      'vcv-form-data': data,
+      'vcv-form-element': this.props.element.toJS(),
       'vcv-form-value': value,
       'vcv-nonce': window.vcvNonce
     }, (result) => {

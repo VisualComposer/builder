@@ -1,0 +1,88 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "{name}"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "widgetKey": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "{widgetKey}",
+    "options": {
+      "label": "Widget",
+      "values": [
+        "{+widgets+}"
+      ]
+    }
+  },
+  "widget": {
+    "type": "ajaxForm",
+    "access": "public",
+    "value": {
+      "key": "",
+      "value": ""
+    },
+    "options": {
+      "label": "Widget Form",
+      "action": "vcv:wpWidgets:form"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "widget"
+    ],
+    "options": {
+      "label": "{name}"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
