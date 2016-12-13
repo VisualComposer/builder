@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   state = {
+    shortcode: { __html: '' },
     shortcodeContent: { __html: '' }
   }
 
@@ -44,12 +45,14 @@ class Component extends vcvAPI.elementComponent {
       columns: this.props.atts.atts_columns
     }
     this.serverRequest = ajax({
-      'vcv-action': `elements:woocommerce:best_selling_products${(this.props.clean ? ':clean' : '')}:adminNonce`,
+      'vcv-action': 'elements:woocommerce:best_selling_products:adminNonce',
       'vcv-nonce': window.vcvNonce,
       'vcv-atts': atts
     }, (result) => {
+      let response = JSON.parse(result.response)
       this.setState({
-        shortcodeContent: { __html: result.response }
+        shortcode: response.shortcode,
+        shortcodeContent: { __html: response.shortcodeContent }
       })
     })
   }
@@ -76,7 +79,7 @@ class Component extends vcvAPI.elementComponent {
 
     return (
       <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor}>
-        <div dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
+        <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
       </div>
     )
   }

@@ -31,7 +31,7 @@ if (VCV_LAZY_LOAD) {
 /**
  * Add action for init state.
  */
-add_action('init', 'vcvinit');
+add_action('init', 'vcvinit', 11);
 
 function vcvinit()
 {
