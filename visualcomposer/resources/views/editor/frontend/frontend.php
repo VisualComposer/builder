@@ -39,6 +39,7 @@ $frontendModule = vcapp('EditorsFrontendController');
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
     window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
+    window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
 </script>
 <!--
 <script type="text/javascript" src="<?php echo $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid()); /** @todo: use assets  */ ?>"></script>
