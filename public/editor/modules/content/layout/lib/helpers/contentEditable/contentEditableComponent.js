@@ -48,6 +48,11 @@ export default class ContentEditableComponent extends React.Component {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.medium.destroy()
       this.removeOverlay()
+      // Save data to map to undo/Redo
+      const data = documentManager.get(this.props.id)
+      const element = cook.get(data)
+      element.set(this.props.field, this.state.realContent)
+      this.props.api.request('data:update', element.get('id'), element.toJS())
     }
     // add overlay
     if (this.state.contentEditable) {
@@ -260,12 +265,12 @@ export default class ContentEditableComponent extends React.Component {
 
   updateElementData () {
     const dom = ReactDOM.findDOMNode(this)
-    const data = documentManager.get(this.props.id)
-    const element = cook.get(data)
+    // const data = documentManager.get(this.props.id)
+    // const element = cook.get(data)
     let content = dom.innerHTML
-    element.set(this.props.field, dom.innerHTML)
+    // element.set(this.props.field, dom.innerHTML)
     this.setState({ realContent: content })
-    documentManager.update(this.props.id, element.toJS())
+    // documentManager.update(this.props.id, element.toJS())
   }
 
   handleChange () {
