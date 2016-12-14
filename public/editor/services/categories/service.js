@@ -25,7 +25,7 @@ let tempData = {
     },
     {
       'name': 'Content',
-      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block' ]
+      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature' ]
     },
     {
       'name': 'WooCommerce',
@@ -56,6 +56,11 @@ let tempData = {
       'name': 'Column',
       'elements': [ 'column' ],
       'icon': 'categories/icons/Column.svg'
+    },
+    'Feature': {
+      'name': 'Feature',
+      'elements': [],
+      'icon': 'categories/icons/Feature.svg'
     },
     'Section': {
       'name': 'Section',
@@ -152,7 +157,7 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
 }
 if (vcCake.env('FEATURE_FEATURE')) {
-  tempData.categories[ 'Misc' ].elements.push('feature')
+  tempData.categories[ 'Feature' ].elements.push('feature')
 }
 const data = tempData
 
