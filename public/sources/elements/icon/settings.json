@@ -50,6 +50,10 @@
       "label": "Size",
       "values": [
         {
+          "label": "Tiny",
+          "value": "tiny"
+        },
+        {
           "label": "Small",
           "value": "small"
         },

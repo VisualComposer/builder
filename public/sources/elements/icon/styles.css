@@ -53,7 +53,7 @@
   margin-bottom: 0;
 }
 .vce-features--style-none .vce-features__icon {
-  height: calc(1.45em);
+  height: calc(2.9em / 2);
 }
 .vce-features--style-none .vce-features__icon .vce-icon-container {
   top: auto;
@@ -78,7 +78,7 @@
 .vce-features--style-filled-diamond .vce-features__icon {
   transform-origin: center center;
   transform: rotate(45deg);
-  margin: calc(0.59793814em);
+  margin: calc(2.9em / 4.85);
 }
 .vce-features--style-filled-diamond .vce-features__icon span {
   transform: rotate(-45deg);
@@ -133,14 +133,17 @@
 .vce-features--align-right {
   text-align: right;
 }
-.vce-features--size-small {
+.vce-features--size-tiny {
   font-size: 18px;
 }
-.vce-features--size-medium {
+.vce-features--size-small {
   font-size: 24px;
 }
-.vce-features--size-large {
+.vce-features--size-medium {
   font-size: 32px;
+}
+.vce-features--size-large {
+  font-size: 48px;
 }
 /*RTL support. */
 /*LTR support. */
