@@ -94,49 +94,44 @@ class AttachImage extends Attribute {
   onMediaSelect = () => {
     let selection
     selection = this.mediaUploader.state().get('selection')
-    let reset = {
-      value: {
-        ids: [],
-        urls: []
-      },
-      defaultLinkValue: {
-        relNofollow: false,
-        targetBlank: true,
-        title: '',
-        url: ''
-      }
+    let defaultLinkValue = {
+      relNofollow: false,
+      targetBlank: true,
+      title: '',
+      url: ''
     }
     if (!this.props.options.multiple) {
       // Fix Urls link Selected value
       if (this.state.value.urls && (this.state.value.urls.link || this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link)) {
-        reset.defaultLinkValue = this.state.value.urls.link || this.state.value.urls[ 0 ].link
+        defaultLinkValue = this.state.value.urls.link || this.state.value.urls[ 0 ].link
       }
     }
-    let { updater, fieldKey } = this.props
-    updater(fieldKey, reset)
-    this.setState(reset, () => {
-      let ids = lodash.compact(this.state.value.ids)
-      let urls = lodash.compact(this.state.value.urls)
-      selection.forEach((attachment) => {
-        let attachmentData = this.mediaAttachmentParse(attachment)
-        ids.push(attachmentData.id)
-        urls.push(attachmentData.url)
-      })
-      this.setFieldValue({
-        ids: ids,
-        urls: urls
-      })
+
+    this.parseSelection(selection, defaultLinkValue)
+  }
+
+  parseSelection (selection, defaultLinkValue) {
+    let ids = []
+    let urls = []
+    selection.forEach((attachment) => {
+      let attachmentData = this.mediaAttachmentParse(attachment, defaultLinkValue)
+      ids.push(attachmentData.id)
+      urls.push(attachmentData.url)
+    })
+    this.setFieldValue({
+      ids: ids,
+      urls: urls
     })
   }
 
-  mediaAttachmentParse = (attachment) => {
+  mediaAttachmentParse (attachment, defaultLinkValue) {
     attachment = attachment.toJSON()
     let srcUrl = {}
     for (let size in attachment.sizes) {
       srcUrl[ size ] = attachment.sizes[ size ].url
     }
     srcUrl.id = attachment.id
-    srcUrl.link = this.state.defaultLinkValue
+    srcUrl.link = defaultLinkValue
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
 
