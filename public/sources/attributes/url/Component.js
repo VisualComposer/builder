@@ -6,6 +6,7 @@ import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 import $ from 'jquery'
+import UrlDropdownInput from './UrlDropdownInput'
 
 let pagePosts = {
   data: [],
@@ -125,16 +126,6 @@ class Url extends Attribute {
 
   save = (e) => {
     let valueToSave = Object.assign({}, this.state.unsavedValue)
-    // check url format and add http
-    if (valueToSave.url &&
-      valueToSave.url.search(/^[a-z]+:/i) === -1 && // search for protocol
-      valueToSave.url.search(/^#/i) === -1 && // search for hash navigation
-      valueToSave.url.search(/^\?/i) === -1 && // search for query string navigation
-      valueToSave.url.search(/^\//i) === -1 && // search for absolute page navigation
-      valueToSave.url.search(/^(?:[^/.]+|\.{1,2})(?:\/|$)/i) === -1 // search for relative page navigation
-    ) {
-      valueToSave.url = `http://${valueToSave.url}`
-    }
 
     this.setFieldValue(valueToSave)
     this.hide()
@@ -258,12 +249,13 @@ class Url extends Attribute {
               <span className='vcv-ui-form-group-heading'>
                URL
               </span>
-              <String
+              <UrlDropdownInput
                 fieldKey='url'
                 ref={(c) => { this.urlInput = c }}
                 api={this.props.api}
                 value={this.state.unsavedValue.url || ''}
-                updater={this.handleInputChange} />
+                updater={this.handleInputChange}
+              />
             </div>
 
             <div className='vcv-ui-form-group'>
