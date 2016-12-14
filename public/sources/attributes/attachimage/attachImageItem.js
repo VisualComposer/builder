@@ -20,7 +20,10 @@ class AttachImageItem extends React.Component {
   render () {
     let { childProps, className, ...rest } = this.props
     let { fieldKey, url, oneMoreControl, key } = childProps
-    className = classNames(className, 'vcv-ui-form-attach-image-item')
+    className = classNames(className, {
+      'vcv-ui-form-attach-image-item': true,
+      'vcv-ui-form-attach-image-item-has-link-value': this.props.childProps.url.link && this.props.childProps.url.link.url
+    })
 
     return (
       <li {...rest} className={className} key={fieldKey + '-li-:' + this.props.childProps.url.full}>
