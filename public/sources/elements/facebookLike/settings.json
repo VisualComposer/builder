@@ -41,6 +41,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "url",
       "layout",
       "size",
       "alignment",
@@ -87,7 +88,7 @@
     "access": "public",
     "value": "standard",
     "options": {
-      "label": "Annotation",
+      "label": "Layout",
       "values": [
         {
           "label": "Standard",

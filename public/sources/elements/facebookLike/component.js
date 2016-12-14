@@ -1,6 +1,48 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
+  likeSizes = {
+    standard: {
+      small: {
+        width: '450',
+        height: '30'
+      },
+      large: {
+        width: '450',
+        height: '30'
+      }
+    },
+    box_count: {
+      small: {
+        width: '56',
+        height: '40'
+      },
+      large: {
+        width: '69',
+        height: '58'
+      }
+    },
+    button_count: {
+      small: {
+        width: '105',
+        height: '20'
+      },
+      large: {
+        width: '126',
+        height: '28'
+      }
+    },
+    button: {
+      small: {
+        width: '56',
+        height: '20'
+      },
+      large: {
+        width: '69',
+        height: '28'
+      }
+    }
+  }
   componentDidMount () {
     this.insertHtml(this.props.atts)
   }
@@ -21,10 +63,30 @@ class Component extends vcvAPI.elementComponent {
 
   createHtml (atts) {
     let { url, layout, size } = atts
+    // let url = window.vcvPostPermanentLink
+    // let width = this.likeSizes[layout][size].width
+    // let height = this.likeSizes[layout][size].height
 
-    let html = `<iframe src="https://www.facebook.com/plugins/like.php?href=${url}&width=450&layout=${layout}&action=like&size=${size}&show_faces=false&share=false&height=35" width="450" height="35" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>`
+//     let html = `<iframe src="https://www.facebook.com/plugins/like.php?
+// href=${url}&amp;width=${width}&amp;layout=${layout}&amp;action=like&amp;size=${size}&amp;show_faces=false&amp;share=false&amp;height=${height}" width=${width} height=${height} scrolling="no" frameborder="0" allowTransparency="true"></iframe>`
 
-    return html
+    let script = `<div id="fb-root"></div>
+<script>(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1165810236784781";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>`
+
+    let html = `<div class="fb-like" data-href="${url}" data-layout="${layout}" data-action="like" data-size="${size}" data-show-faces="false" data-share="false"></div>`
+
+    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    if (iframe.FB) {
+
+    }
+
+    return script + html
   }
 
   render () {
