@@ -11,7 +11,7 @@ import vcCake from 'vc-cake'
 // const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class HtmlEditorComponent extends Attribute {
-  handleChange = (event, editor) => {
+  handleChange (event, editor) {
     let value = editor.getContent()
     this.setFieldValue(value)
   }

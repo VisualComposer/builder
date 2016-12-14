@@ -2,7 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 
 export default class Checkbox extends Attribute {
-  handleChange = (event) => {
+  handleChange (event) {
     let value = event.target.value
     var values = this.state.value
     if (event.target.checked) {

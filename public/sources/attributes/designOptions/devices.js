@@ -58,7 +58,7 @@ class Devices extends React.Component {
     }
   }
 
-  handleChange = (device) => {
+  handleChange (device) {
     let value = device
 
     if (value === this.state.value) {
