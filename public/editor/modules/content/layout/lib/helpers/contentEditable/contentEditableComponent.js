@@ -155,8 +155,8 @@ export default class ContentEditableComponent extends React.Component {
     let overlayShadow = data.overlayShadow
 
     // set main svg width and height
-    overlayContainer.style.width = this.iframeWindow.innerWidth
-    overlayContainer.style.height = this.iframeWindow.innerHeight
+    overlayContainer.style.width = `${this.iframeWindow.innerWidth}px`
+    overlayContainer.style.height = `${this.iframeWindow.innerHeight}px`
 
     // draw overlay for svg
     let containerSize = `M 0 0 H ${this.iframeWindow.innerWidth} V ${this.iframeWindow.innerHeight} H 0 V 0`

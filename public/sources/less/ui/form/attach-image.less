@@ -139,6 +139,16 @@
   font-size: @vcui-attach-image-url-button-font-size;
 }
 
+.vcv-ui-form-attach-image .vcv-ui-form-attach-image-item.vcv-ui-form-attach-image-item-has-link-value .vcv-ui-form-link .vcv-ui-form-link-button {
+  &.vcv-ui-form-button--default {
+    background-color: @vcui-button-default-background-hover;
+    &.vcv-ui-state--active,
+    &:hover {
+      background-color: @vcui-button-default-background;
+    }
+  }
+}
+
 .vcv-ui-form-attach-image .vcv-ui-form-button .vcv-ui-icon + * {
   margin-left: .6em;
 }

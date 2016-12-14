@@ -125,8 +125,9 @@ class AttachImage extends Attribute {
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
-    this.state.value.urls[ key ].link = urlValue
-    this.updateFieldValue()
+    let stateValue = this.state.value
+    stateValue.urls[ key ].link = urlValue
+    this.updateFieldValue(stateValue)
   }
 
   updateFieldValue (value) {

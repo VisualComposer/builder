@@ -5,6 +5,7 @@
 .vce-facebook-like iframe {
   display: block;
   vertical-align: top;
+  max-width: 100%;
 }
 
 .vce-facebook-like--align-center {

@@ -1,0 +1,78 @@
+.vcv-ui-editor-dropdown-input-container {
+  display: flex;
+  background: @vcui-form-input-background;
+  border-radius: @vcui-form-border-radius;
+  margin: @vcui-form-dropdown-input-container-margin;
+
+  .vcv-ui-form-dropdown {
+    height: 100%;
+    border-radius: 0;
+    opacity: 0;
+  }
+
+  .vcv-ui-form-input {
+    width: auto;
+    border: none;
+    padding-left: 0;
+
+    &:focus {
+      animation: none;
+      box-shadow: none;
+    }
+    &.vcv-ui-editor-dropdown-input-field {
+      padding-left: @vcui-form-dropdown-input-field-padding;
+      border: 1px solid @vcui-form-input-border-color;
+      border-left: none;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+.vcv-ui-editor-dropdown-input-field-container {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.vcv-ui-editor-dropdown-input-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: @vcui-form-dropdown-input-addon-icon-container-flex;
+
+  .vcv-ui-icon-dropdown-input {
+    color: @vcui-form-input-placeholder-color;
+    font-size: @vcui-form-dropdown-input-addon-icon-font-size;
+  }
+}
+
+.vcv-ui-editor-dropdown-input-field {
+  flex: 1 0 auto;
+}
+
+.vcv-ui-editor-dropdown-input-dropdown-container {
+  position: relative;
+  display: inline-block;
+  flex: @vcui-dropdown-dropdown-input-container-flex;
+  background-color: @vcui-button-default-background;
+  border-top-left-radius: @vcui-form-border-radius;
+  border-bottom-left-radius: @vcui-form-border-radius;
+
+  &::before {
+    content: attr(data-content);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    pointer-events: none;
+    color: @vcui-form-controls-color;
+    padding: @vcui-dropdown-dropdown-input-mask-padding;
+    line-height: @vcui-dropdown-dropdown-input-mask-line-height;
+    border-right: 1px solid @vcui-button-link-border-color;
+    background: url(@vcui-dropdown-handler-img) right @vcui-dropdown-handler-img-position-x center no-repeat;
+  }
+}

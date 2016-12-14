@@ -72,7 +72,7 @@ class Color extends Attribute {
     })
   }
 
-  handleChange = (sketchValue) => {
+  handleChange (sketchValue) {
     let { format } = this.props.options
     let { updater, fieldKey } = this.props
     let color = tinycolor(sketchValue.rgb)

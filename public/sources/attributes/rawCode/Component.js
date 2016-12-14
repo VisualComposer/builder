@@ -14,20 +14,30 @@ export default class RawCode extends Attribute {
     value: React.PropTypes.string.isRequired,
     options: React.PropTypes.object.isRequired
   }
+  static defaultEditorOptions = {
+    mode: 'html',
+    width: '100%',
+    height: '50vh',
+    theme: 'github',
+    tabSize: 2,
+    showPrintMargin: false,
+    editorProps: { $blockScrolling: true }
+  }
+
   render () {
     return (
       <div className='vcv-row-html-editor-container'>
         <AceEditor
-          width='100%'
-          height='50vh'
-          mode={this.props.options.mode}
-          theme='github'
-          tabSize={2}
           name={this.props.fieldKey}
-          editorProps={{$blockScrolling: true}}
-          showPrintMargin={false}
           value={this.state.value}
-          onChange={this.setFieldValue.bind(this)}
+          onChange={this.setFieldValue}
+          mode={typeof this.props.options.mode === 'undefined' ? RawCode.defaultEditorOptions.mode : this.props.options.mode}
+          width={typeof this.props.options.width === 'undefined' ? RawCode.defaultEditorOptions.width : this.props.options.width}
+          height={typeof this.props.options.height === 'undefined' ? RawCode.defaultEditorOptions.height : this.props.options.height}
+          theme={typeof this.props.options.theme === 'undefined' ? RawCode.defaultEditorOptions.theme : this.props.options.theme}
+          tabSize={typeof this.props.options.tabSize === 'undefined' ? RawCode.defaultEditorOptions.tabSize : this.props.options.tabSize}
+          showPrintMargin={typeof this.props.options.showPrintMargin === 'undefined' ? RawCode.defaultEditorOptions.showPrintMargin : this.props.options.showPrintMargin}
+          editorProps={typeof this.props.options.editorProps === 'undefined' ? RawCode.defaultEditorOptions.editorProps : this.props.options.editorProps}
         />
       </div>
     )

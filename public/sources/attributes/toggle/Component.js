@@ -2,7 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 
 class Toggle extends Attribute {
-  handleChange = (event) => {
+  handleChange (event) {
     let value = event.target.checked
     this.setFieldValue(value)
   }
