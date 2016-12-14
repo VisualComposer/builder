@@ -185,6 +185,7 @@ export default class ActivitiesManager extends React.Component {
             ActionsManager.do(action, ruleState, {
               ref: current.field.ref,
               refComponent: current.field.refComponent,
+              field: current.field,
               value: current.value,
               key: current.key
             }, this.props.element)
@@ -195,6 +196,7 @@ export default class ActivitiesManager extends React.Component {
             ActionsManager.do(action, ruleState, {
               ref: current.tab.ref,
               refComponent: current.tab.refComponent,
+              tab: current.tab,
               value: current.value,
               key: current.key
             }, this.props.element)
