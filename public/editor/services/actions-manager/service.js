@@ -45,6 +45,26 @@ const ActionsManager = {
       element.settings(target.key).settings.options.url = state
       target.refComponent.forceUpdate()
     },
+    fieldMethod: (state, target, options, element) => {
+      if (
+        target.field && target.field.refDomComponent &&
+        target.field.refDomComponent.refs &&
+        target.field.refDomComponent.refs.domComponent &&
+        target.field.refDomComponent.refs.domComponent[ options.method ]
+      ) {
+        target.field.refDomComponent.refs.domComponent[ options.method ]()
+      }
+    },
+    tabMethod: (state, target, options, element) => {
+      if (
+        target.tab && target.tab.refDomComponent &&
+        target.tab.refDomComponent.refs &&
+        target.tab.refDomComponent.refs.domComponent &&
+        target.tab.refDomComponent.refs.domComponent[ options.method ]
+      ) {
+        target.tab.refDomComponent.refs.domComponent[ options.method ]()
+      }
+    },
     preset: (state, target, options) => {
     }
   }

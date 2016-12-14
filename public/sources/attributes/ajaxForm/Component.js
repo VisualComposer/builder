@@ -64,7 +64,8 @@ export default class AjaxForm extends Attribute {
       if (response && response.status && response.html) {
         this.setState({
           formContent: response.html,
-          formStatus: true
+          formStatus: true,
+          formBound: false
         })
       } else {
         this.setState({

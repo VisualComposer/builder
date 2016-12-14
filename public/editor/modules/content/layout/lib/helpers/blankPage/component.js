@@ -129,7 +129,7 @@ export default class BlankPage extends React.Component {
       title: element.get('name'),
       icon: icon,
       classSuffix: tag,
-      description: element.get('metaDescription'),
+      description: element.get('metaPreviewDescription'),
       index: index,
       setActive: this.setActiveControl,
       unsetActive: this.unsetActiveControl,

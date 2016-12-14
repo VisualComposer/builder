@@ -41,6 +41,7 @@ export default class EditFromField extends React.Component {
           value={rawValue}
           defaultValue={settings.defaultValue}
           {...this.props}
+          ref='domComponent'
         />
         {description}
       </div>

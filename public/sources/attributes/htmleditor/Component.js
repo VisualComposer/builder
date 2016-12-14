@@ -11,10 +11,11 @@ import vcCake from 'vc-cake'
 // const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class HtmlEditorComponent extends Attribute {
-  handleChange = (event, editor) => {
+  handleChange (event, editor) {
     let value = editor.getContent()
     this.setFieldValue(value)
   }
+
   renderEditor () {
     let { value } = this.state
     let { options } = this.props
@@ -35,6 +36,7 @@ export default class HtmlEditorComponent extends Attribute {
       </div>
     )
   }
+
   componentDidMount () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
       // let { value } = this.state
@@ -56,7 +58,9 @@ export default class HtmlEditorComponent extends Attribute {
   render () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
       let editorContent = this.state.editor || '<span className="vcv-ui-wp-spinner">Loading...</span>'
-      return <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{ __html: editorContent }} />
+      return (
+        <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{ __html: editorContent }} />
+      )
     }
     return this.renderEditor()
   }

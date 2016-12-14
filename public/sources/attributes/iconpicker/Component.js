@@ -190,7 +190,7 @@ class Iconpicker extends Attribute {
     })
   }
 
-  handleChange = (event) => {
+  handleChange (event) {
     this.togglePopup()
     const newValue = Object.assign({}, this.state.value)
     newValue.icon = event.currentTarget.attributes.value.textContent

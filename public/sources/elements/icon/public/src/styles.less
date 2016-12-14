@@ -71,7 +71,7 @@
 
   &-none {
     .vce-features__icon {
-      height: calc(@vce-features-icon-background-size / 2);
+      height: ~'calc(@{vce-features-icon-background-size} / 2)';
 
       .vce-icon-container {
         top: auto;
@@ -102,7 +102,7 @@
       .vce-features__icon {
         transform-origin: center center;
         transform: rotate(45deg);
-        margin: calc(@vce-features-icon-background-size / 4.85);
+        margin: ~'calc(@{vce-features-icon-background-size} / 4.85)';
 
         span {
           transform: rotate(-45deg);
@@ -179,11 +179,14 @@
 }
 
 .vce-features--size {
+  &-tiny {
+    font-size: @vce-features-icon-tiny-font-size;
+  }
   &-small {
-    font-size: @vce-features-icon-small-font-size;
+    font-size: @vce-features-icon-base-font-size;
   }
   &-medium {
-    font-size: @vce-features-icon-base-font-size;
+    font-size: @vce-features-icon-medium-font-size;
   }
   &-large {
     font-size: @vce-features-icon-large-font-size;

@@ -11,6 +11,12 @@ class Attribute extends React.Component {
   }
   state = this.updateState(this.props)
 
+  constructor (props) {
+    super(props)
+    this.setFieldValue = this.setFieldValue.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
   componentWillReceiveProps (nextProps) {
     this.setState(this.updateState(nextProps))
   }
@@ -21,7 +27,7 @@ class Attribute extends React.Component {
     }
   }
 
-  handleChange = (event) => {
+  handleChange (event) {
     this.setFieldValue(event.currentTarget.value)
   }
 
