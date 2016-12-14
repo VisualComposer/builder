@@ -12,7 +12,7 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "YouTube player allows you to display video from YouTube on your website by simply copy/paste link to the video."
   },
   "metaPreviewDescription": {
     "type": "textarea",

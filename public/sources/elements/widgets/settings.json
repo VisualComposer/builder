@@ -1,0 +1,127 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "{name}"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Medium preview description"
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail.jpg"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "widgetKey": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "{widgetKey}",
+    "options": {
+      "label": "Widget",
+      "values": "{+widgets+}"
+    }
+  },
+  "atts_before_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Title html",
+      "mode": "html"
+    }
+  },
+  "atts_after_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Title html",
+      "mode": "html"
+    }
+  },
+  "atts_before_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Widget html",
+      "mode": "html"
+    }
+  },
+  "atts_after_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Widget html",
+      "mode": "html"
+    }
+  },
+  "widget": {
+    "type": "ajaxForm",
+    "access": "public",
+    "value": {
+      "key": "",
+      "value": ""
+    },
+    "options": {
+      "label": "Widget Form",
+      "action": "vcv:wpWidgets:form"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "widgetKey",
+      "atts_before_title",
+      "atts_after_title",
+      "atts_before_widget",
+      "atts_after_widget",
+      "widget"
+    ],
+    "options": {
+      "label": "{name}"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}
