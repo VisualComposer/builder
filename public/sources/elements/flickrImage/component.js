@@ -17,10 +17,6 @@ class Component extends vcvAPI.elementComponent {
   componentDidMount () {
     this.insertFlickr(this.props.atts.flickrUrl)
     window.addEventListener('resize', this.handleResize)
-    window.addEventListener('error', () => {
-      console.log('__!!ERROR!!__')
-    })
-    console.log('refs ', this.refs.flickerInner.children)
   }
 
   componentWillUnmount () {
