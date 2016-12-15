@@ -13,6 +13,12 @@ let vceAnimate = {
     let selector = id ? `[data-vcv-element="${id}"]` : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
     elements.forEach((element) => {
+      if (id && !element.getAttribute('data-vce-animate')) {
+        element = element.querySelector('[data-vce-animate]')
+        if (!element) {
+          return
+        }
+      }
       // remove old classes
       let oldClasses = []
       let re = /^vce-o-animate--/
