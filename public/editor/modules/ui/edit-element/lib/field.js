@@ -31,6 +31,10 @@ export default class EditFromField extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     let rawValue = type.getRawValue(element.data, fieldKey)
+    let defaultValue = settings.defaultValue
+    if (typeof defaultValue === `undefined`) {
+      defaultValue = settings.value
+    }
 
     return (
       <div className='vcv-ui-form-group' key={`form-group-field-${element.get('id')}-${fieldKey}`}>
@@ -39,7 +43,7 @@ export default class EditFromField extends React.Component {
           key={'attribute-' + fieldKey + element.get('id')}
           options={options}
           value={rawValue}
-          defaultValue={settings.defaultValue}
+          defaultValue={defaultValue}
           {...this.props}
           ref='domComponent'
         />

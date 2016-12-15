@@ -105,7 +105,7 @@
     "react": "15.3.2",
     "react-ace": "3.6.1",
     "react-addons-shallow-compare": "15.3.2",
-    "react-color": "2.4.0",
+    "react-color": "2.10.0",
     "react-custom-scrollbars": "4.0.0",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",

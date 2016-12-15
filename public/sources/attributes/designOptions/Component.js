@@ -460,6 +460,7 @@ class DesignOptions extends Attribute {
           </span>
           <Color
             value={this.state[ this.state.device ].borderColor}
+            defaultValue=''
             updater={this.changeBorderColor}
             fieldKey={`${this.props.fieldKey}.borderColor`}
             api={this.props.api}
@@ -569,6 +570,7 @@ class DesignOptions extends Attribute {
                 </span>
                 <Color
                   value={this.state[ this.state.device ].backgroundColor}
+                  defaultValue=''
                   updater={this.changeBackgroundColor}
                   fieldKey={`${this.props.fieldKey}.backgroundColor`}
                   api={this.props.api}

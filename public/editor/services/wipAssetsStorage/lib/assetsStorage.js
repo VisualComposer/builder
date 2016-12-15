@@ -230,7 +230,11 @@ export default {
               src: cssSettings.mixins[ mixin.mixin ].mixin
             }
           }
-          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: element.data[ key ] || settings[ key ].value }
+          let mixinValue = settings[ key ].value
+          if (typeof element.data[ key ] === `string`) {
+            mixinValue = element.data[ key ]
+          }
+          foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
           if (mixin.namePattern) {
             foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
           }

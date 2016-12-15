@@ -45,17 +45,24 @@ class Color extends Attribute {
   closeIfNotInside = (e) => {
     e && e.preventDefault()
     let $el = e.target
+    let $defaultButton = '.vcv-ui-form-button'
     let $dropDown = '.vcv-ui-sketch-picker'
     let $openingButton = '.vcv-ui-color-picker-dropdown'
     let container = null
+    let defaultButton = null
 
     if ($el.closest === undefined) {
       container = this.getClosest($el, $dropDown) || this.getClosest($el, $openingButton)
+      defaultButton = this.getClosest($el, $defaultButton)
     } else {
       container = $el.closest($dropDown) || $el.closest($openingButton)
+      defaultButton = $el.closest($defaultButton)
     }
     if (container) {
       return
+    }
+    if (defaultButton) {
+      this.handleDefaultColor()
     }
     this.handleClick(e)
   }
@@ -87,6 +94,15 @@ class Color extends Attribute {
     updater(fieldKey, value)
   }
 
+  handleDefaultColor () {
+    let defaultColor = this.props.defaultValue
+    if (defaultColor === '') {
+      defaultColor = 'rgba(0, 0, 0, 0)'
+    }
+    defaultColor = tinycolor(defaultColor)
+    this.handleChange({ rgb: defaultColor.toRgb() })
+  }
+
   render () {
     let { presetColors, options } = this.props
     let disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
@@ -95,7 +111,7 @@ class Color extends Attribute {
     let colorStyle = {
       background: _.isEmpty(value) ? null : color.toString('rgb')
     }
-    let swatchClasses = ['vcv-ui-form-dropdown-color-swatch']
+    let swatchClasses = [ 'vcv-ui-form-dropdown-color-swatch' ]
     if (_.isEmpty(value)) {
       color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
       colorStyle.backgroundSize = 'cover'
@@ -115,6 +131,7 @@ class Color extends Attribute {
     }
 
     let colorPicker = ''
+    let defaultPicker = ''
     if (displayColorPicker) {
       colorPicker = (
         <div className='vcv-ui-sketch-picker-container'>
@@ -122,6 +139,11 @@ class Color extends Attribute {
             <VcSketchPicker color={color} presetColors={presetColors} onChange={this.handleChange} disableAlpha={disableAlpha} />
           </div>
         </div>
+      )
+      defaultPicker = (
+        <button className='vcv-ui-form-button vcv-ui-form-button--default' onClick={this.handleDefaultColor}>
+          <span>Default</span>
+        </button>
       )
     }
     return (
@@ -131,6 +153,7 @@ class Color extends Attribute {
             <div className='vcv-ui-form-dropdown-color-value' style={colorStyle} />
           </div>
         </div>
+        {defaultPicker}
         {colorPicker}
       </div>
     )
