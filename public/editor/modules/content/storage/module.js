@@ -61,7 +61,7 @@ vcCake.add('storage', (api) => {
       }
     }
     api.request('data:afterAdd', createdElements)
-    api.request('data:changed', DocumentData.children(false), 'add')
+    api.request('data:changed', DocumentData.children(false), 'add', data.id)
   })
   api.reply('data:remove', (id) => {
     api.request('data:beforeRemove', id)
@@ -76,7 +76,7 @@ vcCake.add('storage', (api) => {
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
     api.request('data:afterClone', dolly.id)
-    api.request('data:changed', DocumentData.children(false), 'clone')
+    api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })
 
   api.reply('data:update', (id, element) => {
@@ -86,7 +86,7 @@ vcCake.add('storage', (api) => {
     }
     DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
-    api.request('data:changed', DocumentData.children(false), 'update')
+    api.request('data:changed', DocumentData.children(false), 'update', id)
   })
 
   api.reply('data:move', (id, data) => {

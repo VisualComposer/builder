@@ -94,21 +94,38 @@ class AttachImage extends Attribute {
   onMediaSelect = () => {
     let selection
     selection = this.mediaUploader.state().get('selection')
-    this.setFieldValue({ ids: [], urls: [] })
-    selection.map(this.mediaAttachmentParse)
-  }
-
-  mediaAttachmentParse = (attachment) => {
-    attachment = attachment.toJSON()
-    let ids = lodash.compact(this.state.value.ids)
-    let urls = lodash.compact(this.state.value.urls)
     let defaultLinkValue = {
       relNofollow: false,
       targetBlank: true,
       title: '',
       url: ''
     }
-    ids.push(attachment.id)
+    if (!this.props.options.multiple) {
+      // Fix Urls link Selected value
+      if (this.state.value.urls && (this.state.value.urls.link || this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link)) {
+        defaultLinkValue = this.state.value.urls.link || this.state.value.urls[ 0 ].link
+      }
+    }
+
+    this.parseSelection(selection, defaultLinkValue)
+  }
+
+  parseSelection (selection, defaultLinkValue) {
+    let ids = []
+    let urls = []
+    selection.forEach((attachment) => {
+      let attachmentData = this.mediaAttachmentParse(attachment, defaultLinkValue)
+      ids.push(attachmentData.id)
+      urls.push(attachmentData.url)
+    })
+    this.setFieldValue({
+      ids: ids,
+      urls: urls
+    })
+  }
+
+  mediaAttachmentParse (attachment, defaultLinkValue) {
+    attachment = attachment.toJSON()
     let srcUrl = {}
     for (let size in attachment.sizes) {
       srcUrl[ size ] = attachment.sizes[ size ].url
@@ -117,16 +134,17 @@ class AttachImage extends Attribute {
     srcUrl.link = defaultLinkValue
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
-    urls.push(srcUrl)
-    this.setFieldValue({
-      ids: ids,
-      urls: urls
-    })
+
+    return {
+      id: attachment.id,
+      url: srcUrl
+    }
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
-    this.state.value.urls[ key ].link = urlValue
-    this.updateFieldValue()
+    let stateValue = this.state.value
+    stateValue.urls[ key ].link = urlValue
+    this.updateFieldValue(stateValue)
   }
 
   updateFieldValue (value) {

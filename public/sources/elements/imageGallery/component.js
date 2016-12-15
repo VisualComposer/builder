@@ -14,41 +14,28 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!this.isArraysEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
+    let isEqual = require('lodash').isEqual
+    if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
       this.imageSources = []
       this.imageOrder = {}
       this.prepareImage(nextProps.atts.image)
     }
   }
 
-  isArraysEqual (arrayOne, arrayTwo) {
-    if (!arrayOne || !arrayTwo) {
-      return false
-    }
-
-    if (arrayOne.length !== arrayTwo.length) {
-      return false
-    }
-
-    for (let i = 0, l = arrayOne.length; i < l; i++) {
-      if (arrayOne[ i ] !== arrayTwo[ i ]) {
-        return false
-      }
-    }
-    return true
-  }
-
   prepareImage (image) {
     if (image.id || (image[ 0 ] && image[ 0 ].id)) {
       this.setImageOrder(image)
       this.resizeImage(image)
-    } else {
-      let imgArr = []
-      image.forEach((img) => {
-        imgArr.push({ imgSrc: this.getImageUrl(img) })
-      })
-      this.setImgSrcState(imgArr)
     }
+    let imgArr = []
+    image.forEach((img) => {
+      if (image && image.id) {
+        imgArr.push({ imgSrc: this.getImageUrl(img) })
+      } else {
+        imgArr.push({ imgSrc: this.getImageUrl(img) })
+      }
+    })
+    this.setImgSrcState(imgArr)
   }
 
   setImageOrder (imageArray) {
@@ -111,13 +98,15 @@ class Component extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
+    let { tag } = this.props.atts
+
     let assetsManager
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       assetsManager = vcCake.getService('wipAssetsManager')
     } else {
       assetsManager = vcCake.getService('assets-manager')
     }
-    var { tag } = this.props.atts
+
     return assetsManager.getPublicPath(tag, filename)
   }
 
@@ -137,6 +126,7 @@ class Component extends vcvAPI.elementComponent {
         imageUrl = image && image.full ? image.full : this.getPublicImage(image)
       }
     }
+
     return imageUrl
   }
 
@@ -225,7 +215,7 @@ class Component extends vcvAPI.elementComponent {
       }
 
       galleryItems.push(
-        <div className='vce-image-gallery-item' key={index}>
+        <div className='vce-image-gallery-item' key={`vce-image-gallery-item-${index}-${id}`}>
           <CustomTag {...customProps} className={classes}>
             <img className={imgClasses} src={src.imgSrc} {...customImageProps} />
           </CustomTag>
@@ -233,12 +223,14 @@ class Component extends vcvAPI.elementComponent {
       )
     })
 
-    return <div className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id}>
-        <div className='vce-image-gallery-list'>
-          {galleryItems}
+    return (
+      <div className={containerClasses} {...editor} {...containerProps}>
+        <div className={wrapperClasses} id={'el-' + id}>
+          <div className='vce-image-gallery-list'>
+            {galleryItems}
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 }
