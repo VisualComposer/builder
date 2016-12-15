@@ -240,7 +240,6 @@ export default class ContentEditableComponent extends React.Component {
       elementsContainer: this.iframeDocument.body
     })
     this.medium.destroy()
-    vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
     this.updateHtmlWithServer(this.props.children)
   }
 
@@ -257,10 +256,6 @@ export default class ContentEditableComponent extends React.Component {
     } else {
       this.setState({ html: content })
     }
-  }
-
-  componentWillUnmount () {
-    vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutModeChange)
   }
 
   updateElementData () {
@@ -283,6 +278,7 @@ export default class ContentEditableComponent extends React.Component {
       this.medium.destroy()
       if (vcCake.getData('vcv:layoutCustomMode') !== null) {
         vcCake.setData('vcv:layoutCustomMode', null)
+        this.handleLayoutModeChange(null)
       }
       this.updateHtmlWithServer(this.state.realContent)
     }
@@ -306,6 +302,7 @@ export default class ContentEditableComponent extends React.Component {
       this.mediumSetup()
       if (vcCake.getData('vcv:layoutCustomMode') !== 'contentEditable') {
         vcCake.setData('vcv:layoutCustomMode', 'contentEditable')
+        this.handleLayoutModeChange('contentEditable')
       }
       this.iframeWindow.addEventListener('click', this.handleGlobalClick)
       this.setState({ html: this.state.realContent })
