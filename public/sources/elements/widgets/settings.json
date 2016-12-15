@@ -114,11 +114,11 @@
     "access": "protected",
     "value": [
       "widgetKey",
+      "widget",
       "atts_before_title",
       "atts_after_title",
       "atts_before_widget",
-      "atts_after_widget",
-      "widget"
+      "atts_after_widget"
     ],
     "options": {
       "label": "{name}"
