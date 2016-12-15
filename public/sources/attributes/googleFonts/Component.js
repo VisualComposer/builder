@@ -190,7 +190,6 @@ export default class GoogleFonts extends Attribute {
         </div>
         <div className='vcv-ui-form-group'>
           <span className='vcv-ui-font-preview-text' {...fontTextProps}>{previewText}</span>
-          <p className='vcv-ui-form-helper'>Click on preview to change it to your preferences</p>
         </div>
       </div>
     )
