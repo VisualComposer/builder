@@ -1,57 +1,14 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  likeSizes = {
-    standard: {
-      small: {
-        width: '450',
-        height: '30'
-      },
-      large: {
-        width: '450',
-        height: '30'
-      }
-    },
-    box_count: {
-      small: {
-        width: '56',
-        height: '40'
-      },
-      large: {
-        width: '69',
-        height: '58'
-      }
-    },
-    button_count: {
-      small: {
-        width: '105',
-        height: '20'
-      },
-      large: {
-        width: '126',
-        height: '28'
-      }
-    },
-    button: {
-      small: {
-        width: '56',
-        height: '20'
-      },
-      large: {
-        width: '69',
-        height: '28'
-      }
-    }
-  }
-
   componentDidMount () {
     this.insertHtml(this.props.atts)
   }
 
   componentWillReceiveProps (nextProps) {
-    let { url, layout, size } = this.props.atts
+    let { layout, size } = this.props.atts
 
-    if (layout !== nextProps.atts.layout || size !== nextProps.atts.size || url !== nextProps.atts.url) {
+    if (layout !== nextProps.atts.layout || size !== nextProps.atts.size) {
       this.insertHtml(nextProps.atts)
     }
   }
@@ -63,13 +20,8 @@ class Component extends vcvAPI.elementComponent {
   }
 
   createHtml (atts) {
-    let { url, layout, size } = atts
-    // let url = window.vcvPostPermanentLink
-    // let width = this.likeSizes[layout][size].width
-    // let height = this.likeSizes[layout][size].height
-
-//     let html = `<iframe src="https://www.facebook.com/plugins/like.php?
-// href=${url}&amp;width=${width}&amp;layout=${layout}&amp;action=like&amp;size=${size}&amp;show_faces=false&amp;share=false&amp;height=${height}" width=${width} height=${height} scrolling="no" frameborder="0" allowTransparency="true"></iframe>`
+    let { layout, size } = atts
+    let url = window.vcvPostPermanentLink
 
     let script = `<div id="fb-root"></div>
 <script>(function(d, s, id) {
