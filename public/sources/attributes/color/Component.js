@@ -122,16 +122,12 @@ class Color extends Attribute {
     }
     let swatchClasses = [ 'vcv-ui-form-dropdown-color-swatch' ]
     if (_.isEmpty(value)) {
-      colorStyle.background = 'transparent'
-      colorStyle.boxShadow = 'none'
+      colorStyle.background = null
       swatchClasses.push('vcv-ui-form-dropdown-color--no-color')
     }
     if (value === this.getTransparentColor()) {
-      color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
-      colorStyle.backgroundSize = 'cover'
-      colorStyle.backgroundColor = ''
-      colorStyle.backgroundImage = color
-      swatchClasses.push('vcv-ui-form-dropdown-color--no-color')
+      colorStyle.background = null
+      swatchClasses.push('vcv-ui-form-dropdown-color--transparent')
     }
     swatchClasses = classNames(swatchClasses)
 

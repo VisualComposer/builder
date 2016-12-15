@@ -1,35 +1,10 @@
-// Textual inputs (text, password, datetime, number, email, textarea)
-.vcv-ui-form-input-color {
-  background-color: @vcui-form-input-background;
-  background-image: none;
-  border: 1px solid @vcui-form-input-border-color;
-  border-radius: @vcui-form-border-radius;
-  color: @vcui-form-controls-color;
-  font-size: @vcui-form-font-size-base;
-  font-weight: 400;
-  line-height: @vcui-form-input-line-height;
-  min-height: 2.5em;
-  outline: none;
-  padding: @vcui-form-input-padding;
-  transition-duration: @vcui-form-transition-duration;
-  transition-property: all;
-  transition-timing-function: ease-in-out;
-  width: 100%;
-  &:hover,
-  &:focus {
-    #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
-  }
-  &:focus {
-    animation: vcv-ui-form-shadow-blink @vcui-form-transition-duration * 2 ease-out;
-    outline: none;
-    #make-vcv-ui-form > .focus-blink-shadow();
-  }
-  &:disabled,
-  &[disabled],
-  &[readonly] {
-    background-color: @vcui-form-input-disabled-background;
-    border-color: @vcui-form-input-border-color;
-    color: @vcui-form-input-disabled-color;
-    cursor: not-allowed;
+.vcv-ui-form-dropdown {
+  &.vcv-ui-color-picker-dropdown {
+    font-size: @vcui-form-font-size-base;
+    font-weight: 400;
+    line-height: 16px;
+    color: @vcui-form-input-placeholder-color;
+    font-style: italic;
+    text-align: center;
   }
 }
