@@ -10,6 +10,14 @@ import _ from 'lodash'
 
 class Color extends Attribute {
 
+  getEmptyColor () {
+    return `rgba(186, 218, 85, 0)`
+  }
+
+  getTransparentColor () {
+    return `rgba(0, 0, 0, 0)`
+  }
+
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
@@ -84,7 +92,8 @@ class Color extends Attribute {
     let { updater, fieldKey } = this.props
     let color = tinycolor(sketchValue.rgb)
     let value = color.toString(format || 'rgb')
-    if (value === 'rgba(0, 0, 0, 0)') {
+    // no color value
+    if (value === this.getEmptyColor()) {
       value = ''
     }
 
@@ -97,7 +106,7 @@ class Color extends Attribute {
   handleDefaultColor () {
     let defaultColor = this.props.defaultValue
     if (defaultColor === '') {
-      defaultColor = 'rgba(0, 0, 0, 0)'
+      defaultColor = this.getEmptyColor()
     }
     defaultColor = tinycolor(defaultColor)
     this.handleChange({ rgb: defaultColor.toRgb() })
@@ -113,6 +122,11 @@ class Color extends Attribute {
     }
     let swatchClasses = [ 'vcv-ui-form-dropdown-color-swatch' ]
     if (_.isEmpty(value)) {
+      colorStyle.background = 'transparent'
+      colorStyle.boxShadow = 'none'
+      swatchClasses.push('vcv-ui-form-dropdown-color--no-color')
+    }
+    if (value === this.getTransparentColor()) {
       color = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAG5JREFUOBFjZCATvI+MtP//9+9aRnL0wzUzMweTbACyZsHlyw+SZAC6ZpDriTYAm2aiDcClmSgD8GkmaAAhzXgNIEYzTgOI1YzVAFI0YxhAqmYUA8jRDDeAXM1gAyjRDDKACZwlgbkKlDFAAqQCAB5beZgTNEIdAAAAAElFTkSuQmCC")'
       colorStyle.backgroundSize = 'cover'
       colorStyle.backgroundColor = ''
