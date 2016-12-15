@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import ContentElementControl from './lib/contentElementControl'
 import CustomContentElementControl from './lib/customContentElementControl'
-import {getService} from 'vc-cake'
-const cook = getService('cook')
-const categories = getService('categories')
+import vcCake from 'vc-cake'
+const cook = vcCake.getService('cook')
+const categories = vcCake.getService('categories')
 
 export default class BlankPage extends React.Component {
   static propTypes = {
@@ -131,7 +131,9 @@ export default class BlankPage extends React.Component {
   }
 
   handleTemplateControl () {
-    this.props.api.request('app:templates', true)
+    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
+      this.props.api.request('app:templates', true)
+    }
   }
 
   getControlProps (index, tag) {
