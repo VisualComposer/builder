@@ -119,7 +119,7 @@
     "simple-react-modal": "0.5.1",
     "simply-deferred": "3.0.0",
     "tinymce": "4.4.3",
-    "vc-cake": "0.4.2",
+    "vc-cake": "0.4.3",
     "webfontloader": "^1.6.26"
   },
   "babel": {
