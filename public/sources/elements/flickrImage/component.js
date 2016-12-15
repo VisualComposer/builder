@@ -1,5 +1,5 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   static unique = 0
   imageSizes = {
@@ -8,14 +8,29 @@ class Component extends vcvAPI.elementComponent {
     large: '1024'
   }
 
+  constructor (props) {
+    super(props)
+    const _ = require('lodash')
+    this.handleResize = _.debounce(this.handleResize.bind(this), 200)
+  }
+
   componentDidMount () {
     this.insertFlickr(this.props.atts.flickrUrl)
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.atts.flickrUrl !== nextProps.atts.flickrUrl || this.props.atts.width !== nextProps.atts.width) {
       this.insertFlickr(nextProps.atts.flickrUrl)
     }
+  }
+
+  handleResize () {
+    this.insertFlickr(this.props.atts.flickrUrl)
   }
 
   loadJSONP (url, callback, context) {
@@ -66,9 +81,10 @@ class Component extends vcvAPI.elementComponent {
   }
 
   appendFlickr (tagString = '') {
-    const component = this.refs.flickerInner
-    component.innerHTML = ''
-    this.updateInlineHtml(component, tagString)
+    this.refs.flickerInner.innerHTML = ''
+    window.setTimeout(() => {
+      this.updateInlineHtml(this.refs.flickerInner, tagString)
+    }, 0)
   }
 
   validateSize (value) {
@@ -136,10 +152,11 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-
+    let content = null
     return <div {...customProps} className={classes} {...editor}>
       <div id={'el-' + id} className={wrapperClasses}>
         <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+        {content}
       </div>
     </div>
   }
