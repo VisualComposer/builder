@@ -81,7 +81,7 @@ export default class TemplateControl extends React.Component {
                 onClick={this.handleApplyTemplate}
               />
               <span
-                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close'
+                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
                 onClick={this.handleRemoveTemplate}
               />
             </span>

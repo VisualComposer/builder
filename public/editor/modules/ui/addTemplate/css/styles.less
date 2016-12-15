@@ -40,6 +40,7 @@
     font-style: italic;
     transform: translateY(100%);
     transition: transform @transition-duration @transition-timing-function;
+    z-index: 1;
 
     &--visible {
       transform: translateY(0);
@@ -52,12 +53,21 @@
 
   .vcv-ui-item-overlay {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
   }
 
   .vcv-ui-item-control {
+    padding: @item-control-padding;
+    font-size: @item-control-font-size;
     cursor: pointer;
+    transition: color @transition-duration @transition-timing-function;
+
+    &.vcv-ui-icon-add {
+      &:hover {
+        color: darken(@text-color-base, 10%)
+      }
+    }
   }
 
   .vcv-ui-save-template-form {
@@ -65,13 +75,15 @@
     justify-content: space-between;
 
     .vcv-ui-form-input {
-      flex: 0 0 80%;
+      flex: @save-input-flex;
     }
 
     .vcv-ui-editor-no-items-action {
-      flex: 0 0 19%;
-      padding: 11px 32px;
+      flex: @save-action-flex;
+      padding: @save-action-padding;
+      margin: @save-action-margin;
       min-height: auto;
+      white-space: nowrap;
     }
   }
 
@@ -85,11 +97,11 @@
 
   .vcv-ui-editor-no-items-container {
     .vcv-ui-form-helper {
-      margin-bottom: 30px;
+      margin-bottom: @form-helper-margin-bottom;
     }
   }
 
   .vcv-ui-editor-no-items-image {
-    margin: 0 0 10px;
+    margin: @no-items-image-margin;
   }
 }
