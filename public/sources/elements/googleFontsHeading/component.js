@@ -57,7 +57,6 @@ class Component extends vcvAPI.elementComponent {
       lineHeight = this.validateSize(lineHeight)
 
       if (lineHeight) {
-        lineHeight = /^\d+$/.test(lineHeight) ? lineHeight + 'px' : lineHeight
         innerCustomProps.style.lineHeight = lineHeight
       }
     }
