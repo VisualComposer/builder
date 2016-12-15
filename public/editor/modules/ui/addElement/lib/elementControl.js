@@ -182,7 +182,8 @@ export default class ElementControl extends React.Component {
         <a className='vcv-ui-item-element'
           onClick={this.addElement.bind(this)}
           onMouseEnter={this.showPreview.bind(this)}
-          onMouseLeave={this.hidePreview.bind(this)}>
+          onMouseLeave={this.hidePreview.bind(this)}
+          title={name}>
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt='' />
