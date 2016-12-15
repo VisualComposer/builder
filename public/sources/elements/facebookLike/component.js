@@ -43,6 +43,7 @@ class Component extends vcvAPI.elementComponent {
       }
     }
   }
+
   componentDidMount () {
     this.insertHtml(this.props.atts)
   }
@@ -83,7 +84,7 @@ class Component extends vcvAPI.elementComponent {
 
     let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
     if (iframe.FB) {
-
+      iframe.FB.init({ status: true, xfbml: true, version: 'v2.8' })
     }
 
     return script + html
