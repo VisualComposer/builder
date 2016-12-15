@@ -20,7 +20,7 @@ export default {
     let path = this.getSourcePath() + '/elements/' + tag + '/public'
     let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
     if ($element) {
-      path = $element.dataset.vcElementUrl + '/public'
+      path = $element.dataset.vcElementUrl + '/public' // TODO: Make vcv prefix data attribute
     }
     if (file) {
       path += '/' + file

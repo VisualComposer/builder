@@ -41,7 +41,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "url",
       "layout",
       "size",
       "alignment",
@@ -73,14 +72,6 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
-    }
-  },
-  "url": {
-    "type": "string",
-    "access": "public",
-    "value": "https://vc.wpbakery.com/",
-    "options": {
-      "label": "URL to Like"
     }
   },
   "layout": {
