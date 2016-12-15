@@ -97,7 +97,7 @@ vcCake.add('storage', (api) => {
     } else {
       DocumentData.moveBefore(id, data.related)
     }
-    api.request('data:changed', DocumentData.children(false))
+    api.request('data:changed', DocumentData.children(false), 'move', id)
   })
   api.reply('data:merge', (content) => {
     Object.keys(content).sort((a, b) => {

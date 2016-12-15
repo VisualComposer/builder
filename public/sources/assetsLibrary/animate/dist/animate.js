@@ -1,7 +1,9 @@
 /* global vcv */
 /* global Waypoint */
 vcv.on('ready', (action, id) => {
-  vceAnimate.enableAnimate(action && id ? id : '')
+  if (action !== 'reset') {
+    vceAnimate.enableAnimate(action && id ? id : '')
+  }
 })
 
 let vceAnimate = {
