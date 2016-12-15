@@ -12,6 +12,7 @@ export default class BlankPage extends React.Component {
     layoutData: React.PropTypes.object,
     controlsData: React.PropTypes.object
   }
+
   static defaultProps = {
     layoutData: {
       getData () {
@@ -43,11 +44,13 @@ export default class BlankPage extends React.Component {
       }
     }
   }
+
   constructor (props) {
     super(props)
     this.setControlsLayout = this.setControlsLayout.bind(this)
     this.handleElementControl = this.handleElementControl.bind(this)
     this.handleAddElementControl = this.handleAddElementControl.bind(this)
+    this.handleTemplateControl = this.handleTemplateControl.bind(this)
     this.state = {
       lockWidth: false,
       minElementsCount: 4,
@@ -64,6 +67,7 @@ export default class BlankPage extends React.Component {
   componentWillMount () {
     document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('resize', this.setControlsLayout)
   }
+
   componentWillUnmount () {
     document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('resize', this.setControlsLayout)
   }
@@ -104,23 +108,32 @@ export default class BlankPage extends React.Component {
       rowContainer.style.maxWidth = elementsWidth - controlMargins + 'px'
     }
   }
+
   setActiveControl = (description) => {
     this.setState({
       description: description || '',
       isActiveDescription: true
     })
   }
+
   unsetActiveControl = () => {
     this.setState({
       isActiveDescription: false
     })
   }
+
   handleElementControl (data) {
     this.props.api.request('data:add', data)
   }
+
   handleAddElementControl () {
     this.props.api.request('app:add', '')
   }
+
+  handleTemplateControl () {
+    this.props.api.request('app:templates', true)
+  }
+
   getControlProps (index, tag) {
     let element = cook.get({tag: tag})
     let icon = categories.getElementIcon(tag)
@@ -138,6 +151,7 @@ export default class BlankPage extends React.Component {
       data: element.toJS()
     }
   }
+
   getElementControls () {
     let {elementControls} = this.props.controlsData
     let allControls = elementControls.map((tag, i) => {
@@ -151,12 +165,15 @@ export default class BlankPage extends React.Component {
     />)
     return allControls
   }
+
   getTemplateControl () {
     return <CustomContentElementControl key='vcvBlankPageAddTemplate'
       setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
+      handleClick={this.handleTemplateControl}
       {...this.props.controlsData.templateControl}
     />
   }
+
   render () {
     let elementControls = this.getElementControls()
     let templateControl = this.getTemplateControl()
