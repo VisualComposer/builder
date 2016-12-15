@@ -1,16 +1,13 @@
 import React from 'react'
-// import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import SearchTemplate from './searchTemplate'
-// import TemplateTab from './templateTab'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
-// import SaveTemplate from './saveTemplate'
 import TemplateControl from './templateControl'
 import vcCake from 'vc-cake'
+
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const templateManager = vcCake.getService('myTemplates')
-const allCategories = []
 
 export default class addTemplate extends React.Component {
   static propTypes = {
@@ -23,25 +20,30 @@ export default class addTemplate extends React.Component {
       {
         title: 'All',
         index: 0,
-        id: 'All',
-        templates: templateManager.all().concat([])
+        id: 'all',
+        visible () { return true },
+        templates () { return templateManager.all() }
       },
       {
         title: 'My Templates',
         index: 1,
-        id: 'MyTemplates',
-        templates: templateManager.all()
+        id: 'myTemplates',
+        visible () { return this.templates().length },
+        templates () { return templateManager.all() }
       },
       {
         title: 'Hub Templates',
         index: 2,
-        id: 'HubTemplates',
-        templates: [] // TODO get templates from HUB
+        id: 'hubTemplates',
+        visible () { return this.templates().length },
+        templates () { return [] } // TODO get templates from HUB
       },
       {
         title: 'Download More Templates',
         index: 3,
-        id: 'DownloadMoreTemplates'
+        id: 'downloadMoreTemplates',
+        visible () { return true },
+        templates: null
       }
     ]
   }
@@ -55,37 +57,17 @@ export default class addTemplate extends React.Component {
       inputValue: '',
       isSearching: false,
       error: false,
-      errorName: '',
-      allTemplates: [],
-      visibleCategories: [0, this.props.categories.length - 1]
+      errorName: ''
     }
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
+    this.changeError = this.changeError.bind(this)
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
-  }
-
-  componentWillMount () {
-    this.getAllCategories()
-  }
-
-  getAllCategories () {
-    this.props.categories.forEach((category) => {
-      allCategories.push(category)
-    })
-    this.updateTemplatesList()
-  }
-
-  updateTemplatesList () {
-    allCategories.forEach((category) => {
-      if (category.id === 'All') {
-        this.setState({allTemplates: category.templates})
-      }
-    })
   }
 
   // Check state
@@ -119,6 +101,18 @@ export default class addTemplate extends React.Component {
     this.setState({inputValue: value})
   }
 
+  changeError (error) {
+    this.setState({
+      error: true,
+      errorName: error
+    })
+    setTimeout(() => {
+      this.setState({
+        error: false
+      })
+    }, 2300)
+  }
+
   // Get Props
 
   getSearchProps () {
@@ -128,8 +122,7 @@ export default class addTemplate extends React.Component {
       changeSearchInput: this.changeSearchInput,
       index: this.state.activeCategoryIndex,
       allCategories: this.props.categories,
-      changeActiveCategory: this.changeActiveCategory,
-      visibleCategories: this.state.visibleCategories
+      changeActiveCategory: this.changeActiveCategory
     }
   }
 
@@ -153,7 +146,7 @@ export default class addTemplate extends React.Component {
 
   getNoResultsElement () {
     let source, btnText, helper, button
-    if (!this.props.categories[0].templates.length && !this.state.isSearching) {
+    if (!this.props.categories[0].templates().length && !this.state.isSearching) {
       btnText = 'Download More Templates'
       helper = `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
@@ -194,8 +187,8 @@ export default class addTemplate extends React.Component {
   }
 
   getSearchResults () {
-    let { inputValue, allTemplates } = this.state
-    return allTemplates.filter((template) => {
+    let { inputValue } = this.state
+    return this.props.categories[0].templates().filter((template) => {
       let name = template.name.toLowerCase()
       return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
@@ -206,13 +199,14 @@ export default class addTemplate extends React.Component {
   getTemplatesByCategory () {
     let { activeCategoryIndex } = this.state
 
-    if (allCategories[ activeCategoryIndex ].id === 'DownloadMoreTemplates') {
+    if (this.props.categories[ activeCategoryIndex ].id === 'downloadMoreTemplates') {
       this.handleGoToHub()
       return []
     }
-    return allCategories[ activeCategoryIndex ].templates.map((template) => {
-      return this.getElementControl(template)
-    })
+    let templates = this.props.categories[ activeCategoryIndex ].templates()
+    return templates.map((template) => {
+      return this.getTemplateControl(template)
+    }).reverse()
   }
 
   getTemplateListContainer (itemsOutput) {
@@ -227,28 +221,25 @@ export default class addTemplate extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
-    if (this.state.templateName.trim()) {
-      let templateExists = this.props.categories[0].templates.findIndex((template) => {
-        return template.name === this.state.templateName.trim()
+    let {templateName} = this.state
+    if (templateName.trim()) {
+      let templateExists = this.props.categories[0].templates().findIndex((template) => {
+        return template.name === templateName.trim()
       })
       if (templateExists < 0) {
-        templateManager.addCurrentLayout(this.state.templateName)
-        this.props.api.request('templates:save', this.state.templateName)
+        templateManager.addCurrentLayout(templateName)
+        this.props.api.request('templates:save', templateName)
         this.setState({
           templateName: ''
-          // myTemplatesList: templateManager.all()
         })
+        this.changeActiveCategory(1)
+        this.changeSearchState(false)
+        this.changeSearchInput('')
       } else {
-        this.setState({
-          error: true,
-          errorName: 'Template with this title already exist. Please specify another title.'
-        })
+        this.changeError('Template with this title already exist. Please specify another title.')
       }
     } else {
-      this.setState({
-        error: true,
-        errorName: 'Please specify template title.'
-      })
+      this.changeError('Please specify template title.')
     }
   }
 
@@ -263,7 +254,12 @@ export default class addTemplate extends React.Component {
   handleRemoveTemplate (id) {
     templateManager.remove(id)
     this.props.api.request('templates:remove', id)
-    // this.setState({myTemplatesList: templateManager.all()})
+
+    if (!this.props.categories[ this.state.activeCategoryIndex ].templates().length) {
+      this.setState({activeCategoryIndex: 0})
+    } else {
+      this.setState({activeCategoryIndex: this.state.activeCategoryIndex})
+    }
   }
 
   render () {

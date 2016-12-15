@@ -99,7 +99,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit' ],
+      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit', 'facebookLike' ],
       'icon': 'categories/icons/Social.svg'
     },
     'Videos': {
@@ -133,9 +133,6 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
-}
-if (vcCake.env('FEATURE_FACEBOOK_LIKE')) {
-  tempData.categories[ 'Social' ].elements.push('facebookLike')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')

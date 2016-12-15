@@ -8,8 +8,7 @@ export default class SearchTemplate extends React.Component {
     changeSearchInput: React.PropTypes.func.isRequired,
     allCategories: React.PropTypes.array.isRequired,
     index: React.PropTypes.any.isRequired,
-    changeActiveCategory: React.PropTypes.func.isRequired,
-    visibleCategories: React.PropTypes.array.isRequired
+    changeActiveCategory: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -27,22 +26,28 @@ export default class SearchTemplate extends React.Component {
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.index !== this.state.activeIndex) {
+      this.setState({
+        activeIndex: nextProps.index,
+        content: this.props.allCategories[nextProps.index].title
+      })
+    }
+  }
+
   // Get HTML elements
 
   getCategorySelect () {
     let options = []
     this.props.allCategories.forEach((item) => {
-      let catIndex = this.props.visibleCategories.findIndex((index) => {
-        return item.index === index
-      })
-      if (catIndex > -1) {
+      if (item.visible()) {
         options.push(<option key={item.id} value={item.index}>{item.title}</option>)
       }
     })
     return <select
       className='vcv-ui-form-dropdown'
       onChange={this.handleCategorySelect}
-      value={this.props.index}
+      value={this.state.activeIndex}
     >
       {options}
     </select>

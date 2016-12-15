@@ -1,15 +1,24 @@
 /* global vcv */
 /* global Waypoint */
-vcv.on('ready', () => {
-  vceAnimate.enableAnimate()
+vcv.on('ready', (action, id) => {
+  if (action !== 'reset') {
+    vceAnimate.enableAnimate(action && id ? id : '')
+  }
 })
 
 let vceAnimate = {
-  enableAnimate () {
+  enableAnimate (id) {
     Waypoint.destroyAll()
     let waypoints = []
-    let elements = document.querySelectorAll('[data-vce-animate]')
+    let selector = id ? `[data-vcv-element="${id}"]` : '[data-vce-animate]'
+    let elements = document.querySelectorAll(selector)
     elements.forEach((element) => {
+      if (id && !element.getAttribute('data-vce-animate')) {
+        element = element.querySelector('[data-vce-animate]')
+        if (!element) {
+          return
+        }
+      }
       // remove old classes
       let oldClasses = []
       let re = /^vce-o-animate--/
@@ -18,9 +27,7 @@ let vceAnimate = {
           oldClasses.push(className)
         }
       })
-      oldClasses.forEach((className) => {
-       // element.classList.remove(className)
-      })
+      element.classList.remove(...oldClasses)
       let waypoint = new Waypoint({
         element: element,
         handler: function () {

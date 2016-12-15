@@ -125,7 +125,8 @@ elements.forEach((item) => {
   let elementName = item.element
   let elementPath = item.path
   let template = (ElementsBuilder.generateOutput(elementPath, {
-    '--uuid': elementName
+    '--uuid': elementName,
+    '--root-url': `http://test.alpha.visualcomposer.io/wp-content/plugins/vc-five/public/sources/elements/${elementName}`
   }))
   if (template) {
     config.plugins.push(

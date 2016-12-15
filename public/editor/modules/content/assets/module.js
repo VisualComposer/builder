@@ -8,7 +8,7 @@ const wipStylesManager = vcCake.getService('wipStylesManager')
 const loadedJsFiles = []
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
-  const dataUpdate = () => {
+  const dataUpdate = (data, action, id) => {
     let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     let iframeDocument = iframeWindow.document
     let doElement = iframeDocument.querySelector('#do-styles')
@@ -70,7 +70,7 @@ vcCake.add('assets', (api) => {
       }
     })
     Promise.all(jsAssetsLoaders).then(() => {
-      iframeWindow.vcv.trigger('ready')
+      iframeWindow.vcv.trigger('ready', action, id)
     })
 
     let d = iframeWindow.document

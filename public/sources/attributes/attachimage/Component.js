@@ -15,6 +15,9 @@ class AttachImage extends Attribute {
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.updateSortable = this.updateSortable.bind(this)
+    this.onMediaSelect = this.onMediaSelect.bind(this)
+    this.onMediaOpen = this.onMediaOpen.bind(this)
+    this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.state.value.draggingIndex = null
   }
@@ -44,7 +47,7 @@ class AttachImage extends Attribute {
     }
   }
 
-  openLibrary = () => {
+  openLibrary () {
     if (!this.mediaUploader) {
       throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
     }
@@ -91,37 +94,52 @@ class AttachImage extends Attribute {
     this.setFieldValue(fieldValue)
   }
 
-  onMediaSelect = () => {
-    let selection
-    selection = this.mediaUploader.state().get('selection')
-    this.setFieldValue({ ids: [], urls: [] })
-    selection.map(this.mediaAttachmentParse)
+  onMediaSelect () {
+    let selection = this.mediaUploader.state().get('selection')
+    this.setFieldValue(this.parseSelection(selection))
   }
 
-  mediaAttachmentParse = (attachment) => {
-    attachment = attachment.toJSON()
-    let ids = lodash.compact(this.state.value.ids)
-    let urls = lodash.compact(this.state.value.urls)
+  parseSelection (selection) {
     let defaultLinkValue = {
       relNofollow: false,
       targetBlank: true,
       title: '',
       url: ''
     }
-    ids.push(attachment.id)
+    let ids = []
+    let urls = []
+    selection.forEach((attachment, index) => {
+      let attachmentData = this.mediaAttachmentParse(attachment)
+      let url = attachmentData.url
+      ids.push(attachmentData.id)
+
+      url.link = defaultLinkValue
+      if (this.state.value.urls && typeof this.state.value.urls[ index ] !== 'undefined' && typeof this.state.value.urls[ index ].link !== 'undefined') {
+        url.link = this.state.value.urls[ index ].link
+      }
+      urls.push(url)
+    })
+
+    return {
+      ids: ids,
+      urls: urls
+    }
+  }
+
+  mediaAttachmentParse (attachment) {
+    attachment = attachment.toJSON()
     let srcUrl = {}
     for (let size in attachment.sizes) {
       srcUrl[ size ] = attachment.sizes[ size ].url
     }
     srcUrl.id = attachment.id
-    srcUrl.link = defaultLinkValue
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
-    urls.push(srcUrl)
-    this.setFieldValue({
-      ids: ids,
-      urls: urls
-    })
+
+    return {
+      id: attachment.id,
+      url: srcUrl
+    }
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
@@ -135,7 +153,7 @@ class AttachImage extends Attribute {
     this.setFieldValue(mergedValue)
   }
 
-  onMediaOpen = () => {
+  onMediaOpen () {
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
     ids && ids.forEach(function (id) {

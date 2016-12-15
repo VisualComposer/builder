@@ -40,3 +40,9 @@
   left: 0;
   z-index: 999;
 }
+
+.vce.vce-flickr-image-wrapper::before {
+  content: '';
+  display:block;
+  min-width: 151px;
+}

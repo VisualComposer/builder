@@ -46,7 +46,8 @@ class AttachImageItem extends React.Component {
 }
 
 AttachImageItem.propTypes = {
-  childProps: React.PropTypes.object.isRequired
+  childProps: React.PropTypes.object.isRequired,
+  className: React.PropTypes.string
 }
 
 export default AttachImageItem
