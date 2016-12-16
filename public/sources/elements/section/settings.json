@@ -46,6 +46,14 @@
       "label": "Design Options"
     }
   },
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Advanced Design Options"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -60,6 +68,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "designOptionsAdvanced",
       "editFormTab1",
       "designOptions"
     ]

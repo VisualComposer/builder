@@ -9,10 +9,11 @@ class Attribute extends React.Component {
     defaultValue: React.PropTypes.any,
     options: React.PropTypes.any
   }
-  state = this.updateState(this.props)
 
   constructor (props) {
     super(props)
+    this.state = this.updateState(this.props)
+
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
