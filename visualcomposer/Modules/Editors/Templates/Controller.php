@@ -19,7 +19,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
-        $this->addFilter('vcv:ajax:editorTemplates:all:adminNonce', 'all');
+        $this->addFilter('vcv:frontend:extraOutput', 'all');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
@@ -28,17 +28,42 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
     }
 
-    private function all(EditorTemplates $editorTemplatesHelper)
+    private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        return $editorTemplatesHelper->all();
+        $extraOutput[] = '<script>
+    window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all())) . '
+</script>';
+
+        return $extraOutput;
+    }
+
+    private function getData($templates)
+    {
+        $data = [];
+        foreach ($templates as $template) {
+            /** @var $template \WP_Post */
+            $data[] = [
+                'name' => $template->post_title,
+                'data' => [], // TODO: Get post meta,
+                'id' => $template->ID,
+            ];
+        }
+
+        return $data;
     }
 
     /**
      * @CRUD
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     *
+     * @return array
      */
     private function create(Request $requestHelper, PostType $postTypeHelper)
     {
         $data = $requestHelper->input('vcv-template-data');
+        $data['post_type'] = 'vcv_templates';
 
         return [
             'status' => $postTypeHelper->create($data),
@@ -47,6 +72,11 @@ class Controller extends Container implements Module
 
     /**
      * @CRUD
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     *
+     * @return array
      */
     private function delete(Request $requestHelper, PostType $postTypeHelper)
     {

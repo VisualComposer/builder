@@ -69,6 +69,10 @@ export default class addTemplate extends React.Component {
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
+    this.onSaveSuccess = this.onSaveSuccess.bind(this)
+    this.onSaveFailed = this.onSaveFailed.bind(this)
+    this.onRemoveSuccess = this.onRemoveSuccess.bind(this)
+    this.onRemoveFailed = this.onRemoveFailed.bind(this)
   }
 
   componentWillUnmount () {
@@ -231,22 +235,30 @@ export default class addTemplate extends React.Component {
     let {templateName} = this.state
     templateName = templateName.trim()
     if (templateName) {
-      let templateAddResult = templateManager.addCurrentLayout(templateName)
+      let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
       if (templateAddResult) {
         this.props.api.request('templates:save', templateName)
-        this.setState({
-          templateName: '',
-          activeCategoryIndex: 1,
-          categoryTitle: this.props.categories[ 1 ].title,
-          isSearching: false,
-          inputValue: ''
-        })
       } else {
         this.changeError('Template with this title already exist. Please specify another title.')
       }
     } else {
       this.changeError('Please specify template title.')
     }
+  }
+
+  onSaveSuccess () {
+    console.log('onSaveSuccess')
+    this.setState({
+      templateName: '',
+      activeCategoryIndex: 1,
+      categoryTitle: this.props.categories[ 1 ].title,
+      isSearching: false,
+      inputValue: ''
+    })
+  }
+
+  onSaveFailed () {
+    this.changeError('Template save failed.')
   }
 
   handleGoToHub () {
@@ -258,14 +270,21 @@ export default class addTemplate extends React.Component {
   }
 
   handleRemoveTemplate (id) {
-    templateManager.remove(id)
+    templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+  }
+
+  onRemoveSuccess (id) {
     this.props.api.request('templates:remove', id)
 
     if (!this.props.categories[ this.state.activeCategoryIndex ].templates().length) {
-      this.setState({activeCategoryIndex: 0})
+      this.setState({ activeCategoryIndex: 0 })
     } else {
-      this.setState({activeCategoryIndex: this.state.activeCategoryIndex})
+      this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
     }
+  }
+
+  onRemoveFailed () {
+    this.changeError('Template remove failed.')
   }
 
   render () {
