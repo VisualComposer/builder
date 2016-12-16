@@ -77,6 +77,12 @@ export default class addTemplate extends React.Component {
     return isSearching && inputValue.trim()
   }
 
+  isTemplateExists (templateName) {
+    return this.props.categories[ 0 ].templates().findIndex((template) => {
+      return template.name === templateName
+    })
+  }
+
   // Change state
 
   changeTemplateName (e) {
@@ -222,19 +228,18 @@ export default class addTemplate extends React.Component {
   handleSaveTemplate (e) {
     e && e.preventDefault()
     let {templateName} = this.state
-    if (templateName.trim()) {
-      let templateExists = this.props.categories[0].templates().findIndex((template) => {
-        return template.name === templateName.trim()
-      })
-      if (templateExists < 0) {
+    templateName = templateName.trim()
+    if (templateName) {
+      if (this.isTemplateExists(templateName) < 0) {
         templateManager.addCurrentLayout(templateName)
         this.props.api.request('templates:save', templateName)
         this.setState({
-          templateName: ''
+          templateName: '',
+          activeCategoryIndex: 1,
+          categoryTitle: this.props.categories[ 1 ].title,
+          isSearching: false,
+          inputValue: ''
         })
-        this.changeActiveCategory(1)
-        this.changeSearchState(false)
-        this.changeSearchInput('')
       } else {
         this.changeError('Template with this title already exist. Please specify another title.')
       }
