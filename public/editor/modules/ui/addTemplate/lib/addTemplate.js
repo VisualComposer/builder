@@ -47,6 +47,7 @@ export default class addTemplate extends React.Component {
       }
     ]
   }
+  errorTimeout = 0
 
   constructor (props) {
     super(props)
@@ -68,6 +69,13 @@ export default class addTemplate extends React.Component {
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
+  }
+
+  componentWillUnmount () {
+    if (this.errorTimeout) {
+      window.clearTimeout(this.errorTimeout)
+      this.errorTimeout = 0
+    }
   }
 
   // Check state
@@ -105,7 +113,7 @@ export default class addTemplate extends React.Component {
       error: true,
       errorName: error
     })
-    setTimeout(() => {
+    this.errorTimeout = setTimeout(() => {
       this.setState({
         error: false
       })
