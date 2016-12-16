@@ -83,7 +83,7 @@ const API = {
     request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    request.onload = () => {
+    request.onload = (response) => {
       if (request.status >= 200 && request.status < 400) {
         successCallback(request)
       } else {
@@ -92,9 +92,39 @@ const API = {
         }
       }
     }
+    request.onerror = (response) => {
+      if (typeof failureCallback === 'function') {
+        failureCallback(request)
+      }
+    }
     request.send(window.$.param(data))
 
     return request
+  },
+  normalizeHtml (data) {
+    data = data
+      .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
+      .replace(/<!\-\-\[vcvSourceHtml]/g, '')
+      .replace(/\[\/vcvSourceHtml]\-\->/g, '')
+      .replace(/&quot;/g, "'")
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(data)
+    documentFragment.querySelectorAll('vcvhelper').forEach((node) => {
+      let parentNode = node.parentNode
+      let sourceHtml = node.getAttribute('data-vcvs-html')
+      if (sourceHtml) {
+        let textNode = range.createContextualFragment(sourceHtml)
+        parentNode.insertBefore(textNode, node)
+      }
+      parentNode.removeChild(node)
+    })
+    let html = ''
+    let elementChildren = documentFragment.children
+    for (let i = 0; i < elementChildren.length; i++) {
+      html += elementChildren[ i ].outerHTML
+    }
+
+    return html
   }
 }
 vcCake.addService('utils', API)
