@@ -76,12 +76,6 @@ export default class addTemplate extends React.Component {
     return this.state.isSearching && this.state.inputValue.trim()
   }
 
-  isTemplateExists (templateName) {
-    return this.props.categories[ 0 ].templates().findIndex((template) => {
-      return template.name === templateName
-    })
-  }
-
   // Change state
 
   changeTemplateName (e) {
@@ -229,8 +223,8 @@ export default class addTemplate extends React.Component {
     let {templateName} = this.state
     templateName = templateName.trim()
     if (templateName) {
-      if (this.isTemplateExists(templateName) < 0) {
-        templateManager.addCurrentLayout(templateName)
+      let templateAddResult = templateManager.addCurrentLayout(templateName)
+      if (templateAddResult) {
         this.props.api.request('templates:save', templateName)
         this.setState({
           templateName: '',
