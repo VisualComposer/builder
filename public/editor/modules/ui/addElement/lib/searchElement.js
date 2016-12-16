@@ -9,6 +9,8 @@ export default class SearchElement extends React.Component {
     changeTerm: React.PropTypes.func.isRequired,
     changeInput: React.PropTypes.func.isRequired
   }
+  inputTimeout = 0
+  dropdownTimeout = 0
 
   constructor (props) {
     super(props)
@@ -19,13 +21,24 @@ export default class SearchElement extends React.Component {
       dropdown: false,
       input: false
     }
-    this.searchElements = this.searchElements.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
     this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
   }
 
-  searchElements (e) {
+  componentWillUnmount () {
+    if (this.inputTimeout) {
+      window.clearTimeout(this.inputTimeout)
+      this.inputTimeout = 0
+    }
+    if (this.dropdownTimeout) {
+      window.clearTimeout(this.dropdownTimeout)
+      this.dropdownTimeout = 0
+    }
+  }
+
+  handleSearch (e) {
     let inputVal = e.currentTarget.value.toLowerCase()
     this.setState({
       inputValue: e.currentTarget.value,
@@ -62,16 +75,16 @@ export default class SearchElement extends React.Component {
   }
 
   handleCategoryClick () {
-    this.setState({dropdown: true})
-    setTimeout(() => {
-      this.setState({dropdown: false})
+    this.setState({ dropdown: true })
+    this.dropdownTimeout = setTimeout(() => {
+      this.setState({ dropdown: false })
     }, 400)
   }
 
   handleInputFocus () {
-    this.setState({input: true})
-    setTimeout(() => {
-      this.setState({input: false})
+    this.setState({ input: true })
+    this.inputTimeout = setTimeout(() => {
+      this.setState({ input: false })
     }, 400)
   }
 
@@ -99,7 +112,7 @@ export default class SearchElement extends React.Component {
         <input
           className='vcv-ui-form-input vcv-ui-editor-search-field'
           id='add-element-search'
-          onChange={this.searchElements}
+          onChange={this.handleSearch}
           onFocus={this.handleInputFocus}
           type='text'
           value={this.state.inputValue}

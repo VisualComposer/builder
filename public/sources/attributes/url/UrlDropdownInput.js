@@ -12,6 +12,8 @@ export default class UrlDropdownInput extends React.Component {
     'https://',
     'mailto:'
   ]
+  inputTimeout = 0
+  dropdownTimeout = 0
 
   constructor (props) {
     super(props)
@@ -25,6 +27,17 @@ export default class UrlDropdownInput extends React.Component {
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handleDropdownFocus = this.handleDropdownFocus.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
+  }
+
+  componentWillUnmount () {
+    if (this.inputTimeout) {
+      window.clearTimeout(this.inputTimeout)
+      this.inputTimeout = 0
+    }
+    if (this.dropdownTimeout) {
+      window.clearTimeout(this.dropdownTimeout)
+      this.dropdownTimeout = 0
+    }
   }
 
   setFieldValue (inputValue) {
@@ -101,14 +114,14 @@ export default class UrlDropdownInput extends React.Component {
 
   handleInputFocus () {
     this.setState({ inputFocus: true })
-    setTimeout(() => {
+    this.inputTimeout = setTimeout(() => {
       this.setState({ inputFocus: false })
     }, 400)
   }
 
   handleDropdownFocus () {
     this.setState({ dropdownFocus: true })
-    setTimeout(() => {
+    this.dropdownTimeout = setTimeout(() => {
       this.setState({ dropdownFocus: false })
     }, 400)
   }
