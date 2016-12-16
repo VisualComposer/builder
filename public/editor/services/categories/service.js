@@ -59,7 +59,7 @@ let tempData = {
     },
     'Feature': {
       'name': 'Feature',
-      'elements': [],
+      'elements': [ 'feature' ],
       'icon': 'categories/icons/Feature.svg'
     },
     'Section': {
@@ -152,9 +152,6 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
-}
-if (vcCake.env('FEATURE_FEATURE')) {
-  tempData.categories[ 'Feature' ].elements.push('feature')
 }
 const data = tempData
 
