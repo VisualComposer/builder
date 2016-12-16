@@ -47,6 +47,7 @@ export default class addTemplate extends React.Component {
       }
     ]
   }
+  errorTimeout = 0
 
   constructor (props) {
     super(props)
@@ -68,13 +69,23 @@ export default class addTemplate extends React.Component {
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
+    this.onSaveSuccess = this.onSaveSuccess.bind(this)
+    this.onSaveFailed = this.onSaveFailed.bind(this)
+    this.onRemoveSuccess = this.onRemoveSuccess.bind(this)
+    this.onRemoveFailed = this.onRemoveFailed.bind(this)
+  }
+
+  componentWillUnmount () {
+    if (this.errorTimeout) {
+      window.clearTimeout(this.errorTimeout)
+      this.errorTimeout = 0
+    }
   }
 
   // Check state
 
   isSearching () {
-    let { isSearching, inputValue } = this.state
-    return isSearching && inputValue.trim()
+    return this.state.isSearching && this.state.inputValue.trim()
   }
 
   // Change state
@@ -106,7 +117,7 @@ export default class addTemplate extends React.Component {
       error: true,
       errorName: error
     })
-    setTimeout(() => {
+    this.errorTimeout = setTimeout(() => {
       this.setState({
         error: false
       })
@@ -222,25 +233,32 @@ export default class addTemplate extends React.Component {
   handleSaveTemplate (e) {
     e && e.preventDefault()
     let {templateName} = this.state
-    if (templateName.trim()) {
-      let templateExists = this.props.categories[0].templates().findIndex((template) => {
-        return template.name === templateName.trim()
-      })
-      if (templateExists < 0) {
-        templateManager.addCurrentLayout(templateName)
+    templateName = templateName.trim()
+    if (templateName) {
+      let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
+      if (templateAddResult) {
         this.props.api.request('templates:save', templateName)
-        this.setState({
-          templateName: ''
-        })
-        this.changeActiveCategory(1)
-        this.changeSearchState(false)
-        this.changeSearchInput('')
       } else {
         this.changeError('Template with this title already exist. Please specify another title.')
       }
     } else {
       this.changeError('Please specify template title.')
     }
+  }
+
+  onSaveSuccess () {
+    console.log('onSaveSuccess')
+    this.setState({
+      templateName: '',
+      activeCategoryIndex: 1,
+      categoryTitle: this.props.categories[ 1 ].title,
+      isSearching: false,
+      inputValue: ''
+    })
+  }
+
+  onSaveFailed () {
+    this.changeError('Template save failed.')
   }
 
   handleGoToHub () {
@@ -252,14 +270,21 @@ export default class addTemplate extends React.Component {
   }
 
   handleRemoveTemplate (id) {
-    templateManager.remove(id)
+    templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+  }
+
+  onRemoveSuccess (id) {
     this.props.api.request('templates:remove', id)
 
     if (!this.props.categories[ this.state.activeCategoryIndex ].templates().length) {
-      this.setState({activeCategoryIndex: 0})
+      this.setState({ activeCategoryIndex: 0 })
     } else {
-      this.setState({activeCategoryIndex: this.state.activeCategoryIndex})
+      this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
     }
+  }
+
+  onRemoveFailed () {
+    this.changeError('Template remove failed.')
   }
 
   render () {

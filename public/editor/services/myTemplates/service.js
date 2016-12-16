@@ -4,32 +4,65 @@ const utils = getService('utils')
 const documentManager = getService('document')
 let getType = {}.toString
 
+let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
+  let ajax = getService('utils').ajax
+
+  return ajax({
+    'vcv-action': `editorTemplates:${action}:adminNonce`,
+    'vcv-nonce': window.vcvNonce,
+    [key]: data
+  }, (result) => {
+    let response = JSON.parse(result.response)
+    if (response && response.status) {
+      successCallback && typeof successCallback === 'function' && successCallback(response)
+    } else {
+      errorCallback && typeof errorCallback === 'function' && errorCallback(response)
+    }
+  }, errorCallback)
+}
+
 addService('myTemplates', {
-  add (name, data) {
-    let myTemplates = this.all()
-    let id = utils.createKey()
+  add (name, data, html, successCallback, errorCallback) {
     if (this.findBy('name', name)) {
       return false
     }
-    myTemplates.push({ id: id, name: name, data: data })
-    setData('myTemplates', myTemplates)
-    return id
+    handleSaveRequest('create', 'vcv-template-data', {
+      post_title: name,
+      post_content: html,
+      meta_input: data
+    }, (response) => {
+      let id = response.status.toString()
+      let myTemplates = this.all()
+      myTemplates.push({ id: id, name: name, data: data, html: html })
+      setData('myTemplates', myTemplates)
+      successCallback && typeof successCallback === 'function' && successCallback()
+    }, errorCallback)
+
+    return true
   },
-  addCurrentLayout (name) {
+  addCurrentLayout (name, successCallback, errorCallback) {
     let currentLayout = documentManager.all()
+    const iframe = document.getElementById('vcv-editor-iframe')
+    const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
+    let currentLayoutHtml = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     if (getType.call(name) === '[object String]' && name.length) {
-      return this.add(name, currentLayout)
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback)
     }
     return false
   },
-  remove (id) {
+  remove (id, successCallback, errorCallback) {
     let myTemplates = this.all()
     let removeIndex = myTemplates.findIndex((template) => {
       return template.id === id
     })
     if (removeIndex > -1) {
-      myTemplates.splice(removeIndex, 1)
-      setData('myTemplates', myTemplates)
+      handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
+        myTemplates.splice(removeIndex, 1)
+        setData('myTemplates', myTemplates)
+        successCallback && typeof successCallback === 'function' && successCallback()
+      }, errorCallback)
+    } else {
+      errorCallback && typeof errorCallback === 'function' && errorCallback()
     }
   },
   get (id) {

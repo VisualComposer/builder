@@ -10,6 +10,8 @@ export default class SearchTemplate extends React.Component {
     index: React.PropTypes.any.isRequired,
     changeActiveCategory: React.PropTypes.func.isRequired
   }
+  inputTimeout = 0
+  dropdownTimeout = 0
 
   constructor (props) {
     super(props)
@@ -30,8 +32,19 @@ export default class SearchTemplate extends React.Component {
     if (nextProps.index !== this.state.activeIndex) {
       this.setState({
         activeIndex: nextProps.index,
-        content: this.props.allCategories[nextProps.index].title
+        content: this.props.allCategories[ nextProps.index ].title
       })
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.inputTimeout) {
+      window.clearTimeout(this.inputTimeout)
+      this.inputTimeout = 0
+    }
+    if (this.dropdownTimeout) {
+      window.clearTimeout(this.dropdownTimeout)
+      this.dropdownTimeout = 0
     }
   }
 
@@ -65,9 +78,9 @@ export default class SearchTemplate extends React.Component {
   }
 
   handleInputFocus () {
-    this.setState({input: true})
-    setTimeout(() => {
-      this.setState({input: false})
+    this.setState({ input: true })
+    this.inputTimeout = setTimeout(() => {
+      this.setState({ input: false })
     }, 400)
   }
 
@@ -81,9 +94,9 @@ export default class SearchTemplate extends React.Component {
   }
 
   handleCategoryClick () {
-    this.setState({dropdown: true})
-    setTimeout(() => {
-      this.setState({dropdown: false})
+    this.setState({ dropdown: true })
+    this.dropdownTimeout = setTimeout(() => {
+      this.setState({ dropdown: false })
     }, 400)
   }
 
