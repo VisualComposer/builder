@@ -73,8 +73,7 @@ export default class addTemplate extends React.Component {
   // Check state
 
   isSearching () {
-    let { isSearching, inputValue } = this.state
-    return isSearching && inputValue.trim()
+    return this.state.isSearching && this.state.inputValue.trim()
   }
 
   isTemplateExists (templateName) {
