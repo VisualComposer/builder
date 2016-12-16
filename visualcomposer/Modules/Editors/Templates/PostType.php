@@ -4,16 +4,16 @@ namespace VisualComposer\Modules\Editors\Templates;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class PostType extends Container implements Module
 {
-    use EventsFilters;
+    use WpFiltersActions;
 
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\PostType::registerTemplatesPostType */
-        $this->addEvent('init', 'registerTemplatesPostType');
+        $this->wpAddAction('init', 'registerTemplatesPostType');
     }
 
     /**
