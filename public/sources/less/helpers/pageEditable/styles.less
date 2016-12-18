@@ -4,6 +4,16 @@
       outline: none;
     }
   }
+  vcvhelper[data-vcv-content-editable-inline-mode="text"] {
+    & p, div {
+      display: inline;
+      margin: 0;
+      padding: 0
+    }
+    & br {
+      display: none;
+    }
+  }
 }
 .vcv-ui-content-editable-helper-loader {
   display: flex;
