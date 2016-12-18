@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import MediumEditor from 'medium-editor'
 import vcCake from 'vc-cake'
 import $ from 'jquery'
+import striptags from 'striptags'
 
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
@@ -14,8 +15,10 @@ export default class ContentEditableComponent extends React.Component {
     api: React.PropTypes.object.isRequired,
     id: React.PropTypes.string.isRequired,
     field: React.PropTypes.string.isRequired,
+    fieldType: React.PropTypes.string.isRequired,
     children: React.PropTypes.string,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    options: React.PropTypes.object
   }
 
   constructor (props) {
@@ -51,7 +54,7 @@ export default class ContentEditableComponent extends React.Component {
       // Save data to map to undo/Redo
       const data = documentManager.get(this.props.id)
       const element = cook.get(data)
-      element.set(this.props.field, this.state.realContent)
+      element.set(this.props.field, striptags(this.state.realContent))
       this.props.api.request('data:update', element.get('id'), element.toJS())
     }
     // add overlay
@@ -226,9 +229,10 @@ export default class ContentEditableComponent extends React.Component {
 
   componentDidMount () {
     const dom = ReactDOM.findDOMNode(this)
-    this.medium = new MediumEditor(dom, {
+    let editorSettings = {
       delay: 1000,
       toolbar: { buttons: [ 'bold', 'italic', 'underline' ] },
+      imageDragging: false,
       paste: {
         cleanPastedHTML: true,
         cleanAttrs: [ 'style', 'dir' ],
@@ -238,7 +242,40 @@ export default class ContentEditableComponent extends React.Component {
       contentWindow: this.iframeWindow,
       ownerDocument: this.iframeDocument,
       elementsContainer: this.iframeDocument.body
-    })
+    }
+    if (this.props.options.inlineMode === 'text') {
+      editorSettings.toolbar = false
+      editorSettings.keyboardCommands = {
+        commands: [
+          {
+            command: function () {},
+            key: 'B',
+            meta: true,
+            shift: false,
+            alt: false
+          }, {
+            command: function () {},
+            key: 'I',
+            meta: true,
+            shift: false,
+            alt: false
+          }, {
+            command: function () {},
+            key: 'U',
+            meta: true,
+            shift: false,
+            alt: false
+          }
+        ]
+      }
+      editorSettings.disableReturn = true
+      editorSettings.paste = {
+        forcePlainText: true,
+        leanPastedHTML: true
+      }
+    }
+
+    this.medium = new MediumEditor(dom, editorSettings)
     this.medium.destroy()
     this.updateHtmlWithServer(this.props.children)
   }
@@ -260,12 +297,8 @@ export default class ContentEditableComponent extends React.Component {
 
   updateElementData () {
     const dom = ReactDOM.findDOMNode(this)
-    // const data = documentManager.get(this.props.id)
-    // const element = cook.get(data)
     let content = dom.innerHTML
-    // element.set(this.props.field, dom.innerHTML)
     this.setState({ realContent: content })
-    // documentManager.update(this.props.id, element.toJS())
   }
 
   handleChange () {
@@ -317,7 +350,8 @@ export default class ContentEditableComponent extends React.Component {
       onMouseDown: this.handleMouseDown.bind(this),
       onMouseMove: this.handleMouseMove.bind(this),
       onMouseUp: this.handleMouseUp.bind(this),
-      'data-vcvs-html': this.state.realContent
+      'data-vcvs-html': this.state.realContent,
+      'data-vcv-content-editable-inline-mode': this.props.options.inlineMode || 'html'
     }
     if (this.mediumSelection) {
       window.setTimeout(() => {

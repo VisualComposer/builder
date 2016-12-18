@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import '../css/element.less'
 import ContentControls from './helpers/contentControls/component'
-import ContentEditable from './helpers/contentEditable/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 
 const cook = vcCake.getService('cook')
@@ -42,16 +41,10 @@ export default class Element extends React.Component {
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
       let attrSettings = element.settings(key)
-      if (attrSettings.settings.type === 'htmleditor' && attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        if (vcCake.env('FEATURE_SHORTCODES_SERVER_RENDER')) {
-          layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} api={this.props.api}>
-            {atts[ key ] || ''}
-          </ContentEditableComponent>
-        } else {
-          layoutAtts[ key ] = <ContentEditable id={atts.id} field={key} api={this.props.api}>
-            {atts[ key ] || ''}
-          </ContentEditable>
-        }
+      if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
+        layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
+          {atts[ key ] || ''}
+        </ContentEditableComponent>
       } else {
         layoutAtts[ key ] = atts[ key ]
       }
