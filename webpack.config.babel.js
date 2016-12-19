@@ -106,13 +106,14 @@ let config = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),
-    new ExtractTextPlugin('[name].bundle.css')
+    new ExtractTextPlugin('[name].bundle.css'),
     // new webpack.optimize.UglifyJsPlugin({
     //   output: {
     //     comments: false
     //   }
     // })
     // new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
   ],
   postcss: () => {
     return [ autoprefixer ]
