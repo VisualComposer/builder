@@ -1,0 +1,186 @@
+/* ----------------------------------------------
+ * Text separator
+ * ---------------------------------------------- */
+.vce-button-container--align-left {
+  text-align: left;
+}
+.vce-button-container--align-right {
+  text-align: right;
+}
+.vce-button-container--align-center {
+  text-align: center;
+}
+.vce-button-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+.vce-button {
+  font-size: 16px;
+  padding: 15px 43px;
+}
+a.vce-button,
+button.vce-button {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: normal;
+  touch-action: manipulation;
+  user-select: none;
+}
+a.vce-button:hover,
+button.vce-button:hover,
+a.vce-button:focus,
+button.vce-button:focus {
+  text-decoration: none;
+  outline: none;
+}
+button.vce-button {
+  -webkit-appearance: none;
+}
+a.vce-button--style-outline,
+button.vce-button--style-outline {
+  transition: all 0.2s ease-in-out;
+  z-index: 1;
+  border-radius: 0;
+}
+a.vce-button--style-outline::before,
+button.vce-button--style-outline::before,
+a.vce-button--style-outline::after,
+button.vce-button--style-outline::after {
+  border-radius: inherit;
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+a.vce-button--style-outline::before,
+button.vce-button--style-outline::before {
+  box-sizing: border-box;
+  z-index: -2;
+  width: 100%;
+  border-width: 2px;
+  border-style: solid;
+  transition: border-color 0.2s ease-in-out;
+}
+a.vce-button--style-outline::after,
+button.vce-button--style-outline::after {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  width: 100%;
+  z-index: -1;
+}
+a.vce-button--style-outline:hover::before,
+button.vce-button--style-outline:hover::before,
+a.vce-button--style-outline:active::before,
+button.vce-button--style-outline:active::before,
+a.vce-button--style-outline:focus::before,
+button.vce-button--style-outline:focus::before {
+  border-color: #119944;
+}
+a.vce-button--style-outline:hover::after,
+button.vce-button--style-outline:hover::after,
+a.vce-button--style-outline:active::after,
+button.vce-button--style-outline:active::after,
+a.vce-button--style-outline:focus::after,
+button.vce-button--style-outline:focus::after {
+  opacity: 1;
+}
+a.vce-button--style-outline-animated,
+a.vce-button--style-outline-animated-slidein,
+button.vce-button--style-outline-animated,
+button.vce-button--style-outline-animated-slidein {
+  transition: all 0.2s ease-in-out;
+  z-index: 1;
+  border-radius: 0;
+}
+a.vce-button--style-outline-animated::before,
+a.vce-button--style-outline-animated-slidein::before,
+button.vce-button--style-outline-animated::before,
+button.vce-button--style-outline-animated-slidein::before,
+a.vce-button--style-outline-animated::after,
+a.vce-button--style-outline-animated-slidein::after,
+button.vce-button--style-outline-animated::after,
+button.vce-button--style-outline-animated-slidein::after {
+  border-radius: inherit;
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+a.vce-button--style-outline-animated::before,
+a.vce-button--style-outline-animated-slidein::before,
+button.vce-button--style-outline-animated::before,
+button.vce-button--style-outline-animated-slidein::before {
+  box-sizing: border-box;
+  z-index: -2;
+  width: 100%;
+  border-width: 2px;
+  border-style: solid;
+}
+.vce-button--style-outline-animated-slidein::after {
+  transition: width 0.2s ease-in-out;
+  width: 0;
+  z-index: -1;
+}
+.vce-button--style-outline-animated-slidein:hover::after,
+.vce-button--style-outline-animated-slidein:active::after,
+.vce-button--style-outline-animated-slidein:focus::after {
+  width: 100%;
+}
+.vce-button--style-outline-animated {
+  border: 1px solid red;
+}
+.vce-button--style-outline-animated::after {
+  transition: opacity 0.2s ease-in-out;
+  width: 100%;
+  z-index: -1;
+  opacity: 0;
+}
+.vce-button--style-outline-animated:hover::after,
+.vce-button--style-outline-animated:active::after,
+.vce-button--style-outline-animated:focus::after {
+  opacity: 1;
+}
+a.vce-button--border-rounded,
+a.vce-button--border-round,
+button.vce-button--border-rounded,
+button.vce-button--border-round {
+  position: relative;
+  overflow: hidden;
+}
+a.vce-button--border-rounded,
+button.vce-button--border-rounded {
+  border-radius: 5px;
+}
+a.vce-button--border-round,
+button.vce-button--border-round {
+  border-radius: 4em;
+}
+.rtl.vce-button,
+[dir="rlt"].vce-button,
+.rtl .vce-button,
+[dir="rlt"] .vce-button {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+.ltr.vce-button,
+[dir="ltr"].vce-button,
+.ltr .vce-button,
+[dir="ltr"] .vce-button {
+  direction: ltr;
+  unicode-bidi: normal;
+}

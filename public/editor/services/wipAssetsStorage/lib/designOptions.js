@@ -29,6 +29,11 @@ export default {
     let tempProperty = null
     let tempValue = null
 
+    // DO is used
+    if (data.used) {
+      cssObj['box-sizing'] = 'border-box'
+    }
+
     // get background color
     if (data[ device ].backgroundColor !== '') {
       cssObj[ 'background-color' ] = data[ device ].backgroundColor
