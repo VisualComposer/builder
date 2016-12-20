@@ -1,4 +1,4 @@
-import {addService, setData, getData, getService} from 'vc-cake'
+import {addService, setData, getService} from 'vc-cake'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -77,7 +77,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let myTemplates = getData('myTemplates') || []
+    let myTemplates = window.vcvMyTemplates || [] // getData('myTemplates') || []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }

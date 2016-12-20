@@ -28,7 +28,7 @@ class PostType extends Container implements Module
                 'public' => false,
                 'publicly_queryable' => false,
                 'exclude_from_search' => false,
-                'show_ui' => false,
+                'show_ui' => true,
                 'show_in_menu' => true,
                 'menu_position' => 10,
                 'menu_icon' => 'dashicons-admin-page',
