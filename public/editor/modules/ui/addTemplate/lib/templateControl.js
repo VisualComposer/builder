@@ -59,22 +59,22 @@ export default class TemplateControl extends React.Component {
 
     let spinnerClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner': true,
-      'vcv-ui-state--hidden': !this.props.spinner // true
+      'vcv-ui-state--hidden': !this.props.spinner
     })
 
     let applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
-      'vcv-ui-state--hidden': this.props.spinner // false
+      'vcv-ui-state--hidden': this.props.spinner
     })
 
     let removeClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
-      'vcv-ui-state--hidden': this.props.spinner // false
+      'vcv-ui-state--hidden': this.props.spinner
     })
 
     let overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': this.props.spinner // false
+      'vcv-ui-item-overlay--visible': this.props.spinner
     })
 
     let publicPathThumbnail

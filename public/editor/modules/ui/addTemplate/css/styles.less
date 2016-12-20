@@ -114,4 +114,13 @@
   .vcv-ui-wp-spinner {
     cursor: default;
   }
+
+  .vcv-ui-save-template-submit[disabled] {
+    cursor: not-allowed;
+    color: @save-action-disabled-color;
+
+    &:hover {
+      background: @save-action-disabled-bg-hover;
+    }
+  }
 }
