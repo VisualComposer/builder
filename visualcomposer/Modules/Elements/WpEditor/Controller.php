@@ -34,7 +34,7 @@ class Controller extends Container implements Module
     private function getWpEditor(Request $request)
     {
         $content = $request->input('vcv-content');
-        $editorId = 'vcv_wpeditor_' . $request->input('vcv-field-key');
+        $editorId = 'vcv-wpeditor-' . $request->input('vcv-field-key');
         ob_start();
         wp_editor(
             $content,

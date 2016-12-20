@@ -65,8 +65,7 @@ class SaveController {
             'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
             'vcv-custom-css': wipAssetsStorage.getCustomCss(),
             'vcv-global-css': wipAssetsStorage.getGlobalCss(),
-            'vcv-google-fonts': wipAssetsStorage.getGoogleFontsData(),
-            'vcv-my-templates': JSON.stringify(myTemplates.all())
+            'vcv-google-fonts': wipAssetsStorage.getGoogleFontsData()
           },
           this.saveSuccess.bind(this),
           this.saveFailed.bind(this)

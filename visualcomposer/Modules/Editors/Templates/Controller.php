@@ -30,9 +30,8 @@ class Controller extends Container implements Module
 
     private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        $extraOutput[] = '<script>
-    window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all())) . '
-</script>';
+        $extraOutput[] = '<script>window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all()))
+            . '</script>';
 
         return $extraOutput;
     }
@@ -44,7 +43,7 @@ class Controller extends Container implements Module
             /** @var $template \WP_Post */
             $data[] = [
                 'name' => $template->post_title,
-                'data' => [], // TODO: Get post meta,
+                'data' => get_post_meta($template->ID, 'vcvEditorTemplateElements', true),
                 'id' => $template->ID,
             ];
         }
@@ -62,7 +61,7 @@ class Controller extends Container implements Module
      */
     private function create(Request $requestHelper, PostType $postTypeHelper)
     {
-        $data = $requestHelper->input('vcv-template-data');
+        $data = $requestHelper->inputJson('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
         $data['post_status'] = 'publish';
 
