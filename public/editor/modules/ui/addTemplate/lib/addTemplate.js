@@ -112,11 +112,12 @@ export default class addTemplate extends React.Component {
     this.setState({inputValue: value})
   }
 
-  changeError (error) {
-    this.setState({
+  changeError (error, state) {
+    state = Object.assign({}, state, {
       error: true,
       errorName: error
     })
+    this.setState(state)
     this.errorTimeout = setTimeout(() => {
       this.setState({
         error: false
