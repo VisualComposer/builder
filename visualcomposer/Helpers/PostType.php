@@ -45,7 +45,7 @@ class PostType implements Helper
         if ($postType) {
             $post = $this->get($id);
 
-            return $post && $post->post_type == $postType ? wp_delete_post($id) : false;
+            return $post && $post->post_type == $postType ? wp_delete_post($id) : !$post;
         }
 
         return wp_delete_post($id);
