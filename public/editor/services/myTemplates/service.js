@@ -33,7 +33,7 @@ addService('myTemplates', {
         vcvEditorTemplateElements: data
       }
     })), (response) => {
-      let id = response.status.toString()
+      let id = response.status
       let myTemplates = this.all()
       myTemplates.unshift({ id: id, name: name, data: data, html: html })
       setData('myTemplates', myTemplates)

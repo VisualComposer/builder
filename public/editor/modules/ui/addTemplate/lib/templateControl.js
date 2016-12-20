@@ -7,12 +7,13 @@ const AssetsManager = vcCake.getService('assets-manager')
 
 export default class TemplateControl extends React.Component {
   static propTypes = {
-    data: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object,
+    id: React.PropTypes.number,
     name: React.PropTypes.string.isRequired,
-    id: React.PropTypes.string.isRequired,
     api: React.PropTypes.object.isRequired,
     applyTemplate: React.PropTypes.func.isRequired,
-    removeTemplate: React.PropTypes.func.isRequired
+    removeTemplate: React.PropTypes.func.isRequired,
+    spinner: React.PropTypes.bool
   }
 
   constructor (props) {
@@ -31,7 +32,7 @@ export default class TemplateControl extends React.Component {
 
   handleApplyTemplate (e) {
     e && e.preventDefault()
-    this.props.applyTemplate(this.props.data)
+    this.props.applyTemplate(this.props.data || {})
   }
 
   handleRemoveTemplate () {
@@ -56,6 +57,26 @@ export default class TemplateControl extends React.Component {
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
+    let spinnerClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner': true,
+      'vcv-ui-state--hidden': !this.props.spinner // true
+    })
+
+    let applyClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
+      'vcv-ui-state--hidden': this.props.spinner // false
+    })
+
+    let removeClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
+      'vcv-ui-state--hidden': this.props.spinner // false
+    })
+
+    let overlayClasses = classNames({
+      'vcv-ui-item-overlay': true,
+      'vcv-ui-item-overlay--visible': this.props.spinner // false
+    })
+
     let publicPathThumbnail
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
@@ -75,15 +96,16 @@ export default class TemplateControl extends React.Component {
               src={publicPathThumbnail}
               alt=''
             />
-            <span className='vcv-ui-item-overlay'>
+            <span className={overlayClasses}>
               <span
-                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add'
+                className={applyClasses}
                 onClick={this.handleApplyTemplate}
               />
               <span
-                className='vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
+                className={removeClasses}
                 onClick={this.handleRemoveTemplate}
               />
+              <span className={spinnerClasses} />
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
