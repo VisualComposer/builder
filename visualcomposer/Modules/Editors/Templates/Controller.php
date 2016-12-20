@@ -30,9 +30,8 @@ class Controller extends Container implements Module
 
     private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        $extraOutput[] = '<script>
-    window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all())) . '
-</script>';
+        $extraOutput[] = '<script>window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all()))
+            . '</script>';
 
         return $extraOutput;
     }
@@ -65,6 +64,8 @@ class Controller extends Container implements Module
         $data = $requestHelper->input('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
         $data['post_status'] = 'publish';
+
+        // TODO: meta_input
 
         return [
             'status' => $postTypeHelper->create($data),

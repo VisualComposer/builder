@@ -5,9 +5,9 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType } = atts
 
-    let containerClasses = ['vce-button-container']
+    let containerClasses = ['vce-button--style-outline-container']
 
-    let classes = ['vce-button']
+    let classes = []
 
     let buttonHtml = buttonText
     let customProps = {}
@@ -31,15 +31,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (shape && shape !== 'square') {
-      classes.push(`vce-button--border-${shape}`)
+      classes.push(`vce-button--style-outline--border-${shape}`)
     }
 
     if (alignment) {
-      containerClasses.push(`vce-button-container--align-${alignment}`)
-    }
-
-    if (buttonType) {
-      classes.push(`vce-button--style-${buttonType}`)
+      containerClasses.push(`vce-button--style-outline-container--align-${alignment}`)
     }
 
     let mixinData = this.getMixinData('color')
@@ -48,11 +44,11 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
-    mixinData = this.getMixinData('hoverColor')
-
-    if (mixinData) {
-      classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
-    }
+    // mixinData = this.getMixinData('hoverColor')
+    //
+    // if (mixinData) {
+    //   classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
+    // }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -69,7 +65,7 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     return <div className={containerClasses.join(' ')} {...editor}>
-      <span className='vce-button-wrapper vce' id={'el-' + id} >
+      <span className='vce-button--style-outline-wrapper vce' id={'el-' + id} >
         <CustomTag className={classes.join(' ')} {...customProps}>
           {buttonHtml}
         </CustomTag>
