@@ -141,9 +141,6 @@ button.vce-button--style-outline-animated-slidein::before {
 .vce-button--style-outline-animated-slidein:focus::after {
   width: 100%;
 }
-.vce-button--style-outline-animated {
-  border: 1px solid red;
-}
 .vce-button--style-outline-animated::after {
   transition: opacity 0.2s ease-in-out;
   width: 100%;
