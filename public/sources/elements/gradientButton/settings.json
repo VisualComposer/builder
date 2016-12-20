@@ -58,7 +58,7 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#e3e3e3",
+    "value": "#fff",
     "options": {
       "label": "Title color",
       "cssMixin": {
@@ -76,7 +76,7 @@
       "label": "Gradient color one",
       "cssMixin": {
         "mixin": "color",
-        "property": "gradientColorOne",
+        "property": "startColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -89,7 +89,7 @@
       "label": "Gradient color two",
       "cssMixin": {
         "mixin": "color",
-        "property": "gradientColorTwo",
+        "property": "endColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -134,12 +134,12 @@
       "shape",
       "color",
       "gradientColorOne",
-      "gradientColorOne",
+      "gradientColorTwo",
       "buttonType",
       "customClass"
     ],
     "options": {
-      "label": "Basic Button"
+      "label": "Gradient Button"
     }
   },
   "metaEditFormTabs": {
@@ -198,17 +198,17 @@
   "buttonType": {
     "type": "dropdown",
     "access": "public",
-    "value": "horizontal",
+    "value": "gradient-horizontal",
     "options": {
       "label": "Gradient direction",
       "values": [
         {
           "label": "Horizontal",
-          "value": "horizontal"
+          "value": "gradient-horizontal"
         },
         {
           "label": "Vertical",
-          "value": "vertical"
+          "value": "gradient-vertical"
         }
       ]
     }
