@@ -1,16 +1,17 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType } = atts
 
-    let containerClasses = 'vce-button-container'
-    let wrapperClasses = 'vce-button-wrapper vce'
-    let classes = ''
+    let containerClasses = ['vce-button-container']
+    let classes = ['vce-button']
     let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
+    let buttonCustomClass = buttonType ? `vce-button--style-${buttonType}` : 'vce-button--style-gradient-horizontal'
+    classes.push(buttonCustomClass)
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
@@ -24,35 +25,28 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (typeof customClass === 'string' && customClass) {
-      containerClasses += ' ' + customClass
+      containerClasses.push(customClass)
     }
 
     if (shape && shape !== 'square') {
-      classes += ` vce-button--border-${shape}`
+      classes.push(`vce-button--border-${shape}`)
     }
 
     if (alignment) {
-      containerClasses += ` vce-button-container--align-${alignment}`
-    }
-
-    if (buttonType) {
-      classes += ` vce-button vce-button--style-${buttonType}`
-    } else {
-      classes += ' vce-button vce-button--style-outline'
+      containerClasses.push(`vce-button-container--align-${alignment}`)
     }
 
     let mixinData = this.getMixinData('color')
 
     if (mixinData) {
-      classes += ` vce-button--style-${buttonType}--color-${mixinData.selector}`
+      classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
     mixinData = this.getMixinData('hoverColor')
 
     if (mixinData) {
-      classes += ` vce-button--style-${buttonType}--hover-color-${mixinData.selector}`
+      classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
     }
-
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -68,9 +62,10 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
-    return <div className={containerClasses} {...editor}>
-      <span className={wrapperClasses} id={'el-' + id} >
-        <CustomTag className={classes} {...customProps}>
+
+    return <div className={containerClasses.join(' ')} {...editor}>
+      <span className='vce-button-wrapper vce' id={'el-' + id} >
+        <CustomTag className={classes.join(' ')} {...customProps}>
           {buttonHtml}
         </CustomTag>
       </span>

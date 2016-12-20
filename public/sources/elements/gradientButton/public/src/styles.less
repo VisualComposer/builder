@@ -48,103 +48,37 @@
     -webkit-appearance: none;
   }
 
-  #vce-button > .size(@vce-button-padding-vertical; @vce-button-padding-horizontal; @vce-button-font-size;);
+  font-size: @vce-button-font-size;
+  padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
 
-  &--style {
-    &-outline {
+  &-gradient {
+    &-horizontal {
+      &,
       a&,
       button& {
-        transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
-        z-index: 1;
-        border-radius: 0;
-        &::before, &::after {
-          border-radius: inherit;
-          box-sizing: border-box;
-          content: "";
-          position: absolute;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-
         &::before {
-          box-sizing: border-box;
-          z-index: @vce-button-outline-z-background;
-          width: 100%;
-          border-width: @vce-button-outline-border-width;
-          border-style: @vce-button-outline-border-style;
-          transition: border-color @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+          transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;
         }
 
-        &::after {
-          opacity: 0;
-          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 100%;
-          z-index: @vce-button-outline-z-overlay;
-        }
+        #vce-button > .color (@text-color: @vce-button-color; @text-color-hover: @vce-button-color;);
 
-        &:hover, &:active, &:focus {
-          &::before {
-            border-color: @vce-button-outline-simple-border-color-hover;
-          }
-          &::after {
-            opacity: 1;
-          }
-        }
+        #vce-button > .make-gradient(to right; @vce-button-gradient-pink; @vce-button-gradient-purple);
+
+
       }
+    }
 
-      &-animated,
-      &-animated-slidein {
-        a&,
-        button& {
-          transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
-          z-index: 1;
-          border-radius: 0;
-          &::before, &::after {
-            border-radius: inherit;
-            box-sizing: border-box;
-            content: "";
-            position: absolute;
-            height: 100%;
-            top: 0;
-            left: 0;
-          }
+    &-vertical {
+      &,
+      a&,
+      button& {
+        &::before {
+          transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;;
+        }
 
-          &::before {
-            box-sizing: border-box;
-            z-index: @vce-button-outline-z-background;
-            width: 100%;
-            border-width: @vce-button-outline-border-width;
-            border-style: @vce-button-outline-border-style;
-          }
-        }
-      }
+        #vce-button > .color (@text-color: @vce-button-color; @text-color-hover: @vce-button-color;);
 
-      &-animated-slidein {
-        &::after {
-          transition: width @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 0;
-          z-index: @vce-button-outline-z-overlay;
-        }
-        &:hover, &:active, &:focus {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
-
-      &-animated {
-        &::after {
-          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 100%;
-          z-index: @vce-button-outline-z-overlay;
-          opacity: 0;
-        }
-        &:hover, &:active, &:focus {
-          &::after {
-            opacity: 1;
-          }
-        }
+        #vce-button > .make-gradient(to bottom; @vce-button-gradient-pink; @vce-button-gradient-purple);
       }
     }
   }
