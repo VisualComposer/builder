@@ -1,0 +1,197 @@
+.vce-button-container {
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+}
+
+.vce-button-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-button {
+  a&,
+  button& {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: normal;
+    touch-action: manipulation;
+    user-select: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+  }
+
+  button& {
+    -webkit-appearance: none;
+  }
+
+  #vce-button > .size(@vce-button-padding-vertical; @vce-button-padding-horizontal; @vce-button-font-size;);
+
+  &--style {
+    &-outline {
+      a&,
+      button& {
+        transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
+        z-index: 1;
+        border-radius: 0;
+        &::before, &::after {
+          border-radius: inherit;
+          box-sizing: border-box;
+          content: "";
+          position: absolute;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
+
+        &::before {
+          box-sizing: border-box;
+          z-index: @vce-button-outline-z-background;
+          width: 100%;
+          border-width: @vce-button-outline-border-width;
+          border-style: @vce-button-outline-border-style;
+          transition: border-color @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+        }
+
+        &::after {
+          opacity: 0;
+          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+          width: 100%;
+          z-index: @vce-button-outline-z-overlay;
+        }
+
+        &:hover, &:active, &:focus {
+          &::before {
+            border-color: @vce-button-outline-simple-border-color-hover;
+          }
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+
+      &-animated,
+      &-animated-slidein {
+        a&,
+        button& {
+          transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
+          z-index: 1;
+          border-radius: 0;
+          &::before, &::after {
+            border-radius: inherit;
+            box-sizing: border-box;
+            content: "";
+            position: absolute;
+            height: 100%;
+            top: 0;
+            left: 0;
+          }
+
+          &::before {
+            box-sizing: border-box;
+            z-index: @vce-button-outline-z-background;
+            width: 100%;
+            border-width: @vce-button-outline-border-width;
+            border-style: @vce-button-outline-border-style;
+          }
+        }
+      }
+
+      &-animated-slidein {
+        &::after {
+          transition: width @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+          width: 0;
+          z-index: @vce-button-outline-z-overlay;
+        }
+        &:hover, &:active, &:focus {
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+
+      &-animated {
+        &::after {
+          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+          width: 100%;
+          z-index: @vce-button-outline-z-overlay;
+          opacity: 0;
+        }
+        &:hover, &:active, &:focus {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  // shapes
+  &--border {
+    &-rounded, &-round {
+      a&,
+      button& {
+        position: relative;
+        overflow: hidden;
+      }
+    }
+    &-rounded {
+      a&,
+      button& {
+        border-radius: @vce-button-rounded;
+      }
+    }
+    &-round {
+      a&,
+      button& {
+        border-radius: @vce-button-round;
+      }
+    }
+  }
+}
+
+// RTL support
+.rtl,
+[dir="rlt"] {
+  &.vce-button,
+  .vce-button {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+}
+
+// LTR
+.ltr,
+[dir="ltr"] {
+  &.vce-button,
+  .vce-button {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+
+

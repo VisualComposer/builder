@@ -1,0 +1,57 @@
+.vce-button {
+  &--style-outline {
+    &--hover-color-$selector {
+    a&,
+    button& {
+      &:hover, &:active, &:focus {
+        @if $hoverColorOutline != false {
+          color: $hoverColorOutline;
+        }
+        &:before {
+          @if $hoverBackgroundBorder != false {
+            border-color: $hoverBackgroundBorder;
+          }
+        }
+      }
+    }
+  }
+  }
+
+  &--style-outline-animated {
+    &--hover-color-$selector {
+    a&,
+    button& {
+      &:hover, &:active, &:focus {
+        @if $hoverColorAnimated != false {
+          color: $hoverColorAnimated;
+        }
+      }
+
+      &:after {
+        @if $hoverBackgroundBorder != false {
+          background-color: $hoverBackgroundBorder;
+        }
+      }
+    }
+  }
+  }
+
+  &--style-outline-animated-slidein {
+    &--hover-color-$selector {
+    a&,
+    button& {
+      &:hover, &:active, &:focus {
+        @if $hoverColorAnimated != false {
+          color: $hoverColorAnimated;
+        }
+      }
+
+      &:after {
+        @if $hoverBackgroundBorder != false {
+          background-color: $hoverBackgroundBorder;
+        }
+      }
+    }
+  }
+  }
+}
