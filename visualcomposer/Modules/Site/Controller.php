@@ -49,6 +49,7 @@ class Controller extends Container implements Module
             'wp_enqueue_scripts',
             'enqueueScripts'
         );
+        remove_filter( 'the_content', 'wpautop' );
     }
 
     /**
