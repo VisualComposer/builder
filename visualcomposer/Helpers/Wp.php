@@ -10,7 +10,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Wp implements Helper
 {
-    static $isNewWpVersion;
+    static private $isNewWpVersion;
 
     public function isMetaInput()
     {

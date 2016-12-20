@@ -61,7 +61,7 @@ class Controller extends Container implements Module
      */
     private function create(Request $requestHelper, PostType $postTypeHelper)
     {
-        $data = $requestHelper->inputJSON('vcv-template-data');
+        $data = $requestHelper->inputJson('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
         $data['post_status'] = 'publish';
 

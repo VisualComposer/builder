@@ -57,23 +57,27 @@ class Controller extends Container implements Module
             'editor/frontend/frontend.php',
             [
                 'editableLink' => $editableLink,
-                'wpEditor' => $this->getWpEditor()
+                'wpEditor' => $this->getWpEditor(),
             ]
         );
     }
-    private function getWpEditor() {
+
+    private function getWpEditor()
+    {
         ob_start();
         wp_editor(
             '%%content%%',
             '__VCVID__',
-            $settings = array (
+            $settings = [
                 'media_buttons' => true,
                 'wpautop' => false,
-            )
+            ]
         );
         $output = ob_get_clean();
+
         return $output;
     }
+
     /**
      * @param $sourceId
      *

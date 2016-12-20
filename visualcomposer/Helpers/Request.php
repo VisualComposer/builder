@@ -72,7 +72,7 @@ class Request implements Helper
      *
      * @return string|array
      */
-    public function inputJSON($key = null, $default = null)
+    public function inputJson($key = null, $default = null)
     {
         $value = $this->input($key, $default);
         $value = json_decode(rawurldecode($value), true);
