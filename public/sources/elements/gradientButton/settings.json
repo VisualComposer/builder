@@ -1,0 +1,278 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Gradient Button"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "gradient-button-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "gradient-button-thumbnail.jpg"
+  },
+  "buttonUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Link selection"
+    }
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Apply Now",
+    "options": {
+      "label": "Button text"
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#e3e3e3",
+    "options": {
+      "label": "Title color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "borderColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#e3e3e3",
+    "options": {
+      "label": "Border color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "borderColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "hoverColorOutline": {
+    "type": "color",
+    "access": "public",
+    "value": "#194",
+    "options": {
+      "label": "Title hover color",
+      "cssMixin": {
+        "mixin": "hoverColor",
+        "property": "hoverColorOutline",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "buttonType": {
+            "rule": "value",
+            "options": {
+              "value": "outline"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "hoverColorAnimated": {
+    "type": "color",
+    "access": "public",
+    "value": "#e3e3e3",
+    "options": {
+      "label": "Title hover color",
+      "cssMixin": {
+        "mixin": "hoverColor",
+        "property": "hoverColorAnimated",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "buttonType": {
+            "rule": "valueIn",
+            "options": {
+              "values": ["outline-animated", "outline-animated-slidein"]
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "hoverBackgroundBorder": {
+    "type": "color",
+    "access": "public",
+    "value": "#194",
+    "options": {
+      "label": "Background/Border hover color",
+      "cssMixin": {
+        "mixin": "hoverColor",
+        "property": "hoverBackgroundBorder",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        }
+      ]
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonText",
+      "buttonUrl",
+      "alignment",
+      "shape",
+      "buttonType",
+      "color",
+      "borderColor",
+      "hoverColorOutline",
+      "hoverColorAnimated",
+      "hoverBackgroundBorder",
+      "customClass"
+    ],
+    "options": {
+      "label": "Basic Button"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "buttonType": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "outline",
+    "options": {
+      "label": "Hover effect",
+      "values": [
+        {
+          "label": "Simple Outline",
+          "value": "outline"
+        },
+        {
+          "label": "FadeIn",
+          "value": "outline-animated"
+        },
+        {
+          "label": "SlideIn",
+          "value": "outline-animated-slidein"
+        }
+      ]
+    }
+  }
+}
