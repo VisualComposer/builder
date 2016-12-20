@@ -88,7 +88,7 @@
     "options": {
       "label": "Title hover color",
       "cssMixin": {
-        "mixin": "hoverColor",
+        "mixin": "color",
         "property": "hoverColorOutline",
         "namePattern": "[\\da-f]+"
       },
@@ -116,7 +116,7 @@
     "options": {
       "label": "Title hover color",
       "cssMixin": {
-        "mixin": "hoverColor",
+        "mixin": "color",
         "property": "hoverColorAnimated",
         "namePattern": "[\\da-f]+"
       },
@@ -144,7 +144,7 @@
     "options": {
       "label": "Background/Border hover color",
       "cssMixin": {
-        "mixin": "hoverColor",
+        "mixin": "color",
         "property": "hoverBackgroundBorder",
         "namePattern": "[\\da-f]+"
       }
