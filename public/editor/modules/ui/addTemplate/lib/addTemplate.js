@@ -58,13 +58,14 @@ export default class addTemplate extends React.Component {
       inputValue: '',
       isSearching: false,
       error: false,
-      errorName: ''
+      errorName: '',
+      showSpinner: false
     }
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.changeTemplateName = this.changeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
-    this.changeError = this.changeError.bind(this)
+    this.displayError = this.displayError.bind(this)
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
@@ -100,19 +101,19 @@ export default class addTemplate extends React.Component {
   changeActiveCategory (index) {
     this.setState({
       activeCategoryIndex: index,
-      categoryTitle: this.props.categories[index].title
+      categoryTitle: this.props.categories[ index ].title
     })
   }
 
   changeSearchState (state) {
-    this.setState({isSearching: state})
+    this.setState({ isSearching: state })
   }
 
   changeSearchInput (value) {
-    this.setState({inputValue: value})
+    this.setState({ inputValue: value })
   }
 
-  changeError (error, state) {
+  displayError (error, state) {
     state = Object.assign({}, state, {
       error: true,
       errorName: error
@@ -142,11 +143,9 @@ export default class addTemplate extends React.Component {
     return {
       api: this.props.api,
       key: 'vcv-element-control-' + template.id,
-      data: template.data || {},
-      id: template.id,
-      name: template.name,
       applyTemplate: this.handleApplyTemplate,
-      removeTemplate: this.handleRemoveTemplate
+      removeTemplate: this.handleRemoveTemplate,
+      ...template
     }
   }
 
@@ -158,7 +157,7 @@ export default class addTemplate extends React.Component {
 
   getNoResultsElement () {
     let source, btnText, helper, button
-    if (!this.props.categories[0].templates().length && !this.state.isSearching) {
+    if (!this.props.categories[ 0 ].templates().length && !this.state.isSearching) {
       btnText = 'Download More Templates'
       helper = `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
@@ -200,7 +199,7 @@ export default class addTemplate extends React.Component {
 
   getSearchResults () {
     let { inputValue } = this.state
-    return this.props.categories[0].templates().filter((template) => {
+    return this.props.categories[ 0 ].templates().filter((template) => {
       let name = template.name.toLowerCase()
       return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
@@ -233,33 +232,34 @@ export default class addTemplate extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
-    let {templateName} = this.state
+    let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
+      this.setState({ showSpinner: templateName })
       let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
       if (templateAddResult) {
         this.props.api.request('templates:save', templateName)
       } else {
-        this.changeError('Template with this title already exist. Please specify another title.')
+        this.displayError('Template with this title already exist. Please specify another title.')
       }
     } else {
-      this.changeError('Please specify template title.')
+      this.displayError('Please specify template title.')
     }
   }
 
   onSaveSuccess () {
-    console.log('onSaveSuccess')
     this.setState({
       templateName: '',
       activeCategoryIndex: 1,
       categoryTitle: this.props.categories[ 1 ].title,
       isSearching: false,
-      inputValue: ''
+      inputValue: '',
+      showSpinner: false
     })
   }
 
   onSaveFailed () {
-    this.changeError('Template save failed.')
+    this.displayError('Template save failed.', { showSpinner: false })
   }
 
   handleGoToHub () {
@@ -287,11 +287,19 @@ export default class addTemplate extends React.Component {
   }
 
   onRemoveFailed () {
-    this.changeError('Template remove failed.')
+    this.displayError('Template remove failed.')
   }
 
   render () {
     let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
+
+    if (this.state.showSpinner) {
+      itemsOutput.unshift(this.getTemplateControl({
+        name: this.state.showSpinner,
+        data: {},
+        spinner: true
+      }))
+    }
 
     let innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
@@ -332,7 +340,8 @@ export default class addTemplate extends React.Component {
                       <button
                         className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
                         type='submit'
-                      >Save Template</button>
+                      >Save Template
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -347,7 +356,8 @@ export default class addTemplate extends React.Component {
                   <button
                     className='vcv-ui-editor-no-items-action'
                     onClick={this.handleGoToHub}
-                  >Download More Templates</button>
+                  >Download More Templates
+                  </button>
                 </div>
               </div>
             </Scrollbar>
