@@ -84,7 +84,7 @@
   "hoverColorOutline": {
     "type": "color",
     "access": "public",
-    "value": "#194",
+    "value": "#3d3d3d",
     "options": {
       "label": "Title hover color",
       "cssMixin": {
@@ -112,7 +112,7 @@
   "hoverColorAnimated": {
     "type": "color",
     "access": "public",
-    "value": "#e3e3e3",
+    "value": "#fff",
     "options": {
       "label": "Title hover color",
       "cssMixin": {
@@ -140,7 +140,7 @@
   "hoverBackgroundBorder": {
     "type": "color",
     "access": "public",
-    "value": "#194",
+    "value": "#3d3d3d",
     "options": {
       "label": "Background/Border hover color",
       "cssMixin": {
@@ -256,7 +256,7 @@
   "buttonType": {
     "type": "dropdown",
     "access": "public",
-    "value": "outline",
+    "value": "outline-animated",
     "options": {
       "label": "Hover effect",
       "values": [
