@@ -35,7 +35,7 @@ addService('myTemplates', {
     })), (response) => {
       let id = response.status.toString()
       let myTemplates = this.all()
-      myTemplates.push({ id: id, name: name, data: data, html: html })
+      myTemplates.unshift({ id: id, name: name, data: data, html: html })
       setData('myTemplates', myTemplates)
       successCallback && typeof successCallback === 'function' && successCallback()
     }, errorCallback)

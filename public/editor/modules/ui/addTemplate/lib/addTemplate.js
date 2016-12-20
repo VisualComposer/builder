@@ -218,7 +218,7 @@ export default class addTemplate extends React.Component {
     let templates = this.props.categories[ activeCategoryIndex ].templates()
     return templates.map((template) => {
       return this.getTemplateControl(template)
-    }).reverse()
+    })
   }
 
   getTemplateListContainer (itemsOutput) {
