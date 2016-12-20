@@ -7,7 +7,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Gradient Button"
+    "value": "Animated Outline Button"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,22 +17,22 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
+    "value": "Underline-to-outline button with smooth transition effect for hover state."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
+    "value": "Underline-to-outline button with smooth transition effect for hover state."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "gradient-button-preview.jpg"
+    "value": "animated-outline-button-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "gradient-button-thumbnail.jpg"
+    "value": "animated-outline-button-thumbnail.jpg"
   },
   "buttonUrl": {
     "type": "url",
@@ -58,7 +58,7 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#fff",
+    "value": "#000",
     "options": {
       "label": "Title color",
       "cssMixin": {
@@ -68,52 +68,17 @@
       }
     }
   },
-  "gradientColorOne": {
+  "lineColor": {
     "type": "color",
     "access": "public",
-    "value": "#d85bd3",
+    "value": "#888",
     "options": {
-      "label": "Gradient color one",
+      "label": "Line color",
       "cssMixin": {
         "mixin": "color",
-        "property": "startColor",
+        "property": "lineColor",
         "namePattern": "[\\da-f]+"
       }
-    }
-  },
-  "gradientColorTwo": {
-    "type": "color",
-    "access": "public",
-    "value": "#9d41d1",
-    "options": {
-      "label": "Gradient color two",
-      "cssMixin": {
-        "mixin": "color",
-        "property": "endColor",
-        "namePattern": "[\\da-f]+"
-      }
-    }
-  },
-  "shape": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "round",
-    "options": {
-      "label": "Shape",
-      "values": [
-        {
-          "label": "Square",
-          "value": "square"
-        },
-        {
-          "label": "Rounded",
-          "value": "rounded"
-        },
-        {
-          "label": "Round",
-          "value": "round"
-        }
-      ]
     }
   },
   "designOptions": {
@@ -131,15 +96,12 @@
       "buttonText",
       "buttonUrl",
       "alignment",
-      "shape",
       "color",
-      "gradientColorOne",
-      "gradientColorTwo",
-      "buttonType",
+      "lineColor",
       "customClass"
     ],
     "options": {
-      "label": "Gradient Button"
+      "label": "Animated Outline Button"
     }
   },
   "metaEditFormTabs": {
@@ -193,24 +155,6 @@
     "options": {
       "label": "Extra class name",
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
-    }
-  },
-  "buttonType": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "gradient-horizontal",
-    "options": {
-      "label": "Gradient direction",
-      "values": [
-        {
-          "label": "Horizontal",
-          "value": "gradient-horizontal"
-        },
-        {
-          "label": "Vertical",
-          "value": "gradient-vertical"
-        }
-      ]
     }
   }
 }
