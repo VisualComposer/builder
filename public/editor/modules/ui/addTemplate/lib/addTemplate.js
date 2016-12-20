@@ -116,7 +116,8 @@ export default class addTemplate extends React.Component {
   displayError (error, state) {
     state = Object.assign({}, state, {
       error: true,
-      errorName: error
+      errorName: error,
+      showSpinner: false
     })
     this.setState(state)
     this.errorTimeout = setTimeout(() => {
@@ -235,12 +236,16 @@ export default class addTemplate extends React.Component {
     let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
-      this.setState({ showSpinner: templateName })
-      let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
-      if (templateAddResult) {
-        this.props.api.request('templates:save', templateName)
-      } else {
+      if (templateManager.findBy('name', templateName)) {
         this.displayError('Template with this title already exist. Please specify another title.')
+      } else {
+        this.setState({ showSpinner: templateName })
+        let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
+        if (templateAddResult) {
+          this.props.api.request('templates:save', templateName)
+        } else {
+          this.displayError('Template save failed.')
+        }
       }
     } else {
       this.displayError('Please specify template title.')
@@ -259,7 +264,7 @@ export default class addTemplate extends React.Component {
   }
 
   onSaveFailed () {
-    this.displayError('Template save failed.', { showSpinner: false })
+    this.displayError('Template save failed.')
   }
 
   handleGoToHub () {
