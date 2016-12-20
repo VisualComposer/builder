@@ -64,6 +64,7 @@ class Controller extends Container implements Module
     {
         $data = $requestHelper->input('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
+        $data['post_status'] = 'publish';
 
         return [
             'status' => $postTypeHelper->create($data),

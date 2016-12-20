@@ -1,0 +1,131 @@
+.vce-button-container {
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+}
+
+.vce-button-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-button {
+  a&,
+  button& {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: normal;
+    touch-action: manipulation;
+    user-select: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+  }
+
+  button& {
+    -webkit-appearance: none;
+  }
+
+  font-size: @vce-button-font-size;
+  padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
+
+  &-gradient {
+    &-horizontal {
+      &,
+      a&,
+      button& {
+        &::before {
+          transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;
+        }
+
+        #vce-button > .color (@text-color: @vce-button-color; @text-color-hover: @vce-button-color;);
+
+        #vce-button > .make-gradient(to right; @vce-button-gradient-pink; @vce-button-gradient-purple);
+
+
+      }
+    }
+
+    &-vertical {
+      &,
+      a&,
+      button& {
+        &::before {
+          transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;;
+        }
+
+        #vce-button > .color (@text-color: @vce-button-color; @text-color-hover: @vce-button-color;);
+
+        #vce-button > .make-gradient(to bottom; @vce-button-gradient-pink; @vce-button-gradient-purple);
+      }
+    }
+  }
+
+  // shapes
+  &--border {
+    &-rounded, &-round {
+      a&,
+      button& {
+        position: relative;
+        overflow: hidden;
+      }
+    }
+    &-rounded {
+      a&,
+      button& {
+        border-radius: @vce-button-rounded;
+      }
+    }
+    &-round {
+      a&,
+      button& {
+        border-radius: @vce-button-round;
+      }
+    }
+  }
+}
+
+// RTL support
+.rtl,
+[dir="rlt"] {
+  &.vce-button,
+  .vce-button {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+}
+
+// LTR
+.ltr,
+[dir="ltr"] {
+  &.vce-button,
+  .vce-button {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+
+

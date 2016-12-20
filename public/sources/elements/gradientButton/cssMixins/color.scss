@@ -1,0 +1,67 @@
+.vce-button {
+  &--style-outline {
+    &--color-$selector {
+    a&,
+    button& {
+      @if $color != false {
+        color: $color;
+      }
+      &:hover {
+        @if $color != false {
+          color: $color;
+        }
+      }
+
+      &:before {
+        @if $borderColor != false {
+          border-color: $borderColor;
+        }
+      }
+    }
+  }
+  }
+
+  &--style-outline-animated {
+    &--color-$selector {
+    a&,
+    button& {
+      @if $color != false {
+        color: $color;
+      }
+      &:hover {
+        @if $color != false {
+          color: $color;
+        }
+      }
+
+      &:before {
+        @if $borderColor != false {
+          border-color: $borderColor;
+        }
+      }
+    }
+  }
+  }
+
+  &--style-outline-animated-slidein {
+    &--color-$selector {
+    a&,
+    button& {
+      @if $color != false {
+        color: $color;
+      }
+      &:hover {
+        @if $color != false {
+          color: $color;
+        }
+      }
+
+      &:before {
+        @if $borderColor != false {
+          border-color: $borderColor;
+        }
+      }
+    }
+  }
+  }
+}

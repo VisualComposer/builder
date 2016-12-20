@@ -1,4 +1,4 @@
-.vce-button-container {
+.vce-button--style-outline-container {
   &--align-left {
     text-align: left;
   }
@@ -12,13 +12,20 @@
   }
 }
 
-.vce-button-wrapper {
+.vce-button--style-outline-wrapper {
   display: inline-block;
   vertical-align: top;
   max-width: 100%;
 }
 
-.vce-button {
+.vce-button--style-outline {
+  button& {
+    -webkit-appearance: none;
+  }
+
+  font-size: @vce-button-font-size;
+  padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
+
   a&,
   button& {
     background-color: transparent;
@@ -42,112 +49,129 @@
       text-decoration: none;
       outline: none;
     }
-  }
 
-  button& {
-    -webkit-appearance: none;
-  }
+    transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+    z-index: 1;
+    border-radius: 0;
+    &::before, &::after {
+      border-radius: inherit;
+      box-sizing: border-box;
+      content: "";
+      position: absolute;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
 
-  #vce-button > .size(@vce-button-padding-vertical; @vce-button-padding-horizontal; @vce-button-font-size;);
+    &::before {
+      box-sizing: border-box;
+      z-index: @vce-button-outline-z-background;
+      width: 100%;
+      border-width: @vce-button-outline-border-width;
+      border-style: @vce-button-outline-border-style;
+      transition: border-color @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+    }
 
-  &--style {
-    &-outline {
-      a&,
-      button& {
-        transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
-        z-index: 1;
-        border-radius: 0;
-        &::before, &::after {
-          border-radius: inherit;
-          box-sizing: border-box;
-          content: "";
-          position: absolute;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
+    &::after {
+      opacity: 0;
+      transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+      width: 100%;
+      z-index: @vce-button-outline-z-overlay;
+    }
 
-        &::before {
-          box-sizing: border-box;
-          z-index: @vce-button-outline-z-background;
-          width: 100%;
-          border-width: @vce-button-outline-border-width;
-          border-style: @vce-button-outline-border-style;
-          transition: border-color @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-        }
-
-        &::after {
-          opacity: 0;
-          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 100%;
-          z-index: @vce-button-outline-z-overlay;
-        }
-
-        &:hover, &:active, &:focus {
-          &::before {
-            border-color: @vce-button-outline-simple-border-color-hover;
-          }
-          &::after {
-            opacity: 1;
-          }
-        }
+    &:hover, &:active, &:focus {
+      &::before {
+        border-color: @vce-button-outline-simple-border-color-hover;
       }
-
-      &-animated,
-      &-animated-slidein {
-        a&,
-        button& {
-          transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
-          z-index: 1;
-          border-radius: 0;
-          &::before, &::after {
-            border-radius: inherit;
-            box-sizing: border-box;
-            content: "";
-            position: absolute;
-            height: 100%;
-            top: 0;
-            left: 0;
-          }
-
-          &::before {
-            box-sizing: border-box;
-            z-index: @vce-button-outline-z-background;
-            width: 100%;
-            border-width: @vce-button-outline-border-width;
-            border-style: @vce-button-outline-border-style;
-          }
-        }
-      }
-
-      &-animated-slidein {
-        &::after {
-          transition: width @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 0;
-          z-index: @vce-button-outline-z-overlay;
-        }
-        &:hover, &:active, &:focus {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
-
-      &-animated {
-        &::after {
-          transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-          width: 100%;
-          z-index: @vce-button-outline-z-overlay;
-          opacity: 0;
-        }
-        &:hover, &:active, &:focus {
-          &::after {
-            opacity: 1;
-          }
-        }
+      &::after {
+        opacity: 1;
       }
     }
   }
+
+  &-animated,
+  &-animated-slidein {
+    button& {
+      -webkit-appearance: none;
+    }
+
+    font-size: @vce-button-font-size;
+    padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
+
+    a&,
+    button& {
+      background-color: transparent;
+      background-image: none;
+      border: none;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 0;
+      max-width: 100%;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      white-space: normal;
+      touch-action: manipulation;
+      user-select: none;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        outline: none;
+      }
+
+      transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;;
+      z-index: 1;
+      border-radius: 0;
+      &::before, &::after {
+        border-radius: inherit;
+        box-sizing: border-box;
+        content: "";
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      &::before {
+        box-sizing: border-box;
+        z-index: @vce-button-outline-z-background;
+        width: 100%;
+        border-width: @vce-button-outline-border-width;
+        border-style: @vce-button-outline-border-style;
+      }
+    }
+  }
+
+  &-animated-slidein {
+    &::after {
+      transition: width @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+      width: 0;
+      z-index: @vce-button-outline-z-overlay;
+    }
+    &:hover, &:active, &:focus {
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  &-animated {
+    &::after {
+      transition: opacity @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
+      width: 100%;
+      z-index: @vce-button-outline-z-overlay;
+      opacity: 0;
+    }
+    &:hover, &:active, &:focus {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
 
   // shapes
   &--border {
@@ -176,8 +200,8 @@
 // RTL support
 .rtl,
 [dir="rlt"] {
-  &.vce-button,
-  .vce-button {
+  &.vce-button--style-outline,
+  .vce-button--style-outline {
     direction: rtl;
     unicode-bidi: embed;
   }
@@ -186,8 +210,8 @@
 // LTR
 .ltr,
 [dir="ltr"] {
-  &.vce-button,
-  .vce-button {
+  &.vce-button--style-outline,
+  .vce-button--style-outline {
     direction: ltr;
     unicode-bidi: normal;
   }

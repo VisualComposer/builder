@@ -1,0 +1,59 @@
+#vce-button {
+  .color(@text-color: false; @text-color-hover: false;) {
+
+    & when not (@text-color = false) {
+      color: @text-color;
+    }
+
+    & when not (@text-color-hover = false) {
+      .vce-button__icon {
+        color: @text-color-hover;
+      }
+      &:hover,
+      &:focus {
+        color: @text-color-hover;
+        .vce-button__icon {
+          color: @text-color-hover;
+        }
+      }
+    }
+  }
+
+  .make-gradient (@direction; @start-color; @end-color;) {
+    background-size: 100%;
+    background-image: linear-gradient(@direction, @start-color, @end-color);
+    position: relative;
+    z-index: 100;
+    &::before {
+      border-radius: inherit;
+      background-image: linear-gradient(@direction, @end-color, @start-color);
+
+      content: '';
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      z-index: -100;
+    }
+
+
+    &:hover,
+    &:focus {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+
+#vce-button {
+
+  //button sizing
+  .size(@padding-vertical; @padding-horizontal; @font-size;) {
+    font-size: @font-size;
+    padding: @padding-vertical @padding-horizontal;
+  }
+}

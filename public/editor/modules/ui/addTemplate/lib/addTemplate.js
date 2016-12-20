@@ -36,7 +36,7 @@ export default class addTemplate extends React.Component {
         index: 2,
         id: 'hubTemplates',
         visible () { return this.templates().length },
-        templates () { return [] } // TODO get templates from HUB
+        templates () { return [] } // TODO: get templates from HUB
       },
       {
         title: 'Download More Templates',
@@ -270,7 +270,9 @@ export default class addTemplate extends React.Component {
   }
 
   handleRemoveTemplate (id) {
-    templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+    if (window.confirm('Do you want to remove this template?')) {
+      templateManager.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+    }
   }
 
   onRemoveSuccess (id) {

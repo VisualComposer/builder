@@ -7,7 +7,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Outline Button"
+    "value": "Gradient Button"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,22 +17,22 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
+    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
+    "value": "Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "outline-button-preview.jpg"
+    "value": "gradient-button-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "outline-button-thumbnail.png"
+    "value": "gradient-button-thumbnail.jpg"
   },
   "buttonUrl": {
     "type": "url",
@@ -68,84 +68,28 @@
       }
     }
   },
-  "borderColor": {
+  "gradientColorOne": {
     "type": "color",
     "access": "public",
-    "value": "#e3e3e3",
+    "value": "#d85bd3",
     "options": {
-      "label": "Border color",
+      "label": "Gradient color one",
       "cssMixin": {
         "mixin": "color",
-        "property": "borderColor",
+        "property": "gradientColorOne",
         "namePattern": "[\\da-f]+"
       }
     }
   },
-  "hoverColorOutline": {
+  "gradientColorTwo": {
     "type": "color",
     "access": "public",
-    "value": "#194",
+    "value": "#9d41d1",
     "options": {
-      "label": "Title hover color",
+      "label": "Gradient color two",
       "cssMixin": {
         "mixin": "color",
-        "property": "hoverColorOutline",
-        "namePattern": "[\\da-f]+"
-      },
-      "onChange": {
-        "rules": {
-          "buttonType": {
-            "rule": "value",
-            "options": {
-              "value": "outline"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "hoverColorAnimated": {
-    "type": "color",
-    "access": "public",
-    "value": "#e3e3e3",
-    "options": {
-      "label": "Title hover color",
-      "cssMixin": {
-        "mixin": "color",
-        "property": "hoverColorAnimated",
-        "namePattern": "[\\da-f]+"
-      },
-      "onChange": {
-        "rules": {
-          "buttonType": {
-            "rule": "valueIn",
-            "options": {
-              "values": ["outline-animated", "outline-animated-slidein"]
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "hoverBackgroundBorder": {
-    "type": "color",
-    "access": "public",
-    "value": "#194",
-    "options": {
-      "label": "Background/Border hover color",
-      "cssMixin": {
-        "mixin": "color",
-        "property": "hoverBackgroundBorder",
+        "property": "gradientColorTwo",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -153,7 +97,7 @@
   "shape": {
     "type": "dropdown",
     "access": "public",
-    "value": "square",
+    "value": "round",
     "options": {
       "label": "Shape",
       "values": [
@@ -188,16 +132,14 @@
       "buttonUrl",
       "alignment",
       "shape",
-      "buttonType",
       "color",
-      "borderColor",
-      "hoverColorOutline",
-      "hoverColorAnimated",
-      "hoverBackgroundBorder",
+      "gradientColorOne",
+      "gradientColorOne",
+      "buttonType",
       "customClass"
     ],
     "options": {
-      "label": "Outline Button"
+      "label": "Basic Button"
     }
   },
   "metaEditFormTabs": {
@@ -256,21 +198,17 @@
   "buttonType": {
     "type": "dropdown",
     "access": "public",
-    "value": "outline",
+    "value": "horizontal",
     "options": {
-      "label": "Hover effect",
+      "label": "Gradient direction",
       "values": [
         {
-          "label": "Simple Outline",
-          "value": "outline"
+          "label": "Horizontal",
+          "value": "horizontal"
         },
         {
-          "label": "FadeIn",
-          "value": "outline-animated"
-        },
-        {
-          "label": "SlideIn",
-          "value": "outline-animated-slidein"
+          "label": "Vertical",
+          "value": "vertical"
         }
       ]
     }

@@ -3,6 +3,8 @@ import vcCake from 'vc-cake'
 const cook = vcCake.getService('cook')
 const assetsManger = vcCake.getService('assets-manager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const utils = vcCake.getService('utils')
+
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
@@ -100,6 +102,7 @@ vcCake.add('storage', (api) => {
     api.request('data:changed', DocumentData.children(false), 'move', id)
   })
   api.reply('data:merge', (content) => {
+    const substituteIds = {}
     Object.keys(content).sort((a, b) => {
       if (content[a].order === undefined || content[b].order === undefined) {
         return 0
@@ -113,6 +116,19 @@ vcCake.add('storage', (api) => {
       return 0
     }).forEach((key) => {
       let element = content[key]
+      let newId = utils.createKey()
+      if (substituteIds[element.id]) {
+        element.id = substituteIds[element.id]
+      } else {
+        substituteIds[element.id] = newId
+        element.id = newId
+      }
+      if (element.parent && substituteIds[element.parent]) {
+        element.parent = substituteIds[element.parent]
+      } else if (element.parent && !substituteIds[element.parent]) {
+        substituteIds[element.parent] = utils.createKey()
+        element.parent = substituteIds[element.parent]
+      }
       delete element.order
       api.request('data:add', element, false)
     })

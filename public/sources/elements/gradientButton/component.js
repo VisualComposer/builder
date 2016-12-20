@@ -5,14 +5,12 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType } = atts
 
-    let containerClasses = ['vce-button--style-outline-container']
-
-    let classes = []
-
+    let containerClasses = ['vce-button-container']
+    let classes = ['vce-button']
     let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
-    let buttonCustomClass = buttonType ? `vce-button--style-${buttonType}` : 'vce-button--style-outline'
+    let buttonCustomClass = buttonType ? `vce-button--style-${buttonType}` : 'vce-button--style-gradient-horizontal'
     classes.push(buttonCustomClass)
 
     if (buttonUrl && buttonUrl.url) {
@@ -31,11 +29,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (shape && shape !== 'square') {
-      classes.push(`vce-button--style-outline--border-${shape}`)
+      classes.push(`vce-button--border-${shape}`)
     }
 
     if (alignment) {
-      containerClasses.push(`vce-button--style-outline-container--align-${alignment}`)
+      containerClasses.push(`vce-button-container--align-${alignment}`)
     }
 
     let mixinData = this.getMixinData('color')
@@ -44,11 +42,11 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
-    // mixinData = this.getMixinData('hoverColor')
-    //
-    // if (mixinData) {
-    //   classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
-    // }
+    mixinData = this.getMixinData('hoverColor')
+
+    if (mixinData) {
+      classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
+    }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -64,8 +62,9 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
     return <div className={containerClasses.join(' ')} {...editor}>
-      <span className='vce-button--style-outline-wrapper vce' id={'el-' + id} >
+      <span className='vce-button-wrapper vce' id={'el-' + id} >
         <CustomTag className={classes.join(' ')} {...customProps}>
           {buttonHtml}
         </CustomTag>

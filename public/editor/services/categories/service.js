@@ -137,6 +137,9 @@ if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
 if (vcCake.env('FEATURE_OUTLINE_BUTTON')) {
   tempData.categories[ 'Button' ].elements.push('outlineButton')
 }
+if (vcCake.env('FEATURE_GRADIENT_BUTTON')) {
+  tempData.categories[ 'Button' ].elements.push('gradientButton')
+}
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')
