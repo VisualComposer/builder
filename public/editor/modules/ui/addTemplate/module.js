@@ -20,4 +20,7 @@ vcCake.add('uiAddTemplate', (api) => {
     })
 
   api.module('ui-navbar').do('addElement', 'Add template', AddTemplateControl, { api: api })
+  api.reply('start', () => {
+    vcCake.setData('myTemplates', window.vcvMyTemplates)
+  })
 })

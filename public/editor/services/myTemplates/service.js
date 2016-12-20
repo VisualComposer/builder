@@ -1,4 +1,4 @@
-import {addService, setData, getService} from 'vc-cake'
+import {addService, setData, getData, getService} from 'vc-cake'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -26,11 +26,13 @@ addService('myTemplates', {
     if (this.findBy('name', name)) {
       return false
     }
-    handleSaveRequest('create', 'vcv-template-data', {
+    handleSaveRequest('create', 'vcv-template-data', encodeURIComponent(JSON.stringify({
       post_title: name,
       post_content: html,
-      meta_input: data
-    }, (response) => {
+      meta_input: {
+        vcvEditorTemplateElements: data
+      }
+    })), (response) => {
       let id = response.status.toString()
       let myTemplates = this.all()
       myTemplates.push({ id: id, name: name, data: data, html: html })
@@ -77,7 +79,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let myTemplates = window.vcvMyTemplates || [] // getData('myTemplates') || []
+    let myTemplates = getData('myTemplates') || []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }

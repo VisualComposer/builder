@@ -65,6 +65,22 @@ class Request implements Helper
     }
 
     /**
+     * Retrieve an input item from the request.
+     *
+     * @param  string $key
+     * @param  mixed $default
+     *
+     * @return string|array
+     */
+    public function inputJSON($key = null, $default = null)
+    {
+        $value = $this->input($key, $default);
+        $value = json_decode(rawurldecode($value), true);
+
+        return $value;
+    }
+
+    /**
      * Get an input element from the request.
      *
      * @param  string $key

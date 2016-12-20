@@ -43,7 +43,7 @@ class Controller extends Container implements Module
             /** @var $template \WP_Post */
             $data[] = [
                 'name' => $template->post_title,
-                'data' => [], // TODO: Get post meta,
+                'data' => get_post_meta($template->ID, 'vcvEditorTemplateElements', true),
                 'id' => $template->ID,
             ];
         }
@@ -61,11 +61,9 @@ class Controller extends Container implements Module
      */
     private function create(Request $requestHelper, PostType $postTypeHelper)
     {
-        $data = $requestHelper->input('vcv-template-data');
+        $data = $requestHelper->inputJSON('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
         $data['post_status'] = 'publish';
-
-        // TODO: meta_input
 
         return [
             'status' => $postTypeHelper->create($data),
