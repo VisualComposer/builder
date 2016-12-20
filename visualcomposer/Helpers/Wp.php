@@ -10,14 +10,14 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Wp implements Helper
 {
-    static private $isNewWpVersion;
+    static private $isMetaInput;
 
     public function isMetaInput()
     {
-        if (is_null(self::$isNewWpVersion)) {
-            self::$isNewWpVersion = version_compare('4.4', $GLOBALS['wp_version'], '>=');
+        if (is_null(self::$isMetaInput)) {
+            self::$isMetaInput = version_compare('4.4', $GLOBALS['wp_version'], '<=');
         }
 
-        return self::$isNewWpVersion;
+        return self::$isMetaInput;
     }
 }
