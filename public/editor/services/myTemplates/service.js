@@ -53,19 +53,15 @@ addService('myTemplates', {
     return false
   },
   remove (id, successCallback, errorCallback) {
-    let myTemplates = this.all()
-    let removeIndex = myTemplates.findIndex((template) => {
-      return template.id === id
-    })
-    if (removeIndex > -1) {
-      handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
-        myTemplates.splice(removeIndex, 1)
-        setData('myTemplates', myTemplates)
-        successCallback && typeof successCallback === 'function' && successCallback()
-      }, errorCallback)
-    } else {
-      errorCallback && typeof errorCallback === 'function' && errorCallback()
-    }
+    handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
+      let myTemplates = this.all()
+      let removeIndex = myTemplates.findIndex((template) => {
+        return template.id === id
+      })
+      myTemplates.splice(removeIndex, 1)
+      setData('myTemplates', myTemplates)
+      successCallback && typeof successCallback === 'function' && successCallback()
+    }, errorCallback)
   },
   get (id) {
     let myTemplates = this.all()
