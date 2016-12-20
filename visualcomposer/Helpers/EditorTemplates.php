@@ -15,7 +15,7 @@ class EditorTemplates implements Helper
      */
     public function all()
     {
-        $templates = vchelper('PostType')->query('post_type=vcv_templates&numberposts=-1');
+        $templates = vchelper('PostType')->query('post_type=vcv_templates&numberposts=-1&orderby=post_date&order=desc');
 
         return $templates;
     }
