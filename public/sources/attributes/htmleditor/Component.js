@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import TinyMceEditor from 'react-tinymce'
 import './css/skin.css'
 import './css/content.css'
@@ -71,8 +72,7 @@ export default class Component extends Attribute {
             window.QTags.instances[id].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
           }
         }
-
-        // window.tinymce.execCommand('mceAddEditor', true, id)
+        this.setState({editorLoaded: true})
       }, 0)
     }
   }
@@ -95,7 +95,11 @@ export default class Component extends Attribute {
       const template = document.getElementById('vcv-wpeditor-template').innerHTML
         .replace(/__VCVID__/g, id)
         .replace(/%%content%%/g, value)
-      return <div className='vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{__html: template}} />
+      const cssClasses = classnames({
+        'vcv-ui-form-wp-tinymce': true,
+        'vcv-is-invisible': this.state.editorLoaded !== true
+      })
+      return <div className={cssClasses} dangerouslySetInnerHTML={{__html: template}} />
     }
     return this.renderEditor()
   }
