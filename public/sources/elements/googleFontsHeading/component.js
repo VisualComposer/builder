@@ -1,5 +1,5 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   validateSize (value) {
     let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
@@ -72,10 +72,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (font) {
+      let fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? '' : font.fontStyle.style) : null
       let fontHref = ''
 
       if (font.fontStyle) {
-        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+        fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + fontStyle}`
       } else {
         fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
       }
@@ -86,7 +87,7 @@ class Component extends vcvAPI.elementComponent {
 
       innerCustomProps.style.fontFamily = font.fontFamily
       innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
-      innerCustomProps.style.fontStyle = font.fontStyle ? font.fontStyle.style : null
+      innerCustomProps.style.fontStyle = fontStyle
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
