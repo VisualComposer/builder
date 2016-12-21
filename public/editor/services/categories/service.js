@@ -9,7 +9,7 @@ let tempData = {
     },
     {
       'name': 'Media',
-      'categories': [ 'Image galleries', 'Image sliders', 'Single Images', 'Videos' ]
+      'categories': [ 'Image gallery', 'Image sliders', 'Single image', 'Videos' ]
     },
     {
       'name': 'Containers',
@@ -139,6 +139,9 @@ if (vcCake.env('FEATURE_GRADIENT_BUTTON')) {
 }
 if (vcCake.env('FEATURE_ANIMATED_OUTLINE_BUTTON')) {
   tempData.categories[ 'Button' ].elements.push('animatedOutlineButton')
+}
+if (vcCake.env('FEATURE_IMAGE_MASONRY_GALLERY')) {
+  tempData.categories[ 'Image gallery' ].elements.push('imageMasonryGallery')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
