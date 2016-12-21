@@ -9,7 +9,7 @@ const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const templateManager = vcCake.getService('myTemplates')
 
-export default class addTemplate extends React.Component {
+export default class AddTemplate extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     categories: React.PropTypes.array

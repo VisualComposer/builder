@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 import AddTemplate from './lib/addTemplate'
-import AddTemplateControl from './lib/navbarControl'
+import AddTemplateNavbarControl from './lib/navbarControl'
 import './css/init.less'
 
 vcCake.add('uiAddTemplate', (api) => {
@@ -19,7 +19,7 @@ vcCake.add('uiAddTemplate', (api) => {
       }
     })
 
-  api.module('ui-navbar').do('addElement', 'Add template', AddTemplateControl, { api: api })
+  api.module('ui-navbar').do('addElement', 'Add template', AddTemplateNavbarControl, { api: api })
   api.reply('start', () => {
     vcCake.setData('myTemplates', window.vcvMyTemplates || [])
   })
