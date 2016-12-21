@@ -13,7 +13,6 @@ export default class Component extends Attribute {
   }
 
   handleChangeWpEditor (editor) {
-    console.log('try')
     let { updater, fieldKey } = this.props
     updater(fieldKey, editor.getContent())
   }
@@ -40,7 +39,7 @@ export default class Component extends Attribute {
   }
 
   componentDidMount () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
@@ -62,7 +61,7 @@ export default class Component extends Attribute {
   }
 
   render () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       const { value } = this.state
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
