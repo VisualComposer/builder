@@ -6,6 +6,7 @@ import AttributesCollector from './tools/webpack/attributesCollector'
 import EnvCollector from './tools/webpack/envCollector'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import autoprefixer from 'autoprefixer'
+import grab from 'ps-grab'
 
 import VirtualModulePlugin from 'virtual-module-webpack-plugin'
 import ElementCollector from './tools/webpack/elementsCollector'
@@ -120,26 +121,33 @@ let config = {
   }
 }
 
-// Get elements and push VirtualModulePlugin
-const elements = ElementCollector.getElements()
-elements.forEach((item) => {
-  let elementName = item.element
-  let elementPath = item.path
-  let template = (ElementsBuilder.generateOutput(elementPath, {
-    '--uuid': elementName,
-    '--root-url': `http://test.alpha.visualcomposer.io/wp-content/plugins/vc-five/public/sources/elements/${elementName}`
-  }))
-  if (template) {
-    config.plugins.push(
-      new VirtualModulePlugin({
-        moduleName: `${elementName}.js`,
-        path: path.resolve(__dirname, `public/elements/${elementName}.js`),
-        contents: template
-      })
-    )
-    config.entry[ `element-${elementName}` ] = `./public/elements/${elementName}.js`
-  }
-})
+let argv = process.argv
+
+if (argv.indexOf('--quick') === -1) {
+  // Get elements and push VirtualModulePlugin
+  const elements = ElementCollector.getElements()
+  let single = grab('--element')
+  elements.forEach((item) => {
+    let elementName = item.element
+    if (!single || single && single === elementName) {
+      let elementPath = item.path
+      let template = (ElementsBuilder.generateOutput(elementPath, {
+        '--uuid': elementName,
+        '--root-url': `http://test.alpha.visualcomposer.io/wp-content/plugins/vc-five/public/sources/elements/${elementName}`
+      }))
+      if (template) {
+        config.plugins.push(
+          new VirtualModulePlugin({
+            moduleName: `${elementName}.js`,
+            path: path.resolve(__dirname, `public/elements/${elementName}.js`),
+            contents: template
+          })
+        )
+        config.entry[ `element-${elementName}` ] = `./public/elements/${elementName}.js`
+      }
+    }
+  })
+}
 
 module.exports = [
   config,
