@@ -8,6 +8,7 @@ import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const templateManager = vcCake.getService('myTemplates')
+const documentManager = vcCake.getService('document')
 
 export default class AddTemplate extends React.Component {
   static propTypes = {
@@ -238,6 +239,8 @@ export default class AddTemplate extends React.Component {
     if (templateName) {
       if (templateManager.findBy('name', templateName)) {
         this.displayError('Template with this title already exist. Please specify another title.')
+      } else if (!documentManager.size()) {
+        this.displayError('Template content is empty.')
       } else {
         this.setState({ showSpinner: templateName })
         let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
