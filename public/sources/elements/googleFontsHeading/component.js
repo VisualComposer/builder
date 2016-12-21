@@ -15,9 +15,9 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass } = atts
     let classes = 'vce-google-fonts-heading'
-    let wrapperClasses = 'vce-google-fonts-heading-wrapper vce'
+    let wrapperClasses = 'vce-google-fonts-heading-wrapper'
     let customProps = {}
-    let innerClasses = 'vce-google-fonts-heading-inner'
+    let innerClasses = 'vce-google-fonts-heading-inner vce'
     let innerCustomProps = {}
     innerCustomProps.style = {}
     let CustomTag = elementTag
@@ -105,9 +105,9 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id}>
+      <div className={wrapperClasses}>
         <vcvhelper>{googleFontLink}</vcvhelper>
-        <CustomTag className={innerClasses} {...innerCustomProps}>
+        <CustomTag className={innerClasses} {...innerCustomProps} id={'el-' + id}>
           {headingHtml}
         </CustomTag>
       </div>

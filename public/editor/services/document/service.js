@@ -138,6 +138,9 @@ var api = {
   },
   reset: function (data) {
     dataStore.data = Immutable.fromJS(data)
+  },
+  size: function () {
+    return dataStore.data.size
   }
 }
 

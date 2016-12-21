@@ -1,0 +1,11 @@
+.vce-image-masonry-gallery {
+  &--columns-$selector {
+    column-gap: $gap;
+
+    .vce-image-masonry-gallery-item {
+      margin-bottom: $gap;
+    }
+  }
+}
+
+

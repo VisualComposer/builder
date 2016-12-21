@@ -30,8 +30,10 @@ class Controller extends Container implements Module
 
     private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        $extraOutput[] = '<script>window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all()))
-            . '</script>';
+        $extraOutput[] = sprintf(
+            '<script>window.vcvMyTemplates = %s</script>',
+            json_encode($this->getData($editorTemplatesHelper->all()))
+        );
 
         return $extraOutput;
     }
@@ -41,11 +43,14 @@ class Controller extends Container implements Module
         $data = [];
         foreach ($templates as $template) {
             /** @var $template \WP_Post */
-            $data[] = [
-                'name' => $template->post_title,
-                'data' => get_post_meta($template->ID, 'vcvEditorTemplateElements', true),
-                'id' => $template->ID,
-            ];
+            $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
+            if (!empty($templateElements)) {
+                $data[] = [
+                    'name' => $template->post_title,
+                    'data' => $templateElements,
+                    'id' => $template->ID,
+                ];
+            }
         }
 
         return $data;
