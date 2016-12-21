@@ -30,8 +30,10 @@ class Controller extends Container implements Module
 
     private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
-        $extraOutput[] = '<script>window.vcvMyTemplates = ' . json_encode($this->getData($editorTemplatesHelper->all()))
-            . '</script>';
+        $extraOutput[] = sprintf(
+            '<script>window.vcvMyTemplates = %s</script>',
+            json_encode($this->getData($editorTemplatesHelper->all()))
+        );
 
         return $extraOutput;
     }

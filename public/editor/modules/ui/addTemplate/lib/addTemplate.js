@@ -22,7 +22,7 @@ export default class addTemplate extends React.Component {
         index: 0,
         id: 'all',
         visible () { return true },
-        templates () { return templateManager.all() }
+        templates () { return templateManager.all() } // TODO: Merge from all categories
       },
       {
         title: 'My Templates',
