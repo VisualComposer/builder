@@ -83,10 +83,6 @@
         {
           "label": "Rounded",
           "value": "rounded"
-        },
-        {
-          "label": "Round",
-          "value": "round"
         }
       ]
     }

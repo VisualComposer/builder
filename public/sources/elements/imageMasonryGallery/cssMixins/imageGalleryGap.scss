@@ -1,9 +1,9 @@
 .vce-image-masonry-gallery {
-  &--columns-$selector {
-    column-gap: $gap;
+  &--gap-$selector {
+    column-gap: $(gap)px;
 
-    .vce-image-masonry-gallery-item {
-      margin-bottom: $gap;
+    .vce-image-masonry-gallery-item-inner {
+      padding-bottom: $(gap)px;
     }
   }
 }

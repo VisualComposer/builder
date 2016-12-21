@@ -24,7 +24,7 @@ export default class GoogleFonts extends Attribute {
     fontText: 'The sky was cloudless and of a deep dark blue.',
     fontFamily: 'Abril Fatface',
     fontStyle: {
-      weight: '',
+      weight: '400',
       style: 'regular'
     },
     loading: ''
@@ -45,7 +45,7 @@ export default class GoogleFonts extends Attribute {
 
   handleFontFamilyChange (fieldKey, value) {
     let fontStyleOptions = this.createStyleArray(value)
-    let regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === 'regular' })
+    let regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === '400regular' })
     let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[ 0 ].value
     defaultFontStyle = this.getFontVariant(defaultFontStyle)
     this.loadFonts(value, defaultFontStyle)
@@ -78,9 +78,11 @@ export default class GoogleFonts extends Attribute {
     })
 
     variants.forEach((item) => {
+      let fontStyle = this.getFontVariant(item)
+
       newArray.push({
         label: this.parseFontVariant(item),
-        value: item
+        value: fontStyle.weight + fontStyle.style
       })
     })
 
@@ -120,9 +122,10 @@ export default class GoogleFonts extends Attribute {
   }
 
   loadFonts (family, style, text) {
+    let fontStyle = style.style === 'regular' ? '' : style.style
     webFontLoader.load({
       google: {
-        families: [ `${family}:${style.weight + style.style}` ]
+        families: [ `${family}:${style.weight + fontStyle}` ]
       },
       inactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
       active: this.createFieldValue.bind(this, family, style, text, 'active'),

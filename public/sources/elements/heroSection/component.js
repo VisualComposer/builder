@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { description, image, align, addButton, customClass, designOptions, button } = atts
+    let { description, image, align, addButton, customClass, designOptions, button, background } = atts
     let classNames = require('classnames')
     let customProps = {}
 
@@ -21,21 +21,17 @@ class Component extends vcvAPI.elementComponent {
 
     let rowClasses = ['vce-hero-section__wrap-row']
 
-    let mixinData = this.getMixinData('basicColor')
-    if (mixinData) {
-      rowClasses.push(`vce-hero-section--color-${mixinData.selector}`)
-    }
-
-    rowClasses = classNames(rowClasses)
+    let mixinData = this.getMixinData('backgroundColor')
 
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses = containerClasses.concat(' ' + customClass)
     }
 
     let rowStyles = {}
-    if (image) {
-      let imgSrc = this.getImageUrl(image)
-      rowStyles.backgroundImage = `url(${imgSrc})`
+    if (background === 'image' && image) {
+      rowStyles.backgroundImage = `url(${this.getImageUrl(image)})`
+    } else if (background === 'color' && mixinData) {
+      rowClasses.push(`vce-hero-section--background-color-${mixinData.selector}`)
     }
 
     let buttonOutput = ''
@@ -44,6 +40,7 @@ class Component extends vcvAPI.elementComponent {
       let Button = Cook.get(button)
       buttonOutput = Button.render(null, false)
     }
+
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
     devices.forEach((device) => {
@@ -58,6 +55,9 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+
+    rowClasses = classNames(rowClasses)
+
     return <section className={containerClasses} {...editor}>
       <div className={wrapperClasses} id={'el-' + id}>
         <div className={rowClasses} style={rowStyles} {...customProps}>
