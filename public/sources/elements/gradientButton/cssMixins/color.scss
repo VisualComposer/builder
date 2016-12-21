@@ -6,8 +6,9 @@
         @if $color != false {
           color: $color;
         }
-        &:hover {
-          @if $color != false {
+
+        @if $color != false {
+          &:hover {
             color: $color;
           }
         }
@@ -47,8 +48,9 @@
         @if $color != false {
           color: $color;
         }
-        &:hover {
-          @if $color != false {
+
+        @if $color != false {
+          &:hover {
             color: $color;
           }
         }
