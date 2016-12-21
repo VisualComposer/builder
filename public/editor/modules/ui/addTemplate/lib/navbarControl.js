@@ -11,7 +11,7 @@ export default class AddTemplateNavbarControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isWindowOpen: vcCake.getData('template:isWindowOpen')
+      isWindowOpen: false
     }
     this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
     this.updateWindow = this.updateWindow.bind(this)
@@ -30,7 +30,6 @@ export default class AddTemplateNavbarControl extends React.Component {
   }
 
   updateWindow (isOpen = false) {
-    vcCake.setData('templates:isWindowOpen', isOpen === 'add-template')
     this.setState({ isWindowOpen: isOpen === 'add-template' })
   }
 

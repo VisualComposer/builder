@@ -255,7 +255,8 @@ export default class AddTemplate extends React.Component {
     }
   }
 
-  onSaveSuccess () {
+  onSaveSuccess (id) {
+    this.props.api.request('templates:save', id)
     this.setState({
       templateName: '',
       activeCategoryIndex: 1,

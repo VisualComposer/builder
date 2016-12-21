@@ -4,64 +4,43 @@ const utils = getService('utils')
 const documentManager = getService('document')
 let getType = {}.toString
 
-let handleSaveRequest = (action, key, data, successCallback, errorCallback) => {
-  let ajax = getService('utils').ajax
-
-  return ajax({
-    'vcv-action': `editorTemplates:${action}:adminNonce`,
-    'vcv-nonce': window.vcvNonce,
-    [key]: data
-  }, (result) => {
-    let response = JSON.parse(result.response)
-    if (response && response.status) {
-      successCallback && typeof successCallback === 'function' && successCallback(response)
-    } else {
-      errorCallback && typeof errorCallback === 'function' && errorCallback(response)
-    }
-  }, errorCallback)
-}
-
 addService('myTemplates', {
-  add (name, data, html, successCallback, errorCallback) {
-    if (this.findBy('name', name)) {
-      return false
-    }
-    handleSaveRequest('create', 'vcv-template-data', encodeURIComponent(JSON.stringify({
-      post_title: name,
-      post_content: html,
-      meta_input: {
-        vcvEditorTemplateElements: data
-      }
-    })), (response) => {
-      let id = response.status
+  add (name, data, successCallback, errorCallback) {
+    const addAction = new Promise((resolve, reject) => {
       let myTemplates = this.all()
-      myTemplates.unshift({ id: id, name: name, data: data, html: html })
+      let id = utils.createKey()
+      if (this.findBy('name', name)) {
+        reject({error: 'Wrong name'})
+        return false
+      }
+      myTemplates.push({ id: id, name: name, data: data })
+      resolve(id)
       setData('myTemplates', myTemplates)
-      successCallback && typeof successCallback === 'function' && successCallback()
-    }, errorCallback)
-
+    })
+    addAction.then(successCallback, errorCallback)
     return true
   },
   addCurrentLayout (name, successCallback, errorCallback) {
     let currentLayout = documentManager.all()
-    const iframe = document.getElementById('vcv-editor-iframe')
-    const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
-    let currentLayoutHtml = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     if (getType.call(name) === '[object String]' && name.length) {
-      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback)
+      return this.add(name, currentLayout, successCallback, errorCallback)
     }
     return false
   },
   remove (id, successCallback, errorCallback) {
-    handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
+    const addAction = new Promise((resolve, reject) => {
       let myTemplates = this.all()
       let removeIndex = myTemplates.findIndex((template) => {
         return template.id === id
       })
-      myTemplates.splice(removeIndex, 1)
-      setData('myTemplates', myTemplates)
-      successCallback && typeof successCallback === 'function' && successCallback()
-    }, errorCallback)
+      if (removeIndex > -1) {
+        myTemplates.splice(removeIndex, 1)
+        setData('myTemplates', myTemplates)
+        return resolve(removeIndex)
+      }
+      reject({error: 'Wrong template'})
+    })
+    addAction.then(successCallback, errorCallback)
   },
   get (id) {
     let myTemplates = this.all()
