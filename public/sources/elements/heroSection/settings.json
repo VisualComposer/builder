@@ -43,16 +43,49 @@
       "inline": true
     }
   },
-  "color": {
+  "background": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "image",
+    "options": {
+      "label": "Background type",
+      "values": [
+        {
+          "label": "Background image",
+          "value": "image"
+        },
+        {
+          "label": "Background color",
+          "value": "color"
+        }
+      ]
+    }
+  },
+  "backgroundColor": {
     "type": "color",
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Description color",
+      "label": "Background color",
       "cssMixin": {
-        "mixin": "basicColor",
-        "property": "color",
+        "mixin": "backgroundColor",
+        "property": "backgroundColor",
         "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "background": {
+            "rule": "!value",
+            "options": {
+              "value": "image"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
       }
     }
   },
@@ -66,16 +99,16 @@
       "defaultValue": "hero-section-background.jpg",
       "onChange": {
         "rules": {
-          "clickableOptions": {
-            "rule": "value",
+          "background": {
+            "rule": "!value",
             "options": {
-              "value": "url"
+              "value": "color"
             }
           }
         },
         "actions": [
           {
-            "action": "attachImageUrls"
+            "action": "toggleVisibility"
           }
         ]
       },
@@ -158,9 +191,10 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "color",
       "description",
+      "background",
       "image",
+      "backgroundColor",
       "align",
       "addButton",
       "customClass"
