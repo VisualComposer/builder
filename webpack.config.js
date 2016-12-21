@@ -109,7 +109,7 @@ module.exports = {
         'wipAssetsStorage',
         'wipAssetsManager',
         'wipStylesManager',
-        'myTemplates'
+        'wpMyTemplates'
       ]
     }
   },

@@ -8,7 +8,7 @@ const AssetsManager = vcCake.getService('assets-manager')
 export default class TemplateControl extends React.Component {
   static propTypes = {
     data: React.PropTypes.object,
-    id: React.PropTypes.number,
+    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     api: React.PropTypes.object.isRequired,
     applyTemplate: React.PropTypes.func.isRequired,

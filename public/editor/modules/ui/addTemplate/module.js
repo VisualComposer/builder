@@ -21,6 +21,11 @@ vcCake.add('uiAddTemplate', (api) => {
 
   api.module('ui-navbar').do('addElement', 'Add template', AddTemplateNavbarControl, { api: api })
   api.reply('start', () => {
-    vcCake.setData('myTemplates', window.vcvMyTemplates || [])
+    if (vcCake.env('platform') === 'wordpress') {
+      vcCake.setData('myTemplates', window.vcvMyTemplates.map((template) => {
+        template.id = template.id.toString()
+        return template
+      }))
+    }
   })
 })
