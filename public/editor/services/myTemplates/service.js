@@ -1,4 +1,4 @@
-import {addService, setData, getService} from 'vc-cake'
+import {addService, setData, getData, getService} from 'vc-cake'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -26,14 +26,16 @@ addService('myTemplates', {
     if (this.findBy('name', name)) {
       return false
     }
-    handleSaveRequest('create', 'vcv-template-data', {
+    handleSaveRequest('create', 'vcv-template-data', encodeURIComponent(JSON.stringify({
       post_title: name,
       post_content: html,
-      meta_input: data
-    }, (response) => {
-      let id = response.status.toString()
+      meta_input: {
+        vcvEditorTemplateElements: data
+      }
+    })), (response) => {
+      let id = response.status
       let myTemplates = this.all()
-      myTemplates.push({ id: id, name: name, data: data, html: html })
+      myTemplates.unshift({ id: id, name: name, data: data, html: html })
       setData('myTemplates', myTemplates)
       successCallback && typeof successCallback === 'function' && successCallback()
     }, errorCallback)
@@ -51,19 +53,15 @@ addService('myTemplates', {
     return false
   },
   remove (id, successCallback, errorCallback) {
-    let myTemplates = this.all()
-    let removeIndex = myTemplates.findIndex((template) => {
-      return template.id === id
-    })
-    if (removeIndex > -1) {
-      handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
-        myTemplates.splice(removeIndex, 1)
-        setData('myTemplates', myTemplates)
-        successCallback && typeof successCallback === 'function' && successCallback()
-      }, errorCallback)
-    } else {
-      errorCallback && typeof errorCallback === 'function' && errorCallback()
-    }
+    handleSaveRequest('delete', 'vcv-template-id', id, (response) => {
+      let myTemplates = this.all()
+      let removeIndex = myTemplates.findIndex((template) => {
+        return template.id === id
+      })
+      myTemplates.splice(removeIndex, 1)
+      setData('myTemplates', myTemplates)
+      successCallback && typeof successCallback === 'function' && successCallback()
+    }, errorCallback)
   },
   get (id) {
     let myTemplates = this.all()
@@ -77,7 +75,7 @@ addService('myTemplates', {
     })
   },
   all (filter = null, sort = null) {
-    let myTemplates = window.vcvMyTemplates || [] // getData('myTemplates') || []
+    let myTemplates = getData('myTemplates') || []
     if (filter && getType.call(filter) === '[object Function]') {
       myTemplates = myTemplates.filter(filter)
     }

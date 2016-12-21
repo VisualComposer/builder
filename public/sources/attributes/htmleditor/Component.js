@@ -1,19 +1,20 @@
-/* eslint no-unused-vars: [2, { "varsIgnorePattern": "tinymce" }] */
 import React from 'react'
-import tinymce from 'tinymce/tinymce'
 import TinyMceEditor from 'react-tinymce'
-import 'tinymce/themes/modern/theme'
 import './css/skin.css'
 import './css/content.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-// const dataProcessor = vcCake.getService('dataProcessor')
 
-export default class HtmlEditorComponent extends Attribute {
+export default class Component extends Attribute {
   handleChange (event, editor) {
     let value = editor.getContent()
     this.setFieldValue(value)
+  }
+
+  handleChangeWpEditor (editor) {
+    let { updater, fieldKey } = this.props
+    updater(fieldKey, editor.getContent())
   }
 
   renderEditor () {
@@ -38,29 +39,36 @@ export default class HtmlEditorComponent extends Attribute {
   }
 
   componentDidMount () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
-      // let { value } = this.state
-      /* dataProcessor.appServerRequest({
-        'vcv-action': 'elements:ajaxWpEditor:adminNonce',
-        'vcv-content': value,
-        'vcv-field-key': this.props.fieldKey,
-        'vcv-nonce': window.vcvNonce
-      }).then((data) => {
-        // let range = document.createRange()
-        // let wrapper =
-        // let documentFragment = range.createContextualFragment(data)
-
-        // this.setState({editor: data})
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+      const { fieldKey } = this.props
+      const id = `vcv-wpeditor-${fieldKey}`
+      window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
+        id: id,
+        selector: '#' + id,
+        setup: (editor) => {
+          editor.on('keyup change undo redo SetContent', this.handleChangeWpEditor.bind(this, editor))
+        }
       })
-      */
+      window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
+        id: id
+      })
+      window.setTimeout(() => {
+        window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
+        window.switchEditors && window.switchEditors.go(id, 'tmce')
+        // window.tinymce.execCommand('mceAddEditor', true, id)
+      }, 0)
     }
   }
+
   render () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION')) {
-      let editorContent = this.state.editor || '<span className="vcv-ui-wp-spinner">Loading...</span>'
-      return (
-        <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{ __html: editorContent }} />
-      )
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+      const { value } = this.state
+      const { fieldKey } = this.props
+      const id = `vcv-wpeditor-${fieldKey}`
+      const template = document.getElementById('vcv-wpeditor-template').innerHTML
+        .replace(/__VCVID__/g, id)
+        .replace(/%%content%%/g, value)
+      return <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{__html: template}} />
     }
     return this.renderEditor()
   }

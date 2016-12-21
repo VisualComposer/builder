@@ -5,8 +5,8 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType } = atts
 
-    let containerClasses = ['vce-button-container']
-    let classes = ['vce-button']
+    let containerClasses = ['vce-button--style-gradient-container']
+    let classes = []
     let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
@@ -29,11 +29,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (shape && shape !== 'square') {
-      classes.push(`vce-button--border-${shape}`)
+      classes.push(`vce-button--style-gradient--border-${shape}`)
     }
 
     if (alignment) {
-      containerClasses.push(`vce-button-container--align-${alignment}`)
+      containerClasses.push(`vce-button--style-gradient-container--align-${alignment}`)
     }
 
     let mixinData = this.getMixinData('color')
@@ -64,7 +64,7 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div className={containerClasses.join(' ')} {...editor}>
-      <span className='vce-button-wrapper vce' id={'el-' + id} >
+      <span className='vce-button--style-gradient-wrapper vce' id={'el-' + id} >
         <CustomTag className={classes.join(' ')} {...customProps}>
           {buttonHtml}
         </CustomTag>

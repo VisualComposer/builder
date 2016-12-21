@@ -104,9 +104,17 @@ foreach ($extraOutput as $output) {
 		</div>
 	</div>
 </div>
-<?php
+<script type="text/html" id="vcv-wpeditor-template"><?php
+/* if ( ! class_exists( '_WP_Editors', false ) ) {
+	require( ABSPATH . WPINC . '/class-wp-editor.php' );
+}
+_WP_Editors::editor_js();
+*/
+echo $wpEditor;
+?></script><?php
 do_action('wp_footer');
 wp_print_footer_scripts();
+
 ?>
 </body>
 </html>

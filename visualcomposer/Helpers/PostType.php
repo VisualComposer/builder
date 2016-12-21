@@ -28,12 +28,24 @@ class PostType implements Helper
         return wp_insert_post($data);
     }
 
+    public function update($data)
+    {
+        $post = wp_update_post($data);
+        if (!empty($data->meta_input) && !vchelper('Wp')->isMetaInput()) {
+            foreach ($data->meta_input as $key => $value) {
+                update_post_meta($data->ID, $key, $value);
+            }
+        }
+
+        return $post;
+    }
+
     public function delete($id, $postType = '')
     {
         if ($postType) {
             $post = $this->get($id);
 
-            return $post && $post->post_type == $postType ? wp_delete_post($id) : false;
+            return $post && $post->post_type == $postType ? wp_delete_post($id) : !$post;
         }
 
         return wp_delete_post($id);

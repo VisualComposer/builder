@@ -32,12 +32,13 @@ class Controller extends Container implements Module
      * @var bool
      */
     protected $mainFrontBundle = false;
+
     /**
      * Controller constructor.
      */
     public function __construct(Url $urlHelper)
     {
-        $this->urlHelper =  $urlHelper;
+        $this->urlHelper = $urlHelper;
         /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFrontend */
         $this->wpAddAction(
             'wp_enqueue_scripts',
@@ -49,6 +50,7 @@ class Controller extends Container implements Module
             'wp_enqueue_scripts',
             'enqueueScripts'
         );
+        remove_filter('the_content', 'wpautop');
     }
 
     /**
@@ -69,7 +71,7 @@ class Controller extends Container implements Module
     public function appendScript(Url $urlHelper)
     {
         return '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
-        . '" data-async="true"></script>';
+            . '" data-async="true"></script>';
     }
 
     /**
@@ -159,11 +161,11 @@ class Controller extends Container implements Module
      */
     public function addScript($name, $file)
     {
-/*        if ($this->mainFrontBundle === false) {
-            $this->mainFrontBundle = 'vcv-front-js';
-            $url = $this->urlHelper->to('public/dist/front.bundle.js');
-            wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
-        }*/
+        /*        if ($this->mainFrontBundle === false) {
+                    $this->mainFrontBundle = 'vcv-front-js';
+                    $url = $this->urlHelper->to('public/dist/front.bundle.js');
+                    wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
+                }*/
         wp_register_script($name, $file, [], VCV_VERSION, true);
         $this->wpAddAction(
             'wp_print_scripts',

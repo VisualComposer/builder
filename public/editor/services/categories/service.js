@@ -9,7 +9,7 @@ let tempData = {
     },
     {
       'name': 'Media',
-      'categories': [ 'Image galleries', 'Image sliders', 'Single Images', 'Videos' ]
+      'categories': [ 'Image gallery', 'Image sliders', 'Single image', 'Videos' ]
     },
     {
       'name': 'Containers',
@@ -44,7 +44,7 @@ let tempData = {
   categories: {
     'Button': {
       'name': 'Simple Button',
-      'elements': [ 'basicButton' ],
+      'elements': [ 'basicButton', 'outlineButton', 'gradientButton' ],
       'icon': 'categories/icons/Button.svg'
     },
     'Row': {
@@ -134,11 +134,11 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
 }
-if (vcCake.env('FEATURE_OUTLINE_BUTTON')) {
-  tempData.categories[ 'Button' ].elements.push('outlineButton')
+if (vcCake.env('FEATURE_ANIMATED_OUTLINE_BUTTON')) {
+  tempData.categories[ 'Button' ].elements.push('animatedOutlineButton')
 }
-if (vcCake.env('FEATURE_GRADIENT_BUTTON')) {
-  tempData.categories[ 'Button' ].elements.push('gradientButton')
+if (vcCake.env('FEATURE_IMAGE_MASONRY_GALLERY')) {
+  tempData.categories[ 'Image gallery' ].elements.push('imageMasonryGallery')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
