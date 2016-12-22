@@ -1,0 +1,11 @@
+.vce-image-masonry-gallery {
+  &--gap-$selector {
+    column-gap: $(gap)px;
+
+    .vce-image-masonry-gallery-item-inner {
+      padding-bottom: $(gap)px;
+    }
+  }
+}
+
+

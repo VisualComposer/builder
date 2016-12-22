@@ -1,20 +1,33 @@
 import React from 'react'
+import classnames from 'classnames'
 import TinyMceEditor from 'react-tinymce'
 import './css/skin.css'
 import './css/content.css'
+import './css/wpEditor.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
 
 export default class Component extends Attribute {
+  constructor (props) {
+    super(props)
+    this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
+  }
+
   handleChange (event, editor) {
-    let value = editor.getContent()
+    const value = editor.getContent()
     this.setFieldValue(value)
   }
 
   handleChangeWpEditor (editor) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, editor.getContent())
+  }
+
+  handleChangeQtagsEditor (e) {
+    const { updater, fieldKey } = this.props
+    const field = e.target
+    updater(fieldKey, field.value)
   }
 
   renderEditor () {
@@ -42,21 +55,42 @@ export default class Component extends Attribute {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
-        id: id,
-        selector: '#' + id,
-        setup: (editor) => {
-          editor.on('keyup change undo redo SetContent', this.handleChangeWpEditor.bind(this, editor))
-        }
-      })
-      window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
-        id: id
-      })
+      if (window.tinyMCEPreInit) {
+        window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
+          id: id,
+          selector: '#' + id,
+          setup: (editor) => {
+            editor.on('keyup change undo redo SetContent', this.handleChangeWpEditor.bind(this, editor))
+          }
+        })
+        window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
+          id: id
+        })
+      }
+
       window.setTimeout(() => {
         window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
         window.switchEditors && window.switchEditors.go(id, 'tmce')
-        // window.tinymce.execCommand('mceAddEditor', true, id)
+        if (window.QTags) {
+          delete window.QTags.instances[ 0 ]
+          if (window.QTags.instances[ id ]) {
+            window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+          }
+        }
+        this.setState({ editorLoaded: true })
       }, 0)
+    }
+  }
+
+  componentWillUnmount () {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+      const { fieldKey } = this.props
+      const id = `vcv-wpeditor-${fieldKey}`
+      window.tinyMCE && window.tinyMCE.editors[ id ].destroy()
+      if (window.QTags && window.QTags.instances[ id ]) {
+        window.QTags.instances[ id ].canvas.removeEventListener('keyup', this.handleChangeQtagsEditor)
+        delete window.QTags.instances[ id ]
+      }
     }
   }
 
@@ -68,7 +102,11 @@ export default class Component extends Attribute {
       const template = document.getElementById('vcv-wpeditor-template').innerHTML
         .replace(/__VCVID__/g, id)
         .replace(/%%content%%/g, value)
-      return <div className='vcv-ui-form-input vcv-ui-form-wp-tinymce' dangerouslySetInnerHTML={{__html: template}} />
+      const cssClasses = classnames({
+        'vcv-ui-form-wp-tinymce': true,
+        'vcv-is-invisible': this.state.editorLoaded !== true
+      })
+      return <div className={cssClasses} dangerouslySetInnerHTML={{__html: template}} />
     }
     return this.renderEditor()
   }

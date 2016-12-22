@@ -1,9 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-const {getData, setData} = vcCake
 
-export default class AddTemplateControl extends React.Component {
+export default class AddTemplateNavbarControl extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     value: React.PropTypes.object.isRequired
@@ -12,7 +11,7 @@ export default class AddTemplateControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isWindowOpen: getData('template:isWindowOpen')
+      isWindowOpen: false
     }
     this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
     this.updateWindow = this.updateWindow.bind(this)
@@ -31,18 +30,13 @@ export default class AddTemplateControl extends React.Component {
   }
 
   updateWindow (isOpen = false) {
-    setData('templates:isWindowOpen', isOpen === 'add-template')
     this.setState({ isWindowOpen: isOpen === 'add-template' })
   }
 
   toggleAddTemplate (e) {
     e && e.preventDefault()
     if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
-      if (this.state.isWindowOpen) {
-        this.props.api.request('app:templates', false)
-      } else {
-        this.props.api.request('app:templates', true)
-      }
+      this.props.api.request('app:templates', !this.state.isWindowOpen)
     }
   }
 
@@ -55,6 +49,7 @@ export default class AddTemplateControl extends React.Component {
     if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
       isDisabled = false
     }
+
     return (
       <a
         className={controlClass}

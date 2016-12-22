@@ -23,8 +23,11 @@ class Component extends vcvAPI.elementComponent {
     let { layout, size } = atts
     let url = window.vcvPostPermanentLink
 
-    let script = `<div id="fb-root"></div>
-<script>(function(d, s, id) {
+    let script = `<script>(function(d, s, id) {
+  if(d.getElementById('fb-root')) return;
+  var fbRoot = d.createElement('div');
+  fbRoot.id = 'fb-root';
+  document.getElementsByTagName('body')[0].appendChild(fbRoot);
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) return;
 	js = d.createElement(s); js.id = id;

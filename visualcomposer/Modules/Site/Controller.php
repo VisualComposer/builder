@@ -35,6 +35,8 @@ class Controller extends Container implements Module
 
     /**
      * Controller constructor.
+     *
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     public function __construct(Url $urlHelper)
     {
@@ -50,7 +52,7 @@ class Controller extends Container implements Module
             'wp_enqueue_scripts',
             'enqueueScripts'
         );
-        remove_filter('the_content', 'wpautop');
+        // remove_filter('the_content', 'wpautop');
     }
 
     /**
@@ -70,8 +72,11 @@ class Controller extends Container implements Module
      */
     public function appendScript(Url $urlHelper)
     {
-        return '<script src="' . esc_url($urlHelper->to('node_modules/less/dist/less.js'))
-            . '" data-async="true"></script>';
+        // TODO: Check is it really needed for webpack
+        return sprintf(
+            '<script src="%s" data-async="true"></script>',
+            esc_url($urlHelper->to('node_modules/less/dist/less.js'))
+        );
     }
 
     /**

@@ -8,8 +8,9 @@ import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const templateManager = vcCake.getService('myTemplates')
+const documentManager = vcCake.getService('document')
 
-export default class addTemplate extends React.Component {
+export default class AddTemplate extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     categories: React.PropTypes.array
@@ -22,7 +23,7 @@ export default class addTemplate extends React.Component {
         index: 0,
         id: 'all',
         visible () { return true },
-        templates () { return templateManager.all() }
+        templates () { return templateManager.all() } // TODO: Merge from all categories
       },
       {
         title: 'My Templates',
@@ -238,6 +239,8 @@ export default class addTemplate extends React.Component {
     if (templateName) {
       if (templateManager.findBy('name', templateName)) {
         this.displayError('Template with this title already exist. Please specify another title.')
+      } else if (!documentManager.size()) {
+        this.displayError('Template content is empty.')
       } else {
         this.setState({ showSpinner: templateName })
         let templateAddResult = templateManager.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
@@ -252,7 +255,8 @@ export default class addTemplate extends React.Component {
     }
   }
 
-  onSaveSuccess () {
+  onSaveSuccess (id) {
+    this.props.api.request('templates:save', id)
     this.setState({
       templateName: '',
       activeCategoryIndex: 1,

@@ -8,7 +8,7 @@ const AssetsManager = vcCake.getService('assets-manager')
 export default class TemplateControl extends React.Component {
   static propTypes = {
     data: React.PropTypes.object,
-    id: React.PropTypes.number,
+    id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     api: React.PropTypes.object.isRequired,
     applyTemplate: React.PropTypes.func.isRequired,
@@ -84,6 +84,7 @@ export default class TemplateControl extends React.Component {
     } else {
       publicPathThumbnail = AssetsManager.getSourcePath('images/template-thumbnail.png')
     }
+
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'>

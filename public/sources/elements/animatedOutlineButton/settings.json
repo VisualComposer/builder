@@ -58,7 +58,7 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#000",
+    "value": "#555555",
     "options": {
       "label": "Title color",
       "cssMixin": {
@@ -71,7 +71,7 @@
   "lineColor": {
     "type": "color",
     "access": "public",
-    "value": "#888",
+    "value": "#FFC000",
     "options": {
       "label": "Line color",
       "cssMixin": {
