@@ -42,7 +42,7 @@ vcCake.add('storage', (api) => {
     }
     return false
   }
-  api.reply('data:add', (elementData, wrap = true) => {
+  api.reply('data:add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
     if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
@@ -62,8 +62,10 @@ vcCake.add('storage', (api) => {
         createdElements.push(columnElement.id)
       }
     }
-    api.request('data:afterAdd', createdElements)
-    api.request('data:changed', DocumentData.children(false), 'add', data.id)
+    if (!options.silent) {
+      api.request('data:afterAdd', createdElements)
+      api.request('data:changed', DocumentData.children(false), 'add', data.id)
+    }
   })
   api.reply('data:remove', (id) => {
     api.request('data:beforeRemove', id)
@@ -130,8 +132,10 @@ vcCake.add('storage', (api) => {
         element.parent = substituteIds[element.parent]
       }
       delete element.order
-      api.request('data:add', element, false)
+      api.request('data:add', element, false, {silent: true})
+      api.request('data:afterAdd', [element.id])
     })
+    api.request('data:changed', DocumentData.children(false), 'reset')
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
