@@ -69,6 +69,14 @@ let publicApi = {
   getCssMixinsByElement (element) {
     return assetsStorage.getCssMixinsByElement(element)
   },
+  /**
+   * Get attributes mixin data by element
+   * @param element
+   * @returns {*|{}}
+   */
+  getAttributesMixinsByElement (element) {
+    return assetsStorage.getAttributesMixinsByElement(element)
+  },
 
   // ==== Other css data
   /**
@@ -108,7 +116,7 @@ let publicApi = {
     styles = styles.concat(
       assetsStorage.getDesignOptionsCssData(),
       assetsStorage.getCustomCssData(),
-      // assetsStorage.getAttributesMixinsCssData()
+      assetsStorage.getAttributesMixinsCssData()
     )
     return styles
   },

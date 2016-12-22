@@ -1,10 +1,11 @@
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import config from './webpack.config.babel'
-config.entry.app.unshift('webpack-dev-server/client?http://localhost:3000', 'webpack/hot/dev-server')
+let data = config[0]
+data.entry.app.unshift('webpack-dev-server/client?http://localhost:3000', 'webpack/hot/dev-server')
 
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
+new WebpackDevServer(webpack(data), {
+  publicPath: data.output.publicPath,
   contentBase: './public',
   hot: true,
   historyApiFallback: false,
