@@ -13,6 +13,11 @@ class Component extends vcvAPI.elementComponent {
     if (mixinData) {
       classes.push(`vce-section--color-${mixinData.selector}`)
     }
+    let attributeMixinData = this.getAttributeMixinData('designOptionsAdvanced')
+    let elementId = null
+    if (attributeMixinData) {
+      elementId = attributeMixinData.selector
+    }
     let wrapperClasses = []
     let customProps = {}
 
@@ -25,7 +30,7 @@ class Component extends vcvAPI.elementComponent {
 
     // import template
     return (<div className={wrapperClassName} {...editor}>
-      <div className={className} id={'el-' + id} {...customProps}>
+      <div className={className} id={elementId} {...customProps}>
         {content}
       </div>
     </div>)

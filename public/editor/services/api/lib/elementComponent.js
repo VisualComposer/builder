@@ -39,6 +39,20 @@ export default class ElementComponent extends Component {
     }
     return returnData
   }
+  getAttributeMixinData (attributeName) {
+    const vcCake = require('vc-cake')
+    if (!vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      return null
+    }
+    const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+    let returnData = null
+    let mixinData = wipAssetsStorage.getAttributesMixinsByElement(this.props.atts)
+    let { tag } = this.props.atts
+    if (mixinData[tag] && mixinData[tag][attributeName] && mixinData[tag][attributeName].variables) {
+      returnData = mixinData[tag][attributeName].variables
+    }
+    return returnData
+  }
   render () {
     return null
   }
