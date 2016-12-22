@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import vcCake from 'vc-cake'
 
 export default class AddTemplateNavbarControl extends React.Component {
   static propTypes = {
@@ -35,9 +34,7 @@ export default class AddTemplateNavbarControl extends React.Component {
 
   toggleAddTemplate (e) {
     e && e.preventDefault()
-    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
-      this.props.api.request('app:templates', !this.state.isWindowOpen)
-    }
+    this.props.api.request('app:templates', !this.state.isWindowOpen)
   }
 
   render () {
@@ -45,17 +42,12 @@ export default class AddTemplateNavbarControl extends React.Component {
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isWindowOpen
     })
-    let isDisabled = true
-    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
-      isDisabled = false
-    }
 
     return (
       <a
         className={controlClass}
         onClick={this.toggleAddTemplate}
         href='#'
-        disabled={isDisabled}
         title='Template'
       >
         <span className='vcv-ui-navbar-control-content'>
