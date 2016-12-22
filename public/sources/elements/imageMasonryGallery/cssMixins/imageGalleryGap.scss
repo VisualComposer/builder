@@ -1,11 +1,20 @@
 .vce-image-masonry-gallery {
   &--gap-$selector {
-    column-gap: $(gap)px;
+    @if $gap != false {
+      .vce-image-masonry-gallery-list {
+        margin-left: -$(gap)px;
+        margin-right: -$(gap)px;
+        margin-bottom: calc(-2 * $(gap)px);
+      }
+    }
 
-    .vce-image-masonry-gallery-item-inner {
-      padding-bottom: $(gap)px;
+    @if $gap != false {
+      .vce-image-masonry-gallery-item {
+        padding-left: $(gap)px;
+        padding-right: $(gap)px;
+        margin-bottom: calc(2 * $(gap)px);
+      }
     }
   }
 }
-
 
