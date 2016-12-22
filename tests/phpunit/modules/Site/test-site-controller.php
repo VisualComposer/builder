@@ -2,6 +2,21 @@
 
 class SiteControllerTest extends \WP_UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv:') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+    }
+
     public function testAppendScript()
     {
         /** @var $module \VisualComposer\Modules\Site\Controller */

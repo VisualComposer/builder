@@ -17,6 +17,8 @@ export default class TreeViewLayout extends React.Component {
     this.handleMousePos = this.handleMousePos.bind(this)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
+    this.handleAddElement = this.handleAddElement.bind(this)
+    this.handleAddTemplate = this.handleAddTemplate.bind(this)
     this.state = {
       data: [],
       selectedItem: null
@@ -135,8 +137,14 @@ export default class TreeViewLayout extends React.Component {
     return elementsList
   }
 
-  handleAddElement = () => {
+  handleAddElement (e) {
+    e && e.preventDefault()
     this.props.api.request('app:add', null)
+  }
+
+  handleAddTemplate (e) {
+    e && e.preventDefault()
+    this.props.api.request('app:templates', true)
   }
 
   getElementsOutput () {
@@ -163,16 +171,27 @@ export default class TreeViewLayout extends React.Component {
         <Scrollbar ref='scrollbars'>
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'>
-            <a className='vcv-ui-tree-layout-action' href='#' title='Add Element'
-              onClick={this.handleAddElement}>
+            <a
+              className='vcv-ui-tree-layout-action'
+              href='#'
+              title='Add Element'
+              onClick={this.handleAddElement}
+            >
               <span className='vcv-ui-tree-layout-action-content'>
                 <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
                 <span>Add element</span>
               </span>
             </a>
-            <a className='vcv-ui-tree-layout-action' href='#' disabled='disabled' title='Template'><span
-              className='vcv-ui-tree-layout-action-content'>
-              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' /><span>Template</span></span>
+            <a
+              className='vcv-ui-tree-layout-action'
+              href='#'
+              title='Template'
+              onClick={this.handleAddTemplate}
+            >
+              <span className='vcv-ui-tree-layout-action-content'>
+                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-template' />
+                <span>Template</span>
+              </span>
             </a>
           </div>
         </Scrollbar>

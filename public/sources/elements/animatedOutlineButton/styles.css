@@ -88,6 +88,7 @@ button.vce-button--style-animated-outline .vce-button--style-animated-outline__c
 }
 a.vce-button--style-animated-outline .vce-button--style-animated-outline__content-box,
 button.vce-button--style-animated-outline .vce-button--style-animated-outline__content-box {
+  display: block;
   /*border left*/
 }
 a.vce-button--style-animated-outline .vce-button--style-animated-outline__content-box::before,

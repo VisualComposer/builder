@@ -61,7 +61,7 @@ class Controller extends Container implements Module
         $bundleCssUrl = $url->to('public/dist/pe.bundle.css?' . uniqid());
         $vendorBundleJsUrl = $url->to('public/dist/vendor.pe.bundle.js?' . uniqid());
         $bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
-        $featureToggle = true;
+        $featureToggle = false;
         if ($featureToggle) {
             // TODO: Feature toggle.
             wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
