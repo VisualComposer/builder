@@ -1,14 +1,28 @@
+.vce-image-masonry-gallery-wrapper {
+  overflow: hidden;
+}
+
+.vce-image-masonry-gallery-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.vce-image-masonry-gallery-column {
+  flex: 0 0 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .vce-image-masonry-gallery-item {
   display: block;
 }
 
-.vce-image-masonry-gallery-item-inner {
-  display: inline-block;
-  vertical-align: top;
-  width: 100%;
-}
-
-a.vce-image-masonry-gallery-item-inner {
+a.vce-image-masonry-gallery-item {
   color: transparent;
   border-bottom: 0;
   text-decoration: none;
@@ -16,6 +30,7 @@ a.vce-image-masonry-gallery-item-inner {
 
 .vce-image-masonry-gallery-img {
   width: 100%;
+  height: auto;
 }
 
 .vce-image-masonry-gallery--border-rounded .vce-image-masonry-gallery-img {
