@@ -238,7 +238,7 @@ export default class AddTemplate extends React.Component {
     templateName = templateName.trim()
     if (templateName) {
       if (templateManager.findBy('name', templateName)) {
-        this.displayError('Template with this title already exist. Please specify another title.')
+        this.displayError('Template with this name already exist. Please specify another name.')
       } else if (!documentManager.size()) {
         this.displayError('Template content is empty.')
       } else {
@@ -251,7 +251,7 @@ export default class AddTemplate extends React.Component {
         }
       }
     } else {
-      this.displayError('Please specify template title.')
+      this.displayError('Please specify template name.')
     }
   }
 
