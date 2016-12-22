@@ -54,11 +54,45 @@
       "label": "Advanced Design Options"
     }
   },
+  "animations": {
+    "type": "animateDropdown",
+    "access": "public",
+    "value": ""
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Pick color",
+      "cssMixin": {
+        "mixin": "flatColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "background": {
+    "type": "color",
+    "access": "public",
+    "value": "#bada55",
+    "options": {
+      "label": "Pick background",
+      "cssMixin": {
+        "mixin": "flatColor",
+        "property": "background",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
     "value": [
-      "customClass"
+      "customClass",
+      "animations",
+      "color",
+      "background"
     ],
     "options": {
       "label": "Section"

@@ -9,6 +9,10 @@ class Component extends vcvAPI.elementComponent {
     let { customClass, designOptions, designOptionsAdvanced } = atts
     let content = this.props.children
     let classes = [ 'vce-section' ]
+    let mixinData = this.getMixinData('flatColor')
+    if (mixinData) {
+      classes.push(`vce-section--color-${mixinData.selector}`)
+    }
     let wrapperClasses = []
     let customProps = {}
 

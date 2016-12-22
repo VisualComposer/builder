@@ -1,0 +1,15 @@
+.vce-section {
+  &.vce-section--color-$selector {
+    &::after {
+      content: 'There are 10 kinds of people in the world. Those who understand binary numbers and those who don\'t.';
+      display: block;
+      padding: 1em 2em;
+      @if $color != false {
+        color: $color;
+      }
+      @if $background != false {
+        background-color: $background;
+      }
+    }
+  }
+}

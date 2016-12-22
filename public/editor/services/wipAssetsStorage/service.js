@@ -107,7 +107,8 @@ let publicApi = {
     let styles = []
     styles = styles.concat(
       assetsStorage.getDesignOptionsCssData(),
-      assetsStorage.getCustomCssData()
+      assetsStorage.getCustomCssData(),
+      // assetsStorage.getAttributesMixinsCssData()
     )
     return styles
   },

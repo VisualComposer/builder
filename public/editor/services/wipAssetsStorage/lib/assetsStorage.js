@@ -132,6 +132,11 @@ export default {
         if (Object.keys(cssMixins).length) {
           this.elements[ id ][ 'cssMixins' ] = cssMixins
         }
+        // get attributes mixins data
+        let attributesMixins = this.getAttributesMixinsByElement(element, {})
+        if (Object.keys(attributesMixins).length) {
+          this.elements[ id ][ 'attributesMixins' ] = attributesMixins
+        }
         // get google fonts data
         let googleFonts = this.getGoogleFontsByElement(element, {})
         if (Object.keys(googleFonts).length) {
@@ -254,9 +259,9 @@ export default {
       let useMixin = false
       Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
         let name = foundMixins[ mixin ].variables[ variable ].value || 'empty' // must be string 'empty' for css selector
-        if (foundMixins[ mixin ].variables[ variable ].namePattern) {
+        if (name !== 'empty' && foundMixins[ mixin ].variables[ variable ].namePattern) {
           name = name.match(new RegExp(foundMixins[ mixin ].variables[ variable ].namePattern, 'gi'))
-          name = name ? name.join('-') : 'empty'
+          name = name.length ? name.join('-') : 'empty'
         }
         names.push(name)
         variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
@@ -269,6 +274,49 @@ export default {
       if (names && useMixin) {
         variables[ 'selector' ] = names
         mixins[ element.data.tag ][ mixin ][ names ] = variables
+      }
+    }
+    return mixins
+  },
+
+  /**
+   * Get attributes mixins data by element
+   * @param elData
+   * @returns {{}}
+   */
+  getAttributesMixinsByElement (elData) {
+    let mixins = {}
+    let element = this.cook().get(elData)
+    let settings = element.get('settings')
+    let foundMixins = {}
+    for (let key in settings) {
+      // get css mixin from attribute
+      if (element.data[ key ] && element.data[ key ].attributeMixin) {
+        foundMixins[ key ] = element.data[ key ].attributeMixin
+      }
+    }
+
+    for (let mixin in foundMixins) {
+      let variables = {}
+      let useMixin = false
+      // get variables
+      Object.keys(foundMixins[ mixin ].variables).sort().forEach((variable) => {
+        variables[ variable ] = foundMixins[ mixin ].variables[ variable ].value || false
+        // if any variable is set we can use mixin
+        if (variables[ variable ]) {
+          useMixin = true
+        }
+      })
+      if (useMixin) {
+        if (!mixins[ element.data.tag ]) {
+          mixins[ element.data.tag ] = {}
+        }
+        if (!mixins[ element.data.tag ][ mixin ]) {
+          mixins[ element.data.tag ][ mixin ] = {}
+        }
+        variables[ 'selector' ] = `el-${element.data.id}`
+        mixins[ element.data.tag ][ mixin ].src = foundMixins[mixin].src
+        mixins[ element.data.tag ][ mixin ].variables = variables
       }
     }
     return mixins
@@ -403,6 +451,40 @@ export default {
           }
         }
       })
+    })
+    return styles
+  },
+
+  /**
+   * Get css data for mixins
+   * @returns {Array}
+   */
+  getAttributesMixinsCssData () {
+    let mixinsData = {}
+
+    for (let id in this.elements) {
+      // console.log(this.elements[ id ])
+      let attributeMixins = this.elements[ id ].attributesMixins
+      if (attributeMixins) {
+        lodash.merge(mixinsData, attributeMixins)
+      }
+    }
+    // console.log(mixinsData)
+    let styles = []
+    Object.keys(mixinsData).forEach((tag) => {
+      // let elementObject = this.cook().get({ tag: tag })
+      // let mixins = Object.keys(mixinsData[ tag ])
+      // mixins.forEach((mixin) => {
+
+      //   for (let selector in mixinsData[ tag ][ mixin ]) {
+      //     if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
+      //       styles.push({
+      //         variables: mixinsData[ tag ][ mixin ][ selector ],
+      //         src: cssSettings.mixins[ mixin ].mixin
+      //       })
+      //     }
+      //   }
+      // })
     })
     return styles
   },
