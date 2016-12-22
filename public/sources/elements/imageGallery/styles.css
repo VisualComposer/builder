@@ -1,3 +1,7 @@
+.vce-image-gallery-wrapper {
+  overflow: hidden;
+}
+
 .vce-image-gallery-list {
   display: -ms-flexbox;
   display: flex;
