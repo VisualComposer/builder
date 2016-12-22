@@ -41,32 +41,6 @@ $frontendModule = vcapp('EditorsFrontendController');
   window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
 </script>
 <?php
-$featureToggle = false;
-if (!$featureToggle) :
-    ?>
-    <script type="text/javascript" src="<?php echo $urlHelper->to(
-        'public/dist/wp.bundle.js?' . uniqid()
-    ); /** @todo: use assets folder. */ ?>"></script>
-<?php else: ?>
-    <script type="text/javascript" src="<?php echo $urlHelper->to(
-        'public/dist/vendor.bundle.js?' . uniqid()
-    ); ?>"></script>
-    <script type="text/javascript" src="<?php echo $urlHelper->to(
-        'public/dist/wp.bundle.js?' . uniqid()
-    ); /** @todo: use assets folder. */ ?>"></script>
-<?php
-$elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
-foreach ($elements as $element):
-$elementName = str_replace(VCV_PLUGIN_DIR_PATH, '', $element);
-$url = $urlHelper->to($elementName . '?' . uniqid()); // TODO: Use assets folder.
-?>
-    <script type="text/javascript" src="<?php echo $url; ?>"></script>
-    <?php
-endforeach;
-    ?>
-<?php endif; ?>
-
-<?php
 $extraOutput = vcfilter('vcv:frontend:extraOutput', []);
 foreach ($extraOutput as $output) {
     echo $output;
@@ -86,14 +60,7 @@ foreach ($extraOutput as $output) {
         </div>
     </div>
 </div>
-<script type="text/html" id="vcv-wpeditor-template"><?php
-    /* if ( ! class_exists( '_WP_Editors', false ) ) {
-        require( ABSPATH . WPINC . '/class-wp-editor.php' );
-    }
-    _WP_Editors::editor_js();
-    */
-    echo $wpEditor;
-    ?></script><?php
+<?php
 do_action('wp_footer');
 wp_print_footer_scripts();
 

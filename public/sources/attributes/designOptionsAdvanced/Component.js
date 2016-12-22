@@ -26,7 +26,6 @@ class DesignOptionsAdvanced extends Attribute {
     this.state.value.attributeMixin = Object.assign({}, DesignOptionsAdvanced.attributeMixin)
 
     this.dataUpdater = this.dataUpdater.bind(this)
-    // console.log('options', this.getOptions())
   }
 
   componentWillReceiveProps (nextProps) {
@@ -94,7 +93,6 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   render () {
-    // console.log(this.state.value)
     return (
       <div className='advanced-design-options'>
         <code>id</code>

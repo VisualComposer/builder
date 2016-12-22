@@ -315,7 +315,7 @@ export default {
           mixins[ element.data.tag ][ mixin ] = {}
         }
         variables[ 'selector' ] = `el-${element.data.id}`
-        mixins[ element.data.tag ][ mixin ].src = foundMixins[mixin].src
+        mixins[ element.data.tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ element.data.tag ][ mixin ].variables = variables
       }
     }
@@ -463,28 +463,17 @@ export default {
     let mixinsData = {}
 
     for (let id in this.elements) {
-      // console.log(this.elements[ id ])
       let attributeMixins = this.elements[ id ].attributesMixins
       if (attributeMixins) {
         lodash.merge(mixinsData, attributeMixins)
       }
     }
-    // console.log(mixinsData)
     let styles = []
-    Object.keys(mixinsData).forEach((tag) => {
-      // let elementObject = this.cook().get({ tag: tag })
-      // let mixins = Object.keys(mixinsData[ tag ])
-      // mixins.forEach((mixin) => {
 
-      //   for (let selector in mixinsData[ tag ][ mixin ]) {
-      //     if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
-      //       styles.push({
-      //         variables: mixinsData[ tag ][ mixin ][ selector ],
-      //         src: cssSettings.mixins[ mixin ].mixin
-      //       })
-      //     }
-      //   }
-      // })
+    Object.keys(mixinsData).forEach((tag) => {
+      Object.keys(mixinsData[ tag ]).forEach((attribute) => {
+        styles.push(mixinsData[ tag ][ attribute ])
+      })
     })
     return styles
   },
