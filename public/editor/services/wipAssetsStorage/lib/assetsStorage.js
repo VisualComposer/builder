@@ -546,7 +546,8 @@ export default {
     for (let id in designOptionsData) {
       if (designOptions.getCss(id, designOptionsData[ id ])) {
         outputCss.push({
-          src: designOptions.getCss(id, designOptionsData[ id ])
+          src: designOptions.getCss(id, designOptionsData[ id ]),
+          viewports: viewPortBreakpoints
         })
       }
     }
