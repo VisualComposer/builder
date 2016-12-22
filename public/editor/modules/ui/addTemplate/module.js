@@ -12,7 +12,6 @@ vcCake.add('uiAddTemplate', (api) => {
           api: api
         })
         api.module('ui-layout-bar').do('setEndContentVisible', true, 'add-template')
-        api.module('ui-layout-bar').do('setStartContentVisible', false)
       } else {
         api.module('ui-layout-bar').do('setEndContent', null)
         api.module('ui-layout-bar').do('setEndContentVisible', false)
