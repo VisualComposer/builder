@@ -56,11 +56,11 @@ class Component extends vcvAPI.elementComponent {
     return <div className={containerClasses.join(' ')} {...editor}>
       <span className='vce-button--style-animated-outline-wrapper vce' id={'el-' + id} >
         <CustomTag className={classes.join(' ')} {...customProps}>
-          <div className='vce-button--style-animated-outline__content-box'>
+          <span className='vce-button--style-animated-outline__content-box'>
             <span className='vce-button--style-animated-outline__content'>
               {buttonHtml}
             </span>
-          </div>
+          </span>
         </CustomTag>
       </span>
     </div>

@@ -17,6 +17,14 @@ class Component extends vcvAPI.elementComponent {
     let html = this.createHtml(atts)
     const wrapper = this.refs.facebookLikeInner
     this.updateInlineHtml(wrapper, html)
+    this.reloadScript()
+  }
+
+  reloadScript () {
+    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    if (iframe.FB) {
+      iframe.FB.init({ status: true, xfbml: true, version: 'v2.8' })
+    }
   }
 
   createHtml (atts) {
@@ -36,11 +44,6 @@ class Component extends vcvAPI.elementComponent {
 }(document, 'script', 'facebook-jssdk'));</script>`
 
     let html = `<div class="fb-like" data-href="${url}" data-layout="${layout}" data-action="like" data-size="${size}" data-show-faces="false" data-share="false"></div>`
-
-    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
-    if (iframe.FB) {
-      iframe.FB.init({ status: true, xfbml: true, version: 'v2.8' })
-    }
 
     return script + html
   }

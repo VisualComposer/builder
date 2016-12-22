@@ -131,9 +131,7 @@ export default class BlankPage extends React.Component {
   }
 
   handleTemplateControl () {
-    if (vcCake.env('FEATURE_ADD_TEMPLATE')) {
-      this.props.api.request('app:templates', true)
-    }
+    this.props.api.request('app:templates', true)
   }
 
   getControlProps (index, tag) {
