@@ -168,6 +168,8 @@ class Component extends vcvAPI.elementComponent {
     let containerProps = {}
 
     let columnHtml = []
+
+    columns <= 0 ? columns = 1 : ''
     for (let i = 0; i < columns; i++) {
       columnHtml.push(
         <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${i}-${id}`} />
