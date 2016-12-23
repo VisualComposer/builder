@@ -71,7 +71,7 @@
 }
 
 .vce-hero-section__content-container > *:first-child,
-.vce-hero-section__content-container  vcvhelper > *:first-child {
+.vce-hero-section__content-container > vcvhelper > *:first-child {
   margin-top: 0;
 }
 
