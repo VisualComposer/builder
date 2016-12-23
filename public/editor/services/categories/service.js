@@ -114,7 +114,7 @@ let tempData = {
     },
     'WP Widgets': {
       'name': 'WP Widgets',
-      'elements': [ 'WpWidgetsDefault', 'WpWidgetsCustom' ],
+      'elements': [ '_WpWidgetsDefault', '_WpWidgetsCustom' ],
       'icon': 'categories/icons/WordPress.svg'
     }
   }
