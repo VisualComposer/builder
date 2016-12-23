@@ -33,26 +33,21 @@ class Component extends vcvAPI.elementComponent {
       })
     }
 
-    this.loadImage(imgSources, cols, this.loadImage)
+    this.loadImage(imgSources, cols)
   }
 
-  loadImage (imgSources, cols, callback) {
+  loadImage (imgSources, cols) {
     let img = new window.Image()
-    let loaded = false
     this.insertImage(cols, img)
-
-    img.onload = () => {
-      if (loaded) {
-        return
-      }
-      loaded = true
-      this.currentImg++
-      if (this.currentImg < imgSources.length) {
-        callback(imgSources, cols, this.loadImage)
-      }
-    }
-
+    img.onload = this.imgLoadHandler.bind(this, imgSources, cols)
     img.src = imgSources[ this.currentImg ]
+  }
+
+  imgLoadHandler (imgSources, cols) {
+    this.currentImg++
+    if (this.currentImg < imgSources.length) {
+      this.loadImage(imgSources, cols)
+    }
   }
 
   insertImage (cols, imgElement) {
@@ -71,8 +66,6 @@ class Component extends vcvAPI.elementComponent {
 
     let smallestColIndex = this.getSmallestColumn(cols)
     cols[ smallestColIndex ].appendChild(imgContainer)
-
-
   }
 
   createImgContainer (clickableOptions, img, imgElement) {
@@ -116,7 +109,7 @@ class Component extends vcvAPI.elementComponent {
 
   getSmallestColumn (cols) {
     let colHeight = []
-    cols.forEach((col, index) => {
+    cols.forEach((col) => {
       colHeight.push(col.offsetHeight)
     })
     return this.getSmallestFromArray(colHeight)

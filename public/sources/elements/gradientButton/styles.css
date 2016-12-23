@@ -59,12 +59,12 @@ button.vce-button--style-gradient-vertical {
 .vce-button--style-gradient-horizontal::before,
 a.vce-button--style-gradient-horizontal::before,
 button.vce-button--style-gradient-horizontal::before {
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 .vce-button--style-gradient-vertical::before,
 a.vce-button--style-gradient-vertical::before,
 button.vce-button--style-gradient-vertical::before {
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 a.vce-button--style-gradient--border-rounded,
 a.vce-button--style-gradient--border-round,
