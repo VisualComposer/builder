@@ -38,9 +38,9 @@ class Component extends vcvAPI.elementComponent {
 
   loadImage (imgSources, cols) {
     let img = new window.Image()
+    img.src = imgSources[ this.currentImg ]
     this.insertImage(cols, img)
     img.onload = this.imgLoadHandler.bind(this, imgSources, cols)
-    img.src = imgSources[ this.currentImg ]
   }
 
   imgLoadHandler (imgSources, cols) {
