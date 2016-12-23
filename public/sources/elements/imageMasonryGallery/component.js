@@ -27,9 +27,6 @@ class Component extends vcvAPI.elementComponent {
 
     if (clearColumns) {
       cols.forEach((col) => {
-        // col.innerHtml = ''
-
-        // TODO check why innerHtml not working
         while (col.firstChild) {
           col.removeChild(col.firstChild)
         }
@@ -42,17 +39,23 @@ class Component extends vcvAPI.elementComponent {
   loadImage (imgSources, cols, callback) {
     let img = new window.Image()
     let loaded = false
+    this.insertImage(cols, img)
+
     img.onload = () => {
       if (loaded) {
         return
       }
       loaded = true
-      this.insertImage(imgSources, cols, img, callback)
+      this.currentImg++
+      if (this.currentImg < imgSources.length) {
+        callback(imgSources, cols, this.loadImage)
+      }
     }
+
     img.src = imgSources[ this.currentImg ]
   }
 
-  insertImage (imgSources, cols, imgElement, callback) {
+  insertImage (cols, imgElement) {
     let { image, clickableOptions } = this.props.atts
     let img = image[ this.currentImg ]
     imgElement.className = 'vce-image-masonry-gallery-img'
@@ -69,11 +72,7 @@ class Component extends vcvAPI.elementComponent {
     let smallestColIndex = this.getSmallestColumn(cols)
     cols[ smallestColIndex ].appendChild(imgContainer)
 
-    this.currentImg++
 
-    if (this.currentImg < imgSources.length) {
-      callback(imgSources, cols, this.loadImage)
-    }
   }
 
   createImgContainer (clickableOptions, img, imgElement) {
