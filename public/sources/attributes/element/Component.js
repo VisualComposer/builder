@@ -19,6 +19,13 @@ export default class ElementAttribute extends Attribute {
     options: React.PropTypes.any
   }
 
+  constructor (props) {
+    super(props)
+    this.onChange = this.onChange.bind(this)
+    this.onClickReplacement = this.onClickReplacement.bind(this)
+    this.changeShowReplacements = this.changeShowReplacements.bind(this)
+  }
+
   updateState (props) {
     let element = Cook.get(props.value)
 
@@ -31,7 +38,7 @@ export default class ElementAttribute extends Attribute {
     }
   }
 
-  onClickReplacement = (newElement) => {
+  onClickReplacement (newElement) {
     let cookElement = Cook.get(newElement)
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
     Object.keys(cookElement.toJS()).forEach((key) => {
@@ -62,7 +69,7 @@ export default class ElementAttribute extends Attribute {
     this.setFieldValue(values)
   }
 
-  changeShowReplacements = () => {
+  changeShowReplacements () {
     this.setState({ showReplacements: !this.state.showReplacements })
   }
 
@@ -112,7 +119,7 @@ export default class ElementAttribute extends Attribute {
     } ]
   }
 
-  onChange = () => {
+  onChange () {
     this.setFieldValue(this.state.element.toJS())
   }
 
