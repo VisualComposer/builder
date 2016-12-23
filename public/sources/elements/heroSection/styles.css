@@ -70,17 +70,20 @@
   margin-bottom: 35px;
 }
 
-.vce-hero-section__content > *:first-child,
-.vce-hero-section__content > vcvhelper > *:first-child {
+.vce-hero-section__content-container > *:first-child,
+.vce-hero-section__content-container  vcvhelper > *:first-child {
   margin-top: 0;
 }
-.vce-hero-section__content > *:last-child,
-.vce-hero-section__content > vcvhelper:last-child > *:last-child {
+
+.vce-hero-section__content-container > *:last-child,
+.vce-hero-section__content-container > vcvhelper:last-child > *:last-child {
   margin-bottom: 0;
 }
+
 .vce-hero-section__content .vce {
   margin-bottom: 0;
 }
+
 .vce-hero-section--alignment-start .vce-hero-section__content {
   margin-left: 0;
   text-align: left;
