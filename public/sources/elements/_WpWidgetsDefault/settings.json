@@ -17,17 +17,17 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Choose, configure and add any of WordPress default widgets to your site."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "wordpress-preview.jpg"
+    "value": "wordpress-widgets-preview.png"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "wordpress-thumbnail.jpg"
+    "value": "wordpress-widgets-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
