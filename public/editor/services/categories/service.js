@@ -84,7 +84,7 @@ let tempData = {
     },
     'Image gallery': {
       'name': 'Image Gallery',
-      'elements': [],
+      'elements': [ 'imageMasonryGallery' ],
       'icon': 'categories/icons/Image-Gallery.svg'
     },
     'Text block': {
@@ -133,9 +133,6 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
-}
-if (vcCake.env('FEATURE_IMAGE_MASONRY_GALLERY')) {
-  tempData.categories[ 'Image gallery' ].elements.push('imageMasonryGallery')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
