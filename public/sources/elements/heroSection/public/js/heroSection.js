@@ -24,6 +24,9 @@
     })
   }
 
-  handleWindowResize()
-  window.addEventListener('resize', handleWindowResize)
+  window.vcv.on('ready', () => {
+    handleWindowResize()
+    window.addEventListener('resize', handleWindowResize)
+  })
+  window.vcv.on('heroSectionReady', handleWindowResize)
 })()

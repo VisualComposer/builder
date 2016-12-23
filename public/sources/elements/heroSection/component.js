@@ -1,6 +1,10 @@
 /* global React, vcvAPI, vcCake */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
+  componentDidMount () {
+    vcvAPI.publicEvents.trigger('heroSectionReady')
+  }
+
   render () {
     let { id, atts, editor } = this.props
     let { description, image, align, addButton, customClass, designOptions, button, background } = atts
