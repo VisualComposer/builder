@@ -1,0 +1,19 @@
+.vcv-ui-ajax-form-container {
+  input, textarea {
+    &:extend(.vcv-ui-form-input all);
+    &[type=checkbox],
+    &[type=radio] {
+      width: auto;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  select {
+    &:extend(.vcv-ui-form-dropdown all);
+  }
+
+  // This breaks checkboxes
+  // label {
+  //  &:extend(.vcv-ui-form-group-heading all);
+  //}
+}
