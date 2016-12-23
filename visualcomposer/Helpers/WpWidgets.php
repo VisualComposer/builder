@@ -170,4 +170,23 @@ class WpWidgets implements Helper
 
         return $variables;
     }
+
+    public function compileTemplate($template, $tag, $templateVariables)
+    {
+        $compiledTemplate = $template;
+        // Webpack: unset ID
+        $compiledTemplate = preg_replace(
+            '/webpackJsonp\(\[\d+\]/',
+            'webpackJsonp([\'' . $tag . '\']',
+            $compiledTemplate
+        );
+        // Other variables
+        foreach ($templateVariables as $variableKey => $variableValue) {
+            $encodedValue = is_string($variableValue) ? $variableValue : json_encode($variableValue);
+            $compiledTemplate = str_replace('{' . $variableKey . '}', $encodedValue, $compiledTemplate);
+            $compiledTemplate = str_replace('"{+' . $variableKey . '+}"', $encodedValue, $compiledTemplate);
+        }
+
+        return $compiledTemplate;
+    }
 }

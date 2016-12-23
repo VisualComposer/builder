@@ -11,7 +11,7 @@ const ElementsCollector = {
       let filePath = join(path, element)
       let stats = fs.lstatSync(filePath)
       let isDirectory = stats.isDirectory()
-      if (isDirectory && element[ 0 ] !== '_') {
+      if (isDirectory) {
         elements.push({ element: element, path: filePath })
       }
     })

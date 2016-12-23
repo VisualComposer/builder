@@ -17,17 +17,17 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Choose, configure and add custom widgets to your site."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.jpg"
+    "value": "custom-widgets-preview.png"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.jpg"
+    "value": "custom-widgets-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",

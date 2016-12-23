@@ -27,32 +27,30 @@ class Component extends vcvAPI.elementComponent {
 
     if (clearColumns) {
       cols.forEach((col) => {
-        // col.innerHtml = ''
-
-        // TODO check why innerHtml not working
         while (col.firstChild) {
           col.removeChild(col.firstChild)
         }
       })
     }
 
-    this.loadImage(imgSources, cols, this.loadImage)
+    this.loadImage(imgSources, cols)
   }
 
-  loadImage (imgSources, cols, callback) {
+  loadImage (imgSources, cols) {
     let img = new window.Image()
-    let loaded = false
-    img.onload = () => {
-      if (loaded) {
-        return
-      }
-      loaded = true
-      this.insertImage(imgSources, cols, img, callback)
-    }
     img.src = imgSources[ this.currentImg ]
+    this.insertImage(cols, img)
+    img.onload = this.imgLoadHandler.bind(this, imgSources, cols)
   }
 
-  insertImage (imgSources, cols, imgElement, callback) {
+  imgLoadHandler (imgSources, cols) {
+    this.currentImg++
+    if (this.currentImg < imgSources.length) {
+      this.loadImage(imgSources, cols)
+    }
+  }
+
+  insertImage (cols, imgElement) {
     let { image, clickableOptions } = this.props.atts
     let img = image[ this.currentImg ]
     imgElement.className = 'vce-image-masonry-gallery-img'
@@ -68,12 +66,6 @@ class Component extends vcvAPI.elementComponent {
 
     let smallestColIndex = this.getSmallestColumn(cols)
     cols[ smallestColIndex ].appendChild(imgContainer)
-
-    this.currentImg++
-
-    if (this.currentImg < imgSources.length) {
-      callback(imgSources, cols, this.loadImage)
-    }
   }
 
   createImgContainer (clickableOptions, img, imgElement) {
@@ -117,7 +109,7 @@ class Component extends vcvAPI.elementComponent {
 
   getSmallestColumn (cols) {
     let colHeight = []
-    cols.forEach((col, index) => {
+    cols.forEach((col) => {
       colHeight.push(col.offsetHeight)
     })
     return this.getSmallestFromArray(colHeight)
@@ -176,6 +168,8 @@ class Component extends vcvAPI.elementComponent {
     let containerProps = {}
 
     let columnHtml = []
+
+    columns <= 0 ? columns = 1 : ''
     for (let i = 0; i < columns; i++) {
       columnHtml.push(
         <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${i}-${id}`} />

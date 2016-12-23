@@ -5,9 +5,9 @@ class Component extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover } = atts
 
-    let containerClasses = 'vce-button-container'
-    let wrapperClasses = 'vce-button-wrapper vce'
-    let classes = 'vce-button vce-button--style-basic'
+    let containerClasses = 'vce-button--style-basic-container'
+    let wrapperClasses = 'vce-button--style-basic-wrapper vce'
+    let classes = 'vce-button--style-basic'
     let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
@@ -28,11 +28,11 @@ class Component extends vcvAPI.elementComponent {
     }
 
     if (shape && shape !== 'square') {
-      classes += ` vce-button--border-${shape}`
+      classes += ` vce-button--style-basic--border-${shape}`
     }
 
     if (alignment) {
-      containerClasses += ` vce-button-container--align-${alignment}`
+      containerClasses += ` vce-button--style-basic-container--align-${alignment}`
     }
 
     let mixinData = this.getMixinData('basicColor')
