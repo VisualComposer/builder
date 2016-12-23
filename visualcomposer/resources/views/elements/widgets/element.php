@@ -4,7 +4,7 @@ $groups = $wpWidgets->allGrouped();
 if (!empty($groups['default'])) {
     $variables = $wpWidgets->getTemplateVariables(
         [
-            'name' => 'Default WordPress Widget',
+            'name' => 'WordPress Widgets',
         ],
         $groups['default']
     );
@@ -14,7 +14,7 @@ if (!empty($groups['default'])) {
 if (!empty($groups['custom'])) {
     $variables = $wpWidgets->getTemplateVariables(
         [
-            'name' => 'Custom WordPress Widget',
+            'name' => 'Custom Widgets',
         ],
         $groups['custom']
     );
