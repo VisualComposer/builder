@@ -23,6 +23,7 @@ export default class ElementAttribute extends Attribute {
     let element = Cook.get(props.value)
 
     return {
+      allValues: Object.assign({}, props.value),
       value: props.value,
       tag: props.value.tag,
       element: element,
@@ -30,15 +31,35 @@ export default class ElementAttribute extends Attribute {
     }
   }
 
-  onClickReplacement = (element) => {
-    let cookElement = Cook.get(element)
+  onClickReplacement = (newElement) => {
+    let cookElement = Cook.get(newElement)
+    let allValues = Object.assign({}, this.state.allValues, this.state.value)
+    Object.keys(cookElement.toJS()).forEach((key) => {
+      if (allValues[ key ] !== undefined) {
+        let newElementAttributeSettings = cookElement.settings(key)
+        // Merge, Type, Key
+        if (
+          newElementAttributeSettings.settings.options &&
+          newElementAttributeSettings.settings.options.merge &&
+          newElementAttributeSettings.settings.options.merge === true) {
+          let currentElementAttributeSettings = this.state.element.settings(key)
+          if (newElementAttributeSettings.settings.type === currentElementAttributeSettings.settings.type) {
+            // Let merge the value
+            cookElement.set(key, allValues[ key ])
+          }
+        }
+      }
+    })
+
+    let values = cookElement.toJS()
     this.setState({
-      value: element,
-      tag: element.tag,
+      allValues: Object.assign({}, this.state.value, newElement),
+      value: values,
+      tag: cookElement.get('tag'),
       element: cookElement,
       allTabs: ElementAttribute.updateTabs(cookElement)
     })
-    this.setFieldValue(element)
+    this.setFieldValue(values)
   }
 
   changeShowReplacements = () => {

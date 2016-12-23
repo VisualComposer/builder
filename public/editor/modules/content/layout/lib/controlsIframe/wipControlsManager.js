@@ -313,8 +313,9 @@ export default class ControlsManager {
       let i = 0
       let element = null
       while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
-        if (path[ i ].dataset && path[ i ].dataset.vcDragHelper) {
-          element = path[ i ].dataset.vcDragHelper
+        // select handler for draw outline trigger
+        if (path[ i ].dataset && path[ i ].dataset.vcvElementControls) {
+          element = path[ i ].dataset.vcvElementControls
           i = path.length
         }
         i++

@@ -44,7 +44,8 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Link selection"
+      "label": "Link selection",
+      "merge": true
     }
   },
   "toggleCustomHover": {
@@ -110,7 +111,8 @@
     "access": "public",
     "value": "Apply Now",
     "options": {
-      "label": "Button text"
+      "label": "Button text",
+      "merge": true
     }
   },
   "color": {
@@ -216,6 +218,7 @@
     "value": "left",
     "options": {
       "label": "Alignment",
+      "merge": true,
       "values": [
         {
           "label": "Left",
