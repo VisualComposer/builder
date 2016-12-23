@@ -128,6 +128,10 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-item-badge vcv-ui-badge--success': false,
           'vcv-ui-item-badge vcv-ui-badge--warning': false
         })
+        let itemContentClasses = classNames({
+          'vcv-ui-item-element-content': true,
+          'vcv-ui-item-list-item-content--active': this.state.tag === tag
+        })
 
         let publicPathThumbnail
 
@@ -138,8 +142,11 @@ export default class ElementAttribute extends Attribute {
         }
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
-          <a className='vcv-ui-item-element' onClick={this.onClickReplacement.bind(this, { tag: tag })}>
-            <span className='vcv-ui-item-element-content'>
+          <a
+            className='vcv-ui-item-element'
+            onClick={this.onClickReplacement.bind(this, { tag: tag })}
+          >
+            <span className={itemContentClasses}>
               <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
                 alt='' />
               <span className='vcv-ui-item-overlay'>
