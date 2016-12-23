@@ -90,43 +90,45 @@
   text-align: left;
 }
 
-@media (min-width: 544px) {
-  .vce-hero-section__content {
-    width: 83.33333333%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content {
-    margin-left: 8.33333333%;
-  }
-
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    margin-right: 8.33333333%;
-  }
+.vce-hero-section-media--xs .vce-hero-section__content {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-@media (min-width: 768px) {
-  .vce-hero-section__content {
-    width: 66.66666666%;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content,
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    width: 66.66666666%;
-  }
+.vce-hero-section-media--sm .vce-hero-section__content {
+  width: 83.33333333%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-@media (min-width: 992px) {
-  .vce-hero-section__content {
-    width: 33.33333333%;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content,
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    width: 33.33333333%;
-  }
+.vce-hero-section-media--sm .vce-hero-section--alignment-start .vce-hero-section__content {
+  margin-left: 8.33333333%;
 }
+
+.vce-hero-section-media--sm .vce-hero-section--alignment-end .vce-hero-section__content {
+  margin-left: 8.33333333%;
+}
+
+
+.vce-hero-section-media--md .vce-hero-section__content {
+  width: 66.66666666%;
+}
+
+.vce-hero-section-media--md .vce-hero-section--alignment-start .vce-hero-section__content,
+.vce-hero-section-media--md .vce-hero-section--alignment-end .vce-hero-section__content {
+  width: 66.66666666%;
+}
+
+.vce-hero-section-media--lg .vce-hero-section__content {
+  width: 33.33333333%;
+}
+
+.vce-hero-section-media--lg .vce-hero-section--alignment-start .vce-hero-section__content,
+.vce-hero-section-media--lg .vce-hero-section--alignment-end .vce-hero-section__content {
+  width: 33.33333333%;
+}
+
 
 /*
  * TODO: Make the row full width logic.
