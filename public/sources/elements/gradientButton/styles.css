@@ -39,6 +39,7 @@ button.vce-button--style-gradient-vertical {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
 }
 a.vce-button--style-gradient-horizontal:hover,
 a.vce-button--style-gradient-vertical:hover,
