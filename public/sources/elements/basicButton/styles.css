@@ -17,7 +17,7 @@
 }
 .vce-button {
   font-size: 16px;
-  padding: 18px 43px;
+  padding: 15px 43px;
 }
 a.vce-button,
 button.vce-button {
@@ -29,7 +29,6 @@ button.vce-button {
   display: inline-block;
   margin-bottom: 0;
   max-width: 100%;
-  line-height: 1.1;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -37,11 +36,11 @@ button.vce-button {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 a.vce-button:hover,
 button.vce-button:hover,
-.vce-button:focus,
 a.vce-button:focus,
 button.vce-button:focus {
   text-decoration: none;
@@ -50,11 +49,14 @@ button.vce-button:focus {
 button.vce-button {
   -webkit-appearance: none;
 }
+.vce-button--style-basic,
 a.vce-button--style-basic,
 button.vce-button--style-basic {
   border-radius: 0;
   transition: all 0.2s ease-in-out;
 }
+.vce-button--border-rounded,
+.vce-button--border-round,
 a.vce-button--border-rounded,
 a.vce-button--border-round,
 button.vce-button--border-rounded,
@@ -62,10 +64,12 @@ button.vce-button--border-round {
   position: relative;
   overflow: hidden;
 }
+.vce-button--border-rounded,
 a.vce-button--border-rounded,
 button.vce-button--border-rounded {
   border-radius: 5px;
 }
+.vce-button--border-round,
 a.vce-button--border-round,
 button.vce-button--border-round {
   border-radius: 4em;
