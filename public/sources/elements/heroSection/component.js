@@ -8,7 +8,8 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
 
     let containerClasses = classNames({
-      'vce-hero-section-container': true
+      'vce-hero-section-container': true,
+      'vce-hero-section-media--xs': true
     })
 
     let wrapperClasses = classNames({
