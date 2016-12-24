@@ -63,9 +63,7 @@ export default class Component extends Attribute {
           let range = document.createRange()
           let documentFragment = range.createContextualFragment(data)
           document.body.appendChild(documentFragment)
-
           this.setState({ editor: document.getElementById('vcv-wpeditor-template').innerHTML })
-
         })
       }
     }
