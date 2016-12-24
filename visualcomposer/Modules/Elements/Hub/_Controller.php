@@ -5,7 +5,7 @@
  * No 3rd vendors!
  * reduce complexity
  */
-namespace VisualComposer\Modules\Elements;
+namespace VisualComposer\Modules\Elements\Hub;
 
 //use vierbergenlars\SemVer\version;
 use VisualComposer\Framework\Container;

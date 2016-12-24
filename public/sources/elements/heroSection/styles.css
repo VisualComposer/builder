@@ -51,6 +51,7 @@
   padding-right: 2%;
   margin-right: auto;
   text-align: center;
+  box-sizing: border-box;
 }
 .vce-hero-section__content-container:not(:last-child) {
   margin-bottom: 35px;
@@ -69,17 +70,20 @@
   margin-bottom: 35px;
 }
 
-.vce-hero-section__content > *:first-child,
-.vce-hero-section__content > vcvhelper > *:first-child {
+.vce-hero-section__content-container > *:first-child,
+.vce-hero-section__content-container > vcvhelper > *:first-child {
   margin-top: 0;
 }
-.vce-hero-section__content > *:last-child,
-.vce-hero-section__content > vcvhelper:last-child > *:last-child {
+
+.vce-hero-section__content-container > *:last-child,
+.vce-hero-section__content-container > vcvhelper:last-child > *:last-child {
   margin-bottom: 0;
 }
+
 .vce-hero-section__content .vce {
   margin-bottom: 0;
 }
+
 .vce-hero-section--alignment-start .vce-hero-section__content {
   margin-left: 0;
   text-align: left;
@@ -87,46 +91,36 @@
 
 .vce-hero-section--alignment-end .vce-hero-section__content {
   margin-right: 0;
-  text-align: left;
+  text-align: right;
 }
 
-@media (min-width: 544px) {
-  .vce-hero-section__content {
-    width: 83.33333333%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content {
-    margin-left: 8.33333333%;
-  }
-
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    margin-right: 8.33333333%;
-  }
+.vce-hero-section-media--xs .vce-hero-section__content {
+  padding-left: 35px;
+  padding-right: 35px;
 }
 
-@media (min-width: 768px) {
-  .vce-hero-section__content {
-    width: 66.66666666%;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content,
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    width: 66.66666666%;
-  }
+.vce-hero-section-media--sm .vce-hero-section__content {
+  width: 66.66666666%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-@media (min-width: 992px) {
-  .vce-hero-section__content {
-    width: 33.33333333%;
-  }
-
-  .vce-hero-section--alignment-start .vce-hero-section__content,
-  .vce-hero-section--alignment-end .vce-hero-section__content {
-    width: 33.33333333%;
-  }
+.vce-hero-section-media--sm .vce-hero-section--alignment-start .vce-hero-section__content {
+  margin-left: 8.33333333%;
 }
+
+.vce-hero-section-media--sm .vce-hero-section--alignment-end .vce-hero-section__content {
+  margin-right: 8.33333333%;
+}
+
+.vce-hero-section-media--md .vce-hero-section__content {
+  width: 50%;
+}
+
+.vce-hero-section-media--lg .vce-hero-section__content {
+  width: 33.33333333%;
+}
+
 
 /*
  * TODO: Make the row full width logic.

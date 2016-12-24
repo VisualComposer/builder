@@ -19,7 +19,7 @@ class Navbar extends React.Component {
       saved: false,
       isDragging: false,
       isDetached: false,
-      navbarPosition: 'top',
+      navbarPosition: 'left',
       navPosX: 0,
       navPosY: 0,
       windowSize: {

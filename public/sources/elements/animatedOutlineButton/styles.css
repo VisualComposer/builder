@@ -38,10 +38,10 @@ button.vce-button--style-animated-outline {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
   background-color: inherit;
   border-radius: 0;
   overflow: hidden;
-  z-index: 1;
   /*border top*/
 }
 a.vce-button--style-animated-outline:hover,
@@ -119,10 +119,14 @@ a.vce-button--style-animated-outline:hover::before,
 button.vce-button--style-animated-outline:hover::before,
 a.vce-button--style-animated-outline:hover::after,
 button.vce-button--style-animated-outline:hover::after {
-  transform: translate3D(0, 0, 0);
+  transform: translate3D(1%, 0, 0);
   transition: transform 0.2s linear;
   /* double delayed time for transition */
   transition-delay: 0.4s;
+}
+a.vce-button--style-animated-outline:hover::after,
+button.vce-button--style-animated-outline:hover::after {
+  transform: translate3D(-1%, 0, 0);
 }
 a.vce-button--style-animated-outline:hover .vce-button--style-animated-outline__content::after,
 button.vce-button--style-animated-outline:hover .vce-button--style-animated-outline__content::after {

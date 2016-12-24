@@ -19,10 +19,18 @@ export default class ElementAttribute extends Attribute {
     options: React.PropTypes.any
   }
 
+  constructor (props) {
+    super(props)
+    this.onChange = this.onChange.bind(this)
+    this.onClickReplacement = this.onClickReplacement.bind(this)
+    this.changeShowReplacements = this.changeShowReplacements.bind(this)
+  }
+
   updateState (props) {
     let element = Cook.get(props.value)
 
     return {
+      allValues: Object.assign({}, props.value),
       value: props.value,
       tag: props.value.tag,
       element: element,
@@ -30,18 +38,38 @@ export default class ElementAttribute extends Attribute {
     }
   }
 
-  onClickReplacement = (element) => {
-    let cookElement = Cook.get(element)
+  onClickReplacement (newElement) {
+    let cookElement = Cook.get(newElement)
+    let allValues = Object.assign({}, this.state.allValues, this.state.value)
+    Object.keys(cookElement.toJS()).forEach((key) => {
+      if (allValues[ key ] !== undefined) {
+        let newElementAttributeSettings = cookElement.settings(key)
+        // Merge, Type, Key
+        if (
+          newElementAttributeSettings.settings.options &&
+          newElementAttributeSettings.settings.options.merge &&
+          newElementAttributeSettings.settings.options.merge === true) {
+          let currentElementAttributeSettings = this.state.element.settings(key)
+          if (newElementAttributeSettings.settings.type === currentElementAttributeSettings.settings.type) {
+            // Let merge the value
+            cookElement.set(key, allValues[ key ])
+          }
+        }
+      }
+    })
+
+    let values = cookElement.toJS()
     this.setState({
-      value: element,
-      tag: element.tag,
+      allValues: Object.assign({}, this.state.value, newElement),
+      value: values,
+      tag: cookElement.get('tag'),
       element: cookElement,
       allTabs: ElementAttribute.updateTabs(cookElement)
     })
-    this.setFieldValue(element)
+    this.setFieldValue(values)
   }
 
-  changeShowReplacements = () => {
+  changeShowReplacements () {
     this.setState({ showReplacements: !this.state.showReplacements })
   }
 
@@ -91,7 +119,7 @@ export default class ElementAttribute extends Attribute {
     } ]
   }
 
-  onChange = () => {
+  onChange () {
     this.setFieldValue(this.state.element.toJS())
   }
 
@@ -107,6 +135,10 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-item-badge vcv-ui-badge--success': false,
           'vcv-ui-item-badge vcv-ui-badge--warning': false
         })
+        let itemContentClasses = classNames({
+          'vcv-ui-item-element-content': true,
+          'vcv-ui-item-list-item-content--active': this.state.tag === tag
+        })
 
         let publicPathThumbnail
 
@@ -117,8 +149,11 @@ export default class ElementAttribute extends Attribute {
         }
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
-          <a className='vcv-ui-item-element' onClick={this.onClickReplacement.bind(this, { tag: tag })}>
-            <span className='vcv-ui-item-element-content'>
+          <a
+            className='vcv-ui-item-element'
+            onClick={this.onClickReplacement.bind(this, { tag: tag })}
+          >
+            <span className={itemContentClasses}>
               <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
                 alt='' />
               <span className='vcv-ui-item-overlay'>

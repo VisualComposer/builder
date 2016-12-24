@@ -1,7 +1,7 @@
 // Styles for Buttons
 //-----------------------------------------
 
-.vce-button-container {
+.vce-button--style-basic-container {
   &--align {
     &-left {
       text-align: left;
@@ -15,14 +15,14 @@
   }
 }
 
-.vce-button-wrapper {
+.vce-button--style-basic-wrapper {
   display: inline-block;
   vertical-align: top;
   max-width: 100%;
 }
 
 // By default .vce-button does not look like much. It will be a basic text with hover cursor
-.vce-button {
+.vce-button--style-basic {
   a&,
   button& {
     background-color: transparent;
@@ -41,8 +41,9 @@
     white-space: normal;
     touch-action: manipulation;
     user-select: none;
-    transition: background-color @vce-button-transition-duration @vce-button-transition-timing-function,
-                color @vce-button-transition-duration @vce-button-transition-timing-function;
+    line-height: normal;
+    border-radius: @vce-button-basic-border-radius;
+    transition: all @vce-button-transition-duration @vce-button-transition-timing-function;
 
     &:hover,
     &:focus {
@@ -57,19 +58,10 @@
 
   #vce-button > .size(@vce-button-padding-vertical; @vce-button-padding-horizontal; @vce-button-font-size;);
   // Basic solid button
-  &--style-basic {
-    &,
-    a&,
-    button& {
-      border-radius: @vce-button-basic-border-radius;
-      transition: all @vce-button-transition-duration @vce-button-transition-timing-function;
-    }
-  }
 
   // shapes
   &--border {
     &-rounded, &-round {
-      &,
       a&,
       button& {
         position: relative;
@@ -77,7 +69,6 @@
       }
     }
     &-rounded {
-      &,
       a&,
       button& {
         border-radius: @vce-button-rounded;
@@ -96,8 +87,8 @@
 // RTL support
 .rtl,
 [dir="rlt"] {
-  &.vce-button,
-  .vce-button {
+  &.vce-button--style-basic,
+  .vce-button--style-basic {
     direction: rtl;
     unicode-bidi: embed;
   }
@@ -106,8 +97,8 @@
 // LTR
 .ltr,
 [dir="ltr"] {
-  &.vce-button,
-  .vce-button {
+  &.vce-button--style-basic,
+  .vce-button--style-basic {
     direction: ltr;
     unicode-bidi: normal;
   }

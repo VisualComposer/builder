@@ -46,6 +46,9 @@ class Controller extends Container implements Module
         if ($newWebpack) {
             $elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
             foreach ($elements as $element) {
+                if (strpos($element, 'public/dist/element-_') !== false) {
+                    continue; // Skip if element disabled
+                }
                 $elementName = str_replace(VCV_PLUGIN_DIR_PATH, '', $element);
                 $url = $urlHelper->to($elementName . '?' . uniqid()); // TODO: Use assets folder.
                 $output[] = sprintf('<script type="text/javascript" src="%s"></script>', $url);

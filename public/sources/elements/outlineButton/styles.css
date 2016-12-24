@@ -39,6 +39,7 @@ button.vce-button--style-outline {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
   transition: all 0.2s ease-in-out;
   z-index: 1;
   border-radius: 0;
@@ -122,6 +123,7 @@ button.vce-button--style-outline-animated-slidein {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
   transition: all 0.2s ease-in-out;
   z-index: 1;
   border-radius: 0;

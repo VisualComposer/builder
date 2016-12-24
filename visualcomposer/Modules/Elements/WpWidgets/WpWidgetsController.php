@@ -97,6 +97,8 @@ class WpWidgetsController extends Container implements Module
             }
 
             $form = $widgets->form($widgetKey, $instance);
+            // Remove last col from labels
+            $form = preg_replace('/(\:)\s*(<\/label>|<input)/', '$2', $form);
             $response['html'] = $form;
         }
 

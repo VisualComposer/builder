@@ -43,6 +43,7 @@
     white-space: normal;
     touch-action: manipulation;
     user-select: none;
+    line-height: normal;
 
     &:hover,
     &:focus {
@@ -53,7 +54,7 @@
     background-color: inherit;
     border-radius: 0;
     overflow: hidden;
-    z-index: 1;
+
     /*border top*/
     &::before, &::after {
       border-top: @vce-button-line-to-outline-border-size solid @vcv-color-nero;
@@ -116,10 +117,13 @@
     }
     &:hover {
       &::before, &::after {
-        transform: translate3D(0, 0, 0);
+        transform: translate3D(1%, 0, 0);
         transition: transform @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
         /* double delayed time for transition */
         #vce-button > .transition-delay-double-time(@vce-button-flat-transition-duration);
+      }
+      &::after {
+        transform: translate3D(-1%, 0, 0);
       }
       .vce-button--style-animated-outline {
         &__content {
