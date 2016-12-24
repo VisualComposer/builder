@@ -3,10 +3,10 @@
 namespace VisualComposer\Modules\Editors\WpEditor;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Views;
+
 /**
  * Class Controller.
  */
