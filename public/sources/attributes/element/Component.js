@@ -43,17 +43,13 @@ export default class ElementAttribute extends Attribute {
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
     Object.keys(cookElement.toJS()).forEach((key) => {
       if (allValues[ key ] !== undefined) {
-        let newElementAttributeSettings = cookElement.settings(key)
         // Merge, Type, Key
-        if (
-          newElementAttributeSettings.settings.options &&
-          newElementAttributeSettings.settings.options.merge &&
-          newElementAttributeSettings.settings.options.merge === true) {
-          let currentElementAttributeSettings = this.state.element.settings(key)
-          if (newElementAttributeSettings.settings.type === currentElementAttributeSettings.settings.type) {
-            // Let merge the value
-            cookElement.set(key, allValues[ key ])
-          }
+        let findKey = this.props.options.merge.attributes.findIndex((item) => {
+          return item.key === key && item.type === typeof allValues[ key ]
+        })
+        if (findKey > -1) {
+          // Merge the value
+          cookElement.set(key, allValues[ key ])
         }
       }
     })

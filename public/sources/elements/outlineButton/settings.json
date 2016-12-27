@@ -44,8 +44,7 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Link selection",
-      "merge": true
+      "label": "Link selection"
     }
   },
   "buttonText": {
@@ -53,8 +52,7 @@
     "access": "public",
     "value": "Apply Now",
     "options": {
-      "label": "Button text",
-      "merge": true
+      "label": "Button text"
     }
   },
   "color": {
@@ -230,7 +228,6 @@
     "value": "left",
     "options": {
       "label": "Alignment",
-      "merge": true,
       "values": [
         {
           "label": "Left",
