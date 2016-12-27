@@ -13,7 +13,18 @@
   }
 
   // This breaks checkboxes
-  // label {
-  //  &:extend(.vcv-ui-form-group-heading all);
-  //}
+  label {
+    &:extend(.vcv-ui-form-group-heading all);
+  }
+
+  input[type="checkbox"] {
+    + label {
+      display: inline-block;
+      margin: 5px 0 5px 10px;
+    }
+  }
+
+  small {
+    &:extend(.vcv-ui-form-helper all);
+  }
 }
