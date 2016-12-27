@@ -53,6 +53,15 @@ const Service = {
       }
     }
   },
+  appAdminServerRequest (args) {
+    let url = window.ajaxurl
+    args = Object.assign({
+      'action': 'vcv:ajax',
+      'vcv-nonce': window.vcvNonce,
+      'vcv-source-id': window.vcvSourceID
+    }, args)
+    return this.http(url).post(args)
+  },
   appServerRequest (args) {
     let url = window.vcvAjaxUrl
     args = Object.assign({

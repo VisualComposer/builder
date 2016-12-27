@@ -56,7 +56,7 @@ class Controller extends Container implements Module
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' => $editableLink
+                'editableLink' => $editableLink,
             ]
         );
     }
