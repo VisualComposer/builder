@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {getService, env} from 'vc-cake'
+import {getService, env, setData} from 'vc-cake'
 const timeMachine = getService('time-machine')
 
 import Resizer from '../../../../../resources/resizer/resizer'
@@ -28,6 +28,7 @@ export default class BarContentEnd extends React.Component {
 
   componentDidMount () {
     this.props.api.addAction('setEndContent', (Component, props = {}) => {
+      setData('barContentEnd:Show', Component)
       this.setState({
         contentComponent: Component,
         contentProps: props

@@ -18,6 +18,12 @@ vcCake.add('ui-edit-element', (api) => {
       currentElementRef.setActiveTabId(activeTabId)
     }
   })
+  vcCake.onDataChange('barContentEnd:Show', (Component) => {
+    if (!Component || Component.name !== 'EditElementController') {
+      currentElementId = null
+      currentElementRef = null
+    }
+  })
   api
     .reply('bar-content-end:hide', () => {
       currentElementId = null
