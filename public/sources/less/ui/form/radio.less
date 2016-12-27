@@ -1,0 +1,98 @@
+.vcv-ui-form-radio-buttons {
+  margin: @vcui-form-radio-buttons-margin;
+}
+.vcv-ui-form-radio {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: @vcui-form-radio-content-padding;
+  padding-right: @vcui-form-radio-content-padding/2;
+  position: relative;
+
+  .vcv-ui-form-radio-indicator {
+    position: absolute;
+    top: @vcui-form-radio-indicator-place;
+    left: 0;
+    display: block;
+    width: @vcui-form-radio-size;
+    height: @vcui-form-radio-size;
+    font-size: 1em;
+    user-select: none;
+    background-color: @vcui-form-input-background;
+    background-image: none;
+    border: 1px solid @vcui-form-input-border-color;
+    border-radius: 100%;
+    outline: none;
+    transition-property: all;
+    transition-duration: @vcui-form-transition-duration;
+    transition-timing-function: ease-in-out;
+    text-align: center;
+    color: @vcui-form-radio-color;
+  }
+
+  &:hover {
+    .vcv-ui-form-radio-indicator {
+      #make-vcv-ui-form > .property-darken-color(border-color, @vcui-form-input-border-color);
+    }
+  }
+
+  > input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    &:focus {
+      + .vcv-ui-form-radio-indicator {
+        animation: vcv-ui-form-blink @vcui-form-transition-duration * 2 ease-out;
+      }
+    }
+
+    + .vcv-ui-form-radio-indicator {
+      &::before {
+        opacity: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition-property: opacity;
+        transition-duration: @vcui-form-transition-duration;
+        transition-timing-function: ease-in-out;
+
+        content: '';
+        border-radius: inherit;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        speak: none;
+        line-height: 1;
+        height: 1em;
+        width: 1em;
+        box-sizing: border-box;
+        font-size: @vcui-form-radio-indicator-size;
+        background-color: @vcui-form-radio-color;
+      }
+    }
+    &:checked {
+      + .vcv-ui-form-radio-indicator {
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:disabled,
+    &[disabled] {
+      + .vcv-ui-form-radio-indicator {
+        background-color: @vcui-form-input-disabled-background;
+        border-color: @vcui-form-input-border-color;
+        color: @vcui-form-input-disabled-color;
+        cursor: not-allowed;
+      }
+    }
+
+  }
+
+  + .vcv-ui-form-helper {
+    margin-left: @vcui-form-radio-content-padding;
+  }
+}
