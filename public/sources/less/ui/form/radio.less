@@ -52,8 +52,8 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
-        transition-property: opacity;
+        transform: translate(-50%, -50%) scale(0, 0);
+        transition-property: transform, opacity;
         transition-duration: @vcui-form-transition-duration;
         transition-timing-function: ease-in-out;
 
@@ -76,6 +76,7 @@
       + .vcv-ui-form-radio-indicator {
         &::before {
           opacity: 1;
+          transform: translate(-50%, -50%) scale(1, 1);
         }
       }
     }

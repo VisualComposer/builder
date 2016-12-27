@@ -2,6 +2,8 @@ import React from 'react'
 import Attribute from '../attribute'
 import String from '../string/Component'
 import Color from '../color/Component'
+import Radio from '../radio/Component'
+import Devices from '../devices/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   static attributeMixin = {
@@ -49,7 +51,9 @@ class DesignOptionsAdvanced extends Attribute {
    */
   dataUpdater (fieldKey, value) {
     let newValue = Object.assign({}, this.state.value, { [fieldKey]: value })
-    newValue.attributeMixin.variables[ fieldKey ].value = value
+    if (newValue.attributeMixin.variables[ fieldKey ]) {
+      newValue.attributeMixin.variables[ fieldKey ].value = value
+    }
     this.setFieldValue(newValue)
   }
 
@@ -92,15 +96,50 @@ class DesignOptionsAdvanced extends Attribute {
       defaultValue='' />
   }
 
+  getRadioRender () {
+    let { value } = this.state
+    let options = {
+      values: [
+        {
+          label: 'All',
+          value: 'all'
+        },
+        {
+          label: 'Custom',
+          value: 'custom'
+        }
+      ]
+    }
+    return <Radio
+      api={this.props.api}
+      fieldKey='radio'
+      options={options}
+      updater={this.dataUpdater}
+      value={value.radio || 'all'} />
+  }
+
+  getDevicesRender () {
+    let { value } = this.state
+    return <Devices
+      api={this.props.api}
+      fieldKey='device'
+      updater={this.dataUpdater}
+      value={value.device || 'all'} />
+  }
+
   render () {
     return (
       <div className='advanced-design-options'>
+        <code>devices</code>
+        {this.getDevicesRender()}
         <code>id</code>
         {this.getStringRender()}
         <code>Color</code>
         {this.getColorRender()}
         <code>Background</code>
         {this.getBackgroundRender()}
+        <code>Radio</code>
+        {this.getRadioRender()}
       </div>
     )
   }

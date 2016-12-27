@@ -15,8 +15,8 @@ export default class Radio extends Attribute {
       let value = values[ key ].value
       let checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       optionElements.push(
-        <label key={`${fieldKey}:${key}:${value}`} name={`${fieldKey}`} className='vcv-ui-form-radio'>
-          <input type='radio' onChange={this.handleChange} checked={checked} value={value} />
+        <label key={`${fieldKey}:${key}:${value}`} className='vcv-ui-form-radio'>
+          <input type='radio' name={`${fieldKey}`} onChange={this.handleChange} checked={checked} value={value} />
           <span className='vcv-ui-form-radio-indicator' />
           {values[ key ].label}
         </label>
