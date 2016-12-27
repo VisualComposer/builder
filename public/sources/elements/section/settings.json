@@ -54,6 +54,44 @@
       "label": "Advanced Design Options"
     }
   },
+  "devicePicker": {
+    "type": "devices",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Select device"
+    }
+  },
+  "device": {
+    "type": "radio",
+    "access": "public",
+    "value": "xl",
+    "options": {
+      "label": "Select device type",
+      "values": [
+        {
+          "label": "Desctop",
+          "value": "xl"
+        },
+        {
+          "label": "Tablet Landscape",
+          "value": "lg"
+        },
+        {
+          "label": "Tablet Portrait",
+          "value": "md"
+        },
+        {
+          "label": "Mobile Landscape",
+          "value": "sm"
+        },
+        {
+          "label": "Mobile Portrait",
+          "value": "xs"
+        }
+      ]
+    }
+  },
   "animations": {
     "type": "animateDropdown",
     "access": "public",
@@ -89,6 +127,8 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "devicePicker",
+      "device",
       "customClass",
       "animations",
       "color",
