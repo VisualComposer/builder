@@ -1,6 +1,8 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
+  status
+
   componentDidMount () {
     this.insertHtml(this.props.atts)
   }
@@ -18,6 +20,53 @@ class Component extends vcvAPI.elementComponent {
     const wrapper = this.refs.facebookLikeInner
     this.updateInlineHtml(wrapper, html)
     this.reloadScript()
+    // this.setPlaceholder()
+  }
+
+  setPlaceholder () {
+    let likeBtn = this.getDomNode().querySelector('.fb-like')
+    let state = likeBtn.getAttribute('fb-xfbml-state')
+    const helper = document.createElement('vcvhelper')
+    helper.className = 'vce-facebook-like-placeholder'
+    this.refs.facebookLikeInner.appendChild(helper)
+    let helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
+
+    // likeBtn.style.position = 'absolute'
+
+    this.checkIfRendered(helperSelector, likeBtn)
+  }
+
+  checkIfRendered (helperSelector, likeBtn) {
+    let state = likeBtn.getAttribute('fb-xfbml-state')
+
+    if (state !== 'rendered') {
+      if (this.status !== 'loading') {
+        helperSelector.innerHTML = '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
+      }
+      this.status = 'loading'
+
+      setTimeout(() => {
+        this.checkIfRendered(helperSelector, likeBtn)
+      }, 50)
+    } else {
+      this.status = 'rendered'
+      helperSelector.innerHTML = ''
+
+      // for testing
+      if (Math.round(Math.random())) {
+        likeBtn.querySelector('span').style.height = '0'
+        likeBtn.querySelector('span').style.width = '0'
+      }
+
+      if (likeBtn.offsetHeight === 0 || likeBtn.offsetWidth === 0) {
+        let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
+        helperSelector.innerHTML = `<img src="${imgSrc}" />`
+      } else {
+        // likeBtn.style.position = null
+        helperSelector.innerHTML = ''
+      }
+
+    }
   }
 
   reloadScript () {
@@ -46,6 +95,19 @@ class Component extends vcvAPI.elementComponent {
     let html = `<div class="fb-like" data-href="${url}" data-layout="${layout}" data-action="like" data-size="${size}" data-show-faces="false" data-share="false"></div>`
 
     return script + html
+  }
+
+  getPublicImage (filename) {
+    let { tag } = this.props.atts
+
+    let assetsManager
+    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
+      assetsManager = vcCake.getService('wipAssetsManager')
+    } else {
+      assetsManager = vcCake.getService('assets-manager')
+    }
+
+    return assetsManager.getPublicPath(tag, filename)
   }
 
   render () {
