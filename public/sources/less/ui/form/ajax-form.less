@@ -1,3 +1,5 @@
+@import "../loader/variables";
+
 .vcv-ui-ajax-form-container {
   input, textarea {
     &:extend(.vcv-ui-form-input all);
@@ -15,16 +17,34 @@
   // This breaks checkboxes
   label {
     &:extend(.vcv-ui-form-group-heading all);
+
+    input {
+      &[type="text"],
+      &[type="search"],
+      &[type="number"],
+      &[type="email"] {
+        margin-top: 12px;
+      }
+    }
   }
 
   input[type="checkbox"] {
+    line-height: normal;
+
     + label {
       display: inline-block;
-      margin: 5px 0 5px 10px;
+      margin-right: 1em;
+      margin-left: .4em;
+      margin-bottom: .2em;
     }
   }
 
   small {
     &:extend(.vcv-ui-form-helper all);
+  }
+
+  .vcv-ui-wp-spinner::before {
+    background: transparent url(@wp-spinner-svg-src) 50% 50% no-repeat;
+    background-size: contain;
   }
 }

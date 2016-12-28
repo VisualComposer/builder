@@ -1,6 +1,8 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
+  timerIndex = 0
+
   constructor (props) {
     super(props)
     this.state = {
@@ -18,6 +20,11 @@ class Component extends vcvAPI.elementComponent {
     if (layout !== nextProps.atts.layout || size !== nextProps.atts.size) {
       this.insertHtml(nextProps.atts)
     }
+  }
+
+  componentWillUnmount () {
+    window.clearTimeout(this.checkVisibilityTimer)
+    window.clearTimeout(this.checkIfRenderedTimer)
   }
 
   insertHtml (atts) {
@@ -47,29 +54,61 @@ class Component extends vcvAPI.elementComponent {
     let likeBtnSpan = likeBtn.querySelector('span')
 
     if (state !== 'rendered') {
-      let timeout = firstTime ? 1000 : 50
+      let timeout = firstTime ? 500 : 50
 
       if (this.state.status !== 'loading') {
         helperSelector.innerHTML = '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
+        this.setState({ status: 'loading' })
       }
-      this.setState({ status: 'loading' })
 
-      setTimeout(() => {
+      this.checkIfRenderedTimer = setTimeout(() => {
         this.checkIfRendered(helperSelector, likeBtn, false)
       }, timeout)
     } else {
-      this.setState({ status: 'rendered' })
-      helperSelector.innerHTML = ''
-
-      if (likeBtnSpan.offsetHeight === 0 || likeBtnSpan.offsetWidth === 0) {
-        let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
-        helperSelector.innerHTML = `<img src="${imgSrc}" />`
-      } else {
-        likeBtn.style.position = null
-        likeBtn.style.opacity = null
+      setTimeout(() => {
+        this.setState({ status: 'rendered' })
         helperSelector.innerHTML = ''
-      }
+
+        let visible = this.checkIfVisible(likeBtnSpan)
+
+        if (!visible) {
+          let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
+          helperSelector.innerHTML = `<img src="${imgSrc}" />`
+
+          this.timerIndex = 0
+          this.checkVisibilityTimer = setTimeout(() => {
+            this.removePlaceholder(likeBtn, helperSelector)
+          }, 500)
+
+        } else {
+          likeBtn.style.position = null
+          likeBtn.style.opacity = null
+          helperSelector.innerHTML = ''
+        }
+      }, 500)
     }
+  }
+
+  removePlaceholder (likeBtn, helperSelector) {
+    this.timerIndex++
+
+    if (this.timerIndex > 4) {
+      return
+    }
+
+    if (this.checkIfVisible(likeBtn.querySelector('span'))) {
+      likeBtn.style.position = null
+      likeBtn.style.opacity = null
+      helperSelector.innerHTML = ''
+    } else {
+      setTimeout(() => {
+        this.removePlaceholder(likeBtn, helperSelector)
+      }, 500)
+    }
+  }
+
+  checkIfVisible (element) {
+    return !(element.offsetHeight === 0 || element.offsetWidth === 0)
   }
 
   reloadScript () {

@@ -8,7 +8,7 @@ export default class AjaxForm extends Attribute {
   updateState (props) {
     return {
       value: props.value,
-      formContent: 'Loading...',
+      formContent: '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>',
       formStatus: false,
       formBound: false
     }
@@ -52,6 +52,12 @@ export default class AjaxForm extends Attribute {
     }
     let action = this.props.options.action
     let value = this.state.value
+
+    this.setState({
+      formContent: '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>',
+      formStatus: false,
+      formBound: false
+    })
 
     this.serverRequest = ajax({
       'vcv-action': `attribute:ajaxForm:render:adminNonce`,

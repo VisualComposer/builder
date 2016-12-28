@@ -99,5 +99,51 @@
     "value": [
       "animate"
     ]
+  },
+  "rowWidth": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "boxed",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Boxed",
+          "value": "boxed"
+        },
+        {
+          "label": "Stretched Row",
+          "value": "stretchedRow"
+        },
+        {
+          "label": "Stretched Row and Column",
+          "value": "stretchedRowAndColumn"
+        }
+      ]
+    }
+  },
+  "removeSpaces": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Remove spaces",
+      "description": "Remove row spaces from left and right.",
+      "onChange": {
+        "rules": {
+          "rowWidth": {
+            "rule": "value",
+            "options": {
+              "value": "stretchedRowAndColumn"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
   }
 }
