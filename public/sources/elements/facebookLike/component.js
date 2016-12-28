@@ -20,7 +20,7 @@ class Component extends vcvAPI.elementComponent {
     const wrapper = this.refs.facebookLikeInner
     this.updateInlineHtml(wrapper, html)
     this.reloadScript()
-    // this.setPlaceholder()
+    this.setPlaceholder()
   }
 
   setPlaceholder () {
@@ -31,7 +31,7 @@ class Component extends vcvAPI.elementComponent {
     this.refs.facebookLikeInner.appendChild(helper)
     let helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
 
-    // likeBtn.style.position = 'absolute'
+    likeBtn.style.float = 'left'
 
     this.checkIfRendered(helperSelector, likeBtn)
   }
@@ -52,20 +52,13 @@ class Component extends vcvAPI.elementComponent {
       this.status = 'rendered'
       helperSelector.innerHTML = ''
 
-      // for testing
-      if (Math.round(Math.random())) {
-        likeBtn.querySelector('span').style.height = '0'
-        likeBtn.querySelector('span').style.width = '0'
-      }
-
       if (likeBtn.offsetHeight === 0 || likeBtn.offsetWidth === 0) {
         let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
         helperSelector.innerHTML = `<img src="${imgSrc}" />`
       } else {
-        // likeBtn.style.position = null
+        likeBtn.style.float = null
         helperSelector.innerHTML = ''
       }
-
     }
   }
 
