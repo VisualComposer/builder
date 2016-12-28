@@ -1,7 +1,12 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
-  status
+  constructor (props) {
+    super(props)
+    this.state = {
+      status: ''
+    }
+  }
 
   componentDidMount () {
     this.insertHtml(this.props.atts)
@@ -20,7 +25,7 @@ class Component extends vcvAPI.elementComponent {
     const wrapper = this.refs.facebookLikeInner
     this.updateInlineHtml(wrapper, html)
     this.reloadScript()
-    // this.setPlaceholder()
+    this.setPlaceholder()
   }
 
   setPlaceholder () {
@@ -31,41 +36,39 @@ class Component extends vcvAPI.elementComponent {
     this.refs.facebookLikeInner.appendChild(helper)
     let helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
 
-    // likeBtn.style.position = 'absolute'
+    likeBtn.style.position = 'absolute'
+    likeBtn.style.opacity = '0'
 
-    this.checkIfRendered(helperSelector, likeBtn)
+    this.checkIfRendered(helperSelector, likeBtn, true)
   }
 
-  checkIfRendered (helperSelector, likeBtn) {
+  checkIfRendered (helperSelector, likeBtn, firstTime) {
     let state = likeBtn.getAttribute('fb-xfbml-state')
+    let likeBtnSpan = likeBtn.querySelector('span')
 
     if (state !== 'rendered') {
-      if (this.status !== 'loading') {
+      let timeout = firstTime ? 1000 : 50
+
+      if (this.state.status !== 'loading') {
         helperSelector.innerHTML = '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
       }
-      this.status = 'loading'
+      this.setState({ status: 'loading' })
 
       setTimeout(() => {
-        this.checkIfRendered(helperSelector, likeBtn)
-      }, 50)
+        this.checkIfRendered(helperSelector, likeBtn, false)
+      }, timeout)
     } else {
-      this.status = 'rendered'
+      this.setState({ status: 'rendered' })
       helperSelector.innerHTML = ''
 
-      // for testing
-      if (Math.round(Math.random())) {
-        likeBtn.querySelector('span').style.height = '0'
-        likeBtn.querySelector('span').style.width = '0'
-      }
-
-      if (likeBtn.offsetHeight === 0 || likeBtn.offsetWidth === 0) {
+      if (likeBtnSpan.offsetHeight === 0 || likeBtnSpan.offsetWidth === 0) {
         let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
         helperSelector.innerHTML = `<img src="${imgSrc}" />`
       } else {
-        // likeBtn.style.position = null
+        likeBtn.style.position = null
+        likeBtn.style.opacity = null
         helperSelector.innerHTML = ''
       }
-
     }
   }
 
