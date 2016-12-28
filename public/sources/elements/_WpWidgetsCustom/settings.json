@@ -52,7 +52,7 @@
     "value": "",
     "options": {
       "label": "Before Title html",
-      "height": "30px"
+      "height": "20vh"
     }
   },
   "atts_after_title": {
@@ -61,7 +61,7 @@
     "value": "",
     "options": {
       "label": "After Title html",
-      "height": "30px"
+      "height": "20vh"
     }
   },
   "atts_before_widget": {
@@ -70,7 +70,7 @@
     "value": "",
     "options": {
       "label": "Before Widget html",
-      "height": "30px"
+      "height": "20vh"
     }
   },
   "atts_after_widget": {
@@ -79,7 +79,7 @@
     "value": "",
     "options": {
       "label": "After Widget html",
-      "height": "30px"
+      "height": "20vh"
     }
   },
   "widget": {
