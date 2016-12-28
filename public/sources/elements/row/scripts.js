@@ -1,4 +1,5 @@
 let classes = ['vce-row']
+let customRowProps = {}
 let customProps = {}
 const classNames = require('classnames')
 // reverse classes.push('vce-row-wrap--reverse')
@@ -23,3 +24,11 @@ devices.forEach((device) => {
 if (animations.length) {
   customProps[ 'data-vce-animate' ] = animations.join(' ')
 }
+
+// if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
+//   customRowProps.style = {
+//     position: 'relative',
+//     boxSizing: 'border-box'
+//   }
+// }
+
