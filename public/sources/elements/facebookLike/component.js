@@ -36,37 +36,37 @@ class Component extends vcvAPI.elementComponent {
     this.refs.facebookLikeInner.appendChild(helper)
     let helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
 
-    likeBtn.style.float = 'left'
+    likeBtn.style.position = 'absolute'
+    likeBtn.style.opacity = '0'
 
-    this.checkIfRendered(helperSelector, likeBtn)
+    this.checkIfRendered(helperSelector, likeBtn, true)
   }
 
-  checkIfRendered (helperSelector, likeBtn) {
+  checkIfRendered (helperSelector, likeBtn, firstTime) {
     let state = likeBtn.getAttribute('fb-xfbml-state')
+    let likeBtnSpan = likeBtn.querySelector('span')
 
     if (state !== 'rendered') {
+      let timeout = firstTime ? 1000 : 50
+
       if (this.state.status !== 'loading') {
         helperSelector.innerHTML = '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
       }
       this.setState({ status: 'loading' })
 
       setTimeout(() => {
-        this.checkIfRendered(helperSelector, likeBtn)
-      }, 50)
+        this.checkIfRendered(helperSelector, likeBtn, false)
+      }, timeout)
     } else {
       this.setState({ status: 'rendered' })
       helperSelector.innerHTML = ''
 
-      if (Math.round(Math.random())) {
-        likeBtn.querySelector('span').style.height = '0'
-        likeBtn.querySelector('span').style.width = '0'
-      }
-
-      if (likeBtn.offsetHeight === 0 || likeBtn.offsetWidth === 0) {
+      if (likeBtnSpan.offsetHeight === 0 || likeBtnSpan.offsetWidth === 0) {
         let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
         helperSelector.innerHTML = `<img src="${imgSrc}" />`
       } else {
-        likeBtn.style.float = null
+        likeBtn.style.position = null
+        likeBtn.style.opacity = null
         helperSelector.innerHTML = ''
       }
     }
