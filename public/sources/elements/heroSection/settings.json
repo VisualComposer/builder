@@ -64,7 +64,7 @@
   "backgroundColor": {
     "type": "color",
     "access": "public",
-    "value": "#fff",
+    "value": " #e7b460",
     "options": {
       "label": "Background color",
       "cssMixin": {
