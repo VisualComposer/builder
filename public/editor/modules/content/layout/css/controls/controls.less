@@ -311,4 +311,29 @@
   }
 }
 
+//== Append element control
+.vcv-ui-append-control-container {
+  position: absolute;
+  z-index: @controls-z-index;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+.vcv-ui-append-control {
+  background-color: @controls-background-color-base;
+  color: @text-color-base;
+  pointer-events: all;
+  padding: @controls-append-element-padding;
+  border-radius: @control-border-radius;
+  cursor: pointer;
+  transition: background-color @transition-timing-function @transition-duration;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: @controls-background-column;
+  }
+}
 
