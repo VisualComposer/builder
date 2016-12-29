@@ -52,7 +52,9 @@ vcCake.add('storage', (api) => {
       createdElements.push(columnElement.id)
       elementData.parent = columnElement.id
     }
-    let data = DocumentData.create(elementData)
+    let data = DocumentData.create(elementData, {
+      insertAfter: options && options.insertAfter ? options.insertAfter : false
+    })
     createdElements.push(data.id)
 
     if (wrap && element.get('tag') === 'row') {
@@ -141,12 +143,12 @@ vcCake.add('storage', (api) => {
     DocumentData.reset(content || {})
     api.request('data:changed', DocumentData.children(false), 'reset')
   })
-  api.reply('app:add', (parent = null) => {
+  api.reply('app:add', (parent = null, tag = null, options) => {
     if (parent) {
       let tag = isElementOneRelation(parent)
       if (tag) {
         let data = cook.get({ tag: tag, parent: parent })
-        window.setTimeout(() => { api.request('data:add', data.toJS()) }, 0)
+        window.setTimeout(() => { api.request('data:add', data.toJS(), true, options) }, 0)
       }
     }
   })

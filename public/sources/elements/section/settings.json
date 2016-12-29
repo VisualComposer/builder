@@ -57,15 +57,23 @@
   "devicePicker": {
     "type": "devices",
     "access": "public",
-    "value": {},
+    "value": "xs",
     "options": {
       "label": "Select device"
+    }
+  },
+  "onion": {
+    "type": "boxModel",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Box model"
     }
   },
   "device": {
     "type": "radio",
     "access": "public",
-    "value": "xl",
+    "value": "sm",
     "options": {
       "label": "Select device type",
       "values": [
@@ -127,6 +135,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "onion",
       "devicePicker",
       "device",
       "customClass",

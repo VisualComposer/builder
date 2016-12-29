@@ -8,7 +8,8 @@ const DocumentData = vcCake.getService('document')
 export default class AddElement extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    parent: React.PropTypes.string
+    parent: React.PropTypes.string,
+    options: React.PropTypes.object
   }
   getElementList () {
     let parentContainerFor = ['General']
@@ -27,7 +28,7 @@ export default class AddElement extends React.Component {
 
   render () {
     let elements = this.getElementList()
-    let content = <Categories elements={elements} api={this.props.api} />
+    let content = <Categories elements={elements} api={this.props.api} options={this.props.options} />
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-element-content'>

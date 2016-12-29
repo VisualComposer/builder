@@ -4,6 +4,7 @@ import String from '../string/Component'
 import Color from '../color/Component'
 import Radio from '../radio/Component'
 import Devices from '../devices/Component'
+import BoxModel from '../boxModel/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   static attributeMixin = {
@@ -64,7 +65,7 @@ class DesignOptionsAdvanced extends Attribute {
   setFieldValue (value) {
     let { updater, fieldKey } = this.props
     updater(fieldKey, value)
-    this.setState({ value: value })
+    // this.setState({ value: value })
   }
 
   getStringRender () {
@@ -127,9 +128,20 @@ class DesignOptionsAdvanced extends Attribute {
       value={value.device || 'all'} />
   }
 
+  getBoxModelRender () {
+    let { value } = this.state
+    return <BoxModel
+      api={this.props.api}
+      fieldKey='boxModel'
+      updater={this.dataUpdater}
+      value={value.boxModel || {}} />
+  }
+
   render () {
     return (
       <div className='advanced-design-options'>
+        <code>box model</code>
+        {this.getBoxModelRender()}
         <code>devices</code>
         {this.getDevicesRender()}
         <code>id</code>

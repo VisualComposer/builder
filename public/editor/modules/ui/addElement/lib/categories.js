@@ -13,7 +13,8 @@ let allCategories = []
 export default class Categories extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    elements: React.PropTypes.array.isRequired
+    elements: React.PropTypes.array.isRequired,
+    options: React.PropTypes.object
   }
 
   constructor (props) {
@@ -105,6 +106,7 @@ export default class Categories extends React.Component {
       key={'vcv-element-control-' + element.tag}
       element={element}
       tag={element.tag}
+      options={this.props.options}
       name={element.name} />
   }
 

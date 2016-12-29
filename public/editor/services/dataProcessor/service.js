@@ -6,17 +6,15 @@ const Service = {
     // A small example of object
     let core = {
       // Method that performs the ajax request
-      ajax: function (method, url, args) {
+      ajax: function (method, url, args, contentType) {
         // Creating a promise
 
         let promise = new Promise(function (resolve, reject) {
           // Instantiates the XMLHttpRequest
           let request = new window.XMLHttpRequest()
           request.open(method, url)
-          if (method === 'POST' || method === 'PUT') {
-            request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-          }
-          request.send($.param(args))
+          contentType && request.setRequestHeader('Content-type', contentType)
+          request.send(args ? $.param(args) : '')
 
           request.onload = function () {
             if (this.status >= 200 && this.status < 300) {
@@ -39,17 +37,21 @@ const Service = {
 
     // Adapter pattern
     return {
+      url: url,
       get (args) {
-        return core.ajax('GET', url, args)
+        return this.ajax('GET', args)
       },
       post (args) {
-        return core.ajax('POST', url, args)
+        return this.ajax('POST', args, 'application/x-www-form-urlencoded')
       },
       put (args) {
-        return core.ajax('PUT', url, args)
+        return this.ajax('PUT', args, 'application/x-www-form-urlencoded')
       },
       delete (args) {
-        return core.ajax('DELETE', url, args)
+        return this.ajax('DELETE', args)
+      },
+      ajax (method, args, contentType) {
+        return core.ajax(method, this.url, args, contentType)
       }
     }
   },
@@ -69,6 +71,17 @@ const Service = {
       'vcv-source-id': window.vcvSourceID
     }, args)
     return this.http(url).post(args)
+  },
+  loadScript (url, documentBody) {
+    return this.http(url).ajax('get', undefined, 'application/javascript').then((data) => {
+      let scriptNode = document.createElement('script')
+      scriptNode.innerHTML = data
+      if (documentBody) {
+        documentBody.appendChild(scriptNode)
+      } else {
+        document.body.appendChild(scriptNode)
+      }
+    })
   },
   appAllDone () {
     return Promise.all(processes).then(() => {
