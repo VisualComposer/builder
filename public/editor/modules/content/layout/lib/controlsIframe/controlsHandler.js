@@ -134,18 +134,22 @@ export default class ControlsHandler {
    */
   createAppendControl (data) {
     let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
-    slicedElements.reverse()
-    let findColumn = slicedElements.find((elementId) => {
-      return cook.get(documentManager.get(elementId)).data.name === 'Column'
-    })
-
+    const insertAfterElement = slicedElements && slicedElements.length ? slicedElements[0] : false
+    const container = slicedElements && slicedElements.length > 2 ? slicedElements[1] : false
+    if (!container || !insertAfterElement) {
+      return false
+    }
+    const containerElement = cook.get(documentManager.get(container))
+    if (!containerElement || !containerElement.relatedTo(['Column'])) {
+      return false
+    }
     let appendControl = document.createElement('a')
     appendControl.classList.add('vcv-ui-append-control')
     appendControl.title = 'Add Element'
-    appendControl.dataset.vcvElementId = findColumn
+    appendControl.dataset.vcvElementId = containerElement.get('id')
     appendControl.dataset.vcControlEvent = 'app:add'
     appendControl.dataset.vcControlEventOptions = ''
-
+    appendControl.dataset.vcControlEventOptionInsertAfter = slicedElements[0]
     let appendControlContent = document.createElement('i')
     appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
     appendControl.appendChild(appendControlContent)

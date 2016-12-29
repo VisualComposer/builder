@@ -145,9 +145,9 @@ vcCake.add('storage', (api) => {
   })
   api.reply('app:add', (parent = null, tag = null, options) => {
     if (parent) {
-      let tag = isElementOneRelation(parent)
-      if (tag) {
-        let data = cook.get({ tag: tag, parent: parent })
+      let oneTag = isElementOneRelation(parent)
+      if (oneTag) {
+        let data = cook.get({ tag: oneTag, parent: parent })
         window.setTimeout(() => { api.request('data:add', data.toJS(), true, options) }, 0)
       }
     }

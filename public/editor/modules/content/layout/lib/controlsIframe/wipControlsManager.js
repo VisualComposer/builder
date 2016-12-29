@@ -250,9 +250,13 @@ export default class ControlsManager {
       }
       if (el) {
         let event = el.dataset.vcControlEvent
-        let options = el.dataset.vcControlEventOptions
+        let tag = el.dataset.vcControlEventOptions || false
+        let options = {
+          insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
+        }
         let elementId = el.dataset.vcvElementId
-        this.api.request(event, elementId, options)
+
+        this.api.request(event, elementId, tag, options)
       }
     }
   }
