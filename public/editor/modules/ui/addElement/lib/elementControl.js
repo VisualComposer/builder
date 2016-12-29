@@ -11,7 +11,8 @@ export default class ElementControl extends React.Component {
     tag: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    options: React.PropTypes.object
   }
 
   state = {
@@ -26,8 +27,11 @@ export default class ElementControl extends React.Component {
 
   addElement (e) {
     e && e.preventDefault()
+    const {options} = this.props
     let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
-    this.props.api.request('data:add', data.toJS())
+    this.props.api.request('data:add', data.toJS(), {
+      insertAfter: options && options.insertAfter ? options.insertAfter : false
+    })
     this.props.api.notify('hide', true)
   }
 

@@ -14,8 +14,8 @@ vcCake.add('uiAddElement', (api) => {
   })
   // subscribe to global events
   api
-    .reply('app:add', (parent = null, tag = null) => {
-      !tag && api.notify('show', parent)
+    .reply('app:add', (parent = null, tag = null, options) => {
+      !tag && api.notify('show', parent, options)
     })
     .reply('data:add', () => {
       api.notify('hide')
@@ -33,11 +33,12 @@ vcCake.add('uiAddElement', (api) => {
       api.module('ui-layout-bar').do('setEndContent', null)
       api.module('ui-layout-bar').do('setEndContentVisible', false)
     })
-    .on('show', (parent = null) => {
+    .on('show', (parent = null, options = {}) => {
       api.actions.setParent(parent)
       api.module('ui-layout-bar').do('setEndContent', AddElement, {
         api: api,
-        parent: parent
+        parent: parent,
+        options: options
       })
       api.module('ui-layout-bar').do('setEndContentVisible', true, 'add-element')
     })
