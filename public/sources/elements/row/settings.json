@@ -58,6 +58,8 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "rowWidth",
+      "removeSpaces",
       "customClass"
     ],
     "options": {
