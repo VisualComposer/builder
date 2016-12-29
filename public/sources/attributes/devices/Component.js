@@ -12,22 +12,6 @@ class Devices extends Attribute {
   }
 
   /**
-   * Prepare data for setState
-   * @param props
-   * @returns {{value: *}}
-   */
-  updateState (props) {
-    return {
-      value: props.value
-    }
-  }
-
-  valueUpdater (value) {
-    let newValue = Object.assign({}, Devices.defaultData, this.state.value, value)
-    this.setFieldValue(newValue)
-  }
-
-  /**
    * Get devices type, all or custom
    * @returns {JSX}
    */
