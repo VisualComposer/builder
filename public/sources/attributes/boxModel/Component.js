@@ -33,6 +33,7 @@ class BoxModel extends Attribute {
 
     this.simplifyControlsHandler = this.simplifyControlsHandler.bind(this)
     this.changeBoxInputHandler = this.changeBoxInputHandler.bind(this)
+    this.validateBoxInput = this.validateBoxInput.bind(this)
   }
 
   /**
@@ -194,6 +195,21 @@ class BoxModel extends Attribute {
     this.updateValue(newState)
   }
 
+  validateBoxInput (e) {
+    let field = e.currentTarget
+    // update value
+    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
+    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+
+    if (field.value === '' || field.value.match(re)) {
+      return
+    }
+
+    // if validation fail leave field empty
+    let newState = Object.assign({}, this.state, { [field.name]: '' })
+    this.updateValue(newState)
+  }
+
   /**
    * Get box input render
    * @param name
@@ -216,6 +232,7 @@ class BoxModel extends Attribute {
         name={name}
         value={this.state[ name ] || ''}
         onChange={this.changeBoxInputHandler}
+        onBlur={this.validateBoxInput}
         disabled={isDisabled} />
     )
   }

@@ -65,7 +65,6 @@ class DesignOptionsAdvanced extends Attribute {
   setFieldValue (value) {
     let { updater, fieldKey } = this.props
     updater(fieldKey, value)
-    console.log(value)
     // this.setState({ value: value })
   }
 
