@@ -8,14 +8,23 @@ class Toggle extends Attribute {
   }
 
   render () {
+    let { fieldKey, options } = this.props
     let checked = (this.state.value) ? 'checked' : ''
+    let label = null
+    let fieldId = `${fieldKey}_input`
+    if (options && options.label) {
+      label = <label htmlFor={fieldId} className='vcv-ui-form-switch-trigger-label'>{this.props.options.label}</label>
+    }
     return (
-      <label className='vcv-ui-form-switch'>
-        <input type='checkbox' onChange={this.handleChange} checked={checked} />
-        <span className='vcv-ui-form-switch-indicator' />
-        <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
-        <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
-      </label>
+      <div className='vcv-ui-form-switch-container'>
+        <label className='vcv-ui-form-switch'>
+          <input type='checkbox' onChange={this.handleChange} id={fieldId} checked={checked} />
+          <span className='vcv-ui-form-switch-indicator' />
+          <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+          <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+        </label>
+        {label}
+      </div>
     )
   }
 }

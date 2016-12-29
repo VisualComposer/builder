@@ -1,7 +1,7 @@
-import {getService} from 'vc-cake'
-const documentManager = getService('document')
-const cook = getService('cook')
-const categoriesService = getService('categories')
+import vcCake from 'vc-cake' // TODO: import only getService after feature toggle is removed
+const documentManager = vcCake.getService('document')
+const cook = vcCake.getService('cook')
+const categoriesService = vcCake.getService('categories')
 
 export default class ControlsHandler {
   constructor (sliceSize, props) {
@@ -20,9 +20,11 @@ export default class ControlsHandler {
     this.iframeDocument = props.iframeDocument
 
     this.controlsContainer = null
+    this.appendControlContainer = null
 
     this.state = {
-      containerTimeout: null
+      containerTimeout: null,
+      appendContainerTimeout: null
     }
     this.updateDropdownsPosition = this.updateDropdownsPosition.bind(this)
 
@@ -34,6 +36,11 @@ export default class ControlsHandler {
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
     this.iframeOverlay.appendChild(this.controlsContainer)
     this.controlsContainer.addEventListener('mouseenter', this.updateDropdownsPosition)
+    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
+      this.appendControlContainer = document.createElement('div')
+      this.appendControlContainer.classList.add('vcv-ui-append-control-container')
+      this.iframeOverlay.appendChild(this.appendControlContainer)
+    }
   }
 
   /**
@@ -45,12 +52,24 @@ export default class ControlsHandler {
   }
 
   /**
+   * Get append control container
+   * @returns {null|*}
+   */
+  getAppendControlContainer () {
+    return this.appendControlContainer
+  }
+
+  /**
    * Show outline
    * @param data
    */
   show (data) {
     this.createControls(data)
     this.autoUpdateContainerPosition(data.element)
+    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
+      this.createAppendControl(data)
+      this.autoUpdateAppendContainerPosition(data.element)
+    }
   }
 
   /**
@@ -59,6 +78,10 @@ export default class ControlsHandler {
   hide () {
     this.destroyControls()
     this.stopAutoUpdateContainerPosition()
+    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
+      this.destroyAppendControl()
+      this.stopAutoUpdateAppendContainerPosition()
+    }
   }
 
   /**
@@ -103,6 +126,31 @@ export default class ControlsHandler {
       // change controls direction
       this.updateControlsPosition(data.element)
     }
+  }
+
+  /**
+   * Create append element control
+   * @param data
+   */
+  createAppendControl (data) {
+    let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
+    slicedElements.reverse()
+    let findColumn = slicedElements.find((elementId) => {
+      return cook.get(documentManager.get(elementId)).data.name === 'Column'
+    })
+
+    let appendControl = document.createElement('a')
+    appendControl.classList.add('vcv-ui-append-control')
+    appendControl.title = 'Add Element'
+    appendControl.dataset.vcvElementId = findColumn
+    appendControl.dataset.vcControlEvent = 'app:add'
+    appendControl.dataset.vcControlEventOptions = ''
+
+    let appendControlContent = document.createElement('i')
+    appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
+    appendControl.appendChild(appendControlContent)
+
+    this.appendControlContainer.appendChild(appendControl)
   }
 
   /**
@@ -344,6 +392,15 @@ export default class ControlsHandler {
   }
 
   /**
+   * Destroy append element control
+   */
+  destroyAppendControl () {
+    while (this.appendControlContainer && this.appendControlContainer.firstChild) {
+      this.appendControlContainer.removeChild(this.appendControlContainer.firstChild)
+    }
+  }
+
+  /**
    * Update controls container position
    * @param element
    */
@@ -369,6 +426,23 @@ export default class ControlsHandler {
   }
 
   /**
+   * Update append control container position
+   * @param element
+   */
+  updateAppendContainerPosition (element) {
+    let elementPos = element.getBoundingClientRect()
+    let control = this.appendControlContainer.firstElementChild
+    let controlPos = 0
+    if (control) {
+      controlPos = control.getBoundingClientRect()
+    }
+
+    this.appendControlContainer.style.top = elementPos.bottom - controlPos.height / 2 + 'px'
+    this.appendControlContainer.style.left = elementPos.left + 'px'
+    this.appendControlContainer.style.width = elementPos.width + 'px'
+  }
+
+  /**
    * Automatically update controls container position after timeout
    * @param element
    */
@@ -381,12 +455,34 @@ export default class ControlsHandler {
   }
 
   /**
+   * Automatically update append control container position after timeout
+   * @param element
+   */
+  autoUpdateAppendContainerPosition (element) {
+    this.stopAutoUpdateContainerPosition()
+    if (!this.state.appendContainerTimeout) {
+      this.updateAppendContainerPosition(element, this.outline)
+      this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, element, this.outline), 16)
+    }
+  }
+
+  /**
    * Stop automatically update controls container position and clear timeout
    */
   stopAutoUpdateContainerPosition () {
     if (this.state.containerTimeout) {
       this.iframeWindow.clearInterval(this.state.containerTimeout)
       this.state.containerTimeout = null
+    }
+  }
+
+  /**
+   * Stop automatically update append control container position and clear timeout
+   */
+  stopAutoUpdateAppendContainerPosition () {
+    if (this.state.appendContainerTimeout) {
+      this.iframeWindow.clearInterval(this.state.appendContainerTimeout)
+      this.state.appendContainerTimeout = null
     }
   }
 

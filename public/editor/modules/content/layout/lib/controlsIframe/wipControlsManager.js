@@ -232,34 +232,44 @@ export default class ControlsManager {
   }
 
   /**
+   * Handle control click
+   */
+  handleControlClick (controlsContainer, e) {
+    e && e.button === 0 && e.preventDefault()
+    if (e.button === 0) {
+      let path = this.getPath(e)
+      // search for event
+      let i = 0
+      let el = null
+      while (i < path.length && path[ i ] !== controlsContainer) {
+        if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
+          el = path[ i ]
+          i = path.length
+        }
+        i++
+      }
+      if (el) {
+        let event = el.dataset.vcControlEvent
+        let options = el.dataset.vcControlEventOptions
+        let elementId = el.dataset.vcvElementId
+        this.api.request(event, elementId, options)
+      }
+    }
+  }
+
+  /**
    * Interact with controls
    */
   interactWithControls () {
     // click on action
     this.controls.getControlsContainer().addEventListener('click',
-      (e) => {
-        e && e.button === 0 && e.preventDefault()
-        if (e.button === 0) {
-          let path = this.getPath(e)
-          // search for event
-          let i = 0
-          let el = null
-          while (i < path.length && path[ i ] !== this.controls.getControlsContainer()) {
-            if (path[ i ].dataset && path[ i ].dataset.vcControlEvent) {
-              el = path[ i ]
-              i = path.length
-            }
-            i++
-          }
-          if (el) {
-            let event = el.dataset.vcControlEvent
-            let options = el.dataset.vcControlEventOptions
-            let elementId = el.dataset.vcvElementId
-            this.api.request(event, elementId, options)
-          }
-        }
-      }
+      this.handleControlClick.bind(this, this.controls.getControlsContainer())
     )
+    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
+      this.controls.getAppendControlContainer().addEventListener('click',
+        this.handleControlClick.bind(this, this.controls.getAppendControlContainer())
+      )
+    }
     // drag control
     this.controls.getControlsContainer().addEventListener('mousedown',
       (e) => {
