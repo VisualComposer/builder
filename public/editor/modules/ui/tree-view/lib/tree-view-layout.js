@@ -25,10 +25,6 @@ export default class TreeViewLayout extends React.Component {
     }
   }
   componentDidMount () {
-    this.props.api.reply('data:add', () => {
-      this.props.api.request('bar-content-start:hide')
-    })
-
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
     })
