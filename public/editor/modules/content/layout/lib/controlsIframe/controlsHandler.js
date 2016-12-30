@@ -36,11 +36,9 @@ export default class ControlsHandler {
     this.controlsContainer.classList.add('vcv-ui-outline-controls-container', 'wip')
     this.iframeOverlay.appendChild(this.controlsContainer)
     this.controlsContainer.addEventListener('mouseenter', this.updateDropdownsPosition)
-    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
-      this.appendControlContainer = document.createElement('div')
-      this.appendControlContainer.classList.add('vcv-ui-append-control-container')
-      this.iframeOverlay.appendChild(this.appendControlContainer)
-    }
+    this.appendControlContainer = document.createElement('div')
+    this.appendControlContainer.classList.add('vcv-ui-append-control-container')
+    this.iframeOverlay.appendChild(this.appendControlContainer)
   }
 
   /**
@@ -66,10 +64,8 @@ export default class ControlsHandler {
   show (data) {
     this.createControls(data)
     this.autoUpdateContainerPosition(data.element)
-    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
-      this.createAppendControl(data)
-      this.autoUpdateAppendContainerPosition(data.element)
-    }
+    this.createAppendControl(data)
+    this.autoUpdateAppendContainerPosition(data.element)
   }
 
   /**
@@ -78,10 +74,8 @@ export default class ControlsHandler {
   hide () {
     this.destroyControls()
     this.stopAutoUpdateContainerPosition()
-    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
-      this.destroyAppendControl()
-      this.stopAutoUpdateAppendContainerPosition()
-    }
+    this.destroyAppendControl()
+    this.stopAutoUpdateAppendContainerPosition()
   }
 
   /**
@@ -149,7 +143,7 @@ export default class ControlsHandler {
     appendControl.dataset.vcvElementId = containerElement.get('id')
     appendControl.dataset.vcControlEvent = 'app:add'
     appendControl.dataset.vcControlEventOptions = ''
-    appendControl.dataset.vcControlEventOptionInsertAfter = slicedElements[0]
+    appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
     let appendControlContent = document.createElement('i')
     appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
     appendControl.appendChild(appendControlContent)
