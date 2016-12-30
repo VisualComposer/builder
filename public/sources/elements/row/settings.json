@@ -60,6 +60,7 @@
     "value": [
       "rowWidth",
       "removeSpaces",
+      "columnGap",
       "customClass"
     ],
     "options": {
@@ -145,6 +146,20 @@
             "action": "toggleVisibility"
           }
         ]
+      }
+    }
+  },
+  "columnGap": {
+    "type": "number",
+    "access": "public",
+    "value": "0",
+    "options": {
+      "label": "Column gap",
+      "description": "Enter gap between columns in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "columnGap",
+        "property": "columnGap",
+        "namePattern": "[\\da-f]+"
       }
     }
   }

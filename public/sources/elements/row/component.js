@@ -31,6 +31,11 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    let mixinData = this.getMixinData('columnGap')
+    if (mixinData) {
+      classes.push(`vce-row--gap-${mixinData.selector}`)
+    }
+
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
       customRowProps[ 'data-vce-full-width' ] = true
     } else {

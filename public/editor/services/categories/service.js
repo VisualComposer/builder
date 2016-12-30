@@ -25,7 +25,7 @@ let tempData = {
     },
     {
       'name': 'Content',
-      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature', 'Separators' ]
+      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature', 'Maps', 'Separators' ]
     },
     {
       'name': 'WooCommerce',
@@ -99,7 +99,7 @@ let tempData = {
     },
     'Social': {
       'name': 'Social',
-      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'googleMaps', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit', 'facebookLike' ],
+      'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit', 'facebookLike' ],
       'icon': 'categories/icons/Social.svg'
     },
     'Videos': {
@@ -121,6 +121,11 @@ let tempData = {
       'name': 'Separators',
       'elements': [],
       'icon': 'categories/icons/Separator.svg'
+    },
+    'Maps': {
+      'name': 'Maps',
+      'elements': [ 'googleMaps' ],
+      'icon': 'categories/icons/Map.svg'
     }
   }
 }
