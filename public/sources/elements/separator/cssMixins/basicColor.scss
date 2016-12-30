@@ -1,0 +1,6 @@
+.vce-text-separator--color-$selector {
+  &::after,
+  &::before {
+    color: $color;
+  }
+}

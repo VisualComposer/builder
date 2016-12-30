@@ -25,7 +25,7 @@ let tempData = {
     },
     {
       'name': 'Content',
-      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature' ]
+      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature', 'Separators' ]
     },
     {
       'name': 'WooCommerce',
@@ -116,6 +116,11 @@ let tempData = {
       'name': 'WP Widgets',
       'elements': [ '_WpWidgetsDefault', '_WpWidgetsCustom' ],
       'icon': 'categories/icons/WordPress.svg'
+    },
+    'Separators': {
+      'name': 'Separators',
+      'elements': [],
+      'icon': 'categories/icons/Separator.svg'
     }
   }
 }
@@ -133,6 +138,9 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
+}
+if (vcCake.env('FEATURE_SEPARATOR')) {
+  tempData.categories[ 'Separators' ].elements.push('separator')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')

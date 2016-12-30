@@ -1,0 +1,68 @@
+/* ----------------------------------------------
+ * Separator
+ * ---------------------------------------------- */
+.vce-text-separator {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: center;
+      align-items: center;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.vce-text-separator::before,
+.vce-text-separator::after {
+  display: block;
+  content: '';
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  -ms-flex-negative: 1;
+      flex-shrink: 1;
+  transition: flex 0.2s ease-in-out;
+  transition: flex 0.2s ease-in-out, -ms-flex 0.2s ease-in-out;
+  box-sizing: content-box;
+  border-width: 1px;
+  min-width: 1em;
+}
+.vce-text-separator--style-narrow {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.vce-text-separator--style-narrow.vce-text-separator {
+  display: inline-block;
+  width: 60%;
+}
+.vce-text-separator--style-narrow.vce-text-separator::before,
+.vce-text-separator--style-narrow.vce-text-separator::after {
+  border-bottom-style: inherit;
+}
+.vce-text-separator--style-narrow.vce-text-separator::before {
+  padding-bottom: 0.188em;
+  width: 100%;
+}
+.vce-text-separator--style-narrow.vce-text-separator::after {
+  width: 74%;
+  margin: 0 auto;
+}
+.vce-text-separator-content {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+.vce-text-separator-style-double::before,
+.vce-text-separator-style-double::after {
+  border-top-style: solid;
+  border-bottom-style: solid;
+  height: 1px;
+}
+.vce-text-separator--align-left {
+  text-align: left;
+}
+.vce-text-separator--align-center {
+  text-align: center;
+}
+.vce-text-separator--align-right {
+  text-align: right;
+}

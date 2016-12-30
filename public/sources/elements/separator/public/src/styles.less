@@ -1,0 +1,66 @@
+// Styles for Text Separator
+//-----------------------------------------
+
+.vce-text-separator {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  margin-top: @vce-top-indent;
+  margin-bottom: @vce-bottom-indent;
+  &::before,
+  &::after {
+    display: block;
+    content: '';
+    flex-grow: 1;
+    flex-shrink: 1;
+    transition: flex @vce-transition-duration @vce-transition-function;
+    box-sizing: content-box;
+    border-width: 1px;
+    min-width: @vce-min-separator-width;
+  }
+  &--style {
+    &-narrow {
+      margin-top: @vce-narrow-top-indent;
+      margin-bottom: @vce-narrow-bottom-indent;
+      &.vce-text-separator {
+        display: inline-block;
+        width: 60%;
+        &::before,
+        &::after {
+          border-bottom-style: inherit;
+        }
+        &::before {
+          padding-bottom: @vce-narrow-padding-bottom;
+          width: 100%;
+        }
+        &::after {
+          width: 74%;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+.vce-text-separator-content {
+  padding-left: @vce-content-padding;
+  padding-right: @vce-content-padding;
+}
+
+// Styles
+//===========================
+#vce-text-separator > .make-style(double; @top-border-style: solid; @bottom-border-style: solid;  @border-space: 1px;);
+
+.vce-text-separator--align {
+  &-left {
+    text-align: left;
+  }
+  &-center {
+    text-align: center;
+  }
+  &-right {
+    text-align: right;
+  }
+}
+
