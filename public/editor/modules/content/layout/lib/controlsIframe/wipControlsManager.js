@@ -269,11 +269,9 @@ export default class ControlsManager {
     this.controls.getControlsContainer().addEventListener('click',
       this.handleControlClick.bind(this, this.controls.getControlsContainer())
     )
-    if (vcCake.env('FEATURE_APPEND_ELEMENT_CONTROL')) {
-      this.controls.getAppendControlContainer().addEventListener('click',
-        this.handleControlClick.bind(this, this.controls.getAppendControlContainer())
-      )
-    }
+    this.controls.getAppendControlContainer().addEventListener('click',
+      this.handleControlClick.bind(this, this.controls.getAppendControlContainer())
+    )
     // drag control
     this.controls.getControlsContainer().addEventListener('mousedown',
       (e) => {
