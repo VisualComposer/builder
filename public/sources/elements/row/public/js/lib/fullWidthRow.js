@@ -13,9 +13,13 @@
       return
     }
     fullWidthRows.forEach((row) => {
-      let rowHelper = row.parentElement.querySelector('.vce-row-full-width')
+      let rowHelper = row.parentElement
       let rowContent = row.querySelector('.vce-row-content')
-      let offset = 0 - rowHelper.getBoundingClientRect().left
+
+      let elMarginLeft = parseInt(window.getComputedStyle(row, null)['margin-left'], 10)
+      let elMarginRight = parseInt(window.getComputedStyle(row, null)['margin-right'], 10)
+
+      let offset = 0 - rowHelper.getBoundingClientRect().left - elMarginLeft
       let width = document.documentElement.clientWidth
 
       row.style.width = width + 'px'
@@ -26,15 +30,15 @@
         if (padding < 0) {
           padding = 0
         }
-        let paddingRight = width - padding - rowHelper.getBoundingClientRect().width
+        let paddingRight = width - padding - rowHelper.getBoundingClientRect().width + elMarginLeft + elMarginRight
         if (paddingRight < 0) {
           paddingRight = 0
         }
-        rowContent.style['padding-left'] = padding + 'px'
-        rowContent.style['padding-right'] = paddingRight + 'px'
+        rowContent.style[ 'padding-left' ] = padding + 'px'
+        rowContent.style[ 'padding-right' ] = paddingRight + 'px'
       } else {
-        rowContent.style['padding-left'] = ''
-        rowContent.style['padding-right'] = ''
+        rowContent.style[ 'padding-left' ] = ''
+        rowContent.style[ 'padding-right' ] = ''
       }
     })
   }

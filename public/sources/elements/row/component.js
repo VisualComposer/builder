@@ -1,5 +1,5 @@
 /* global React, vcvAPI */
-/*eslint no-unused-vars: 0*/
+/* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
@@ -15,8 +15,6 @@ class Component extends vcvAPI.elementComponent {
       classes.push(customClass)
     }
     classes = classes.concat(vcvAPI.getDesignOptionsCssClasses(designOptions))
-
-    let className = classNames(classes)
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
@@ -36,9 +34,6 @@ class Component extends vcvAPI.elementComponent {
     let fullWidthHelper = ''
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
       customRowProps[ 'data-vce-full-width' ] = true
-      fullWidthHelper = (
-        <div className='vce-row-full-width' />
-      )
     } else {
       customRowProps.style = {
         width: null,
@@ -54,13 +49,18 @@ class Component extends vcvAPI.elementComponent {
       customRowProps[ 'data-vce-stretch-content' ] = true
     }
 
+    if (removeSpaces) {
+      classes.push('vce-row-no-paddings')
+    }
+
+    let className = classNames(classes)
+
     return <div className='vce-row-container'>
       <div className={className} {...customRowProps} {...editor}>
         <div className='vce-row-content' id={'el-' + id} {...customProps}>
           {content}
         </div>
       </div>
-      {fullWidthHelper}
     </div>
   }
 }

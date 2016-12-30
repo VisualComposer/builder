@@ -16,24 +16,16 @@
   min-height: 1em;
 }
 
-.vce-row-full-width {
-  &::before,
-  &::after {
-    content: " ";
-    display: table;
-  }
-
-  &::after {
-    clear: both;
-  }
-}
-
 .vce-row[data-vce-full-width="true"] {
   position: relative;
   box-sizing: border-box;
 
-  &[data-vce-stretch-content="true"] {
-    margin: 0;
+  &.vce-row-no-paddings {
+
+    > .vce-row-content > .vce-col > .vce-col-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
