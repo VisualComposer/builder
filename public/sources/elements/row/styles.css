@@ -17,14 +17,6 @@
   align-content: flex-start;
   min-height: 1em;
 }
-.vce-row-full-width::before,
-.vce-row-full-width::after {
-  content: " ";
-  display: table;
-}
-.vce-row-full-width::after {
-  clear: both;
-}
 .vce-row[data-vce-full-width="true"] {
   position: relative;
   box-sizing: border-box;
