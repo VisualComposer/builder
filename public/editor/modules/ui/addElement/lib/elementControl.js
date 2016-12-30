@@ -32,7 +32,7 @@ export default class ElementControl extends React.Component {
     this.props.api.request('data:add', data.toJS(), true, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
-    this.props.api.notify('hide', true)
+    this.props.api.request('app:edit', data.toJS().id, '')
   }
 
   showPreview () {
