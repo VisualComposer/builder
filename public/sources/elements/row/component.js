@@ -31,7 +31,6 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    let fullWidthHelper = ''
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
       customRowProps[ 'data-vce-full-width' ] = true
     } else {
@@ -49,7 +48,7 @@ class Component extends vcvAPI.elementComponent {
       customRowProps[ 'data-vce-stretch-content' ] = true
     }
 
-    if (removeSpaces) {
+    if (rowWidth === 'stretchedRowAndColumn' && removeSpaces) {
       classes.push('vce-row-no-paddings')
     }
 
