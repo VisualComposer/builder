@@ -1,5 +1,7 @@
 (() => {
   window.vcv.on('ready', () => {
-    window.vceResetRowSelector()
+    setTimeout(() => {
+      window.vceResetRowSelector()
+    }, 10)
   })
 })()

@@ -32,8 +32,12 @@
   position: relative;
   box-sizing: border-box;
 
-  &[data-vce-stretch-content="true"] {
-    margin: 0;
+  &.vce-row-no-paddings {
+
+    > .vce-row-content > .vce-col > .vce-col-content {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
