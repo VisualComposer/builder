@@ -1,0 +1,14 @@
+.vce-row {
+  &--gap-$selector {
+    > .vce-row-content {
+      > .vce-col {
+        @if $gap != false {
+          padding-left: calc($(columnGap)px / 2);
+          padding-right: calc($(columnGap)px / 2);
+        }
+      }
+    }
+  }
+}
+
+
