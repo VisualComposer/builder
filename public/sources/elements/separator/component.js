@@ -7,28 +7,28 @@ class Component extends vcvAPI.elementComponent {
     let classNames = require('classnames')
     let customProps = {}
 
-    let containerClasses = ['vce-text-separator-container']
-    let classes = ['vce-text-separator', 'vce-text-separator-style-double', 'vce-text-separator--style-narrow']
-    let wrapperClasses = ['vce', 'vce-text-separator-wrapper']
+    let containerClasses = ['vce-line-separator-container']
+    let classes = ['vce-line-separator']
+    let wrapperClasses = ['vce', 'vce-line-separator-wrapper']
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses.push(customClass)
     }
 
     if (alignment) {
-      containerClasses.push(`vce-text-separator--align-${alignment}`)
+      containerClasses.push(`vce-line-separator--align-${alignment}`)
     }
 
     let mixinData = this.getMixinData('basicColor')
 
     if (mixinData) {
-      classes.push(`vce-text-separator--color-${mixinData.selector}`)
+      classes.push(`vce-line-separator--color-${mixinData.selector}`)
     }
 
     mixinData = this.getMixinData('separatorWidth')
 
     if (mixinData) {
-      classes.push(`vce-text-separator--width-${mixinData.selector}`)
+      classes.push(`vce-line-separator--width-${mixinData.selector}`)
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
@@ -51,8 +51,8 @@ class Component extends vcvAPI.elementComponent {
     containerClasses = classNames(containerClasses)
 
     return <div className={containerClasses} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id}>
-        <div className={classes} {...customProps} />
+      <div className={wrapperClasses}>
+        <div className={classes} {...customProps} id={'el-' + id} />
       </div>
     </div>
   }
