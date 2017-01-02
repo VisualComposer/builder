@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, layout, designOptions, assetsLibrary, rowWidth, removeSpaces } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -31,10 +31,13 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    let mixinData = this.getMixinData('columnGap')
-    if (mixinData) {
-      classes.push(`vce-row--gap-${mixinData.selector}`)
+    if (parseInt(columnGap)) {
+      let mixinData = this.getMixinData('columnGap')
+      if (mixinData) {
+        classes.push(`vce-row--gap-${mixinData.selector}`)
+      }
     }
+
 
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
       customRowProps[ 'data-vce-full-width' ] = true
