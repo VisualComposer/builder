@@ -70,12 +70,18 @@
     }
   },
   "width": {
-    "type": "string",
+    "type": "number",
     "access": "public",
-    "value": "60%",
+    "value": "60",
     "options": {
-      "label": "Width",
-      "description": "Separator width in percents"
+      "label": "Separator width",
+      "description": "Enter separator width in percents (Example: 60).",
+      "cssMixin": {
+        "mixin": "separatorWidth",
+        "property": "width",
+        "namePattern": "[\\da-f]+"
+      },
+      "min": 0
     }
   },
   "customClass": {

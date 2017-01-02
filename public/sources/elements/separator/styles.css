@@ -33,7 +33,6 @@
 }
 .vce-text-separator--style-narrow.vce-text-separator {
   display: inline-block;
-  width: 60%;
 }
 .vce-text-separator--style-narrow.vce-text-separator::before,
 .vce-text-separator--style-narrow.vce-text-separator::after {

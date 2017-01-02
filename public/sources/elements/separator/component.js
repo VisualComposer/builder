@@ -25,6 +25,12 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`vce-text-separator--color-${mixinData.selector}`)
     }
 
+    mixinData = this.getMixinData('separatorWidth')
+
+    if (mixinData) {
+      classes.push(`vce-text-separator--width-${mixinData.selector}`)
+    }
+
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
     devices.forEach((device) => {
