@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\DataAjax;
 
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
@@ -85,9 +86,11 @@ class Controller extends Container implements Module
      *
      * @param $response
      *
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     *
      * @return array|null
      */
-    private function setData(Filters $filterHelper, Request $requestHelper, $response)
+    private function setData(Filters $filterHelper, Request $requestHelper, $response, PostType $postTypeHelper)
     {
         $data = $requestHelper->input('vcv-data');
         $content = $requestHelper->input('vcv-content');
@@ -116,14 +119,12 @@ class Controller extends Container implements Module
                 //bring it back once you're done posting
                 add_filter('content_save_pre', 'wp_filter_post_kses');
                 add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                /** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
-                $frontendModule = vcapp('EditorsFrontendController');
-                $frontendModule->setupPost($sourceId);
+                $postTypeHelper->setupPost($sourceId);
                 $responseExtra = $filterHelper->fire(
                     'vcv:dataAjax:setData',
                     [
                         'status' => true,
-                        'postData' => $frontendModule->getPostData(),
+                        'postData' => $postTypeHelper->getPostData(),
                     ],
                     [
                         'sourceId' => $sourceId,
