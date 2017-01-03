@@ -8,8 +8,7 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
 
     let containerClasses = ['vce-line-separator-container']
-    let classes = ['vce-line-separator']
-    let wrapperClasses = ['vce', 'vce-line-separator-wrapper']
+    let classes = ['vce', 'vce-line-separator']
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses.push(customClass)
@@ -47,13 +46,10 @@ class Component extends vcvAPI.elementComponent {
     }
 
     classes = classNames(classes)
-    wrapperClasses = classNames(wrapperClasses)
     containerClasses = classNames(containerClasses)
 
     return <div className={containerClasses} {...editor}>
-      <div className={wrapperClasses}>
-        <div className={classes} {...customProps} id={'el-' + id} />
-      </div>
+      <div className={classes} {...customProps} id={'el-' + id} />
     </div>
   }
 }
