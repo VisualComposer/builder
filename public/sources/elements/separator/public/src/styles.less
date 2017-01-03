@@ -4,6 +4,8 @@
 .vce-line-separator {
   display: inline-block;
   vertical-align: middle;
+  min-height: @vce-line-separator-min-height;
+  line-height: @vce-line-separator-line-height;
 
   &::before,
   &::after {
@@ -24,11 +26,6 @@
   }
 }
 
-.vce-line-separator-wrapper {
-  height: 1.2em;
-  line-height: 1;
-}
-
 // Styles
 //===========================
 
@@ -38,6 +35,7 @@
 
     .vce-line-separator {
       &::after {
+        width: 87%;
         margin: 0;
       }
     }
@@ -51,6 +49,7 @@
     text-align: right;
     .vce-line-separator {
       &::after {
+        width: 87%;
         margin: 0 0 0 auto;
       }
     }
