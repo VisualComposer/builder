@@ -457,7 +457,7 @@ export default class ControlsHandler {
    * @param element
    */
   autoUpdateAppendContainerPosition (element) {
-    this.stopAutoUpdateContainerPosition()
+    this.stopAutoUpdateAppendContainerPosition()
     if (!this.state.appendContainerTimeout) {
       this.updateAppendContainerPosition(element, this.outline)
       this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, element, this.outline), 16)
