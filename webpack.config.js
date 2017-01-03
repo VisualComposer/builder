@@ -11,6 +11,7 @@ module.exports = {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
+    backend: './public/wp-backend-main',
     app: []
   },
   output: {
