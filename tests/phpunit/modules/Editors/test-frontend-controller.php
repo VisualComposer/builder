@@ -17,8 +17,8 @@ class FrontendControllerTest extends WP_UnitTestCase
         $this->post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $this->post->create(['post_title' => 'Test Post']);
         $requestHelper->setData(['vcv-source-id' => $postId]);
-
-        $output = vchelper('Filters')->fire('vcv:ajax:frontend');
+        vchelper('PostType')->setupPost($postId);
+        $output = vchelper('Filters')->fire('vcv:editors:frontend:render');
 
         $patterns = [
             '<!DOCTYPE html>',

@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
@@ -23,26 +24,53 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
-        $this->addFilter(
-            'vcv:ajax:frontend',
-            'renderEditorBase'
-        );
+        $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
+        /** @see \VisualComposer\Modules\Editors\Frontend\Controller::init */
+        $this->addEvent('vcv:inited', 'init');
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @return bool|void
+     */
+    private function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper)
+    {
+        // Require an action parameter.
+        if (is_admin() && $requestHelper->exists('vcv-action')) {
+            $requestAction = $requestHelper->input('vcv-action');
+            if ($requestAction === 'frontend') {
+                $urlHelper->redirectIfUnauthorized();
+                $sourceId = (int)$requestHelper->input('vcv-source-id');
+                $postTypeHelper->setupPost($sourceId);
+                $content = vcfilter('vcv:editors:frontend:render', '');
+
+                return $this->terminate($content);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $content
+     */
+    private function terminate($content)
+    {
+        die($content);
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
      *
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     *
      * @return string
      */
-    private function renderEditorBase(Request $request, Views $templates, Nonce $nonce, Url $urlHelper)
+    private function renderEditorBase(Request $requestHelper, Views $templates, Nonce $nonce)
     {
-        $urlHelper->redirectIfUnauthorized();
-        $sourceId = (int)$request->input('vcv-source-id');
-        $this->setupPost($sourceId);
+        $sourceId = (int)$requestHelper->input('vcv-source-id');
 
         $link = get_permalink($sourceId);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
@@ -59,58 +87,5 @@ class Controller extends Container implements Module
                 'editableLink' => $editableLink,
             ]
         );
-    }
-
-    /**
-     * @param $sourceId
-     *
-     * @return \WP_Post
-     */
-    public function setupPost($sourceId)
-    {
-        global $post_type, $post_type_object, $post;
-        $post = get_post($sourceId);
-        setup_postdata($post);
-        $post_type = $post->post_type;
-        $post_type_object = get_post_type_object($post_type);
-
-        return $post;
-    }
-
-    public function getFrontendUrl($postId, Url $urlHelper)
-    {
-        $url = $urlHelper->ajax(
-            [
-                'vcv-action' => 'frontend',
-                'vcv-source-id' => $postId,
-            ]
-        );
-
-        return $url;
-    }
-
-    public function getPostData()
-    {
-        global $post_type_object, $post;
-        $data = [];
-
-        $data['id'] = get_the_ID();
-        $data['status'] = $post->post_status;
-
-        $permalink = get_permalink();
-        if (!$permalink) {
-            $permalink = '';
-        }
-        $previewUrl = get_preview_post_link($post);
-        $viewable = is_post_type_viewable($post_type_object);
-        $data['permalink'] = $permalink;
-        $data['previewUrl'] = $previewUrl;
-        $data['viewable'] = $viewable;
-        // TODO: Add access checks for post types
-        $data['canPublish'] = current_user_can($post_type_object->cap->publish_posts);
-        $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
-        $data['adminDashboardUrl'] = self_admin_url('index.php');
-
-        return $data;
     }
 }

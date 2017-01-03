@@ -42,7 +42,7 @@ class SiteControllerTest extends \WP_UnitTestCase
 
         wp_set_current_user(1);
         $link = apply_filters('edit_post_link', '');
-        $pattern = '/' . __('Edit with VC5', 'vc5') . '/';
+        $pattern = '/' . __('Edit with Visual Composer', 'vc5') . '/';
         $this->assertEquals(1, preg_match($pattern, $link), 'matches of output:' . $link);
         $requestHelper->setData([]);
     }
