@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import LayoutBar from './lib/layout'
 
 vcCake.add('ui-layout-bar', (api) => {
-  let layoutHeader = document.querySelector('#vcv-layout-header')
+  let layoutHeader = document.getElementById('vcv-layout-header')
   ReactDOM.render(
     <LayoutBar api={api} />,
     layoutHeader

@@ -20,6 +20,7 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
         $this->addFilter('vcv:frontend:extraOutput', 'all');
+        $this->addFilter('vcv:backend:extraOutput', 'all');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
