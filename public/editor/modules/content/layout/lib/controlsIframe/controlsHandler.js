@@ -1,7 +1,7 @@
-import vcCake from 'vc-cake' // TODO: import only getService after feature toggle is removed
-const documentManager = vcCake.getService('document')
-const cook = vcCake.getService('cook')
-const categoriesService = vcCake.getService('categories')
+import {getService} from 'vc-cake'
+const documentManager = getService('document')
+const cook = getService('cook')
+const categoriesService = getService('categories')
 
 export default class ControlsHandler {
   constructor (sliceSize, props) {
