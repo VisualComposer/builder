@@ -3,7 +3,7 @@ import Attribute from '../attribute'
 
 class customIdAttribute extends Attribute {
   render () {
-    let value = this.state.value || this.props.element.get('id')
+    let value = this.state.value === false ? this.props.element.get('id') : this.state.value
     return (
       <input
         className='vcv-ui-form-input'

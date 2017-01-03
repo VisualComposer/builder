@@ -177,7 +177,7 @@
   "metaCustomId": {
     "type": "customId",
     "access": "public",
-    "value": "",
+    "value": false,
     "options": {
       "label": "Row ID"
     }
