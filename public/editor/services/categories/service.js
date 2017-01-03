@@ -119,7 +119,7 @@ let tempData = {
     },
     'Separators': {
       'name': 'Separators',
-      'elements': [],
+      'elements': [ 'separator' ],
       'icon': 'categories/icons/Separator.svg'
     },
     'Maps': {
@@ -143,9 +143,6 @@ if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
 }
 if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
   tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
-}
-if (vcCake.env('FEATURE_SEPARATOR')) {
-  tempData.categories[ 'Separators' ].elements.push('separator')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
