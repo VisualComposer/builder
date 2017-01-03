@@ -3,12 +3,16 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
-    let customProps = {}
-    let customRowProps = {}
+    let customProps = {
+      style: {}
+    }
+    let customRowProps = {
+      style: {}
+    }
     const classNames = require('classnames')
     // reverse classes.push('vce-row-wrap--reverse')
     if (typeof customClass === 'string' && customClass) {
@@ -38,18 +42,13 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
-
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
       customRowProps[ 'data-vce-full-width' ] = true
     } else {
-      customRowProps.style = {
-        width: null,
-        left: null
-      }
-      customProps.style = {
-        paddingLeft: null,
-        paddingRight: null
-      }
+      customRowProps.style.width = ''
+      customRowProps.style.left = ''
+      customProps.style.paddingLeft = ''
+      customProps.style.paddingRight = ''
     }
 
     if (rowWidth === 'stretchedRowAndColumn') {
@@ -58,6 +57,12 @@ class Component extends vcvAPI.elementComponent {
 
     if (rowWidth === 'stretchedRowAndColumn' && removeSpaces) {
       classes.push('vce-row-no-paddings')
+    }
+
+    if (fullHeight) {
+      classes.push('vce-row-full-height')
+    } else {
+      customRowProps.style.minHeight = ''
     }
 
     let className = classNames(classes)

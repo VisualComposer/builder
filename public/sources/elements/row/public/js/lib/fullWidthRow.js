@@ -45,5 +45,5 @@
 
   getRows()
   window.addEventListener('resize', handleResize)
-  window.vceResetRowSelector = getRows
+  window.vceResetFullWidthRows = getRows
 }())

@@ -61,6 +61,7 @@
       "rowWidth",
       "removeSpaces",
       "columnGap",
+      "fullHeight",
       "customClass"
     ],
     "options": {
@@ -161,6 +162,14 @@
         "property": "columnGap",
         "namePattern": "[\\da-f]+"
       }
+    }
+  },
+  "fullHeight": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Full height"
     }
   }
 }
