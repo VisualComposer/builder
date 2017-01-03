@@ -110,7 +110,7 @@
     "access": "public",
     "value": "boxed",
     "options": {
-      "label": "Shape",
+      "label": "Row width",
       "values": [
         {
           "label": "Boxed",
@@ -170,7 +170,8 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Full height"
+      "label": "Full height",
+      "description": "Set row to be full screen height."
     }
   },
   "metaCustomId": {
