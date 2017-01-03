@@ -62,6 +62,7 @@
       "removeSpaces",
       "columnGap",
       "fullHeight",
+      "metaCustomId",
       "customClass"
     ],
     "options": {
@@ -170,6 +171,14 @@
     "value": false,
     "options": {
       "label": "Full height"
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Row ID"
     }
   }
 }
