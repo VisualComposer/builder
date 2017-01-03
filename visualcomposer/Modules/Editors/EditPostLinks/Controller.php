@@ -5,9 +5,9 @@ namespace VisualComposer\Modules\Editors\EditPostLinks;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Editors\Frontend\Controller as FrontendController;
 
 /**
  * Class Controller.
@@ -54,23 +54,26 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Helpers\Request $requestHelper
      *
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
      * @return string
-     * @throws \Exception
      */
     private function addEditPostLink(
         $link,
         CurrentUser $currentUserAccess,
-        Request $requestHelper
+        Request $requestHelper,
+        Frontend $frontendHelper
     ) {
         if ($requestHelper->exists('vcv-editable')) {
             return '';
         }
         if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
-            $url = vcapp()->call(
-                [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
-                ['postId' => get_the_ID()]
-            );
-            $link .= ' <a href="' . esc_url($url) . '">' . __('Edit with VC5', 'vc5') . '</a>';
+            $url = $frontendHelper->getFrontendUrl(get_the_ID());
+            $link .= sprintf(
+                ' <a href="%s">%s</a>',
+                esc_url($url),
+                __('Edit with Visual Composer', 'vc5')
+            ); // TODO: Change text https://app.asana.com/0/214854674604991/236487795091134
         }
 
         return $link;
@@ -78,8 +81,9 @@ class Controller extends Container implements Module
 
     /**
      * @param \WP_Admin_Bar $wpAdminBar
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    private function adminBarEditLink($wpAdminBar)
+    private function adminBarEditLink($wpAdminBar, Frontend $frontendHelper)
     {
         if (!is_object($wpAdminBar)) {
             global $wp_admin_bar;
@@ -87,10 +91,7 @@ class Controller extends Container implements Module
         }
 
         if (is_singular()) {
-            $url = vcapp()->call(
-                [vcapp('EditorsFrontendController'), 'getFrontendUrl'],
-                ['postId' => get_the_ID()]
-            );
+            $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $wpAdminBar->add_menu(
                 [
                     'id' => __('Edit with Visual Composer', 'vc5'),
@@ -101,14 +102,17 @@ class Controller extends Container implements Module
         }
     }
 
-    private function adminRowLinks($actions, FrontendController $frontendController)
+    /**
+     * @param $actions
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
+     * @return mixed
+     */
+    private function adminRowLinks($actions, Frontend $frontendHelper)
     {
-        $url = vcapp()->call(
-            [$frontendController, 'getFrontendUrl'],
-            ['postId' => get_the_ID()]
-        );
+        $url = $frontendHelper->getFrontendUrl(get_the_ID());
 
-        $actions['edit_vc5'] = '<a href="' . $url . '">' . __('Edit with Visual Composer', 'vc5') . '</a>';
+        $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vc5'));
 
         return $actions;
     }

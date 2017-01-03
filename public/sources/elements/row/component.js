@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -67,8 +67,10 @@ class Component extends vcvAPI.elementComponent {
 
     let className = classNames(classes)
 
+    let customId = metaCustomId || id
+
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor}>
+      <div className={className} {...customRowProps} {...editor} id={customId}>
         <div className='vce-row-content' id={'el-' + id} {...customProps}>
           {content}
         </div>
