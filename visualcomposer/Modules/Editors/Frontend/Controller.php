@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
@@ -65,26 +66,18 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Nonce $nonce
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @return string
      */
-    private function renderEditorBase(Request $requestHelper, Views $templates, Nonce $nonce)
+    private function renderEditorBase(Request $requestHelper, Views $templates, Nonce $nonce, Frontend $frontendHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
-
-        $link = get_permalink($sourceId);
-        $question = (preg_match('/\?/', $link) ? '&' : '?');
-        $query = [
-            'vcv-editable' => '1',
-            'vcv-nonce' => $nonce->admin(),
-        ];
-
-        $editableLink = $link . $question . http_build_query($query);
 
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' => $editableLink,
+                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
             ]
         );
     }
