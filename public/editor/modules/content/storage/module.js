@@ -81,6 +81,10 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
+    if (dolly.metaCustomId) {
+      dolly.metaCustomId = false
+      DocumentData.update(dolly.id, dolly)
+    }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })
@@ -108,34 +112,34 @@ vcCake.add('storage', (api) => {
   api.reply('data:merge', (content) => {
     const substituteIds = {}
     Object.keys(content).sort((a, b) => {
-      if (content[a].order === undefined || content[b].order === undefined) {
+      if (content[ a ].order === undefined || content[ b ].order === undefined) {
         return 0
       }
-      if (content[a].order > content[b].order) {
+      if (content[ a ].order > content[ b ].order) {
         return 1
       }
-      if (content[a].order < content[b].order) {
+      if (content[ a ].order < content[ b ].order) {
         return -1
       }
       return 0
     }).forEach((key) => {
-      let element = content[key]
+      let element = content[ key ]
       let newId = utils.createKey()
-      if (substituteIds[element.id]) {
-        element.id = substituteIds[element.id]
+      if (substituteIds[ element.id ]) {
+        element.id = substituteIds[ element.id ]
       } else {
-        substituteIds[element.id] = newId
+        substituteIds[ element.id ] = newId
         element.id = newId
       }
-      if (element.parent && substituteIds[element.parent]) {
-        element.parent = substituteIds[element.parent]
-      } else if (element.parent && !substituteIds[element.parent]) {
-        substituteIds[element.parent] = utils.createKey()
-        element.parent = substituteIds[element.parent]
+      if (element.parent && substituteIds[ element.parent ]) {
+        element.parent = substituteIds[ element.parent ]
+      } else if (element.parent && !substituteIds[ element.parent ]) {
+        substituteIds[ element.parent ] = utils.createKey()
+        element.parent = substituteIds[ element.parent ]
       }
       delete element.order
-      api.request('data:add', element, false, {silent: true})
-      api.request('data:afterAdd', [element.id])
+      api.request('data:add', element, false, { silent: true })
+      api.request('data:afterAdd', [ element.id ])
     })
     api.request('data:changed', DocumentData.children(false), 'reset')
   })

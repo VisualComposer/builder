@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\AssetsManager;
 use VisualComposer\Application;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Filters as FilterDispatcher;
 use VisualComposer\Helpers\Options;
@@ -18,22 +19,27 @@ class Controller extends Container implements Module
     /**
      * @var \VisualComposer\Helpers\Filters
      */
-    protected $filter;
+    protected $filterHelper;
 
     /**
      * @var \VisualComposer\Helpers\Request
      */
-    protected $request;
+    protected $requestHelper;
 
     /**
      * @var \VisualComposer\Helpers\Options
      */
-    protected $options;
+    protected $optionsHelper;
 
     /**
      * @var \VisualComposer\Helpers\File
      */
-    protected $file;
+    protected $fileHelper;
+
+    /**
+     * @var \VisualComposer\Helpers\Assets
+     */
+    protected $assetsHelper;
 
     /**
      * Controller constructor.
@@ -42,19 +48,22 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Request $request
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\File $fileHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
     public function __construct(
         FilterDispatcher $filterHelper,
         Request $request,
         Options $optionsHelper,
-        File $fileHelper
+        File $fileHelper,
+        Assets $assetsHelper
     ) {
-        $this->filter = $filterHelper;
-        $this->request = $request;
-        $this->options = $optionsHelper;
-        $this->file = $fileHelper;
+        $this->filterHelper = $filterHelper;
+        $this->requestHelper = $request;
+        $this->optionsHelper = $optionsHelper;
+        $this->fileHelper = $fileHelper;
+        $this->assetsHelper = $assetsHelper;
 
-        $this->filter->listen(
+        $this->filterHelper->listen(
             'vcv:dataAjax:setData',
             function ($response, $payload) {
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::setPostDataHook */
@@ -69,7 +78,7 @@ class Controller extends Container implements Module
             }
         );
         // Save compiled less into one css bundle.
-        $this->filter->listen(
+        $this->filterHelper->listen(
             'vcv:ajax:saveCssBundle:adminNonce',
             function ($response, $payload) {
                 /** @see \VisualComposer\Modules\Editors\AssetsManager\Controller::saveCssBundleHook */
@@ -83,11 +92,11 @@ class Controller extends Container implements Module
                 return $response;
             }
         );
-        $this->filter->listen(
+        $this->filterHelper->listen(
             'vcv:dataAjax:getData',
             function ($response, $payload, Request $requestHelper) {
-                $response['globalElements'] = $this->options->get('global-elements', '');
-                $customCss = $this->options->get('custom-css', []);
+                $response['globalElements'] = $this->optionsHelper->get('global-elements', '');
+                $customCss = $this->optionsHelper->get('custom-css', []);
                 $postCustomCss = '';
                 $id = $requestHelper->input('vcv-source-id');
                 if (isset($customCss[ $id ])) {
@@ -95,7 +104,7 @@ class Controller extends Container implements Module
                 }
                 $response['cssSettings'] = [
                     'custom' => $postCustomCss,
-                    'global' => $this->options->get('global-css', ''),
+                    'global' => $this->optionsHelper->get('global-css', ''),
                 ];
 
                 return $response;
@@ -120,38 +129,38 @@ class Controller extends Container implements Module
     {
         $this->updateGlobalAssets(
             'scripts',
-            $this->request->input('vcv-scripts', [])
+            $this->requestHelper->input('vcv-scripts', [])
         );
         $this->updateGlobalAssets(
             'shared-library-styles',
-            $this->request->input('vcv-shared-library-styles', [])
+            $this->requestHelper->input('vcv-shared-library-styles', [])
         );
         $this->updatePostAssets(
             $postId,
             'styles',
-            $this->request->input('vcv-styles', [])
+            $this->requestHelper->input('vcv-styles', [])
         );
         $this->updatePostAssets(
             $postId,
             'design-options',
-            $this->request->input('vcv-design-options', '')
+            $this->requestHelper->input('vcv-design-options', '')
         );
         $this->updatePostAssets(
             $postId,
             'custom-css',
-            $this->request->input('vcv-custom-css', '')
+            $this->requestHelper->input('vcv-custom-css', '')
         );
         $this->updateGlobalAssets(
             'global-elements',
-            rawurldecode($this->request->input('vcv-global-elements', ''))
+            rawurldecode($this->requestHelper->input('vcv-global-elements', ''))
         );
         $this->updateGlobalAssets(
             'global-css',
-            rawurldecode($this->request->input('vcv-global-css', ''))
+            rawurldecode($this->requestHelper->input('vcv-global-css', ''))
         );
         $this->updateGlobalAssets(
             'global-styles',
-            $this->request->input('vcv-global-styles', '')
+            $this->requestHelper->input('vcv-global-styles', '')
         );
         $scriptsBundles = $this->generateScriptsBundle();
         $this->generateSharedLibraryCssBundle();
@@ -180,7 +189,7 @@ class Controller extends Container implements Module
             'scripts',
             'styles',
         ] as $assetType) {
-            $assets = $this->options->get($assetType, []);
+            $assets = $this->optionsHelper->get($assetType, []);
 
             if (!is_array($assets) || !isset($assets[ $postId ])) {
                 continue;
@@ -188,7 +197,7 @@ class Controller extends Container implements Module
 
             unset($assets[ $postId ]);
 
-            $this->options->set($assetType, $assets);
+            $this->optionsHelper->set($assetType, $assets);
         }
 
         return true;
@@ -199,7 +208,7 @@ class Controller extends Container implements Module
      */
     private function saveCssBundleHook()
     {
-        $contents = $this->request->input('vcv-contents');
+        $contents = $this->requestHelper->input('vcv-contents');
 
         $bundleUrl = $this->generateStylesBundle($contents);
 
@@ -218,7 +227,9 @@ class Controller extends Container implements Module
      */
     private function generateScriptsBundleByFile()
     {
-        $assets = $this->options->get('scripts', []);
+        // TODO: Check for usage.
+
+        $assets = $this->optionsHelper->get('scripts', []);
 
         $files = [];
         if (is_array($assets)) {
@@ -234,19 +245,19 @@ class Controller extends Container implements Module
 
         if (!empty($files)) {
             $concatenatedFilename = md5(implode(',', $files)) . '.js';
-            $bundleUrl = $this->getFileUrl($concatenatedFilename);
-            $bundle = $this->getFilePath($concatenatedFilename);
+            $bundleUrl = $this->assetsHelper->getFileUrl($concatenatedFilename);
+            $bundle = $this->assetsHelper->getFilePath($concatenatedFilename);
             /** @var $app Application */
             $app = vcapp();
             if (!is_file($bundle)) {
                 $contents = '';
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/' . $file);
-                    $contents .= $this->file->getContents($filepath) . "\n";
+                    $contents .= $this->fileHelper->getContents($filepath) . "\n";
                 }
 
                 $this->deleteAssetsBundles('js');
-                if (!$this->file->setContents($bundle, $contents)) {
+                if (!$this->fileHelper->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -255,7 +266,7 @@ class Controller extends Container implements Module
             $bundleUrl = '';
         }
 
-        $this->options->set('scriptsBundle', $bundleUrl);
+        $this->optionsHelper->set('scriptsBundle', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -268,7 +279,7 @@ class Controller extends Container implements Module
      */
     private function generateScriptsBundle()
     {
-        $files = $this->options->get('scripts', []);
+        $files = $this->optionsHelper->get('scripts', []);
         // remove file
         $bundleUrl = '';
         $this->deleteAssetsBundles('global.js');
@@ -276,17 +287,17 @@ class Controller extends Container implements Module
             /** @var $app Application */
             $app = vcapp();
             $frontMainFile = $app->path('public/dist/front.bundle.js');
-            $contents = $this->file->getContents($frontMainFile);
+            $contents = $this->fileHelper->getContents($frontMainFile);
             foreach ($files as $file) {
                 $filepath = $app->path('public/sources/' . $file);
-                $contents .= '(function(){' . $this->file->getContents($filepath) . "})();\n";
+                $contents .= '(function(){' . $this->fileHelper->getContents($filepath) . "})();\n";
             }
 
             $bundleUrl = $this->createBundleFile($contents, 'global.js');
-            $this->options->set('scriptsGlobalFile', $bundleUrl);
+            $this->optionsHelper->set('scriptsGlobalFile', $bundleUrl);
         }
 
-        $this->options->set('scriptsGlobalFile', $bundleUrl);
+        $this->optionsHelper->set('scriptsGlobalFile', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -299,7 +310,7 @@ class Controller extends Container implements Module
      */
     private function generateSharedLibraryCssBundle()
     {
-        $files = $this->options->get('shared-library-styles', []);
+        $files = $this->optionsHelper->get('shared-library-styles', []);
         $bundleUrl = '';
         $this->deleteAssetsBundles('sharedglobal.css');
         if (!empty($files) && is_array($files)) {
@@ -308,13 +319,13 @@ class Controller extends Container implements Module
             $contents = '';
             foreach ($files as $file) {
                 $filepath = $app->path('public/sources/' . $file);
-                $contents .= $this->file->getContents($filepath) . "\n";
+                $contents .= $this->fileHelper->getContents($filepath) . "\n";
             }
             $bundleUrl = $this->createBundleFile($contents, 'sharedglobal.css');
-            $this->options->set('sharedLibraryGlobalFile', $bundleUrl);
+            $this->optionsHelper->set('sharedLibraryGlobalFile', $bundleUrl);
         }
 
-        $this->options->set('sharedLibraryGlobalFile', $bundleUrl);
+        $this->optionsHelper->set('sharedLibraryGlobalFile', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -331,11 +342,11 @@ class Controller extends Container implements Module
     {
         if ($contents) {
             $concatenatedFilename = md5($contents) . '.css';
-            $bundleUrl = $this->getFileUrl($concatenatedFilename);
-            $bundle = $this->getFilePath($concatenatedFilename);
+            $bundleUrl = $this->assetsHelper->getFileUrl($concatenatedFilename);
+            $bundle = $this->assetsHelper->getFilePath($concatenatedFilename);
             if (!is_file($bundle)) {
                 $this->deleteAssetsBundles('css');
-                if (!$this->file->setContents($bundle, $contents)) {
+                if (!$this->fileHelper->setContents($bundle, $contents)) {
                     return false;
                 }
             }
@@ -344,7 +355,7 @@ class Controller extends Container implements Module
             $bundleUrl = '';
         }
 
-        $this->options->set('stylesBundle', $bundleUrl);
+        $this->optionsHelper->set('stylesBundle', $bundleUrl);
 
         return $bundleUrl;
     }
@@ -354,7 +365,9 @@ class Controller extends Container implements Module
      */
     private function getStyleBundles()
     {
-        $assets = $this->options->get('styles', []);
+        // TODO: Check for usage.
+
+        $assets = $this->optionsHelper->get('styles', []);
 
         $list = [];
         if (is_array($assets)) {
@@ -371,7 +384,7 @@ class Controller extends Container implements Module
             if (is_array($files)) {
                 foreach ($files as $file) {
                     $filepath = $app->path('public/sources/elements/' . $file);
-                    $contents .= $this->file->getContents($filepath) . "\n";
+                    $contents .= $this->fileHelper->getContents($filepath) . "\n";
                 }
             }
 
@@ -391,11 +404,11 @@ class Controller extends Container implements Module
      */
     private function generateStylesGlobalFile()
     {
-        $styles = $this->options->get('global-styles', '');
-        $globalCss = $this->options->get('global-css', '');
+        $styles = $this->optionsHelper->get('global-styles', '');
+        $globalCss = $this->optionsHelper->get('global-css', '');
         $this->deleteAssetsBundles('global.css');
         $bundleUrl = $this->createBundleFile($styles . $globalCss, 'global.css');
-        $this->options->set('stylesGlobalFile', $bundleUrl);
+        $this->optionsHelper->set('stylesGlobalFile', $bundleUrl);
 
         // remove file
         return $bundleUrl;
@@ -411,17 +424,17 @@ class Controller extends Container implements Module
      */
     private function generatePostStyles($postId)
     {
-        $postsStyles = $this->options->get('design-options');
+        $postsStyles = $this->optionsHelper->get('design-options');
         $style = '';
         if (isset($postsStyles[ $postId ])) {
             $style = $postsStyles[ $postId ];
         }
-        $postsCustomCss = $this->options->get('custom-css');
+        $postsCustomCss = $this->optionsHelper->get('custom-css');
         if (isset($postsCustomCss[ $postId ])) {
             $style .= $postsCustomCss[ $postId ];
         }
         $bundleUrl = $this->createBundleFile($style, 'css');
-        $this->options->set('postStyles-' . $postId, $bundleUrl);
+        $this->optionsHelper->set('postStyles-' . $postId, $bundleUrl);
 
         // remove file
         return $bundleUrl;
@@ -440,10 +453,10 @@ class Controller extends Container implements Module
         $bundleUrl = false;
         if ($content) {
             $concatenatedFilename = md5($content) . '.' . $extension;
-            $bundle = $this->getFilePath($concatenatedFilename);
-            $bundleUrl = $this->getFileUrl($concatenatedFilename);
+            $bundle = $this->assetsHelper->getFilePath($concatenatedFilename);
+            $bundleUrl = $this->assetsHelper->getFileUrl($concatenatedFilename);
             if (!is_file($bundle)) {
-                if (!$this->file->setContents($bundle, $content)) {
+                if (!$this->fileHelper->setContents($bundle, $content)) {
                     return false;
                 }
             }
@@ -461,7 +474,7 @@ class Controller extends Container implements Module
      */
     private function updatePostAssets($postId, $assetType, $postAssets)
     {
-        $assets = $this->options->get($assetType, []);
+        $assets = $this->optionsHelper->get($assetType, []);
         if (!is_array($assets)) {
             $assets = [];
         }
@@ -472,7 +485,7 @@ class Controller extends Container implements Module
             unset($assets[ $postId ]); // TODO: check for isset??
         }
 
-        $this->options->set($assetType, $assets);
+        $this->optionsHelper->set($assetType, $assets);
 
         return $assets;
     }
@@ -485,8 +498,8 @@ class Controller extends Container implements Module
      */
     private function updateGlobalAssets($assetType, $postAssets)
     {
-        $assets = $this->options->get($assetType, '');
-        $this->options->set($assetType, $postAssets);
+        $assets = $this->optionsHelper->get($assetType, '');
+        $this->optionsHelper->set($assetType, $postAssets);
 
         return $assets;
     }
@@ -500,7 +513,7 @@ class Controller extends Container implements Module
      */
     private function deleteAssetsBundles($extension = '')
     {
-        $destinationDir = $this->getFilePath();
+        $destinationDir = $this->assetsHelper->getFilePath();
         if ($extension) {
             $extension = '.' . $extension;
         }
@@ -514,24 +527,5 @@ class Controller extends Container implements Module
         }
 
         return $files;
-    }
-
-    private function getFilePath($filename = '')
-    {
-        $uploadDir = wp_upload_dir();
-        $destinationDir = $uploadDir['basedir'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles';
-        $this->file->checkDir($destinationDir);
-        $path = $destinationDir . (!empty($filename) ? '/' . $filename : '');
-
-        return $path;
-    }
-
-    private function getFileUrl($filename = '')
-    {
-        $uploadDir = wp_upload_dir();
-        $url = $uploadDir['baseurl'] . '/' . VCV_PLUGIN_DIRNAME . '/assets-bundles' . (!empty($filename) ? '/'
-                . $filename : '');
-
-        return $url;
     }
 }

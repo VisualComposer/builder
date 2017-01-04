@@ -92,17 +92,14 @@ class WpWidgets implements Helper
     }
 
     /**
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     * @param \VisualComposer\Helpers\Nonce $nonceHelper
-     *
      * @return string
      */
-    public function getWidgetsUrl(Url $urlHelper, Nonce $nonceHelper)
+    public function getWidgetsUrl()
     {
-        $url = $urlHelper->ajax(
+        $url = vchelper('Url')->ajax(
             [
                 'vcv-action' => 'elements:widget:script:adminNonce',
-                'vcv-nonce' => $nonceHelper->admin(),
+                'vcv-nonce' => vchelper('Nonce')->admin(),
             ]
         );
 

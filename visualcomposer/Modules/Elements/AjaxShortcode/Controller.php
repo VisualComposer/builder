@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Elements\AjaxShortcodeRender;
+namespace VisualComposer\Modules\Elements\AjaxShortcode;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
@@ -19,10 +19,10 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
+        /** @see \VisualComposer\Modules\Elements\AjaxShortcode\Controller::render */
         $this->addFilter(
-            'vcv:ajax:elements:ajaxShortcodeRender:adminNonce',
-            'ajaxShortcodeRender'
+            'vcv:ajax:elements:ajaxShortcode:adminNonce',
+            'render'
         );
     }
 
@@ -31,7 +31,7 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function ajaxShortcodeRender(Request $request)
+    private function render(Request $request)
     {
         ob_start();
         echo do_shortcode($request->input('vcv-shortcode-string'));

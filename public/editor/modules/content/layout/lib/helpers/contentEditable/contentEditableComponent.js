@@ -286,7 +286,7 @@ export default class ContentEditableComponent extends React.Component {
     if (content.match(this.getShortcodesRegexp())) {
       this.setState({ html: ContentEditableComponent.spinnerHTML })
       dataProcessor.appServerRequest({
-        'vcv-action': 'elements:ajaxShortcodeRender:adminNonce',
+        'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
         'vcv-nonce': window.vcvNonce
       }).then((data) => {

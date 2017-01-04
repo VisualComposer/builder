@@ -23,15 +23,15 @@ class Controller extends Container implements Module
     protected static $jsScriptRendered = false;
 
     /**
-     * @var \VisualComposer\Helpers\Events
-     */
-    protected $event;
-
-    /**
      * Define
      * @var bool
      */
     protected $mainFrontBundle = false;
+
+    /**
+     * @var \VisualComposer\Helpers\Url
+     */
+    protected $urlHelper;
 
     /**
      * Controller constructor.
@@ -60,6 +60,8 @@ class Controller extends Container implements Module
      */
     public function enqueueScripts()
     {
+        // TODO: Check is it needed.
+
         wp_enqueue_script('jquery');
     }
 

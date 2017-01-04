@@ -46,7 +46,7 @@ class WpWidgetsController extends Container implements Module
         $widgetScripts = [];
         $widgetScripts[] = sprintf(
             '<script src="%s"></script>',
-            $this->call([$widgetsHelper, 'getWidgetsUrl'])
+            $widgetsHelper->getWidgetsUrl()
         );
 
         return array_merge($scripts, $widgetScripts);
@@ -65,8 +65,8 @@ class WpWidgetsController extends Container implements Module
         }
         $widgetKey = $requestHelper->input('vcv-widget-key');
         $args = $requestHelper->input('vcv-atts');
-
         $instance = $requestHelper->input('vcv-widget-value');
+
         if (isset($instance['widget-form'])) {
             $instance = $instance['widget-form'][1];
         }
