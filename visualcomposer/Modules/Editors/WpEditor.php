@@ -13,7 +13,7 @@ class WpEditor extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\WpEditor::addWpEditorScripts */
-        $this->addFilter('vcv:frontend:preRenderOutput', 'addWpEditorScripts');
+        $this->addFilter('vcv:frontend:extraOutput', 'addWpEditorScripts');
     }
 
     private function addWpEditorScripts($output)
