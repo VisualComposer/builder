@@ -58,11 +58,11 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "metaCustomId",
       "rowWidth",
       "removeSpaces",
       "columnGap",
       "fullHeight",
-      "metaCustomId",
       "customClass"
     ],
     "options": {
