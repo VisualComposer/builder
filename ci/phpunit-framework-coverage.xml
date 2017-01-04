@@ -7,6 +7,12 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
 >
+    <php>
+        <server name="HTTP_HOST" value="localhost"/>
+        <server name="SERVER_NAME" value="http://localhost"/>
+        <server name="SERVER_PORT" value="80"/>
+        <server name="REMOTE_ADDR" value="127.0.0.1"/>
+    </php>
     <testsuites>
         <testsuite name="Framework">
             <directory prefix="test-" suffix=".php">../tests/phpunit/Framework</directory>
