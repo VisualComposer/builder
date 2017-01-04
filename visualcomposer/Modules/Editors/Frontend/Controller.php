@@ -7,7 +7,6 @@ use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Nonce;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
@@ -65,12 +64,11 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Views $templates
-     * @param \VisualComposer\Helpers\Nonce $nonce
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @return string
      */
-    private function renderEditorBase(Request $requestHelper, Views $templates, Nonce $nonce, Frontend $frontendHelper)
+    private function renderEditorBase(Request $requestHelper, Views $templates, Frontend $frontendHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
 
