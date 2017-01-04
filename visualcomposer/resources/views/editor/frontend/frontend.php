@@ -1,5 +1,5 @@
 <?php
-require_once(ABSPATH . '/wp-admin/admin.php');
+// require_once(ABSPATH . '/wp-admin/admin.php');
 
 /**
  * @var $editableLink - link to editable content
