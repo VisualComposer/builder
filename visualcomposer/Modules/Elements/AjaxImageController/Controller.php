@@ -20,7 +20,7 @@ class Controller extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Elements\AjaxShortcodeRender\Controller::ajaxShortcodeRender */
+        /** @see \VisualComposer\Modules\Elements\AjaxImageController\Controller::customSize */
         $this->addFilter(
             'vcv:ajax:elements:imageController:customSize:adminNonce',
             'customSize'
