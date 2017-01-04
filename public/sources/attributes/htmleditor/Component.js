@@ -7,7 +7,6 @@ import './css/wpEditor.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class Component extends Attribute {
   constructor (props) {
@@ -51,23 +50,6 @@ export default class Component extends Attribute {
       </div>
     )
   }
-
-  componentDidMount () {
-    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
-      if (document.getElementById('vcv-wpeditor-template')) {
-        this.setState({editor: document.getElementById('vcv-wpeditor-template').innerHTML})
-      } else {
-        dataProcessor.appAdminServerRequest({
-          'vcv-action': 'editor:wpEditor:adminNonce'
-        }).then((data) => {
-          let range = document.createRange()
-          let documentFragment = range.createContextualFragment(data)
-          document.body.appendChild(documentFragment)
-          this.setState({ editor: document.getElementById('vcv-wpeditor-template').innerHTML })
-        })
-      }
-    }
-  }
   initWpEditorJs () {
     const { fieldKey } = this.props
     const id = `vcv-wpeditor-${fieldKey}`
@@ -84,17 +66,22 @@ export default class Component extends Attribute {
       })
     }
 
-    // window.setTimeout(() => {
-    window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
-    window.switchEditors && window.switchEditors.go(id, 'tmce')
-    if (window.QTags) {
-      delete window.QTags.instances[ 0 ]
-      if (window.QTags.instances[ id ]) {
-        window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+    window.setTimeout(() => {
+      window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
+      window.switchEditors && window.switchEditors.go(id, 'tmce')
+      if (window.QTags) {
+        delete window.QTags.instances[ 0 ]
+        if (window.QTags.instances[ id ]) {
+          window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+        }
       }
+      this.setState({editorLoaded: true})
+    }, 0)
+  }
+  componentDidMount () {
+    if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
+      this.initWpEditorJs()
     }
-    this.setState({ editorLoaded: true })
-    // }, 0)
   }
   componentWillUnmount () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
@@ -110,19 +97,12 @@ export default class Component extends Attribute {
 
   render () {
     if (vcCake.env('FEATURE_HTML_EDITOR_WP_VERSION') && vcCake.env('platform') === 'wordpress') {
-      let template = '<span class="vcv-ui-wp-spinner-lg">Loading...</span>'
       const { value } = this.state
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      // document.getElementById('vcv-wpeditor-template').innerHTML
-      if (this.state.editor) {
-        template = this.state.editor
+      const template = document.getElementById('vcv-wpeditor-template').innerHTML
           .replace(/__VCVID__/g, id)
           .replace(/%%content%%/g, value)
-        window.setTimeout(() => {
-          this.initWpEditorJs()
-        }, 0)
-      }
       const cssClasses = classnames({
         'vcv-ui-form-wp-tinymce': true,
         'vcv-is-invisible': this.state.editorLoaded !== true

@@ -85,6 +85,7 @@ class Controller extends Container implements Module
             'editor/frontend/frontend.php',
             [
                 'editableLink' => $editableLink,
+                'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', [])
             ]
         );
     }
