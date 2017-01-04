@@ -1,10 +1,5 @@
-import vcCake from 'vc-cake'
 import React from 'react'
-import Element from './element.js'
-
-// TODO: move styles to sources/less
-// import '../css/tree/init.less'
-// import '../css/tree-view/init.less'
+import Element from '../../layout/lib/element'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -14,56 +9,36 @@ export default class Layout extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: [],
-      selectedItem: null
+      data: []
     }
   }
+
   componentDidMount () {
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
     })
   }
+
   getElements () {
-    let elementsList = []
-    const DocumentData = vcCake.getService('document')
+    let elementsList
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
-        let data = DocumentData.children(element.id)
-        return <Element
-          element={element}
-          data={data}
-          key={element.id}
-          level={1}
-          api={this.props.api}
-        />
-      }, this)
+        return (
+          <Element element={element} key={element.id} api={this.props.api} />
+        )
+      })
     }
-    return elementsList
+    return <div className='vcv-wpbackend-layout' data-vcv-module='content-layout'>
+      {elementsList}
+    </div>
   }
 
-  getElementsOutput () {
-    let elements = this.getElements()
-    if (elements.length) {
-      return (
-        <ul className='vcv-ui-tree-layout'>
-          {elements}
-        </ul>
-      )
-    }
-    return (
-      <div className='vcv-ui-tree-layout-messages'>
-        <p className='vcv-ui-tree-layout-message'>
-          There are no elements on your canvas - start by adding element or template
-        </p>
-      </div>
-    )
+  getContent () {
+    // TODO: import blank page
+    return this.state.data.length ? this.getElements() : <div className='vcv-ui-tree-layout-messages'>Blank Page placeholder</div>
   }
 
   render () {
-    return (
-      <div className='vcv-ui-tree-layout-container'>
-        {this.getElementsOutput()}
-      </div>
-    )
+    return this.getContent()
   }
 }
