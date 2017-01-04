@@ -29,6 +29,11 @@ class Controller extends Container implements Module
     protected $mainFrontBundle = false;
 
     /**
+     * @var \VisualComposer\Helpers\Url
+     */
+    protected $urlHelper;
+
+    /**
      * Controller constructor.
      *
      * @param \VisualComposer\Helpers\Url $urlHelper
