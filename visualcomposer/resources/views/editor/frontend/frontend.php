@@ -1,4 +1,6 @@
 <?php
+// require_once(ABSPATH . '/wp-admin/admin.php');
+
 /**
  * @var $editableLink - link to editable content
  */
@@ -28,11 +30,18 @@ $postTypeHelper = vchelper('PostType');
     /** @todo add jquery into bundle.js. */
     do_action('embed_head');
     wp_print_head_scripts();
+    /*do_action('admin_enqueue_scripts', $hook_suffix );
+    do_action('admin_print_styles-{$hook_suffix}');
+    do_action('admin_print_styles');
+    do_action('admin_print_scripts-{$hook_suffix}');
+    do_action('admin_print_scripts');
+    do_action('admin_head-$hook_suffix');*/
+    do_action('admin_head');
     ?>
 </head>
 <body class="vcv-wb-editor">
 <script>
-  window.ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
+  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>',
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
   window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
   window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
@@ -61,9 +70,15 @@ foreach ($extraOutput as $output) {
     </div>
 </div>
 <?php
+foreach ($preRenderOutput as $output) {
+    echo $output;
+}
 do_action('wp_footer');
 wp_print_footer_scripts();
-
+do_action('admin_footer', '');
+do_action('admin_print_footer_scripts-{$hook_suffix}');
+do_action('admin_print_footer_scripts');
+do_action('admin_footer-{$hook_suffix}');
 ?>
 </body>
 </html>

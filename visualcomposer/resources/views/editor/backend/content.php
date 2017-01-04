@@ -6,16 +6,15 @@
 $urlHelper = vchelper('Url');
 /** @var \VisualComposer\Helpers\Nonce $nonceHelper */
 $nonceHelper = vchelper('Nonce');
-/** @var \VisualComposer\Modules\Editors\Frontend\Controller $frontendModule */
-$frontendModule = vcapp('EditorsFrontendController');
+$postTypeHelper = vchelper('PostType');
 ?>
 <script>
-    window.ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
-        window.vcvSourceID = <?php echo get_the_ID(); ?>;
+    window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
+    window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-    window.vcvPostData = <?php echo json_encode(vcapp()->call([$frontendModule, 'getPostData'])); ?>;
+    window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
     window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
 </script>
 
