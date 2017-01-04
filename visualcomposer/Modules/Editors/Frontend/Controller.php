@@ -75,7 +75,8 @@ class Controller extends Container implements Module
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                'editableLink' =>  $frontendHelper->getEditableUrl($sourceId),
+                'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
             ]
         );
     }

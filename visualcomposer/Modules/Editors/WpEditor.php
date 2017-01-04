@@ -13,13 +13,13 @@ class WpEditor extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\WpEditor::addWpEditorScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addWpEditorScripts');
+        $this->addFilter('vcv:frontend:preRenderOutput', 'addWpEditorScripts');
     }
 
     private function addWpEditorScripts($output)
     {
-        $this->getWpEditor();
-        // $output[] = sprintf('<script type="text/html" id="vcv-wpeditor-template">%s</script>', $this->getWpEditor());
+        // $this->getWpEditor();
+        $output[] = sprintf('<script type="text/html" id="vcv-wpeditor-template">%s</script>', $this->getWpEditor());
 
         return $output;
     }
