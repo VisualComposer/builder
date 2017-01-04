@@ -63,6 +63,7 @@
       "removeSpaces",
       "columnGap",
       "fullHeight",
+      "equalHeight",
       "customClass"
     ],
     "options": {
@@ -180,6 +181,14 @@
     "value": false,
     "options": {
       "label": "Row ID"
+    }
+  },
+  "equalHeight": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Column equal height"
     }
   }
 }
