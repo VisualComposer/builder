@@ -109,7 +109,7 @@ class CookElement {
     let editorProps = {}
     let atts = this.toJS()
     props.key = this[ elData ].id
-    props.id = this[ elData ].id
+    props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
     editorProps[ 'data-vc-element' ] = this[ elData ].id
     if (typeof editor === 'undefined' || editor) {
       props.editor = editorProps

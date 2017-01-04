@@ -58,6 +58,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "metaCustomId",
       "rowWidth",
       "removeSpaces",
       "columnGap",
@@ -109,7 +110,7 @@
     "access": "public",
     "value": "boxed",
     "options": {
-      "label": "Shape",
+      "label": "Row width",
       "values": [
         {
           "label": "Boxed",
@@ -169,7 +170,16 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Full height"
+      "label": "Full height",
+      "description": "Set row to be full screen height."
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Row ID"
     }
   }
 }

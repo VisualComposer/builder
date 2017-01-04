@@ -5,15 +5,29 @@ namespace VisualComposer\Modules\Editors\Backend;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Url;
 
 class MetaboxController extends Container implements Module
 {
     use WpFiltersActions;
 
-    public function __construct()
+    /**
+     * @var \VisualComposer\Helpers\Request
+     */
+    protected $request;
+
+    /**
+     * @var \VisualComposer\Helpers\Url
+     */
+    protected $url;
+
+    public function __construct(Request $request, Url $url)
     {
         /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
         $this->wpAddAction('add_meta_boxes', 'addMetaBox');
+        $this->request = $request;
+        $this->url = $url;
     }
 
     private function addMetaBox($postType)
@@ -38,6 +52,15 @@ class MetaboxController extends Container implements Module
 
     public function render()
     {
-        echo vcview('editor/backend/content.php');
+        $this->url->redirectIfUnauthorized();
+        $sourceId = (int)$this->request->input('post');
+        vchelper('PostType')->setupPost($sourceId);
+
+        echo vcview(
+            'editor/backend/content.php',
+            [
+                'editableLink' => vchelper('Frontend')->getEditableUrl($sourceId),
+            ]
+        );
     }
 }

@@ -31,8 +31,8 @@ class AssetsController extends Container implements Module
     private function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
-        $bundleJsUrl = $urlHelper->to('public/dist/backend.bundle.js?' . uniqid());
-        $bundleCssUrl = $urlHelper->to('public/dist/backend.bundle.css?' . uniqid());
+        $bundleJsUrl = $urlHelper->to('public/dist/wpbackend.bundle.js?' . uniqid());
+        $bundleCssUrl = $urlHelper->to('public/dist/wpbackend.bundle.css?' . uniqid());
         wp_register_script('vcv:editors:backend:bundle', $bundleJsUrl);
         wp_register_style('vcv:editors:backend:bundle', $bundleCssUrl);
 
