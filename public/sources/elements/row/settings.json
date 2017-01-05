@@ -63,7 +63,9 @@
       "removeSpaces",
       "columnGap",
       "fullHeight",
+      "columnPosition",
       "equalHeight",
+      "contentPosition",
       "customClass"
     ],
     "options": {
@@ -178,9 +180,10 @@
   "metaCustomId": {
     "type": "customId",
     "access": "public",
-    "value": false,
+    "value": "",
     "options": {
-      "label": "Row ID"
+      "label": "Row ID",
+      "description": "Apply unique Id to row to link directly to your row by using #your_id (for row id use lowercase input only)."
     }
   },
   "equalHeight": {
@@ -189,6 +192,66 @@
     "value": false,
     "options": {
       "label": "Column equal height"
+    }
+  },
+  "columnPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Column position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        },
+        {
+          "label": "Full Height",
+          "value": "stretch"
+        }
+      ],
+      "onChange": {
+        "rules": {
+          "fullHeight": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "contentPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Content position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ]
     }
   }
 }

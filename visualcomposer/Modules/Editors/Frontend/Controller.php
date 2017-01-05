@@ -32,22 +32,21 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @return bool|void
      */
-    private function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper)
+    private function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper, Frontend $frontendHelper)
     {
         // Require an action parameter.
-        if (is_admin() && $requestHelper->exists('vcv-action')) {
-            $requestAction = $requestHelper->input('vcv-action');
-            if ($requestAction === 'frontend') {
-                $urlHelper->redirectIfUnauthorized();
-                $sourceId = (int)$requestHelper->input('vcv-source-id');
-                $postTypeHelper->setupPost($sourceId);
-                $content = vcfilter('vcv:editors:frontend:render', '');
+        if ($frontendHelper->isFrontend()) {
+            $urlHelper->redirectIfUnauthorized();
+            $sourceId = (int)$requestHelper->input('vcv-source-id');
+            $postTypeHelper->setupPost($sourceId);
+            $content = vcfilter('vcv:editors:frontend:render', '');
 
-                return $this->terminate($content);
-            }
+            return $this->terminate($content);
         }
 
         return false;
@@ -75,7 +74,7 @@ class Controller extends Container implements Module
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' =>  $frontendHelper->getEditableUrl($sourceId),
+                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
                 'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
             ]
         );

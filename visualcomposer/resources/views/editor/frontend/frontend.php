@@ -2,11 +2,11 @@
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
-       $update_title, $total_update_count, $parent_file;
+       $update_title, $total_update_count, $parent_file, $typenow;
 if (empty($current_screen)) {
     set_current_screen();
 }
-
+$typenow = get_post_type();
 /**
  * @var $editableLink - link to editable content
  */
@@ -44,8 +44,8 @@ $postTypeHelper = vchelper('PostType');
 </head>
 <body class="vcv-wb-editor">
 <script>
-    window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>',
-        window.vcvSourceID = <?php echo get_the_ID(); ?>;
+    window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
+    window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';

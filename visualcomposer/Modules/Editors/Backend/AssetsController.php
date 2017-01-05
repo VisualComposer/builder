@@ -4,30 +4,46 @@ namespace VisualComposer\Modules\Editors\Backend;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Class AssetsController
+ * @package VisualComposer\Modules\Editors\Backend
+ */
 class AssetsController extends Container implements Module
 {
     use WpFiltersActions;
 
+    /**
+     * AssetsController constructor.
+     */
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
     }
 
-    private function enqueueEditorAssets()
+    /**
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     */
+    private function enqueueEditorAssets(Frontend $frontendHelper)
     {
-        $this->registerEditorAssets();
-        $newWebpack = false;
-        if ($newWebpack) {
-            wp_enqueue_script('vcv:editors:backend:vendor');
-        }
+        if (!$frontendHelper->isFrontend()) {
+            $this->registerEditorAssets();
+            $newWebpack = false;
+            if ($newWebpack) {
+                wp_enqueue_script('vcv:editors:backend:vendor');
+            }
 
-        wp_enqueue_script('vcv:editors:backend:bundle');
-        wp_enqueue_style('vcv:editors:backend:bundle');
+            wp_enqueue_script('vcv:editors:backend:bundle');
+            wp_enqueue_style('vcv:editors:backend:bundle');
+        }
     }
 
+    /**
+     *
+     */
     private function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
