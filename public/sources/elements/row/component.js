@@ -3,11 +3,10 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
-    let contentClasses = [ 'vce-row-content' ]
     let customProps = {
       style: {}
     }
@@ -66,18 +65,21 @@ class Component extends vcvAPI.elementComponent {
       customRowProps.style.minHeight = ''
     }
 
-    if (equalHeight) {
-      contentClasses.push('vce-row-equal-height')
+    if (equalHeight && columnPosition !== 'stretch') {
+      classes.push('vce-row-equal-height')
+    }
+
+    if (columnPosition) {
+      classes.push(`vce-row-columns--${columnPosition}`)
     }
 
     let className = classNames(classes)
-    let contentClassName = classNames(contentClasses)
 
     let customId = metaCustomId === false ? id : metaCustomId
 
     return <div className='vce-row-container'>
       <div className={className} {...customRowProps} {...editor} id={customId}>
-        <div className={contentClassName} id={'el-' + id} {...customProps}>
+        <div className='vce-row-content' id={'el-' + id} {...customProps}>
           {content}
         </div>
       </div>

@@ -64,6 +64,7 @@
       "columnGap",
       "fullHeight",
       "equalHeight",
+      "columnPosition",
       "customClass"
     ],
     "options": {
@@ -189,6 +190,32 @@
     "value": false,
     "options": {
       "label": "Column equal height"
+    }
+  },
+  "columnPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Column position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        },
+        {
+          "label": "Full Height",
+          "value": "stretch"
+        }
+      ]
     }
   }
 }

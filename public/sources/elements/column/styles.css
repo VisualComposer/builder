@@ -8,6 +8,10 @@
   box-sizing: border-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
 }
 .vce-col-content {
   -ms-flex: 1 1 0;
