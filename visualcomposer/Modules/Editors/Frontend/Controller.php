@@ -5,7 +5,6 @@ namespace VisualComposer\Modules\Editors\Frontend;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
@@ -18,7 +17,6 @@ use VisualComposer\Helpers\Url;
 class Controller extends Container implements Module
 {
     use EventsFilters;
-    use WpFiltersActions;
 
     /**
      * Frontend constructor.
@@ -28,7 +26,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
         $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::init */
-        $this->wpAddAction('admin_init', 'init');
+        $this->addEvent('vcv:inited', 'init');
     }
 
     /**
@@ -46,7 +44,6 @@ class Controller extends Container implements Module
                 $urlHelper->redirectIfUnauthorized();
                 $sourceId = (int)$requestHelper->input('vcv-source-id');
                 $postTypeHelper->setupPost($sourceId);
-                remove_action('admin_head', 'wp_admin_bar_header');
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
                 return $this->terminate($content);
@@ -78,7 +75,7 @@ class Controller extends Container implements Module
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                'editableLink' =>  $frontendHelper->getEditableUrl($sourceId),
                 'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
             ]
         );
