@@ -81,47 +81,7 @@ module.exports = {
         'wipAssetsStorage',
         'wipAssetsManager',
         'wipStylesManager',
-        'wpMyTemplates'
-      ]
-    },
-    wpbackend: {
-      modules: [
-        'content/storage',
-        'content/wordpress/data-load',
-        'content/wordpress/data-save',
-        'content/wordpress/data-unload',
-        'content/layout',
-        'content/backendLayout',
-        'ui/layout-bar',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/tree-view',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/undo-redo',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/wordpress-post'
-      ],
-      services: [
-        'utils',
-        'assets-manager',
-        'document',
-        'wordpress-post-data',
-        'cook',
-        'shared-library',
-        'assets-library',
-        'time-machine',
-        'actions-manager',
-        'rules-manager',
-        'api',
-        'categories',
-        'dataProcessor',
-        'wipAssetsStorage',
-        'wipAssetsManager',
-        'wipStylesManager',
-        'wpMyTemplates'
+        'myTemplates'
       ]
     }
   }
