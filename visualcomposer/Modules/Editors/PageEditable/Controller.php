@@ -33,6 +33,8 @@ class Controller extends Container implements Module
         if ($this->call('isPageEditable')) {
             /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
             $this->wpAddFilter('show_admin_bar', '__return_false');
+            remove_action('wp_head', 'wp_admin_bar_header');
+
             $this->call('buildPageEditable');
         }
     }

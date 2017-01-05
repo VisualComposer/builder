@@ -46,6 +46,7 @@ class Controller extends Container implements Module
                 $urlHelper->redirectIfUnauthorized();
                 $sourceId = (int)$requestHelper->input('vcv-source-id');
                 $postTypeHelper->setupPost($sourceId);
+                remove_action('admin_head', 'wp_admin_bar_header');
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
                 return $this->terminate($content);
@@ -77,7 +78,7 @@ class Controller extends Container implements Module
         return $templates->render(
             'editor/frontend/frontend.php',
             [
-                'editableLink' =>  $frontendHelper->getEditableUrl($sourceId),
+                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
                 'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
             ]
         );
