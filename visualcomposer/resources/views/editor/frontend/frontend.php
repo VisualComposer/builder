@@ -44,8 +44,8 @@ $postTypeHelper = vchelper('PostType');
 </head>
 <body class="vcv-wb-editor">
 <script>
-    window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>',
-        window.vcvSourceID = <?php echo get_the_ID(); ?>;
+    window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
+    window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
     window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
