@@ -182,7 +182,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Row ID"
+      "label": "Row ID",
+      "description": "Apply unique Id to row to link directly to your row by using #your_id (for row id use lowercase input only)."
     }
   },
   "equalHeight": {
