@@ -65,6 +65,7 @@
       "fullHeight",
       "equalHeight",
       "columnPosition",
+      "contentPosition",
       "customClass"
     ],
     "options": {
@@ -214,6 +215,28 @@
         {
           "label": "Full Height",
           "value": "stretch"
+        }
+      ]
+    }
+  },
+  "contentPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Content position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
         }
       ]
     }

@@ -8,6 +8,10 @@
   box-sizing: border-box;
   display: -ms-flexbox;
   display: flex;
+}
+.vce-col-inner {
+  display: flex;
+  width: 100%;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
   -ms-flex-align: start;

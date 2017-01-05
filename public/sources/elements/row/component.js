@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -71,6 +71,10 @@ class Component extends vcvAPI.elementComponent {
 
     if (columnPosition) {
       classes.push(`vce-row-columns--${columnPosition}`)
+    }
+
+    if (contentPosition) {
+      classes.push(`vce-row-content--${contentPosition}`)
     }
 
     let className = classNames(classes)
