@@ -7,7 +7,7 @@ if (vcCake.env('FEATURE_WPBACKEND')) {
   vcCake.add('backendLayout', (api) => {
     ReactDOM.render(
       <Layout api={api} />,
-      document.getElementById('vcv-layout-backend-content')
+      document.getElementById('vcv-wpbackend-layout-content')
     )
   })
 }

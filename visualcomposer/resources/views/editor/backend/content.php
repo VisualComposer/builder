@@ -19,20 +19,21 @@ $postTypeHelper = vchelper('PostType');
 </script>
 
 <div id="vcv-editor">
-    <div class="vcv-layout-container">
+    <div class="vcv-wpbackend-layout-container">
         <div class="vcv-layout" id="vcv-layout">
-            <div class="vcv-layout-header" id="vcv-layout-header">
-            </div>
-            <div class="vcv-layout-content" style="height: 10px !important; width: 10px !important; display: flex; overflow: hidden;">
-                <div class="vcv-layout-iframe-container" style="display: block;">
-                    <iframe class="vcv-layout-iframe"
-                        src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
+            <div class="vcv-layout-header" id="vcv-layout-header"></div>
+            <div class="vcv-layout-content">
+                <div class="vcv-layout-iframe-container">
+                    <iframe
+                        class="vcv-layout-iframe"
+                        id="vcv-editor-iframe"
+                        src="<?php echo $editableLink; ?>"
                         frameborder="0" scrolling="auto"></iframe>
                     <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
                 </div>
             </div>
         </div>
-        <div id="vcv-layout-backend-content"></div>
+        <div id="vcv-wpbackend-layout-content"></div>
     </div>
 </div>
 
