@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\Frontend;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
@@ -17,6 +18,7 @@ use VisualComposer\Helpers\Url;
 class Controller extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * Frontend constructor.
@@ -26,7 +28,7 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
         $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::init */
-        $this->addEvent('vcv:inited', 'init');
+        $this->wpAddAction('admin_init', 'init');
     }
 
     /**
