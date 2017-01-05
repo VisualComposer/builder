@@ -63,6 +63,7 @@ class PostType implements Helper
         setup_postdata($post);
         $post_type = $post->post_type;
         $post_type_object = get_post_type_object($post_type);
+        set_current_screen($post_type);
 
         return $post;
     }

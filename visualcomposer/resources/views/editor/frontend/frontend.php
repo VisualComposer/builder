@@ -1,11 +1,6 @@
 <?php
-require_once(ABSPATH . 'wp-admin/includes/admin.php');
-
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
        $update_title, $total_update_count, $parent_file;
-if (empty($current_screen)) {
-    set_current_screen();
-}
 
 /**
  * @var $editableLink - link to editable content
