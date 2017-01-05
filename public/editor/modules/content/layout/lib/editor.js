@@ -1,7 +1,7 @@
 import React from 'react'
 import {getData} from 'vc-cake'
 import HtmlLayout from './htmlLayout'
-import BlankPage from './helpers/blankPage/component'
+import BlankPageManagerFront from './helpers/BlankPageManagerFront/component'
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export default class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    return this.state.data.length === 0 && getData('app:dataLoaded') === true ? <BlankPage api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
+    return this.state.data.length === 0 && getData('app:dataLoaded') === true ? <BlankPageManagerFront api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
   }
   render () {
     return (
