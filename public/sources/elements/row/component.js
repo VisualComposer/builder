@@ -79,10 +79,12 @@ class Component extends vcvAPI.elementComponent {
 
     let className = classNames(classes)
 
-    let customId = metaCustomId === false ? id : metaCustomId
+    if (metaCustomId) {
+      customRowProps.id = metaCustomId
+    }
 
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor} id={customId}>
+      <div className={className} {...customRowProps} {...editor}>
         <div className='vce-row-content' id={'el-' + id} {...customProps}>
           {content}
         </div>

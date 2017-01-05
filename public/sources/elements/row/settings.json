@@ -180,7 +180,7 @@
   "metaCustomId": {
     "type": "customId",
     "access": "public",
-    "value": false,
+    "value": "",
     "options": {
       "label": "Row ID"
     }
