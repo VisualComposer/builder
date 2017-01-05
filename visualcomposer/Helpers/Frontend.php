@@ -46,4 +46,17 @@ class Frontend implements Helper
 
         return $editableUrl;
     }
+
+    public function isFrontend()
+    {
+        $requestHelper = vchelper('Request');
+        if (is_admin() && $requestHelper->exists('vcv-action')) {
+            $requestAction = $requestHelper->input('vcv-action');
+            if ($requestAction === 'frontend') {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
