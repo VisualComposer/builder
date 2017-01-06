@@ -67,9 +67,9 @@ export default class AjaxForm extends Attribute {
       'vcv-nonce': window.vcvNonce
     }, (result) => {
       let response = JSON.parse(result.response)
-      if (response && response.status && response.html) {
+      if (response && response.status) {
         this.setState({
-          formContent: response.html,
+          formContent: response.html || 'There are no options for this widget.',
           formStatus: true,
           formBound: false
         })

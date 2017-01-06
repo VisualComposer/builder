@@ -122,6 +122,7 @@ class WpWidgets implements Helper
         $output = '';
         if (is_object($widget)) {
             ob_start();
+            $args = vcfilter('vcv:helpers:widgets:render', $args, ['widget' => $widget, 'instance' => $instance]);
             $widget->widget($args, $instance);
             $output = ob_get_clean();
         }
@@ -131,6 +132,16 @@ class WpWidgets implements Helper
 
     public function form($widgetKey, $instance)
     {
+        $instance = array_merge(
+            [
+                'before_title' => '',
+                'after_title' => '',
+                'before_widget' => '',
+                'after_widget' => '',
+                'title' => '',
+            ],
+            $instance
+        );
         $widget = $this->get($widgetKey);
         $form = '';
         if (is_object($widget)) {
