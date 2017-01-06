@@ -7,6 +7,7 @@ use VisualComposer\Helpers\Nonce;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\PostType;
 
 class Controller extends Container implements Module
 {
@@ -59,6 +60,17 @@ class Controller extends Container implements Module
         }
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     */
+    public function setSource(Request $requestHelper, PostType $postTypeHelper)
+    {
+        if ($requestHelper->exists('vcv-source-id')) {
+            $postTypeHelper->setupPost((int)$requestHelper->input('vcv-source-id'));
+        }
+    }
+
     public function output($output)
     {
         wp_die($output);
@@ -74,6 +86,9 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\System\Ajax\Controller::validateNonce */
         $validateNonce = $this->call('validateNonce', [$requestAction]);
         if ($validateNonce) {
+            /** @see \VisualComposer\Modules\System\Ajax\Controller::setSource */
+            $this->call('setSource');
+
             /** @see \VisualComposer\Modules\System\Ajax\Controller::getResponse */
             return $this->call('getResponse', [$requestAction]);
         }

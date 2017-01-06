@@ -71,6 +71,7 @@ class WpWidgetsController extends Container implements Module
             $instance = $instance['widget-form'][1];
         }
 
+        $response['status'] = true;
         $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::getShortcode */
         $response['shortcode'] = $this->call('getShortcode');

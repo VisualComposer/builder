@@ -2,8 +2,8 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   state = {
-    shortcode: { __html: '' },
-    shortcodeContent: { __html: '' }
+    shortcode: '',
+    shortcodeContent: ''
   }
 
   componentDidMount () {
@@ -18,24 +18,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   requestToServer () {
-    let ajax = (data, successCallback, failureCallback) => {
-      let request
-      request = new window.XMLHttpRequest()
-      request.open('POST', window.vcvAjaxUrl, true)
-      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-      request.onload = () => {
-        if (request.status >= 200 && request.status < 400) {
-          successCallback(request)
-        } else {
-          if (typeof failureCallback === 'function') {
-            failureCallback(request)
-          }
-        }
-      }
-      request.send(window.$.param(data))
-
-      return request
-    }
+    let ajax = vcCake.getService('utils').ajax
 
     if (this.serverRequest) {
       this.serverRequest.abort()
@@ -46,6 +29,9 @@ class Component extends vcvAPI.elementComponent {
       before_widget: this.props.atts.atts_before_widget,
       after_widget: this.props.atts.atts_after_widget
     }
+    this.setState({
+      shortcodeContent: '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
+    })
     this.serverRequest = ajax({
       'vcv-action': 'elements:widget:adminNonce',
       'vcv-nonce': window.vcvNonce,
@@ -54,10 +40,17 @@ class Component extends vcvAPI.elementComponent {
       'vcv-atts': atts
     }, (result) => {
       let response = JSON.parse(result.response)
-      this.setState({
-        shortcode: response.shortcode,
-        shortcodeContent: { __html: response.shortcodeContent }
-      })
+      if (response && response.status) {
+        this.setState({
+          shortcode: response.shortcode,
+          shortcodeContent: response.shortcodeContent || 'Failed to render widget'
+        })
+      } else {
+        this.setState({
+          shortcode: '',
+          shortcodeContent: 'Request to server failed'
+        })
+      }
     })
   }
 
@@ -83,7 +76,7 @@ class Component extends vcvAPI.elementComponent {
 
     return (
       <div className='vce vce-widgets-wrapper' {...customProps} id={'el-' + id} {...editor}>
-        <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
+        <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
       </div>
     )
   }
