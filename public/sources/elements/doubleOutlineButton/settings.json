@@ -1,0 +1,226 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Double Outline Button"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "double-outline-button-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "double-outline-button-thumbnail.png"
+  },
+  "buttonUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Link selection"
+    }
+  },
+  "buttonText": {
+    "type": "string",
+    "access": "public",
+    "value": "Apply Now",
+    "options": {
+      "label": "Button text"
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "#e3e3e3",
+    "options": {
+      "label": "Title color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "hoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#000000",
+    "options": {
+      "label": "Title hover color",
+      "cssMixin": {
+        "mixin": "hoverColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "borderColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#e3e3e3",
+    "options": {
+      "label": "Border color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "borderColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "backgroundColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#3d3d3d",
+    "options": {
+      "label": "Background color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "backgroundColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "backgroundHoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#888888",
+    "options": {
+      "label": "Background hover color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "backgroundHoverColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        }
+      ]
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonText",
+      "buttonUrl",
+      "alignment",
+      "shape",
+      "buttonType",
+      "color",
+      "hoverColor",
+      "borderColor",
+      "backgroundColor",
+      "backgroundHoverColor",
+      "customClass"
+    ],
+    "options": {
+      "label": "Double Outline Button"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  }
+}

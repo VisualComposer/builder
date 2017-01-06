@@ -1,0 +1,34 @@
+.vce-button {
+  &--style-double-outline {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+        &:hover {
+          @if $color != false {
+            color: $color;
+          }
+        }
+
+        &:before {
+          @if $borderColor != false {
+            border-color: $borderColor;
+          }
+        }
+
+        &:hover, &:active, &:focus {
+          @if $hoverColorOutline != false {
+            color: $hoverColorOutline;
+          }
+          &:before {
+            @if $hoverBackgroundBorder != false {
+              border-color: $hoverBackgroundBorder;
+            }
+          }
+        }
+      }
+    }
+  }
+}
