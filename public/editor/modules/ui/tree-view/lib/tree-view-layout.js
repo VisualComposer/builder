@@ -4,7 +4,6 @@ import TreeViewElement from './element.js'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import '../css/tree/init.less'
-import '../css/tree-view/init.less'
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
