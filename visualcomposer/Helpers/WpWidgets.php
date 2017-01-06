@@ -122,6 +122,7 @@ class WpWidgets implements Helper
         $output = '';
         if (is_object($widget)) {
             ob_start();
+            $args = vcfilter('vcv:helpers:widgets:render', $args, ['widget' => $widget, 'instance' => $instance]);
             $widget->widget($args, $instance);
             $output = ob_get_clean();
         }
