@@ -253,5 +253,10 @@
         }
       ]
     }
+  },
+  "backendView": {
+    "type": "string",
+    "access": "protected",
+    "value": "frontend"
   }
 }

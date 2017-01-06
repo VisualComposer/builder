@@ -19,7 +19,7 @@
     &:hover,
     &:active,
     &:focus {
-      color: #fff;
+      color: @vce-wpbackend-layout-link-hover-color;
       box-shadow: none;
     }
   }
@@ -29,18 +29,87 @@
       &:hover,
       &:active,
       &:focus {
-        color: #6f747b;
+        color: @vce-wpbackend-layout-tab-hover-color;
       }
     }
   }
 
   .vcv-ui-item-element {
     &:hover {
-      color: #484848;
+      color: @vce-wpbackend-layout-item-hover-color;
     }
   }
 }
 
 .vcv-wpbackend-layout {
-  padding: 30px 22px 20px;
+  padding: @vcv-wpbackend-layout-padding;
+}
+
+.vce-wpbackend-element {
+  &-container {
+    margin-bottom: @vcv-wpbackend-container-margin-bottom;
+    border: 1px solid @vce-wpbackend-element-container-border-color;
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    background-color: @vce-wpbackend-element-header-background-color;
+    color: @vce-wpbackend-element-header-color;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+      margin-right: @vcv-wpbackend-element-header-after-margin-right;
+    }
+
+    &-closed {
+      &::after {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid @vce-wpbackend-element-header-after-color;
+      }
+    }
+
+    &-opened {
+      &::after{
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-bottom: 5px solid @vce-wpbackend-element-header-after-color;
+      }
+    }
+
+    &-name {
+      flex: 2 0 auto;
+      display: flex;
+      align-items: center;
+      margin-left: @vcv-wpbackend-element-name-margin-left;
+      font-size: @vcv-wpbackend-element-name-font-size;
+    }
+
+    &-icon{
+      flex: 0 0 60px;
+      border-right: 1px solid @vce-wpbackend-element-container-border-color;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &-attributes {
+    background-color: @vce-wpbackend-element-attributes-background-color;
+    font-style: italic;
+    color: @vce-wpbackend-element-attributes-color;
+    padding: @vcv-wpbackend-element-attributes-padding;
+    border-top: 1px solid @vce-wpbackend-element-container-border-color;
+  }
+}
+
+.vce-wpbackend-hidden {
+  display: none;
 }

@@ -89,5 +89,10 @@
     "value": [
       "animate"
     ]
+  },
+  "backendView": {
+    "type": "string",
+    "access": "protected",
+    "value": "frontend"
   }
 }
