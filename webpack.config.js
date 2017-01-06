@@ -125,7 +125,6 @@ module.exports = {
         'ui/navbar',
         'ui/brand-logo',
         'ui/addElement',
-        'ui/tree-view',
         'ui/edit-element',
         'ui/addTemplate',
         'ui/undo-redo',
