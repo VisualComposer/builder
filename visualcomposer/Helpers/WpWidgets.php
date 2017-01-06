@@ -132,6 +132,16 @@ class WpWidgets implements Helper
 
     public function form($widgetKey, $instance)
     {
+        $instance = array_merge(
+            [
+                'before_title' => '',
+                'after_title' => '',
+                'before_widget' => '',
+                'after_widget' => '',
+                'title' => '',
+            ],
+            $instance
+        );
         $widget = $this->get($widgetKey);
         $form = '';
         if (is_object($widget)) {
