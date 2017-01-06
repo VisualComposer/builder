@@ -63,8 +63,8 @@
       "removeSpaces",
       "columnGap",
       "fullHeight",
-      "equalHeight",
       "columnPosition",
+      "equalHeight",
       "contentPosition",
       "customClass"
     ],
@@ -217,7 +217,19 @@
           "label": "Full Height",
           "value": "stretch"
         }
-      ]
+      ],
+      "onChange": {
+        "rules": {
+          "fullHeight": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "contentPosition": {

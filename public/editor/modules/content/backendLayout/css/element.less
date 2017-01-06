@@ -1,0 +1,63 @@
+.vc-v-root-element {
+  .controls {
+    padding: 10px;
+    text-align: center;
+    a {
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 4px;
+    }
+  }
+}
+
+[data-vc-dnd-status] {
+  //position: relative;
+  //&::before {
+  //  content: '';
+  //  display: block;
+  //  position: absolute;
+  //  top: 0;
+  //  bottom: 0;
+  //  left: 0;
+  //  right: 0;
+  //  pointer-events: none;
+  //  z-index: 0;
+  //}
+}
+
+[data-vc-dnd-status=allowed] {
+  background-color: yellow;
+  //&::before {
+  //  background-color: yellow;
+  //  opacity: .3;
+  //}
+}
+
+[data-vc-dnd-status=success] {
+  background-color: green;
+  //&::before {
+  //  background-color: green;
+  //  opacity: .3;
+  //}
+}
+
+[data-vc-dnd-status="is-dragging"] {
+  opacity: .7;
+}
+
+[data-vc-dnd-hidden="true"] {
+  display: none !important;
+}
+
+.vcv-ui-drag-placeholder {
+  opacity: .4;
+}
+
+//TODO: please use class instead of section tag
+//section {
+  //min-height: 60px;
+  //border: 1px dashed #999999;
+//}

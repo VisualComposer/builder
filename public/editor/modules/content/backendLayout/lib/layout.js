@@ -1,5 +1,8 @@
 import React from 'react'
+import {getData} from 'vc-cake'
+// import Element from './element'
 import Element from '../../layout/lib/element'
+import BlankPageManagerBack from '../lib/helpers/BlankPageManagerBack/component'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -34,8 +37,7 @@ export default class Layout extends React.Component {
   }
 
   getContent () {
-    // TODO: import blank page
-    return this.state.data.length ? this.getElements() : <div className='vcv-ui-tree-layout-messages'>Blank Page placeholder</div>
+    return this.state.data.length && getData('app:dataLoaded') ? this.getElements() : <BlankPageManagerBack api={this.props.api} iframe={false} />
   }
 
   render () {

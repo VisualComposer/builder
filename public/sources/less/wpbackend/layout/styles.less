@@ -11,16 +11,34 @@
     display: none;
   }
 
-  .vcv-ui-navbar-control {
+  .vcv-ui-navbar-control,
+  .vcv-layout-bar-content-hide,
+  .vcv-ui-tree-layout-action,
+  .vcv-ui-tree-layout-control-action,
+  .vcv-ui-editor-tab {
     &:hover,
     &:active,
     &:focus {
-      color: inherit;
+      color: #fff;
       box-shadow: none;
     }
   }
 
+  .vcv-ui-editor-tab {
+    &.vcv-ui-state--active {
+      &:hover,
+      &:active,
+      &:focus {
+        color: #6f747b;
+      }
+    }
+  }
 
+  .vcv-ui-item-element {
+    &:hover {
+      color: #484848;
+    }
+  }
 }
 
 .vcv-wpbackend-layout {
