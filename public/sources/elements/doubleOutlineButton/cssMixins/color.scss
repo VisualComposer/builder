@@ -23,6 +23,18 @@
           }
         }
 
+        @if $borderHoverColor != false {
+          &:hover,
+          &:active,
+          &:focus {
+            border-color: $borderHoverColor;
+
+            &:before {
+              border-color: $borderHoverColor;
+            }
+          }
+        }
+
         @if $backgroundHoverColor != false {
           &:hover,
           &:active,
