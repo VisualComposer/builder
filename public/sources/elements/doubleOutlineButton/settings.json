@@ -32,7 +32,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "double-outline-button-thumbnail.png"
+    "value": "double-outline-button-thumbnail.jpg"
   },
   "buttonUrl": {
     "type": "url",
@@ -75,8 +75,8 @@
     "options": {
       "label": "Title hover color",
       "cssMixin": {
-        "mixin": "hoverColor",
-        "property": "color",
+        "mixin": "color",
+        "property": "hoverColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -90,19 +90,6 @@
       "cssMixin": {
         "mixin": "color",
         "property": "borderColor",
-        "namePattern": "[\\da-f]+"
-      }
-    }
-  },
-  "backgroundColor": {
-    "type": "color",
-    "access": "public",
-    "value": "#3d3d3d",
-    "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "color",
-        "property": "backgroundColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -162,7 +149,6 @@
       "color",
       "hoverColor",
       "borderColor",
-      "backgroundColor",
       "backgroundHoverColor",
       "customClass"
     ],
