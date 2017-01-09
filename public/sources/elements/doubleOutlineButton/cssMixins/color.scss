@@ -6,25 +6,29 @@
         @if $color != false {
           color: $color;
         }
-        &:hover {
-          @if $color != false {
-            color: $color;
+
+        &:hover,
+        &:focus,
+        &:active {
+          @if $hoverColor != false {
+            color: $hoverColor;
           }
         }
 
-        &:before {
-          @if $borderColor != false {
+        @if $borderColor != false {
+          border-color: $borderColor;
+
+          &:before {
             border-color: $borderColor;
           }
         }
 
-        &:hover, &:active, &:focus {
-          @if $hoverColorOutline != false {
-            color: $hoverColorOutline;
-          }
-          &:before {
-            @if $hoverBackgroundBorder != false {
-              border-color: $hoverBackgroundBorder;
+        @if $backgroundHoverColor != false {
+          &:hover,
+          &:active,
+          &:focus {
+            &:after {
+              background-color: $backgroundHoverColor;
             }
           }
         }
