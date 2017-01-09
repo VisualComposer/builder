@@ -35,6 +35,7 @@ button.vce-button--style-double-outline {
   white-space: normal;
   touch-action: manipulation;
   user-select: none;
+  line-height: normal;
   z-index: 1;
   transition: all 0.2s ease-in-out;
   border-radius: 0;
