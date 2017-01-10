@@ -116,6 +116,7 @@ module.exports = {
     wpbackend: {
       modules: [
         'content/storage',
+        'content/backendAssets',
         'content/wordpress/data-load',
         'content/wordpress/data-save',
         'content/wordpress/data-unload',
