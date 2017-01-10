@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import '../css/element.less'
+import '../../../../../sources/less/content/layout/element.less'
 import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 

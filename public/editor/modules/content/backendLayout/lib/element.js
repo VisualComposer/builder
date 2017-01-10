@@ -1,8 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import DefaultElement from './defaultElement'
-import ContentControls from '../../layout/lib/helpers/contentControls/component'
-import ContentEditableComponent from '../../layout/lib/helpers/contentEditable/contentEditableComponent'
+import ContentControlsBackend from './helpers/contentControlsBackend/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -31,7 +30,7 @@ export default class Element extends React.Component {
       returnData = elementsList
     } else {
       returnData = currentElement.containerFor().length > 0
-        ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
+        ? <ContentControlsBackend api={this.props.api} id={currentElement.get('id')} /> : content
     }
     return returnData
   }
@@ -40,14 +39,7 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      let attrSettings = element.settings(key)
-      if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[ key ] = <ContentEditableComponent id={atts.id} field={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
-          {atts[ key ] || ''}
-        </ContentEditableComponent>
-      } else {
-        layoutAtts[ key ] = atts[ key ]
-      }
+      layoutAtts[ key ] = atts[ key ]
     })
     return layoutAtts
   }
