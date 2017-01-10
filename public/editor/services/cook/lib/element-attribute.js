@@ -49,7 +49,7 @@ export default class {
   getField () {
     return this.component
   }
-  
+
   getRepresenter (type = 'backend') {
     return this.representers[type] ? this.representers[type] : false
   }

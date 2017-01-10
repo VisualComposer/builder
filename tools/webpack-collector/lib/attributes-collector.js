@@ -37,7 +37,7 @@ var Collector = {
           content += uf("import {default as %sSetter} from '%s'\n", attribute, join(attributeRelativePath, 'Setter').replace(/\\/g, '/'))
         }
         let representersDirPath = join(filePath, 'representers')
-        let representers = []
+        let representers = {}
         let representersDirStats = fs.existsSync(representersDirPath) ? fs.lstatSync(representersDirPath) : false
         if (representersDirStats) {
           let files = fs.readdirSync(representersDirPath)
@@ -50,7 +50,7 @@ var Collector = {
                 const componentName = representerContent.match(/(?:export.+class\s*)([^\s]+)/)
                 if (componentName) {
                   let className = `Representer${componentName[1]}ForAttribute`
-                  representers.push(className)
+                  representers[componentName[1]] = className
                   content += uf("import {%s as %s} from '%s'\n", componentName[1], className, join(attributeRelativePath, 'representers', file).replace(/\\/g, '/'))
                 }
               }
@@ -70,6 +70,13 @@ var Collector = {
           gettersSetters.push(uf("setter: %sSetter", attribute))
         }
         content += gettersSetters.join(',')
+        if (Object.keys(representers).length) {
+          content += uf("},{\n")
+          const list = Object.keys(representers).map((name) => {
+            return uf(`${name}: ${representers[name]}`)
+          })
+          content += list.join(",\n")
+        }
         content += uf("})\n")
       }
     })
