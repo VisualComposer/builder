@@ -196,3 +196,19 @@
     transform: translate(-50%, -50%);
   }
 }
+
+.vcv-ui-editor-tabs-wrapper {
+  display: flex;
+
+  &-state--hidden {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+.vcv-ui-editors-header-dropdown {
+  margin-top: @edit-form-tabs-dropdown-margin-top;
+  margin-bottom: @edit-form-tabs-dropdown-margin-bottom;
+}
