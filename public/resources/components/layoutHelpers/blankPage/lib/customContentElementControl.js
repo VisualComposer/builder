@@ -10,21 +10,21 @@ export default class CustomContentElementControl extends React.Component {
     unsetActive: React.PropTypes.func.isRequired,
     handleClick: React.PropTypes.func
   }
+
   constructor (props) {
     super(props)
     this.displayDescription = this.displayDescription.bind(this)
     this.hideDescription = this.hideDescription.bind(this)
-    this.handleClick = this.handleClick.bind(this)
   }
+
   displayDescription () {
     this.props.setActive(this.props.description)
   }
+
   hideDescription () {
     this.props.unsetActive()
   }
-  handleClick () {
-    this.props.handleClick && this.props.handleClick(this.props.title)
-  }
+
   render () {
     let controlClass = classNames([
       'vcv-ui-element-control',
@@ -41,7 +41,7 @@ export default class CustomContentElementControl extends React.Component {
         title={this.props.title}
         onMouseOver={this.displayDescription}
         onMouseOut={this.hideDescription}
-        onClick={this.handleClick}
+        onClick={this.props.handleClick}
       >
         <span className='vcv-ui-element-control-content'>
           <i className={iconClass} />
