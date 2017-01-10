@@ -64,7 +64,7 @@
     "swig": "1.4.2",
     "uglifyjs": "2.4.10",
     "url-loader": "0.5.7",
-    "virtual-module-webpack-plugin": "github:angeiii/virtual-module-webpack-plugin.git#v0.1.2",
+    "virtual-module-webpack-plugin": "0.1.2",
     "webpack": "1.13.2",
     "webpack-dev-server": "1.16.2",
     "webpack-sources": "0.1.2"
