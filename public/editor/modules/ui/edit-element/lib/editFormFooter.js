@@ -41,21 +41,21 @@ export default class EditFormFooter extends React.Component {
 
   render () {
     let saveButtonClasses = classNames({
-      'vcv-ui-tree-layout-action': true,
+      'vcv-ui-edit-form-action': true,
       'vcv-ui-state--success': this.state.saved
     })
     let saveIconClasses = classNames({
-      'vcv-ui-tree-layout-action-icon': true,
+      'vcv-ui-edit-form-action-icon': true,
       'vcv-ui-wp-spinner': this.state.saving,
       'vcv-ui-icon': !this.state.saving,
       'vcv-ui-icon-save': !this.state.saving
     })
 
     return (
-      <div className='vcv-ui-tree-content-footer'>
-        <div className='vcv-ui-tree-layout-actions'>
+      <div className='vcv-ui-edit-form-content-footer'>
+        <div className='vcv-ui-edit-form-actions'>
           <a className={saveButtonClasses} title='Save' onClick={this.onSave}>
-            <span className='vcv-ui-tree-layout-action-content'>
+            <span className='vcv-ui-edit-form-action-content'>
               <i className={saveIconClasses} />
               <span>Save</span>
             </span>

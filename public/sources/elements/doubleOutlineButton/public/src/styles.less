@@ -18,10 +18,6 @@
   max-width: 100%;
 }
 
-// Styles for Buttons
-//-----------------------------------------
-
-// By default .vce-button does not look like much. It will be a basic text with hover cursor
 .vce-button--style-double-outline {
   font-size: @vce-button-font-size;
   padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
@@ -35,7 +31,6 @@
     display: inline-block;
     margin-bottom: 0;
     max-width: 100%;
-    // If the contnet of the button is more than the containers, the text will break normally
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -43,10 +38,9 @@
     white-space: normal;
     touch-action: manipulation;
     user-select: none;
-    // fix for transition if the background has a background-color property
+    line-height: normal;
     z-index: 1;
     transition: all @vce-button-outline-transition-duration @vce-button-outline-transition-timing-function;
-    // fix for transition if the background has a background-color property
     border-radius: 0;
     border-style: @vce-button-double-line-border-style;
     border-width: @vce-button-double-line-border-width;
@@ -57,17 +51,7 @@
       outline: none;
     }
 
-
-    //&:hover, &:active, &:focus {
-    //  border: @vce-button-double-line-border-width @vce-button-outline-border-style @vce-button-color-border-hover;
-    //  &::before {
-    //    border: @vce-button-double-line-border-width @vce-button-outline-border-style @vce-button-color-border-hover;
-    //  }
-    //}
-
-
     &::before, &::after {
-      // Inherit the border radius from the parent element.
       border-radius: inherit;
       box-sizing: border-box;
       content: "";
@@ -78,7 +62,6 @@
       left: 0;
     }
 
-    /*The before element simulates border*/
     &::before {
       border-width: @vce-button-double-line-border-width;
       border-style: @vce-button-outline-border-style;
@@ -107,7 +90,6 @@
 
   &--border {
     &-rounded, &-round {
-      &,
       a&,
       button& {
         position: relative;
@@ -115,7 +97,6 @@
       }
     }
     &-rounded {
-      &,
       a&,
       button& {
         border-radius: @vce-button-rounded;
@@ -123,7 +104,6 @@
     }
 
     &-round {
-      &,
       a&,
       button& {
         border-radius: @vce-button-round;

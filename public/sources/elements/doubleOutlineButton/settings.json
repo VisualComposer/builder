@@ -32,7 +32,7 @@
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "double-outline-button-thumbnail.png"
+    "value": "double-outline-button-thumbnail.jpg"
   },
   "buttonUrl": {
     "type": "url",
@@ -58,7 +58,7 @@
   "color": {
     "type": "color",
     "access": "public",
-    "value": "#e3e3e3",
+    "value": "#3e3d3d",
     "options": {
       "label": "Title color",
       "cssMixin": {
@@ -71,12 +71,12 @@
   "hoverColor": {
     "type": "color",
     "access": "public",
-    "value": "#000000",
+    "value": "#ffffff",
     "options": {
       "label": "Title hover color",
       "cssMixin": {
-        "mixin": "hoverColor",
-        "property": "color",
+        "mixin": "color",
+        "property": "hoverColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -84,7 +84,7 @@
   "borderColor": {
     "type": "color",
     "access": "public",
-    "value": "#e3e3e3",
+    "value": "#ededed",
     "options": {
       "label": "Border color",
       "cssMixin": {
@@ -94,15 +94,15 @@
       }
     }
   },
-  "backgroundColor": {
+  "borderHoverColor": {
     "type": "color",
     "access": "public",
-    "value": "#3d3d3d",
+    "value": "#555555",
     "options": {
-      "label": "Background color",
+      "label": "Border hover color",
       "cssMixin": {
         "mixin": "color",
-        "property": "backgroundColor",
+        "property": "borderHoverColor",
         "namePattern": "[\\da-f]+"
       }
     }
@@ -110,7 +110,7 @@
   "backgroundHoverColor": {
     "type": "color",
     "access": "public",
-    "value": "#888888",
+    "value": "#3e3d3d",
     "options": {
       "label": "Background hover color",
       "cssMixin": {
@@ -118,28 +118,6 @@
         "property": "backgroundHoverColor",
         "namePattern": "[\\da-f]+"
       }
-    }
-  },
-  "shape": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "square",
-    "options": {
-      "label": "Shape",
-      "values": [
-        {
-          "label": "Square",
-          "value": "square"
-        },
-        {
-          "label": "Rounded",
-          "value": "rounded"
-        },
-        {
-          "label": "Round",
-          "value": "round"
-        }
-      ]
     }
   },
   "designOptions": {
@@ -157,12 +135,11 @@
       "buttonText",
       "buttonUrl",
       "alignment",
-      "shape",
       "buttonType",
       "color",
       "hoverColor",
       "borderColor",
-      "backgroundColor",
+      "borderHoverColor",
       "backgroundHoverColor",
       "customClass"
     ],

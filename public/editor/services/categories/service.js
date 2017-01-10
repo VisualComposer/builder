@@ -45,87 +45,104 @@ let tempData = {
     'Button': {
       'name': 'Simple Button',
       'elements': [ 'basicButton', 'outlineButton', 'gradientButton', 'animatedOutlineButton' ],
-      'icon': 'categories/icons/Button.svg'
+      'icon': 'categories/icons/Button.svg',
+      'iconDark': 'categories/iconsDark/Button.svg'
     },
     'Row': {
       'name': 'Row/Column',
       'elements': [ 'row' ],
-      'icon': 'categories/icons/Row.svg'
+      'icon': 'categories/icons/Row.svg',
+      'iconDark': 'categories/iconsDark/Row.svg'
     },
     'Column': {
       'name': 'Column',
       'elements': [ 'column' ],
-      'icon': 'categories/icons/Column.svg'
+      'icon': 'categories/icons/Column.svg',
+      'iconDark': 'categories/iconsDark/Column.svg'
     },
     'Feature': {
       'name': 'Feature',
       'elements': [ 'feature' ],
-      'icon': 'categories/icons/Feature.svg'
+      'icon': 'categories/icons/Feature.svg',
+      'iconDark': 'categories/iconsDark/Feature.svg'
     },
     'Section': {
       'name': 'Section',
       'elements': [],
-      'icon': 'categories/icons/Section.svg'
+      'icon': 'categories/icons/Section.svg',
+      'iconDark': 'categories/iconsDark/Section.svg'
     },
     'Hero section': {
       'name': 'Hero Section',
       'elements': [ 'heroSection' ],
-      'icon': 'categories/icons/Hero-Section.svg'
+      'icon': 'categories/icons/Hero-Section.svg',
+      'iconDark': 'categories/iconsDark/Hero-Section.svg'
     },
     'Icon': {
       'name': 'Icon',
       'elements': [ 'icon' ],
-      'icon': 'categories/icons/Icon.svg'
+      'icon': 'categories/icons/Icon.svg',
+      'iconDark': 'categories/iconsDark/Icon.svg'
     },
     'Single image': {
       'name': 'Single Image',
       'elements': [],
-      'icon': 'categories/icons/Single-Image.svg'
+      'icon': 'categories/icons/Single-Image.svg',
+      'iconDark': 'categories/iconsDark/Single-Image.svg'
     },
     'Image gallery': {
       'name': 'Image Gallery',
       'elements': [ 'imageMasonryGallery' ],
-      'icon': 'categories/icons/Image-Gallery.svg'
+      'icon': 'categories/icons/Image-Gallery.svg',
+      'iconDark': 'categories/iconsDark/Image-Gallery.svg'
     },
     'Text block': {
       'name': 'Text Block',
       'elements': [ 'textBlock' ],
-      'icon': 'categories/icons/Text-Block.svg'
+      'icon': 'categories/icons/Text-Block.svg',
+      'iconDark': 'categories/iconsDark/Text-Block.svg'
     },
     'Misc': {
       'name': 'Misc',
       'elements': [ 'rawHtml', 'rawJs' ],
-      'icon': 'categories/icons/Misc.svg'
+      'icon': 'categories/icons/Misc.svg',
+      'iconDark': 'categories/iconsDark/Misc.svg'
     },
     'Social': {
       'name': 'Social',
       'elements': [ 'twitterGrid', 'twitterTweet', 'twitterTimeline', 'twitterButton', 'flickrImage', 'instagramImage', 'googlePlusButton', 'pinterestPinit', 'facebookLike' ],
-      'icon': 'categories/icons/Social.svg'
+      'icon': 'categories/icons/Social.svg',
+      'iconDark': 'categories/iconsDark/Social.svg'
     },
     'Videos': {
       'name': 'Videos',
       'elements': [ 'youtubePlayer', 'vimeoPlayer' ],
-      'icon': 'categories/icons/Video.svg'
+      'icon': 'categories/icons/Video.svg',
+      'iconDark': 'categories/iconsDark/Video.svg'
     },
     'WooCommerce': {
       'name': 'WooCommerce',
       'elements': [],
-      'icon': 'categories/icons/Misc.svg'
+      'icon': 'categories/icons/Misc.svg',
+      'iconDark': 'categories/iconsDark/Misc.svg'
     },
     'WP Widgets': {
       'name': 'WP Widgets',
       'elements': [ '_WpWidgetsDefault', '_WpWidgetsCustom' ],
-      'icon': 'categories/icons/WordPress.svg'
+      'icon': 'categories/icons/WordPress.svg',
+      'iconDark': 'categories/iconsDark/WordPress.svg'
     },
     'Separators': {
       'name': 'Separators',
       'elements': [ 'separator' ],
-      'icon': 'categories/icons/Separator.svg'
+      'icon': 'categories/icons/Separator.svg',
+      'iconDark': 'categories/iconsDark/Separator.svg'
     },
     'Maps': {
       'name': 'Maps',
       'elements': [ 'googleMaps' ],
-      'icon': 'categories/icons/Map.svg'
+      'icon': 'categories/icons/Map.svg',
+      'iconDark': 'categories/iconsDark/Map.svg'
     }
   }
 }
@@ -197,12 +214,20 @@ const service = {
     })
     return data.categories[ key ]
   },
-  getElementIcon (tag) {
+  getElementIcon (tag, dark = false) {
     let category = this.categoryByTag(tag)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
+      if (dark) {
+        return category && category.iconDark ? this.getWipAssetsManager().getSourcePath(category.iconDark) : this.getWipAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
+      } else {
+        return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
+      }
     } else {
-      return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
+      if (dark) {
+        return category && category.iconDark ? this.getAssetsManager().getSourcePath(category.iconDark) : this.getAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
+      } else {
+        return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
+      }
     }
   }
 }

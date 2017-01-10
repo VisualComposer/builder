@@ -291,7 +291,7 @@ class BoxModel extends Attribute {
             value={this.state.combined}
             fieldKey={`combined`}
             updater={this.simplifyControlsHandler}
-            options={{ label: `Simple controls` }}
+            options={{ labelText: `Simple controls` }}
             api={this.props.api}
           />
         </div>
