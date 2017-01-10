@@ -2,6 +2,8 @@
  * Visual composer wp backend layout
  * =================================== */
 
+//== override frontend styles
+
 .vcv-wpbackend-layout-container {
   width: 100%;
   display: flex;
@@ -41,11 +43,18 @@
       color: @vce-wpbackend-layout-item-hover-color;
     }
   }
+
+  .vce-col-content {
+    padding-left: @vce-wpbackend-layout-column-padding;
+    padding-right: @vce-wpbackend-layout-column-padding;
+  }
 }
 
 .vcv-wpbackend-layout {
   padding: @vcv-wpbackend-layout-padding;
 }
+
+//== backend view element styles
 
 .vce-wpbackend-element {
   &-container {
