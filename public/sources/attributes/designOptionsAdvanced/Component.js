@@ -1,11 +1,8 @@
 import React from 'react'
 import Attribute from '../attribute'
-import String from '../string/Component'
-import Color from '../color/Component'
-import Radio from '../radio/Component'
 import Devices from '../devices/Component'
-import BoxModel from '../boxModel/Component'
 import Toggle from '../toggle/Component'
+import Dropdown from '../dropdown/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   /**
@@ -44,6 +41,7 @@ class DesignOptionsAdvanced extends Attribute {
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
+    this.backgroundTypeChangeHandler = this.backgroundTypeChangeHandler.bind(this)
   }
 
   /**
@@ -71,7 +69,6 @@ class DesignOptionsAdvanced extends Attribute {
   parseValue (value) {
     // set default values
     let newState = Object.assign({}, DesignOptionsAdvanced.defaultState)
-    // set values for computed fields
     // get devices data
     let devices = this.getCustomDevicesKeys()
     // set current device
@@ -108,7 +105,15 @@ class DesignOptionsAdvanced extends Attribute {
     }
     checkDevices.forEach((device) => {
       if (Object.keys(newState.devices[ device ]).length) {
-        newValue[ device ] = newState.devices[ device ]
+        newValue[ device ] = Object.assign({}, newState.devices[ device ])
+        // remove all values if display is provided
+        if (newValue[ device ].hasOwnProperty('display')) {
+          Object.keys(newValue[ device ]).forEach((style) => {
+            if (style !== 'display') {
+              delete newValue[ device ][ style ]
+            }
+          })
+        }
       }
     })
 
@@ -162,6 +167,10 @@ class DesignOptionsAdvanced extends Attribute {
     ]
   }
 
+  /**
+   * Get custom devices keys
+   * @returns {Array}
+   */
   getCustomDevicesKeys () {
     return this.getCustomDevices().map((device) => {
       return device.value
@@ -235,8 +244,6 @@ class DesignOptionsAdvanced extends Attribute {
     if (isVisible) {
       delete newState.devices[ this.state.currentDevice ].display
     } else {
-      // remove all other styles
-      newState.devices[ this.state.currentDevice ] = {}
       // set display to none
       newState.devices[ this.state.currentDevice ].display = 'none'
     }
@@ -244,98 +251,56 @@ class DesignOptionsAdvanced extends Attribute {
     this.updateValue(newState)
   }
 
-  // ==============================================
-  /**
-   * TODO: refactor
-   * Handle change of input field
-   * @param event
-   */
-  dataUpdater (fieldKey, value) {
-    let newValue = Object.assign({}, this.state.value, { [fieldKey]: value })
-    if (newValue.attributeMixin.variables[ fieldKey ]) {
-      newValue.attributeMixin.variables[ fieldKey ].value = value
+  getBackgroundTypeRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
     }
-    this.setFieldValue(newValue)
-  }
-
-  /**
-   * TODO: refactor
-   * @returns {XML}
-   */
-  getStringRender () {
-    let { value } = this.state
-    return <String
-      api={this.props.api}
-      fieldKey='elId'
-      updater={this.dataUpdater}
-      value={value.elId || ''} />
-  }
-
-  /**
-   * TODO: refactor
-   * @returns {XML}
-   */
-  getColorRender () {
-    let { value } = this.state
-    return <Color
-      api={this.props.api}
-      fieldKey='color'
-      updater={this.dataUpdater}
-      value={value.color || ''}
-      defaultValue='' />
-  }
-
-  /**
-   * TODO: refactor
-   * @returns {XML}
-   */
-  getBackgroundRender () {
-    let { value } = this.state
-    return <Color
-      api={this.props.api}
-      fieldKey='background'
-      updater={this.dataUpdater}
-      value={value.background || ''}
-      defaultValue='' />
-  }
-
-  /**
-   * TODO: refactor
-   * @returns {XML}
-   */
-  getRadioRender () {
-    let { value } = this.state
     let options = {
       values: [
         {
-          label: 'All',
-          value: 'all'
+          label: 'Without background',
+          value: ''
         },
         {
-          label: 'Custom',
-          value: 'custom'
+          label: 'Simple images',
+          value: 'imagesSimple'
+        },
+        {
+          label: 'Image slideshow',
+          value: 'imagesSlideshow'
+        },
+        {
+          label: 'Embed video',
+          value: 'videoEmbed'
+        },
+        {
+          label: 'Self-hosted video',
+          value: 'videoSelfHosted'
+        },
+        {
+          label: 'Color gradient',
+          value: 'colorGradient'
         }
       ]
     }
-    return <Radio
-      api={this.props.api}
-      fieldKey='radio'
-      options={options}
-      updater={this.dataUpdater}
-      value={value.radio || 'all'} />
+    let value = this.state.devices[ this.state.currentDevice ].backgroundType || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background type
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='backgroundType'
+        options={options}
+        updater={this.backgroundTypeChangeHandler}
+        value={value} />
+    </div>
   }
 
-  /**
-   * TODO: refactor
-   * @returns {XML}
-   */
-  getBoxModelRender () {
-    let { value } = this.state
-    return <BoxModel
-      api={this.props.api}
-      fieldKey='boxModel'
-      updater={this.dataUpdater}
-      value={value.boxModel || {}} />
+  backgroundTypeChangeHandler (fieldKey, value) {
+    let newState = Object.assign({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundType = value
+    this.updateValue(newState)
   }
 
   /**
@@ -348,6 +313,9 @@ class DesignOptionsAdvanced extends Attribute {
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
+          </div>
+          <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+            {this.getBackgroundTypeRender()}
           </div>
         </div>
       </div>
