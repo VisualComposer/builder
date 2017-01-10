@@ -44,21 +44,21 @@ export default class SettingsFooter extends React.Component {
 
   render () {
     let saveButtonClasses = classNames({
-      'vcv-ui-tree-layout-action': true,
+      'vcv-ui-settings-action': true,
       'vcv-ui-state--success': this.state.saved
     })
     let saveIconClasses = classNames({
-      'vcv-ui-tree-layout-action-icon': true,
+      'vcv-ui-settings-action-icon': true,
       'vcv-ui-wp-spinner': this.state.saving,
       'vcv-ui-icon': !this.state.saving,
       'vcv-ui-icon-save': !this.state.saving
     })
 
     return (
-      <div className='vcv-ui-tree-content-footer'>
-        <div className='vcv-ui-tree-layout-actions'>
+      <div className='vcv-ui-settings-content-footer'>
+        <div className='vcv-ui-settings-actions'>
           <a className={saveButtonClasses} title='Save' onClick={this.onSave}>
-            <span className='vcv-ui-tree-layout-action-content'>
+            <span className='vcv-ui-settings-action-content'>
               <i className={saveIconClasses} />
               <span>Save</span>
             </span>
