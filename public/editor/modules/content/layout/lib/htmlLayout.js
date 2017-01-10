@@ -1,6 +1,6 @@
 import React from 'react'
 import Element from './element'
-import '../css/html-layout.less'
+import '../../../../../sources/less/content/layout/html-layout.less'
 
 class HtmlLayout extends React.Component {
   render () {
