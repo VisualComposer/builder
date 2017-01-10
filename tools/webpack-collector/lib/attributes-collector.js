@@ -51,7 +51,7 @@ var Collector = {
                 if (componentName) {
                   let className = `Representer${componentName[1]}ForAttribute`
                   representers[componentName[1]] = className
-                  content += uf("import {%s as %s} from '%s'\n", componentName[1], className, join(attributeRelativePath, 'representers', file).replace(/\\/g, '/'))
+                  content += uf("import {default as %s} from '%s'\n", className, join(attributeRelativePath, 'representers', file).replace(/\\/g, '/'))
                 }
               }
             }
