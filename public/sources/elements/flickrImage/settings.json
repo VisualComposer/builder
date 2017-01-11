@@ -124,5 +124,12 @@
       "label": "Width",
       "description": "Enter image width (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter width in pixels (Example: 200). Minimal width 151px."
     }
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "flickrUrl"
+    ]
   }
 }

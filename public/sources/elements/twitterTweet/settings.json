@@ -143,5 +143,12 @@
     "type": "toggle",
     "access": "protected",
     "value": true
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "tweetUrl"
+    ]
   }
 }
