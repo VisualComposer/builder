@@ -12,7 +12,6 @@ export default class EditFromField extends React.Component {
     let { element, fieldKey } = this.props
     let { type, settings } = element.settings(fieldKey)
     let AttributeComponent = type.component
-    console.log(type)
     if (!AttributeComponent) {
       return null
     }
