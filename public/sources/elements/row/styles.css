@@ -72,6 +72,7 @@
 .vce-row[data-vce-full-width="true"].vce-row-no-paddings > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content {
   padding-left: 0;
   padding-right: 0;
+  width: 1px;
 }
 .vce-row-direction--reverse .vce-row-content {
   flex-direction: row-reverse;
