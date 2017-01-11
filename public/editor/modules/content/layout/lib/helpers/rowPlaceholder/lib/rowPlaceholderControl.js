@@ -5,6 +5,9 @@ export default class RowControl extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     action: React.PropTypes.string.isRequired,
+    icon: React.PropTypes.string.isRequired,
+    text: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired,
     options: React.PropTypes.any
   }
 
