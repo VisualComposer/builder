@@ -4,10 +4,13 @@ import Representer from '../../representer'
 
 export default class Backend extends Representer {
   render () {
+    let output = `Font Family: ${this.state.value.fontFamily}`
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
-      'vcv-wpbackend-attr-representer-htmleditor': true
+      'vcv-wpbackend-attr-representer-google-fonts': true
     })
-    return <div className={classes} dangerouslySetInnerHTML={{__html: this.state.value}} />
+    return <div className={classes}>
+      {output}
+    </div>
   }
 }
