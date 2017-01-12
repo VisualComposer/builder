@@ -30,7 +30,7 @@ export default {
    */
   set (elements) {
     // todo: validate elements
-    this.elements = Object.assign({}, elements)
+    this.elements = lodash.defaultsDeep({}, elements)
   },
 
   /**
@@ -291,8 +291,10 @@ export default {
     let foundMixins = {}
     for (let key in settings) {
       // get css mixin from attribute
-      if (element.data[ key ] && element.data[ key ].attributeMixin) {
-        foundMixins[ key ] = element.data[ key ].attributeMixin
+      if (element.data[ key ] && element.data[ key ].attributeMixins) {
+        Object.keys(element.data[ key ].attributeMixins).forEach((mixinName) => {
+          foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, element.data[ key ].attributeMixins[ mixinName ])
+        })
       }
     }
 
@@ -314,7 +316,9 @@ export default {
         if (!mixins[ element.data.tag ][ mixin ]) {
           mixins[ element.data.tag ][ mixin ] = {}
         }
-        variables[ 'selector' ] = `el-${element.data.id}`
+        if (!variables[ 'selector' ]) {
+          variables[ 'selector' ] = `el-${element.data.id}`
+        }
         mixins[ element.data.tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ element.data.tag ][ mixin ].variables = variables
       }

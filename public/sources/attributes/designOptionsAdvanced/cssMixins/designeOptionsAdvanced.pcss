@@ -1,6 +1,9 @@
 #$selector{
+  @media (--$(device)-only) {
+    background-color: yellow!important;
+  }
   @if $color != false {
-    color: $color;
+    color: (color);
   }
   @if $background != false {
     background-color: $background;
