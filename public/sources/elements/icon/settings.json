@@ -329,10 +329,10 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "iconPicker",
       "iconUrl",
       "shape",
-      "shapeColor",
-      "iconPicker"
+      "shapeColor"
     ]
   }
 }
