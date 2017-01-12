@@ -39,7 +39,7 @@ trait ShortcodesTrait
      *
      * @return string
      */
-    private function renderEditorContent(Request $request, Str $strHelper)
+    protected function renderEditorContent(Request $request, Str $strHelper)
     {
         ob_start();
         $atts = $request->input('vcv-atts');
@@ -79,7 +79,7 @@ trait ShortcodesTrait
      *
      * @return string
      */
-    private function getShortcodeString($atts, Str $strHelper)
+    protected function getShortcodeString($atts, Str $strHelper)
     {
         $shortcodeString = sprintf(
             '[%s %s]',
