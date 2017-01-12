@@ -4,15 +4,30 @@ namespace VisualComposer\Helpers;
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
+/**
+ * Class PostType
+ * @package VisualComposer\Helpers
+ */
 class PostType implements Helper
 {
-    public function query($q)
+    /**
+     * @param $query
+     *
+     * @return array
+     */
+    public function query($query)
     {
-        $posts = get_posts($q);
+        $posts = get_posts($query);
 
         return $posts;
     }
 
+    /**
+     * @param $id
+     * @param string $postType
+     *
+     * @return array|bool|null|\WP_Post
+     */
     public function get($id, $postType = '')
     {
         $post = get_post($id);
@@ -23,11 +38,21 @@ class PostType implements Helper
         return $post;
     }
 
+    /**
+     * @param $data
+     *
+     * @return int|\WP_Error
+     */
     public function create($data)
     {
         return wp_insert_post($data);
     }
 
+    /**
+     * @param $data
+     *
+     * @return int|\WP_Error
+     */
     public function update($data)
     {
         $post = wp_update_post($data);
@@ -40,6 +65,12 @@ class PostType implements Helper
         return $post;
     }
 
+    /**
+     * @param $id
+     * @param string $postType
+     *
+     * @return array|bool|false|\WP_Post
+     */
     public function delete($id, $postType = '')
     {
         if ($postType) {
