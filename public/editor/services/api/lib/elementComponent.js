@@ -1,4 +1,4 @@
-import {Component, PropTypes} from 'react'
+import { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 export default class ElementComponent extends Component {
   static propTypes = {
@@ -6,6 +6,7 @@ export default class ElementComponent extends Component {
     atts: PropTypes.object,
     editor: PropTypes.object
   }
+
   updateInlineHtml (elementWrapper, tagString = '') {
     const helper = document.createElement('vcvhelper')
     const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
@@ -17,9 +18,11 @@ export default class ElementComponent extends Component {
     elementWrapper.appendChild(comment)
     elementWrapper.appendChild(helper)
   }
+
   getDomNode () {
     return ReactDOM.findDOMNode(this)
   }
+
   getMixinData (mixinName) {
     const vcCake = require('vc-cake')
     const assetsManager = vcCake.getService('assets-manager')
@@ -29,16 +32,17 @@ export default class ElementComponent extends Component {
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       mixinData = wipAssetsStorage.getCssMixinsByElement(this.props.atts)
     }
-    var { tag } = this.props.atts
-    if (mixinData[tag][mixinName]) {
-      let mixin = Object.keys(mixinData[tag][mixinName])
+    let { tag } = this.props.atts
+    if (mixinData[ tag ][ mixinName ]) {
+      let mixin = Object.keys(mixinData[ tag ][ mixinName ])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = mixinData[tag][mixinName][mixin]
+        returnData = mixinData[ tag ][ mixinName ][ mixin ]
       }
     }
     return returnData
   }
+
   getAttributeMixinData (attributeName) {
     const vcCake = require('vc-cake')
     if (!vcCake.env('FEATURE_ASSETS_MANAGER')) {
@@ -48,11 +52,12 @@ export default class ElementComponent extends Component {
     let returnData = null
     let mixinData = wipAssetsStorage.getAttributesMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
-    if (mixinData[tag] && mixinData[tag][attributeName] && mixinData[tag][attributeName].variables) {
-      returnData = mixinData[tag][attributeName].variables
+    if (mixinData[ tag ] && mixinData[ tag ][ attributeName ] && mixinData[ tag ][ attributeName ].variables) {
+      returnData = mixinData[ tag ][ attributeName ].variables
     }
     return returnData
   }
+
   render () {
     return null
   }
