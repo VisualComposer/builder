@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Elements\GridItemsTemplateVariables;
+namespace VisualComposer\Modules\Elements\Grids;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -8,7 +8,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Class TemplateVariablesController
- * @package VisualComposer\Modules\Elements\GridItemsTemplateVariables
+ * @package VisualComposer\Modules\Elements\Grids
  */
 class PostVariablesController extends Container implements Module
 {
@@ -19,9 +19,9 @@ class PostVariablesController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Elements\GridItemsTemplateVariables\TemplateVariablesController::templatePostVariables */
+        /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::templatePostVariables */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_*', 'templatePostVariables');
-        /** @see \VisualComposer\Modules\Elements\GridItemsTemplateVariables\PostVariablesController::postAuthor */
+        /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postAuthor */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_author', 'postAuthor');
     }
 
