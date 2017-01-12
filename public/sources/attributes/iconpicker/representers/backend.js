@@ -10,7 +10,8 @@ export default class Backend extends Representer {
       'vcv-wpbackend-attr-representer-icon': true
     })
     return <div className={classes}>
-      <div>Icon: <span className={iconClasses} />;</div>
+      <span className='vcv-wpbackend-attr-representer-icon-label'>Icon: </span>
+      <span className={iconClasses} />
     </div>
   }
 }
