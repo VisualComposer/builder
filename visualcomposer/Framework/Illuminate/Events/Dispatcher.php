@@ -127,7 +127,7 @@ class Dispatcher implements DispatcherContract
             $this->sortListeners($eventName);
         }
 
-        return array_merge($this->sorted[ $eventName ], $wildcards);
+        return array_merge($wildcards, $this->sorted[ $eventName ]);
     }
 
     /**

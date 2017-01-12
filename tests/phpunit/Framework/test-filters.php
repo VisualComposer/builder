@@ -47,6 +47,57 @@ class FiltersTest extends WP_UnitTestCase
         $helper->forget('test-filter');
     }
 
+    public function testFiltersWeightMore()
+    {
+        $helper = vchelper('Filters');
+        $helper->listen(
+            'test_filters_weight_more',
+            function () {
+                return 1;
+            }
+        );
+        $helper->listen(
+            'test_filters_weight_more',
+            function () {
+                return 2;
+            }
+        );
+        $this->assertEquals(2, $helper->fire('test_filters_weight_more'));
+
+        // If weight provided it will be called last
+        $helper->listen(
+            'test_filters_weight_more:2',
+            function () {
+                return 1;
+            },
+            1
+        );
+        $helper->listen(
+            'test_filters_weight_more:2',
+            function () {
+                return 2;
+            }
+        );
+        $this->assertEquals(1, $helper->fire('test_filters_weight_more:2'));
+
+        // If weight provided for both it will be sorted asc and with more weight will be called last
+        $helper->listen(
+            'test_filters_weight_more:3',
+            function () {
+                return 1;
+            },
+            2
+        );
+        $helper->listen(
+            'test_filters_weight_more:3',
+            function () {
+                return 2;
+            },
+            1
+        );
+        $this->assertEquals(1, $helper->fire('test_filters_weight_more:3'));
+    }
+
     public function testFiltersWeight()
     {
         /** @var \VisualComposer\Framework\Illuminate\Filters\Dispatcher $helper */
@@ -247,5 +298,68 @@ class FiltersTest extends WP_UnitTestCase
         $this->assertEquals(100, $value);
 
         $helper->forget('test-filter');
+    }
+
+    public function testFilterOrderingPriorityExact()
+    {
+        $helper = vchelper('Filters');
+
+        $helper->listen(
+            'test_filter_priority:*',
+            function () {
+                return 1;
+            }
+        );
+
+        $helper->listen(
+            'test_filter_priority:exact',
+            function () {
+                return 2;
+            }
+        );
+
+        $this->assertEquals(2, $helper->fire('test_filter_priority:exact'));
+    }
+
+    public function testFilterOrderingPriorityExactReversed()
+    {
+        $helper = vchelper('Filters');
+
+        $helper->listen(
+            'test_filter_priority:1:exact',
+            function () {
+                return 2;
+            }
+        );
+
+        $helper->listen(
+            'test_filter_priority:1:*',
+            function () {
+                return 1;
+            }
+        );
+
+        $this->assertEquals(2, $helper->fire('test_filter_priority:1:exact'));
+    }
+
+    public function testFilterOrderingPrioritySameWeight()
+    {
+        $helper = vchelper('Filters');
+
+        $helper->listen(
+            'test_filter_priority:2:*',
+            function () {
+                return 1;
+            }
+        );
+
+        $helper->listen(
+            'test_filter_priority:2:*',
+            function () {
+                return 2;
+            }
+        );
+
+        $this->assertEquals(2, $helper->fire('test_filter_priority:2:exact'));
     }
 }
