@@ -49,7 +49,8 @@ var Collector = {
               if (representerContent) {
                 const componentName = representerContent.match(/(?:export.+class\s*)([^\s]+)/)
                 if (componentName) {
-                  let className = `Representer${componentName[1]}ForAttribute`
+                  let attributeName = attribute.charAt(0).toUpperCase() + attribute.slice(1)
+                  let className = `Representer${componentName[1]}For${attributeName}`
                   representers[componentName[1]] = className
                   content += uf("import {default as %s} from '%s'\n", className, join(attributeRelativePath, 'representers', file).replace(/\\/g, '/'))
                 }
