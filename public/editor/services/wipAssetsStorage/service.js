@@ -20,6 +20,15 @@ let publicApi = {
     return this
   },
   /**
+   * Reset elements list
+   * @param ids
+   * @returns {publicApi.resetElements}
+   */
+  resetElements (ids) {
+    assetsStorage.reset(ids)
+    return this
+  },
+  /**
    * Update element by id
    * @param id
    * @returns {publicApi}

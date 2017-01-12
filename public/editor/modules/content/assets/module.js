@@ -9,6 +9,9 @@ const loadedJsFiles = []
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
   const dataUpdate = (data, action, id) => {
+    if (action === 'reset') {
+      wipAssetsStorage.resetElements(Object.keys(documentService.all()))
+    }
     let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     let iframeDocument = iframeWindow.document
     let doElement = iframeDocument.querySelector('#do-styles')

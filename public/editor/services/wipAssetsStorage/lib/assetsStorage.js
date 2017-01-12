@@ -82,7 +82,15 @@ export default {
       }
     })
   },
-
+  /**
+   * Reset ids for storages
+   * @param ids
+   */
+  reset (ids) {
+    ids.forEach(() => {
+      this.add(ids)
+    })
+  },
   /**
    * Get element by id
    * @param assetKey
