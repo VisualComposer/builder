@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Elements\Traits;
 
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
-use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Class ShortcodesTrait
@@ -12,20 +11,6 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  */
 trait ShortcodesTrait
 {
-    use EventsFilters;
-
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see ShortcodesFactory::renderEditor */
-        $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':adminNonce',
-            'renderEditor'
-        );
-    }
-
     /**
      * @param $response
      * @param $payload
