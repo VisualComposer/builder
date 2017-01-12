@@ -332,5 +332,12 @@
     "value": [
       "General"
     ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "videoPlayer"
+    ]
   }
 }

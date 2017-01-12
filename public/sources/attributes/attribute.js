@@ -1,6 +1,7 @@
 import React from 'react'
+import Representer from './representer'
 
-class Attribute extends React.Component {
+export default class Attribute extends Representer {
   static propTypes = {
     updater: React.PropTypes.func.isRequired,
     api: React.PropTypes.object.isRequired,
@@ -45,5 +46,3 @@ class Attribute extends React.Component {
     )
   }
 }
-
-export default Attribute

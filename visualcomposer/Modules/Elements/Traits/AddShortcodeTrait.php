@@ -2,8 +2,16 @@
 
 namespace VisualComposer\Modules\Elements\Traits;
 
+/**
+ * Class AddShortcodeTrait
+ * @package VisualComposer\Modules\Elements\Traits
+ */
 trait AddShortcodeTrait
 {
+    /**
+     * @param $tag
+     * @param $callback
+     */
     protected function addShortcode($tag, $callback)
     {
         add_shortcode(

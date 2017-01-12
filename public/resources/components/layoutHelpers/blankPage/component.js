@@ -58,13 +58,16 @@ export default class BlankPage extends React.Component {
 
   handleElementControl (data) {
     this.props.api.request('data:add', data)
+    this.props.api.request('app:edit', data.id, '')
   }
 
-  handleAddElementControl () {
+  handleAddElementControl (e) {
+    e && e.preventDefault()
     this.props.api.request('app:add', '')
   }
 
-  handleTemplateControl () {
+  handleTemplateControl (e) {
+    e && e.preventDefault()
     this.props.api.request('app:templates', true)
   }
 

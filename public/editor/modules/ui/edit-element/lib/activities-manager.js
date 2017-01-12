@@ -31,7 +31,7 @@ export default class ActivitiesManager extends React.Component {
 
   initListeners (element) {
     let listeners = []
-    lodash.forEach(element.data, (value, key) => {
+    lodash.forEach(element.getAll(), (value, key) => {
       let onChange = this.getRules(element.settings(key))
       if (onChange) {
         lodash.forEach(onChange, (valueOnChange, keyOnChange) => {

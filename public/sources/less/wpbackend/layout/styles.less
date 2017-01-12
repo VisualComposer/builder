@@ -2,6 +2,8 @@
  * Visual composer wp backend layout
  * =================================== */
 
+//== override frontend styles
+
 .vcv-wpbackend-layout-container {
   width: 100%;
   display: flex;
@@ -41,11 +43,18 @@
       color: @vce-wpbackend-layout-item-hover-color;
     }
   }
+
+  .vce-col-content {
+    padding-left: @vce-wpbackend-layout-column-padding;
+    padding-right: @vce-wpbackend-layout-column-padding;
+  }
 }
 
 .vcv-wpbackend-layout {
   padding: @vcv-wpbackend-layout-padding;
 }
+
+//== backend view element styles
 
 .vce-wpbackend-element {
   &-container {
@@ -107,11 +116,26 @@
     background-color: @vce-wpbackend-element-attributes-background-color;
     font-style: italic;
     color: @vce-wpbackend-element-attributes-color;
-    padding: @vcv-wpbackend-element-attributes-padding;
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
   }
 }
 
 .vce-wpbackend-hidden {
   display: none;
+}
+
+.vcv-wpbackend-attributes-content {
+  display: inline-block;
+  padding: @vcv-wpbackend-element-attributes-padding;
+  border-top: none;
+
+  &:last-child {
+    display: block;
+    padding: @vcv-wpbackend-element-last-attribute-padding;
+    border-top: 1px solid @vce-wpbackend-element-container-border-color;
+  }
+
+  &:only-child {
+    border-top: none;
+  }
 }

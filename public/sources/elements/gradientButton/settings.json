@@ -212,5 +212,12 @@
         }
       ]
     }
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "buttonUrl"
+    ]
   }
 }

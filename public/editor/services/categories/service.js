@@ -25,7 +25,7 @@ let tempData = {
     },
     {
       'name': 'Content',
-      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature', 'Maps', 'Separators' ]
+      'categories': [ 'Hero section', 'Icon', 'Single image', 'Text Block', 'Feature', 'Maps', 'Separators', 'Grids' ]
     },
     {
       'name': 'WooCommerce',
@@ -44,7 +44,7 @@ let tempData = {
   categories: {
     'Button': {
       'name': 'Simple Button',
-      'elements': [ 'basicButton', 'outlineButton', 'gradientButton', 'animatedOutlineButton' ],
+      'elements': [ 'basicButton', 'outlineButton', 'gradientButton', 'animatedOutlineButton', 'doubleOutlineButton' ],
       'icon': 'categories/icons/Button.svg',
       'iconDark': 'categories/iconsDark/Button.svg'
     },
@@ -86,19 +86,19 @@ let tempData = {
     },
     'Single image': {
       'name': 'Single Image',
-      'elements': [],
+      'elements': [ 'singleImage' ],
       'icon': 'categories/icons/Single-Image.svg',
       'iconDark': 'categories/iconsDark/Single-Image.svg'
     },
     'Image gallery': {
       'name': 'Image Gallery',
-      'elements': [ 'imageMasonryGallery' ],
+      'elements': [ 'imageMasonryGallery', 'imageGallery' ],
       'icon': 'categories/icons/Image-Gallery.svg',
       'iconDark': 'categories/iconsDark/Image-Gallery.svg'
     },
     'Text block': {
       'name': 'Text Block',
-      'elements': [ 'textBlock' ],
+      'elements': [ 'textBlock', 'googleFontsHeading' ],
       'icon': 'categories/icons/Text-Block.svg',
       'iconDark': 'categories/iconsDark/Text-Block.svg'
     },
@@ -143,6 +143,12 @@ let tempData = {
       'elements': [ 'googleMaps' ],
       'icon': 'categories/icons/Map.svg',
       'iconDark': 'categories/iconsDark/Map.svg'
+    },
+    'Grids': {
+      'name': 'Grids',
+      'elements': [],
+      'icon': 'categories/icons/Post-Grid.svg',
+      'iconDark': 'categories/iconsDark/Post-Grid.svg'
     }
   }
 }
@@ -151,18 +157,6 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 }
 if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
   tempData.categories[ 'Section' ].elements.push('section')
-}
-if (vcCake.env('FEATURE_SINGLE_IMAGE')) {
-  tempData.categories[ 'Single image' ].elements.push('singleImage')
-}
-if (vcCake.env('FEATURE_GOOGLE_FONTS_HEADING')) {
-  tempData.categories[ 'Misc' ].elements.push('googleFontsHeading')
-}
-if (vcCake.env('FEATURE_IMAGE_GALLERY')) {
-  tempData.categories[ 'Image gallery' ].elements.push('imageGallery')
-}
-if (vcCake.env('FEATURE_DOUBLE_OUTLINE_BUTTON')) {
-  tempData.categories[ 'Button' ].elements.push('doubleOutlineButton')
 }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
@@ -182,6 +176,10 @@ if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceRelatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceTopRatedProducts')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceProductAttribute')
+}
+
+if (vcCake.env('FEATURE_POSTS_GRID')) {
+  tempData.categories[ 'Grids' ].elements.push('postsGrid')
 }
 const data = tempData
 

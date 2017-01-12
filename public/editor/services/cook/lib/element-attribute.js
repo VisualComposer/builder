@@ -1,8 +1,9 @@
 export default class {
-  constructor (name, component, settings) {
+  constructor (name, component, settings, representers = {}) {
     this.name = name
     this.component = component
     this.settings = settings
+    this.representers = representers
 
     this.setter = null
     this.getter = null
@@ -47,5 +48,9 @@ export default class {
 
   getField () {
     return this.component
+  }
+
+  getRepresenter (type = 'Backend') {
+    return this.representers[type] ? this.representers[type] : false
   }
 }

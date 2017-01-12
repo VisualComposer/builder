@@ -324,5 +324,15 @@
       "iconpicker",
       "animate"
     ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "iconUrl",
+      "shape",
+      "shapeColor",
+      "iconPicker"
+    ]
   }
 }

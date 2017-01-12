@@ -27,9 +27,10 @@ addService('cook', {
     return elementSettings.findTagByName(name)
   },
   attributes: {
-    add (name, component, settings) {
+    add (name, component, settings, representers = {}) {
       attributeManager.add(name, component,
-        lodash.defaults((typeof settings === 'object' ? settings : {}), { setter: null, getter: null }))
+        lodash.defaults((typeof settings === 'object' ? settings : {}), { setter: null, getter: null }),
+        representers)
     },
     remove (name) {
       delete attributeManager.items[ name ]

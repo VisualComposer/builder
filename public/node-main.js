@@ -16,8 +16,8 @@ $(() => {
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document
     // Disable iframe clicks
-    $('a', iframeDocument).each((i, el) => {
-      $(el).attr('target', '_blank')
+    $(iframeDocument.body).on('click', 'a[href]', (e) => {
+      e && e.preventDefault()
     })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'node').start(() => {
