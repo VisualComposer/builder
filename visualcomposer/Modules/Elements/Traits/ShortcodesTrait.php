@@ -43,14 +43,8 @@ trait ShortcodesTrait
     protected function renderEditorContent(Request $request, Str $strHelper)
     {
         ob_start();
-        $atts = $request->input('vcv-atts');
-        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
-        $shortcodeString = $this->call(
-            'getShortcodeString',
-            [
-                'atts' => $atts,
-            ]
-        );
+        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
+        $shortcodeString = $this->call('renderEditorShortcode');
         do_action('wp_loaded'); // Fix for WooCommerce
         echo apply_filters(
             'the_content',
@@ -74,23 +68,33 @@ trait ShortcodesTrait
     protected function renderEditorShortcode(Request $request, Str $strHelper)
     {
         $atts = $request->input('vcv-atts');
+        $content = $request->input('vcv-content');
 
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
-        return $this->call('getShortcodeString', [$atts]);
+        return $this->call(
+            'getShortcodeString',
+            [
+                'atts' => $atts,
+                'content' => $content,
+            ]
+        );
     }
 
     /**
      * @param $atts
+     * @param string $content
      * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return string
      */
-    protected function getShortcodeString($atts, Str $strHelper)
+    protected function getShortcodeString($atts, $content = '', Str $strHelper)
     {
         $shortcodeString = sprintf(
-            '[%s %s]',
+            '[%s %s]%s[/%s]',
             $this->shortcodeTag,
-            $strHelper->buildQueryString($atts)
+            $strHelper->buildQueryString($atts),
+            $content,
+            $this->shortcodeTag
         );
 
         return $shortcodeString;
