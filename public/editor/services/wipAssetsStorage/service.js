@@ -129,10 +129,10 @@ let publicApi = {
     )
     return styles
   },
-  getSiteCssData () {
+  getSiteCssData (editor = false) {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getElementsCssData(),
+      assetsStorage.getElementsCssData(editor),
       assetsStorage.getColumnsCssData(),
       assetsStorage.getMixinsCssData(),
       assetsStorage.getGlobalCssData()

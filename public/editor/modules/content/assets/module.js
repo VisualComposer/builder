@@ -36,7 +36,7 @@ vcCake.add('assets', (api) => {
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getSiteCssData())
+      stylesManager.add(wipAssetsStorage.getSiteCssData(true))
       stylesManager.compile().then((result) => {
         styleElement.innerHTML = result
       })
