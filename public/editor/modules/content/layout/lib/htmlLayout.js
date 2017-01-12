@@ -1,6 +1,7 @@
 import React from 'react'
 import Element from './element'
 import '../../../../../sources/less/content/layout/html-layout.less'
+import RowPlaceholder from './helpers/rowPlaceholder/component'
 
 class HtmlLayout extends React.Component {
   render () {
@@ -15,6 +16,7 @@ class HtmlLayout extends React.Component {
     return (
       <div className='vcv-layouts-html' data-vcv-module='content-layout'>
         {elementsList}
+        <RowPlaceholder api={this.props.api} />
       </div>
     )
   }

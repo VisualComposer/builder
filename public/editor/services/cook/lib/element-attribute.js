@@ -50,7 +50,7 @@ export default class {
     return this.component
   }
 
-  getRepresenter (type = 'backend') {
+  getRepresenter (type = 'Backend') {
     return this.representers[type] ? this.representers[type] : false
   }
 }
