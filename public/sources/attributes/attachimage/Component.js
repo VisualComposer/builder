@@ -110,7 +110,7 @@ class AttachImage extends Attribute {
     let urls = []
     selection.forEach((attachment, index) => {
       let attachmentData = this.mediaAttachmentParse(attachment)
-      let url = attachmentData.url
+      let url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)
 
       url.link = defaultLinkValue
