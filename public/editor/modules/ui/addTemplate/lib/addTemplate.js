@@ -23,7 +23,7 @@ export default class AddTemplate extends React.Component {
         index: 0,
         id: 'all',
         visible () { return true },
-        templates () { return templateManager.all() } // TODO: Merge from all categories
+        templates () { return templateManager.getAllTemplates() } // TODO: Merge from all categories
       },
       {
         title: 'My Templates',
@@ -40,8 +40,15 @@ export default class AddTemplate extends React.Component {
         templates () { return [] } // TODO: get templates from HUB
       },
       {
-        title: 'Download More Templates',
+        title: 'Downloaded Templates',
         index: 3,
+        id: 'downloadedTemplates',
+        visible () { return this.templates().length },
+        templates () { return templateManager.predefined() }
+      },
+      {
+        title: 'Download More Templates',
+        index: 4,
         id: 'downloadMoreTemplates',
         visible () { return true },
         templates: null

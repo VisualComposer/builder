@@ -21,6 +21,59 @@ class StylesManager {
     return this
   }
 
+  getViewports () {
+    let devices = [
+      {
+        prefixes: [ `all` ],
+        min: null,
+        max: null
+      },
+      {
+        prefixes: [ `xs`, `tablet-portrait` ],
+        min: null,
+        max: '543px' // mobile-landscape.min - 1
+      },
+      {
+        prefixes: [ `sm`, `tablet-landscape` ],
+        min: '544px',
+        max: '767px' // tablet-portrait.min - 1
+      },
+      {
+        prefixes: [ `md`, `mobile-portrait` ],
+        min: '768px',
+        max: '991px' // tablet-landscape.min - 1
+      },
+      {
+        prefixes: [ `lg`, `mobile-landscape` ],
+        min: '992px',
+        max: '1199px' // desktop.min - 1
+      },
+      {
+        prefixes: [ `xl`, `desktop` ],
+        min: '1200px',
+        max: null
+      }
+    ]
+
+    let viewports = {}
+    devices.forEach((device) => {
+      device.prefixes.forEach((prefix) => {
+        let queries = []
+        // mobile-first queries
+        if (device.min) {
+          queries.push(`(min-width: ${device.min})`)
+        }
+        viewports[ `--${prefix}` ] = queries.join(' and ')
+        // viewport specific queries
+        if (device.max) {
+          queries.push(`(max-width: ${device.max})`)
+        }
+        viewports[ `--${prefix}-only` ] = queries.join(' and ')
+      })
+    })
+    return viewports
+  }
+
   compile (join = true) {
     let iterations = []
     this.get().forEach((style) => {
@@ -31,15 +84,21 @@ class StylesManager {
             variables: style.variables
           }))
           use.push(postcssCustomProps(style.variables))
-        }
-        if (style.hasOwnProperty('viewports')) {
-          use.push(postcssMedia({
-            extensions: style.viewports
-          }))
+        } else {
+          use.push(postcssAdvancedVars())
+          use.push(postcssCustomProps())
         }
 
-        use.push(postcssNested)
+        let viewports = this.getViewports()
+        if (style.hasOwnProperty('viewports')) {
+          viewports = style.viewports
+        }
+        use.push(postcssMedia({
+          extensions: viewports
+        }))
+
         use.push(postcssColor)
+        use.push(postcssNested)
         use.push(postcssClean)
 
         postcss(use).process(style.src)

@@ -6,7 +6,9 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\GridItemTemplate;
 use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Elements\Traits\AddShortcodeTrait;
+use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
 /**
  * Class PostsGridController
@@ -15,12 +17,17 @@ use VisualComposer\Modules\Elements\Traits\AddShortcodeTrait;
 class PostsGridController extends Container implements Module
 {
     use AddShortcodeTrait;
+    use EventsFilters;
+    use ShortcodesTrait;
 
     /**
      * PostsGridController constructor.
      */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditor */
+        $this->addFilter('vcv:ajax:elements:posts_grid:adminAjax', 'renderEditor');
+
         /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::render */
         $this->addShortcode('vcv_posts_grid', 'render');
     }
@@ -33,7 +40,7 @@ class PostsGridController extends Container implements Module
      *
      * @return string
      */
-    private function render($atts, $content, $tag, PostType $postTypeHelper)
+    protected function render($atts, $content, $tag, PostType $postTypeHelper)
     {
         // Build Query from $atts
         $query = ''; // TODO: From $atts

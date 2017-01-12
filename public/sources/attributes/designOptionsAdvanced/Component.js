@@ -1,26 +1,106 @@
 import React from 'react'
+import lodash from 'lodash'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
 import Dropdown from '../dropdown/Component'
+import BoxModel from '../boxModel/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   /**
    * Attribute Mixins
    */
-  static attributeMixin = {
-    src: require('raw-loader!./cssMixins/designeOptionsAdvanced.pcss'),
-    variables: {
-      elId: {
-        value: ''
-      },
-      color: {
-        namePattern: '[\\da-f]+',
-        value: ''
-      },
-      background: {
-        namePattern: '[\\da-f]+',
-        value: ''
+  static attributeMixins = {
+    testMixin: {
+      src: require('raw-loader!./cssMixins/designeOptionsAdvanced.pcss'),
+      variables: {
+        color: {
+          namePattern: '[\\da-f]+',
+          value: ''
+        },
+        background: {
+          namePattern: '[\\da-f]+',
+          value: ''
+        },
+        device: {
+          value: 'md-only'
+        }
+      }
+    },
+    boxModelMixin: {
+      src: require('raw-loader!./cssMixins/boxModel.pcss'),
+      variables: {
+        device: {
+          value: false
+        },
+        margin: {
+          value: false
+        },
+        padding: {
+          value: false
+        },
+        borderWidth: {
+          value: false
+        },
+        borderRadius: {
+          value: false
+        },
+        borderBottomLeftRadius: {
+          value: false
+        },
+        borderBottomRightRadius: {
+          value: false
+        },
+        borderBottomWidth: {
+          value: false
+        },
+        borderLeftWidth: {
+          value: false
+        },
+        borderRightWidth: {
+          value: false
+        },
+        borderTopLeftRadius: {
+          value: false
+        },
+        borderTopRightRadius: {
+          value: false
+        },
+        borderTopWidth: {
+          value: false
+        },
+        marginBottom: {
+          value: false
+        },
+        marginLeft: {
+          value: false
+        },
+        marginRight: {
+          value: false
+        },
+        marginTop: {
+          value: false
+        },
+        paddingBottom: {
+          value: false
+        },
+        paddingLeft: {
+          value: false
+        },
+        paddingRight: {
+          value: false
+        },
+        paddingTop: {
+          value: false
+        }
+      }
+    },
+    visibilityMixin: {
+      src: require('raw-loader!./cssMixins/visibility.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        }
       }
     }
   }
@@ -30,18 +110,17 @@ class DesignOptionsAdvanced extends Attribute {
    */
   static defaultState = {
     currentDevice: 'all',
-    devices: {}
+    devices: {},
+    attributeMixins: {}
   }
 
   constructor (props) {
     super(props)
 
-    // TODO: refactor
-    // this.state.value.attributeMixin = Object.assign({}, DesignOptionsAdvanced.attributeMixin)
-
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
     this.backgroundTypeChangeHandler = this.backgroundTypeChangeHandler.bind(this)
+    this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
   }
 
   /**
@@ -56,7 +135,7 @@ class DesignOptionsAdvanced extends Attribute {
       newState = this.parseValue(props.value)
     } else {
       // data came from state update
-      newState = Object.assign({}, DesignOptionsAdvanced.defaultState, props)
+      newState = lodash.defaultsDeep({}, props, DesignOptionsAdvanced.defaultState)
     }
     return newState
   }
@@ -68,19 +147,19 @@ class DesignOptionsAdvanced extends Attribute {
    */
   parseValue (value) {
     // set default values
-    let newState = Object.assign({}, DesignOptionsAdvanced.defaultState)
+    let newState = lodash.defaultsDeep({}, DesignOptionsAdvanced.defaultState)
     // get devices data
     let devices = this.getCustomDevicesKeys()
     // set current device
-    if (Object.keys(value).length) {
-      newState.currentDevice = Object.keys(value).shift()
+    if (!lodash.isEmpty(value.device)) {
+      newState.currentDevice = Object.keys(value.device).shift()
     }
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
       newState.devices[ device ] = {}
-      if (value[ device ]) {
-        newState.devices[ device ] = Object.assign({}, value[ device ])
+      if (value.device && value.device[ device ]) {
+        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ])
       }
     })
 
@@ -92,8 +171,9 @@ class DesignOptionsAdvanced extends Attribute {
    * @param newState
    */
   updateValue (newState) {
-    // update value
     let newValue = {}
+    let newMixins = {}
+
     // prepare data for state
     newState = this.updateState(newState)
     // save only needed data
@@ -104,8 +184,9 @@ class DesignOptionsAdvanced extends Attribute {
       checkDevices = checkDevices.concat(this.getCustomDevicesKeys())
     }
     checkDevices.forEach((device) => {
-      if (Object.keys(newState.devices[ device ]).length) {
-        newValue[ device ] = Object.assign({}, newState.devices[ device ])
+      if (!lodash.isEmpty(newState.devices[ device ])) {
+        // values
+        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
         // remove all values if display is provided
         if (newValue[ device ].hasOwnProperty('display')) {
           Object.keys(newValue[ device ]).forEach((style) => {
@@ -114,10 +195,38 @@ class DesignOptionsAdvanced extends Attribute {
             }
           })
         }
+        // mixins
+        if (newValue[ device ].hasOwnProperty('display')) {
+          newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
+          newMixins[ `visibilityMixin:${device}` ].variables = {
+            device: {
+              value: device
+            }
+          }
+        } else {
+          // boxModelMixin
+          if (newValue[ device ].hasOwnProperty('boxModel')) {
+            let value = newValue[ device ].boxModel
+            if (!lodash.isEmpty(value)) {
+              // update mixin
+              let mixinName = `boxModelMixin:${device}`
+              newMixins[ mixinName ] = {}
+              newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
+              for (let property in value) {
+                newMixins[ mixinName ].variables[ property ] = {
+                  value: value[ property ]
+                }
+              }
+              newMixins[ mixinName ].variables.device = {
+                value: device
+              }
+            }
+          }
+        }
       }
     })
 
-    this.setFieldValue(newValue)
+    this.setFieldValue(newValue, newMixins)
     this.setState(newState)
   }
 
@@ -125,12 +234,16 @@ class DesignOptionsAdvanced extends Attribute {
    * Flush field value to updater
    * @param value
    */
-  setFieldValue (value) {
-    console.log('===== Value =====')
+  setFieldValue (value, mixins) {
+    console.log('===================')
     console.log(value)
-    console.log('===== /Value =====')
+    console.log(mixins)
+    console.log('===================')
     let { updater, fieldKey } = this.props
-    updater(fieldKey, value)
+    updater(fieldKey, {
+      device: value,
+      attributeMixins: mixins
+    })
   }
 
   /**
@@ -197,16 +310,16 @@ class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = Object.assign({}, this.state, { [fieldKey]: value })
+    let newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
-      newState.devices.all = Object.assign({}, newState.devices[ this.getCustomDevicesKeys().shift() ])
+      newState.devices.all = lodash.defaultsDeep({}, newState.devices[ this.getCustomDevicesKeys().shift() ])
       delete newState.devices.all.display
     } else if (this.state.currentDevice === 'all') {
       // clone data to custom devices from all
       this.getCustomDevicesKeys().forEach((device) => {
-        newState.devices[ device ] = Object.assign({}, newState.devices.all)
+        newState.devices[ device ] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
 
@@ -240,7 +353,7 @@ class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   deviceVisibilityChangeHandler (fieldKey, isVisible) {
-    let newState = Object.assign({}, this.state)
+    let newState = lodash.defaultsDeep({}, this.state)
     if (isVisible) {
       delete newState.devices[ this.state.currentDevice ].display
     } else {
@@ -251,6 +364,10 @@ class DesignOptionsAdvanced extends Attribute {
     this.updateValue(newState)
   }
 
+  /**
+   * Render background type dropdown
+   * @returns {*}
+   */
   getBackgroundTypeRender () {
     if (this.state.devices[ this.state.currentDevice ].display) {
       return null
@@ -297,10 +414,53 @@ class DesignOptionsAdvanced extends Attribute {
     </div>
   }
 
+  /**
+   * Handle background type change
+   * @param fieldKey
+   * @param value
+   */
   backgroundTypeChangeHandler (fieldKey, value) {
-    let newState = Object.assign({}, this.state)
+    let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ].backgroundType = value
     this.updateValue(newState)
+  }
+
+  /**
+   * Render box model
+   * @returns {*}
+   */
+  getBoxModelRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
+    }
+    let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
+    return <div className='vcv-ui-form-group'>
+      <BoxModel
+        api={this.props.api}
+        fieldKey='boxModel'
+        updater={this.boxModelChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle box model change
+   * @param fieldKey
+   * @param value
+   */
+  boxModelChangeHandler (fieldKey, value) {
+    let currentValue = this.state.devices[ this.state.currentDevice ].boxModel || {}
+
+    if (!lodash.isEqual(currentValue, value)) {
+      let newState = lodash.defaultsDeep({}, this.state)
+      // update value
+      if (lodash.isEmpty(value)) {
+        delete newState.devices[ newState.currentDevice ].boxModel
+      } else {
+        newState.devices[ newState.currentDevice ].boxModel = value
+      }
+      this.updateValue(newState)
+    }
   }
 
   /**
@@ -313,6 +473,7 @@ class DesignOptionsAdvanced extends Attribute {
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
+            {this.getBoxModelRender()}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundTypeRender()}

@@ -1,4 +1,5 @@
 import React from 'react'
+import lodash from 'lodash'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import Toggle from '../toggle/Component'
@@ -45,14 +46,13 @@ class BoxModel extends Attribute {
     let newState = {}
     // data came from props if there is set value
     if (props.value) {
-      newState = Object.assign({}, BoxModel.defaultState, props.value)
+      newState = lodash.defaultsDeep({}, props.value, BoxModel.defaultState)
       newState.combined = (newState.margin !== '' || newState.padding !== '' || newState.borderWidth !== '' || newState.borderRadius !== '')
     } else {
       // data came from state update
-      newState = Object.assign({}, BoxModel.defaultState, props)
+      newState = lodash.defaultsDeep({}, props, BoxModel.defaultState)
     }
-    Object.assign(newState, this.getCombinedFields(newState))
-    Object.assign(newState, this.getSimplifiedFields(newState))
+    newState = lodash.defaultsDeep({}, this.getCombinedFields(newState), this.getSimplifiedFields(newState), newState)
     return newState
   }
 
@@ -147,7 +147,6 @@ class BoxModel extends Attribute {
 
     // prepare data for state
     newState = this.updateState(newState)
-
     // prepare data to save
     if (newState.combined) {
       checkFields = Object.keys(this.getCombinedFields(newState))
@@ -180,7 +179,7 @@ class BoxModel extends Attribute {
    * @param value
    */
   simplifyControlsHandler (fieldKey, value) {
-    let newValue = Object.assign({}, this.state, { [fieldKey]: value })
+    let newValue = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
     this.updateValue(newValue)
   }
 
@@ -190,8 +189,7 @@ class BoxModel extends Attribute {
    */
   changeBoxInputHandler (e) {
     let field = e.currentTarget
-    let newState = Object.assign({}, this.state, { [field.name]: field.value })
-    // update value
+    let newState = lodash.defaultsDeep({}, { [field.name]: field.value }, this.state)
     this.updateValue(newState)
   }
 
@@ -201,12 +199,21 @@ class BoxModel extends Attribute {
     let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
     let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
 
-    if (field.value === '' || field.value.match(re)) {
+    if (field.value === '') {
+      return
+    }
+
+    let match = field.value.match(re)
+    if (match) {
+      if (!match[ 2 ]) {
+        let newState = lodash.defaultsDeep({}, { [field.name]: `${field.value}px` }, this.state)
+        this.updateValue(newState)
+      }
       return
     }
 
     // if validation fail leave field empty
-    let newState = Object.assign({}, this.state, { [field.name]: '' })
+    let newState = lodash.defaultsDeep({}, { [field.name]: '' }, this.state)
     this.updateValue(newState)
   }
 

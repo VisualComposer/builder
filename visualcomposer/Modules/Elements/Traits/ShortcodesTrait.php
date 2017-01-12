@@ -4,25 +4,22 @@ namespace VisualComposer\Modules\Elements\Traits;
 
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
-use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class ShortcodesTrait
+ * @package VisualComposer\Modules\Elements\Traits
+ */
 trait ShortcodesTrait
 {
-    use EventsFilters;
-
     /**
-     * Controller constructor.
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Str $strHelper
+     *
+     * @return array
      */
-    public function __construct()
-    {
-        /** @see ShortcodesFactory::renderEditor */
-        $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':adminNonce',
-            'renderEditor'
-        );
-    }
-
-    protected function renderEditor($response, Request $request, Str $strHelper)
+    protected function renderEditor($response, $payload, Request $request, Str $strHelper)
     {
         if (!is_array($response)) {
             $response = [];
@@ -30,12 +27,19 @@ trait ShortcodesTrait
 
         /** @see  \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorContent */
         $response['shortcodeContent'] = $this->call('renderEditorContent');
+        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
         $response['shortcode'] = $this->call('renderEditorShortcode');
 
         return $response;
     }
 
-    private function renderEditorContent(Request $request, Str $strHelper)
+    /**
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Str $strHelper
+     *
+     * @return string
+     */
+    protected function renderEditorContent(Request $request, Str $strHelper)
     {
         ob_start();
         $atts = $request->input('vcv-atts');
@@ -55,6 +59,12 @@ trait ShortcodesTrait
         return $content;
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Request $request
+     * @param \VisualComposer\Helpers\Str $strHelper
+     *
+     * @return mixed
+     */
     protected function renderEditorShortcode(Request $request, Str $strHelper)
     {
         $atts = $request->input('vcv-atts');
@@ -63,7 +73,13 @@ trait ShortcodesTrait
         return $this->call('getShortcodeString', [$atts]);
     }
 
-    private function getShortcodeString($atts, Str $strHelper)
+    /**
+     * @param $atts
+     * @param \VisualComposer\Helpers\Str $strHelper
+     *
+     * @return string
+     */
+    protected function getShortcodeString($atts, Str $strHelper)
     {
         $shortcodeString = sprintf(
             '[%s %s]',
