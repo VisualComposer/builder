@@ -29,6 +29,7 @@ trait ShortcodesTrait
         $response['shortcodeContent'] = $this->call('renderEditorContent');
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
         $response['shortcode'] = $this->call('renderEditorShortcode');
+        $response['status'] = true;
 
         return $response;
     }
@@ -44,7 +45,12 @@ trait ShortcodesTrait
         ob_start();
         $atts = $request->input('vcv-atts');
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
-        $shortcodeString = $this->call('getShortcodeString', [$atts]);
+        $shortcodeString = $this->call(
+            'getShortcodeString',
+            [
+                'atts' => $atts,
+            ]
+        );
         do_action('wp_loaded'); // Fix for WooCommerce
         echo apply_filters(
             'the_content',
