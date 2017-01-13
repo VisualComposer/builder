@@ -1,0 +1,51 @@
+.vce-posts-grid-wrapper {
+  overflow: hidden;
+}
+
+.vce-posts-grid-list {
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.vce-posts-grid-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border: none;
+}
+
+.vce-posts-grid-background-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.vce-posts-grid-background {
+  background-color: #FFFFFF;
+  background-repeat: no-repeat;
+  /*background-image: url(../example/bootstrap/images/red-flower.png);  */
+  background-size: cover;
+  background-position: center;
+  transform: scale(1);
+}
+
+.vce-posts-grid-background::after {
+  content: '';
+  display: block;
+  height: 0;
+  padding-bottom: 50%;
+}
+
+.vce-posts-description-content {
+  padding: 20px;
+  position: relative;
+  text-align: left;
+}

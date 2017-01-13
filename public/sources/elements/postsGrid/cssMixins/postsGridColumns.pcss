@@ -1,0 +1,11 @@
+@media (min-width: 544px) {
+  .vce-posts-grid--columns-$selector {
+    .vce-posts-grid-item {
+      @if $columns != false {
+        flex: 0 0 calc(100% / $columns);
+        max-width: calc(100% / $columns);
+      }
+    }
+  }
+}
+
