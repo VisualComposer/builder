@@ -1,8 +1,8 @@
-import $ from 'jquery'
+/* global jQuery */
 import publicAPI from './resources/api/publicAPI'
 
 window.vcv = publicAPI
 
-$(document).ready(() => {
+jQuery(document).ready(() => {
   publicAPI.trigger('ready')
 }, false)
