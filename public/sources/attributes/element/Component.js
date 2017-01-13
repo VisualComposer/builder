@@ -124,7 +124,7 @@ export default class ElementAttribute extends Attribute {
 
     let category = this.props.options.category || '*'
     let categorySettings = categoriesService.category(category)
-    if (this.state.showReplacements) {
+    if (categorySettings && this.state.showReplacements) {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
         let cookElement = Cook.get({ tag: tag })
         let nameClasses = classNames({
@@ -192,7 +192,7 @@ export default class ElementAttribute extends Attribute {
     }
 
     let replacementBlock = ''
-    if (categorySettings.elements.length > 1) {
+    if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
       replacementBlock = (
         <div className='vcv-ui-replace-element-block'>
           {replacements}
