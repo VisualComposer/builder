@@ -29,6 +29,16 @@
     "access": "protected",
     "value": "thumbnail.jpg"
   },
+  "gridItem": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "gridItemPostDescription"
+    },
+    "options": {
+      "label": "Grid Item"
+    }
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -37,7 +47,7 @@
       "label": "Design Options"
     }
   },
-  "editFormTab1": {
+  "postsGrid": {
     "type": "group",
     "access": "protected",
     "value": [
@@ -45,14 +55,15 @@
       "gap"
     ],
     "options": {
-      "label": "Image Gallery"
+      "label": "Posts Grid"
     }
   },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
+      "postsGrid",
+      "gridItem",
       "designOptions"
     ]
   },

@@ -93,7 +93,8 @@ addService('myTemplates', {
     return predefinedTemplates
   },
   getAllTemplates (filter = null, sort = null) {
-    let allTemplates = getData('myTemplates').concat(this.predefined()) || []
+    let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
+    let allTemplates = myTemplates.concat(this.predefined()) || []
     if (filter && getType.call(filter) === '[object Function]') {
       allTemplates = allTemplates.filter(filter)
     }
