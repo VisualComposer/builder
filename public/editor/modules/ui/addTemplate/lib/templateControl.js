@@ -162,8 +162,8 @@ export default class TemplateControl extends React.Component {
   }
 
   render () {
-    let { name } = this.props
-    let { previewVisible, previewStyle } = this.state
+    let { name, spinner, type, thumbnail, preview, description } = this.props
+    let { previewVisible, previewStyle, letter } = this.state
 
     let nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -172,22 +172,22 @@ export default class TemplateControl extends React.Component {
 
     let spinnerClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner': true,
-      'vcv-ui-state--hidden': !this.props.spinner
+      'vcv-ui-state--hidden': !spinner
     })
 
     let applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
-      'vcv-ui-state--hidden': this.props.spinner
+      'vcv-ui-state--hidden': spinner
     })
 
     let removeClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
-      'vcv-ui-state--hidden': this.props.spinner
+      'vcv-ui-state--hidden': spinner
     })
 
     let overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': this.props.spinner
+      'vcv-ui-item-overlay--visible': spinner
     })
 
     let previewClasses = classNames({
@@ -195,7 +195,7 @@ export default class TemplateControl extends React.Component {
       'vcv-ui-state--visible': previewVisible
     })
 
-    if (this.props.type && this.props.type === 'predefined') {
+    if (type && type === 'predefined') {
       return (
         <li className='vcv-ui-item-list-item'>
           <span className='vcv-ui-item-element'
@@ -205,7 +205,7 @@ export default class TemplateControl extends React.Component {
             <span className='vcv-ui-item-element-content'>
               <img
                 className='vcv-ui-item-element-image'
-                src={AssetsManager.getSourcePath(this.props.thumbnail)}
+                src={AssetsManager.getSourcePath(thumbnail)}
                 alt='Template thumbnail'
               />
               <span className={overlayClasses}>
@@ -227,12 +227,12 @@ export default class TemplateControl extends React.Component {
             <figure className={previewClasses} style={previewStyle}>
               <img
                 className='vcv-ui-item-preview-image'
-                src={AssetsManager.getSourcePath(this.props.preview)}
+                src={AssetsManager.getSourcePath(preview)}
                 alt='Template preview'
               />
               <figcaption className='vcv-ui-item-preview-caption'>
                 <div className='vcv-ui-item-preview-text'>
-                  {this.props.description}
+                  {description}
                 </div>
               </figcaption>
             </figure>
@@ -246,7 +246,7 @@ export default class TemplateControl extends React.Component {
         <span className='vcv-ui-item-element'>
           <span
             className='vcv-ui-item-element-content'
-            data-letter={this.state.letter}
+            data-letter={letter}
           >
             <img
               className='vcv-ui-item-element-image'
