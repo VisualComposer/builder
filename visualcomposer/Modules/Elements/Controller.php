@@ -17,11 +17,13 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:frontend:extraOutput', 'addBundleScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
         $this->addFilter('vcv:frontend:extraOutput', 'addElementScripts');
+        /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
+        $this->addFilter('vcv:backend:extraOutput', 'addElementScripts');
     }
 
     private function addBundleScripts($output, Url $urlHelper)
     {
-        $newWebpack = true;
+        $newWebpack = false;
         if ($newWebpack) {
             $output[] = sprintf(
                 '<script type="text/javascript" src="%s"></script>',
@@ -42,7 +44,7 @@ class Controller extends Container implements Module
 
     private function addElementScripts($output, Url $urlHelper)
     {
-        $newWebpack = true;
+        $newWebpack = false;
         if ($newWebpack) {
             $elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
             foreach ($elements as $element) {

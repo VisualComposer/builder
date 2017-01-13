@@ -31,6 +31,6 @@ window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
 window.React = React
 window.vcvAPI = vcCake.getService('api')
-// if (!vcCake.env('FEATURE_WEBPACK')) {
-//   require('./config/elements')
-// }
+if (!vcCake.env('FEATURE_WEBPACK')) {
+  require('./config/elements')
+}
