@@ -14,33 +14,10 @@ export default class TemplateControl extends React.Component {
     applyTemplate: React.PropTypes.func.isRequired,
     removeTemplate: React.PropTypes.func.isRequired,
     spinner: React.PropTypes.bool,
-    predefinedTemplates: React.PropTypes.array
-  }
-
-  static defaultProps = {
-    predefinedTemplates: [
-      {
-        id: 194,
-        name: 'Travel Description',
-        description: 'An easy way to display description and features of your service (ex. travel tour).',
-        thumbnail: AssetsManager.getSourcePath('images/predefinedTemplates/thumbnail/travel-description-thumbnail.jpg'),
-        preview: AssetsManager.getSourcePath('images/predefinedTemplates/preview/travel-description-preview.gif')
-      },
-      {
-        id: 197,
-        name: 'Case Study',
-        description: 'A case study template for digital content or service (ex. web design, mobile app, architecture).',
-        thumbnail: AssetsManager.getSourcePath('images/predefinedTemplates/thumbnail/case-study-thumbnail.jpg'),
-        preview: AssetsManager.getSourcePath('images/predefinedTemplates/preview/case-study-preview.gif')
-      },
-      {
-        id: 198,
-        name: 'Contact Information',
-        description: 'A simple Contacts page with Google Maps and contact information.',
-        thumbnail: AssetsManager.getSourcePath('images/predefinedTemplates/thumbnail/contact-information-thumbnail.jpg'),
-        preview: AssetsManager.getSourcePath('images/predefinedTemplates/preview/contact-information-preview.png')
-      }
-    ]
+    type: React.PropTypes.string,
+    description: React.PropTypes.string,
+    preview: React.PropTypes.string,
+    thumbnail: React.PropTypes.string
   }
 
   constructor (props) {
@@ -218,13 +195,7 @@ export default class TemplateControl extends React.Component {
       'vcv-ui-state--visible': previewVisible
     })
 
-    let publicPathThumbnail = AssetsManager.getSourcePath('images/template-thumbnail.png')
-
-    let findPredefined = this.props.predefinedTemplates.find((template) => {
-      return template.id === parseInt(this.props.id)
-    })
-
-    if (findPredefined) {
+    if (this.props.type && this.props.type === 'predefined') {
       return (
         <li className='vcv-ui-item-list-item'>
           <span className='vcv-ui-item-element'
@@ -234,7 +205,7 @@ export default class TemplateControl extends React.Component {
             <span className='vcv-ui-item-element-content'>
               <img
                 className='vcv-ui-item-element-image'
-                src={findPredefined.thumbnail}
+                src={AssetsManager.getSourcePath(this.props.thumbnail)}
                 alt='Template thumbnail'
               />
               <span className={overlayClasses}>
@@ -256,12 +227,12 @@ export default class TemplateControl extends React.Component {
             <figure className={previewClasses} style={previewStyle}>
               <img
                 className='vcv-ui-item-preview-image'
-                src={findPredefined.preview}
+                src={AssetsManager.getSourcePath(this.props.preview)}
                 alt='Template preview'
               />
               <figcaption className='vcv-ui-item-preview-caption'>
                 <div className='vcv-ui-item-preview-text'>
-                  {findPredefined.description}
+                  {this.props.description}
                 </div>
               </figcaption>
             </figure>
@@ -279,7 +250,7 @@ export default class TemplateControl extends React.Component {
           >
             <img
               className='vcv-ui-item-element-image'
-              src={publicPathThumbnail}
+              src={AssetsManager.getSourcePath('images/template-thumbnail.png')}
               alt=''
             />
             <span className={overlayClasses}>
