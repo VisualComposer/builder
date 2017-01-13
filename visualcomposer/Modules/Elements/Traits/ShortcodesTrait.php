@@ -81,13 +81,13 @@ trait ShortcodesTrait
     }
 
     /**
+     * @param \VisualComposer\Helpers\Str $strHelper
      * @param $atts
      * @param string $content
-     * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return string
      */
-    protected function getShortcodeString($atts, $content = '', Str $strHelper)
+    protected function getShortcodeString(Str $strHelper, $atts, $content = '')
     {
         $shortcodeString = sprintf(
             '[%s %s]%s[/%s]',
