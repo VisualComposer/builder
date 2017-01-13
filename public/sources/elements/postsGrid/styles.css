@@ -22,30 +22,3 @@
   position: relative;
   border: none;
 }
-
-.vce-posts-grid-background-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.vce-posts-grid-background {
-  background-color: #FFFFFF;
-  background-repeat: no-repeat;
-  /*background-image: url(../example/bootstrap/images/red-flower.png);  */
-  background-size: cover;
-  background-position: center;
-  transform: scale(1);
-}
-
-.vce-posts-grid-background::after {
-  content: '';
-  display: block;
-  height: 0;
-  padding-bottom: 50%;
-}
-
-.vce-posts-description-content {
-  padding: 20px;
-  position: relative;
-  text-align: left;
-}

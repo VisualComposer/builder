@@ -85,28 +85,6 @@ class Component extends vcvAPI.elementComponent {
       <div className={wrapperClasses.join(' ')} {...customProps} id={'el-' + id} {...editor}>
         <vcvhelper data-vcvs-html={this.state.shortcode || ''}
           dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
-        <div className='vce-posts-grid-list'>
-          <article className='vce-posts-grid-item'>
-            <div className='vce-posts-grid-background-wrapper'>
-              <div className='vce-posts-grid-background' />
-            </div>
-            <div className='vce-posts-description-content'>
-              <div className='vce-posts-description-title'><h4>Got big things ahead</h4></div>
-              <div className='vce-posts-description-excerpt'><p>A tatto is a form of body modification, made by inserting
-                indelible ink into dermis layer of the skin to change the pigment.</p></div>
-            </div>
-          </article>
-          <article className='vce-posts-grid-item'>
-            <div className='vce-posts-grid-background-wrapper'>
-              <div className='vce-posts-grid-background' />
-            </div>
-            <div className='vce-posts-description-content'>
-              <div className='vce-posts-description-title'><h4>Got big things ahead</h4></div>
-              <div className='vce-posts-description-excerpt'><p>A tatto is a form of body modification, made by inserting
-                indelible ink into dermis layer of the skin to change the pigment.</p></div>
-            </div>
-          </article>
-        </div>
       </div>
     )
   }

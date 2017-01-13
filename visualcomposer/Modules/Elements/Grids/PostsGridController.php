@@ -48,7 +48,9 @@ class PostsGridController extends Container implements Module
         $query = ''; // TODO: From $atts
         $posts = $postTypeHelper->query($query);
 
-        return $this->loopPosts($posts, $content);
+        $output = $this->loopPosts($posts, rawurldecode($content));
+
+        return sprintf('<div class="vce-posts-grid-list">%s</div>', $output);
     }
 
     /**
@@ -59,20 +61,24 @@ class PostsGridController extends Container implements Module
      */
     protected function loopPosts($posts, $template)
     {
+        global $post;
+        $backup = $post;
         $output = '';
         if (is_array($posts)) {
-            foreach ($posts as $post) {
+            foreach ($posts as $queryPost) {
                 /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
-                $template = $this->call(
+                $post = $queryPost;
+                $compiledTemplate = $this->call(
                     'renderPost',
                     [
                         'template' => $template,
-                        'post' => $post,
+                        'post' => $queryPost,
                     ]
                 );
-                $output .= trim($template);
+                $output .= trim($compiledTemplate);
             }
         }
+        $post = $backup;
 
         return $output;
     }

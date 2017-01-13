@@ -93,7 +93,7 @@ trait ShortcodesTrait
             '[%s %s]%s[/%s]',
             $this->shortcodeTag,
             $strHelper->buildQueryString($atts),
-            $content,
+            rawurlencode($content),
             $this->shortcodeTag
         );
 

@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     return (
-      <article className='vce-post-description vce-post-description--full'>
+      <article className='vce-post-grid-item vce-post-description vce-post-description--full'>
         <div className='vce-post-description--background-wrapper-box'>
           <div className='vce-post-description--background-wrapper'>
             <div className='vce-post-description--background' />
