@@ -3,11 +3,9 @@
 namespace VisualComposer\Modules\Elements\WooCommerce;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
-use VisualComposer\Framework\Container;
 use VisualComposer\Modules\Elements\Traits\ShortcodesTrait;
 
-class WooCommerceMyAccount extends Container implements Module
+class WooCommerceMyAccount extends WooCommerceController implements Module
 {
     use ShortcodesTrait;
 

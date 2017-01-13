@@ -9,6 +9,9 @@ const loadedJsFiles = []
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
   const dataUpdate = (data, action, id) => {
+    if (action === 'reset') {
+      wipAssetsStorage.resetElements(Object.keys(documentService.all()))
+    }
     let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     let iframeDocument = iframeWindow.document
     let doElement = iframeDocument.querySelector('#do-styles')
@@ -33,7 +36,7 @@ vcCake.add('assets', (api) => {
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getSiteCssData())
+      stylesManager.add(wipAssetsStorage.getSiteCssData(true))
       stylesManager.compile().then((result) => {
         styleElement.innerHTML = result
       })

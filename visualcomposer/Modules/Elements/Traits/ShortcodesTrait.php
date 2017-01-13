@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Elements\Traits;
 
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
-use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Class ShortcodesTrait
@@ -12,20 +11,6 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  */
 trait ShortcodesTrait
 {
-    use EventsFilters;
-
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        /** @see ShortcodesFactory::renderEditor */
-        $this->addFilter(
-            'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':adminNonce',
-            'renderEditor'
-        );
-    }
-
     /**
      * @param $response
      * @param $payload
@@ -44,6 +29,7 @@ trait ShortcodesTrait
         $response['shortcodeContent'] = $this->call('renderEditorContent');
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
         $response['shortcode'] = $this->call('renderEditorShortcode');
+        $response['status'] = true;
 
         return $response;
     }
@@ -54,12 +40,11 @@ trait ShortcodesTrait
      *
      * @return string
      */
-    private function renderEditorContent(Request $request, Str $strHelper)
+    protected function renderEditorContent(Request $request, Str $strHelper)
     {
         ob_start();
-        $atts = $request->input('vcv-atts');
-        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
-        $shortcodeString = $this->call('getShortcodeString', [$atts]);
+        /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditorShortcode */
+        $shortcodeString = $this->call('renderEditorShortcode');
         do_action('wp_loaded'); // Fix for WooCommerce
         echo apply_filters(
             'the_content',
@@ -83,23 +68,33 @@ trait ShortcodesTrait
     protected function renderEditorShortcode(Request $request, Str $strHelper)
     {
         $atts = $request->input('vcv-atts');
+        $content = $request->input('vcv-content');
 
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::getShortcodeString */
-        return $this->call('getShortcodeString', [$atts]);
+        return $this->call(
+            'getShortcodeString',
+            [
+                'atts' => $atts,
+                'content' => $content,
+            ]
+        );
     }
 
     /**
      * @param $atts
+     * @param string $content
      * @param \VisualComposer\Helpers\Str $strHelper
      *
      * @return string
      */
-    private function getShortcodeString($atts, Str $strHelper)
+    protected function getShortcodeString($atts, $content = '', Str $strHelper)
     {
         $shortcodeString = sprintf(
-            '[%s %s]',
+            '[%s %s]%s[/%s]',
             $this->shortcodeTag,
-            $strHelper->buildQueryString($atts)
+            $strHelper->buildQueryString($atts),
+            $content,
+            $this->shortcodeTag
         );
 
         return $shortcodeString;

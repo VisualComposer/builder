@@ -27,26 +27,28 @@ class PostVariablesController extends Container implements Module
 
     /**
      * @param $result
-     * @param $data
+     * @param $payload
      *
      * @return string
      */
-    protected function templatePostVariables($result, $data)
+    protected function templatePostVariables($result, $payload)
     {
-        $post = $data['payload']['post'];
+        /** @var \WP_Post $post */
+        $post = $payload['post'];
 
-        return isset($post->{$data['key']}) ? $post->{$data['key']} : '';
+        return isset($post->{$payload['key']}) ? $post->{$payload['key']} : '';
     }
 
     /**
      * @param $result
-     * @param $data
+     * @param $payload
      *
      * @return string
      */
-    protected function postAuthor($result, $data)
+    protected function postAuthor($result, $payload)
     {
-        $post = $data['payload']['post'];
+        /** @var \WP_Post $post */
+        $post = $payload['post'];
         $author = get_userdata($post->post_author)->display_name;
 
         return $author;

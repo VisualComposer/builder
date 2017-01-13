@@ -2,10 +2,10 @@ import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import Url from '../url/Component'
-import AttachImageItem from './attachImageItem'
+import AttachVideoItem from './attachVideoItem'
 import {sortable} from 'react-sortable'
 
-let SortableImageItem = sortable(AttachImageItem)
+let SortableVideoItem = sortable(AttachVideoItem)
 
 class AttachImage extends Attribute {
 
@@ -60,14 +60,14 @@ class AttachImage extends Attribute {
       return false
     }
     this.mediaUploader = window.wp.media({
-      title: 'Add images',
+      title: 'Add video',
       // Tell the modal to show only images.
       library: {
-        type: 'image',
+        type: 'video',
         query: false
       },
       button: {
-        text: 'Add image'
+        text: 'Add video'
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
@@ -100,45 +100,47 @@ class AttachImage extends Attribute {
   }
 
   parseSelection (selection) {
-    let defaultLinkValue = {
-      relNofollow: false,
-      targetBlank: true,
-      title: '',
-      url: ''
-    }
+    // let defaultLinkValue = {
+    //   relNofollow: false,
+    //   targetBlank: true,
+    //   title: '',
+    //   url: ''
+    // }
     let ids = []
     let urls = []
-    selection.forEach((attachment, index) => {
+    let icons = []
+    selection.models.forEach((attachment, index) => {
       let attachmentData = this.mediaAttachmentParse(attachment)
-      let url = Object.assign({}, attachmentData.url)
+      // let url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)
+      urls.push(attachmentData.url)
+      icons.push(attachmentData.icon)
 
-      url.link = defaultLinkValue
+      /* url.link = defaultLinkValue
       if (this.state.value.urls && typeof this.state.value.urls[ index ] !== 'undefined' && typeof this.state.value.urls[ index ].link !== 'undefined') {
         url.link = this.state.value.urls[ index ].link
-      }
-      urls.push(url)
+      } */
     })
 
     return {
       ids: ids,
-      urls: urls
+      urls: urls,
+      icons: icons
     }
   }
 
   mediaAttachmentParse (attachment) {
     attachment = attachment.toJSON()
     let srcUrl = {}
-    for (let size in attachment.sizes) {
-      srcUrl[ size ] = attachment.sizes[ size ].url
-    }
     srcUrl.id = attachment.id
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
+    srcUrl.url = attachment.url
 
     return {
       id: attachment.id,
-      url: srcUrl
+      url: srcUrl,
+      icon: attachment.icon
     }
   }
 
@@ -207,6 +209,7 @@ class AttachImage extends Attribute {
         key: key,
         fieldKey: fieldKey,
         url: url,
+        icon: value.icons[key],
         oneMoreControl: oneMoreControl,
         handleRemove: this.handleRemove,
         getUrlHtml: this.getUrlHtml
@@ -218,7 +221,7 @@ class AttachImage extends Attribute {
         }
 
         value.ids[ key ] && images.push(
-          <SortableImageItem
+          <SortableVideoItem
             key={`sortable-attach-image-item-${fieldKey}-${key}`}
             updateState={this.updateSortable}
             items={value.urls}
@@ -230,7 +233,7 @@ class AttachImage extends Attribute {
         )
       } else {
         value.ids[ key ] && images.push(
-          <AttachImageItem
+          <AttachVideoItem
             key={key}
             childProps={innerChildProps}
           />
