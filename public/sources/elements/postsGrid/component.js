@@ -24,10 +24,16 @@ class Component extends vcvAPI.elementComponent {
       this.serverRequest.abort()
     }
     let atts = {}
+
+    const Cook = vcCake.getService('cook')
+    let GridItemComponent = Cook.get(this.props.atts.gridItem)
+    let gridItemOutput = GridItemComponent.render(null, false)
+    const ReactDOMServer = require('react-dom/server');
     this.serverRequest = ajax({
       'vcv-action': 'elements:posts_grid:adminNonce',
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': atts // TODO: Pass correct grid this.props.atts
+      'vcv-atts': atts, // TODO: Pass correct grid this.props.atts
+      'vcv-content': ReactDOMServer.renderToStaticMarkup(gridItemOutput)
     }, (result) => {
       let response = JSON.parse(result.response)
       if (response && response.status) {

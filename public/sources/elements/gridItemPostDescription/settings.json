@@ -1,8 +1,13 @@
 {
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Posts Grid: Post Description"
+    "value": "Outline Button"
   },
   "metaIntro": {
     "type": "textarea",
@@ -12,32 +17,22 @@
   "metaDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Long description"
+    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
   },
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Medium preview description"
+    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "preview.jpg"
+    "value": "outline-button-preview.jpg"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "thumbnail.jpg"
-  },
-  "gridItem": {
-    "type": "element",
-    "access": "public",
-    "value": {
-      "tag": "gridItemPostDescription"
-    },
-    "options": {
-      "label": "Grid Item"
-    }
+    "value": "outline-button-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
@@ -51,7 +46,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "gridItem",
       "designOptions"
     ]
   },
