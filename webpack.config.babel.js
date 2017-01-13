@@ -18,7 +18,7 @@ let config = {
     node: './public/node-main',
     wp: './public/wp-main',
     front: './public/front-main',
-    backend: './public/wpbackend-main',
+    wpbackend: './public/wpbackend-main',
     app: [],
     vendor: [
       'jquery',
