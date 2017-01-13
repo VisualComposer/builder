@@ -47,6 +47,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { designOptions } = atts
+    let wrapperClasses = [ 'vce vce-posts-grid-wrapper' ]
 
     let customProps = {}
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
@@ -64,9 +65,42 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    let mixinData = this.getMixinData('postsGridGap')
+    if (mixinData) {
+      wrapperClasses.push(`vce-posts-grid--gap-${mixinData.selector}`)
+    }
+
+    mixinData = this.getMixinData('postsGridColumns')
+    if (mixinData) {
+      wrapperClasses.push(`vce-posts-grid--columns-${mixinData.selector}`)
+    }
+
     return (
-      <div className='vce vce-posts-grid-wrapper' {...customProps} id={'el-' + id} {...editor}>
-        <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
+      <div className={wrapperClasses.join(' ')} {...customProps} id={'el-' + id} {...editor}>
+        <vcvhelper data-vcvs-html={this.state.shortcode || ''}
+          dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
+        <div className='vce-posts-grid-list'>
+          <article className='vce-posts-grid-item'>
+            <div className='vce-posts-grid-background-wrapper'>
+              <div className='vce-posts-grid-background' />
+            </div>
+            <div className='vce-posts-description-content'>
+              <div className='vce-posts-description-title'><h4>Got big things ahead</h4></div>
+              <div className='vce-posts-description-excerpt'><p>A tatto is a form of body modification, made by inserting
+                indelible ink into dermis layer of the skin to change the pigment.</p></div>
+            </div>
+          </article>
+          <article className='vce-posts-grid-item'>
+            <div className='vce-posts-grid-background-wrapper'>
+              <div className='vce-posts-grid-background' />
+            </div>
+            <div className='vce-posts-description-content'>
+              <div className='vce-posts-description-title'><h4>Got big things ahead</h4></div>
+              <div className='vce-posts-description-excerpt'><p>A tatto is a form of body modification, made by inserting
+                indelible ink into dermis layer of the skin to change the pigment.</p></div>
+            </div>
+          </article>
+        </div>
       </div>
     )
   }
