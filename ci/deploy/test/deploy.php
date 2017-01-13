@@ -35,7 +35,7 @@ task(
         run('npm update --loglevel=error');
         cd('{{release_path}}');
         run('php ci/composer.phar update --prefer-dist --no-progress');
-        run('npm run build-new');
+        run('npm run build');
     }
 )->desc('Install npm, composer and bower packages');
 
