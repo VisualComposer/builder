@@ -21,6 +21,7 @@ let config = {
     backend: './public/wpbackend-main',
     app: [],
     vendor: [
+      'jquery',
       'react',
       'react-dom',
       'classnames',
