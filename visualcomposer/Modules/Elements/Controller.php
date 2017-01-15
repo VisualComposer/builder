@@ -42,7 +42,7 @@ class Controller extends Container implements Module
 
     private function addElementScripts($output, Url $urlHelper)
     {
-        $newWebpack = false;
+        $newWebpack = true;
         if ($newWebpack) {
             $elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
             foreach ($elements as $element) {
