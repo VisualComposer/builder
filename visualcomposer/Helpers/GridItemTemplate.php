@@ -14,20 +14,21 @@ class GridItemTemplate extends Container implements Helper
 
     /**
      * @param $template
-     * @param $payload
+     * @param \WP_Post $post
      *
      * @return mixed
      */
-    public function parseTemplate($template, $payload)
+    public function parseTemplate($template, $post)
     {
         $template = preg_replace_callback(
             $this->templateRegexp,
-            function ($matches) use ($payload) {
-                $this->call(
+            function ($matches) use ($post) {
+                /** @see \VisualComposer\Helpers\GridItemTemplate::templateCallback */
+                return $this->call(
                     'templateCallback',
                     [
                         'matches' => $matches,
-                        'payload' => $payload,
+                        'post' => $post,
                     ]
                 );
             },
@@ -39,11 +40,11 @@ class GridItemTemplate extends Container implements Helper
 
     /**
      * @param $matches
-     * @param $payload
+     * @param \WP_Post $post
      *
      * @return array|null|string
      */
-    protected function templateCallback($matches, $payload)
+    protected function templateCallback($matches, $post)
     {
         list($fullMatch, $key, $value) = array_pad($matches, 3, null);
         $result = '';
@@ -55,7 +56,7 @@ class GridItemTemplate extends Container implements Helper
                     'fullMatch' => $fullMatch,
                     'key' => $key,
                     'value' => $value,
-                    'payload' => $payload,
+                    'post' => $post,
                 ]
             );
         }

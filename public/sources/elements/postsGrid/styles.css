@@ -1,0 +1,24 @@
+.vce-posts-grid-wrapper {
+  overflow: hidden;
+}
+
+.vce-posts-grid-list {
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.vce-posts-grid-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border: none;
+}

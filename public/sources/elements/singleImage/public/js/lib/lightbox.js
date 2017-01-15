@@ -35,7 +35,7 @@
     this.init();
 
     // options
-    this.options = $.extend({}, this.constructor.defaults);
+    this.options = window.jQuery.extend({}, this.constructor.defaults);
     this.option(options);
   }
 
@@ -56,7 +56,7 @@
   };
 
   Lightbox.prototype.option = function(options) {
-    $.extend(this.options, options);
+    window.jQuery.extend(this.options, options);
   };
 
   Lightbox.prototype.imageCountLabel = function(currentImageNum, totalImages) {
@@ -72,8 +72,8 @@
   // that contain 'lightbox'. When these are clicked, start lightbox.
   Lightbox.prototype.enable = function() {
     var self = this;
-    $('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(event) {
-      self.start($(event.currentTarget));
+    window.jQuery('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function(event) {
+      self.start(window.jQuery(event.currentTarget));
       return false;
     });
   };
@@ -82,11 +82,11 @@
   // Attach event handlers to the new DOM elements. click click click
   Lightbox.prototype.build = function() {
     var self = this;
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo($('body'));
+    window.jQuery('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo(window.jQuery('body'));
 
     // Cache jQuery objects
-    this.$lightbox       = $('#lightbox');
-    this.$overlay        = $('#lightboxOverlay');
+    this.$lightbox       = window.jQuery('#lightbox');
+    this.$overlay        = window.jQuery('#lightboxOverlay');
     this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
     this.$container      = this.$lightbox.find('.lb-container');
 
@@ -103,14 +103,14 @@
     });
 
     this.$lightbox.hide().on('click', function(event) {
-      if ($(event.target).attr('id') === 'lightbox') {
+      if (window.jQuery(event.target).attr('id') === 'lightbox') {
         self.end();
       }
       return false;
     });
 
     this.$outerContainer.on('click', function(event) {
-      if ($(event.target).attr('id') === 'lightbox') {
+      if (window.jQuery(event.target).attr('id') === 'lightbox') {
         self.end();
       }
       return false;
@@ -143,11 +143,11 @@
   // Show overlay and lightbox. If the image is part of a set, add siblings to album array.
   Lightbox.prototype.start = function($link) {
     var self    = this;
-    var $window = $(window);
+    var $window = window.jQuery(window);
 
-    $window.on('resize', $.proxy(this.sizeOverlay, this));
+    $window.on('resize', window.jQuery.proxy(this.sizeOverlay, this));
 
-    $('select, object, embed').css({
+    window.jQuery('select, object, embed').css({
       visibility: 'hidden'
     });
 
@@ -168,9 +168,9 @@
     var $links;
 
     if (dataLightboxValue) {
-      $links = $($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
+      $links = window.jQuery($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
       for (var i = 0; i < $links.length; i = ++i) {
-        addToAlbum($($links[i]));
+        addToAlbum(window.jQuery($links[i]));
         if ($links[i] === $link[0]) {
           imageNumber = i;
         }
@@ -181,9 +181,9 @@
         addToAlbum($link);
       } else {
         // If image is part of a set
-        $links = $($link.prop('tagName') + '[rel="' + $link.attr('rel') + '"]');
+        $links = window.jQuery($link.prop('tagName') + '[rel="' + $link.attr('rel') + '"]');
         for (var j = 0; j < $links.length; j = ++j) {
-          addToAlbum($($links[j]));
+          addToAlbum(window.jQuery($links[j]));
           if ($links[j] === $link[0]) {
             imageNumber = j;
           }
@@ -201,7 +201,7 @@
 
     // Disable scrolling of the page while open
     if (this.options.disableScrolling) {
-      $('body').addClass('lb-disable-scrolling');
+      window.jQuery('body').addClass('lb-disable-scrolling');
     }
 
     this.changeImage(imageNumber);
@@ -216,7 +216,7 @@
 
     this.$overlay.fadeIn(this.options.fadeDuration);
 
-    $('.lb-loader').fadeIn('slow');
+    window.jQuery('.lb-loader').fadeIn('slow');
     this.$lightbox.find('.lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption').hide();
 
     this.$outerContainer.addClass('animating');
@@ -234,7 +234,7 @@
 
       $image.attr('src', self.album[imageNumber].link);
 
-      $preloader = $(preloader);
+      $preloader = window.jQuery(preloader);
 
       $image.width(preloader.width);
       $image.height(preloader.height);
@@ -243,8 +243,8 @@
         // Fit image inside the viewport.
         // Take into account the border around the image and an additional 10px gutter on each side.
 
-        windowWidth    = $(window).width();
-        windowHeight   = $(window).height();
+        windowWidth    = window.jQuery(window).width();
+        windowHeight   = window.jQuery(window).height();
         maxImageWidth  = windowWidth - self.containerLeftPadding - self.containerRightPadding - 20;
         maxImageHeight = windowHeight - self.containerTopPadding - self.containerBottomPadding - 120;
 
@@ -281,8 +281,8 @@
   // Stretch overlay to fit the viewport
   Lightbox.prototype.sizeOverlay = function() {
     this.$overlay
-      .width($(document).width())
-      .height($(document).height());
+      .width(window.jQuery(document).width())
+      .height(window.jQuery(document).height());
   };
 
   // Animate the size of the lightbox to fit the image we are showing
@@ -372,10 +372,10 @@
         .html(this.album[this.currentImageIndex].title)
         .fadeIn('fast')
         .find('a').on('click', function(event) {
-        if ($(this).attr('target') !== undefined) {
-          window.open($(this).attr('href'), $(this).attr('target'));
+        if (window.jQuery(this).attr('target') !== undefined) {
+          window.open(window.jQuery(this).attr('href'), window.jQuery(this).attr('target'));
         } else {
-          location.href = $(this).attr('href');
+          location.href = window.jQuery(this).attr('href');
         }
       });
     }
@@ -407,11 +407,11 @@
   };
 
   Lightbox.prototype.enableKeyboardNav = function() {
-    $(document).on('keyup.keyboard', $.proxy(this.keyboardAction, this));
+    window.jQuery(document).on('keyup.keyboard', window.jQuery.proxy(this.keyboardAction, this));
   };
 
   Lightbox.prototype.disableKeyboardNav = function() {
-    $(document).off('.keyboard');
+    window.jQuery(document).off('.keyboard');
   };
 
   Lightbox.prototype.keyboardAction = function(event) {
@@ -441,14 +441,14 @@
   // Closing time. :-(
   Lightbox.prototype.end = function() {
     this.disableKeyboardNav();
-    $(window).off('resize', this.sizeOverlay);
+    window.jQuery(window).off('resize', this.sizeOverlay);
     this.$lightbox.fadeOut(this.options.fadeDuration);
     this.$overlay.fadeOut(this.options.fadeDuration);
-    $('select, object, embed').css({
+    window.jQuery('select, object, embed').css({
       visibility: 'visible'
     });
     if (this.options.disableScrolling) {
-      $('body').removeClass('lb-disable-scrolling');
+      window.jQuery('body').removeClass('lb-disable-scrolling');
     }
   };
 

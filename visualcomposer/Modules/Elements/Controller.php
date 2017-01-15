@@ -17,6 +17,8 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:frontend:extraOutput', 'addBundleScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
         $this->addFilter('vcv:frontend:extraOutput', 'addElementScripts');
+        /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
+        $this->addFilter('vcv:backend:extraOutput', 'addElementScripts');
     }
 
     private function addBundleScripts($output, Url $urlHelper)
