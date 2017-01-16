@@ -150,6 +150,13 @@ class CookElement {
   getAll () {
     return this.toJS(false)
   }
+  filter (callback) {
+    return Object.keys(this[ elData ].settings).filter((key) => {
+      let settings = this[ elData ].settings[key]
+      let value = this.get(key)
+      return callback(key, value, settings)
+    })
+  }
 }
 CookElement.propTypes = {
   tag: React.PropTypes.string.isRequired

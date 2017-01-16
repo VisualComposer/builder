@@ -439,10 +439,42 @@ vcCake.addService('assets-manager', {
     })
     return styles
   },
-  getTagCompiledCss (tag, data) {
-    const iterations = []
+  getTagCompiledCss (tag, data, addStyles = false) {
+    let iterations = []
     const mixins = this.getCssMixinsByElement(data)
     let cssMixinsStyles = this.getTagCssMixinsStyles(tag, mixins[ tag ])
+    console.log('addstyles', addStyles)
+
+    if (addStyles) {
+      const elementObject = this.cook().get(data)
+      const cssSettings = elementObject.get('cssSettings')
+      const css = cssSettings.css
+      const editorCss = cssSettings.editorCss
+      if (css) {
+        console.log(css)
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss()
+            .use(postcssVars())
+            .process(css)
+            .then((result) => {
+              resolve(result.css)
+            })
+        })
+        iterations.push(stylePromise)
+      }
+      if (editorCss) {
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss()
+            .use(postcssVars())
+            .process(editorCss)
+            .then((result) => {
+              resolve(result.css)
+            })
+        })
+        iterations.push(stylePromise)
+      }
+    }
+
     cssMixinsStyles.forEach((mixin) => {
       let compiledStyles = new Promise((resolve, reject) => {
         postcss()
@@ -459,7 +491,14 @@ vcCake.addService('assets-manager', {
       })
       iterations.push(compiledStyles)
     })
-
+    // Get elements
+    let cookElement = this.cook().get(data)
+    cookElement.filter((key, value, settings) => {
+      return value && settings.type === 'element'
+    }).forEach((field) => {
+      let subElement = this.cook().get(cookElement.get(field))
+      iterations = iterations.concat(this.getTagCompiledCss(subElement.get('tag'), subElement.toJS(), true))
+    })
     return Promise.all(iterations).then((output) => {
       return output.join(' ')
     })

@@ -106,12 +106,14 @@ vcCake.add('assets', (api) => {
       iframeDocument.body.appendChild(doInstantCssStyle)
     }
     assetsManager.getTagCompiledCss(data.tag, data).then((result) => {
+      console.log(result)
       instantCssStyle.innerHTML = result
     }).then(() => {
       vcCake.getService('api').publicEvents.trigger('css:ready')
     })
     const designOptions = vcCake.getService('cook').get(data).get('designOptions')
     assetsManager.getCompiledDesignOptions(data.id, designOptions).then((result) => {
+      console.log(result)
       doInstantCssStyle.innerHTML = result
     }).then(() => {
       iframeWindow.vcv.trigger('ready', 'update', data.id)
