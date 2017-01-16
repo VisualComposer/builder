@@ -6,13 +6,25 @@ import vcCake from 'vc-cake'
 const AssetsManager = vcCake.env('FEATURE_ASSETS_MANAGER') ? vcCake.getService('assets-manager') : vcCake.getService('wipAssetsManager')
 
 export default class Backend extends Representer {
-  getDefaultPlaceHolder (url) {
+  getSinglePlaceHolder (url) {
     return <img
       className='vcv-wpbackend-attr-representer-attach-image--preview'
       src={url}
       alt='Default image'
       key={`representer-image-default`}
     />
+  }
+
+  getMultiplePlaceHolders (urls) {
+    return urls.map((url, i) => {
+      let path = AssetsManager.getPublicPath(this.props.element.tag, url)
+      return <img
+        className='vcv-wpbackend-attr-representer-attach-image--preview'
+        src={path}
+        alt={`Default image ${i}`}
+        key={`representer-image-default-${i}`}
+      />
+    })
   }
 
   getImages (urls) {
@@ -31,7 +43,9 @@ export default class Backend extends Representer {
     let output
     if (typeof value === 'string') {
       let url = AssetsManager.getPublicPath(this.props.element.tag, value)
-      output = this.getDefaultPlaceHolder(url)
+      output = this.getSinglePlaceHolder(url)
+    } else if (Array.isArray(value)) {
+      output = this.getMultiplePlaceHolders(value)
     } else {
       output = this.getImages(value.urls)
     }
