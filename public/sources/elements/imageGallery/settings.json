@@ -197,5 +197,13 @@
         "namePattern": "[\\da-f]+"
       }
     }
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "clickableOptions",
+      "image"
+    ]
   }
 }
