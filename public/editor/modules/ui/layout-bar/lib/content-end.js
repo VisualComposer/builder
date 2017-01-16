@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {getService, env, setData} from 'vc-cake'
-const timeMachine = getService('time-machine')
+import {setData, getData} from 'vc-cake'
 
 import Resizer from '../../../../../resources/resizer/resizer'
 
@@ -28,6 +27,11 @@ export default class BarContentEnd extends React.Component {
 
   componentDidMount () {
     this.props.api.addAction('setEndContent', (Component, props = {}) => {
+      const confirmMessage = getData('barContentEnd:confirm')
+      if (confirmMessage && !window.confirm(confirmMessage)) {
+        return
+      }
+      setData('barContentEnd:confirm', false)
       setData('barContentEnd:Show', Component)
       this.setState({
         contentComponent: Component,
@@ -101,15 +105,11 @@ export default class BarContentEnd extends React.Component {
   closeContent (e) {
     e && e.preventDefault()
     let { api } = this.props
-    if (env('FEATURE_INSTANT_UPDATE')) {
-      if (timeMachine.isLocked()) {
-        if (!window.confirm('Are you sure you want to close editor?')) {
-          return
-        }
-        timeMachine.unlock()
-        api.request('data:reset', timeMachine.get())
-      }
+    const confirmMessage = getData('barContentEnd:confirm')
+    if (confirmMessage && !window.confirm(confirmMessage)) {
+      return
     }
+    setData('barContentEnd:confirm', false)
     api.request('bar-content-start:hide')
     api.request('bar-content-end:hide')
   }

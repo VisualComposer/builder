@@ -160,7 +160,11 @@ vcCake.addService('assets-manager', {
       }
     })
   },
-
+  reset (ids) {
+    ids.forEach(() => {
+      this.add(ids)
+    })
+  },
   /**
    * Get element by id
    * @param assetKey
@@ -409,29 +413,96 @@ vcCake.addService('assets-manager', {
    * @returns {{}}
    */
   getCssMixinsStyles () { // @SM
-    let styles = []
     let mixinsData = this.getCssMixinsData()
     let tagsList = Object.keys(mixinsData)
-
-    tagsList.forEach((tag) => {
-      let elementObject = this.cook().get({ tag: tag })
-      let cssSettings = elementObject.get('cssSettings')
-      let mixins = Object.keys(mixinsData[ tag ])
-
-      mixins.forEach((mixin) => {
-        for (let selector in mixinsData[ tag ][ mixin ]) {
-          if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
-            styles.push({
-              variables: mixinsData[ tag ][ mixin ][ selector ],
-              mixin: cssSettings.mixins[ mixin ].mixin
-            })
-          }
+    return tagsList.map((tag) => {
+      return this.getTagCssMixinsStyles(tag, mixinsData[ tag ])
+    }).reduce((a, b) => a.concat(b), [])
+  },
+  getTagCssMixinsStyles (tag, mixins) {
+    const styles = []
+    let elementObject = this.cook().get({ tag: tag })
+    let cssSettings = elementObject.get('cssSettings')
+    if (!mixins) {
+      let mixinsData = this.getCssMixinsData()
+      mixins = mixinsData[ tag ]
+    }
+    mixins && Object.keys(mixins).forEach((mixin) => {
+      for (let selector in mixins[ mixin ]) {
+        if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
+          styles.push({
+            variables: mixins[ mixin ][ selector ],
+            mixin: cssSettings.mixins[ mixin ].mixin
+          })
         }
-      })
+      }
     })
     return styles
   },
+  getTagCompiledCss (tag, data, addStyles = false) {
+    let iterations = []
+    const mixins = this.getCssMixinsByElement(data)
+    let cssMixinsStyles = this.getTagCssMixinsStyles(tag, mixins[ tag ])
+    console.log('addstyles', addStyles)
 
+    if (addStyles) {
+      const elementObject = this.cook().get(data)
+      const cssSettings = elementObject.get('cssSettings')
+      const css = cssSettings.css
+      const editorCss = cssSettings.editorCss
+      if (css) {
+        console.log(css)
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss()
+            .use(postcssVars())
+            .process(css)
+            .then((result) => {
+              resolve(result.css)
+            })
+        })
+        iterations.push(stylePromise)
+      }
+      if (editorCss) {
+        let stylePromise = new Promise((resolve, reject) => {
+          postcss()
+            .use(postcssVars())
+            .process(editorCss)
+            .then((result) => {
+              resolve(result.css)
+            })
+        })
+        iterations.push(stylePromise)
+      }
+    }
+
+    cssMixinsStyles.forEach((mixin) => {
+      let compiledStyles = new Promise((resolve, reject) => {
+        postcss()
+          .use(postcssAdvancedVars({
+            variables: mixin.variables,
+            silent: true
+          }))
+          .use(postcssNested)
+          .use(postcssColor)
+          .process(mixin.mixin)
+          .then((result) => {
+            resolve(result.css)
+          })
+      })
+      iterations.push(compiledStyles)
+    })
+    // Get elements
+    let cookElement = this.cook().get(data)
+    cookElement.filter((key, value, settings) => {
+      return value && settings.type === 'element'
+    }).forEach((field) => {
+      let subElement = this.cook().get(cookElement.get(field))
+      iterations = iterations.concat(this.getTagCompiledCss(subElement.get('tag'), subElement.toJS(), true))
+    })
+    return Promise.all(iterations).then((output) => {
+      return output.join(' ')
+    })
+  },
   /**
    * Get compiled css
    * @returns {string}
@@ -513,13 +584,8 @@ vcCake.addService('assets-manager', {
 
     return returnOptions
   },
-
-  /**
-   * Get compiled design options css
-   * @returns {Promise.<TResult>}
-   */
-  getCompiledDesignOptions () { // @AS
-    let devices = designOptions.getDevices()
+  getBreakPoints () {
+    const devices = designOptions.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
       let sizes = []
@@ -531,11 +597,22 @@ vcCake.addService('assets-manager', {
       }
       viewPortBreakpoints[ '--' + device ] = sizes.join(' and ')
     }
-
+    return viewPortBreakpoints
+  },
+  /**
+   * Get compiled design options css
+   * @returns {Promise.<TResult>}
+   */
+  getCompiledDesignOptions (id = false, data = false) { // @AS
+    const viewPortBreakpoints = this.getBreakPoints()
     let outputCss = []
     let designOptionsData = this.getDesignOptions()
-    for (let id in designOptionsData) {
-      outputCss.push(designOptions.getCss(id, designOptionsData[ id ]))
+    if (id && data && data.used) {
+      outputCss.push(designOptions.getCss(id, data))
+    } else {
+      for (let id in designOptionsData) {
+        outputCss.push(designOptions.getCss(id, designOptionsData[ id ]))
+      }
     }
     var iterations = []
     for (let style of outputCss) {
@@ -551,12 +628,10 @@ vcCake.addService('assets-manager', {
         iterations.push(stylePromise)
       }
     }
-
     return Promise.all(iterations).then((output) => {
       return output.join(' ')
     })
   },
-
   /**
    * Set columns
    * @param columns

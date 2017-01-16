@@ -1,0 +1,59 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Outline Button"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "outline-button-preview.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "outline-button-thumbnail.png"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  }
+}

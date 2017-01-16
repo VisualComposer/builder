@@ -1,4 +1,5 @@
-import {addService, setData, getData, getService} from 'vc-cake'
+import { addService, setData, getData, getService } from 'vc-cake'
+import { predefinedTemplates } from './lib/predefinedTemplates'
 
 const utils = getService('utils')
 const documentManager = getService('document')
@@ -49,7 +50,7 @@ addService('myTemplates', {
     })
   },
   findBy (key, value) {
-    return this.all().find((template) => {
+    return this.getAllTemplates().find((template) => {
       return template[ key ] && template[ key ] === value
     })
   },
@@ -66,5 +67,23 @@ addService('myTemplates', {
       })
     }
     return myTemplates
+  },
+  predefined () {
+    return predefinedTemplates
+  },
+  getAllTemplates (filter = null, sort = null) {
+    let myTemplates = getData('myTemplates') ? getData('myTemplates') : []
+    let allTemplates = myTemplates.concat(this.predefined()) || []
+    if (filter && getType.call(filter) === '[object Function]') {
+      allTemplates = allTemplates.filter(filter)
+    }
+    if (sort && getType.call(sort) === '[object Function]') {
+      allTemplates.sort(sort)
+    } else if (sort === 'name') {
+      allTemplates.sort((a, b) => {
+        return a.name ? a.name.localeCompare(b.name, { kn: true }, { sensitivity: 'base' }) : -1
+      })
+    }
+    return allTemplates
   }
 })

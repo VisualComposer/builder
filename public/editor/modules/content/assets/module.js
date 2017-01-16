@@ -8,11 +8,16 @@ const wipStylesManager = vcCake.getService('wipStylesManager')
 const loadedJsFiles = []
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
+  let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+  let iframeDocument = iframeWindow.document
+  let doElement = iframeDocument.querySelector('#do-styles')
+  let styleElement = iframeDocument.querySelector('#css-styles')
+  let doInstantCssStyle = iframeDocument.getElementById('do-css-instant-styles')
+  let instantCssStyle = iframeDocument.getElementById('css-instant-styles')
   const dataUpdate = (data, action, id) => {
-    let iframeWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-    let iframeDocument = iframeWindow.document
-    let doElement = iframeDocument.querySelector('#do-styles')
-    let styleElement = iframeDocument.querySelector('#css-styles')
+    if (action === 'reset') {
+      wipAssetsStorage.resetElements(Object.keys(documentService.all()))
+    }
     if (!styleElement) {
       styleElement = iframeDocument.createElement('style')
       styleElement.id = 'css-styles'
@@ -22,6 +27,12 @@ vcCake.add('assets', (api) => {
       doElement = iframeDocument.createElement('style')
       doElement.id = 'do-styles'
       iframeDocument.body.appendChild(doElement)
+    }
+    if (instantCssStyle) {
+      instantCssStyle.innerHTML = ''
+    }
+    if (doInstantCssStyle) {
+      doInstantCssStyle.innerHTML = ''
     }
     assetsManager.getCompiledCss(true).then((result) => {
       let cssString = result
@@ -33,7 +44,7 @@ vcCake.add('assets', (api) => {
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getSiteCssData())
+      stylesManager.add(wipAssetsStorage.getSiteCssData(true))
       stylesManager.compile().then((result) => {
         styleElement.innerHTML = result
       })
@@ -43,36 +54,24 @@ vcCake.add('assets', (api) => {
       doElement.innerHTML = result
       doElement.innerHTML += assetsManager.getCustomCss()
     })
-
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getPageCssData())
-      stylesManager.compile().then((result) => {
-        doElement.innerHTML = result
-      })
-    }
+    let stylesManager = wipStylesManager.create()
+    stylesManager.add(wipAssetsStorage.getPageCssData())
+    stylesManager.compile().then((result) => {
+      doElement.innerHTML = result
+    })
 
     let jsAssetsLoaders = []
-    let jsFiles = assetsManager.getJsFiles()
-
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
-    }
+    let jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
 
     jsFiles.forEach((file) => {
       if (loadedJsFiles.indexOf(file) === -1) {
         loadedJsFiles.push(file)
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          jsAssetsLoaders.push(iframeWindow.$.getScript(wipAssetsManager.getSourcePath(file)))
-        } else {
-          jsAssetsLoaders.push(iframeWindow.$.getScript(assetsManager.getSourcePath(file)))
-        }
+        jsAssetsLoaders.push(iframeWindow.$.getScript(wipAssetsManager.getSourcePath(file)))
       }
     })
     Promise.all(jsAssetsLoaders).then(() => {
       iframeWindow.vcv.trigger('ready', action, id)
     })
-
     let d = iframeWindow.document
 
     let cssFiles = assetsManager.getCssFiles()
@@ -95,12 +94,39 @@ vcCake.add('assets', (api) => {
       }
     })
   }
+  const instantMutationUpdate = (data) => {
+    if (!instantCssStyle) {
+      instantCssStyle = iframeDocument.createElement('style')
+      instantCssStyle.id = 'css-instant-styles'
+      iframeDocument.body.appendChild(instantCssStyle)
+    }
+    if (!doInstantCssStyle) {
+      doInstantCssStyle = iframeDocument.createElement('style')
+      doInstantCssStyle.id = 'do-css-instant-styles'
+      iframeDocument.body.appendChild(doInstantCssStyle)
+    }
+    assetsManager.getTagCompiledCss(data.tag, data).then((result) => {
+      console.log(result)
+      instantCssStyle.innerHTML = result
+    }).then(() => {
+      vcCake.getService('api').publicEvents.trigger('css:ready')
+    })
+    const designOptions = vcCake.getService('cook').get(data).get('designOptions')
+    assetsManager.getCompiledDesignOptions(data.id, designOptions).then((result) => {
+      console.log(result)
+      doInstantCssStyle.innerHTML = result
+    }).then(() => {
+      iframeWindow.vcv.trigger('ready', 'update', data.id)
+    })
+  }
   // TODO: Use state against event
   api.reply('data:changed', dataUpdate)
   api.reply('settings:changed', dataUpdate)
   api.reply('wordpress:data:added', dataUpdate)
   api.reply('data:added', dataUpdate)
-
+  if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
+    api.reply('data:instantMutation', instantMutationUpdate)
+  }
   api.reply('data:afterAdd', (ids) => {
     assetsManager.add(ids)
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {

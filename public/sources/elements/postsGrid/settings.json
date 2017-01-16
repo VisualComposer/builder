@@ -29,6 +29,16 @@
     "access": "protected",
     "value": "thumbnail.jpg"
   },
+  "gridItem": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "gridItemPostDescription"
+    },
+    "options": {
+      "label": "Grid Item"
+    }
+  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -37,10 +47,23 @@
       "label": "Design Options"
     }
   },
+  "postsGrid": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "columns",
+      "gap"
+    ],
+    "options": {
+      "label": "Posts Grid"
+    }
+  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
+      "postsGrid",
+      "gridItem",
       "designOptions"
     ]
   },
@@ -50,5 +73,32 @@
     "value": [
       "General"
     ]
+  },
+  "gap": {
+    "type": "number",
+    "access": "public",
+    "value": "5",
+    "options": {
+      "label": "Gap",
+      "description": "Enter gap in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "postsGridGap",
+        "property": "gap",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "columns": {
+    "type": "number",
+    "access": "public",
+    "value": "3",
+    "options": {
+      "label": "Number of Columns",
+      "cssMixin": {
+        "mixin": "postsGridColumns",
+        "property": "columns",
+        "namePattern": "[\\da-f]+"
+      }
+    }
   }
 }

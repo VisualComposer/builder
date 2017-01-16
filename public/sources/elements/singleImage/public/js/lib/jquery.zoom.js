@@ -231,4 +231,4 @@
   };
 
   $.fn.zoom.defaults = defaults;
-}($));
+}(window.jQuery));

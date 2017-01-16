@@ -20,16 +20,18 @@ class PostsGridController extends Container implements Module
     use EventsFilters;
     use ShortcodesTrait;
 
+    protected $shortcodeTag = 'vcv_posts_grid';
+
     /**
      * PostsGridController constructor.
      */
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Elements\Traits\ShortcodesTrait::renderEditor */
-        $this->addFilter('vcv:ajax:elements:posts_grid:adminAjax', 'renderEditor');
+        $this->addFilter('vcv:ajax:elements:posts_grid:adminNonce', 'renderEditor');
 
         /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::render */
-        $this->addShortcode('vcv_posts_grid', 'render');
+        $this->addShortcode($this->shortcodeTag, 'render');
     }
 
     /**
@@ -46,48 +48,51 @@ class PostsGridController extends Container implements Module
         $query = ''; // TODO: From $atts
         $posts = $postTypeHelper->query($query);
 
-        return $this->loopPosts($content, $posts, $tag);
+        $output = $this->loopPosts($posts, rawurldecode($content));
+
+        return sprintf('<div class="vce-posts-grid-list">%s</div>', $output);
     }
 
     /**
      * @param $posts
      * @param $template
-     * @param $gridItemTag
      *
      * @return string
      */
-    protected function loopPosts($posts, $template, $gridItemTag)
+    protected function loopPosts($posts, $template)
     {
+        global $post;
+        $backup = $post;
         $output = '';
-        foreach ($posts as $post) {
-            /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
-            $template = $this->call(
-                'renderPost',
-                [
-                    'template' => $template,
-                    'payload' => [
-                        'post' => $post,
-                        'tag' => $gridItemTag,
-                    ],
-                ]
-            );
-            $output .= trim($template);
+        if (is_array($posts)) {
+            foreach ($posts as $queryPost) {
+                /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
+                $post = $queryPost;
+                $compiledTemplate = $this->call(
+                    'renderPost',
+                    [
+                        'template' => $template,
+                        'post' => $queryPost,
+                    ]
+                );
+                $output .= trim($compiledTemplate);
+            }
         }
+        $post = $backup;
 
         return $output;
     }
 
     /**
      * @param $template
-     * @param $payload
-     *
+     * @param $post
      * @param \VisualComposer\Helpers\GridItemTemplate $gridItemTemplateHelper
      *
      * @return mixed
      */
-    protected function renderPost($template, $payload, GridItemTemplate $gridItemTemplateHelper)
+    protected function renderPost($template, $post, GridItemTemplate $gridItemTemplateHelper)
     {
-        $newTemplate = $gridItemTemplateHelper->parseTemplate($template, $payload);
+        $newTemplate = $gridItemTemplateHelper->parseTemplate($template, $post);
 
         return $newTemplate;
     }

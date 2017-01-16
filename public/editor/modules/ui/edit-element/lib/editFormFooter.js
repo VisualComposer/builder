@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getService} from 'vc-cake'
-const timeMachine = getService('time-machine')
+import {setData} from 'vc-cake'
 
 export default class EditFormFooter extends React.Component {
   static propTypes = {
@@ -18,7 +17,7 @@ export default class EditFormFooter extends React.Component {
     let elementData = element.toJS()
     delete elementData.order
     delete elementData.parent
-    timeMachine.unlock()
+    setData('barContentEnd:confirm', false)
     api.request('data:update', element.get('id'), elementData)
     this.effect()
   }

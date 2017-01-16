@@ -12,18 +12,31 @@ export default class Element extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired
   }
-
-  componentDidMount () {
-    this.props.api.notify('element:mount', this.props.element.id)
+  constructor (props) {
+    super(props)
+    this.instantDataUpdate = this.instantDataUpdate.bind(this)
+    this.state = {
+      element: props.element
+    }
   }
-
+  componentWillReceiveProps (nextProps) {
+    this.setState({element: nextProps.element})
+  }
+  componentDidMount () {
+    this.props.api.notify('element:mount', this.state.element.id)
+    vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
+  }
+  instantDataUpdate (data) {
+    this.setState({element: data || this.props.element})
+  }
   componentWillUnmount () {
-    this.props.api.notify('element:unmount', this.props.element.id)
+    this.props.api.notify('element:unmount', this.state.element.id)
+    vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   getContent (content) {
     let returnData = null
-    const currentElement = cook.get(this.props.element) // optimize
+    const currentElement = cook.get(this.state.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       return <Element element={childElement} key={childElement.id} api={this.props.api} />
     })
@@ -53,7 +66,7 @@ export default class Element extends React.Component {
   }
 
   render () {
-    let el = cook.get(this.props.element)
+    let el = cook.get(this.state.element)
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {

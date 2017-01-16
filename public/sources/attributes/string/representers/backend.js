@@ -8,9 +8,10 @@ const cook = getService('cook')
 export default class Backend extends Representer {
   render () {
     let label = cook.get({tag: this.props.element.tag}).settings(this.props.fieldKey).settings.options.label
-    let output = `${label}: ${this.state.value} ;`
+    let output = `${label}: ${this.state.value}`
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
+      'vcv-wpbackend-attributes-content-block': true,
       'vcv-wpbackend-attr-representer-string': true
     })
     return <div className={classes}>

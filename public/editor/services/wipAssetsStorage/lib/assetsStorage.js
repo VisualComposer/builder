@@ -82,7 +82,15 @@ export default {
       }
     })
   },
-
+  /**
+   * Reset ids for storages
+   * @param ids
+   */
+  reset (ids) {
+    ids.forEach(() => {
+      this.add(ids)
+    })
+  },
   /**
    * Get element by id
    * @param assetKey
@@ -502,7 +510,7 @@ export default {
    * Get css data for elements
    * @returns {Array}
    */
-  getElementsCssData () {
+  getElementsCssData (editor = false) {
     let styles = []
     this.getTagsList().forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
@@ -510,6 +518,11 @@ export default {
       if (cssSettings.css) {
         styles.push({
           src: cssSettings.css
+        })
+      }
+      if (editor && cssSettings.editorCss) {
+        styles.push({
+          src: cssSettings.editorCss
         })
       }
     })
