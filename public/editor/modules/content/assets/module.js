@@ -113,6 +113,8 @@ vcCake.add('assets', (api) => {
     const designOptions = vcCake.getService('cook').get(data).get('designOptions')
     assetsManager.getCompiledDesignOptions(data.id, designOptions).then((result) => {
       doInstantCssStyle.innerHTML = result
+    }).then(() => {
+      iframeWindow.vcv.trigger('ready', 'update', data.id)
     })
   }
   // TODO: Use state against event
