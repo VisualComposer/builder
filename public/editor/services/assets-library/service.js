@@ -40,4 +40,10 @@ AssetsLibrary.add('backgroundSlider', {
   ]
 })
 
+AssetsLibrary.add('backgroundSimple', {
+  publicCss: [
+    'assetsLibrary/backgroundSimple/dist/backgroundSimple.css'
+  ]
+})
+
 vcCake.addService('assets-library', AssetsLibrary)

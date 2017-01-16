@@ -10,18 +10,18 @@
 
       init(element) {
         // check for data
-        if (!element.getVcvSlider) {
-          element.getVcvSlider = this
+        if (!element.getVceSlider) {
+          element.getVceSlider = this
         }
         this.slider = element
         this.refresh()
-        return element.getVcvSlider
+        return element.getVceSlider
       },
       refresh() {
         this.isRtl = (window.getComputedStyle(this.slider).direction === 'rtl')
-        this.timeout = parseInt(this.slider.dataset.vcvAssetsSlider) * 1000
+        this.timeout = parseInt(this.slider.dataset.vceAssetsSlider) * 1000
         // set slides
-        this.slides = this.slider.querySelectorAll(this.slider.dataset.vcvAssetsSliderSlide)
+        this.slides = this.slider.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide)
         this.slides = [].slice.call(this.slides) // to create array from slides list
         this.slideTo(0)
         this.autoplay()
@@ -31,7 +31,7 @@
         this.slides.forEach((slide) => {
           slide.style.transform = null
         })
-        delete this.slider.getVcvSlider
+        delete this.slider.getVceSlider
       },
       slideTo(index) {
         if (index >= 0 && index < this.slides.length) {
@@ -83,8 +83,8 @@
       let sliders = document.querySelectorAll(selector)
       sliders = [].slice.call(sliders)
       sliders.forEach((slider) => {
-        if (slider.getVcvSlider) {
-          slider.getVcvSlider.refresh()
+        if (slider.getVceSlider) {
+          slider.getVceSlider.refresh()
         } else {
           createSlider(slider)
         }
@@ -96,5 +96,5 @@
     }
   }
 
-  window.vcvAssetsBackgroundSlider = sliders.init
+  window.vceAssetsBackgroundSlider = sliders.init
 })(window, document)

@@ -26,7 +26,7 @@
   flex-shrink: 0;
   flex-basis: 100%;
   width: 100%;
-  background: 50% 0;
+  background-position: 50% 0;
   transition: transform .5s ease-in-out;
 }
 

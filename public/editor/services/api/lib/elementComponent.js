@@ -68,40 +68,12 @@ export default class ElementComponent extends Component {
     let { device } = designOptionsAdvanced
     let backgroundData = []
     Object.keys(device).forEach((deviceKey) => {
-      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
+          backgroundData.push(this.getImagesSimple(device[ deviceKey ], deviceKey))
           break
         case 'imagesSlideshow':
-          let { images } = device[ deviceKey ]
-          if (images && images.urls && images.urls.length) {
-            let imagesJSX = []
-            images.urls.forEach((imgData) => {
-              let styles = {
-                backgroundImage: `url(${imgData.full})`
-              }
-              let imgKey = `${reactKey}-${imgData.id}`
-              imagesJSX.push((
-                <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
-              ))
-            })
-            let containerClasses = classNames([
-              `vce-asset-background-slider-container`,
-              `vce-visible-${deviceKey}-only`
-            ])
-            let slideshowClasses = classNames([
-              `vce-asset-background-slider`
-            ])
-            backgroundData.push((
-              <div className={containerClasses} key={reactKey}>
-                <div className={slideshowClasses} data-vcv-assets-slider='5'
-                  data-vcv-assets-slider-slide='.vce-asset-background-slider-item'>
-                  {imagesJSX}
-                </div>
-              </div>
-              )
-            )
-          }
+          backgroundData.push(this.getImagesSlideshow(device[ deviceKey ], deviceKey))
           break
         case 'videoEmbed':
           break
@@ -111,11 +83,70 @@ export default class ElementComponent extends Component {
           break
       }
     })
-    return (
-      <div className='vce-content-background-container'>
-        {backgroundData}
+    return <div className='vce-content-background-container'>
+      {backgroundData}
+    </div>
+  }
+
+  getImagesSimple (device, key) {
+    let { images } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    if (images && images.urls && images.urls.length) {
+      let imagesJSX = []
+      images.urls.forEach((imgData) => {
+        let styles = {
+          backgroundImage: `url(${imgData.full})`
+        }
+        let imgKey = `${reactKey}-${imgData.id}`
+        imagesJSX.push((
+          <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
+        ))
+      })
+      let containerClasses = classNames([
+        `vce-asset-background-simple-container`,
+        `vce-visible-${key}-only`
+      ])
+      let slideshowClasses = classNames([
+        `vce-asset-background-simple`
+      ])
+      return <div className={containerClasses} key={reactKey}>
+        <div className={slideshowClasses}>
+          {imagesJSX}
+        </div>
       </div>
-    )
+    }
+    return null
+  }
+
+  getImagesSlideshow (device, key) {
+    let { images } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    if (images && images.urls && images.urls.length) {
+      let imagesJSX = []
+      images.urls.forEach((imgData) => {
+        let styles = {
+          backgroundImage: `url(${imgData.full})`
+        }
+        let imgKey = `${reactKey}-${imgData.id}`
+        imagesJSX.push((
+          <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+        ))
+      })
+      let containerClasses = classNames([
+        `vce-asset-background-slider-container`,
+        `vce-visible-${key}-only`
+      ])
+      let slideshowClasses = classNames([
+        `vce-asset-background-slider`
+      ])
+      return <div className={containerClasses} key={reactKey}>
+        <div className={slideshowClasses} data-vce-assets-slider='5'
+          data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
+          {imagesJSX}
+        </div>
+      </div>
+    }
+    return null
   }
 
   render () {

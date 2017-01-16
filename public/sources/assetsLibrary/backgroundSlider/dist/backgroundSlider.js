@@ -1,7 +1,7 @@
 /* global vcv */
-/* global vcvAssetsBackgroundSlider */
+/* global vceAssetsBackgroundSlider */
 vcv.on('ready', (action, id) => {
   if (action !== 'reset') {
-    vcvAssetsBackgroundSlider('[data-vcv-assets-slider]')
+    vceAssetsBackgroundSlider('[data-vce-assets-slider]')
   }
 })
