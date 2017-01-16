@@ -1,5 +1,7 @@
 import { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import lodash from 'lodash'
+import classNames from 'classnames'
 export default class ElementComponent extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -56,6 +58,64 @@ export default class ElementComponent extends Component {
       returnData = mixinData[ tag ][ attributeName ].variables
     }
     return returnData
+  }
+
+  getBackgroundTypeContent () {
+    let { designOptionsAdvanced } = this.props.atts
+    if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
+      return null
+    }
+    let { device } = designOptionsAdvanced
+    let backgroundData = []
+    Object.keys(device).forEach((deviceKey) => {
+      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
+      switch (device[ deviceKey ].backgroundType) {
+        case 'imagesSimple':
+          break
+        case 'imagesSlideshow':
+          let { images } = device[ deviceKey ]
+          if (images && images.urls && images.urls.length) {
+            let imagesJSX = []
+            images.urls.forEach((imgData) => {
+              let styles = {
+                backgroundImage: `url(${imgData.full})`
+              }
+              let imgKey = `${reactKey}-${imgData.id}`
+              imagesJSX.push((
+                <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+              ))
+            })
+            let containerClasses = classNames([
+              `vce-asset-background-slider-container`,
+              `vce-visible-${deviceKey}-only`
+            ])
+            let slideshowClasses = classNames([
+              `vce-asset-background-slider`
+            ])
+            backgroundData.push((
+              <div className={containerClasses} key={reactKey}>
+                <div className={slideshowClasses} data-vcv-assets-slider='5'
+                  data-vcv-assets-slider-slide='.vce-asset-background-slider-item'>
+                  {imagesJSX}
+                </div>
+              </div>
+              )
+            )
+          }
+          break
+        case 'videoEmbed':
+          break
+        case 'videoSelfHosted':
+          break
+        case 'colorGradient':
+          break
+      }
+    })
+    return (
+      <div className='vce-content-background-container'>
+        {backgroundData}
+      </div>
+    )
   }
 
   render () {

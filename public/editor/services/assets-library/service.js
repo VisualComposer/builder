@@ -30,4 +30,14 @@ AssetsLibrary.add('iconpicker', {
   ]
 })
 
+AssetsLibrary.add('backgroundSlider', {
+  publicCss: [
+    'assetsLibrary/backgroundSlider/dist/backgroundSlider.css'
+  ],
+  publicJs: [
+    'assetsLibrary/backgroundSlider/dist/plugin.js',
+    'assetsLibrary/backgroundSlider/dist/backgroundSlider.js'
+  ]
+})
+
 vcCake.addService('assets-library', AssetsLibrary)
