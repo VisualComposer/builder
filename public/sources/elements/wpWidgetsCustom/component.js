@@ -44,7 +44,7 @@ class Component extends vcvAPI.elementComponent {
       if (response && response.status) {
         this.setState({
           shortcode: response.shortcode,
-          shortcodeContent: response.shortcodeContent || 'Failed to render widget'
+          shortcodeContent: response.shortcodeContent || ''
         })
       } else {
         this.setState({
