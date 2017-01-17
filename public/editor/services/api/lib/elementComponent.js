@@ -89,7 +89,7 @@ export default class ElementComponent extends Component {
   }
 
   getImagesSimple (device, key) {
-    let { images } = device
+    let { images, backgroundStyle } = device
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     if (images && images.urls && images.urls.length) {
       let imagesJSX = []
@@ -102,15 +102,18 @@ export default class ElementComponent extends Component {
           <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
         ))
       })
-      let containerClasses = classNames([
+      let containerClasses = [
         `vce-asset-background-simple-container`,
         `vce-visible-${key}-only`
-      ])
+      ]
+      if (backgroundStyle) {
+        containerClasses.push(`vce-asset-background-simple--style-${backgroundStyle}`)
+      }
       let slideshowClasses = classNames([
         `vce-asset-background-simple`
       ])
-      return <div className={containerClasses} key={reactKey}>
-        <div className={slideshowClasses}>
+      return <div className={classNames(containerClasses)} key={reactKey}>
+        <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>
       </div>
@@ -119,7 +122,7 @@ export default class ElementComponent extends Component {
   }
 
   getImagesSlideshow (device, key) {
-    let { images } = device
+    let { images, backgroundStyle } = device
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     if (images && images.urls && images.urls.length) {
       let imagesJSX = []
@@ -132,15 +135,18 @@ export default class ElementComponent extends Component {
           <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
         ))
       })
-      let containerClasses = classNames([
+      let containerClasses = [
         `vce-asset-background-slider-container`,
         `vce-visible-${key}-only`
-      ])
-      let slideshowClasses = classNames([
+      ]
+      if (backgroundStyle) {
+        containerClasses.push(`vce-asset-background-slider--style-${backgroundStyle}`)
+      }
+      let slideshowClasses = [
         `vce-asset-background-slider`
-      ])
-      return <div className={containerClasses} key={reactKey}>
-        <div className={slideshowClasses} data-vce-assets-slider='5'
+      ]
+      return <div className={classNames(containerClasses)} key={reactKey}>
+        <div className={classNames(slideshowClasses)} data-vce-assets-slider='5'
           data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
           {imagesJSX}
         </div>

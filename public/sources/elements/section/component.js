@@ -29,9 +29,9 @@ class Component extends vcvAPI.elementComponent {
     let className = classNames(classes)
 
     // import template
-    return (<div className={wrapperClassName} {...editor}>
+    return (<div className={wrapperClassName} id={elementId} {...editor}>
       {this.getBackgroundTypeContent()}
-      <section className={className} id={elementId} {...customProps}>
+      <section className={className} {...customProps}>
         {content}
       </section>
     </div>)
