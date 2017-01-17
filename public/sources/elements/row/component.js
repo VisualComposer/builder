@@ -3,10 +3,15 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
+
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      classes.push('vce-row-layout--md_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
+      classes.push('vce-row-layout-custom')
+    }
     let customProps = {
       style: {}
     }
@@ -35,10 +40,12 @@ class Component extends vcvAPI.elementComponent {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
-    if (parseInt(columnGap)) {
-      let mixinData = this.getMixinData('columnGap')
-      if (mixinData) {
-        classes.push(`vce-row--gap-${mixinData.selector}`)
+    if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      if (parseInt(columnGap)) {
+        let mixinData = this.getMixinData('columnGap')
+        if (mixinData) {
+          classes.push(`vce-row--gap-${mixinData.selector}`)
+        }
       }
     }
 

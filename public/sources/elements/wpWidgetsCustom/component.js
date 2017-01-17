@@ -36,6 +36,7 @@ class Component extends vcvAPI.elementComponent {
       'vcv-action': 'elements:widget:adminNonce',
       'vcv-nonce': window.vcvNonce,
       'vcv-widget-key': this.props.atts.widgetKey,
+      'vcv-element-tag': this.props.atts.tag,
       'vcv-widget-value': this.props.atts.widget,
       'vcv-atts': atts
     }, (result) => {

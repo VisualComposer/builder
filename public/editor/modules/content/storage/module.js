@@ -92,13 +92,17 @@ vcCake.add('storage', (api) => {
   api.reply('data:update', (id, element) => {
     if (element.tag === 'row' && element.layout && element.layout.length) {
       rebuildRawLayout(id, element.layout)
+      if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+        console.log(element)
+        element.rowLayout = element.layout
+        element.size = element.layout
+      }
       element.layout = undefined
     }
     DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update', id)
   })
-
   api.reply('data:move', (id, data) => {
     if (data.action === 'after') {
       DocumentData.moveAfter(id, data.related)

@@ -47,17 +47,17 @@ class WpWidgets implements Helper
     {
         $all = $this->all();
         $data = [
-            'default' => [],
-            'custom' => [],
+            'wpWidgetsDefault' => [],
+            'wpWidgetsCustom' => [],
         ];
 
         foreach ($all as $widget) {
             if (is_object($widget)) {
                 $widgetClass = get_class($widget);
                 if ($this->isDefault($widgetClass)) {
-                    $data['default'][ $widgetClass ] = $widget;
+                    $data['wpWidgetsDefault'][ $widgetClass ] = $widget;
                 } else {
-                    $data['custom'][ $widgetClass ] = $widget;
+                    $data['wpWidgetsCustom'][ $widgetClass ] = $widget;
                 }
             }
         }
@@ -83,7 +83,7 @@ class WpWidgets implements Helper
      *
      * @return bool
      */
-    public function exists($key)
+    public function exists($key = '')
     {
         /** @var \WP_Widget_Factory $wp_widget_factory */
         global $wp_widget_factory;
@@ -196,5 +196,24 @@ class WpWidgets implements Helper
         }
 
         return $compiledTemplate;
+    }
+
+    /**
+     * @param $tag
+     * @param $key
+     * @param $instance
+     * @param $args
+     *
+     * @return string
+     */
+    public function getShortcode($tag, $key, $instance, $args)
+    {
+        return sprintf(
+            '[vcv_widgets tag="%s" key="%s" instance="%s" args="%s"]',
+            $tag,
+            $key,
+            $instance,
+            $args
+        );
     }
 }

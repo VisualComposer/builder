@@ -258,5 +258,10 @@
     "type": "string",
     "access": "protected",
     "value": "frontend"
+  },
+  "size": {
+    "type": "string",
+    "access": "public",
+    "value": "auto"
   }
 }

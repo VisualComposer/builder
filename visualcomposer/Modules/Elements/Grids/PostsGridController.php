@@ -48,7 +48,7 @@ class PostsGridController extends Container implements Module
         $query = ''; // TODO: From $atts
         $posts = $postTypeHelper->query($query);
 
-        $output = $this->loopPosts($posts, rawurldecode($content));
+        $output = $this->loopPosts($posts, $content);
 
         return sprintf('<div class="vce-posts-grid-list">%s</div>', $output);
     }

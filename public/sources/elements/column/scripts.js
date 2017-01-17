@@ -1,8 +1,14 @@
 const classNames = require('classnames')
 let customProps = {}
+let classes = []
 
-let classes = ['vce-col', 'vce-col--xs-1']
-classes.push('vce-col--sm-' + (size ? size.replace('/', '-') : 'auto'))
+if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+  classes = ['vce-col']
+} else {
+  classes = ['vce-col', 'vce-col--xs-1']
+  classes.push('vce-col--sm-' + (size ? size.replace('/', '-') : 'auto'))
+}
+
 // reverse classes.push('vce-row-wrap--reverse')
 if (typeof customClass === 'string' && customClass.length) {
   classes.push(customClass)

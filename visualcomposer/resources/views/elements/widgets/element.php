@@ -1,4 +1,7 @@
 <?php
+// WARN: this file is disabled yet.
+/** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::generateElements */
+exit;
 $wpWidgets = vchelper('WpWidgets');
 $groups = $wpWidgets->allGrouped();
 if (!empty($groups['default'])) {
