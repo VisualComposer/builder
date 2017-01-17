@@ -79,8 +79,6 @@ export default class ElementComponent extends Component {
           break
         case 'videoSelfHosted':
           break
-        case 'colorGradient':
-          break
       }
     })
     return <div className='vce-content-background-container'>
@@ -122,7 +120,10 @@ export default class ElementComponent extends Component {
   }
 
   getImagesSlideshow (device, key) {
-    let { images, backgroundStyle } = device
+    let { images, backgroundStyle, sliderTimeout } = device
+    if (!sliderTimeout) {
+      sliderTimeout = 5
+    }
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     if (images && images.urls && images.urls.length) {
       let imagesJSX = []
@@ -146,7 +147,7 @@ export default class ElementComponent extends Component {
         `vce-asset-background-slider`
       ]
       return <div className={classNames(containerClasses)} key={reactKey}>
-        <div className={classNames(slideshowClasses)} data-vce-assets-slider='5'
+        <div className={classNames(slideshowClasses)} data-vce-assets-slider={sliderTimeout}
           data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
           {imagesJSX}
         </div>
