@@ -135,6 +135,16 @@ export default {
         if (columnSizes) {
           this.elements[ id ][ 'columnSizes' ] = columnSizes
         }
+        if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+          let columnGap = this.getRowGapByElement(element)
+          if (columnGap) {
+            this.elements[ id ][ 'columnGap' ] = columnGap
+          }
+          let rowLayout = this.getRowLayoutByElement(element)
+          if (rowLayout) {
+            this.elements[ id ][ 'rowLayout' ] = rowLayout
+          }
+        }
         // get mixins data
         let cssMixins = this.getCssMixinsByElement(element, {})
         if (Object.keys(cssMixins).length) {
@@ -217,6 +227,36 @@ export default {
       sizes = [ element.size ]
     }
     return sizes
+  },
+
+  getRowLayoutByElement (element) {
+    let settings = this.cook().get(element).get('settings')
+    let value = settings.relatedTo ? settings.relatedTo.value : []
+    let isRow = value.filter((item) => {
+      return item.toLowerCase() === 'general'
+    })
+
+    // console.log(settings)
+
+    let layout = null
+    if (isRow.length && element.rowLayout) {
+      layout = element.rowLayout
+    }
+    return layout
+  },
+
+  getRowGapByElement (element) {
+    let settings = this.cook().get(element).get('settings')
+    let value = settings.relatedTo ? settings.relatedTo.value : []
+    let isRow = value.filter((item) => {
+      return item.toLowerCase() === 'general'
+    })
+
+    let gap = null
+    if (isRow.length && element.columnGap) {
+      gap = element.columnGap
+    }
+    return gap
   },
 
   /**

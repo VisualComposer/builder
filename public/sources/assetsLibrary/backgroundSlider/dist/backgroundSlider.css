@@ -1,0 +1,98 @@
+.vce-asset-background-slider-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+}
+
+.vce-asset-background-slider {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  left: -1px;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.vce-asset-background-slider-item {
+  box-sizing: border-box;
+  flex: 1;
+  flex-shrink: 0;
+  flex-basis: 100%;
+  width: 100%;
+  background-position: 50% 0;
+  transition: transform .5s ease-in-out;
+}
+
+.vce-asset-background-slider--style-cover .vce-asset-background-slider-item {
+  background-size: cover;
+}
+
+.vce-asset-background-slider--style-contain .vce-asset-background-slider-item {
+  background-size: contain;
+}
+
+.vce-asset-background-slider--style-full-width .vce-asset-background-slider-item {
+  background-size: 100% auto;
+}
+
+.vce-asset-background-slider--style-full-height .vce-asset-background-slider-item {
+  background-size: auto 100%;
+}
+
+.vce-asset-background-slider--style-repeat .vce-asset-background-slider-item {
+  background-repeat: repeat;
+}
+
+.vce-asset-background-slider--style-repeat-x .vce-asset-background-slider-item {
+  background-repeat: repeat-x;
+}
+
+.vce-asset-background-slider--style-repeat-y .vce-asset-background-slider-item {
+  background-repeat: repeat-y;
+}
+
+.vce-asset-background-slider--style-no-repeat .vce-asset-background-slider-item {
+  background-repeat: no-repeat;
+}
+
+.vce-asset-background-slider-container.vce-visible-all-only {
+  display: block;
+}
+
+@media (max-width: 543px) {
+  .vce-asset-background-slider-container.vce-visible-xs-only {
+    display: block;
+  }
+}
+
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-asset-background-slider-container.vce-visible-sm-only {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-asset-background-slider-container.vce-visible-md-only {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-asset-background-slider-container.vce-visible-lg-only {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vce-asset-background-slider-container.vce-visible-xl-only {
+    display: block;
+  }
+}
+

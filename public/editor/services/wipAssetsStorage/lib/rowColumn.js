@@ -1,4 +1,7 @@
+import vcCake from 'vc-cake'
+
 export default {
+  rowLayout: {},
   columns: {},
 
   devices: {
@@ -26,6 +29,74 @@ export default {
   getDevices () {
     return this.devices
   },
+  getRowCss (data) {
+    let rowCss = []
+    let defaultGap = ''
+
+    // for background
+    let background = false
+    if (!background) {
+      defaultGap = 30
+    } else {
+      defaultGap = 0
+      // todo
+      rowCss.push('.vce-col-content { padding-left: 15px; padding-right: 15px; }')
+    }
+
+    for (let layout in this.rowLayout) {
+      let layoutObj = this.rowLayout[ layout ]
+      let columnGap = layoutObj.gap + defaultGap
+      // let rowClass = `.vce-row-layout--${device}_${layout} > .vce-row-content > `
+      let rowClass = `.vce-row-layout--md_${layout} > .vce-row-content > `
+
+      let colsInRow = []
+
+      let cols = 0
+      layoutObj.layout.forEach((col, index) => {
+        if (col.lastInRow) {
+          colsInRow.push(index + 1 - cols)
+          cols = index + 1
+        }
+      })
+
+      let rowIndex = 0
+
+      layoutObj.layout.forEach((col, index) => {
+        let columnIndex = index + 1
+        let colNumerator = col.numerator
+        let colDenominator = col.denominator
+
+        let cssObj = {}
+
+        let gapSpace = columnGap - (columnGap / colsInRow[ rowIndex ])
+
+        if (col.value === 'auto') {
+          cssObj[ 'flex' ] = 1
+          cssObj[ 'flex-basis' ] = 'auto'
+        } else {
+          cssObj[ 'flex' ] = 0
+          cssObj[ 'flex-basis' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
+          cssObj[ 'max-width' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
+        }
+
+        // add margin-right if not last element
+        if (!col.lastInRow) {
+          cssObj[ 'margin-right' ] = `${columnGap}px`
+        } else {
+          rowIndex++
+        }
+
+        let css = ''
+
+        for (let prop in cssObj) {
+          css += prop + ':' + cssObj[ prop ] + ';'
+        }
+
+        rowCss.push(`${rowClass}.vce-col:nth-child(${columnIndex}) {${css}}`)
+      })
+    }
+    return rowCss.join(' ')
+  },
   getDeviceCss (device, data) {
     let deviceCss = []
 
@@ -47,8 +118,13 @@ export default {
   getCss (data) {
     let css = []
     let devices = this.getDevices()
-    for (let device in devices) {
-      css.push('@media (--' + device + ') { ' + this.getDeviceCss(device, data) + ' }')
+
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      css.push(this.getRowCss(data))
+    } else {
+      for (let device in devices) {
+        css.push('@media (--' + device + ') { ' + this.getDeviceCss(device, data) + ' }')
+      }
     }
     return css.join(' ')
   },
@@ -83,6 +159,36 @@ export default {
     })
   },
 
+  getLastInRow (columns) {
+    let lastColumnIndex = []
+    let rowValue = 0
+
+    columns.forEach((col, index) => {
+      let colValue = ''
+      if (col === 'auto') {
+        colValue = 0.001
+      } else {
+        let column = col.split('/')
+        let numerator = column[ 0 ]
+        let denominator = column[ 1 ]
+        colValue = numerator / denominator
+      }
+
+      if (rowValue + colValue > 1) {
+        lastColumnIndex.push(index - 1)
+        rowValue = 0
+      }
+
+      if (!columns[ index + 1 ]) {
+        lastColumnIndex.push(index)
+      }
+
+      rowValue += colValue
+    })
+
+    return lastColumnIndex
+  },
+
   /**
    * Get column
    * @param assetKey
@@ -111,6 +217,45 @@ export default {
     }
   },
 
+  updateRow (elements) {
+    this.rowLayout = {}
+    for (let id in elements) {
+      if (elements[ id ].rowLayout && elements[ id ].rowLayout.length) {
+        let layout = []
+
+        for (let key in elements[ id ].rowLayout) {
+          layout.push(elements[ id ].rowLayout[ key ].replace('/', '-'))
+        }
+
+        layout = layout.join('_')
+
+        let colLayout = []
+
+        elements[ id ].rowLayout.forEach((col) => {
+          let fraction = col.split('/')
+          colLayout.push({
+            value: col,
+            numerator: fraction[ 0 ],
+            denominator: fraction[ 1 ],
+            lastInRow: false
+          })
+        })
+
+        let lastInRow = this.getLastInRow(elements[ id ].rowLayout)
+        lastInRow.forEach((lastIndex) => {
+          colLayout[ lastIndex ].lastInRow = true
+        })
+
+        let gapNumber = parseInt(elements[ id ].columnGap)
+        let gap = typeof gapNumber === 'number' && gapNumber > 0 ? gapNumber : 0
+        this.rowLayout[ layout ] = {
+          layout: colLayout,
+          gap: gap
+        }
+      }
+    }
+  },
+
   /**
    * Get columns by elements
    * @param elements
@@ -118,6 +263,9 @@ export default {
    */
   getColumnsByElements (elements) {
     this.updateColumns(elements)
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      this.updateRow(elements)
+    }
     return this.columns
   }
 

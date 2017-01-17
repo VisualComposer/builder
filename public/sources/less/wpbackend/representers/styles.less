@@ -2,9 +2,9 @@
  * Visual composer wp backend representers
  * =================================== */
 
-.vcv-wpbackend-attr-representer-color {
+.vcv-wpbackend-attr-representer {
 
-  &--sample {
+  &-color--sample {
     display: inline-block;
     width: @vcv-wpbackend-element-attribute-color-sample-size;
     height: @vcv-wpbackend-element-attribute-color-sample-size;
@@ -12,6 +12,20 @@
     border-radius: @vcv-wpbackend-element-border-radius;
     box-shadow: rgba(0, 0, 0, 0.14902) 0 0 0 1px inset;
     vertical-align: text-bottom;
+  }
+
+  &-attach-image {
+    &--preview {
+      width: @vcv-wpbackend-element-preview-image-size;
+      height: @vcv-wpbackend-element-preview-image-size;
+      margin-right: @vce-wpbackend-element-attribute-image-margin-right;
+    }
+
+    &--wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
 }
