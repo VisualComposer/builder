@@ -7,6 +7,7 @@ import Dropdown from '../dropdown/Component'
 import BoxModel from '../boxModel/Component'
 import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
+import String from '../string/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   /**
@@ -144,6 +145,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
     this.backgroundColorChangeHandler = this.backgroundColorChangeHandler.bind(this)
+    this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
   }
 
   /**
@@ -236,6 +238,7 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].images
             delete newValue[ device ].backgroundType
             delete newValue[ device ].backgroundStyle
+            delete newValue[ device ].sliderTimeout
           }
           // background style is empty
           if (newValue[ device ].backgroundStyle === '') {
@@ -248,6 +251,11 @@ class DesignOptionsAdvanced extends Attribute {
           }
           if (newValue[ device ].backgroundEndColor === '' || newValue[ device ].backgroundType !== 'colorGradient') {
             delete newValue[ device ].backgroundEndColor
+          }
+
+          // slider timeout is empty
+          if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
+            delete newValue[ device ].sliderTimeout
           }
         }
         // mixins
@@ -663,6 +671,10 @@ class DesignOptionsAdvanced extends Attribute {
     this.updateValue(newState)
   }
 
+  /**
+   * Render color picker for background color
+   * @returns {*}
+   */
   getBackgroundColorRender () {
     if (this.state.devices[ this.state.currentDevice ].display) {
       return null
@@ -686,6 +698,10 @@ class DesignOptionsAdvanced extends Attribute {
     </div>
   }
 
+  /**
+   * Render color picker for gradient end color
+   * @returns {*}
+   */
   getBackgroundEndColorRender () {
     if (this.state.devices[ this.state.currentDevice ].display ||
       this.state.devices[ this.state.currentDevice ].backgroundType !== `colorGradient`) {
@@ -706,9 +722,50 @@ class DesignOptionsAdvanced extends Attribute {
     </div>
   }
 
+  /**
+   * Handle background and end colors change
+   * @param fieldKey
+   * @param value
+   */
   backgroundColorChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render slider timeout field
+   * @returns {*}
+   */
+  getSliderTimeoutRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow`) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].sliderTimeout || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Animation timeout (in seconds)
+      </span>
+      <String
+        api={this.props.api}
+        fieldKey='sliderTimeout'
+        updater={this.sliderTimeoutChangeHandler}
+        placeholder='5'
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle slider timeout change
+   * @param fieldKey
+   * @param value
+   */
+  sliderTimeoutChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
     this.updateValue(newState)
   }
 
@@ -727,6 +784,7 @@ class DesignOptionsAdvanced extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
+            {this.getSliderTimeoutRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}
