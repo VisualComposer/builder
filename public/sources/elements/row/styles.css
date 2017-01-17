@@ -4,6 +4,12 @@
 .vce-row {
   display: flex;
   flex-direction: column;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.vce-row.vce-row-layout-custom {
+  margin-left: 0;
+  margin-right: 0;
 }
 .vce-row-content > .vce-col:last-child {
   margin-right: 0;
