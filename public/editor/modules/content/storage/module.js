@@ -93,7 +93,6 @@ vcCake.add('storage', (api) => {
     if (element.tag === 'row' && element.layout && element.layout.length) {
       rebuildRawLayout(id, element.layout)
       if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-        console.log(element)
         element.rowLayout = element.layout
         element.size = element.layout
       }
