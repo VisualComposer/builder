@@ -23,6 +23,7 @@ class PostVariablesController extends Container implements Module
         $this->addFilter('vcv:elements:grid_item_template:variable:post_*', 'templatePostVariables');
         /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postAuthor */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_author', 'postAuthor');
+        $this->addFilter('vcv:elements:grid_item_template:variable:post_teaser', 'postTeaser');
         $this->addFilter('vcv:elements:grid_item_template:variable:featured_image_url', 'featuredImage');
     }
 
