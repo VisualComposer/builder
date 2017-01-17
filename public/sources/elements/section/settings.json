@@ -180,7 +180,9 @@
     "access": "public",
     "type": "string",
     "value": [
-      "animate"
+      "animate",
+      "backgroundSlider",
+      "backgroundSimple"
     ]
   }
 }

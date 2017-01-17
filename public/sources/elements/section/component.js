@@ -18,7 +18,7 @@ class Component extends vcvAPI.elementComponent {
     if (attributeMixinData) {
       elementId = attributeMixinData.selector
     }
-    let wrapperClasses = []
+    let wrapperClasses = [ 'vce-section-container' ]
     let customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
@@ -30,9 +30,10 @@ class Component extends vcvAPI.elementComponent {
 
     // import template
     return (<div className={wrapperClassName} {...editor}>
-      <div className={className} id={elementId} {...customProps}>
+      {this.getBackgroundTypeContent()}
+      <section className={className} id={elementId} {...customProps}>
         {content}
-      </div>
+      </section>
     </div>)
   }
 }

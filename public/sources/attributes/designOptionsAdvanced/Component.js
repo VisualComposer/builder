@@ -5,6 +5,7 @@ import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
 import Dropdown from '../dropdown/Component'
 import BoxModel from '../boxModel/Component'
+import AttachImage from '../attachimage/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   /**
@@ -121,6 +122,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
     this.backgroundTypeChangeHandler = this.backgroundTypeChangeHandler.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
+    this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
   }
 
   /**
@@ -464,6 +466,51 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render attach image
+   * @returns {*}
+   */
+  getAttachImageRender () {
+    let allowedBackgroundTypes = [
+      'imagesSimple',
+      'imagesSlideshow'
+    ]
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1) {
+      return null
+    }
+    let value = this.state.devices[ this.state.currentDevice ].images || {}
+    return <div className='vcv-ui-form-group'>
+      <AttachImage
+        api={this.props.api}
+        fieldKey='attachImage'
+        options={{
+          multiple: true
+        }}
+        updater={this.attachImageChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle attach image change
+   * @param fieldKey
+   * @param value
+   */
+  attachImageChangeHandler (fieldKey, value) {
+    if (value.hasOwnProperty(value.draggingIndex)) {
+      delete value.draggingIndex
+    }
+    let newState = lodash.defaultsDeep({}, this.state)
+    // update value
+    if (lodash.isEmpty(value)) {
+      delete newState.devices[ newState.currentDevice ].images
+    } else {
+      newState.devices[ newState.currentDevice ].images = value
+    }
+    this.updateValue(newState)
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -477,6 +524,7 @@ class DesignOptionsAdvanced extends Attribute {
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundTypeRender()}
+            {this.getAttachImageRender()}
           </div>
         </div>
       </div>

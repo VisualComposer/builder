@@ -1,5 +1,7 @@
 import { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import lodash from 'lodash'
+import classNames from 'classnames'
 export default class ElementComponent extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -56,6 +58,95 @@ export default class ElementComponent extends Component {
       returnData = mixinData[ tag ][ attributeName ].variables
     }
     return returnData
+  }
+
+  getBackgroundTypeContent () {
+    let { designOptionsAdvanced } = this.props.atts
+    if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
+      return null
+    }
+    let { device } = designOptionsAdvanced
+    let backgroundData = []
+    Object.keys(device).forEach((deviceKey) => {
+      switch (device[ deviceKey ].backgroundType) {
+        case 'imagesSimple':
+          backgroundData.push(this.getImagesSimple(device[ deviceKey ], deviceKey))
+          break
+        case 'imagesSlideshow':
+          backgroundData.push(this.getImagesSlideshow(device[ deviceKey ], deviceKey))
+          break
+        case 'videoEmbed':
+          break
+        case 'videoSelfHosted':
+          break
+        case 'colorGradient':
+          break
+      }
+    })
+    return <div className='vce-content-background-container'>
+      {backgroundData}
+    </div>
+  }
+
+  getImagesSimple (device, key) {
+    let { images } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    if (images && images.urls && images.urls.length) {
+      let imagesJSX = []
+      images.urls.forEach((imgData) => {
+        let styles = {
+          backgroundImage: `url(${imgData.full})`
+        }
+        let imgKey = `${reactKey}-${imgData.id}`
+        imagesJSX.push((
+          <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
+        ))
+      })
+      let containerClasses = classNames([
+        `vce-asset-background-simple-container`,
+        `vce-visible-${key}-only`
+      ])
+      let slideshowClasses = classNames([
+        `vce-asset-background-simple`
+      ])
+      return <div className={containerClasses} key={reactKey}>
+        <div className={slideshowClasses}>
+          {imagesJSX}
+        </div>
+      </div>
+    }
+    return null
+  }
+
+  getImagesSlideshow (device, key) {
+    let { images } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    if (images && images.urls && images.urls.length) {
+      let imagesJSX = []
+      images.urls.forEach((imgData) => {
+        let styles = {
+          backgroundImage: `url(${imgData.full})`
+        }
+        let imgKey = `${reactKey}-${imgData.id}`
+        imagesJSX.push((
+          <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+        ))
+      })
+      let containerClasses = classNames([
+        `vce-asset-background-slider-container`,
+        `vce-visible-${key}-only`
+      ])
+      let slideshowClasses = classNames([
+        `vce-asset-background-slider`
+      ])
+      return <div className={containerClasses} key={reactKey}>
+        <div className={slideshowClasses} data-vce-assets-slider='5'
+          data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
+          {imagesJSX}
+        </div>
+      </div>
+    }
+    return null
   }
 
   render () {
