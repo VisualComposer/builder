@@ -1,5 +1,6 @@
 .vce-widgets-wrapper {
   position: relative;
+  min-height: 30px;
 }
 
 .vce-widgets-wrapper[data-vcv-element]::after {

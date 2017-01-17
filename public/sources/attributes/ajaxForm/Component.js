@@ -75,7 +75,7 @@ export default class AjaxForm extends Attribute {
         })
       } else {
         this.setState({
-          formContent: 'Failed to Load Form',
+          formContent: 'There are no options for this widget.',
           formStatus: false,
           formBound: false
         })
