@@ -111,6 +111,7 @@ class DesignOptionsAdvanced extends Attribute {
    */
   static defaultState = {
     currentDevice: 'all',
+    backgroundType: 'imagesSimple',
     devices: {},
     attributeMixins: {}
   }
@@ -123,6 +124,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.backgroundTypeChangeHandler = this.backgroundTypeChangeHandler.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
+    this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
   }
 
   /**
@@ -196,6 +198,26 @@ class DesignOptionsAdvanced extends Attribute {
               delete newValue[ device ][ style ]
             }
           })
+        } else {
+          // Image type backgrounds
+          let imgTypeBackgrounds = [
+            'imagesSimple',
+            'imagesSlideshow'
+          ]
+          if (imgTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
+            // not image type background selected
+            delete newValue[ device ].images
+            delete newValue[ device ].backgroundStyle
+          } else if (!newValue[ device ].hasOwnProperty('images') || newValue[ device ].images.urls.length === 0) {
+            // images are empty
+            delete newValue[ device ].images
+            delete newValue[ device ].backgroundType
+            delete newValue[ device ].backgroundStyle
+          }
+          // background style is empty
+          if (newValue[ device ].backgroundStyle === '') {
+            delete newValue[ device ].backgroundStyle
+          }
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -224,6 +246,11 @@ class DesignOptionsAdvanced extends Attribute {
               }
             }
           }
+        }
+
+        // remove device from list if it's empty
+        if (!Object.keys(newValue[ device ]).length) {
+          delete newValue[ device ]
         }
       }
     })
@@ -377,10 +404,6 @@ class DesignOptionsAdvanced extends Attribute {
     let options = {
       values: [
         {
-          label: 'Without background',
-          value: ''
-        },
-        {
           label: 'Simple images',
           value: 'imagesSimple'
         },
@@ -402,7 +425,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundType || ''
+    let value = this.state.devices[ this.state.currentDevice ].backgroundType || 'imagesSimple'
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background type
@@ -474,8 +497,12 @@ class DesignOptionsAdvanced extends Attribute {
       'imagesSimple',
       'imagesSlideshow'
     ]
+    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].backgroundType
+    if (!backgroundTypeToSearch) {
+      backgroundTypeToSearch = this.state.backgroundType
+    }
     if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1) {
+      allowedBackgroundTypes.indexOf(backgroundTypeToSearch) === -1) {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].images || {}
@@ -511,6 +538,86 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render background style
+   * @returns {*}
+   */
+  getBackgroundStyleRender () {
+    let allowedBackgroundTypes = [
+      'imagesSimple',
+      'imagesSlideshow'
+    ]
+
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
+      this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+      return null
+    }
+    let options = {
+      values: [
+        {
+          label: 'Default',
+          value: ''
+        },
+        {
+          label: 'Cover',
+          value: 'cover'
+        },
+        {
+          label: 'Contain',
+          value: 'contain'
+        },
+        {
+          label: 'Full width',
+          value: 'full-width'
+        },
+        {
+          label: 'Full height',
+          value: 'full-height'
+        },
+        {
+          label: 'Repeat',
+          value: 'repeat'
+        },
+        {
+          label: 'Repeat horizontal',
+          value: 'repeat-x'
+        },
+        {
+          label: 'Repeat vertical',
+          value: 'repeat-y'
+        },
+        {
+          label: 'No repeat',
+          value: 'no-repeat'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Background style
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='backgroundStyle'
+        options={options}
+        updater={this.backgroundStyleChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle background style change
+   * @param fieldKey
+   * @param value
+   */
+  backgroundStyleChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ].backgroundStyle = value
+    this.updateValue(newState)
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -525,6 +632,7 @@ class DesignOptionsAdvanced extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
+            {this.getBackgroundStyleRender()}
           </div>
         </div>
       </div>
