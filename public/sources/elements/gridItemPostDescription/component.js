@@ -2,16 +2,17 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
+    // TODO: Style
     return (
-      <article className='vce-post-grid-item vce-post-description vce-post-description--full'>
+      <article className='vce-posts-grid-item vce-post-description vce-post-description--with-background'>
         <div className='vce-post-description--background-wrapper-box'>
           <div className='vce-post-description--background-wrapper'>
-            <div className='vce-post-description--background' />
+            {`{{custom_post_description_featured_image}}`}
           </div>
         </div>
         <div className='vce-post-description--content'>
           <div className='vce-post-description--title'>{`{{post_title}}`}</div>
-          <div className='vce-post-description--excerpt'>{`{{the_excerpt}}`}</div>
+          <div className='vce-post-description--excerpt'>{`{{post_teaser}}`}</div>
         </div>
       </article>
     )

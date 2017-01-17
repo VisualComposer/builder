@@ -23,7 +23,7 @@ class PostVariablesController extends Container implements Module
         $this->addFilter('vcv:elements:grid_item_template:variable:post_*', 'templatePostVariables');
         /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postAuthor */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_author', 'postAuthor');
-        $this->addFilter('vcv:elements:grid_item_template:variable:the_excerpt', 'postExcerpt');
+        $this->addFilter('vcv:elements:grid_item_template:variable:featured_image_url', 'featuredImage');
     }
 
     /**
@@ -61,12 +61,26 @@ class PostVariablesController extends Container implements Module
      *
      * @return string
      */
-    protected function postExcerpt($result, $payload)
+    protected function postTeaser($result, $payload)
     {
         /** @var \WP_Post $post */
         $post = $payload['post'];
-        $excerpt = get_the_excerpt($post);
+        $excerpt = get_the_content($post);
 
         return $excerpt;
+    }
+
+    protected function featuredImage($result, $payload)
+    {
+        /** @var \WP_Post $post */
+        $post = $payload['post'];
+        $thumbnailId = get_post_meta($post->ID, '_thumbnail_id', true);
+        if ($thumbnailId) {
+            $image = wp_get_attachment_image_src($thumbnailId, 'post-thumbnail');
+            $url = isset($image['0']) ? $image['0'] : false;
+            $result = $url;
+        }
+
+        return $result;
     }
 }

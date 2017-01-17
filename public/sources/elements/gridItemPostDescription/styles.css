@@ -46,6 +46,7 @@
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
+  background-image: url(public/red-flower.png);
 }
 
 .vce-post-description:hover .vce-post-description--background,
