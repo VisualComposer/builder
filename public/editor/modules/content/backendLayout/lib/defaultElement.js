@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
 import '../../../../../sources/less/wpbackend/representers/init.less'
@@ -20,7 +21,10 @@ export default class DefaultElement extends React.Component {
       element: props.element
     }
     this.handleClick = this.handleClick.bind(this)
+    this.handleDropdownSize = this.handleDropdownSize.bind(this)
   }
+
+  // Lifecycle
 
   componentWillMount () {
     let cookElement = cook.get({ tag: this.state.element.tag })
@@ -33,26 +37,46 @@ export default class DefaultElement extends React.Component {
     this.setState({ element: nextProps })
   }
 
+  // Events
+
   handleClick () {
-    this.setState({ activeAttribute: !this.state.activeAttribute })
+    let isActive = !this.state.activeAttribute
+    this.setState({ activeAttribute: isActive })
+    if (isActive) {
+      this.handleDropdownSize()
+      window.addEventListener('resize', this.handleDropdownSize)
+    } else {
+      window.removeEventListener('resize', this.handleDropdownSize)
+    }
   }
+
+  handleDropdownSize () {
+    let container = ReactDOM.findDOMNode(this)
+    let attrDropdown = container.querySelector('.vce-wpbackend-element-attributes')
+    if (attrDropdown) {
+      let size = container.getBoundingClientRect()
+      let styles = window.getComputedStyle(container)
+      attrDropdown.style.width = `${size.width}px`
+      attrDropdown.style.left = `${0 - parseInt(styles.borderLeftWidth)}px`
+      attrDropdown.style.top = `${size.height - parseInt(styles.borderBottomWidth)}px`
+    }
+    // TODO: handle block preview if title doesn't fit
+  }
+
+  // Getters
 
   getRepresenter (element) {
     let cookElement = cook.get({tag: element.tag})
     let backendLabels = cookElement.get('metaBackendLabels').value
-    let representers = []
-    backendLabels.forEach((label) => {
+    return backendLabels.map((label) => {
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
-      representers.push(
-        <RepresenterComponent
-          key={`representer-${label}-${cookElement.get('id')}`}
-          fieldKey={label}
-          value={element[label]}
-          {...this.props}
-        />
-      )
+      return <RepresenterComponent
+        key={`representer-${label}-${cookElement.get('id')}`}
+        fieldKey={label}
+        value={element[label]}
+        {...this.props}
+      />
     })
-    return representers
   }
 
   render () {

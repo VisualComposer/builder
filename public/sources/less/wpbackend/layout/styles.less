@@ -60,6 +60,7 @@
   &-container {
     margin-bottom: @vcv-wpbackend-container-margin-bottom;
     border: 1px solid @vce-wpbackend-element-container-border-color;
+    position: relative;
   }
 
   &-header {
@@ -116,10 +117,13 @@
   }
 
   &-attributes {
+    position: absolute;
+    z-index: 1;
     background-color: @vce-wpbackend-element-attributes-background-color;
     font-style: italic;
     color: @vce-wpbackend-element-attributes-color;
-    border-top: 1px solid @vce-wpbackend-element-container-border-color;
+    border: 1px solid @vce-wpbackend-element-container-border-color;
+    border-top: none;
   }
 }
 
@@ -137,6 +141,8 @@
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
 
     &:first-child {
+      display: inline-block;
+      padding: @vcv-wpbackend-element-attributes-padding;
       border-top: none;
     }
   }
