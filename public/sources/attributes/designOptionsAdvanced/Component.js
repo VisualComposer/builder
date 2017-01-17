@@ -118,8 +118,8 @@ class DesignOptionsAdvanced extends Attribute {
         backgroundEndColor: {
           value: false
         },
-        angle: {
-          value: false
+        gradientAngle: {
+          value: 0
         }
       }
     }
@@ -146,6 +146,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
     this.backgroundColorChangeHandler = this.backgroundColorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
+    this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
   }
 
   /**
@@ -257,6 +258,11 @@ class DesignOptionsAdvanced extends Attribute {
           if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
             delete newValue[ device ].sliderTimeout
           }
+
+          // gradient angle is not set
+          if (newValue[ device ].gradientAngle === '' || newValue[ device ].backgroundType !== 'colorGradient') {
+            delete newValue[ device ].gradientAngle
+          }
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -295,6 +301,9 @@ class DesignOptionsAdvanced extends Attribute {
             }
             newMixins[ mixinName ].variables.backgroundEndColor = {
               value: newValue[ device ].backgroundEndColor || false
+            }
+            newMixins[ mixinName ].variables.gradientAngle = {
+              value: newValue[ device ].gradientAngle || 0
             }
             newMixins[ mixinName ].variables.device = {
               value: device
@@ -770,6 +779,79 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render gradient angle control
+   * @returns {*}
+   */
+  getGradientAngleRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `colorGradient`) {
+      return null
+    }
+    let options = {
+      values: [
+        {
+          label: '0',
+          value: ''
+        },
+        {
+          label: '30',
+          value: '30'
+        },
+        {
+          label: '45',
+          value: '45'
+        },
+        {
+          label: '60',
+          value: '60'
+        },
+        {
+          label: '90',
+          value: '90'
+        },
+        {
+          label: '120',
+          value: '120'
+        },
+        {
+          label: '135',
+          value: '135'
+        },
+        {
+          label: '150',
+          value: '150'
+        },
+        {
+          label: '180',
+          value: '180'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Gradient angle
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='gradientAngle'
+        options={options}
+        updater={this.gradientAngleChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Hndle change of gradient angle control
+   * @param fieldKey
+   * @param value
+   */
+  gradientAngleChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+  /**
    * @returns {XML}
    */
   render () {
@@ -788,6 +870,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}
+            {this.getGradientAngleRender()}
           </div>
         </div>
       </div>
