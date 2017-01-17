@@ -131,13 +131,13 @@
   display: inline-block;
   padding: @vcv-wpbackend-element-attributes-padding;
 
-  &:only-child {
-    border-top: none;
-  }
-
   &-block {
     display: block;
     padding: @vcv-wpbackend-element-last-attribute-padding;
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
+
+    &:first-child {
+      border-top: none;
+    }
   }
 }

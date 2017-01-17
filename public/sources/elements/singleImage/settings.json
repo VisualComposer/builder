@@ -201,7 +201,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "clickableOptions"
+      "clickableOptions",
+      "image"
     ]
   }
 }

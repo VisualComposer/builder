@@ -16,16 +16,21 @@ export default class DefaultElement extends React.Component {
     super(props)
     this.state = {
       activeElement: true,
-      activeAttribute: false
+      activeAttribute: false,
+      element: props.element
     }
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentWillMount () {
-    let cookElement = cook.get({tag: this.props.element.tag})
+    let cookElement = cook.get({ tag: this.state.element.tag })
     if (!cookElement.get('metaBackendLabels')) {
       this.setState({ activeElement: false })
     }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({ element: nextProps })
   }
 
   handleClick () {
@@ -42,7 +47,7 @@ export default class DefaultElement extends React.Component {
         <RepresenterComponent
           key={`representer-${label}-${cookElement.get('id')}`}
           fieldKey={label}
-          value={cookElement.settings(label).settings.value}
+          value={element[label]}
           {...this.props}
         />
       )
@@ -51,37 +56,38 @@ export default class DefaultElement extends React.Component {
   }
 
   render () {
-    let icon = categories.getElementIcon(this.props.element.tag, true)
+    const { element, activeAttribute, activeElement } = this.state
+    let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes': true,
-      'vce-wpbackend-hidden': !this.state.activeAttribute
+      'vce-wpbackend-hidden': !activeAttribute
     })
 
     let headerClasses = classNames({
       'vce-wpbackend-element-header': true,
-      'vce-wpbackend-element-header-closed': !this.state.activeAttribute,
-      'vce-wpbackend-element-header-opened': this.state.activeAttribute
+      'vce-wpbackend-element-header-closed': !activeAttribute,
+      'vce-wpbackend-element-header-opened': activeAttribute
     })
 
-    if (this.state.activeElement) {
+    if (activeElement) {
       return <div className='vce-wpbackend-element-container'>
         <div className={headerClasses} onClick={this.handleClick}>
           <div className='vce-wpbackend-element-header-icon'>
-            <img src={icon} alt={this.props.element.name} />
+            <img src={icon} alt={element.name} />
           </div>
-          <div className='vce-wpbackend-element-header-name'>{this.props.element.name}</div>
+          <div className='vce-wpbackend-element-header-name'>{element.name}</div>
         </div>
         <div className={attributesClasses}>
-          {this.getRepresenter(this.props.element)}
+          {this.getRepresenter(element)}
         </div>
       </div>
     }
     return <div className='vce-wpbackend-element-container'>
       <div className='vce-wpbackend-element-header'>
         <div className='vce-wpbackend-element-header-icon'>
-          <img src={icon} alt={this.props.element.name} />
+          <img src={icon} alt={element.name} />
         </div>
-        <div className='vce-wpbackend-element-header-name'>{this.props.element.name}</div>
+        <div className='vce-wpbackend-element-header-name'>{element.name}</div>
       </div>
     </div>
   }
