@@ -1,4 +1,5 @@
 <?php
+// WARN: File is disabled yet.
 
 namespace VisualComposer\Modules\Elements\WpWidgets;
 
@@ -10,7 +11,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
  * Class WpWidgetsScript
  * @package VisualComposer\Modules\Elements\WpWidgets
  */
-class WpWidgetsScript extends Container implements Module
+class WpWidgetsScript extends Container
 {
     use EventsFilters;
 
@@ -20,7 +21,7 @@ class WpWidgetsScript extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsScript::script */
-        $this->addFilter('vcv:ajax:elements:widget:script:adminNonce', 'script');
+        // $this->addFilter('vcv:ajax:elements:widget:script:adminNonce', 'script');
     }
 
     /**

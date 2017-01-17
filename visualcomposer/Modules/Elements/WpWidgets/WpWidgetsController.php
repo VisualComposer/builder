@@ -22,27 +22,48 @@ class WpWidgetsController extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::generateElements */
-        $featureToggle = false;
-        if ($featureToggle) {
-            // TODO: Feature toggle.
-            $this->addFilter('vcv:frontend:extraOutput', 'generateElements');
-        }
-
+        //        $featureToggle = false;
+        //        if ($featureToggle) {
+        //            // TODO: Feature toggle.
+        //            $this->addFilter('vcv:frontend:extraOutput', 'generateElements');
+        //        }
+        $this->addFilter('vcv:frontend:extraOutput', 'addGlobalVariables');
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
         $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
         $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
+        $this->addFilter('vcv:elements:widgets:defaultKey', 'defaultKey');
     }
 
     /**
      * @param $scripts
+     * @param $payload
      * @param \VisualComposer\Helpers\WpWidgets $widgetsHelper
      *
      * @return array
      */
-    protected function generateElements($scripts, WpWidgets $widgetsHelper)
+    protected function addGlobalVariables($scripts, $payload, WpWidgets $widgetsHelper)
     {
+        /** @see visualcomposer/resources/views/elements/widgets/variables.php */
+        $variables = [];
+        $variables[] = sprintf('<script>%s</script>', vcview('elements/widgets/variables'));
+
+        return array_merge($scripts, $variables);
+    }
+
+    /**
+     * @param $scripts
+     * @param $payload
+     * @param \VisualComposer\Helpers\WpWidgets $widgetsHelper
+     *
+     * @return array
+     */
+    protected function generateElements($scripts, $payload, WpWidgets $widgetsHelper)
+    {
+        // WARN: Disabled Currently
+        // TODO: Remove later if not needed
+        /** @see visualcomposer/resources/views/elements/widgets/element.php */
         $widgetScripts = [];
         $widgetScripts[] = sprintf(
             '<script src="%s"></script>',
@@ -53,17 +74,22 @@ class WpWidgetsController extends Container implements Module
     }
 
     /**
+     * @param $response
+     * @param $payload
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\WpWidgets $widgets
      *
      * @return string
      */
-    protected function renderEditor($response, Request $requestHelper, WpWidgets $widgets)
+    protected function renderEditor($response, $payload, Request $requestHelper, WpWidgets $widgets)
     {
         if (!is_array($response)) {
             $response = [];
         }
         $widgetKey = $requestHelper->input('vcv-widget-key');
+        if (!$widgetKey) {
+            $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $requestHelper->input('vcv-element-tag'));
+        }
         $args = $requestHelper->input('vcv-atts');
         $instance = $requestHelper->input('vcv-widget-value');
 
@@ -73,8 +99,12 @@ class WpWidgetsController extends Container implements Module
 
         $response['status'] = true;
         $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
-        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::getShortcode */
-        $response['shortcode'] = $this->call('getShortcode');
+        $response['shortcode'] = $widgets->getShortcode(
+            $requestHelper->input('vcv-element-tag'),
+            $requestHelper->input('vcv-widget-key'),
+            rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
+            rawurlencode(json_encode($requestHelper->input('vcv-atts')))
+        );
 
         return $response;
     }
@@ -87,16 +117,19 @@ class WpWidgetsController extends Container implements Module
      *
      * @return string
      */
-    protected function renderForm(WpWidgets $widgets, $response, $payload)
+    protected function renderForm($response, $payload, WpWidgets $widgets)
     {
         if ($payload['action'] === 'vcv:wpWidgets:form') {
             $element = $payload['element'];
             $widgetKey = $element['widgetKey'];
+            $tag = $element['tag'];
             $instance = $payload['value'];
             if (isset($instance['widget-form'])) {
                 $instance = $instance['widget-form'][1];
             }
-
+            if (!$widgetKey) {
+                $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $tag);
+            }
             $form = $widgets->form($widgetKey, $instance);
             // Remove last col from labels
             $form = preg_replace('/(\:)\s*(<\/label>|<input)/', '$2', $form);
@@ -106,18 +139,10 @@ class WpWidgetsController extends Container implements Module
         return $response;
     }
 
-    /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @return string
-     */
-    protected function getShortcode(Request $requestHelper)
+    protected function defaultKey($tag, $payload, WpWidgets $widgetsHelper)
     {
-        return sprintf(
-            '[vcv_widgets key="%s" instance="%s" args="%s"]',
-            $requestHelper->input('vcv-widget-key'),
-            rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
-            rawurlencode(json_encode($requestHelper->input('vcv-atts')))
-        );
+        $all = $widgetsHelper->allGrouped();
+
+        return get_class(reset($all[ $tag ]));
     }
 }

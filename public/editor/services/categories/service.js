@@ -128,7 +128,7 @@ let tempData = {
     },
     'WP Widgets': {
       'name': 'WP Widgets',
-      'elements': [ '_WpWidgetsDefault', '_WpWidgetsCustom' ],
+      'elements': [],
       'icon': 'categories/icons/WordPress.svg',
       'iconDark': 'categories/iconsDark/WordPress.svg'
     },
@@ -158,6 +158,12 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
   tempData.categories[ 'Section' ].elements.push('section')
 }
+// if (window.vcvCustomWidgets && window.vcvCustomWidgets.length) {
+tempData.categories[ 'WP Widgets' ].elements.push('wpWidgetsCustom')
+// }
+// if (window.vcvDefaultWidgets && window.vcvDefaultWidgets.length) {
+tempData.categories[ 'WP Widgets' ].elements.push('wpWidgetsDefault')
+// }
 if (vcCake.env('FEATURE_WOOCOMMERCE')) {
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCart')
   tempData.categories[ 'WooCommerce' ].elements.push('woocommerceCheckout')

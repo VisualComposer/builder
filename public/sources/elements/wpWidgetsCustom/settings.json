@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "{name}"
+    "value": "Wordpress Custom Widget"
   },
   "metaIntro": {
     "type": "textarea",
@@ -17,17 +17,17 @@
   "metaPreviewDescription": {
     "type": "textarea",
     "access": "protected",
-    "value": "Choose, configure and add any of WordPress default widgets to your site."
+    "value": "Choose, configure and add custom widgets to your site."
   },
   "metaPreview": {
     "type": "attachimage",
     "access": "protected",
-    "value": "wordpress-widgets-preview.png"
+    "value": "custom-widgets-preview.png"
   },
   "metaThumbnail": {
     "type": "attachimage",
     "access": "protected",
-    "value": "wordpress-widgets-thumbnail.png"
+    "value": "custom-widgets-thumbnail.png"
   },
   "designOptions": {
     "type": "designOptions",
@@ -40,10 +40,11 @@
   "widgetKey": {
     "type": "dropdown",
     "access": "public",
-    "value": "{widgetKey}",
+    "value": "",
     "options": {
       "label": "Widget",
-      "values": "{+widgets+}"
+      "values": [],
+      "global": "vcvCustomWidgets"
     }
   },
   "atts_before_title": {
@@ -121,7 +122,7 @@
       "atts_after_widget"
     ],
     "options": {
-      "label": "{name}"
+      "label": "Custom WordPress Widget"
     }
   },
   "metaEditFormTabs": {
