@@ -77,8 +77,8 @@ class HelpersWpWidgetsTest extends WP_UnitTestCase
     {
         $helper = vchelper('WpWidgets');
         $all = $helper->allGrouped();
-        $this->assertTrue(array_key_exists('default', $all));
-        $this->assertTrue(array_key_exists('custom', $all));
-        $this->assertTrue(!empty($all['default']));
+        $this->assertTrue(array_key_exists('wpWidgetsDefault', $all));
+        $this->assertTrue(array_key_exists('wpWidgetsCustom', $all));
+        $this->assertTrue(!empty($all['wpWidgetsDefault']));
     }
 }
