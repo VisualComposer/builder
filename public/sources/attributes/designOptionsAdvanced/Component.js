@@ -208,6 +208,10 @@ class DesignOptionsAdvanced extends Attribute {
     }
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
+        // set default background type
+        if (!newState.devices[ device ].backgroundType) {
+          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.backgroundType
+        }
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
         // remove all values if display is provided
@@ -288,13 +292,6 @@ class DesignOptionsAdvanced extends Attribute {
               value: device
             }
           }
-
-          // if (newValue[ device ].hasOwnProperty('backgroundColor')) {
-          //   if (!lodash.isEmpty(newValue[ device ].backgroundColor)) {
-          //     // update mixin
-          //
-          //   }
-          // }
         }
 
         // remove device from list if it's empty
