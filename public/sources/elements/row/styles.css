@@ -4,8 +4,16 @@
 .vce-row {
   display: flex;
   flex-direction: column;
-  margin-left: -15px;
-  margin-right: -15px;
+}
+.vce-row-content > .vce-col:last-child {
+  margin-right: 0;
+}
+.vce-row.vce-row-layout-custom .vce-col {
+  min-width: 1em;
+}
+.vce-row.vce-row-layout-custom .vce-col-content {
+  padding-left: 0;
+  padding-right: 0;
 }
 .vce-row-full-height {
   min-height: 100vh;
@@ -72,7 +80,14 @@
 .vce-row[data-vce-full-width="true"].vce-row-no-paddings > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content {
   padding-left: 0;
   padding-right: 0;
-  width: 1px;
+}
+.vce-row[data-vce-full-width="true"].vce-row-layout-custom > .vce-row-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.vce-row[data-vce-full-width="true"].vce-row-layout-custom.vce-row-no-paddings > .vce-row-content {
+  padding-left: 0;
+  padding-right: 0;
 }
 .vce-row-direction--reverse .vce-row-content {
   flex-direction: row-reverse;
