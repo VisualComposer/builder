@@ -217,7 +217,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonUrl"
+      "buttonText",
+      "buttonUrl",
+      "shape",
+      "gradientColorOne",
+      "gradientColorTwo"
     ]
   }
 }

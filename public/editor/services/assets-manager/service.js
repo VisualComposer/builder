@@ -443,7 +443,6 @@ vcCake.addService('assets-manager', {
     let iterations = []
     const mixins = this.getCssMixinsByElement(data)
     let cssMixinsStyles = this.getTagCssMixinsStyles(tag, mixins[ tag ])
-    console.log('addstyles', addStyles)
 
     if (addStyles) {
       const elementObject = this.cook().get(data)
@@ -451,7 +450,6 @@ vcCake.addService('assets-manager', {
       const css = cssSettings.css
       const editorCss = cssSettings.editorCss
       if (css) {
-        console.log(css)
         let stylePromise = new Promise((resolve, reject) => {
           postcss()
             .use(postcssVars())
