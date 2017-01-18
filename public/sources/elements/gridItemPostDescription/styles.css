@@ -48,8 +48,8 @@
   transform: scale(1);
 }
 
-.vce-post-description:hover .vce-post-description--background,
-.vce-post-description:focus .vce-post-description--background {
+.vce-post-description.vce-post-description--animation:hover .vce-post-description--background,
+.vce-post-description.vce-post-description--animation:focus .vce-post-description--background {
   -webkit-transform: scale(1.2);
   -ms-transform: scale(1.2);
   transform: scale(1.2);

@@ -25,12 +25,21 @@
       "label": "Content spacing"
     }
   },
+  "animation": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Zoom on hover"
+    }
+  },
   "editFormTab1": {
     "type": "group",
     "access": "public",
     "value": [
       "padding",
-      "background"
+      "background",
+      "animation"
     ],
     "options": {
       "label": "Post Description"

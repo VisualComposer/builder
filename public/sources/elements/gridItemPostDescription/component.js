@@ -4,10 +4,11 @@ class Component extends vcvAPI.elementComponent {
   render () {
     // TODO: Style
     const classNames = require('classnames')
-    let { padding, background } = this.props.atts
+    let { padding, background, animation } = this.props.atts
     let postDescriptionClasses = classNames({
       'vce-post-description': true,
       'vce-post-description--full': !padding
+      'vce-post-description--animation': animation
     })
     let backgroundStyle = {}
     if (background) {
