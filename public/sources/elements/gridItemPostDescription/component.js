@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
     let { padding, background, animation } = this.props.atts
     let postDescriptionClasses = classNames({
       'vce-post-description': true,
-      'vce-post-description--full': !padding
+      'vce-post-description--full': !padding,
       'vce-post-description--animation': animation
     })
     let backgroundStyle = {}
