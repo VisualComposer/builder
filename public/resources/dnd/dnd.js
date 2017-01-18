@@ -220,7 +220,6 @@ export default class DnD {
         !documentManager.children(domElement.id).length
     })
 
-    console.log(point)
     if (position) {
       this.point = point
       this.setPosition(position)

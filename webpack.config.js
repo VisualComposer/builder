@@ -33,6 +33,10 @@ module.exports = {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_console: true
+      },
       output: {
         comments: false
       }
