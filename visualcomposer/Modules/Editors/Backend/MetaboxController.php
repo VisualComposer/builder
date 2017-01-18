@@ -24,10 +24,14 @@ class MetaboxController extends Container implements Module
 
     public function __construct(Request $request, Url $url)
     {
-        /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
-        $this->wpAddAction('add_meta_boxes', 'addMetaBox');
-        $this->request = $request;
-        $this->url = $url;
+        $toggleFeatureBackend = false;
+        if ($toggleFeatureBackend) {
+            /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
+            $this->wpAddAction('add_meta_boxes', 'addMetaBox');
+            $this->request = $request;
+            $this->url = $url;
+        }
+
     }
 
     private function addMetaBox($postType)

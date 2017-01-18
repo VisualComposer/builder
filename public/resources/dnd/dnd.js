@@ -203,7 +203,6 @@ export default class DnD {
   }
   checkItems (point) {
     let domNode = this.findDOMNode(point)
-
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
     let parentDOMElement = this.items[domElement.parent()] || null
@@ -220,6 +219,8 @@ export default class DnD {
         domElement && this.draggingElement.isChild(domElement) &&
         !documentManager.children(domElement.id).length
     })
+
+    console.log(point)
     if (position) {
       this.point = point
       this.setPosition(position)
