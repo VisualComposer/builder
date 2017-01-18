@@ -3,9 +3,10 @@ let Collector = require('./tools/webpack-collector')
 // let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
+let webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  // devtool: 'eval',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',
@@ -25,7 +26,21 @@ module.exports = {
   },
   plugins: [
     new Collector(),
-    new ExtractTextPlugin('[name].bundle.css')
+    new ExtractTextPlugin('[name].bundle.css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_console: true
+      },
+      output: {
+        comments: false
+      }
+    })
     // new webpack.HotModuleReplacementPlugin()
   ],
   vc: {

@@ -37,15 +37,15 @@ class WordPressAdminControl extends React.Component {
           className='vcv-ui-navbar-control-content'>View Page</span></a>
       )
     }
-    let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
-    let previewButton = (
-      <a
-        className='vcv-ui-navbar-control'
-        title={previewText}
-        href={PostData.previewUrl()}
-        target='_blank'
-      ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
-    )
+    // let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
+    // let previewButton = (
+    //   <a
+    //     className='vcv-ui-navbar-control'
+    //     title={previewText}
+    //     href={PostData.previewUrl()}
+    //     target='_blank'
+    //   ><span className='vcv-ui-navbar-control-content'>{previewText}</span></a>
+    // )
 
     let backendEditorButton = (
       <a
@@ -63,7 +63,6 @@ class WordPressAdminControl extends React.Component {
     return (
       <div className='vcv-ui-navbar-controls-set'>
         {saveDraftButton}
-        {previewButton}
         {viewButton}
         {backendEditorButton}
         {wordpressDashboardButton}

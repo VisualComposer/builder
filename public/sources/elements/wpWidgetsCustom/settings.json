@@ -50,7 +50,7 @@
   "customWidgetHtml": {
     "type": "toggle",
     "access": "public",
-    "value": false,
+    "value": true,
     "options": {
       "label": "Enable custom widget HTML"
     }
