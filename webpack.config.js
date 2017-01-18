@@ -3,6 +3,7 @@ let Collector = require('./tools/webpack-collector')
 // let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
+let webpack = require('webpack')
 
 module.exports = {
   devtool: 'eval',
@@ -25,7 +26,12 @@ module.exports = {
   },
   plugins: [
     new Collector(),
-    new ExtractTextPlugin('[name].bundle.css')
+    new ExtractTextPlugin('[name].bundle.css'),
+    new webpack.optimize.UglifyJsPlugin({
+      output: {
+        comments: false
+      }
+    })
     // new webpack.HotModuleReplacementPlugin()
   ],
   vc: {
