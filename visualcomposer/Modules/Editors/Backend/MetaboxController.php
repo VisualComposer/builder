@@ -31,7 +31,6 @@ class MetaboxController extends Container implements Module
             $this->request = $request;
             $this->url = $url;
         }
-
     }
 
     private function addMetaBox($postType)
