@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: Visual Composer Web Site builder
+ * Plugin Name: Visual Composer Website Builder
  * Plugin URI: http://visualcomposer.io
- * Description: WEB Site builder
+ * Description: WordPress Website Builder by WPBakery
  *
- * Version: 1.0.0-dev-2
+ * Version: 0.9.1-dev-2
  * Author: WPBakery
  * Author URI: http://wpbakery.com
  * Requires at least: 4.1
