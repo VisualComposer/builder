@@ -9,51 +9,38 @@
     "access": "protected",
     "value": "Outline Button"
   },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Short intro"
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "outline-button-preview.jpg"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "outline-button-thumbnail.png"
-  },
-  "designOptions": {
-    "type": "designOptions",
+  "background": {
+    "type": "color",
     "access": "public",
-    "value": {},
+    "value": "",
     "options": {
-      "label": "Design Options"
+      "label": "Background color"
+    }
+  },
+  "padding": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Content spacing"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "public",
+    "value": [
+      "padding",
+      "background"
+    ],
+    "options": {
+      "label": "Post Description"
     }
   },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
-      "designOptions"
-    ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General"
+      "editFormTab1"
     ]
   }
 }
