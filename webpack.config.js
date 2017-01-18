@@ -6,7 +6,7 @@ let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  // devtool: 'eval',
   entry: {
     node: './public/node-main',
     wp: './public/wp-main',
