@@ -147,7 +147,7 @@
       "value": ""
     },
     "options": {
-      "label": "Widget Form",
+      "label": "",
       "action": "vcv:wpWidgets:form",
       "onChange": {
         "rules": {
