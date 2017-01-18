@@ -5,7 +5,6 @@
   bottom: 0;
   left: 0;
   overflow: hidden;
-  z-index: -1;
   pointer-events: none;
   display: none;
 }

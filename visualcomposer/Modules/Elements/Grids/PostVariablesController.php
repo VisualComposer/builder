@@ -64,11 +64,11 @@ class PostVariablesController extends Container implements Module
      */
     protected function postTeaser($result, $payload)
     {
-        /** @var \WP_Post $post */
-        $post = $payload['post'];
-        $excerpt = get_the_content($post);
+        ob_start();
+        the_excerpt();
+        $result = ob_get_clean();
 
-        return $excerpt;
+        return $result;
     }
 
     protected function featuredImage($result, $payload)

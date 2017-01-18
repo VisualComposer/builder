@@ -61,13 +61,16 @@ class PostsGridController extends Container implements Module
      */
     protected function loopPosts($posts, $template)
     {
-        global $post;
+        global $post, $shortcode_tags;
+        $backupTags = $shortcode_tags;
+        remove_all_shortcodes();
         $backup = $post;
         $output = '';
         if (is_array($posts)) {
             foreach ($posts as $queryPost) {
                 /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
                 $post = $queryPost;
+                setup_postdata($post);
                 $compiledTemplate = $this->call(
                     'renderPost',
                     [
@@ -76,11 +79,13 @@ class PostsGridController extends Container implements Module
                     ]
                 );
                 $output .= trim($compiledTemplate);
+                wp_reset_postdata();
             }
         }
         $post = $backup;
+        $shortcode_tags = $backupTags;
 
-        return $output;
+        return strip_shortcodes($output);
     }
 
     /**

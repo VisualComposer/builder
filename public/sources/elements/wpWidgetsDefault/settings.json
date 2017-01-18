@@ -47,13 +47,33 @@
       "global": "vcvDefaultWidgets"
     }
   },
+  "customWidgetHtml": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Enable custom widget HTML"
+    }
+  },
   "atts_before_title": {
     "type": "rawCode",
     "access": "public",
     "value": "",
     "options": {
       "label": "Before Title html",
-      "height": "20vh"
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "atts_after_title": {
@@ -62,7 +82,19 @@
     "value": "",
     "options": {
       "label": "After Title html",
-      "height": "20vh"
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "atts_before_widget": {
@@ -71,7 +103,19 @@
     "value": "",
     "options": {
       "label": "Before Widget html",
-      "height": "20vh"
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "atts_after_widget": {
@@ -80,7 +124,19 @@
     "value": "",
     "options": {
       "label": "After Widget html",
-      "height": "20vh"
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "widget": {
@@ -116,6 +172,7 @@
     "value": [
       "widgetKey",
       "widget",
+      "customWidgetHtml",
       "atts_before_title",
       "atts_after_title",
       "atts_before_widget",
