@@ -34,7 +34,7 @@ export default class DefaultElement extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({ element: nextProps })
+    this.setState({ element: nextProps.element })
   }
 
   // Events
@@ -109,9 +109,8 @@ export default class DefaultElement extends React.Component {
       'vce-wpbackend-element-header-closed': !activeAttribute,
       'vce-wpbackend-element-header-opened': activeAttribute
     })
-
     if (activeElement) {
-      return <div className='vce-wpbackend-element-container'>
+      return <div className='vce-wpbackend-element-container' data-vcv-element={element.id}>
         <div className={headerClasses} onClick={this.handleClick}>
           <div className='vce-wpbackend-element-header-icon'>
             <img src={icon} alt={element.name} title={element.name} />
@@ -125,7 +124,7 @@ export default class DefaultElement extends React.Component {
         </div>
       </div>
     }
-    return <div className='vce-wpbackend-element-container'>
+    return <div className='vce-wpbackend-element-container' data-vcv-element={element.id}>
       <div className='vce-wpbackend-element-header'>
         <div className='vce-wpbackend-element-header-icon'>
           <img src={icon} alt={element.name} title={element.name} />
