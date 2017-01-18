@@ -50,7 +50,7 @@
   "customWidgetHtml": {
     "type": "toggle",
     "access": "public",
-    "value": false,
+    "value": true,
     "options": {
       "label": "Enable custom widget HTML"
     }
@@ -147,7 +147,7 @@
       "value": ""
     },
     "options": {
-      "label": "Widget Form",
+      "label": "",
       "action": "vcv:wpWidgets:form",
       "onChange": {
         "rules": {

@@ -46,11 +46,10 @@
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-  background-image: url('public/red-flower.png');
 }
 
-.vce-post-description:hover .vce-post-description--background,
-.vce-post-description:focus .vce-post-description--background {
+.vce-post-description.vce-post-description--animation:hover .vce-post-description--background,
+.vce-post-description.vce-post-description--animation:focus .vce-post-description--background {
   -webkit-transform: scale(1.2);
   -ms-transform: scale(1.2);
   transform: scale(1.2);
@@ -64,14 +63,6 @@
 
 .vce-post-description--title {
   text-transform: uppercase;
-}
-
-.vce-post-description--with-background {
-  background-color: #fff;
-}
-
-.vce-post-description--without-background .vce-post-description--content {
-  background: initial;
 }
 
 .vce-post-description--full .vce-post-description--background-wrapper-box {
