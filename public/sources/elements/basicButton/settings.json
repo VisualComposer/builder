@@ -245,7 +245,10 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonUrl"
+      "buttonText",
+      "buttonUrl",
+      "background",
+      "shape"
     ]
   }
 }
