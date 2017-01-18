@@ -27,6 +27,11 @@ module.exports = {
   plugins: [
     new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       output: {
         comments: false
