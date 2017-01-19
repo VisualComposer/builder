@@ -3,13 +3,29 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size } = atts
+    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      if (background) {
+        if (background.all) {
+          classes.push('vce-element--has-background')
+        } else {
+          for (let device in background) {
+            if (background[ device ] && device !== 'all') {
+              classes.push('vce-element--' + device + '--has-background')
+            }
+          }
+        }
+      }
+
+      classes.push('vce-row-layout--xs_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
+      classes.push('vce-row-layout--sm_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
       classes.push('vce-row-layout--md_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
+      classes.push('vce-row-layout--lg_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
+      classes.push('vce-row-layout--xl_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
       classes.push('vce-row-layout-custom')
     }
     let customProps = {

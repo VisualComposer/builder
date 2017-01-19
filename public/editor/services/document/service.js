@@ -147,6 +147,11 @@ const api = {
   },
   size: function () {
     return dataStore.data.size
+  },
+  filter: function (callback) {
+    return dataStore.data
+      .valueSeq()
+      .filter(callback).toJS()
   }
 }
 

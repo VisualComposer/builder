@@ -97,9 +97,10 @@ export default class ActivitiesManager extends React.Component {
     this.callFieldActivities(null, key)
   }
   resetIfEditFormClosed () {
-    const { element } = this.props
+    const { element, api } = this.props
     vcCake.ignoreDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
     vcCake.setData(`element:instantMutation:${element.get('id')}`, false)
+    api.request('data:instantMutation', false, 'update')
   }
   setFieldUnmount = (field, isTab) => {
     if (isTab && this.mount[ field ]) {

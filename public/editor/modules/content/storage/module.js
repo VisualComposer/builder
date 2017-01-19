@@ -34,6 +34,54 @@ vcCake.add('storage', (api) => {
       })
     }
   }
+  const addRowBackground = (id, element) => {
+    let allBackgrounds = []
+
+    let devices = {
+      'desktop': 'xl',
+      'tablet-landscape': 'lg',
+      'tablet-portrait': 'md',
+      'mobile-landscape': 'sm',
+      'mobile-portrait': 'xs'
+    }
+
+    const pushBackground = (element) => {
+      let designOptions = element.designOptions
+      let elementBackground = {}
+      if (designOptions && designOptions.used) {
+        if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
+          elementBackground[ 'all' ] = true
+        } else {
+          for (let device in devices) {
+            if ((designOptions[ device ].backgroundColor !== '' || designOptions[ device ].backgroundImage.urls.length)) {
+              elementBackground[ devices[ device ] ] = true
+            }
+          }
+        }
+        allBackgrounds.push(elementBackground)
+      }
+    }
+
+    let rowChildren = DocumentData.children(id)
+
+    rowChildren.forEach((column) => {
+      pushBackground(column)
+    })
+
+    pushBackground(element)
+
+    let rowBackground = allBackgrounds.reduce(function (result, currentObject) {
+      for (let key in currentObject) {
+        if (currentObject.hasOwnProperty(key)) {
+          result[ key ] = currentObject[ key ]
+        }
+      }
+      return result
+    }, {})
+
+    element.background = rowBackground
+    DocumentData.update(id, element)
+  }
   const isElementOneRelation = (parent) => {
     let element = DocumentData.get(parent)
     let children = cook.getChildren(element.tag)
@@ -100,6 +148,19 @@ vcCake.add('storage', (api) => {
       element.layout = undefined
     }
     DocumentData.update(id, element)
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      if (element.tag === 'column') {
+        let parentId = DocumentData.get(id).parent
+        let parentElement = DocumentData.get(parentId)
+
+        if (parentElement) {
+          addRowBackground(parentId, parentElement)
+        }
+      }
+      if (element.tag === 'row') {
+        addRowBackground(id, element)
+      }
+    }
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update', id)
   })
