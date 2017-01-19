@@ -55,7 +55,7 @@ export default class SettingsButtonControl extends React.Component {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
-      'vcv-ui-state--active': this.state.isWindowOpen
+      'vcv-ui-state--active': !vcCake.getData('lockActivity') && this.state.isWindowOpen
     })
     let iconClass = classNames({
       'vcv-ui-navbar-control-icon': true,

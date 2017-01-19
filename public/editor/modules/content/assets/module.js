@@ -99,11 +99,18 @@ vcCake.add('assets', (api) => {
       instantCssStyle = iframeDocument.createElement('style')
       instantCssStyle.id = 'css-instant-styles'
       iframeDocument.body.appendChild(instantCssStyle)
+    } else if (!data) {
+      instantCssStyle.innerHTML = ''
     }
     if (!doInstantCssStyle) {
       doInstantCssStyle = iframeDocument.createElement('style')
       doInstantCssStyle.id = 'do-css-instant-styles'
       iframeDocument.body.appendChild(doInstantCssStyle)
+    } else if (!data) {
+      doInstantCssStyle.innerHTML = ''
+    }
+    if (!data) {
+      return
     }
     assetsManager.getTagCompiledCss(data.tag, data).then((result) => {
       instantCssStyle.innerHTML = result

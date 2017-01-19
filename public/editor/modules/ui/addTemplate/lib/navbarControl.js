@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getData} from 'vc-cake'
 
 export default class AddTemplateNavbarControl extends React.Component {
   static propTypes = {
@@ -40,7 +41,7 @@ export default class AddTemplateNavbarControl extends React.Component {
   render () {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
-      'vcv-ui-state--active': this.state.isWindowOpen
+      'vcv-ui-state--active': !getData('lockActivity') && this.state.isWindowOpen
     })
 
     return (
