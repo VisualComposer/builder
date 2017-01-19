@@ -18,14 +18,20 @@ const ActionsManager = {
         // Reverse state
         state = options ? !state : state
       }
-      let $el = ReactDOM.findDOMNode(target.ref)
-      $el.classList.toggle('vcv-ui-state--visible', state)
-      $el.classList.toggle('vcv-ui-state--hidden', !state)
+      ActionsManager.actions.updateDependenciesClasses.call(this, state, target, {
+        class: 'vcv-ui-state--visible'
+      })
+      ActionsManager.actions.updateDependenciesClasses.call(this, !state, target, {
+        class: 'vcv-ui-state--hidden'
+      })
+      /*
       lodash.delay(() => {
         ActionsManager.actions.checkTabsDropdown.call(this, state, target, options)
       }, 50)
+      */
     },
     checkTabsDropdown: (state, target, options) => {
+      // TODO: Check if it works vcv-ui-editor-tab-dropdown-content not found
       let $el = ReactDOM.findDOMNode(target.ref)
       let $form = $el.closest('.vcv-ui-tree-content')
       if ($form) {
@@ -44,6 +50,15 @@ const ActionsManager = {
       }
       element.settings(target.key).settings.options.url = state
       target.refComponent.forceUpdate()
+    },
+    updateDependenciesClasses: (state, target, options, element) => {
+      let newStateClasses = (target.refComponent.state.dependenciesClasses || []).filter((item) => {
+        return item !== options.class
+      })
+      if (state) {
+        newStateClasses.push(options.class)
+      }
+      target.refComponent.setState({ dependenciesClasses: newStateClasses })
     },
     fieldMethod: (state, target, options, element) => {
       if (
