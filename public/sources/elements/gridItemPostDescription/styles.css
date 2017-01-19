@@ -48,8 +48,18 @@
   transform: scale(1);
 }
 
-.vce-post-description.vce-post-description--animation:hover .vce-post-description--background,
-.vce-post-description.vce-post-description--animation:focus .vce-post-description--background {
+.vce-post-description-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.vce-post-description.vce-post-description--animation .vce-post-description-link:hover + .vce-post-description--background-wrapper-box .vce-post-description--background,
+.vce-post-description.vce-post-description--animation .vce-post-description-link:focus + .vce-post-description--background-wrapper-box .vce-post-description--background {
   -webkit-transform: scale(1.2);
   -ms-transform: scale(1.2);
   transform: scale(1.2);

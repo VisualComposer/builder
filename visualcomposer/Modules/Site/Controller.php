@@ -124,7 +124,7 @@ class Controller extends Container implements Module
             return false;
         }
 
-        $this->addScript('vcv-vendor-scripts', vchelper('Url')->to('public/dist/vendor.bundle.js'));
+        // $this->addScript('vcv-vendor-scripts', vchelper('Url')->to('public/dist/vendor.bundle.js'));
         $scriptsBundle = $optionsHelper->get('scriptsGlobalFile');
         if ($scriptsBundle !== false) {
             $this->addScript('vcv-scripts', $scriptsBundle);

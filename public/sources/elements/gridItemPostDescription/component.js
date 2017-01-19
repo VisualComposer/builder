@@ -2,7 +2,6 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   render () {
-    // TODO: Style
     const classNames = require('classnames')
     let { padding, background, animation } = this.props.atts
     let postDescriptionClasses = classNames({
@@ -14,9 +13,11 @@ class Component extends vcvAPI.elementComponent {
     if (background) {
       backgroundStyle.backgroundColor = background
     }
+
     return (
       <article className='vce-posts-grid-item'>
         <div className={postDescriptionClasses} style={backgroundStyle}>
+          <a href='{{post_permalink}}' className='vce-post-description-link' />
           <div className='vce-post-description--background-wrapper-box'>
             <div className='vce-post-description--background-wrapper'>
               {`{{custom_post_description_featured_image}}`}
