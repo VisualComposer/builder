@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getData} from 'vc-cake'
 
 class SaveButtonControl extends React.Component {
   state = {
@@ -8,6 +9,10 @@ class SaveButtonControl extends React.Component {
   }
 
   clickSaveData = () => {
+    if (getData('lockActivity')) {
+      window.alert('Please complete your activity and then click save!')
+      return
+    }
     this.setState({ 'saving': true })
     setTimeout(() => {
       this.setState({ 'saving': false })
