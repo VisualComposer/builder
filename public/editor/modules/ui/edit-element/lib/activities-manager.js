@@ -87,8 +87,8 @@ export default class ActivitiesManager extends React.Component {
     if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
       const { element, api } = this.props
       const elementData = element.toJS()
-      if (!vcCake.getData('barContentEnd:confirm')) {
-        vcCake.setData('barContentEnd:confirm', 'Are you sure?')
+      if (!vcCake.getData('lockActivity')) {
+        vcCake.setData('lockActivity', 'Are you sure?')
         vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
       }
       vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
