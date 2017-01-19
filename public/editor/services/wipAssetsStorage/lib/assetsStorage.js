@@ -165,11 +165,15 @@ export default {
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       for (let elementId in this.elements) {
-        let documentService = vcCake.getService('document')
-        let element = documentService.get(elementId)
-        let backgroundData = this.getBackgroundByElement(element)
-        if (backgroundData && backgroundData.id && backgroundData.background && this.elements[ backgroundData.id ]) {
-          this.elements[ backgroundData.id ][ 'background' ] = backgroundData.background
+        if (this.get(elementId) || force) {
+          let documentService = vcCake.getService('document')
+          let element = documentService.get(elementId)
+          if (element) {
+            let backgroundData = this.getBackgroundByElement(element)
+            if (backgroundData && backgroundData.id && backgroundData.background && this.elements[ backgroundData.id ]) {
+              this.elements[ backgroundData.id ][ 'background' ] = backgroundData.background
+            }
+          }
         }
       }
     }
