@@ -9,6 +9,9 @@ export default class FieldDependencyManager extends React.Component {
     setFieldMount: React.PropTypes.func.isRequired,
     setFieldUnmount: React.PropTypes.func.isRequired
   }
+  state = {
+    dependenciesClasses: []
+  }
 
   componentDidMount () {
     this.props.setFieldMount(this.props.fieldKey, {
@@ -33,7 +36,7 @@ export default class FieldDependencyManager extends React.Component {
   render () {
     let classes = classNames({
       'vcv-ui-form-dependency': true
-    })
+    }, this.state.dependenciesClasses)
 
     return (
       <div ref='field' className={classes}>

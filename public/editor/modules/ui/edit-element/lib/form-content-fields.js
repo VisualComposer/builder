@@ -28,10 +28,10 @@ export default class EditFormFieldsForm extends React.Component {
     let plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
-    }, `vcv-ui-editor-plate-${activeTab.id}`)
+    }, `vcv-ui-editor-plate-${activeTab.key}`)
 
     return (
-      <div key={`plate-visible-${activeTab.id}`} className={plateClass}>
+      <div key={`plate-visible-${activeTab.key}`} className={plateClass}>
         {this.props.activeTab.params.map(this.field)}
       </div>
     )

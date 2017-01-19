@@ -263,5 +263,10 @@
     "type": "string",
     "access": "public",
     "value": "auto"
+  },
+  "background": {
+    "type": "string",
+    "access": "public",
+    "value": ""
   }
 }
