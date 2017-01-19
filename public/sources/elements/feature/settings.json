@@ -129,5 +129,13 @@
     "value": [
       "animate"
     ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "icon",
+      "description"
+    ]
   }
 }
