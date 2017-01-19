@@ -38,21 +38,22 @@ export default {
       let backgroundForDevice = layoutObj.background && layoutObj.background[ device ]
       let backgroundForAll = layoutObj.background && layoutObj.background.all
       let rowClass = ''
+      let classLayout = layout.replace('-bg', '')
 
       // for background
       if (backgroundForDevice || backgroundForAll) {
         defaultGap = 0
 
         if (backgroundForAll) {
-          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         } else {
-          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         }
       } else {
         defaultGap = 30
-        rowClass = `.vce-row-layout--${device}_${layout} > .vce-row-content > `
+        rowClass = `.vce-row-layout--${device}_${classLayout} > .vce-row-content > `
       }
 
       let columnGap = layoutObj.gap + defaultGap
@@ -235,6 +236,18 @@ export default {
         }
 
         layout = layout.join('_')
+
+        let backgroundState = false
+
+        for (let key in elements[ id ].background) {
+          if (elements[ id ].background[ key ]) {
+            backgroundState = true
+          }
+        }
+
+        if (backgroundState) {
+          layout += '-bg'
+        }
 
         let colLayout = []
 
