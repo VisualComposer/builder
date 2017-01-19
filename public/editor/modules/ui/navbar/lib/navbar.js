@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-import '../css/module.less'
+import '../../../../../sources/less/ui/navbar/init.less'
 
 const Utils = vcCake.getService('utils')
 
