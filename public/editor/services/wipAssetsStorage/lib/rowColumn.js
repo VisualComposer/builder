@@ -29,28 +29,34 @@ export default {
   getDevices () {
     return this.devices
   },
-  getRowCss (data) {
+  getRowCss (device, data) {
     let rowCss = []
-    let defaultGap = ''
-
-    // for background
-    let background = false
-    if (!background) {
-      defaultGap = 30
-    } else {
-      defaultGap = 0
-      // todo
-      rowCss.push('.vce-col-content { padding-left: 15px; padding-right: 15px; }')
-    }
 
     for (let layout in this.rowLayout) {
+      let defaultGap = ''
       let layoutObj = this.rowLayout[ layout ]
+      let backgroundForDevice = layoutObj.background && layoutObj.background[ device ]
+      let backgroundForAll = layoutObj.background && layoutObj.background.all
+      let rowClass = ''
+
+      // for background
+      if (backgroundForDevice || backgroundForAll) {
+        defaultGap = 0
+
+        if (backgroundForAll) {
+          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+        } else {
+          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+        }
+      } else {
+        defaultGap = 30
+        rowClass = `.vce-row-layout--${device}_${layout} > .vce-row-content > `
+      }
+
       let columnGap = layoutObj.gap + defaultGap
-      // let rowClass = `.vce-row-layout--${device}_${layout} > .vce-row-content > `
-      let rowClass = `.vce-row-layout--md_${layout} > .vce-row-content > `
-
       let colsInRow = []
-
       let cols = 0
       layoutObj.layout.forEach((col, index) => {
         if (col.lastInRow) {
@@ -58,7 +64,6 @@ export default {
           cols = index + 1
         }
       })
-
       let rowIndex = 0
 
       layoutObj.layout.forEach((col, index) => {
@@ -120,7 +125,9 @@ export default {
     let devices = this.getDevices()
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      css.push(this.getRowCss(data))
+      for (let device in devices) {
+        css.push('@media (--' + device + ') { ' + this.getRowCss(device, data) + ' }')
+      }
     } else {
       for (let device in devices) {
         css.push('@media (--' + device + ') { ' + this.getDeviceCss(device, data) + ' }')
@@ -250,7 +257,8 @@ export default {
         let gap = typeof gapNumber === 'number' && gapNumber > 0 ? gapNumber : 0
         this.rowLayout[ layout ] = {
           layout: colLayout,
-          gap: gap
+          gap: gap,
+          background: elements[ id ].background
         }
       }
     }

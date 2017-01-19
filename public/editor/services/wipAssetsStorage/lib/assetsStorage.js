@@ -7,6 +7,7 @@ import rowColumn from './rowColumn'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
+const documentService = vcCake.getService('document')
 
 export default {
   /**
@@ -119,7 +120,6 @@ export default {
     }
     ids.forEach((id) => {
       if (this.get(id) || force) {
-        let documentService = vcCake.getService('document')
         let element = documentService.get(id)
         let tags = this.getElementTagsByTagName(element.tag, {}, element)
         // get design options data
@@ -162,6 +162,17 @@ export default {
         }
       }
     })
+
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      for (let elementId in this.elements) {
+        let documentService = vcCake.getService('document')
+        let element = documentService.get(elementId)
+        let backgroundData = this.getBackgroundByElement(element)
+        if (backgroundData && backgroundData.id && backgroundData.background && this.elements[ backgroundData.id ]) {
+          this.elements[ backgroundData.id ][ 'background' ] = backgroundData.background
+        }
+      }
+    }
   },
 
   /**
@@ -257,6 +268,29 @@ export default {
       gap = element.columnGap
     }
     return gap
+  },
+
+  getBackgroundByElement (element) {
+    let cookElement = this.cook().get(element)
+    let settings = cookElement.get('settings')
+    let value = settings.relatedTo ? settings.relatedTo.value : []
+    let data = {}
+    let isColumn = value.filter((item) => {
+      return item.toLowerCase() === 'column'
+    })
+    let isRow = value.filter((item) => {
+      return item.toLowerCase() === 'RootElements'
+    })
+    if (isColumn.length) {
+      data.id = element.parent
+    }
+    if (isRow.length) {
+      data.id = element.id
+    }
+    if (data.id && documentService.get(data.id)) {
+      data.background = documentService.get(data.id).background
+    }
+    return data
   },
 
   /**
@@ -609,7 +643,18 @@ export default {
     let devices = rowColumn.getDevices()
     let viewPortBreakpoints = {}
     for (let device in devices) {
-      viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
+      if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+        let sizes = []
+        if (devices[ device ].min) {
+          sizes.push('(min-width: ' + devices[ device ].min + ')')
+        }
+        if (devices[ device ].max) {
+          sizes.push('(max-width: ' + devices[ device ].max + ')')
+        }
+        viewPortBreakpoints[ '--' + device ] = sizes.join(' and ')
+      } else {
+        viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
+      }
     }
     let outputCss = []
     let columnCssData = rowColumn.getCss(rowColumn.getColumnsByElements(this.get()))

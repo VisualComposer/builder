@@ -19,6 +19,24 @@
       > .vce-row-content > .vce-col > .vce-col-content {
         padding-top: @vcv-gold-margin;
       }
+
+      &[data-vce-full-width="true"].vce-row-layout-custom {
+        > .vce-row-content {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        &.vce-row-no-paddings {
+          overflow-x: hidden;
+
+          > .vce-row-content {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: -15px;
+            margin-right: -15px;
+          }
+        }
+      }
     }
   }
 }
