@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import ReactDOM from 'react-dom'
-import lodash from 'lodash'
 
 const ActionsManager = {
   do: (actionData, state, target, element) => {
