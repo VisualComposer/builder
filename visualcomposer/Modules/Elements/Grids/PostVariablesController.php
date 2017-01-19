@@ -23,7 +23,11 @@ class PostVariablesController extends Container implements Module
         $this->addFilter('vcv:elements:grid_item_template:variable:post_*', 'templatePostVariables');
         /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postAuthor */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_author', 'postAuthor');
+        /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postTeaser */
         $this->addFilter('vcv:elements:grid_item_template:variable:post_teaser', 'postTeaser');
+        /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::postPermalink */
+        $this->addFilter('vcv:elements:grid_item_template:variable:post_permalink', 'postPermalink');
+        /** @see \VisualComposer\Modules\Elements\Grids\PostVariablesController::featuredImage */
         $this->addFilter('vcv:elements:grid_item_template:variable:featured_image_url', 'featuredImage');
     }
 
@@ -69,6 +73,17 @@ class PostVariablesController extends Container implements Module
         $result = ob_get_clean();
 
         return $result;
+    }
+
+    /**
+     * @param $result
+     * @param $payload
+     *
+     * @return string
+     */
+    protected function postPermalink($result, $payload)
+    {
+        return get_the_permalink($payload['post']);
     }
 
     protected function featuredImage($result, $payload)
