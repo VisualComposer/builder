@@ -20,8 +20,11 @@ class AssetsController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
-        $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
+        $toggleFeatureBackend = false;
+        if ($toggleFeatureBackend) {
+            /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
+            $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
+        }
     }
 
     /**

@@ -27,11 +27,11 @@ export default class BarContentEnd extends React.Component {
 
   componentDidMount () {
     this.props.api.addAction('setEndContent', (Component, props = {}) => {
-      const confirmMessage = getData('barContentEnd:confirm')
+      const confirmMessage = getData('lockActivity')
       if (confirmMessage && !window.confirm(confirmMessage)) {
         return
       }
-      setData('barContentEnd:confirm', false)
+      setData('lockActivity', false)
       setData('barContentEnd:Show', Component)
       this.setState({
         contentComponent: Component,
@@ -105,11 +105,11 @@ export default class BarContentEnd extends React.Component {
   closeContent (e) {
     e && e.preventDefault()
     let { api } = this.props
-    const confirmMessage = getData('barContentEnd:confirm')
+    const confirmMessage = getData('lockActivity')
     if (confirmMessage && !window.confirm(confirmMessage)) {
       return
     }
-    setData('barContentEnd:confirm', false)
+    setData('lockActivity', false)
     api.request('bar-content-start:hide')
     api.request('bar-content-end:hide')
   }

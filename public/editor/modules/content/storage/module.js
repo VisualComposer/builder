@@ -70,6 +70,7 @@ vcCake.add('storage', (api) => {
     }
   })
   api.reply('data:remove', (id) => {
+    vcCake.setData('lockActivity', false)
     api.request('data:beforeRemove', id)
     let element = DocumentData.get(id)
     DocumentData.delete(id)

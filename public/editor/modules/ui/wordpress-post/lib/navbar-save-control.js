@@ -45,6 +45,10 @@ class WordPressPostSaveControl extends React.Component {
 
   clickSaveData = (e) => {
     e && e.preventDefault && e.preventDefault()
+    if (vcCake.getData('lockActivity')) {
+      window.alert('Please complete your activity and then click save!')
+      return
+    }
     if (this.state.saving) {
       return
     }

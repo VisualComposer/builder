@@ -35,7 +35,7 @@ class Frontend implements Helper
     public function getEditableUrl($sourceId)
     {
 
-        $link = get_permalink($sourceId);
+        $link = set_url_scheme(get_permalink($sourceId), 'admin');
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vcv-editable' => '1',

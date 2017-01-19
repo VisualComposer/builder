@@ -17,7 +17,7 @@ export default class EditFormFooter extends React.Component {
     let elementData = element.toJS()
     delete elementData.order
     delete elementData.parent
-    setData('barContentEnd:confirm', false)
+    setData('lockActivity', false)
     api.request('data:update', element.get('id'), elementData)
     this.effect()
   }
