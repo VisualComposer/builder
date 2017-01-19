@@ -33,6 +33,9 @@ vcCake.addService('assets-manager', {
   cook () {
     return vcCake.getService('cook')
   },
+  document () {
+    return vcCake.getService('document')
+  },
 
   /**
    * Set elements
@@ -444,7 +447,7 @@ vcCake.addService('assets-manager', {
     const mixins = this.getCssMixinsByElement(data)
     let cssMixinsStyles = this.getTagCssMixinsStyles(tag, mixins[ tag ])
 
-    if (addStyles) {
+    if (addStyles && !this.document().filter((item) => { return item.get('tag') === tag }).length) {
       const elementObject = this.cook().get(data)
       const cssSettings = elementObject.get('cssSettings')
       const css = cssSettings.css
