@@ -14,12 +14,12 @@ class Component extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    let isEqual = require('lodash').isEqual
-    if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
-      this.imageSources = []
-      this.imageOrder = {}
-      this.prepareImage(nextProps.atts.image)
-    }
+    // let isEqual = require('lodash').isEqual
+    // if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(nextProps.atts.image))) {
+    this.imageSources = []
+    this.imageOrder = {}
+    this.prepareImage(nextProps.atts.image)
+    // }
   }
 
   prepareImage (image) {
