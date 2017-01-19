@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getData} from 'vc-cake'
 
 class AddElementControl extends React.Component {
 
@@ -11,6 +12,7 @@ class AddElementControl extends React.Component {
 
     this.setWindowOpen = this.setWindowOpen.bind(this)
     this.setWindowClose = this.setWindowClose.bind(this)
+    this.toggleAddElement = this.toggleAddElement.bind(this)
   }
 
   componentWillMount () {
@@ -45,11 +47,11 @@ class AddElementControl extends React.Component {
   render () {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,
-      'vcv-ui-state--active': this.state.isWindowOpen
+      'vcv-ui-state--active': !getData('lockActivity') && this.state.isWindowOpen
     })
 
     return (
-      <a className={controlClass} href='#' title='Add Element' onClick={this.toggleAddElement.bind(this)}>
+      <a className={controlClass} href='#' title='Add Element' onClick={this.toggleAddElement}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>Add Element</span>
