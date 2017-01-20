@@ -10,14 +10,15 @@ const cook = getService('cook')
 export default class DefaultElement extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    openElement: React.PropTypes.func.isRequired,
+    activeElementId: React.PropTypes.string.isRequired
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      activeElement: true,
-      activeAttribute: false,
+      hasAttributes: true,
       element: props.element
     }
     this.handleClick = this.handleClick.bind(this)
@@ -29,7 +30,7 @@ export default class DefaultElement extends React.Component {
   componentWillMount () {
     let cookElement = cook.get({ tag: this.state.element.tag })
     if (!cookElement.get('metaBackendLabels')) {
-      this.setState({ activeElement: false })
+      this.setState({ hasAttributes: false })
     }
   }
 
@@ -40,13 +41,14 @@ export default class DefaultElement extends React.Component {
   // Events
 
   handleClick () {
-    let isActive = !this.state.activeAttribute
-    this.setState({ activeAttribute: isActive })
-    if (isActive) {
+    let { activeElementId, element, openElement } = this.props
+    if (activeElementId === element.id) {
+      openElement('')
+      window.removeEventListener('resize', this.handleDropdownSize)
+    } else {
+      openElement(element.id)
       this.handleDropdownSize()
       window.addEventListener('resize', this.handleDropdownSize)
-    } else {
-      window.removeEventListener('resize', this.handleDropdownSize)
     }
   }
 
@@ -60,7 +62,6 @@ export default class DefaultElement extends React.Component {
       attrDropdown.style.left = `${0 - parseInt(styles.borderLeftWidth)}px`
       attrDropdown.style.top = `${size.height - parseInt(styles.borderBottomWidth)}px`
     }
-    // TODO: handle block preview if title doesn't fit
   }
 
   // Getters
@@ -97,19 +98,20 @@ export default class DefaultElement extends React.Component {
   }
 
   render () {
-    const { element, activeAttribute, activeElement } = this.state
+    const { element, hasAttributes } = this.state
+    const { activeElementId } = this.props
     let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes': true,
-      'vce-wpbackend-hidden': !activeAttribute
+      'vce-wpbackend-hidden': activeElementId !== element.id
     })
 
     let headerClasses = classNames({
       'vce-wpbackend-element-header': true,
-      'vce-wpbackend-element-header-closed': !activeAttribute,
-      'vce-wpbackend-element-header-opened': activeAttribute
+      'vce-wpbackend-element-header-closed': activeElementId !== element.id,
+      'vce-wpbackend-element-header-opened': activeElementId === element.id
     })
-    if (activeElement) {
+    if (hasAttributes) {
       return <div className='vce-wpbackend-element-container' data-vcv-element={element.id}>
         <div className={headerClasses} onClick={this.handleClick}>
           <div className='vce-wpbackend-element-header-icon'>
