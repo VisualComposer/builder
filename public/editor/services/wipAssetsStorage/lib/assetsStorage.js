@@ -283,7 +283,7 @@ export default {
       return item.toLowerCase() === 'column'
     })
     let isRow = value.filter((item) => {
-      return item.toLowerCase() === 'RootElements'
+      return item.toLowerCase() === 'rootelements'
     })
     if (isColumn.length) {
       data.id = element.parent
