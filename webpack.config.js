@@ -140,7 +140,7 @@ module.exports = {
         'content/layout',
         'content/backendLayout',
         'ui/layout-bar',
-        'ui/navbar',
+        'ui/navbarBackend',
         'ui/brand-logo',
         'ui/addElement',
         'ui/edit-element',

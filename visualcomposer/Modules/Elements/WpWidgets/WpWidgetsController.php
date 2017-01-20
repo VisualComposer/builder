@@ -90,6 +90,10 @@ class WpWidgetsController extends Container implements Module
         if (!$widgetKey) {
             $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $requestHelper->input('vcv-element-tag'));
         }
+        // If still not key return!
+        if (!$widgetKey) {
+            return $response;
+        }
         $args = $requestHelper->input('vcv-atts');
         $instance = $requestHelper->input('vcv-widget-value');
 
@@ -130,6 +134,9 @@ class WpWidgetsController extends Container implements Module
             if (!$widgetKey) {
                 $widgetKey = vcfilter('vcv:elements:widgets:defaultKey', $tag);
             }
+            if (!$widgetKey) {
+                return $response;
+            }
             $form = $widgets->form($widgetKey, $instance);
             // Remove last col from labels
             $form = preg_replace('/(\:)\s*(<\/label>|<input)/', '$2', $form);
@@ -142,7 +149,8 @@ class WpWidgetsController extends Container implements Module
     protected function defaultKey($tag, $payload, WpWidgets $widgetsHelper)
     {
         $all = $widgetsHelper->allGrouped();
+        $class = reset($all[ $tag ]);
 
-        return get_class(reset($all[ $tag ]));
+        return $class ? get_class($class) : false;
     }
 }

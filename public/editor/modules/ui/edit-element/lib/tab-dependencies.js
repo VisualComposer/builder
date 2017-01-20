@@ -16,7 +16,9 @@ export default class TabDependencyManager extends React.Component {
     setFieldUnmount: React.PropTypes.func.isRequired,
     getContainer: React.PropTypes.func.isRequired
   }
-
+  state = {
+    dependenciesClasses: []
+  }
   realWidth = null
 
   getRealWidth () {
@@ -42,7 +44,7 @@ export default class TabDependencyManager extends React.Component {
   render () {
     let classes = classNames({
       'vcv-ui-form-dependency': true
-    })
+    }, this.state.dependenciesClasses)
 
     return (
       <div ref='tab' className={classes}>

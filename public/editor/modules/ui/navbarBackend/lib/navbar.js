@@ -9,7 +9,11 @@ const Utils = vcCake.getService('utils')
 
 let navbarControls = []
 
-class Navbar extends React.Component {
+export default class Navbar extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.state = {
@@ -26,6 +30,7 @@ class Navbar extends React.Component {
         height: window.innerHeight,
         width: window.innerWidth
       },
+      editor: document.getElementById('vcv-editor'),
       navbarPositionFix: {
         top: 0,
         left: 0
@@ -418,22 +423,25 @@ class Navbar extends React.Component {
       // get new position
       let navSize = 60 * 0.5
       let navSizeSide = 60
-      if (newStates.navPosY < navSize) {
+      let { editor } = this.state
+      let editorSize = editor.getBoundingClientRect()
+      // console.log('previousState', previousState)
+      if (newStates.navPosY < editorSize.top + navSize) {
         // if nav is on top
         if (previousState.navbarPosition !== 'top') {
           newStates.navbarPosition = 'top'
         }
-      } else if (this.state.windowSize.height - navSize < newStates.navPosY) {
+      } else if (editorSize.bottom - navSize < newStates.navPosY) {
         // if nav is on bottom
         if (previousState.navbarPosition !== 'bottom') {
           newStates.navbarPosition = 'bottom'
         }
-      } else if (newStates.navPosX < navSizeSide) {
+      } else if (newStates.navPosX < editorSize.left + navSizeSide) {
         // if nav is on left
         if (previousState.navbarPosition !== 'left') {
           newStates.navbarPosition = 'left'
         }
-      } else if (this.state.windowSize.width - navSizeSide < newStates.navPosX) {
+      } else if (editorSize.right - navSizeSide < newStates.navPosX) {
         // if nav is on right
         if (previousState.navbarPosition !== 'right') {
           newStates.navbarPosition = 'right'
@@ -453,6 +461,7 @@ class Navbar extends React.Component {
   }
 
   render () {
+    console.log('render editorSize', this.state.editorSize)
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
@@ -519,8 +528,3 @@ class Navbar extends React.Component {
     )
   }
 }
-Navbar.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default Navbar

@@ -1,16 +1,16 @@
 .vce-posts-grid--gap-$selector {
   .vce-posts-grid-list {
     @if $gap != false {
-      margin-left: -$(gap)px;
-      margin-right: -$(gap)px;
-      margin-bottom: calc(-2 * $(gap)px);
+      margin-left: calc(-$(gap)px / 2);
+      margin-right: calc(-$(gap)px / 2);
+      margin-bottom: -$(gap)px;
     }
   }
   .vce-posts-grid-item {
     @if $gap != false {
-      padding-left: $(gap)px;
-      padding-right: $(gap)px;
-      margin-bottom: calc(2 * $(gap)px);
+      padding-left: calc($(gap)px / 2);
+      padding-right: calc($(gap)px / 2);
+      margin-bottom: $(gap)px;
     }
   }
 }

@@ -84,6 +84,9 @@ export default class TokenizationList extends React.Component {
       e.currentTarget.focus()
       this.stayEditing = false
     }
+    if (this.state.suggestedValue && (this.state.value !== this.state.suggestedValue)) {
+      this.updateValue(this.state.suggestedValue)
+    }
   }
   handleSuggestionMouseDown (e) {
     let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')

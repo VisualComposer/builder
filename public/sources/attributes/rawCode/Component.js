@@ -24,10 +24,18 @@ export default class RawCode extends Attribute {
     editorProps: { $blockScrolling: true }
   }
 
+  componentDidUpdate () {
+    // Make the resize in case if dependency hidden
+    if (this.refs.ace && this.refs.ace.editor) {
+      this.refs.ace.editor.resize()
+    }
+  }
+
   render () {
     return (
       <div className='vcv-row-html-editor-container'>
         <AceEditor
+          ref='ace'
           name={this.props.fieldKey}
           value={this.state.value}
           onChange={this.setFieldValue}

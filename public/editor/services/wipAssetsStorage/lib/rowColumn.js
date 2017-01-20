@@ -29,6 +29,9 @@ export default {
   getDevices () {
     return this.devices
   },
+  createColumnSelector () {
+
+  },
   getRowCss (device, data) {
     let rowCss = []
 
@@ -38,23 +41,25 @@ export default {
       let backgroundForDevice = layoutObj.background && layoutObj.background[ device ]
       let backgroundForAll = layoutObj.background && layoutObj.background.all
       let rowClass = ''
+      let classLayout = layout.replace('-bg', '')
 
       // for background
       if (backgroundForDevice || backgroundForAll) {
         defaultGap = 0
 
         if (backgroundForAll) {
-          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         } else {
-          rowClass = `.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${layout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > `
+          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         }
       } else {
         defaultGap = 30
-        rowClass = `.vce-row-layout--${device}_${layout} > .vce-row-content > `
+        rowClass = `.vce-row-layout--${device}_${classLayout} > .vce-row-content > `
       }
 
+      let columnGroup = {}
       let columnGap = layoutObj.gap + defaultGap
       let colsInRow = []
       let cols = 0
@@ -63,41 +68,59 @@ export default {
           colsInRow.push(index + 1 - cols)
           cols = index + 1
         }
+
+        let val = col.value
+        if (columnGroup[ val ]) {
+          columnGroup[ val ].push(index)
+        } else {
+          columnGroup[ val ] = [ index ]
+        }
       })
       let rowIndex = 0
 
       layoutObj.layout.forEach((col, index) => {
-        let columnIndex = index + 1
-        let colNumerator = col.numerator
-        let colDenominator = col.denominator
+        if (Array.isArray(columnGroup[ col.value ])) {
+          let cssSelector = ''
 
-        let cssObj = {}
+          columnGroup[ col.value ].forEach((item, index) => {
+            cssSelector += `${rowClass}.vce-col:nth-child(${item + 1})`
+            if (columnGroup[ col.value ].length !== index + 1) {
+              cssSelector += ', '
+            }
+          })
+          columnGroup[ col.value ] = null
 
-        let gapSpace = columnGap - (columnGap / colsInRow[ rowIndex ])
+          let colNumerator = col.numerator
+          let colDenominator = col.denominator
 
-        if (col.value === 'auto') {
-          cssObj[ 'flex' ] = 1
-          cssObj[ 'flex-basis' ] = 'auto'
-        } else {
-          cssObj[ 'flex' ] = 0
-          cssObj[ 'flex-basis' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
-          cssObj[ 'max-width' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
+          let cssObj = {}
+
+          let gapSpace = columnGap - (columnGap / colsInRow[ rowIndex ])
+
+          if (col.value === 'auto') {
+            cssObj[ 'flex' ] = 1
+            cssObj[ 'flex-basis' ] = 'auto'
+            cssObj[ 'margin-right' ] = `${columnGap}px`
+          } else {
+            cssObj[ 'flex' ] = 0
+            cssObj[ 'flex-basis' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
+            cssObj[ 'max-width' ] = `calc(100% * (${colNumerator} / ${colDenominator}) - ${gapSpace}px)`
+            cssObj[ 'margin-right' ] = `${columnGap}px`
+          }
+
+          let css = ''
+
+          for (let prop in cssObj) {
+            css += prop + ':' + cssObj[ prop ] + ';'
+          }
+
+          rowCss.push(`${cssSelector} {${css}}`)
         }
 
-        // add margin-right if not last element
-        if (!col.lastInRow) {
-          cssObj[ 'margin-right' ] = `${columnGap}px`
-        } else {
+        if (col.lastInRow) {
           rowIndex++
+          rowCss.push(`${rowClass}.vce-col:nth-child(${index + 1}) { margin-right: 0 }`)
         }
-
-        let css = ''
-
-        for (let prop in cssObj) {
-          css += prop + ':' + cssObj[ prop ] + ';'
-        }
-
-        rowCss.push(`${rowClass}.vce-col:nth-child(${columnIndex}) {${css}}`)
       })
     }
     return rowCss.join(' ')
@@ -235,6 +258,18 @@ export default {
         }
 
         layout = layout.join('_')
+
+        let backgroundState = false
+
+        for (let key in elements[ id ].background) {
+          if (elements[ id ].background[ key ]) {
+            backgroundState = true
+          }
+        }
+
+        if (backgroundState) {
+          layout += '-bg'
+        }
 
         let colLayout = []
 
