@@ -170,7 +170,7 @@
   "gap": {
     "type": "number",
     "access": "public",
-    "value": "5",
+    "value": "10",
     "options": {
       "label": "Gap",
       "description": "Enter gap in pixels (Example: 5).",
