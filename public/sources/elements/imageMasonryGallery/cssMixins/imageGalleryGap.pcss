@@ -2,17 +2,17 @@
   &--gap-$selector {
     @if $gap != false {
       .vce-image-masonry-gallery-list {
-        margin-left: -$(gap)px;
-        margin-right: -$(gap)px;
-        margin-bottom: calc(-2 * $(gap)px);
+        margin-left: calc(-$(gap)px / 2);
+        margin-right: calc(-$(gap)px / 2);
+        margin-bottom: -$(gap)px;
       }
     }
 
     @if $gap != false {
       .vce-image-masonry-gallery-item {
-        padding-left: $(gap)px;
-        padding-right: $(gap)px;
-        margin-bottom: calc(2 * $(gap)px);
+        padding-left: calc($(gap)px / 2);
+        padding-right: calc($(gap)px / 2);
+        margin-bottom: $(gap)px;
       }
     }
   }
