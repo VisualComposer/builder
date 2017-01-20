@@ -11,8 +11,13 @@ export default class NavbarContainer extends React.Component {
     this.state = {
       showGuideline: false,
       guidelinePosition: 'top',
-      isDragging: false
+      isDragging: false,
+      editor: document.getElementById('vcv-editor'),
+      guidelineStyles: null
     }
+    this.handleNavbarDragStart = this.handleNavbarDragStart.bind(this)
+    this.handleNavbarDragEnd = this.handleNavbarDragEnd.bind(this)
+    this.handleNavbarDragging = this.handleNavbarDragging.bind(this)
   }
 
   componentDidMount () {
@@ -27,52 +32,74 @@ export default class NavbarContainer extends React.Component {
     document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
   }
 
-  handleNavbarDragStart = (e) => {
+  handleNavbarDragStart () {
     this.setState({
       isDragging: true
     })
   }
 
-  handleNavbarDragEnd = (e) => {
+  handleNavbarDragEnd () {
     this.setState({
       isDragging: false
     })
   }
 
-  handleNavbarDragging = (e) => {
-    let { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
+  handleNavbarDragging (e) {
+    let { navPosY, navPosX, navbarPosition } = e.eventData
     let navSize = 60
     let navSizeSide = 60 * 2
+    let { editor } = this.state
+    let editorSize = editor.getBoundingClientRect()
     if (navbarPosition === 'detached') {
       // if nav is on top
-      if (navPosY < navSize) {
+      if (navPosY < editorSize.top + navSize) {
         this.setState({
           showGuideline: true,
-          guidelinePosition: 'top'
+          guidelinePosition: 'top',
+          guidelineStyles: {
+            top: editorSize.top,
+            left: editorSize.left,
+            width: editorSize.width
+          }
         })
         return
       }
       // if nav is on bottom
-      if (windowSize.height - navSize < navPosY) {
+      if (editorSize.bottom - navSize < navPosY) {
         this.setState({
           showGuideline: true,
-          guidelinePosition: 'bottom'
+          guidelinePosition: 'bottom',
+          guidelineStyles: {
+            top: editorSize.bottom,
+            left: editorSize.left,
+            width: editorSize.width
+          }
         })
         return
       }
       // if nav is on left
-      if (navPosX < navSizeSide) {
+      if (navPosX < editorSize.left + navSizeSide) {
         this.setState({
           showGuideline: true,
-          guidelinePosition: 'left'
+          guidelinePosition: 'left',
+          guidelineStyles: {
+            top: editorSize.top,
+            left: editorSize.left,
+            height: editorSize.height
+          }
         })
         return
       }
       // if nav is on right
-      if (windowSize.width - navSizeSide < navPosX) {
+      if (editorSize.right - navSizeSide < navPosX) {
         this.setState({
           showGuideline: true,
-          guidelinePosition: 'right'
+          guidelinePosition: 'right',
+          guidelineStyles: {
+            top: editorSize.top,
+            left: editorSize.right,
+            height: editorSize.height
+          }
         })
         return
       }
@@ -83,15 +110,15 @@ export default class NavbarContainer extends React.Component {
   }
 
   render () {
-    let { guidelinePosition, isDragging, showGuideline } = this.state
+    let { guidelinePosition, isDragging, showGuideline, guidelineStyles } = this.state
     let draggingContent = ''
     if (isDragging) {
-      let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
+      let guidelineClasses = [ 'vcv-ui-wpbackend-navbar-guideline', 'vcv-ui-wpbackend-navbar-guideline-' + guidelinePosition ]
       if (showGuideline) {
-        guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
+        guidelineClasses.push('vcv-ui-wpbackend-navbar-guideline-is-visible')
       }
       guidelineClasses = guidelineClasses.join(' ')
-      draggingContent = (<div className={guidelineClasses} />)
+      draggingContent = (<div className={guidelineClasses} style={guidelineStyles} />)
     }
 
     return (
