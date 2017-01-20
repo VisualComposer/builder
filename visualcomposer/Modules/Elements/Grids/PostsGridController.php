@@ -62,7 +62,7 @@ class PostsGridController extends Container implements Module
                 'customquery' => '',
                 'ids' => '',
                 'posttype' => '',
-                'limit' => -1,
+                'limit' => 1000,
                 'offset' => 0,
             ],
             $atts
@@ -83,7 +83,7 @@ class PostsGridController extends Container implements Module
             $query = str_replace('&amp;', '&', $atts['customquery']);
         } else {
             $postType = $atts['posttype'];
-            $limit = (int)$atts['limit'] > 0 ? (int)$atts['limit'] : -1;
+            $limit = (int)$atts['limit'] > 0 ? (int)$atts['limit'] : 1000; // 1000 Is hardcoded maximum
             $offset = (int)$atts['offset'] > 0 ? (int)$atts['offset'] : 0;
             $query = sprintf('post_type=%s&numberposts=%d&offset=%d', $postType, $limit, $offset);
         }
