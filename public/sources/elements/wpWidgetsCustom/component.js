@@ -49,7 +49,7 @@ class Component extends vcvAPI.elementComponent {
       } else {
         this.setState({
           shortcode: '',
-          shortcodeContent: 'Request to server failed'
+          shortcodeContent: ''
         })
       }
     })

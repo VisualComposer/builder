@@ -168,12 +168,14 @@ class WpWidgets implements Helper
         $variables['widgets'] = [];
         $keys = array_keys($widgets);
         $variables['widgetKey'] = $keys[0];
-        foreach ($widgets as $widgetKey => $widget) {
-            /** @var $widget \WP_Widget */
-            $variables['widgets'][] = [
-                'label' => $widget->name,
-                'value' => $widgetKey,
-            ];
+        if (is_array($widgets)) {
+            foreach ($widgets as $widgetKey => $widget) {
+                /** @var $widget \WP_Widget */
+                $variables['widgets'][] = [
+                    'label' => $widget->name,
+                    'value' => $widgetKey,
+                ];
+            }
         }
 
         return $variables;
