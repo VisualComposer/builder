@@ -425,7 +425,6 @@ export default class Navbar extends React.Component {
       let navSizeSide = 60
       let { editor } = this.state
       let editorSize = editor.getBoundingClientRect()
-      // console.log('previousState', previousState)
       if (newStates.navPosY < editorSize.top + navSize) {
         // if nav is on top
         if (previousState.navbarPosition !== 'top') {
@@ -461,7 +460,6 @@ export default class Navbar extends React.Component {
   }
 
   render () {
-    console.log('render editorSize', this.state.editorSize)
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached

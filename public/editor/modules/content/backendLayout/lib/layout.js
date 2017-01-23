@@ -11,8 +11,10 @@ export default class Layout extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: []
+      data: [],
+      activeElementId: ''
     }
+    this.handleOpenElement = this.handleOpenElement.bind(this)
   }
 
   componentDidMount () {
@@ -21,12 +23,23 @@ export default class Layout extends React.Component {
     })
   }
 
+  handleOpenElement (id) {
+    this.setState({ activeElementId: id })
+  }
+
   getElements () {
+    let { data, activeElementId } = this.state
     let elementsList
-    if (this.state.data) {
-      elementsList = this.state.data.map((element) => {
+    if (data) {
+      elementsList = data.map((element) => {
         return (
-          <Element element={element} key={element.id} api={this.props.api} />
+          <Element
+            element={element}
+            key={element.id}
+            api={this.props.api}
+            openElement={this.handleOpenElement}
+            activeElementId={activeElementId}
+          />
         )
       })
     }
@@ -35,11 +48,7 @@ export default class Layout extends React.Component {
     </div>
   }
 
-  getContent () {
-    return this.state.data.length && getData('app:dataLoaded') ? this.getElements() : <BlankPageManagerBack api={this.props.api} iframe={false} />
-  }
-
   render () {
-    return this.getContent()
+    return this.state.data.length && getData('app:dataLoaded') ? this.getElements() : <BlankPageManagerBack api={this.props.api} iframe={false} />
   }
 }
