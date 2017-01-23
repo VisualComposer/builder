@@ -32,6 +32,18 @@ class PostsGridController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::render */
         $this->addShortcode($this->shortcodeTag, 'render');
+
+        /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::addGlobalVariables */
+        $this->addFilter('vcv:frontend:extraOutput', 'addGlobalVariables');
+    }
+
+    protected function addGlobalVariables($scripts, $payload)
+    {
+        /** @see visualcomposer/resources/views/elements/grids/variables.php */
+        $variables = [];
+        $variables[] = sprintf('<script>%s</script>', vcview('elements/grids/variables'));
+
+        return array_merge($scripts, $variables);
     }
 
     /**
@@ -45,12 +57,38 @@ class PostsGridController extends Container implements Module
     protected function render($atts, $content, $tag, PostType $postTypeHelper)
     {
         // Build Query from $atts
-        $query = ''; // TODO: From $atts
+        $atts = shortcode_atts(
+            [
+                'customquery' => '',
+                'ids' => '',
+                'posttype' => '',
+                'limit' => 1000,
+                'offset' => 0,
+            ],
+            $atts
+        );
+        $query = $this->buildQuery($atts);
         $posts = $postTypeHelper->query($query);
 
         $output = $this->loopPosts($posts, $content);
 
         return sprintf('<div class="vce-posts-grid-list">%s</div>', $output);
+    }
+
+    protected function buildQuery($atts)
+    {
+        if ($atts['posttype'] === 'ids') {
+            $query = sprintf('post__in=%s&include=%s&orderby=post__in', $atts['ids'], $atts['ids']);
+        } elseif ($atts['posttype'] === 'custom') {
+            $query = str_replace('&amp;', '&', $atts['customquery']);
+        } else {
+            $postType = $atts['posttype'];
+            $limit = (int)$atts['limit'] > 0 ? (int)$atts['limit'] : 1000; // 1000 Is hardcoded maximum
+            $offset = (int)$atts['offset'] > 0 ? (int)$atts['offset'] : 0;
+            $query = sprintf('post_type=%s&numberposts=%d&offset=%d', $postType, $limit, $offset);
+        }
+
+        return $query;
     }
 
     /**
