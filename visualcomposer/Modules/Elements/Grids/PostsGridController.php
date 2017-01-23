@@ -79,7 +79,7 @@ class PostsGridController extends Container implements Module
     {
         if ($atts['posttype'] === 'ids') {
             $query = sprintf('post__in=%s&include=%s&orderby=post__in', $atts['ids'], $atts['ids']);
-        } else if ($atts['posttype'] === 'custom') {
+        } elseif ($atts['posttype'] === 'custom') {
             $query = str_replace('&amp;', '&', $atts['customquery']);
         } else {
             $postType = $atts['posttype'];
