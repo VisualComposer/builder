@@ -16,10 +16,19 @@ export default class Element extends React.Component {
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
+    // rename row/column id to prevent applying of DO
+    let element = document.querySelector(`#el-${this.props.element.id}`)
+    if (element) {
+      element.id = `el-${this.props.element.id}-temp`
+    }
   }
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.props.element.id)
+    let element = document.querySelector(`#el-${this.props.element.id}-temp`)
+    if (element) {
+      element.id = `el-${this.props.element.id}`
+    }
   }
 
   getContent (content) {

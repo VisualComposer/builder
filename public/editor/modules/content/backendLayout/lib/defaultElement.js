@@ -55,12 +55,19 @@ export default class DefaultElement extends React.Component {
   handleDropdownSize () {
     let container = ReactDOM.findDOMNode(this)
     let attrDropdown = container.querySelector('.vce-wpbackend-element-attributes')
+    let layout = document.querySelector('.vcv-wpbackend-layout')
     if (attrDropdown) {
       let size = container.getBoundingClientRect()
       let styles = window.getComputedStyle(container)
-      attrDropdown.style.width = `${size.width}px`
-      attrDropdown.style.left = `${0 - parseInt(styles.borderLeftWidth)}px`
-      attrDropdown.style.top = `${size.height - parseInt(styles.borderBottomWidth)}px`
+      let layoutStyles = window.getComputedStyle(layout)
+      let layoutSize = layout.getBoundingClientRect()
+      let layoutLeft = layoutSize.left + parseInt(layoutStyles.paddingLeft)
+      let containerLeft = size.left
+      let diff = containerLeft - layoutLeft
+      let dropdownPos = 0 - diff - parseInt(styles.borderLeftWidth)
+      attrDropdown.style.width = `${layoutSize.width - parseInt(layoutStyles.paddingLeft) - parseInt(layoutStyles.paddingRight)}px`
+      attrDropdown.style.left = `${dropdownPos}px`
+      attrDropdown.style.top = `${size.height - parseInt(styles.borderBottomWidth) - parseInt(styles.borderTopWidth)}px`
     }
   }
 
