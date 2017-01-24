@@ -128,7 +128,6 @@ module.exports = {
         'ui/edit-element',
         'ui/addTemplate',
         'ui/undo-redo',
-        'ui/settings',
         'ui/navbar-separator',
         'ui/wordpress-post'
       ],
