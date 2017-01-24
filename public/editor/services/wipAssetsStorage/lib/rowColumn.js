@@ -42,6 +42,7 @@ export default {
       let backgroundForAll = layoutObj.background && layoutObj.background.all
       let rowClass = ''
       let classLayout = layout.replace('-bg', '')
+      console.log(classLayout)
 
       // for background
       if (backgroundForDevice || backgroundForAll) {
@@ -282,7 +283,7 @@ export default {
           layout.push(elements[ id ].rowLayout[ key ].replace('/', '-'))
         }
 
-        layout = layout.join('_')
+        layout = layout.join('--')
 
         let backgroundState = false
 
