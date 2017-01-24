@@ -49,10 +49,10 @@ export default {
 
         if (backgroundForAll) {
           rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowCss.push(`${rowClass}.vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         } else {
-          rowClass = `.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > `
-          rowCss.push(`.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
+          rowClass = `${rowClass}.vce-row-layout--${device}_${classLayout}.vce-element--${device}--has-background > .vce-row-content > `
+          rowCss.push(`.vce-col > .vce-col-inner > .vce-col-content { padding-left: 15px; padding-right: 15px; }`)
         }
       } else {
         defaultGap = 30
@@ -77,15 +77,19 @@ export default {
         }
       })
       let rowIndex = 0
+      let rtlRowClass = `.rtl ${rowClass}`
 
       layoutObj.layout.forEach((col, index) => {
         if (Array.isArray(columnGroup[ col.value ])) {
           let cssSelector = ''
+          let rtlCssSelector = ''
 
           columnGroup[ col.value ].forEach((item, index) => {
             cssSelector += `${rowClass}.vce-col:nth-child(${item + 1})`
+            rtlCssSelector += `${rtlRowClass}.vce-col:nth-child(${item + 1})`
             if (columnGroup[ col.value ].length !== index + 1) {
               cssSelector += ', '
+              rtlCssSelector += ', '
             }
           })
           columnGroup[ col.value ] = null
@@ -114,12 +118,28 @@ export default {
             css += prop + ':' + cssObj[ prop ] + ';'
           }
 
+          let rtlCssObj = {}
+          for (let prop in cssObj) {
+            rtlCssObj[ prop ] = cssObj[ prop ]
+          }
+
+          rtlCssObj[ 'margin-left' ] = rtlCssObj[ 'margin-right' ]
+          rtlCssObj[ 'margin-right' ] = 0
+
+          let rtlCss = ''
+
+          for (let prop in rtlCssObj) {
+            rtlCss += prop + ':' + rtlCssObj[ prop ] + ';'
+          }
+
           rowCss.push(`${cssSelector} {${css}}`)
+          rowCss.push(`${rtlCssSelector} {${rtlCss}}`)
         }
 
         if (col.lastInRow) {
           rowIndex++
           rowCss.push(`${rowClass}.vce-col:nth-child(${index + 1}) { margin-right: 0 }`)
+          rowCss.push(`.rtl ${rowClass}.vce-col:nth-child(${index + 1}) { margin-left: 0 }`)
         }
       })
     }
