@@ -78,18 +78,22 @@ export default {
       })
       let rowIndex = 0
       let rtlRowClass = `.rtl ${rowClass}`
+      let rtlRowClass1 = `.rtl${rowClass}`
 
       layoutObj.layout.forEach((col, index) => {
         if (Array.isArray(columnGroup[ col.value ])) {
           let cssSelector = ''
           let rtlCssSelector = ''
+          let rtlCssSelector1 = ''
 
           columnGroup[ col.value ].forEach((item, index) => {
             cssSelector += `${rowClass}.vce-col:nth-child(${item + 1})`
             rtlCssSelector += `${rtlRowClass}.vce-col:nth-child(${item + 1})`
+            rtlCssSelector1 += `${rtlRowClass1}.vce-col:nth-child(${item + 1})`
             if (columnGroup[ col.value ].length !== index + 1) {
               cssSelector += ', '
               rtlCssSelector += ', '
+              rtlCssSelector1 += ', '
             }
           })
           columnGroup[ col.value ] = null
@@ -133,13 +137,14 @@ export default {
           }
 
           rowCss.push(`${cssSelector} {${css}}`)
-          rowCss.push(`${rtlCssSelector} {${rtlCss}}`)
+          rowCss.push(`${rtlCssSelector}, ${rtlCssSelector1} {${rtlCss}}`)
         }
 
         if (col.lastInRow) {
           rowIndex++
-          rowCss.push(`${rowClass}.vce-col:nth-child(${index + 1}) { margin-right: 0 }`)
-          rowCss.push(`.rtl ${rowClass}.vce-col:nth-child(${index + 1}) { margin-left: 0 }`)
+          let lastChildSelector = `${rowClass}.vce-col:nth-child(${index + 1})`
+          rowCss.push(`${lastChildSelector} { margin-right: 0 }`)
+          rowCss.push(`.rtl ${lastChildSelector}, .rtl${lastChildSelector} { margin-left: 0 }`)
         }
       })
     }
