@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import BarContentStart from './content-start'
 import BarContentEnd from './content-end'
+import {getData} from 'vc-cake'
 
 class BarContent extends React.Component {
   state = {
@@ -19,6 +20,9 @@ class BarContent extends React.Component {
         }
       })
       .addAction('setEndContentVisible', (isVisible, key = null) => {
+        if (getData('lockActivity')) {
+          return
+        }
         if (isVisible) {
           this.props.api.request('bar-content-end:show', key)
         } else {
