@@ -21,11 +21,13 @@ class Component extends vcvAPI.elementComponent {
         }
       }
 
-      classes.push('vce-row-layout--xs_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
-      classes.push('vce-row-layout--sm_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
-      classes.push('vce-row-layout--md_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
-      classes.push('vce-row-layout--lg_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
-      classes.push('vce-row-layout--xl_' + (size && size.constructor === Array ? size.join('_').split('/').join('-') : 'auto'))
+      let layoutSize = size && size.constructor === Array ? size.join('--').split('/').join('-') : 'auto'
+
+      classes.push(`vce-row-layout--xs_${layoutSize}`)
+      classes.push(`vce-row-layout--sm_${layoutSize}`)
+      classes.push(`vce-row-layout--md_${layoutSize}`)
+      classes.push(`vce-row-layout--lg_${layoutSize}`)
+      classes.push(`vce-row-layout--xl_${layoutSize}`)
       classes.push('vce-row-layout-custom')
     }
     let customProps = {

@@ -28,6 +28,9 @@ class AddElementControl extends React.Component {
   }
 
   setWindowOpen (key) {
+    if (getData('lockActivity')) {
+      return
+    }
     this.setState({ isWindowOpen: key === 'add-element' })
   }
 
