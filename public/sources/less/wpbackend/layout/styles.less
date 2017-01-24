@@ -63,7 +63,7 @@
     display: flex;
     flex-flow: column nowrap;
     position: relative;
-    overflow: auto;
+    //overflow: auto;
   }
 }
 
@@ -112,6 +112,10 @@
     }
 
     &-no-arrow {
+      .vce-wpbackend-element-header-icon {
+        flex-basis: 100%;
+      }
+
       &::after {
         display: none;
       }
@@ -158,14 +162,14 @@
     padding: @vcv-wpbackend-element-block-attribute-padding;
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
 
-    &:only-child {
-      padding: @vcv-wpbackend-element-block-attribute-padding;
-    }
-
     &:first-child {
       display: inline-block;
       padding: @vcv-wpbackend-element-attributes-padding;
       border-top: none;
+    }
+
+    &:only-child {
+      padding: @vcv-wpbackend-element-block-attribute-padding;
     }
   }
 }

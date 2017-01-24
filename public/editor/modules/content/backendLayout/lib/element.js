@@ -11,7 +11,8 @@ export default class Element extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
-    activeElementId: React.PropTypes.string.isRequired
+    activeElementId: React.PropTypes.string.isRequired,
+    layout: React.PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -32,22 +33,24 @@ export default class Element extends React.Component {
   }
 
   getContent (content) {
+    let { element, api, activeElementId, openElement, layout } = this.props
     let returnData = null
-    const currentElement = cook.get(this.props.element) // optimize
+    const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       return <Element
         element={childElement}
-        key={childElement.id}
-        api={this.props.api}
-        activeElementId={this.props.activeElementId}
-        openElement={this.props.openElement}
+        key={'vcvGetContentElement' + childElement.id}
+        api={api}
+        activeElementId={activeElementId}
+        openElement={openElement}
+        layout={layout}
       />
     })
     if (elementsList.length) {
       returnData = elementsList
     } else {
       returnData = currentElement.containerFor().length > 0
-        ? <ContentControlsBackend api={this.props.api} id={currentElement.get('id')} /> : content
+        ? <ContentControlsBackend api={api} id={currentElement.get('id')} /> : content
     }
     return returnData
   }
@@ -62,6 +65,7 @@ export default class Element extends React.Component {
   }
 
   getOutput (el) {
+    let { element, api, activeElementId, openElement, layout } = this.props
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -85,10 +89,12 @@ export default class Element extends React.Component {
       </ContentComponent>
     }
     return <DefaultElement
-      api={this.props.api}
-      element={this.props.element}
-      activeElementId={this.props.activeElementId}
-      openElement={this.props.openElement}
+      key={'vcvLayoutDefaultElement' + id}
+      api={api}
+      element={element}
+      activeElementId={activeElementId}
+      openElement={openElement}
+      layout={layout}
     />
   }
 

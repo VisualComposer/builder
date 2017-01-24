@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { getData } from 'vc-cake'
 import Element from './element'
 import BlankPageManagerBack from '../lib/helpers/BlankPageManagerBack/component'
@@ -12,14 +13,22 @@ export default class Layout extends React.Component {
     super(props)
     this.state = {
       data: [],
-      activeElementId: ''
+      activeElementId: '',
+      layout: {}
     }
     this.handleOpenElement = this.handleOpenElement.bind(this)
   }
 
   componentDidMount () {
     this.props.api.reply('data:changed', (data) => {
-      this.setState({ data: data })
+      this.setState({
+        data: data
+      })
+      if (ReactDOM.findDOMNode(this).classList.contains('vcv-wpbackend-layout')) {
+        this.setState({
+          layout: ReactDOM.findDOMNode(this)
+        })
+      }
     })
   }
 
@@ -28,17 +37,18 @@ export default class Layout extends React.Component {
   }
 
   getElements () {
-    let { data, activeElementId } = this.state
+    let { data, activeElementId, layout } = this.state
     let elementsList
     if (data) {
       elementsList = data.map((element) => {
         return (
           <Element
             element={element}
-            key={element.id}
+            key={'vcvLayoutGetElements' + element.id}
             api={this.props.api}
             openElement={this.handleOpenElement}
             activeElementId={activeElementId}
+            layout={layout}
           />
         )
       })
