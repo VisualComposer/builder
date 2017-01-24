@@ -42,7 +42,6 @@ export default {
       let backgroundForAll = layoutObj.background && layoutObj.background.all
       let rowClass = ''
       let classLayout = layout.replace('-bg', '')
-      console.log(classLayout)
 
       // for background
       if (backgroundForDevice || backgroundForAll) {
