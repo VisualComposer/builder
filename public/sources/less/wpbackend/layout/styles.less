@@ -2,6 +2,15 @@
  * Visual composer wp backend layout
  * =================================== */
 
+//== override wordpress styles
+
+#vcwb_visual_composer {
+  .inside {
+    margin: 0;
+    padding: 0;
+  }
+}
+
 //== override frontend styles
 
 .vcv-wpbackend-layout-container {
@@ -44,10 +53,6 @@
     }
   }
 
-  .vce-col-content {
-    padding-left: @vce-wpbackend-layout-column-padding;
-    padding-right: @vce-wpbackend-layout-column-padding;
-  }
 }
 
 .vcv-wpbackend-layout {
@@ -137,7 +142,6 @@
     font-style: italic;
     color: @vce-wpbackend-element-attributes-color;
     border: 1px solid @vce-wpbackend-element-container-border-color;
-    border-top: none;
   }
 }
 
@@ -151,8 +155,12 @@
 
   &-block {
     display: block;
-    padding: @vcv-wpbackend-element-last-attribute-padding;
+    padding: @vcv-wpbackend-element-block-attribute-padding;
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
+
+    &:only-child {
+      padding: @vcv-wpbackend-element-block-attribute-padding;
+    }
 
     &:first-child {
       display: inline-block;

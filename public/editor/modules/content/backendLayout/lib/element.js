@@ -9,22 +9,39 @@ const DocumentData = vcCake.getService('document')
 export default class Element extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    openElement: React.PropTypes.func.isRequired,
+    activeElementId: React.PropTypes.string.isRequired
   }
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
+    // rename row/column id to prevent applying of DO
+    let element = document.querySelector(`#el-${this.props.element.id}`)
+    if (element) {
+      element.id = `el-${this.props.element.id}-temp`
+    }
   }
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.props.element.id)
+    let element = document.querySelector(`#el-${this.props.element.id}-temp`)
+    if (element) {
+      element.id = `el-${this.props.element.id}`
+    }
   }
 
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.props.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      return <Element element={childElement} key={childElement.id} api={this.props.api} />
+      return <Element
+        element={childElement}
+        key={childElement.id}
+        api={this.props.api}
+        activeElementId={this.props.activeElementId}
+        openElement={this.props.openElement}
+      />
     })
     if (elementsList.length) {
       returnData = elementsList
@@ -44,8 +61,7 @@ export default class Element extends React.Component {
     return layoutAtts
   }
 
-  render () {
-    let el = cook.get(this.props.element)
+  getOutput (el) {
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -57,9 +73,27 @@ export default class Element extends React.Component {
     if (el.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true
     }
-    return el.get('backendView') === 'frontend' ? <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
-      editor={editor}>
-      {this.getContent()}
-    </ContentComponent> : <DefaultElement api={this.props.api} element={this.props.element} />
+
+    if (el.get('backendView') === 'frontend') {
+      return <ContentComponent
+        id={id}
+        key={'vcvLayoutContentComponent' + id}
+        atts={this.visualizeAttributes(el)}
+        editor={editor}
+      >
+        {this.getContent()}
+      </ContentComponent>
+    }
+    return <DefaultElement
+      api={this.props.api}
+      element={this.props.element}
+      activeElementId={this.props.activeElementId}
+      openElement={this.props.openElement}
+    />
+  }
+
+  render () {
+    let el = cook.get(this.props.element)
+    return this.getOutput(el)
   }
 }

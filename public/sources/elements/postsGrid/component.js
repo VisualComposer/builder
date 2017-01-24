@@ -23,7 +23,13 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
-    let atts = {}
+    let atts = {
+      posttype: this.props.atts.atts_postType,
+      customquery: this.props.atts.atts_customQuery,
+      ids: this.props.atts.atts_ids,
+      offset: this.props.atts.atts_offset,
+      limit: this.props.atts.atts_limit
+    }
 
     const Cook = vcCake.getService('cook')
     let GridItemComponent = Cook.get(this.props.atts.gridItem)
@@ -32,7 +38,7 @@ class Component extends vcvAPI.elementComponent {
     this.serverRequest = ajax({
       'vcv-action': 'elements:posts_grid:adminNonce',
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': atts, // TODO: Pass correct grid this.props.atts
+      'vcv-atts': atts,
       'vcv-content': ReactDOMServer.renderToStaticMarkup(gridItemOutput)
     }, (result) => {
       let response = JSON.parse(result.response)
