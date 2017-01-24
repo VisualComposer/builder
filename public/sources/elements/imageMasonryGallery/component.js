@@ -14,10 +14,10 @@ class Component extends vcvAPI.elementComponent {
 
   componentDidUpdate (prevProps) {
     let isEqual = require('lodash').isEqual
-    if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(prevProps.atts.image)) || this.props.atts.columns !== prevProps.atts.columns || this.props.atts.clickableOptions !== prevProps.atts.clickableOptions) {
-      this.currentImg = 0
-      this.prepareImages(this.props.atts, true)
-    }
+    // if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(prevProps.atts.image)) || this.props.atts.columns !== prevProps.atts.columns || this.props.atts.clickableOptions !== prevProps.atts.clickableOptions) {
+    this.currentImg = 0
+    this.prepareImages(this.props.atts, true)
+    // }
   }
 
   prepareImages (atts, clearColumns = false) {
@@ -172,7 +172,7 @@ class Component extends vcvAPI.elementComponent {
     columns <= 0 ? columns = 1 : ''
     for (let i = 0; i < columns; i++) {
       columnHtml.push(
-        <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${i}-${id}`} />
+        <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${i}-${id}`}/>
       )
     }
 
