@@ -47,11 +47,16 @@ export default class Outline {
    * @param frame
    */
   updatePosition (element, frame) {
-    let elementPos = element.getBoundingClientRect()
-    frame.style.top = elementPos.top + 'px'
-    frame.style.left = elementPos.left + 'px'
-    frame.style.width = elementPos.width + 'px'
-    frame.style.height = elementPos.height + 'px'
+    let { top, left, width, height } = element.getBoundingClientRect()
+    if (this.iframe.tagName.toLowerCase() !== 'iframe') {
+      let iframePos = this.iframe.getBoundingClientRect()
+      top -= iframePos.top
+      left -= iframePos.left
+    }
+    frame.style.top = top + 'px'
+    frame.style.left = left + 'px'
+    frame.style.width = width + 'px'
+    frame.style.height = height + 'px'
   }
 
   /**

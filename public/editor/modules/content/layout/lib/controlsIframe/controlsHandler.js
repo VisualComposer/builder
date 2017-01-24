@@ -1,4 +1,4 @@
-import {getService} from 'vc-cake'
+import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 const categoriesService = getService('categories')
@@ -128,13 +128,13 @@ export default class ControlsHandler {
    */
   createAppendControl (data) {
     let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
-    const insertAfterElement = slicedElements && slicedElements.length ? slicedElements[0] : false
-    const container = slicedElements && slicedElements.length > 2 ? slicedElements[1] : false
+    const insertAfterElement = slicedElements && slicedElements.length ? slicedElements[ 0 ] : false
+    const container = slicedElements && slicedElements.length > 2 ? slicedElements[ 1 ] : false
     if (!container || !insertAfterElement) {
       return false
     }
     const containerElement = cook.get(documentManager.get(container))
-    if (!containerElement || !containerElement.relatedTo(['Column'])) {
+    if (!containerElement || !containerElement.relatedTo([ 'Column' ])) {
       return false
     }
     let appendControl = document.createElement('a')
@@ -417,9 +417,14 @@ export default class ControlsHandler {
     } else {
       this.controlsContainer.classList.remove('vcv-ui-controls-o-inset')
     }
-
+    let posLeft = elementPos.left
+    if (this.iframe.tagName.toLowerCase() !== 'iframe') {
+      let iframePos = this.iframe.getBoundingClientRect()
+      posTop -= iframePos.top
+      posLeft -= iframePos.left
+    }
     this.controlsContainer.style.top = posTop + 'px'
-    this.controlsContainer.style.left = elementPos.left + 'px'
+    this.controlsContainer.style.left = posLeft + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
   }
 
@@ -435,8 +440,15 @@ export default class ControlsHandler {
       controlPos = control.getBoundingClientRect()
     }
 
-    this.appendControlContainer.style.top = elementPos.bottom - controlPos.height / 2 + 'px'
-    this.appendControlContainer.style.left = elementPos.left + 'px'
+    let posTop = elementPos.bottom - controlPos.height / 2
+    let posLeft = elementPos.left
+    if (this.iframe.tagName.toLowerCase() !== 'iframe') {
+      let iframePos = this.iframe.getBoundingClientRect()
+      posTop -= iframePos.top
+      posLeft -= iframePos.left
+    }
+    this.appendControlContainer.style.top = posTop + 'px'
+    this.appendControlContainer.style.left = posLeft + 'px'
     this.appendControlContainer.style.width = elementPos.width + 'px'
   }
 

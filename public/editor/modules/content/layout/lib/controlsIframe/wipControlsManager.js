@@ -36,11 +36,11 @@ export default class ControlsManager {
    */
   setup (options) {
     // get system data
-    this.iframeContainer = document.querySelector('.vcv-layout-iframe-container')
-    this.iframeOverlay = document.querySelector('#vcv-editor-iframe-overlay')
-    this.iframe = document.querySelector('#vcv-editor-iframe')
-    this.iframeWindow = this.iframe && this.iframe.contentWindow
-    this.iframeDocument = this.iframeWindow && this.iframeWindow.document
+    this.iframeContainer = options.iframeContainer
+    this.iframeOverlay = options.iframeOverlay
+    this.iframe = options.iframe
+    this.iframeWindow = options.iframeWindow
+    this.iframeDocument = options.iframeDocument
 
     let systemData = {
       iframeContainer: this.iframeContainer,
@@ -162,8 +162,19 @@ export default class ControlsManager {
   /**
    * Initialize
    */
-  init () {
-    this.setup({ framesCount: 3 })
+  init (options = {}) {
+    let defaultOptions = {
+      framesCount: 3,
+      iframeUsed: true,
+      iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
+      iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
+      iframe: document.querySelector('#vcv-editor-iframe')
+    }
+    defaultOptions.iframeWindow = defaultOptions.iframe && defaultOptions.iframe.contentWindow
+    defaultOptions.iframeDocument = defaultOptions.iframeWindow && defaultOptions.iframeWindow.document
+
+    options = Object.assign({}, defaultOptions, options)
+    this.setup(options)
 
     // Check custom layout mode
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
