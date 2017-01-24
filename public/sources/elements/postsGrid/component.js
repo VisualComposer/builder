@@ -23,23 +23,27 @@ class Component extends vcvAPI.elementComponent {
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
-    let atts = {
-      posttype: this.props.atts.atts_postType,
-      customquery: this.props.atts.atts_customQuery,
-      ids: this.props.atts.atts_ids,
-      offset: this.props.atts.atts_offset,
-      limit: this.props.atts.atts_limit
-    }
 
     const Cook = vcCake.getService('cook')
+    if (!this.props.atts.gridItem || !this.props.atts.sourceItem) {
+      return
+    }
     let GridItemComponent = Cook.get(this.props.atts.gridItem)
+    let SourceItemComponent = Cook.get(this.props.atts.sourceItem)
     let gridItemOutput = GridItemComponent.render(null, false)
-    const ReactDOMServer = require('react-dom/server');
+    let sourceItemOutput = SourceItemComponent.render(null, false)
+    const ReactDOMServer = require('react-dom/server')
+    const striptags = require('striptags')
     this.serverRequest = ajax({
       'vcv-action': 'elements:posts_grid:adminNonce',
       'vcv-nonce': window.vcvNonce,
-      'vcv-atts': atts,
-      'vcv-content': ReactDOMServer.renderToStaticMarkup(gridItemOutput)
+      'vcv-content': ReactDOMServer.renderToStaticMarkup(gridItemOutput),
+      'vcv-atts': {
+        source: encodeURIComponent(JSON.stringify({
+          tag: this.props.atts.sourceItem.tag,
+          value: striptags(ReactDOMServer.renderToStaticMarkup(sourceItemOutput))
+        }))
+      }
     }, (result) => {
       let response = JSON.parse(result.response)
       if (response && response.status) {

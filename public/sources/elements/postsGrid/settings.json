@@ -29,112 +29,14 @@
     "access": "protected",
     "value": "thumbnail.jpg"
   },
-  "atts_postType": {
-    "type": "dropdown",
+  "sourceItem": {
+    "type": "element",
     "access": "public",
-    "value": "",
+    "value": {
+      "tag": "postsGridDataSourcePost"
+    },
     "options": {
-      "label": "Data Type",
-      "values": [],
-      "global": "vcvPostsGridPostTypes"
-    }
-  },
-  "atts_customQuery": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Custom Query",
-      "onChange": {
-        "rules": {
-          "atts_postType": {
-            "rule": "value",
-            "options": {
-              "value": "custom"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "atts_ids": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "List of Ids",
-      "onChange": {
-        "rules": {
-          "atts_postType": {
-            "rule": "value",
-            "options": {
-              "value": "ids"
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "atts_offset": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Offset",
-      "onChange": {
-        "rules": {
-          "atts_postType": {
-            "rule": "!valueIn",
-            "options": {
-              "values": [
-                "custom",
-                "ids"
-              ]
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
-    }
-  },
-  "atts_limit": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Limit",
-      "onChange": {
-        "rules": {
-          "atts_postType": {
-            "rule": "!valueIn",
-            "options": {
-              "values": [
-                "custom",
-                "ids"
-              ]
-            }
-          }
-        },
-        "actions": [
-          {
-            "action": "toggleVisibility"
-          }
-        ]
-      }
+      "label": "Data Source"
     }
   },
   "gridItem": {
@@ -159,11 +61,7 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "atts_postType",
-      "atts_customQuery",
-      "atts_ids",
-      "atts_offset",
-      "atts_limit",
+      "sourceItem",
       "columns",
       "gap"
     ],
