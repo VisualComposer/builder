@@ -8,6 +8,7 @@ import BoxModel from '../boxModel/Component'
 import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import String from '../string/Component'
+import Animate from '../animateDropdown/Component'
 
 class DesignOptionsAdvanced extends Attribute {
   /**
@@ -95,6 +96,36 @@ class DesignOptionsAdvanced extends Attribute {
         },
         paddingTop: {
           value: false
+        },
+        borderStyle: {
+          value: false
+        },
+        borderTopStyle: {
+          value: false
+        },
+        borderRightStyle: {
+          value: false
+        },
+        borderBottomStyle: {
+          value: false
+        },
+        borderLeftStyle: {
+          value: false
+        },
+        borderColor: {
+          value: false
+        },
+        borderTopColor: {
+          value: false
+        },
+        borderRightColor: {
+          value: false
+        },
+        borderBottomColor: {
+          value: false
+        },
+        borderLeftColor: {
+          value: false
         }
       }
     },
@@ -131,6 +162,7 @@ class DesignOptionsAdvanced extends Attribute {
   static defaultState = {
     currentDevice: 'all',
     backgroundType: 'imagesSimple',
+    borderStyle: 'solid',
     devices: {},
     attributeMixins: {}
   }
@@ -144,9 +176,11 @@ class DesignOptionsAdvanced extends Attribute {
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
-    this.backgroundColorChangeHandler = this.backgroundColorChangeHandler.bind(this)
+    this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
     this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
+    this.animationChangeHandler = this.animationChangeHandler.bind(this)
+    this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
   }
 
   /**
@@ -214,6 +248,7 @@ class DesignOptionsAdvanced extends Attribute {
         // set default background type
         if (!newState.devices[ device ].backgroundType) {
           newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.backgroundType
+          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.defaultState.borderStyle
         }
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
@@ -263,6 +298,23 @@ class DesignOptionsAdvanced extends Attribute {
           if (newValue[ device ].gradientAngle === '' || newValue[ device ].backgroundType !== 'colorGradient') {
             delete newValue[ device ].gradientAngle
           }
+
+          // animation is not set
+          if (newValue[ device ].animation === '') {
+            delete newValue[ device ].animation
+          }
+
+          // border is empty
+          if (newValue[ device ].borderColor === '') {
+            delete newValue[ device ].borderColor
+          }
+          if (newValue[ device ].borderStyle === '') {
+            delete newValue[ device ].borderStyle
+          }
+          if (!newValue[ device ].boxModel || !(newValue[ device ].boxModel.borderBottomWidth || newValue[ device ].boxModel.borderLeftWidth || newValue[ device ].boxModel.borderRightWidth || newValue[ device ].boxModel.borderTopWidth || newValue[ device ].boxModel.borderWidth)) {
+            delete newValue[ device ].borderStyle
+            delete newValue[ device ].borderColor
+          }
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -281,11 +333,26 @@ class DesignOptionsAdvanced extends Attribute {
               let mixinName = `boxModelMixin:${device}`
               newMixins[ mixinName ] = {}
               newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
+              let syncData = {
+                borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
+                borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
+                borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
+                borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
+                borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
+              }
               for (let property in value) {
                 newMixins[ mixinName ].variables[ property ] = {
                   value: value[ property ]
                 }
+                if (syncData[ property ]) {
+                  syncData[ property ].forEach((syncProp) => {
+                    newMixins[ mixinName ].variables[ syncProp.key ] = {
+                      value: newValue[ device ][ syncProp.value ] || false
+                    }
+                  })
+                }
               }
+              // devices
               newMixins[ mixinName ].variables.device = {
                 value: device
               }
@@ -701,7 +768,7 @@ class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='backgroundColor'
-        updater={this.backgroundColorChangeHandler}
+        updater={this.colorChangeHandler}
         value={value}
         defaultValue='' />
     </div>
@@ -725,18 +792,130 @@ class DesignOptionsAdvanced extends Attribute {
       <Color
         api={this.props.api}
         fieldKey='backgroundEndColor'
-        updater={this.backgroundColorChangeHandler}
+        updater={this.colorChangeHandler}
+        value={value}
+        defaultValue='' />
+    </div>
+  }
+
+  getBorderStyleRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
+    }
+    let device = this.state.devices[ this.state.currentDevice ]
+    if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Default',
+          value: ''
+        },
+        {
+          label: 'Solid',
+          value: 'solid'
+        },
+        {
+          label: 'Dotted',
+          value: 'dotted'
+        },
+        {
+          label: 'Dashed',
+          value: 'dashed'
+        },
+        {
+          label: 'None',
+          value: 'none'
+        },
+        {
+          label: 'Hidden',
+          value: 'hidden'
+        },
+        {
+          label: 'Double',
+          value: 'double'
+        },
+        {
+          label: 'Groove',
+          value: 'groove'
+        },
+        {
+          label: 'Ridge',
+          value: 'ridge'
+        },
+        {
+          label: 'Inset',
+          value: 'inset'
+        },
+        {
+          label: 'Outset',
+          value: 'outset'
+        },
+        {
+          label: 'Initial',
+          value: 'initial'
+        },
+        {
+          label: 'Inherit',
+          value: 'inherit'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || 'solid'
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Border style
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='borderStyle'
+        options={options}
+        updater={this.borderStyleChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  borderStyleChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render border color control
+   * @returns {*}
+   */
+  getBorderColorRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
+    }
+    let device = this.state.devices[ this.state.currentDevice ]
+    if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].borderColor || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Border color
+      </span>
+      <Color
+        api={this.props.api}
+        fieldKey='borderColor'
+        updater={this.colorChangeHandler}
         value={value}
         defaultValue='' />
     </div>
   }
 
   /**
-   * Handle background and end colors change
+   * Handle colors change
    * @param fieldKey
    * @param value
    */
-  backgroundColorChangeHandler (fieldKey, value) {
+  colorChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
@@ -842,7 +1021,7 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Hndle change of gradient angle control
+   * Handle change of gradient angle control
    * @param fieldKey
    * @param value
    */
@@ -851,6 +1030,39 @@ class DesignOptionsAdvanced extends Attribute {
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState)
   }
+
+  /**
+   * Render animation control
+   * @returns {*}
+   */
+  getAnimationRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
+    }
+    let value = this.state.devices[ this.state.currentDevice ].animation || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Animate
+      </span>
+      <Animate
+        api={this.props.api}
+        fieldKey='animation'
+        updater={this.animationChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle change of animation control
+   * @param fieldKey
+   * @param value
+   */
+  animationChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
   /**
    * @returns {XML}
    */
@@ -864,6 +1076,8 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBoxModelRender()}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+            {this.getBorderStyleRender()}
+            {this.getBorderColorRender()}
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
             {this.getSliderTimeoutRender()}
@@ -871,6 +1085,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}
             {this.getGradientAngleRender()}
+            {this.getAnimationRender()}
           </div>
         </div>
       </div>
