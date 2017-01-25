@@ -57,7 +57,7 @@ const ActionsManager = {
       if (state) {
         newStateClasses.push(options.class)
       }
-      target.refComponent.setState({ dependenciesClasses: newStateClasses })
+      target.ref.parentNode.parentNode && target.refComponent.setState({ dependenciesClasses: newStateClasses })
     },
     fieldMethod: (state, target, options, element) => {
       if (
