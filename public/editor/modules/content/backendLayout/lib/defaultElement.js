@@ -47,24 +47,50 @@ export default class DefaultElement extends React.Component {
 
   componentDidMount () {
     this.handleElementSize()
-    window.addEventListener('resize', this.handleElementSize)
+    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.handleElementSize)
+    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
   }
 
   // Events
 
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
+
   handleClick () {
     let { activeElementId, element, openElement } = this.props
-    window.removeEventListener('resize', this.handleDropdownSize)
+    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleDropdownSize)
     if (activeElementId === element.id) {
       openElement('')
     } else {
       openElement(element.id)
       this.handleDropdownSize()
-      window.addEventListener('resize', this.handleDropdownSize)
+      this.addResizeListener(ReactDOM.findDOMNode(this), this.handleDropdownSize)
     }
   }
 

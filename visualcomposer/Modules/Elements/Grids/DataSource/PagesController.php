@@ -1,0 +1,45 @@
+<?php
+
+namespace VisualComposer\Modules\Elements\Grids\DataSource;
+
+use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Traits\EventsFilters;
+
+/**
+ * Class PagesController
+ * @package VisualComposer\Modules\Elements\Grids\DataSource
+ */
+class PagesController extends Container implements Module
+{
+    use EventsFilters;
+
+    /**
+     * PostsController constructor.
+     */
+    public function __construct()
+    {
+        /** @see \VisualComposer\Modules\Elements\Grids\DataSource\PagesController::queryPosts */
+        $this->addFilter('vcv:elements:grids:posts', 'queryPosts');
+    }
+
+    /**
+     * @param $posts
+     * @param $payload
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     *
+     * @return array
+     */
+    protected function queryPosts($posts, $payload, PostType $postTypeHelper)
+    {
+        if (isset($payload['source'], $payload['source']['tag'])
+            && $payload['source']['tag'] === 'postsGridDataSourcePage'
+        ) {
+            // Value:
+            $posts = array_merge($posts, $postTypeHelper->query(html_entity_decode($payload['source']['value'])));
+        }
+
+        return $posts;
+    }
+}
