@@ -59,11 +59,27 @@
   padding: @vcv-wpbackend-layout-padding;
 
   &-content {
-    flex: 1 1 auto;
-    display: flex;
-    flex-flow: column nowrap;
-    position: relative;
     //overflow: auto;
+    width: 100%;
+    flex: 1 1 auto;
+    border: 0;
+    position: relative;
+    z-index: @vcv-wpbackend-content-zindex;
+    &-container {
+      flex: 1 1 auto;
+      display: flex;
+      flex-flow: column nowrap;
+      position: relative;
+    }
+    &-overlay {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      overflow: hidden;
+    }
   }
 }
 
@@ -112,10 +128,6 @@
     }
 
     &-no-arrow {
-      .vce-wpbackend-element-header-icon {
-        flex-basis: 100%;
-      }
-
       &::after {
         display: none;
       }
@@ -162,14 +174,14 @@
     padding: @vcv-wpbackend-element-block-attribute-padding;
     border-top: 1px solid @vce-wpbackend-element-container-border-color;
 
+    &:only-child {
+      padding: @vcv-wpbackend-element-block-attribute-padding;
+    }
+
     &:first-child {
       display: inline-block;
       padding: @vcv-wpbackend-element-attributes-padding;
       border-top: none;
-    }
-
-    &:only-child {
-      padding: @vcv-wpbackend-element-block-attribute-padding;
     }
   }
 }
