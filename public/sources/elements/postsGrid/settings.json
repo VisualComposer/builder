@@ -38,6 +38,7 @@
     "options": {
       "category": "_postsGridSources",
       "label": "Data Source",
+      "replaceView": "dropdown",
       "merge": {
         "attributes": [
           {

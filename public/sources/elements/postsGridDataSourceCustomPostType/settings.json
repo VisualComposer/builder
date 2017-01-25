@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Posts Grid Data Source"
+    "value": "Custom Post Type"
   },
   "attsPostType": {
     "type": "dropdown",
@@ -33,6 +33,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "attsPostType",
       "attsOffset",
       "attsLimit"
     ],

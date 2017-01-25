@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Posts Grid Data Source"
+    "value": "Pages"
   },
   "attsOffset": {
     "type": "string",
