@@ -4,15 +4,6 @@
     "access": "protected",
     "value": "Posts Grid Data Source"
   },
-  "attsCategory": {
-    "type": "dropdown",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Select category",
-      "global": "vcvPostsGridSourcePostCategories"
-    }
-  },
   "attsOffset": {
     "type": "string",
     "access": "public",
@@ -33,7 +24,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "attsCategory",
       "attsOffset",
       "attsLimit"
     ],

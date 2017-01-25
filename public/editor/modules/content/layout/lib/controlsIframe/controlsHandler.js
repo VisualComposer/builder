@@ -423,6 +423,9 @@ export default class ControlsHandler {
       posTop -= iframePos.top
       posLeft -= iframePos.left
     }
+    if (posLeft < 0) {
+      posLeft = 0
+    }
     this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = posLeft + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
