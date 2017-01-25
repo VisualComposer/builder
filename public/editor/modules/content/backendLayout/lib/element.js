@@ -12,7 +12,8 @@ export default class Element extends React.Component {
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
     activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.object.isRequired
+    layout: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -33,7 +34,7 @@ export default class Element extends React.Component {
   }
 
   getContent (content) {
-    let { element, api, activeElementId, openElement, layout } = this.props
+    let { element, api, activeElementId, openElement, layout, layoutWidth } = this.props
     let returnData = null
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
@@ -44,6 +45,7 @@ export default class Element extends React.Component {
         activeElementId={activeElementId}
         openElement={openElement}
         layout={layout}
+        layoutWidth={layoutWidth}
       />
     })
     if (elementsList.length) {
@@ -65,7 +67,7 @@ export default class Element extends React.Component {
   }
 
   getOutput (el) {
-    let { element, api, activeElementId, openElement, layout } = this.props
+    let { element, api, activeElementId, openElement, layout, layoutWidth } = this.props
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -95,6 +97,7 @@ export default class Element extends React.Component {
       activeElementId={activeElementId}
       openElement={openElement}
       layout={layout}
+      layoutWidth={layoutWidth}
     />
   }
 
