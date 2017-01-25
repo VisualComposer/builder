@@ -46,12 +46,5 @@
     "value": [
       "postsGridDataSource"
     ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General"
-    ]
   }
 }
