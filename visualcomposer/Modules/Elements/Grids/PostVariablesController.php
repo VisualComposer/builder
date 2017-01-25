@@ -86,6 +86,12 @@ class PostVariablesController extends Container implements Module
         return get_the_permalink($payload['post']);
     }
 
+    /**
+     * @param $result
+     * @param $payload
+     *
+     * @return bool
+     */
     protected function featuredImage($result, $payload)
     {
         /** @var \WP_Post $post */
