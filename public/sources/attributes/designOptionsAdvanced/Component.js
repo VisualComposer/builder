@@ -181,6 +181,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
+    this.youtubeVideoChangeHandler = this.youtubeVideoChangeHandler.bind(this)
   }
 
   /**
@@ -542,8 +543,12 @@ class DesignOptionsAdvanced extends Attribute {
           value: 'imagesSlideshow'
         },
         {
-          label: 'Embed video',
-          value: 'videoEmbed'
+          label: 'Youtube video',
+          value: 'videoYoutube'
+        },
+        {
+          label: 'Vimeo video',
+          value: 'videoVimeo'
         },
         {
           label: 'Self-hosted video',
@@ -1064,6 +1069,41 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render Youtube video control
+   * @returns {*}
+   */
+  getYoutubeVideoRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoYoutube`) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].videoYoutube || 'https://youtu.be/Stw15bdTLoA'
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        YouTube video link
+      </span>
+      <String
+        api={this.props.api}
+        fieldKey='videoYoutube'
+        updater={this.youtubeVideoChangeHandler}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle change of youtube video control
+   * @param fieldKey
+   * @param value
+   */
+  youtubeVideoChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -1081,6 +1121,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
             {this.getSliderTimeoutRender()}
+            {this.getYoutubeVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}

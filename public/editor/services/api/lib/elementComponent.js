@@ -75,7 +75,9 @@ export default class ElementComponent extends Component {
         case 'imagesSlideshow':
           backgroundData.push(this.getImagesSlideshow(device[ deviceKey ], deviceKey))
           break
-        case 'videoEmbed':
+        case 'videoYoutube':
+          break
+        case 'videoVimeo':
           break
         case 'videoSelfHosted':
           break
