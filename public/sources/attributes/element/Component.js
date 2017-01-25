@@ -41,18 +41,20 @@ export default class ElementAttribute extends Attribute {
   onClickReplacement (newElement) {
     let cookElement = Cook.get(newElement)
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
-    Object.keys(cookElement.toJS()).forEach((key) => {
-      if (allValues[ key ] !== undefined) {
-        // Merge, Type, Key
-        let findKey = this.props.options.merge.attributes.findIndex((item) => {
-          return item.key === key && item.type === typeof allValues[ key ]
-        })
-        if (findKey > -1) {
-          // Merge the value
-          cookElement.set(key, allValues[ key ])
+    if (this.props.options && this.props.options.merge) {
+      Object.keys(cookElement.toJS()).forEach((key) => {
+        if (allValues[ key ] !== undefined) {
+          // Merge, Type, Key
+          let findKey = this.props.options.merge.attributes.findIndex((item) => {
+            return item.key === key && item.type === typeof allValues[ key ]
+          })
+          if (findKey > -1) {
+            // Merge the value
+            cookElement.set(key, allValues[ key ])
+          }
         }
-      }
-    })
+      })
+    }
 
     let values = cookElement.toJS()
     this.setState({
