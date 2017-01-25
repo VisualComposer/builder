@@ -1,0 +1,55 @@
+/* ===================================
+ * Visual composer wp backend switcher
+ * =================================== */
+
+.vcv-wpbackend-switcher {
+  cursor: default;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-top: @vcv-wpbackend-switcher-margin-top;
+  line-height: @vcv-wpbackend-switcher-size;
+  font-size: @vcv-wpbackend-switcher-font-size;
+}
+
+.vcv-wpbackend-switcher-container {
+  display: inline-block;
+}
+
+.vcv-wpbackend-switcher-logo {
+  display: inline-block;
+  vertical-align: top;
+  background: @vcv-wpbackend-switcher-background-color data-uri('image/svg+xml;charset=UTF-8', @vcv-wpbackend-switcher-logo-path) 50% 50% no-repeat;
+  background-size: @vcv-wpbackend-switcher-logo-background-size;
+  min-width: @vcv-wpbackend-switcher-size;
+  min-height: @vcv-wpbackend-switcher-size;
+  border-top-left-radius: @vcv-wpbackend-switcher-border-radius;
+  border-bottom-left-radius: @vcv-wpbackend-switcher-border-radius;
+}
+
+.vcv-wpbackend-switcher-option {
+  display: inline-block;
+  vertical-align: top;
+  background-color: @vcv-wpbackend-switcher-background-color;
+  color: @vcv-wpbackend-switcher-font-color;
+  border-left: @vcv-wpbackend-switcher-spacer-width @vcv-wpbackend-switcher-spacer-color solid;
+  padding: 0 @vcv-wpbackend-swithcer-options-padding;
+  transition: background-color @vcv-wpbackend-switcher-transition-duration @vcv-wpbackend-switcher-transition-timing-function;
+  text-decoration: none;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    color: @vcv-wpbackend-switcher-font-color;
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: @vcv-wpbackend-switcher-background-hover-color;
+  }
+
+  &:last-child {
+    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
+    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
+  }
+}
