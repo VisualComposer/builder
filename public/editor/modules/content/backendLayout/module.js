@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import Layout from './lib/layout'
 import DndManager from './lib/dnd/dndManager'
-import WipControlsManager from '../layout/lib/controlsIframe/wipControlsManager'
+import WipControlsManager from './lib/controls/wipControlsManager'
 import BackendSwitcher from './lib/helpers/backendSwitcher/component'
 
 if (vcCake.env('FEATURE_WPBACKEND')) {
