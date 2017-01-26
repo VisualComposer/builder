@@ -18,7 +18,7 @@ class PostsGridPagination extends Container implements Module
     protected function addPagination($output, $payload)
     {
         if ((int)$payload['atts']['pagination']) {
-            $output .= vcview('elements/grids/pagination', $payload);
+            $output .= vcview('elements/grids/pagination', ['payload' => $payload]);
         }
 
         return $output;

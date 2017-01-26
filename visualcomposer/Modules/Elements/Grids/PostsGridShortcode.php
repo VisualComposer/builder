@@ -35,6 +35,7 @@ class PostsGridShortcode extends Container implements Module
         // Build Query from $atts
         $atts = shortcode_atts(
             [
+                'unique_id' => '',
                 'source' => '',
                 'pagination' => '',
                 'pagination_color' => '',
