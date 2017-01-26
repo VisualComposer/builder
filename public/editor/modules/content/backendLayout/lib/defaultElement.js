@@ -26,8 +26,7 @@ export default class DefaultElement extends React.Component {
       dropdownLeft: '',
       dropdownWidth: '',
       isName: true,
-      isArrow: true,
-      headerWidth: null
+      isArrow: true
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleDropdownSize = this.handleDropdownSize.bind(this)
@@ -102,12 +101,12 @@ export default class DefaultElement extends React.Component {
     let nameWrapperPaddingLeft = parseInt(nameWrapperStyles.paddingLeft)
     let arrowPos = 22
     let offsets = nameWrapperPaddingLeft + arrowPos
-    let { isName, isArrow, headerWidth } = this.state
+    let { isName, isArrow } = this.state
 
     if (isName && nameInner.width > nameWrapper.width - offsets) {
-      this.setState({ isName: false, headerWidth: header.width })
-    } else if (!isName && headerWidth < header.width) {
-      this.setState({ isName: true, headerWidth: null })
+      this.setState({ isName: false })
+    } else if (!isName && nameInner.width < nameWrapper.width - offsets) {
+      this.setState({ isName: true })
     }
 
     if (isArrow && icon.width > header.width - offsets) {
@@ -172,7 +171,8 @@ export default class DefaultElement extends React.Component {
 
     let nameClasses = classNames({
       'vce-wpbackend-element-header-name-wrapper': true,
-      'vce-wpbackend-hidden': !isName
+      'vce-wpbackend-invisible': !isName,
+      'vce-wpbackend-hidden': !isArrow
     })
 
     let dropdownStyles = {
