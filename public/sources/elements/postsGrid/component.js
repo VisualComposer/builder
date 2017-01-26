@@ -42,7 +42,10 @@ class Component extends vcvAPI.elementComponent {
         source: encodeURIComponent(JSON.stringify({
           tag: this.props.atts.sourceItem.tag,
           value: striptags(ReactDOMServer.renderToStaticMarkup(sourceItemOutput))
-        }))
+        })),
+        pagination: this.props.atts_pagination,
+        pagination_color: this.props.atts_pagination_color,
+        pagination_per_page: this.props.atts_pagination_per_page
       }
     }, (result) => {
       let response = JSON.parse(result.response)
