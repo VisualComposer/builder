@@ -6,6 +6,7 @@ export default class BackendSwitcher extends React.Component {
     return <div className='vcv-wpbackend-switcher'>
       <span className='vcv-wpbackend-switcher-logo' />
       <a href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</a>
+      <a href={`${window.location.href}&vcv-disable`} className='vcv-wpbackend-switcher-option'>Classic Editor</a>
     </div>
   }
 }
