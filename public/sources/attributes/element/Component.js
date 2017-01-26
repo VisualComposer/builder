@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import './css/styles.less'
 import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
+import Dropdown from '../dropdown/Component'
 const Cook = vcCake.getService('cook')
 const AssetsManager = vcCake.getService('assets-manager')
 const categoriesService = vcCake.getService('categories')
@@ -41,18 +42,20 @@ export default class ElementAttribute extends Attribute {
   onClickReplacement (newElement) {
     let cookElement = Cook.get(newElement)
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
-    Object.keys(cookElement.toJS()).forEach((key) => {
-      if (allValues[ key ] !== undefined) {
-        // Merge, Type, Key
-        let findKey = this.props.options.merge.attributes.findIndex((item) => {
-          return item.key === key && item.type === typeof allValues[ key ]
-        })
-        if (findKey > -1) {
-          // Merge the value
-          cookElement.set(key, allValues[ key ])
+    if (this.props.options && this.props.options.merge) {
+      Object.keys(cookElement.toJS()).forEach((key) => {
+        if (allValues[ key ] !== undefined) {
+          // Merge, Type, Key
+          let findKey = this.props.options.merge.attributes.findIndex((item) => {
+            return item.key === key && item.type === typeof allValues[ key ]
+          })
+          if (findKey > -1) {
+            // Merge the value
+            cookElement.set(key, allValues[ key ])
+          }
         }
-      }
-    })
+      })
+    }
 
     let values = cookElement.toJS()
     this.setState({
@@ -63,6 +66,10 @@ export default class ElementAttribute extends Attribute {
       allTabs: ElementAttribute.updateTabs(cookElement)
     })
     this.setFieldValue(values)
+  }
+
+  onClickReplacementDropdown (fieldKey, newElement) {
+    this.onClickReplacement({ tag: newElement })
   }
 
   changeShowReplacements () {
@@ -193,11 +200,37 @@ export default class ElementAttribute extends Attribute {
 
     let replacementBlock = ''
     if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
-      replacementBlock = (
-        <div className='vcv-ui-replace-element-block'>
-          {replacements}
-        </div>
-      )
+      // TODO: show another wrapper
+      if (this.props.options.replaceView && this.props.options.replaceView === 'dropdown') {
+        let dropdownValues = categorySettings.elements.map(
+          (tag) => {
+            let cookElement = Cook.get({ tag: tag })
+            return {
+              label: cookElement.get('name'),
+              value: tag
+            }
+          }
+        )
+        replacementBlock = (
+          <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
+            <Dropdown
+              api={this.props.api}
+              fieldKey='replaceElement'
+              updater={this.onClickReplacementDropdown.bind(this)} // TODO: Tag
+              value={this.state.value.tag}
+              options={{
+                values: dropdownValues
+              }}
+            />
+          </div>
+        )
+      } else {
+        replacementBlock = (
+          <div className='vcv-ui-replace-element-block'>
+            {replacements}
+          </div>
+        )
+      }
     }
 
     return <div className='vcv-ui-form-element'>

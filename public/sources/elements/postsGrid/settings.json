@@ -36,16 +36,31 @@
       "tag": "postsGridDataSourcePost"
     },
     "options": {
-      "label": "Data Source"
+      "category": "_postsGridSources",
+      "label": "Data Source",
+      "replaceView": "dropdown",
+      "merge": {
+        "attributes": [
+          {
+            "key": "attsOffset",
+            "type": "string"
+          },
+          {
+            "key": "attsLimit",
+            "type": "string"
+          }
+        ]
+      }
     }
   },
   "gridItem": {
     "type": "element",
     "access": "public",
     "value": {
-      "tag": "gridItemPostDescription"
+      "tag": "postsGridItemPostDescription"
     },
     "options": {
+      "_category": "postsGridItems",
       "label": "Grid Item"
     }
   },

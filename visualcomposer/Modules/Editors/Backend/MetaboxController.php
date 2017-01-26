@@ -58,11 +58,12 @@ class MetaboxController extends Container implements Module
         $this->url->redirectIfUnauthorized();
         $sourceId = (int)$this->request->input('post');
         vchelper('PostType')->setupPost($sourceId);
-
+        $frontendHelper = vchelper('Frontend');
         echo vcview(
             'editor/backend/content.php',
             [
-                'editableLink' => vchelper('Frontend')->getEditableUrl($sourceId),
+                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                'frontendEditorLink' => $frontendHelper->getFrontendUrl($sourceId),
             ]
         );
     }

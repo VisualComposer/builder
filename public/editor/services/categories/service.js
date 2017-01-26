@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 import Group from './lib/group'
-import {sortingTool, getCategoriesList} from './lib/tools'
+import { sortingTool, getCategoriesList } from './lib/tools'
 let tempData = {
   groups: [
     {
@@ -147,6 +147,12 @@ let tempData = {
     'Grids': {
       'name': 'Grids',
       'elements': [],
+      'icon': 'categories/icons/Post-Grid.svg',
+      'iconDark': 'categories/iconsDark/Post-Grid.svg'
+    },
+    '_postsGridSources': {
+      'name': 'Post Grid Data Sources',
+      'elements': [ 'postsGridDataSourcePost', 'postsGridDataSourcePage', 'postsGridDataSourceCustomPostType' ],
       'icon': 'categories/icons/Post-Grid.svg',
       'iconDark': 'categories/iconsDark/Post-Grid.svg'
     }
