@@ -22,3 +22,34 @@
   position: relative;
   border: none;
 }
+
+.vce-posts-grid-pagination {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.vce-posts-grid-pagination-item {
+  display: inline-block;
+  background: #EEEEEE;
+  border-radius: 50%;
+  color: #777777;
+  margin: 0 10px;
+  height: 30px;
+  width: 30px;
+  text-decoration: none;
+}
+
+.vce-posts-grid-pagination-item:hover {
+  background: #DCDCDC;
+  text-decoration: none;
+  color: #777777;
+}
+
+.vce-posts-grid-pagination-item.vce-state--active {
+  background: #557CBF;
+  color: #fff;
+}
+
+.vce-posts-grid-pagination-rest-items {
+  padding: 0 10px;
+}
