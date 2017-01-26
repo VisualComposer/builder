@@ -82,6 +82,8 @@ class PostsGridSourcePosts extends Container implements Helper
                 }
             }
         }
+
+        /*
         $postTypesList[] = [
             'value' => 'custom',
             'label' => __('Custom Query', 'vc5'),
@@ -90,6 +92,7 @@ class PostsGridSourcePosts extends Container implements Helper
             'value' => 'ids',
             'label' => __('List of IDs', 'vc5'),
         ];
+        */
 
         return $postTypesList;
     }

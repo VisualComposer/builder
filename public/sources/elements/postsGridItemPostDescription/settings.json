@@ -9,20 +9,32 @@
     "access": "protected",
     "value": "Outline Button"
   },
-  "background": {
-    "type": "color",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Background color"
-    }
-  },
   "padding": {
     "type": "toggle",
     "access": "public",
     "value": false,
     "options": {
       "label": "Content spacing"
+    }
+  },
+  "background": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Background color",
+      "onChange": {
+        "rules": {
+          "padding": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "animation": {

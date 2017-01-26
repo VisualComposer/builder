@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Posts Grid Data Source"
+    "value": "Posts"
   },
   "attsCategory": {
     "type": "dropdown",
@@ -46,13 +46,6 @@
     "access": "protected",
     "value": [
       "postsGridDataSource"
-    ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General"
     ]
   }
 }

@@ -13,7 +13,8 @@ export default class DefaultElement extends React.Component {
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
     activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.object.isRequired
+    layout: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.object.isRequired
   }
 
   constructor (props) {
@@ -24,8 +25,8 @@ export default class DefaultElement extends React.Component {
       dropdownTop: '',
       dropdownLeft: '',
       dropdownWidth: '',
-      isName: false,
-      isArrow: false
+      isName: true,
+      isArrow: true
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleDropdownSize = this.handleDropdownSize.bind(this)
@@ -42,55 +43,29 @@ export default class DefaultElement extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    let { element, activeElementId, layoutWidth } = this.props
     this.setState({ element: nextProps.element })
+    if (layoutWidth !== nextProps.layoutWidth) {
+      this.handleElementSize()
+      if (activeElementId === element.id) {
+        this.handleDropdownSize()
+      }
+    }
   }
 
   componentDidMount () {
     this.handleElementSize()
-    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
-  }
-
-  componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
   }
 
   // Events
 
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
-  }
-
   handleClick () {
     let { activeElementId, element, openElement } = this.props
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleDropdownSize)
     if (activeElementId === element.id) {
       openElement('')
     } else {
       openElement(element.id)
       this.handleDropdownSize()
-      this.addResizeListener(ReactDOM.findDOMNode(this), this.handleDropdownSize)
     }
   }
 
@@ -116,19 +91,28 @@ export default class DefaultElement extends React.Component {
   }
 
   handleElementSize () {
+    let container = ReactDOM.findDOMNode(this)
     let header = this.getElementData('.vce-wpbackend-element-header')
+    let nameWrapper = this.getElementData('.vce-wpbackend-element-header-name-wrapper')
     let nameInner = this.getElementData('.vce-wpbackend-element-header-name')
     let icon = this.getElementData('.vce-wpbackend-element-header-icon')
-    if (nameInner.right > header.right - 19) {
-      this.setState({ isName: true })
-    } else {
+    let nameWrapperElement = container.querySelector('.vce-wpbackend-element-header-name-wrapper')
+    let nameWrapperStyles = window.getComputedStyle(nameWrapperElement)
+    let nameWrapperPaddingLeft = parseInt(nameWrapperStyles.paddingLeft)
+    let arrowPos = 22
+    let offsets = nameWrapperPaddingLeft + arrowPos
+    let { isName, isArrow } = this.state
+
+    if (isName && nameInner.width > nameWrapper.width - offsets) {
       this.setState({ isName: false })
+    } else if (!isName && nameInner.width < nameWrapper.width - offsets) {
+      this.setState({ isName: true })
     }
 
-    if (icon.width > header.width - 19) {
-      this.setState({ isArrow: true })
-    } else {
+    if (isArrow && icon.width > header.width - offsets) {
       this.setState({ isArrow: false })
+    } else if (!isArrow && icon.width < header.width - offsets) {
+      this.setState({ isArrow: true })
     }
   }
 
@@ -146,14 +130,14 @@ export default class DefaultElement extends React.Component {
         return option.dependency === label
       })
       if (isDependency) {
-        isRuleTrue = isDependency.rule.value === element[isDependency.rule.attribute]
+        isRuleTrue = isDependency.rule.value === element[ isDependency.rule.attribute ]
       }
     }
     return isRuleTrue
   }
 
   getRepresenter (element) {
-    let cookElement = cook.get({tag: element.tag})
+    let cookElement = cook.get({ tag: element.tag })
     let backendLabels = cookElement.get('metaBackendLabels').value
     return backendLabels.map((label) => {
       if (this.getDependency(label, element, cookElement)) {
@@ -163,7 +147,7 @@ export default class DefaultElement extends React.Component {
       return <RepresenterComponent
         key={`representer-${label}-${cookElement.get('id')}`}
         fieldKey={label}
-        value={element[label]}
+        value={element[ label ]}
         {...this.props}
       />
     })
@@ -182,12 +166,13 @@ export default class DefaultElement extends React.Component {
       'vce-wpbackend-element-header': true,
       'vce-wpbackend-element-header-closed': activeElementId !== element.id,
       'vce-wpbackend-element-header-opened': activeElementId === element.id,
-      'vce-wpbackend-element-header-no-arrow': isArrow
+      'vce-wpbackend-element-header-no-arrow': !isArrow
     })
 
     let nameClasses = classNames({
       'vce-wpbackend-element-header-name-wrapper': true,
-      'vce-wpbackend-hidden': isName
+      'vce-wpbackend-invisible': !isName,
+      'vce-wpbackend-hidden': !isArrow
     })
 
     let dropdownStyles = {

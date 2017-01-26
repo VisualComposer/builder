@@ -25,7 +25,7 @@ class MetaboxController extends Container implements Module
     public function __construct(Request $request, Url $url)
     {
         $toggleFeatureBackend = false;
-        if ($toggleFeatureBackend) {
+        if ($toggleFeatureBackend && !$request->exists('vcv-disable')) {
             /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
             $this->wpAddAction('add_meta_boxes', 'addMetaBox');
             $this->request = $request;
@@ -58,11 +58,12 @@ class MetaboxController extends Container implements Module
         $this->url->redirectIfUnauthorized();
         $sourceId = (int)$this->request->input('post');
         vchelper('PostType')->setupPost($sourceId);
-
+        $frontendHelper = vchelper('Frontend');
         echo vcview(
             'editor/backend/content.php',
             [
-                'editableLink' => vchelper('Frontend')->getEditableUrl($sourceId),
+                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                'frontendEditorLink' => $frontendHelper->getFrontendUrl($sourceId),
             ]
         );
     }

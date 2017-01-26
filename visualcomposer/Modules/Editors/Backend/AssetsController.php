@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\Backend;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -17,11 +18,13 @@ class AssetsController extends Container implements Module
 
     /**
      * AssetsController constructor.
+     *
+     * @param \VisualComposer\Helpers\Request $request
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $toggleFeatureBackend = false;
-        if ($toggleFeatureBackend) {
+        if ($toggleFeatureBackend && !$request->exists('vcv-disable')) {
             /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
             $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
         }

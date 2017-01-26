@@ -55,6 +55,8 @@
 
 }
 
+//== backend view layout styles
+
 .vcv-wpbackend-layout {
   padding: @vcv-wpbackend-layout-padding;
 
@@ -129,9 +131,7 @@
     }
 
     &-no-arrow {
-      .vce-wpbackend-element-header-icon {
-        flex-basis: 100%;
-      }
+      justify-content: center;
 
       &::after {
         display: none;
@@ -166,9 +166,17 @@
   }
 }
 
+//== states
+
 .vce-wpbackend-hidden {
   display: none;
 }
+
+.vce-wpbackend-invisible {
+  visibility: hidden;
+}
+
+//== element attributes styles
 
 .vcv-wpbackend-attributes-content {
   display: inline-block;
