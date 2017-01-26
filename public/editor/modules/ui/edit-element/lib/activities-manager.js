@@ -189,7 +189,7 @@ export default class ActivitiesManager extends React.Component {
     let actionsCallback = (ruleState, listener) => {
       let actions = this.getActions(this.props.element.settings(listener.key))
       if (actions) {
-        if (current.field && current.field.ref && current.field.ref.isConnected) {
+        if (current.field) {
           actions.forEach((action) => {
             ActionsManager.do(action, ruleState, {
               ref: current.field.ref,
