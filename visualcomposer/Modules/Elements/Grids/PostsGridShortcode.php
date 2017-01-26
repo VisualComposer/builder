@@ -36,6 +36,9 @@ class PostsGridShortcode extends Container implements Module
         $atts = shortcode_atts(
             [
                 'source' => '',
+                'pagination' => '',
+                'pagination_color' => '',
+                'pagination_per_page' => '',
             ],
             $atts
         );

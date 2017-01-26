@@ -29,6 +29,95 @@
     "access": "protected",
     "value": "thumbnail.jpg"
   },
+  "gap": {
+    "type": "number",
+    "access": "public",
+    "value": "5",
+    "options": {
+      "label": "Gap",
+      "description": "Enter gap in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "postsGridGap",
+        "property": "gap",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "columns": {
+    "type": "number",
+    "access": "public",
+    "value": "3",
+    "options": {
+      "label": "Number of Columns",
+      "cssMixin": {
+        "mixin": "postsGridColumns",
+        "property": "columns",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "atts_pagination": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Enable paging"
+    }
+  },
+  "atts_pagination_per_page": {
+    "type": "string",
+    "access": "public",
+    "value": "10",
+    "options": {
+      "label": "Items per page",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "atts_pagination_color": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Pagination Color",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "postsGrid": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "columns",
+      "gap",
+      "atts_pagination",
+      "atts_pagination_per_page",
+      "atts_pagination_color"
+    ],
+    "options": {
+      "label": "Posts Grid"
+    }
+  },
   "sourceItem": {
     "type": "element",
     "access": "public",
@@ -72,23 +161,12 @@
       "label": "Design Options"
     }
   },
-  "postsGrid": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "sourceItem",
-      "columns",
-      "gap"
-    ],
-    "options": {
-      "label": "Posts Grid"
-    }
-  },
   "metaEditFormTabs": {
     "type": "group",
     "access": "protected",
     "value": [
       "postsGrid",
+      "sourceItem",
       "gridItem",
       "designOptions"
     ]
@@ -99,32 +177,5 @@
     "value": [
       "General"
     ]
-  },
-  "gap": {
-    "type": "number",
-    "access": "public",
-    "value": "5",
-    "options": {
-      "label": "Gap",
-      "description": "Enter gap in pixels (Example: 5).",
-      "cssMixin": {
-        "mixin": "postsGridGap",
-        "property": "gap",
-        "namePattern": "[\\da-f]+"
-      }
-    }
-  },
-  "columns": {
-    "type": "number",
-    "access": "public",
-    "value": "3",
-    "options": {
-      "label": "Number of Columns",
-      "cssMixin": {
-        "mixin": "postsGridColumns",
-        "property": "columns",
-        "namePattern": "[\\da-f]+"
-      }
-    }
   }
 }

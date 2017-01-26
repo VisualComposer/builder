@@ -66,7 +66,9 @@ export default class EditFormTabsOutput extends React.Component {
       formDropdown = (
         <FormDropdown
           activeTabIndex={activeTabIndex}
-          allTabs={this.props.allTabs}
+          allTabs={allTabs}
+          setFieldMount={setFieldMount}
+          setFieldUnmount={setFieldUnmount}
           getTabsWrapper={this.getTabsWrapper}
         />
       )
