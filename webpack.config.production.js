@@ -30,7 +30,7 @@ module.exports = Object.assign(webpackConfig, {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      minimize: true, 
+      minimize: true,
       sourceMap: false,
       compress: {
         warnings: false,
