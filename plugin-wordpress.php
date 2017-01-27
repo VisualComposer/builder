@@ -61,6 +61,7 @@ define('VCV_PLUGIN_FULL_PATH', __FILE__);
  * Plugin directory name: 'vc-five'
  */
 define('VCV_PLUGIN_DIRNAME', basename(dirname(VCV_PLUGIN_BASE_NAME)));
+define('VCV_PLUGIN_ASSETS_DIRNAME', VCV_PLUGIN_DIRNAME . '-assets');
 /**
  * Plugin core prefix for options/meta and etc.
  */
