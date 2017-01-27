@@ -46,4 +46,20 @@ AssetsLibrary.add('backgroundSimple', {
   ]
 })
 
+AssetsLibrary.add('backgroundVideoYoutube', {
+  publicCss: [
+    'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.css'
+  ],
+  publicJs: [
+    'assetsLibrary/youtubeIFrameAPI/init.js',
+    'assetsLibrary/backgroundVideoYoutube/plugin.js',
+    'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.js'
+  ]
+})
+
+AssetsLibrary.add('youtubeIFrameAPI', {
+  publicJs: [
+    'assetsLibrary/youtubeIFrameAPI/init.js'
+  ]
+})
 vcCake.addService('assets-library', AssetsLibrary)

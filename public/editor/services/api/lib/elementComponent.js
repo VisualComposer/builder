@@ -1,7 +1,11 @@
-import { Component, PropTypes } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
+import YoutubeBackground from './youtubeBackground'
+
+const { Component, PropTypes } = React
+
 export default class ElementComponent extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -76,6 +80,7 @@ export default class ElementComponent extends Component {
           backgroundData.push(this.getImagesSlideshow(device[ deviceKey ], deviceKey))
           break
         case 'videoYoutube':
+          backgroundData.push(this.getYoutubeVideo(device[ deviceKey ], deviceKey))
           break
         case 'videoVimeo':
           break
@@ -155,6 +160,42 @@ export default class ElementComponent extends Component {
         </div>
       </div>
     }
+    return null
+  }
+
+  getYoutubeVideo (device, key) {
+    let { videoYoutube } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
+      let videoData = videoYoutube.trim().match(ytrx)
+      let videoId = videoData[ 7 ]
+      let start = 0
+      if (videoData[ 8 ]) {
+        start += videoData[ 9 ] === undefined ? 0 : (Number(videoData[ 9 ]) * 60 * 60)
+        start += videoData[ 10 ] === undefined ? 0 : (Number(videoData[ 10 ]) * 60)
+        start += videoData[ 11 ] === undefined ? 0 : (Number(videoData[ 11 ]))
+      }
+      let playerSettings = {
+        videoId: videoId,
+        autoplay: 1,
+        start: start,
+        modestbranding: 1,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        iv_load_policy: 3,
+        loop: 1,
+        playlist: videoId, // to loop video
+        rel: 0,
+        showinfo: 0
+      }
+      const { ...otherProps } = this.props
+      return <YoutubeBackground {...otherProps} settings={playerSettings} device={key}
+        reactKey={reactKey} key={reactKey}
+        updateInlineHtml={this.updateInlineHtml} />
+    }
+
     return null
   }
 

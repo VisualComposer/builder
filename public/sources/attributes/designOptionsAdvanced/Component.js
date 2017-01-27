@@ -295,6 +295,11 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].sliderTimeout
           }
 
+          // youtube video is empty
+          if (newValue[ device ].videoYoutube === '' || newValue[ device ].backgroundType !== 'videoYoutube') {
+            delete newValue[ device ].videoYoutube
+          }
+
           // gradient angle is not set
           if (newValue[ device ].gradientAngle === '' || newValue[ device ].backgroundType !== 'colorGradient') {
             delete newValue[ device ].gradientAngle
@@ -868,7 +873,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || 'solid'
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
@@ -1078,7 +1083,7 @@ class DesignOptionsAdvanced extends Attribute {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].videoYoutube || 'https://youtu.be/Stw15bdTLoA'
+    let value = this.state.devices[ this.state.currentDevice ].videoYoutube || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         YouTube video link
