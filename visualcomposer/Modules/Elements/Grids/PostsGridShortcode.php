@@ -35,7 +35,11 @@ class PostsGridShortcode extends Container implements Module
         // Build Query from $atts
         $atts = shortcode_atts(
             [
+                'unique_id' => '',
                 'source' => '',
+                'pagination' => '',
+                'pagination_color' => '',
+                'pagination_per_page' => '',
             ],
             $atts
         );
@@ -47,8 +51,17 @@ class PostsGridShortcode extends Container implements Module
                 'source' => json_decode(rawurldecode($atts['source']), true),
             ]
         );
-        $output = $postsGridPostIteratorHelper->loopPosts($posts, $content);
+        $postsOutput = $postsGridPostIteratorHelper->loopPosts($posts, $content);
+        $output = sprintf('<div class="vce-posts-grid-list">%s</div>', $postsOutput);
+        $output = vcfilter(
+            'vcv:elements:grids:output',
+            $output,
+            [
+                'atts' => $atts,
+                'tag' => $tag,
+            ]
+        );
 
-        return sprintf('<div class="vce-posts-grid-list">%s</div>', $output);
+        return $output;
     }
 }

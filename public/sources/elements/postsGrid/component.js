@@ -42,7 +42,11 @@ class Component extends vcvAPI.elementComponent {
         source: encodeURIComponent(JSON.stringify({
           tag: this.props.atts.sourceItem.tag,
           value: striptags(ReactDOMServer.renderToStaticMarkup(sourceItemOutput))
-        }))
+        })),
+        unique_id: this.props.id,
+        pagination: this.props.atts.atts_pagination ? '1' : '0',
+        pagination_color: this.props.atts.atts_pagination_color,
+        pagination_per_page: this.props.atts.atts_pagination_per_page
       }
     }, (result) => {
       let response = JSON.parse(result.response)
@@ -95,6 +99,14 @@ class Component extends vcvAPI.elementComponent {
       <div className={wrapperClasses.join(' ')} {...customProps} id={'el-' + id} {...editor}>
         <vcvhelper data-vcvs-html={this.state.shortcode || ''}
           dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
+        <div className='vce-posts-grid-pagination'>
+          <a href='#' className='vce-posts-grid-pagination-item'>1</a>
+          <a href='#' className='vce-posts-grid-pagination-item'>2</a>
+          <a href='#' className='vce-posts-grid-pagination-item vce-state--active'>3</a>
+          <a href='#' className='vce-posts-grid-pagination-item'>4</a>
+          <span className='vce-posts-grid-pagination-rest-items'>...</span>
+          <a href='#' className='vce-posts-grid-pagination-item'>8</a>
+        </div>
       </div>
     )
   }

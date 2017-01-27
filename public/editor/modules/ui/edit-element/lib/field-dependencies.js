@@ -18,11 +18,11 @@ export default class FieldDependencyManager extends React.Component {
       ref: this.refs[ 'field' ],
       refComponent: this,
       refDomComponent: this.refs[ 'domComponent' ]
-    })
+    }, 'field')
   }
 
   componentWillUnmount () {
-    this.props.setFieldUnmount(this.props.fieldKey)
+    this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
   componentWillReceiveProps (nextProps) {

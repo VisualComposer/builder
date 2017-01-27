@@ -29,62 +29,6 @@
     "access": "protected",
     "value": "thumbnail.jpg"
   },
-  "sourceItem": {
-    "type": "element",
-    "access": "public",
-    "value": {
-      "tag": "postsGridDataSourcePost"
-    },
-    "options": {
-      "label": "Data Source"
-    }
-  },
-  "gridItem": {
-    "type": "element",
-    "access": "public",
-    "value": {
-      "tag": "gridItemPostDescription"
-    },
-    "options": {
-      "label": "Grid Item"
-    }
-  },
-  "designOptions": {
-    "type": "designOptions",
-    "access": "public",
-    "value": {},
-    "options": {
-      "label": "Design Options"
-    }
-  },
-  "postsGrid": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "sourceItem",
-      "columns",
-      "gap"
-    ],
-    "options": {
-      "label": "Posts Grid"
-    }
-  },
-  "metaEditFormTabs": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "postsGrid",
-      "gridItem",
-      "designOptions"
-    ]
-  },
-  "relatedTo": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      "General"
-    ]
-  },
   "gap": {
     "type": "number",
     "access": "public",
@@ -111,5 +55,127 @@
         "namePattern": "[\\da-f]+"
       }
     }
+  },
+  "atts_pagination": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Enable paging"
+    }
+  },
+  "atts_pagination_per_page": {
+    "type": "string",
+    "access": "public",
+    "value": "10",
+    "options": {
+      "label": "Items per page",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "atts_pagination_color": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Pagination Color",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "postsGrid": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "columns",
+      "gap",
+      "atts_pagination",
+      "atts_pagination_per_page",
+      "atts_pagination_color"
+    ],
+    "options": {
+      "label": "Posts Grid"
+    }
+  },
+  "sourceItem": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "postsGridDataSourcePost"
+    },
+    "options": {
+      "category": "_postsGridSources",
+      "label": "Data Source",
+      "replaceView": "dropdown",
+      "merge": {
+        "attributes": [
+          {
+            "key": "attsOffset",
+            "type": "string"
+          },
+          {
+            "key": "attsLimit",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "gridItem": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "postsGridItemPostDescription"
+    },
+    "options": {
+      "_category": "postsGridItems",
+      "label": "Grid Item"
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "postsGrid",
+      "sourceItem",
+      "gridItem",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
   }
 }

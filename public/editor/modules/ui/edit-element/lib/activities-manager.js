@@ -14,11 +14,14 @@ export default class ActivitiesManager extends React.Component {
   stack = {}
   mountStack = {}
   initialStack = {}
+
   constructor (props) {
     super(props)
     this.resetIfEditFormClosed = this.resetIfEditFormClosed.bind(this)
   }
+
   listeners = this.initListeners(this.props.element)
+
   componentWillUpdate (nextProps) {
     this.mount = {}
     this.stack = {}
@@ -69,12 +72,12 @@ export default class ActivitiesManager extends React.Component {
     )
   }
 
-  setFieldMount = (field, data, isTab) => {
+  setFieldMount = (field, data, type) => {
     if (!this.mount[ field ]) {
       this.mount[ field ] = {}
     }
-    if (isTab) {
-      this.mount[ field ].tab = data
+    if (type) {
+      this.mount[ field ][ type ] = data
     } else {
       this.mount[ field ].field = data
     }
@@ -96,19 +99,19 @@ export default class ActivitiesManager extends React.Component {
     }
     this.callFieldActivities(null, key)
   }
+
   resetIfEditFormClosed () {
     const { element, api } = this.props
     vcCake.ignoreDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
     vcCake.setData(`element:instantMutation:${element.get('id')}`, false)
     api.request('data:instantMutation', false, 'update')
   }
-  setFieldUnmount = (field, isTab) => {
-    if (isTab && this.mount[ field ]) {
-      delete this.mount[ field ].tab
 
-      // Clear stack on unmount
-      if (this.stack[ field ] && this.stack[ field ].tab) {
-        delete this.stack[ field ].tab
+  setFieldUnmount = (field, type) => {
+    if (type && this.mount[ field ]) {
+      delete this.mount[ field ][ type ]
+      if (this.stack[ field ] && this.stack[ field ][ type ]) {
+        delete this.stack[ field ][ type ]
       }
     } else if (this.mount[ field ]) {
       delete this.mount[ field ].field
@@ -174,8 +177,6 @@ export default class ActivitiesManager extends React.Component {
 
     let current = {
       key: listener.key,
-      tab: null,
-      field: null,
       value: this.props.element.get(listener.key)
     }
 
@@ -185,32 +186,24 @@ export default class ActivitiesManager extends React.Component {
     if (this.mount[ listener.key ].tab) {
       current.tab = this.mount[ listener.key ].tab
     }
-
+    let keys = Object.keys(this.mount[ listener.key ]) // field, tab, dropdown
+    keys.forEach((type) => {
+      current[ type ] = this.mount[ listener.key ][ type ]
+    })
     let actionsCallback = (ruleState, listener) => {
       let actions = this.getActions(this.props.element.settings(listener.key))
       if (actions) {
-        if (current.field && current.field.ref && current.field.ref.isConnected) {
+        keys.forEach((type) => {
           actions.forEach((action) => {
             ActionsManager.do(action, ruleState, {
-              ref: current.field.ref,
-              refComponent: current.field.refComponent,
-              field: current.field,
+              ref: current[ type ].ref,
+              refComponent: current[ type ].refComponent,
+              [type]: current[ type ],
               value: current.value,
               key: current.key
             }, this.props.element)
           })
-        }
-        if (current.tab) {
-          actions.forEach((action) => {
-            ActionsManager.do(action, ruleState, {
-              ref: current.tab.ref,
-              refComponent: current.tab.refComponent,
-              tab: current.tab,
-              value: current.value,
-              key: current.key
-            }, this.props.element)
-          })
-        }
+        })
       }
     }
     RulesManager.check(this.props.element.toJS(), this.getRules(this.props.element.settings(listener.key)), (status) => {

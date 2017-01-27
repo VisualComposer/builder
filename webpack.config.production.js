@@ -3,8 +3,8 @@ let Collector = require('./tools/webpack-collector')
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let webpack = require('webpack')
 const webpackConfig = require('./webpack.config')
+delete webpackConfig.devtool
 module.exports = Object.assign(webpackConfig, {
-  devtool: false,
   entry: {
     wp: './public/wp-main',
     pe: './public/pe-main',
@@ -30,9 +30,11 @@ module.exports = Object.assign(webpackConfig, {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: false,
       compress: {
-        // warnings: false,
-        // drop_console: true
+        warnings: false,
+        drop_console: true
       },
       output: {
         comments: false

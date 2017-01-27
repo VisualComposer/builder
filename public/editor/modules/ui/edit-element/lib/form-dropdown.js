@@ -1,10 +1,13 @@
 import React from 'react'
+import DropdownOption from './form-dropdown-option'
 
 export default class FormDropdown extends React.Component {
   static propTypes = {
     activeTabIndex: React.PropTypes.number.isRequired,
     allTabs: React.PropTypes.array.isRequired,
-    getTabsWrapper: React.PropTypes.func.isRequired
+    getTabsWrapper: React.PropTypes.func.isRequired,
+    setFieldMount: React.PropTypes.func.isRequired,
+    setFieldUnmount: React.PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -50,8 +53,12 @@ export default class FormDropdown extends React.Component {
     let { allTabs } = this.props
     let options = []
     allTabs.forEach((tab) => {
-      let title = tab.data.settings.options.tabLabel || tab.data.settings.options.label
-      options.push(<option key={tab.key} value={tab.index}>{title}</option>)
+      options.push(<DropdownOption
+        setFieldMount={this.props.setFieldMount}
+        setFieldUnmount={this.props.setFieldUnmount}
+        key={tab.key}
+        tab={tab}
+      />)
     })
 
     return (

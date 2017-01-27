@@ -34,11 +34,11 @@ export default class TabDependencyManager extends React.Component {
       ref: this.refs[ 'tab' ],
       refComponent: this,
       refDomComponent: this.refs[ 'domComponent' ]
-    }, true)
+    }, 'tab')
   }
 
   componentWillUnmount () {
-    this.props.setFieldUnmount(this.props.fieldKey, true)
+    this.props.setFieldUnmount(this.props.fieldKey, 'tab')
   }
 
   render () {
