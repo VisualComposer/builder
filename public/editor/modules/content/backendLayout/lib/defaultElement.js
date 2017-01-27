@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
+import _ from 'lodash'
 import '../../../../../sources/less/wpbackend/representers/init.less'
 
 const categories = getService('categories')
@@ -30,7 +31,7 @@ export default class DefaultElement extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleDropdownSize = this.handleDropdownSize.bind(this)
-    this.handleElementSize = this.handleElementSize.bind(this)
+    this.handleElementSize = _.debounce(this.handleElementSize.bind(this), 150)
   }
 
   // Lifecycle
@@ -46,7 +47,6 @@ export default class DefaultElement extends React.Component {
     let { element, activeElementId, layoutWidth } = this.props
     this.setState({ element: nextProps.element })
     if (layoutWidth !== nextProps.layoutWidth) {
-      this.handleElementSize()
       if (activeElementId === element.id) {
         this.handleDropdownSize()
       }
@@ -55,9 +55,40 @@ export default class DefaultElement extends React.Component {
 
   componentDidMount () {
     this.handleElementSize()
+    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
+  }
+
+  componentWillUnmount () {
+    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
   }
 
   // Events
+
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
 
   handleClick () {
     let { activeElementId, element, openElement } = this.props
