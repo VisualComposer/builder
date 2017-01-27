@@ -43,24 +43,29 @@ class PostsGridShortcode extends Container implements Module
             ],
             $atts
         );
+        $atts['source'] = json_decode(rawurldecode($atts['source']), true);
         $posts = vcfilter(
             'vcv:elements:grids:posts',
             [],
-            [
-                'tag' => $tag,
-                'source' => json_decode(rawurldecode($atts['source']), true),
-            ]
-        );
-        $postsOutput = $postsGridPostIteratorHelper->loopPosts($posts, $content);
-        $output = sprintf('<div class="vce-posts-grid-list">%s</div>', $postsOutput);
-        $output = vcfilter(
-            'vcv:elements:grids:output',
-            $output,
             [
                 'atts' => $atts,
                 'tag' => $tag,
             ]
         );
+        if (!count($posts)) {
+            $output = '';
+        } else {
+            $postsOutput = $postsGridPostIteratorHelper->loopPosts($posts, $content);
+            $output = sprintf('<div class="vce-posts-grid-list">%s</div>', $postsOutput);
+            $output = vcfilter(
+                'vcv:elements:grids:output',
+                $output,
+                [
+                    'atts' => $atts,
+                    'tag' => $tag,
+                ]
+            );
+        }
 
         return $output;
     }

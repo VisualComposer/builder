@@ -45,11 +45,14 @@ class PostsController extends Container implements Module
      */
     protected function queryPosts($posts, $payload, PostType $postTypeHelper)
     {
-        if (isset($payload['source'], $payload['source']['tag'])
-            && $payload['source']['tag'] === 'postsGridDataSourcePost'
+        if (isset($payload['atts']['source'], $payload['atts']['source']['tag'])
+            && $payload['atts']['source']['tag'] === 'postsGridDataSourcePost'
         ) {
             // Value:
-            $posts = array_merge($posts, $postTypeHelper->query(html_entity_decode($payload['source']['value'])));
+            $posts = array_merge(
+                $posts,
+                $postTypeHelper->query(html_entity_decode($payload['atts']['source']['value']))
+            );
         }
 
         return $posts;
