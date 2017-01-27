@@ -86,22 +86,10 @@ export default class ControlsHandler {
     if (this.sliceSize) {
       let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
       slicedElements.reverse()
-      let treeTrigger = data.vcElementsPath[ this.sliceSize ]
       // create controls
       let controlsList = document.createElement('nav')
       controlsList.classList.add('vcv-ui-outline-controls')
       this.controlsContainer.appendChild(controlsList)
-
-      // create tree trigger
-      if (treeTrigger) {
-        controlsList.appendChild(this.createControlForTrigger(
-          treeTrigger,
-          {
-            title: 'Tree View',
-            event: 'bar-content-start:show'
-          }
-        ))
-      }
 
       // create element controls
       slicedElements.forEach((elementId) => {
@@ -524,11 +512,6 @@ export default class ControlsHandler {
     let iframePos = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()
-      // drop up
-      dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-up')
-      if (dropdownPos.top + dropdownPos.height > iframePos.top + iframePos.height) {
-        dropdown.classList.add('vcv-ui-outline-control-dropdown-o-drop-up')
-      }
       // drop right
       dropdown.classList.remove('vcv-ui-outline-control-dropdown-o-drop-right')
       if (dropdownPos.left + dropdownPos.width > iframePos.left + iframePos.width) {
