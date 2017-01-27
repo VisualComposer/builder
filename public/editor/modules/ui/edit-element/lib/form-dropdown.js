@@ -56,6 +56,7 @@ export default class FormDropdown extends React.Component {
       options.push(<DropdownOption
         setFieldMount={this.props.setFieldMount}
         setFieldUnmount={this.props.setFieldUnmount}
+        key={tab.key}
         tab={tab}
       />)
     })

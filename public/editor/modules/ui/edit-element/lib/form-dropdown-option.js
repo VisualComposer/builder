@@ -33,7 +33,6 @@ export default class FormDropdownOption extends React.Component {
     return (
       <option
         ref='domComponent'
-        key={tab.key}
         className={classes}
         value={tab.index}
       >{title}</option>
