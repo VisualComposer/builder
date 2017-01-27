@@ -30,6 +30,7 @@
 }
 
 .vce-posts-grid-pagination-item {
+  display: inline-block;
   background: #EEEEEE;
   border-radius: 50%;
   color: #777777;
@@ -37,9 +38,7 @@
   height: 30px;
   width: 30px;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 30px;
 }
 
 .vce-posts-grid-pagination-item:hover {
