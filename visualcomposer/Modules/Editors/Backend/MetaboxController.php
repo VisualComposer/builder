@@ -24,7 +24,7 @@ class MetaboxController extends Container implements Module
 
     public function __construct(Request $request, Url $url)
     {
-        $toggleFeatureBackend = false;
+        $toggleFeatureBackend = true;
         if ($toggleFeatureBackend && !$request->exists('vcv-disable')) {
             /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
             $this->wpAddAction('add_meta_boxes', 'addMetaBox');
