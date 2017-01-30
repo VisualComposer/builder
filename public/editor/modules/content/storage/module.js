@@ -206,7 +206,7 @@ vcCake.add('storage', (api) => {
       api.request('data:add', element, false, { silent: true })
       api.request('data:afterAdd', [ element.id ])
     })
-    api.request('data:changed', DocumentData.children(false), 'reset')
+    api.request('data:changed', DocumentData.children(false), 'merge')
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
