@@ -6,6 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use WP_Query;
 
 /**
  * Class CustomPostTypeController
@@ -45,13 +46,21 @@ class CustomPostTypeController extends Container implements Module
      */
     protected function queryPosts($posts, $payload, PostType $postTypeHelper)
     {
+        global $post;
         if (isset($payload['atts']['source'], $payload['atts']['source']['tag'])
             && $payload['atts']['source']['tag'] === 'postsGridDataSourceCustomPostType'
         ) {
             // Value:
+            $paginationQuery = new WP_Query(html_entity_decode($payload['atts']['source']['value']));
+            $newPosts = [];
+            while ($paginationQuery->have_posts()) {
+                $paginationQuery->the_post();
+                $newPosts[] = $post;
+            }
+            wp_reset_postdata();
             $posts = array_merge(
                 $posts,
-                $postTypeHelper->query(html_entity_decode($payload['atts']['source']['value']))
+                $newPosts
             );
         }
 

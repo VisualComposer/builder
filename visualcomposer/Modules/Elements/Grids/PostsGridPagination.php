@@ -57,6 +57,7 @@ class PostsGridPagination extends Container implements Module
                 'paged' => $page,
                 'orderby' => 'post__in',
                 'post_type' => $postType,
+                'post_status' => 'publish,inherit',
                 'post__in' => array_unique($postIds),
                 'posts_per_page' => $perPage,
                 'ignore_sticky_posts' => true,

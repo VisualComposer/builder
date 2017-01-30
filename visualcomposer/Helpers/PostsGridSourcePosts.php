@@ -70,6 +70,8 @@ class PostsGridSourcePosts extends Container implements Helper
             'revision',
             'nav_menu_item',
             'vc_grid_item',
+            'post',
+            'page',
         ];
         if (is_array($postTypes) && !empty($postTypes)) {
             foreach ($postTypes as $postType) {
