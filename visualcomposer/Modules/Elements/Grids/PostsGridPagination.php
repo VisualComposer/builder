@@ -47,14 +47,19 @@ class PostsGridPagination extends Container implements Module
                     'vcv-pagination-' . $id
                 ) : 1;
             $postIds = [];
+            $postType = 'post';
             foreach ($posts as $postData) {
                 $postIds[] = $postData->ID;
+                $postType = $postData->post_type;
             }
             $perPage = (int)$payload['atts']['pagination_per_page'];
             $paginationQueryArgs = [
                 'paged' => $page,
-                'post__in' => $postIds,
+                'orderby' => 'post__in',
+                'post_type' => $postType,
+                'post__in' => array_unique($postIds),
                 'posts_per_page' => $perPage,
+                'ignore_sticky_posts' => true,
             ];
             $paginationQuery = new WP_Query($paginationQueryArgs);
             $posts = [];

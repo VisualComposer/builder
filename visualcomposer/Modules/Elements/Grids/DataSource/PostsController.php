@@ -6,6 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use WP_Query;
 
 /**
  * Class PostsController
@@ -45,14 +46,32 @@ class PostsController extends Container implements Module
      */
     protected function queryPosts($posts, $payload, PostType $postTypeHelper)
     {
+        global $post;
+
         if (isset($payload['atts']['source'], $payload['atts']['source']['tag'])
             && $payload['atts']['source']['tag'] === 'postsGridDataSourcePost'
         ) {
             // Value:
-            $posts = array_merge(
-                $posts,
-                $postTypeHelper->query(html_entity_decode($payload['atts']['source']['value']))
-            );
+            $value = html_entity_decode($payload['atts']['source']['value']);
+
+            if (strpos($payload['atts']['source']['value'], 'sticky_posts') !== false) {
+                $paginationQuery = new WP_Query($value);
+                $newPosts = [];
+                while ($paginationQuery->have_posts()) {
+                    $paginationQuery->the_post();
+                    $newPosts[] = $post;
+                }
+                wp_reset_postdata();
+                $posts = array_merge(
+                    $posts,
+                    $newPosts
+                );
+            } else {
+                $posts = array_merge(
+                    $posts,
+                    $postTypeHelper->query($value)
+                );
+            }
         }
 
         return $posts;
