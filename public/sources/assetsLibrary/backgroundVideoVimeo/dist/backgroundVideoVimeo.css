@@ -6,6 +6,7 @@
   left: 0;
   overflow: hidden;
   display: none;
+  pointer-events: none;
 }
 
 .vce-asset-video-vimeo-container .vce-asset-video-vimeo-sizer {
