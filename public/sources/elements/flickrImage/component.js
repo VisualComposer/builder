@@ -109,7 +109,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width } = atts
+    let { designOptions, customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-flickr-image'
     let wrapperClasses = 'vce vce-flickr-image-wrapper'
     let customProps = {}
@@ -151,6 +151,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
     let content = null
     return <div {...customProps} className={classes} {...editor}>

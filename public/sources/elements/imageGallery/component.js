@@ -132,7 +132,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, customClass, columns } = atts
+    let { image, designOptions, shape, clickableOptions, customClass, columns, metaCustomId } = atts
     let containerClasses = 'vce-image-gallery'
     let wrapperClasses = 'vce-image-gallery-wrapper vce'
     let containerProps = {}
@@ -174,6 +174,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       containerProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      containerProps.id = metaCustomId
     }
 
     let galleryItems = []

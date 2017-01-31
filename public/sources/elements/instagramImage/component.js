@@ -104,7 +104,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, width, alignment } = atts
+    let { designOptions, customClass, width, alignment, metaCustomId } = atts
     let classes = 'vce-instagram-image'
     let wrapperClasses = 'vce-instagram-image-wrapper vce'
     let customProps = {}
@@ -138,6 +138,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div {...customProps} className={classes} {...editor}>

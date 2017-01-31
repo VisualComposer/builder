@@ -2,9 +2,10 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
-    let {atts, editor, id} = this.props
-    let {iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover} = atts
+    let { atts, editor, id } = this.props
+    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover, metaCustomId } = atts
     let customProps = {}
+    let containerProps = {}
     let customIconProps = {}
     let CustomTag = 'div'
     let CustomIconTag = 'span'
@@ -88,8 +89,11 @@ class Component extends vcvAPI.elementComponent {
     if (mixinData && toggleCustomHover) {
       classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
     }
+    if (metaCustomId) {
+      containerProps.id = metaCustomId
+    }
 
-    return <div className={classes} {...editor}>
+    return <div className={classes} {...editor} {...containerProps}>
       <div id={'el-' + id} className='vce vce-features-icon-wrapper'>
         <CustomTag className='vce-features__icon vce-icon' {...customProps}>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
