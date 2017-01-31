@@ -39,7 +39,7 @@ export default class GoogleFonts extends Attribute {
   }
 
   componentWillMount () {
-    let mergedValue = lodash.merge(GoogleFonts.defaultFontOptions, this.state.value)
+    let mergedValue = lodash.defaultsDeep({}, this.state.value, GoogleFonts.defaultFontOptions)
     this.loadFonts(mergedValue.fontFamily, mergedValue.fontStyle, mergedValue.fontText)
   }
 
@@ -117,7 +117,7 @@ export default class GoogleFonts extends Attribute {
   }
 
   updateFieldValue (value) {
-    let mergedValue = lodash.merge(this.state.value, value)
+    let mergedValue = lodash.defaultsDeep({}, value, this.state.value)
     this.setFieldValue(mergedValue)
   }
 
