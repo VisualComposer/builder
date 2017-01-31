@@ -131,6 +131,13 @@ const api = {
       }
     })
     dataStore.data = dataStore.data.set(cloneId, clone)
+
+    let cloneToJs = clone.toJS()
+    if (cloneToJs.metaCustomId) {
+      cloneToJs.metaCustomId = false
+      this.update(cloneId, cloneToJs)
+    }
+
     dataStore.getChildren(obj.get('id')).forEach((el) => {
       this.clone(el.get('id'), cloneId, true)
     }, this)
