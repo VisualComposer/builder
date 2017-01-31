@@ -1,0 +1,13 @@
+#$selector{
+  @media (--$(device)-only) {
+    @if $backgroundEndColor == false {
+      @if $backgroundColor != false {
+        background-color: $backgroundColor;
+      }
+    } @else {
+      @if $backgroundColor != false {
+        background-image: linear-gradient($(gradientAngle)deg, $backgroundColor, $backgroundEndColor);
+      }
+    }
+  }
+}
