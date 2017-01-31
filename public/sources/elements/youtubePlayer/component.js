@@ -97,7 +97,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced } = atts
+    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
     let classes = 'vce-yt-video-player'
     let source, videoWidth, videoId, loop
     let autoplay = advanced && atts.autoplay ? 1 : 0
@@ -160,6 +160,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div className={classes} {...editor} {...customProps} data-vcv-element-disabled='true'>

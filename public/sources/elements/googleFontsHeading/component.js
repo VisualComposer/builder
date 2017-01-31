@@ -13,7 +13,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass } = atts
+    let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass, metaCustomId } = atts
     let classes = 'vce-google-fonts-heading'
     let wrapperClasses = 'vce-google-fonts-heading-wrapper'
     let customProps = {}
@@ -103,6 +103,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div {...customProps} className={classes} {...editor}>

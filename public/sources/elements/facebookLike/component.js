@@ -154,7 +154,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment } = atts
+    let { designOptions, customClass, alignment, metaCustomId } = atts
     let classes = 'vce-facebook-like'
     let innerClasses = 'vce-facebook-like-inner vce'
     let customProps = {}
@@ -180,6 +180,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div {...customProps} className={classes} {...editor}>

@@ -1,8 +1,8 @@
 /* global React, vcvAPI */
 class Component extends vcvAPI.elementComponent {
   render () {
-    var {id, atts, editor} = this.props
-    var {rawHtml, customClass, designOptions} = atts // destructuring assignment for attributes from settings.json with access public
+    var { id, atts, editor } = this.props
+    var { rawHtml, customClass, designOptions, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
     let customProps = {}
     let wrapperClasses = 'vce-raw-html-wrapper'
@@ -10,7 +10,7 @@ class Component extends vcvAPI.elementComponent {
       classes = classes.concat(' ' + customClass)
     }
     let createMarkup = () => {
-      return {__html: rawHtml}
+      return { __html: rawHtml }
     }
 
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
@@ -26,6 +26,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div className={classes} {...editor} {...customProps}>

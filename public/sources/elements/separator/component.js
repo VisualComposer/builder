@@ -3,12 +3,12 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { color, designOptions, alignment, customClass, width } = atts
+    let { color, designOptions, alignment, customClass, width, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
 
-    let containerClasses = ['vce-line-separator-container']
-    let classes = ['vce', 'vce-line-separator']
+    let containerClasses = [ 'vce-line-separator-container' ]
+    let classes = [ 'vce', 'vce-line-separator' ]
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses.push(customClass)
@@ -44,12 +44,15 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
+    }
 
     classes = classNames(classes)
     containerClasses = classNames(containerClasses)
 
-    return <div className={containerClasses} {...editor}>
-      <div className={classes} {...customProps} id={'el-' + id} />
+    return <div className={containerClasses} {...editor} {...customProps}>
+      <div className={classes} id={'el-' + id} />
     </div>
   }
 }

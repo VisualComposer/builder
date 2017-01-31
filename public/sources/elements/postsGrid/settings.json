@@ -112,7 +112,9 @@
       "gap",
       "atts_pagination",
       "atts_pagination_per_page",
-      "atts_pagination_color"
+      "atts_pagination_color",
+      "metaCustomId",
+      "customClass"
     ],
     "options": {
       "label": "Posts Grid"
@@ -177,5 +179,23 @@
     "value": [
       "General"
     ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
   }
 }

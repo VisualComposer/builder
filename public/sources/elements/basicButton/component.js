@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover } = atts
+    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover, metaCustomId } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
@@ -62,6 +62,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
     return <div className={containerClasses} {...editor}>
       <span className={wrapperClasses} id={'el-' + id} >

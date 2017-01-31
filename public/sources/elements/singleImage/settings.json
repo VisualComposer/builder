@@ -94,6 +94,7 @@
       "shape",
       "size",
       "alignment",
+      "metaCustomId",
       "customClass"
     ],
     "options": {
@@ -204,5 +205,14 @@
       "clickableOptions",
       "image"
     ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
   }
 }

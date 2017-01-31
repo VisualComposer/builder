@@ -3,9 +3,11 @@ class Component extends vcvAPI.elementComponent {
   componentDidMount () {
     this.props.editor && this.updateJsScript(this.props.atts.rawJs)
   }
+
   componentWillReceiveProps (nextProps) {
     this.props.editor && this.updateJsScript(nextProps.atts.rawJs)
   }
+
   updateJsScript (rawJs) {
     let component = this.refs.rawJsWrapper
     component.innerHTML = ''
@@ -13,9 +15,10 @@ class Component extends vcvAPI.elementComponent {
     script.innerText = rawJs
     component.appendChild(script)
   }
+
   render () {
-    var {id, atts, editor} = this.props
-    var {customClass, rawJs, designOptions} = atts // destructuring assignment for attributes from settings.json with access public
+    var { id, atts, editor } = this.props
+    var { customClass, rawJs, designOptions, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-js-container'
     let customProps = {}
     let wrapperClasses = 'vce-raw-js-wrapper'
@@ -36,6 +39,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div className={classes} {...editor} {...customProps}>
