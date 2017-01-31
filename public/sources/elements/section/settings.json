@@ -183,7 +183,8 @@
       "animate",
       "backgroundSlider",
       "backgroundSimple",
-      "backgroundVideoYoutube"
+      "backgroundVideoYoutube",
+      "backgroundVideoVimeo"
     ]
   }
 }
