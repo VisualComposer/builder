@@ -116,7 +116,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width } = atts
+    let { designOptions, customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-twitter-grid'
     let innerClasses = 'vce-twitter-grid-inner'
     let wrapperClasses = 'vce-twitter-grid-wrapper vce'
@@ -150,6 +150,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div {...customProps} className={classes} {...editor}>

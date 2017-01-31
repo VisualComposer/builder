@@ -58,7 +58,6 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "metaCustomId",
       "rowWidth",
       "removeSpaces",
       "columnGap",
@@ -66,6 +65,7 @@
       "columnPosition",
       "equalHeight",
       "contentPosition",
+      "metaCustomId",
       "customClass"
     ],
     "options": {
@@ -182,8 +182,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Row ID",
-      "description": "Apply unique Id to row to link directly to your row by using #your_id (for row id use lowercase input only)."
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
     }
   },
   "equalHeight": {

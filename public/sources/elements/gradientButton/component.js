@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType } = atts
+    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType, metaCustomId } = atts
 
     let containerClasses = ['vce-button--style-gradient-container']
     let classes = []
@@ -61,6 +61,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div className={containerClasses.join(' ')} {...editor}>

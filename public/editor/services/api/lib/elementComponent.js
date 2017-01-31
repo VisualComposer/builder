@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import classNames from 'classnames'
 import YoutubeBackground from './youtubeBackground'
+import VimeoBackground from './vimeoBackground'
 
 const { Component, PropTypes } = React
 
@@ -83,6 +84,7 @@ export default class ElementComponent extends Component {
           backgroundData.push(this.getYoutubeVideo(device[ deviceKey ], deviceKey))
           break
         case 'videoVimeo':
+          backgroundData.push(this.getVimeoVideo(device[ deviceKey ], deviceKey))
           break
         case 'videoSelfHosted':
           break
@@ -170,25 +172,8 @@ export default class ElementComponent extends Component {
     if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
       let videoData = videoYoutube.trim().match(ytrx)
       let videoId = videoData[ 7 ]
-      let start = 0
-      if (videoData[ 8 ]) {
-        start += videoData[ 9 ] === undefined ? 0 : (Number(videoData[ 9 ]) * 60 * 60)
-        start += videoData[ 10 ] === undefined ? 0 : (Number(videoData[ 10 ]) * 60)
-        start += videoData[ 11 ] === undefined ? 0 : (Number(videoData[ 11 ]))
-      }
       let playerSettings = {
-        videoId: videoId,
-        autoplay: 1,
-        start: start,
-        modestbranding: 1,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        loop: 1,
-        playlist: videoId, // to loop video
-        rel: 0,
-        showinfo: 0
+        videoId: videoId
       }
       const { ...otherProps } = this.props
       return <YoutubeBackground {...otherProps} settings={playerSettings} device={key}
@@ -196,6 +181,23 @@ export default class ElementComponent extends Component {
         updateInlineHtml={this.updateInlineHtml} />
     }
 
+    return null
+  }
+
+  getVimeoVideo (device, key) {
+    let { videoVimeo } = device
+    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
+    let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
+    if (videoVimeo && videoVimeo.search(vrx) !== -1) {
+      let videoData = videoVimeo.trim().match(vrx)
+      let videoId = videoData[ 3 ]
+      let playerSettings = {
+        videoId: videoId
+      }
+      const { ...otherProps } = this.props
+      return <VimeoBackground {...otherProps} settings={playerSettings} device={key}
+        reactKey={reactKey} key={reactKey} />
+    }
     return null
   }
 

@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var {id, atts, editor} = this.props
-    var {output, designOptions, customClass} = atts // destructuring assignment for attributes from settings.json with access public
+    var {output, designOptions, customClass, metaCustomId} = atts // destructuring assignment for attributes from settings.json with access public
     let textBlockClasses = 'vce-text-block'
     let wrapperClasses = 'vce-text-block-wrapper vce'
     let customProps = {}
@@ -23,6 +23,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
     return <div className={textBlockClasses} {...editor} {...customProps}>
       <div className={wrapperClasses} id={'el-' + id}>

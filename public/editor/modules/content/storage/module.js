@@ -130,10 +130,6 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
-    if (dolly.metaCustomId) {
-      dolly.metaCustomId = false
-      DocumentData.update(dolly.id, dolly)
-    }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })

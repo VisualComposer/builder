@@ -14,10 +14,10 @@
         if (!element.getVceYoutubeVideo) {
           element.getVceYoutubeVideo = this;
           this.element = element;
-          this.resizer = element.querySelector('img');
+          this.resizer = element.querySelector('svg');
           this.checkYT();
           this.checkOrientation = this.checkOrientation.bind(this);
-          window.addEventListener('resize', this.checkOrientation)
+          window.addEventListener('resize', this.checkOrientation);
         } else {
           this.updatePlayer();
         }

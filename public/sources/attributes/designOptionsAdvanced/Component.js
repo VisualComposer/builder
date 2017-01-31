@@ -182,6 +182,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.youtubeVideoChangeHandler = this.youtubeVideoChangeHandler.bind(this)
+    this.vimeoVideoChangeHandler = this.vimeoVideoChangeHandler.bind(this)
   }
 
   /**
@@ -298,6 +299,11 @@ class DesignOptionsAdvanced extends Attribute {
           // youtube video is empty
           if (newValue[ device ].videoYoutube === '' || newValue[ device ].backgroundType !== 'videoYoutube') {
             delete newValue[ device ].videoYoutube
+          }
+
+          // vimeo video is empty
+          if (newValue[ device ].videoVimeo === '' || newValue[ device ].backgroundType !== 'videoVimeo') {
+            delete newValue[ device ].videoVimeo
           }
 
           // gradient angle is not set
@@ -1109,6 +1115,41 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render Vimeo video control
+   * @returns {*}
+   */
+  getVimeoVideoRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoVimeo`) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].videoVimeo || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Vimeo video link
+      </span>
+      <String
+        api={this.props.api}
+        fieldKey='videoVimeo'
+        updater={this.vimeoVideoChangeHandler}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle change of vimeo video control
+   * @param fieldKey
+   * @param value
+   */
+  vimeoVideoChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -1127,6 +1168,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getAttachImageRender()}
             {this.getSliderTimeoutRender()}
             {this.getYoutubeVideoRender()}
+            {this.getVimeoVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}

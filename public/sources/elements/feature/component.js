@@ -3,9 +3,10 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, description, align, icon, customClass } = atts
+    let { designOptions, description, align, icon, customClass, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
+    let customContainerProps = {}
 
     let containerClasses = classNames({
       'vce-feature': true,
@@ -35,12 +36,15 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+    if (metaCustomId) {
+      customContainerProps.id = metaCustomId
+    }
 
     const Cook = vcCake.getService('cook')
     let Icon = Cook.get(icon)
     let iconOutput = Icon.render(null, false)
 
-    return <section className={containerClasses} {...editor}>
+    return <section className={containerClasses} {...editor} {...customContainerProps}>
       <div className={wrapperClasses} id={'el-' + id} {...customProps}>
         {iconOutput}
         {description}

@@ -92,7 +92,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, height } = atts
+    let { designOptions, customClass, alignment, width, height, metaCustomId } = atts
     let classes = 'vce-google-maps'
     let innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper vce'
@@ -142,6 +142,9 @@ class Component extends vcvAPI.elementComponent {
     })
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
+    }
+    if (metaCustomId) {
+      customProps.id = metaCustomId
     }
 
     return <div {...customProps} className={classes} {...editor}>

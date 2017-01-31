@@ -57,9 +57,26 @@ AssetsLibrary.add('backgroundVideoYoutube', {
   ]
 })
 
+AssetsLibrary.add('backgroundVideoVimeo', {
+  publicCss: [
+    'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.css'
+  ],
+  publicJs: [
+    'assetsLibrary/vimeoPlayerAPI/init.js',
+    'assetsLibrary/backgroundVideoVimeo/plugin.js',
+    'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.js'
+  ]
+})
+
 AssetsLibrary.add('youtubeIFrameAPI', {
   publicJs: [
     'assetsLibrary/youtubeIFrameAPI/init.js'
+  ]
+})
+
+AssetsLibrary.add('vimeoPlayerAPI', {
+  publicJs: [
+    'assetsLibrary/vimeoPlayerAPI/init.js'
   ]
 })
 vcCake.addService('assets-library', AssetsLibrary)

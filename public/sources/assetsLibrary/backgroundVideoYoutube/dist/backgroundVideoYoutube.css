@@ -6,6 +6,7 @@
   left: 0;
   overflow: hidden;
   display: none;
+  pointer-events: none;
 }
 
 .vce-asset-video-yt-container .vce-asset-video-yt-sizer {

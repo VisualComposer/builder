@@ -195,11 +195,12 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, customClass, size, alignment } = atts
+    let { image, designOptions, shape, clickableOptions, customClass, size, alignment, metaCustomId } = atts
     let containerClasses = 'vce-single-image-container'
     let wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner'
     let customProps = {}
+    let containerProps = {}
     let wrapperProps = {}
     let CustomTag = 'div'
     let originalSrc = this.getImageUrl(image, 'full')
@@ -281,10 +282,13 @@ class Component extends vcvAPI.elementComponent {
     if (animations.length) {
       customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
+    if (metaCustomId) {
+      containerProps.id = metaCustomId
+    }
 
     customProps.style = this.state ? this.state.imgSize : null
 
-    return <div className={containerClasses} {...editor}>
+    return <div className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} {...wrapperProps} id={'el-' + id}>
         <CustomTag {...customProps} className={classes} ref='imageContainer'>
           <img className='vce-single-image' src={imgSrc} {...customImageProps} />
