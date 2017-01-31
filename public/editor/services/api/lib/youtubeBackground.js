@@ -10,7 +10,6 @@ export default class YoutubeBackground extends Component {
 
   render () {
     let vcvHelperHTML = `<div class="vce-asset-video-yt-player" />`
-    let thumbnail = `http://img.youtube.com/vi/${this.props.settings.videoId}/mqdefault.jpg`
     let containerClasses = [
       `vce-asset-video-yt-container`,
       `vce-visible-${this.props.device}-only`
@@ -20,7 +19,7 @@ export default class YoutubeBackground extends Component {
         data-vce-assets-video-yt={this.props.settings.videoId}
         data-vce-assets-video-replacer='.vce-asset-video-yt-player'
         data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
-        <img className='vce-asset-video-yt-sizer' src={thumbnail} />
+        <svg className='vce-asset-video-yt-sizer' />
         <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     </div>

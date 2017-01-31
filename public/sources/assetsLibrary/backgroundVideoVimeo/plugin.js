@@ -17,7 +17,7 @@
           this.resizer = element.querySelector('.vce-asset-video-vimeo-sizer');
           this.checkVimeo();
           this.checkOrientation = this.checkOrientation.bind(this);
-          window.addEventListener('resize', this.checkOrientation)
+          window.addEventListener('resize', this.checkOrientation);
         } else {
           this.updatePlayer();
         }
@@ -58,17 +58,15 @@
         this.vimeoPlayer.on('loaded', function () {
           // get player size
           var promises = [
-            _this.vimeoPlayer.getVideoHeight(),
-            _this.vimeoPlayer.getVideoWidth()
+            _this.vimeoPlayer.getVideoWidth(),
+            _this.vimeoPlayer.getVideoHeight()
           ]
           Promise.all(promises).then(function (size) {
-            _this.resizer.setAttribute('height', size[ 0 ]);
-            _this.resizer.setAttribute('width', size[ 1 ]);
+            _this.resizer.setAttribute('width', size[ 0 ]);
+            _this.resizer.setAttribute('height', size[ 1 ]);
             _this.ratio = parseInt(size[ 0 ]) / parseInt(size[ 1 ]);
             _this.checkOrientation();
           });
-          // the player is ready
-          console.log('promise:loaded', this, test, test2);
         });
       },
       updatePlayer: function updatePlayer () {

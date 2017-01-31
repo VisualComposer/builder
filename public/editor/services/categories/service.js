@@ -164,6 +164,9 @@ if (vcCake.env('FEATURE_XO_WORK')) {
 if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
   tempData.categories[ 'Section' ].elements.push('section')
 }
+if (vcCake.env('FEATURE_CUSTOM_DESIGN_OPTIONS')) {
+  tempData.categories[ 'Button' ].elements.push('basicButtonJK')
+}
 // if (window.vcvCustomWidgets && window.vcvCustomWidgets.length) {
 tempData.categories[ 'WP Widgets' ].elements.push('wpWidgetsCustom')
 // }

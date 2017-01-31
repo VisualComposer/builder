@@ -1,0 +1,108 @@
+// Styles for Buttons
+//-----------------------------------------
+
+.vce-button--style-basic-container {
+  &--align {
+    &-left {
+      text-align: left;
+    }
+    &-right {
+      text-align: right;
+    }
+    &-center {
+      text-align: center;
+    }
+  }
+}
+
+.vce-button--style-basic-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+// By default .vce-button does not look like much. It will be a basic text with hover cursor
+.vce-button--style-basic {
+  a&,
+  button& {
+    background-color: transparent;
+    background-image: none;
+    border: none; // For input.btn
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 100%;
+    // If the contnet of the button is more than the containers, the text will break normally
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: normal;
+    touch-action: manipulation;
+    user-select: none;
+    line-height: normal;
+    border-radius: @vce-button-basic-border-radius;
+    transition: all @vce-button-transition-duration @vce-button-transition-timing-function;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+  }
+
+  button& {
+    -webkit-appearance: none;
+  }
+
+  #vce-button > .size(@vce-button-padding-vertical; @vce-button-padding-horizontal; @vce-button-font-size;);
+  // Basic solid button
+
+  // shapes
+  &--border {
+    &-rounded, &-round {
+      a&,
+      button& {
+        position: relative;
+        overflow: hidden;
+      }
+    }
+    &-rounded {
+      a&,
+      button& {
+        border-radius: @vce-button-rounded;
+      }
+    }
+    &-round {
+      &,
+      a&,
+      button& {
+        border-radius: @vce-button-round;
+      }
+    }
+  }
+}
+
+// RTL support
+.rtl,
+[dir="rlt"] {
+  &.vce-button--style-basic,
+  .vce-button--style-basic {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+}
+
+// LTR
+.ltr,
+[dir="ltr"] {
+  &.vce-button--style-basic,
+  .vce-button--style-basic {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+
+

@@ -19,7 +19,7 @@ export default class VimeoBackground extends Component {
         data-vce-assets-video-vimeo={this.props.settings.videoId}
         data-vce-assets-video-replacer='.vce-asset-video-vimeo-player'
         data-vce-assets-video-orientation-class='vce-asset-video-vimeo--state-landscape'>
-        <div className='vce-asset-video-vimeo-sizer' />
+        <svg className='vce-asset-video-vimeo-sizer' />
         <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     </div>
