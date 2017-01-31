@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
 import _ from 'lodash'
@@ -14,9 +13,11 @@ export default class DefaultElement extends React.Component {
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
     activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.object.isRequired,
+    layout: React.PropTypes.func.isRequired,
     layoutWidth: React.PropTypes.object.isRequired
   }
+
+  elementContainer = null
 
   constructor (props) {
     super(props)
@@ -55,11 +56,11 @@ export default class DefaultElement extends React.Component {
 
   componentDidMount () {
     this.handleElementSize()
-    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
+    this.addResizeListener(this.elementContainer, this.handleElementSize)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementSize)
+    this.removeResizeListener(this.elementContainer, this.handleElementSize)
   }
 
   // Events
@@ -101,8 +102,8 @@ export default class DefaultElement extends React.Component {
   }
 
   handleDropdownSize () {
-    let { layout } = this.props
-    let container = ReactDOM.findDOMNode(this)
+    let layout = this.props.layout()
+    let container = this.elementContainer
     let attrDropdown = container.querySelector('.vce-wpbackend-element-attributes')
     if (attrDropdown) {
       let size = container.getBoundingClientRect()
@@ -122,7 +123,7 @@ export default class DefaultElement extends React.Component {
   }
 
   handleElementSize () {
-    let container = ReactDOM.findDOMNode(this)
+    let container = this.elementContainer
     let header = this.getElementData('.vce-wpbackend-element-header')
     let nameWrapper = this.getElementData('.vce-wpbackend-element-header-name-wrapper')
     let nameInner = this.getElementData('.vce-wpbackend-element-header-name')
@@ -150,7 +151,7 @@ export default class DefaultElement extends React.Component {
   // Getters
 
   getElementData (className) {
-    return ReactDOM.findDOMNode(this).querySelector(className).getBoundingClientRect()
+    return this.elementContainer.querySelector(className).getBoundingClientRect()
   }
 
   getDependency (label, element, cookElement) {
@@ -212,7 +213,11 @@ export default class DefaultElement extends React.Component {
       width: dropdownWidth
     }
     if (hasAttributes) {
-      return <div className='vce-wpbackend-element-container' data-vcv-element={element.id}>
+      return <div
+        className='vce-wpbackend-element-container'
+        data-vcv-element={element.id}
+        ref={(container) => { this.elementContainer = container }}
+      >
         <div className={headerClasses} onClick={this.handleClick}>
           <div className='vce-wpbackend-element-header-icon'>
             <img src={icon} alt={element.name} title={element.name} />
@@ -226,7 +231,11 @@ export default class DefaultElement extends React.Component {
         </div>
       </div>
     }
-    return <div className='vce-wpbackend-element-container' data-vcv-element={element.id}>
+    return <div
+      className='vce-wpbackend-element-container'
+      data-vcv-element={element.id}
+      ref={(container) => { this.elementContainer = container }}
+    >
       <div className='vce-wpbackend-element-header'>
         <div className='vce-wpbackend-element-header-icon'>
           <img src={icon} alt={element.name} title={element.name} />
