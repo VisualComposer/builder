@@ -106,7 +106,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Custom ID"
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to your element by using #your_id (for element id use lowercase input only)."
     }
   }
 }

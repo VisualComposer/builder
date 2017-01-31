@@ -1,5 +1,6 @@
 const classNames = require('classnames')
 let customProps = {}
+let customColProps = {}
 let classes = []
 
 if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -32,4 +33,8 @@ devices.forEach((device) => {
 })
 if (animations.length) {
   customProps[ 'data-vce-animate' ] = animations.join(' ')
+}
+
+if (metaCustomId) {
+  customColProps.id = metaCustomId
 }
