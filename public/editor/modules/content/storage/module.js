@@ -130,10 +130,6 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
-    if (dolly.metaCustomId) {
-      dolly.metaCustomId = false
-      DocumentData.update(dolly.id, dolly)
-    }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })
@@ -206,7 +202,7 @@ vcCake.add('storage', (api) => {
       api.request('data:add', element, false, { silent: true })
       api.request('data:afterAdd', [ element.id ])
     })
-    api.request('data:changed', DocumentData.children(false), 'reset')
+    api.request('data:changed', DocumentData.children(false), 'merge')
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})

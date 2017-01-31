@@ -29,13 +29,22 @@
       "label": "Limit"
     }
   },
+  "attsSticky": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add sticky posts"
+    }
+  },
   "postsGridDataSource": {
     "type": "group",
     "access": "protected",
     "value": [
       "attsCategory",
       "attsOffset",
-      "attsLimit"
+      "attsLimit",
+      "attsSticky"
     ],
     "options": {
       "label": "Posts Grid"
