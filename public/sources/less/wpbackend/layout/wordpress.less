@@ -1,11 +1,80 @@
+//== override wordpress styles
+
 #postdivrich {
   display: none;
 }
+
 #vcwb_visual_composer {
+  .inside {
+    margin: 0;
+    padding: 0;
+  }
+
   #vcv-dnd-smart-line {
     position: fixed;
   }
   .vcv-drag-helper {
     position: fixed;
+  }
+}
+
+//== override frontend styles
+
+.vcv-wpbackend-layout-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .vcv-layout {
+    &-header {
+      z-index: @vcv-wpbackend-layout-header-zindex;
+    }
+
+    &-content {
+      display: none;
+    }
+  }
+
+  .vcv-ui-navbar-control,
+  .vcv-layout-bar-content-hide,
+  .vcv-ui-tree-layout-action,
+  .vcv-ui-tree-layout-control-action,
+  .vcv-ui-editor-tab,
+  .vcv-ui-edit-form-action,
+  .vcv-ui-settings-action {
+    &:hover,
+    &:active,
+    &:focus {
+      color: @vce-wpbackend-layout-link-hover-color;
+      box-shadow: none;
+    }
+  }
+
+  .vcv-ui-editor-tab {
+    &.vcv-ui-state--active {
+      &:hover,
+      &:active,
+      &:focus {
+        color: @vce-wpbackend-layout-tab-hover-color;
+      }
+    }
+  }
+
+  .vcv-ui-item-element {
+    &:hover {
+      color: @vce-wpbackend-layout-item-hover-color;
+    }
+  }
+
+  select {
+    &.vcv-ui-form-dropdown {
+      height: auto;
+      padding: @vcv-wpbackend-form-input-padding;
+      line-height: @vcv-wpbackend-form-input-line-height;
+    }
+  }
+
+  .vcv-ui-item-preview-container {
+    z-index: @vcv-wpbackend-item-preview-zindex;
   }
 }
