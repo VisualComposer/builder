@@ -12,7 +12,7 @@ export default class Element extends React.Component {
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
     activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.object.isRequired,
+    layout: React.PropTypes.func.isRequired,
     layoutWidth: React.PropTypes.object.isRequired
   }
 
