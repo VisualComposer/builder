@@ -38,8 +38,7 @@
       "description": "Enter gap in pixels (Example: 5).",
       "cssMixin": {
         "mixin": "postsGridGap",
-        "property": "gap",
-        "namePattern": "[\\da-f]+"
+        "property": "gap"
       }
     }
   },
@@ -51,8 +50,7 @@
       "label": "Number of Columns",
       "cssMixin": {
         "mixin": "postsGridColumns",
-        "property": "columns",
-        "namePattern": "[\\da-f]+"
+        "property": "columns"
       }
     }
   },

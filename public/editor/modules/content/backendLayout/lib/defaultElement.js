@@ -12,9 +12,7 @@ export default class DefaultElement extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
-    activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.func.isRequired,
-    layoutWidth: React.PropTypes.object.isRequired
+    activeElementId: React.PropTypes.string.isRequired
   }
 
   elementContainer = null
@@ -24,14 +22,10 @@ export default class DefaultElement extends React.Component {
     this.state = {
       hasAttributes: true,
       element: props.element,
-      dropdownTop: '',
-      dropdownLeft: '',
-      dropdownWidth: '',
       isName: true,
       isArrow: true
     }
     this.handleClick = this.handleClick.bind(this)
-    this.handleDropdownSize = this.handleDropdownSize.bind(this)
     this.handleElementSize = _.debounce(this.handleElementSize.bind(this), 150)
   }
 
@@ -45,13 +39,7 @@ export default class DefaultElement extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let { element, activeElementId, layoutWidth } = this.props
     this.setState({ element: nextProps.element })
-    if (layoutWidth !== nextProps.layoutWidth) {
-      if (activeElementId === element.id) {
-        this.handleDropdownSize()
-      }
-    }
   }
 
   componentDidMount () {
@@ -97,28 +85,6 @@ export default class DefaultElement extends React.Component {
       openElement('')
     } else {
       openElement(element.id)
-      this.handleDropdownSize()
-    }
-  }
-
-  handleDropdownSize () {
-    let layout = this.props.layout()
-    let container = this.elementContainer
-    let attrDropdown = container.querySelector('.vce-wpbackend-element-attributes')
-    if (attrDropdown) {
-      let size = container.getBoundingClientRect()
-      let styles = window.getComputedStyle(container)
-      let layoutStyles = window.getComputedStyle(layout)
-      let layoutSize = layout.getBoundingClientRect()
-      let layoutLeft = layoutSize.left + parseInt(layoutStyles.paddingLeft)
-      let containerLeft = size.left
-      let diff = containerLeft - layoutLeft
-      let dropdownPos = 0 - diff - parseInt(styles.borderLeftWidth)
-      this.setState({
-        dropdownWidth: `${layoutSize.width - parseInt(layoutStyles.paddingLeft) - parseInt(layoutStyles.paddingRight)}px`,
-        dropdownLeft: `${dropdownPos}px`,
-        dropdownTop: `${size.height - parseInt(styles.borderBottomWidth) - parseInt(styles.borderTopWidth)}px`
-      })
     }
   }
 
@@ -127,7 +93,7 @@ export default class DefaultElement extends React.Component {
     let header = this.getElementData('.vce-wpbackend-element-header')
     let nameWrapper = this.getElementData('.vce-wpbackend-element-header-name-wrapper')
     let nameInner = this.getElementData('.vce-wpbackend-element-header-name')
-    let icon = this.getElementData('.vce-wpbackend-element-header-icon')
+    let icon = this.getElementData('.vce-wpbackend-element-header-icon-container')
     let nameWrapperElement = container.querySelector('.vce-wpbackend-element-header-name-wrapper')
     let nameWrapperStyles = window.getComputedStyle(nameWrapperElement)
     let nameWrapperPaddingLeft = parseInt(nameWrapperStyles.paddingLeft)
@@ -135,16 +101,16 @@ export default class DefaultElement extends React.Component {
     let offsets = nameWrapperPaddingLeft + arrowPos
     let { isName, isArrow } = this.state
 
-    if (isName && nameInner.width > nameWrapper.width - offsets) {
-      this.setState({ isName: false })
-    } else if (!isName && nameInner.width < nameWrapper.width - offsets) {
-      this.setState({ isName: true })
+    if (isArrow && nameInner.width > nameWrapper.width - offsets) {
+      this.setState({ isArrow: false })
+    } else if (!isArrow && nameInner.width < nameWrapper.width - offsets) {
+      this.setState({ isArrow: true })
     }
 
-    if (isArrow && icon.width > header.width - offsets) {
-      this.setState({ isArrow: false })
-    } else if (!isArrow && icon.width < header.width - offsets) {
-      this.setState({ isArrow: true })
+    if (isName && icon.width + nameInner.width > header.width) {
+      this.setState({ isName: false })
+    } else if (!isName && icon.width + nameInner.width < header.width) {
+      this.setState({ isName: true })
     }
   }
 
@@ -186,7 +152,7 @@ export default class DefaultElement extends React.Component {
   }
 
   render () {
-    const { element, hasAttributes, dropdownTop, dropdownLeft, dropdownWidth, isName, isArrow } = this.state
+    const { element, hasAttributes, isName, isArrow } = this.state
     const { activeElementId } = this.props
     let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
@@ -203,15 +169,9 @@ export default class DefaultElement extends React.Component {
 
     let nameClasses = classNames({
       'vce-wpbackend-element-header-name-wrapper': true,
-      'vce-wpbackend-invisible': !isName,
-      'vce-wpbackend-hidden': !isArrow
+      'vce-wpbackend-invisible': !isName
     })
 
-    let dropdownStyles = {
-      top: dropdownTop,
-      left: dropdownLeft,
-      width: dropdownWidth
-    }
     if (hasAttributes) {
       return <div
         className='vce-wpbackend-element-container'
@@ -219,14 +179,19 @@ export default class DefaultElement extends React.Component {
         ref={(container) => { this.elementContainer = container }}
       >
         <div className={headerClasses} onClick={this.handleClick}>
-          <div className='vce-wpbackend-element-header-icon'>
-            <img src={icon} alt={element.name} title={element.name} />
+          <div className='vce-wpbackend-element-header-icon-container'>
+            <img
+              className='vce-wpbackend-element-header-icon'
+              src={icon}
+              alt={element.name}
+              title={element.name}
+            />
           </div>
           <div className={nameClasses}>
             <span className='vce-wpbackend-element-header-name'>{element.name}</span>
           </div>
         </div>
-        <div className={attributesClasses} style={dropdownStyles}>
+        <div className={attributesClasses}>
           {this.getRepresenter(element)}
         </div>
       </div>
@@ -237,8 +202,13 @@ export default class DefaultElement extends React.Component {
       ref={(container) => { this.elementContainer = container }}
     >
       <div className='vce-wpbackend-element-header'>
-        <div className='vce-wpbackend-element-header-icon'>
-          <img src={icon} alt={element.name} title={element.name} />
+        <div className='vce-wpbackend-element-header-icon-container'>
+          <img
+            className='vce-wpbackend-element-header-icon'
+            src={icon}
+            alt={element.name}
+            title={element.name}
+          />
         </div>
         <div className='vce-wpbackend-element-header-name-wrapper'>
           <span className='vce-wpbackend-element-header-name'>{element.name}</span>
