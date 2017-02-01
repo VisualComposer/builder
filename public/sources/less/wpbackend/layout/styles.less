@@ -2,67 +2,6 @@
  * Visual composer wp backend layout
  * =================================== */
 
-//== override wordpress styles
-
-#vcwb_visual_composer {
-  .inside {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-//== override frontend styles
-
-.vcv-wpbackend-layout-container {
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-
-  .vcv-layout-content {
-    display: none;
-  }
-
-  .vcv-ui-navbar-control,
-  .vcv-layout-bar-content-hide,
-  .vcv-ui-tree-layout-action,
-  .vcv-ui-tree-layout-control-action,
-  .vcv-ui-editor-tab,
-  .vcv-ui-edit-form-action,
-  .vcv-ui-settings-action {
-    &:hover,
-    &:active,
-    &:focus {
-      color: @vce-wpbackend-layout-link-hover-color;
-      box-shadow: none;
-    }
-  }
-
-  .vcv-ui-editor-tab {
-    &.vcv-ui-state--active {
-      &:hover,
-      &:active,
-      &:focus {
-        color: @vce-wpbackend-layout-tab-hover-color;
-      }
-    }
-  }
-
-  .vcv-ui-item-element {
-    &:hover {
-      color: @vce-wpbackend-layout-item-hover-color;
-    }
-  }
-
-
-  select {
-    &.vcv-ui-form-dropdown {
-      height: auto;
-      padding: @vcv-wpbackend-form-input-padding;
-      line-height: @vcv-wpbackend-form-input-line-height;
-    }
-  }
-}
-
 //== backend view layout styles
 
 .vcv-wpbackend-layout {
@@ -109,6 +48,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    height: @vcv-wpbackend-element-header-size;
 
     &::after {
       content: '';
@@ -128,8 +68,6 @@
     }
 
     &-opened {
-      background-color: @vce-wpbackend-element-header-background-color-active;
-
       &::after{
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
@@ -138,7 +76,7 @@
     }
 
     &-no-arrow {
-      justify-content: center;
+      //justify-content: center;
 
       &::after {
         display: none;
@@ -149,27 +87,28 @@
       flex: 2 0 auto;
       display: flex;
       align-items: center;
-      padding-left: @vcv-wpbackend-element-name-padding-left;
-      border-left: 1px solid @vce-wpbackend-element-container-border-color;
-      height: 60px;
     }
 
-    &-icon{
-      flex: 0 0 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    &-icon {
+      width: @vcv-wpbackend-element-icon-size;
+      height: @vcv-wpbackend-element-icon-size;
+
+      &-container{
+        flex: 0 0 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 
   &-attributes {
-    position: absolute;
+    position: relative;
     z-index: 1;
     background-color: @vce-wpbackend-element-attributes-background-color;
     font-style: italic;
     color: @vce-wpbackend-element-attributes-color;
-    border: 1px solid @vce-wpbackend-element-container-border-color;
+    border-top: 1px solid @vce-wpbackend-element-container-border-color;
   }
 }
 
@@ -180,7 +119,7 @@
 }
 
 .vce-wpbackend-invisible {
-  visibility: hidden;
+  //visibility: hidden;
 }
 
 //== element attributes styles

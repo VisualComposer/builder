@@ -18,17 +18,3 @@
   vertical-align: top;
   display: inline-block;
 }
-
-[data-vcv-element-disable-interaction="true"] .vce-pinterest-pinit-inner {
-  position: relative;
-}
-
-[data-vcv-element-disable-interaction="true"] .vce-pinterest-pinit-inner::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-}

@@ -139,6 +139,25 @@ let publicApi = {
     )
     return styles
   },
+
+  // ==== Get css data for wordpress backend, doesn't include custom and global css
+  getWpBackendPageCssData () {
+    let styles = []
+    styles = styles.concat(
+      assetsStorage.getDesignOptionsCssData(),
+      assetsStorage.getAttributesMixinsCssData()
+    )
+    return styles
+  },
+  getWpBackendSiteCssData (editor = false) {
+    let styles = []
+    styles = styles.concat(
+      assetsStorage.getElementsCssData(editor),
+      assetsStorage.getColumnsCssData(),
+      assetsStorage.getMixinsCssData(),
+    )
+    return styles
+  },
   getGoogleFontsData () {
     return assetsStorage.getGoogleFontsData()
   }

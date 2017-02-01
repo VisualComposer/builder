@@ -31,7 +31,7 @@
 
 .vce-posts-grid-pagination-item {
   display: inline-block;
-  background: #EEEEEE;
+  /*background: #EEEEEE;*/
   border-radius: 50%;
   color: #777777;
   margin: 3px 7px;
@@ -42,7 +42,7 @@
 }
 
 .vce-posts-grid-pagination-item:hover {
-  background: #DCDCDC;
+  /*background: #DCDCDC;*/
   text-decoration: none;
   color: #777777;
 }
@@ -53,7 +53,7 @@
 }
 
 .vce-posts-grid-pagination-item.vce-state--active {
-  background: #557CBF;
+  /*background: #557CBF;*/
   color: #fff;
 }
 

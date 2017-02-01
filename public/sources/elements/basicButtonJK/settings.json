@@ -166,8 +166,15 @@
     "access": "public",
     "value": {},
     "options": {
-      "label": "Design Options JK",
-      "customPadding": true
+      "label": "Design Options JK"
+    }
+  },
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options Advanced"
     }
   },
   "editFormTab1": {
@@ -195,7 +202,8 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptionsJK"
+      "designOptionsJK",
+      "designOptionsAdvanced"
     ]
   },
   "relatedTo": {

@@ -21,16 +21,14 @@ vcCake.add('assets', (api) => {
       document.body.appendChild(doElement)
     }
     assetsManager.getCompiledCss(true).then((result) => {
-      let cssString = result
-      cssString += assetsManager.getGlobalCss()
-      styleElement.innerHTML = cssString
+      styleElement.innerHTML = result
     }).then(() => {
       vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getSiteCssData())
+      stylesManager.add(wipAssetsStorage.getWpBackendSiteCssData())
       stylesManager.compile().then((result) => {
         styleElement.innerHTML = result
       })
@@ -38,12 +36,11 @@ vcCake.add('assets', (api) => {
 
     assetsManager.getCompiledDesignOptions().then((result) => {
       doElement.innerHTML = result
-      doElement.innerHTML += assetsManager.getCustomCss()
     })
 
     if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
       let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getPageCssData())
+      stylesManager.add(wipAssetsStorage.getWpBackendPageCssData())
       stylesManager.compile().then((result) => {
         doElement.innerHTML = result
       })

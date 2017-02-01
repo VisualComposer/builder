@@ -1,0 +1,18 @@
+.vce-posts-grid-pagination--color-$selector {
+  .vce-posts-grid-pagination-item {
+    @if $baseColor != false {
+      background-color: $baseColor;
+      &:hover {
+        background-color: color($baseColor shade(10%));
+      }
+    }
+  }
+  .vce-posts-grid-pagination-item.vce-state--active {
+    @if $activeColor != false {
+      background-color: $activeColor;
+      &:hover {
+        background-color: color($activeColor shade(10%));
+      }
+    }
+  }
+}

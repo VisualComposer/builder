@@ -10,7 +10,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
   }
 
   field = (field) => {
-    if (field.key === 'designOptions') {
+    if (field.key === 'designOptions' || field.key === 'metaCustomId') {
       return
     }
     return (

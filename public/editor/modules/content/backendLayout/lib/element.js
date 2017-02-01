@@ -11,9 +11,7 @@ export default class Element extends React.Component {
     element: React.PropTypes.object.isRequired,
     api: React.PropTypes.object.isRequired,
     openElement: React.PropTypes.func.isRequired,
-    activeElementId: React.PropTypes.string.isRequired,
-    layout: React.PropTypes.func.isRequired,
-    layoutWidth: React.PropTypes.object.isRequired
+    activeElementId: React.PropTypes.string.isRequired
   }
 
   componentDidMount () {
@@ -34,7 +32,7 @@ export default class Element extends React.Component {
   }
 
   getContent (content) {
-    let { element, api, activeElementId, openElement, layout, layoutWidth } = this.props
+    let { element, api, activeElementId, openElement } = this.props
     let returnData = null
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
@@ -44,8 +42,6 @@ export default class Element extends React.Component {
         api={api}
         activeElementId={activeElementId}
         openElement={openElement}
-        layout={layout}
-        layoutWidth={layoutWidth}
       />
     })
     if (elementsList.length) {
@@ -61,13 +57,17 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      layoutAtts[ key ] = atts[ key ]
+      if (key === 'designOptions') {
+        layoutAtts[ key ] = {}
+      } else {
+        layoutAtts[ key ] = atts[ key ]
+      }
     })
     return layoutAtts
   }
 
   getOutput (el) {
-    let { element, api, activeElementId, openElement, layout, layoutWidth } = this.props
+    let { element, api, activeElementId, openElement } = this.props
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -96,8 +96,6 @@ export default class Element extends React.Component {
       element={element}
       activeElementId={activeElementId}
       openElement={openElement}
-      layout={layout}
-      layoutWidth={layoutWidth}
     />
   }
 
