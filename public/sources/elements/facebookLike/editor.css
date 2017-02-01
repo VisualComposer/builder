@@ -1,0 +1,17 @@
+[data-vcv-element-disable-interaction="true"] .vce-facebook-like-inner {
+  position: relative;
+}
+
+[data-vcv-element-disable-interaction="true"] .vce-facebook-like-inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.vce-facebook-like {
+  min-height: 1em;
+}

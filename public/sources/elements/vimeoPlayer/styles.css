@@ -15,15 +15,6 @@
   display: block;
   padding-top: 56%;
 }
-[data-vcv-element-disabled="true"] .vce-vim-video-player-inner::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-}
 .vce-vim-video-player-iframe {
   position: absolute;
   top: 0;
