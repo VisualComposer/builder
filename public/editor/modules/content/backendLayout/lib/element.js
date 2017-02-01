@@ -61,7 +61,11 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      layoutAtts[ key ] = atts[ key ]
+      if (key === 'designOptions') {
+        layoutAtts[ key ] = {}
+      } else {
+        layoutAtts[ key ] = atts[ key ]
+      }
     })
     return layoutAtts
   }
