@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { getData } from 'vc-cake'
 import Element from './element'
 import BlankPageManagerBack from '../lib/helpers/BlankPageManagerBack/component'
@@ -9,6 +8,9 @@ export default class Layout extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
   }
+
+  backendLayout = null
+  isResizeActive = false
 
   constructor (props) {
     super(props)
@@ -20,6 +22,7 @@ export default class Layout extends React.Component {
     }
     this.handleOpenElement = this.handleOpenElement.bind(this)
     this.handleResize = _.debounce(this.handleResize.bind(this), 150)
+    this.getLayout = this.getLayout.bind(this)
   }
 
   componentDidMount () {
@@ -27,17 +30,11 @@ export default class Layout extends React.Component {
       this.setState({
         data: data
       })
-      if (ReactDOM.findDOMNode(this).classList.contains('vcv-wpbackend-layout')) {
-        this.setState({
-          layout: ReactDOM.findDOMNode(this)
-        })
-        this.addResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
-      }
     })
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
+    this.removeResizeListener(this.backendLayout, this.handleResize)
   }
 
   addResizeListener (element, fn) {
@@ -67,15 +64,22 @@ export default class Layout extends React.Component {
   }
 
   handleResize () {
-    this.setState({ layoutWidth: ReactDOM.findDOMNode(this).getBoundingClientRect() })
+    this.setState({
+      layout: this.backendLayout,
+      layoutWidth: this.backendLayout.getBoundingClientRect()
+    })
   }
 
   handleOpenElement (id) {
     this.setState({ activeElementId: id })
   }
 
+  getLayout () {
+    return this.backendLayout ? this.backendLayout : this.state.layout
+  }
+
   getElements () {
-    let { data, activeElementId, layout, layoutWidth } = this.state
+    let { data, activeElementId, layoutWidth } = this.state
     let elementsList
     if (data) {
       elementsList = data.map((element) => {
@@ -86,13 +90,21 @@ export default class Layout extends React.Component {
             api={this.props.api}
             openElement={this.handleOpenElement}
             activeElementId={activeElementId}
-            layout={layout}
+            layout={this.getLayout}
             layoutWidth={layoutWidth}
           />
         )
       })
     }
-    return <div className='vcv-wpbackend-layout' data-vcv-module='content-layout'>
+    if (!this.isResizeActive && this.backendLayout) {
+      this.addResizeListener(this.backendLayout, this.handleResize)
+      this.isResizeActive = true
+    }
+    return <div
+      className='vcv-wpbackend-layout'
+      data-vcv-module='content-layout'
+      ref={(layout) => { this.backendLayout = layout }}
+    >
       {elementsList}
     </div>
   }
