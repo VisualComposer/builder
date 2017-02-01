@@ -95,6 +95,13 @@ class Component extends vcvAPI.elementComponent {
     if (mixinData) {
       wrapperClasses.push(`vce-posts-grid--columns-${mixinData.selector}`)
     }
+
+    mixinData = this.getMixinData('postsGridPaginationColor')
+    if (mixinData) {
+      // push this class into .vce-posts-grid-pagination
+      wrapperClasses.push(`vce-posts-grid-pagination--color-${mixinData.selector}`)
+    }
+
     if (customClass) {
       containerClasses.push(customClass)
     }

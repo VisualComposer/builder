@@ -87,9 +87,9 @@
   "atts_pagination_color": {
     "type": "color",
     "access": "public",
-    "value": "",
+    "value": "#EEE",
     "options": {
-      "label": "Pagination Color",
+      "label": "Pagination base color",
       "onChange": {
         "rules": {
           "atts_pagination": {
@@ -101,6 +101,36 @@
             "action": "toggleVisibility"
           }
         ]
+      },
+      "cssMixin": {
+        "mixin": "postsGridPaginationColor",
+        "property": "baseColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "atts_pagination_active_color": {
+    "type": "color",
+    "access": "public",
+    "value": "#557CBF",
+    "options": {
+      "label": "Pagination active color",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      },
+      "cssMixin": {
+        "mixin": "postsGridPaginationColor",
+        "property": "activeColor",
+        "namePattern": "[\\da-f]+"
       }
     }
   },
@@ -113,6 +143,7 @@
       "atts_pagination",
       "atts_pagination_per_page",
       "atts_pagination_color",
+      "atts_pagination_active_color",
       "metaCustomId",
       "customClass"
     ],
