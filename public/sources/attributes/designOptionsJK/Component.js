@@ -14,22 +14,6 @@ class DesignOptionsJK extends Attribute {
    * Attribute Mixins
    */
   static attributeMixins = {
-    testMixin: {
-      src: require('raw-loader!./cssMixins/designeOptionsAdvanced.pcss'),
-      variables: {
-        color: {
-          namePattern: '[\\da-f]+',
-          value: ''
-        },
-        background: {
-          namePattern: '[\\da-f]+',
-          value: ''
-        },
-        device: {
-          value: 'md-only'
-        }
-      }
-    },
     boxModelMixin: {
       src: require('raw-loader!./cssMixins/boxModel.pcss'),
       variables: {
@@ -137,12 +121,18 @@ class DesignOptionsJK extends Attribute {
       }
     },
     backgroundColorMixin: {
-      src: require('raw-loader!./cssMixins/backgroundColor.pcss'),
+      src: require('raw-loader!./cssMixins/backgroundStyles.pcss'),
       variables: {
         device: {
           value: `all`
         },
         backgroundColor: {
+          value: false
+        },
+        backgroundImage: {
+          value: false
+        },
+        backgroundStyle: {
           value: false
         }
       }
@@ -154,7 +144,6 @@ class DesignOptionsJK extends Attribute {
    */
   static defaultState = {
     currentDevice: 'all',
-    backgroundType: 'imagesSimple',
     borderStyle: 'solid',
     devices: {},
     attributeMixins: {}
@@ -236,8 +225,11 @@ class DesignOptionsJK extends Attribute {
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
         // set default background type
-        if (!newState.devices[ device ].backgroundType) {
-          newState.devices[ device ].backgroundType = DesignOptionsJK.defaultState.backgroundType
+        // if (!newState.devices[ device ].backgroundType) {
+        //   newState.devices[ device ].backgroundType = DesignOptionsJK.defaultState.backgroundType
+        //   newState.devices[ device ].borderStyle = DesignOptionsJK.defaultState.borderStyle
+        // }
+        if (!newState.devices[ device ].borderStyle) {
           newState.devices[ device ].borderStyle = DesignOptionsJK.defaultState.borderStyle
         }
         // values
@@ -250,9 +242,9 @@ class DesignOptionsJK extends Attribute {
             }
           })
         } else {
-          // images are empty
-          if (!newValue[ device ].hasOwnProperty('images') || newValue[ device ].images.urls.length === 0) {
-            delete newValue[ device ].images
+          // image is empty
+          if (!newValue[ device ].hasOwnProperty('image') || newValue[ device ].image.urls.length === 0) {
+            delete newValue[ device ].image
             delete newValue[ device ].backgroundStyle
           }
 
@@ -326,13 +318,27 @@ class DesignOptionsJK extends Attribute {
             }
           }
           // backgroundMixin
-          if (newValue[ device ] && newValue[ device ].backgroundColor) {
+          if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
             let mixinName = `backgroundColorMixin:${device}`
             newMixins[ mixinName ] = {}
             newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsJK.attributeMixins.backgroundColorMixin)
-            newMixins[ mixinName ].variables.backgroundColor = {
-              value: newValue[ device ].backgroundColor
+
+            if (newValue[ device ].backgroundColor) {
+              newMixins[ mixinName ].variables.backgroundColor = {
+                value: newValue[ device ].backgroundColor
+              }
             }
+
+            if (newValue[ device ].image && newValue[ device ].image.urls.length) {
+              newMixins[ mixinName ].variables.backgroundImage = {
+                value: newValue[ device ].image.urls[ 0 ].full
+              }
+            }
+
+            // if (newValue[ device ].backgroundStyle) {
+            //
+            // }
+
             newMixins[ mixinName ].variables.device = {
               value: device
             }
@@ -527,7 +533,11 @@ class DesignOptionsJK extends Attribute {
    * @returns {*}
    */
   getAttachImageRender () {
-    let value = this.state.devices[ this.state.currentDevice ].images || {}
+    if (this.state.devices[ this.state.currentDevice ].display) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].image || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background image
@@ -555,9 +565,9 @@ class DesignOptionsJK extends Attribute {
     let newState = lodash.defaultsDeep({}, this.state)
     // update value
     if (lodash.isEmpty(value)) {
-      delete newState.devices[ newState.currentDevice ].images
+      delete newState.devices[ newState.currentDevice ].image
     } else {
-      newState.devices[ newState.currentDevice ].images = value
+      newState.devices[ newState.currentDevice ].image = value
     }
     this.updateValue(newState)
   }
@@ -567,14 +577,8 @@ class DesignOptionsJK extends Attribute {
    * @returns {*}
    */
   getBackgroundStyleRender () {
-    let allowedBackgroundTypes = [
-      'imagesSimple',
-      'imagesSlideshow'
-    ]
-
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1 || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('images') ||
-      this.state.devices[ this.state.currentDevice ].images.urls.length === 0) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].hasOwnProperty('image') ||
+      this.state.devices[ this.state.currentDevice ].image.urls.length === 0) {
       return null
     }
     let options = {

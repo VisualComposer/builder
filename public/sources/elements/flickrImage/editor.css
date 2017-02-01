@@ -11,3 +11,7 @@
   left: 0;
   z-index: 999;
 }
+
+.vce-flickr-image {
+  min-height: 1em;
+}

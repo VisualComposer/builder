@@ -49,26 +49,26 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
+    // let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
+    // let animations = []
+    // devices.forEach((device) => {
+    //   let prefix = designOptions.visibleDevices[ device ]
+    //   if (designOptions[ device ].animation) {
+    //     if (prefix) {
+    //       prefix = `-${prefix}`
+    //     }
+    //     animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+    //   }
+    // })
+    // if (animations.length) {
+    //   customProps[ 'data-vce-animate' ] = animations.join(' ')
+    // }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
     return <div className={containerClasses} {...editor}>
-      <span className={wrapperClasses} id={'el-' + id}>
-        <CustomTag className={classes} {...customProps}>
+      <span className={wrapperClasses} id={'el-' + id} data-vce-do-apply='margin background border'>
+        <CustomTag className={classes} {...customProps} data-vce-do-apply='padding'>
           {buttonHtml}
         </CustomTag>
       </span>
