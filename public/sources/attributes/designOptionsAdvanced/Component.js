@@ -986,7 +986,7 @@ class DesignOptionsAdvanced extends Attribute {
       values: [
         {
           label: '0',
-          value: ''
+          value: '0'
         },
         {
           label: '30',
@@ -1022,7 +1022,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || ''
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || 0
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle

@@ -184,7 +184,8 @@
       "backgroundSlider",
       "backgroundSimple",
       "backgroundVideoYoutube",
-      "backgroundVideoVimeo"
+      "backgroundVideoVimeo",
+      "parallaxBackground"
     ]
   }
 }
