@@ -9,6 +9,31 @@
   margin-top: @vcv-wpbackend-switcher-margin-top;
   line-height: @vcv-wpbackend-switcher-size;
   font-size: @vcv-wpbackend-switcher-font-size;
+
+  .vcv-wpbackend-switcher-option:last-child {
+    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
+    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
+  }
+}
+
+.vcv-wpbackend-switcher--type-classic {
+  cursor: default;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-top: @vcv-wpbackend-switcher-margin-top;
+  margin-left: @vcv-wpbackend-switcher-spacing;
+  line-height: @vcv-wpbackend-switcher-size;
+  font-size: @vcv-wpbackend-switcher-font-size;
+
+  .vcv-wpbackend-switcher-option {
+    border: 0;
+    border-radius: @vcv-wpbackend-switcher-border-radius;
+    background-color: @vcv-wpbackend-switcher-classic-background-color;
+
+    &:hover {
+      background-color: @vcv-wpbackend-switcher-classic-background-hover-color;
+    }
+  }
 }
 
 .vcv-wpbackend-switcher-container {
@@ -46,10 +71,5 @@
 
   &:hover {
     background-color: @vcv-wpbackend-switcher-background-hover-color;
-  }
-
-  &:last-child {
-    border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
-    border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
   }
 }

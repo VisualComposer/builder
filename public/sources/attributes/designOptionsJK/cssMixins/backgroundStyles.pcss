@@ -1,0 +1,16 @@
+#$selector[data-vce-do-apply="all"],
+#$selector [data-vce-do-apply="all"],
+#$selector[data-vce-do-apply*="background"],
+#$selector [data-vce-do-apply*="background"] {
+  @media (--$(device)-only) {
+    @if $backgroundColor != false {
+      background-color: $backgroundColor;
+    }
+
+    @if $backgroundImage != false {
+      background-image: url($backgroundImage);
+    }
+
+
+  }
+}

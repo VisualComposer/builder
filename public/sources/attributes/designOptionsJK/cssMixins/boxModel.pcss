@@ -1,13 +1,8 @@
-#$selector .ms{
+#$selector[data-vce-do-apply="all"],
+#$selector [data-vce-do-apply="all"],
+#$selector[data-vce-do-apply*="border"],
+#$selector [data-vce-do-apply*="border"] {
   @media (--$(device)-only) {
-    @if $margin != false {
-      margin: $margin;
-    }
-
-    @if $padding != false {
-      padding: $padding;
-    }
-
     @if $borderWidth != false {
       border-width: $borderWidth;
     }
@@ -48,38 +43,6 @@
       border-top-width: $borderTopWidth;
     }
 
-    @if $marginBottom != false {
-      margin-bottom: $marginBottom;
-    }
-
-    @if $marginLeft != false {
-      margin-left: $marginLeft;
-    }
-
-    @if $marginRight != false {
-      margin-right: $marginRight;
-    }
-
-    @if $marginTop != false {
-      margin-top: $marginTop;
-    }
-
-    @if $paddingBottom != false {
-      padding-bottom: $paddingBottom;
-    }
-
-    @if $paddingLeft != false {
-      padding-left: $paddingLeft;
-    }
-
-    @if $paddingRight != false {
-      padding-right: $paddingRight;
-    }
-
-    @if $paddingTop != false {
-      padding-top: $paddingTop;
-    }
-
     @if $borderStyle != false {
       border-style: $borderStyle;
     }
@@ -118,6 +81,60 @@
 
     @if $borderLeftColor != false {
       border-left-color: $borderLeftColor;
+    }
+  }
+}
+
+#$selector[data-vce-do-apply="all"],
+#$selector [data-vce-do-apply="all"],
+#$selector[data-vce-do-apply*="margin"],
+#$selector [data-vce-do-apply*="margin"] {
+  @media (--$(device)-only) {
+    @if $margin != false {
+      margin: $margin;
+    }
+
+    @if $marginBottom != false {
+      margin-bottom: $marginBottom;
+    }
+
+    @if $marginLeft != false {
+      margin-left: $marginLeft;
+    }
+
+    @if $marginRight != false {
+      margin-right: $marginRight;
+    }
+
+    @if $marginTop != false {
+      margin-top: $marginTop;
+    }
+  }
+}
+
+#$selector[data-vce-do-apply="all"],
+#$selector [data-vce-do-apply="all"],
+#$selector[data-vce-do-apply*="padding"],
+#$selector [data-vce-do-apply*="padding"] {
+  @media (--$(device)-only) {
+    @if $padding != false {
+      padding: $padding;
+    }
+
+    @if $paddingBottom != false {
+      padding-bottom: $paddingBottom;
+    }
+
+    @if $paddingLeft != false {
+      padding-left: $paddingLeft;
+    }
+
+    @if $paddingRight != false {
+      padding-right: $paddingRight;
+    }
+
+    @if $paddingTop != false {
+      padding-top: $paddingTop;
     }
   }
 }
