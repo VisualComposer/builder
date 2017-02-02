@@ -84,6 +84,12 @@
   text-transform: uppercase;
 }
 
+.vce-post-description--title a {
+  text-decoration: none;
+  box-shadow: none;
+  border: none;
+}
+
 .vce-post-description--full .vce-post-description--background-wrapper-box {
   padding: 0;
 }
