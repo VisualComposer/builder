@@ -80,8 +80,9 @@ export default class DefaultElement extends React.Component {
   }
 
   handleClick () {
+    let { isArrow } = this.state
     let { activeElementId, element, openElement } = this.props
-    if (activeElementId === element.id) {
+    if (activeElementId === element.id && isArrow) {
       openElement('')
     } else {
       openElement(element.id)
@@ -89,27 +90,18 @@ export default class DefaultElement extends React.Component {
   }
 
   handleElementSize () {
-    let container = this.elementContainer
     let header = this.getElementData('.vce-wpbackend-element-header')
-    let nameWrapper = this.getElementData('.vce-wpbackend-element-header-name-wrapper')
-    let nameInner = this.getElementData('.vce-wpbackend-element-header-name')
-    let icon = this.getElementData('.vce-wpbackend-element-header-icon-container')
-    let nameWrapperElement = container.querySelector('.vce-wpbackend-element-header-name-wrapper')
-    let nameWrapperStyles = window.getComputedStyle(nameWrapperElement)
-    let nameWrapperPaddingLeft = parseInt(nameWrapperStyles.paddingLeft)
-    let arrowPos = 22
-    let offsets = nameWrapperPaddingLeft + arrowPos
     let { isName, isArrow } = this.state
 
-    if (isArrow && nameInner.width > nameWrapper.width - offsets) {
+    if (isArrow && header.width < 100) {
       this.setState({ isArrow: false })
-    } else if (!isArrow && nameInner.width < nameWrapper.width - offsets) {
+    } else if (!isArrow && header.width > 100) {
       this.setState({ isArrow: true })
     }
 
-    if (isName && icon.width + nameInner.width > header.width) {
+    if (isName && header.width < 60) {
       this.setState({ isName: false })
-    } else if (!isName && icon.width + nameInner.width < header.width) {
+    } else if (!isName && header.width > 60) {
       this.setState({ isName: true })
     }
   }
@@ -157,19 +149,20 @@ export default class DefaultElement extends React.Component {
     let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes': true,
-      'vce-wpbackend-hidden': activeElementId !== element.id
+      'vce-wpbackend-hidden': activeElementId !== element.id || !isArrow
     })
 
     let headerClasses = classNames({
       'vce-wpbackend-element-header': true,
       'vce-wpbackend-element-header-closed': activeElementId !== element.id,
       'vce-wpbackend-element-header-opened': activeElementId === element.id,
-      'vce-wpbackend-element-header-no-arrow': !isArrow
+      'vce-wpbackend-element-header-no-arrow': !isArrow,
+      'vce-wpbackend-element-header-icon-only': !isName
     })
 
     let nameClasses = classNames({
       'vce-wpbackend-element-header-name-wrapper': true,
-      'vce-wpbackend-invisible': !isName
+      'vce-wpbackend-hidden': !isName
     })
 
     if (hasAttributes) {
