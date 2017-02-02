@@ -4,8 +4,9 @@
 @vcv-wpbackend-layout-zindex: 1000;
 @vcv-wpbackend-zindex: @vcv-wpbackend-layout-zindex + 100;
 @vcv-wpbackend-content-zindex: @vcv-wpbackend-layout-zindex;
-@vcv-wpbackend-item-preview-zindex: 1111;
-@vcv-wpbackend-layout-header-zindex: 9991;
+@vcv-wpbackend-item-preview-zindex: 2011;
+@vcv-wpbackend-layout-header-zindex: 9991; // overrides Wordpress's #adminmenuwrap z-index: 9990
+@vcv-wpbackend-layout-content-overlay-zindex: @vcv-wpbackend-layout-header-zindex + 1;
 
 //=========================================
 // Fonts and sizes
