@@ -6,18 +6,20 @@
       element: null,
       bgElement: null,
       waypoint: null,
+      speed: 10,
       setup: function setup (element) {
         // check for data
         if (!element.getVceParallax) {
           element.getVceParallax = this;
           this.element = element;
           this.bgElement = element.querySelector(element.dataset.vceAssetsParallax);
+          this.bgElement.style.top = `-${this.speed}vh`;
+          this.bgElement.style.bottom = `-${this.speed}vh`;
           this.create();
         } else {
           this.update();
         }
         this.resize = this.resize.bind(this);
-        this.addScrollEvent();
         return element.getVceParallax;
       },
       addScrollEvent: function addScrollEvent () {
@@ -28,13 +30,16 @@
         window.removeEventListener('scroll', this.resize);
       },
       resize: function resize () {
-        console.log('do scroll');
-        // console.log(this.element.getBoundingClientRect(), this.element.firstChild.getBoundingClientRect());
-        var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
         var windowHeight = window.innerHeight;
         var elementRect = this.element.getBoundingClientRect();
-        console.log( elementRect.top - windowHeight, elementRect.height + windowHeight);
-        // var bgElementRect = this.bgElement.getBoundingClientRect();
+        var contentHeight = elementRect.height + windowHeight;
+        var scrollHeight = (elementRect.top - windowHeight) * -1;
+        var scrollPercent = 0;
+        if (scrollHeight >= 0 && scrollHeight <= contentHeight) {
+          scrollPercent = scrollHeight / contentHeight;
+        }
+        var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
+        this.bgElement.style.transform = `translateY(${parallaxValue}vh)`;
       },
       create: function create () {
         var _this = this;
@@ -44,10 +49,10 @@
           element: _this.element,
           handler: function (direction) {
             if (direction === 'up') {
-              // _this.removeScrollEvent();
+              _this.removeScrollEvent();
             }
             if (direction === 'down') {
-              // _this.addScrollEvent();
+              _this.addScrollEvent();
             }
           },
           offset: '100%'
@@ -56,10 +61,10 @@
           element: _this.element,
           handler: function (direction) {
             if (direction === 'up') {
-              // _this.addScrollEvent();
+              _this.addScrollEvent();
             }
             if (direction === 'down') {
-              // _this.removeScrollEvent();
+              _this.removeScrollEvent();
             }
           },
           offset: function () {
