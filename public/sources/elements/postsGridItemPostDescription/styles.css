@@ -75,6 +75,21 @@
   text-transform: uppercase;
 }
 
+.vce-post-description--title h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.vce-post-description--title a {
+  text-decoration: none;
+  box-shadow: none;
+  border: none;
+}
+
 .vce-post-description--full .vce-post-description--background-wrapper-box {
   padding: 0;
 }

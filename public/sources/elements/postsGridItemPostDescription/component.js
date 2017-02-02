@@ -15,17 +15,21 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return (
-      <article className='vce-posts-grid-item'>
+      <article className='vce-posts-grid-item' itemScope='true' itemType='http://schema.org/Article'>
         <div className={postDescriptionClasses} style={backgroundStyle}>
-          <a href='{{post_permalink}}' className='vce-post-description-link' />
+          <a href='{{post_permalink}}' className='vce-post-description-link' itemProp='sameAs' />
           <div className='vce-post-description--background-wrapper-box'>
             <div className='vce-post-description--background-wrapper'>
               {`{{custom_post_description_featured_image}}`}
             </div>
           </div>
           <div className='vce-post-description--content'>
-            <div className='vce-post-description--title'><h4>{`{{post_title}}`}</h4></div>
-            <div className='vce-post-description--excerpt'>{`{{post_teaser}}`}</div>
+            <div className='vce-post-description--title'>
+              <h3 itemProp='name'>
+                <a href='{{post_permalink}}'>{`{{post_title}}`}</a>
+              </h3>
+            </div>
+            <div className='vce-post-description--excerpt' itemProp='description'>{`{{post_teaser}}`}</div>
           </div>
         </div>
       </article>

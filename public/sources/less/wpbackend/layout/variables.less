@@ -4,8 +4,9 @@
 @vcv-wpbackend-layout-zindex: 1000;
 @vcv-wpbackend-zindex: @vcv-wpbackend-layout-zindex + 100;
 @vcv-wpbackend-content-zindex: @vcv-wpbackend-layout-zindex;
-@vcv-wpbackend-item-preview-zindex: 1111;
-@vcv-wpbackend-layout-header-zindex: 9991;
+@vcv-wpbackend-item-preview-zindex: 2011;
+@vcv-wpbackend-layout-header-zindex: 9991; // overrides Wordpress's #adminmenuwrap z-index: 9990
+@vcv-wpbackend-layout-content-overlay-zindex: @vcv-wpbackend-layout-header-zindex + 1;
 
 //=========================================
 // Fonts and sizes
@@ -38,9 +39,13 @@
 
 @vcv-wpbackend-container-margin-bottom: 10px;
 @vcv-wpbackend-layout-padding: 45px 10px;
-@vcv-wpbackend-element-header-after-margin-right: 14px;
+@vcv-wpbackend-element-header-after-margin-right: 9px;
+@vcv-wpbackend-element-header-padding: 5px 18px 5px 5px;
+@vcv-wpbackend-element-header-icon-only-padding: 5px;
+@vcv-wpbackend-element-header-icon-width: 24px;
 @vcv-wpbackend-element-attributes-padding: 14px 0 14px 14px;
 @vcv-wpbackend-element-block-attribute-padding: 14px;
+@vcv-wpbackend-element-name-wrapper-margin: 0 0 0 5px;
 @vcv-wpbackend-form-input-padding: 8px 14px;
 @vcv-wpbackend-form-input-line-height: 1.5;
 @vcv-wpbackend-row-side-margin: -5px;
