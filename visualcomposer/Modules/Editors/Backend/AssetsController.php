@@ -24,7 +24,7 @@ class AssetsController extends Container implements Module
     public function __construct(Request $request)
     {
         $toggleFeatureBackend = true;
-        if ($toggleFeatureBackend && !$request->exists('vcv-disable')) {
+        if ($toggleFeatureBackend) {
             /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
             $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
         }
@@ -33,7 +33,7 @@ class AssetsController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    private function enqueueEditorAssets(Frontend $frontendHelper)
+    protected function enqueueEditorAssets(Frontend $frontendHelper)
     {
         if (!$frontendHelper->isFrontend()) {
             $this->registerEditorAssets();
@@ -50,7 +50,7 @@ class AssetsController extends Container implements Module
     /**
      *
      */
-    private function registerEditorAssets()
+    protected function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
         $bundleJsUrl = $urlHelper->to('public/dist/wpbackend.bundle.js?' . uniqid());
