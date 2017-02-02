@@ -96,9 +96,10 @@ export default class ElementComponent extends Component {
   }
 
   getImagesSimple (device, key) {
-    let { images, backgroundStyle } = device
+    let { images, backgroundStyle, parallax } = device
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     if (images && images.urls && images.urls.length) {
+      let customProps = {}
       let imagesJSX = []
       images.urls.forEach((imgData) => {
         let styles = {
@@ -119,7 +120,10 @@ export default class ElementComponent extends Component {
       let slideshowClasses = classNames([
         `vce-asset-background-simple`
       ])
-      return <div className={classNames(containerClasses)} data-vce-assets-parallax='.vce-asset-background-simple' key={reactKey}>
+      if (parallax) {
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-simple'
+      }
+      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>
@@ -129,12 +133,13 @@ export default class ElementComponent extends Component {
   }
 
   getImagesSlideshow (device, key) {
-    let { images, backgroundStyle, sliderTimeout } = device
+    let { images, backgroundStyle, sliderTimeout, parallax } = device
     if (!sliderTimeout) {
       sliderTimeout = 5
     }
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     if (images && images.urls && images.urls.length) {
+      let customProps = {}
       let imagesJSX = []
       images.urls.forEach((imgData) => {
         let styles = {
@@ -155,7 +160,12 @@ export default class ElementComponent extends Component {
       let slideshowClasses = [
         `vce-asset-background-slider`
       ]
-      return <div className={classNames(containerClasses)} key={reactKey}>
+
+      if (parallax) {
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-slider'
+      }
+
+      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
         <div className={classNames(slideshowClasses)} data-vce-assets-slider={sliderTimeout}
           data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
           {imagesJSX}
@@ -166,7 +176,7 @@ export default class ElementComponent extends Component {
   }
 
   getYoutubeVideo (device, key) {
-    let { videoYoutube } = device
+    let { videoYoutube, parallax } = device
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
     if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
@@ -175,8 +185,8 @@ export default class ElementComponent extends Component {
       let playerSettings = {
         videoId: videoId
       }
-      const { ...otherProps } = this.props
-      return <YoutubeBackground {...otherProps} settings={playerSettings} device={key}
+      let { ...otherProps } = this.props
+      return <YoutubeBackground {...otherProps} parallax={parallax} settings={playerSettings} device={key}
         reactKey={reactKey} key={reactKey}
         updateInlineHtml={this.updateInlineHtml} />
     }
@@ -185,7 +195,7 @@ export default class ElementComponent extends Component {
   }
 
   getVimeoVideo (device, key) {
-    let { videoVimeo } = device
+    let { videoVimeo, parallax } = device
     let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
     if (videoVimeo && videoVimeo.search(vrx) !== -1) {
@@ -195,7 +205,7 @@ export default class ElementComponent extends Component {
         videoId: videoId
       }
       const { ...otherProps } = this.props
-      return <VimeoBackground {...otherProps} settings={playerSettings} device={key}
+      return <VimeoBackground {...otherProps} parallax={parallax} settings={playerSettings} device={key}
         reactKey={reactKey} key={reactKey} />
     }
     return null

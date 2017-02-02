@@ -183,6 +183,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.youtubeVideoChangeHandler = this.youtubeVideoChangeHandler.bind(this)
     this.vimeoVideoChangeHandler = this.vimeoVideoChangeHandler.bind(this)
+    this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
   }
 
   /**
@@ -309,6 +310,18 @@ class DesignOptionsAdvanced extends Attribute {
           // gradient angle is not set
           if (newValue[ device ].gradientAngle === '' || newValue[ device ].backgroundType !== 'colorGradient') {
             delete newValue[ device ].gradientAngle
+          }
+
+          let parallaxBackgrounds = [
+            'imagesSimple',
+            'imagesSlideshow',
+            'videoYoutube',
+            'videoVimeo',
+            'videoSelfHosted'
+          ]
+          if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
+            // not parallax background selected
+            delete newValue[ device ].parallax
           }
 
           // animation is not set
@@ -1150,6 +1163,65 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render parallax control
+   * @returns {*}
+   */
+  getParallaxRender () {
+    let allowedBackgroundTypes = [
+      'imagesSimple',
+      'imagesSlideshow',
+      'videoYoutube',
+      'videoVimeo',
+      'videoSelfHosted'
+    ]
+
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'None',
+          value: ''
+        },
+        {
+          label: 'Simple',
+          value: 'simple'
+        },
+        {
+          label: 'Simple with fade',
+          value: 'simple-fade'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].parallax || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Parallax effect
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='parallax'
+        options={options}
+        updater={this.parallaxChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle change of parallax control
+   * @param fieldKey
+   * @param value
+   */
+  parallaxChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * @returns {XML}
    */
   render () {
@@ -1173,6 +1245,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}
             {this.getGradientAngleRender()}
+            {this.getParallaxRender()}
             {this.getAnimationRender()}
           </div>
         </div>

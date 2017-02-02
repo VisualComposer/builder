@@ -14,7 +14,11 @@ export default class VimeoBackground extends Component {
       `vce-asset-video-vimeo-container`,
       `vce-visible-${this.props.device}-only`
     ]
-    return <div className={classNames(containerClasses)}>
+    let customProps = {}
+    if (this.props.parallax) {
+      customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-vimeo-background'
+    }
+    return <div className={classNames(containerClasses)} {...customProps}>
       <div className='vce-asset-video-vimeo-background'
         data-vce-assets-video-vimeo={this.props.settings.videoId}
         data-vce-assets-video-replacer='.vce-asset-video-vimeo-player'

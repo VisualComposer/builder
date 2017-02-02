@@ -14,7 +14,12 @@ export default class YoutubeBackground extends Component {
       `vce-asset-video-yt-container`,
       `vce-visible-${this.props.device}-only`
     ]
-    return <div className={classNames(containerClasses)}>
+
+    let customProps = {}
+    if (this.props.parallax) {
+      customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-background'
+    }
+    return <div className={classNames(containerClasses)} {...customProps}>
       <div className='vce-asset-video-yt-background'
         data-vce-assets-video-yt={this.props.settings.videoId}
         data-vce-assets-video-replacer='.vce-asset-video-yt-player'
