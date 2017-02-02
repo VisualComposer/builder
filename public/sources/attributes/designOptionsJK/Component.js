@@ -132,7 +132,10 @@ class DesignOptionsJK extends Attribute {
         backgroundImage: {
           value: false
         },
-        backgroundStyle: {
+        backgroundRepeat: {
+          value: false
+        },
+        backgroundSize: {
           value: false
         }
       }
@@ -224,11 +227,6 @@ class DesignOptionsJK extends Attribute {
     }
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
-        // set default background type
-        // if (!newState.devices[ device ].backgroundType) {
-        //   newState.devices[ device ].backgroundType = DesignOptionsJK.defaultState.backgroundType
-        //   newState.devices[ device ].borderStyle = DesignOptionsJK.defaultState.borderStyle
-        // }
         if (!newState.devices[ device ].borderStyle) {
           newState.devices[ device ].borderStyle = DesignOptionsJK.defaultState.borderStyle
         }
@@ -335,9 +333,39 @@ class DesignOptionsJK extends Attribute {
               }
             }
 
-            // if (newValue[ device ].backgroundStyle) {
-            //
-            // }
+            if (newValue[ device ].backgroundStyle) {
+              let sizeStyles = ['cover', 'contain', 'full-width', 'full-height']
+              let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
+
+              if (sizeState) {
+                switch (newValue[ device ].backgroundStyle) {
+                  case 'full-width':
+                    newMixins[ mixinName ].variables.backgroundSize = {
+                      value: '100% auto'
+                    }
+                    break
+                  case 'full-height':
+                    newMixins[ mixinName ].variables.backgroundSize = {
+                      value: 'auto 100%'
+                    }
+                    break
+                  default:
+                    newMixins[ mixinName ].variables.backgroundSize = {
+                      value: newValue[ device ].backgroundStyle
+                    }
+                }
+                newMixins[ mixinName ].variables.backgroundRepeat = {
+                  value: false
+                }
+              } else {
+                newMixins[ mixinName ].variables.backgroundRepeat = {
+                  value: newValue[ device ].backgroundStyle
+                }
+                newMixins[ mixinName ].variables.backgroundSize = {
+                  value: false
+                }
+              }
+            }
 
             newMixins[ mixinName ].variables.device = {
               value: device
@@ -622,6 +650,9 @@ class DesignOptionsJK extends Attribute {
       ]
     }
     let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || ''
+    if (value === '') {
+
+    }
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style

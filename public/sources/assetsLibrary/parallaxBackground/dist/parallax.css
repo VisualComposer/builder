@@ -1,0 +1,5 @@
+[data-vce-assets-parallax] > *:first-child {
+  top: -50vh;
+  bottom: -50vh;
+  transform: translateY(50vh);
+}

@@ -11,6 +11,12 @@
       background-image: url($backgroundImage);
     }
 
+    @if $backgroundSize != false {
+      background-size: $backgroundSize;
+    }
 
+	@if $backgroundRepeat != false {
+      background-repeat: $backgroundRepeat;
+	}
   }
 }

@@ -68,6 +68,17 @@ AssetsLibrary.add('backgroundVideoVimeo', {
   ]
 })
 
+AssetsLibrary.add('parallaxBackground', {
+  publicCss: [
+    'assetsLibrary/parallaxBackground/dist/parallax.css'
+  ],
+  publicJs: [
+    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
+    'assetsLibrary/parallaxBackground/plugin.js',
+    'assetsLibrary/parallaxBackground/dist/parallax.js'
+  ]
+})
+
 AssetsLibrary.add('youtubeIFrameAPI', {
   publicJs: [
     'assetsLibrary/youtubeIFrameAPI/init.js'

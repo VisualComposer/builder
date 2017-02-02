@@ -119,7 +119,7 @@ export default class ElementComponent extends Component {
       let slideshowClasses = classNames([
         `vce-asset-background-simple`
       ])
-      return <div className={classNames(containerClasses)} key={reactKey}>
+      return <div className={classNames(containerClasses)} data-vce-assets-parallax='.vce-asset-background-simple' key={reactKey}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>
