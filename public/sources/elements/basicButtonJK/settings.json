@@ -169,14 +169,6 @@
       "label": "Design Options JK"
     }
   },
-  "designOptionsAdvanced": {
-    "type": "designOptionsAdvanced",
-    "access": "public",
-    "value": {},
-    "options": {
-      "label": "Design Options Advanced"
-    }
-  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -202,8 +194,7 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptionsJK",
-      "designOptionsAdvanced"
+      "designOptionsJK"
     ]
   },
   "relatedTo": {
