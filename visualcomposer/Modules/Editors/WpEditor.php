@@ -14,6 +14,7 @@ class WpEditor extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\WpEditor::addWpEditorScripts */
         $this->addFilter('vcv:frontend:extraOutput', 'addWpEditorScripts');
+        $this->addFilter('vcv:backend:extraOutput', 'addWpEditorScripts');
     }
 
     private function addWpEditorScripts($output)
