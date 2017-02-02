@@ -37,7 +37,7 @@ class Controller extends Container implements Module
      *
      * @return bool|void
      */
-    private function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper, Frontend $frontendHelper)
+    protected function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper, Frontend $frontendHelper)
     {
         // Require an action parameter.
         if ($frontendHelper->isFrontend()) {
@@ -55,7 +55,7 @@ class Controller extends Container implements Module
     /**
      * @param $content
      */
-    private function terminate($content)
+    protected function terminate($content)
     {
         die($content);
     }
@@ -67,7 +67,7 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function renderEditorBase(Request $requestHelper, Views $templates, Frontend $frontendHelper)
+    protected function renderEditorBase(Request $requestHelper, Views $templates, Frontend $frontendHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
 

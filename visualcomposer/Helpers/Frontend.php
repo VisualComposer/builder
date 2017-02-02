@@ -14,13 +14,17 @@ class Frontend implements Helper
      *
      * @return string
      */
-    public function getFrontendUrl($sourceId)
+    public function getFrontendUrl($sourceId = 0)
     {
-        $link = get_edit_post_link($sourceId);
+        if (!$post = get_post($sourceId)) {
+            return '';
+        }
+
+        $link = get_edit_post_link($post);
         $question = (preg_match('/\?/', $link) ? '&' : '?');
         $query = [
             'vcv-action' => 'frontend',
-            'vcv-source-id' => $sourceId,
+            'vcv-source-id' => $post->ID,
         ];
         $frontendUrl = $link . $question . http_build_query($query);
 
