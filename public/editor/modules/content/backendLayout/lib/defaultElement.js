@@ -99,9 +99,9 @@ export default class DefaultElement extends React.Component {
       this.setState({ isArrow: true })
     }
 
-    if (isName && header.width < 60) {
+    if (isName && header.width < 70) {
       this.setState({ isName: false })
-    } else if (!isName && header.width > 60) {
+    } else if (!isName && header.width > 70) {
       this.setState({ isName: true })
     }
   }
