@@ -35,7 +35,7 @@ class AssetsController extends Container implements Module
      */
     protected function enqueueEditorAssets(Frontend $frontendHelper)
     {
-        if (!$frontendHelper->isFrontend()) {
+        if (!$frontendHelper->isFrontend() && vcfilter('vcv:editors:backend:addMetabox', true)) {
             $this->registerEditorAssets();
             $newWebpack = false;
             if ($newWebpack) {
