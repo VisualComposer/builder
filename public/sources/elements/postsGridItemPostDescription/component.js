@@ -24,7 +24,7 @@ class Component extends vcvAPI.elementComponent {
             </div>
           </div>
           <div className='vce-post-description--content'>
-            <div className='vce-post-description--title'><h4>{`{{post_title}}`}</h4></div>
+            <div className='vce-post-description--title'><h3>{`{{post_title}}`}</h3></div>
             <div className='vce-post-description--excerpt'>{`{{post_teaser}}`}</div>
           </div>
         </div>
