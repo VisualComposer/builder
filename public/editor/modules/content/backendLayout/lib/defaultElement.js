@@ -194,7 +194,7 @@ export default class DefaultElement extends React.Component {
       data-vcv-element={element.id}
       ref={(container) => { this.elementContainer = container }}
     >
-      <div className='vce-wpbackend-element-header'>
+      <div className='vce-wpbackend-element-header vce-wpbackend-element-header-no-arrow'>
         <div className='vce-wpbackend-element-header-icon-container'>
           <img
             className='vce-wpbackend-element-header-icon'
