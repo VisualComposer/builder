@@ -20,14 +20,7 @@ class Component extends vcvAPI.elementComponent {
         <div className={postDescriptionClasses} style={backgroundStyle}>
           <a href='{{post_permalink}}' className='vce-post-description-link' itemProp='sameAs' />
           {`{{custom_post_description_featured_image}}`}
-          <div className='vce-post-description--content'>
-            <div className='vce-post-description--title'>
-              <h3 itemProp='name'>
-                <a href='{{post_permalink}}'>{`{{post_title}}`}</a>
-              </h3>
-            </div>
-            <div className='vce-post-description--excerpt' itemProp='description'>{`{{post_teaser}}`}</div>
-          </div>
+          {`{{custom_post_description_content}}`}
         </div>
       </article>
     )
