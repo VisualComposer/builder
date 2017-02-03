@@ -59,7 +59,8 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Enable paging"
+      "label": "Enable paging",
+      "description": "Divide your post grid into pages and control maximum number of posts per page."
     }
   },
   "atts_pagination_per_page": {
@@ -202,7 +203,7 @@
     },
     "options": {
       "_category": "postsGridItems",
-      "label": "Grid Item"
+      "tabLabel": "Grid Item"
     }
   },
   "designOptions": {
