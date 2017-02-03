@@ -28,7 +28,9 @@
 
   .vcv-layout {
     &-header {
-      z-index: @vcv-wpbackend-layout-header-zindex;
+      &:hover {
+        z-index: @vcv-wpbackend-layout-header-zindex;
+      }
     }
 
     &-content {

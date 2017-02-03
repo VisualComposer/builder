@@ -43,8 +43,8 @@
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
-  "designOptions": {
-    "type": "designOptions",
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
     "access": "public",
     "value": {},
     "options": {
@@ -67,7 +67,7 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptions"
+      "designOptionsAdvanced"
     ]
   },
   "containerFor": {
@@ -88,7 +88,12 @@
     "access": "public",
     "type": "string",
     "value": [
-      "animate"
+      "animate",
+      "backgroundSlider",
+      "backgroundSimple",
+      "backgroundVideoYoutube",
+      "backgroundVideoVimeo",
+      "parallaxBackground"
     ]
   },
   "backendView": {

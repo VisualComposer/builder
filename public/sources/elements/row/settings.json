@@ -46,8 +46,8 @@
       "label": "Row Layout"
     }
   },
-  "designOptions": {
-    "type": "designOptions",
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
     "access": "public",
     "value": {},
     "options": {
@@ -78,7 +78,7 @@
     "value": [
       "editFormTab1",
       "layout",
-      "designOptions"
+      "designOptionsAdvanced"
     ]
   },
   "relatedTo": {
@@ -105,7 +105,12 @@
     "access": "public",
     "type": "string",
     "value": [
-      "animate"
+      "animate",
+      "backgroundSlider",
+      "backgroundSimple",
+      "backgroundVideoYoutube",
+      "backgroundVideoVimeo",
+      "parallaxBackground"
     ]
   },
   "rowWidth": {

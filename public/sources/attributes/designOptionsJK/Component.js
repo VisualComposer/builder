@@ -527,6 +527,9 @@ class DesignOptionsJK extends Attribute {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
+
+    // this.getComputedStyle()
+
     return <div className='vcv-ui-form-group'>
       <BoxModel
         api={this.props.api}
@@ -534,6 +537,63 @@ class DesignOptionsJK extends Attribute {
         updater={this.boxModelChangeHandler}
         value={value} />
     </div>
+  }
+
+  getComputedStyle () {
+    let doAttribute = 'data-vce-do-apply'
+    let frame = document.querySelector('#vcv-editor-iframe')
+    let frameDocument = frame.contentDocument || frame.contentWindow.document
+    let element = frameDocument.querySelector('#el-' + this.props.element.data.id)
+    // let styles = ['border', 'padding', 'margin', 'background']
+    // let styleElement = ''
+    // let defaultStyles = {}
+
+    if (element) {
+      let elementDOAttribute = element.getAttribute(doAttribute)
+
+      if (elementDOAttribute) {
+        if (elementDOAttribute === 'all') {
+          console.log('all -- in the same tag')
+        } else {
+          console.log('separate -- in the same tag')
+        }
+      } else {
+        let allStyleElement = element.querySelector(`[${doAttribute}='all']`)
+
+        if (allStyleElement) {
+          console.log('all -- inside the element')
+          let defaultStyles = this.getStylesByAttributeValue(element, 'all')
+          console.log(defaultStyles)
+          // styleElement = allStyleElement
+        } else {
+          console.log('separate -- inside the element')
+          let marginStyles = this.getStylesByAttributeValue(element, 'padding')
+          console.log(marginStyles)
+        }
+      }
+    }
+  }
+
+  getStylesByAttributeValue (parentSelector, value) {
+    let styles = {}
+    let doAttribute = 'data-vce-do-apply'
+    let element = parentSelector.querySelector(`[${doAttribute}*='${value}']`)
+    if (element) {
+      let dolly = element.cloneNode(false)
+      dolly.id = ''
+      dolly.height = '0'
+      dolly.width = '0'
+      dolly.overflow = 'hidden'
+      element.parentNode.appendChild(dolly)
+      let defaultStyles = window.getComputedStyle(dolly)
+      for (let style in defaultStyles) {
+        if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
+          styles[ style ] = defaultStyles[ style ]
+        }
+      }
+      dolly.remove()
+    }
+    return styles
   }
 
   /**
