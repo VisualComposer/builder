@@ -29,7 +29,7 @@
   font-style: italic;
 }
 
-.vce-posts-grid-pagination-item {
+.vce-posts-grid-pagination .vce-posts-grid-pagination-item {
   display: inline-block;
   border-radius: 50%;
   margin: 3px 7px;
@@ -37,6 +37,7 @@
   width: 30px;
   text-decoration: none;
   line-height: 30px;
+  box-shadow: none;
 }
 
 .vce-posts-grid-pagination-item:hover {
