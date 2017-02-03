@@ -18,7 +18,9 @@ class WordPressAdminControl extends React.Component {
 
   setBackendEditor (e) {
     e && e.preventDefault && e.preventDefault()
-    window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
+    if (vcCake.env('FEATURE_WPBACKEND')) {
+      window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
+    }
     window.location.href = e.currentTarget.href
   }
 

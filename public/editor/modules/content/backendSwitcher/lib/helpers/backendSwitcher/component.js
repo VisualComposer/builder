@@ -1,4 +1,5 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 import '../../../../../../../sources/less/wpbackend-switcher/init.less'
 
 export default class BackendSwitcher extends React.Component {
@@ -30,6 +31,7 @@ export default class BackendSwitcher extends React.Component {
             data-href={window.location.href}
             data-switch='1'
             onClick={this.setEditor}
+            disabled={!vcCake.env('FEATURE_WPBACKEND')}
             className='vcv-wpbackend-switcher-option'>Backend Editor
           </button>
         </div>

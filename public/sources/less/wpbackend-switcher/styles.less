@@ -13,6 +13,12 @@
     border-top-right-radius: @vcv-wpbackend-switcher-border-radius;
     border-bottom-right-radius: @vcv-wpbackend-switcher-border-radius;
   }
+
+  .vcv-wpbackend-switcher-option {
+    &[disabled] {
+      background-color: @vcv-wpbackend-switcher-classic-background-color;
+    }
+  }
 }
 
 .vcv-wpbackend-switcher--type-classic {
