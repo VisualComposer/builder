@@ -9,24 +9,36 @@ export default class YoutubeBackground extends Component {
   }
 
   render () {
-    let vcvHelperHTML = `<div class="vce-asset-video-yt-player" />`
-    let containerClasses = [
-      `vce-asset-video-yt-container`,
-      `vce-visible-${this.props.device}-only`
-    ]
+    const { deviceKey, deviceData } = this.props
+    const { videoYoutube, parallax } = deviceData
 
-    let customProps = {}
-    if (this.props.parallax) {
-      customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-background'
-    }
-    return <div className={classNames(containerClasses)} {...customProps}>
-      <div className='vce-asset-video-yt-background'
-        data-vce-assets-video-yt={this.props.settings.videoId}
-        data-vce-assets-video-replacer='.vce-asset-video-yt-player'
-        data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
-        <svg className='vce-asset-video-yt-sizer' />
-        <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
+      let videoData = videoYoutube.trim().match(ytrx)
+      let videoId = videoData[ 7 ]
+      let playerSettings = {
+        videoId: videoId
+      }
+      let vcvHelperHTML = `<div class="vce-asset-video-yt-player" />`
+      let containerClasses = [
+        `vce-asset-video-yt-container`,
+        `vce-visible-${deviceKey}-only`
+      ]
+
+      let customProps = {}
+      if (parallax) {
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-background'
+      }
+      return <div className={classNames(containerClasses)} {...customProps}>
+        <div className='vce-asset-video-yt-background'
+          data-vce-assets-video-yt={playerSettings.videoId}
+          data-vce-assets-video-replacer='.vce-asset-video-yt-player'
+          data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
+          <svg className='vce-asset-video-yt-sizer' />
+          <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+        </div>
       </div>
-    </div>
+    }
+    return null
   }
 }
