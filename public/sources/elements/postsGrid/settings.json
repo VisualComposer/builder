@@ -59,7 +59,8 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Enable paging"
+      "label": "Enable paging",
+      "description": "Divide your post grid into pages and control maximum number of posts per page."
     }
   },
   "atts_pagination_per_page": {
@@ -87,7 +88,7 @@
     "access": "public",
     "value": "#EEE",
     "options": {
-      "label": "Pagination base color",
+      "label": "Inactive page color",
       "onChange": {
         "rules": {
           "atts_pagination": {
@@ -112,7 +113,7 @@
     "access": "public",
     "value": "#557CBF",
     "options": {
-      "label": "Pagination active color",
+      "label": "Active page color",
       "onChange": {
         "rules": {
           "atts_pagination": {
@@ -254,7 +255,7 @@
     },
     "options": {
       "_category": "postsGridItems",
-      "label": "Grid Item"
+      "tabLabel": "Grid Item"
     }
   },
   "designOptions": {

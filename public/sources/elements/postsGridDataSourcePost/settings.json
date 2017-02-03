@@ -18,7 +18,8 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Offset"
+      "label": "Offset",
+      "description": "Display your grid by excluding first x number of posts."
     }
   },
   "attsLimit": {
@@ -26,7 +27,8 @@
     "access": "public",
     "value": "10",
     "options": {
-      "label": "Limit"
+      "label": "Limit",
+      "description": "Limit the number of posts displayed."
     }
   },
   "attsSticky": {
@@ -34,7 +36,8 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Add sticky posts"
+      "label": "Add sticky posts",
+      "description": "Post grid will take into account sticky posts when building grid."
     }
   },
   "postsGridDataSource": {

@@ -14,7 +14,8 @@
     "access": "public",
     "value": false,
     "options": {
-      "label": "Content spacing"
+      "label": "Content spacing",
+      "description": "Introduce automatic left and right spacing for title and excerpt for grid items."
     }
   },
   "background": {
@@ -42,7 +43,8 @@
     "access": "public",
     "value": true,
     "options": {
-      "label": "Zoom on hover"
+      "label": "Zoom on hover",
+      "description": "Apply zoom effect to featured images."
     }
   },
   "editFormTab1": {
