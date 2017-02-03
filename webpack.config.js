@@ -118,7 +118,7 @@ module.exports = {
         'content/storage',
         'content/backendAssets',
         'content/wordpress/data-load',
-        'content/wordpress/data-save',
+        'content/wordpress/data-backend-save',
         'content/wordpress/data-unload',
         'content/layout',
         'content/backendLayout',

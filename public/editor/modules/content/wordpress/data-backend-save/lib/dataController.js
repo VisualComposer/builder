@@ -52,25 +52,17 @@ class SaveController {
         designOptions = result
       }))
       Promise.all(promises).then(() => {
-        this.ajax(
-          {
-            'vcv-action': 'setData:adminNonce',
-            'vcv-content': content,
-            'vcv-data': encodeURIComponent(JSON.stringify(data)),
-            'vcv-scripts': wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList()),
-            'vcv-shared-library-styles': wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList()),
-            'vcv-global-styles': globalStyles,
-            // 'vcv-styles': styles,
-            'vcv-design-options': designOptions,
-            'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-            'vcv-custom-css': wipAssetsStorage.getCustomCss(),
-            'vcv-global-css': wipAssetsStorage.getGlobalCss(),
-            'vcv-google-fonts': wipAssetsStorage.getGoogleFontsData()
-          },
-          this.saveSuccess.bind(this),
-          this.saveFailed.bind(this)
-        )
-        // document.getElementById('content').innerHTML = content
+        document.getElementById('content').innerHTML = content
+        document.getElementById('vcv-action').value = 'setData:adminNonce'
+        document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
+        document.getElementById('vcv-scripts').value = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
+        document.getElementById('vcv-shared-library-styles').value = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
+        document.getElementById('vcv-global-styles').value = globalStyles
+        document.getElementById('vcv-design-options').value = designOptions
+        document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
+        document.getElementById('vcv-custom-css').value = wipAssetsStorage.getCustomCss()
+        document.getElementById('vcv-global-css').value = wipAssetsStorage.getGlobalCss()
+        document.getElementById('vcv-google-fonts').value = wipAssetsStorage.getGoogleFontsData()
       })
     } else {
       let globalStyles = ''
