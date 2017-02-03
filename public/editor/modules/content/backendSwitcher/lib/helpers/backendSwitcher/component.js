@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../../../../../../sources/less/wpbackend/switcher/init.less'
+import '../../../../../../../sources/less/wpbackend-switcher/init.less'
 
 export default class BackendSwitcher extends React.Component {
   constructor (props) {
