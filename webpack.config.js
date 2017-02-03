@@ -12,6 +12,7 @@ module.exports = {
     pe: './public/pe-main',
     front: './public/front-main',
     wpbackend: './public/wpbackend-main',
+    wpbackendswitch: './public/wpbackend-switch',
     app: []
   },
   output: {
@@ -149,6 +150,12 @@ module.exports = {
         'wipAssetsManager',
         'wipStylesManager',
         'wpMyTemplates'
+      ]
+    },
+    'wpbackend-switcher': {
+      services: [],
+      modules: [
+        'content/backendSwitcher'
       ]
     }
   },

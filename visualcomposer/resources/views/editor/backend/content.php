@@ -17,7 +17,6 @@ $postTypeHelper = vchelper('PostType');
     window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
     window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
     window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
-    window.vcvFrontendEditorLink = '<?php echo $frontendEditorLink; ?>';
 </script>
 
 <div id="vcv-editor">

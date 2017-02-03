@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\Backend;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -18,21 +19,58 @@ class LayoutSwitcher extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::checkBackendMetabox */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkBackendMetabox');
+
+        $toggleFeatureBackend = true;
+        if ($toggleFeatureBackend) {
+            /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::enqueueEditorAssets */
+            $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
+        }
+
+        $this->wpAddAction('admin_head', 'printScripts');
+    }
+
+    protected function printScripts(Frontend $frontendHelper)
+    {
+        $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s"', $frontendHelper->getFrontendUrl());
+        $script = sprintf('<script>%s</script>', $scriptBody);
+
+        echo $script;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     */
+    protected function enqueueEditorAssets(Frontend $frontendHelper)
+    {
+        if (!$frontendHelper->isFrontend()) {
+            $this->registerEditorAssets();
+
+            wp_enqueue_script('vcv:editors:backendswitcher:bundle');
+            wp_enqueue_style('vcv:editors:backendswitcher:bundle');
+        }
+    }
+
+    /**
+     *
+     */
+    protected function registerEditorAssets()
+    {
+        $urlHelper = vchelper('Url');
+        $bundleJsUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.js?' . uniqid());
+        $bundleCssUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.css?' . uniqid());
+        wp_register_script('vcv:editors:backendswitcher:bundle', $bundleJsUrl);
+        wp_register_style('vcv:editors:backendswitcher:bundle', $bundleCssUrl);
     }
 
     protected function checkBackendMetabox($status, $payload, Request $requestHelper, Wp $wpHelper)
     {
-        if ($requestHelper->exists('vcv-disable')) {
-            $status = false;
-        } else {
-            $status = $wpHelper->getUserSetting(
-                get_current_user_id(),
-                'vcvEditorsBackendLayoutSwitcher',
-                true
-            );
-            if (is_string($status)) {
-                $status = $status !== '0'; // '0' => false, any other => true(add metabox)
-            }
+        $status = $wpHelper->getUserSetting(
+            get_current_user_id(),
+            'vcvEditorsBackendLayoutSwitcher',
+            true
+        );
+        if (is_string($status)) {
+            $status = $status !== '0'; // '0' => false, any other => true(add metabox)
         }
 
         return $status;

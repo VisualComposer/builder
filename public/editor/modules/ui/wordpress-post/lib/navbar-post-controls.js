@@ -4,11 +4,22 @@ import React from 'react'
 const PostData = vcCake.getService('wordpress-post-data')
 
 class WordPressAdminControl extends React.Component {
+  constructor (props) {
+    super(props)
+    this.setBackendEditor = this.setBackendEditor.bind(this)
+  }
+
   componentDidMount () {
     this.props.api.reply('wordpress:data:saved', (data) => {
       // Call the forceUpdate when saved
       this.forceUpdate()
     })
+  }
+
+  setBackendEditor (e) {
+    e && e.preventDefault && e.preventDefault()
+    window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
+    window.location.href = e.currentTarget.href
   }
 
   saveDraft = (e) => {
@@ -51,6 +62,7 @@ class WordPressAdminControl extends React.Component {
       <a
         className='vcv-ui-navbar-control'
         href={PostData.backendEditorUrl()}
+        onClick={this.setBackendEditor}
         title='Edit in Backend Editor'
       ><span className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
     )
