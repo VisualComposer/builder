@@ -7,10 +7,11 @@ class Component extends vcvAPI.elementComponent {
     let postDescriptionClasses = classNames({
       'vce-post-description': true,
       'vce-post-description--full': !padding,
-      'vce-post-description--animation': animation
+      'vce-post-description--animation': animation,
+      'vce-post-description--has-background': padding && background
     })
     let backgroundStyle = {}
-    if (background) {
+    if (padding && background) {
       backgroundStyle.backgroundColor = background
     }
 
@@ -18,11 +19,7 @@ class Component extends vcvAPI.elementComponent {
       <article className='vce-posts-grid-item' itemScope='true' itemType='http://schema.org/Article'>
         <div className={postDescriptionClasses} style={backgroundStyle}>
           <a href='{{post_permalink}}' className='vce-post-description-link' itemProp='sameAs' />
-          <div className='vce-post-description--background-wrapper-box'>
-            <div className='vce-post-description--background-wrapper'>
-              {`{{custom_post_description_featured_image}}`}
-            </div>
-          </div>
+          {`{{custom_post_description_featured_image}}`}
           <div className='vce-post-description--content'>
             <div className='vce-post-description--title'>
               <h3 itemProp='name'>

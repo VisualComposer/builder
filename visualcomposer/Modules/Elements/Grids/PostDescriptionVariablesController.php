@@ -22,9 +22,11 @@ class PostDescriptionVariablesController extends Container implements Module
     {
         $url = vcfilter('vcv:elements:grid_item_template:variable:featured_image_url', $result, $payload);
         if ($url) {
-            $result = sprintf(
-                '<div class="vce-post-description--background" style="background-image: url(%s);"></div>',
-                $url
+            $result = vcview(
+                'elements/grids/postdescription-image',
+                [
+                    'url' => $url,
+                ]
             );
         }
 

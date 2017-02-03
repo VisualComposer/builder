@@ -66,9 +66,13 @@
 }
 
 .vce-post-description--content {
-  padding: 20px;
+  padding: 0 20px 20px;
   position: relative;
   text-align: left;
+}
+
+.vce-post-description--has-background .vce-post-description--content {
+  padding-top: 20px;
 }
 
 .vce-post-description--title {
@@ -79,7 +83,7 @@
   font-size: 18px;
   font-weight: 500;
   padding: 0;
-  margin-top: 10px;
+  margin-top: 0;
   margin-bottom: 10px;
   line-height: 1.1;
   text-transform: uppercase;
@@ -100,7 +104,14 @@
 }
 
 .vce-post-description--full .vce-post-description--content {
-  padding: 20px 0;
+  padding: 0 0 20px;
+}
+
+.vce-post-description--background-wrapper-box + .vce-post-description--content {
+  /*
+  margin-bottom: 20px;
+  */
+  padding-top: 20px;
 }
 
 /*RTL support. */
