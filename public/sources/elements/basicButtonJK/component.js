@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover, metaCustomId } = atts
+    let { buttonUrl, buttonText, shape, color, designOptionsJK, alignment, customClass, toggleCustomHover, metaCustomId } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
@@ -49,26 +49,27 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
-    // let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    // let animations = []
-    // devices.forEach((device) => {
-    //   let prefix = designOptions.visibleDevices[ device ]
-    //   if (designOptions[ device ].animation) {
-    //     if (prefix) {
-    //       prefix = `-${prefix}`
-    //     }
-    //     animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-    //   }
-    // })
-    // if (animations.length) {
-    //   customProps[ 'data-vce-animate' ] = animations.join(' ')
-    // }
+    if (designOptionsJK.device) {
+      let animations = []
+      Object.keys(designOptionsJK.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptionsJK.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
+        }
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
+      }
+    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
     return <div className={containerClasses} {...editor}>
-      <span className={wrapperClasses} id={'el-' + id} data-vce-do-apply='margin background border'>
-        <CustomTag className={classes} {...customProps} data-vce-do-apply='padding'>
+      <span className={wrapperClasses} id={'el-' + id}>
+        <CustomTag className={classes} {...customProps} data-vce-do-apply='margin background border padding'>
           {buttonHtml}
         </CustomTag>
       </span>
