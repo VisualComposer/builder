@@ -41,11 +41,9 @@ export default class Navbar extends React.Component {
         bottom: false,
         left: false
       },
-      hasEndContent: false,
-      isActiveSandwich: false
+      hasEndContent: false
     }
-    this.handleDropdown = this.handleDropdown.bind(this)
-    this.closeDropdown = this.closeDropdown.bind(this)
+
     this.handleElementResize = this.handleElementResize.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.refreshControls = this.refreshControls.bind(this)
@@ -221,63 +219,6 @@ export default class Navbar extends React.Component {
     })
   }
 
-  closeDropdown (e) {
-    if (e && (e.target.closest('.vcv-ui-navbar-dropdown-trigger') || e.target.closest('.vcv-ui-navbar-sandwich--stop-close')) && e.target.closest('.vcv-ui-navbar-sandwich')) {
-      return
-    }
-    this.handleDropdown()
-  }
-
-  handleDropdown () {
-    if (this.state.isActiveSandwich) {
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
-      document.body.removeEventListener('click', this.closeDropdown)
-    } else {
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
-      document.body.addEventListener('click', this.closeDropdown)
-    }
-    this.setState({
-      isActiveSandwich: !this.state.isActiveSandwich
-    })
-  }
-
-  buildHiddenControls () {
-    let controls = this.getHiddenControls()
-    if (!controls.length) {
-      return
-    }
-    let hiddenControls = controls.map((value) => {
-      return React.createElement(NavbarControl, {
-        api: this.props.api,
-        key: 'Navbar:' + value.name,
-        value: value,
-        container: '.vcv-ui-navbar',
-        ref: (ref) => {
-          navbarControls[ value.index ].ref = ref
-        }
-      })
-    })
-
-    let sandwichClasses = classNames({
-      'vcv-ui-navbar-dropdown': true,
-      'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-sandwich': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
-    })
-
-    return (
-      <dl className={sandwichClasses}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title='Menu' onClick={this.handleDropdown}>
-          <span className='vcv-ui-navbar-control-content'><i
-            className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
-        </dt>
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
-          {hiddenControls}
-        </dd>
-      </dl>
-    )
-  }
-
   refreshControls () {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
@@ -310,16 +251,6 @@ export default class Navbar extends React.Component {
       return !control.isVisible && control.pin !== 'hidden'
     })
     if (hiddenAndUnpinnedControls.length) {
-      // if it is las hidden element than add dropdown width to free space
-      if (this.getHiddenControls().length === 1) {
-        let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
-        if (isSideNavbar()) {
-          freeSpace += sandwich.offsetHeight
-        } else {
-          freeSpace += sandwich.offsetWidth
-        }
-      }
-
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
         let lastControl = hiddenAndUnpinnedControls.pop()
         let controlsSize = lastControl.ref.state.realSize.width
@@ -518,7 +449,6 @@ export default class Navbar extends React.Component {
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
           {this.buildVisibleControls()}
-          {this.buildHiddenControls()}
           <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
             onMouseDown={(e) => this.handleDragStart(e, false)} />
         </nav>
