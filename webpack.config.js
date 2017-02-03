@@ -128,9 +128,7 @@ module.exports = {
         'ui/addElement',
         'ui/edit-element',
         'ui/addTemplate',
-        'ui/undo-redo',
-        'ui/navbar-separator',
-        'ui/wordpress-post'
+        'ui/undo-redo'
       ],
       services: [
         'utils',

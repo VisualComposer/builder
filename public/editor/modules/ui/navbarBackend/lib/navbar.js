@@ -71,21 +71,14 @@ export default class Navbar extends React.Component {
           isControlVisible = true
       }
 
-      let inactiveNames = [ 'Separator', 'Wordpress Admin Controls', 'Post Save Control' ]
-      let findHidden = inactiveNames.findIndex((inactiveName) => {
-        return inactiveName === name
+      navbarControls.push({
+        index: navbarControls.length,
+        name: name,
+        icon: Icon,
+        pin: options.pin,
+        options: options,
+        isVisible: isControlVisible
       })
-
-      if (findHidden === -1) {
-        navbarControls.push({
-          index: navbarControls.length,
-          name: name,
-          icon: Icon,
-          pin: options.pin,
-          options: options,
-          isVisible: isControlVisible
-        })
-      }
       this.props.api.notify('build', navbarControls.length)
     })
 
