@@ -1,7 +1,7 @@
 /* global vcv */
 /* global Waypoint */
 vcv.on('ready', (action, id) => {
-  if (action !== 'reset') {
+  if (action !== 'merge') {
     vceAnimate.enableAnimate(action && id ? id : '')
   }
 })
