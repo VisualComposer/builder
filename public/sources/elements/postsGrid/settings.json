@@ -203,9 +203,9 @@
     "value": [
       "atts_pagination_per_page",
       "atts_pagination_color",
+      "atts_pagination_active_color",
       "atts_pagination_text_color",
-      "atts_pagination_active_text_color",
-      "atts_pagination_active_color"
+      "atts_pagination_active_text_color"
     ],
     "options": {
       "label": "Pagination",
