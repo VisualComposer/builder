@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     var { id, atts, editor } = this.props
-    var { customClass, designOptions, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
+    var { customClass, designOptionsAdvanced, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
     var content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -41,21 +41,22 @@ class Component extends vcvAPI.elementComponent {
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
     }
-    classes = classes.concat(vcvAPI.getDesignOptionsCssClasses(designOptions))
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptionsAdvanced.device) {
+      // animations
+      let animations = []
+      Object.keys(designOptionsAdvanced.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptionsAdvanced.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptionsAdvanced.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
     if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -109,8 +110,9 @@ class Component extends vcvAPI.elementComponent {
     }
 
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor}>
-        <div className='vce-row-content' id={'el-' + id} {...customProps}>
+      <div className={className} {...customRowProps} {...editor} id={'el-' + id} >
+        {this.getBackgroundTypeContent()}
+        <div className='vce-row-content' {...customProps}>
           {content}
         </div>
       </div>
