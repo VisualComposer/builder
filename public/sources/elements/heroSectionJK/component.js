@@ -70,9 +70,9 @@ class Component extends vcvAPI.elementComponent {
 
     return <section className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} id={'el-' + id} data-vce-do-apply='margin background border'>
-        <div className={rowClasses} style={rowStyles} {...customProps}>
+        <div className={rowClasses} style={rowStyles} {...customProps}  data-vce-do-apply='padding'>
           <div className='vce-hero-section__wrap'>
-            <div className='vce-hero-section__content' data-vce-do-apply='padding'>
+            <div className='vce-hero-section__content'>
               <div className='vce-hero-section__content-container'>
                 {description}
               </div>
