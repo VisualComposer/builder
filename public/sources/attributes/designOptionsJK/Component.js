@@ -152,8 +152,6 @@ class DesignOptionsJK extends Attribute {
     attributeMixins: {}
   }
 
-  static defaultStyles = ''
-
   constructor (props) {
     super(props)
 
@@ -530,18 +528,22 @@ class DesignOptionsJK extends Attribute {
     }
     let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
 
-    this.getDefaultStyles()
+    let defaultStyles = this.getDefaultStyles()
 
     return <div className='vcv-ui-form-group'>
       <BoxModel
         api={this.props.api}
         fieldKey='boxModel'
         updater={this.boxModelChangeHandler}
-        placeholder={DesignOptionsJK.defaultStyles}
+        placeholder={defaultStyles}
         value={value} />
     </div>
   }
 
+  /**
+   * Get default element styles
+   * @returns {{margin: {}, padding: {}, border: {}}}
+   */
   getDefaultStyles () {
     let mainDefaultStyles = {
       margin: {},
@@ -560,6 +562,9 @@ class DesignOptionsJK extends Attribute {
       dolly.height = '0'
       dolly.width = '0'
       dolly.overflow = 'hidden'
+      dolly.position = 'fixed'
+      dolly.bottom = '0'
+      dolly.right = '0'
       element.parentNode.appendChild(dolly)
 
       let elementDOAttribute = element.getAttribute(doAttribute)
@@ -574,7 +579,8 @@ class DesignOptionsJK extends Attribute {
             if (elementDOAttribute.indexOf(style) >= 0) {
               mainDefaultStyles[ style ] = allDefaultStyles
             } else {
-              mainDefaultStyles[ style ] = this.getStylesByAttributeValue(dolly, style)
+              let innerSelector = `[${doAttribute}*='${style}']`
+              mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
             }
           })
         }
@@ -586,32 +592,46 @@ class DesignOptionsJK extends Attribute {
           mainDefaultStyles.all = allDefaultStyles
         } else {
           styles.forEach((style) => {
-            mainDefaultStyles[ style ] = this.getStylesByAttributeValue(dolly, style)
+            let innerSelector = `[${doAttribute}*='${style}']`
+            mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
           })
         }
       }
 
       dolly.remove()
     }
-    DesignOptionsJK.defaultStyles = mainDefaultStyles
+
+    let parsedStyles = {}
+    for (let style in mainDefaultStyles) {
+      for (let computedStyle in mainDefaultStyles[ style ]) {
+        if (computedStyle.indexOf(style) >= 0) {
+          parsedStyles[ computedStyle ] = mainDefaultStyles[ style ][ computedStyle ]
+        }
+      }
+    }
+    return parsedStyles
   }
 
-  getStylesByAttributeValue (dolly, value) {
-    let innerSelector = `[data-vce-do-apply*='${value}']`
-    return this.getElementStyles(dolly, innerSelector)
-  }
-
+  /**
+   * Gets additional style (margin, padding, border) element styles
+   * @param clonedElement
+   * @param innerSelector
+   * @returns {{}}
+   */
   getElementStyles (clonedElement, innerSelector) {
     let styles = {}
     if (clonedElement) {
       let defaultStyles = ''
       if (innerSelector) {
-        defaultStyles = window.getComputedStyle(clonedElement.querySelector(innerSelector))
+        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement.querySelector(innerSelector)))
       } else {
-        defaultStyles = window.getComputedStyle(clonedElement)
+        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement))
       }
-      for (let style in defaultStyles) {
-        if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
+
+      for (let style in BoxModel.defaultState) {
+        if (defaultStyles && defaultStyles[ style ] &&
+          defaultStyles[ style ] !== '0px' &&
+          defaultStyles[ style ].split(' ').length === 1) {
           styles[ style ] = defaultStyles[ style ]
         }
       }

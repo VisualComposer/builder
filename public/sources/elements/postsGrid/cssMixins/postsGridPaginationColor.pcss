@@ -6,12 +6,30 @@
         background-color: color($baseColor shade(10%));
       }
     }
+
+    @if $baseTextColor != false {
+      color: $baseTextColor;
+
+      &:hover,
+      &:focus {
+        color: $baseTextColor;
+      }
+    }
   }
   .vce-posts-grid-pagination-item.vce-state--active {
     @if $activeColor != false {
       background-color: $activeColor;
       &:hover {
         background-color: color($activeColor shade(10%));
+      }
+    }
+
+    @if $activeTextColor != false {
+      color: $activeTextColor;
+
+      &:hover,
+      &:focus {
+        color: $activeTextColor;
       }
     }
   }

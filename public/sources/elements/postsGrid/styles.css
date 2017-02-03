@@ -47,15 +47,6 @@
   text-decoration: none;
 }
 
-.vce-posts-grid-pagination-item.vce-state--active {
-  color: #fff;
-}
-
-.vce-posts-grid-pagination-item.vce-state--active:focus,
-.vce-posts-grid-pagination-item.vce-state--active:hover {
-  color: #fff;
-}
-
 .vce-posts-grid-pagination-rest-items {
   padding: 0 18px;
 }

@@ -230,7 +230,7 @@ class BoxModel extends Attribute {
       'vcv-ui-design-options-onion-control-position--' + position
     ])
 
-    let defaultStyle = this.getPlaceholderByName(name)
+    let defaultStyle = this.props.placeholder && this.props.placeholder[ name ]
     let placeholder = defaultStyle || '-'
     return (
       <input
@@ -243,30 +243,6 @@ class BoxModel extends Attribute {
         onBlur={this.validateBoxInput}
         disabled={isDisabled} />
     )
-  }
-
-  getPlaceholderByName (name) {
-    let placeholder = ''
-    let styles = [ 'margin', 'padding', 'border' ]
-
-    if (!this.props.placeholder) {
-      return false
-    }
-
-    if (this.props.placeholder.all) {
-      if (parseInt(this.props.placeholder.all[ name ])) {
-        placeholder = this.props.placeholder.all[ name ]
-      }
-    } else {
-      styles.forEach((style) => {
-        if (name.indexOf(style) >= 0 && this.props.placeholder[ style ]) {
-          if (parseInt(this.props.placeholder[ style ][ name ])) {
-            placeholder = this.props.placeholder[ style ][ name ]
-          }
-        }
-      })
-    }
-    return placeholder
   }
 
   /**
