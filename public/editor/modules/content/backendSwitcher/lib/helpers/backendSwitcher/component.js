@@ -11,13 +11,13 @@ export default class BackendSwitcher extends React.Component {
   setClassicEditor (e) {
     e && e.preventDefault && e.preventDefault()
     window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '0') // Disable backend editor
-    window.location.href = e.currentTarget.href
+    window.location.href = e.currentTarget.dataset.href
   }
 
   setBackendEditor (e) {
     e && e.preventDefault && e.preventDefault()
     window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
-    window.location.href = e.currentTarget.href
+    window.location.href = e.currentTarget.dataset.href
   }
 
   render () {
@@ -26,8 +26,8 @@ export default class BackendSwitcher extends React.Component {
       <div className='vcv-wpbackend-switcher-wrapper'>
         <div className='vcv-wpbackend-switcher'>
           <span className='vcv-wpbackend-switcher-logo' />
-          <a href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</a>
-          <a href={window.location.href} onClick={this.setBackendEditor} className='vcv-wpbackend-switcher-option'>Backend Editor</a>
+          <button data-href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</button>
+          <button data-href={window.location.href} onClick={this.setBackendEditor} className='vcv-wpbackend-switcher-option'>Backend Editor</button>
         </div>
       </div>
     )
@@ -37,10 +37,10 @@ export default class BackendSwitcher extends React.Component {
         <div className='vcv-wpbackend-switcher-wrapper'>
           <div className='vcv-wpbackend-switcher'>
             <span className='vcv-wpbackend-switcher-logo' />
-            <a href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</a>
+            <button data-href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</button>
           </div>
           <div className='vcv-wpbackend-switcher--type-classic'>
-            <a href={window.location.href} onClick={this.setClassicEditor} className='vcv-wpbackend-switcher-option'>Classic Editor</a>
+            <button data-href={window.location.href} onClick={this.setClassicEditor} className='vcv-wpbackend-switcher-option'>Classic Editor</button>
           </div>
         </div>
       )

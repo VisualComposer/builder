@@ -152,6 +152,8 @@ class DesignOptionsJK extends Attribute {
     attributeMixins: {}
   }
 
+  static defaultStyles = ''
+
   constructor (props) {
     super(props)
 
@@ -334,7 +336,7 @@ class DesignOptionsJK extends Attribute {
             }
 
             if (newValue[ device ].backgroundStyle) {
-              let sizeStyles = ['cover', 'contain', 'full-width', 'full-height']
+              let sizeStyles = [ 'cover', 'contain', 'full-width', 'full-height' ]
               let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
 
               if (sizeState) {
@@ -527,13 +529,88 @@ class DesignOptionsJK extends Attribute {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
+
+    this.getDefaultStyles()
+
     return <div className='vcv-ui-form-group'>
       <BoxModel
         api={this.props.api}
         fieldKey='boxModel'
         updater={this.boxModelChangeHandler}
+        placeholder={DesignOptionsJK.defaultStyles}
         value={value} />
     </div>
+  }
+
+  getDefaultStyles () {
+    let mainDefaultStyles = {
+      margin: {},
+      padding: {},
+      border: {}
+    }
+    let doAttribute = 'data-vce-do-apply'
+    let frame = document.querySelector('#vcv-editor-iframe')
+    let frameDocument = frame.contentDocument || frame.contentWindow.document
+    let element = frameDocument.querySelector('#el-' + this.props.element.data.id)
+    let styles = [ 'border', 'padding', 'margin' ]
+
+    if (element) {
+      let elementDOAttribute = element.getAttribute(doAttribute)
+
+      if (elementDOAttribute) {
+        let allDefaultStyles = this.getElementStyles(element)
+
+        if (elementDOAttribute === 'all') {
+          mainDefaultStyles.all = allDefaultStyles
+        } else {
+          styles.forEach((style) => {
+            if (elementDOAttribute.indexOf(style) >= 0) {
+              mainDefaultStyles[ style ] = allDefaultStyles
+            } else {
+              mainDefaultStyles[ style ] = this.getStylesByAttributeValue(element, style)
+            }
+          })
+        }
+      } else {
+        let allStyleElement = element.querySelector(`[${doAttribute}='all']`)
+
+        if (allStyleElement) {
+          let allDefaultStyles = this.getElementStyles(allStyleElement)
+          mainDefaultStyles.all = allDefaultStyles
+        } else {
+          styles.forEach((style) => {
+            mainDefaultStyles[ style ] = this.getStylesByAttributeValue(element, style)
+          })
+        }
+      }
+    }
+    DesignOptionsJK.defaultStyles = mainDefaultStyles
+  }
+
+  getStylesByAttributeValue (parentSelector, value) {
+    let doAttribute = 'data-vce-do-apply'
+    let element = parentSelector.querySelector(`[${doAttribute}*='${value}']`)
+    return this.getElementStyles(element)
+  }
+
+  getElementStyles (element) {
+    let styles = {}
+    if (element) {
+      let dolly = element.cloneNode(false)
+      dolly.id = ''
+      dolly.height = '0'
+      dolly.width = '0'
+      dolly.overflow = 'hidden'
+      element.parentNode.appendChild(dolly)
+      let defaultStyles = window.getComputedStyle(dolly)
+      for (let style in defaultStyles) {
+        if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
+          styles[ style ] = defaultStyles[ style ]
+        }
+      }
+      dolly.remove()
+    }
+    return styles
   }
 
   /**

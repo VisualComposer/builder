@@ -1,7 +1,9 @@
 /* global vcv */
 /* global vceAssetsBackgroundSlider */
 vcv.on('ready', (action, id) => {
-  if (action !== 'reset') {
-    vceAssetsBackgroundSlider('[data-vce-assets-slider]')
+  if (action !== 'merge') {
+    let selector = '[data-vce-assets-slider]'
+    selector = id ? `[data-vcv-element="${id}"] ${selector}` : selector
+    vceAssetsBackgroundSlider(selector)
   }
 })

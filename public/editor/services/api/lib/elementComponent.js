@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import classNames from 'classnames'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
+import ImageSimpleBackground from './imageSimpleBackground'
+import ImageSlideshowBackground from './imageSlideshowBackground'
 
 const { Component, PropTypes } = React
 
@@ -73,140 +74,28 @@ export default class ElementComponent extends Component {
     let { device } = designOptionsAdvanced
     let backgroundData = []
     Object.keys(device).forEach((deviceKey) => {
+      let reactKey = `${this.props.id}-${this.props.deviceKey}-${device[ deviceKey ].backgroundType}`
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
-          backgroundData.push(this.getImagesSimple(device[ deviceKey ], deviceKey))
+          backgroundData.push(<ImageSimpleBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
         case 'imagesSlideshow':
-          backgroundData.push(this.getImagesSlideshow(device[ deviceKey ], deviceKey))
+          backgroundData.push(<ImageSlideshowBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
         case 'videoYoutube':
-          backgroundData.push(this.getYoutubeVideo(device[ deviceKey ], deviceKey))
+          backgroundData.push(<YoutubeBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
         case 'videoVimeo':
-          backgroundData.push(this.getVimeoVideo(device[ deviceKey ], deviceKey))
+          backgroundData.push(<VimeoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
         case 'videoSelfHosted':
           break
       }
     })
-    return <div className='vce-content-background-container'>
-      {backgroundData}
-    </div>
-  }
-
-  getImagesSimple (device, key) {
-    let { images, backgroundStyle, parallax } = device
-    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
-    if (images && images.urls && images.urls.length) {
-      let customProps = {}
-      let imagesJSX = []
-      images.urls.forEach((imgData) => {
-        let styles = {
-          backgroundImage: `url(${imgData.full})`
-        }
-        let imgKey = `${reactKey}-${imgData.id}`
-        imagesJSX.push((
-          <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
-        ))
-      })
-      let containerClasses = [
-        `vce-asset-background-simple-container`,
-        `vce-visible-${key}-only`
-      ]
-      if (backgroundStyle) {
-        containerClasses.push(`vce-asset-background-simple--style-${backgroundStyle}`)
-      }
-      let slideshowClasses = classNames([
-        `vce-asset-background-simple`
-      ])
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-simple'
-      }
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
-        <div className={classNames(slideshowClasses)}>
-          {imagesJSX}
-        </div>
+    if (backgroundData.length) {
+      return <div className='vce-content-background-container'>
+        {backgroundData}
       </div>
-    }
-    return null
-  }
-
-  getImagesSlideshow (device, key) {
-    let { images, backgroundStyle, sliderTimeout, parallax } = device
-    if (!sliderTimeout) {
-      sliderTimeout = 5
-    }
-    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
-    if (images && images.urls && images.urls.length) {
-      let customProps = {}
-      let imagesJSX = []
-      images.urls.forEach((imgData) => {
-        let styles = {
-          backgroundImage: `url(${imgData.full})`
-        }
-        let imgKey = `${reactKey}-${imgData.id}`
-        imagesJSX.push((
-          <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
-        ))
-      })
-      let containerClasses = [
-        `vce-asset-background-slider-container`,
-        `vce-visible-${key}-only`
-      ]
-      if (backgroundStyle) {
-        containerClasses.push(`vce-asset-background-slider--style-${backgroundStyle}`)
-      }
-      let slideshowClasses = [
-        `vce-asset-background-slider`
-      ]
-
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-slider'
-      }
-
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
-        <div className={classNames(slideshowClasses)} data-vce-assets-slider={sliderTimeout}
-          data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
-          {imagesJSX}
-        </div>
-      </div>
-    }
-    return null
-  }
-
-  getYoutubeVideo (device, key) {
-    let { videoYoutube, parallax } = device
-    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
-    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
-    if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
-      let videoData = videoYoutube.trim().match(ytrx)
-      let videoId = videoData[ 7 ]
-      let playerSettings = {
-        videoId: videoId
-      }
-      let { ...otherProps } = this.props
-      return <YoutubeBackground {...otherProps} parallax={parallax} settings={playerSettings} device={key}
-        reactKey={reactKey} key={reactKey}
-        updateInlineHtml={this.updateInlineHtml} />
-    }
-
-    return null
-  }
-
-  getVimeoVideo (device, key) {
-    let { videoVimeo, parallax } = device
-    let reactKey = `${this.props.id}-${key}-${device.backgroundType}`
-    let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
-    if (videoVimeo && videoVimeo.search(vrx) !== -1) {
-      let videoData = videoVimeo.trim().match(vrx)
-      let videoId = videoData[ 3 ]
-      let playerSettings = {
-        videoId: videoId
-      }
-      const { ...otherProps } = this.props
-      return <VimeoBackground {...otherProps} parallax={parallax} settings={playerSettings} device={key}
-        reactKey={reactKey} key={reactKey} />
     }
     return null
   }
