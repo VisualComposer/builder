@@ -71,14 +71,21 @@ export default class Navbar extends React.Component {
           isControlVisible = true
       }
 
-      navbarControls.push({
-        index: navbarControls.length,
-        name: name,
-        icon: Icon,
-        pin: options.pin,
-        options: options,
-        isVisible: isControlVisible
+      let inactiveNames = [ 'Separator', 'Wordpress Admin Controls', 'Post Save Control' ]
+      let findHidden = inactiveNames.findIndex((inactiveName) => {
+        return inactiveName === name
       })
+
+      if (findHidden === -1) {
+        navbarControls.push({
+          index: navbarControls.length,
+          name: name,
+          icon: Icon,
+          pin: options.pin,
+          options: options,
+          isVisible: isControlVisible
+        })
+      }
       this.props.api.notify('build', navbarControls.length)
     })
 
@@ -194,11 +201,9 @@ export default class Navbar extends React.Component {
   }
 
   getHiddenControls () {
-    let controls = navbarControls.filter((control) => {
+    return navbarControls.filter((control) => {
       return !control.isVisible
     })
-    controls.reverse()
-    return controls
   }
 
   buildVisibleControls () {
@@ -216,6 +221,24 @@ export default class Navbar extends React.Component {
           navbarControls[ value.index ].ref = ref
         }}
       />)
+    })
+  }
+
+  buildHiddenControls () {
+    let controls = this.getHiddenControls()
+    if (!controls.length) {
+      return
+    }
+    return controls.map((value) => {
+      return React.createElement(NavbarControl, {
+        api: this.props.api,
+        key: 'Navbar:' + value.name,
+        value: value,
+        container: '.vcv-ui-navbar',
+        ref: (ref) => {
+          navbarControls[ value.index ].ref = ref
+        }
+      })
     })
   }
 
@@ -449,6 +472,7 @@ export default class Navbar extends React.Component {
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
           {this.buildVisibleControls()}
+          {this.buildHiddenControls()}
           <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
             onMouseDown={(e) => this.handleDragStart(e, false)} />
         </nav>
