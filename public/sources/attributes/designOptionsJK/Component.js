@@ -582,7 +582,7 @@ class DesignOptionsJK extends Attribute {
         let allStyleElement = dolly.querySelector(`[${doAttribute}='all']`)
 
         if (allStyleElement) {
-          let allDefaultStyles = this.getElementStyles(dolly, 'all')
+          let allDefaultStyles = this.getElementStyles(allStyleElement)
           mainDefaultStyles.all = allDefaultStyles
         } else {
           styles.forEach((style) => {
