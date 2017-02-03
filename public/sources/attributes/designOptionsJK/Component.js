@@ -587,22 +587,27 @@ class DesignOptionsJK extends Attribute {
     DesignOptionsJK.defaultStyles = mainDefaultStyles
   }
 
-  getStylesByAttributeValue (parentSelector, value) {
-    let doAttribute = 'data-vce-do-apply'
-    let element = parentSelector.querySelector(`[${doAttribute}*='${value}']`)
-    return this.getElementStyles(element)
+  getStylesByAttributeValue (element, value) {
+    let innerSelector = `[data-vce-do-apply*='${value}']`
+    return this.getElementStyles(element, innerSelector)
   }
 
-  getElementStyles (element) {
+  getElementStyles (element, innerSelector) {
     let styles = {}
     if (element) {
-      let dolly = element.cloneNode(false)
+      let dolly = element.cloneNode(true)
       dolly.id = ''
       dolly.height = '0'
       dolly.width = '0'
       dolly.overflow = 'hidden'
       element.parentNode.appendChild(dolly)
-      let defaultStyles = window.getComputedStyle(dolly)
+      let defaultStyles = ''
+      if (innerSelector) {
+        defaultStyles = window.getComputedStyle(dolly.querySelector(innerSelector))
+      } else {
+        defaultStyles = window.getComputedStyle(dolly)
+      }
+
       for (let style in defaultStyles) {
         if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
           styles[ style ] = defaultStyles[ style ]
