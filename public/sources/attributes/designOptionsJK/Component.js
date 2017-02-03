@@ -555,10 +555,17 @@ class DesignOptionsJK extends Attribute {
     let styles = [ 'border', 'padding', 'margin' ]
 
     if (element) {
+      let dolly = element.cloneNode(true)
+      dolly.id = ''
+      dolly.height = '0'
+      dolly.width = '0'
+      dolly.overflow = 'hidden'
+      element.parentNode.appendChild(dolly)
+
       let elementDOAttribute = element.getAttribute(doAttribute)
 
       if (elementDOAttribute) {
-        let allDefaultStyles = this.getElementStyles(element)
+        let allDefaultStyles = this.getElementStyles(dolly)
 
         if (elementDOAttribute === 'all') {
           mainDefaultStyles.all = allDefaultStyles
@@ -567,53 +574,47 @@ class DesignOptionsJK extends Attribute {
             if (elementDOAttribute.indexOf(style) >= 0) {
               mainDefaultStyles[ style ] = allDefaultStyles
             } else {
-              mainDefaultStyles[ style ] = this.getStylesByAttributeValue(element, style)
+              mainDefaultStyles[ style ] = this.getStylesByAttributeValue(dolly, style)
             }
           })
         }
       } else {
-        let allStyleElement = element.querySelector(`[${doAttribute}='all']`)
+        let allStyleElement = dolly.querySelector(`[${doAttribute}='all']`)
 
         if (allStyleElement) {
           let allDefaultStyles = this.getElementStyles(allStyleElement)
           mainDefaultStyles.all = allDefaultStyles
         } else {
           styles.forEach((style) => {
-            mainDefaultStyles[ style ] = this.getStylesByAttributeValue(element, style)
+            mainDefaultStyles[ style ] = this.getStylesByAttributeValue(dolly, style)
           })
         }
       }
+
+      dolly.remove()
     }
     DesignOptionsJK.defaultStyles = mainDefaultStyles
   }
 
-  getStylesByAttributeValue (element, value) {
+  getStylesByAttributeValue (dolly, value) {
     let innerSelector = `[data-vce-do-apply*='${value}']`
-    return this.getElementStyles(element, innerSelector)
+    return this.getElementStyles(dolly, innerSelector)
   }
 
-  getElementStyles (element, innerSelector) {
+  getElementStyles (clonedElement, innerSelector) {
     let styles = {}
-    if (element) {
-      let dolly = element.cloneNode(true)
-      dolly.id = ''
-      dolly.height = '0'
-      dolly.width = '0'
-      dolly.overflow = 'hidden'
-      element.parentNode.appendChild(dolly)
+    if (clonedElement) {
       let defaultStyles = ''
       if (innerSelector) {
-        defaultStyles = window.getComputedStyle(dolly.querySelector(innerSelector))
+        defaultStyles = window.getComputedStyle(clonedElement.querySelector(innerSelector))
       } else {
-        defaultStyles = window.getComputedStyle(dolly)
+        defaultStyles = window.getComputedStyle(clonedElement)
       }
-
       for (let style in defaultStyles) {
         if (style !== ~~style + '' && !(typeof defaultStyles[ style ] === 'object' || typeof defaultStyles[ style ] === 'function')) {
           styles[ style ] = defaultStyles[ style ]
         }
       }
-      dolly.remove()
     }
     return styles
   }

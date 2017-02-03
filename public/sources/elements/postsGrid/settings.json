@@ -138,6 +138,7 @@
     "value": [
       "columns",
       "gap",
+      "atts_pagination",
       "metaCustomId",
       "customClass"
     ],
@@ -149,13 +150,24 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "atts_pagination",
       "atts_pagination_per_page",
       "atts_pagination_color",
       "atts_pagination_active_color"
     ],
     "options": {
-      "label": "Pagination"
+      "label": "Pagination",
+      "onChange": {
+        "rules": {
+          "atts_pagination": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
     }
   },
   "sourceItem": {

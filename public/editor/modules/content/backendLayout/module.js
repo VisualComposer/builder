@@ -7,6 +7,7 @@ import WipControlsManager from './lib/controls/wipControlsManager'
 
 if (vcCake.env('FEATURE_WPBACKEND')) {
   vcCake.add('backendLayout', (api) => {
+    document.getElementById('postdivrich').classList.add('vcv-hidden')
     ReactDOM.render(
       <Layout api={api} />,
       document.getElementById('vcv-wpbackend-layout-content')
