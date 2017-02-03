@@ -9,21 +9,27 @@ if (vcCake.env('FEATURE_WPBACKEND')) {
     let titleDiv = document.querySelector('div#titlediv')
     let switcherContainer = document.createElement('div')
     switcherContainer.className = 'vcv-wpbackend-switcher-container'
-
+    let render = false
     if (titleDiv) {
       titleDiv.parentNode.insertBefore(switcherContainer, titleDiv.nextSibling)
+      render = true
     } else {
       let postBodyContent = document.getElementById('post-body-content')
-      if (postBodyContent && postBodyContent.firstChild) {
-        postBodyContent.insertBefore(switcherContainer, postBodyContent.firstChild)
-      } else {
-        postBodyContent.appendChild(switcherContainer)
+      if (postBodyContent) {
+        if (postBodyContent.firstChild) {
+          postBodyContent.insertBefore(switcherContainer, postBodyContent.firstChild)
+        } else {
+          postBodyContent.appendChild(switcherContainer)
+        }
+        render = true
       }
     }
 
-    ReactDOM.render(
-      <BackendSwitcher />,
-      switcherContainer
-    )
+    if (render) {
+      ReactDOM.render(
+        <BackendSwitcher />,
+        switcherContainer
+      )
+    }
   })
 }
