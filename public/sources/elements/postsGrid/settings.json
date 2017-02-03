@@ -88,7 +88,7 @@
     "access": "public",
     "value": "#EEE",
     "options": {
-      "label": "Pagination base color",
+      "label": "Inactive page color",
       "onChange": {
         "rules": {
           "atts_pagination": {
@@ -113,7 +113,7 @@
     "access": "public",
     "value": "#557CBF",
     "options": {
-      "label": "Pagination active color",
+      "label": "Active page color",
       "onChange": {
         "rules": {
           "atts_pagination": {
