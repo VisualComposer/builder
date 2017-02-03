@@ -1,22 +1,18 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 import '../../../../../../../sources/less/wpbackend-switcher/init.less'
 
 export default class BackendSwitcher extends React.Component {
   constructor (props) {
     super(props)
-    this.setClassicEditor = this.setClassicEditor.bind(this)
-    this.setBackendEditor = this.setBackendEditor.bind(this)
+    this.setEditor = this.setEditor.bind(this)
   }
 
-  setClassicEditor (e) {
+  setEditor (e) {
     e && e.preventDefault && e.preventDefault()
-    window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '0') // Disable backend editor
-    window.location.href = e.currentTarget.dataset.href
-  }
-
-  setBackendEditor (e) {
-    e && e.preventDefault && e.preventDefault()
-    window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
+    if (typeof e.currentTarget.dataset.switch !== 'undefined') {
+      window.setUserSetting('vcvEditorsBackendLayoutSwitcher', e.currentTarget.dataset.switch)
+    }
     window.location.href = e.currentTarget.dataset.href
   }
 
@@ -26,8 +22,18 @@ export default class BackendSwitcher extends React.Component {
       <div className='vcv-wpbackend-switcher-wrapper'>
         <div className='vcv-wpbackend-switcher'>
           <span className='vcv-wpbackend-switcher-logo' />
-          <button data-href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</button>
-          <button data-href={window.location.href} onClick={this.setBackendEditor} className='vcv-wpbackend-switcher-option'>Backend Editor</button>
+          <button
+            data-href={window.vcvFrontendEditorLink}
+            onClick={this.setEditor}
+            className='vcv-wpbackend-switcher-option'>Frontend Editor
+          </button>
+          <button
+            data-href={window.location.href}
+            data-switch='1'
+            onClick={this.setEditor}
+            disabled={!vcCake.env('FEATURE_WPBACKEND')}
+            className='vcv-wpbackend-switcher-option'>Backend Editor
+          </button>
         </div>
       </div>
     )
@@ -37,10 +43,19 @@ export default class BackendSwitcher extends React.Component {
         <div className='vcv-wpbackend-switcher-wrapper'>
           <div className='vcv-wpbackend-switcher'>
             <span className='vcv-wpbackend-switcher-logo' />
-            <button data-href={window.vcvFrontendEditorLink} className='vcv-wpbackend-switcher-option'>Frontend Editor</button>
+            <button
+              data-href={window.vcvFrontendEditorLink}
+              onClick={this.setEditor}
+              className='vcv-wpbackend-switcher-option'>Frontend Editor
+            </button>
           </div>
           <div className='vcv-wpbackend-switcher--type-classic'>
-            <button data-href={window.location.href} onClick={this.setClassicEditor} className='vcv-wpbackend-switcher-option'>Classic Editor</button>
+            <button
+              data-href={window.location.href}
+              data-switch='0'
+              onClick={this.setEditor}
+              className='vcv-wpbackend-switcher-option'>Classic Editor
+            </button>
           </div>
         </div>
       )
