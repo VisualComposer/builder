@@ -7,7 +7,7 @@ import {sortable} from 'react-sortable'
 
 let SortableVideoItem = sortable(AttachVideoItem)
 
-class AttachImage extends Attribute {
+class AttachVideo extends Attribute {
 
   constructor (props) {
     super(props)
@@ -100,12 +100,6 @@ class AttachImage extends Attribute {
   }
 
   parseSelection (selection) {
-    // let defaultLinkValue = {
-    //   relNofollow: false,
-    //   targetBlank: true,
-    //   title: '',
-    //   url: ''
-    // }
     let ids = []
     let urls = []
     let icons = []
@@ -115,11 +109,6 @@ class AttachImage extends Attribute {
       ids.push(attachmentData.id)
       urls.push(attachmentData.url)
       icons.push(attachmentData.icon)
-
-      /* url.link = defaultLinkValue
-      if (this.state.value.urls && typeof this.state.value.urls[ index ] !== 'undefined' && typeof this.state.value.urls[ index ].link !== 'undefined') {
-        url.link = this.state.value.urls[ index ].link
-      } */
     })
 
     return {
@@ -263,9 +252,9 @@ class AttachImage extends Attribute {
     )
   }
 }
-AttachImage.propTypes = {
+AttachVideo.propTypes = {
   value: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object, React.PropTypes.array ]).isRequired,
   fieldKey: React.PropTypes.string.isRequired
 }
 
-export default AttachImage
+export default AttachVideo

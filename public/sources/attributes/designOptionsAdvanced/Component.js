@@ -6,6 +6,7 @@ import Toggle from '../toggle/Component'
 import Dropdown from '../dropdown/Component'
 import BoxModel from '../boxModel/Component'
 import AttachImage from '../attachimage/Component'
+import AttachVideo from '../attachvideo/Component'
 import Color from '../color/Component'
 import String from '../string/Component'
 import Animate from '../animateDropdown/Component'
@@ -183,6 +184,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.youtubeVideoChangeHandler = this.youtubeVideoChangeHandler.bind(this)
     this.vimeoVideoChangeHandler = this.vimeoVideoChangeHandler.bind(this)
+    this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
     this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
   }
 
@@ -279,6 +281,20 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].sliderTimeout
           }
+
+          // Embed video bg
+          let embedVideoTypeBackgrounds = [
+            'videoEmbed'
+          ]
+          if (embedVideoTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
+            // not image type background selected
+            delete newValue[ device ].videoEmbed
+          } else if (!newValue[ device ].hasOwnProperty('videoEmbed') || newValue[ device ].videoEmbed.urls.length === 0) {
+            // images are empty
+            delete newValue[ device ].videoEmbed
+            delete newValue[ device ].backgroundType
+          }
+
           // background style is empty
           if (newValue[ device ].backgroundStyle === '') {
             delete newValue[ device ].backgroundStyle
@@ -317,7 +333,7 @@ class DesignOptionsAdvanced extends Attribute {
             'imagesSlideshow',
             'videoYoutube',
             'videoVimeo',
-            'videoSelfHosted'
+            'videoEmbed'
           ]
           if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
             // not parallax background selected
@@ -576,7 +592,7 @@ class DesignOptionsAdvanced extends Attribute {
         },
         {
           label: 'Self-hosted video',
-          value: 'videoSelfHosted'
+          value: 'videoEmbed'
         },
         {
           label: 'Color gradient',
@@ -1172,7 +1188,7 @@ class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow',
       'videoYoutube',
       'videoVimeo',
-      'videoSelfHosted'
+      'videoEmbed'
     ]
 
     if (this.state.devices[ this.state.currentDevice ].display ||
@@ -1211,6 +1227,40 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render Self hosted video control
+   * @returns {*}
+   */
+  getEmbedVideoRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoEmbed`) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].videoEmbed || {}
+    return <div className='vcv-ui-form-group'>
+      <AttachVideo
+        api={this.props.api}
+        fieldKey='videoEmbed'
+        options={{
+          multiple: false
+        }}
+        updater={this.embedVideoChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle change of self hosted video control
+   * @param fieldKey
+   * @param value
+   */
+  embedVideoChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Handle change of parallax control
    * @param fieldKey
    * @param value
@@ -1241,6 +1291,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getSliderTimeoutRender()}
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}
+            {this.getEmbedVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
             {this.getBackgroundEndColorRender()}

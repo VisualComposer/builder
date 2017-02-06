@@ -5,6 +5,7 @@ import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
 import ImageSlideshowBackground from './imageSlideshowBackground'
+import EmbedVideoBackground from './embedVideoBackground'
 
 const { Component, PropTypes } = React
 
@@ -95,7 +96,8 @@ export default class ElementComponent extends Component {
         case 'videoVimeo':
           backgroundData.push(<VimeoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
-        case 'videoSelfHosted':
+        case 'videoEmbed':
+          backgroundData.push(<EmbedVideoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
           break
       }
     })
