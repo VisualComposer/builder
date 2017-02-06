@@ -64,7 +64,11 @@ class PostsGridSourcePosts extends Container implements Helper
 
     public function getPostTypes()
     {
-        $postTypes = get_post_types([]);
+        $postTypes = get_post_types(
+            [
+                'public' => true,
+            ]
+        );
         $postTypesList = [];
         $excludedPostTypes = [
             'revision',
