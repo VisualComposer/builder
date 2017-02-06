@@ -73,9 +73,9 @@ class Component extends vcvAPI.elementComponent {
 
     return <section className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-        <div className={rowClasses} style={rowStyles} {...customProps} {...doPadding}>
+        <div className={rowClasses} style={rowStyles} {...customProps}>
           <div className='vce-hero-section__wrap'>
-            <div className='vce-hero-section__content'>
+            <div className='vce-hero-section__content' {...doPadding}>
               <div className='vce-hero-section__content-container'>
                 {description}
               </div>
