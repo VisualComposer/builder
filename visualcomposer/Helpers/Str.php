@@ -283,4 +283,14 @@ class Str implements Helper
 
         return implode(' ', $output);
     }
+
+    public function slugify($str)
+    {
+        $str = strtolower($str);
+        $str = html_entity_decode($str);
+        $str = preg_replace('/[^\w ]+/', '', $str);
+        $str = preg_replace('/ +/', '-', $str);
+
+        return $str;
+    }
 }

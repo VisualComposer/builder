@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { description, image, align, addButton, customClass, designOptions, button, background, metaCustomId } = atts
+    let { description, image, align, addButton, customClass, designOptionsJK, button, background, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
     let containerProps = {}
@@ -47,19 +47,20 @@ class Component extends vcvAPI.elementComponent {
       buttonOutput = Button.render(null, false)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptionsJK.device) {
+      let animations = []
+      Object.keys(designOptionsJK.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptionsJK.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       containerProps.id = metaCustomId
@@ -67,11 +68,14 @@ class Component extends vcvAPI.elementComponent {
 
     rowClasses = classNames(rowClasses)
 
+    let doRest = this.applyDO('margin background border')
+    let doPadding = this.applyDO('padding')
+
     return <section className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id}>
+      <div className={wrapperClasses} id={'el-' + id} {...doRest}>
         <div className={rowClasses} style={rowStyles} {...customProps}>
           <div className='vce-hero-section__wrap'>
-            <div className='vce-hero-section__content'>
+            <div className='vce-hero-section__content' {...doPadding}>
               <div className='vce-hero-section__content-container'>
                 {description}
               </div>

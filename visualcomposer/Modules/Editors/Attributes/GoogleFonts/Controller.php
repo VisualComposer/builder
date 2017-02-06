@@ -6,6 +6,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Framework\Container;
+use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -39,12 +40,12 @@ class Controller extends Container implements Module
     /**
      * Enqueue google fonts assets.
      */
-    private function enqueueGoogleFontsStyle()
+    private function enqueueGoogleFontsStyle(Str $strHelper)
     {
         $googleFonts = $this->options->get('googleFonts', []);
 
         foreach ($googleFonts as $font) {
-            wp_enqueue_style('vcv:' . $font, $font);
+            wp_enqueue_style('vcv:' . $strHelper->slugify($font), $font);
         }
     }
 
@@ -58,7 +59,7 @@ class Controller extends Container implements Module
      */
     private function saveGoogleFonts($response, Request $requestHelper)
     {
-        $googleFonts = $requestHelper->input('vcv-google-fonts');
+        $googleFonts = $requestHelper->inputJson('vcv-google-fonts');
         $this->options->set('googleFonts', array_values((array)$googleFonts));
         $response['status'] = true;
 
