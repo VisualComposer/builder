@@ -68,6 +68,16 @@ AssetsLibrary.add('backgroundVideoVimeo', {
   ]
 })
 
+AssetsLibrary.add('backgroundVideoEmbed', {
+  publicCss: [
+    'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.css'
+  ],
+  publicJs: [
+    'assetsLibrary/backgroundVideoEmbed/plugin.js',
+    'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.js'
+  ]
+})
+
 AssetsLibrary.add('parallaxBackground', {
   publicCss: [
     'assetsLibrary/parallaxBackground/dist/parallax.css'

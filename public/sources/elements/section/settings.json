@@ -185,6 +185,7 @@
       "backgroundSimple",
       "backgroundVideoYoutube",
       "backgroundVideoVimeo",
+      "backgroundVideoEmbed",
       "parallaxBackground"
     ]
   }
