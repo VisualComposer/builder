@@ -28,7 +28,8 @@
     "value": "10",
     "options": {
       "label": "Limit",
-      "description": "Limit the number of posts displayed."
+      "placeholder": "5",
+      "description": "Limit the number of posts displayed. Default is 5 posts."
     }
   },
   "attsSticky": {
