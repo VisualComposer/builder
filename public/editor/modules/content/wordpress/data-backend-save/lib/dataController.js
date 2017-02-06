@@ -52,7 +52,7 @@ class SaveController {
         designOptions = result
       }))
       Promise.all(promises).then(() => {
-        document.getElementById('content').innerHTML = content
+        document.getElementById('content').value = content
         document.getElementById('vcv-action').value = 'setData:adminNonce'
         document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
         document.getElementById('vcv-scripts').value = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
@@ -62,7 +62,7 @@ class SaveController {
         document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
         document.getElementById('vcv-custom-css').value = wipAssetsStorage.getCustomCss()
         document.getElementById('vcv-global-css').value = wipAssetsStorage.getGlobalCss()
-        document.getElementById('vcv-google-fonts').value = wipAssetsStorage.getGoogleFontsData()
+        document.getElementById('vcv-google-fonts').value = JSON.stringify(wipAssetsStorage.getGoogleFontsData())
       })
     } else {
       let globalStyles = ''
