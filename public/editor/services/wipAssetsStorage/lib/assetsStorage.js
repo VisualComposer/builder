@@ -550,21 +550,17 @@ export default {
    * @returns {Array}
    */
   getAttributesMixinsCssData () {
-    let mixinsData = {}
-
+    let styles = []
     for (let id in this.elements) {
       let attributeMixins = this.elements[ id ].attributesMixins
       if (attributeMixins) {
-        lodash.merge(mixinsData, attributeMixins)
+        Object.keys(attributeMixins).forEach((tag) => {
+          Object.keys(attributeMixins[ tag ]).forEach((attribute) => {
+            styles.push(attributeMixins[ tag ][ attribute ])
+          })
+        })
       }
     }
-    let styles = []
-
-    Object.keys(mixinsData).forEach((tag) => {
-      Object.keys(mixinsData[ tag ]).forEach((attribute) => {
-        styles.push(mixinsData[ tag ][ attribute ])
-      })
-    })
     return styles
   },
 
