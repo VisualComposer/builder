@@ -63,6 +63,7 @@ class SaveController {
         document.getElementById('vcv-custom-css').value = wipAssetsStorage.getCustomCss()
         document.getElementById('vcv-global-css').value = wipAssetsStorage.getGlobalCss()
         document.getElementById('vcv-google-fonts').value = JSON.stringify(wipAssetsStorage.getGoogleFontsData())
+        document.getElementById('vcv-my-templates').value = JSON.stringify(myTemplates.all())
       })
     } else {
       let globalStyles = ''
@@ -76,24 +77,18 @@ class SaveController {
         designOptions = data
       }))
       Promise.all(promises).then(() => {
-        this.ajax(
-          {
-            'vcv-action': 'setData:adminNonce',
-            'vcv-content': content,
-            'vcv-data': encodeURIComponent(JSON.stringify(data)),
-            'vcv-scripts': assetsManager.getJsFiles(), // .map((file) => { return assetsManager.getSourcePath(file) }),
-            'vcv-shared-library-styles': assetsManager.getCssFiles(),
-            'vcv-global-styles': globalStyles,
-            // 'vcv-styles': styles,
-            'vcv-design-options': designOptions,
-            'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-            'vcv-custom-css': assetsManager.getCustomCss(),
-            'vcv-global-css': assetsManager.getGlobalCss(),
-            'vcv-my-templates': JSON.stringify(myTemplates.all())
-          },
-          this.saveSuccess.bind(this),
-          this.saveFailed.bind(this)
-        )
+        document.getElementById('content').value = content
+        document.getElementById('vcv-action').value = 'setData:adminNonce'
+        document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
+        document.getElementById('vcv-scripts').value = assetsManager.getJsFiles()
+        document.getElementById('vcv-shared-library-styles').value = assetsManager.getCssFiles()
+        document.getElementById('vcv-global-styles').value = globalStyles
+        document.getElementById('vcv-design-options').value = designOptions
+        document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
+        document.getElementById('vcv-custom-css').value = assetsManager.getCustomCss()
+        document.getElementById('vcv-global-css').value = assetsManager.getGlobalCss()
+        document.getElementById('vcv-google-fonts').value = JSON.stringify(assetsManager.getGoogleFontsData())
+        document.getElementById('vcv-my-templates').value = JSON.stringify(myTemplates.all())
       })
     }
   }

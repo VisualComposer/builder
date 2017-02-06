@@ -49,6 +49,7 @@ $postTypeHelper = vchelper('PostType');
     <input type="hidden" name="vcv-custom-css" id="vcv-custom-css">
     <input type="hidden" name="vcv-global-css" id="vcv-global-css">
     <input type="hidden" name="vcv-google-fonts" id="vcv-google-fonts">
+    <input type="hidden" name="vcv-my-templates" id="vcv-my-templates">
 </div>
 
 <?php
