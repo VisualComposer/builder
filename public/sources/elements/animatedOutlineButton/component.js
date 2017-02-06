@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, color, designOptions, alignment, customClass, metaCustomId } = atts
+    let { buttonUrl, buttonText, color, designOptionsJK, alignment, customClass, metaCustomId } = atts
 
     let containerClasses = ['vce-button--style-animated-outline-container']
     let classes = []
@@ -38,27 +38,31 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptionsJK.device) {
+      let animations = []
+      Object.keys(designOptionsJK.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptionsJK.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doMargin = this.applyDO('margin')
+    let doRest = this.applyDO('padding border background')
+
     return <div className={containerClasses.join(' ')} {...editor}>
-      <span className='vce-button--style-animated-outline-wrapper vce' id={'el-' + id} >
-        <CustomTag className={classes.join(' ')} {...customProps}>
+      <span className='vce-button--style-animated-outline-wrapper vce' id={'el-' + id} {...doMargin}>
+        <CustomTag className={classes.join(' ')} {...customProps} {...doRest}>
           <span className='vce-button--style-animated-outline__content-box'>
             <span className='vce-button--style-animated-outline__content'>
               {buttonHtml}
