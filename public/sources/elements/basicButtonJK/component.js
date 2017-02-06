@@ -67,9 +67,13 @@ class Component extends vcvAPI.elementComponent {
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
+
+    let doMargin = this.applyDO('margin')
+    let doRest = this.applyDO('padding border background')
+
     return <div className={containerClasses} {...editor}>
-      <span className={wrapperClasses} id={'el-' + id} data-vce-do-apply='margin'>
-        <CustomTag className={classes} {...customProps} data-vce-do-apply='padding border background'>
+      <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
+        <CustomTag className={classes} {...customProps} {...doRest}>
           {buttonHtml}
         </CustomTag>
       </span>

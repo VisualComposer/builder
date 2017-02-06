@@ -31,6 +31,13 @@ export default class ElementComponent extends Component {
     return ReactDOM.findDOMNode(this)
   }
 
+  applyDO (prop) {
+    prop += ` el-${this.props.id}`
+    return {
+      'data-vce-do-apply': prop
+    }
+  }
+
   getMixinData (mixinName) {
     const vcCake = require('vc-cake')
     const assetsManager = vcCake.getService('assets-manager')

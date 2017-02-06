@@ -25,7 +25,7 @@ class Component extends vcvAPI.elementComponent {
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-    let rowClasses = ['vce-hero-section__wrap-row']
+    let rowClasses = [ 'vce-hero-section__wrap-row' ]
 
     let mixinData = this.getMixinData('backgroundColor')
 
@@ -68,9 +68,12 @@ class Component extends vcvAPI.elementComponent {
 
     rowClasses = classNames(rowClasses)
 
+    let doRest = this.applyDO('margin background border')
+    let doPadding = this.applyDO('padding')
+
     return <section className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id} data-vce-do-apply='margin background border'>
-        <div className={rowClasses} style={rowStyles} {...customProps}  data-vce-do-apply='padding'>
+      <div className={wrapperClasses} id={'el-' + id} {...doRest}>
+        <div className={rowClasses} style={rowStyles} {...customProps} {...doPadding}>
           <div className='vce-hero-section__wrap'>
             <div className='vce-hero-section__content'>
               <div className='vce-hero-section__content-container'>
