@@ -27,8 +27,10 @@ export default class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    return this.state.data.length === 0 && getData('app:dataLoaded') === true ?
-      <BlankPageManagerFront api={this.props.api} /> : <HtmlLayout data={this.state.data} api={this.props.api} />
+    if (this.state.data.length === 0 && getData('app:dataLoaded') === true) {
+      return (<BlankPageManagerFront api={this.props.api} />)
+    }
+    return (<HtmlLayout data={this.state.data} api={this.props.api} />)
   }
 
   render () {
