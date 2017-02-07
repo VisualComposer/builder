@@ -83,6 +83,7 @@ export default class ElementComponent extends Component {
     let { device } = designOptionsAdvanced
     let backgroundData = []
     Object.keys(device).forEach((deviceKey) => {
+      // todo previously there was this.props.deviceKey (it was undefined), i changed it to deviceKey
       let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
