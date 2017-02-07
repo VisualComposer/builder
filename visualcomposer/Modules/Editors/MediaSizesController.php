@@ -14,6 +14,7 @@ class MediaSizesController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:frontend:extraOutput', 'addExtraScript');
+        $this->addFilter('vcv:backend:extraOutput', 'addExtraScript');
     }
 
     protected function addExtraScript($scripts, WpMedia $mediaHelper)

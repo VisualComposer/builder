@@ -26,6 +26,7 @@ class PostsController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Elements\Grids\DataSource\PostsController::addGlobalVariables */
         $this->addFilter('vcv:frontend:extraOutput', 'addGlobalVariables');
+        $this->addFilter('vcv:backend:extraOutput', 'addGlobalVariables');
     }
 
     protected function addGlobalVariables($scripts, $payload)
