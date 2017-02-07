@@ -129,16 +129,17 @@ class Controller extends Container implements Module
     {
         $this->updateGlobalAssets(
             'scripts',
-            $this->requestHelper->input('vcv-scripts', [])
+            $this->requestHelper->inputJson('vcv-scripts', '[]')
         );
         $this->updateGlobalAssets(
             'shared-library-styles',
-            $this->requestHelper->input('vcv-shared-library-styles', [])
+            $this->requestHelper->inputJson('vcv-shared-library-styles', '[]')
         );
+        // TODO: Check for USAGE vcv-styles!!!
         $this->updatePostAssets(
             $postId,
             'styles',
-            $this->requestHelper->input('vcv-styles', [])
+            $this->requestHelper->inputJson('vcv-styles', '[]')
         );
         $this->updatePostAssets(
             $postId,
