@@ -97,9 +97,10 @@ class PostVariablesController extends Container implements Module
         /** @var \WP_Post $post */
         $post = $payload['post'];
         $thumbnailId = get_post_meta($post->ID, '_thumbnail_id', true);
-        if ($thumbnailId) {
-            $image = wp_get_attachment_image_src($thumbnailId, 'post-thumbnail');
-            $url = isset($image['0']) ? $image['0'] : false;
+        $imageId = $thumbnailId ? $thumbnailId : $post->ID;
+        $image = wp_get_attachment_image_src($imageId, 'post-thumbnail');
+        $url = isset($image['0']) ? $image['0'] : false;
+        if ($url) {
             $result = $url;
         }
 
