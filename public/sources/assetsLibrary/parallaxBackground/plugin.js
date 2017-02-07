@@ -6,7 +6,7 @@
       element: null,
       bgElement: null,
       waypoint: null,
-      speed: 10,
+      speed: 30,
       setup: function setup (element) {
         // check for data
         if (!element.getVceParallax) {
