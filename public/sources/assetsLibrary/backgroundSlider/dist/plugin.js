@@ -16,16 +16,33 @@
           element.getVceSlider = this;
         }
         this.slider = element;
+        this.handleAnimationEnd = this.handleAnimationEnd.bind(this);
+
         this.refresh();
         return element.getVceSlider;
       },
+      handleAnimationEnd: function handleAnimationEnd (event) {
+        event.target.classList.remove('vce-asset-background-slider-item--animate');
+        event.target.style.left = null;
+        if (event.target.dataset.vceAssetsSliderStayHidden === 'true') {
+          event.target.style.visibility = 'hidden';
+        } else {
+          event.target.style.visibility = 'visible';
+        }
+      },
       refresh: function refresh () {
+        var _this = this;
+
         this.isRtl = window.getComputedStyle(this.slider).direction === 'rtl';
         this.timeout = parseInt(this.slider.dataset.vceAssetsSlider) * 1000;
         // set slides
         this.slides = this.slider.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide);
         this.slides = [].slice.call(this.slides); // to create array from slides list
-        this.slideTo(0);
+        this.slides.forEach(function (slide) {
+          slide.removeEventListener('animationend', _this.handleAnimationEnd);
+          slide.addEventListener('animationend', _this.handleAnimationEnd);
+        });
+        // this.slideTo(0);
         this.autoplay();
       },
       destroy: function destroy () {
@@ -36,31 +53,35 @@
         delete this.slider.getVceSlider;
       },
       slideTo: function slideTo (index) {
-        var _this = this;
-
         if (index >= 0 && index < this.slides.length) {
+          var prevIndex = this.activeSlide;
           this.activeSlide = index;
-          this.slides.forEach(function (slide) {
-            var slideValue = -100 * _this.activeSlide;
-            if (_this.isRtl) {
-              slideValue = slideValue * -1;
-            }
-            slide.style.transform = 'translateX(' + slideValue + '%)';
-          });
+          this.slides[ prevIndex ].style.left = '0';
+          this.slides[ prevIndex ].style.visibility = 'visible';
+          this.slides[ prevIndex ].dataset.vceAssetsSliderStayHidden = true;
+          this.slides[ index ].style.left = '100%';
+          this.slides[ index ].dataset.vceAssetsSliderStayHidden = false;
+          this.slides[ index ].style.visibility = 'visible';
+          this.slides[ prevIndex ].classList.add('vce-asset-background-slider-item--animate');
+          this.slides[ index ].classList.add('vce-asset-background-slider-item--animate');
         }
       },
       slideToNext: function slideToNext () {
-        if (this.activeSlide === this.slides.length - 1) {
-          this.slideTo(0);
-        } else {
-          this.slideTo(this.activeSlide + 1);
+        if (this.slides.length > 1) {
+          if (this.activeSlide === this.slides.length - 1) {
+            this.slideTo(0);
+          } else {
+            this.slideTo(this.activeSlide + 1);
+          }
         }
       },
       slideToPrev: function slideToPrev () {
-        if (this.activeSlide === 0) {
-          this.slideTo(this.slides.length - 1);
-        } else {
-          this.slideTo(this.activeSlide - 1);
+        if (this.slides.length > 1) {
+          if (this.activeSlide === 0) {
+            this.slideTo(this.slides.length - 1);
+          } else {
+            this.slideTo(this.activeSlide - 1);
+          }
         }
       },
       autoplay: function autoplay () {

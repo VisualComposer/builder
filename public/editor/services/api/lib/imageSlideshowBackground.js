@@ -1,5 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
+import ReactDOMServer from 'react-dom/server'
+
 const { Component, PropTypes } = React
 export default class ImageSlideshowBackground extends Component {
   static propTypes = {
@@ -42,11 +44,14 @@ export default class ImageSlideshowBackground extends Component {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-slider'
       }
 
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
+      let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(slideshowClasses)} data-vce-assets-slider={timeout}
           data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
           {imagesJSX}
-        </div>
+        </div>)
+
+      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
+        <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }
     return null
