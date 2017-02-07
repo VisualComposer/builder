@@ -2,7 +2,7 @@
   "name": {
     "type": "string",
     "access": "protected",
-    "value": "Posts Grid: Post Description"
+    "value": "Posts Grid"
   },
   "metaIntro": {
     "type": "textarea",
@@ -32,7 +32,7 @@
   "gap": {
     "type": "number",
     "access": "public",
-    "value": "5",
+    "value": "10",
     "options": {
       "label": "Gap",
       "description": "Enter gap in pixels (Example: 5).",

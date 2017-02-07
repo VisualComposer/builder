@@ -16,7 +16,7 @@
   "attsLimit": {
     "type": "string",
     "access": "public",
-    "value": "10",
+    "value": "",
     "options": {
       "label": "Limit",
       "placeholder": "5",

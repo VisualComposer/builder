@@ -55,7 +55,7 @@ class Component extends vcvAPI.elementComponent {
         }
       })
       if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
+        customRowProps[ 'data-vce-animate' ] = animations.join(' ')
       }
     }
 
