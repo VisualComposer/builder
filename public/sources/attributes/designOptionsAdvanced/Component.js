@@ -681,7 +681,11 @@ class DesignOptionsAdvanced extends Attribute {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].images || {}
+
     return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Images
+      </span>
       <AttachImage
         api={this.props.api}
         fieldKey='attachImage'
@@ -1238,6 +1242,9 @@ class DesignOptionsAdvanced extends Attribute {
 
     let value = this.state.devices[ this.state.currentDevice ].videoEmbed || {}
     return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Video
+      </span>
       <AttachVideo
         api={this.props.api}
         fieldKey='videoEmbed'
@@ -1246,6 +1253,7 @@ class DesignOptionsAdvanced extends Attribute {
         }}
         updater={this.embedVideoChangeHandler}
         value={value} />
+      <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
     </div>
   }
 
