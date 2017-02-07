@@ -13,14 +13,33 @@ const utils = vcCake.getService('utils')
 class SaveController {
   constructor (props) {
     this.props = props
-    this.props.api.reply('data:changed', (options) => {
-      this.props.api.request('wordpress:beforeSave', {
-        pageElements: DocumentData.all()
+    this.props.api.reply('data:reset', (options) => {
+      window.setTimeout(() => {
+        this.props.api.request('wordpress:beforeSave', {
+          pageElements: DocumentData.all()
+        })
+        options = $.extend({}, {
+          elements: DocumentData.all()
+        }, options)
+        this.save(options)
+      }, 1)
+    })
+    this.props.api.reply('data:editor:render', (options) => {
+      window.setTimeout(() => {
+        this.props.api.request('wordpress:beforeSave', {
+          pageElements: DocumentData.all()
+        })
+        options = $.extend({}, {
+          elements: DocumentData.all()
+        }, options)
+        this.save(options)
+      }, 1)
+    })
+    $('#post').on('submit', (event) => {
+      this.props.api.request('wordpress:data:saved', {
+        status: 'success',
+        request: ''
       })
-      options = $.extend({}, {
-        elements: DocumentData.all()
-      }, options)
-      this.save(options)
     })
 
     this.props.api.reply('wordpress:load', this.load)
@@ -46,17 +65,21 @@ class SaveController {
       promises.push(globalStylesManager.compile().then((result) => {
         globalStyles = result
       }))
+
       let localStylesManager = wipStylesManager.create()
       localStylesManager.add(wipAssetsStorage.getPageCssData())
       promises.push(localStylesManager.compile().then((result) => {
         designOptions = result
       }))
       Promise.all(promises).then(() => {
+        if (window.switchEditors && window.tinymce) {
+          window.switchEditors.go('content', 'html')
+        }
         document.getElementById('content').value = content
         document.getElementById('vcv-action').value = 'setData:adminNonce'
         document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-        document.getElementById('vcv-scripts').value = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
-        document.getElementById('vcv-shared-library-styles').value = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
+        document.getElementById('vcv-scripts').value = JSON.stringify(wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList()))
+        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList()))
         document.getElementById('vcv-global-styles').value = globalStyles
         document.getElementById('vcv-design-options').value = designOptions
         document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
@@ -77,11 +100,14 @@ class SaveController {
         designOptions = data
       }))
       Promise.all(promises).then(() => {
+        if (window.switchEditors && window.tinymce) {
+          window.switchEditors.go('content', 'html')
+        }
         document.getElementById('content').value = content
         document.getElementById('vcv-action').value = 'setData:adminNonce'
         document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-        document.getElementById('vcv-scripts').value = assetsManager.getJsFiles()
-        document.getElementById('vcv-shared-library-styles').value = assetsManager.getCssFiles()
+        document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFiles())
+        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFiles())
         document.getElementById('vcv-global-styles').value = globalStyles
         document.getElementById('vcv-design-options').value = designOptions
         document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
