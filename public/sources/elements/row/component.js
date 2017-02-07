@@ -109,8 +109,10 @@ class Component extends vcvAPI.elementComponent {
       customRowProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor} id={'el-' + id} >
+      <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doAll}>
         {this.getBackgroundTypeContent()}
         <div className='vce-row-content' {...customProps}>
           {content}

@@ -44,8 +44,10 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
+    let doAll = this.applyDO('all')
+
     // import template
-    return (<div className={wrapperClassName} id={elementId} {...editor}>
+    return (<div className={wrapperClassName} id={elementId} {...editor} {...doAll}>
       {this.getBackgroundTypeContent()}
       <section className={className} {...customProps}>
         {content}
