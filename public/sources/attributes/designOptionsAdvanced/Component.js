@@ -164,6 +164,7 @@ class DesignOptionsAdvanced extends Attribute {
     currentDevice: 'all',
     backgroundType: 'imagesSimple',
     borderStyle: 'solid',
+    backgroundStyle: 'cover',
     devices: {},
     attributeMixins: {}
   }
@@ -253,7 +254,12 @@ class DesignOptionsAdvanced extends Attribute {
         // set default background type
         if (!newState.devices[ device ].backgroundType) {
           newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.backgroundType
+        }
+        if (!newState.devices[ device ].borderStyle) {
           newState.devices[ device ].borderStyle = DesignOptionsAdvanced.defaultState.borderStyle
+        }
+        if (!newState.devices[ device ].backgroundStyle) {
+          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.defaultState.backgroundStyle
         }
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
@@ -293,11 +299,6 @@ class DesignOptionsAdvanced extends Attribute {
             // images are empty
             delete newValue[ device ].videoEmbed
             delete newValue[ device ].backgroundType
-          }
-
-          // background style is empty
-          if (newValue[ device ].backgroundStyle === '') {
-            delete newValue[ device ].backgroundStyle
           }
 
           // background color is empty
@@ -734,10 +735,6 @@ class DesignOptionsAdvanced extends Attribute {
     let options = {
       values: [
         {
-          label: 'Default',
-          value: ''
-        },
-        {
           label: 'Cover',
           value: 'cover'
         },
@@ -771,7 +768,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || ''
+    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.defaultState.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
