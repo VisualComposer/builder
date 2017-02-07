@@ -46,8 +46,11 @@ class Component extends vcvAPI.elementComponent {
     if (metaCustomId) {
       customColProps.id = metaCustomId
     }
+
+    let doBoxModel = this.applyDO('margin padding border')
+
     // import template
-    return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
+    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBoxModel}>
       {this.getBackgroundTypeContent()}
       <div className='vce-col-inner'>
         <div className='vce-col-content' {...customProps}>

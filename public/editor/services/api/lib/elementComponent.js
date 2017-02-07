@@ -6,6 +6,7 @@ import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
 import ImageSlideshowBackground from './imageSlideshowBackground'
 import EmbedVideoBackground from './embedVideoBackground'
+import ColorGradientBackground from './colorGradientBackground'
 
 const { Component, PropTypes } = React
 
@@ -82,7 +83,8 @@ export default class ElementComponent extends Component {
     let { device } = designOptionsAdvanced
     let backgroundData = []
     Object.keys(device).forEach((deviceKey) => {
-      let reactKey = `${this.props.id}-${this.props.deviceKey}-${device[ deviceKey ].backgroundType}`
+      // todo previously there was this.props.deviceKey (it was undefined), i changed it to deviceKey
+      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
           backgroundData.push(<ImageSimpleBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
@@ -98,6 +100,9 @@ export default class ElementComponent extends Component {
           break
         case 'videoEmbed':
           backgroundData.push(<EmbedVideoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          break
+        case 'colorGradient':
+          backgroundData.push(<ColorGradientBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} backgroundSelector={this.applyDO('background')} />)
           break
       }
     })
