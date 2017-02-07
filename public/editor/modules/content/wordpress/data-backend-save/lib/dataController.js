@@ -22,6 +22,10 @@ class SaveController {
           elements: DocumentData.all()
         }, options)
         this.save(options)
+        this.props.api.request('wordpress:data:saved', {
+          status: 'success',
+          request: ''
+        })
       }, 1)
     })
     this.props.api.reply('data:editor:render', (options) => {
