@@ -553,7 +553,8 @@ class DesignOptionsJK extends Attribute {
     let doAttribute = 'data-vce-do-apply'
     let frame = document.querySelector('#vcv-editor-iframe')
     let frameDocument = frame.contentDocument || frame.contentWindow.document
-    let element = frameDocument.querySelector('#el-' + this.props.element.data.id)
+    let elementIdSelector = `el-${this.props.element.data.id}`
+    let element = frameDocument.querySelector(`#${elementIdSelector}`)
     let styles = [ 'border', 'padding', 'margin' ]
 
     if (element) {
@@ -572,27 +573,27 @@ class DesignOptionsJK extends Attribute {
       if (elementDOAttribute) {
         let allDefaultStyles = this.getElementStyles(dolly)
 
-        if (elementDOAttribute === 'all') {
+        if (elementDOAttribute.indexOf('all') >= 0) {
           mainDefaultStyles.all = allDefaultStyles
         } else {
           styles.forEach((style) => {
             if (elementDOAttribute.indexOf(style) >= 0) {
               mainDefaultStyles[ style ] = allDefaultStyles
             } else {
-              let innerSelector = `[${doAttribute}*='${style}']`
+              let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
               mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
             }
           })
         }
       } else {
-        let allStyleElement = dolly.querySelector(`[${doAttribute}='all']`)
+        let allStyleElement = dolly.querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
         if (allStyleElement) {
           let allDefaultStyles = this.getElementStyles(allStyleElement)
           mainDefaultStyles.all = allDefaultStyles
         } else {
           styles.forEach((style) => {
-            let innerSelector = `[${doAttribute}*='${style}']`
+            let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
             mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
           })
         }
@@ -603,9 +604,10 @@ class DesignOptionsJK extends Attribute {
 
     let parsedStyles = {}
     for (let style in mainDefaultStyles) {
-      for (let computedStyle in mainDefaultStyles[ style ]) {
+      let styleObject = mainDefaultStyles.all || mainDefaultStyles[ style ]
+      for (let computedStyle in styleObject) {
         if (computedStyle.indexOf(style) >= 0) {
-          parsedStyles[ computedStyle ] = mainDefaultStyles[ style ][ computedStyle ]
+          parsedStyles[ computedStyle ] = styleObject[ computedStyle ]
         }
       }
     }
