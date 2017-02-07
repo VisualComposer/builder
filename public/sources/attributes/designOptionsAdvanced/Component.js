@@ -635,13 +635,117 @@ class DesignOptionsAdvanced extends Attribute {
       return null
     }
     let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
+
+    let defaultStyles = this.getDefaultStyles()
     return <div className='vcv-ui-form-group'>
       <BoxModel
         api={this.props.api}
         fieldKey='boxModel'
         updater={this.boxModelChangeHandler}
+        placeholder={defaultStyles}
         value={value} />
     </div>
+  }
+
+  /**
+   * Get default element styles
+   * @returns {{margin: {}, padding: {}, border: {}}}
+   */
+  getDefaultStyles () {
+    let mainDefaultStyles = {
+      margin: {},
+      padding: {},
+      border: {}
+    }
+    let doAttribute = 'data-vce-do-apply'
+    let frame = document.querySelector('#vcv-editor-iframe')
+    let frameDocument = frame.contentDocument || frame.contentWindow.document
+    let elementIdSelector = `el-${this.props.element.data.id}`
+    let element = frameDocument.querySelector(`#${elementIdSelector}`)
+    let styles = [ 'border', 'padding', 'margin' ]
+
+    if (element) {
+      let dolly = element.cloneNode(true)
+      dolly.id = ''
+      dolly.height = '0'
+      dolly.width = '0'
+      dolly.overflow = 'hidden'
+      dolly.position = 'fixed'
+      dolly.bottom = '0'
+      dolly.right = '0'
+      element.parentNode.appendChild(dolly)
+
+      let elementDOAttribute = element.getAttribute(doAttribute)
+
+      if (elementDOAttribute) {
+        let allDefaultStyles = this.getElementStyles(dolly)
+
+        if (elementDOAttribute.indexOf('all') >= 0) {
+          mainDefaultStyles.all = allDefaultStyles
+        } else {
+          styles.forEach((style) => {
+            if (elementDOAttribute.indexOf(style) >= 0) {
+              mainDefaultStyles[ style ] = allDefaultStyles
+            } else {
+              let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+              mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+            }
+          })
+        }
+      } else {
+        let allStyleElement = dolly.querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
+
+        if (allStyleElement) {
+          let allDefaultStyles = this.getElementStyles(allStyleElement)
+          mainDefaultStyles.all = allDefaultStyles
+        } else {
+          styles.forEach((style) => {
+            let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+            mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+          })
+        }
+      }
+
+      dolly.remove()
+    }
+
+    let parsedStyles = {}
+    for (let style in mainDefaultStyles) {
+      let styleObject = mainDefaultStyles.all || mainDefaultStyles[ style ]
+      for (let computedStyle in styleObject) {
+        if (computedStyle.indexOf(style) >= 0) {
+          parsedStyles[ computedStyle ] = styleObject[ computedStyle ]
+        }
+      }
+    }
+    return parsedStyles
+  }
+
+  /**
+   * Gets additional style (margin, padding, border) element styles
+   * @param clonedElement
+   * @param innerSelector
+   * @returns {{}}
+   */
+  getElementStyles (clonedElement, innerSelector) {
+    let styles = {}
+    if (clonedElement) {
+      let defaultStyles = ''
+      if (innerSelector) {
+        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement.querySelector(innerSelector)))
+      } else {
+        defaultStyles = Object.assign({}, window.getComputedStyle(clonedElement))
+      }
+
+      for (let style in BoxModel.defaultState) {
+        if (defaultStyles && defaultStyles[ style ] &&
+          defaultStyles[ style ] !== '0px' &&
+          defaultStyles[ style ].split(' ').length === 1) {
+          styles[ style ] = defaultStyles[ style ]
+        }
+      }
+    }
+    return styles
   }
 
   /**

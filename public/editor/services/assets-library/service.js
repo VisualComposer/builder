@@ -46,6 +46,12 @@ AssetsLibrary.add('backgroundSimple', {
   ]
 })
 
+AssetsLibrary.add('backgroundColorGradient', {
+  publicCss: [
+    'assetsLibrary/backgroundColorGradient/dist/backgroundColorGradient.css'
+  ]
+})
+
 AssetsLibrary.add('backgroundVideoYoutube', {
   publicCss: [
     'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.css'

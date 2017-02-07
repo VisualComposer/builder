@@ -44,8 +44,10 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
+    let doBoxModel = this.applyDO('margin padding border')
+
     // import template
-    return (<div className={wrapperClassName} id={elementId} {...editor}>
+    return (<div className={wrapperClassName} id={elementId} {...editor} {...doBoxModel}>
       {this.getBackgroundTypeContent()}
       <section className={className} {...customProps}>
         {content}
