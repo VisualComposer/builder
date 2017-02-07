@@ -109,10 +109,10 @@ class Component extends vcvAPI.elementComponent {
       customRowProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    let doBoxModel = this.applyDO('margin padding border')
 
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doAll}>
+      <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doBoxModel}>
         {this.getBackgroundTypeContent()}
         <div className='vce-row-content' {...customProps}>
           {content}
