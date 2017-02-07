@@ -14,8 +14,19 @@
           element.getVceSlider = this
         }
         this.slider = element
+        this.handleAnimationEnd = this.handleAnimationEnd.bind(this)
+
         this.refresh()
         return element.getVceSlider
+      },
+      handleAnimationEnd (event) {
+        event.target.classList.remove('vce-asset-background-slider-item--animate')
+        event.target.style.left = null
+        if (event.target.dataset.vceAssetsSliderStayHidden === 'true') {
+          event.target.style.visibility = 'hidden'
+        } else {
+          event.target.style.visibility = 'visible'
+        }
       },
       refresh() {
         this.isRtl = (window.getComputedStyle(this.slider).direction === 'rtl')
@@ -23,6 +34,10 @@
         // set slides
         this.slides = this.slider.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide)
         this.slides = [].slice.call(this.slides) // to create array from slides list
+        this.slides.forEach((slide) => {
+          slide.removeEventListener('animationend', this.handleAnimationEnd)
+          slide.addEventListener('animationend', this.handleAnimationEnd)
+        })
         this.slideTo(0)
         this.autoplay()
       },
@@ -35,28 +50,34 @@
       },
       slideTo(index) {
         if (index >= 0 && index < this.slides.length) {
+          let prevIndex = this.activeSlide
           this.activeSlide = index
-          this.slides.forEach((slide) => {
-            let slideValue = -100 * this.activeSlide
-            if (this.isRtl) {
-              slideValue = slideValue * -1
-            }
-            slide.style.transform = 'translateX(' + slideValue + '%)'
-          })
+          this.slides[ prevIndex ].style.left = '0'
+          this.slides[ prevIndex ].style.visibility = 'visible'
+          this.slides[ prevIndex ].dataset.vceAssetsSliderStayHidden = true
+          this.slides[ index ].style.left = '100%'
+          this.slides[ index ].dataset.vceAssetsSliderStayHidden = false
+          this.slides[ index ].style.visibility = 'visible'
+          this.slides[ prevIndex ].classList.add('vce-asset-background-slider-item--animate')
+          this.slides[ index ].classList.add('vce-asset-background-slider-item--animate')
         }
       },
       slideToNext() {
-        if (this.activeSlide === this.slides.length - 1) {
-          this.slideTo(0)
-        } else {
-          this.slideTo(this.activeSlide + 1)
+        if (this.slides.length > 1) {
+          if (this.activeSlide === this.slides.length - 1) {
+            this.slideTo(0)
+          } else {
+            this.slideTo(this.activeSlide + 1)
+          }
         }
       },
       slideToPrev() {
-        if (this.activeSlide === 0) {
-          this.slideTo(this.slides.length - 1)
-        } else {
-          this.slideTo(this.activeSlide - 1)
+        if (this.slides.length > 1) {
+          if (this.activeSlide === 0) {
+            this.slideTo(this.slides.length - 1)
+          } else {
+            this.slideTo(this.activeSlide - 1)
+          }
         }
       },
       autoplay() {
