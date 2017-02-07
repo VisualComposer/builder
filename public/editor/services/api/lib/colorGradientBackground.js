@@ -9,13 +9,13 @@ export default class ColorGradientBackground extends Component {
 
   render () {
     const { deviceData, backgroundSelector } = this.props
-    const { backgroundColor, backgroundEndColor } = deviceData
+    const { backgroundColor, backgroundEndColor, parallax } = deviceData
 
     if (backgroundColor && backgroundEndColor && backgroundSelector) {
       let customProps = {}
-      // if (parallax) {
-      //   customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-embed-background'
-      // }
+      if (parallax) {
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-color-gradient'
+      }
       return <div className='vce-asset-color-gradient' {...customProps} {...backgroundSelector} />
     }
     return null
