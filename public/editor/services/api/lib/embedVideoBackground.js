@@ -9,7 +9,7 @@ export default class VideoEmbedBackground extends Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
+    const { reactKey, deviceKey, deviceData, applyBackground } = this.props
     const { videoEmbed, parallax } = deviceData
     if (videoEmbed && videoEmbed.urls && videoEmbed.urls.length) {
       let videoData = videoEmbed.urls[ 0 ]
@@ -22,7 +22,7 @@ export default class VideoEmbedBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-embed-background'
       }
-      return <div className={classNames(containerClasses)} {...customProps}>
+      return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
         <div className='vce-asset-video-embed-background'
           data-vce-assets-video-embed={videoData.id}
           data-vce-assets-video-replacer='.vce-asset-video-embed-player'

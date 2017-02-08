@@ -83,26 +83,31 @@ export default class ElementComponent extends Component {
     let { device } = designOptionsAdvanced
     let backgroundData = []
     Object.keys(device).forEach((deviceKey) => {
-      // todo previously there was this.props.deviceKey (it was undefined), i changed it to deviceKey
       let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
-          backgroundData.push(<ImageSimpleBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          backgroundData.push(
+            <ImageSimpleBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'imagesSlideshow':
-          backgroundData.push(<ImageSlideshowBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          backgroundData.push(
+            <ImageSlideshowBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'videoYoutube':
-          backgroundData.push(<YoutubeBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          backgroundData.push(
+            <YoutubeBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'videoVimeo':
-          backgroundData.push(<VimeoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          backgroundData.push(
+            <VimeoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'videoEmbed':
-          backgroundData.push(<EmbedVideoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+          backgroundData.push(
+            <EmbedVideoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'colorGradient':
-          backgroundData.push(<ColorGradientBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} backgroundSelector={this.applyDO('background')} />)
+          backgroundData.push(
+            <ColorGradientBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
           break
       }
     })

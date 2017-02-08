@@ -9,6 +9,7 @@ import AttachImage from '../attachimage/Component'
 import AttachVideo from '../attachvideo/Component'
 import Color from '../color/Component'
 import String from '../string/Component'
+import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 
 class DesignOptionsAdvanced extends Attribute {
@@ -165,6 +166,7 @@ class DesignOptionsAdvanced extends Attribute {
     backgroundType: 'imagesSimple',
     borderStyle: 'solid',
     backgroundStyle: 'cover',
+    gradientAngle: 45,
     devices: {},
     attributeMixins: {}
   }
@@ -251,7 +253,7 @@ class DesignOptionsAdvanced extends Attribute {
     }
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
-        // set default background type
+        // set default values
         if (!newState.devices[ device ].backgroundType) {
           newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.backgroundType
         }
@@ -261,6 +263,10 @@ class DesignOptionsAdvanced extends Attribute {
         if (!newState.devices[ device ].backgroundStyle) {
           newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.defaultState.backgroundStyle
         }
+        if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
+          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.defaultState.gradientAngle
+        }
+
         // values
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
         // remove all values if display is provided
@@ -301,32 +307,45 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundType
           }
 
-          // background color is empty
-          if (newValue[ device ].backgroundColor === '') {
-            delete newValue[ device ].backgroundColor
-          }
-          if (newValue[ device ].backgroundEndColor === '' || newValue[ device ].backgroundType !== 'colorGradient') {
-            delete newValue[ device ].backgroundEndColor
-          }
-
           // slider timeout is empty
           if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
             delete newValue[ device ].sliderTimeout
           }
 
           // youtube video is empty
-          if (newValue[ device ].videoYoutube === '' || newValue[ device ].backgroundType !== 'videoYoutube') {
+          if (newValue[ device ].backgroundType === 'videoYoutube') {
+            if (!newValue[ device ].videoYoutube) {
+              delete newValue[ device ].videoYoutube
+              delete newValue[ device ].backgroundType
+            }
+          } else {
             delete newValue[ device ].videoYoutube
           }
 
           // vimeo video is empty
-          if (newValue[ device ].videoVimeo === '' || newValue[ device ].backgroundType !== 'videoVimeo') {
+          if (newValue[ device ].backgroundType === 'videoVimeo') {
+            if (!newValue[ device ].videoVimeo) {
+              delete newValue[ device ].videoVimeo
+              delete newValue[ device ].backgroundType
+            }
+          } else {
             delete newValue[ device ].videoVimeo
           }
 
           // gradient angle is not set
-          if (newValue[ device ].gradientAngle === '' || newValue[ device ].backgroundType !== 'colorGradient') {
+          if (newValue[ device ].backgroundType === 'colorGradient') {
+            if (!newValue[ device ].backgroundEndColor) {
+              delete newValue[ device ].gradientAngle
+              delete newValue[ device ].backgroundType
+            }
+          } else {
             delete newValue[ device ].gradientAngle
+            delete newValue[ device ].backgroundEndColor
+          }
+
+          // background color is empty
+          if (newValue[ device ].backgroundColor === '') {
+            delete newValue[ device ].backgroundColor
           }
 
           let parallaxBackgrounds = [
@@ -334,7 +353,8 @@ class DesignOptionsAdvanced extends Attribute {
             'imagesSlideshow',
             'videoYoutube',
             'videoVimeo',
-            'videoEmbed'
+            'videoEmbed',
+            'colorGradient'
           ]
           if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
             // not parallax background selected
@@ -601,7 +621,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundType || 'imagesSimple'
+    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.defaultState.backgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background type
@@ -948,6 +968,10 @@ class DesignOptionsAdvanced extends Attribute {
     </div>
   }
 
+  /**
+   * Render border style dropdown
+   * @returns {*}
+   */
   getBorderStyleRender () {
     if (this.state.devices[ this.state.currentDevice ].display) {
       return null
@@ -959,10 +983,6 @@ class DesignOptionsAdvanced extends Attribute {
 
     let options = {
       values: [
-        {
-          label: 'Default',
-          value: ''
-        },
         {
           label: 'Solid',
           value: 'solid'
@@ -1013,7 +1033,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || ''
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.defaultState.borderStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
@@ -1027,6 +1047,11 @@ class DesignOptionsAdvanced extends Attribute {
     </div>
   }
 
+  /**
+   * Handle border style change
+   * @param fieldKey
+   * @param value
+   */
   borderStyleChangeHandler (fieldKey, value) {
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
@@ -1086,11 +1111,15 @@ class DesignOptionsAdvanced extends Attribute {
       <span className='vcv-ui-form-group-heading'>
         Animation timeout (in seconds)
       </span>
-      <String
+      <Number
         api={this.props.api}
         fieldKey='sliderTimeout'
         updater={this.sliderTimeoutChangeHandler}
         placeholder='5'
+        options={{
+          min: 1,
+          max: 120
+        }}
         value={value}
       />
     </div>
@@ -1156,7 +1185,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || 0
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.defaultState.gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
@@ -1293,7 +1322,8 @@ class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow',
       'videoYoutube',
       'videoVimeo',
-      'videoEmbed'
+      'videoEmbed',
+      'colorGradient'
     ]
 
     if (this.state.devices[ this.state.currentDevice ].display ||

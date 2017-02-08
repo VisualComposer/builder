@@ -9,7 +9,7 @@ export default class ImageSimpleBackground extends Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
+    const { reactKey, deviceKey, deviceData, applyBackground } = this.props
     const { images, backgroundStyle, parallax } = deviceData
     if (images && images.urls && images.urls.length) {
       let customProps = {}
@@ -36,7 +36,7 @@ export default class ImageSimpleBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-simple'
       }
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
+      return <div className={classNames(containerClasses)} {...customProps} key={reactKey} {...applyBackground}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>

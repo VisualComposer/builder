@@ -9,7 +9,7 @@ export default class YoutubeBackground extends Component {
   }
 
   render () {
-    const { deviceKey, deviceData } = this.props
+    const { deviceKey, deviceData, applyBackground } = this.props
     const { videoYoutube, parallax } = deviceData
 
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
@@ -29,7 +29,7 @@ export default class YoutubeBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-background'
       }
-      return <div className={classNames(containerClasses)} {...customProps}>
+      return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
         <div className='vce-asset-video-yt-background'
           data-vce-assets-video-yt={playerSettings.videoId}
           data-vce-assets-video-replacer='.vce-asset-video-yt-player'

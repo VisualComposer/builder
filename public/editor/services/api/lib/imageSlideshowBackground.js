@@ -11,7 +11,7 @@ export default class ImageSlideshowBackground extends Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData } = this.props
+    const { reactKey, deviceKey, deviceData, applyBackground } = this.props
     const { images, backgroundStyle, sliderTimeout, parallax } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
@@ -50,7 +50,7 @@ export default class ImageSlideshowBackground extends Component {
           {imagesJSX}
         </div>)
 
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey}>
+      return <div className={classNames(containerClasses)} {...customProps} key={reactKey} {...applyBackground}>
         <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }

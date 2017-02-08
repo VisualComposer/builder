@@ -1,8 +1,15 @@
-.vce-asset-color-gradient {
+.vce-asset-color-gradient-container {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   overflow: hidden;
+}
+.vce-asset-color-gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
