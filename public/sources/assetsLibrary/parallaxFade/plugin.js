@@ -5,8 +5,9 @@
     var Plugin = {
       element: null,
       waypoint: null,
-      offset: 35,
+      offset: 45,
       setup: function setup (element) {
+        this.fade = this.fade.bind(this);
         // check for data
         if (!element.getVceParallaxFade) {
           element.getVceParallaxFade = this;
@@ -15,7 +16,6 @@
         } else {
           this.update();
         }
-        this.fade = this.fade.bind(this);
         return element.getVceParallaxFade;
       },
       addFadeEvent: function addFadeEvent () {
@@ -30,7 +30,8 @@
         var elementRect = this.element.getBoundingClientRect();
         var scrollPercent = scrollPercent = elementRect.bottom / windowHeight * 100;
         if (scrollPercent < this.offset && scrollPercent >= 0) {
-          var opacity = scrollPercent / this.offset;
+          var opacity = (scrollPercent - 5) / this.offset;
+          opacity = opacity < 0 ? 0 : opacity;
           this.element.style.opacity = opacity;
         } else {
           this.element.style.opacity = null;
