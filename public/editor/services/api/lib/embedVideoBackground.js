@@ -20,17 +20,22 @@ export default class VideoEmbedBackground extends Component {
       ]
       let customProps = {}
       if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-embed-background'
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-embed-wrapper'
+      }
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
       }
       return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
-        <div className='vce-asset-video-embed-background'
-          data-vce-assets-video-embed={videoData.id}
-          data-vce-assets-video-replacer='.vce-asset-video-embed-player'
-          data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'>
-          <svg className='vce-asset-video-embed-sizer' />
-          <video key={videoKey} className='vce-asset-video-embed-player'>
-            <source src={videoData.url} type='video/mp4' />
-          </video>
+        <div className='vce-asset-video-embed-wrapper'>
+          <div className='vce-asset-video-embed-background'
+            data-vce-assets-video-embed={videoData.id}
+            data-vce-assets-video-replacer='.vce-asset-video-embed-player'
+            data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'>
+            <svg className='vce-asset-video-embed-sizer' />
+            <video key={videoKey} className='vce-asset-video-embed-player'>
+              <source src={videoData.url} type='video/mp4' />
+            </video>
+          </div>
         </div>
       </div>
     }

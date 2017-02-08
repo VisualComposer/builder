@@ -8,13 +8,19 @@
   display: none;
   pointer-events: none;
 }
-
+.vce-asset-video-yt-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 .vce-asset-video-yt-container .vce-asset-video-yt-sizer {
   border: none;
   max-width: none;
   height: 100%;
   width: auto;
-  display: block;
+  display: inline-block;
 }
 
 .vce-asset-video-yt-background {
@@ -22,6 +28,8 @@
   height: 100%;
   display: inline-block;
   vertical-align: top;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .vce-asset-video-yt--state-landscape.vce-asset-video-yt-background,
 .vce-asset-video-yt--state-landscape .vce-asset-video-yt-sizer {
@@ -32,10 +40,8 @@
 .vce-asset-video-yt-player {
   position: absolute;
   top: 0;
-  left: 50%;
   width: 100%;
   height: 100%;
-  transform: translateX(-50%);
 }
 
 

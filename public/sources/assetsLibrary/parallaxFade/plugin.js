@@ -67,7 +67,12 @@
         });
       },
       update: function update () {
-        Waypoint.refreshAll();
+        if (this.waypoint) {
+          Object.keys(this.waypoint).forEach(function (key) {
+            console.log(key);
+            this.waypoint[ key ].refresh();
+          });
+        }
       }
     };
     return Plugin.setup(element);

@@ -31,12 +31,18 @@
         }
       },
       createPlayer: function createPlayer () {
+        var _this = this;
         this.updatePlayerData();
         this.player.load();
+        this.player.onloadedmetadata = function() {
+          _this.resizer.setAttribute('width', _this.player.videoWidth);
+          _this.resizer.setAttribute('height', _this.player.videoHeight);
+          _this.ratio = parseInt(_this.player.videoWidth) / parseInt(_this.player.videoHeight);
+          _this.checkOrientation();
+        };
         this.player.muted = true;
         this.player.loop = true;
         this.player.play();
-        this.checkOrientation();
       },
       updatePlayer: function updatePlayer () {
         this.createPlayer();
