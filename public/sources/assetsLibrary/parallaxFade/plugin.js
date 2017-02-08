@@ -67,7 +67,7 @@
         });
       },
       update: function update () {
-        this.waypoint.refresh();
+        Waypoint.refreshAll();
       }
     };
     return Plugin.setup(element);
