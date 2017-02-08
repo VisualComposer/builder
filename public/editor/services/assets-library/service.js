@@ -95,6 +95,17 @@ AssetsLibrary.add('parallaxBackground', {
   ]
 })
 
+AssetsLibrary.add('parallaxFade', {
+  publicCss: [
+    'assetsLibrary/parallaxFade/dist/parallax.css'
+  ],
+  publicJs: [
+    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
+    'assetsLibrary/parallaxFade/plugin.js',
+    'assetsLibrary/parallaxFade/dist/parallax.js'
+  ]
+})
+
 AssetsLibrary.add('youtubeIFrameAPI', {
   publicJs: [
     'assetsLibrary/youtubeIFrameAPI/init.js'
