@@ -75,6 +75,7 @@ class Component extends vcvAPI.elementComponent {
         createdUrl,
         (data) => {
           this.appendFlickr(data.html)
+          this.props.api.request('layout:rendered', true)
         }
       )
     }
