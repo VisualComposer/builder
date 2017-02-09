@@ -112,6 +112,7 @@
       "backgroundVideoYoutube",
       "backgroundVideoVimeo",
       "backgroundVideoEmbed",
+      "parallaxFade",
       "parallaxBackground"
     ]
   },

@@ -27,15 +27,20 @@ export default class YoutubeBackground extends Component {
 
       let customProps = {}
       if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-background'
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-wrapper'
+      }
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
       }
       return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
-        <div className='vce-asset-video-yt-background'
-          data-vce-assets-video-yt={playerSettings.videoId}
-          data-vce-assets-video-replacer='.vce-asset-video-yt-player'
-          data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
-          <svg className='vce-asset-video-yt-sizer' />
-          <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+        <div className='vce-asset-video-yt-wrapper'>
+          <div className='vce-asset-video-yt-background'
+            data-vce-assets-video-yt={playerSettings.videoId}
+            data-vce-assets-video-replacer='.vce-asset-video-yt-player'
+            data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
+            <svg className='vce-asset-video-yt-sizer' />
+            <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+          </div>
         </div>
       </div>
     }

@@ -26,15 +26,20 @@ export default class VimeoBackground extends Component {
       ]
       let customProps = {}
       if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-vimeo-background'
+        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-vimeo-wrapper'
+      }
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
       }
       return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
-        <div className='vce-asset-video-vimeo-background'
-          data-vce-assets-video-vimeo={playerSettings.videoId}
-          data-vce-assets-video-replacer='.vce-asset-video-vimeo-player'
-          data-vce-assets-video-orientation-class='vce-asset-video-vimeo--state-landscape'>
-          <svg className='vce-asset-video-vimeo-sizer' />
-          <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+        <div className='vce-asset-video-vimeo-wrapper'>
+          <div className='vce-asset-video-vimeo-background'
+            data-vce-assets-video-vimeo={playerSettings.videoId}
+            data-vce-assets-video-replacer='.vce-asset-video-vimeo-player'
+            data-vce-assets-video-orientation-class='vce-asset-video-vimeo--state-landscape'>
+            <svg className='vce-asset-video-vimeo-sizer' />
+            <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+          </div>
         </div>
       </div>
     }

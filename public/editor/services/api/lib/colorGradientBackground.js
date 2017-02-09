@@ -16,7 +16,9 @@ export default class ColorGradientBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-color-gradient'
       }
-
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
       return <div className='vce-asset-color-gradient-container' {...customProps}>
         <div className='vce-asset-color-gradient' {...applyBackground} />
       </div>

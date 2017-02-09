@@ -43,6 +43,9 @@ export default class ImageSlideshowBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-slider'
       }
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
 
       let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(slideshowClasses)} data-vce-assets-slider={timeout}

@@ -4,42 +4,38 @@
   function createPlugin (element) {
     var Plugin = {
       element: null,
-      bgElement: null,
       waypoint: null,
-      speed: 30,
+      offset: 45,
       setup: function setup (element) {
+        this.fade = this.fade.bind(this);
         // check for data
-        if (!element.getVceParallax) {
-          element.getVceParallax = this;
+        if (!element.getVceParallaxFade) {
+          element.getVceParallaxFade = this;
           this.element = element;
-          this.bgElement = element.querySelector(element.dataset.vceAssetsParallax);
-          this.bgElement.style.top = `-${this.speed}vh`;
-          this.bgElement.style.bottom = `-${this.speed}vh`;
           this.create();
         } else {
           this.update();
         }
-        this.resize = this.resize.bind(this);
-        return element.getVceParallax;
+        return element.getVceParallaxFade;
       },
-      addScrollEvent: function addScrollEvent () {
-        window.addEventListener('scroll', this.resize);
-        this.resize();
+      addFadeEvent: function addFadeEvent () {
+        window.addEventListener('scroll', this.fade);
+        this.fade();
       },
-      removeScrollEvent: function removeScrollEvent () {
-        window.removeEventListener('scroll', this.resize);
+      removeFadeEvent: function removeFadeEvent () {
+        window.removeEventListener('scroll', this.fade);
       },
-      resize: function resize () {
+      fade: function fade () {
         var windowHeight = window.innerHeight;
         var elementRect = this.element.getBoundingClientRect();
-        var contentHeight = elementRect.height + windowHeight;
-        var scrollHeight = (elementRect.top - windowHeight) * -1;
-        var scrollPercent = 0;
-        if (scrollHeight >= 0 && scrollHeight <= contentHeight) {
-          scrollPercent = scrollHeight / contentHeight;
+        var scrollPercent = scrollPercent = elementRect.bottom / windowHeight * 100;
+        if (scrollPercent < this.offset && scrollPercent >= 0) {
+          var opacity = (scrollPercent - 5) / this.offset;
+          opacity = opacity < 0 ? 0 : opacity;
+          this.element.style.opacity = opacity;
+        } else {
+          this.element.style.opacity = null;
         }
-        var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
-        this.bgElement.style.transform = `translateY(${parallaxValue}vh)`;
       },
       create: function create () {
         var _this = this;
@@ -48,28 +44,28 @@
           element: _this.element,
           handler: function (direction) {
             if (direction === 'up') {
-              _this.removeScrollEvent();
+              _this.removeFadeEvent();
             }
             if (direction === 'down') {
-              _this.addScrollEvent();
+              _this.addFadeEvent();
             }
           },
-          offset: '100%'
-        })
+          offset: 'bottom-in-view'
+        });
         this.waypoint.bottom = new Waypoint({
           element: _this.element,
           handler: function (direction) {
             if (direction === 'up') {
-              _this.addScrollEvent();
+              _this.addFadeEvent();
             }
             if (direction === 'down') {
-              _this.removeScrollEvent();
+              _this.removeFadeEvent();
             }
           },
           offset: function () {
             return -this.element.clientHeight;
           }
-        })
+        });
       },
       update: function update () {
         Waypoint.refreshAll();
@@ -82,19 +78,27 @@
     init: function init (selector) {
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
+
+      var fadeElements = []
       elements.forEach(function (element) {
-        if (!element.getVceParallax) {
-          createPlugin(element);
-        } else {
-          element.getVceParallax.update()
+        var fadeElement = element.parentNode.nextSibling;
+        if (fadeElement) {
+          fadeElements.push(fadeElement);
         }
       });
-      if (elements.length === 1) {
-        return elements.pop();
+      fadeElements.forEach(function (element) {
+        if (!element.getVceParallaxFade) {
+          createPlugin(element);
+        } else {
+          element.getVceParallaxFade.update()
+        }
+      });
+      if (fadeElements.length === 1) {
+        return fadeElements.pop();
       }
-      return elements;
+      return fadeElements;
     }
   };
   //
-  window.vceAssetsParallax = plugins.init;
+  window.vceAssetsParallaxFade = plugins.init;
 })(window, document);

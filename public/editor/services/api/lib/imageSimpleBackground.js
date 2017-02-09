@@ -36,6 +36,9 @@ export default class ImageSimpleBackground extends Component {
       if (parallax) {
         customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-simple'
       }
+      if (parallax === 'simple-fade') {
+        customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
       return <div className={classNames(containerClasses)} {...customProps} key={reactKey} {...applyBackground}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
