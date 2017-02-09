@@ -123,7 +123,6 @@ class Component extends vcvAPI.elementComponent {
     if (columnData) {
       columnData.forEach((col, index) => {
         let galleryItems = []
-        console.log(col)
         col && col.forEach((src, index) => {
           let imgSrc = this.getImageUrl(src)
           let customProps = {}
