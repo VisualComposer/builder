@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   currentImg = 0
+  data = []
 
   constructor (props) {
     super(props)
@@ -12,107 +13,56 @@ class Component extends vcvAPI.elementComponent {
     this.prepareImages(this.props.atts)
   }
 
-  componentDidUpdate (prevProps) {
-    let isEqual = require('lodash').isEqual
-    // if (!isEqual(this.getImageUrl(this.props.atts.image), this.getImageUrl(prevProps.atts.image)) || this.props.atts.columns !== prevProps.atts.columns || this.props.atts.clickableOptions !== prevProps.atts.clickableOptions) {
+  componentWillReceiveProps (nextProps) {
     this.currentImg = 0
-    this.prepareImages(this.props.atts, true)
-    // }
+    this.data = []
+    this.prepareImages(nextProps.atts, true)
   }
 
   prepareImages (atts, clearColumns = false) {
     let { image } = atts
     let imgSources = this.getImageUrl(image)
-    let cols = this.getDomNode().querySelectorAll('.vce-image-masonry-gallery-column')
-
-    if (clearColumns) {
-      cols.forEach((col) => {
-        while (col.firstChild) {
-          col.removeChild(col.firstChild)
-        }
-      })
+    let columnCount = atts.columns <= 0 ? 1 : atts.columns
+    let cols = []
+    for (let i = 0; i < columnCount; i++) {
+      cols.push(0)
+      this.data.push([])
     }
 
+    if (clearColumns) {
+      cols = []
+      for (let i = 0; i < columnCount; i++) {
+        cols.push(0)
+      }
+    }
     this.loadImage(imgSources, cols)
   }
 
   loadImage (imgSources, cols) {
     let img = new window.Image()
+    img.onload = this.imgLoadHandler.bind(this, imgSources, cols, img)
     img.src = imgSources[ this.currentImg ]
-    this.insertImage(cols, img)
-    img.onload = this.imgLoadHandler.bind(this, imgSources, cols)
   }
 
-  imgLoadHandler (imgSources, cols) {
+  imgLoadHandler (imgSources, cols, img) {
+    let height = this.getImageHeight(img.width, img.height)
+    let smallestCol = this.getSmallestFromArray(cols)
+    cols[ smallestCol ] += height
+    this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
     this.currentImg++
     if (this.currentImg < imgSources.length) {
       this.loadImage(imgSources, cols)
+    } else {
+      this.setState({
+        columnData: this.data
+      })
     }
   }
 
-  insertImage (cols, imgElement) {
-    let { image, clickableOptions } = this.props.atts
-    let img = image[ this.currentImg ]
-    imgElement.className = 'vce-image-masonry-gallery-img'
-    let customImageProps = {
-      'alt': img && img.alt ? img.alt : '',
-      'title': img && img.title ? img.title : ''
-    }
-    this.setAttributes(imgElement, customImageProps)
-
-    let imgContainer = this.createImgContainer(clickableOptions, img, imgElement)
-
-    imgContainer.appendChild(imgElement)
-
-    let smallestColIndex = this.getSmallestColumn(cols)
-    cols[ smallestColIndex ].appendChild(imgContainer)
-  }
-
-  createImgContainer (clickableOptions, img, imgElement) {
-    let customProps = {}
-    let CustomTag = 'div'
-    if (clickableOptions === 'url' && img.link && img.link.url) {
-      CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = img.link
-      customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
-      }
-    } else if (clickableOptions === 'imageNewTab') {
-      CustomTag = 'a'
-      customProps = {
-        'href': imgElement.src,
-        'target': '_blank'
-      }
-    } else if (clickableOptions === 'lightbox') {
-      CustomTag = 'a'
-      customProps = {
-        'href': imgElement.src,
-        'data-lightbox': `lightbox-${this.props.id}`
-      }
-    }
-
-    let imgContainer = document.createElement(CustomTag)
-    imgContainer.className = 'vce-image-masonry-gallery-item'
-    this.setAttributes(imgContainer, customProps)
-
-    return imgContainer
-  }
-
-  setAttributes (el, attrs) {
-    for (let key in attrs) {
-      el.setAttribute(key, attrs[ key ])
-    }
-  }
-
-  getSmallestColumn (cols) {
-    let colHeight = []
-    cols.forEach((col) => {
-      colHeight.push(col.offsetHeight)
-    })
-    return this.getSmallestFromArray(colHeight)
+  getImageHeight (width, height) {
+    let newWidth = 50
+    let proportion = width / newWidth
+    return height / proportion
   }
 
   getSmallestFromArray (arr) {
@@ -162,18 +112,63 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, customClass, columns, metaCustomId } = atts
+    let { image, designOptions, shape, customClass, columns, metaCustomId, clickableOptions } = atts
     let containerClasses = [ 'vce-image-masonry-gallery' ]
     let wrapperClasses = [ 'vce-image-masonry-gallery-wrapper vce' ]
     let containerProps = {}
 
+    let CustomTag = 'div'
+    let columnData = this.state && this.state.columnData
     let columnHtml = []
+    if (columnData) {
+      columnData.forEach((col, index) => {
+        let galleryItems = []
+        console.log(col)
+        col && col.forEach((src, index) => {
+          let imgSrc = this.getImageUrl(src)
+          let customProps = {}
+          let classes = 'vce-image-masonry-gallery-item'
+          let imgClasses = 'vce-image-masonry-gallery-img'
+          let customImageProps = {
+            'alt': src && src.alt ? src.alt : '',
+            'title': src && src.title ? src.title : ''
+          }
 
-    columns <= 0 ? columns = 1 : ''
-    for (let i = 0; i < columns; i++) {
-      columnHtml.push(
-        <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${i}-${id}`}/>
-      )
+          if (clickableOptions === 'url' && image[ index ].link && image[ index ].link.url) {
+            CustomTag = 'a'
+            let { url, title, targetBlank, relNofollow } = image[ index ].link
+            customProps = {
+              'href': url,
+              'title': title,
+              'target': targetBlank ? '_blank' : undefined,
+              'rel': relNofollow ? 'nofollow' : undefined
+            }
+          } else if (clickableOptions === 'imageNewTab') {
+            CustomTag = 'a'
+            customProps = {
+              'href': imgSrc,
+              'target': '_blank'
+            }
+          } else if (clickableOptions === 'lightbox') {
+            CustomTag = 'a'
+            customProps = {
+              'href': imgSrc,
+              'data-lightbox': `lightbox-${id}`
+            }
+          }
+
+          galleryItems.push(
+            <CustomTag {...customProps} className={classes} key={`vce-image-masonry-gallery-item-${index}-${id}`}>
+              <img className={imgClasses} src={this.getImageUrl(src)} {...customImageProps} />
+            </CustomTag>
+          )
+        })
+        columnHtml.push(
+          <div className='vce-image-masonry-gallery-column' key={`vce-image-masonry-gallery-col-${index}-${id}`}>
+            {galleryItems}
+          </div>
+        )
+      })
     }
 
     if (typeof customClass === 'string' && customClass) {
