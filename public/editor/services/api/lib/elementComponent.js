@@ -13,6 +13,7 @@ const { Component, PropTypes } = React
 export default class ElementComponent extends Component {
   static propTypes = {
     id: PropTypes.string,
+    api: PropTypes.object,
     atts: PropTypes.object,
     editor: PropTypes.object
   }
