@@ -97,6 +97,7 @@ class Component extends vcvAPI.elementComponent {
         createdUrl,
         (data) => {
           this.updateInstagramHtml(data.html)
+          this.props.api.request('layout:rendered', true)
         }
       )
     }
