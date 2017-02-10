@@ -46,6 +46,7 @@ class Component extends vcvAPI.elementComponent {
 
   imgLoadHandler (imgSources, cols, img) {
     let height = this.getImageHeight(img.width, img.height)
+    console.log(height)
     let smallestCol = this.getSmallestFromArray(cols)
     cols[ smallestCol ] += height
     this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
@@ -53,6 +54,7 @@ class Component extends vcvAPI.elementComponent {
     if (this.currentImg < imgSources.length) {
       this.loadImage(imgSources, cols)
     } else {
+      console.log(this.data)
       this.setState({
         columnData: this.data
       })

@@ -123,7 +123,6 @@ let publicApi = {
   getPageCssData () {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getDesignOptionsCssData(),
       assetsStorage.getCustomCssData(),
       assetsStorage.getAttributesMixinsCssData()
     )
@@ -144,7 +143,6 @@ let publicApi = {
   getWpBackendPageCssData () {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getDesignOptionsCssData(),
       assetsStorage.getAttributesMixinsCssData()
     )
     return styles
