@@ -53,30 +53,11 @@ class Component extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { designOptions } = atts
-
-    let customProps = {}
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
-
+    let { id, editor } = this.props
     let doAll = this.applyDO('all')
 
     return (
-      <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor} {...doAll}>
+      <div className='vce vce-woocommerce-wrapper' id={'el-' + id} {...editor} {...doAll}>
         <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
       </div>
     )
