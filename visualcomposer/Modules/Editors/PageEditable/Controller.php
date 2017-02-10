@@ -33,8 +33,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
         if ($this->call('isPageEditable')) {
             // TODO: Check another post statuses
-            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'auto-draft'];
-            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'auto-draft'];
+            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
         }
     }
 

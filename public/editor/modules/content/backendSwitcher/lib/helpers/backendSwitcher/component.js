@@ -23,11 +23,13 @@ export default class BackendSwitcher extends React.Component {
         <div className='vcv-wpbackend-switcher'>
           <span className='vcv-wpbackend-switcher-logo' />
           <button
+            type='button'
             data-href={window.vcvFrontendEditorLink}
             onClick={this.setEditor}
             className='vcv-wpbackend-switcher-option'>Frontend Editor
           </button>
           <button
+            type='button'
             data-href={window.location.href}
             data-switch='1'
             onClick={this.setEditor}
@@ -44,6 +46,7 @@ export default class BackendSwitcher extends React.Component {
           <div className='vcv-wpbackend-switcher'>
             <span className='vcv-wpbackend-switcher-logo' />
             <button
+              type='button'
               data-href={window.vcvFrontendEditorLink}
               onClick={this.setEditor}
               className='vcv-wpbackend-switcher-option'>Frontend Editor
@@ -51,6 +54,7 @@ export default class BackendSwitcher extends React.Component {
           </div>
           <div className='vcv-wpbackend-switcher--type-classic'>
             <button
+              type='button'
               data-href={window.location.href}
               data-switch='0'
               onClick={this.setEditor}
