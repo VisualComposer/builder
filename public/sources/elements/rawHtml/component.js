@@ -2,7 +2,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { rawHtml, customClass, designOptions, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    let { rawHtml, customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
     let customProps = {}
     let wrapperClasses = 'vce-raw-html-wrapper'
@@ -13,21 +13,6 @@ class Component extends vcvAPI.elementComponent {
       return { __html: rawHtml }
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

@@ -3,9 +3,9 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     // import variables
-    var { id, atts, editor } = this.props
-    var { size, customClass, designOptionsAdvanced, assetsLibrary, metaCustomId } = atts
-    var content = this.props.children
+    let { id, atts, editor } = this.props
+    let { size, customClass, metaCustomId } = atts
+    let content = this.props.children
 
     // import template js
     const classNames = require('classnames')
@@ -25,29 +25,12 @@ class Component extends vcvAPI.elementComponent {
       classes.push(customClass)
     }
 
-    if (designOptionsAdvanced.device) {
-      // animations
-      let animations = []
-      Object.keys(designOptionsAdvanced.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptionsAdvanced.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptionsAdvanced.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customColProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
-
     let className = classNames(classes)
     if (metaCustomId) {
       customColProps.id = metaCustomId
     }
 
-    let doBoxModel = this.applyDO('margin padding border')
+    let doBoxModel = this.applyDO('margin padding border animation')
 
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBoxModel}>

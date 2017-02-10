@@ -112,7 +112,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, customClass, columns, metaCustomId, clickableOptions } = atts
+    let { image, shape, customClass, columns, metaCustomId, clickableOptions } = atts
     let containerClasses = [ 'vce-image-masonry-gallery' ]
     let wrapperClasses = [ 'vce-image-masonry-gallery-wrapper vce' ]
     let containerProps = {}
@@ -188,21 +188,6 @@ class Component extends vcvAPI.elementComponent {
       containerClasses.push('vce-image-masonry-gallery--border-rounded')
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        containerProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }

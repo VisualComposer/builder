@@ -57,25 +57,10 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, metaCustomId } = atts
+    let { customClass, metaCustomId } = atts
     let containerClasses = [ 'vce-widgets-container' ]
 
     let customProps = {}
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (customClass) {
       containerClasses.push(customClass)
     }

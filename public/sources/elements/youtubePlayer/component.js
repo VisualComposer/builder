@@ -97,7 +97,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    let { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
     let classes = 'vce-yt-video-player'
     let source, videoWidth, videoId, loop
     let autoplay = advanced && atts.autoplay ? 1 : 0
@@ -147,21 +147,6 @@ class Component extends vcvAPI.elementComponent {
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

@@ -105,7 +105,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, metaCustomId } = atts
+    let { customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-twitter-tweet'
     let wrapperClasses = 'vce-twitter-tweet-wrapper vce'
     let innerClasses = 'vce-twitter-tweet-inner'
@@ -126,21 +126,6 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

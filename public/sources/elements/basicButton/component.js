@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, toggleCustomHover, metaCustomId } = atts
+    let { buttonUrl, buttonText, shape, color, alignment, customClass, toggleCustomHover, metaCustomId } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
@@ -49,27 +49,12 @@ class Component extends vcvAPI.elementComponent {
       }
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
     let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('padding border background')
+    let doRest = this.applyDO('padding border background animation')
 
     return <div className={containerClasses} {...editor}>
       <span className={wrapperClasses} id={'el-' + id} {...doMargin}>

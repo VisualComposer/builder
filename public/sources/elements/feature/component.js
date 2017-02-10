@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, description, align, icon, customClass, metaCustomId } = atts
+    let { description, align, icon, customClass, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
     let customContainerProps = {}
@@ -22,21 +22,6 @@ class Component extends vcvAPI.elementComponent {
       containerClasses = containerClasses.concat(' ' + customClass)
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customContainerProps.id = metaCustomId
     }

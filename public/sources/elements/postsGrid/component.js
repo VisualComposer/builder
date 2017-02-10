@@ -66,28 +66,11 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, metaCustomId } = atts
+    let { customClass, metaCustomId } = atts
     let wrapperClasses = [ 'vce vce-posts-grid-wrapper' ]
     let containerClasses = [ 'vce-posts-grid-container' ]
 
     let customProps = {}
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
 
     let mixinData = this.getMixinData('postsGridGap')
     if (mixinData) {

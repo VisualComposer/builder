@@ -13,7 +13,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, text, font, elementTag, fontSize, alignment, lineHeight, link, customClass, metaCustomId } = atts
+    let { text, font, elementTag, fontSize, alignment, lineHeight, link, customClass, metaCustomId } = atts
     let classes = 'vce-google-fonts-heading'
     let wrapperClasses = 'vce-google-fonts-heading-wrapper'
     let customProps = {}
@@ -90,21 +90,6 @@ class Component extends vcvAPI.elementComponent {
       innerCustomProps.style.fontStyle = fontStyle
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
