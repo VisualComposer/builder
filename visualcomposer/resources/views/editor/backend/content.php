@@ -10,6 +10,7 @@ $nonceHelper = vchelper('Nonce');
 $postTypeHelper = vchelper('PostType');
 ?>
 <script>
+    document.getElementById('postdivrich').classList.add('vcv-hidden')
     window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
     window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
