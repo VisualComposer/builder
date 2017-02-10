@@ -1,9 +1,13 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
-class Component extends vcvAPI.elementComponent {
+import React from 'react'
+import vcCake from 'vc-cake'
+const vcvAPI = vcCake.getService('api')
+
+export default class Component extends vcvAPI.elementComponent {
   render () {
-    var {id, atts, editor} = this.props
-    var {output, designOptions, customClass, metaCustomId} = atts // destructuring assignment for attributes from settings.json with access public
+    let { id, atts, editor } = this.props
+    let { output, designOptions, customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let textBlockClasses = 'vce-text-block'
     let wrapperClasses = 'vce-text-block-wrapper vce'
     let customProps = {}

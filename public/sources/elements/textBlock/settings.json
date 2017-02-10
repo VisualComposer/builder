@@ -78,7 +78,9 @@
   "relatedTo": {
     "type": "group",
     "access": "protected",
-    "value": ["General"]
+    "value": [
+      "General"
+    ]
   },
   "metaOrder": {
     "type": "number",
@@ -109,5 +111,10 @@
       "label": "Element ID",
       "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
     }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "textBlock"
   }
 }

@@ -7,12 +7,12 @@ let autoprefixer = require('autoprefixer')
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/node-main',
+    // node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    wpbackend: './public/wpbackend-main',
-    wpbackendswitch: './public/wpbackend-switch',
+    // wpbackend: './public/wpbackend-main',
+    // wpbackendswitch: './public/wpbackend-switch',
     app: []
   },
   output: {
@@ -170,6 +170,12 @@ module.exports = {
         test: /tinymce\/(themes|plugins)\//,
         loaders: [
           'imports?this=>window'
+        ]
+      },
+      {
+        test: /\.json$/,
+        loaders: [
+          'json-loader'
         ]
       },
       {

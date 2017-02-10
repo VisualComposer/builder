@@ -276,5 +276,19 @@
     "type": "string",
     "access": "public",
     "value": ""
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "row"
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": [
+      "elements/row/public/js/lib/fullHeightRow.js",
+      "elements/row/public/js/lib/fullWidthRow.js",
+      "elements/row/public/js/row.js"
+    ]
   }
 }

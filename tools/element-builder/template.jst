@@ -1,13 +1,14 @@
-window.vcvAddElement(
+import vcCake from 'vc-cake'
+import RowElement from './component'
+{{ elementComponentClass() }}
+
+vcvAddElement(
   {{ settings() }},
   // Component callback
   function(component) {
-    // {{ cssFile() }}
-    const vcCake = require('vc-cake')
-    component.add({{ elementComponent() }});
+    component.add({{ elementComponentClassName() }});
   },
   // css settings // css for element
-  {{ cssSettings() }},
-  // javascript callback
-  {{ jsCallback() }}
-);
+  {{ cssFile() }},
+  ''
+)
