@@ -55,26 +55,29 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-google-plus-button--align-${alignment}`
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} ref='googlePlusInner' id={'el-' + id}>Google Plus Button</div>
+      <div className={innerClasses} ref='googlePlusInner' id={'el-' + id} {...doAll}>Google Plus Button</div>
     </div>
   }
 }

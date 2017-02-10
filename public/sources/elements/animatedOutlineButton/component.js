@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, color, designOptionsJK, alignment, customClass, metaCustomId } = atts
+    let { buttonUrl, buttonText, color, designOptions, alignment, customClass, metaCustomId } = atts
 
     let containerClasses = ['vce-button--style-animated-outline-container']
     let classes = []
@@ -38,15 +38,15 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
-    if (designOptionsJK.device) {
+    if (designOptions.device) {
       let animations = []
-      Object.keys(designOptionsJK.device).forEach((device) => {
+      Object.keys(designOptions.device).forEach((device) => {
         let prefix = (device === 'all') ? '' : device
-        if (designOptionsJK.device[ device ].animation) {
+        if (designOptions.device[ device ].animation) {
           if (prefix) {
             prefix = `-${prefix}`
           }
-          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
       })
       if (animations.length) {

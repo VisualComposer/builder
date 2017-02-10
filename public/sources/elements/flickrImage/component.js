@@ -139,26 +139,30 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
     let content = null
+
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div id={'el-' + id} className={wrapperClasses}>
+      <div id={'el-' + id} className={wrapperClasses} {...doAll}>
         <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
         {content}
       </div>
