@@ -81,7 +81,7 @@
 
       var fadeElements = []
       elements.forEach(function (element) {
-        var fadeElement = element.parentNode.nextSibling;
+        var fadeElement = element.parentNode.nextElementSibling;
         if (fadeElement) {
           fadeElements.push(fadeElement);
         }

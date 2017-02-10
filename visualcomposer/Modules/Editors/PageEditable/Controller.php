@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\PageEditable;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Nonce;
+use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -21,10 +22,20 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::templateRedirect */
-        $this->wpAddAction(
-            'template_redirect',
-            'templateRedirect'
-        );
+        $this->wpAddAction('template_redirect', 'templateRedirect');
+
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::inject404Page */
+        $this->wpAddAction('pre_get_posts', 'inject404Page');
+    }
+
+    private function inject404Page($wpQuery)
+    {
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
+        if ($this->call('isPageEditable')) {
+            // TODO: Check another post statuses
+            $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+            $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+        }
     }
 
     private function templateRedirect()
@@ -45,28 +56,24 @@ class Controller extends Container implements Module
      */
     private function isPageEditable(Request $request, Nonce $nonce)
     {
-        return ($request->exists('vcv-editable')
+        return (
+            $request->exists('vcv-editable')
             && $request->exists('vcv-nonce')
-            && $nonce->verifyAdmin($request->input('vcv-nonce')));
+            && $nonce->verifyAdmin($request->input('vcv-nonce'))
+        );
     }
 
-    private function buildPageEditable()
+    private function buildPageEditable(Url $urlHelper)
     {
+        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
         $this->wpAddAction(
             'the_post',
             'addTheContentFilteringForPost',
             9999 // Do with high weight - when all other actions is done
         );
-        $url = vchelper('Url');
-        $bundleCssUrl = $url->to('public/dist/pe.bundle.css?' . uniqid());
-        $vendorBundleJsUrl = $url->to('public/dist/vendor.pe.bundle.js?' . uniqid());
-        $bundleJsUrl = $url->to('public/dist/pe.bundle.js?' . uniqid());
-        $newWebpack = false;
-        if ($newWebpack) {
-            // TODO: Feature toggle.
-            wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
-        }
+        $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . uniqid());
         wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl);
+        $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css?' . uniqid());
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);
     }
 
