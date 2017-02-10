@@ -22,19 +22,20 @@ class Component extends vcvAPI.elementComponent {
       containerClasses = containerClasses.concat(' ' + customClass)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       customContainerProps.id = metaCustomId
@@ -44,8 +45,10 @@ class Component extends vcvAPI.elementComponent {
     let Icon = Cook.get(icon)
     let iconOutput = Icon.render(null, false)
 
+    let doAll = this.applyDO('all')
+
     return <section className={containerClasses} {...editor} {...customContainerProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...customProps}>
+      <div className={wrapperClasses} id={'el-' + id} {...customProps} {...doAll}>
         {iconOutput}
         {description}
       </div>

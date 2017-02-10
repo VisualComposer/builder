@@ -195,14 +195,6 @@
       }
     }
   },
-  "designOptionsJK": {
-    "type": "designOptionsJK",
-    "access": "public",
-    "value": {},
-    "options": {
-      "label": "Design Options"
-    }
-  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -234,7 +226,7 @@
     "value": [
       "editFormTab1",
       "button",
-      "designOptionsJK"
+      "designOptions"
     ]
   },
   "relatedTo": {

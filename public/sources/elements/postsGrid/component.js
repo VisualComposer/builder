@@ -73,17 +73,20 @@ class Component extends vcvAPI.elementComponent {
     let customProps = {}
     let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
     let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
     let mixinData = this.getMixinData('postsGridGap')
@@ -108,9 +111,11 @@ class Component extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return (
       <div className={containerClasses.join(' ')} {...customProps} {...editor}>
-        <div className={wrapperClasses.join(' ')} id={'el-' + id}>
+        <div className={wrapperClasses.join(' ')} id={'el-' + id} {...doAll}>
           <vcvhelper data-vcvs-html={this.state.shortcode || ''}
             dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
         </div>

@@ -66,23 +66,26 @@ class Component extends vcvAPI.elementComponent {
     let { designOptions } = atts
 
     let customProps = {}
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
 
+    let doAll = this.applyDO('all')
+
     return (
-      <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor}>
+      <div className='vce vce-woocommerce-wrapper' {...customProps} id={'el-' + id} {...editor} {...doAll}>
         <vcvhelper data-vcvs-html={this.state.shortcode || ''} dangerouslySetInnerHTML={this.state.shortcodeContent || { __html: '' }} />
       </div>
     )

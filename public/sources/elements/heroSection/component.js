@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { description, image, align, addButton, customClass, designOptionsJK, button, background, metaCustomId } = atts
+    let { description, image, align, addButton, customClass, designOptions, button, background, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
     let containerProps = {}
@@ -47,15 +47,15 @@ class Component extends vcvAPI.elementComponent {
       buttonOutput = Button.render(null, false)
     }
 
-    if (designOptionsJK.device) {
+    if (designOptions.device) {
       let animations = []
-      Object.keys(designOptionsJK.device).forEach((device) => {
+      Object.keys(designOptions.device).forEach((device) => {
         let prefix = (device === 'all') ? '' : device
-        if (designOptionsJK.device[ device ].animation) {
+        if (designOptions.device[ device ].animation) {
           if (prefix) {
             prefix = `-${prefix}`
           }
-          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
       })
       if (animations.length) {

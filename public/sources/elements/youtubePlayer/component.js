@@ -147,26 +147,29 @@ class Component extends vcvAPI.elementComponent {
 
     source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
         }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
+      })
+      if (animations.length) {
+        customProps[ 'data-vce-animate' ] = animations.join(' ')
       }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
     }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div className={classes} {...editor} {...customProps} data-vcv-element-disabled='true'>
-      <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}}>
+      <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}} {...doAll}>
         <div className='vce-yt-video-player-inner'>
           <iframe
             className='vce-yt-video-player-iframe'
