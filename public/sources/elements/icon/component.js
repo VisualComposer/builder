@@ -3,7 +3,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
     let { atts, editor, id } = this.props
-    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover, metaCustomId } = atts
+    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId } = atts
     let customProps = {}
     let containerProps = {}
     let customIconProps = {}
@@ -45,22 +45,6 @@ class Component extends vcvAPI.elementComponent {
 
     if (size) {
       classes += ` vce-features--size-${size}`
-    }
-
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
     }
 
     if (typeof customClass === 'string' && customClass) {

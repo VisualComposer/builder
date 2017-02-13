@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, color, designOptions, alignment, customClass, buttonType, metaCustomId } = atts
+    let { buttonUrl, buttonText, shape, color, alignment, customClass, buttonType, metaCustomId } = atts
 
     let containerClasses = ['vce-button--style-outline-container']
 
@@ -44,33 +44,12 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`${buttonCustomClass}--color-${mixinData.selector}`)
     }
 
-    // mixinData = this.getMixinData('hoverColor')
-    //
-    // if (mixinData) {
-    //   classes.push(`${buttonCustomClass}--hover-color-${mixinData.selector}`)
-    // }
-
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
     let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('padding border background')
+    let doRest = this.applyDO('padding border background animation')
 
     return <div className={containerClasses.join(' ')} {...editor}>
       <span className='vce-button--style-outline-wrapper vce' id={'el-' + id} {...doMargin}>

@@ -21,7 +21,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    let { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
     let classes = 'vce-vim-video-player'
     let source, videoWidth, videoId
     let autopause = advanced && atts.autopause ? 1 : 0
@@ -59,21 +59,6 @@ class Component extends vcvAPI.elementComponent {
 
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

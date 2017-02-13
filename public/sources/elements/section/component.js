@@ -6,7 +6,7 @@ class Component extends vcvAPI.elementComponent {
 
     let { id, atts, editor } = this.props
 
-    let { customClass, designOptions, designOptionsAdvanced } = atts
+    let { customClass, designOptionsAdvanced } = atts
     let content = this.props.children
     let classes = [ 'vce-section' ]
     // let mixinData = this.getMixinData('flatColor')
@@ -28,26 +28,10 @@ class Component extends vcvAPI.elementComponent {
     let wrapperClassName = classNames(wrapperClasses)
     let className = classNames(classes)
 
-    if (designOptionsAdvanced.device) {
-      let animations = []
-      Object.keys(designOptionsAdvanced.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptionsAdvanced.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptionsAdvanced.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
-
-    let doBoxModel = this.applyDO('margin padding border')
+    let doAll = this.applyDO('all')
 
     // import template
-    return (<div className={wrapperClassName} id={elementId} {...editor} {...doBoxModel}>
+    return (<div className={wrapperClassName} id={elementId} {...editor} {...doAll}>
       {this.getBackgroundTypeContent()}
       <section className={className} {...customProps}>
         {content}

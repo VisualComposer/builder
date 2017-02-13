@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { color, designOptions, alignment, customClass, width, metaCustomId } = atts
+    let { color, alignment, customClass, width, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
 
@@ -30,21 +30,6 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`vce-line-separator--width-${mixinData.selector}`)
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

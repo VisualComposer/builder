@@ -52,6 +52,16 @@ export default class Layout extends React.Component {
   }
 
   render () {
-    return this.state.data.length && getData('app:dataLoaded') ? this.getElements() : <BlankPageManagerBack api={this.props.api} iframe={false} />
+    if (!this.state.data.length && !getData('app:dataLoaded')) {
+      return <div className='vcv-wpbackend-layout-loading'>
+        <span className='vcv-ui-wp-spinner' />
+      </div>
+    }
+
+    if (!this.state.data.length && getData('app:dataLoaded')) {
+      return <BlankPageManagerBack api={this.props.api} iframe={false} />
+    }
+
+    return this.getElements()
   }
 }

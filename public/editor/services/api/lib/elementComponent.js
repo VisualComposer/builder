@@ -35,10 +35,60 @@ export default class ElementComponent extends Component {
   }
 
   applyDO (prop) {
-    prop += ` el-${this.props.id}`
-    return {
-      'data-vce-do-apply': prop
+    let propObj = {}
+
+    // checking all
+    if (prop === 'all') {
+      prop += ` el-${this.props.id}`
+      propObj[ 'data-vce-do-apply' ] = prop
+
+      let animationData = this.getAnimationData()
+      if (animationData) {
+        propObj[ 'data-vce-animate' ] = animationData
+      }
+      return propObj
     }
+
+    // checking animate
+    if (prop.indexOf('animation') >= 0) {
+      if (prop !== 'animation') {
+        prop = prop.replace('animation', '')
+        prop += ` el-${this.props.id}`
+        propObj[ 'data-vce-do-apply' ] = prop
+      }
+
+      let animationData = this.getAnimationData()
+      if (animationData) {
+        propObj[ 'data-vce-animate' ] = animationData
+      }
+      return propObj
+    }
+
+    prop += ` el-${this.props.id}`
+    propObj[ 'data-vce-do-apply' ] = prop
+    return propObj
+  }
+
+  getAnimationData () {
+    let animationData = ''
+    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
+
+    if (designOptions.device) {
+      let animations = []
+      Object.keys(designOptions.device).forEach((device) => {
+        let prefix = (device === 'all') ? '' : device
+        if (designOptions.device[ device ].animation) {
+          if (prefix) {
+            prefix = `-${prefix}`
+          }
+          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
+        }
+      })
+      if (animations.length) {
+        animationData = animations.join(' ')
+      }
+    }
+    return animationData
   }
 
   getMixinData (mixinName) {
@@ -81,27 +131,33 @@ export default class ElementComponent extends Component {
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
           backgroundData.push(
-            <ImageSimpleBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'imagesSlideshow':
           backgroundData.push(
-            <ImageSlideshowBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <ImageSlideshowBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'videoYoutube':
           backgroundData.push(
-            <YoutubeBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <YoutubeBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey}
+              applyBackground={this.applyDO('background')} />)
           break
         case 'videoVimeo':
           backgroundData.push(
-            <VimeoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <VimeoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey}
+              applyBackground={this.applyDO('background')} />)
           break
         case 'videoEmbed':
           backgroundData.push(
-            <EmbedVideoBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <EmbedVideoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} applyBackground={this.applyDO('background')} />)
           break
         case 'colorGradient':
           backgroundData.push(
-            <ColorGradientBackground deviceData={device[deviceKey]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} applyBackground={this.applyDO('background')} />)
+            <ColorGradientBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} applyBackground={this.applyDO('background')} />)
           break
       }
     })

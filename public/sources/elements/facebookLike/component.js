@@ -149,7 +149,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, metaCustomId } = atts
+    let { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-facebook-like'
     let innerClasses = 'vce-facebook-like-inner vce'
     let customProps = {}
@@ -162,21 +162,6 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-facebook-like--align-${alignment}`
     }
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }

@@ -191,7 +191,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, customClass, size, alignment, metaCustomId } = atts
+    let { image, shape, clickableOptions, customClass, size, alignment, metaCustomId } = atts
     let containerClasses = 'vce-single-image-container'
     let wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner'
@@ -264,21 +264,6 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
 
-    if (designOptions.device) {
-      let animations = []
-      Object.keys(designOptions.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
