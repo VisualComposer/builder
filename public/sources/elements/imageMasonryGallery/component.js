@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   currentImg = 0
+  loadingIndex = 0
   data = []
 
   constructor (props) {
@@ -16,6 +17,7 @@ class Component extends vcvAPI.elementComponent {
   componentWillReceiveProps (nextProps) {
     this.currentImg = 0
     this.data = []
+    this.loadingIndex++
     this.prepareImages(nextProps.atts, true)
   }
 
@@ -40,22 +42,25 @@ class Component extends vcvAPI.elementComponent {
 
   loadImage (imgSources, cols) {
     let img = new window.Image()
+    img.loadingIndex = this.loadingIndex
     img.onload = this.imgLoadHandler.bind(this, imgSources, cols, img)
     img.src = imgSources[ this.currentImg ]
   }
 
   imgLoadHandler (imgSources, cols, img) {
-    let height = this.getImageHeight(img.width, img.height)
-    let smallestCol = this.getSmallestFromArray(cols)
-    cols[ smallestCol ] += height
-    this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
-    this.currentImg++
-    if (this.currentImg < imgSources.length) {
-      this.loadImage(imgSources, cols)
-    } else {
-      this.setState({
-        columnData: this.data
-      })
+    if (img.loadingIndex === this.loadingIndex) {
+      let height = this.getImageHeight(img.width, img.height)
+      let smallestCol = this.getSmallestFromArray(cols)
+      cols[ smallestCol ] += height
+      this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
+      this.currentImg++
+      if (this.currentImg < imgSources.length) {
+        this.loadImage(imgSources, cols)
+      } else {
+        this.setState({
+          columnData: this.data
+        })
+      }
     }
   }
 
