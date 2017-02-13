@@ -259,7 +259,7 @@ export default class ControlsManager {
         if (event === 'app:edit' || event === 'app:add') {
           let editor = document.getElementById('vcv-editor')
           let layoutBar = editor.querySelector('.vcv-layout-bar-content')
-          if (layoutBar.getBoundingClientRect().bottom < 0) {
+          if (layoutBar.getBoundingClientRect().bottom < 100) {
             editor.scrollIntoView({ behavior: 'smooth' })
           }
         }
