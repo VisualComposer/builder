@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
-const AssetsManager = vcCake.env('FEATURE_ASSETS_MANAGER') ? vcCake.getService('assets-manager') : vcCake.getService('wipAssetsManager')
+const AssetsManager = vcCake.getService('wipAssetsManager')
 
 export default class TemplateControl extends React.Component {
   static propTypes = {

@@ -6,7 +6,6 @@ import SearchElement from './searchElement'
 import '../css/init.less'
 import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('categories')
-const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 let allCategories = []
 
@@ -77,12 +76,8 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    let source
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      source = wipAssetsManager.getSourcePath('images/search-no-result.png')
-    } else {
-      source = assetsManager.getSourcePath('images/search-no-result.png')
-    }
+    let source = wipAssetsManager.getSourcePath('images/search-no-result.png')
+
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
         <img
@@ -95,7 +90,9 @@ export default class Categories extends React.Component {
         <button className='vcv-ui-editor-no-items-action'>No Results. Open Visual Composer Hub</button>
       </div>
       <div className='vcv-ui-editor-no-items-content'>
-        <p className='vcv-ui-form-helper'>Didn't find the right element? Check out Visual Composer Hub for more content elements.</p>
+        <p className='vcv-ui-form-helper'>
+          Didn't find the right element? Check out Visual Composer Hub for more content elements.
+        </p>
       </div>
     </div>
   }
@@ -136,7 +133,7 @@ export default class Categories extends React.Component {
     let getIndex = allCategories.findIndex((val) => {
       return val.title === 'All'
     })
-    return allCategories[getIndex].elements.filter((val) => {
+    return allCategories[ getIndex ].elements.filter((val) => {
       let elName = val.name.toLowerCase()
       return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
     }).map((element) => {

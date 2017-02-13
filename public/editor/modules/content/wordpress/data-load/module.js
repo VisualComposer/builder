@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 
 const TimeMachine = vcCake.getService('time-machine')
-const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
@@ -23,22 +22,13 @@ vcCake.add('content-wordpress-data-load', (api) => {
       }
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && assetsManager.set(globalElements)
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          globalElements && wipAssetsStorage.setElements(globalElements)
-        }
+        globalElements && wipAssetsStorage.setElements(globalElements)
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
-        assetsManager.setCustomCss(responseData.cssSettings.custom)
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          wipAssetsStorage.setCustomCss(responseData.cssSettings.custom)
-        }
+        wipAssetsStorage.setCustomCss(responseData.cssSettings.custom)
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
-        assetsManager.setGlobalCss(responseData.cssSettings.global)
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
-        }
+        wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
       }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')

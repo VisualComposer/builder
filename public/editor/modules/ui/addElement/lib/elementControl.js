@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 const cook = vcCake.getService('cook')
-const AssetsManager = vcCake.getService('assets-manager')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -174,13 +173,9 @@ export default class ElementControl extends React.Component {
     let publicPathThumbnail
     let publicPathPreview
 
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-      publicPathPreview = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
-    } else {
-      publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-      publicPathPreview = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
-    }
+    publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+    publicPathPreview = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+
     return (
       <li className='vcv-ui-item-list-item'>
         <a className='vcv-ui-item-element'

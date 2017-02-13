@@ -53,7 +53,6 @@ module.exports = {
       ],
       services: [
         'utils',
-        'assets-manager',
         'document',
         'local-storage',
         'cook',
@@ -95,7 +94,6 @@ module.exports = {
       ],
       services: [
         'utils',
-        'assets-manager',
         'document',
         'wordpress-post-data',
         'cook',
@@ -132,7 +130,6 @@ module.exports = {
       ],
       services: [
         'utils',
-        'assets-manager',
         'document',
         'wordpress-post-data',
         'cook',

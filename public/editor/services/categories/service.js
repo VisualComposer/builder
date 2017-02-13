@@ -196,9 +196,6 @@ if (vcCake.env('FEATURE_POSTS_GRID')) {
 const data = tempData
 
 const service = {
-  getAssetsManager: () => {
-    return vcCake.getService('assets-manager')
-  },
   getWipAssetsManager: () => {
     return vcCake.getService('wipAssetsManager')
   },
@@ -226,18 +223,10 @@ const service = {
   },
   getElementIcon (tag, dark = false) {
     let category = this.categoryByTag(tag)
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      if (dark) {
-        return category && category.iconDark ? this.getWipAssetsManager().getSourcePath(category.iconDark) : this.getWipAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
-      } else {
-        return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
-      }
+    if (dark) {
+      return category && category.iconDark ? this.getWipAssetsManager().getSourcePath(category.iconDark) : this.getWipAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
     } else {
-      if (dark) {
-        return category && category.iconDark ? this.getAssetsManager().getSourcePath(category.iconDark) : this.getAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
-      } else {
-        return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
-      }
+      return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
     }
   }
 }
