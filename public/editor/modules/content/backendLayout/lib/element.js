@@ -14,6 +14,9 @@ export default class Element extends React.Component {
     activeElementId: React.PropTypes.string.isRequired
   }
 
+  // row options to prevent applying of in the backend view
+  rowOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight']
+
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
     // rename row/column id to prevent applying of DO
@@ -21,6 +24,11 @@ export default class Element extends React.Component {
     if (element) {
       element.id = `el-${this.props.element.id}-temp`
     }
+    // change row data-vce-full-width to false to prevent applying of full width options
+    let fullWidthEl = document.querySelectorAll('[data-vce-full-width="true"]')
+    fullWidthEl.forEach((el) => {
+      el.dataset.vceFullWidth = false
+    })
   }
 
   componentWillUnmount () {
@@ -29,6 +37,10 @@ export default class Element extends React.Component {
     if (element) {
       element.id = `el-${this.props.element.id}`
     }
+    let fullWidthEl = document.querySelectorAll('[data-vce-full-width="false"]')
+    fullWidthEl.forEach((el) => {
+      el.dataset.vceFullWidth = true
+    })
   }
 
   getContent (content) {
@@ -57,8 +69,11 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      if (key === 'designOptions') {
-        layoutAtts[ key ] = {}
+      let findOption = this.rowOptions.find((option) => {
+        return option === key
+      })
+      if (element.data.tag === 'row' && findOption) {
+        layoutAtts[ key ] = element.settings(findOption).settings.value
       } else {
         layoutAtts[ key ] = atts[ key ]
       }
