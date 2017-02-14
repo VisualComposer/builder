@@ -65,6 +65,7 @@ export default class BlankPageManagerFront extends React.Component {
   setControlsLayout () {
     let {elementsCount, elementsWidth} = this.getMaxElementsData()
     let { controlMargins, rowContainer, controlRows } = this.props.layoutData
+    controlRows = [].slice.call(controlRows)
     if (elementsCount < this.state.minElementsCount) {
       for (let i in controlRows) {
         if (controlRows.hasOwnProperty(i)) {

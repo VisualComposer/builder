@@ -521,6 +521,7 @@ export default class ControlsHandler {
    */
   updateDropdownsPosition (e) {
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
+    dropdowns = [].slice.call(dropdowns)
     let iframePos = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()
