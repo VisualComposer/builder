@@ -1,7 +1,7 @@
 import React from 'react'
 import { getData } from 'vc-cake'
 import Element from './element'
-import BlankPageManagerBack from '../lib/helpers/BlankPageManagerBack/component'
+import BlankPageManagerBack from './helpers/BlankPageManagerBack/component'
 
 export default class Layout extends React.Component {
   static propTypes = {
