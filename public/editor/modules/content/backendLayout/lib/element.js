@@ -14,8 +14,8 @@ export default class Element extends React.Component {
     activeElementId: React.PropTypes.string.isRequired
   }
 
-  // row options to prevent applying of in the backend view
-  rowOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth']
+  // element (row/column) options to prevent applying of in the backend view
+  elementOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
@@ -60,10 +60,10 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      let findOption = this.rowOptions.find((option) => {
+      let findOption = this.elementOptions.find((option) => {
         return option === key
       })
-      if (element.data.tag === 'row' && findOption) {
+      if (findOption) {
         layoutAtts[ key ] = element.settings(findOption).settings.value
       } else {
         layoutAtts[ key ] = atts[ key ]
