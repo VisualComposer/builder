@@ -187,7 +187,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: [
-          path.resolve(__dirname, './public/sources/elements')
+          path.resolve(__dirname, './public/sources/newElements')
         ],
         loader: ExtractTextPlugin.extract(
           'style-loader',
