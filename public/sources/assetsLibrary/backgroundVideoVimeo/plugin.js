@@ -1,7 +1,5 @@
-'use strict';
-
 (function (window, document) {
-  function createPlugin (element) {
+  function createPlugin(element) {
     var Plugin = {
       element: null,
       player: null,
@@ -9,7 +7,7 @@
       videoId: null,
       resizer: null,
       ratio: null,
-      setup: function setup (element) {
+      setup: function setup(element) {
         // check for data
         if (!element.getVceVimeoVideo) {
           element.getVceVimeoVideo = this;
@@ -23,14 +21,16 @@
         }
         return element.getVceVimeoVideo;
       },
-      updatePlayerData: function updatePlayerData () {
+      updatePlayerData: function updatePlayerData() {
         this.player = element.querySelector(element.dataset.vceAssetsVideoReplacer);
         this.videoId = element.dataset.vceAssetsVideoVimeo || null;
       },
-      checkVimeo: function checkVimeo (attempts = 0) {
+      checkVimeo: function checkVimeo() {
+        var attempts = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
         if (typeof Vimeo === 'undefined' || Vimeo.Player === 'undefined') {
           if (attempts > 100) {
-            console.log('Too many attempts to load Vimeo Player API')
+            console.log('Too many attempts to load Vimeo Player API');
             return;
           }
           var _this = this;
@@ -42,7 +42,7 @@
         }
         this.createPlayer();
       },
-      createPlayer: function createPlayer () {
+      createPlayer: function createPlayer() {
         var _this = this;
         this.updatePlayerData();
         this.vimeoPlayer = new Vimeo.Player(this.player, {
@@ -57,26 +57,23 @@
         this.vimeoPlayer.setVolume(0);
         this.vimeoPlayer.on('loaded', function () {
           // get player size
-          var promises = [
-            _this.vimeoPlayer.getVideoWidth(),
-            _this.vimeoPlayer.getVideoHeight()
-          ]
+          var promises = [_this.vimeoPlayer.getVideoWidth(), _this.vimeoPlayer.getVideoHeight()];
           Promise.all(promises).then(function (size) {
-            _this.resizer.setAttribute('width', size[ 0 ]);
-            _this.resizer.setAttribute('height', size[ 1 ]);
-            _this.ratio = parseInt(size[ 0 ]) / parseInt(size[ 1 ]);
+            _this.resizer.setAttribute('width', size[0]);
+            _this.resizer.setAttribute('height', size[1]);
+            _this.ratio = parseInt(size[0]) / parseInt(size[1]);
             _this.checkOrientation();
           });
         });
       },
-      updatePlayer: function updatePlayer () {
+      updatePlayer: function updatePlayer() {
         if (this.vimeoPlayer) {
           this.updatePlayerData();
           this.vimeoPlayer.loadVideo(this.videoId);
         }
       },
-      checkOrientation: function checkOrientation () {
-        var orientationClass = this.element.dataset.vceAssetsVideoOrientationClass || null
+      checkOrientation: function checkOrientation() {
+        var orientationClass = this.element.dataset.vceAssetsVideoOrientationClass || null;
         var parentStyles = window.getComputedStyle(this.element.parentNode);
         if (orientationClass) {
           if (parseInt(parentStyles.width) / parseInt(parentStyles.height) > this.ratio) {
@@ -91,14 +88,14 @@
   }
 
   var plugins = {
-    init: function init (selector) {
+    init: function init(selector) {
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
       elements.forEach(function (element) {
         if (!element.getVceVimeoVideo) {
           createPlugin(element);
         } else {
-          element.getVceVimeoVideo.updatePlayer()
+          element.getVceVimeoVideo.updatePlayer();
         }
       });
       if (elements.length === 1) {

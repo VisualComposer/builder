@@ -1,12 +1,10 @@
-'use strict';
-
 (function (window, document) {
-  function createPlugin (element) {
+  function createPlugin(element) {
     var Plugin = {
       element: null,
       waypoint: null,
       offset: 45,
-      setup: function setup (element) {
+      setup: function setup(element) {
         this.fade = this.fade.bind(this);
         // check for data
         if (!element.getVceParallaxFade) {
@@ -18,14 +16,14 @@
         }
         return element.getVceParallaxFade;
       },
-      addFadeEvent: function addFadeEvent () {
+      addFadeEvent: function addFadeEvent() {
         window.addEventListener('scroll', this.fade);
         this.fade();
       },
-      removeFadeEvent: function removeFadeEvent () {
+      removeFadeEvent: function removeFadeEvent() {
         window.removeEventListener('scroll', this.fade);
       },
-      fade: function fade () {
+      fade: function fade() {
         var windowHeight = window.innerHeight;
         var elementRect = this.element.getBoundingClientRect();
         var scrollPercent = scrollPercent = elementRect.bottom / windowHeight * 100;
@@ -37,12 +35,12 @@
           this.element.style.opacity = null;
         }
       },
-      create: function create () {
+      create: function create() {
         var _this = this;
         this.waypoint = {};
         this.waypoint.top = new Waypoint({
           element: _this.element,
-          handler: function (direction) {
+          handler: function handler(direction) {
             if (direction === 'up') {
               _this.removeFadeEvent();
             }
@@ -54,7 +52,7 @@
         });
         this.waypoint.bottom = new Waypoint({
           element: _this.element,
-          handler: function (direction) {
+          handler: function handler(direction) {
             if (direction === 'up') {
               _this.addFadeEvent();
             }
@@ -62,12 +60,12 @@
               _this.removeFadeEvent();
             }
           },
-          offset: function () {
+          offset: function offset() {
             return -this.element.clientHeight;
           }
         });
       },
-      update: function update () {
+      update: function update() {
         Waypoint.refreshAll();
       }
     };
@@ -75,11 +73,11 @@
   }
 
   var plugins = {
-    init: function init (selector) {
+    init: function init(selector) {
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
 
-      var fadeElements = []
+      var fadeElements = [];
       elements.forEach(function (element) {
         var fadeElement = element.parentNode.nextElementSibling;
         if (fadeElement) {
@@ -90,7 +88,7 @@
         if (!element.getVceParallaxFade) {
           createPlugin(element);
         } else {
-          element.getVceParallaxFade.update()
+          element.getVceParallaxFade.update();
         }
       });
       if (fadeElements.length === 1) {

@@ -1,7 +1,5 @@
-'use strict';
-
 (function (window, document) {
-  function createPlugin (element) {
+  function createPlugin(element) {
     var Plugin = {
       element: null,
       player: null,
@@ -9,7 +7,7 @@
       videoId: null,
       resizer: null,
       ratio: null,
-      setup: function setup (element) {
+      setup: function setup(element) {
         // check for data
         if (!element.getVceYoutubeVideo) {
           element.getVceYoutubeVideo = this;
@@ -23,14 +21,16 @@
         }
         return element.getVceYoutubeVideo;
       },
-      updatePlayerData: function updatePlayerData () {
+      updatePlayerData: function updatePlayerData() {
         this.player = element.querySelector(element.dataset.vceAssetsVideoReplacer);
         this.videoId = element.dataset.vceAssetsVideoYt || null;
       },
-      checkYT: function checkYT (attempts = 0) {
+      checkYT: function checkYT() {
+        var attempts = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+
         if (typeof YT === 'undefined' || !YT.loaded) {
           if (attempts > 100) {
-            console.log('Too many attempts to load YouTube IFrame API')
+            console.log('Too many attempts to load YouTube IFrame API');
             return;
           }
           var _this = this;
@@ -42,7 +42,7 @@
         }
         this.createPlayer();
       },
-      createPlayer: function createPlayer () {
+      createPlayer: function createPlayer() {
         var _this = this;
         this.updatePlayerData();
         this.ytPlayer = new YT.Player(this.player, {
@@ -61,25 +61,25 @@
             showinfo: 0
           },
           events: {
-            onReady: function (event) {
+            onReady: function onReady(event) {
               var height = event.target.a.getAttribute('height');
               var width = event.target.a.getAttribute('width');
               _this.resizer.setAttribute('height', height);
               _this.resizer.setAttribute('width', width);
-              _this.ratio = parseInt(width) / parseInt(height)
-              _this.checkOrientation()
+              _this.ratio = parseInt(width) / parseInt(height);
+              _this.checkOrientation();
               event.target.mute();
             }
           }
         });
         // this.player = element;
       },
-      updatePlayer: function updatePlayer () {
+      updatePlayer: function updatePlayer() {
         this.ytPlayer.destroy();
         this.createPlayer();
       },
-      checkOrientation: function checkOrientation () {
-        var orientationClass = this.element.dataset.vceAssetsVideoOrientationClass || null
+      checkOrientation: function checkOrientation() {
+        var orientationClass = this.element.dataset.vceAssetsVideoOrientationClass || null;
         var parentStyles = window.getComputedStyle(this.element.parentNode);
         if (orientationClass) {
           if (parseInt(parentStyles.width) / parseInt(parentStyles.height) > this.ratio) {
@@ -94,14 +94,14 @@
   }
 
   var plugins = {
-    init: function init (selector) {
+    init: function init(selector) {
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
       elements.forEach(function (element) {
         if (!element.getVceYoutubeVideo) {
           createPlugin(element);
         } else {
-          element.getVceYoutubeVideo.updatePlayer()
+          element.getVceYoutubeVideo.updatePlayer();
         }
       });
       if (elements.length === 1) {
