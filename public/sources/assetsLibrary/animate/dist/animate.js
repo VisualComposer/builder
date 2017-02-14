@@ -6,13 +6,14 @@ vcv.on('ready', function (action, id) {
   }
 })
 
-let vceAnimate = {
-  enableAnimate (id) {
+var vceAnimate = {
+  enableAnimate: function enableAnimate (id) {
     Waypoint.destroyAll()
-    let waypoints = []
-    let selector = id ? `[data-vcv-element="${id}"]` : '[data-vce-animate]'
-    let elements = document.querySelectorAll(selector)
+    var waypoints = []
+    var selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
+    var elements = document.querySelectorAll(selector)
     elements.forEach(function (element) {
+      var _element$classList
       if (id && !element.getAttribute('data-vce-animate')) {
         element = element.querySelector('[data-vce-animate]')
         if (!element) {
@@ -20,28 +21,30 @@ let vceAnimate = {
         }
       }
       // remove old classes
-      let oldClasses = []
-      let re = /^vce-o-animate--/
+      var oldClasses = []
+      var re = /^vce-o-animate--/
       element.classList.forEach(function (className) {
         if (className.search(re) !== -1) {
           oldClasses.push(className)
         }
       })
-      element.classList.remove(...oldClasses)
-      let waypoint = new Waypoint({
+      (_element$classList = element.classList).remove.apply(_element$classList, oldClasses)
+      var waypoint = new Waypoint({
         element: element,
-        handler: function () {
-          setTimeout(() => {
+        handler: function handler () {
+          var _this = this
+
+          setTimeout(function () {
             // add new classes
-            let newClasses = []
-            if (this.element.dataset[ 'vceAnimate' ]) {
-              newClasses = this.element.dataset[ 'vceAnimate' ].split(' ')
+            var newClasses = []
+            if (_this.element.dataset[ 'vceAnimate' ]) {
+              newClasses = _this.element.dataset[ 'vceAnimate' ].split(' ')
             }
             newClasses.push('vce-o-animate--animated')
-            newClasses.forEach((className) => {
-              this.element.classList.add(className)
+            newClasses.forEach(function (className) {
+              _this.element.classList.add(className)
             })
-            this.destroy()
+            _this.destroy()
           }, 100)
         },
         offset: 'bottom-in-view'
