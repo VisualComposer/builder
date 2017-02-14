@@ -36,7 +36,6 @@ window.app = vcCake
 //   require('./config/elements')
 // }
 
-
-import './sources/elements/row'
-import './sources/elements/column'
-import './sources/elements/textBlock'
+import './sources/newElements/row'
+import './sources/newElements/column'
+import './sources/newElements/textBlock'

@@ -1,0 +1,294 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Row"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "preview-row-column.jpg"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "thumbnail-row-column.png"
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "layout": {
+    "type": "rowLayout",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Row Layout"
+    }
+  },
+  "designOptionsAdvanced": {
+    "type": "designOptionsAdvanced",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "rowWidth",
+      "removeSpaces",
+      "columnGap",
+      "fullHeight",
+      "columnPosition",
+      "equalHeight",
+      "contentPosition",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Row"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "layout",
+      "designOptionsAdvanced"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General",
+      "RootElements"
+    ]
+  },
+  "containerFor": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "Column"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 1
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate",
+      "backgroundSlider",
+      "backgroundSimple",
+      "backgroundColorGradient",
+      "backgroundVideoYoutube",
+      "backgroundVideoVimeo",
+      "backgroundVideoEmbed",
+      "parallaxFade",
+      "parallaxBackground"
+    ]
+  },
+  "rowWidth": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "boxed",
+    "options": {
+      "label": "Row width",
+      "values": [
+        {
+          "label": "Boxed",
+          "value": "boxed"
+        },
+        {
+          "label": "Stretched Row",
+          "value": "stretchedRow"
+        },
+        {
+          "label": "Stretched Row and Column",
+          "value": "stretchedRowAndColumn"
+        }
+      ]
+    }
+  },
+  "removeSpaces": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Remove spaces",
+      "description": "Remove row spaces from left and right.",
+      "onChange": {
+        "rules": {
+          "rowWidth": {
+            "rule": "value",
+            "options": {
+              "value": "stretchedRowAndColumn"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "columnGap": {
+    "type": "number",
+    "access": "public",
+    "value": "0",
+    "options": {
+      "label": "Column gap",
+      "description": "Enter gap between columns in pixels (Example: 5).",
+      "cssMixin": {
+        "mixin": "columnGap",
+        "property": "columnGap",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "fullHeight": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Full height",
+      "description": "Set row to be full screen height."
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "equalHeight": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Column equal height"
+    }
+  },
+  "columnPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Column position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        },
+        {
+          "label": "Full Height",
+          "value": "stretch"
+        }
+      ],
+      "onChange": {
+        "rules": {
+          "fullHeight": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "contentPosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "top",
+    "options": {
+      "label": "Content position",
+      "values": [
+        {
+          "label": "Top",
+          "value": "top"
+        },
+        {
+          "label": "Middle",
+          "value": "middle"
+        },
+        {
+          "label": "Bottom",
+          "value": "bottom"
+        }
+      ]
+    }
+  },
+  "backendView": {
+    "type": "string",
+    "access": "protected",
+    "value": "frontend"
+  },
+  "size": {
+    "type": "string",
+    "access": "public",
+    "value": "auto"
+  },
+  "background": {
+    "type": "string",
+    "access": "public",
+    "value": ""
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "row"
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": [
+      "elements/row/public/js/lib/fullHeightRow.js",
+      "elements/row/public/js/lib/fullWidthRow.js",
+      "elements/row/public/js/row.js"
+    ]
+  }
+}
