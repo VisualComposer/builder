@@ -39,7 +39,7 @@ button.vce-button--style-animated-outline {
   touch-action: manipulation;
   user-select: none;
   line-height: normal;
-  background-color: inherit;
+  background-color: transparent;
   border-radius: 0;
   overflow: hidden;
   /*border top*/
