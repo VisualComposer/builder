@@ -23,11 +23,8 @@ class AssetsController extends Container implements Module
      */
     public function __construct(Request $request)
     {
-        $toggleFeatureBackend = true;
-        if ($toggleFeatureBackend) {
-            /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
-            $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
-        }
+        /** @see \VisualComposer\Modules\Editors\Backend\AssetsController::enqueueEditorAssets */
+        $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
     }
 
     /**
@@ -35,7 +32,17 @@ class AssetsController extends Container implements Module
      */
     protected function enqueueEditorAssets(Frontend $frontendHelper)
     {
-        if (!$frontendHelper->isFrontend() && vcfilter('vcv:editors:backend:addMetabox', true)) {
+        global $post;
+        if (empty($post)) {
+            $post = get_post();
+        }
+        if (!$frontendHelper->isFrontend()
+            && vcfilter(
+                'vcv:editors:backend:addMetabox',
+                true,
+                ['postType' => $post->post_type]
+            )
+        ) {
             $this->registerEditorAssets();
             $newWebpack = false;
             if ($newWebpack) {
