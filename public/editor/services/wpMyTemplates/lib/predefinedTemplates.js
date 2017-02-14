@@ -2436,187 +2436,115 @@ export const predefinedTemplates = [
       },
       "d0fe004b": {
         "designOptions": {
-          "all": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "10",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": [],
-              "draggingIndex": null
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "10",
-            "showOnDevice": true,
-            "borderLeft": "10",
-            "marginLeft": "",
-            "backgroundColor": "rgba(0, 0, 0, 0)",
-            "borderBottom": "10",
-            "borderColor": "rgb(237, 237, 237)",
-            "borderBottomRightRadius": "",
-            "simplified": true,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
+          "device": {
+            "all": {
+              "boxModel": {
+                "borderWidth": "10px"
+              },
+              "borderStyle": "solid",
+              "borderColor": "rgb(237, 237, 237)"
+            }
           },
-          "tablet-portrait": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": []
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "",
-            "showOnDevice": true,
-            "borderLeft": "",
-            "marginLeft": "",
-            "backgroundColor": "",
-            "borderBottom": "",
-            "borderColor": "",
-            "borderBottomRightRadius": "",
-            "simplified": false,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
-          },
-          "deviceTypes": "all",
-          "mobile-portrait": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": []
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "",
-            "showOnDevice": true,
-            "borderLeft": "",
-            "marginLeft": "",
-            "backgroundColor": "",
-            "borderBottom": "",
-            "borderColor": "",
-            "borderBottomRightRadius": "",
-            "simplified": false,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
-          },
-          "visibleDevices": {
-            "all": ""
-          },
-          "mobile-landscape": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": []
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "",
-            "showOnDevice": true,
-            "borderLeft": "",
-            "marginLeft": "",
-            "backgroundColor": "",
-            "borderBottom": "",
-            "borderColor": "",
-            "borderBottomRightRadius": "",
-            "simplified": false,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
-          },
-          "tablet-landscape": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": []
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "",
-            "showOnDevice": true,
-            "borderLeft": "",
-            "marginLeft": "",
-            "backgroundColor": "",
-            "borderBottom": "",
-            "borderColor": "",
-            "borderBottomRightRadius": "",
-            "simplified": false,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
-          },
-          "device": "all",
-          "desktop": {
-            "borderTopLeftRadius": "",
-            "backgroundStyle": "",
-            "animation": "",
-            "paddingTop": "",
-            "borderTopRightRadius": "",
-            "borderStyle": "solid",
-            "marginTop": "",
-            "borderTop": "",
-            "paddingRight": "",
-            "backgroundImage": {
-              "ids": [],
-              "urls": []
-            },
-            "marginRight": "",
-            "borderBottomLeftRadius": "",
-            "borderRight": "",
-            "showOnDevice": true,
-            "borderLeft": "",
-            "marginLeft": "",
-            "backgroundColor": "",
-            "borderBottom": "",
-            "borderColor": "",
-            "borderBottomRightRadius": "",
-            "simplified": false,
-            "paddingLeft": "",
-            "marginBottom": "",
-            "paddingBottom": ""
-          },
-          "used": true
+          "attributeMixins": {
+            "boxModelMixin:all": {
+              "src": "#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"border\"],\n#$selector [data-vce-do-apply*=\"border\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $borderWidth != false {\n        border-width: $borderWidth;\n      }\n\n      @if $borderRadius != false {\n        border-radius: $borderRadius;\n      }\n\n      @if $borderBottomLeftRadius != false {\n        border-bottom-left-radius: $borderBottomLeftRadius;\n      }\n\n      @if $borderBottomRightRadius != false {\n        border-bottom-right-radius: $borderBottomRightRadius;\n      }\n\n      @if $borderBottomWidth != false {\n        border-bottom-width: $borderBottomWidth;\n      }\n\n      @if $borderLeftWidth != false {\n        border-left-width: $borderLeftWidth;\n      }\n\n      @if $borderRightWidth != false {\n        border-right-width: $borderRightWidth;\n      }\n\n      @if $borderTopLeftRadius != false {\n        border-top-left-radius: $borderTopLeftRadius;\n      }\n\n      @if $borderTopRightRadius != false {\n        border-top-right-radius: $borderTopRightRadius;\n      }\n\n      @if $borderTopWidth != false {\n        border-top-width: $borderTopWidth;\n      }\n\n      @if $borderStyle != false {\n        border-style: $borderStyle;\n      }\n\n      @if $borderTopStyle != false {\n        border-top-style: $borderTopStyle;\n      }\n\n      @if $borderRightStyle != false {\n        border-right-style: $borderRightStyle;\n      }\n\n      @if $borderBottomStyle != false {\n        border-bottom-style: $borderBottomStyle;\n      }\n\n      @if $borderLeftStyle != false {\n        border-left-style: $borderLeftStyle;\n      }\n\n      @if $borderColor != false {\n        border-color: $borderColor;\n      }\n\n      @if $borderTopColor != false {\n        border-top-color: $borderTopColor;\n      }\n\n      @if $borderRightColor != false {\n        border-right-color: $borderRightColor;\n      }\n\n      @if $borderBottomColor != false {\n        border-bottom-color: $borderBottomColor;\n      }\n\n      @if $borderLeftColor != false {\n        border-left-color: $borderLeftColor;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"margin\"],\n#$selector [data-vce-do-apply*=\"margin\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $margin != false {\n        margin: $margin;\n      }\n\n      @if $marginBottom != false {\n        margin-bottom: $marginBottom;\n      }\n\n      @if $marginLeft != false {\n        margin-left: $marginLeft;\n      }\n\n      @if $marginRight != false {\n        margin-right: $marginRight;\n      }\n\n      @if $marginTop != false {\n        margin-top: $marginTop;\n      }\n    }\n  }\n}\n\n#$selector[data-vce-do-apply*=\"all\"],\n#$selector [data-vce-do-apply*=\"all\"],\n#$selector[data-vce-do-apply*=\"padding\"],\n#$selector [data-vce-do-apply*=\"padding\"] {\n  &[data-vce-do-apply*=\"$selector\"] {\n    @media (--$(device)-only) {\n      @if $padding != false {\n        padding: $padding;\n      }\n\n      @if $paddingBottom != false {\n        padding-bottom: $paddingBottom;\n      }\n\n      @if $paddingLeft != false {\n        padding-left: $paddingLeft;\n      }\n\n      @if $paddingRight != false {\n        padding-right: $paddingRight;}@if $paddingTop != false {padding-top: $paddingTop;\n      }\n    }\n  }\n}\n",
+              "variables": {
+                "borderRightStyle": {
+                  "value": false
+                },
+                "borderTopLeftRadius": {
+                  "value": false
+                },
+                "paddingTop": {
+                  "value": false
+                },
+                "borderTopRightRadius": {
+                  "value": false
+                },
+                "borderStyle": {
+                  "value": "solid"
+                },
+                "marginTop": {
+                  "value": false
+                },
+                "borderTopStyle": {
+                  "value": false
+                },
+                "paddingRight": {
+                  "value": false
+                },
+                "borderBottomColor": {
+                  "value": false
+                },
+                "marginRight": {
+                  "value": false
+                },
+                "margin": {
+                  "value": false
+                },
+                "borderBottomWidth": {
+                  "value": false
+                },
+                "borderBottomLeftRadius": {
+                  "value": false
+                },
+                "borderLeftColor": {
+                  "value": false
+                },
+                "padding": {
+                  "value": false
+                },
+                "borderLeftWidth": {
+                  "value": false
+                },
+                "borderRightColor": {
+                  "value": false
+                },
+                "marginLeft": {
+                  "value": false
+                },
+                "device": {
+                  "value": "all"
+                },
+                "borderRightWidth": {
+                  "value": false
+                },
+                "borderColor": {
+                  "value": "rgb(237, 237, 237)"
+                },
+                "borderBottomRightRadius": {
+                  "value": false
+                },
+                "paddingLeft": {
+                  "value": false
+                },
+                "marginBottom": {
+                  "value": false
+                },
+                "borderWidth": {
+                  "value": "10px"
+                },
+                "borderBottomStyle": {
+                  "value": false
+                },
+                "borderTopColor": {
+                  "value": false
+                },
+                "paddingBottom": {
+                  "value": false
+                },
+                "borderTopWidth": {
+                  "value": false
+                },
+                "borderLeftStyle": {
+                  "value": false
+                },
+                "borderRadius": {
+                  "value": false
+                }
+              }
+            }
+          }
         },
         "metaDisableInteractionInEditor": true,
         "alignment": "left",
