@@ -28,7 +28,8 @@ var vceAnimate = {
         if (className.search(re) !== -1) {
           oldClasses.push(className);
         }
-      })(_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
+      });
+      (_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
       var waypoint = new Waypoint({
         element: element,
         handler: function handler() {
