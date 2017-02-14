@@ -100,12 +100,7 @@ class Component extends vcvAPI.elementComponent {
   getPublicImage (filename) {
     let { tag } = this.props.atts
 
-    let assetsManager
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wipAssetsManager')
-    } else {
-      assetsManager = vcCake.getService('assets-manager')
-    }
+    let assetsManager = vcCake.getService('wipAssetsManager')
 
     return assetsManager.getPublicPath(tag, filename)
   }
@@ -132,7 +127,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, customClass, columns, metaCustomId } = atts
+    let { image, shape, clickableOptions, customClass, columns, metaCustomId } = atts
     let containerClasses = 'vce-image-gallery'
     let wrapperClasses = 'vce-image-gallery-wrapper vce'
     let containerProps = {}
@@ -161,20 +156,6 @@ class Component extends vcvAPI.elementComponent {
       containerClasses += ' vce-image-gallery--border-round'
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      containerProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
@@ -226,9 +207,11 @@ class Component extends vcvAPI.elementComponent {
       )
     })
 
+    let doAll = this.applyDO('all')
+
     return (
       <div className={containerClasses} {...editor} {...containerProps}>
-        <div className={wrapperClasses} id={'el-' + id}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll}>
           <div className='vce-image-gallery-list'>
             {galleryItems}
           </div>

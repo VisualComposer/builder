@@ -3,7 +3,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
     let { atts, editor, id } = this.props
-    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, designOptions, toggleCustomHover, metaCustomId } = atts
+    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId } = atts
     let customProps = {}
     let containerProps = {}
     let customIconProps = {}
@@ -47,21 +47,6 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-features--size-${size}`
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
-
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
     }
@@ -93,8 +78,10 @@ class Component extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div className={classes} {...editor} {...containerProps}>
-      <div id={'el-' + id} className='vce vce-features-icon-wrapper'>
+      <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
         <CustomTag className='vce-features__icon vce-icon' {...customProps}>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 769 769'>
             <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />

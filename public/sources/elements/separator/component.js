@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { color, designOptions, alignment, customClass, width, metaCustomId } = atts
+    let { color, alignment, customClass, width, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
 
@@ -30,20 +30,6 @@ class Component extends vcvAPI.elementComponent {
       classes.push(`vce-line-separator--width-${mixinData.selector}`)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
@@ -51,8 +37,10 @@ class Component extends vcvAPI.elementComponent {
     classes = classNames(classes)
     containerClasses = classNames(containerClasses)
 
+    let doAll = this.applyDO('all')
+
     return <div className={containerClasses} {...editor} {...customProps}>
-      <div className={classes} id={'el-' + id} />
+      <div className={classes} id={'el-' + id} {...doAll} />
     </div>
   }
 }

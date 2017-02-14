@@ -97,6 +97,7 @@ class Component extends vcvAPI.elementComponent {
         createdUrl,
         (data) => {
           this.updateInstagramHtml(data.html)
+          this.props.api.request('layout:rendered', true)
         }
       )
     }
@@ -104,7 +105,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, width, alignment, metaCustomId } = atts
+    let { customClass, width, alignment, metaCustomId } = atts
     let classes = 'vce-instagram-image'
     let wrapperClasses = 'vce-instagram-image-wrapper vce'
     let customProps = {}
@@ -125,26 +126,14 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id}>
+      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
         <div className={innerClasses} {...innerCustomProps} />
       </div>
     </div>

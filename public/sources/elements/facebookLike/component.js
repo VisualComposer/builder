@@ -142,19 +142,14 @@ class Component extends vcvAPI.elementComponent {
   getPublicImage (filename) {
     let { tag } = this.props.atts
 
-    let assetsManager
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wipAssetsManager')
-    } else {
-      assetsManager = vcCake.getService('assets-manager')
-    }
+    let assetsManager = vcCake.getService('wipAssetsManager')
 
     return assetsManager.getPublicPath(tag, filename)
   }
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, metaCustomId } = atts
+    let { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-facebook-like'
     let innerClasses = 'vce-facebook-like-inner vce'
     let customProps = {}
@@ -167,26 +162,14 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-facebook-like--align-${alignment}`
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} ref='facebookLikeInner' id={'el-' + id}>Facebook Like</div>
+      <div className={innerClasses} ref='facebookLikeInner' id={'el-' + id} {...doAll}>Facebook Like</div>
     </div>
   }
 }

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Representer from '../../representer'
 import vcCake from 'vc-cake'
 
-const AssetsManager = vcCake.env('FEATURE_ASSETS_MANAGER') ? vcCake.getService('assets-manager') : vcCake.getService('wipAssetsManager')
+const AssetsManager = vcCake.getService('wipAssetsManager')
 
 export default class Backend extends Representer {
   getSinglePlaceHolder (url) {

@@ -21,7 +21,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    let { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
     let classes = 'vce-vim-video-player'
     let source, videoWidth, videoId
     let autopause = advanced && atts.autopause ? 1 : 0
@@ -59,26 +59,14 @@ class Component extends vcvAPI.elementComponent {
 
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div className={classes} {...customProps} {...editor} data-vcv-element-disabled='true'>
-      <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}}>
+      <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{width: videoWidth}} {...doAll}>
         <div className='vce-vim-video-player-inner'>
           <iframe
             className='vce-vim-video-player-iframe'

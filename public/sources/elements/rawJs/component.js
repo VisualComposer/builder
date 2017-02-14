@@ -17,8 +17,8 @@ class Component extends vcvAPI.elementComponent {
   }
 
   render () {
-    var { id, atts, editor } = this.props
-    var { customClass, rawJs, designOptions, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    let { id, atts, editor } = this.props
+    let { customClass, rawJs, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-js-container'
     let customProps = {}
     let wrapperClasses = 'vce-raw-js-wrapper'
@@ -26,26 +26,14 @@ class Component extends vcvAPI.elementComponent {
       classes = classes.concat(' ' + customClass)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div className={classes} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} ref='rawJsWrapper'>
+      <div className={wrapperClasses} id={'el-' + id} ref='rawJsWrapper' {...doAll}>
         <script>{rawJs}</script>
       </div>
     </div>

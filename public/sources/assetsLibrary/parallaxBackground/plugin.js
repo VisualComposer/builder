@@ -8,6 +8,7 @@
       waypoint: null,
       speed: 30,
       setup: function setup (element) {
+        this.resize = this.resize.bind(this);
         // check for data
         if (!element.getVceParallax) {
           element.getVceParallax = this;
@@ -19,7 +20,6 @@
         } else {
           this.update();
         }
-        this.resize = this.resize.bind(this);
         return element.getVceParallax;
       },
       addScrollEvent: function addScrollEvent () {

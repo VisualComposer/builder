@@ -2,6 +2,7 @@
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
   currentImg = 0
+  loadingIndex = 0
   data = []
 
   constructor (props) {
@@ -16,6 +17,7 @@ class Component extends vcvAPI.elementComponent {
   componentWillReceiveProps (nextProps) {
     this.currentImg = 0
     this.data = []
+    this.loadingIndex++
     this.prepareImages(nextProps.atts, true)
   }
 
@@ -40,22 +42,25 @@ class Component extends vcvAPI.elementComponent {
 
   loadImage (imgSources, cols) {
     let img = new window.Image()
+    img.loadingIndex = this.loadingIndex
     img.onload = this.imgLoadHandler.bind(this, imgSources, cols, img)
     img.src = imgSources[ this.currentImg ]
   }
 
   imgLoadHandler (imgSources, cols, img) {
-    let height = this.getImageHeight(img.width, img.height)
-    let smallestCol = this.getSmallestFromArray(cols)
-    cols[ smallestCol ] += height
-    this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
-    this.currentImg++
-    if (this.currentImg < imgSources.length) {
-      this.loadImage(imgSources, cols)
-    } else {
-      this.setState({
-        columnData: this.data
-      })
+    if (img.loadingIndex === this.loadingIndex) {
+      let height = this.getImageHeight(img.width, img.height)
+      let smallestCol = this.getSmallestFromArray(cols)
+      cols[ smallestCol ] += height
+      this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
+      this.currentImg++
+      if (this.currentImg < imgSources.length) {
+        this.loadImage(imgSources, cols)
+      } else {
+        this.setState({
+          columnData: this.data
+        })
+      }
     }
   }
 
@@ -80,12 +85,7 @@ class Component extends vcvAPI.elementComponent {
   getPublicImage (filename) {
     let { tag } = this.props.atts
 
-    let assetsManager
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wipAssetsManager')
-    } else {
-      assetsManager = vcCake.getService('assets-manager')
-    }
+    let assetsManager = vcCake.getService('wipAssetsManager')
 
     return assetsManager.getPublicPath(tag, filename)
   }
@@ -112,7 +112,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, customClass, columns, metaCustomId, clickableOptions } = atts
+    let { image, shape, customClass, columns, metaCustomId, clickableOptions } = atts
     let containerClasses = [ 'vce-image-masonry-gallery' ]
     let wrapperClasses = [ 'vce-image-masonry-gallery-wrapper vce' ]
     let containerProps = {}
@@ -188,27 +188,15 @@ class Component extends vcvAPI.elementComponent {
       containerClasses.push('vce-image-masonry-gallery--border-rounded')
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      containerProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return (
       <div className={containerClasses.join(' ')} {...editor} {...containerProps}>
-        <div className={wrapperClasses.join(' ')} id={'el-' + id}>
+        <div className={wrapperClasses.join(' ')} id={'el-' + id} {...doAll}>
           <div className='vce-image-masonry-gallery-list'>
             {columnHtml}
           </div>

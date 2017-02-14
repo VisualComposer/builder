@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const assetsManager = vcCake.getService('assets-manager')
 const wipAssetsManager = vcCake.getService('wipAssetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 const wipStylesManager = vcCake.getService('wipStylesManager')
@@ -20,50 +19,29 @@ vcCake.add('assets', (api) => {
       doElement.id = 'do-styles'
       document.body.appendChild(doElement)
     }
-    assetsManager.getCompiledCss(true).then((result) => {
+
+    let siteStylesManager = wipStylesManager.create()
+    siteStylesManager.add(wipAssetsStorage.getWpBackendSiteCssData())
+    siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
-    }).then(() => {
-      vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getWpBackendSiteCssData())
-      stylesManager.compile().then((result) => {
-        styleElement.innerHTML = result
-      })
-    }
-
-    assetsManager.getCompiledDesignOptions().then((result) => {
+    let pageStylesManager = wipStylesManager.create()
+    pageStylesManager.add(wipAssetsStorage.getWpBackendPageCssData())
+    pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
     })
 
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      let stylesManager = wipStylesManager.create()
-      stylesManager.add(wipAssetsStorage.getWpBackendPageCssData())
-      stylesManager.compile().then((result) => {
-        doElement.innerHTML = result
-      })
-    }
-
     let d = window.document
 
-    let cssFiles = assetsManager.getCssFiles()
-
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
-    }
+    let cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
 
     cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
-        } else {
-          cssLink.setAttribute('href', assetsManager.getSourcePath(file))
-        }
+        cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
         d.querySelector('head').appendChild(cssLink)
       }
     })
@@ -75,17 +53,11 @@ vcCake.add('assets', (api) => {
   api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
-    assetsManager.add(ids)
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.addElement(ids)
-    }
+    wipAssetsStorage.addElement(ids)
   })
 
   api.reply('data:afterUpdate', (id, element) => {
-    assetsManager.update(id)
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.updateElement(id)
-    }
+    wipAssetsStorage.updateElement(id)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -98,10 +70,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    assetsManager.remove(elements)
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.removeElement(elements)
-    }
+    wipAssetsStorage.removeElement(elements)
   })
 
   api.reply('node:beforeSave', (data) => {
@@ -112,10 +81,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      assetsManager.update(elements)
-      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        wipAssetsStorage.updateElement(elements)
-      }
+      wipAssetsStorage.updateElement(elements)
     }
   })
 
@@ -127,10 +93,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      assetsManager.update(elements)
-      if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-        wipAssetsStorage.updateElement(elements)
-      }
+      wipAssetsStorage.updateElement(elements)
     }
   })
 
@@ -144,10 +107,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    assetsManager.add(elements)
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      wipAssetsStorage.addElement(elements)
-    }
+    wipAssetsStorage.addElement(elements)
   })
 })
 const resetURLWithFragment = () => {

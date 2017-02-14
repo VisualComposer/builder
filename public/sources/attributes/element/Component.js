@@ -7,7 +7,6 @@ import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
 import Dropdown from '../dropdown/Component'
 const Cook = vcCake.getService('cook')
-const AssetsManager = vcCake.getService('assets-manager')
 const categoriesService = vcCake.getService('categories')
 
 export default class ElementAttribute extends Attribute {
@@ -143,13 +142,7 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-item-list-item-content--active': this.state.tag === tag
         })
 
-        let publicPathThumbnail
-
-        if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-          publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-        } else {
-          publicPathThumbnail = AssetsManager.getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-        }
+        let publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
           <a

@@ -1,13 +1,9 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
-import React from 'react'
-import vcCake from 'vc-cake'
-const vcvAPI = vcCake.getService('api')
-
-export default class Component extends vcvAPI.elementComponent {
+class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, designOptionsAdvanced, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
+    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
     let content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -44,23 +40,6 @@ export default class Component extends vcvAPI.elementComponent {
     // reverse classes.push('vce-row-wrap--reverse')
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
-    }
-
-    if (designOptionsAdvanced.device) {
-      // animations
-      let animations = []
-      Object.keys(designOptionsAdvanced.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptionsAdvanced.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptionsAdvanced.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customRowProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
     }
 
     if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -113,10 +92,10 @@ export default class Component extends vcvAPI.elementComponent {
       customRowProps.id = metaCustomId
     }
 
-    let doBoxModel = this.applyDO('margin padding border')
+    let doAll = this.applyDO('all')
 
     return <div className='vce-row-container'>
-      <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doBoxModel}>
+      <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doAll}>
         {this.getBackgroundTypeContent()}
         <div className='vce-row-content' {...customProps}>
           {content}

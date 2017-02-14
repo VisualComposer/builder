@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import CustomCss from './customCss'
 import GlobalCss from './globalCss'
-import designOptions from './designOptions'
 import rowColumn from './rowColumn'
 
 const customCss = new CustomCss()
@@ -122,13 +121,10 @@ export default {
       if (this.get(id) || force) {
         let element = documentService.get(id)
         let tags = this.getElementTagsByTagName(element.tag, {}, element)
-        // get design options data
-        let designOptionsData = this.cook().get(element).get('designOptions')
-        let useDO = (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used)
+
         // update element data
         this.elements[ id ] = {
-          tags: tags,
-          useDesignOptions: useDO
+          tags: tags
         }
         // get columns data
         let columnSizes = this.getColumnSizesByElement(element)
@@ -468,28 +464,6 @@ export default {
     return Object.keys(this.getTags())
   },
 
-  /**
-   * get design options
-   * @returns {{}}
-   */
-  getDesignOptions () {
-    let documentService = vcCake.getService('document')
-    let returnOptions = {}
-    let elements = this.get()
-    for (let id in elements) {
-      if (elements[ id ].useDesignOptions) {
-        let element = documentService.get(id)
-        if (element) {
-          let designOptionsData = this.cook().get(element).get('designOptions')
-          if (typeof designOptionsData !== 'undefined' && designOptionsData.hasOwnProperty('used') && designOptionsData.used) {
-            returnOptions[ id ] = designOptionsData
-          }
-        }
-      }
-    }
-    return returnOptions
-  },
-
   // get data
 
   getCustomCssData () {
@@ -601,38 +575,6 @@ export default {
       }
     })
     return styles
-  },
-
-  /**
-   * Get compiled design options css
-   * @returns {Array}
-   */
-  getDesignOptionsCssData () {
-    let devices = designOptions.getDevices()
-    let viewPortBreakpoints = {}
-    for (let device in devices) {
-      let sizes = []
-      if (devices[ device ].min) {
-        sizes.push('(min-width: ' + devices[ device ].min + ')')
-      }
-      if (devices[ device ].max) {
-        sizes.push('(max-width: ' + devices[ device ].max + ')')
-      }
-      viewPortBreakpoints[ '--' + device ] = sizes.join(' and ')
-    }
-
-    let outputCss = []
-    let designOptionsData = this.getDesignOptions()
-    for (let id in designOptionsData) {
-      if (designOptions.getCss(id, designOptionsData[ id ])) {
-        outputCss.push({
-          src: designOptions.getCss(id, designOptionsData[ id ]),
-          viewports: viewPortBreakpoints
-        })
-      }
-    }
-
-    return outputCss
   },
 
   /**

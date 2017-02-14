@@ -92,7 +92,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, height, metaCustomId } = atts
+    let { customClass, alignment, width, height, metaCustomId } = atts
     let classes = 'vce-google-maps'
     let innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper vce'
@@ -129,26 +129,14 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id}>
+      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
         <div className={innerClasses} {...innerProps} ref='mapInner' />
       </div>
     </div>

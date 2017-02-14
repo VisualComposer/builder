@@ -91,12 +91,8 @@ class Component extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    let assetsManager
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wipAssetsManager')
-    } else {
-      assetsManager = vcCake.getService('assets-manager')
-    }
+    let assetsManager = vcCake.getService('wipAssetsManager')
+
     var { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }
@@ -195,7 +191,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { image, designOptions, shape, clickableOptions, customClass, size, alignment, metaCustomId } = atts
+    let { image, shape, clickableOptions, customClass, size, alignment, metaCustomId } = atts
     let containerClasses = 'vce-single-image-container'
     let wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner'
@@ -268,28 +264,16 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}-${imgSrc}-${clickableOptions}-${shape}-${size}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
 
     customProps.style = this.state ? this.state.imgSize : null
 
+    let doAll = this.applyDO('all')
+
     return <div className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id}>
+      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
         <CustomTag {...customProps} className={classes} ref='imageContainer'>
           <img className='vce-single-image' src={imgSrc} {...customImageProps} />
         </CustomTag>

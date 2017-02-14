@@ -1,6 +1,6 @@
 /* global vcv */
 /* global Waypoint */
-vcv.on('ready', (action, id) => {
+vcv.on('ready', function (action, id) {
   if (action !== 'merge') {
     vceAnimate.enableAnimate(action && id ? id : '')
   }
@@ -12,7 +12,7 @@ let vceAnimate = {
     let waypoints = []
     let selector = id ? `[data-vcv-element="${id}"]` : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
-    elements.forEach((element) => {
+    elements.forEach(function (element) {
       if (id && !element.getAttribute('data-vce-animate')) {
         element = element.querySelector('[data-vce-animate]')
         if (!element) {
@@ -22,7 +22,7 @@ let vceAnimate = {
       // remove old classes
       let oldClasses = []
       let re = /^vce-o-animate--/
-      element.classList.forEach((className) => {
+      element.classList.forEach(function (className) {
         if (className.search(re) !== -1) {
           oldClasses.push(className)
         }

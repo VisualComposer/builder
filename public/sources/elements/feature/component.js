@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, description, align, icon, customClass, metaCustomId } = atts
+    let { description, align, icon, customClass, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
     let customContainerProps = {}
@@ -22,20 +22,6 @@ class Component extends vcvAPI.elementComponent {
       containerClasses = containerClasses.concat(' ' + customClass)
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customContainerProps.id = metaCustomId
     }
@@ -44,8 +30,10 @@ class Component extends vcvAPI.elementComponent {
     let Icon = Cook.get(icon)
     let iconOutput = Icon.render(null, false)
 
+    let doAll = this.applyDO('all')
+
     return <section className={containerClasses} {...editor} {...customContainerProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...customProps}>
+      <div className={wrapperClasses} id={'el-' + id} {...customProps} {...doAll}>
         {iconOutput}
         {description}
       </div>

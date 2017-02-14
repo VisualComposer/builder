@@ -75,6 +75,7 @@ class Component extends vcvAPI.elementComponent {
         createdUrl,
         (data) => {
           this.appendFlickr(data.html)
+          this.props.api.request('layout:rendered', true)
         }
       )
     }
@@ -109,7 +110,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, metaCustomId } = atts
+    let { customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-flickr-image'
     let wrapperClasses = 'vce vce-flickr-image-wrapper'
     let customProps = {}
@@ -138,26 +139,15 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
     let content = null
+
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div id={'el-' + id} className={wrapperClasses}>
+      <div id={'el-' + id} className={wrapperClasses} {...doAll}>
         <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
         {content}
       </div>

@@ -14,6 +14,9 @@ export default class Element extends React.Component {
     activeElementId: React.PropTypes.string.isRequired
   }
 
+  // element (row/column) options to prevent applying of in the backend view
+  elementOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
+
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
     // rename row/column id to prevent applying of DO
@@ -57,8 +60,11 @@ export default class Element extends React.Component {
     let layoutAtts = {}
     let atts = element.getAll()
     Object.keys(atts).forEach((key) => {
-      if (key === 'designOptions') {
-        layoutAtts[ key ] = {}
+      let findOption = this.elementOptions.find((option) => {
+        return option === key
+      })
+      if (findOption) {
+        layoutAtts[ key ] = element.settings(findOption).settings.value
       } else {
         layoutAtts[ key ] = atts[ key ]
       }

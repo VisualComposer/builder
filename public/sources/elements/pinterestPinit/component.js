@@ -51,7 +51,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, metaCustomId } = atts
+    let { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-pinterest-pinit'
     let innerClasses = 'vce-pinterest-pinit-inner vce'
     let customProps = {}
@@ -64,26 +64,14 @@ class Component extends vcvAPI.elementComponent {
       classes += ` vce-pinterest-pinit--align-${alignment}`
     }
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} ref='pinterestInner' id={'el-' + id}>Google Plus Button</div>
+      <div className={innerClasses} ref='pinterestInner' id={'el-' + id} {...doAll}>Google Plus Button</div>
     </div>
   }
 }

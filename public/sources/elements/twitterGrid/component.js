@@ -84,6 +84,7 @@ class Component extends vcvAPI.elementComponent {
       createdUrl,
       (data) => {
         this.appendTwitter(data.html)
+        this.props.api.request('layout:rendered', true)
       }
     )
   }
@@ -116,7 +117,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, alignment, width, metaCustomId } = atts
+    let { customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-twitter-grid'
     let innerClasses = 'vce-twitter-grid-inner'
     let wrapperClasses = 'vce-twitter-grid-wrapper vce'
@@ -137,26 +138,14 @@ class Component extends vcvAPI.elementComponent {
 
     customProps.key = `customProps:${id}`
 
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id}>
+      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
         <div className={innerClasses} {...innerCustomProps} />
       </div>
     </div>

@@ -7,7 +7,7 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { description, image, align, addButton, customClass, designOptionsJK, button, background, metaCustomId } = atts
+    let { description, image, align, addButton, customClass, button, background, metaCustomId } = atts
     let classNames = require('classnames')
     let customProps = {}
     let containerProps = {}
@@ -47,28 +47,13 @@ class Component extends vcvAPI.elementComponent {
       buttonOutput = Button.render(null, false)
     }
 
-    if (designOptionsJK.device) {
-      let animations = []
-      Object.keys(designOptionsJK.device).forEach((device) => {
-        let prefix = (device === 'all') ? '' : device
-        if (designOptionsJK.device[ device ].animation) {
-          if (prefix) {
-            prefix = `-${prefix}`
-          }
-          animations.push(`vce-o-animate--${designOptionsJK.device[ device ].animation}${prefix}`)
-        }
-      })
-      if (animations.length) {
-        customProps[ 'data-vce-animate' ] = animations.join(' ')
-      }
-    }
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
 
     rowClasses = classNames(rowClasses)
 
-    let doRest = this.applyDO('margin background border')
+    let doRest = this.applyDO('margin background border animation')
     let doPadding = this.applyDO('padding')
 
     return <section className={containerClasses} {...editor} {...containerProps}>
@@ -88,12 +73,7 @@ class Component extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    let assetsManager
-    if (vcCake.env('FEATURE_ASSETS_MANAGER')) {
-      assetsManager = vcCake.getService('wipAssetsManager')
-    } else {
-      assetsManager = vcCake.getService('assets-manager')
-    }
+    let assetsManager = vcCake.getService('wipAssetsManager')
     let { tag } = this.props.atts
     return assetsManager.getPublicPath(tag, filename)
   }

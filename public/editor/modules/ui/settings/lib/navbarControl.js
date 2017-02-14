@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-const {getService, getData, setData} = vcCake
-const assetsManager = getService('assets-manager')
+const {getData, setData} = vcCake
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 
 export default class SettingsButtonControl extends React.Component {
@@ -10,7 +9,7 @@ export default class SettingsButtonControl extends React.Component {
     super(props)
     this.state = {
       isWindowOpen: getData('settings:isWindowOpen'),
-      showWarning: vcCake.env('FEATURE_ASSETS_MANAGER') ? !!wipAssetsStorage.getCustomCss() : !!assetsManager.getCustomCss()
+      showWarning: !!wipAssetsStorage.getCustomCss()
     }
 
     this.toggleSettings = this.toggleSettings.bind(this)
@@ -48,7 +47,7 @@ export default class SettingsButtonControl extends React.Component {
   }
 
   checkSettings () {
-    this.setState({ showWarning: vcCake.env('FEATURE_ASSETS_MANAGER') ? !!wipAssetsStorage.getCustomCss() : !!assetsManager.getCustomCss() })
+    this.setState({ showWarning: !!wipAssetsStorage.getCustomCss() })
   }
 
   render () {

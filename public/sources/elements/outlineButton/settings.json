@@ -180,14 +180,6 @@
       "label": "Design Options"
     }
   },
-  "designOptionsJK": {
-    "type": "designOptionsJK",
-    "access": "public",
-    "value": {},
-    "options": {
-      "label": "Design Options"
-    }
-  },
   "editFormTab1": {
     "type": "group",
     "access": "protected",
@@ -214,7 +206,7 @@
     "access": "protected",
     "value": [
       "editFormTab1",
-      "designOptionsJK"
+      "designOptions"
     ]
   },
   "relatedTo": {

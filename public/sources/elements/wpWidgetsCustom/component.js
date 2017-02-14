@@ -57,24 +57,10 @@ class Component extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { designOptions, customClass, metaCustomId } = atts
+    let { customClass, metaCustomId } = atts
     let containerClasses = [ 'vce-widgets-container' ]
 
     let customProps = {}
-    let devices = designOptions.visibleDevices ? Object.keys(designOptions.visibleDevices) : []
-    let animations = []
-    devices.forEach((device) => {
-      let prefix = designOptions.visibleDevices[ device ]
-      if (designOptions[ device ].animation) {
-        if (prefix) {
-          prefix = `-${prefix}`
-        }
-        animations.push(`vce-o-animate--${designOptions[ device ].animation}${prefix}`)
-      }
-    })
-    if (animations.length) {
-      customProps[ 'data-vce-animate' ] = animations.join(' ')
-    }
     if (customClass) {
       containerClasses.push(customClass)
     }
@@ -82,9 +68,11 @@ class Component extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
+    let doAll = this.applyDO('all')
+
     return (
       <div className={containerClasses.join(' ')} {...customProps} {...editor}>
-        <div className='vce vce-widgets-wrapper' id={'el-' + id}>
+        <div className='vce vce-widgets-wrapper' id={'el-' + id} {...doAll}>
           <vcvhelper data-vcvs-html={this.state.shortcode || ''}
             dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
         </div>
