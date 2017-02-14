@@ -247,8 +247,6 @@ export default {
       return item.toLowerCase() === 'general'
     })
 
-    // console.log(settings)
-
     let layout = null
     if (isRow.length && element.rowLayout) {
       layout = element.rowLayout
@@ -574,6 +572,71 @@ export default {
         })
       }
     })
+    return styles
+  },
+
+  /**
+   * Get css data for single element
+   * @returns {Array}
+   */
+  getCssDataByElement (elementData, options) {
+    if (!elementData) {
+      return null
+    }
+    let defaultOptions = {
+      tags: true,
+      cssMixins: true,
+      attributeMixins: true
+    }
+    options = lodash.defaults(options, defaultOptions, {})
+    let styles = []
+    // get tag styles
+    if (options.tags) {
+      let tags = this.getElementTagsByTagName(elementData.tag, {}, elementData)
+      Object.keys(tags).forEach((tag) => {
+        let elementObject = this.cook().get({ tag: tag })
+        let cssSettings = elementObject.get('cssSettings')
+        if (cssSettings.css) {
+          styles.push({
+            src: cssSettings.css
+          })
+        }
+        if (options.editor && cssSettings.editorCss) {
+          styles.push({
+            src: cssSettings.editorCss
+          })
+        }
+      })
+    }
+    // get mixins styles
+    if (options.cssMixins) {
+      let cssMixins = this.getCssMixinsByElement(elementData, {})
+      Object.keys(cssMixins).forEach((tag) => {
+        let elementObject = this.cook().get({ tag: tag })
+        let cssSettings = elementObject.get('cssSettings')
+        let mixins = Object.keys(cssMixins[ tag ])
+
+        mixins.forEach((mixin) => {
+          for (let selector in cssMixins[ tag ][ mixin ]) {
+            if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
+              styles.push({
+                variables: cssMixins[ tag ][ mixin ][ selector ],
+                src: cssSettings.mixins[ mixin ].mixin
+              })
+            }
+          }
+        })
+      })
+    }
+    // get attribute mixins styles
+    if (options.attributeMixins) {
+      let attributesMixins = this.getAttributesMixinsByElement(elementData, {})
+      Object.keys(attributesMixins).forEach((tag) => {
+        Object.keys(attributesMixins[ tag ]).forEach((attribute) => {
+          styles.push(attributesMixins[ tag ][ attribute ])
+        })
+      })
+    }
     return styles
   },
 

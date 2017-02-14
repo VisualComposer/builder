@@ -34,7 +34,9 @@ export default class AjaxForm extends Attribute {
     elements.forEach((node) => {
       node.addEventListener('change', this.handleFormChange.bind(this))
     })
-    this.refs.form.querySelectorAll('a').forEach((node) => {
+    let aTagElements = this.refs.form.querySelectorAll('a')
+    aTagElements = [].slice.call(aTagElements)
+    aTagElements.forEach((node) => {
       node.setAttribute('target', '_blank')
     })
     this.setState({

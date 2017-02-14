@@ -36,6 +36,9 @@ class AssetsController extends Container implements Module
         if (empty($post)) {
             $post = get_post();
         }
+        if (empty($post)) {
+            return;
+        }
         if (!$frontendHelper->isFrontend()
             && vcfilter(
                 'vcv:editors:backend:addMetabox',
