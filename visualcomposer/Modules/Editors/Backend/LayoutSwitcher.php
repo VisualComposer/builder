@@ -37,15 +37,17 @@ class LayoutSwitcher extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueueEditorAssets(Frontend $frontendHelper)
+    protected function enqueueEditorAssets(Frontend $frontendHelper, BackendController $backendControllerHelper)
     {
         global $post;
         if (empty($post)) {
             $post = get_post();
         }
+        if (empty($post)) {
+            return;
+        }
         if (!$frontendHelper->isFrontend()
-            && vcfilter(
-                'vcv:editors:backend:addMetabox',
+            && $backendControllerHelper->checkPostType(
                 true,
                 ['postType' => $post->post_type]
             )

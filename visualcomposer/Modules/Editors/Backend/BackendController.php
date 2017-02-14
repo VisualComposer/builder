@@ -16,12 +16,12 @@ class BackendController extends Container implements Module
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkToggleFeature');
     }
 
-    protected function checkPostType($status, $payload)
+    public function checkPostType($status, $payload)
     {
         return $status && post_type_supports($payload['postType'], 'editor');
     }
 
-    protected function checkToggleFeature($status, $payload)
+    public function checkToggleFeature($status, $payload)
     {
         return $status && true;
     }
