@@ -2,7 +2,7 @@
 /* global Waypoint */
 vcv.on('ready', function (action, id) {
   if (action !== 'merge') {
-    vceAnimate.enableAnimate(action && id ? id : '')
+    vceAnimate.enableAnimate(action && id ? id : '');
   }
 })
 
@@ -43,9 +43,9 @@ var vceAnimate = {
             newClasses.push('vce-o-animate--animated');
             newClasses.forEach(function (className) {
               _this.element.classList.add(className);
-            })
+            });
             _this.destroy();
-          }, 100)
+          }, 100);
         },
         offset: 'bottom-in-view'
       })
