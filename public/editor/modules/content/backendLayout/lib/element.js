@@ -15,7 +15,7 @@ export default class Element extends React.Component {
   }
 
   // row options to prevent applying of in the backend view
-  rowOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight']
+  rowOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth']
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
@@ -24,11 +24,6 @@ export default class Element extends React.Component {
     if (element) {
       element.id = `el-${this.props.element.id}-temp`
     }
-    // change row data-vce-full-width to false to prevent applying of full width options
-    let fullWidthEl = document.querySelectorAll('[data-vce-full-width="true"]')
-    fullWidthEl.forEach((el) => {
-      el.dataset.vceFullWidth = false
-    })
   }
 
   componentWillUnmount () {
@@ -37,10 +32,6 @@ export default class Element extends React.Component {
     if (element) {
       element.id = `el-${this.props.element.id}`
     }
-    let fullWidthEl = document.querySelectorAll('[data-vce-full-width="false"]')
-    fullWidthEl.forEach((el) => {
-      el.dataset.vceFullWidth = true
-    })
   }
 
   getContent (content) {
