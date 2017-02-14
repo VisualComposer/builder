@@ -90,18 +90,22 @@ vcCake.add('assets', (api) => {
     if (!data) {
       return
     }
-    // todo: check instant update here
-    // assetsManager.getTagCompiledCss(data.tag, data).then((result) => {
-    //   instantCssStyle.innerHTML = result
-    // }).then(() => {
-    //   vcCake.getService('api').publicEvents.trigger('css:ready')
-    // })
-    // const designOptions = vcCake.getService('cook').get(data).get('designOptions')
-    // assetsManager.getCompiledDesignOptions(data.id, designOptions).then((result) => {
-    //   doInstantCssStyle.innerHTML = result
-    // }).then(() => {
-    //   iframeWindow.vcv.trigger('ready', 'update', data.id)
-    // })
+
+    let instantStylesManager = wipStylesManager.create()
+    instantStylesManager.add(wipAssetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
+    instantStylesManager.compile().then((result) => {
+      instantCssStyle.innerHTML = result
+    }).then(() => {
+      vcCake.getService('api').publicEvents.trigger('css:ready')
+    })
+
+    let attributesStylesManager = wipStylesManager.create()
+    attributesStylesManager.add(wipAssetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
+    attributesStylesManager.compile().then((result) => {
+      doInstantCssStyle.innerHTML = result
+    }).then(() => {
+      iframeWindow.vcv.trigger('ready', 'update', data.id)
+    })
   }
   // TODO: Use state against event
   api.reply('data:changed', dataUpdate)
