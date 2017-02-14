@@ -1,7 +1,5 @@
-'use strict';
-
 (function (window, document) {
-  function createSlider (element) {
+  function createSlider(element) {
     var Slider = {
       slider: null,
       slides: [],
@@ -10,7 +8,7 @@
       timeout: 1000,
       interval: null,
 
-      init: function init (element) {
+      init: function init(element) {
         // check for data
         if (!element.getVceSlider) {
           element.getVceSlider = this;
@@ -21,7 +19,7 @@
         this.refresh();
         return element.getVceSlider;
       },
-      handleAnimationEnd: function handleAnimationEnd (event) {
+      handleAnimationEnd: function handleAnimationEnd(event) {
         event.target.classList.remove('vce-asset-background-slider-item--animate');
         event.target.style.left = null;
         if (event.target.dataset.vceAssetsSliderStayHidden === 'true') {
@@ -30,7 +28,7 @@
           event.target.style.visibility = 'visible';
         }
       },
-      refresh: function refresh () {
+      refresh: function refresh() {
         var _this = this;
 
         this.isRtl = window.getComputedStyle(this.slider).direction === 'rtl';
@@ -45,28 +43,28 @@
         // this.slideTo(0);
         this.autoplay();
       },
-      destroy: function destroy () {
+      destroy: function destroy() {
         this.stopAutoplay();
         this.slides.forEach(function (slide) {
           slide.style.transform = null;
         });
         delete this.slider.getVceSlider;
       },
-      slideTo: function slideTo (index) {
+      slideTo: function slideTo(index) {
         if (index >= 0 && index < this.slides.length) {
           var prevIndex = this.activeSlide;
           this.activeSlide = index;
-          this.slides[ prevIndex ].style.left = '0';
-          this.slides[ prevIndex ].style.visibility = 'visible';
-          this.slides[ prevIndex ].dataset.vceAssetsSliderStayHidden = true;
-          this.slides[ index ].style.left = '100%';
-          this.slides[ index ].dataset.vceAssetsSliderStayHidden = false;
-          this.slides[ index ].style.visibility = 'visible';
-          this.slides[ prevIndex ].classList.add('vce-asset-background-slider-item--animate');
-          this.slides[ index ].classList.add('vce-asset-background-slider-item--animate');
+          this.slides[prevIndex].style.left = '0';
+          this.slides[prevIndex].style.visibility = 'visible';
+          this.slides[prevIndex].dataset.vceAssetsSliderStayHidden = true;
+          this.slides[index].style.left = '100%';
+          this.slides[index].dataset.vceAssetsSliderStayHidden = false;
+          this.slides[index].style.visibility = 'visible';
+          this.slides[prevIndex].classList.add('vce-asset-background-slider-item--animate');
+          this.slides[index].classList.add('vce-asset-background-slider-item--animate');
         }
       },
-      slideToNext: function slideToNext () {
+      slideToNext: function slideToNext() {
         if (this.slides.length > 1) {
           if (this.activeSlide === this.slides.length - 1) {
             this.slideTo(0);
@@ -75,7 +73,7 @@
           }
         }
       },
-      slideToPrev: function slideToPrev () {
+      slideToPrev: function slideToPrev() {
         if (this.slides.length > 1) {
           if (this.activeSlide === 0) {
             this.slideTo(this.slides.length - 1);
@@ -84,7 +82,7 @@
           }
         }
       },
-      autoplay: function autoplay () {
+      autoplay: function autoplay() {
         var _this2 = this;
 
         this.stopAutoplay();
@@ -98,7 +96,7 @@
           }, this.timeout);
         }
       },
-      stopAutoplay: function stopAutoplay () {
+      stopAutoplay: function stopAutoplay() {
         window.clearInterval(this.interval);
       }
     };
@@ -106,7 +104,7 @@
   }
 
   var sliders = {
-    init: function init (selector) {
+    init: function init(selector) {
       var sliders = document.querySelectorAll(selector);
       sliders = [].slice.call(sliders);
       sliders.forEach(function (slider) {
