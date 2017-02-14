@@ -43,6 +43,9 @@ class LayoutSwitcher extends Container implements Module
         if (empty($post)) {
             $post = get_post();
         }
+        if (empty($post)) {
+            return;
+        }
         if (!$frontendHelper->isFrontend()
             && $backendControllerHelper->checkPostType(
                 true,
