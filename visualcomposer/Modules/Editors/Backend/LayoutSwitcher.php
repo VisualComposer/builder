@@ -20,11 +20,8 @@ class LayoutSwitcher extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::checkBackendMetabox */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkBackendMetabox');
 
-        $toggleFeatureBackend = true;
-        if ($toggleFeatureBackend) {
-            /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::enqueueEditorAssets */
-            $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
-        }
+        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::enqueueEditorAssets */
+        $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
 
         $this->wpAddAction('admin_head', 'printScripts');
     }
@@ -40,9 +37,18 @@ class LayoutSwitcher extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueueEditorAssets(Frontend $frontendHelper)
+    protected function enqueueEditorAssets(Frontend $frontendHelper, BackendController $backendControllerHelper)
     {
-        if (!$frontendHelper->isFrontend()) {
+        global $post;
+        if (empty($post)) {
+            $post = get_post();
+        }
+        if (!$frontendHelper->isFrontend()
+            && $backendControllerHelper->checkPostType(
+                true,
+                ['postType' => $post->post_type]
+            )
+        ) {
             $this->registerEditorAssets();
 
             wp_enqueue_script('vcv:editors:backendswitcher:bundle');
@@ -62,7 +68,7 @@ class LayoutSwitcher extends Container implements Module
         wp_register_style('vcv:editors:backendswitcher:bundle', $bundleCssUrl);
     }
 
-    protected function checkBackendMetabox($status, $payload, Request $requestHelper, Wp $wpHelper)
+    protected function checkBackendMetabox($response, $payload, Request $requestHelper, Wp $wpHelper)
     {
         $status = $wpHelper->getUserSetting(
             get_current_user_id(),
@@ -73,6 +79,6 @@ class LayoutSwitcher extends Container implements Module
             $status = $status !== '0'; // '0' => false, any other => true(add metabox)
         }
 
-        return $status;
+        return $response && $status;
     }
 }
