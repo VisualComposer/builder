@@ -12,6 +12,7 @@ var vceAnimate = {
     var waypoints = [];
     var selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]';
     var elements = document.querySelectorAll(selector);
+    elements = [].slice.call(elements);
     elements.forEach(function (element) {
       var _element$classList;
       if (id && !element.getAttribute('data-vce-animate')) {
