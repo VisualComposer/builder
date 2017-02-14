@@ -6,4 +6,4 @@ vcv.on('ready', function (action, id) {
     selector = id ? '[data-vcv-element="' + id + '"] ' + selector : selector;
     vceAssetsBackgroundVideoYoutube(selector);
   }
-})
+});

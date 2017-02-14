@@ -7,5 +7,3 @@
     document.head.appendChild(tag);
   }
 })(window, document);
-
-

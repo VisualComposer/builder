@@ -28,8 +28,8 @@ class MetaboxController extends Container implements Module
         $this->request = $request;
         $this->url = $url;
 
-        /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::initializeMetabox */
-        $this->wpAddAction('admin_init', 'initializeMetabox');
+        /** \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
+        $this->wpAddAction('add_meta_boxes', 'addMetaBox');
     }
 
     public function render()
@@ -47,32 +47,25 @@ class MetaboxController extends Container implements Module
         );
     }
 
-    protected function initializeMetabox()
-    {
-        $toggleFeatureBackend = true;
-        if ($toggleFeatureBackend && vcfilter('vcv:editors:backend:addMetabox', true)) {
-            /** @see \VisualComposer\Modules\Editors\Backend\MetaboxController::addMetaBox */
-            $this->wpAddAction('add_meta_boxes', 'addMetaBox');
-        }
-    }
-
     protected function addMetaBox($postType)
     {
-        // TODO:
-        // 0. Check part enabled post type and etc
-        // 1. Check access
-        // 2.
-        // meta box to render
-        add_meta_box(
-            'vcwb_visual_composer',
-            __('Visual Composer', 'vc5'),
-            [
-                $this,
-                'render',
-            ],
-            $postType,
-            'normal',
-            'high'
-        );
+        if (vcfilter('vcv:editors:backend:addMetabox', true, ['postType' => $postType])) {
+            // TODO:
+            // 0. Check part enabled post type and etc
+            // 1. Check access
+            // 2.
+            // meta box to render
+            add_meta_box(
+                'vcwb_visual_composer',
+                __('Visual Composer', 'vc5'),
+                [
+                    $this,
+                    'render',
+                ],
+                $postType,
+                'normal',
+                'high'
+            );
+        }
     }
 }

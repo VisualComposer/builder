@@ -4,14 +4,15 @@ vcv.on('ready', function (action, id) {
   if (action !== 'merge') {
     vceAnimate.enableAnimate(action && id ? id : '');
   }
-})
+});
 
 var vceAnimate = {
-  enableAnimate: function enableAnimate (id) {
+  enableAnimate: function enableAnimate(id) {
     Waypoint.destroyAll();
     var waypoints = [];
     var selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]';
     var elements = document.querySelectorAll(selector);
+    elements = [].slice.call(elements);
     elements.forEach(function (element) {
       var _element$classList;
       if (id && !element.getAttribute('data-vce-animate')) {
@@ -27,18 +28,17 @@ var vceAnimate = {
         if (className.search(re) !== -1) {
           oldClasses.push(className);
         }
-      })
-      (_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
+      })(_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
       var waypoint = new Waypoint({
         element: element,
-        handler: function handler () {
+        handler: function handler() {
           var _this = this;
 
           setTimeout(function () {
             // add new classes
             var newClasses = [];
-            if (_this.element.dataset[ 'vceAnimate' ]) {
-              newClasses = _this.element.dataset[ 'vceAnimate' ].split(' ');
+            if (_this.element.dataset['vceAnimate']) {
+              newClasses = _this.element.dataset['vceAnimate'].split(' ');
             }
             newClasses.push('vce-o-animate--animated');
             newClasses.forEach(function (className) {
@@ -48,8 +48,8 @@ var vceAnimate = {
           }, 100);
         },
         offset: 'bottom-in-view'
-      })
+      });
       waypoints.push(waypoint);
-    })
+    });
   }
-}
+};
