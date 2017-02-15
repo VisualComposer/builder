@@ -3,7 +3,11 @@
 ?>
 <script id="vcv-hub-elements">
   // Read-Only data
-  window.vcvGetElementsList = function () {
-    return <?php json_encode($elements); ?>
-  }
+  Object.defineProperty(window, 'VCV_GET_ELEMENTS', {
+    value: function () {
+      return <?php echo json_encode(
+        $elements
+    ); ?> },
+    writable: false
+  });
 </script>

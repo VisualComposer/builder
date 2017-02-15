@@ -5,27 +5,46 @@ namespace VisualComposer\Modules\Hub;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class Controller extends Container implements Module
 {
+    use EventsFilters;
+
     protected $elements;
 
-    protected function outputElements(Options $optionHelper)
+    public function __construct()
     {
-        return vcview(
-            'hub/elements',
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements');
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputCategories');
+    }
+
+    protected function outputElements($response, $payload, Options $optionHelper)
+    {
+        return array_merge(
+            $response,
             [
-                'elements' => $optionHelper->get('elements', []),
+                vcview(
+                    'hub/elements',
+                    [
+                        'elements' => $optionHelper->get('elements', []),
+                    ]
+                ),
             ]
         );
     }
 
-    protected function outputCategories()
+    protected function outputCategories($response, $payload, Options $optionHelper)
     {
-        return vcview(
-            'hub/categories',
+        return array_merge(
+            $response,
             [
-                'categories' => $optionHelper->get('categories', []),
+                vcview(
+                    'hub/categories',
+                    [
+                        'categories' => $optionHelper->get('categories', []),
+                    ]
+                ),
             ]
         );
     }

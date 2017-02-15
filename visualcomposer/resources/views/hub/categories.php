@@ -3,7 +3,11 @@
 ?>
 <script id="vcv-hub-categories">
   // Read-Only data
-  window.vcvGetCategoriesList = function () {
-    return <?php json_encode($categories); ?>
-  }
+  Object.defineProperty(window, 'VCV_GET_CATEGORIES', {
+    value: function () {
+      return <?php echo json_encode(
+        $categories
+    ); ?> },
+    writable: false
+  });
 </script>
