@@ -6,7 +6,7 @@ import SearchElement from './searchElement'
 import '../css/init.less'
 import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('categories')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const assetsManager = vcCake.getService('assetsManager')
 let allCategories = []
 
 export default class Categories extends React.Component {
@@ -76,7 +76,7 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    let source = wipAssetsManager.getSourcePath('images/search-no-result.png')
+    let source = assetsManager.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>

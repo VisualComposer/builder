@@ -4,7 +4,7 @@ import React from 'react'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const assetsManager = vcCake.getService('assetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 const wipStylesManager = vcCake.getService('wipStylesManager')
 const myTemplates = vcCake.getService('myTemplates')
@@ -91,8 +91,8 @@ class SaveController {
       document.getElementById('content').value = content
       document.getElementById('vcv-action').value = 'setData:adminNonce'
       document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-      document.getElementById('vcv-scripts').value = JSON.stringify(wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList()))
-      document.getElementById('vcv-shared-library-styles').value = JSON.stringify(wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList()))
+      document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList()))
+      document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList()))
       document.getElementById('vcv-global-styles').value = globalStyles
       document.getElementById('vcv-design-options').value = designOptions
       document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))

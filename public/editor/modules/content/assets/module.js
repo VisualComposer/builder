@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const assetsManager = vcCake.getService('assetsManager')
 const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
 const wipStylesManager = vcCake.getService('wipStylesManager')
 
@@ -47,12 +47,12 @@ vcCake.add('assets', (api) => {
     })
 
     let jsAssetsLoaders = []
-    let jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
+    let jsFiles = assetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
 
     jsFiles.forEach((file) => {
       if (loadedJsFiles.indexOf(file) === -1) {
         loadedJsFiles.push(file)
-        jsAssetsLoaders.push(iframeWindow.$.getScript(wipAssetsManager.getSourcePath(file)))
+        jsAssetsLoaders.push(iframeWindow.$.getScript(assetsManager.getSourcePath(file)))
       }
     })
     Promise.all(jsAssetsLoaders).then(() => {
@@ -60,14 +60,14 @@ vcCake.add('assets', (api) => {
     })
     let d = iframeWindow.document
 
-    let cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
+    let cssFiles = assetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
 
     cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
+        cssLink.setAttribute('href', assetsManager.getSourcePath(file))
         d.querySelector('head').appendChild(cssLink)
       }
     })

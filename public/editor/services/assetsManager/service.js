@@ -57,4 +57,4 @@ let publicApi = {
   }
 }
 
-vcCake.addService('wipAssetsManager', publicApi)
+vcCake.addService('assetsManager', publicApi)
