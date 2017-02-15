@@ -6,7 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 
-class Controller extends Module implements Container
+class Controller extends Container implements Module
 {
     protected $elements;
 
