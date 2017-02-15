@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const assetsStorage = vcCake.getService('assetsStorage')
 const utils = vcCake.getService('utils')
 
 vcCake.add('storage', (api) => {
@@ -218,10 +218,10 @@ vcCake.add('storage', (api) => {
   })
   api.reply('settings:update', (settings) => {
     if (settings.customStyles && settings.customStyles.global !== undefined) {
-      wipAssetsStorage.setGlobalCss(settings.customStyles.global || '')
+      assetsStorage.setGlobalCss(settings.customStyles.global || '')
     }
     if (settings.customStyles && settings.customStyles.local !== undefined) {
-      wipAssetsStorage.setCustomCss(settings.customStyles.local || '')
+      assetsStorage.setCustomCss(settings.customStyles.local || '')
     }
     api.request('settings:changed', settings)
   })

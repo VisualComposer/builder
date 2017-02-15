@@ -35,7 +35,7 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'wipAssetsStorage',
+        'assetsStorage',
         'assetsManager',
         'wipStylesManager',
         'myTemplates'
@@ -76,7 +76,7 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'wipAssetsStorage',
+        'assetsStorage',
         'assetsManager',
         'wipStylesManager',
         'wpMyTemplates'
@@ -115,7 +115,7 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'wipAssetsStorage',
+        'assetsStorage',
         'assetsManager',
         'wipStylesManager',
         'wpMyTemplates'
