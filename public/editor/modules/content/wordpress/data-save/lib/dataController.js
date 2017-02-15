@@ -4,9 +4,9 @@ import React from 'react'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const assetsManager = vcCake.getService('assetsManager')
+const assetsStorage = vcCake.getService('assetsStorage')
+const stylesManager = vcCake.getService('stylesManager')
 const myTemplates = vcCake.getService('myTemplates')
 const utils = vcCake.getService('utils')
 class SaveController {
@@ -38,14 +38,14 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = wipAssetsStorage.getElements()
-    let globalStylesManager = wipStylesManager.create()
-    globalStylesManager.add(wipAssetsStorage.getSiteCssData())
+    let elements = assetsStorage.getElements()
+    let globalStylesManager = stylesManager.create()
+    globalStylesManager.add(assetsStorage.getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
-    let localStylesManager = wipStylesManager.create()
-    localStylesManager.add(wipAssetsStorage.getPageCssData())
+    let localStylesManager = stylesManager.create()
+    localStylesManager.add(assetsStorage.getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
@@ -55,15 +55,15 @@ class SaveController {
           'vcv-action': 'setData:adminNonce',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': JSON.stringify(wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())),
-          'vcv-shared-library-styles': JSON.stringify(wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())),
+          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList())),
+          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList())),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': JSON.stringify(styles),
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': wipAssetsStorage.getCustomCss(),
-          'vcv-global-css': wipAssetsStorage.getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(wipAssetsStorage.getGoogleFontsData()),
+          'vcv-custom-css': assetsStorage.getCustomCss(),
+          'vcv-global-css': assetsStorage.getGlobalCss(),
+          'vcv-google-fonts': JSON.stringify(assetsStorage.getGoogleFontsData()),
           'vcv-my-templates': JSON.stringify(myTemplates.all())
         },
         this.saveSuccess.bind(this),

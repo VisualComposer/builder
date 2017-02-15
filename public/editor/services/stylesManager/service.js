@@ -58,7 +58,7 @@ class StylesManager {
     let viewports = {}
     devices.forEach((device) => {
       device.prefixes.forEach((prefix) => {
-        let queries = []
+        let queries = ['all']
         // mobile-first queries
         if (device.min) {
           queries.push(`(min-width: ${device.min})`)
@@ -122,4 +122,4 @@ const service = {
     return new StylesManager(data)
   }
 }
-vcCake.addService('wipStylesManager', service)
+vcCake.addService('stylesManager', service)

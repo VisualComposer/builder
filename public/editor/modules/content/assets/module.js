@@ -1,8 +1,8 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const assetsManager = vcCake.getService('assetsManager')
+const assetsStorage = vcCake.getService('assetsStorage')
+const stylesManager = vcCake.getService('stylesManager')
 
 const loadedJsFiles = []
 const loadedCssFiles = []
@@ -15,7 +15,7 @@ vcCake.add('assets', (api) => {
   let instantCssStyle = iframeDocument.getElementById('css-instant-styles')
   const dataUpdate = (data, action, id) => {
     if (action === 'reset') {
-      wipAssetsStorage.resetElements(Object.keys(documentService.all()))
+      assetsStorage.resetElements(Object.keys(documentService.all()))
     }
     if (!styleElement) {
       styleElement = iframeDocument.createElement('style')
@@ -34,25 +34,25 @@ vcCake.add('assets', (api) => {
       doInstantCssStyle.innerHTML = ''
     }
 
-    let siteStylesManager = wipStylesManager.create()
-    siteStylesManager.add(wipAssetsStorage.getSiteCssData(true))
+    let siteStylesManager = stylesManager.create()
+    siteStylesManager.add(assetsStorage.getSiteCssData(true))
     siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
     })
 
-    let pageStylesManager = wipStylesManager.create()
-    pageStylesManager.add(wipAssetsStorage.getPageCssData())
+    let pageStylesManager = stylesManager.create()
+    pageStylesManager.add(assetsStorage.getPageCssData())
     pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
     })
 
     let jsAssetsLoaders = []
-    let jsFiles = wipAssetsManager.getJsFilesByTags(wipAssetsStorage.getElementsTagsList())
+    let jsFiles = assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList())
 
     jsFiles.forEach((file) => {
       if (loadedJsFiles.indexOf(file) === -1) {
         loadedJsFiles.push(file)
-        jsAssetsLoaders.push(iframeWindow.$.getScript(wipAssetsManager.getSourcePath(file)))
+        jsAssetsLoaders.push(iframeWindow.$.getScript(assetsManager.getSourcePath(file)))
       }
     })
     Promise.all(jsAssetsLoaders).then(() => {
@@ -60,14 +60,14 @@ vcCake.add('assets', (api) => {
     })
     let d = iframeWindow.document
 
-    let cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
+    let cssFiles = assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList())
 
     cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
+        cssLink.setAttribute('href', assetsManager.getSourcePath(file))
         d.querySelector('head').appendChild(cssLink)
       }
     })
@@ -91,16 +91,16 @@ vcCake.add('assets', (api) => {
       return
     }
 
-    let instantStylesManager = wipStylesManager.create()
-    instantStylesManager.add(wipAssetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
+    let instantStylesManager = stylesManager.create()
+    instantStylesManager.add(assetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
     instantStylesManager.compile().then((result) => {
       instantCssStyle.innerHTML = result
     }).then(() => {
       vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
-    let attributesStylesManager = wipStylesManager.create()
-    attributesStylesManager.add(wipAssetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
+    let attributesStylesManager = stylesManager.create()
+    attributesStylesManager.add(assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
     attributesStylesManager.compile().then((result) => {
       doInstantCssStyle.innerHTML = result
     }).then(() => {
@@ -116,11 +116,11 @@ vcCake.add('assets', (api) => {
     api.reply('data:instantMutation', instantMutationUpdate)
   }
   api.reply('data:afterAdd', (ids) => {
-    wipAssetsStorage.addElement(ids)
+    assetsStorage.addElement(ids)
   })
 
   api.reply('data:afterUpdate', (id, element) => {
-    wipAssetsStorage.updateElement(id)
+    assetsStorage.updateElement(id)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -133,7 +133,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    wipAssetsStorage.removeElement(elements)
+    assetsStorage.removeElement(elements)
   })
 
   api.reply('node:beforeSave', (data) => {
@@ -144,7 +144,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      wipAssetsStorage.updateElement(elements)
+      assetsStorage.updateElement(elements)
     }
   })
 
@@ -156,7 +156,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      wipAssetsStorage.updateElement(elements)
+      assetsStorage.updateElement(elements)
     }
   })
 
@@ -170,7 +170,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    wipAssetsStorage.addElement(elements)
+    assetsStorage.addElement(elements)
   })
 })
 const resetURLWithFragment = () => {

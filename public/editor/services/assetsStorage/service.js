@@ -168,4 +168,4 @@ let publicApi = {
   }
 }
 
-vcCake.addService('wipAssetsStorage', publicApi)
+vcCake.addService('assetsStorage', publicApi)

@@ -1,8 +1,8 @@
-(() => {
-  window.vcv.on('ready', () => {
-    setTimeout(() => {
-      window.vceResetFullWidthRows()
-    }, 10)
-    window.vceResetFullHeightRows()
-  })
-})()
+(function () {
+  window.vcv.on('ready', function () {
+    setTimeout(function () {
+      window.vceResetFullWidthRows();
+    }, 10);
+    window.vceResetFullHeightRows();
+  });
+})();

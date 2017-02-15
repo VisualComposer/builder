@@ -167,9 +167,6 @@ let tempData = {
 if (vcCake.env('FEATURE_XO_WORK')) {
   tempData.categories[ 'Button' ].elements.push('xoButton')
 }
-if (vcCake.env('FEATURE_ADVANCED_DESIGN_OPTIONS')) {
-  tempData.categories[ 'Section' ].elements.push('section')
-}
 // if (window.vcvCustomWidgets && window.vcvCustomWidgets.length) {
 tempData.categories[ 'WP Widgets' ].elements.push('wpWidgetsCustom')
 // }
@@ -205,8 +202,8 @@ if (vcCake.env('FEATURE_FEATURE_SECTION')) {
 const data = tempData
 
 const service = {
-  getWipAssetsManager: () => {
-    return vcCake.getService('wipAssetsManager')
+  getAssetsManager: () => {
+    return vcCake.getService('assetsManager')
   },
   set groups (groups) {
     data.groups = groups
@@ -233,9 +230,9 @@ const service = {
   getElementIcon (tag, dark = false) {
     let category = this.categoryByTag(tag)
     if (dark) {
-      return category && category.iconDark ? this.getWipAssetsManager().getSourcePath(category.iconDark) : this.getWipAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
+      return category && category.iconDark ? this.getAssetsManager().getSourcePath(category.iconDark) : this.getAssetsManager().getSourcePath('categories/iconsDark/Misc.svg')
     } else {
-      return category && category.icon ? this.getWipAssetsManager().getSourcePath(category.icon) : this.getWipAssetsManager().getSourcePath('categories/icons/Misc.svg')
+      return category && category.icon ? this.getAssetsManager().getSourcePath(category.icon) : this.getAssetsManager().getSourcePath('categories/icons/Misc.svg')
     }
   }
 }

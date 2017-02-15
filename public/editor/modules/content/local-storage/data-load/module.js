@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const assetsStorage = vcCake.getService('assetsStorage')
 vcCake.add('content-local-storage-data-load', (api) => {
   api.reply('start', () => {
     vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
@@ -13,13 +13,13 @@ vcCake.add('content-local-storage-data-load', (api) => {
       api.request('data:reset', {})
     }
     if (data.elements) {
-      wipAssetsStorage.setElements(data.elements)
+      assetsStorage.setElements(data.elements)
     }
     if (data.cssSettings && data.cssSettings.custom) {
-      wipAssetsStorage.setCustomCss(data.cssSettings.custom)
+      assetsStorage.setCustomCss(data.cssSettings.custom)
     }
     if (data.cssSettings && data.cssSettings.global) {
-      wipAssetsStorage.setGlobalCss(data.cssSettings.global)
+      assetsStorage.setGlobalCss(data.cssSettings.global)
     }
     if (data.myTemplates) {
       vcCake.setData('myTemplates', data.myTemplates)

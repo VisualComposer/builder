@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 
 const TimeMachine = vcCake.getService('time-machine')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const assetsStorage = vcCake.getService('assetsStorage')
 vcCake.add('content-wordpress-data-load', (api) => {
   api.reply('start', () => {
     api.request('wordpress:load')
@@ -22,13 +22,13 @@ vcCake.add('content-wordpress-data-load', (api) => {
       }
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && wipAssetsStorage.setElements(globalElements)
+        globalElements && assetsStorage.setElements(globalElements)
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
-        wipAssetsStorage.setCustomCss(responseData.cssSettings.custom)
+        assetsStorage.setCustomCss(responseData.cssSettings.custom)
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
-        wipAssetsStorage.setGlobalCss(responseData.cssSettings.global)
+        assetsStorage.setGlobalCss(responseData.cssSettings.global)
       }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')
