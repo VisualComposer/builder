@@ -56,13 +56,21 @@
 }
 
 .vcv-wpbackend-switcher-option {
+  font: inherit;
+  margin: 0;
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  border-style: none;
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
   background-color: @vcv-wpbackend-switcher-background-color;
   color: @vcv-wpbackend-switcher-font-color;
   border: 0;
-  border-left: @vcv-wpbackend-switcher-spacer-width @vcv-wpbackend-switcher-spacer-color solid;
+  border-style: solid;
+  border-left-width: @vcv-wpbackend-switcher-spacer-width;
+  border-left-color: @vcv-wpbackend-switcher-spacer-color;
   padding: 0 @vcv-wpbackend-swithcer-options-padding;
   transition: background-color @vcv-wpbackend-switcher-transition-duration @vcv-wpbackend-switcher-transition-timing-function;
   text-decoration: none;
