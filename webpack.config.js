@@ -126,7 +126,8 @@ module.exports = {
         'ui/addElement',
         'ui/edit-element',
         'ui/addTemplate',
-        'ui/undo-redo'
+        'ui/undo-redo',
+        'ui/settings'
       ],
       services: [
         'utils',
