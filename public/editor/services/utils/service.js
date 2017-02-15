@@ -109,7 +109,9 @@ const API = {
       .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
-    documentFragment.querySelectorAll('vcvhelper').forEach((node) => {
+    let vcvHelper = documentFragment.querySelectorAll('vcvhelper')
+    vcvHelper = [].slice.call(vcvHelper)
+    vcvHelper.forEach((node) => {
       let parentNode = node.parentNode
       let sourceHtml = node.getAttribute('data-vcvs-html')
       if (sourceHtml) {
