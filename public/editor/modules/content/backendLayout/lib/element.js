@@ -13,7 +13,7 @@ export default class Element extends React.Component {
   }
 
   // element (row/column) options to prevent applying of in the backend view
-  elementOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
+  elementOptions = ['columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
