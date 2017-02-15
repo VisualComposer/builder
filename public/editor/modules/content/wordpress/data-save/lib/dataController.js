@@ -6,7 +6,7 @@ const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
 const assetsStorage = vcCake.getService('assetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const stylesManager = vcCake.getService('stylesManager')
 const myTemplates = vcCake.getService('myTemplates')
 const utils = vcCake.getService('utils')
 class SaveController {
@@ -39,12 +39,12 @@ class SaveController {
     let designOptions = ''
     let promises = []
     let elements = assetsStorage.getElements()
-    let globalStylesManager = wipStylesManager.create()
+    let globalStylesManager = stylesManager.create()
     globalStylesManager.add(assetsStorage.getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
-    let localStylesManager = wipStylesManager.create()
+    let localStylesManager = stylesManager.create()
     localStylesManager.add(assetsStorage.getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result

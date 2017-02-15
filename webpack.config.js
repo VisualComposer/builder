@@ -66,7 +66,7 @@ module.exports = {
         'dataProcessor',
         'assetsStorage',
         'assetsManager',
-        'wipStylesManager',
+        'stylesManager',
         'myTemplates'
       ]
     },
@@ -107,7 +107,7 @@ module.exports = {
         'dataProcessor',
         'assetsStorage',
         'assetsManager',
-        'wipStylesManager',
+        'stylesManager',
         'wpMyTemplates'
       ]
     },
@@ -143,7 +143,7 @@ module.exports = {
         'dataProcessor',
         'assetsStorage',
         'assetsManager',
-        'wipStylesManager',
+        'stylesManager',
         'wpMyTemplates'
       ]
     },

@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
 const assetsStorage = vcCake.getService('assetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const stylesManager = vcCake.getService('stylesManager')
 
 const loadedJsFiles = []
 const loadedCssFiles = []
@@ -34,13 +34,13 @@ vcCake.add('assets', (api) => {
       doInstantCssStyle.innerHTML = ''
     }
 
-    let siteStylesManager = wipStylesManager.create()
+    let siteStylesManager = stylesManager.create()
     siteStylesManager.add(assetsStorage.getSiteCssData(true))
     siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
     })
 
-    let pageStylesManager = wipStylesManager.create()
+    let pageStylesManager = stylesManager.create()
     pageStylesManager.add(assetsStorage.getPageCssData())
     pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
@@ -91,7 +91,7 @@ vcCake.add('assets', (api) => {
       return
     }
 
-    let instantStylesManager = wipStylesManager.create()
+    let instantStylesManager = stylesManager.create()
     instantStylesManager.add(assetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
     instantStylesManager.compile().then((result) => {
       instantCssStyle.innerHTML = result
@@ -99,7 +99,7 @@ vcCake.add('assets', (api) => {
       vcCake.getService('api').publicEvents.trigger('css:ready')
     })
 
-    let attributesStylesManager = wipStylesManager.create()
+    let attributesStylesManager = stylesManager.create()
     attributesStylesManager.add(assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
     attributesStylesManager.compile().then((result) => {
       doInstantCssStyle.innerHTML = result

@@ -122,4 +122,4 @@ const service = {
     return new StylesManager(data)
   }
 }
-vcCake.addService('wipStylesManager', service)
+vcCake.addService('stylesManager', service)

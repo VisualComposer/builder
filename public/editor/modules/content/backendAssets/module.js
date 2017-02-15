@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
 const assetsStorage = vcCake.getService('assetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const stylesManager = vcCake.getService('stylesManager')
 
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
@@ -20,13 +20,13 @@ vcCake.add('assets', (api) => {
       document.body.appendChild(doElement)
     }
 
-    let siteStylesManager = wipStylesManager.create()
+    let siteStylesManager = stylesManager.create()
     siteStylesManager.add(assetsStorage.getWpBackendSiteCssData())
     siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
     })
 
-    let pageStylesManager = wipStylesManager.create()
+    let pageStylesManager = stylesManager.create()
     pageStylesManager.add(assetsStorage.getWpBackendPageCssData())
     pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
