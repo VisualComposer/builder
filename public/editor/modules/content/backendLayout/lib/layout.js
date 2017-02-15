@@ -2,6 +2,7 @@ import React from 'react'
 import { getData } from 'vc-cake'
 import Element from './element'
 import BlankPageManagerBack from './helpers/blankPageManagerBack/component'
+import RowPlaceholderBackend from './helpers/rowPlaceholderBackend/component'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -40,6 +41,7 @@ export default class Layout extends React.Component {
 
     return <div className='vcv-wpbackend-layout' data-vcv-module='content-layout'>
       {elementsList}
+      <RowPlaceholderBackend api={this.props.api} />
     </div>
   }
 
