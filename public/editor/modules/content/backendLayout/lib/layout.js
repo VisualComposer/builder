@@ -11,10 +11,8 @@ export default class Layout extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: [],
-      activeElementId: ''
+      data: []
     }
-    this.handleOpenElement = this.handleOpenElement.bind(this)
   }
 
   componentDidMount () {
@@ -25,12 +23,8 @@ export default class Layout extends React.Component {
     })
   }
 
-  handleOpenElement (id) {
-    this.setState({ activeElementId: id })
-  }
-
   getElements () {
-    let { data, activeElementId } = this.state
+    let { data } = this.state
     let elementsList
     if (data) {
       elementsList = data.map((element) => {
@@ -39,8 +33,6 @@ export default class Layout extends React.Component {
             element={element}
             key={'vcvLayoutGetElements' + element.id}
             api={this.props.api}
-            openElement={this.handleOpenElement}
-            activeElementId={activeElementId}
           />
         )
       })

@@ -10,9 +10,7 @@ const cook = getService('cook')
 export default class DefaultElement extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired,
-    openElement: React.PropTypes.func.isRequired,
-    activeElementId: React.PropTypes.string.isRequired
+    api: React.PropTypes.object.isRequired
   }
 
   elementContainer = null
@@ -23,7 +21,8 @@ export default class DefaultElement extends React.Component {
       hasAttributes: true,
       element: props.element,
       isName: true,
-      isArrow: true
+      isArrow: true,
+      activeElement: false
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleElementSize = _.debounce(this.handleElementSize.bind(this), 150)
@@ -80,13 +79,8 @@ export default class DefaultElement extends React.Component {
   }
 
   handleClick () {
-    let { isArrow } = this.state
-    let { activeElementId, element, openElement } = this.props
-    if (activeElementId === element.id && isArrow) {
-      openElement('')
-    } else {
-      openElement(element.id)
-    }
+    let { activeElement } = this.state
+    this.setState({ activeElement: !activeElement })
   }
 
   handleElementSize () {
@@ -144,18 +138,17 @@ export default class DefaultElement extends React.Component {
   }
 
   render () {
-    const { element, hasAttributes, isName, isArrow } = this.state
-    const { activeElementId } = this.props
+    const { element, hasAttributes, isName, isArrow, activeElement } = this.state
     let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes': true,
-      'vce-wpbackend-hidden': activeElementId !== element.id || !isArrow
+      'vce-wpbackend-hidden': !activeElement || !isArrow
     })
 
     let headerClasses = classNames({
       'vce-wpbackend-element-header': true,
-      'vce-wpbackend-element-header-closed': activeElementId !== element.id,
-      'vce-wpbackend-element-header-opened': activeElementId === element.id,
+      'vce-wpbackend-element-header-closed': !activeElement,
+      'vce-wpbackend-element-header-opened': activeElement,
       'vce-wpbackend-element-header-no-arrow': !isArrow,
       'vce-wpbackend-element-header-icon-only': !isName
     })
