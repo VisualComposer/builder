@@ -27,7 +27,7 @@ class Controller extends Container implements Module
                 vcview(
                     'hub/elements',
                     [
-                        'elements' => $optionHelper->get('elements', []),
+                        'elements' => $optionHelper->get('hubElements', []),
                     ]
                 ),
             ]
@@ -42,7 +42,22 @@ class Controller extends Container implements Module
                 vcview(
                     'hub/categories',
                     [
-                        'categories' => $optionHelper->get('categories', []),
+                        'categories' => $optionHelper->get('hubCategories', []),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    protected function outputGroups($response, $payload, Options $optionHelper)
+    {
+        return array_merge(
+            $response,
+            [
+                vcview(
+                    'hub/groups',
+                    [
+                        'groups' => $optionHelper->get('hubGroups', []),
                     ]
                 ),
             ]
