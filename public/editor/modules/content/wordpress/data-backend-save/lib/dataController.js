@@ -7,7 +7,6 @@ const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
 const assetsStorage = vcCake.getService('assetsStorage')
 const stylesManager = vcCake.getService('stylesManager')
-const myTemplates = vcCake.getService('myTemplates')
 const utils = vcCake.getService('utils')
 class SaveController {
   constructor (props) {
@@ -85,21 +84,23 @@ class SaveController {
       designOptions = result
     }))
     Promise.all(promises).then(() => {
-      if (window.switchEditors && window.tinymce) {
-        window.switchEditors.go('content', 'html')
+      if (iframe && iframe.contentWindow && iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]')) {
+        if (window.switchEditors && window.tinymce) {
+          window.switchEditors.go('content', 'html')
+        }
+        document.getElementById('content').value = content
+        document.getElementById('vcv-ready').value = '1'
+        document.getElementById('vcv-action').value = 'setData:adminNonce'
+        document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
+        document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList()))
+        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList()))
+        document.getElementById('vcv-global-styles').value = globalStyles
+        document.getElementById('vcv-design-options').value = designOptions
+        document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
+        document.getElementById('vcv-custom-css').value = assetsStorage.getCustomCss()
+        document.getElementById('vcv-global-css').value = assetsStorage.getGlobalCss()
+        document.getElementById('vcv-google-fonts').value = JSON.stringify(assetsStorage.getGoogleFontsData())
       }
-      document.getElementById('content').value = content
-      document.getElementById('vcv-action').value = 'setData:adminNonce'
-      document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-      document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList()))
-      document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList()))
-      document.getElementById('vcv-global-styles').value = globalStyles
-      document.getElementById('vcv-design-options').value = designOptions
-      document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
-      document.getElementById('vcv-custom-css').value = assetsStorage.getCustomCss()
-      document.getElementById('vcv-global-css').value = assetsStorage.getGlobalCss()
-      document.getElementById('vcv-google-fonts').value = JSON.stringify(assetsStorage.getGoogleFontsData())
-      document.getElementById('vcv-my-templates').value = JSON.stringify(myTemplates.all())
     })
   }
 
