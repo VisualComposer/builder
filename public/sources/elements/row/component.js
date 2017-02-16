@@ -23,11 +23,11 @@ class Component extends vcvAPI.elementComponent {
 
       let layoutSize = size && size.constructor === Array ? size.join('--').split('/').join('-') : 'auto'
 
-      classes.push(`vce-row-layout--xs_${layoutSize}`)
-      classes.push(`vce-row-layout--sm_${layoutSize}`)
-      classes.push(`vce-row-layout--md_${layoutSize}`)
-      classes.push(`vce-row-layout--lg_${layoutSize}`)
-      classes.push(`vce-row-layout--xl_${layoutSize}`)
+      classes.push(`vce-row-layout--xs-${layoutSize}`)
+      classes.push(`vce-row-layout--sm-${layoutSize}`)
+      classes.push(`vce-row-layout--md-${layoutSize}`)
+      classes.push(`vce-row-layout--lg-${layoutSize}`)
+      classes.push(`vce-row-layout--xl-${layoutSize}`)
       classes.push('vce-row-layout-custom')
     }
     let customProps = {
