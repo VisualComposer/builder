@@ -44,8 +44,11 @@ class DataAjaxController extends Container implements Module
      *
      * @return array|null
      */
-    private function setData(Filters $filterHelper, Request $requestHelper, $response, PostType $postTypeHelper)
+    private function setData($response, $payload, Filters $filterHelper, Request $requestHelper, PostType $postTypeHelper)
     {
+        if ($requestHelper->input('vcv-ready') !== '1') {
+            return $response;
+        }
         $data = $requestHelper->input('vcv-data');
         $sourceId = $requestHelper->input('post_ID');
 

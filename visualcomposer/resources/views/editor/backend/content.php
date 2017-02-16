@@ -40,6 +40,7 @@ $postTypeHelper = vchelper('PostType');
             </div>
         </div>
     </div>
+    <input type="hidden" value="0" name="vcv-ready" id="vcv-ready">
     <input type="hidden" name="vcv-action" id="vcv-action">
     <input type="hidden" name="vcv-data" id="vcv-data">
     <input type="hidden" name="vcv-scripts" id="vcv-scripts">
@@ -50,7 +51,6 @@ $postTypeHelper = vchelper('PostType');
     <input type="hidden" name="vcv-custom-css" id="vcv-custom-css">
     <input type="hidden" name="vcv-global-css" id="vcv-global-css">
     <input type="hidden" name="vcv-google-fonts" id="vcv-google-fonts">
-    <input type="hidden" name="vcv-my-templates" id="vcv-my-templates">
 </div>
 
 <?php
