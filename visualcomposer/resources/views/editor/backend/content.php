@@ -23,7 +23,7 @@ $postTypeHelper = vchelper('PostType');
 <div id="vcv-editor">
     <div class="vcv-wpbackend-layout-container">
         <div class="vcv-layout" id="vcv-layout">
-            <div class="vcv-layout-header" id="vcv-layout-header"></div>
+            <div class="vcv-layout-header" id="vcv-wpbackend-layout-header"></div>
             <div class="vcv-layout-content">
                 <div class="vcv-layout-iframe-container">
                     <iframe
