@@ -40,12 +40,9 @@ class Layout extends Attribute {
       src: require('raw-loader!./cssMixins/columnStyles.pcss'),
       variables: {
         device: {
-          value: 'all'
-        },
-        colIndex: {
           value: false
         },
-        lastInRow: {
+        colIndex: {
           value: false
         },
         selector: {
@@ -63,12 +60,25 @@ class Layout extends Attribute {
         gapSpace: {
           value: false
         },
-        colAuto: {
+        equalSpace: {
+          value: false
+        }
+      }
+    },
+    lastColumnMixin: {
+      src: require('raw-loader!./cssMixins/lastColumnStyles.pcss'),
+      variables: {
+        device: {
+          value: false
+        },
+        lastIndex: {
           value: false
         }
       }
     }
   }
+  static devices = ['xs', 'sm', 'md', 'lg', 'xl']
+
   constructor (props) {
     super(props)
     this.setActiveLayout = this.setActiveLayout.bind(this)
@@ -118,14 +128,16 @@ class Layout extends Attribute {
   getColumnMixins (layout) {
     let newMixin = {}
     let layoutString = []
+    let rowBackground = vcCake.getService('document').get(this.props.element.get('id')).background
+    let customGap = parseInt(vcCake.getService('document').get(this.props.element.get('id')).columnGap)
     let defaultGap = 30
-    let rowIndex = 0
+
     layout.forEach((col) => {
       layoutString.push(col.replace('/', '-'))
     })
     layoutString = layoutString.join('--')
 
-    let selector = `vce-row-layout--md-${layoutString}`
+    let selector = `vce-row--gap-${customGap}`
 
     let lastInRow = this.getLastInRow(layout)
     let colsInRow = []
@@ -135,34 +147,52 @@ class Layout extends Attribute {
       cols = item + 1
     })
 
-    layout.forEach((col, index) => {
-      let mixinName = `${'columnStyleMixin'}:col${index}`
-      let fraction = col.split('/')
-
-      newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
-      newMixin[ mixinName ].variables.selector.value = selector
-      newMixin[ mixinName ].variables.colIndex.value = index + 1
-
-      if (col !== 'auto') {
-        newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-        newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
-      } else {
-        newMixin[ mixinName ].variables.colAuto.value = col
+    Layout.devices.forEach((device) => {
+      let deviceGap = defaultGap
+      if (rowBackground && (rowBackground.all || rowBackground[ device ])) {
+        deviceGap = 0
       }
+      let columnGap = deviceGap + customGap
 
-      newMixin[ mixinName ].variables.columnGap.value = defaultGap
-      let gapSpace = defaultGap - (defaultGap / colsInRow[ rowIndex ])
-
-      newMixin[ mixinName ].variables.gapSpace.value = gapSpace
-
-      lastInRow.forEach((item) => {
-        if (item === index) {
-          rowIndex++
-          newMixin[ mixinName ].variables.lastInRow.value = true
+      let reducedLayout = []
+      layout.forEach((col) => {
+        if (reducedLayout.indexOf(col) < 0) {
+          reducedLayout.push(col)
         }
       })
+
+      reducedLayout.forEach((col, index) => {
+        let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
+        let fraction = col.split('/')
+
+        newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
+        newMixin[ mixinName ].variables.selector.value = selector
+        newMixin[ mixinName ].variables.colIndex.value = index + 1
+        newMixin[ mixinName ].variables.device.value = device
+
+        if (col !== 'auto') {
+          newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
+          newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+        }
+
+        newMixin[ mixinName ].variables.columnGap.value = columnGap
+        let gapSpace = (columnGap * (parseInt(fraction[ 1 ]) - 1)).toString()
+        let equalSpace = (columnGap * (parseInt(fraction[ 0 ]) - 1)).toString()
+
+        newMixin[ mixinName ].variables.gapSpace.value = gapSpace
+        newMixin[ mixinName ].variables.equalSpace.value = equalSpace
+      })
+
+      if (columnGap > 0) {
+        lastInRow.forEach((col) => {
+          let mixinName = `${'lastColumnMixin'}:lastCol${col + 1}:${device}`
+          newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
+          newMixin[ mixinName ].variables.device.value = device
+          newMixin[ mixinName ].variables.lastIndex.value = col + 1
+        })
+      }
     })
-    console.log(newMixin)
+    // console.log(newMixin)
     return newMixin
   }
   getLastInRow (columns) {
