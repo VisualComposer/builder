@@ -7,9 +7,10 @@ import ClassNames from 'classnames'
 export default class LayoutBar extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    layoutHeader: React.PropTypes.object.isRequired
+    layout: React.PropTypes.object.isRequired
   }
 
+  layoutWidth = this.props.layout.getBoundingClientRect().width
   layoutBar = null
 
   constructor (props) {
@@ -19,11 +20,13 @@ export default class LayoutBar extends React.Component {
       hasEndContent: false,
       isSticky: false,
       barLeftPos: null,
-      berTopPos: null,
+      barTopPos: null,
       barWidth: null,
-      adminBarHeight: document.getElementById('wpadminbar').getBoundingClientRect().height
+      adminBar: document.getElementById('wpadminbar')
     }
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
+    this.handleWindowResize = this.handleWindowResize.bind(this)
+    this.handleStickyLayoutBarResize = this.handleStickyLayoutBarResize.bind(this)
   }
 
   componentDidMount () {
@@ -49,10 +52,12 @@ export default class LayoutBar extends React.Component {
         })
       })
     window.addEventListener('scroll', this.handleWindowScroll)
+    this.addResizeListener(this.props.layout, this.handleStickyLayoutBarResize)
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleWindowScroll)
+    this.removeResizeListener(this.props.layout, this.handleStickyLayoutBarResize)
   }
 
   resizeCallback = (e) => {
@@ -65,19 +70,62 @@ export default class LayoutBar extends React.Component {
     }
   }
 
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
+
+  handleStickyLayoutBarResize () {
+    let currentHeaderWidth = this.props.layout.getBoundingClientRect().width
+    if (this.state.isSticky && this.layoutWidth !== currentHeaderWidth) {
+      this.setState({ isSticky: false })
+    }
+    this.layoutWidth = currentHeaderWidth
+  }
+
   handleWindowScroll () {
-    let { isSticky, adminBarHeight } = this.state
-    let headerPos = this.props.layoutHeader.getBoundingClientRect()
+    let { isSticky, adminBar } = this.state
+    let layoutPos = this.props.layout.getBoundingClientRect()
     let bar = this.layoutBar.getBoundingClientRect()
-    if (headerPos.top < adminBarHeight && !isSticky) {
+    let adminBarPos = window.getComputedStyle(adminBar).position
+    let adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
+    if (layoutPos.bottom < adminBarHeight + bar.height && layoutPos.top < adminBarHeight + bar.height) {
+      this.setState({
+        isSticky: false
+      })
+      return
+    }
+    if (layoutPos.top < adminBarHeight && !isSticky) {
       this.setState({
         isSticky: true,
-        barLeftPos: headerPos.left,
+        barLeftPos: layoutPos.left,
         barTopPos: adminBarHeight,
-        barWidth: headerPos.width
+        barWidth: layoutPos.width
       })
+      return
     }
-    if (headerPos.top > adminBarHeight + bar.height && isSticky) {
+    if (layoutPos.top > adminBarHeight + bar.height && isSticky) {
       this.setState({ isSticky: false })
     }
   }
