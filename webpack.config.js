@@ -64,9 +64,9 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'wipAssetsStorage',
-        'wipAssetsManager',
-        'wipStylesManager',
+        'assetsStorage',
+        'assetsManager',
+        'stylesManager',
         'myTemplates'
       ]
     },
@@ -106,9 +106,9 @@ module.exports = {
         'hubCategories',
         'hubGroups',
         'dataProcessor',
-        'wipAssetsStorage',
-        'wipAssetsManager',
-        'wipStylesManager',
+        'assetsStorage',
+        'assetsManager',
+        'stylesManager',
         'wpMyTemplates'
       ]
     },
@@ -121,13 +121,14 @@ module.exports = {
         'content/wordpress/data-unload',
         'content/layout',
         'content/backendLayout',
-        'ui/layout-bar',
+        'ui/layoutBarBackend',
         'ui/navbarBackend',
         'ui/brand-logo',
         'ui/addElement',
         'ui/edit-element',
         'ui/addTemplate',
-        'ui/undo-redo'
+        'ui/undo-redo',
+        'ui/settings'
       ],
       services: [
         'utils',
@@ -142,9 +143,9 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'wipAssetsStorage',
-        'wipAssetsManager',
-        'wipStylesManager',
+        'assetsStorage',
+        'assetsManager',
+        'stylesManager',
         'wpMyTemplates'
       ]
     },

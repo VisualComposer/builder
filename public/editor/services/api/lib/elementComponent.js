@@ -93,9 +93,9 @@ export default class ElementComponent extends Component {
 
   getMixinData (mixinName) {
     const vcCake = require('vc-cake')
-    const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+    const assetsStorage = vcCake.getService('assetsStorage')
     let returnData = null
-    let mixinData = wipAssetsStorage.getCssMixinsByElement(this.props.atts)
+    let mixinData = assetsStorage.getCssMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
     if (mixinData[ tag ][ mixinName ]) {
       let mixin = Object.keys(mixinData[ tag ][ mixinName ])
@@ -109,9 +109,9 @@ export default class ElementComponent extends Component {
 
   getAttributeMixinData (attributeName) {
     const vcCake = require('vc-cake')
-    const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+    const assetsStorage = vcCake.getService('assetsStorage')
     let returnData = null
-    let mixinData = wipAssetsStorage.getAttributesMixinsByElement(this.props.atts)
+    let mixinData = assetsStorage.getAttributesMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
     if (mixinData[ tag ] && mixinData[ tag ][ attributeName ] && mixinData[ tag ][ attributeName ].variables) {
       returnData = mixinData[ tag ][ attributeName ].variables

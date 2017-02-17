@@ -1,8 +1,8 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
-const wipStylesManager = vcCake.getService('wipStylesManager')
+const assetsManager = vcCake.getService('assetsManager')
+const assetsStorage = vcCake.getService('assetsStorage')
+const stylesManager = vcCake.getService('stylesManager')
 
 const loadedCssFiles = []
 vcCake.add('assets', (api) => {
@@ -20,28 +20,28 @@ vcCake.add('assets', (api) => {
       document.body.appendChild(doElement)
     }
 
-    let siteStylesManager = wipStylesManager.create()
-    siteStylesManager.add(wipAssetsStorage.getWpBackendSiteCssData())
+    let siteStylesManager = stylesManager.create()
+    siteStylesManager.add(assetsStorage.getWpBackendSiteCssData())
     siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
     })
 
-    let pageStylesManager = wipStylesManager.create()
-    pageStylesManager.add(wipAssetsStorage.getWpBackendPageCssData())
+    let pageStylesManager = stylesManager.create()
+    pageStylesManager.add(assetsStorage.getWpBackendPageCssData())
     pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
     })
 
     let d = window.document
 
-    let cssFiles = wipAssetsManager.getCssFilesByTags(wipAssetsStorage.getElementsTagsList())
+    let cssFiles = assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList())
 
     cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        cssLink.setAttribute('href', wipAssetsManager.getSourcePath(file))
+        cssLink.setAttribute('href', assetsManager.getSourcePath(file))
         d.querySelector('head').appendChild(cssLink)
       }
     })
@@ -53,11 +53,11 @@ vcCake.add('assets', (api) => {
   api.reply('data:added', dataUpdate)
 
   api.reply('data:afterAdd', (ids) => {
-    wipAssetsStorage.addElement(ids)
+    assetsStorage.addElement(ids)
   })
 
   api.reply('data:afterUpdate', (id, element) => {
-    wipAssetsStorage.updateElement(id)
+    assetsStorage.updateElement(id)
   })
 
   api.reply('data:beforeRemove', (id) => {
@@ -70,7 +70,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    wipAssetsStorage.removeElement(elements)
+    assetsStorage.removeElement(elements)
   })
 
   api.reply('node:beforeSave', (data) => {
@@ -81,7 +81,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      wipAssetsStorage.updateElement(elements)
+      assetsStorage.updateElement(elements)
     }
   })
 
@@ -93,7 +93,7 @@ vcCake.add('assets', (api) => {
           elements.push(id)
         }
       }
-      wipAssetsStorage.updateElement(elements)
+      assetsStorage.updateElement(elements)
     }
   })
 
@@ -107,7 +107,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    wipAssetsStorage.addElement(elements)
+    assetsStorage.addElement(elements)
   })
 })
 const resetURLWithFragment = () => {

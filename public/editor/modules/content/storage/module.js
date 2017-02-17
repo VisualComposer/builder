@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
-const wipAssetsStorage = vcCake.getService('wipAssetsStorage')
+const assetsStorage = vcCake.getService('assetsStorage')
 const utils = vcCake.getService('utils')
 
 vcCake.add('storage', (api) => {
@@ -134,16 +134,13 @@ vcCake.add('storage', (api) => {
   })
 
   api.reply('data:update', (id, element) => {
-    if (element.tag === 'row' && element.layout && element.layout.length) {
-      rebuildRawLayout(id, element.layout)
-      if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-        element.rowLayout = element.layout
-        element.size = element.layout
-      }
-      element.layout = undefined
-    }
-    DocumentData.update(id, element)
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
+        rebuildRawLayout(id, element.layout.layoutData)
+        element.rowLayout = element.layout.layoutData
+        element.size = element.layout.layoutData
+        element.layout.layoutData = undefined
+      }
       if (element.tag === 'column') {
         let parentId = DocumentData.get(id).parent
         let parentElement = DocumentData.get(parentId)
@@ -155,7 +152,14 @@ vcCake.add('storage', (api) => {
       if (element.tag === 'row') {
         addRowBackground(id, element)
       }
+    } else {
+      if (element.tag === 'row' && element.layout && element.layout.length) {
+        rebuildRawLayout(id, element.layout)
+        element.layout = undefined
+      }
     }
+
+    DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update', id)
   })
@@ -218,10 +222,10 @@ vcCake.add('storage', (api) => {
   })
   api.reply('settings:update', (settings) => {
     if (settings.customStyles && settings.customStyles.global !== undefined) {
-      wipAssetsStorage.setGlobalCss(settings.customStyles.global || '')
+      assetsStorage.setGlobalCss(settings.customStyles.global || '')
     }
     if (settings.customStyles && settings.customStyles.local !== undefined) {
-      wipAssetsStorage.setCustomCss(settings.customStyles.local || '')
+      assetsStorage.setCustomCss(settings.customStyles.local || '')
     }
     api.request('settings:changed', settings)
   })

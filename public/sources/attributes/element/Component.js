@@ -142,7 +142,7 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-item-list-item-content--active': this.state.tag === tag
         })
 
-        let publicPathThumbnail = vcCake.getService('wipAssetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+        let publicPathThumbnail = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
           <a

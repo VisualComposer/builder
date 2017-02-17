@@ -148,7 +148,7 @@ export default {
         }
       })
     }
-    return rowCss.join(' ')
+    return ''
   },
   getDeviceCss (device, data) {
     let deviceCss = []

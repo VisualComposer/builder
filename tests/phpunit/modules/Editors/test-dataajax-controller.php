@@ -72,6 +72,7 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
             [
                 'vcv-source-id' => $postId,
                 'vcv-content' => 'some new content',
+                'vcv-ready' => '1',
                 'vcv-data' => json_encode(['new elements!']),
             ]
         );
@@ -92,14 +93,23 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
     public function testSetDataFalse()
     {
+
+        /** @var \VisualComposer\Helpers\Request $requestHelper */
+        $requestHelper = vchelper('Request');
+        $requestHelper->setData(['vcv-ready' => '1']);
+        /** @var \VisualComposer\Helpers\Filters $filterHelper */
+        $filterHelper = vchelper('Filters');
+        $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
+        $this->assertTrue(array_key_exists('status', $result));
+        $this->assertEquals(false, $result['status']);
+
         /** @var \VisualComposer\Helpers\Request $requestHelper */
         $requestHelper = vchelper('Request');
         $requestHelper->setData([]);
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
         $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
-        $this->assertTrue(array_key_exists('status', $result));
-        $this->assertEquals(false, $result['status']);
+        $this->assertEquals('', $result);
 
         // Reset
         $requestHelper->setData([]);

@@ -9,13 +9,11 @@ const DocumentData = vcCake.getService('document')
 export default class Element extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired,
-    openElement: React.PropTypes.func.isRequired,
-    activeElementId: React.PropTypes.string.isRequired
+    api: React.PropTypes.object.isRequired
   }
 
   // element (row/column) options to prevent applying of in the backend view
-  elementOptions = ['size', 'columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
+  elementOptions = ['columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.props.element.id)
@@ -35,7 +33,7 @@ export default class Element extends React.Component {
   }
 
   getContent (content) {
-    let { element, api, activeElementId, openElement } = this.props
+    let { element, api } = this.props
     let returnData = null
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
@@ -43,8 +41,6 @@ export default class Element extends React.Component {
         element={childElement}
         key={'vcvGetContentElement' + childElement.id}
         api={api}
-        activeElementId={activeElementId}
-        openElement={openElement}
       />
     })
     if (elementsList.length) {
@@ -73,7 +69,7 @@ export default class Element extends React.Component {
   }
 
   getOutput (el) {
-    let { element, api, activeElementId, openElement } = this.props
+    let { element, api } = this.props
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -100,8 +96,6 @@ export default class Element extends React.Component {
       key={'vcvLayoutDefaultElement' + id}
       api={api}
       element={element}
-      activeElementId={activeElementId}
-      openElement={openElement}
     />
   }
 

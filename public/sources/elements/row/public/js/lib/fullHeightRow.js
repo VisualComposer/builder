@@ -1,10 +1,10 @@
 (function () {
-  let fullHeightRows
+  var fullHeightRows = undefined;
 
-  function getRows () {
-    fullHeightRows = Array.prototype.slice.call(document.querySelectorAll('.vce-row-full-height'))
+  function getRows() {
+    fullHeightRows = Array.prototype.slice.call(document.querySelectorAll('.vce-row-full-height'));
     if (fullHeightRows.length) {
-      handleResize()
+      handleResize();
     }
   }
 
@@ -30,25 +30,27 @@
     return null
   }
 
-  function handleResize () {
+  function handleResize() {
     if (!fullHeightRows.length) {
-      return
+      return;
     }
-    fullHeightRows.forEach((row) => {
-      let windowHeight = window.innerHeight
-      let offsetTop = row.getBoundingClientRect().top + window.pageYOffset
-      let rowContainer = getClosest(row, '.vce-row-container')
+    fullHeightRows.forEach(function (row) {
+      var windowHeight = window.innerHeight;
+      var offsetTop = row.getBoundingClientRect().top + window.pageYOffset;
+      var rowContainer = getClosest(row, '.vce-row-container');
 
       if (offsetTop < windowHeight && !getClosest(row, '.vce-row') && !rowContainer.previousElementSibling) {
-        let fullHeight = 100 - offsetTop / (windowHeight / 100)
-        row.style.minHeight = `${fullHeight}vh`
+        var fullHeight = 100 - offsetTop / (windowHeight / 100);
+        row.style.minHeight = fullHeight + 'vh';
       } else {
-        row.style.minHeight = ''
+        row.style.minHeight = '';
       }
-    })
+    });
   }
 
-  getRows()
-  window.addEventListener('resize', handleResize)
-  window.vceResetFullHeightRows = getRows
-}())
+  getRows();
+  window.addEventListener('resize', handleResize);
+  window.vceResetFullHeightRows = getRows;
+})();
+
+

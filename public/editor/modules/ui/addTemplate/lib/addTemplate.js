@@ -5,7 +5,7 @@ import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import TemplateControl from './templateControl'
 import vcCake from 'vc-cake'
 
-const wipAssetsManager = vcCake.getService('wipAssetsManager')
+const assetsManager = vcCake.getService('assetsManager')
 const templateManager = vcCake.getService('myTemplates')
 const documentManager = vcCake.getService('document')
 
@@ -169,12 +169,12 @@ export default class AddTemplate extends React.Component {
       btnText = 'Download More Templates'
       helper = `You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub.`
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
-      source = wipAssetsManager.getSourcePath('images/add-item.png')
+      source = assetsManager.getSourcePath('images/add-item.png')
     } else {
       btnText = 'Download More Templates'
       helper = `Didn't find the right template? Check out Visual Composer Hub for more layout templates.`
       button = <button className='vcv-ui-editor-no-items-action' onClick={this.handleGoToHub}>{btnText}</button>
-      source = wipAssetsManager.getSourcePath('images/search-no-result.png')
+      source = assetsManager.getSourcePath('images/search-no-result.png')
     }
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>

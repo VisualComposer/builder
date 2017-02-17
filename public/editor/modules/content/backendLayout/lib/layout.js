@@ -2,6 +2,7 @@ import React from 'react'
 import { getData } from 'vc-cake'
 import Element from './element'
 import BlankPageManagerBack from './helpers/blankPageManagerBack/component'
+import RowPlaceholderBackend from './helpers/rowPlaceholderBackend/component'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -11,10 +12,8 @@ export default class Layout extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: [],
-      activeElementId: ''
+      data: []
     }
-    this.handleOpenElement = this.handleOpenElement.bind(this)
   }
 
   componentDidMount () {
@@ -25,12 +24,8 @@ export default class Layout extends React.Component {
     })
   }
 
-  handleOpenElement (id) {
-    this.setState({ activeElementId: id })
-  }
-
   getElements () {
-    let { data, activeElementId } = this.state
+    let { data } = this.state
     let elementsList
     if (data) {
       elementsList = data.map((element) => {
@@ -39,8 +34,6 @@ export default class Layout extends React.Component {
             element={element}
             key={'vcvLayoutGetElements' + element.id}
             api={this.props.api}
-            openElement={this.handleOpenElement}
-            activeElementId={activeElementId}
           />
         )
       })
@@ -48,6 +41,7 @@ export default class Layout extends React.Component {
 
     return <div className='vcv-wpbackend-layout' data-vcv-module='content-layout'>
       {elementsList}
+      <RowPlaceholderBackend api={this.props.api} />
     </div>
   }
 
