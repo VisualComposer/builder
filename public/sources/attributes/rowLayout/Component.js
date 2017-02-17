@@ -160,7 +160,14 @@ class Layout extends Attribute {
       }
       let columnGap = deviceGap + customGap
 
-      layout.forEach((col, index) => {
+      let reducedLayout = []
+      layout.forEach((col) => {
+        if (reducedLayout.indexOf(col) < 0) {
+          reducedLayout.push(col)
+        }
+      })
+
+      reducedLayout.forEach((col, index) => {
         let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
         let fraction = col.split('/')
 
