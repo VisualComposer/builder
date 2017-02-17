@@ -30,7 +30,7 @@ class Component extends vcvAPI.elementComponent {
       // classes.push(`vce-row-layout--xl-${layoutSize}`)
       classes.push('vce-row-layout-custom')
 
-      classes.push(`vce-row--gap-${parseInt(columnGap) + 30}`)
+      classes.push(`vce-row--gap-${parseInt(columnGap)}`)
     }
     let customProps = {
       style: {}

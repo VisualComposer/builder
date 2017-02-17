@@ -33,29 +33,22 @@ vcCake.add('storage', (api) => {
       })
     }
   }
-  const addRowBackground = (id, element) => {
+  const addRowBackground = (id, element, columnElement) => {
     let allBackgrounds = []
-
-    let devices = {
-      'desktop': 'xl',
-      'tablet-landscape': 'lg',
-      'tablet-portrait': 'md',
-      'mobile-landscape': 'sm',
-      'mobile-portrait': 'xs'
-    }
+    let devices = ['xl', 'lg', 'md', 'sm', 'xs']
 
     const pushBackground = (element) => {
-      let designOptions = element.designOptions
+      let designOptions = element.designOptionsAdvanced
       let elementBackground = {}
-      if (designOptions && designOptions.used) {
-        if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
+      if (designOptions && designOptions.device) {
+        if (designOptions.device[ 'all' ] && (designOptions.device[ 'all' ].backgroundColor !== '' || designOptions.device[ 'all' ].backgroundImage.urls.length)) {
           elementBackground[ 'all' ] = true
         } else {
-          for (let device in devices) {
-            if ((designOptions[ device ].backgroundColor !== '' || designOptions[ device ].backgroundImage.urls.length)) {
-              elementBackground[ devices[ device ] ] = true
+          devices.forEach((device) => {
+            if (designOptions.device[ device ] && (designOptions.device[ device ].backgroundColor !== '' || designOptions.device[ device ].backgroundImage.urls.length)) {
+              elementBackground[ device ] = true
             }
-          }
+          })
         }
         allBackgrounds.push(elementBackground)
       }
@@ -66,6 +59,10 @@ vcCake.add('storage', (api) => {
     rowChildren.forEach((column) => {
       pushBackground(column)
     })
+
+    if (columnElement) {
+      pushBackground(columnElement)
+    }
 
     pushBackground(element)
 
@@ -146,7 +143,7 @@ vcCake.add('storage', (api) => {
         let parentElement = DocumentData.get(parentId)
 
         if (parentElement) {
-          addRowBackground(parentId, parentElement)
+          addRowBackground(parentId, parentElement, element)
         }
       }
       if (element.tag === 'row') {
