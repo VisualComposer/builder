@@ -1,10 +1,8 @@
-/* global React, vcvAPI */
-/* eslint no-unused-vars: 0 */
 import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
-export default class Component extends vcvAPI.elementComponent {
+export default class ColumnElement extends vcvAPI.elementComponent {
   render () {
     // import variables
     let { id, atts, editor } = this.props

@@ -7,12 +7,12 @@ let autoprefixer = require('autoprefixer')
 module.exports = {
   devtool: 'eval',
   entry: {
-    node: './public/node-main',
+    // node: './public/node-main',
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    wpbackend: './public/wpbackend-main',
-    wpbackendswitch: './public/wpbackend-switch',
+    // wpbackend: './public/wpbackend-main',
+    // wpbackendswitch: './public/wpbackend-switch',
     app: []
   },
   output: {
@@ -103,7 +103,8 @@ module.exports = {
         'actions-manager',
         'rules-manager',
         'api',
-        'categories',
+        'hubCategories',
+        'hubGroups',
         'dataProcessor',
         'assetsStorage',
         'assetsManager',
@@ -171,6 +172,12 @@ module.exports = {
         ]
       },
       {
+        test: /\.json$/,
+        loaders: [
+          'json-loader'
+        ]
+      },
+      {
         test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/,
@@ -182,7 +189,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: [
-          path.resolve(__dirname, './public/sources/elements')
+          path.resolve(__dirname, './public/sources/newElements')
         ],
         loader: ExtractTextPlugin.extract(
           'style-loader',

@@ -1,6 +1,6 @@
 // @flow
 import vcCake from 'vc-cake'
-import React from 'react'
+// import React from 'react'
 import './sources/less/bootstrap/init.less'
 import './sources/css/wordpress.less'
 import './config/variables'
@@ -29,9 +29,13 @@ $(() => {
 })
 
 window.app = vcCake
-window.vcvAddElement = vcCake.getService('cook').add
-window.React = React
-window.vcvAPI = vcCake.getService('api')
-if (!vcCake.env('FEATURE_WEBPACK')) {
-  require('./config/elements')
-}
+// window.vcvAddElement = vcCake.getService('cook').add
+// window.React = React
+// window.vcvAPI = vcCake.getService('api')
+// if (!vcCake.env('FEATURE_WEBPACK')) {
+//   require('./config/elements')
+// }
+
+import './sources/newElements/row'
+import './sources/newElements/column'
+import './sources/newElements/textBlock'

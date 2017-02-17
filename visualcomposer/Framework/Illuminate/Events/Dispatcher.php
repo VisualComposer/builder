@@ -61,6 +61,9 @@ class Dispatcher implements DispatcherContract
     {
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
+        if (is_string($events)) {
+            $events = preg_split('/\,\s*|\s+/', $events);
+        }
         foreach ((array)$events as $event) {
             if ($strHelper->contains($event, '*')) {
                 $this->setupWildcardListen($event, $listener);

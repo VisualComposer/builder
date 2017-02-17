@@ -100,10 +100,10 @@ fs.lstat(elementDir, function (err, stats) {
     // editor file
     var editorCssFileName = 'editor.css'
     var editorCssFile = path.resolve(elementDir, editorCssFileName)
-    var editorCssString = fs.existsSync(editorCssFile) ? fs.readFileSync(editorCssFile, 'utf8') : false
-    var cssRelativeFile = ''
-    if (namedArgs.hasOwnProperty('--add-css') && namedArgs[ '--add-css' ] === 'true' && cssExists) {
-      cssRelativeFile = "require( './" + cssFileName + "' )"
+    var editorCssString = fs.existsSync(editorCssFile) ? 'require( \'' + editorCssFile + '\')' : false
+    var cssRelativeFile = false
+    if (cssExists) {
+      cssRelativeFile = "require( 'raw-loader!./" + cssFileName + "' )"
     }
     // mixins
     let mixinsDirName = 'cssMixins'
@@ -122,7 +122,7 @@ fs.lstat(elementDir, function (err, stats) {
     // Settings
     let cssSettings = {}
     // file
-    cssSettings.css = cssString
+    cssSettings.css = cssRelativeFile
     cssSettings.editorCss = editorCssString
     // mixins
     if (Object.keys(cssMixins).length) {
@@ -132,8 +132,6 @@ fs.lstat(elementDir, function (err, stats) {
       console.error('Error, wrong css settings')
       process.exit(1)
     }
-
-
 
     // Public javascript
     const collectPublicJsFile = function (contentPath, files, prefix) {
@@ -157,16 +155,16 @@ fs.lstat(elementDir, function (err, stats) {
     }
     var template = swig.renderFile(path.join(__dirname, 'template.jst'), {
       settings: function () {
-        return JSON.stringify(settings)
+        return 'require(\'./settings.json\')'
       },
       elementComponent: function () {
         return componentTemplate
       },
-      jsCallback: function () {
-        return "''"
+      elementComponentClass: function () {
+        return 'import ElementComponent from \'./component.js\''
       },
-      cssFile: function () {
-        return cssRelativeFile + ''
+      elementComponentClassName: function () {
+        return 'ElementComponent'
       },
       cssSettings: function () {
         return JSON.stringify(cssSettings) + ''
