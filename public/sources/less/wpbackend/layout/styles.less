@@ -127,12 +127,23 @@
   }
 
   &-attributes {
-    position: relative;
-    z-index: 1;
-    background-color: @vce-wpbackend-element-attributes-background-color;
-    font-style: italic;
-    color: @vce-wpbackend-element-attributes-color;
-    border-top: 1px solid @vce-wpbackend-element-container-border-color;
+    &-container {
+      position: relative;
+      z-index: 1;
+      background-color: @vce-wpbackend-element-attributes-background-color;
+      font-style: italic;
+      color: @vce-wpbackend-element-attributes-color;
+    }
+
+    &-group {
+      padding: @vcv-wpbackend-attributes-group-padding;
+      border-top: 1px solid @vce-wpbackend-element-container-border-color;
+
+      .vce-wpbackend-element-attributes-group {
+        padding: 0;
+        border-top: none;
+      }
+    }
   }
 }
 
@@ -146,21 +157,7 @@
 
 .vcv-wpbackend-attributes-content {
   display: inline-block;
-  padding: @vcv-wpbackend-element-attributes-padding;
-
-  &-block {
-    display: block;
-    padding: @vcv-wpbackend-element-block-attribute-padding;
-    border-top: 1px solid @vce-wpbackend-element-container-border-color;
-
-    &:first-child {
-      display: inline-block;
-      padding: @vcv-wpbackend-element-attributes-padding;
-      border-top: none;
-    }
-
-    &:only-child {
-      padding: @vcv-wpbackend-element-block-attribute-padding;
-    }
-  }
+  margin-right: @vcv-wpbackend-attributes-content-margin-right;
+  vertical-align: middle;
+  line-height: @vcv-wpbackend-attributes-content-line-height;
 }

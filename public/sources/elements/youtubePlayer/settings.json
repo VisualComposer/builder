@@ -338,7 +338,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "videoPlayer"
+      {
+        "value": [
+          "videoPlayer"
+        ]
+      }
     ]
   },
   "metaCustomId": {

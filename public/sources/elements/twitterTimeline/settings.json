@@ -159,7 +159,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "timelineUrl"
+      {
+        "value": [
+          "timelineUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

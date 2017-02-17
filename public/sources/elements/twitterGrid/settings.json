@@ -140,7 +140,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "gridUrl"
+      {
+        "value": [
+          "gridUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

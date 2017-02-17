@@ -139,7 +139,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "instagramUrl"
+      {
+        "value": [
+          "instagramUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

@@ -149,7 +149,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "tweetUrl"
+      {
+        "value": [
+          "tweetUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

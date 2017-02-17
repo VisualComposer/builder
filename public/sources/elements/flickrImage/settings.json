@@ -130,7 +130,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "flickrUrl"
+      {
+        "value": [
+          "flickrUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

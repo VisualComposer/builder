@@ -217,8 +217,16 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "font",
-      "text"
+      {
+        "value": [
+          "font"
+        ]
+      },
+      {
+        "value": [
+          "text"
+        ]
+      }
     ]
   },
   "metaCustomId": {

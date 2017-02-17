@@ -106,9 +106,9 @@ export default class DefaultElement extends React.Component {
     return this.elementContainer.querySelector(className).getBoundingClientRect()
   }
 
-  getDependency (label, element, cookElement) {
+  getDependency (group, label, element) {
     let isDependency, isRuleTrue
-    let options = cookElement.settings('metaBackendLabels').settings.options
+    let options = group.options
     if (options && options.onChange) {
       isDependency = options.onChange.find((option) => {
         return option.dependency === label
@@ -120,11 +120,10 @@ export default class DefaultElement extends React.Component {
     return isRuleTrue
   }
 
-  getRepresenter (element) {
+  getGroupAttributes (element, group) {
     let cookElement = cook.get({ tag: element.tag })
-    let backendLabels = cookElement.get('metaBackendLabels').value
-    return backendLabels.map((label) => {
-      if (this.getDependency(label, element, cookElement)) {
+    return group.value.map((label) => {
+      if (this.getDependency(group, label, element)) {
         return null
       }
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
@@ -137,11 +136,24 @@ export default class DefaultElement extends React.Component {
     })
   }
 
+  getRepresenter (element) {
+    let cookElement = cook.get({ tag: element.tag })
+    let backendLabelGroups = cookElement.get('metaBackendLabels').value
+    return backendLabelGroups.map((group, i) => {
+      return <div
+        className='vce-wpbackend-element-attributes-group'
+        key={`attributes-group-${i}`}
+      >
+        {this.getGroupAttributes(element, group)}
+      </div>
+    })
+  }
+
   render () {
     const { element, hasAttributes, isName, isArrow, activeElement } = this.state
     let icon = categories.getElementIcon(element.tag, true)
     let attributesClasses = classNames({
-      'vce-wpbackend-element-attributes': true,
+      'vce-wpbackend-element-attributes-container': true,
       'vce-wpbackend-hidden': !activeElement || !isArrow
     })
 

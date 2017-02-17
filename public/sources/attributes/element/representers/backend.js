@@ -5,9 +5,9 @@ import vcCake from 'vc-cake'
 const Cook = vcCake.getService('cook')
 
 export default class Backend extends Representer {
-  getDependency (label, element, cookElement) {
+  getDependency (group, label, element) {
     let isDependency, isRuleTrue
-    let options = cookElement.settings('metaBackendLabels').settings.options
+    let options = group.options
     if (options && options.onChange) {
       isDependency = options.onChange.find((option) => {
         return option.dependency === label
@@ -19,13 +19,10 @@ export default class Backend extends Representer {
     return isRuleTrue
   }
 
-  render () {
-    let { value } = this.props
-    let cookElement = Cook.get(value)
+  getGroupAttributes (cookElement, group) {
     let cookElementJs = cookElement.toJS()
-    let backendLabels = cookElement.get('metaBackendLabels').value
-    let output = backendLabels.map((label) => {
-      if (this.getDependency(label, cookElementJs, cookElement)) {
+    return group.value.map((label) => {
+      if (this.getDependency(group, label, cookElementJs)) {
         return null
       }
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
@@ -37,6 +34,22 @@ export default class Backend extends Representer {
         api={this.props.api}
       />
     })
+  }
+
+  getOutput (value) {
+    let cookElement = Cook.get(value)
+    let backendLabels = cookElement.get('metaBackendLabels').value
+    return backendLabels.map((group, i) => {
+      return <div
+        className='vce-wpbackend-element-attributes-group'
+        key={`attributes-group-${i}`}
+      >
+        {this.getGroupAttributes(cookElement, group)}
+      </div>
+    })
+  }
+
+  render () {
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
       'vcv-wpbackend-attributes-content-block': true,
@@ -44,7 +57,7 @@ export default class Backend extends Representer {
     })
 
     return <div className={classes}>
-      {output}
+      {this.getOutput(this.props.value)}
     </div>
   }
 }

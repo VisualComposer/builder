@@ -205,9 +205,13 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText",
-      "buttonUrl",
-      "borderColor"
+      {
+        "value": [
+          "buttonText",
+          "buttonUrl",
+          "borderColor"
+        ]
+      }
     ]
   },
   "metaCustomId": {
