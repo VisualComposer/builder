@@ -73,9 +73,6 @@ class Layout extends Attribute {
         },
         lastIndex: {
           value: false
-        },
-        selector: {
-          value: false
         }
       }
     }
@@ -122,9 +119,6 @@ class Layout extends Attribute {
       updater(fieldKey, this.sanitizeLayout(value))
       this.setState({ value: value })
     }
-  }
-  getDeviceMixins () {
-
   }
   sanitizeLayout (value) {
     return value.filter((col) => {
@@ -193,7 +187,6 @@ class Layout extends Attribute {
         lastInRow.forEach((col) => {
           let mixinName = `${'lastColumnMixin'}:lastCol${col + 1}:${device}`
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
-          newMixin[ mixinName ].variables.selector.value = selector
           newMixin[ mixinName ].variables.device.value = device
           newMixin[ mixinName ].variables.lastIndex.value = col + 1
         })
