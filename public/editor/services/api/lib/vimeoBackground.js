@@ -10,7 +10,7 @@ export default class VimeoBackground extends Component {
 
   render () {
     const { deviceKey, deviceData, applyBackground } = this.props
-    const { videoVimeo, parallax } = deviceData
+    const { videoVimeo, parallax, parallaxSpeed } = deviceData
 
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
     if (videoVimeo && videoVimeo.search(vrx) !== -1) {
@@ -30,6 +30,9 @@ export default class VimeoBackground extends Component {
       }
       if (parallax === 'simple-fade') {
         customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
+      if (parallaxSpeed) {
+        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
       return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
         <div className='vce-asset-video-vimeo-wrapper'>

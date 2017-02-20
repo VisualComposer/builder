@@ -10,7 +10,7 @@ export default class YoutubeBackground extends Component {
 
   render () {
     const { deviceKey, deviceData, applyBackground } = this.props
-    const { videoYoutube, parallax } = deviceData
+    const { videoYoutube, parallax, parallaxSpeed } = deviceData
 
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
     if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
@@ -31,6 +31,9 @@ export default class YoutubeBackground extends Component {
       }
       if (parallax === 'simple-fade') {
         customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
+      if (parallaxSpeed) {
+        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
       return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
         <div className='vce-asset-video-yt-wrapper'>
