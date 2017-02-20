@@ -1,48 +1,25 @@
-import React from 'react'
-import BarContent from './content'
-import BarHeader from './header'
-import Resizer from '../../../../../resources/resizer/resizer'
 import ClassNames from 'classnames'
+import React from 'react'
+import Resizer from '../../../../resources/resizer/resizer'
+import Content from './content/content'
+import NavbarContainer from './navbar/navbarContainer'
 
-class LayoutBar extends React.Component {
+export default class Workspace extends React.Component {
 
-  state = {
-    hasStartContent: false,
-    hasEndContent: false
-  }
-
-  componentDidMount () {
-    /*
-    this.props.api
-      .reply('bar-content-start:show', () => {
-        this.setState({
-          hasStartContent: true
-        })
-      })
-      .reply('bar-content-start:hide', () => {
-        this.setState({
-          hasStartContent: false
-        })
-      })
-      .reply('bar-content-end:show', () => {
-        this.setState({
-          hasEndContent: true
-        })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({
-          hasEndContent: false
-        })
-      })
-      */
+  constructor (props) {
+    super(props)
+    this.state = {
+      hasStartContent: false,
+      hasEndContent: false
+    }
   }
 
   resizeCallback = (e) => {
     if (e && e.direction) {
       if (e.direction === 'top') {
-        this.props.api.request('navbar:resizeTop', e.offsetY)
+        // this.props.api.request('navbar:resizeTop', e.offsetY)
       } else if (e.direction === 'left') {
-        this.props.api.request('navbar:resizeLeft', e.offsetX)
+        // this.props.api.request('navbar:resizeLeft', e.offsetX)
       }
     }
   }
@@ -56,9 +33,15 @@ class LayoutBar extends React.Component {
     })
     return (
       <div className={layoutClasses}>
-        <BarHeader api={this.props.api} />
-        <BarContent api={this.props.api} />
-
+        <NavbarContainer />
+        <Content
+          start={
+          null
+        }
+          end={
+          null
+        }
+        />
         <Resizer params={{
           resizeTop: true,
           resizerTargetTop: '.vcv-layout-bar-content',
@@ -121,8 +104,3 @@ class LayoutBar extends React.Component {
     )
   }
 }
-LayoutBar.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default LayoutBar

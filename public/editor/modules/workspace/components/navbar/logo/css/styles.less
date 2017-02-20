@@ -1,0 +1,34 @@
+// ===================================
+// Visual composer Logo
+// ===================================
+
+@logo-path: '../img/vc-logo.svg';
+
+.vcv-ui-navbar-logo {
+  display: inline-block;
+  vertical-align: middle;
+  background: data-uri('image/svg+xml;charset=UTF-8', @logo-path) 50% 50% no-repeat;
+  min-width: @logo-size;
+  min-height: @logo-size;
+  padding: @logo-gold-value;
+  color: inherit;
+  text-decoration: none;
+  order: @logo-position;
+  cursor: default;
+  &:hover {
+    //background-color: @logo-bg-hover;
+  }
+}
+
+//== show/hide logo title
+.vcv-ui-navbar-logo-title {
+  display: none;
+  padding-left: image-width(@logo-path);
+}
+
+.vcv-ui-navbar-logo--show-title {
+  background-position: (@logo-gold-value / 2) 50%;
+  .vcv-ui-navbar-logo-title {
+    display: inline;
+  }
+}
