@@ -25,7 +25,6 @@ export default class LayoutBar extends React.Component {
       adminBar: document.getElementById('wpadminbar')
     }
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
-    this.handleWindowResize = this.handleWindowResize.bind(this)
     this.handleStickyLayoutBarResize = this.handleStickyLayoutBarResize.bind(this)
   }
 
