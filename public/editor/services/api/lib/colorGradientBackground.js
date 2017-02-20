@@ -9,7 +9,7 @@ export default class ColorGradientBackground extends Component {
 
   render () {
     const { deviceData, applyBackground } = this.props
-    const { backgroundColor, parallax } = deviceData
+    const { backgroundColor, parallax, parallaxSpeed } = deviceData
 
     if (backgroundColor) {
       let customProps = {}
@@ -18,6 +18,9 @@ export default class ColorGradientBackground extends Component {
       }
       if (parallax === 'simple-fade') {
         customProps[ 'data-vce-assets-parallax-fade' ] = true
+      }
+      if (parallaxSpeed) {
+        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
       }
       return <div className='vce-asset-color-gradient-container' {...customProps}>
         <div className='vce-asset-color-gradient' {...applyBackground} />
