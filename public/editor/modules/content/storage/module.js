@@ -50,23 +50,23 @@ vcCake.add('storage', (api) => {
             }
           })
         }
-        allBackgrounds.push(elementBackground)
       }
+      allBackgrounds.push(elementBackground)
     }
 
     let rowChildren = DocumentData.children(id)
 
     rowChildren.forEach((column) => {
-      pushBackground(column)
+      if (columnElement && columnElement.id === column.id) {
+        pushBackground(columnElement)
+      } else {
+        pushBackground(column)
+      }
     })
-
-    if (columnElement) {
-      pushBackground(columnElement)
-    }
 
     pushBackground(element)
 
-    let rowBackground = allBackgrounds.reduce(function (result, currentObject) {
+    element.background = allBackgrounds.reduce(function (result, currentObject) {
       for (let key in currentObject) {
         if (currentObject.hasOwnProperty(key)) {
           result[ key ] = currentObject[ key ]
@@ -74,8 +74,6 @@ vcCake.add('storage', (api) => {
       }
       return result
     }, {})
-
-    element.background = rowBackground
     DocumentData.update(id, element)
   }
   const isElementOneRelation = (parent) => {

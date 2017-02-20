@@ -137,7 +137,7 @@ class Layout extends Attribute {
     })
     layoutString = layoutString.join('--')
 
-    let selector = `vce-row--gap-${customGap}`
+    let selector = `vce-row--col-gap-${customGap}`
 
     let lastInRow = this.getLastInRow(layout)
     let colsInRow = []
@@ -151,6 +151,11 @@ class Layout extends Attribute {
       let deviceGap = defaultGap
       if (rowBackground && (rowBackground.all || rowBackground[ device ])) {
         deviceGap = 0
+        if (rowBackground.all) {
+          selector += '.vce-element--has-background'
+        } else if (rowBackground[ device ]) {
+          selector += `.vce-element--${device}--has-background`
+        }
       }
       let columnGap = deviceGap + customGap
 
@@ -175,7 +180,7 @@ class Layout extends Attribute {
           newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
         }
 
-        newMixin[ mixinName ].variables.columnGap.value = columnGap
+        newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
         let gapSpace = (columnGap * (parseInt(fraction[ 1 ]) - 1)).toString()
         let equalSpace = (columnGap * (parseInt(fraction[ 0 ]) - 1)).toString()
 

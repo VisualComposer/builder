@@ -21,16 +21,9 @@ class Component extends vcvAPI.elementComponent {
         }
       }
 
-      // let layoutSize = size && size.constructor === Array ? size.join('--').split('/').join('-') : 'auto'
-      //
-      // classes.push(`vce-row-layout--xs-${layoutSize}`)
-      // classes.push(`vce-row-layout--sm-${layoutSize}`)
-      // classes.push(`vce-row-layout--md-${layoutSize}`)
-      // classes.push(`vce-row-layout--lg-${layoutSize}`)
-      // classes.push(`vce-row-layout--xl-${layoutSize}`)
       classes.push('vce-row-layout-custom')
 
-      classes.push(`vce-row--gap-${parseInt(columnGap)}`)
+      classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
     }
     let customProps = {
       style: {}
