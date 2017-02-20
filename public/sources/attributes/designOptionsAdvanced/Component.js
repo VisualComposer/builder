@@ -17,22 +17,6 @@ class DesignOptionsAdvanced extends Attribute {
    * Attribute Mixins
    */
   static attributeMixins = {
-    testMixin: {
-      src: require('raw-loader!./cssMixins/designeOptionsAdvanced.pcss'),
-      variables: {
-        color: {
-          namePattern: '[\\da-f]+',
-          value: ''
-        },
-        background: {
-          namePattern: '[\\da-f]+',
-          value: ''
-        },
-        device: {
-          value: 'md-only'
-        }
-      }
-    },
     boxModelMixin: {
       src: require('raw-loader!./cssMixins/boxModel.pcss'),
       variables: {
@@ -163,12 +147,14 @@ class DesignOptionsAdvanced extends Attribute {
    */
   static defaultState = {
     currentDevice: 'all',
-    backgroundType: 'imagesSimple',
-    borderStyle: 'solid',
-    backgroundStyle: 'cover',
-    gradientAngle: 45,
     devices: {},
-    attributeMixins: {}
+    attributeMixins: {},
+    deviceDefaults: {
+      backgroundType: 'imagesSimple',
+      borderStyle: 'solid',
+      backgroundStyle: 'cover',
+      gradientAngle: 45
+    }
   }
 
   constructor (props) {
@@ -189,6 +175,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.vimeoVideoChangeHandler = this.vimeoVideoChangeHandler.bind(this)
     this.embedVideoChangeHandler = this.embedVideoChangeHandler.bind(this)
     this.parallaxChangeHandler = this.parallaxChangeHandler.bind(this)
+    this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
   }
 
   /**
@@ -227,7 +214,7 @@ class DesignOptionsAdvanced extends Attribute {
     devices.forEach((device) => {
       newState.devices[ device ] = {}
       if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ])
+        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], DesignOptionsAdvanced.defaultState.deviceDefaults)
       }
     })
 
@@ -255,16 +242,16 @@ class DesignOptionsAdvanced extends Attribute {
       if (!lodash.isEmpty(newState.devices[ device ])) {
         // set default values
         if (!newState.devices[ device ].backgroundType) {
-          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.backgroundType
+          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundType
         }
         if (!newState.devices[ device ].borderStyle) {
-          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.defaultState.borderStyle
+          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.defaultState.deviceDefaults.borderStyle
         }
         if (!newState.devices[ device ].backgroundStyle) {
-          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.defaultState.backgroundStyle
+          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundStyle
         }
         if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
-          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.defaultState.gradientAngle
+          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.defaultState.deviceDefaults.gradientAngle
         }
 
         // values
@@ -359,6 +346,7 @@ class DesignOptionsAdvanced extends Attribute {
           if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
             // not parallax background selected
             delete newValue[ device ].parallax
+            delete newValue[ device ].parallaxSpeed
           }
 
           // animation is not set
@@ -456,10 +444,6 @@ class DesignOptionsAdvanced extends Attribute {
    * @param value
    */
   setFieldValue (value, mixins) {
-    console.log('===================')
-    console.log(value)
-    console.log(mixins)
-    console.log('===================')
     let { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
@@ -621,7 +605,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.defaultState.backgroundType
+    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background type
@@ -892,7 +876,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.defaultState.backgroundStyle
+    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
@@ -1033,7 +1017,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.defaultState.borderStyle
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.defaultState.deviceDefaults.borderStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
@@ -1118,7 +1102,7 @@ class DesignOptionsAdvanced extends Attribute {
         placeholder='5'
         options={{
           min: 1,
-          max: 120
+          max: false
         }}
         value={value}
       />
@@ -1185,7 +1169,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.defaultState.gradientAngle
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.defaultState.deviceDefaults.gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
@@ -1362,6 +1346,45 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render parallax speed field
+   * @returns {*}
+   */
+  getParallaxSpeedRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].parallax) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].parallaxSpeed || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Parallax effect speed
+      </span>
+      <Number
+        api={this.props.api}
+        fieldKey='parallaxSpeed'
+        updater={this.parallaxSpeedChangeHandler}
+        placeholder='30'
+        options={{
+          min: 1,
+          max: false
+        }}
+        value={value}
+      />
+    </div>
+  }
+
+  /**
+   * Handle parallax speed change
+   * @param fieldKey
+   * @param value
+   */
+  parallaxSpeedChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
+    this.updateValue(newState)
+  }
+
+  /**
    * Render Self hosted video control
    * @returns {*}
    */
@@ -1436,6 +1459,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBackgroundEndColorRender()}
             {this.getGradientAngleRender()}
             {this.getParallaxRender()}
+            {this.getParallaxSpeedRender()}
             {this.getAnimationRender()}
           </div>
         </div>

@@ -12,7 +12,7 @@ export default class ImageSlideshowBackground extends Component {
 
   render () {
     const { reactKey, deviceKey, deviceData, applyBackground } = this.props
-    const { images, backgroundStyle, sliderTimeout, parallax } = deviceData
+    const { images, backgroundStyle, sliderTimeout, parallax, parallaxSpeed } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
       timeout = 5
@@ -46,7 +46,9 @@ export default class ImageSlideshowBackground extends Component {
       if (parallax === 'simple-fade') {
         customProps[ 'data-vce-assets-parallax-fade' ] = true
       }
-
+      if (parallaxSpeed) {
+        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
+      }
       let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(slideshowClasses)} data-vce-assets-slider={timeout}
           data-vce-assets-slider-slide='.vce-asset-background-slider-item'>

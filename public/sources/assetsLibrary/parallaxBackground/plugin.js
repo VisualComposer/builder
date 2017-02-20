@@ -12,6 +12,10 @@
           element.getVceParallax = this;
           this.element = element;
           this.bgElement = element.querySelector(element.dataset.vceAssetsParallax);
+          var speed = parseInt(element.dataset.vceAssetsParallaxSpeed);
+          if (speed) {
+            this.speed = speed;
+          }
           this.bgElement.style.top = '-' + this.speed + 'vh';
           this.bgElement.style.bottom = '-' + this.speed + 'vh';
           this.create();
@@ -78,6 +82,7 @@
 
   var plugins = {
     init: function init(selector) {
+      Waypoint.refreshAll();
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
       elements.forEach(function (element) {

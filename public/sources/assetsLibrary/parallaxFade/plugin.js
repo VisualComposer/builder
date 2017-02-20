@@ -74,6 +74,7 @@
 
   var plugins = {
     init: function init(selector) {
+      Waypoint.refreshAll();
       var elements = document.querySelectorAll(selector);
       elements = [].slice.call(elements);
 
