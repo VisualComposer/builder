@@ -121,7 +121,7 @@ module.exports = {
         'content/wordpress/data-unload',
         'content/layout',
         'content/backendLayout',
-        'ui/layout-bar',
+        'ui/layoutBarBackend',
         'ui/navbarBackend',
         'ui/brand-logo',
         'ui/addElement',

@@ -7,7 +7,6 @@ const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
 const assetsStorage = vcCake.getService('assetsStorage')
 const stylesManager = vcCake.getService('stylesManager')
-const myTemplates = vcCake.getService('myTemplates')
 const utils = vcCake.getService('utils')
 class SaveController {
   constructor (props) {
@@ -53,6 +52,7 @@ class SaveController {
       this.ajax(
         {
           'vcv-action': 'setData:adminNonce',
+          'vcv-ready': '1',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
           'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList())),
@@ -63,8 +63,7 @@ class SaveController {
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
           'vcv-custom-css': assetsStorage.getCustomCss(),
           'vcv-global-css': assetsStorage.getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(assetsStorage.getGoogleFontsData()),
-          'vcv-my-templates': JSON.stringify(myTemplates.all())
+          'vcv-google-fonts': JSON.stringify(assetsStorage.getGoogleFontsData())
         },
         this.saveSuccess.bind(this),
         this.saveFailed.bind(this)
