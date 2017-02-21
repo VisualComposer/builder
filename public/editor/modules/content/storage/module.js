@@ -84,9 +84,22 @@ vcCake.add('storage', (api) => {
     }
     return false
   }
+  const updateSubelementsIds = (element) => {
+    let elementObject = Object.assign(element)
+    let elementKeys = element.filter((k, v, s) => { return s.type === 'element' })
+    elementKeys.forEach((k) => {
+      let data = elementObject.get(k) || {}
+      data.id = utils.createKey()
+      elementObject.set(k, data)
+    })
+    return elementObject
+  }
   api.reply('data:add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
+    if (vcCake.env('FIX_SUBELEMENT_ID')) {
+      element = updateSubelementsIds(element)
+    }
     if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       let rowElement = DocumentData.create({ tag: 'row' })
       createdElements.push(rowElement.id)
@@ -124,6 +137,11 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
+    if (vcCake.env('FIX_SUBELEMENT_ID')) {
+      let element = cook.get(dolly)
+      element = updateSubelementsIds(element)
+      dolly = element.toJS()
+    }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })
