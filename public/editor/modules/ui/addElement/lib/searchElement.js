@@ -63,7 +63,7 @@ export default class SearchElement extends React.Component {
   getCategorySelect () {
     let options = []
     this.props.allCategories.forEach((item) => {
-      options.push(<option key={item.id} value={item.index}>{item.title}</option>)
+      options.push(<option key={`search-select-item-${item.id}-${item.index}`} value={item.index}>{item.title}</option>)
     })
     return <select
       className='vcv-ui-form-dropdown'
