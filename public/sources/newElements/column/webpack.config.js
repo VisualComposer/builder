@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'eval',
   entry: {
     // node: './public/node-main',
-    element: './index.js',
+    element: './column/index.js',
     vendor: [
       'jquery',
       'react',
