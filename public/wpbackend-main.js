@@ -14,10 +14,6 @@ $(() => {
   let iframeLoadEvent = () => {
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document
-    // Disable iframe clicks
-    $('a', iframeDocument).each((i, el) => {
-      $(el).attr('target', '_blank')
-    })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'wordpress').start(() => {
       require('./config/wpbackend-modules')
