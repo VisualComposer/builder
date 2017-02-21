@@ -14,6 +14,8 @@
     "watch-new": "webpack --config webpack.config.babel.js --progress --colors --watch",
     "build-module": "babel-node ./tools/module-builder/index",
     "build-element": "babel-node ./tools/element-builder/index",
+    "build-refactor": "webpack --config webpack.config.refactorModule.js --progress --colors",
+    "watch-refactor": "webpack --config webpack.config.refactorModule.js --progress --colors --watch",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "author": "@vv",

@@ -530,7 +530,7 @@ export default class Navbar extends React.Component {
           {children}
           {this.buildVisibleControls()}
           {this.buildHiddenControls()}
-          <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer' onmousedown={(e) => this.handleDragStart(e, false)} />
+          <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer' onMouseDown={(e) => this.handleDragStart(e, false)} />
         </nav>
       </div>
     )
