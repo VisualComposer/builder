@@ -29,10 +29,12 @@
 
 .vce-asset-background-simple--style-cover .vce-asset-background-simple-item {
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .vce-asset-background-simple--style-contain .vce-asset-background-simple-item {
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .vce-asset-background-simple--style-full-width .vce-asset-background-simple-item {

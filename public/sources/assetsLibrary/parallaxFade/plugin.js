@@ -35,6 +35,10 @@
         window.removeEventListener('scroll', this.fade);
       },
       fade: function fade() {
+        if (!this.element.clientHeight) {
+          this.fadeElement.style.opacity = null;
+          return;
+        }
         var windowHeight = window.innerHeight;
         var elementRect = this.fadeElement.getBoundingClientRect();
         var scrollPercent = scrollPercent = elementRect.bottom / windowHeight * 100;

@@ -36,6 +36,9 @@
         window.removeEventListener('scroll', this.resize);
       },
       resize: function resize() {
+        if (!this.element.clientHeight) {
+          return;
+        }
         var windowHeight = window.innerHeight;
         var elementRect = this.element.getBoundingClientRect();
         var contentHeight = elementRect.height + windowHeight;

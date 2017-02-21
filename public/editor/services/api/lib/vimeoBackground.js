@@ -9,8 +9,8 @@ export default class VimeoBackground extends Component {
   }
 
   render () {
-    const { deviceKey, deviceData, applyBackground } = this.props
-    const { videoVimeo, parallax, parallaxSpeed } = deviceData
+    const { deviceKey, deviceData } = this.props
+    const { videoVimeo } = deviceData
 
     let vrx = /https?:\/\/(?:www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:$|\/|\?)/
     if (videoVimeo && videoVimeo.search(vrx) !== -1) {
@@ -25,16 +25,7 @@ export default class VimeoBackground extends Component {
         `vce-visible-${deviceKey}-only`
       ]
       let customProps = {}
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-vimeo-wrapper'
-      }
-      if (parallax === 'simple-fade') {
-        customProps[ 'data-vce-assets-parallax-fade' ] = true
-      }
-      if (parallaxSpeed) {
-        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
-      }
-      return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
+      return <div className={classNames(containerClasses)} {...customProps}>
         <div className='vce-asset-video-vimeo-wrapper'>
           <div className='vce-asset-video-vimeo-background'
             data-vce-assets-video-vimeo={playerSettings.videoId}
