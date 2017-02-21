@@ -72,14 +72,14 @@ export default class Categories extends React.Component {
     if (!allCategories.length) {
       const tags = props.elements.map((e) => { return e.tag })
       allCategories = groups.filter((group) => {
-        groupsStore[ group.label ] = this.getElementsList(group.categories, tags)
-        return groupsStore[ group.label ].length > 0
+        groupsStore[ group.title ] = this.getElementsList(group.categories, tags)
+        return groupsStore[ group.title ].length > 0
       }).map((group, index) => {
         return {
-          id: group.label + index, // TODO: Should it be more unique?
+          id: group.title + index, // TODO: Should it be more unique?
           index: index,
-          title: group.label,
-          elements: groupsStore[ group.label ],
+          title: group.title,
+          elements: groupsStore[ group.title ],
           isVisible: true
         }
       })
