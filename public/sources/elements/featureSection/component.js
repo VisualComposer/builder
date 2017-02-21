@@ -69,7 +69,7 @@ class Component extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
-    // rowClasses = classNames(rowClasses)
+    contentClasses = classNames(contentClasses)
 
     // let doRest = this.applyDO('margin padding border animation')
     // let doBackgroundColor = this.applyDO('background-color')
@@ -77,11 +77,13 @@ class Component extends vcvAPI.elementComponent {
     return <section className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} id={'el-' + id}>
         <div className='vce-feature-section--image' style={imageStyles} />
-        <div className='vce-feature-section--content'>
+        <div className={contentClasses}>
           <div className='vce-feature-section--content-container'>
-            {description}
+            <div className='vce-feature-section-description'>
+              {description}
+            </div>
+            {buttonOutput}
           </div>
-          {buttonOutput}
         </div>
       </div>
     </section>
