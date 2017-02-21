@@ -72,6 +72,12 @@ class Controller extends Container implements Module
             9999 // Do with high weight - when all other actions is done
         );
         $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js?' . uniqid());
+        $vendorBundleJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid());
+        $newWebpack = true;
+        if ($newWebpack) {
+            // TODO: Feature toggle.
+            wp_enqueue_script('vcv:pageEditable:vendor', $vendorBundleJsUrl);
+        }
         wp_enqueue_script('vcv:pageEditable:bundle', $bundleJsUrl);
         $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css?' . uniqid());
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);

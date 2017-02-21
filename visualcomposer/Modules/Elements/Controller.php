@@ -14,16 +14,16 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Elements\Controller::addBundleScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addBundleScripts');
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'addBundleScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addElementScripts');
+        //$this->addFilter('vcv:frontend:extraOutput', 'addElementScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
-        $this->addFilter('vcv:backend:extraOutput', 'addElementScripts');
+       // $this->addFilter('vcv:backend:extraOutput', 'addElementScripts');
     }
 
     private function addBundleScripts($output, Url $urlHelper)
     {
-        $newWebpack = false;
+        $newWebpack = true;
         if ($newWebpack) {
             $output[] = sprintf(
                 '<script type="text/javascript" src="%s"></script>',
@@ -41,22 +41,22 @@ class Controller extends Container implements Module
 
         return $output;
     }
-
-    private function addElementScripts($output, Url $urlHelper)
-    {
-        $newWebpack = false;
-        if ($newWebpack) {
-            $elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
-            foreach ($elements as $element) {
-                if (strpos($element, 'public/dist/element-_') !== false) {
-                    continue; // Skip if element disabled
-                }
-                $elementName = str_replace(VCV_PLUGIN_DIR_PATH, '', $element);
-                $url = $urlHelper->to($elementName . '?' . uniqid()); // TODO: Use assets folder.
-                $output[] = sprintf('<script type="text/javascript" src="%s"></script>', $url);
-            }
-        }
-
-        return $output;
-    }
+//
+//    private function addElementScripts($output, Url $urlHelper)
+//    {
+//        $newWebpack = false;
+//        if ($newWebpack) {
+//            $elements = vcapp()->rglob(vcapp()->path('public/dist/element-*.js'));
+//            foreach ($elements as $element) {
+//                if (strpos($element, 'public/dist/element-_') !== false) {
+//                    continue; // Skip if element disabled
+//                }
+//                $elementName = str_replace(VCV_PLUGIN_DIR_PATH, '', $element);
+//                $url = $urlHelper->to($elementName . '?' . uniqid()); // TODO: Use assets folder.
+//                $output[] = sprintf('<script type="text/javascript" src="%s"></script>', $url);
+//            }
+//        }
+//
+//        return $output;
+//    }
 }
