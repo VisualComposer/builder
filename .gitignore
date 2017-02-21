@@ -57,6 +57,6 @@ test-coverage.xml
 cache/*
 !cache/.gitkeep
 public/sources/elements/*/element.js
+public/sources/newElements/*/public/dist/element.bundle.js
+public/sources/newElements/*/public/dist/vendor.bundle.js
 .phpstorm.meta.php
-*/dist/element.bundle.js
-*/dist/vendor.bundle.js
