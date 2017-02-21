@@ -139,7 +139,7 @@ export default class DefaultElement extends React.Component {
 
   render () {
     const { element, hasAttributes, isName, isArrow, activeElement } = this.state
-    let icon = categories.getElementIcon(element.tag, true)
+    let icon = null // categories.getElementIcon(element.tag, true) // TODO: Fix this
     let attributesClasses = classNames({
       'vce-wpbackend-element-attributes': true,
       'vce-wpbackend-hidden': !activeElement || !isArrow

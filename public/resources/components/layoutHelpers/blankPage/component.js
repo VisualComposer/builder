@@ -73,7 +73,7 @@ export default class BlankPage extends React.Component {
 
   getControlProps (index, tag) {
     let element = cook.get({tag: tag})
-    let icon = categories.getElementIcon(tag)
+    let icon = null // categories.getElementIcon(tag) // TODO: Fix this
     return {
       key: 'vcvBlankPage' + tag + index,
       title: element.get('name'),
