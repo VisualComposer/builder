@@ -5,8 +5,10 @@ import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import '../css/init.less'
 import vcCake from 'vc-cake'
-const categoriesService = vcCake.getService('categories')
+const categoriesService = vcCake.getService('hubCategories')
+const groupsService = vcCake.getService('hubGroups')
 const assetsManager = vcCake.getService('assetsManager')
+const cook = vcCake.getService('cook')
 let allCategories = []
 
 export default class Categories extends React.Component {
@@ -37,19 +39,40 @@ export default class Categories extends React.Component {
     this.categoriesFromProps(nextProps)
   }
 
-  getElementsList (groupCategories, elements) {
-    const tags = elements.map((e) => { return e.tag })
-    return groupCategories.filter((element) => {
-      return tags.indexOf(element.tag) > -1
-    })
+  getElementsList (groupCategories, tags) {
+    let groupElements = []
+    if (groupCategories === true) {
+      // Get ALL
+      let allCategories = categoriesService.all()
+      Object.keys(allCategories).forEach((categoryKey) => {
+        let groupCategoryData = allCategories[ categoryKey ]
+        if (groupCategoryData && groupCategoryData.elements) {
+          groupElements = groupElements.concat(groupCategoryData.elements.filter((tag) => {
+            return tags.indexOf(tag) > -1
+          }))
+        }
+      })
+    } else {
+      groupCategories.forEach((category) => {
+        let groupCategoryData = categoriesService.get(category)
+        if (groupCategoryData && groupCategoryData.elements) {
+          groupElements = groupElements.concat(groupCategoryData.elements.filter((tag) => {
+            return tags.indexOf(tag) > -1
+          }))
+        }
+      })
+    }
+
+    return groupElements;
   }
 
   categoriesFromProps (props) {
     let groupsStore = {}
-    let groups = categoriesService.groups
+    let groups = groupsService.all()
     if (!allCategories.length) {
+      const tags = props.elements.map((e) => { return e.tag })
       allCategories = groups.filter((group) => {
-        groupsStore[ group.label ] = this.getElementsList(group.elements, props.elements)
+        groupsStore[ group.label ] = this.getElementsList(group.categories, tags)
         return groupsStore[ group.label ].length > 0
       }).map((group, index) => {
         return {
@@ -97,7 +120,9 @@ export default class Categories extends React.Component {
     </div>
   }
 
-  getElementControl (element) {
+  getElementControl (tag) {
+    let element = cook.get({ tag: tag }).toJS()
+
     return <ElementControl
       api={this.props.api}
       key={'vcv-element-control-' + element.tag}
@@ -136,25 +161,25 @@ export default class Categories extends React.Component {
     return allCategories[ getIndex ].elements.filter((val) => {
       let elName = val.name.toLowerCase()
       return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
-    }).map((element) => {
-      return this.getElementControl(element)
+    }).map((tag) => {
+      return this.getElementControl(tag)
     })
   }
 
   getElementsByCategory () {
     let { activeCategoryIndex } = this.state
 
-    return allCategories[ activeCategoryIndex ].elements.map((element) => {
-      return this.getElementControl(element)
+    return allCategories[ activeCategoryIndex ].elements.map((tag) => {
+      return this.getElementControl(tag)
     })
   }
 
   getElementListContainer (itemsOutput) {
     return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
-      <ul className='vcv-ui-item-list'>
-        {itemsOutput}
-      </ul>
-    </div> : this.getNoResultsElement()
+        <ul className='vcv-ui-item-list'>
+          {itemsOutput}
+        </ul>
+      </div> : this.getNoResultsElement()
   }
 
   isSearching () {
