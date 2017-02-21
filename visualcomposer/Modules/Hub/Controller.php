@@ -17,6 +17,7 @@ class Controller extends Container implements Module
     {
         $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputCategories');
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputGroups');
     }
 
     protected function outputElements($response, $payload, Options $optionHelper)
