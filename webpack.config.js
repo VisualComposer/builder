@@ -25,7 +25,7 @@ module.exports = {
     'fs': 'empty'
   },
   plugins: [
-    new Collector(),
+    // new Collector(),
     new ExtractTextPlugin('[name].bundle.css')
   ],
   vc: {
