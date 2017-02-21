@@ -58,3 +58,5 @@ cache/*
 !cache/.gitkeep
 public/sources/elements/*/element.js
 .phpstorm.meta.php
+*/dist/element.bundle.js
+*/dist/vendor.bundle.js
