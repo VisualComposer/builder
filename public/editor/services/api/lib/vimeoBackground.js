@@ -24,8 +24,7 @@ export default class VimeoBackground extends Component {
         `vce-asset-video-vimeo-container`,
         `vce-visible-${deviceKey}-only`
       ]
-      let customProps = {}
-      return <div className={classNames(containerClasses)} {...customProps}>
+      return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-vimeo-wrapper'>
           <div className='vce-asset-video-vimeo-background'
             data-vce-assets-video-vimeo={playerSettings.videoId}

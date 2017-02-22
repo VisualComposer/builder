@@ -16,7 +16,6 @@ export default class ColorGradientBackground extends Component {
       `vce-visible-${deviceKey}-only`
     ]
 
-    let customProps = {}
-    return <div className={classNames(containerClasses)} {...customProps} {...applyBackground} />
+    return <div className={classNames(containerClasses)} {...applyBackground} />
   }
 }
