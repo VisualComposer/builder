@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 const { Component, PropTypes } = React
 export default class ColorGradientBackground extends Component {
   static propTypes = {
@@ -8,24 +9,13 @@ export default class ColorGradientBackground extends Component {
   }
 
   render () {
-    const { deviceData, applyBackground } = this.props
-    const { backgroundColor, parallax, parallaxSpeed } = deviceData
+    const { deviceKey, applyBackground } = this.props
 
-    if (backgroundColor) {
-      let customProps = {}
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-color-gradient'
-      }
-      if (parallax === 'simple-fade') {
-        customProps[ 'data-vce-assets-parallax-fade' ] = true
-      }
-      if (parallaxSpeed) {
-        customProps[ 'data-vce-assets-parallax-speed' ] = parallaxSpeed
-      }
-      return <div className='vce-asset-color-gradient-container' {...customProps}>
-        <div className='vce-asset-color-gradient' {...applyBackground} />
-      </div>
-    }
-    return null
+    let containerClasses = [
+      `vce-asset-color-gradient-container`,
+      `vce-visible-${deviceKey}-only`
+    ]
+
+    return <div className={classNames(containerClasses)} {...applyBackground} />
   }
 }

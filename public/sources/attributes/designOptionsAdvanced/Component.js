@@ -131,11 +131,22 @@ class DesignOptionsAdvanced extends Attribute {
         },
         backgroundColor: {
           value: false
+        }
+      }
+    },
+    gradientMixin: {
+      src: require('raw-loader!./cssMixins/gradientColor.pcss'),
+      variables: {
+        device: {
+          value: `all`
         },
-        backgroundEndColor: {
-          value: false
+        startColor: {
+          value: `rgba(0, 0, 0, 0)`
         },
-        gradientAngle: {
+        endColor: {
+          value: `rgba(0, 0, 0, 0)`
+        },
+        angle: {
           value: 0
         }
       }
@@ -145,16 +156,17 @@ class DesignOptionsAdvanced extends Attribute {
   /**
    * Default state values
    */
+  static deviceDefaults = {
+    backgroundType: 'imagesSimple',
+    borderStyle: 'solid',
+    backgroundStyle: 'cover',
+    gradientAngle: 45,
+    sliderEffect: 'slide'
+  }
   static defaultState = {
     currentDevice: 'all',
     devices: {},
-    attributeMixins: {},
-    deviceDefaults: {
-      backgroundType: 'imagesSimple',
-      borderStyle: 'solid',
-      backgroundStyle: 'cover',
-      gradientAngle: 45
-    }
+    attributeMixins: {}
   }
 
   constructor (props) {
@@ -168,6 +180,8 @@ class DesignOptionsAdvanced extends Attribute {
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
+    this.sliderEffectChangeHandler = this.sliderEffectChangeHandler.bind(this)
+    this.gradientOverlayChangeHandler = this.gradientOverlayChangeHandler.bind(this)
     this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
@@ -212,9 +226,9 @@ class DesignOptionsAdvanced extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = {}
+      newState.devices[ device ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.deviceDefaults)
       if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], DesignOptionsAdvanced.defaultState.deviceDefaults)
+        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
       }
     })
 
@@ -242,16 +256,16 @@ class DesignOptionsAdvanced extends Attribute {
       if (!lodash.isEmpty(newState.devices[ device ])) {
         // set default values
         if (!newState.devices[ device ].backgroundType) {
-          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundType
+          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.deviceDefaults.backgroundType
         }
         if (!newState.devices[ device ].borderStyle) {
-          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.defaultState.deviceDefaults.borderStyle
+          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.deviceDefaults.borderStyle
         }
         if (!newState.devices[ device ].backgroundStyle) {
-          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundStyle
+          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
         }
         if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
-          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.defaultState.deviceDefaults.gradientAngle
+          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
         }
 
         // values
@@ -279,6 +293,7 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundType
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].sliderTimeout
+            delete newValue[ device ].sliderEffect
           }
 
           // Embed video bg
@@ -297,6 +312,9 @@ class DesignOptionsAdvanced extends Attribute {
           // slider timeout is empty
           if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
             delete newValue[ device ].sliderTimeout
+          }
+          if (newValue[ device ].sliderEffect === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
+            delete newValue[ device ].sliderEffect
           }
 
           // youtube video is empty
@@ -320,14 +338,11 @@ class DesignOptionsAdvanced extends Attribute {
           }
 
           // gradient angle is not set
-          if (newValue[ device ].backgroundType === 'colorGradient') {
-            if (!newValue[ device ].backgroundEndColor) {
-              delete newValue[ device ].gradientAngle
-              delete newValue[ device ].backgroundType
-            }
-          } else {
+          if (!newValue[ device ].gradientOverlay) {
             delete newValue[ device ].gradientAngle
-            delete newValue[ device ].backgroundEndColor
+            delete newValue[ device ].gradientEndColor
+            delete newValue[ device ].gradientStartColor
+            delete newValue[ device ].gradientOverlay
           }
 
           // background color is empty
@@ -340,8 +355,7 @@ class DesignOptionsAdvanced extends Attribute {
             'imagesSlideshow',
             'videoYoutube',
             'videoVimeo',
-            'videoEmbed',
-            'colorGradient'
+            'videoEmbed'
           ]
           if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
             // not parallax background selected
@@ -416,10 +430,22 @@ class DesignOptionsAdvanced extends Attribute {
             newMixins[ mixinName ].variables.backgroundColor = {
               value: newValue[ device ].backgroundColor
             }
-            newMixins[ mixinName ].variables.backgroundEndColor = {
-              value: newValue[ device ].backgroundEndColor || false
+            newMixins[ mixinName ].variables.device = {
+              value: device
             }
-            newMixins[ mixinName ].variables.gradientAngle = {
+          }
+          // gradientMixin
+          if (newValue[ device ] && newValue[ device ].gradientOverlay) {
+            let mixinName = `gradientMixin:${device}`
+            newMixins[ mixinName ] = {}
+            newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
+            newMixins[ mixinName ].variables.startColor = {
+              value: newValue[ device ].gradientStartColor || false
+            }
+            newMixins[ mixinName ].variables.endColor = {
+              value: newValue[ device ].gradientEndColor || false
+            }
+            newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
             }
             newMixins[ mixinName ].variables.device = {
@@ -598,14 +624,10 @@ class DesignOptionsAdvanced extends Attribute {
         {
           label: 'Self-hosted video',
           value: 'videoEmbed'
-        },
-        {
-          label: 'Color gradient',
-          value: 'colorGradient'
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundType
+    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.deviceDefaults.backgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background type
@@ -876,7 +898,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.defaultState.deviceDefaults.backgroundStyle
+    let value = this.state.devices[ this.state.currentDevice ].backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
@@ -911,13 +933,9 @@ class DesignOptionsAdvanced extends Attribute {
     }
 
     let value = this.state.devices[ this.state.currentDevice ].backgroundColor || ''
-    let fieldTitle = `Background color`
-    if (this.state.devices[ this.state.currentDevice ].backgroundType === `colorGradient`) {
-      fieldTitle = `Start color`
-    }
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
-        {fieldTitle}
+        Background color
       </span>
       <Color
         api={this.props.api}
@@ -929,23 +947,79 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Render color picker for gradient end color
-   * @returns {*}
+   * Render gradient overlay toggle
+   * @returns {XML}
    */
-  getBackgroundEndColorRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `colorGradient`) {
+  getGradientOverlayRender () {
+    if (this.state.devices[ this.state.currentDevice ].display) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].backgroundEndColor || ''
+    let value = this.state.devices[ this.state.currentDevice ].gradientOverlay || false
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey='gradientOverlay'
+          updater={this.gradientOverlayChangeHandler}
+          options={{ labelText: `Use gradient overlay` }}
+          value={value}
+        />
+      </div>
+    )
+  }
+
+  /**
+   * Handle colors change
+   * @param fieldKey
+   * @param value
+   */
+  gradientOverlayChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
+   * Render color picker for gradient start color
+   * @returns {*}
+   */
+  getGradientStartColorRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].gradientStartColor || ''
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Start color
+      </span>
+      <Color
+        api={this.props.api}
+        fieldKey='gradientStartColor'
+        updater={this.colorChangeHandler}
+        value={value}
+        defaultValue='' />
+    </div>
+  }
+
+  /**
+   * Render color picker for gradient end color
+   * @returns {*}
+   */
+  getGradientEndColorRender () {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+      return null
+    }
+
+    let value = this.state.devices[ this.state.currentDevice ].gradientEndColor || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         End color
       </span>
       <Color
         api={this.props.api}
-        fieldKey='backgroundEndColor'
+        fieldKey='gradientEndColor'
         updater={this.colorChangeHandler}
         value={value}
         defaultValue='' />
@@ -1017,7 +1091,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.defaultState.deviceDefaults.borderStyle
+    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.deviceDefaults.borderStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
@@ -1110,6 +1184,53 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render slider effect type field
+   * @returns {*}
+   */
+  getSliderEffectRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow`) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Slide',
+          value: 'slide'
+        },
+        {
+          label: 'Fade',
+          value: 'fade'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Slideshow effect
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='sliderEffect'
+        options={options}
+        updater={this.sliderEffectChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle slider effect type change
+   * @param fieldKey
+   * @param value
+   */
+  sliderEffectChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Handle slider timeout change
    * @param fieldKey
    * @param value
@@ -1125,8 +1246,7 @@ class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientAngleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `colorGradient`) {
+    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
       return null
     }
     let options = {
@@ -1169,7 +1289,7 @@ class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.defaultState.deviceDefaults.gradientAngle
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.deviceDefaults.gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
@@ -1306,8 +1426,7 @@ class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow',
       'videoYoutube',
       'videoVimeo',
-      'videoEmbed',
-      'colorGradient'
+      'videoEmbed'
     ]
 
     if (this.state.devices[ this.state.currentDevice ].display ||
@@ -1450,13 +1569,16 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBorderColorRender()}
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
+            {this.getSliderEffectRender()}
             {this.getSliderTimeoutRender()}
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}
             {this.getEmbedVideoRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundColorRender()}
-            {this.getBackgroundEndColorRender()}
+            {this.getGradientOverlayRender()}
+            {this.getGradientStartColorRender()}
+            {this.getGradientEndColorRender()}
             {this.getGradientAngleRender()}
             {this.getParallaxRender()}
             {this.getParallaxSpeedRender()}

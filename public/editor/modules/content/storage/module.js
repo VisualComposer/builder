@@ -33,49 +33,6 @@ vcCake.add('storage', (api) => {
       })
     }
   }
-  const addRowBackground = (id, element, columnElement) => {
-    let allBackgrounds = []
-    let devices = ['xl', 'lg', 'md', 'sm', 'xs']
-
-    const pushBackground = (element) => {
-      let designOptions = element.designOptionsAdvanced
-      let elementBackground = {}
-      if (designOptions && designOptions.device) {
-        if (designOptions.device[ 'all' ] && (designOptions.device[ 'all' ].backgroundColor !== '' || designOptions.device[ 'all' ].backgroundImage.urls.length)) {
-          elementBackground[ 'all' ] = true
-        } else {
-          devices.forEach((device) => {
-            if (designOptions.device[ device ] && (designOptions.device[ device ].backgroundColor !== '' || designOptions.device[ device ].backgroundImage.urls.length)) {
-              elementBackground[ device ] = true
-            }
-          })
-        }
-      }
-      allBackgrounds.push(elementBackground)
-    }
-
-    let rowChildren = DocumentData.children(id)
-
-    rowChildren.forEach((column) => {
-      if (columnElement && columnElement.id === column.id) {
-        pushBackground(columnElement)
-      } else {
-        pushBackground(column)
-      }
-    })
-
-    pushBackground(element)
-
-    element.background = allBackgrounds.reduce(function (result, currentObject) {
-      for (let key in currentObject) {
-        if (currentObject.hasOwnProperty(key)) {
-          result[ key ] = currentObject[ key ]
-        }
-      }
-      return result
-    }, {})
-    DocumentData.update(id, element)
-  }
   const isElementOneRelation = (parent) => {
     let element = DocumentData.get(parent)
     let children = cook.getChildren(element.tag)
@@ -150,20 +107,7 @@ vcCake.add('storage', (api) => {
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
         rebuildRawLayout(id, element.layout.layoutData)
-        element.rowLayout = element.layout.layoutData
-        element.size = element.layout.layoutData
         element.layout.layoutData = undefined
-      }
-      if (element.tag === 'column') {
-        let parentId = DocumentData.get(id).parent
-        let parentElement = DocumentData.get(parentId)
-
-        if (parentElement) {
-          addRowBackground(parentId, parentElement, element)
-        }
-      }
-      if (element.tag === 'row') {
-        addRowBackground(id, element)
       }
     } else {
       if (element.tag === 'row' && element.layout && element.layout.length) {
