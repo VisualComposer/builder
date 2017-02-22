@@ -21,3 +21,16 @@
     }
   }
 }
+
+.vcv-wpbackend-layout .vce-row--col-gap-0 > .vce-row-content {
+  > .vce-col {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  > .vce-col--$(numerator)-$(denominator) {
+    flex: 0;
+    flex-basis: calc(100% * $(numerator) / $(denominator));
+    max-width: calc(100% * $(numerator) / $(denominator));
+  }
+}
