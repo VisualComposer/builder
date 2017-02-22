@@ -113,6 +113,8 @@
 }
 .vce-row.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner .vce-col-content {
   padding-top: 35px;
+}
+.vce-row.vce-element--has-background.vce-row-layout-custom {
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -133,7 +135,7 @@
   .vce-row.vce-element--xs--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
-  .vce-row.vce-element--xs--has-background.vce-row-layout-custom > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--xs--has-background.vce-row-layout-custom {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -155,7 +157,7 @@
   .vce-row.vce-element--sm--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
-  .vce-row.vce-element--sm--has-background.vce-row-layout-custom > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--sm--has-background.vce-row-layout-custom {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -177,7 +179,7 @@
   .vce-row.vce-element--md--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
-  .vce-row.vce-element--md--has-background.vce-row-layout-custom > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--md--has-background.vce-row-layout-custom {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -199,7 +201,7 @@
   .vce-row.vce-element--lg--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
-  .vce-row.vce-element--lg--has-background.vce-row-layout-custom > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--lg--has-background.vce-row-layout-custom {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -221,7 +223,7 @@
   .vce-row.vce-element--xl--has-background > .vce-row-content > .vce-col > .vce-col-content {
     padding-top: 35px;
   }
-  .vce-row.vce-element--xl--has-background.vce-row-layout-custom > .vce-row-content > .vce-col > .vce-col-content {
+  .vce-row.vce-element--xl--has-background.vce-row-layout-custom {
     padding-left: 15px;
     padding-right: 15px;
   }

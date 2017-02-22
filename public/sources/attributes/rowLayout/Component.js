@@ -127,18 +127,8 @@ class Layout extends Attribute {
   }
   getColumnMixins (layout) {
     let newMixin = {}
-    let layoutString = []
-    let rowBackground = vcCake.getService('document').get(this.props.element.get('id')).background
-    let customGap = parseInt(vcCake.getService('document').get(this.props.element.get('id')).columnGap)
-    let defaultGap = 30
-
-    layout.forEach((col) => {
-      layoutString.push(col.replace('/', '-'))
-    })
-    layoutString = layoutString.join('--')
-
-    let selector = `vce-row--col-gap-${customGap}`
-
+    let columnGap = parseInt(vcCake.getService('document').get(this.props.element.get('id')).columnGap)
+    let selector = `vce-row--col-gap-${columnGap}`
     let lastInRow = this.getLastInRow(layout)
     let colsInRow = []
     let cols = 0
@@ -148,17 +138,6 @@ class Layout extends Attribute {
     })
 
     Layout.devices.forEach((device) => {
-      let deviceGap = defaultGap
-      if (rowBackground && (rowBackground.all || rowBackground[ device ])) {
-        deviceGap = 0
-        if (rowBackground.all) {
-          selector += '.vce-element--has-background'
-        } else if (rowBackground[ device ]) {
-          selector += `.vce-element--${device}--has-background`
-        }
-      }
-      let columnGap = deviceGap + customGap
-
       let reducedLayout = []
       layout.forEach((col) => {
         if (reducedLayout.indexOf(col) < 0) {

@@ -3,26 +3,14 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, size, background } = atts
+    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced } = atts
     let content = this.props.children
 
     let classes = [ 'vce-row' ]
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      if (background) {
-        if (background.all) {
-          classes.push('vce-element--has-background')
-        } else {
-          for (let device in background) {
-            if (background[ device ] && device !== 'all') {
-              classes.push('vce-element--' + device + '--has-background')
-            }
-          }
-        }
-      }
-
+      classes.push(this.getBackgroundClass(designOptionsAdvanced))
       classes.push('vce-row-layout-custom')
-
       classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
     }
     let customProps = {

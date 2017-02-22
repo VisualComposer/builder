@@ -35,6 +35,22 @@ export default class ElementComponent extends Component {
     return ReactDOM.findDOMNode(this)
   }
 
+  getBackgroundClass (designOptions) {
+    let classes = []
+    if (designOptions && designOptions.device) {
+      if (designOptions.device[ 'all' ] && (designOptions.device[ 'all' ].backgroundColor !== '' || designOptions.device[ 'all' ].backgroundImage.urls.length)) {
+        classes.push('vce-element--has-background')
+      } else {
+        for (let device in designOptions.device) {
+          if (designOptions.device[ device ] && (designOptions.device[ device ].backgroundColor !== '' || designOptions.device[ device ].backgroundImage.urls.length)) {
+            classes.push(`vce-element--${device}--has-background`)
+          }
+        }
+      }
+    }
+    return classes.join(' ')
+  }
+
   applyDO (prop) {
     let propObj = {}
 

@@ -4,7 +4,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     // import variables
     let { id, atts, editor } = this.props
-    let { size, customClass, metaCustomId } = atts
+    let { size, customClass, metaCustomId, designOptionsAdvanced } = atts
     let content = this.props.children
 
     // import template js
@@ -16,6 +16,7 @@ class Component extends vcvAPI.elementComponent {
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       classes = [ 'vce-col' ]
       classes.push('vce-col--' + (size ? size.replace('/', '-') : 'auto'))
+      classes.push(this.getBackgroundClass(designOptionsAdvanced))
     } else {
       classes = [ 'vce-col', 'vce-col--xs-1' ]
       classes.push('vce-col--sm-' + (size ? size.replace('/', '-') : 'auto'))
@@ -31,7 +32,7 @@ class Component extends vcvAPI.elementComponent {
       customColProps.id = metaCustomId
     }
 
-    let doBoxModel = this.applyDO('margin padding border animation')
+    let doBoxModel = this.applyDO('margin padding border animation background')
 
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBoxModel}>
