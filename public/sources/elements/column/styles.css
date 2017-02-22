@@ -39,6 +39,10 @@
 .vce-col-direction--rtl {
   direction: rtl;
 }
+.vcv-wpbackend-layout .vce-row > .vce-row-content > .vce-col {
+  margin-right: 0;
+  margin-left: 0;
+}
 /* styles for mobile-portrait */
 @media (min-width: 0) {
   .vce-col--xs-auto {
