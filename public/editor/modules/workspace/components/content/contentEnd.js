@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {setData, getData} from 'vc-cake'
+import {setData} from 'vc-cake'
 
 import Resizer from '../../../../../resources/resizer/resizer'
 
@@ -28,32 +28,10 @@ export default class ContentEnd extends React.Component {
   }
 
   componentDidMount () {
-    /*
-    this.props.api.addAction('setEndContent', (Component, props = {}) => {
-      const confirmMessage = getData('lockActivity')
-      if (confirmMessage && !window.confirm(confirmMessage)) {
-        return
-      }
-      setData('lockActivity', false)
-      setData('barContentEnd:Show', Component)
-      this.setState({
-        contentComponent: Component,
-        contentProps: props
-      })
-    })
-    this.props.api
-      .reply('bar-content-end:show', this.showContent)
-      .reply('bar-content-end:hide', this.hideContent)
-      */
     this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
   componentWillUnmount () {
-    /*
-    this.props.api
-      .forget('bar-content-end:show', this.showContent)
-      .forget('bar-content-end:hide', this.hideContent)
-    */
     this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
   }
 
@@ -110,30 +88,20 @@ export default class ContentEnd extends React.Component {
 
   closeContent (e) {
     e && e.preventDefault()
-    // let { api } = this.props
-    const confirmMessage = getData('lockActivity')
-    if (confirmMessage && !window.confirm(confirmMessage)) {
-      return
-    }
-    setData('lockActivity', false)
-    // api.request('bar-content-start:hide')
-    // api.request('bar-content-end:hide')
+    setData('workspace:content:end', false)
   }
 
   render () {
-    let content = null
     let aligned = false
-    if (this.state.contentComponent) {
-      content = this.props.children
-    }
+    const {children} = this.props
     /*
-    if (contentProps && contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
+     if (contentProps && contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
       aligned = true
     }
     */
     let contentClasses = classNames({
       'vcv-layout-bar-content-end': true,
-      'vcv-ui-state--visible': this.state.showContent,
+      'vcv-ui-state--visible': !!children,
       'vcv-media--xs': true,
       'vcv-media--sm': this.state.realWidth > 400,
       'vcv-media--md': this.state.realWidth > 800,
@@ -151,7 +119,7 @@ export default class ContentEnd extends React.Component {
           onClick={this.closeContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
         </a>
-        {content}
+        {children}
         <Resizer params={{
           resizeBottom: true,
           resizerTargetBottom: '.vcv-layout-bar-content',

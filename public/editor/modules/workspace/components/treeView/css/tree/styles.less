@@ -1,0 +1,289 @@
+/* ===================================
+ * Visual composer Tree layout styles
+ * =================================== */
+//== tree view
+.vcv-ui-tree-view-layout {
+  &.vcv-hidden {
+    display: none;
+  }
+}
+//== Tree Layout styles styles
+.vcv-ui-tree-layout-container {
+  flex-grow: 1;
+  height: 100%;
+  font-size: @tree-text-size-base;
+  line-height: 1;
+  color: @tree-text-color-base;
+  background-color: @tree-bg-base;
+  border-right: 1px solid @tree-separator-color;
+  border-bottom: 1px solid @tree-separator-color;
+  display: flex;
+  flex-flow: column nowrap;
+  &.vcv-ui-state--hidden {
+    display: none;
+  }
+}
+
+.vcv-ui-tree-layout {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+// Actions
+.vcv-ui-tree-layout-actions {
+  font-size: @tree-action-icon-size;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  .vcv-ui-tree-layout-action-content {
+    span {
+      margin-left: @tree-gold-value;
+      display: none;
+    }
+  }
+}
+
+.vcv-ui-tree-layout-action {
+  display: inline-flex;
+  vertical-align: middle;
+  color: @tree-text-color-base;
+  text-decoration: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding: @tree-gold-value;
+  text-align: center;
+  cursor: pointer;
+  transition: all @transition-duration @transition-timing-function;
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: @tree-separator-color;
+
+  &.vcv-ui-state--active,
+  &:hover {
+    background-color: @tree-bg-base-hover;
+  }
+  &[disabled] {
+    background-color: transparent;
+    opacity: .5;
+    cursor: not-allowed;
+  }
+  //== states
+  &.vcv-ui-state--success {
+    background-color: @tree-action-success-bg;
+  }
+}
+
+.vcv-ui-tree-layout-action-content {
+
+}
+
+.vcv-ui-tree-layout-action-icon {
+  height: @tree-action-icon-size;
+  width: @tree-action-icon-size;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  &::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+//== Message
+.vcv-ui-tree-layout-messages {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  line-height: 1.7;
+  color: @tree-message-color-base;
+  text-align: center;
+  font-style: italic;
+  border-bottom: 1px solid @tree-separator-color;
+  > * {
+    flex: 1 1 100%;
+  }
+}
+.vcv-ui-tree-layout-message {
+  padding: @tree-gold-value / 2 1em;
+  margin: 0;
+  min-height: @tree-control-height;
+}
+
+//== Controls
+.vcv-ui-tree-layout-control {
+  border-bottom: 1px solid @tree-separator-color;
+  transition: background-color @transition-duration @transition-timing-function;
+  padding: (@tree-gold-value / 2) (@tree-gold-value / 2) (@tree-gold-value / 2) 0;
+  min-height: @tree-control-height;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  position: relative;
+  &.vcv-ui-state--active,
+  &.vcv-ui-state--outline,
+  &:hover {
+    background-color: @tree-bg-base-hover;
+  }
+}
+
+.vcv-ui-tree-layout-control-content {
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+}
+
+.vcv-ui-tree-layout-control-label {
+  flex-grow: 1;
+  flex-shrink: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: @tree-gold-value / 2;
+  padding-right: @tree-gold-value / 2;
+}
+
+.vcv-ui-tree-layout-control-icon {
+  position: relative;
+  width: @tree-control-icon-size;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: @tree-control-icon-size;
+    width: @tree-control-icon-size;
+    height: @tree-control-icon-size;
+  }
+}
+
+//== control actions
+.vcv-ui-tree-layout-control-actions {
+  opacity: 1;
+  transition: opacity @transition-duration @transition-timing-function;
+}
+
+.vcv-ui-tree-layout-control-action {
+  position: relative;
+  width: @tree-control-height;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  cursor: pointer;
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: @tree-control-action-size;
+  }
+}
+
+.vcv-ui-tree-layout-control {
+  &:not(:hover)&:not(.vcv-ui-state--active) {
+    .vcv-ui-tree-layout-control-actions {
+      opacity: 0;
+    }
+  }
+}
+
+//== Drag handler
+.vcv-ui-tree-layout-control-drag-handler {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  min-width: 1em;
+  min-height: 1em;
+  opacity: .2;
+  transition: opacity @transition-duration @transition-timing-function;
+  .vcv-ui-drag-handler-icon {
+    font-size: .9em;
+  }
+}
+
+.vcv-ui-tree-layout-control {
+  &:not(:hover) {
+    .vcv-ui-tree-layout-control-drag-handler {
+      opacity: 0;
+    }
+  }
+}
+
+//== Layout content
+.vcv-ui-tree-layout-node {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vcv-ui-tree-layout-node-child {
+  position: relative;
+}
+
+// Expand
+.vcv-ui-tree-layout-node-expand-trigger {
+  position: absolute;
+  left: -1.25em;
+  top: 50%;
+  margin-top: -.5em;
+  cursor: pointer;
+  opacity: .6;
+  font-size: @tree-control-expand-size;
+  transform+: rotate(-90deg);
+}
+
+.vcv-ui-tree-layout-node-child {
+  &.vcv-ui-tree-layout-node-expand {
+    > .vcv-ui-tree-layout-control {
+      > .vcv-ui-tree-layout-control-content {
+        > .vcv-ui-tree-layout-node-expand-trigger {
+          transform+: rotate(0deg);
+        }
+      }
+    }
+  }
+  &:not(.vcv-ui-tree-layout-node-expand) {
+    > .vcv-ui-tree-layout-node {
+      display: none;
+    }
+  }
+}
+
+//== control states
+.vcv-ui-tree-layout-node-state-draft {
+  &.vcv-ui-tree-layout-node-child {
+    opacity: .6;
+  }
+}
+
+//== tree view controls behaviour
+.vcv-ui-tree-layout-container {
+  .vcv-ui-tree-layout-action {
+    padding: @tree-gold-value / 2;
+    min-height: @tree-control-height;
+  }
+
+}

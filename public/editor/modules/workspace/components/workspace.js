@@ -3,17 +3,32 @@ import React from 'react'
 import Resizer from '../../../../resources/resizer/resizer'
 import Content from './content/content'
 import NavbarContainer from './navbar/navbarContainer'
-
+import {onDataChange, ignoreDataChange} from 'vc-cake'
 export default class Workspace extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      hasStartContent: false,
-      hasEndContent: false
+      contentStart: false,
+      contentEnd: false
     }
+    this.setContentEnd = this.setContentEnd.bind(this)
+    this.setContentStart = this.setContentStart.bind(this)
   }
-
+  componentDidMount () {
+    onDataChange('workspace:content:end', this.setContentEnd)
+    onDataChange('workspace:content:start', this.setContentStart)
+  }
+  componentWillUnmount () {
+    ignoreDataChange('workspace:content:end', this.setContentEnd)
+    ignoreDataChange('workspace:content:start', this.setContentStart)
+  }
+  setContentEnd (value) {
+    this.setState({contentEnd: value || false})
+  }
+  setContentStart (value) {
+    this.setState({contentStart: value || false})
+  }
   resizeCallback = (e) => {
     if (e && e.direction) {
       if (e.direction === 'top') {
@@ -25,21 +40,22 @@ export default class Workspace extends React.Component {
   }
 
   render () {
+    const {contentStart, contentEnd} = this.state
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
-      'vcv-ui-content--hidden': !(this.state.hasStartContent || this.state.hasEndContent),
-      'vcv-ui-content-start--visible': this.state.hasStartContent,
-      'vcv-ui-content-end--visible': this.state.hasEndContent
+      'vcv-ui-content--hidden': !(contentEnd || contentStart),
+      'vcv-ui-content-start--visible': !!contentStart,
+      'vcv-ui-content-end--visible': !!contentEnd
     })
     return (
       <div className={layoutClasses}>
         <NavbarContainer />
         <Content
           start={
-          null
+          contentStart
         }
           end={
-          null
+          contentEnd
         }
         />
         <Resizer params={{

@@ -70,7 +70,9 @@ module.exports = {
         'assetsStorage',
         'assetsManager',
         'stylesManager',
-        'myTemplates'
+        'myTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     wp: {

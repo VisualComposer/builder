@@ -88,7 +88,7 @@ export default class ContentStart extends React.Component {
   }
 
   render () {
-    let content = this.props.children
+    const {children} = this.props
     /*
     if (this.state.contentComponent) {
       content = React.createElement(this.state.contentComponent, this.state.contentProps)
@@ -96,7 +96,7 @@ export default class ContentStart extends React.Component {
     */
     let contentClasses = classNames({
       'vcv-layout-bar-content-start': true,
-      'vcv-ui-state--visible': this.state.showContent,
+      'vcv-ui-state--visible': !!children,
       'vcv-media--xs': true,
       'vcv-media--sm': this.state.realWidth > 400,
       'vcv-media--md': this.state.realWidth > 800,
@@ -106,7 +106,7 @@ export default class ContentStart extends React.Component {
 
     return (
       <div className={contentClasses} id='vcv-editor-start'>
-        {content}
+        {children}
         <Resizer params={{
           resizeRight: true,
           resizerTargetRight: '.vcv-layout-bar-content-start',
