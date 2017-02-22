@@ -18,8 +18,7 @@ export default class VideoEmbedBackground extends Component {
         `vce-asset-video-embed-container`,
         `vce-visible-${deviceKey}-only`
       ]
-      let customProps = {}
-      return <div className={classNames(containerClasses)} {...customProps}>
+      return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-embed-wrapper'>
           <div className='vce-asset-video-embed-background'
             data-vce-assets-video-embed={videoData.id}

@@ -12,7 +12,6 @@ export default class ImageSimpleBackground extends Component {
     const { reactKey, deviceKey, deviceData } = this.props
     const { images, backgroundStyle } = deviceData
     if (images && images.urls && images.urls.length) {
-      let customProps = {}
       let imagesJSX = []
       images.urls.forEach((imgData) => {
         let styles = {
@@ -33,7 +32,7 @@ export default class ImageSimpleBackground extends Component {
       let slideshowClasses = classNames([
         `vce-asset-background-simple`
       ])
-      return <div className={classNames(containerClasses)} {...customProps} >
+      return <div className={classNames(containerClasses)}>
         <div className={classNames(slideshowClasses)}>
           {imagesJSX}
         </div>

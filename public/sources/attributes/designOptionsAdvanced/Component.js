@@ -160,7 +160,8 @@ class DesignOptionsAdvanced extends Attribute {
     backgroundType: 'imagesSimple',
     borderStyle: 'solid',
     backgroundStyle: 'cover',
-    gradientAngle: 45
+    gradientAngle: 45,
+    sliderEffect: 'slide'
   }
   static defaultState = {
     currentDevice: 'all',
@@ -179,6 +180,7 @@ class DesignOptionsAdvanced extends Attribute {
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
     this.colorChangeHandler = this.colorChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
+    this.sliderEffectChangeHandler = this.sliderEffectChangeHandler.bind(this)
     this.gradientOverlayChangeHandler = this.gradientOverlayChangeHandler.bind(this)
     this.gradientAngleChangeHandler = this.gradientAngleChangeHandler.bind(this)
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
@@ -291,6 +293,7 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundType
             delete newValue[ device ].backgroundStyle
             delete newValue[ device ].sliderTimeout
+            delete newValue[ device ].sliderEffect
           }
 
           // Embed video bg
@@ -309,6 +312,9 @@ class DesignOptionsAdvanced extends Attribute {
           // slider timeout is empty
           if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
             delete newValue[ device ].sliderTimeout
+          }
+          if (newValue[ device ].sliderEffect === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
+            delete newValue[ device ].sliderEffect
           }
 
           // youtube video is empty
@@ -1178,6 +1184,53 @@ class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
+   * Render slider effect type field
+   * @returns {*}
+   */
+  getSliderEffectRender () {
+    if (this.state.devices[ this.state.currentDevice ].display ||
+      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow`) {
+      return null
+    }
+
+    let options = {
+      values: [
+        {
+          label: 'Slide',
+          value: 'slide'
+        },
+        {
+          label: 'Fade',
+          value: 'fade'
+        }
+      ]
+    }
+    let value = this.state.devices[ this.state.currentDevice ].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
+    return <div className='vcv-ui-form-group'>
+      <span className='vcv-ui-form-group-heading'>
+        Slideshow effect
+      </span>
+      <Dropdown
+        api={this.props.api}
+        fieldKey='sliderEffect'
+        options={options}
+        updater={this.sliderEffectChangeHandler}
+        value={value} />
+    </div>
+  }
+
+  /**
+   * Handle slider effect type change
+   * @param fieldKey
+   * @param value
+   */
+  sliderEffectChangeHandler (fieldKey, value) {
+    let newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    this.updateValue(newState)
+  }
+
+  /**
    * Handle slider timeout change
    * @param fieldKey
    * @param value
@@ -1516,6 +1569,7 @@ class DesignOptionsAdvanced extends Attribute {
             {this.getBorderColorRender()}
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
+            {this.getSliderEffectRender()}
             {this.getSliderTimeoutRender()}
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}

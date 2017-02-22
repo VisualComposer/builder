@@ -25,8 +25,7 @@ export default class YoutubeBackground extends Component {
         `vce-visible-${deviceKey}-only`
       ]
 
-      let customProps = {}
-      return <div className={classNames(containerClasses)} {...customProps}>
+      return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-yt-wrapper'>
           <div className='vce-asset-video-yt-background'
             data-vce-assets-video-yt={playerSettings.videoId}
