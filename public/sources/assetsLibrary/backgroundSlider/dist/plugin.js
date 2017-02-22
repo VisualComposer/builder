@@ -31,7 +31,6 @@
 
         this.isRtl = window.getComputedStyle(this.slider).direction === 'rtl';
         this.timeout = parseInt(this.slider.dataset.vceAssetsSlider) * 1000;
-        this.effect = this.slider.dataset.vceAssetsSliderEffect;
         // set slides
         this.slides = this.slider.querySelectorAll(this.slider.dataset.vceAssetsSliderSlide);
         this.slides = [].slice.call(this.slides); // to create array from slides list
@@ -40,7 +39,10 @@
           slide.removeEventListener('animationend', _this.handleAnimationEnd);
           slide.addEventListener('animationend', _this.handleAnimationEnd);
         });
-        // this.slideTo(0);
+        // show first slide with fade
+        this.effect = 'fade';
+        this.slideTo(0);
+        this.effect = this.slider.dataset.vceAssetsSliderEffect;
         this.autoplay();
       },
       destroy: function destroy () {
