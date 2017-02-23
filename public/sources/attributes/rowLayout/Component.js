@@ -62,6 +62,9 @@ class Layout extends Attribute {
         },
         fullColumn: {
           value: false
+        },
+        autoColumn: {
+          value: false
         }
       }
     }
@@ -151,6 +154,8 @@ class Layout extends Attribute {
           if (col !== 'auto') {
             newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
             newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+          } else {
+            newMixin[ mixinName ].variables.autoColumn.value = true
           }
 
           newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
