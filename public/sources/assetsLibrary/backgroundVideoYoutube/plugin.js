@@ -66,6 +66,7 @@
               var width = event.target.a.getAttribute('width');
               _this.resizer.setAttribute('height', height);
               _this.resizer.setAttribute('width', width);
+              _this.resizer.setAttribute('data-vce-assets-video-state', 'visible');
               _this.ratio = parseInt(width) / parseInt(height);
               _this.checkOrientation();
               event.target.mute();

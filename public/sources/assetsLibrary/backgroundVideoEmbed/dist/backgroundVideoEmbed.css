@@ -23,14 +23,17 @@
   display: inline-block;
   vertical-align: top;
 }
-
+.vce-asset-video-embed-sizer:not([data-vce-assets-video-state='visible']) {
+  display: none;
+}
 .vce-asset-video-embed-container .vce-asset-video-embed-background {
   position: relative;
   height: 100%;
   display: inline-block;
   vertical-align: top;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .vce-asset-video-embed-container .vce-asset-video-embed-player {
   position: absolute;

@@ -21,6 +21,10 @@
   height: 100%;
   width: auto;
   display: inline-block;
+  vertical-align: top;
+}
+.vce-asset-video-yt-sizer:not([data-vce-assets-video-state='visible']) {
+  display: none;
 }
 
 .vce-asset-video-yt-background {
@@ -29,7 +33,8 @@
   display: inline-block;
   vertical-align: top;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .vce-asset-video-yt--state-landscape.vce-asset-video-yt-background,
 .vce-asset-video-yt--state-landscape .vce-asset-video-yt-sizer {
