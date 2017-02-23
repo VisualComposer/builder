@@ -31,7 +31,7 @@ export default class YoutubeBackground extends Component {
             data-vce-assets-video-yt={playerSettings.videoId}
             data-vce-assets-video-replacer='.vce-asset-video-yt-player'
             data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
-            <svg className='vce-asset-video-yt-sizer' />
+            <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
             <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
           </div>
         </div>

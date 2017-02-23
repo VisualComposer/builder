@@ -25,14 +25,17 @@
   display: inline-block;
   vertical-align: top;
 }
-
+.vce-asset-video-vimeo-sizer:not([data-vce-assets-video-state='visible']) {
+  display: none;
+}
 .vce-asset-video-vimeo-background {
   position: relative;
   height: 100%;
   display: inline-block;
   vertical-align: top;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .vce-asset-video-vimeo--state-landscape.vce-asset-video-vimeo-background,
 .vce-asset-video-vimeo--state-landscape .vce-asset-video-vimeo-sizer {
