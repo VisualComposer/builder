@@ -1,13 +1,24 @@
 .$selector > .vce-row-content {
   @media (--$(device)) {
-    > .vce-col {
-      margin-right: $(columnGap)px;
-    }
+    @if $fullColumn != false {
+      > .vce-col {
+        margin-right: 0;
+      }
 
-    > .vce-col--$(numerator)-$(denominator) {
-      flex: 0;
-      flex-basis: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
-      max-width: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
+      > .vce-col--$(device)-1 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    } @else {
+      > .vce-col {
+        margin-right: $(columnGap)px;
+      }
+
+      > .vce-col--$(device)-$(numerator)-$(denominator) {
+        flex: 0;
+        flex-basis: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
+        max-width: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
+      }
     }
   }
 }
@@ -15,15 +26,21 @@
 .rtl .$selector > .vce-row-content,
 .rtl.$selector > .vce-row-content {
   @media (--$(device)) {
-    > .vce-col {
-      margin-left: $(columnGap)px;
-      margin-right: 0;
+    @if $fullColumn == false {
+      > .vce-col {
+        margin-left: 0;
+      }
+    } @else {
+      > .vce-col {
+        margin-left: $(columnGap)px;
+        margin-right: 0;
+      }
     }
   }
 }
 
 .vcv-wpbackend-layout .vce-row > .vce-row-content {
-  > .vce-col--$(numerator)-$(denominator) {
+  > .vce-col--$(device)-$(numerator)-$(denominator) {
     flex: 0;
     flex-basis: calc(100% * $(numerator) / $(denominator));
     max-width: calc(100% * $(numerator) / $(denominator));

@@ -59,6 +59,9 @@ class Layout extends Attribute {
         },
         equalSpace: {
           value: false
+        },
+        fullColumn: {
+          value: false
         }
       }
     },
@@ -69,6 +72,9 @@ class Layout extends Attribute {
           value: false
         },
         lastIndex: {
+          value: false
+        },
+        fullColumn: {
           value: false
         }
       }
@@ -107,11 +113,12 @@ class Layout extends Attribute {
   setFieldValue (value) {
     let { updater, fieldKey } = this.props
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let colMixinData = this.getColumnMixins(this.sanitizeLayout(value))
       updater(fieldKey, {
         layoutData: this.sanitizeLayout(value),
-        attributeMixins: this.getColumnMixins(this.sanitizeLayout(value))
+        attributeMixins: colMixinData
       })
-      this.setState({ value: { layoutData: value, attributeMixins: this.getColumnMixins(this.sanitizeLayout(value)) } })
+      this.setState({ value: { layoutData: value, attributeMixins: colMixinData } })
     } else {
       updater(fieldKey, this.sanitizeLayout(value))
       this.setState({ value: value })
@@ -135,7 +142,7 @@ class Layout extends Attribute {
     })
 
     Layout.devices.forEach((device) => {
-      if (device === 'md') {
+      if (device === 'md' || device === 'xs') {
         let reducedLayout = []
         layout.forEach((col) => {
           if (reducedLayout.indexOf(col) < 0) {
@@ -150,6 +157,10 @@ class Layout extends Attribute {
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
           newMixin[ mixinName ].variables.selector.value = selector
           newMixin[ mixinName ].variables.device.value = device
+
+          if (device === 'xs') {
+            newMixin[ mixinName ].variables.fullColumn.value = true
+          }
 
           if (col !== 'auto') {
             newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
@@ -170,6 +181,10 @@ class Layout extends Attribute {
             newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
             newMixin[ mixinName ].variables.device.value = device
             newMixin[ mixinName ].variables.lastIndex.value = col + 1
+
+            if (device === 'xs') {
+              newMixin[ mixinName ].variables.fullColumn.value = true
+            }
           })
         }
       }

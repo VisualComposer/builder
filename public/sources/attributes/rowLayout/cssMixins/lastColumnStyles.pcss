@@ -1,7 +1,9 @@
 #$selector > .vce-row-content {
   @media (--$(device)) {
-    > .vce-col:nth-child($lastIndex) {
-      margin-right: 0;
+    @if $fullColumn == false {
+      > .vce-col:nth-child($lastIndex) {
+        margin-right: 0;
+      }
     }
   }
 }
@@ -9,8 +11,10 @@
 .rtl #$selector > .vce-row-content,
 .rtl#$selector > .vce-row-content {
   @media (--$(device)) {
-    > .vce-col:nth-child($lastIndex) {
-      margin-left: 0;
+    @if $fullColumn == false {
+      > .vce-col:nth-child($lastIndex) {
+        margin-left: 0;
+      }
     }
   }
 }
