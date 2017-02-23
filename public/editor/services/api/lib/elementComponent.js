@@ -36,14 +36,16 @@ export default class ElementComponent extends Component {
   }
 
   getBackgroundClass (designOptions) {
+    let { device } = designOptions
     let classes = []
-    if (designOptions && designOptions.device) {
-      if (designOptions.device[ 'all' ] && (designOptions.device[ 'all' ].backgroundColor !== '' || designOptions.device[ 'all' ].backgroundImage.urls.length)) {
+    if (device) {
+      let { all } = device
+      if (all && (all.backgroundColor !== undefined || (all.images && all.images.urls && all.images.urls.length))) {
         classes.push('vce-element--has-background')
       } else {
-        for (let device in designOptions.device) {
-          if (designOptions.device[ device ] && (designOptions.device[ device ].backgroundColor !== '' || designOptions.device[ device ].backgroundImage.urls.length)) {
-            classes.push(`vce-element--${device}--has-background`)
+        for (let currentDevice in device) {
+          if (device[ currentDevice ] && (device[ currentDevice ].backgroundColor !== undefined || (device[ currentDevice ].images && device[ currentDevice ].images.urls && device[ currentDevice ].images.urls.length))) {
+            classes.push(`vce-element--${currentDevice}--has-background`)
           }
         }
       }
