@@ -42,9 +42,6 @@ class Layout extends Attribute {
         device: {
           value: false
         },
-        colIndex: {
-          value: false
-        },
         selector: {
           value: false
         },
@@ -138,45 +135,45 @@ class Layout extends Attribute {
     })
 
     Layout.devices.forEach((device) => {
-      let reducedLayout = []
-      layout.forEach((col) => {
-        if (reducedLayout.indexOf(col) < 0) {
-          reducedLayout.push(col)
-        }
-      })
-
-      reducedLayout.forEach((col, index) => {
-        let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
-        let fraction = col.split('/')
-
-        newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
-        newMixin[ mixinName ].variables.selector.value = selector
-        newMixin[ mixinName ].variables.colIndex.value = index + 1
-        newMixin[ mixinName ].variables.device.value = device
-
-        if (col !== 'auto') {
-          newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-          newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
-        }
-
-        newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-        let gapSpace = (columnGap * (parseInt(fraction[ 1 ]) - 1)).toString()
-        let equalSpace = (columnGap * (parseInt(fraction[ 0 ]) - 1)).toString()
-
-        newMixin[ mixinName ].variables.gapSpace.value = gapSpace
-        newMixin[ mixinName ].variables.equalSpace.value = equalSpace
-      })
-
-      if (columnGap > 0) {
-        lastInRow.forEach((col) => {
-          let mixinName = `${'lastColumnMixin'}:lastCol${col + 1}:${device}`
-          newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
-          newMixin[ mixinName ].variables.device.value = device
-          newMixin[ mixinName ].variables.lastIndex.value = col + 1
+      if (device === 'md') {
+        let reducedLayout = []
+        layout.forEach((col) => {
+          if (reducedLayout.indexOf(col) < 0) {
+            reducedLayout.push(col)
+          }
         })
+
+        reducedLayout.forEach((col, index) => {
+          let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
+          let fraction = col.split('/')
+
+          newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
+          newMixin[ mixinName ].variables.selector.value = selector
+          newMixin[ mixinName ].variables.device.value = device
+
+          if (col !== 'auto') {
+            newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
+            newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+          }
+
+          newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
+          let gapSpace = (columnGap * (parseInt(fraction[ 1 ]) - 1)).toString()
+          let equalSpace = (columnGap * (parseInt(fraction[ 0 ]) - 1)).toString()
+
+          newMixin[ mixinName ].variables.gapSpace.value = gapSpace
+          newMixin[ mixinName ].variables.equalSpace.value = equalSpace
+        })
+
+        if (columnGap > 0) {
+          lastInRow.forEach((col) => {
+            let mixinName = `${'lastColumnMixin'}:lastCol${col + 1}:${device}`
+            newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
+            newMixin[ mixinName ].variables.device.value = device
+            newMixin[ mixinName ].variables.lastIndex.value = col + 1
+          })
+        }
       }
     })
-    // console.log(newMixin)
     return newMixin
   }
   getLastInRow (columns) {

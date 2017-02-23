@@ -1,5 +1,5 @@
 .$selector > .vce-row-content {
-  @media (--$(device)-only) {
+  @media (--$(device)) {
     > .vce-col {
       margin-right: $(columnGap)px;
     }
@@ -14,7 +14,7 @@
 
 .rtl .$selector > .vce-row-content,
 .rtl.$selector > .vce-row-content {
-  @media (--$(device)-only) {
+  @media (--$(device)) {
     > .vce-col {
       margin-left: $(columnGap)px;
       margin-right: 0;
