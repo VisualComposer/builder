@@ -64,20 +64,6 @@ class Layout extends Attribute {
           value: false
         }
       }
-    },
-    lastColumnMixin: {
-      src: require('raw-loader!./cssMixins/lastColumnStyles.pcss'),
-      variables: {
-        device: {
-          value: false
-        },
-        lastIndex: {
-          value: false
-        },
-        fullColumn: {
-          value: false
-        }
-      }
     }
   }
   static devices = ['xs', 'sm', 'md', 'lg', 'xl']
@@ -174,19 +160,6 @@ class Layout extends Attribute {
           newMixin[ mixinName ].variables.gapSpace.value = gapSpace
           newMixin[ mixinName ].variables.equalSpace.value = equalSpace
         })
-
-        if (columnGap > 0) {
-          lastInRow.forEach((col) => {
-            let mixinName = `${'lastColumnMixin'}:lastCol${col + 1}:${device}`
-            newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.lastColumnMixin)
-            newMixin[ mixinName ].variables.device.value = device
-            newMixin[ mixinName ].variables.lastIndex.value = col + 1
-
-            if (device === 'xs') {
-              newMixin[ mixinName ].variables.fullColumn.value = true
-            }
-          })
-        }
       }
     })
     return newMixin

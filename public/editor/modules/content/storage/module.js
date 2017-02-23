@@ -7,16 +7,48 @@ const utils = vcCake.getService('utils')
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
+    let getLastInRow = (columns) => {
+      let lastColumnIndex = []
+      let rowValue = 0
+
+      columns.forEach((col, index) => {
+        let colValue = ''
+        if (col === 'auto') {
+          colValue = 0.001
+        } else {
+          let column = col.split('/')
+          let numerator = column[ 0 ]
+          let denominator = column[ 1 ]
+          colValue = numerator / denominator
+        }
+
+        if (rowValue + colValue > 1) {
+          lastColumnIndex.push(index - 1)
+          rowValue = 0
+        }
+
+        if (!columns[ index + 1 ]) {
+          lastColumnIndex.push(index)
+        }
+
+        rowValue += colValue
+      })
+
+      return lastColumnIndex
+    }
+    let lastColumns = getLastInRow(layout)
     let createdElements = []
     let columns = DocumentData.children(id)
     let lastColumnObject = null
     layout.forEach((size, i) => {
+      let lastInRow = lastColumns.indexOf(i) >= 0
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size = size
+        lastColumnObject.lastInRow = lastInRow
         api.request('data:update', lastColumnObject.id, lastColumnObject)
       } else {
-        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size })
+        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow })
         createdElements.push(createdElement.id)
       }
     })

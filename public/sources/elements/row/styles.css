@@ -25,6 +25,13 @@
   padding-left: 0;
   padding-right: 0;
 }
+.vce-row > .vce-row-content > .vce-col.vce-col--last {
+  margin-right: 0;
+}
+.rtl .vce-row > .vce-row-content > .vce-col.vce-col--last,
+.rtl.vce-row > .vce-row-content > .vce-col.vce-col--last {
+  margin-left: 0;
+}
 .vce-row-full-height {
   min-height: 100vh;
 }

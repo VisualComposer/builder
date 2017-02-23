@@ -4,7 +4,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     // import variables
     let { id, atts, editor } = this.props
-    let { size, customClass, metaCustomId, designOptionsAdvanced } = atts
+    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow } = atts
     let content = this.props.children
 
     // import template js
@@ -18,6 +18,10 @@ class Component extends vcvAPI.elementComponent {
       classes.push('vce-col--md-' + (size ? size.replace('/', '-') : 'auto'))
       classes.push('vce-col--xs-1')
       classes.push(this.getBackgroundClass(designOptionsAdvanced))
+
+      if (lastInRow) {
+        classes.push('vce-col--last')
+      }
     } else {
       classes = [ 'vce-col', 'vce-col--xs-1' ]
       classes.push('vce-col--sm-' + (size ? size.replace('/', '-') : 'auto'))
