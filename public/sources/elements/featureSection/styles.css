@@ -43,6 +43,8 @@
         flex: 1 1 50%;
   }
   .vce-feature-section--content {
+    display: -ms-flexbox;
+    display: flex;
     -ms-flex: 1 1 50%;
         flex: 1 1 50%;
     -ms-flex-direction: column;
@@ -54,7 +56,9 @@
   }
   .vce-feature-section--content-container {
     padding: 0;
-    width: 100%;
     max-width: 585px;
+    width: 66.66666667%;
+    margin-left: 16.66666667%;
+    padding-left: 15px;
   }
 }
