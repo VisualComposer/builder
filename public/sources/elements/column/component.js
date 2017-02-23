@@ -40,10 +40,10 @@ class Component extends vcvAPI.elementComponent {
     let doBoxModel = this.applyDO('margin padding border animation background')
 
     // import template
-    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} {...doBoxModel}>
+    return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
       {this.getBackgroundTypeContent()}
       <div className='vce-col-inner'>
-        <div className='vce-col-content' {...customProps}>
+        <div className='vce-col-content' {...customProps} {...doBoxModel}>
           {content}
         </div>
       </div>
