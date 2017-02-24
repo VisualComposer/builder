@@ -337,12 +337,25 @@ class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].videoVimeo
           }
 
+          // gradient stat color is empty
+          if (newValue[ device ].gradientStartColor === '') {
+            delete newValue[ device ].gradientStartColor
+          }
+
+          // gradient end color is empty
+          if (newValue[ device ].gradientEndColor === '') {
+            delete newValue[ device ].gradientEndColor
+          }
+
           // gradient angle is not set
           if (!newValue[ device ].gradientOverlay) {
             delete newValue[ device ].gradientAngle
             delete newValue[ device ].gradientEndColor
             delete newValue[ device ].gradientStartColor
             delete newValue[ device ].gradientOverlay
+          } else if (!newValue[ device ].gradientStartColor && !newValue[ device ].gradientEndColor) {
+            delete newValue[ device ].gradientOverlay
+            delete newValue[ device ].gradientAngle
           }
 
           // background color is empty
@@ -439,11 +452,15 @@ class DesignOptionsAdvanced extends Attribute {
             let mixinName = `gradientMixin:${device}`
             newMixins[ mixinName ] = {}
             newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
-            newMixins[ mixinName ].variables.startColor = {
-              value: newValue[ device ].gradientStartColor || false
+            if (newValue[ device ].gradientStartColor) {
+              newMixins[ mixinName ].variables.startColor = {
+                value: newValue[ device ].gradientStartColor
+              }
             }
-            newMixins[ mixinName ].variables.endColor = {
-              value: newValue[ device ].gradientEndColor || false
+            if (newValue[ device ].gradientEndColor) {
+              newMixins[ mixinName ].variables.endColor = {
+                value: newValue[ device ].gradientEndColor
+              }
             }
             newMixins[ mixinName ].variables.angle = {
               value: newValue[ device ].gradientAngle || 0
