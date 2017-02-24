@@ -3,6 +3,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
+const content = vcCake.getStorage('content')
+
 const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
@@ -12,10 +14,12 @@ export default class ElementControl extends React.Component {
     element: React.PropTypes.object.isRequired,
     options: React.PropTypes.object
   }
-
-  state = {
-    previewVisible: false,
-    previewStyle: {}
+  constructor (props) {
+    super(props)
+    this.state = {
+      previewVisible: false,
+      previewStyle: {}
+    }
   }
 
   componentDidMount () {
@@ -25,14 +29,12 @@ export default class ElementControl extends React.Component {
 
   addElement (e) {
     e && e.preventDefault()
-    /*
     const {options} = this.props
-    let data = cook.get({ tag: this.props.tag, parent: this.props.api.actions.getParent() })
-    this.props.api.request('data:add', data.toJS(), true, {
+    let data = cook.get({ tag: this.props.tag, parent: false }) // this.props.api.actions.getParent()
+    content.trigger('add', data.toJS(), true, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
-    this.props.api.request('app:edit', data.toJS().id, '')
-    */
+    // this.props.api.request('app:edit', data.toJS().id, '')
   }
 
   showPreview () {
