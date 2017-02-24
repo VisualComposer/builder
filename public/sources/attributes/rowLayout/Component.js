@@ -266,7 +266,7 @@ responsiveness options and stacking order.
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
           <div className='vcv-ui-row vcv-ui-row-gap--md'>
-            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+            <div className='vcv-ui-col vcv-ui-col--md-6'>
               <div className='vcv-ui-form-layout-custom-layout-columns'>
                 <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
                   <div className='vcv-ui-form-layout-custom-layout-input'>
@@ -284,7 +284,7 @@ responsiveness options and stacking order.
                 </div>
               </div>
             </div>
-            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+            <div className='vcv-ui-col vcv-ui-col--md-6'>
               {this.getReverseToggle()}
             </div>
           </div>
