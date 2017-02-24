@@ -169,6 +169,7 @@
     "options": {
       "label": "Column gap",
       "description": "Enter gap between columns in pixels (Example: 5).",
+      "min": "0",
       "cssMixin": {
         "mixin": "columnGap",
         "property": "columnGap",
