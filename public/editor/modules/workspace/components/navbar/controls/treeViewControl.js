@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import {setData, onDataChange, ignoreDataChange} from 'vc-cake'
+import {getStorage} from 'vc-cake'
+
+const workspaceContentStartState = getStorage('workspace').state('contentStart')
 
 export default class TreeViewControl extends React.Component {
   constructor (props) {
@@ -16,14 +18,14 @@ export default class TreeViewControl extends React.Component {
     this.setState({isActive: state === 'treeView'})
   }
   componentDidMount () {
-    onDataChange('workspace:content:start', this.setActiveState)
+    workspaceContentStartState.onChange(this.setActiveState)
   }
   componentWillUnmount () {
-    ignoreDataChange('workspace:content:start', this.setActiveState)
+    workspaceContentStartState.ignoreChange(this.setActiveState)
   }
   toggleTreeView (e) {
     e && e.preventDefault()
-    setData('workspace:content:start', !this.state.isActive ? 'treeView' : false)
+    workspaceContentStartState.set(!this.state.isActive ? 'treeView' : false)
   }
 
   render () {

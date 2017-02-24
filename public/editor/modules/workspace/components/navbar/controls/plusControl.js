@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import {setData, onDataChange, ignoreDataChange} from 'vc-cake'
+import {getStorage} from 'vc-cake'
+
+const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class PlusControl extends React.Component {
   constructor (props) {
@@ -15,14 +17,14 @@ export default class PlusControl extends React.Component {
     this.setState({isActive: state === 'addElement'})
   }
   componentDidMount () {
-    onDataChange('workspace:content:end', this.setActiveState)
+    workspaceContentEndState.onChange(this.setActiveState)
   }
   componentWillUnmount () {
-    ignoreDataChange('workspace:content:end', this.setActiveState)
+    workspaceContentEndState.ignoreChange(this.setActiveState)
   }
   toggleAddElement (e) {
     e && e.preventDefault()
-    setData('workspace:content:end', !this.state.isActive ? 'addElement' : false)
+    workspaceContentEndState.set(!this.state.isActive ? 'addElement' : false)
   }
 
   render () {

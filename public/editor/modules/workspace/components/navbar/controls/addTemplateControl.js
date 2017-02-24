@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import {setData, onDataChange, ignoreDataChange} from 'vc-cake'
+import {getStorage} from 'vc-cake'
+
+const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class AddTemplateControl extends React.Component {
 
@@ -12,24 +14,11 @@ export default class AddTemplateControl extends React.Component {
     this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
-/*
-  componentWillMount () {
-    this.props.api
-      .reply('bar-content-end:show', this.updateWindow)
-      .reply('bar-content-end:hide', this.updateWindow)
-  }
-
-  componentWillUnmount () {
-    this.props.api
-      .reply('bar-content-end:show', this.updateWindow)
-      .reply('bar-content-end:hide', this.updateWindow)
-  }
-*/
   componentDidMount () {
-    onDataChange('workspace:content:end', this.setActiveState)
+    workspaceContentEndState.onChange(this.setActiveState)
   }
   componentWillUnmount () {
-    ignoreDataChange('workspace:content:end', this.setActiveState)
+    workspaceContentEndState.ignoreChange(this.setActiveState)
   }
   setActiveState (state) {
     this.setState({ isActive: state === 'addTemplate' })
@@ -37,7 +26,7 @@ export default class AddTemplateControl extends React.Component {
 
   toggleAddTemplate (e) {
     e && e.preventDefault()
-    setData('workspace:content:end', !this.state.isActive ? 'addTemplate' : false)
+    workspaceContentEndState.set(!this.state.isActive ? 'addTemplate' : false)
   }
 
   render () {

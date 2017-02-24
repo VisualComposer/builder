@@ -3,7 +3,10 @@ import React from 'react'
 import Resizer from '../../../../resources/resizer/resizer'
 import Content from './content/content'
 import NavbarContainer from './navbar/navbarContainer'
-import {onDataChange, ignoreDataChange} from 'vc-cake'
+import {getStorage} from 'vc-cake'
+
+const workspace = getStorage('workspace')
+
 export default class Workspace extends React.Component {
 
   constructor (props) {
@@ -12,16 +15,16 @@ export default class Workspace extends React.Component {
       contentStart: false,
       contentEnd: false
     }
-    this.setContentEnd = this.setContentEnd.bind(this)
     this.setContentStart = this.setContentStart.bind(this)
+    this.setContentEnd = this.setContentEnd.bind(this)
   }
   componentDidMount () {
-    onDataChange('workspace:content:end', this.setContentEnd)
-    onDataChange('workspace:content:start', this.setContentStart)
+    workspace.state('contentStart').onChange(this.setContentStart)
+    workspace.state('contentEnd').onChange(this.setContentEnd)
   }
   componentWillUnmount () {
-    ignoreDataChange('workspace:content:end', this.setContentEnd)
-    ignoreDataChange('workspace:content:start', this.setContentStart)
+    workspace.state('contentStart').ignoreChange(this.setContentStart)
+    workspace.state('contentEnd').ignoreChange(this.setContentEnd)
   }
   setContentEnd (value) {
     this.setState({contentEnd: value || false})
