@@ -120,8 +120,8 @@ class Layout extends Attribute {
   }
   getColumnMixins (layout) {
     let newMixin = {}
-    let columnGap = parseInt(vcCake.getService('document').get(this.props.element.get('id')).columnGap)
-    let selector = `vce-row--col-gap-${columnGap}`
+    let columnGap = vcCake.getService('document').get(this.props.element.get('id')).columnGap
+    let selector = `vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`
     let lastInRow = this.getLastInRow(layout)
     let colsInRow = []
     let cols = 0
