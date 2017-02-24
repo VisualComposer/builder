@@ -7,22 +7,23 @@ import lodash from 'lodash'
 import Attribute from '../attribute'
 import DefaultLayouts from './lib/defaultLayouts'
 import TokenizationList from './lib/tokenizationList'
+import Toggle from '../toggle/Component'
 
 import './css/styles.less'
 
 class Layout extends Attribute {
   static defaultProps = {
     layouts: [
-      ['auto'],
-      ['1/2', '1/2'],
-      ['1/3', '1/3', '1/3'],
-      ['1/4', '1/4', '1/4', '1/4'],
-      ['1/5', '1/5', '1/5', '1/5', '1/5'],
-      ['1/6', '1/6', '1/6', '1/6', '1/6', '1/6'],
-      ['2/3', '1/3'],
-      ['1/4', '3/4'],
-      ['1/4', '2/4', '1/4'],
-      ['1/6', '4/6', '1/6']
+      [ 'auto' ],
+      [ '1/2', '1/2' ],
+      [ '1/3', '1/3', '1/3' ],
+      [ '1/4', '1/4', '1/4', '1/4' ],
+      [ '1/5', '1/5', '1/5', '1/5', '1/5' ],
+      [ '1/6', '1/6', '1/6', '1/6', '1/6', '1/6' ],
+      [ '2/3', '1/3' ],
+      [ '1/4', '3/4' ],
+      [ '1/4', '2/4', '1/4' ],
+      [ '1/6', '4/6', '1/6' ]
     ],
     suggestions: [
       'auto',
@@ -75,22 +76,32 @@ class Layout extends Attribute {
     super(props)
     this.setActiveLayout = this.setActiveLayout.bind(this)
     this.validateSize = this.validateSize.bind(this)
+    this.reverseHandler = this.reverseHandler.bind(this)
   }
   updateState (props) {
-    let layout = props.value instanceof Array && props.value.length
-      ? props.value
-      : vcCake.getService('document').children(props.element.get('id'))
-      .map((element) => {
-        return element.size || 'auto'
-      })
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
+        ? props.value.layoutData
+        : vcCake.getService('document').children(props.element.get('id'))
+          .map((element) => {
+            return element.size || 'auto'
+          })
+      let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
       return {
         value: {
           layoutData: layout,
-          attributeMixins: this.getColumnMixins(this.sanitizeLayout(layout))
+          attributeMixins: this.getColumnMixins(this.sanitizeLayout(layout)),
+          reverseColumn: reverseColumnState
         }
       }
     } else {
+      let layout = props.value instanceof Array && props.value.length
+        ? props.value
+        : vcCake.getService('document').children(props.element.get('id'))
+          .map((element) => {
+            return element.size || 'auto'
+          })
+
       return {
         value: layout
       }
@@ -99,15 +110,17 @@ class Layout extends Attribute {
   setActiveLayout (layout) {
     this.setFieldValue(layout)
   }
-  setFieldValue (value) {
+  setFieldValue (value, reverseColumn) {
     let { updater, fieldKey } = this.props
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
       let colMixinData = this.getColumnMixins(this.sanitizeLayout(value))
       updater(fieldKey, {
         layoutData: this.sanitizeLayout(value),
-        attributeMixins: colMixinData
+        attributeMixins: colMixinData,
+        reverseColumn: reverseColumnState
       })
-      this.setState({ value: { layoutData: value, attributeMixins: colMixinData } })
+      this.setState({ value: { layoutData: value, attributeMixins: colMixinData, reverseColumn: reverseColumnState } })
     } else {
       updater(fieldKey, this.sanitizeLayout(value))
       this.setState({ value: value })
@@ -121,7 +134,8 @@ class Layout extends Attribute {
   getColumnMixins (layout) {
     let newMixin = {}
     let columnGap = vcCake.getService('document').get(this.props.element.get('id')).columnGap
-    let selector = `vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`
+    columnGap = columnGap ? parseInt(columnGap) : 0
+    let selector = `vce-row--col-gap-${columnGap}`
     let lastInRow = this.getLastInRow(layout)
     let colsInRow = []
     let cols = 0
@@ -213,6 +227,27 @@ class Layout extends Attribute {
     }
     return false
   }
+  getReverseToggle () {
+    if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      return null
+    }
+
+    return (
+      <div className='vcv-ui-form-layout-reverse-column-toggle'>
+        <Toggle
+          api={this.props.api}
+          fieldKey={'reverseColumnStacking'}
+          updater={this.reverseHandler}
+          options={{ labelText: 'Reverse column stacking' }}
+          value={this.state.value.reverseColumn}
+        />
+      </div>
+    )
+  }
+  reverseHandler (fieldKey, value) {
+    this.setFieldValue(this.state.value.layoutData, value)
+  }
+
   render () {
     let value = ''
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -226,23 +261,31 @@ class Layout extends Attribute {
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(value)} onChange={this.setActiveLayout} />
+        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(value)}
+          onChange={this.setActiveLayout} />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
-          <div className='vcv-ui-form-layout-custom-layout-columns'>
-            <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
-              <div className='vcv-ui-form-layout-custom-layout-input'>
-                <TokenizationList
-                  layouts={this.props.layouts}
-                  value={value.join(' + ')}
-                  onChange={this.setActiveLayout}
-                  validator={this.validateSize}
-                  suggestions={this.props.suggestions}
-                />
-                <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using fractions.
-The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
-                </p>
+          <div className='vcv-ui-row vcv-ui-row-gap--md'>
+            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+              <div className='vcv-ui-form-layout-custom-layout-columns'>
+                <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
+                  <div className='vcv-ui-form-layout-custom-layout-input'>
+                    <TokenizationList
+                      layouts={this.props.layouts}
+                      value={value.join(' + ')}
+                      onChange={this.setActiveLayout}
+                      validator={this.validateSize}
+                      suggestions={this.props.suggestions}
+                    />
+                    <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using fractions.
+                      The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
+                    </p>
+                  </div>
+                </div>
               </div>
+            </div>
+            <div className='vcv-ui-col vcv-ui-col--fixed-width'>
+              {this.getReverseToggle()}
             </div>
           </div>
         </div>
