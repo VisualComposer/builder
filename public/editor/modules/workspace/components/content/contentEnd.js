@@ -1,9 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {setData} from 'vc-cake'
-
+import {getStorage} from 'vc-cake'
 import Resizer from '../../../../../resources/resizer/resizer'
+
+const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class ContentEnd extends React.Component {
   static propTypes = {
@@ -88,7 +89,7 @@ export default class ContentEnd extends React.Component {
 
   closeContent (e) {
     e && e.preventDefault()
-    setData('workspace:content:end', false)
+    workspaceContentEndState.set(false)
   }
 
   render () {
