@@ -3,7 +3,7 @@
 class Component extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
-    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced } = atts
+    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout } = atts
     let content = this.props.children
 
     let classes = [ 'vce-row' ]
@@ -12,6 +12,9 @@ class Component extends vcvAPI.elementComponent {
       classes.push(this.getBackgroundClass(designOptionsAdvanced))
       classes.push('vce-row-layout-custom')
       classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
+      if (layout && layout.reverseColumn) {
+        classes.push('vce-row-direction--reverse')
+      }
     }
     let customProps = {
       style: {}
@@ -20,7 +23,6 @@ class Component extends vcvAPI.elementComponent {
       style: {}
     }
     const classNames = require('classnames')
-    // reverse classes.push('vce-row-wrap--reverse')
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
     }

@@ -4,6 +4,9 @@
       .vce-col {
         margin-right: 0;
       }
+      &.vce-row-direction--reverse .vce-col {
+        margin-left: 0;
+      }
       .vce-col--$(device)-1 {
         flex: 0 0 100%;
         max-width: 100%;
@@ -11,6 +14,10 @@
     } @else {
       .vce-col {
         margin-right: $(columnGap)px;
+      }
+      &.vce-row-direction--reverse .vce-col {
+        margin-right: 0;
+        margin-left: $(columnGap)px;
       }
       @if $autoColumn != false {
         .vce-col--$(device)-auto {
@@ -31,14 +38,14 @@
 .rtl .$selector,
 .rtl.$selector {
   @media (--$(device)) {
-    @if $fullColumn == false {
-      .vce-col {
-        margin-left: 0;
-      }
-    } @else {
+    @if $fullColumn != false {
       .vce-col {
         margin-left: $(columnGap)px;
         margin-right: 0;
+      }
+      &.vce-row-direction--reverse .vce-col {
+        margin-left: 0;
+        margin-right: $(columnGap)px;
       }
     }
   }
