@@ -14,7 +14,8 @@ export default class Navbar extends React.Component {
     super(props)
     this.state = {
       controlsCount: 0,
-      visibleControlsCount: 0
+      visibleControlsCount: 0,
+      hasEndContent: false
     }
 
     this.refreshControls = this.refreshControls.bind(this)
@@ -61,6 +62,16 @@ export default class Navbar extends React.Component {
       .on('build', (count) => {
         this.setState({ controlsCount: count })
         this.refreshControls()
+      })
+      .reply('bar-content-end:show', () => {
+        this.setState({
+          hasEndContent: true
+        })
+      })
+      .reply('bar-content-end:hide', () => {
+        this.setState({
+          hasEndContent: false
+        })
       })
     this.addResizeListener(ReactDOM.findDOMNode(this), this.refreshControls)
   }
@@ -184,6 +195,15 @@ export default class Navbar extends React.Component {
   }
 
   render () {
+    let { hasEndContent } = this.state
+    if (hasEndContent) {
+      document.body.classList.remove('vcv-layout-dock--unlock')
+      document.body.classList.add('vcv-layout-dock--lock')
+    } else {
+      document.body.classList.remove('vcv-layout-dock--lock')
+      document.body.classList.add('vcv-layout-dock--unlock')
+    }
+
     return (
       <div id='vc-navbar-container'>
         <div className='vcv-ui-navbar-container'>
