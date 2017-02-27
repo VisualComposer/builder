@@ -203,6 +203,9 @@ export default class ControlsManager {
 
     // interact with controls
     this.interactWithControls()
+
+    // interact with tree
+    this.interactWithTree()
   }
 
   /**
@@ -226,6 +229,23 @@ export default class ControlsManager {
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.frames.hide()
+    })
+  }
+
+  /**
+   * Interact with tree
+   */
+  interactWithTree () {
+    this.api.reply('treeContent:element:mouseEnter', (id) => {
+      if (this.state.showOutline) {
+        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
+        if (element) {
+          this.outline.show(element)
+        }
+      }
+    })
+    this.api.reply('treeContent:element:mouseLeave', () => {
+      this.outline.hide()
     })
   }
 
@@ -340,7 +360,7 @@ export default class ControlsManager {
         if (element) {
           if (this.state.showOutline) {
             // show outline over content element
-            let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${element}"]`)
+            let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
             if (contentElement) {
               this.outline.show(contentElement)
             }
