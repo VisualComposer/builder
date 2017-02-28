@@ -210,7 +210,7 @@ class Layout extends Attribute {
     if (percentageRegex.test(text)) {
       // test if percentage is more than 1 and less than 100
       let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
-      return percentage > 1 && percentage <= 100
+      return percentage >= 1 && percentage <= 100
     }
     return false
   }
