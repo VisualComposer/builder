@@ -39,6 +39,11 @@
     "access": "public",
     "value": false
   },
+  "firstInRow": {
+    "type": "string",
+    "access": "public",
+    "value": false
+  },
   "customClass": {
     "type": "string",
     "access": "public",

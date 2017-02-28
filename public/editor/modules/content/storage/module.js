@@ -49,13 +49,15 @@ vcCake.add('storage', (api) => {
     let lastColumnObject = null
     layout.forEach((size, i) => {
       let lastInRow = lastColumns.indexOf(i) >= 0
+      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) >= 0
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size = size
         lastColumnObject.lastInRow = lastInRow
+        lastColumnObject.firstInRow = firstInRow
         api.request('data:update', lastColumnObject.id, lastColumnObject)
       } else {
-        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow })
+        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
         createdElements.push(createdElement.id)
       }
     })
