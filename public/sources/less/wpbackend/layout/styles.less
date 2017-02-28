@@ -54,25 +54,65 @@
     position: relative;
   }
 
+  &-header-container,
   &-header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     background-color: @vce-wpbackend-element-header-background-color;
     color: @vce-wpbackend-element-header-color;
     font-weight: 500;
-    cursor: pointer;
     position: relative;
     overflow: hidden;
     height: @vcv-wpbackend-element-header-size;
+  }
+
+  &-header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: auto;
+    border: none;
     padding: @vcv-wpbackend-element-header-padding;
+
+    &-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: @vcv-wpbackend-element-header-size;
+      cursor: pointer;
+    }
+  }
+
+  &-name-container {
+    flex: @vcv-wpbackend-layout-element-name-flex;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: @vcv-wpbackend-element-name-wrapper-margin;
+  }
+
+  &-icon {
+    &-container{
+      flex: 1 0 @vcv-wpbackend-element-header-icon-width;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: @vcv-wpbackend-element-header-size;
+    }
+  }
+
+  &-arrow {
+    flex: @vcv-wpbackend-layout-element-arrow-flex;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: @vcv-wpbackend-element-header-size;
 
     &::after {
       content: '';
       position: absolute;
-      right: 0;
-      width: 0;
-      height: 0;
-      margin-right: @vcv-wpbackend-element-header-after-margin-right;
     }
 
     &-closed {
@@ -88,40 +128,6 @@
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
         border-bottom: 5px solid @vce-wpbackend-element-header-after-color;
-      }
-    }
-
-    &-no-arrow {
-      cursor: default;
-      &::after {
-        display: none;
-      }
-    }
-
-    &-name-wrapper {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      margin: @vcv-wpbackend-element-name-wrapper-margin;
-    }
-
-    &-icon {
-      &-container{
-        flex: 0 0 @vcv-wpbackend-element-header-icon-width;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      &-only {
-        padding: @vcv-wpbackend-element-header-icon-only-padding;
-        .vce-wpbackend-element-header-icon-container {
-          flex-basis: 100%;
-
-          .vce-wpbackend-element-header-icon {
-            width: @vcv-wpbackend-element-header-icon-width;
-          }
-        }
       }
     }
   }
