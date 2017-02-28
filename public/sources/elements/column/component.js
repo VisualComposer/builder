@@ -15,7 +15,7 @@ class Component extends vcvAPI.elementComponent {
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       classes = [ 'vce-col' ]
-      classes.push('vce-col--md-' + (size ? size.replace('/', '-') : 'auto'))
+      classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
       classes.push('vce-col--xs-1')
       classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
