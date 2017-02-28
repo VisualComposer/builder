@@ -25,10 +25,20 @@
           width: 1px;
         }
       } @else {
-        .vce-col--$(device)-$(numerator)-$(denominator) {
-          flex: 0;
-          flex-basis: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
-          max-width: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
+        $width: calc((100% - $(gapSpace)px) * $(percentage) + $(equalSpace)px);
+
+        @if $percentageSelector != false {
+          .vce-col--$(device)-$(percentageSelector)p {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
+        } @else {
+          .vce-col--$(device)-$(numerator)-$(denominator) {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
         }
       }
     }
