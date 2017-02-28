@@ -66,6 +66,12 @@ class Layout extends Attribute {
         },
         autoColumn: {
           value: false
+        },
+        percentage: {
+          value: false
+        },
+        percentageSelector: {
+          value: false
         }
       }
     }
@@ -136,13 +142,6 @@ class Layout extends Attribute {
     let columnGap = vcCake.getService('document').get(this.props.element.get('id')).columnGap
     columnGap = columnGap ? parseInt(columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
-    let lastInRow = this.getLastInRow(layout)
-    let colsInRow = []
-    let cols = 0
-    lastInRow.forEach((item) => {
-      colsInRow.push(item + 1 - cols)
-      cols = item + 1
-    })
 
     Layout.devices.forEach((device) => {
       if (device === 'md' || device === 'xs') {
@@ -155,7 +154,13 @@ class Layout extends Attribute {
 
         reducedLayout.forEach((col, index) => {
           let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
-          let fraction = col.split('/')
+          let fraction = ''
+          if (col.indexOf('%') >= 0) {
+            let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
+            fraction = [numerator, 100]
+          } else {
+            fraction = col.split('/')
+          }
 
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
           newMixin[ mixinName ].variables.selector.value = selector
@@ -164,18 +169,21 @@ class Layout extends Attribute {
           if (device === 'xs') {
             newMixin[ mixinName ].variables.fullColumn.value = true
           }
+          let gapSpace = (columnGap * (parseFloat(fraction[ 1 ]) - 1)).toString()
+          let equalSpace = (columnGap * (parseFloat(fraction[ 0 ]) - 1)).toString()
 
           if (col !== 'auto') {
-            newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-            newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+            if (col.indexOf('%') >= 0) {
+              newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
+            } else {
+              newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
+              newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+            }
+            newMixin[ mixinName ].variables.percentage.value = fraction[ 0 ] / fraction[ 1 ]
           } else {
             newMixin[ mixinName ].variables.autoColumn.value = true
           }
-
           newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-          let gapSpace = (columnGap * (parseInt(fraction[ 1 ]) - 1)).toString()
-          let equalSpace = (columnGap * (parseInt(fraction[ 0 ]) - 1)).toString()
-
           newMixin[ mixinName ].variables.gapSpace.value = gapSpace
           newMixin[ mixinName ].variables.equalSpace.value = equalSpace
         })
@@ -183,35 +191,7 @@ class Layout extends Attribute {
     })
     return newMixin
   }
-  getLastInRow (columns) {
-    let lastColumnIndex = []
-    let rowValue = 0
 
-    columns.forEach((col, index) => {
-      let colValue = ''
-      if (col === 'auto') {
-        colValue = 0.001
-      } else {
-        let column = col.split('/')
-        let numerator = column[ 0 ]
-        let denominator = column[ 1 ]
-        colValue = numerator / denominator
-      }
-
-      if (rowValue + colValue > 1) {
-        lastColumnIndex.push(index - 1)
-        rowValue = 0
-      }
-
-      if (!columns[ index + 1 ]) {
-        lastColumnIndex.push(index)
-      }
-
-      rowValue += colValue
-    })
-
-    return lastColumnIndex
-  }
   validateSize (text) {
     if (text === 'auto') {
       return true
@@ -224,6 +204,13 @@ class Layout extends Attribute {
       let numerator = parseInt(results[ 1 ])
       let denominator = parseInt(results[ 2 ])
       return numerator <= denominator
+    }
+
+    let percentageRegex = /^(\d+)([,.]\d+)?%/
+    if (percentageRegex.test(text)) {
+      // test if percentage is more than 1 and less than 100
+      let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
+      return percentage >= 1 && percentage <= 100
     }
     return false
   }

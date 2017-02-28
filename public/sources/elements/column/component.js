@@ -4,7 +4,7 @@ class Component extends vcvAPI.elementComponent {
   render () {
     // import variables
     let { id, atts, editor } = this.props
-    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow } = atts
+    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow } = atts
     let content = this.props.children
 
     // import template js
@@ -15,12 +15,16 @@ class Component extends vcvAPI.elementComponent {
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       classes = [ 'vce-col' ]
-      classes.push('vce-col--md-' + (size ? size.replace('/', '-') : 'auto'))
+      classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
       classes.push('vce-col--xs-1')
       classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
       if (lastInRow) {
         classes.push('vce-col--last')
+      }
+
+      if (firstInRow) {
+        classes.push('vce-col--first')
       }
     } else {
       classes = [ 'vce-col', 'vce-col--xs-1' ]

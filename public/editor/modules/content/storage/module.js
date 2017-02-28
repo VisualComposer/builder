@@ -14,15 +14,22 @@ vcCake.add('storage', (api) => {
       columns.forEach((col, index) => {
         let colValue = ''
         if (col === 'auto') {
-          colValue = 0.001
+          colValue = 0.03
         } else {
-          let column = col.split('/')
-          let numerator = column[ 0 ]
-          let denominator = column[ 1 ]
-          colValue = numerator / denominator
+          if (col.indexOf('%') >= 0) {
+            colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
+          } else {
+            let column = col.split('/')
+            let numerator = column[ 0 ]
+            let denominator = column[ 1 ]
+            colValue = numerator / denominator
+          }
         }
 
-        if (rowValue + colValue > 1) {
+        let newRowValue = (rowValue + colValue).toString()
+        newRowValue = newRowValue.slice(0, (newRowValue.indexOf('.')) + 4)
+
+        if (newRowValue > 1) {
           lastColumnIndex.push(index - 1)
           rowValue = 0
         }
@@ -42,13 +49,15 @@ vcCake.add('storage', (api) => {
     let lastColumnObject = null
     layout.forEach((size, i) => {
       let lastInRow = lastColumns.indexOf(i) >= 0
+      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) >= 0
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size = size
         lastColumnObject.lastInRow = lastInRow
+        lastColumnObject.firstInRow = firstInRow
         api.request('data:update', lastColumnObject.id, lastColumnObject)
       } else {
-        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow })
+        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
         createdElements.push(createdElement.id)
       }
     })

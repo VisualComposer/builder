@@ -20,6 +20,11 @@ export default class Token extends React.Component {
   }
   render () {
     let {title, valid} = this.props
+    if (title.indexOf('%') >= 0) {
+      title = title.indexOf(',') >= 0 ? title.slice(0, (title.indexOf(',') + 3)).replace('%', '') + '%' : title
+      title = title.indexOf('.') >= 0 ? title.slice(0, (title.indexOf('.') + 3)).replace('%', '') + '%' : title
+    }
+
     let tagClasses = classNames({
       'vcv-ui-tag-list-item': true,
       'vcv-ui-tag-list-item-error': !valid // add validation

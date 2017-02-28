@@ -118,7 +118,7 @@ module.exports = {
         'content/wordpress/data-load',
         'content/wordpress/data-backend-save',
         'content/wordpress/data-unload',
-        'content/layout',
+        'content/backendContent',
         'content/backendLayout',
         'ui/layoutBarBackend',
         'ui/navbarBackend',
