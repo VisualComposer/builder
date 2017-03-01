@@ -1,4 +1,4 @@
-import { getService } from 'vc-cake'
+import { getService, env } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 const categoriesService = getService('categories')
@@ -92,15 +92,19 @@ export default class ControlsHandler {
       controlsList.classList.add('vcv-ui-outline-controls')
       this.controlsContainer.appendChild(controlsList)
 
-      // create tree trigger
-      if (treeTrigger) {
-        controlsList.appendChild(this.createControlForTrigger(
-          treeTrigger,
-          {
-            title: 'Tree View',
-            event: 'bar-content-start:show'
-          }
-        ))
+      // TODO: remove env in the top import after feature toggle is removed
+      if (env('FEATURE_BACKEND_TREEVIEW')) {
+        console.log('add tree view control')
+        // create tree trigger
+        if (treeTrigger) {
+          controlsList.appendChild(this.createControlForTrigger(
+            treeTrigger,
+            {
+              title: 'Tree View',
+              event: 'bar-content-start:show'
+            }
+          ))
+        }
       }
 
       // create element controls
