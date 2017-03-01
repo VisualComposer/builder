@@ -27,13 +27,13 @@ class Layout extends Attribute {
     ],
     suggestions: [
       'auto',
-      '1/2',
-      '1/3',
-      '1/4',
-      '1/5',
-      '1/6',
-      '2/3',
-      '3/4'
+      '50%',
+      '33.33%',
+      '25%',
+      '20%',
+      '16.66%',
+      '66.66%',
+      '75%'
     ]
   }
   static attributeMixins = {
@@ -206,11 +206,13 @@ class Layout extends Attribute {
       return numerator <= denominator
     }
 
-    let percentageRegex = /^(\d+)([,.]\d+)?%/
-    if (percentageRegex.test(text)) {
-      // test if percentage is more than 1 and less than 100
-      let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
-      return percentage >= 1 && percentage <= 100
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let percentageRegex = /^(\d+)([,.]\d+)?%/
+      if (percentageRegex.test(text)) {
+        // test if percentage is more than 1 and less than 100
+        let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
+        return percentage >= 1 && percentage <= 100
+      }
     }
     return false
   }
