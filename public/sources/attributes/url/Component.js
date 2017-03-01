@@ -44,10 +44,11 @@ if (typeof Object.assign !== 'function') {
   }
 }
 
-class Url extends Attribute {
+export default class Url extends Attribute {
   constructor (props) {
     super(props)
     this.delayedSearch = lodash.debounce(this.performSearch, 800)
+    this.open = this.open.bind(this)
   }
 
   updateState (props) {
@@ -99,7 +100,8 @@ class Url extends Attribute {
     })
   }
 
-  open = (e) => {
+  open (e) {
+    e && e.preventDefault()
     let unsavedValue = {}
     Object.assign(unsavedValue, this.state.value)
 
@@ -311,7 +313,10 @@ class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-link'>
-        <button className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default' onClick={this.open}>
+        <button
+          className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
+          onClick={this.open}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-link' />
           <span>Select URL</span>
         </button>
@@ -334,5 +339,3 @@ class Url extends Attribute {
     )
   }
 }
-
-export default Url
