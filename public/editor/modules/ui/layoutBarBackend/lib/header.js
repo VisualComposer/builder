@@ -1,9 +1,16 @@
 import React from 'react'
 
-class BarHeader extends React.Component {
-  state = {
-    contentComponent: null,
-    contentProps: {}
+export default class BarHeader extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      contentComponent: null,
+      contentProps: {}
+    }
   }
 
   componentDidMount () {
@@ -28,8 +35,3 @@ class BarHeader extends React.Component {
     )
   }
 }
-BarHeader.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default BarHeader
