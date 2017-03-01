@@ -9,7 +9,8 @@ const cook = getService('cook')
 export default class DefaultElement extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.number.isRequired
   }
 
   elementContainer = null
@@ -20,7 +21,8 @@ export default class DefaultElement extends React.Component {
     this.state = {
       hasAttributes: true,
       element: props.element,
-      activeElement: false
+      activeElement: false,
+      attributeState: 'closed'
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleElementSize = this.handleElementSize.bind(this)
@@ -51,15 +53,25 @@ export default class DefaultElement extends React.Component {
   // Events
 
   handleClick () {
-    let { activeElement } = this.state
-    this.setState({ activeElement: !activeElement })
+    let { attributeState } = this.state
+    if (attributeState === 'closed') {
+      this.setState({
+        activeElement: true,
+        attributeState: 'opened'
+      })
+    } else {
+      this.setState({
+        activeElement: false,
+        attributeState: 'closed'
+      })
+    }
   }
 
   handleElementSize () {
     let header = this.getElementData('.vce-wpbackend-element-header-container')
-    let { activeElement } = this.state
-    if (activeElement && header.width < 100) {
-      this.setState({ activeElement: false })
+    let { attributeState } = this.state
+    if (attributeState === 'opened') {
+      header.width < 100 ? this.setState({ activeElement: false }) : this.setState({ activeElement: true })
     }
   }
 
@@ -159,17 +171,19 @@ export default class DefaultElement extends React.Component {
       data-vcv-element={element.id}
       ref={(container) => { this.elementContainer = container }}
     >
-      <div className='vce-wpbackend-element-header'>
-        <div className='vce-wpbackend-element-icon-container'>
-          <img
-            className='vce-wpbackend-element-icon'
-            src={icon}
-            alt={element.name}
-            title={element.name}
-          />
-        </div>
-        <div className='vce-wpbackend-element-name-container'>
-          <span className='vce-wpbackend-element-name'>{element.name}</span>
+      <div className='vce-wpbackend-element-header-container'>
+        <div className='vce-wpbackend-element-header'>
+          <div className='vce-wpbackend-element-icon-container'>
+            <img
+              className='vce-wpbackend-element-icon'
+              src={icon}
+              alt={element.name}
+              title={element.name}
+            />
+          </div>
+          <div className='vce-wpbackend-element-name-container'>
+            <span className='vce-wpbackend-element-name'>{element.name}</span>
+          </div>
         </div>
       </div>
     </div>
