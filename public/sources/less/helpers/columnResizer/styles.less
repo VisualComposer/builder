@@ -1,0 +1,29 @@
+.vce-column-resizer {
+  position: relative;
+  width: 0;
+  align-self: stretch;
+  display: block;
+}
+
+.vce-column-resizer-handler {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: @resizer-background;
+
+  &:before {
+    content: "";
+    position: absolute;
+    border-right: @resizer-handler-width dashed @resizer-handler-color;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: col-resize;
+  }
+}
+
+.vce-col--last + .vce-column-resizer {
+  display: none;
+}

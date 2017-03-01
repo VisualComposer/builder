@@ -56,7 +56,8 @@ export default class DndManager {
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         document: this.documentDOM || document,
-        container: document.getElementById('vcv-editor-iframe-overlay') || document.body
+        container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
+        ignoreHandling: '.vce-row'
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
