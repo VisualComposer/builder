@@ -35,7 +35,8 @@
     "value": "https://www.youtube.com/watch?v=Im6gfxoiHeU",
     "options": {
       "label": "YouTube video link",
-      "description": "Enter link to YouTube video."
+      "description": "Enter link to YouTube video.",
+      "link": true
     }
   },
   "alignment": {
