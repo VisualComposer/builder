@@ -10,7 +10,7 @@ export default class LayoutBar extends React.Component {
     layout: React.PropTypes.object.isRequired
   }
 
-  layoutWidth = this.props.layout.getBoundingClientRect().width
+  layoutHeader = this.props.layout.querySelector('.vcv-layout-header')
   layoutBar = null
 
   constructor (props) {
@@ -24,8 +24,7 @@ export default class LayoutBar extends React.Component {
       barWidth: null,
       adminBar: document.getElementById('wpadminbar')
     }
-    this.handleWindowScroll = this.handleWindowScroll.bind(this)
-    this.handleStickyLayoutBarResize = this.handleStickyLayoutBarResize.bind(this)
+    this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
   }
 
   componentDidMount () {
@@ -50,13 +49,17 @@ export default class LayoutBar extends React.Component {
           hasEndContent: false
         })
       })
-    window.addEventListener('scroll', this.handleWindowScroll)
-    this.addResizeListener(this.props.layout, this.handleStickyLayoutBarResize)
+    window.addEventListener('scroll', this.handleNavbarPosition)
+    this.addResizeListener(this.props.layout, this.handleNavbarPosition)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.refreshHeaderHeight()
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.handleWindowScroll)
-    this.removeResizeListener(this.props.layout, this.handleStickyLayoutBarResize)
+    window.removeEventListener('scroll', this.handleNavbarPosition)
+    this.removeResizeListener(this.props.layout, this.handleNavbarPosition)
   }
 
   resizeCallback = (e) => {
@@ -95,26 +98,43 @@ export default class LayoutBar extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  handleStickyLayoutBarResize () {
-    let currentHeaderWidth = this.props.layout.getBoundingClientRect().width
-    if (this.state.isSticky && this.layoutWidth !== currentHeaderWidth) {
-      this.setState({ isSticky: false })
+  /**
+   *  Set layout header height if navbar is sticky,
+   *  to calculate proper position during window scroll
+   */
+  refreshHeaderHeight () {
+    if (this.state.isSticky) {
+      let bar = this.layoutBar.getBoundingClientRect()
+      this.layoutHeader.style.height = `${bar.height}px`
     }
-    this.layoutWidth = currentHeaderWidth
   }
 
-  handleWindowScroll () {
+  /**
+   *  Set navbar position relative to layout, always within layout borders
+   */
+  handleNavbarPosition () {
     let { isSticky, adminBar } = this.state
     let layoutPos = this.props.layout.getBoundingClientRect()
     let bar = this.layoutBar.getBoundingClientRect()
     let adminBarPos = window.getComputedStyle(adminBar).position
     let adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
-    if (layoutPos.bottom < adminBarHeight + bar.height && layoutPos.top < adminBarHeight + bar.height) {
+    // sticky navbar is below layout bottom position
+    if (layoutPos.bottom < adminBarHeight + bar.height && isSticky) {
       this.setState({
-        isSticky: false
+        barLeftPos: layoutPos.left,
+        barTopPos: layoutPos.bottom - bar.height,
+        barWidth: layoutPos.width
       })
-      return
     }
+    // sticky navbar is above layout bottom position
+    if (layoutPos.bottom > adminBarHeight + bar.height && layoutPos.top < adminBarHeight && isSticky) {
+      this.setState({
+        barLeftPos: layoutPos.left,
+        barTopPos: adminBarHeight,
+        barWidth: layoutPos.width
+      })
+    }
+    // navbar is below layout top position, navbar becomes sticky
     if (layoutPos.top < adminBarHeight && !isSticky) {
       this.setState({
         isSticky: true,
@@ -122,10 +142,12 @@ export default class LayoutBar extends React.Component {
         barTopPos: adminBarHeight,
         barWidth: layoutPos.width
       })
-      return
+      this.layoutHeader.style.height = `${bar.height}px`
     }
-    if (layoutPos.top > adminBarHeight + bar.height && isSticky) {
+    // navbar is above layout top position, navbar gets initial position
+    if (layoutPos.top > adminBarHeight && isSticky) {
       this.setState({ isSticky: false })
+      this.layoutHeader.removeAttribute('style')
     }
   }
 
