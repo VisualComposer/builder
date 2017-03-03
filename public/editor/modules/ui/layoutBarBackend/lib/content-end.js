@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import {setData, getData} from 'vc-cake'
+import { setData, getData } from 'vc-cake'
 
 import Resizer from '../../../../../resources/resizer/resizer'
 
@@ -149,24 +149,6 @@ export default class BarContentEnd extends React.Component {
           resizeBottom: true,
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-end-bottom'
-        }} />
-
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-end-right'
-        }} />
-
-        <Resizer params={{
-          resizeLeft: true,
-          resizerTargetLeft: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-end-left'
-        }} />
-
-        <Resizer params={{
-          resizeTop: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-end-top'
         }} />
       </div>
     )

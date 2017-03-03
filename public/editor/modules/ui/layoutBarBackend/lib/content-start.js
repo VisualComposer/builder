@@ -3,12 +3,19 @@ import classNames from 'classnames'
 import ReactDOM from 'react-dom'
 import Resizer from '../../../../../resources/resizer/resizer'
 
-class BarContentStart extends React.Component {
-  state = {
-    contentComponent: null,
-    contentProps: {},
-    showContent: false,
-    realWidth: 0
+export default class BarContentStart extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      contentComponent: null,
+      contentProps: {},
+      showContent: false,
+      realWidth: 0
+    }
   }
 
   componentDidMount () {
@@ -119,92 +126,7 @@ class BarContentStart extends React.Component {
           resizerTargetBottom: '.vcv-layout-bar-content-start',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-start-bottom vcv-ui-resizer-target-content'
         }} />
-
-        <Resizer params={{
-          resizeTop: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-top'
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-right'
-        }} />
-        <Resizer params={{
-          resizeTop: true,
-          resizeRight: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerTargetRight: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-right-top'
-        }} />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-start-bottom'
-        }} />
-
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-right'
-        }} />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-bottom'
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizeBottom: true,
-          resizerTargetRight: '.vcv-layout-bar-content',
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-start-right-bottom'
-        }} />
-
-        <Resizer params={{
-          resizeLeft: true,
-          resizerTargetLeft: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-left'
-        }} />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-bottom'
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeBottom: true,
-          resizerTargetLeft: '.vcv-layout-bar-content',
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-start-left-bottom'
-        }} />
-
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-bottom'
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeBottom: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-left-bottom',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizeBottom: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content-start',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-content-start-right-bottom'
-        }} />
       </div>
     )
   }
 }
-BarContentStart.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default BarContentStart
