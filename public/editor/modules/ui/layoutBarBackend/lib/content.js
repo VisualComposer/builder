@@ -2,12 +2,21 @@ import React from 'react'
 import classNames from 'classnames'
 import BarContentStart from './content-start'
 import BarContentEnd from './content-end'
-import {getData} from 'vc-cake'
+import { getData } from 'vc-cake'
 
-class BarContent extends React.Component {
-  state = {
-    hasStartContent: false,
-    hasEndContent: false
+export default class BarContent extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.number.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      stack: false,
+      hasStartContent: false,
+      hasEndContent: false
+    }
   }
 
   componentDidMount () {
@@ -52,10 +61,20 @@ class BarContent extends React.Component {
       })
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.layoutWidth < 800 && !this.state.stack) {
+      this.setState({ stack: true })
+    } else if (nextProps.layoutWidth > 800 && this.state.stack) {
+      this.setState({ stack: false })
+    }
+  }
+
   render () {
+    let { hasStartContent, hasEndContent, stack } = this.state
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': this.state.hasStartContent || this.state.hasEndContent
+      'vcv-ui-state--visible': hasStartContent || hasEndContent,
+      'vcv-layout-bar-content-stack': stack
     })
 
     return (
@@ -66,8 +85,3 @@ class BarContent extends React.Component {
     )
   }
 }
-BarContent.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default BarContent

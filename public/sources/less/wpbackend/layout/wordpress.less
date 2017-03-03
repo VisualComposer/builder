@@ -168,4 +168,26 @@
   .vcv-ui-resizer-layout-placement-top {
     display: block;
   }
+
+  .vcv-ui-resizer-target-content {
+    display: none;
+  }
+
+  .vcv-layout-bar-content-stack {
+    flex-direction: column;
+    min-height: 300px;
+
+    .vcv-layout-bar-content-start {
+      width: 100% !important;
+      height: 20vh;
+
+      .vcv-ui-resizer-target-content {
+        display: block;
+      }
+
+      .vcv-ui-resizer-target-bar {
+        display: none;
+      }
+    }
+  }
 }

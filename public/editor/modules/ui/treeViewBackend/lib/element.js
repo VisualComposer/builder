@@ -11,12 +11,7 @@ export default class TreeViewElement extends React.Component {
     element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
     data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
     api: React.PropTypes.object.isRequired,
-    level: React.PropTypes.number,
-    iframe: React.PropTypes.any
-  }
-
-  static defaultProps = {
-    iframe: document.getElementById('vcv-editor-iframe').contentWindow.document
+    level: React.PropTypes.number
   }
 
   constructor (props) {
@@ -34,6 +29,9 @@ export default class TreeViewElement extends React.Component {
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
     this.checkActive = this.checkActive.bind(this)
+    this.clickClone = this.clickClone.bind(this)
+    this.clickEdit = this.clickEdit.bind(this)
+    this.clickDelete = this.clickDelete.bind(this)
   }
 
   componentDidMount () {
@@ -84,16 +82,16 @@ export default class TreeViewElement extends React.Component {
     this.props.api.request('app:add', this.props.element.id, tag)
   }
 
-  clickClone = (e) => {
+  clickClone (e) {
     e && e.preventDefault()
     this.props.api.request('data:clone', this.props.element.id)
   }
 
-  clickEdit = (tab = '') => {
+  clickEdit (tab = '') {
     this.props.api.request('app:edit', this.props.element.id, tab)
   }
 
-  clickDelete = (e) => {
+  clickDelete (e) {
     e && e.preventDefault()
     this.props.api.request('data:remove', this.props.element.id)
   }
@@ -113,9 +111,9 @@ export default class TreeViewElement extends React.Component {
 
   scrollToElement (e) {
     let elId = e.currentTarget.parentNode.dataset.vcvElement
-    let editorEl = this.props.iframe.querySelector(`#el-${elId}`)
+    let editorEl = document.getElementById(`el-${elId}-temp`)
     let elRect = editorEl.getBoundingClientRect()
-    let wh = document.getElementById('vcv-editor-iframe').contentWindow.innerHeight
+    let wh = window.innerHeight
     let below = elRect.bottom > wh && elRect.top > wh
     let above = elRect.bottom < 0 && elRect.top < 0
 

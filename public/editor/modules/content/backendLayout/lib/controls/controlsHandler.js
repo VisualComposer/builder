@@ -94,7 +94,6 @@ export default class ControlsHandler {
 
       // TODO: remove env in the top import after feature toggle is removed
       if (env('FEATURE_BACKEND_TREEVIEW')) {
-        console.log('add tree view control')
         // create tree trigger
         if (treeTrigger) {
           controlsList.appendChild(this.createControlForTrigger(

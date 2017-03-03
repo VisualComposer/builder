@@ -12,6 +12,7 @@ export default class TreeViewNavbarControl extends React.Component {
       controlActive: false,
       data: []
     }
+    this.toggleTreeView = this.toggleTreeView.bind(this)
   }
 
   componentDidMount () {
@@ -24,7 +25,7 @@ export default class TreeViewNavbarControl extends React.Component {
       })
   }
 
-  toggleTreeView = (e) => {
+  toggleTreeView (e) {
     e && e.preventDefault()
     if (this.state.controlActive) {
       this.props.api.request('bar-content-start:hide')

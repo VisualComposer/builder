@@ -1,7 +1,6 @@
 import React from 'react'
 import BarContent from './content'
 import BarHeader from './header'
-import Resizer from '../../../../../resources/resizer/resizer'
 import ClassNames from 'classnames'
 
 export default class LayoutBar extends React.Component {
@@ -19,9 +18,9 @@ export default class LayoutBar extends React.Component {
       hasStartContent: false,
       hasEndContent: false,
       isSticky: false,
-      barLeftPos: null,
-      barTopPos: null,
-      barWidth: null,
+      barLeftPos: 0,
+      barTopPos: 0,
+      barWidth: 0,
       adminBar: document.getElementById('wpadminbar')
     }
     this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
@@ -146,8 +145,15 @@ export default class LayoutBar extends React.Component {
     }
     // navbar is above layout top position, navbar gets initial position
     if (layoutPos.top > adminBarHeight && isSticky) {
-      this.setState({ isSticky: false })
+      this.setState({
+        isSticky: false,
+        barWidth: layoutPos.width
+      })
       this.layoutHeader.removeAttribute('style')
+    }
+    // set layout width value
+    if (layoutPos.top > adminBarHeight && !isSticky) {
+      this.setState({ barWidth: layoutPos.width })
     }
   }
 
@@ -172,66 +178,7 @@ export default class LayoutBar extends React.Component {
     return (
       <div className={layoutClasses} style={stickyBar} ref={(bar) => { this.layoutBar = bar }}>
         <BarHeader api={api} />
-        <BarContent api={api} />
-
-        <Resizer params={{
-          resizeTop: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
-          callback: this.resizeCallback
-        }} />
-
-        <Resizer params={{
-          resizeLeft: true,
-          resizeTop: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeBottom: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom',
-          callback: this.resizeCallback
-        }} />
-
-        <Resizer params={{
-          resizeRight: true,
-          resizeTop: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizeBottom: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom',
-          callback: this.resizeCallback
-        }} />
+        <BarContent api={api} layoutWidth={barWidth} />
       </div>
     )
   }
