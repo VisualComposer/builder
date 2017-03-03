@@ -33,6 +33,10 @@ export default class Element extends React.Component {
     }
   }
 
+  componentDidUpdate () {
+    this.props.api.notify('element:didUpdate', this.props.element.id)
+  }
+
   getContent (content) {
     let { element, api, layoutWidth } = this.props
     let returnData = null

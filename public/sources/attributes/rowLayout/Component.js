@@ -76,7 +76,7 @@ class Layout extends Attribute {
       }
     }
   }
-  static devices = ['xs', 'sm', 'md', 'lg', 'xl']
+  static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   constructor (props) {
     super(props)
@@ -84,6 +84,7 @@ class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
     this.reverseHandler = this.reverseHandler.bind(this)
   }
+
   updateState (props) {
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
@@ -113,9 +114,11 @@ class Layout extends Attribute {
       }
     }
   }
+
   setActiveLayout (layout) {
     this.setFieldValue(layout)
   }
+
   setFieldValue (value, reverseColumn) {
     let { updater, fieldKey } = this.props
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -132,11 +135,13 @@ class Layout extends Attribute {
       this.setState({ value: value })
     }
   }
+
   sanitizeLayout (value) {
     return value.filter((col) => {
       return this.validateSize(col)
     })
   }
+
   getColumnMixins (layout) {
     let newMixin = {}
     let columnGap = vcCake.getService('document').get(this.props.element.get('id')).columnGap
@@ -153,13 +158,19 @@ class Layout extends Attribute {
         })
 
         reducedLayout.forEach((col, index) => {
-          let mixinName = `${'columnStyleMixin'}:col${index}:${device}`
+          let mixinName = ''
           let fraction = ''
           if (col.indexOf('%') >= 0) {
             let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
-            fraction = [numerator, 100]
+            fraction = [ numerator, 100 ]
           } else {
             fraction = col.split('/')
+          }
+
+          if (col !== 'auto') {
+            mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:${device}`
+          } else {
+            mixinName = `${'columnStyleMixin'}:col${col}:${device}`
           }
 
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
@@ -216,6 +227,7 @@ class Layout extends Attribute {
     }
     return false
   }
+
   getReverseToggle () {
     if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       return null
@@ -233,6 +245,7 @@ class Layout extends Attribute {
       </div>
     )
   }
+
   reverseHandler (fieldKey, value) {
     this.setFieldValue(this.state.value.layoutData, value)
   }

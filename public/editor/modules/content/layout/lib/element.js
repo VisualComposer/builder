@@ -44,7 +44,7 @@ export default class Element extends React.Component {
       if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
         if (childElement.tag === 'column') {
           elementsList.push(
-            <ColumnResizer key={`columnResizer-${childElement.id}`} />
+            <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
           )
         }
       }
