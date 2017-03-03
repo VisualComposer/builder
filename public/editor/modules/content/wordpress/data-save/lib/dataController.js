@@ -5,7 +5,6 @@ import React from 'react'
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
-const assetsStorage = vcCake.getService('assetsStorage')
 const stylesManager = vcCake.getService('stylesManager')
 const utils = vcCake.getService('utils')
 class SaveController {
@@ -37,14 +36,14 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = assetsStorage.getElements()
+    let elements = vcCake.getData('globalAssetsStorage').getElements()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(assetsStorage.getSiteCssData())
+    globalStylesManager.add(vcCake.getData('globalAssetsStorage').getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
     let localStylesManager = stylesManager.create()
-    localStylesManager.add(assetsStorage.getPageCssData())
+    localStylesManager.add(vcCake.getData('globalAssetsStorage').getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
@@ -55,15 +54,15 @@ class SaveController {
           'vcv-ready': '1',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList())),
-          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList())),
+          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList())),
+          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList())),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': JSON.stringify(styles),
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': assetsStorage.getCustomCss(),
-          'vcv-global-css': assetsStorage.getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(assetsStorage.getGoogleFontsData())
+          'vcv-custom-css': vcCake.getData('globalAssetsStorage').getCustomCss(),
+          'vcv-global-css': vcCake.getData('globalAssetsStorage').getGlobalCss(),
+          'vcv-google-fonts': JSON.stringify(vcCake.getData('globalAssetsStorage').getGoogleFontsData())
         },
         this.saveSuccess.bind(this),
         this.saveFailed.bind(this)

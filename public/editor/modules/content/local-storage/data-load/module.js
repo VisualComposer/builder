@@ -5,6 +5,8 @@ vcCake.add('content-local-storage-data-load', (api) => {
     vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
     const LocalStorage = vcCake.getService('local-storage')
     const TimeMachine = vcCake.getService('time-machine')
+    const globalAssetsStorage = assetsStorage.create()
+    vcCake.setData('globalAssetsStorage', globalAssetsStorage)
     let data = LocalStorage.get()
     TimeMachine.setZeroState(data.data)
     if (data.data) {
@@ -13,13 +15,13 @@ vcCake.add('content-local-storage-data-load', (api) => {
       api.request('data:reset', {})
     }
     if (data.elements) {
-      assetsStorage.setElements(data.elements)
+      globalAssetsStorage.setElements(data.elements)
     }
     if (data.cssSettings && data.cssSettings.custom) {
-      assetsStorage.setCustomCss(data.cssSettings.custom)
+      globalAssetsStorage.setCustomCss(data.cssSettings.custom)
     }
     if (data.cssSettings && data.cssSettings.global) {
-      assetsStorage.setGlobalCss(data.cssSettings.global)
+      globalAssetsStorage.setGlobalCss(data.cssSettings.global)
     }
     if (data.myTemplates) {
       vcCake.setData('myTemplates', data.myTemplates)
