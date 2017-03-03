@@ -7,7 +7,7 @@ const loadedCssFiles = []
 vcCake.add('assets', (api) => {
   const dataUpdate = (data, action, id) => {
     if (action === 'reset') {
-      assetsStorage.resetElements(Object.keys(documentService.all()))
+      vcCake.getData('globalAssetsStorage').resetElements(Object.keys(documentService.all()))
     }
     let doElement = document.querySelector('#do-styles')
     let styleElement = document.querySelector('#css-styles')
