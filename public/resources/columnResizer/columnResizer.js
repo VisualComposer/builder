@@ -14,6 +14,14 @@ class ColumnResizer extends React.Component {
     }
   }
 
+  static data = {
+    rowId: null,
+    rowData: null,
+    helper: null,
+    rightColumn: null,
+    leftColumn: null
+  }
+
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
@@ -25,23 +33,34 @@ class ColumnResizer extends React.Component {
     }
   }
 
+  getRowData () {
+    let $helper = ReactDOM.findDOMNode(this)
+    let $rightCol = $helper.nextElementSibling
+    let $leftCol = $helper.previousElementSibling
+    let rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
+    let leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
+    let rowId = vcCake.getService('document').get(rightColId || leftColId).parent
+
+    ColumnResizer.data.rowId = rowId
+    ColumnResizer.data.rowData = vcCake.getService('document').get(rowId)
+    ColumnResizer.data.helper = $helper
+    ColumnResizer.data.rightColumn = $rightCol
+    ColumnResizer.data.leftColumn = $leftCol
+  }
+
   handleMouseDown (e) {
     this.setState({ dragging: true })
+    this.getRowData()
   }
 
   handleMouseUp (e) {
     this.setState({ dragging: false })
 
-    let $helper = ReactDOM.findDOMNode(this)
-    let $rightCol = $helper.nextElementSibling
-    let $leftCol = $helper.previousElementSibling
-    let rowId = vcCake.getService('document').get($leftCol.id.replace('el-', '')).parent
+    // let leftColSize = '20'
+    // let rightColSize = '30'
 
-    let leftColSize = '20'
-    let rightColSize = '30'
-
-    this.updateColumnMixin(rowId, [ leftColSize, rightColSize ])
-    this.resizeColumns($leftCol.id.replace('el-', ''), $rightCol.id.replace('el-', ''), leftColSize, rightColSize, rowId)
+    // this.updateColumnMixin(rowId, [ leftColSize, rightColSize ])
+    // this.resizeColumns($leftCol.id.replace('el-', ''), $rightCol.id.replace('el-', ''), leftColSize, rightColSize, rowId)
   }
 
   handleMouseMove (e) {
@@ -52,27 +71,28 @@ class ColumnResizer extends React.Component {
   }
 
   renderTemporaryColStyles (e) {
-    let $helper = ReactDOM.findDOMNode(this)
-    // let $rightCol = $helper.nextElementSibling
-    let $leftCol = $helper.previousElementSibling
-    let $row = $helper.parentElement
-    // let rowId = vcCake.getService('document').get($leftCol.id.replace('el-', '')).parent
+    let $row = ColumnResizer.data.helper.parentElement
+    let rowClientRect = $row.getBoundingClientRect()
+    let columnGap = ColumnResizer.data.rowData.columnGap ? parseInt(ColumnResizer.data.rowData.columnGap) : 0
+    let rowWidth = rowClientRect.width + columnGap
+    let resizerWidth = e.clientX - ColumnResizer.data.leftColumn.getBoundingClientRect().left + columnGap / 2
+    let resizerPercentages = resizerWidth / rowWidth
 
-    // let columnGap = vcCake.getService('document').get(rowId).columnGap
-    let rowWidth = $row.getBoundingClientRect().width
-    // let fullRowWidth = parseInt(rowWidth) + parseInt(columnGap)
+    let bothColumnsWidth = (ColumnResizer.data.leftColumn.getBoundingClientRect().width + ColumnResizer.data.rightColumn.getBoundingClientRect().width + columnGap * 2) / rowWidth
 
-    // let leftColWidth = $leftCol.getBoundingClientRect().width + columnGap
-    // let rightColWidth = $rightCol.getBoundingClientRect().width + columnGap
-    let resizerWidth = e.clientX - $row.getBoundingClientRect().left
+    let rightResizerPercentages = bothColumnsWidth - resizerPercentages
+    let equalSpace = columnGap * (resizerPercentages * 100 - 1)
+    let rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
+    let gapSpace = columnGap * (100 - 1)
 
-    let resizerPercentages = resizerWidth / rowWidth * 100
-    resizerPercentages = resizerPercentages.toString().split('.')[ 0 ] + '%'
+    let leftWidth = `calc((100% - ${gapSpace}px) * ${resizerPercentages} + ${equalSpace}px)`
+    let rightWidth = `calc((100% - ${gapSpace}px) * ${rightResizerPercentages} + ${rightEqualSpace}px)`
 
-    let leftStyle = window.getComputedStyle($leftCol)[ 'flex-basis' ].replace(/\d*%/g, resizerPercentages)
+    ColumnResizer.data.leftColumn.style.flexBasis = leftWidth
+    ColumnResizer.data.leftColumn.style.maxWidth = leftWidth
 
-    $leftCol.style.flexBasis = leftStyle
-    $leftCol.style.maxWidth = leftStyle
+    ColumnResizer.data.rightColumn.style.flexBasis = rightWidth
+    ColumnResizer.data.rightColumn.style.maxWidth = rightWidth
   }
 
   updateColumnMixin (rowId, sizes) {
@@ -82,6 +102,7 @@ class ColumnResizer extends React.Component {
     for (let i = 0; i < sizes.length; i++) {
       let percentage = parseFloat(sizes[ i ]) / 100
       let mixinName = `customColumnMixinResize${i}`
+      // todo change 'columnStyleMixin:col0:md'
       newMixins[ mixinName ] = lodash.defaultsDeep({}, rowData.layout.attributeMixins[ 'columnStyleMixin:col0:md' ])
       newMixins[ mixinName ].variables.percentageSelector.value = sizes[ i ]
       newMixins[ mixinName ].variables.percentage.value = percentage.toString()
