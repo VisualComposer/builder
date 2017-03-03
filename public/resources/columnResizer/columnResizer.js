@@ -19,7 +19,8 @@ class ColumnResizer extends React.Component {
     rowData: null,
     helper: null,
     rightColumn: null,
-    leftColumn: null
+    leftColumn: null,
+    bothColumnsWidth: null
   }
 
   componentDidUpdate (props, state) {
@@ -59,6 +60,7 @@ class ColumnResizer extends React.Component {
     // let leftColSize = '20'
     // let rightColSize = '30'
 
+    // todo @VZ this is for updating row data
     // this.updateColumnMixin(rowId, [ leftColSize, rightColSize ])
     // this.resizeColumns($leftCol.id.replace('el-', ''), $rightCol.id.replace('el-', ''), leftColSize, rightColSize, rowId)
   }
