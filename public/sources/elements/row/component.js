@@ -22,6 +22,7 @@ class Component extends vcvAPI.elementComponent {
     let customRowProps = {
       style: {}
     }
+    let containerProps = {}
     const classNames = require('classnames')
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
@@ -74,12 +75,12 @@ class Component extends vcvAPI.elementComponent {
     let className = classNames(classes)
 
     if (metaCustomId) {
-      customRowProps.id = metaCustomId
+      containerProps.id = metaCustomId
     }
 
     let doAll = this.applyDO('all')
 
-    return <div className='vce-row-container'>
+    return <div className='vce-row-container' {...containerProps}>
       <div className={className} {...customRowProps} {...editor} id={'el-' + id} {...doAll}>
         {this.getBackgroundTypeContent()}
         <div className='vce-row-content' {...customProps}>

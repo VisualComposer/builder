@@ -11,6 +11,7 @@ class Component extends vcvAPI.elementComponent {
     const classNames = require('classnames')
     let customProps = {}
     let customColProps = {}
+    let innerProps = {}
     let classes = []
 
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -38,7 +39,7 @@ class Component extends vcvAPI.elementComponent {
 
     let className = classNames(classes)
     if (metaCustomId) {
-      customColProps.id = metaCustomId
+      innerProps.id = metaCustomId
     }
 
     let doBoxModel = this.applyDO('margin padding border animation background')
@@ -46,7 +47,7 @@ class Component extends vcvAPI.elementComponent {
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
       {this.getBackgroundTypeContent()}
-      <div className='vce-col-inner'>
+      <div className='vce-col-inner' {...innerProps}>
         <div className='vce-col-content' {...customProps} {...doBoxModel}>
           {content}
         </div>
