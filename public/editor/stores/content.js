@@ -31,6 +31,9 @@ addStorage('content', (storage) => {
       storage.state('document').set(documentManager.children(false))
     }
   })
+  storage.on('update', (id, elementData) => {})
+  storage.on('destroy', (id, elementData) => {})
+  storage.on('clone', (id) => {})
   storage.state('document').set(documentManager.children(false))
   // Need to rewrite
   storage.state('document').onChange(() => {
