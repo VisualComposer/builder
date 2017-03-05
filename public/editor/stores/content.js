@@ -2,6 +2,7 @@ import {addStorage, getService} from 'vc-cake'
 
 addStorage('content', (storage) => {
   const documentManager = getService('document')
+  const timeMachine = getService('time-machine')
   const cook = getService('cook')
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
@@ -27,9 +28,25 @@ addStorage('content', (storage) => {
     }
     if (!options.silent) {
       // api.request('data:afterAdd', createdElements)
-      console.log(documentManager.children(false))
       storage.state('document').set(documentManager.children(false))
     }
   })
-  // storage.state('document').set(documentManager.children(false))
+  storage.state('document').set(documentManager.children(false))
+  // Need to rewrite
+  storage.state('document').onChange(() => {
+    // Maybe we can move it the top of the structure.
+    timeMachine.add(documentManager.all())
+    storage.state('undo').set(true)
+    storage.state('redo').set(true)
+  })
+  /*
+  Undo
+   const TimeMachine = vcCake.getService('time-machine')
+   this.props.api.request('data:reset', TimeMachine.undo()
+   */
+  /*
+  Redo
+   const TimeMachine = vcCake.getService('time-machine')
+   this.props.api.request('data:reset', TimeMachine.redo())
+   */
 })

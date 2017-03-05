@@ -1,9 +1,13 @@
 import React from 'react'
 import Logo from './logo/logo'
-import NavbarSeparator from './navbarSeparator'
 import PlusControl from './controls/plusControl'
 import AddTemplateControl from './controls/addTemplateControl'
 import TreeViewControl from './controls/treeViewControl'
+import UndoRedoControl from './controls/undoRedoControl'
+import LayoutControl from './controls/layout/layoutControl'
+import SettingsButtonControl from './controls/settingsButtonControl'
+import SaveControl from './controls/saveControl'
+import NavbarSeparator from './navbarSeparator'
 import Navbar from './navbar'
 export default class NavbarContainer extends React.Component {
   state = {
@@ -100,7 +104,11 @@ export default class NavbarContainer extends React.Component {
             <PlusControl />
             <AddTemplateControl />
             <TreeViewControl />
+            <UndoRedoControl />
+            <LayoutControl />
+            <SettingsButtonControl />
             <NavbarSeparator />
+            <SaveControl />
           </Navbar>
         </div>
       </div>

@@ -73,7 +73,6 @@ export default class Workspace extends React.Component {
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
           callback: this.resizeCallback
         }} />
-
         <Resizer params={{
           resizeLeft: true,
           resizeTop: true,

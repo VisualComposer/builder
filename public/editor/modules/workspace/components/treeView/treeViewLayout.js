@@ -1,9 +1,11 @@
-import vcCake from 'vc-cake'
+import {getStorage, getData, setData, getService} from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/element.js'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import './css/tree/init.less'
+
+const content = getStorage('content')
 
 export default class TreeViewLayout extends React.Component {
   constructor (props) {
@@ -20,6 +22,11 @@ export default class TreeViewLayout extends React.Component {
     }
   }
   componentDidMount () {
+    content.state('document').onChange((data) => {
+      this.setState({ data: data }, () => {
+        // content.trigger('data:editor:render')
+      })
+    })
     /*
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
@@ -53,8 +60,9 @@ export default class TreeViewLayout extends React.Component {
         outlineElementId = null
       }
     }
-    if (vcCake.getData('vcv:treeLayout:outlineElementId') !== outlineElementId) {
-      vcCake.setData('vcv:treeLayout:outlineElementId', outlineElementId)
+
+    if (getData('vcv:treeLayout:outlineElementId') !== outlineElementId) {
+      setData('vcv:treeLayout:outlineElementId', outlineElementId)
     }
   }
 
@@ -118,7 +126,7 @@ export default class TreeViewLayout extends React.Component {
 
   getElements () {
     let elementsList = []
-    const DocumentData = vcCake.getService('document')
+    const DocumentData = getService('document')
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
         let data = DocumentData.children(element.id)
@@ -127,7 +135,6 @@ export default class TreeViewLayout extends React.Component {
           data={data}
           key={element.id}
           level={1}
-          api={this.props.api}
         />
       }, this)
     }

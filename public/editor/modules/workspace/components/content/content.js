@@ -5,6 +5,8 @@ import ContentEnd from './contentEnd'
 import AddElementPanel from '../addElement/addElementPanel'
 import AddTemplatePanel from '../addTemplate/AddTemplatePanel'
 import TreeViewLayout from '../treeView/treeViewLayout'
+import SettingsPanel from '../settings/settingsPanel'
+
 export default class Content extends React.Component {
   static propTypes = {
     start: React.PropTypes.oneOfType([
@@ -30,6 +32,8 @@ export default class Content extends React.Component {
       return <AddElementPanel />
     } else if (end === 'addTemplate') {
       return <AddTemplatePanel />
+    } else if (end === 'settings') {
+      return <SettingsPanel />
     }
   }
 

@@ -10,7 +10,6 @@ export default class TreeViewElement extends React.Component {
   static propTypes = {
     element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
     data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
-    api: React.PropTypes.object.isRequired,
     level: React.PropTypes.number,
     iframe: React.PropTypes.any
   }
@@ -37,6 +36,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   componentDidMount () {
+    /*
     this.props.api.notify('element:mount', this.props.element.id)
     this.props.api
       .reply('app:edit', this.checkActive)
@@ -45,9 +45,11 @@ export default class TreeViewElement extends React.Component {
       .on('hide', this.checkActive)
       .on('form:hide', this.checkActive)
     vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
+    */
   }
 
   componentWillUnmount () {
+    /*
     this.props.api
       .forget('app:edit', this.checkActive)
       .forget('app:add', this.checkActive)
@@ -55,8 +57,9 @@ export default class TreeViewElement extends React.Component {
       .off('hide', this.checkActive)
       .off('form:hide', this.checkActive)
     vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
+    */
     // should put after unmount component
-    this.props.api.notify('element:unmount', this.props.element.id)
+    // this.props.api.notify('element:unmount', this.props.element.id)
   }
 
   checkActive (data = false) {
@@ -81,21 +84,21 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickAddChild (tag) {
-    this.props.api.request('app:add', this.props.element.id, tag)
+    // this.props.api.request('app:add', this.props.element.id, tag)
   }
 
   clickClone = (e) => {
     e && e.preventDefault()
-    this.props.api.request('data:clone', this.props.element.id)
+    // this.props.api.request('data:clone', this.props.element.id)
   }
 
   clickEdit = (tab = '') => {
-    this.props.api.request('app:edit', this.props.element.id, tab)
+    // this.props.api.request('app:edit', this.props.element.id, tab)
   }
 
   clickDelete = (e) => {
     e && e.preventDefault()
-    this.props.api.request('data:remove', this.props.element.id)
+    // this.props.api.request('data:remove', this.props.element.id)
   }
 
   getContent () {
