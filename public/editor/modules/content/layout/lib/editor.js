@@ -1,7 +1,8 @@
 import React from 'react'
-import { getData } from 'vc-cake'
+import { getData, getStorage } from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import BlankPageManagerFront from './helpers/BlankPageManagerFront/component'
+const content = getStorage('content')
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -16,14 +17,12 @@ export default class LayoutEditor extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply(
-      'data:changed',
-      (data) => {
-        this.setState({ data: data }, () => {
-          this.props.api.request('data:editor:render')
-        })
-      }
-    )
+    content.state('document').onChange((data) => {
+      console.log(data)
+      this.setState({ data: data }, () => {
+        // content.trigger('data:editor:render')
+      })
+    })
   }
 
   getContent () {

@@ -32,7 +32,7 @@ module.exports = {
     node: {
       modules: [
         'content/storage',
-        'content/assets',
+        // 'content/assets',
         'content/layout',
         'content/tree-view-dnd',
         'content/local-storage/data-load',
