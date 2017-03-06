@@ -120,6 +120,7 @@ module.exports = {
         'content/wordpress/data-unload',
         'content/backendContent',
         'content/backendLayout',
+        'content/backendTreeViewDnd',
         'ui/layoutBarBackend',
         'ui/navbarBackend',
         'ui/brand-logo',
