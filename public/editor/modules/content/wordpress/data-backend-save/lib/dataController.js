@@ -47,6 +47,17 @@ class SaveController {
         this.save(options)
       }, 1)
     })
+    this.props.api.reply('settings:update', (options) => {
+      window.setTimeout(() => {
+        this.props.api.request('wordpress:beforeSave', {
+          pageElements: DocumentData.all()
+        })
+        options = $.extend({}, {
+          elements: DocumentData.all()
+        }, options)
+        this.save(options)
+      }, 1)
+    })
     $('#post').on('submit', (event) => {
       this.props.api.request('wordpress:data:saved', {
         status: 'success',
