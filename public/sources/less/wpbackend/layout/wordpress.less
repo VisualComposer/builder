@@ -30,8 +30,9 @@
 
   .vcv-layout {
     &-header {
+      z-index: @vcv-wpbackend-layout-header-zindex;
       &:hover {
-        z-index: @vcv-wpbackend-layout-header-zindex;
+        z-index: @vcv-wpbackend-layout-header-zindex-hover;
       }
     }
 
@@ -43,7 +44,6 @@
     }
 
     &-bar-content {
-      //box-shadow: @vcv-wpbackend-bar-content-box-shadow;
       height: @vcv-wpbackend-bar-content-height;
       width: @vcv-wpbackend-bar-content-width;
       min-height: 200px;
@@ -92,12 +92,6 @@
 
   .vcv-ui-item-preview-container {
     z-index: @vcv-wpbackend-item-preview-zindex;
-  }
-
-  .vcv-ui-outline-controls-container {
-    &:hover {
-      z-index: @vcv-wpbackend-control-dropdown-zindex;
-    }
   }
 
   .vce-row {
