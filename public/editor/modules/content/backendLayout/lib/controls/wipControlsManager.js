@@ -82,7 +82,7 @@ export default class ControlsManager {
     })
 
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    this.iframeContainer.addEventListener('mousemove', this.findElement)
   }
 
   /**
