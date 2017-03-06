@@ -31,13 +31,13 @@ module.exports = {
   vc: {
     node: {
       modules: [
-        'content/storage',
+        // 'content/storage',
         // 'content/assets',
         'content/layout',
-        'content/tree-view-dnd',
-        'content/local-storage/data-load',
-        'content/local-storage/data-save',
-        'content/local-storage/data-unload',
+        // 'content/tree-view-dnd',
+        // 'content/local-storage/data-load',
+        // 'content/local-storage/data-save',
+        // 'content/local-storage/data-unload',
         'workspace'
         /*
         'ui/layout-bar',

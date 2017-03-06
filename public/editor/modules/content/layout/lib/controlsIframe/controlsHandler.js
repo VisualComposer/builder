@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
-const categoriesService = getService('categories')
+// const categoriesService = getService('categories')
 
 export default class ControlsHandler {
   constructor (sliceSize, props) {
@@ -141,7 +141,7 @@ export default class ControlsHandler {
     appendControl.classList.add('vcv-ui-append-control')
     appendControl.title = 'Add Element'
     appendControl.dataset.vcvElementId = containerElement.get('id')
-    appendControl.dataset.vcControlEvent = 'app:add'
+    appendControl.dataset.vcControlEvent = 'add'
     appendControl.dataset.vcControlEventOptions = ''
     appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
     let appendControlContent = document.createElement('i')
@@ -274,7 +274,7 @@ export default class ControlsHandler {
         label: label,
         icon: 'vcv-ui-icon-add-thin',
         data: {
-          vcControlEvent: 'app:add',
+          vcControlEvent: 'add',
           vcControlEventOptions: addElementTag
         }
       })
@@ -286,7 +286,7 @@ export default class ControlsHandler {
         label: 'Row Layout',
         icon: 'vcv-ui-icon-row-layout',
         data: {
-          vcControlEvent: 'app:edit',
+          vcControlEvent: 'edit',
           vcControlEventOptions: 'layout'
         }
       })
@@ -297,7 +297,7 @@ export default class ControlsHandler {
       label: 'Edit',
       icon: 'vcv-ui-icon-edit',
       data: {
-        vcControlEvent: 'app:edit'
+        vcControlEvent: 'edit'
       }
     })
 
@@ -306,7 +306,7 @@ export default class ControlsHandler {
       label: 'Clone',
       icon: 'vcv-ui-icon-copy',
       data: {
-        vcControlEvent: 'data:clone'
+        vcControlEvent: 'clone'
       }
     })
 
@@ -315,7 +315,7 @@ export default class ControlsHandler {
       label: 'Remove',
       icon: 'vcv-ui-icon-trash',
       data: {
-        vcControlEvent: 'data:remove'
+        vcControlEvent: 'remove'
       }
     })
 

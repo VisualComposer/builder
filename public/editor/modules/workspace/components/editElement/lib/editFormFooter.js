@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import {setData} from 'vc-cake'
+// import {setData} from 'vc-cake'
 
 export default class EditFormFooter extends React.Component {
   static propTypes = {
@@ -16,7 +16,6 @@ export default class EditFormFooter extends React.Component {
     let elementData = element.toJS()
     delete elementData.order
     delete elementData.parent
-    setData('lockActivity', false)
     // api.request('data:update', element.get('id'), elementData)
     this.effect()
   }

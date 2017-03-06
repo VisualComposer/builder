@@ -3,6 +3,8 @@ import ControlsHandler from './controlsHandler'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
 
+const workspace = vcCake.getStorage('workspace')
+
 require('../../../../../../sources/less/content/layout/controls/init.less')
 export default class ControlsManager {
   constructor (api) {
@@ -266,8 +268,7 @@ export default class ControlsManager {
           insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
         }
         let elementId = el.dataset.vcvElementId
-
-        this.api.request(event, elementId, tag, options)
+        workspace.trigger(event, elementId, tag, options)
       }
     }
   }

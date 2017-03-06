@@ -1,9 +1,10 @@
-import {addStorage, getService} from 'vc-cake'
+import {addStorage, getStorage, getService} from 'vc-cake'
 
 addStorage('content', (storage) => {
   const documentManager = getService('document')
   const timeMachine = getService('time-machine')
   const cook = getService('cook')
+  const assets = getStorage('assets')
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
@@ -29,6 +30,7 @@ addStorage('content', (storage) => {
     if (!options.silent) {
       // api.request('data:afterAdd', createdElements)
       storage.state('document').set(documentManager.children(false))
+      assets.trigger('updateElement', createdElements)
     }
   })
   storage.on('update', (id, elementData) => {})

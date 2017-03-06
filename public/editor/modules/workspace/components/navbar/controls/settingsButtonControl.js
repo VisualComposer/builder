@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import {getStorage, getService} from 'vc-cake'
+import {getStorage} from 'vc-cake'
 
-const assetsStorage = getService('assetsStorage')
+// const assetsStorage = getService('assetsStorage')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class SettingsButtonControl extends React.Component {
@@ -10,24 +10,30 @@ export default class SettingsButtonControl extends React.Component {
     super(props)
     this.state = {
       isActive: false,
-      showWarning: !!assetsStorage.getCustomCss()
+      showWarning: false // !!assetsStorage.getCustomCss()
     }
     this.toggleSettings = this.toggleSettings.bind(this)
     this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
+
   setActiveState (state) {
-    this.setState({isActive: state === 'settings'})
+    this.setState({ isActive: state === 'settings' })
   }
+
   componentDidMount () {
     workspaceContentEndState.onChange(this.setActiveState)
   }
+
   componentWillUnmount () {
     workspaceContentEndState.ignoreChange(this.setActiveState)
   }
+
   checkSettings () {
-    this.setState({ showWarning: !!assetsStorage.getCustomCss() })
+    this.setState({ showWarning: false })
+    /* !!assetsStorage.getCustomCss() */
   }
+
   toggleSettings (e) {
     e && e.preventDefault()
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
