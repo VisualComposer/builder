@@ -5,10 +5,11 @@ addStorage('assets', (storage) => {
   // const assetsManager = getService('assetsManager')
   const stylesManager = getService('stylesManager')
   const assetsStorage = getService('assetsStorage')
-  const globalAssetsStorage = assetsStorage.create()
+  const globalAssetsStorage = assetsStorage.getGlobalInstance()
   const appAPI = getService('api')
   const data = {elements: {}}
   const domStore = window.document.querySelector('.vcv-layout-iframe').contentWindow.document
+  console.log(domStore)
   const buildElementCss = (data) => {
     let styles = stylesManager.create()
     styles.add(globalAssetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
@@ -21,7 +22,8 @@ addStorage('assets', (storage) => {
     let attributesStyles = stylesManager.create()
     attributesStyles.add(globalAssetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
     attributesStyles.compile().then((result) => {
-      domStore.getElementById(`do-css-styles-${data.id}`).innerHTML = result
+      console.log(domStore.getElementById(`do-styles-${data.id}`))
+      domStore.getElementById(`do-styles-${data.id}`).innerHTML = result
     }).then(() => {
       domStore.defaultView.vcv.trigger('ready', 'update', data.id)
     })

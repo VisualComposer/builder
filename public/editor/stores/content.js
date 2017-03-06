@@ -30,7 +30,7 @@ addStorage('content', (storage) => {
     if (!options.silent) {
       // api.request('data:afterAdd', createdElements)
       storage.state('document').set(documentManager.children(false))
-      assets.trigger('updateElement', createdElements)
+      assets.trigger('addElement', createdElements)
     }
   })
   storage.on('update', (id, elementData) => {})
