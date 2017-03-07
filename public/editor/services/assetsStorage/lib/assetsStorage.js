@@ -319,7 +319,7 @@ export default class {
             }
           }
           let mixinValue = settings[ key ].value
-          if (typeof element.data[ key ] === `string`) {
+          if (typeof element.data[ key ] === 'string') {
             mixinValue = element.data[ key ]
           }
           foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }

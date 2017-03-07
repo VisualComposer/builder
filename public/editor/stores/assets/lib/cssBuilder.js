@@ -67,6 +67,11 @@ export default class CssBuilder {
 
   add (data) {
     const id = data.id
+    this.assetsStorage.updateElement(id)
+
+    const baseStyleElement = this.window.document.createElement('style')
+    baseStyleElement.id = `base-css-styles-${id}`
+    this.window.document.body.appendChild(baseStyleElement)
 
     const styleElement = this.window.document.createElement('style')
     styleElement.id = `css-styles-${id}`
@@ -78,26 +83,32 @@ export default class CssBuilder {
 
     this.addElementCssFiles(data.tag)
     this.addElementJsFiles(data.tag)
-    this.addAttributesCssByElement(data)
+    this.addCssElementBaseByElement(data)
     this.addCssElementMixinByElement(data)
+    this.addAttributesCssByElement(data)
     this.doJobs().then(() => {
       this.window.vcv.trigger('ready', 'add', data.id)
     })
   }
 
   update (data) {
-    this.addAttributesCssByElement(data)
     this.addCssElementMixinByElement(data)
+    this.addAttributesCssByElement(data)
     this.doJobs().then(() => {
       this.window.vcv.trigger('ready', 'update', data.id)
     })
   }
 
   destroy (id) {
-    // here come destroy methods
+    this.assetsStorage.removeElement(id)
+    this.removeCssElementBaseByElement(id)
+    this.removeCssElementMixinByElement(id)
+    this.removeAttributesCssByElement(id)
+    this.window.vcv.trigger('ready', 'destroy', id)
   }
+
   addElementJsFiles (tag) {
-    let jsFiles = this.assetsManager.getJsFilesByTags([tag])
+    let jsFiles = this.assetsManager.getJsFilesByTags([ tag ])
     jsFiles.forEach((file) => {
       if (this.loadedJsFiles.indexOf(file) === -1) {
         this.loadedJsFiles.push(file)
@@ -105,8 +116,9 @@ export default class CssBuilder {
       }
     })
   }
+
   addElementCssFiles (tag) {
-    const cssFiles = this.assetsManager.getCssFilesByTags([tag])
+    const cssFiles = this.assetsManager.getCssFilesByTags([ tag ])
     const doc = this.window.document
     cssFiles.forEach((file) => {
       if (this.loadedCssFiles.indexOf(file) === -1) {
@@ -126,6 +138,19 @@ export default class CssBuilder {
     })
   }
 
+  removeAttributesCssByElement (id) {
+    this.window.document.getElementById(`css-styles-${id}`).remove()
+  }
+  addCssElementBaseByElement (data) {
+    let attributesStyles = this.stylesManager.create()
+    attributesStyles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
+    this.addJob(attributesStyles.compile().then((result) => {
+      this.window.document.getElementById(`base-css-styles-${data.id}`).innerHTML = result
+    }))
+  }
+  removeCssElementBaseByElement (id) {
+    this.window.document.getElementById(`base-css-styles-${id}`).remove()
+  }
   addCssElementMixinByElement (data) {
     let attributesStyles = this.stylesManager.create()
     attributesStyles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
@@ -133,7 +158,9 @@ export default class CssBuilder {
       this.window.document.getElementById(`do-styles-${data.id}`).innerHTML = result
     }))
   }
-
+  removeCssElementMixinByElement (id) {
+    this.window.document.getElementById(`do-styles-${id}`).remove()
+  }
   addJob (job) {
     this.jobs.push(job)
   }
