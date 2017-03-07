@@ -76,6 +76,8 @@ export default class CssBuilder {
     doStyleElement.id = `do-styles-${id}`
     this.window.document.body.appendChild(doStyleElement)
 
+    this.addElementCssFiles(data.tag)
+    this.addElementJsFiles(data.tag)
     this.addAttributesCssByElement(data)
     this.addCssElementMixinByElement(data)
     this.doJobs().then(() => {
@@ -94,7 +96,28 @@ export default class CssBuilder {
   destroy (id) {
     // here come destroy methods
   }
-
+  addElementJsFiles (tag) {
+    let jsFiles = this.assetsManager.getJsFilesByTags([tag])
+    jsFiles.forEach((file) => {
+      if (this.loadedJsFiles.indexOf(file) === -1) {
+        this.loadedJsFiles.push(file)
+        this.addJob(this.window.$.getScript(this.assetsManager.getSourcePath(file)))
+      }
+    })
+  }
+  addElementCssFiles (tag) {
+    const cssFiles = this.assetsManager.getCssFilesByTags([tag])
+    const doc = this.window.document
+    cssFiles.forEach((file) => {
+      if (this.loadedCssFiles.indexOf(file) === -1) {
+        this.loadedCssFiles.push(file)
+        let cssLink = doc.createElement('link')
+        cssLink.setAttribute('rel', 'stylesheet')
+        cssLink.setAttribute('href', this.assetsManager.getSourcePath(file))
+        doc.head.appendChild(cssLink)
+      }
+    })
+  }
   addAttributesCssByElement (data) {
     let styles = this.stylesManager.create()
     styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
