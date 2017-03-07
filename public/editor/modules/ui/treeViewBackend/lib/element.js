@@ -21,10 +21,13 @@ export default class TreeViewElement extends React.Component {
       childExpand: true,
       isActive: false,
       hasChild: false,
-      showOutline: false
+      showOutline: false,
+      barHeader: document.querySelector('.vcv-layout-bar-header'),
+      barContent: document.querySelector('.vcv-layout-bar-content'),
+      adminBar: document.getElementById('wpadminbar')
     }
 
-    this.scrollToElement = this.scrollToElement.bind(this)
+    this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
@@ -32,6 +35,7 @@ export default class TreeViewElement extends React.Component {
     this.clickClone = this.clickClone.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
+    this.clickChildExpand = this.clickChildExpand.bind(this)
   }
 
   componentDidMount () {
@@ -74,7 +78,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  clickChildExpand = () => {
+  clickChildExpand () {
     this.setState({ childExpand: !this.state.childExpand })
   }
 
@@ -109,16 +113,54 @@ export default class TreeViewElement extends React.Component {
     return ''
   }
 
-  scrollToElement (e) {
-    let elId = e.currentTarget.parentNode.dataset.vcvElement
-    let editorEl = document.getElementById(`el-${elId}-temp`)
-    let elRect = editorEl.getBoundingClientRect()
-    let wh = window.innerHeight
-    let below = elRect.bottom > wh && elRect.top > wh
-    let above = elRect.bottom < 0 && elRect.top < 0
+  /**
+   * Check if element is visible on screen
+   * @param element
+   * @returns {boolean}
+   */
+  checkElementView (element) {
+    const { barHeader, barContent } = this.state
+    const isFixed = window.getComputedStyle(barHeader.parentNode).position === 'fixed'
+    const wh = window.innerHeight
+    const below = element.bottom > wh && element.top > wh
+    const above = isFixed ? element.bottom < barContent.getBoundingClientRect().bottom : element.bottom < 0 && element.top < 0
+    return above || below
+  }
 
-    if (above || below) {
-      editorEl.scrollIntoView({behavior: 'smooth'})
+  /**
+   * Get height of editor header and wp admin bar
+   * @returns {number}
+   */
+  getBarsHeight () {
+    const { barHeader, barContent, adminBar } = this.state
+    let barsHeight = barHeader.getBoundingClientRect().height + barContent.getBoundingClientRect().height
+    if (window.getComputedStyle(adminBar).position === 'fixed') {
+      barsHeight += adminBar.getBoundingClientRect().height
+    }
+    return barsHeight
+  }
+
+  /**
+   * Perform scroll to element
+   * @param element
+   */
+  scrollToElement (element) {
+    const barHeight = this.getBarsHeight()
+    const curPos = window.pageYOffset
+    const yPos = curPos + element.top - barHeight
+    window.scrollTo(0, yPos)
+  }
+
+  /**
+   * Handle click on element in tree view
+   * @param e
+   */
+  handleClick (e) {
+    const elId = e.currentTarget.parentNode.dataset.vcvElement
+    const editorEl = document.getElementById(`el-${elId}-temp`)
+    const elRect = editorEl.getBoundingClientRect()
+    if (this.checkElementView(elRect)) {
+      this.scrollToElement(elRect)
     }
   }
 
@@ -213,7 +255,7 @@ export default class TreeViewElement extends React.Component {
           style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
           onMouseOver={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          onClick={this.scrollToElement}
+          onClick={this.handleClick}
         >
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />

@@ -141,6 +141,7 @@ export default class DefaultElement extends React.Component {
     if (hasAttributes) {
       return <div
         className='vce-wpbackend-element-container'
+        id={`el-${element.id}-temp`}
         data-vcv-element={element.id}
         ref={(container) => { this.elementContainer = container }}
       >
@@ -168,6 +169,7 @@ export default class DefaultElement extends React.Component {
     }
     return <div
       className='vce-wpbackend-element-container'
+      id={`el-${element.id}-temp`}
       data-vcv-element={element.id}
       ref={(container) => { this.elementContainer = container }}
     >
