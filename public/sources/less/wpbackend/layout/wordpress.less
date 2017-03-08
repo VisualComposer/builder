@@ -51,6 +51,17 @@
 
     &-bar-content {
       width: @vcv-wpbackend-bar-content-width;
+      min-height: @vcv-wpbackend-bar-content-min-height;
+
+      &.vcv-layout-bar-content-stack {
+        min-height: @vcv-wpbackend-bar-content-stack-min-height;
+      }
+
+      &:not(.vcv-layout-bar-content-stack) {
+        .vcv-layout-bar-content-start {
+          height: auto !important;
+        }
+      }
     }
   }
 
@@ -88,9 +99,10 @@
 
   select {
     &.vcv-ui-form-dropdown {
-      height: auto;
+      height: auto !important;
       padding: @vcv-wpbackend-form-input-padding;
       line-height: @vcv-wpbackend-form-input-line-height;
+      font-size: @vcv-wpbackend-select-font-size !important;
     }
   }
 
@@ -180,6 +192,7 @@
 
     .vcv-layout-bar-content-start {
       width: 100% !important;
+      height: @vcv-wpbackend-bar-content-start-stack-height;
       min-height: @vcv-wpbackend-bar-content-start-stack-min-height;
 
       .vcv-ui-resizer-target-content {
@@ -194,7 +207,22 @@
 }
 
 .vcv-layout-dock--unlock {
-  .vcv-layout-bar-content-stack {
-    position: relative;
+  .vcv-layout-bar-content {
+    &.vcv-layout-bar-content-stack {
+      position: relative;
+      min-height: @vcv-wpbackend-bar-content-stack-unlock-min-height;
+
+      .vcv-layout-bar-content-start {
+        flex-grow: 1;
+
+        .vcv-ui-resizer-target-content {
+          display: none;
+        }
+
+        .vcv-ui-resizer-target-bar {
+          display: block;
+        }
+      }
+    }
   }
 }

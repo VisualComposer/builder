@@ -54,7 +54,7 @@ vcCake.add('storage', (api) => {
         lastColumnObject.size = size
         lastColumnObject.lastInRow = lastInRow
         lastColumnObject.firstInRow = firstInRow
-        api.request('data:update', lastColumnObject.id, lastColumnObject)
+        DocumentData.update(lastColumnObject.id, lastColumnObject)
       } else {
         let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
         createdElements.push(createdElement.id)

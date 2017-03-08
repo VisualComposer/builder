@@ -135,13 +135,13 @@ export default class LayoutBar extends React.Component {
     }
     // navbar is below layout top position, navbar becomes sticky
     if (layoutPos.top < adminBarHeight && !isSticky) {
+      this.layoutHeader.style.height = `${bar.height}px`
       this.setState({
         isSticky: true,
         barLeftPos: layoutPos.left,
         barTopPos: adminBarHeight,
         barWidth: layoutPos.width
       })
-      this.layoutHeader.style.height = `${bar.height}px`
     }
     // navbar is above layout top position, navbar gets initial position
     if (layoutPos.top > adminBarHeight && isSticky) {
