@@ -2,11 +2,10 @@ import {addStorage, getService} from 'vc-cake'
 
 addStorage('workspace', (storage) => {
   const documentManger = getService('document')
-  const cook = getService('cook')
-  storage.on('add', (elementId, tag, options) => {
+  storage.on('add', (id, tag, options) => {
     let element = false
-    if (elementId) {
-      element = cook.get(documentManger.get(elementId))
+    if (id) {
+      element = documentManger.get(id)
     }
     storage.state('settings').set({
       action: 'add',
@@ -15,11 +14,11 @@ addStorage('workspace', (storage) => {
       options: options
     })
   })
-  storage.on('edit', (elementId, tag, options) => {
-    if (!elementId) {
+  storage.on('edit', (id, tag, options) => {
+    if (!id) {
       return
     }
-    const element = cook.get(documentManger.get(elementId))
+    const element = documentManger.get(id)
     if (!element) {
       return
     }

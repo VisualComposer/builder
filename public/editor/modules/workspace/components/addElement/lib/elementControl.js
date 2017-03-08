@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
-const content = vcCake.getStorage('content')
+const elementsStorage = vcCake.getStorage('elements')
 
 const cook = vcCake.getService('cook')
 
@@ -20,6 +20,9 @@ export default class ElementControl extends React.Component {
       previewVisible: false,
       previewStyle: {}
     }
+    this.addElement = this.addElement.bind(this)
+    this.showPreview = this.showPreview.bind(this)
+    this.hidePreview = this.hidePreview.bind(this)
   }
 
   componentDidMount () {
@@ -31,7 +34,7 @@ export default class ElementControl extends React.Component {
     e && e.preventDefault()
     const {options} = this.props
     let data = cook.get({ tag: this.props.tag, parent: false }) // this.props.api.actions.getParent()
-    content.trigger('add', data.toJS(), true, {
+    elementsStorage.trigger('add', data.toJS(), true, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
     // this.props.api.request('app:edit', data.toJS().id, '')
@@ -182,9 +185,9 @@ export default class ElementControl extends React.Component {
     return (
       <li className='vcv-ui-item-list-item'>
         <a className='vcv-ui-item-element'
-          onClick={this.addElement.bind(this)}
-          onMouseEnter={this.showPreview.bind(this)}
-          onMouseLeave={this.hidePreview.bind(this)}
+          onClick={this.addElement}
+          onMouseEnter={this.showPreview}
+          onMouseLeave={this.hidePreview}
           title={name}>
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail}

@@ -25,7 +25,7 @@ export default class LayoutEditor extends React.Component {
       }
     )
     if (vcCake.env('FEATURE_WORKSPACE_WITH_STORAGE')) {
-      const content = vcCake.getStorage('content')
+      const content = vcCake.getStorage('elements')
       content.state('document').onChange((data) => {
         this.setState({ data: data }, () => {
           // content.trigger('data:editor:render')

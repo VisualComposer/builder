@@ -22,9 +22,9 @@ $(() => {
     })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'node').start(() => {
-      require('./editor/stores/content.js')
-      require('./editor/stores/assets/store.js')
-      require('./editor/stores/workspace.js')
+      require('./editor/stores/elements/elementsStorage')
+      require('./editor/stores/assets/assetsStorage')
+      require('./editor/stores/workspaceStorage')
       require('./config/node-modules')
     })
     vcCake.env('iframe', iframe)

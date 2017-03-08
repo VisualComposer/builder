@@ -4,6 +4,7 @@ import vcCake from 'vc-cake'
 
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
+const elementsStorage = vcCake.getStorage('elements')
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
@@ -89,20 +90,23 @@ export default class ActivitiesManager extends React.Component {
     if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
       const { element } = this.props
       const elementData = element.toJS()
+      elementsStorage.trigger('update', elementData.id, elementData)
+      /*
       if (!vcCake.getData('lockActivity')) {
         vcCake.setData('lockActivity', 'Are you sure?')
         vcCake.onDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
       }
-      vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
+      */
+      // vcCake.setData(`element:instantMutation:${element.get('id')}`, elementData)
       // api.request('data:instantMutation', elementData, 'update')
     }
     this.callFieldActivities(null, key)
   }
 
   resetIfEditFormClosed () {
-    const { element } = this.props
-    vcCake.ignoreDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
-    vcCake.setData(`element:instantMutation:${element.get('id')}`, false)
+    // const { element } = this.props
+    // vcCake.ignoreDataChange('barContentEnd:Show', this.resetIfEditFormClosed)
+    // vcCake.setData(`element:instantMutation:${element.get('id')}`, false)
     // api.request('data:instantMutation', false, 'update')
   }
 

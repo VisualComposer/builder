@@ -5,7 +5,7 @@ import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import './css/tree/init.less'
 
-const content = getStorage('content')
+const elementsStorage = getStorage('elements')
 
 export default class TreeViewLayout extends React.Component {
   constructor (props) {
@@ -22,7 +22,7 @@ export default class TreeViewLayout extends React.Component {
     }
   }
   componentDidMount () {
-    content.state('document').onChange((data) => {
+    elementsStorage.state('document').onChange((data) => {
       this.setState({ data: data }, () => {
         // content.trigger('data:editor:render')
       })

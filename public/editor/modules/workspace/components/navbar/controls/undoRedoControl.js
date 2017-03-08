@@ -1,6 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
-const content = vcCake.getStorage('content')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class UndoRedoControl extends React.Component {
   constructor (props) {
@@ -11,27 +11,27 @@ export default class UndoRedoControl extends React.Component {
   }
 
   componentWillMount () {
-    content.state('document').onChange(this.checkControls)
+    elementsStorage.state('document').onChange(this.checkControls)
     this.checkControls()
   }
 
   componentWillUnmount () {
-    content.state('document').ignoreChange(this.checkControls)
+    elementsStorage.state('document').ignoreChange(this.checkControls)
   }
 
   checkControls = () => {
     this.setState({
-      redoDisabled: !content.state('redo'),
-      undoDisabled: !content.state('undo')
+      redoDisabled: !elementsStorage.state('redo'),
+      undoDisabled: !elementsStorage.state('undo')
     })
   }
 
   handleUndo = () => {
-    content.trigger('undo')
+    elementsStorage.trigger('undo')
   }
 
   handleRedo = () => {
-    content.trigger('redo')
+    elementsStorage.trigger('redo')
   }
 
   render () {

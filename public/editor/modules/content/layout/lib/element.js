@@ -3,7 +3,7 @@ import React from 'react'
 import '../../../../../sources/less/content/layout/element.less'
 import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
-
+const elementsStorage = vcCake.getStorage('elements')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
@@ -14,7 +14,7 @@ export default class Element extends React.Component {
   }
   constructor (props) {
     super(props)
-    this.instantDataUpdate = this.instantDataUpdate.bind(this)
+    this.dataUpdate = this.dataUpdate.bind(this)
     this.state = {
       element: props.element
     }
@@ -24,14 +24,16 @@ export default class Element extends React.Component {
   }
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
+    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
-  instantDataUpdate (data) {
+  dataUpdate (data) {
     this.setState({element: data || this.props.element})
   }
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
+    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    // vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   getContent (content) {

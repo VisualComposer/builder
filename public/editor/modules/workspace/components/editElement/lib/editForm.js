@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import EditFormTabsOutput from './editFormTabsOutput.js'
-import EditFormFooter from './editFormFooter'
 import EditFormContent from './editFormContent'
 
 export default class EditForm extends React.Component {
@@ -19,7 +18,6 @@ export default class EditForm extends React.Component {
         <div className={treeContentClasses}>
           <EditFormTabsOutput {...this.props} />
           <EditFormContent {...this.props} />
-          <EditFormFooter {...this.props} />
         </div>
       </div>
     )

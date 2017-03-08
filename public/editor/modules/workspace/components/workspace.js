@@ -13,7 +13,8 @@ export default class Workspace extends React.Component {
     super(props)
     this.state = {
       contentStart: false,
-      contentEnd: false
+      contentEnd: false,
+      settings: {}
     }
     this.setContentStart = this.setContentStart.bind(this)
     this.setContentEnd = this.setContentEnd.bind(this)
@@ -44,7 +45,7 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const {contentStart, contentEnd} = this.state
+    const {contentStart, contentEnd, settings} = this.state
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
       'vcv-ui-content--hidden': !(contentEnd || contentStart),
@@ -61,6 +62,7 @@ export default class Workspace extends React.Component {
           end={
           contentEnd
         }
+          settings={settings}
         />
         <Resizer params={{
           resizeTop: true,
