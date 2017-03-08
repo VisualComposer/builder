@@ -1,14 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
-import ContentStart from './contentStart'
-import ContentEnd from './contentEnd'
-import AddElementPanel from '../addElement/addElementPanel'
-import AddTemplatePanel from '../addTemplate/AddTemplatePanel'
-import TreeViewLayout from '../treeView/treeViewLayout'
-import SettingsPanel from '../settings/settingsPanel'
-import EditElementPanel from '../editElement/editElementPanel'
+import ContentStart from './contentParts/contentStart'
+import ContentEnd from './contentParts/contentEnd'
+import AddElementPanel from './addElement/addElementPanel'
+import AddTemplatePanel from './addTemplate/AddTemplatePanel'
+import TreeViewLayout from './treeView/treeViewLayout'
+import SettingsPanel from './settings/settingsPanel'
+import EditElementPanel from './editElement/editElementPanel'
 
-export default class Content extends React.Component {
+export default class PanelsContainer extends React.Component {
   static propTypes = {
     start: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
@@ -17,7 +17,8 @@ export default class Content extends React.Component {
     end: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    settings: React.PropTypes.object
   }
 
   getStartContent () {
@@ -28,7 +29,7 @@ export default class Content extends React.Component {
   }
 
   getEndContent () {
-    const { end } = this.props
+    const { end, settings } = this.props
     if (end === 'addElement') {
       return <AddElementPanel />
     } else if (end === 'addTemplate') {
@@ -36,7 +37,9 @@ export default class Content extends React.Component {
     } else if (end === 'settings') {
       return <SettingsPanel />
     } else if (end === 'editElement') {
-      return <EditElementPanel />
+      if (settings && settings.element) {
+        return <EditElementPanel element={settings.element} />
+      }
     }
   }
 

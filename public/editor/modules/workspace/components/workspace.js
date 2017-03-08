@@ -1,7 +1,7 @@
 import ClassNames from 'classnames'
 import React from 'react'
 import Resizer from '../../../../resources/resizer/resizer'
-import Content from './content/content'
+import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbar/navbarContainer'
 import {getStorage} from 'vc-cake'
 
@@ -27,7 +27,8 @@ export default class Workspace extends React.Component {
     workspace.state('contentEnd').ignoreChange(this.setContentEnd)
   }
   setContentEnd (value) {
-    this.setState({contentEnd: value || false})
+    const contentEnd = value || false
+    this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
   }
   setContentStart (value) {
     this.setState({contentStart: value || false})
@@ -53,7 +54,7 @@ export default class Workspace extends React.Component {
     return (
       <div className={layoutClasses}>
         <NavbarContainer />
-        <Content
+        <PanelsContainer
           start={
           contentStart
         }
