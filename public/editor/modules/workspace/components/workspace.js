@@ -23,7 +23,7 @@ export default class Workspace extends React.Component {
     workspace.state('contentEnd').onChange(this.setContentEnd)
   }
   componentWillUnmount () {
-    workspace.state('settings').ignoreChange(this.setContentStart)
+    workspace.state('contentStart').ignoreChange(this.setContentStart)
     workspace.state('contentEnd').ignoreChange(this.setContentEnd)
   }
   setContentEnd (value) {
