@@ -63,6 +63,7 @@ export default class CssBuilder {
         writable: true
       }
     })
+    this.resetJobs = this.resetJobs.bind(this)
   }
 
   add (data) {
@@ -92,10 +93,12 @@ export default class CssBuilder {
   }
 
   update (data) {
+    const id = data.id
+    this.assetsStorage.updateElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
     this.doJobs().then(() => {
-      this.window.vcv.trigger('ready', 'update', data.id)
+      this.window.vcv.trigger('ready', 'update', id)
     })
   }
 
@@ -166,7 +169,7 @@ export default class CssBuilder {
   }
 
   doJobs () {
-    return Promise.all(this.jobs).then(this.resetJobs.bind(this))
+    return Promise.all(this.jobs).catch(this.resetJobs).then(this.resetJobs)
   }
 
   resetJobs () {

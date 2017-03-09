@@ -63,7 +63,7 @@ addStorage('elements', (storage) => {
     }
     documentManager.update(id, element)
     storage.state('element:' + id).set(element)
-    assets.trigger('updateElement', [element])
+    assets.trigger('updateElement', id)
   })
   storage.on('destroy', (id, elementData) => {})
   storage.on('clone', (id) => {})
