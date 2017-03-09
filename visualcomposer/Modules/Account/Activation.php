@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\System\Activation;
+namespace VisualComposer\Modules\Account;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -10,9 +10,9 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
  * Class Pages
- * @package VisualComposer\Modules\System\Activation
+ * @package VisualComposer\Modules\Account
  */
-class Pages extends Container implements Module
+class Activation extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
@@ -22,14 +22,16 @@ class Pages extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\System\Activation\Pages::setRedirect */
+        /** @see \VisualComposer\Modules\Account\Activation::setRedirect */
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
-        /** @see \VisualComposer\Modules\System\Activation\Pages::doRedirect */
+        /** @see \VisualComposer\Modules\Account\Activation::doRedirect */
         $this->wpAddAction('admin_init', 'doRedirect');
     }
 
     /**
      * Set redirect transition on update or activation
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
      */
     private function setRedirect(Request $requestHelper)
     {
@@ -46,7 +48,7 @@ class Pages extends Container implements Module
         $redirect = get_transient('_vcv_activation_page_redirect');
         delete_transient('_vcv_activation_page_redirect');
         if ($redirect) {
-            // wp_redirect(admin_url('admin.php?page=' . rawurlencode('test!')));
+            wp_redirect(admin_url('admin.php?page=' . rawurlencode('vcv-activation')));
         }
     }
 }
