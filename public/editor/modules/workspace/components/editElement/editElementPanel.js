@@ -1,7 +1,7 @@
 import React from 'react'
 import FormWrapper from './lib/formWrapper'
 import ActivitiesManager from './lib/activitiesManager'
-
+import './css/init.less'
 export default class EditElementPanel extends ActivitiesManager {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
