@@ -21,10 +21,10 @@ class Version extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\System\Activation\Version::setVersion */
-       /* $this->addEvent(
+        $this->addEvent(
             'vcv:system:activation:hook',
             'setVersion'
-        );*/
+        );
     }
 
     /**

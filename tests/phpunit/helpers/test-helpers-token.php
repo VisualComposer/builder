@@ -10,23 +10,6 @@ class HelpersTokenTest extends WP_UnitTestCase
         $this->assertTrue(is_object($helper), 'Token helper should be an object');
     }
 
-    public function testIsRegisteredAndRegisterSite()
-    {
-        /** @var $helper \VisualComposer\Helpers\Token */
-        $helper = vchelper('Token');
-
-        /** @var $optionsHelper \VisualComposer\Helpers\Options */
-        $optionsHelper = vchelper('Options');
-        delete_option('vcv-site-registered');
-        $this->assertFalse($helper->isRegistered($optionsHelper));
-
-        $body = ['client_id' => 'foo', 'client_secret' => 'bar'];
-        $ret = $helper->registerSite($body, $optionsHelper);
-        $this->assertTrue($ret);
-
-        $this->assertTrue($helper->isRegistered($optionsHelper));
-    }
-
     public function testTokenLifecycle()
     {
         /** @var $helper VisualComposer\Helpers\Token */
@@ -42,10 +25,10 @@ class HelpersTokenTest extends WP_UnitTestCase
         $this->assertFalse($optionsHelper->get('page-auth-refresh-token'));
 
         $code = 'test-code';
-        $accessToken = vcapp()->call([$helper, 'generateToken'], [$code]);
+        $accessToken = vcapp()->call([$helper, 'createToken'], [$code]);
         $this->assertEquals('test-access-token-1', $accessToken);
 
-        $this->assertEquals('test-access-token-1', $helper->getToken($optionsHelper));
+        $this->assertEquals('test-access-token-1', $helper->getToken());
 
         remove_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest']);
     }
