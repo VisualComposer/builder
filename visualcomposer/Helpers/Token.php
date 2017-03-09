@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Helpers;
 
+use Exception;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
@@ -20,6 +21,30 @@ class Token extends Container implements Helper
         $this->urlHelper = $urlHelper;
     }
 
+    public function createSecret()
+    {
+        /** @var Url $urlHelper */
+        $url = $this->urlHelper->ajax(['vcv-action' => 'api']);
+        $result = wp_remote_post(
+            VCV_ACCOUNT_URL . '/register-app',
+            ['body' => ['url' => $url]]
+        );
+        if (is_array($result) && 200 === $result['response']['code']) {
+            $body = json_decode($result['body'], true);
+            if (!empty($body) && isset($body['client_id'], $body['client_secret'])) {
+                $this->setSiteRegistered();
+                $this->setClientSecret($body);
+
+                return true;
+            }
+        } else {
+            // TODO: Handle error.
+            throw new Exception('HTTP request for registering app failed.');
+        }
+
+        return false;
+    }
+
     /**
      * @return bool
      */
@@ -30,17 +55,22 @@ class Token extends Container implements Helper
         );
     }
 
+    protected function setSiteRegistered()
+    {
+        return $this->optionsHelper->set(
+            'site-registered',
+            1
+        );
+    }
+
     /**
      * @param $body
      *
      * @return bool
      */
-    public function registerSite($body)
+    protected function setClientSecret($body)
     {
         $this->optionsHelper->set(
-            'site-registered',
-            1
-        )->set(
             'site-id',
             $body['client_id']
         )->set(
@@ -57,7 +87,7 @@ class Token extends Container implements Helper
      * @return bool|string
      * @throws \Exception
      */
-    public function generateToken($code)
+    public function createToken($code)
     {
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/token',
@@ -74,8 +104,8 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
-                /** @see \VisualComposer\Helpers\Token::saveToken */
-                return $this->call('saveToken', [$body]);
+                /** @see \VisualComposer\Helpers\Token::setToken */
+                return $this->call('setToken', [$body]);
             }
         } else {
             // TODO: Handle error.
@@ -86,11 +116,26 @@ class Token extends Container implements Helper
     }
 
     /**
+     * @return bool|string
+     */
+    public function getToken()
+    {
+        $token = $this->optionsHelper->get('page-auth-token');
+        $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('page-auth-token-ttl');
+        if ($ttl > 3600) {
+            /** @see \VisualComposer\Helpers\Token::refreshToken */
+            $token = $this->call('refreshToken');
+        }
+
+        return $token;
+    }
+
+    /**
      * @param $body
      *
      * @return string
      */
-    private function saveToken($body)
+    protected function setToken($body)
     {
         $this->optionsHelper->set(
             'page-auth-state',
@@ -106,26 +151,7 @@ class Token extends Container implements Helper
             current_time('timestamp')
         );
 
-        return $body->access_token;
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getToken()
-    {
-        $token = $this->optionsHelper->get('page-auth-token');
-        $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('page-auth-token-ttl');
-        if ($ttl > 3600) {
-            try {
-                /** @see \VisualComposer\Helpers\Token::refreshToken */
-                $token = $this->call('refreshToken');
-            } catch (\Exception $e) {
-                $token = false;
-            }
-        }
-
-        return $token;
+        return true;
     }
 
     /**
@@ -133,7 +159,7 @@ class Token extends Container implements Helper
      *
      * @return bool
      */
-    private function refreshToken()
+    protected function refreshToken()
     {
         $refreshToken = $this->optionsHelper->get('page-auth-refresh-token');
         $result = wp_remote_post(
