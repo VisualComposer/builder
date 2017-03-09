@@ -104,7 +104,9 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
-                return $this->setToken($body);
+                $this->setToken($body);
+
+                return $body->access_token;
             }
         } else {
             // TODO: Handle error.
