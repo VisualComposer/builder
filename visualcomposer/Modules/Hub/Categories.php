@@ -7,50 +7,35 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 
-class Controller extends Container implements Module
+/**
+ * Class Categories
+ * @package VisualComposer\Modules\Hub
+ */
+class Categories extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
 
-    protected $elements;
-
+    /**
+     * Categories constructor.
+     */
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputCategories');
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputGroups');
 
         $temporaryData = true;
         if ($temporaryData) {
             $this->wpAddAction(
                 'init',
-                'dummySetElements'
-            );
-            $this->wpAddAction(
-                'init',
                 'dummySetCategories'
-            );
-            $this->wpAddAction(
-                'init',
-                'dummySetGroups'
             );
         }
     }
 
-    protected function dummySetElements(Options $optionHelper, Url $urlHelper)
-    {
-        $optionHelper->set(
-            'hubElements',
-            [
-                'row' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
-                'column' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
-                'textBlock' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
-            ]
-        );
-    }
-
+    /**
+     * @param \VisualComposer\Helpers\Options $optionHelper
+     */
     protected function dummySetCategories(Options $optionHelper)
     {
         $optionHelper->set(
@@ -200,96 +185,13 @@ class Controller extends Container implements Module
         );
     }
 
-    protected function dummySetGroups(Options $optionHelper)
-    {
-        $optionHelper->set(
-            'hubGroups',
-            [
-                [
-                    'title' => 'Basic',
-                    'categories' => [
-                        'Row',
-                        'Column',
-                        'Section',
-                        'Text block',
-                        'Single image',
-                        'Basic video', // TODO: Check it!
-                        'Button',
-                    ],
-                ],
-                [
-                    'title' => 'Media',
-                    'categories' => [
-                        'Image gallery',
-                        'Image sliders',
-                        'Single image',
-                        'Videos',
-                    ],
-                ],
-                [
-                    'title' => 'Containers',
-                    'categories' => [
-                        'Tabs',
-                        'Tours',
-                        'Accordions',
-                        'Row',
-                        'Section',
-                    ],
-                ],
-                [
-                    'title' => 'Social',
-                    'categories' => ['Social'],
-                ],
-                [
-                    'title' => 'Wordpress',
-                    'categories' => ['Wordpress'],
-                ],
-                [
-                    'title' => 'Content',
-                    'categories' => [
-                        'Hero section',
-                        'Icon',
-                        'Single image',
-                        'Text Block',
-                        'Feature',
-                        'Maps',
-                        'Separators',
-                        'Grids',
-                        'Feature section',
-                    ],
-                ],
-                [
-                    'title' => 'WooCommerce',
-                    'categories' => ['WooCommerce'],
-                ],
-                [
-                    'title' => 'WP Widgets',
-                    'categories' => ['WP Widgets'],
-                ],
-                [
-                    'title' => 'All',
-                    'metaOrder' => 1,
-                    'categories' => true,
-                ],
-            ]
-        );
-    }
-
-    protected function outputElements($response, $payload, Options $optionHelper)
-    {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'hub/elements',
-                    [
-                        'elements' => $optionHelper->get('hubElements', []),
-                    ]
-                ),
-            ]
-        );
-    }
-
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionHelper
+     *
+     * @return array
+     */
     protected function outputCategories($response, $payload, Options $optionHelper)
     {
         return array_merge(
@@ -299,21 +201,6 @@ class Controller extends Container implements Module
                     'hub/categories',
                     [
                         'categories' => $optionHelper->get('hubCategories', []),
-                    ]
-                ),
-            ]
-        );
-    }
-
-    protected function outputGroups($response, $payload, Options $optionHelper)
-    {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'hub/groups',
-                    [
-                        'groups' => $optionHelper->get('hubGroups', []),
                     ]
                 ),
             ]
