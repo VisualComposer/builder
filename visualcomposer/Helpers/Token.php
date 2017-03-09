@@ -21,34 +21,10 @@ class Token extends Container implements Helper
         $this->urlHelper = $urlHelper;
     }
 
-    public function createSecret()
-    {
-        /** @var Url $urlHelper */
-        $url = $this->urlHelper->ajax(['vcv-action' => 'api']);
-        $result = wp_remote_post(
-            VCV_ACCOUNT_URL . '/register-app',
-            ['body' => ['url' => $url]]
-        );
-        if (is_array($result) && 200 === $result['response']['code']) {
-            $body = json_decode($result['body'], true);
-            if (!empty($body) && isset($body['client_id'], $body['client_secret'])) {
-                $this->setSiteRegistered();
-                $this->setClientSecret($body);
-
-                return true;
-            }
-        } else {
-            // TODO: Handle error.
-            throw new Exception('HTTP request for registering app failed.');
-        }
-
-        return false;
-    }
-
     /**
      * @return bool
      */
-    public function isRegistered()
+    public function getRegistered()
     {
         return (bool)$this->optionsHelper->get(
             'site-registered'
@@ -63,6 +39,30 @@ class Token extends Container implements Helper
         );
     }
 
+    public function createSecret()
+    {
+        /** @var Url $urlHelper */
+        $url = $this->urlHelper->ajax(['vcv-action' => 'api']);
+        $result = wp_remote_post(
+            VCV_ACCOUNT_URL . '/register-app',
+            ['body' => ['url' => $url]]
+        );
+        if (is_array($result) && 200 === $result['response']['code']) {
+            $body = json_decode($result['body']);
+            if (!empty($body) && isset($body->client_id, $body->client_secret)) {
+                $this->setSiteRegistered();
+                $this->setClientSecret($body);
+
+                return true;
+            }
+        } else {
+            // TODO: Handle error.
+            throw new Exception('HTTP request for registering app failed.');
+        }
+
+        return false;
+    }
+
     /**
      * @param $body
      *
@@ -72,10 +72,10 @@ class Token extends Container implements Helper
     {
         $this->optionsHelper->set(
             'site-id',
-            $body['client_id']
+            $body->client_id
         )->set(
             'site-secret',
-            $body['client_secret']
+            $body->client_secret
         );
 
         return true;
@@ -104,8 +104,7 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
-                /** @see \VisualComposer\Helpers\Token::setToken */
-                return $this->call('setToken', [$body]);
+                return $this->setToken($body);
             }
         } else {
             // TODO: Handle error.
@@ -123,8 +122,7 @@ class Token extends Container implements Helper
         $token = $this->optionsHelper->get('page-auth-token');
         $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('page-auth-token-ttl');
         if ($ttl > 3600) {
-            /** @see \VisualComposer\Helpers\Token::refreshToken */
-            $token = $this->call('refreshToken');
+            $token = $this->refreshToken();
         }
 
         return $token;
@@ -177,19 +175,7 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
-                $this->optionsHelper->set(
-                    'page-auth-state',
-                    1
-                )->set(
-                    'page-auth-token',
-                    $body->access_token
-                )->set(
-                    'page-auth-refresh-token',
-                    $body->refresh_token
-                )->set(
-                    'page-auth-token-ttl',
-                    current_time('timestamp')
-                );
+                $this->setToken($body);
 
                 return $body->access_token;
             }
