@@ -38,8 +38,9 @@ addStorage('elements', (storage) => {
   })
   storage.on('update', (id, element) => {
     if (env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let children = false
       if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
-        rebuildRawLayout(id, element.layout.layoutData, documentManager)
+        children = rebuildRawLayout(id, element.layout.layoutData, documentManager)
         element.rowLayout = element.layout.layoutData
         element.size = element.layout.layoutData
         element.layout.layoutData = undefined
@@ -55,6 +56,12 @@ addStorage('elements', (storage) => {
       if (element.tag === 'row') {
         addRowBackground(id, element, documentManager)
       }
+      children && children.forEach((stack) => {
+        const [element, action] = stack
+        const id = element.id
+        storage.state('element:' + id).set(element)
+        assets.trigger(`${action}Element`, id)
+      })
     } else {
       if (element.tag === 'row' && element.layout && element.layout.length) {
         rebuildRawLayout(id, element.layout, documentManager)
@@ -65,7 +72,9 @@ addStorage('elements', (storage) => {
     storage.state('element:' + id).set(element)
     assets.trigger('updateElement', id)
   })
-  storage.on('destroy', (id, elementData) => {})
+  storage.on('remove', (id) => {
+    console.log('destroy', id)
+  })
   storage.on('clone', (id) => {})
   storage.state('document').set(documentManager.children(false))
   // Need to rewrite
@@ -73,7 +82,10 @@ addStorage('elements', (storage) => {
     // Maybe we can move it the top of the structure.
     timeMachine.add(documentManager.all())
     storage.state('undo').set(true)
-    storage.state('redo').set(true)
+    // storage.state('redo').set(true)
+  })
+  storage.on('reset', (data) => {
+
   })
   /*
   Undo

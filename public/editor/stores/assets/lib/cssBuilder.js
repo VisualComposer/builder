@@ -102,14 +102,14 @@ export default class CssBuilder {
     })
   }
 
-  destroy (id) {
+  destroy (data) {
+    const id = data.id
     this.assetsStorage.removeElement(id)
     this.removeCssElementBaseByElement(id)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id)
   }
-
   addElementJsFiles (tag) {
     let jsFiles = this.assetsManager.getJsFilesByTags([ tag ])
     jsFiles.forEach((file) => {
@@ -142,27 +142,31 @@ export default class CssBuilder {
   }
 
   removeAttributesCssByElement (id) {
-    this.window.document.getElementById(`css-styles-${id}`).remove()
+    const node = this.window.document.getElementById(`css-styles-${id}`)
+    node && node.remove()
   }
   addCssElementBaseByElement (data) {
-    let attributesStyles = this.stylesManager.create()
-    attributesStyles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
-    this.addJob(attributesStyles.compile().then((result) => {
+    let styles = this.stylesManager.create()
+    styles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
+    styles.add(this.assetsStorage.getColumnsCssData())
+    this.addJob(styles.compile().then((result) => {
       this.window.document.getElementById(`base-css-styles-${data.id}`).innerHTML = result
     }))
   }
   removeCssElementBaseByElement (id) {
-    this.window.document.getElementById(`base-css-styles-${id}`).remove()
+    const node = this.window.document.getElementById(`base-css-styles-${id}`)
+    node && node.remove()
   }
   addCssElementMixinByElement (data) {
-    let attributesStyles = this.stylesManager.create()
-    attributesStyles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
-    this.addJob(attributesStyles.compile().then((result) => {
+    let styles = this.stylesManager.create()
+    styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
+    this.addJob(styles.compile().then((result) => {
       this.window.document.getElementById(`do-styles-${data.id}`).innerHTML = result
     }))
   }
   removeCssElementMixinByElement (id) {
-    this.window.document.getElementById(`do-styles-${id}`).remove()
+    const node = this.window.document.getElementById(`do-styles-${id}`)
+    node && node.remove()
   }
   addJob (job) {
     this.jobs.push(job)
