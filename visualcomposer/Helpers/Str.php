@@ -288,8 +288,8 @@ class Str implements Helper
     {
         $str = strtolower($str);
         $str = html_entity_decode($str);
-        $str = preg_replace('/[^\w ]+/', '', $str);
-        $str = preg_replace('/ +/', '-', $str);
+        $str = preg_replace('/[^\w\s]+/', '', $str);
+        $str = preg_replace('/\s+/', '-', $str);
 
         return $str;
     }

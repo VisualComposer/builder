@@ -10,27 +10,34 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Token extends Container implements Helper
 {
+    protected $optionsHelper;
+
+    protected $urlHelper;
+
+    public function __construct(Options $optionsHelper, Url $urlHelper)
+    {
+        $this->optionsHelper = $optionsHelper;
+        $this->urlHelper = $urlHelper;
+    }
+
     /**
-     * @param \VisualComposer\Helpers\Options $options
-     *
      * @return bool
      */
-    public function isRegistered(Options $options)
+    public function isRegistered()
     {
-        return (bool)$options->get(
+        return (bool)$this->optionsHelper->get(
             'site-registered'
         );
     }
 
     /**
      * @param $body
-     * @param \VisualComposer\Helpers\Options $options
      *
      * @return bool
      */
-    public function registerSite($body, Options $options)
+    public function registerSite($body)
     {
-        $options->set(
+        $this->optionsHelper->set(
             'site-registered',
             1
         )->set(
@@ -46,14 +53,11 @@ class Token extends Container implements Helper
 
     /**
      * @param $code
-     * @param \VisualComposer\Helpers\Options $options
-     *
-     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return bool|string
      * @throws \Exception
      */
-    public function generateToken($code, Options $options, Url $urlHelper)
+    public function generateToken($code)
     {
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/token',
@@ -61,9 +65,9 @@ class Token extends Container implements Helper
                 'body' => [
                     'code' => $code,
                     'grant_type' => 'authorization_code',
-                    'client_secret' => $options->get('site-secret'),
-                    'redirect_uri' => $urlHelper->ajax(['vcv-action' => 'api']),
-                    'client_id' => $options->get('site-id'),
+                    'client_secret' => $this->optionsHelper->get('site-secret'),
+                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'api']),
+                    'client_id' => $this->optionsHelper->get('site-id'),
                 ],
             ]
         );
@@ -83,13 +87,12 @@ class Token extends Container implements Helper
 
     /**
      * @param $body
-     * @param \VisualComposer\Helpers\Options $options
      *
      * @return string
      */
-    private function saveToken($body, Options $options)
+    private function saveToken($body)
     {
-        $options->set(
+        $this->optionsHelper->set(
             'page-auth-state',
             1
         )->set(
@@ -107,14 +110,12 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param \VisualComposer\Helpers\Options $options
-     *
      * @return bool|string
      */
-    public function getToken(Options $options)
+    public function getToken()
     {
-        $token = $options->get('page-auth-token');
-        $ttl = current_time('timestamp') - (int)$options->get('page-auth-token-ttl');
+        $token = $this->optionsHelper->get('page-auth-token');
+        $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('page-auth-token-ttl');
         if ($ttl > 3600) {
             try {
                 /** @see \VisualComposer\Helpers\Token::refreshToken */
@@ -128,24 +129,21 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @param \VisualComposer\Helpers\Options $options
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     *
      * @throws \Exception
      *
      * @return bool
      */
-    private function refreshToken(Options $options, Url $urlHelper)
+    private function refreshToken()
     {
-        $refreshToken = $options->get('page-auth-refresh-token');
+        $refreshToken = $this->optionsHelper->get('page-auth-refresh-token');
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'grant_type' => 'refresh_token',
-                    'client_secret' => $options->get('site-secret'),
-                    'redirect_uri' => $urlHelper->ajax(['vcv-action' => 'api']),
-                    'client_id' => $options->get('site-id'),
+                    'client_secret' => $this->optionsHelper->get('site-secret'),
+                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'api']),
+                    'client_id' => $this->optionsHelper->get('site-id'),
                     'refresh_token' => $refreshToken,
                 ],
             ]
@@ -153,7 +151,7 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
             if ($body->access_token) {
-                $options->set(
+                $this->optionsHelper->set(
                     'page-auth-state',
                     1
                 )->set(

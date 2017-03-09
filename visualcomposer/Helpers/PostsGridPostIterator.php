@@ -11,6 +11,13 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class PostsGridPostIterator extends Container implements Helper
 {
+    protected $gridTemplateHelper;
+
+    public function __construct(GridItemTemplate $gridItemTemplateHelper)
+    {
+        $this->gridTemplateHelper = $gridItemTemplateHelper;
+    }
+
     /**
      * @param $posts
      * @param $template
@@ -20,6 +27,7 @@ class PostsGridPostIterator extends Container implements Helper
     public function loopPosts($posts, $template)
     {
         global $post, $shortcode_tags;
+
         $backupTags = $shortcode_tags;
         remove_all_shortcodes();
         $backup = $post;
@@ -29,13 +37,7 @@ class PostsGridPostIterator extends Container implements Helper
                 /** @see \VisualComposer\Modules\Elements\Grids\PostsGridController::renderPost */
                 $post = $queryPost;
                 setup_postdata($post);
-                $compiledTemplate = $this->call(
-                    'renderPost',
-                    [
-                        'template' => $template,
-                        'post' => $queryPost,
-                    ]
-                );
+                $compiledTemplate = $this->renderPost($template, $queryPost);
                 $output .= trim($compiledTemplate);
                 wp_reset_postdata();
             }
@@ -49,13 +51,12 @@ class PostsGridPostIterator extends Container implements Helper
     /**
      * @param $template
      * @param $post
-     * @param \VisualComposer\Helpers\GridItemTemplate $gridItemTemplateHelper
      *
      * @return mixed
      */
-    protected function renderPost($template, $post, GridItemTemplate $gridItemTemplateHelper)
+    protected function renderPost($template, $post)
     {
-        $newTemplate = $gridItemTemplateHelper->parseTemplate($template, $post);
+        $newTemplate = $this->gridTemplateHelper->parseTemplate($template, $post);
 
         return $newTemplate;
     }
