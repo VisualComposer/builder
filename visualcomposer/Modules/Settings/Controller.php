@@ -7,6 +7,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Pages\About;
@@ -19,6 +20,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 class Controller extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
     /**
      * @var null
@@ -61,7 +63,7 @@ class Controller extends Container implements Module
         );
 
         /** @see \VisualComposer\Modules\Settings\Controller::addSubmenuPages */
-        $this->wpAddAction(
+        $this->addEvent(
             'vcv:settings:mainPage:menuPageBuild',
             'addSubmenuPages'
         );
@@ -109,7 +111,7 @@ class Controller extends Container implements Module
 
         add_menu_page($title, $title, 'exist', $slug, null, $iconUrl, 76);
 
-        do_action('vcv:settings:mainPage:menuPageBuild', $slug);
+        vcevent('vcv:settings:mainPage:menuPageBuild', ['slug' => $slug]);
     }
 
     /**
@@ -135,7 +137,7 @@ class Controller extends Container implements Module
                     $parentSlug,
                     $page['title'],
                     $page['title'],
-                    'manage_options',
+                    isset($page['capability']) ? $page['capability'] : 'manage_options',
                     $page['slug'],
                     function () {
                         /** @see \VisualComposer\Modules\Settings\Controller::renderPage */
@@ -145,7 +147,7 @@ class Controller extends Container implements Module
             }
         }
 
-        do_action('vcv:settings:pageSettingsBuild');
+        vcevent('vcv:settings:pageSettingsBuild', ['pages' => $pages, 'parentSlug' => $parentSlug]);
     }
 
     /**
