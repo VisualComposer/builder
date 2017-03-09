@@ -187,6 +187,9 @@ class PublicApi {
   getGoogleFontsData () {
     return storage.getGoogleFontsData()
   }
+  getColumnsCssData () {
+    return storage.getColumnsCssData()
+  }
 }
 let singleton = false
 const service = {

@@ -1,6 +1,6 @@
 
 export const rebuildRawLayout = (id, layout, documentManager) => {
-  let createdElements = []
+  let elements = []
   let columns = documentManager.children(id)
   let lastColumnObject = null
   layout.forEach((size, i) => {
@@ -8,9 +8,11 @@ export const rebuildRawLayout = (id, layout, documentManager) => {
       lastColumnObject = columns[ i ]
       lastColumnObject.size = size
       // api.request('data:update', lastColumnObject.id, lastColumnObject)
+      documentManager.update(lastColumnObject.id, lastColumnObject)
+      elements.push([lastColumnObject, 'update'])
     } else {
       let createdElement = documentManager.create({ tag: 'column', parent: id, size: size })
-      createdElements.push(createdElement.id)
+      elements.push([createdElement, 'add'])
     }
   })
   /*
@@ -22,11 +24,15 @@ export const rebuildRawLayout = (id, layout, documentManager) => {
       let childElements = documentManager.children(column.id)
       childElements.forEach((el) => {
         el.parent = lastColumnObject.id
-        // api.request('data:update', el.id, el)
+        documentManager.update(el.id, el)
+        // elements.push([el.id, 'create'])
       })
       // api.request('data:remove', column.id)
+      documentManager.delete(column.id)
+      elements.push([column, 'remove'])
     })
   }
+  return elements
 }
 export const addRowBackground = (id, element, documentManager) => {
   let allBackgrounds = []

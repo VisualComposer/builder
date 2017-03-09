@@ -6,7 +6,8 @@ export default class UndoRedoControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      undoDisabled: true
+      undoDisabled: true,
+      redoDisabled: true
     }
   }
 
@@ -21,8 +22,8 @@ export default class UndoRedoControl extends React.Component {
 
   checkControls = () => {
     this.setState({
-      redoDisabled: !elementsStorage.state('redo'),
-      undoDisabled: !elementsStorage.state('undo')
+      redoDisabled: !elementsStorage.state('redo').get(),
+      undoDisabled: !elementsStorage.state('undo').get()
     })
   }
 
