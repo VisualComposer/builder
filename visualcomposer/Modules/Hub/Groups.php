@@ -1,0 +1,135 @@
+<?php
+
+namespace VisualComposer\Modules\Hub;
+
+use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
+
+/**
+ * Class Groups
+ * @package VisualComposer\Modules\Hub
+ */
+class Groups extends Container implements Module
+{
+    use EventsFilters;
+    use WpFiltersActions;
+
+    /**
+     * Groups constructor.
+     */
+    public function __construct()
+    {
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputGroups');
+
+        $temporaryData = true;
+        if ($temporaryData) {
+            $this->wpAddAction(
+                'init',
+                'dummySetGroups'
+            );
+        }
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionHelper
+     */
+    protected function dummySetGroups(Options $optionHelper)
+    {
+        $optionHelper->set(
+            'hubGroups',
+            [
+                [
+                    'title' => 'Basic',
+                    'categories' => [
+                        'Row',
+                        'Column',
+                        'Section',
+                        'Text block',
+                        'Single image',
+                        'Basic video', // TODO: Check it!
+                        'Button',
+                    ],
+                ],
+                [
+                    'title' => 'Media',
+                    'categories' => [
+                        'Image gallery',
+                        'Image sliders',
+                        'Single image',
+                        'Videos',
+                    ],
+                ],
+                [
+                    'title' => 'Containers',
+                    'categories' => [
+                        'Tabs',
+                        'Tours',
+                        'Accordions',
+                        'Row',
+                        'Section',
+                    ],
+                ],
+                [
+                    'title' => 'Social',
+                    'categories' => ['Social'],
+                ],
+                [
+                    'title' => 'Wordpress',
+                    'categories' => ['Wordpress'],
+                ],
+                [
+                    'title' => 'Content',
+                    'categories' => [
+                        'Hero section',
+                        'Icon',
+                        'Single image',
+                        'Text Block',
+                        'Feature',
+                        'Maps',
+                        'Separators',
+                        'Grids',
+                        'Feature section',
+                    ],
+                ],
+                [
+                    'title' => 'WooCommerce',
+                    'categories' => ['WooCommerce'],
+                ],
+                [
+                    'title' => 'WP Widgets',
+                    'categories' => ['WP Widgets'],
+                ],
+                [
+                    'title' => 'All',
+                    'metaOrder' => 1,
+                    'categories' => true,
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionHelper
+     *
+     * @return array
+     */
+    protected function outputGroups($response, $payload, Options $optionHelper)
+    {
+        return array_merge(
+            $response,
+            [
+                vcview(
+                    'hub/groups',
+                    [
+                        'groups' => $optionHelper->get('hubGroups', []),
+                    ]
+                ),
+            ]
+        );
+    }
+}
