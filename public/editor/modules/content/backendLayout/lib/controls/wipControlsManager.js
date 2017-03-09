@@ -82,7 +82,7 @@ export default class ControlsManager {
     })
 
     // Subscribe to main event to interact with content elements
-    this.iframeContainer.addEventListener('mousemove', this.findElement)
+    document.body.addEventListener('mousemove', this.findElement)
   }
 
   /**
@@ -100,11 +100,15 @@ export default class ControlsManager {
       this.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
-      let elPath = path.filter((el) => {
-        return el.dataset && el.dataset.hasOwnProperty('vcvElement')
-      })
+      let elPath
+      // check if elements are inside backend layout
+      if (e.target && e.target.closest('.vcv-wpbackend-layout')) {
+        elPath = path.filter((el) => {
+          return el.dataset && el.dataset.hasOwnProperty('vcvElement')
+        })
+      }
       let element = null
-      if (elPath.length) {
+      if (elPath && elPath.length) {
         element = elPath[ 0 ] // first element in path always hovered element
       }
       let control = path.find((el) => {
