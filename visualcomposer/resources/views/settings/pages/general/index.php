@@ -37,6 +37,6 @@ $optionGroup = $controller->getOptionGroup();
     <?php submit_button(__('Save Changes', 'vc5'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
 
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo $slug ?>"
-        id="vcv_settings-<?php echo $slug ?>-action"/>
+        id="vcv_settings-<?php echo $slug ?>-action" />
 
 </form>
