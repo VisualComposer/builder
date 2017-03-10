@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import './sources/less/bootstrap/init.less'
+import './sources/less/bootstrapBackend/init.less'
 import './sources/css/wordpress.less'
 import './sources/less/wpbackend/layout/init.less'
 import './config/variables'

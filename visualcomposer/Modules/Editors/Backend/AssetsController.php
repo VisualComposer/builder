@@ -32,11 +32,11 @@ class AssetsController extends Container implements Module
      */
     protected function enqueueEditorAssets(Frontend $frontendHelper)
     {
-        global $post;
+        global $post, $pagenow;
         if (empty($post)) {
             $post = get_post();
         }
-        if (empty($post)) {
+        if (empty($post) || $pagenow == 'edit.php') {
             return;
         }
         if (!$frontendHelper->isFrontend()
