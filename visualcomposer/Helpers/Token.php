@@ -11,10 +11,22 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Token extends Container implements Helper
 {
+    /**
+     * @var \VisualComposer\Helpers\Options
+     */
     protected $optionsHelper;
 
+    /**
+     * @var \VisualComposer\Helpers\Url
+     */
     protected $urlHelper;
 
+    /**
+     * Token constructor.
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     */
     public function __construct(Options $optionsHelper, Url $urlHelper)
     {
         $this->optionsHelper = $optionsHelper;
@@ -24,25 +36,34 @@ class Token extends Container implements Helper
     /**
      * @return bool
      */
-    public function getRegistered()
+    public function isSiteRegistered()
     {
         return (bool)$this->optionsHelper->get(
             'site-registered'
         );
     }
 
-    protected function setSiteRegistered()
+    /**
+     * @return bool
+     */
+    protected function setIsSiteRegistered()
     {
-        return $this->optionsHelper->set(
+        $this->optionsHelper->set(
             'site-registered',
             1
         );
+
+        return true;
     }
 
+    /**
+     * @return bool
+     * @throws \Exception
+     */
     public function createSecret()
     {
         /** @var Url $urlHelper */
-        $url = $this->urlHelper->ajax(['vcv-action' => 'api']);
+        $url = $this->urlHelper->ajax(['vcv-action' => 'account:token:api']);
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/register-app',
             ['body' => ['url' => $url]]
@@ -50,7 +71,7 @@ class Token extends Container implements Helper
         if (is_array($result) && 200 === $result['response']['code']) {
             $body = json_decode($result['body']);
             if (!empty($body) && isset($body->client_id, $body->client_secret)) {
-                $this->setSiteRegistered();
+                $this->setIsSiteRegistered();
                 $this->setClientSecret($body);
 
                 return true;
@@ -110,7 +131,7 @@ class Token extends Container implements Helper
             }
         } else {
             // TODO: Handle error.
-            throw new \Exception('HTTP request for getting token failed.');
+            throw new Exception('HTTP request for getting token failed.');
         }
 
         return false;
@@ -121,13 +142,17 @@ class Token extends Container implements Helper
      */
     public function getToken()
     {
-        $token = $this->optionsHelper->get('page-auth-token');
-        $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('page-auth-token-ttl');
-        if ($ttl > 3600) {
-            $token = $this->refreshToken();
+        if ($this->isSiteAuthorized()) {
+            $token = $this->optionsHelper->get('site-auth-token');
+            $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('site-auth-token-ttl');
+            if ($ttl > 3600) {
+                $token = $this->refreshToken();
+            }
+
+            return $token;
         }
 
-        return $token;
+        return false;
     }
 
     /**
@@ -138,16 +163,16 @@ class Token extends Container implements Helper
     protected function setToken($body)
     {
         $this->optionsHelper->set(
-            'page-auth-state',
+            'site-auth-state',
             1
         )->set(
-            'page-auth-token',
+            'site-auth-token',
             $body->access_token
         )->set(
-            'page-auth-refresh-token',
+            'site-auth-refresh-token',
             $body->refresh_token
         )->set(
-            'page-auth-token-ttl',
+            'site-auth-token-ttl',
             current_time('timestamp')
         );
 
@@ -161,7 +186,7 @@ class Token extends Container implements Helper
      */
     protected function refreshToken()
     {
-        $refreshToken = $this->optionsHelper->get('page-auth-refresh-token');
+        $refreshToken = $this->optionsHelper->get('site-auth-refresh-token');
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/token',
             [
@@ -182,9 +207,37 @@ class Token extends Container implements Helper
                 return $body->access_token;
             }
         } else {
-            throw new \Exception('HTTP request for refreshing token failed.');
+            throw new Exception('HTTP request for refreshing token failed.');
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSiteAuthorized()
+    {
+        return (int)$this->optionsHelper->get('site-auth-state', 0) > 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenActivationUrl()
+    {
+        $clientId = esc_attr($this->optionsHelper->get('site-id'));
+        $redirectUrl = rawurlencode($this->urlHelper->ajax(['vcv-action' => 'account:token:api']));
+        $scope = 'user.read,elements.read';
+
+        $url = sprintf(
+            '%s/authorization?response_type=code&client_id=%s&redirect_uri=%s&scope=%s',
+            VCV_ACCOUNT_URL,
+            $clientId,
+            $redirectUrl,
+            $scope
+        );
+
+        return $url;
     }
 }
