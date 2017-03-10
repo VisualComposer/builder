@@ -36,6 +36,23 @@ class Token extends Container implements Helper
     /**
      * @return bool
      */
+    public function reset()
+    {
+        $this->optionsHelper
+            ->set('site-registered', 0)
+            ->set('site-id', '')
+            ->set('site-secret', '')
+            ->set('site-auth-state', '')
+            ->set('site-auth-token', '')
+            ->set('site-auth-refresh-token', '')
+            ->set('site-auth-token-ttl', '');
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
     public function isSiteRegistered()
     {
         return (bool)$this->optionsHelper->get(

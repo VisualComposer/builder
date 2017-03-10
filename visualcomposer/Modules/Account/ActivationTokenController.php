@@ -42,6 +42,7 @@ class ActivationTokenController extends Container implements Module
      */
     private function registerToken(Token $tokenHelper)
     {
+        // $tokenHelper->reset();
         if (!$tokenHelper->isSiteRegistered()) {
             $tokenHelper->createSecret();
         }
