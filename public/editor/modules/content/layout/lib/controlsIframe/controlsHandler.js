@@ -4,15 +4,7 @@ const cook = getService('cook')
 const categoriesService = getService('categories')
 
 export default class ControlsHandler {
-  constructor (sliceSize, props) {
-    Object.defineProperties(this, {
-      sliceSize: {
-        enumerable: false,
-        configurable: false,
-        writable: false,
-        value: sliceSize
-      }
-    })
+  constructor (props) {
     this.iframeContainer = props.iframeContainer
     this.iframeOverlay = props.iframeOverlay
     this.iframe = props.iframe
@@ -83,43 +75,40 @@ export default class ControlsHandler {
    * @param data
    */
   createControls (data) {
-    if (this.sliceSize) {
-      let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
-      slicedElements.reverse()
-      let treeTrigger = data.vcElementsPath[ this.sliceSize ]
-      // create controls
-      let controlsList = document.createElement('nav')
-      controlsList.classList.add('vcv-ui-outline-controls')
-      this.controlsContainer.appendChild(controlsList)
+    let elements = data.vcElementsPath
+    let layoutWidth = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect().width
+    // create controls
+    let controlsList = document.createElement('nav')
+    controlsList.classList.add('vcv-ui-outline-controls')
+    this.controlsContainer.appendChild(controlsList)
 
-      // create tree trigger
-      if (treeTrigger) {
-        controlsList.appendChild(this.createControlForTrigger(
-          treeTrigger,
-          {
-            title: 'Tree View',
-            event: 'bar-content-start:show'
-          }
-        ))
+    // create element controls with delimiter based on layout width
+    for (let [i, element] of elements.entries()) {
+      let delimiter = document.createElement('i')
+      delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
+      if (i === 0) {
+        controlsList.appendChild(this.createControlForElement(element))
+        controlsList.insertBefore(delimiter, controlsList.children[0])
+      } else {
+        const controlsWidth = controlsList.getBoundingClientRect().width
+        const controlWidth = (controlsList.getBoundingClientRect().width - 2) / (controlsList.children.length / 2)
+        if (layoutWidth - controlsWidth < controlWidth * 2) {
+          controlsList.insertBefore(this.createControlForTrigger(element,
+            {
+              title: 'Tree View',
+              event: 'bar-content-start:show'
+            }), controlsList.children[0])
+          break
+        }
+        controlsList.insertBefore(this.createControlForElement(element), controlsList.children[0])
+        if (i !== elements.length - 1) {
+          controlsList.insertBefore(delimiter, controlsList.children[0])
+        }
       }
-
-      // create element controls
-      slicedElements.forEach((elementId) => {
-        controlsList.appendChild(this.createControlForElement(elementId))
-      })
-
-      // apply delimiter
-      let children = [].slice.call(controlsList.childNodes)
-      children = children.slice(1)
-      children.forEach((child) => {
-        let delimiter = document.createElement('i')
-        delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
-        controlsList.insertBefore(delimiter, child)
-      })
-
-      // change controls direction
-      this.updateControlsPosition(data.element)
     }
+
+    // change controls direction
+    this.updateControlsPosition(data.element)
   }
 
   /**
@@ -127,9 +116,9 @@ export default class ControlsHandler {
    * @param data
    */
   createAppendControl (data) {
-    let slicedElements = data.vcElementsPath.slice(0, this.sliceSize)
-    const insertAfterElement = slicedElements && slicedElements.length ? slicedElements[ 0 ] : false
-    const container = slicedElements && slicedElements.length > 2 ? slicedElements[ 1 ] : false
+    let elements = data.vcElementsPath
+    const insertAfterElement = elements && elements.length ? elements[ 0 ] : false
+    const container = elements && elements.length > 2 ? elements[ 1 ] : false
     if (!container || !insertAfterElement) {
       return false
     }

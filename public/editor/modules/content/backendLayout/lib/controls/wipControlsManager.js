@@ -74,7 +74,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount, systemData),
+        value: new ControlsHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false

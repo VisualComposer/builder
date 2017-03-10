@@ -74,7 +74,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount, systemData),
+        value: new ControlsHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -164,7 +164,7 @@ export default class ControlsManager {
    */
   init (options = {}) {
     let defaultOptions = {
-      framesCount: 10,
+      framesCount: 3,
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
