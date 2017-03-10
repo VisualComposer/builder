@@ -1,10 +1,14 @@
 import {addStorage, getStorage, getService, env} from 'vc-cake'
-import {rebuildRawLayout, addRowBackground} from './lib/tools'
+import {rebuildRawLayout, addRowBackground, isElementOneRelation} from './lib/tools'
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   const timeMachine = getService('time-machine')
   const cook = getService('cook')
   const assets = getStorage('assets')
+  const updateTimemachine = () => {
+    timeMachine.add(documentManager.all())
+    storage.state('undo').set(true)
+  }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
@@ -27,14 +31,8 @@ addStorage('elements', (storage) => {
         createdElements.push(columnElement.id)
       }
     }
-    if (!options.silent) {
-      // api.request('data:afterAdd', createdElements)
-      createdElements.forEach((id) => {
-        storage.state('element:' + id).set(element)
-      })
-      storage.state('document').set(documentManager.children(false))
-      assets.trigger('addElement', createdElements)
-    }
+    storage.state('document').set(documentManager.children(false))
+    updateTimemachine()
   })
   storage.on('update', (id, element) => {
     if (env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -71,22 +69,38 @@ addStorage('elements', (storage) => {
     documentManager.update(id, element)
     storage.state('element:' + id).set(element)
     assets.trigger('updateElement', id)
+    updateTimemachine()
   })
   storage.on('remove', (id) => {
-    console.log('destroy', id)
+    let element = documentManager.get(id)
+    let parent = element && element.parent ? documentManager.get(element.parent) : false
+    documentManager.delete(id)
+    if (parent && !documentManager.children(parent.id).length && element.tag === isElementOneRelation(parent.id, documentManager, cook)) {
+      documentManager.delete(parent.id)
+      parent = parent.parent ? documentManager.get(parent.parent) : false
+    }
+    if (parent) {
+      storage.state('element:' + parent.id).set(parent)
+    } else {
+      storage.state('document').set(documentManager.children(false))
+    }
+    updateTimemachine()
   })
-  storage.on('clone', (id) => {})
-  storage.state('document').set(documentManager.children(false))
+  storage.on('clone', (id) => {
+    let dolly = documentManager.clone(id)
+    storage.state('element:' + dolly.id).set(dolly)
+    storage.state('document').set(documentManager.children(false))
+  })
   // Need to rewrite
   storage.state('document').onChange(() => {
     // Maybe we can move it the top of the structure.
-    timeMachine.add(documentManager.all())
-    storage.state('undo').set(true)
+    updateTimemachine()
     // storage.state('redo').set(true)
   })
   storage.on('reset', (data) => {
 
   })
+  storage.state('document').set(documentManager.children(false))
   /*
   Undo
    const TimeMachine = vcCake.getService('time-machine')

@@ -1,12 +1,14 @@
-import {addStorage, getService} from 'vc-cake'
+import {addStorage, getService, getStorage} from 'vc-cake'
 
 addStorage('workspace', (storage) => {
+  const elementsStorage = getStorage('elements')
   const documentManger = getService('document')
   storage.on('add', (id, tag, options) => {
     let element = false
     if (id) {
       element = documentManger.get(id)
     }
+    console.log(options)
     storage.state('settings').set({
       action: 'add',
       element: element,
@@ -28,5 +30,15 @@ addStorage('workspace', (storage) => {
       tag: tag,
       options: options
     })
+  })
+  storage.on('remove', (id) => {
+    const settings = storage.state('settings').get()
+    if (settings && settings.action === 'edit') {
+      storage.state('settings').set({})
+    }
+    elementsStorage.trigger('remove', id)
+  })
+  storage.on('clone', (id) => {
+    elementsStorage.trigger('clone', id)
   })
 })

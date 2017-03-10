@@ -53,11 +53,13 @@ const api = {
     return obj.toJS()
   },
   delete: function (id) {
+    let deleted = []
     dataStore.data = dataStore.data.delete(id)
+    deleted.push(id)
     dataStore.getChildren(id).forEach((el) => {
-      this.delete(el.get('id'))
+      deleted = deleted.concat(this.delete(el.get('id')))
     }, this)
-    return id
+    return deleted
   },
   update: function (id, data) {
     let obj = dataStore.data.get(id).merge(data)

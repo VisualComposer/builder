@@ -82,3 +82,12 @@ export const addRowBackground = (id, element, documentManager) => {
   element.background = rowBackground
   documentManager.update(id, element)
 }
+
+export const isElementOneRelation = (parent, documentManager, cook) => {
+  let element = documentManager.get(parent)
+  let children = cook.getChildren(element.tag)
+  if (children.length === 1) {
+    return children[ 0 ].tag
+  }
+  return false
+}

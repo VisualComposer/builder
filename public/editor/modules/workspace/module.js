@@ -16,6 +16,7 @@ add('workspace', (api) => {
   })
   workspace.state('settings').onChange((settings) => {
     if (!settings || !settings.action) {
+      workspace.state('contentEnd').set(false)
       return
     }
     if (settings.action === 'add') {

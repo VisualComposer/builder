@@ -102,8 +102,7 @@ export default class CssBuilder {
     })
   }
 
-  destroy (data) {
-    const id = data.id
+  destroy (id) {
     this.assetsStorage.removeElement(id)
     this.removeCssElementBaseByElement(id)
     this.removeCssElementMixinByElement(id)
