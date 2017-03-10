@@ -117,7 +117,7 @@ class Token extends Container implements Helper
                     'code' => $code,
                     'grant_type' => 'authorization_code',
                     'client_secret' => $this->optionsHelper->get('site-secret'),
-                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'api']),
+                    'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'account:token:api']),
                     'client_id' => $this->optionsHelper->get('site-id'),
                 ],
             ]
