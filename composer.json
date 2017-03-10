@@ -9,9 +9,6 @@
       "ComposerHooks\\": "tools/php-composer/"
     }
   },
-  "require": {
-    "vierbergenlars/php-semver": "^3.0"
-  },
   "scripts": {
     "post-update-cmd": [
       "ComposerHooks\\Registry::postUpdateCmd"

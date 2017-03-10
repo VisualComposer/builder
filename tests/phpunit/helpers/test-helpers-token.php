@@ -16,13 +16,13 @@ class HelpersTokenTest extends WP_UnitTestCase
         $helper = vchelper('Token');
         /** @var $optionsHelper VisualComposer\Helpers\Options */
         $optionsHelper = vchelper('Options');
-        delete_option('vcv-page-auth-token');
-        delete_option('vcv-page-auth-refresh-token');
+        delete_option('vcv-site-auth-token');
+        delete_option('vcv-site-auth-refresh-token');
         remove_all_filters('pre_http_request');
         add_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest'], 10, 3);
 
-        $this->assertFalse($optionsHelper->get('page-auth-token'));
-        $this->assertFalse($optionsHelper->get('page-auth-refresh-token'));
+        $this->assertFalse($optionsHelper->get('site-auth-token'));
+        $this->assertFalse($optionsHelper->get('site-auth-refresh-token'));
 
         $code = 'test-code';
         $accessToken = vcapp()->call([$helper, 'createToken'], [$code]);
@@ -45,7 +45,7 @@ class HelpersTokenTest extends WP_UnitTestCase
 
         // Test failed http request.
         // Force token to be expired.
-        $optionsHelper->set('page-auth-token-ttl', '-1');
+        $optionsHelper->set('site-auth-token-ttl', '-1');
 
         add_filter('pre_http_request', '__return_true', 100);
 
