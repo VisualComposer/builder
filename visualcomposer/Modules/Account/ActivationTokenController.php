@@ -59,15 +59,10 @@ class ActivationTokenController extends Container implements Module
             $token = $tokenHelper->createToken($code);
             if ($token) {
                 wp_redirect(self_admin_url('admin.php?page=' . $activationFinishPage->getSlug()));
-
-                return true;
-            } else {
-                wp_redirect(self_admin_url('admin.php?page=' . $activationFinishPage->getSlug() . '&failed=true'));
-
-                return false;
+                die;
             }
         }
-
-        return false;
+        wp_redirect(self_admin_url('admin.php?page=' . $activationFinishPage->getSlug() . '&failed=true'));
+        die;
     }
 }
