@@ -98,7 +98,7 @@ addStorage('elements', (storage) => {
     // storage.state('redo').set(true)
   })
   storage.on('reset', (data) => {
-
+    storage.state('document').set(data)
   })
   storage.state('document').set(documentManager.children(false))
   /*

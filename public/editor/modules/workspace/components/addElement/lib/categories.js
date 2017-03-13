@@ -8,6 +8,7 @@ import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
 const assetsManager = vcCake.getService('assetsManager')
+const workspaceStorage = vcCake.getStorage('workspace')
 const cook = vcCake.getService('cook')
 let allCategories = []
 
@@ -121,12 +122,11 @@ export default class Categories extends React.Component {
 
   getElementControl (tag) {
     let element = cook.get({ tag: tag }).toJS()
-
     return <ElementControl
       key={'vcv-element-control-' + element.tag}
       element={element}
       tag={element.tag}
-      options={this.props.options}
+      workspace={workspaceStorage.state('settings').get() || {}}
       name={element.name} />
   }
 
