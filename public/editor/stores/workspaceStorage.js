@@ -8,7 +8,6 @@ addStorage('workspace', (storage) => {
     if (id) {
       element = documentManger.get(id)
     }
-    console.log(options)
     storage.state('settings').set({
       action: 'add',
       element: element,
@@ -34,6 +33,9 @@ addStorage('workspace', (storage) => {
   storage.on('remove', (id) => {
     const settings = storage.state('settings').get()
     if (settings && settings.action === 'edit') {
+      storage.state('settings').set({})
+    }
+    if (settings && settings.action === 'add' && settings.element && settings.element.id === id) {
       storage.state('settings').set({})
     }
     elementsStorage.trigger('remove', id)

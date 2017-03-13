@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 const elementsStorage = vcCake.getStorage('elements')
-
+const workspaceStorage = vcCake.getStorage('workspace')
 const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
@@ -33,7 +33,8 @@ export default class ElementControl extends React.Component {
   addElement (e) {
     e && e.preventDefault()
     const {options} = this.props
-    let data = cook.get({ tag: this.props.tag, parent: false }) // this.props.api.actions.getParent()
+    const parentElementId = workspaceStorage.state('settings').get() ? workspaceStorage.state('settings').get().element.id : false
+    const data = cook.get({ tag: this.props.tag, parent: parentElementId })
     elementsStorage.trigger('add', data.toJS(), true, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
