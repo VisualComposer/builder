@@ -123,7 +123,7 @@ module.exports = {
         'content/backendTreeViewDnd',
         'ui/layoutBarBackend',
         'ui/navbarBackend',
-        'ui/brand-logo',
+        'ui/brandLogoBackend',
         'ui/addElement',
         'ui/treeViewBackend',
         'ui/edit-element',

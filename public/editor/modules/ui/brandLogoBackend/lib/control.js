@@ -6,7 +6,7 @@ export default class BrandLogoControl extends React.Component {
       <a
         className='vcv-ui-navbar-logo'
         title='Visual Composer'
-        href='http://visualcomposer.io/?utm_campaign=VCWB&utm_source=vc_user&utm_medium=frontend_editor'
+        href='http://visualcomposer.io/?utm_campaign=VCWB&utm_source=vc_user&utm_medium=backend_editor'
         target='_blank'
       >
         <span className='vcv-ui-navbar-logo-title'>Visual Composer</span>
