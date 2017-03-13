@@ -357,12 +357,22 @@ export default class ControlsManager {
       if (this.controlsPrevElement !== element) {
         // unset prev element
         if (this.controlsPrevElement) {
+          // remove highlight from tree view
+          this.api.request('editorContent:control:mouseLeave', {
+            type: 'mouseLeave',
+            vcElementId: this.controlsPrevElement
+          })
           // hide outline from content element
           this.outline.hide()
         }
         // set new element
         if (element) {
           if (this.state.showOutline) {
+            // highlight tree view
+            this.api.request('editorContent:control:mouseEnter', {
+              type: 'mouseEnter',
+              vcElementId: element
+            })
             // show outline over content element
             let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
             if (contentElement) {

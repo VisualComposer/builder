@@ -351,7 +351,7 @@ export default class ControlsManager {
             type: 'mouseLeave',
             vcElementId: this.controlsPrevElement
           })
-          // hide ouutline from tree element
+          // hide outline from tree element
           this.outline.hide()
         }
         // set new element
