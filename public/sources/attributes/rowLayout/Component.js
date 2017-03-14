@@ -78,80 +78,22 @@ class Layout extends Attribute {
   }
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
-  constructor (props) {
-    super(props)
-    this.setActiveLayout = this.setActiveLayout.bind(this)
-    this.validateSize = this.validateSize.bind(this)
-    this.reverseHandler = this.reverseHandler.bind(this)
-  }
-
-  updateState (props) {
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
-        ? props.value.layoutData
-        : vcCake.getService('document').children(props.element.get('id'))
-          .map((element) => {
-            return element.size || 'auto'
-          })
-      let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
-      return {
-        value: {
-          layoutData: layout,
-          attributeMixins: this.getColumnMixins(this.sanitizeLayout(layout)),
-          reverseColumn: reverseColumnState
-        }
-      }
-    } else {
-      let layout = props.value instanceof Array && props.value.length
-        ? props.value
-        : vcCake.getService('document').children(props.element.get('id'))
-          .map((element) => {
-            return element.size || 'auto'
-          })
-
-      return {
-        value: layout
-      }
+  static buildMixins (data) {
+    let layout = data.layout
+    if (!layout) {
+      return
     }
-  }
+    let layoutData = layout.layoutData
 
-  setActiveLayout (layout) {
-    this.setFieldValue(layout)
-  }
-
-  setFieldValue (value, reverseColumn) {
-    let { updater, fieldKey } = this.props
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
-      let colMixinData = this.getColumnMixins(this.sanitizeLayout(value))
-      updater(fieldKey, {
-        layoutData: this.sanitizeLayout(value),
-        attributeMixins: colMixinData,
-        reverseColumn: reverseColumnState
-      })
-      this.setState({ value: { layoutData: value, attributeMixins: colMixinData, reverseColumn: reverseColumnState } })
-    } else {
-      updater(fieldKey, this.sanitizeLayout(value))
-      this.setState({ value: value })
-    }
-  }
-
-  sanitizeLayout (value) {
-    return value.filter((col) => {
-      return this.validateSize(col)
-    })
-  }
-
-  getColumnMixins (layout) {
     let newMixin = {}
-    let columnGap = vcCake.getService('document').get(this.props.element.get('id')).columnGap
-    columnGap = columnGap ? parseInt(columnGap) : 0
+
+    let columnGap = parseInt(data.columnGap)
     let selector = `vce-row--col-gap-${columnGap}`
 
     Layout.devices.forEach((device) => {
       if (device === 'md' || device === 'xs') {
         let reducedLayout = []
-        layout.forEach((col) => {
+        layoutData.forEach((col) => {
           if (reducedLayout.indexOf(col) < 0) {
             reducedLayout.push(col)
           }
@@ -201,6 +143,72 @@ class Layout extends Attribute {
       }
     })
     return newMixin
+  }
+
+  constructor (props) {
+    super(props)
+    this.setActiveLayout = this.setActiveLayout.bind(this)
+    this.validateSize = this.validateSize.bind(this)
+    this.reverseHandler = this.reverseHandler.bind(this)
+  }
+
+  updateState (props) {
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
+        ? props.value.layoutData
+        : vcCake.getService('document').children(props.element.get('id'))
+          .map((element) => {
+            return element.size || 'auto'
+          })
+      let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
+      return {
+        value: {
+          layoutData: layout,
+          reverseColumn: reverseColumnState
+        }
+      }
+    } else {
+      let layout = props.value instanceof Array && props.value.length
+        ? props.value
+        : vcCake.getService('document').children(props.element.get('id'))
+          .map((element) => {
+            return element.size || 'auto'
+          })
+
+      return {
+        value: layout
+      }
+    }
+  }
+
+  setActiveLayout (layout) {
+    this.setFieldValue(layout)
+  }
+
+  setFieldValue (value, reverseColumn) {
+    let { updater, fieldKey } = this.props
+    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
+      let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
+      updater(fieldKey, {
+        layoutData: this.sanitizeLayout(value),
+        reverseColumn: reverseColumnState
+      })
+      this.setState({
+        value: {
+          layoutData: value,
+          reverseColumn: reverseColumnState
+        }
+      })
+    } else {
+      updater(fieldKey, this.sanitizeLayout(value))
+      this.setState({ value: value })
+    }
+  }
+
+  sanitizeLayout (value) {
+    return value.filter((col) => {
+      return this.validateSize(col)
+    })
   }
 
   validateSize (text) {

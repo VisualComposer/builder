@@ -132,7 +132,7 @@ vcCake.add('assets', (api) => {
       })
     }
     walkChildren(id)
-    vcCake.getData('globalAssetsStorage').removeElement(elements) // @vz: here element is removed from storage
+    vcCake.getData('globalAssetsStorage').removeElement(elements)
   })
 
   api.reply('node:beforeSave', (data) => {
