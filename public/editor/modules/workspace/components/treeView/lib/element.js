@@ -3,6 +3,8 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 const workspaceStorage = vcCake.getStorage('workspace')
+const elementsStorage = vcCake.getStorage('elements')
+const documentManger = vcCake.getService('document')
 
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
@@ -26,7 +28,8 @@ export default class TreeViewElement extends React.Component {
       childExpand: true,
       isActive: false,
       hasChild: false,
-      showOutline: false
+      showOutline: false,
+      element: props.element
     }
 
     this.scrollToElement = this.scrollToElement.bind(this)
@@ -34,9 +37,14 @@ export default class TreeViewElement extends React.Component {
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
     this.checkActive = this.checkActive.bind(this)
+    this.dataUpdate = this.dataUpdate.bind(this)
   }
-
+  dataUpdate (data) {
+    this.setState({element: data || this.props.element})
+  }
   componentDidMount () {
+    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+
     /*
     this.props.api.notify('element:mount', this.props.element.id)
     this.props.api
@@ -50,6 +58,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   componentWillUnmount () {
+    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     /*
     this.props.api
       .forget('app:edit', this.checkActive)
@@ -85,38 +94,29 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickAddChild (tag) {
-    workspaceStorage.trigger('add', this.props.element.id, tag)
-    // this.props.api.request('app:add', this.props.element.id, tag)
+    workspaceStorage.trigger('add', this.state.element.id, tag)
   }
 
   clickClone = (e) => {
     e && e.preventDefault()
-    workspaceStorage.trigger('clone', this.props.element.id)
-    // this.props.api.request('data:clone', this.props.element.id)
+    workspaceStorage.trigger('clone', this.state.element.id)
   }
 
   clickEdit = (tab = '') => {
-    workspaceStorage.trigger('edit', this.props.element.id, tab)
-    // this.props.api.request('app:edit', this.props.element.id, tab)
+    workspaceStorage.trigger('edit', this.state.element.id, tab)
   }
 
   clickDelete = (e) => {
     e && e.preventDefault()
-    workspaceStorage.trigger('remove', this.props.element.id)
-    // this.props.api.request('data:remove', this.props.element.id)
+    workspaceStorage.trigger('remove', this.state.element.id)
   }
 
   getContent () {
-    if (this.props.data.length) {
-      let level = this.props.level + 1
-      const DocumentData = vcCake.getService('document')
-      let elementsList = this.props.data.map((element) => {
-        let data = DocumentData.children(element.id)
-        return <TreeViewElement element={element} data={data} key={element.id} level={level} api={this.props.api} />
-      }, this)
-      return <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul>
-    }
-    return ''
+    const level = this.props.level + 1
+    let elementsList = documentManger.children(this.state.element.id).map((element) => {
+      return <TreeViewElement element={element} key={element.id} level={level} />
+    }, this)
+    return elementsList.length ? <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul> : ''
   }
 
   scrollToElement (e) {

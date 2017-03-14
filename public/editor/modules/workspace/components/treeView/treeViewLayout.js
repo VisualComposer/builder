@@ -1,4 +1,4 @@
-import {getStorage, getData, setData, getService} from 'vc-cake'
+import {getStorage, getData, setData} from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/element.js'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
@@ -132,13 +132,10 @@ export default class TreeViewLayout extends React.Component {
 
   getElements () {
     let elementsList = []
-    const DocumentData = getService('document')
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
-        let data = DocumentData.children(element.id)
         return <TreeViewElement
           element={element}
-          data={data}
           key={element.id}
           level={1}
         />
