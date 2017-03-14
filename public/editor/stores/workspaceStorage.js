@@ -43,4 +43,7 @@ addStorage('workspace', (storage) => {
   storage.on('clone', (id) => {
     elementsStorage.trigger('clone', id)
   })
+  storage.on('move', (id, settings) => {
+    elementsStorage.trigger('move', id, settings)
+  })
 })

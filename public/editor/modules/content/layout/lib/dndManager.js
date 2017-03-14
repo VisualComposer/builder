@@ -1,7 +1,8 @@
 import vcCake from 'vc-cake'
-import DnD from '../../../../../../resources/dnd/dnd'
+import DnD from '../../../../../resources/dnd/dnd'
+const workspaceStorage = vcCake.getStorage('workspace')
 
-require('../../../../../../sources/less/content/layout/dnd/init.less')
+require('../../../../../sources/less/content/layout/dnd/init.less')
 export default class DndManager {
   constructor (api) {
     Object.defineProperties(this, {
@@ -98,7 +99,8 @@ export default class DndManager {
 
   move (id, action, related) {
     if (id && related) {
-      this.api.request('data:move', id, { action: action, related: related })
+      workspaceStorage.trigger('move', id, { action: action, related: related })
+      // this.api.request('data:move', id, { action: action, related: related })
     }
   }
 

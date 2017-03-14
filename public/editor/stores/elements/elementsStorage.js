@@ -91,6 +91,16 @@ addStorage('elements', (storage) => {
     storage.state('element:' + dolly.id).set(dolly)
     storage.state('document').set(documentManager.children(false))
   })
+  storage.on('move', (id, data) => {
+    if (data.action === 'after') {
+      documentManager.moveAfter(id, data.related)
+    } else if (data.action === 'append') {
+      documentManager.appendTo(id, data.related)
+    } else {
+      documentManager.moveBefore(id, data.related)
+    }
+    storage.state('document').set(documentManager.children(false))
+  })
   // Need to rewrite
   storage.state('document').onChange(() => {
     // Maybe we can move it the top of the structure.
