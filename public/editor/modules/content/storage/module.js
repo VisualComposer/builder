@@ -55,6 +55,7 @@ vcCake.add('storage', (api) => {
         lastColumnObject.lastInRow = lastInRow
         lastColumnObject.firstInRow = firstInRow
         DocumentData.update(lastColumnObject.id, lastColumnObject)
+        api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
       } else {
         let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
         createdElements.push(createdElement.id)
@@ -67,9 +68,10 @@ vcCake.add('storage', (api) => {
         let childElements = DocumentData.children(column.id)
         childElements.forEach((el) => {
           el.parent = lastColumnObject.id
-          api.request('data:update', el.id, el)
+          DocumentData.update(el.id, el)
+          api.request('data:afterUpdate', el.id, el)
         })
-        api.request('data:remove', column.id)
+        DocumentData.delete(column.id)
       })
     }
   }
