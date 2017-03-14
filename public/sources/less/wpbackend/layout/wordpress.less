@@ -51,6 +51,7 @@
 
     &-bar-content {
       width: @vcv-wpbackend-bar-content-width;
+      height: @vcv-wpbackend-bar-content-height;
       min-height: @vcv-wpbackend-bar-content-min-height;
 
       &.vcv-layout-bar-content-stack {
@@ -156,7 +157,6 @@
   }
 
   .vcv-layout-bar-content-end {
-    height: @vcv-wpbackend-bar-content-end-height;
     min-height: @vcv-wpbackend-bar-content-end-min-height;
   }
 
@@ -237,6 +237,10 @@
           display: block;
         }
       }
+    }
+
+    .vcv-layout-bar-content-start {
+      min-height: @vcv-wpbackend-bar-content-start-unlock-min-height;
     }
   }
 }

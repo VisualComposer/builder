@@ -38,7 +38,6 @@ export default class TreeViewLayout extends React.Component {
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
     this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
     this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
-    console.log('componentDidMount', this.listContainer)
   }
 
   componentDidUpdate () {
