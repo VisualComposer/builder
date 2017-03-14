@@ -57,7 +57,9 @@ addStorage('elements', (storage) => {
       children && children.forEach((stack) => {
         const [element, action] = stack
         const id = element.id
-        storage.state('element:' + id).set(element)
+        if (action !== 'remove') {
+          storage.state('element:' + id).set(element)
+        }
         assets.trigger(`${action}Element`, id)
       })
     } else {

@@ -10,6 +10,7 @@ const elementsStorage = getStorage('elements')
 export default class TreeViewLayout extends React.Component {
   constructor (props) {
     super(props)
+    this.updateElementsData = this.updateElementsData.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
     this.handleMousePos = this.handleMousePos.bind(this)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
@@ -21,12 +22,15 @@ export default class TreeViewLayout extends React.Component {
       selectedItem: null
     }
   }
-  componentDidMount () {
-    elementsStorage.state('document').onChange((data) => {
-      this.setState({ data: data }, () => {
-        // content.trigger('data:editor:render')
-      })
+  updateElementsData (data) {
+    this.setState({ data: data }, () => {
+      // content.trigger('data:editor:render')
     })
+  }
+  componentDidMount () {
+    elementsStorage.state('document').onChange(this.updateElementsData)
+    this.setState({data: elementsStorage.state('document').get()})
+
     /*
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
@@ -43,6 +47,8 @@ export default class TreeViewLayout extends React.Component {
   }
 
   componentWillUnmount () {
+    elementsStorage.state('document').ignoreChange(this.updateElementsData)
+
     /*
     this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
     this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)

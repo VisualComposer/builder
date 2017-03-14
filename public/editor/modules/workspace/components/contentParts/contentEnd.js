@@ -69,7 +69,7 @@ export default class ContentEnd extends React.Component {
     let obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
-    obj.onload = function (e) {
+    obj.onload = function () {
       this.contentDocument.defaultView.addEventListener('resize', fn)
     }
     obj.type = 'text/html'

@@ -2,6 +2,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
+const workspaceStorage = vcCake.getStorage('workspace')
 
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
@@ -84,20 +85,24 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickAddChild (tag) {
+    workspaceStorage.trigger('add', this.props.element.id, tag)
     // this.props.api.request('app:add', this.props.element.id, tag)
   }
 
   clickClone = (e) => {
     e && e.preventDefault()
+    workspaceStorage.trigger('clone', this.props.element.id)
     // this.props.api.request('data:clone', this.props.element.id)
   }
 
   clickEdit = (tab = '') => {
+    workspaceStorage.trigger('edit', this.props.element.id, tab)
     // this.props.api.request('app:edit', this.props.element.id, tab)
   }
 
   clickDelete = (e) => {
     e && e.preventDefault()
+    workspaceStorage.trigger('remove', this.props.element.id)
     // this.props.api.request('data:remove', this.props.element.id)
   }
 
@@ -129,13 +134,13 @@ export default class TreeViewElement extends React.Component {
 
   handleMouseEnter (e) {
     if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
-      this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
+      // this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }
 
   handleMouseLeave (e) {
     if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
-      this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
+      // this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }
 
