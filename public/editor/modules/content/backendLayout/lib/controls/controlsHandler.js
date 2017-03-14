@@ -92,7 +92,7 @@ export default class ControlsHandler {
       } else {
         const controlsWidth = controlsList.getBoundingClientRect().width
         const controlWidth = (controlsList.getBoundingClientRect().width - 2) / (controlsList.children.length / 2)
-        if (layoutWidth - controlsWidth < controlWidth * 2) {
+        if (layoutWidth - controlsWidth < controlWidth * 3) {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
               title: 'Tree View',
