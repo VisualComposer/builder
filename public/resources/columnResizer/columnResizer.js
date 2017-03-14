@@ -41,17 +41,24 @@ class ColumnResizer extends React.Component {
     let rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
     let leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
     let rowId = vcCake.getService('document').get(rightColId || leftColId).parent
+    let rowData = vcCake.getService('document').get(rowId)
+    let columnGap = rowData.columnGap ? parseInt(rowData.columnGap) : 0
+    let rowWidth = $helper.parentElement.getBoundingClientRect().width + columnGap
+    let bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
 
     ColumnResizer.data.rowId = rowId
-    ColumnResizer.data.rowData = vcCake.getService('document').get(rowId)
+    ColumnResizer.data.rowData = rowData
     ColumnResizer.data.helper = $helper
     ColumnResizer.data.rightColumn = $rightCol
     ColumnResizer.data.leftColumn = $leftCol
+    ColumnResizer.data.bothColumnsWidth = bothColumnsWidth
   }
 
   handleMouseDown (e) {
-    this.setState({ dragging: true })
-    this.getRowData()
+    if (e.nativeEvent.which === 1) {
+      this.setState({ dragging: true })
+      this.getRowData()
+    }
   }
 
   handleMouseUp (e) {
@@ -80,7 +87,7 @@ class ColumnResizer extends React.Component {
     let resizerWidth = e.clientX - ColumnResizer.data.leftColumn.getBoundingClientRect().left + columnGap / 2
     let resizerPercentages = resizerWidth / rowWidth
 
-    let bothColumnsWidth = (ColumnResizer.data.leftColumn.getBoundingClientRect().width + ColumnResizer.data.rightColumn.getBoundingClientRect().width + columnGap * 2) / rowWidth
+    let bothColumnsWidth = ColumnResizer.data.bothColumnsWidth
 
     let rightResizerPercentages = bothColumnsWidth - resizerPercentages
     let equalSpace = columnGap * (resizerPercentages * 100 - 1)
@@ -126,7 +133,12 @@ class ColumnResizer extends React.Component {
   render () {
     return (
       <vcvhelper className='vce-column-resizer'>
-        <div className='vce-column-resizer-handler' onMouseDown={this.handleMouseDown} />
+        <div className='vce-column-resizer-handler' onMouseDown={this.handleMouseDown}>
+          <div className='vce-column-resizer-helper-container'>
+            <span className='vce-column-resizer-helper vce-column-resizer-helper-left'>33%</span>
+            <span className='vce-column-resizer-helper vce-column-resizer-helper-right'>33%</span>
+          </div>
+        </div>
       </vcvhelper>
     )
   }
