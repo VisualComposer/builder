@@ -41,7 +41,8 @@ export default class PanelsContainer extends React.Component {
       if (settings && settings.element) {
         const cook = getService('cook')
         const cookElement = cook.get(settings.element)
-        return <EditElementPanel element={cookElement} />
+        const activeTabId = settings.tag || ''
+        return <EditElementPanel element={cookElement} activeTabId={activeTabId} />
       }
     }
   }
