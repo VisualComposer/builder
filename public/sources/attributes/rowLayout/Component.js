@@ -80,8 +80,8 @@ class Layout extends Attribute {
 
   static buildMixins (data) {
     let layout = data.layout
-    if (!layout) {
-      return
+    if (!layout || !layout.layoutData) {
+      return null
     }
     let layoutData = layout.layoutData
 

@@ -381,9 +381,11 @@ export default class {
         } else if (element.data[ key ].attributeMixins) {
           elementMixins = element.data[ key ].attributeMixins
         }
-        Object.keys(elementMixins).forEach((mixinName) => {
-          foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, elementMixins[ mixinName ])
-        })
+        if (elementMixins) {
+          Object.keys(elementMixins).forEach((mixinName) => {
+            foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, elementMixins[ mixinName ])
+          })
+        }
       }
     }
 
