@@ -10,6 +10,10 @@ export default class TreeViewLayout extends React.Component {
     api: React.PropTypes.object.isRequired
   }
 
+  listContainer = null
+  actionsContainer = null
+  scrollbars = null
+
   constructor (props) {
     super(props)
     this.handleMouseOver = this.handleMouseOver.bind(this)
@@ -23,6 +27,7 @@ export default class TreeViewLayout extends React.Component {
       selectedItem: null
     }
   }
+
   componentDidMount () {
     this.props.api.reply('data:changed', (data) => {
       this.setState({ data: data })
@@ -33,6 +38,13 @@ export default class TreeViewLayout extends React.Component {
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
     this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
     this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
+    console.log('componentDidMount', this.listContainer)
+  }
+
+  componentDidUpdate () {
+    if (this.listContainer) {
+      this.actionsContainer.style.flexBasis = `${this.listContainer.getBoundingClientRect().width}px`
+    }
   }
 
   componentWillUnmount () {
@@ -105,12 +117,12 @@ export default class TreeViewLayout extends React.Component {
 
   handleScrollToElement (scrollToElement) {
     if (scrollToElement) {
-      this.refs.scrollbars.scrollTop(0)
+      this.scrollbars.scrollTop(0)
       let target = document.querySelector('[data-vcv-element="' + scrollToElement + '"]')
       this.expandTree(target)
       let offset = target.getBoundingClientRect().top
       this.handleSelectedItem(target.firstChild)
-      this.refs.scrollbars.scrollTop(offset - this.state.header.height - this.state.header.bottom)
+      this.scrollbars.scrollTop(offset - this.state.header.height - this.state.header.bottom)
     }
   }
 
@@ -146,7 +158,7 @@ export default class TreeViewLayout extends React.Component {
     let elements = this.getElements()
     if (elements.length) {
       return (
-        <ul className='vcv-ui-tree-layout'>
+        <ul className='vcv-ui-tree-layout' ref={(list) => { this.listContainer = list }}>
           {elements}
         </ul>
       )
@@ -163,9 +175,11 @@ export default class TreeViewLayout extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-layout-container' onMouseOver={this.handleMouseOver}>
-        <Scrollbar ref='scrollbars'>
+        <Scrollbar ref={(scrollbars) => { this.scrollbars = scrollbars }}>
           {this.getElementsOutput()}
-          <div className='vcv-ui-tree-layout-actions'>
+          <div className='vcv-ui-tree-layout-actions'
+            ref={(actions) => { this.actionsContainer = actions }}
+          >
             <a
               className='vcv-ui-tree-layout-action'
               href='#'

@@ -374,9 +374,15 @@ export default class {
     let foundMixins = {}
     for (let key in settings) {
       // get css mixin from attribute
-      if (element.data[ key ] && element.data[ key ].attributeMixins) {
-        Object.keys(element.data[ key ].attributeMixins).forEach((mixinName) => {
-          foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, element.data[ key ].attributeMixins[ mixinName ])
+      if (element.data[ key ]) {
+        let elementMixins = {}
+        if (element.settings(key).type.component && element.settings(key).type.component.buildMixins) {
+          elementMixins = element.settings(key).type.component.buildMixins(element.data)
+        } else if (element.data[ key ].attributeMixins) {
+          elementMixins = element.data[ key ].attributeMixins
+        }
+        Object.keys(elementMixins).forEach((mixinName) => {
+          foundMixins[ `${key}:${mixinName}` ] = lodash.defaultsDeep({}, elementMixins[ mixinName ])
         })
       }
     }

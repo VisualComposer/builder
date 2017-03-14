@@ -18,13 +18,13 @@ vcCake.add('content-wordpress-data-load', (api) => {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         // Todo fix saving ( empty Name, params all undefined toJS function)
         TimeMachine.setZeroState(data.elements)
-        api.request('data:reset', data.elements)// @vz: get current page elements data
+        api.request('data:reset', data.elements)
       } else {
         api.request('data:reset', {})
       }
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && globalAssetsStorage.setElements(globalElements)// @vz: setData globalAssetsStorage
+        globalElements && globalAssetsStorage.setElements(globalElements)
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
         globalAssetsStorage.setCustomCss(responseData.cssSettings.custom)
