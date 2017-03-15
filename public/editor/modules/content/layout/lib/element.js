@@ -1,7 +1,5 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-// import '../../../../../sources/less/content/layout/element/init.less'
-// import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 
@@ -49,13 +47,6 @@ export default class Element extends React.Component {
         }
       }
     })
-    // return elementsList
-    // if (elementsList.length) {
-    //   returnData = elementsList
-    // } else {
-    //   returnData = currentElement.containerFor().length > 0
-    //     ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
-    // }
     return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
   }
 
