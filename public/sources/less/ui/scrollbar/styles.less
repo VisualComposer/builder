@@ -21,8 +21,16 @@
   overflow: scroll;
   overflow-scrolling: touch;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
 }
+
+.vcv-ui-tree-layout-filled {
+  .vcv-ui-scroll-content {
+    flex-flow: row wrap;
+    align-content: flex-start;
+  }
+}
+
 .vcv-ui-scroll-track--horizontal,
 .vcv-ui-scroll-track--vertical {
   position: absolute;

@@ -55,7 +55,7 @@ export default class ControlsHandler {
    */
   show (data) {
     this.createControls(data)
-    this.autoUpdateContainerPosition(data.element)
+    this.autoUpdateContainerPosition(data)
     this.createAppendControl(data)
     this.autoUpdateAppendContainerPosition(data.element)
   }
@@ -75,24 +75,42 @@ export default class ControlsHandler {
    * @param data
    */
   createControls (data) {
+    this.buildControls(data)
+    // change controls direction
+    this.updateControlsPosition(data.element)
+  }
+
+  /**
+   * Build controls depending on layout width,
+   * rebuild controls depending on position relative to the layout left side
+   * @param data
+   * @param rebuild
+   */
+  buildControls (data, rebuild = false) {
     let elements = data.vcElementsPath
-    let layoutWidth = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect().width
-    // create controls
+    let layoutPos = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect()
+
+    // create controls container
     let controlsList = document.createElement('nav')
     controlsList.classList.add('vcv-ui-outline-controls')
     this.controlsContainer.appendChild(controlsList)
 
-    // create element controls with delimiter based on layout width
-    for (let [i, element] of elements.entries()) {
+    // create element controls
+    for (let i = 0; i < elements.length; i++) {
+      let element = elements[i]
       let delimiter = document.createElement('i')
       delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
       if (i === 0) {
         controlsList.appendChild(this.createControlForElement(element))
-        controlsList.insertBefore(delimiter, controlsList.children[0])
+        if (i !== elements.length - 1) {
+          controlsList.insertBefore(delimiter, controlsList.children[0])
+        }
       } else {
-        const controlsWidth = controlsList.getBoundingClientRect().width
-        const controlWidth = (controlsList.getBoundingClientRect().width - 2) / (controlsList.children.length / 2)
-        if (layoutWidth - controlsWidth < controlWidth * 2) {
+        const controlsPos = controlsList.getBoundingClientRect()
+        const controlWidth = (controlsPos.width - 2) / (controlsList.children.length / 2)
+        const isWider = layoutPos.width - controlsPos.width < controlWidth * 2
+        const isToTheLeft = layoutPos.left > controlsPos.left - controlWidth * 2
+        if (isWider || rebuild && isToTheLeft) {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
               title: 'Tree View',
@@ -106,9 +124,6 @@ export default class ControlsHandler {
         }
       }
     }
-
-    // change controls direction
-    this.updateControlsPosition(data.element)
   }
 
   /**
@@ -389,10 +404,10 @@ export default class ControlsHandler {
 
   /**
    * Update controls container position
-   * @param element
+   * @param data
    */
-  updateContainerPosition (element) {
-    let elementPos = element.getBoundingClientRect()
+  updateContainerPosition (data) {
+    let elementPos = data.element.getBoundingClientRect()
     let controls = this.controlsContainer.firstElementChild
     let controlsHeight = 0
     if (controls) {
@@ -418,6 +433,12 @@ export default class ControlsHandler {
     this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = posLeft + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
+    const layoutPos = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect()
+    const controlsPos = controls.getBoundingClientRect()
+    if (!this.state.containerTimeout && layoutPos.left > controlsPos.left) {
+      this.destroyControls()
+      this.buildControls(data, true)
+    }
   }
 
   /**
@@ -446,13 +467,13 @@ export default class ControlsHandler {
 
   /**
    * Automatically update controls container position after timeout
-   * @param element
+   * @param data
    */
-  autoUpdateContainerPosition (element) {
+  autoUpdateContainerPosition (data) {
     this.stopAutoUpdateContainerPosition()
     if (!this.state.containerTimeout) {
-      this.updateContainerPosition(element, this.outline)
-      this.state.containerTimeout = this.iframeWindow.setInterval(this.updateContainerPosition.bind(this, element, this.outline), 16)
+      this.updateContainerPosition(data, this.outline)
+      this.state.containerTimeout = this.iframeWindow.setInterval(this.updateContainerPosition.bind(this, data, this.outline), 16)
     }
   }
 

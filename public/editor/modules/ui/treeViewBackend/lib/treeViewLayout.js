@@ -38,13 +38,10 @@ export default class TreeViewLayout extends React.Component {
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
     this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
     this.props.api.reply('editorContent:control:mouseLeave', this.interactWithContent)
-    console.log('componentDidMount', this.listContainer)
   }
 
   componentDidUpdate () {
-    if (this.listContainer) {
-      this.actionsContainer.style.flexBasis = `${this.listContainer.getBoundingClientRect().width}px`
-    }
+    this.actionsContainer.style.flexBasis = this.listContainer ? `${this.listContainer.getBoundingClientRect().width}px` : ''
   }
 
   componentWillUnmount () {
@@ -175,7 +172,7 @@ export default class TreeViewLayout extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-layout-container' onMouseOver={this.handleMouseOver}>
-        <Scrollbar ref={(scrollbars) => { this.scrollbars = scrollbars }}>
+        <Scrollbar ref={(scrollbars) => { this.scrollbars = scrollbars }} content={this.getElements().length} >
           {this.getElementsOutput()}
           <div className='vcv-ui-tree-layout-actions'
             ref={(actions) => { this.actionsContainer = actions }}
