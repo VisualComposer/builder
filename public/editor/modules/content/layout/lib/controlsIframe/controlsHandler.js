@@ -96,7 +96,8 @@ export default class ControlsHandler {
     this.controlsContainer.appendChild(controlsList)
 
     // create element controls
-    for (let [i, element] of elements.entries()) {
+    for (let i = 0; i < elements.length; i++) {
+      let element = elements[i]
       let delimiter = document.createElement('i')
       delimiter.classList.add('vcv-ui-outline-control-separator', 'vcv-ui-icon', 'vcv-ui-icon-arrow-right')
       if (i === 0) {
