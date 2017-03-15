@@ -39,12 +39,20 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex: 0 0 100%;
+  flex: 0 0 auto;
+  height: auto;
   .vcv-ui-tree-layout-action-content {
     span {
       margin-left: @tree-gold-value;
       display: none;
     }
+  }
+}
+
+.vcv-ui-tree-layout-filled {
+  .vcv-ui-tree-layout-actions {
+    flex: 0 0 100%;
+    height: 40px;
   }
 }
 
