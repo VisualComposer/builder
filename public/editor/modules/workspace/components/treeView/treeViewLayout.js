@@ -1,11 +1,13 @@
-import {getStorage, getData, setData} from 'vc-cake'
+import {getStorage} from 'vc-cake'
 import React from 'react'
-import TreeViewElement from './lib/element.js'
+import TreeViewElement from './lib/treeViewElement'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
 import './css/tree/init.less'
 
 const elementsStorage = getStorage('elements')
+const workspaceStorage = getStorage('workspace')
+const layoutStorage = getStorage('layout')
 
 export default class TreeViewLayout extends React.Component {
   constructor (props) {
@@ -17,9 +19,11 @@ export default class TreeViewLayout extends React.Component {
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
     this.handleAddTemplate = this.handleAddTemplate.bind(this)
+    this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
     this.state = {
       data: [],
-      selectedItem: null
+      selectedItem: null,
+      outlineElementId: false
     }
   }
   updateElementsData (data) {
@@ -29,16 +33,12 @@ export default class TreeViewLayout extends React.Component {
   }
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
-    this.setState({data: elementsStorage.state('document').get()})
-
-    /*
-    this.props.api.reply('data:changed', (data) => {
-      this.setState({ data: data })
-    })
-    */
+    layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
-      header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
+      header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect(),
+      data: elementsStorage.state('document').get()
     })
+    this.handleScrollToElement()
     /*
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
     this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
@@ -48,28 +48,15 @@ export default class TreeViewLayout extends React.Component {
 
   componentWillUnmount () {
     elementsStorage.state('document').ignoreChange(this.updateElementsData)
-
+    layoutStorage.state('userInteractWith').ignoreChange(this.interactWithContent)
     /*
     this.props.api.forget('bar-content-start:show', this.handleScrollToElement)
     this.props.api.forget('editorContent:control:mouseEnter', this.interactWithContent)
     this.props.api.forget('editorContent:control:mouseLeave', this.interactWithContent)
     */
   }
-
-  interactWithContent (data = null) {
-    let outlineElementId = null
-    if (data && data.vcElementId) {
-      if (data.type === 'mouseEnter') {
-        outlineElementId = data.vcElementId
-      }
-      if (data.type === 'mouseLeave') {
-        outlineElementId = null
-      }
-    }
-
-    if (getData('vcv:treeLayout:outlineElementId') !== outlineElementId) {
-      setData('vcv:treeLayout:outlineElementId', outlineElementId)
-    }
+  interactWithContent (id = false) {
+    this.setState({outlineElementId: id})
   }
 
   handleMousePos (e) {
@@ -129,7 +116,9 @@ export default class TreeViewLayout extends React.Component {
       this.refs.scrollbars.scrollTop(offset - this.state.header.height - this.state.header.bottom)
     }
   }
-
+  checkShowOutlineCallback (id) {
+    return this.state.outlineElementId === id
+  }
   getElements () {
     let elementsList = []
     if (this.state.data) {
@@ -138,6 +127,7 @@ export default class TreeViewLayout extends React.Component {
           element={element}
           key={element.id}
           level={1}
+          showOutlineCallback={this.checkShowOutlineCallback}
         />
       }, this)
     }
@@ -146,11 +136,13 @@ export default class TreeViewLayout extends React.Component {
 
   handleAddElement (e) {
     e && e.preventDefault()
+    workspaceStorage.trigger('add', null)
     // this.props.api.request('app:add', null)
   }
 
   handleAddTemplate (e) {
     e && e.preventDefault()
+    workspaceStorage.trigger('add:template', true)
     // this.props.api.request('app:templates', true)
   }
 

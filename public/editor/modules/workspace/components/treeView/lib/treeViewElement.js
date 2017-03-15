@@ -11,7 +11,8 @@ const cook = vcCake.getService('cook')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
-    element: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.bool ]),
+    showOutlineCallback: React.PropTypes.func,
+    element: React.PropTypes.object.isRequired,
     data: React.PropTypes.oneOfType([ React.PropTypes.object, React.PropTypes.array ]),
     level: React.PropTypes.number,
     iframe: React.PropTypes.any
@@ -42,8 +43,13 @@ export default class TreeViewElement extends React.Component {
   dataUpdate (data) {
     this.setState({element: data || this.props.element})
   }
+  componentWillReceiveProps (nextProps) {
+    const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
+    newShowOutline !== this.state.showOutline && this.setState({showOutline: newShowOutline})
+  }
   componentDidMount () {
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    // vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
     this.props.api.notify('element:mount', this.props.element.id)
@@ -59,6 +65,8 @@ export default class TreeViewElement extends React.Component {
 
   componentWillUnmount () {
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
+
     /*
     this.props.api
       .forget('app:edit', this.checkActive)
@@ -112,9 +120,10 @@ export default class TreeViewElement extends React.Component {
   }
 
   getContent () {
+    const showOutlineCallback = this.props.showOutlineCallback
     const level = this.props.level + 1
     let elementsList = documentManger.children(this.state.element.id).map((element) => {
-      return <TreeViewElement element={element} key={element.id} level={level} />
+      return <TreeViewElement showOutlineCallback={showOutlineCallback} element={element} key={element.id} level={level} />
     }, this)
     return elementsList.length ? <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul> : ''
   }
@@ -134,12 +143,14 @@ export default class TreeViewElement extends React.Component {
 
   handleMouseEnter (e) {
     if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+      workspaceStorage.state('userInteractWith').set(this.state.element.id)
       // this.props.api.request('treeContent:element:mouseEnter', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }
 
   handleMouseLeave (e) {
     if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+      workspaceStorage.state('userInteractWith').set(false)
       // this.props.api.request('treeContent:element:mouseLeave', e.currentTarget.parentNode.dataset.vcvElement)
     }
   }

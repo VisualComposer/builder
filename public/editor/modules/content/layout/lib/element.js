@@ -38,7 +38,6 @@ export default class Element extends React.Component {
     this.props.api.notify('element:unmount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
-    // vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   getContent (content) {
