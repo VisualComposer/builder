@@ -2,8 +2,15 @@ import React from 'react'
 import Element from './element'
 import '../../../../../sources/less/content/layout/html-layout.less'
 import RowPlaceholder from './helpers/rowPlaceholder/component'
+import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
+import vcCake from 'vc-cake'
 
-class HtmlLayout extends React.Component {
+export default class HtmlLayout extends React.Component {
+  static propTypes = {
+    data: React.PropTypes.array.isRequired,
+    api: React.PropTypes.object.isRequired
+  }
+
   render () {
     let elementsList
     if (this.props.data) {
@@ -13,17 +20,13 @@ class HtmlLayout extends React.Component {
         )
       })
     }
+    const rowPlaceholder = vcCake.env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholder api={this.props.api} />
+
     return (
       <div className='vcv-layouts-html' data-vcv-module='content-layout'>
         {elementsList}
-        <RowPlaceholder api={this.props.api} />
+        {rowPlaceholder}
       </div>
     )
   }
 }
-HtmlLayout.propTypes = {
-  data: React.PropTypes.array.isRequired,
-  api: React.PropTypes.object.isRequired
-}
-
-export default HtmlLayout
