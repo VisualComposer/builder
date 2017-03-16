@@ -40,4 +40,4 @@ const service = {
   }
 }
 
-vcCake.addService('local-storage', service)
+vcCake.addService('localStorage', service)

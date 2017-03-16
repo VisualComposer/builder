@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Workspace from './components/workspace'
 
-const workspace = getStorage('workspace')
+const workspaceStorage = getStorage('workspace')
 add('workspace', (api) => {
   // Set Templates
   api.reply('start', () => {
@@ -13,16 +13,17 @@ add('workspace', (api) => {
         return template
       }))
     }
+    workspaceStorage.trigger('start')
   })
-  workspace.state('settings').onChange((settings) => {
+  workspaceStorage.state('settings').onChange((settings) => {
     if (!settings || !settings.action) {
-      workspace.state('contentEnd').set(false)
+      workspaceStorage.state('contentEnd').set(false)
       return
     }
     if (settings.action === 'add') {
-      workspace.state('contentEnd').set('addElement')
+      workspaceStorage.state('contentEnd').set('addElement')
     } else if (settings.action === 'edit') {
-      workspace.state('contentEnd').set('editElement')
+      workspaceStorage.state('contentEnd').set('editElement')
     }
   })
   let layoutHeader = document.getElementById('vcv-layout-header')

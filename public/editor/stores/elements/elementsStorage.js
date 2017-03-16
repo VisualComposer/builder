@@ -110,9 +110,11 @@ addStorage('elements', (storage) => {
     // storage.state('redo').set(true)
   })
   storage.on('reset', (data) => {
-    storage.state('document').set(data)
+    console.log('reest')
+    documentManager.reset(data || {})
+    timeMachine.setZeroState(data)
+    storage.state('document').set(documentManager.children(false))
   })
-  storage.state('document').set(documentManager.children(false))
   /*
   Undo
    const TimeMachine = vcCake.getService('time-machine')

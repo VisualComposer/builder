@@ -2,6 +2,7 @@ import {addStorage, getService, getStorage} from 'vc-cake'
 
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
+  const localStorage = getStorage('localStorage')
   const documentManger = getService('document')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
@@ -58,5 +59,8 @@ addStorage('workspace', (storage) => {
   })
   storage.on('move', (id, settings) => {
     elementsStorage.trigger('move', id, settings)
+  })
+  storage.on('start', () => {
+    localStorage.trigger('start')
   })
 })

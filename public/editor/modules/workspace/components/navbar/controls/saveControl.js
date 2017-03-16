@@ -1,5 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
+import {getStorage} from 'vc-cake'
+
+const localStorage = getStorage('localStorage')
 
 export default class SaveControl extends React.Component {
   state = {
@@ -16,7 +19,7 @@ export default class SaveControl extends React.Component {
         this.setState({ 'saved': false })
       }, 1000)
     }, 500)
-
+    localStorage.trigger('save')
     // this.props.api.request('node:save')
   }
 

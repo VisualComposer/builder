@@ -57,7 +57,7 @@ module.exports = {
       services: [
         'utils',
         'document',
-        'local-storage',
+        'localStorage',
         'cook',
         'shared-library',
         'assets-library',
