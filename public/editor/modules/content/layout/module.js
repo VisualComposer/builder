@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Editor from './lib/editor'
 import $ from 'jquery'
-import DndManager from './lib/dndManager'
+import DndManager from './lib/dnd/dndManager'
 import WipControlsManager from './lib/controlsIframe/wipControlsManager'
 
 vcCake.add('contentLayout', (api) => {

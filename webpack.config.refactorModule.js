@@ -33,7 +33,7 @@ module.exports = {
       modules: [
         // 'content/storage',
         // 'content/assets',
-        'content/layout',
+        'content/modernLayout',
         // 'content/tree-view-dnd',
         // 'content/local-storage/data-load',
         // 'content/local-storage/data-save',
@@ -79,7 +79,7 @@ module.exports = {
       modules: [
         // 'content/storage',
         // 'content/assets',
-        'content/layout',
+        'content/modernLayout',
         // 'content/wordpress/data-load',
         // 'content/wordpress/data-save',
         // 'content/wordpress/data-unload',

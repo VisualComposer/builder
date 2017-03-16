@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
-// const categoriesService = getService('categories')
+const categoriesService = getService('categories')
 
 export default class ControlsHandler {
   constructor (sliceSize, props) {
@@ -141,7 +141,7 @@ export default class ControlsHandler {
     appendControl.classList.add('vcv-ui-append-control')
     appendControl.title = 'Add Element'
     appendControl.dataset.vcvElementId = containerElement.get('id')
-    appendControl.dataset.vcControlEvent = 'add'
+    appendControl.dataset.vcControlEvent = 'app:add'
     appendControl.dataset.vcControlEventOptions = ''
     appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
     let appendControlContent = document.createElement('i')
@@ -195,7 +195,7 @@ export default class ControlsHandler {
       elementId,
       {
         title: vcElement.get('name'),
-        icon: null // categoriesService.getElementIcon(vcElement.get('tag')) // TODO: Fix this
+        icon: categoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
     // create control dropdown
@@ -274,7 +274,7 @@ export default class ControlsHandler {
         label: label,
         icon: 'vcv-ui-icon-add-thin',
         data: {
-          vcControlEvent: 'add',
+          vcControlEvent: 'app:add',
           vcControlEventOptions: addElementTag
         }
       })
@@ -286,7 +286,7 @@ export default class ControlsHandler {
         label: 'Row Layout',
         icon: 'vcv-ui-icon-row-layout',
         data: {
-          vcControlEvent: 'edit',
+          vcControlEvent: 'app:edit',
           vcControlEventOptions: 'layout'
         }
       })
@@ -297,7 +297,7 @@ export default class ControlsHandler {
       label: 'Edit',
       icon: 'vcv-ui-icon-edit',
       data: {
-        vcControlEvent: 'edit'
+        vcControlEvent: 'app:edit'
       }
     })
 
@@ -306,7 +306,7 @@ export default class ControlsHandler {
       label: 'Clone',
       icon: 'vcv-ui-icon-copy',
       data: {
-        vcControlEvent: 'clone'
+        vcControlEvent: 'data:clone'
       }
     })
 
@@ -315,7 +315,7 @@ export default class ControlsHandler {
       label: 'Remove',
       icon: 'vcv-ui-icon-trash',
       data: {
-        vcControlEvent: 'remove'
+        vcControlEvent: 'data:remove'
       }
     })
 
@@ -521,7 +521,6 @@ export default class ControlsHandler {
    */
   updateDropdownsPosition (e) {
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
-    dropdowns = [].slice.call(dropdowns)
     let iframePos = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()

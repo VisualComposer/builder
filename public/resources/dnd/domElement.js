@@ -58,28 +58,42 @@ export default class DOMElement {
         }
       }
     })
+    this.setAttributes()
+  }
+
+  setAttributes () {
     let handler = this.options.handler
     if (typeof handler === 'string') {
       handler = this.$node.find(this.options.handler).get(0)
     }
     if (handler && handler.ELEMENT_NODE) {
-      /**
-       * @memberOf! DOMElement
-       */
-      Object.defineProperty(this, 'handler', {
-        configurable: false,
-        enumerable: false,
-        value: handler,
-        writable: false
-      })
+      if (this.handler !== undefined) {
+        /**
+         * @memberOf! DOMElement
+         */
+        Object.defineProperty(this, 'handler', {
+          configurable: true,
+          enumerable: false,
+          value: handler,
+          writable: true
+        })
+      } else {
+        this.handler = handler
+      }
     }
     this.node.setAttribute('data-vcv-dnd-element', this.id)
     if (this.handler) {
       this.handler.setAttribute('data-vcv-dnd-element-handler', this.id)
-    } else {
+    } else if (!this.options.handler) {
       this.node.setAttribute('data-vcv-dnd-element-handler', this.id)
     }
   }
+
+  refresh () {
+    this.setAttributes()
+    return this
+  }
+
   parent () {
     return this.options.parent
   }
@@ -115,19 +129,22 @@ export default class DOMElement {
       point.x - rect.left < gap || rect.right - point.x < gap
   }
   on (event, callback, capture) {
-    let handler = this.handler || this.node
-    handler.addEventListener(event, callback, !!capture)
+    let handler = this.dragHandler
+    handler && handler.addEventListener(event, callback, !!capture)
     return this
   }
   off (event, callback, capture) {
-    let handler = this.handler || this.node
-    handler.removeEventListener(event, callback, !!capture)
+    let handler = this.dragHandler
+    handler && handler.removeEventListener(event, callback, !!capture)
     return this
+  }
+  get dragHandler () {
+    return this.options.handler ? this.handler : this.node
   }
   get tag () {
     return this.options.tag
   }
   get iconLink () {
-    return null // categoriesService.getElementIcon(this.options.tag) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
+    return categoriesService.getElementIcon(this.options.tag) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
   }
 }

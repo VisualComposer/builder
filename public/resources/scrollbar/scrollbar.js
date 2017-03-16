@@ -1,7 +1,11 @@
 import React from 'react'
+import classNames from 'classnames'
 import {Scrollbars} from 'react-custom-scrollbars'
 
 export default class Scrollbar extends React.Component {
+  static propTypes = {
+    content: React.PropTypes.number
+  }
 
   scrollTop (top) {
     return this.refs.scrollbars.scrollTop(top)
@@ -9,9 +13,13 @@ export default class Scrollbar extends React.Component {
 
   render () {
     const { ...props } = this.props
+    const scrollbarClasses = classNames({
+      'vcv-ui-scroll': true,
+      'vcv-ui-tree-layout-filled': this.props.hasOwnProperty('content') && this.props.content
+    })
 
     return (
-      <Scrollbars ref='scrollbars' {...props} className='vcv-ui-scroll'
+      <Scrollbars ref='scrollbars' {...props} className={scrollbarClasses}
         renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
         renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}

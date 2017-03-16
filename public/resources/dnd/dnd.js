@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import {getService, setData, getData} from 'vc-cake'
+import { getService, setData, getData, env } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -131,6 +131,7 @@ export default class DnD {
           rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
           handler: null,
+          ignoreHandling: null,
           disabled: false,
           helperType: null
         })
@@ -157,7 +158,7 @@ export default class DnD {
     if (!element) { return }
     let containerFor = element.get('containerFor')
     let relatedTo = element.get('relatedTo')
-    let domNode = this.options.document.querySelector('[data-vcv-element="' + id + '"]')
+    let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     this.items[ id ] = new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
@@ -166,6 +167,16 @@ export default class DnD {
       handler: this.options.handler,
       tag: element.get('tag')
     })
+      .on('dragstart', function (e) { e.preventDefault() })
+      .on('mousedown', this.handleDragStartFunction)
+      .on('mousedown', this.handleDragFunction)
+  }
+  updateItem (id) {
+    if (!this.items[ id ]) { return }
+    this.items[ id ]
+      .refresh()
+      .off('mousedown', this.handleDragStartFunction)
+      .off('mousedown', this.handleDragFunction)
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
       .on('mousedown', this.handleDragFunction)
@@ -356,6 +367,9 @@ export default class DnD {
    */
   handleDragStart (e) {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
+      return
+    }
+    if (env('FEATURE_CUSTOM_ROW_LAYOUT') && this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (!this.dragStartHandled) {

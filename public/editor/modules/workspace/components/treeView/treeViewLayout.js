@@ -1,9 +1,10 @@
 import {getStorage} from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
+import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
-import './css/tree/init.less'
+import '../../../../../sources/less/ui/tree-view/init.less'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
@@ -20,6 +21,9 @@ export default class TreeViewLayout extends React.Component {
     this.handleAddElement = this.handleAddElement.bind(this)
     this.handleAddTemplate = this.handleAddTemplate.bind(this)
     this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
+    this.onElementMount = this.onElementMount.bind(this)
+    this.onElementUnmount = this.onElementUnmount.bind(this)
+    this.dnd = new TreeViewDndManager()
     this.state = {
       data: [],
       selectedItem: null,
@@ -128,12 +132,19 @@ export default class TreeViewLayout extends React.Component {
           key={element.id}
           level={1}
           showOutlineCallback={this.checkShowOutlineCallback}
+          onMountCallback={this.onElementMount}
+          onUnmountCallback={this.onElementUnmount}
         />
       }, this)
     }
     return elementsList
   }
-
+  onElementMount (id) {
+    this.dnd.add(id)
+  }
+  onElementUnmount (id) {
+    this.dnd.remove(id)
+  }
   handleAddElement (e) {
     e && e.preventDefault()
     workspaceStorage.trigger('add', null)

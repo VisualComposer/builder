@@ -3,8 +3,7 @@ import React from 'react'
 import '../../../../../sources/less/content/layout/element.less'
 import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
-const elementsStorage = vcCake.getStorage('elements')
-const assetsStorage = vcCake.getStorage('assets')
+
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
@@ -15,7 +14,7 @@ export default class Element extends React.Component {
   }
   constructor (props) {
     super(props)
-    this.dataUpdate = this.dataUpdate.bind(this)
+    this.instantDataUpdate = this.instantDataUpdate.bind(this)
     this.state = {
       element: props.element
     }
@@ -25,19 +24,14 @@ export default class Element extends React.Component {
   }
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
-    assetsStorage.trigger('addElement', this.state.element.id)
-
-    // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
+    vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
-  dataUpdate (data) {
+  instantDataUpdate (data) {
     this.setState({element: data || this.props.element})
-    assetsStorage.trigger('updateElement', this.state.element.id)
   }
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
-    assetsStorage.trigger('removeElement', this.state.element.id)
+    vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
   getContent (content) {
@@ -85,7 +79,6 @@ export default class Element extends React.Component {
       editor['data-vcv-element-disable-interaction'] = true
     }
     return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
-      api={this.props.api}
       editor={editor}>
       {this.getContent()}
     </ContentComponent>
