@@ -1,7 +1,5 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import '../../../../../sources/less/content/layout/element.less'
-import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 
@@ -35,8 +33,8 @@ export default class Element extends React.Component {
     vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
-  getContent (content) {
-    let returnData = null
+  getContent () {
+    // let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
     let elementsList = []
     DocumentData.children(currentElement.get('id')).map((childElement) => {
@@ -49,13 +47,7 @@ export default class Element extends React.Component {
         }
       }
     })
-    if (elementsList.length) {
-      returnData = elementsList
-    } else {
-      returnData = currentElement.containerFor().length > 0
-        ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
-    }
-    return returnData
+    return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
   }
 
   visualizeAttributes (element) {
