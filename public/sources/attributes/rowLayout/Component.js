@@ -110,9 +110,13 @@ class Layout extends Attribute {
           }
 
           if (col !== 'auto') {
-            mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:${device}`
+            mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
           } else {
-            mixinName = `${'columnStyleMixin'}:col${col}:${device}`
+            mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
+          }
+
+          if (device === 'xs') {
+            mixinName = `${'columnStyleMixin'}:col1:xs`
           }
 
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
