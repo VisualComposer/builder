@@ -48,9 +48,13 @@ export default class TreeViewElement extends React.Component {
     const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
     newShowOutline !== this.state.showOutline && this.setState({showOutline: newShowOutline})
   }
+  componentWillMount () {
+    this.checkActive(workspaceStorage.state('settings').get())
+  }
   componentDidMount () {
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     this.props.onMountCallback(this.state.element.id)
+    workspaceStorage.state('settings').onChange(this.checkActive)
     // vcCake.onDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
@@ -68,6 +72,7 @@ export default class TreeViewElement extends React.Component {
   componentWillUnmount () {
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     this.props.onUnmountCallback(this.state.element.id)
+    workspaceStorage.state('settings').ignoreChange(this.checkActive)
     // vcCake.ignoreDataChange('vcv:treeLayout:outlineElementId', this.handleOutline)
 
     /*
@@ -84,11 +89,9 @@ export default class TreeViewElement extends React.Component {
   }
 
   checkActive (data = false) {
-    if (this.state.isActive !== (data === this.props.element.id)) {
-      this.setState({
-        isActive: data === this.props.element.id
-      })
-    }
+    this.setState({
+      isActive: data && data.element && data.element.id === this.props.element.id
+    })
   }
 
   handleOutline (outlineElementId) {
