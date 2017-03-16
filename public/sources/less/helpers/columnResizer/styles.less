@@ -41,35 +41,25 @@
   font-weight: bold;
   position: relative;
   margin-top: -12px;
+  display: flex;
 
   &.vce-column-resizer-label-left {
     float: left;
-    margin-left: -50px;
+    margin-left: -65px;
   }
 
   &.vce-column-resizer-label-right {
     float: right;
-    margin-right: -50px;
-  }
-
-}
-
-.vce-column-resizer-label-left {
-  .vce-column-resizer-label-percentage {
-    right: 4px;
-    left: 0;
+    margin-right: -65px;
   }
 }
 
-.vce-column-resizer-label-right {
-  .vce-column-resizer-label-percentage {
-    left: 4px;
-    right: 0;
-  }
-}
-
-.vce-column-resizer-label-percentage {
-  position: absolute;
+.vce-column-resizer-label-background {
+  height: 23px;
   line-height: 23px;
+  opacity: .9;
+  background: #282828;
   text-align: center;
+  min-width: 38px;
+  padding: 0 2px;
 }
