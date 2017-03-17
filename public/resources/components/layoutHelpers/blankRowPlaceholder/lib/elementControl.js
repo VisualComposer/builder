@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import vcCake from 'vc-cake'
 const assetsManager = vcCake.getService('assetsManager')
 
@@ -9,16 +8,23 @@ export default class ElementControl extends React.Component {
     handleClick: React.PropTypes.func.isRequired
   }
 
+  constructor (props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick (e) {
+    e && e.preventDefault()
+    this.props.handleClick(this.props.control)
+  }
+
   render () {
-    let { tag, options } = this.props.control
-    let controlClass = classNames([
-      'vcv-ui-blank-row-element-control',
-      `vcv-ui-blank-row-element-control--${tag}`
-    ])
+    let { options } = this.props.control
+
     return <button
-      className={controlClass}
+      className='vcv-ui-blank-row-element-control'
       title={options.title}
-      onClick={this.props.handleClick.bind(null, this.props.control)}
+      onClick={this.handleClick}
     >
       <img
         className='vcv-ui-blank-row-element-control-icon'
