@@ -124,6 +124,10 @@ vcCake.add('storage', (api) => {
         createdElements.push(columnElement.id)
       }
     }
+    if (data.tag === 'column') {
+      rebuildRawLayout(data.parent)
+    }
+
     if (!options.silent) {
       api.request('data:afterAdd', createdElements)
       api.request('data:changed', DocumentData.children(false), 'add', data.id)
@@ -137,6 +141,9 @@ vcCake.add('storage', (api) => {
     if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
       DocumentData.delete(element.parent)
     }
+    if (element.tag === 'column') {
+      rebuildRawLayout(element.parent)
+    }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
 
@@ -146,6 +153,9 @@ vcCake.add('storage', (api) => {
       let element = cook.get(dolly)
       element = updateSubelementsIds(element)
       dolly = element.toJS()
+    }
+    if (dolly.tag === 'column') {
+      rebuildRawLayout(dolly.parent)
     }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
@@ -169,12 +179,20 @@ vcCake.add('storage', (api) => {
     api.request('data:changed', DocumentData.children(false), 'update', id)
   })
   api.reply('data:move', (id, data) => {
+    let element = DocumentData.get(id)
     if (data.action === 'after') {
       DocumentData.moveAfter(id, data.related)
     } else if (data.action === 'append') {
       DocumentData.appendTo(id, data.related)
     } else {
       DocumentData.moveBefore(id, data.related)
+    }
+    if (element.tag === 'column') {
+      // rebuild previous column
+      rebuildRawLayout(element.parent)
+      // rebuild next column
+      let newElement = DocumentData.get(id)
+      rebuildRawLayout(newElement.parent)
     }
     api.request('data:changed', DocumentData.children(false), 'move', id)
   })
