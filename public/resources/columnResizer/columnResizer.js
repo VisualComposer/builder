@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
-import lodash from 'lodash'
 
 class ColumnResizer extends React.Component {
   constructor (props) {
@@ -35,9 +34,11 @@ class ColumnResizer extends React.Component {
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
+      vcCake.setData('vcv:layoutCustomMode', true)
       ifameDocument.addEventListener('mousemove', this.handleMouseMove)
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
     } else if (!this.state.dragging && state.dragging) {
+      vcCake.setData('vcv:layoutCustomMode', false)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
     }
@@ -113,7 +114,6 @@ class ColumnResizer extends React.Component {
 
   handleMouseUp (e) {
     this.setState({ dragging: false })
-    this.updateColumnMixin()
     this.rebuildRowLayout()
     this.removeTemporaryColStyles()
   }
@@ -209,25 +209,6 @@ class ColumnResizer extends React.Component {
     let resizerWidth = e.clientX - (leftColumn || ColumnResizer.data.leftColumn.getBoundingClientRect().left) + ColumnResizer.data.columnGap / 2
     let leftCol = resizerWidth / rowWidth
     return { leftCol: leftCol, rightCol: ColumnResizer.data.bothColumnsWidth - leftCol }
-  }
-
-  updateColumnMixin () {
-    let rowData = vcCake.getService('document').get(ColumnResizer.data.rowId)
-    let rowElement = vcCake.getService('cook').get(rowData)
-    let rowMixins = rowElement.settings('layout').type.component && rowElement.settings('layout').type.component.buildMixins(rowData)
-
-    let sizes = [ Math.round(this.state.leftColPercentage * 10000) / 10000, Math.round(this.state.rightColPercentage * 10000) / 10000 ]
-    let newMixins = {}
-    for (let i = 0; i < sizes.length; i++) {
-      let percentage = sizes[ i ] * 100
-      percentage = percentage.toString().slice(0, percentage.toString().indexOf('.') + 3)
-      let mixinName = `columnStyleMixin:col${percentage}/100:gap${ColumnResizer.data.columnGap}:md`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, rowMixins[ Object.keys(rowMixins)[ 0 ] ])
-      newMixins[ mixinName ].variables.fullColumn.value = false
-      newMixins[ mixinName ].variables.percentageSelector.value = percentage.replace('.', '-')
-      newMixins[ mixinName ].variables.percentage.value = sizes[ i ].toString()
-      rowMixins[ mixinName ] = newMixins[ mixinName ]
-    }
   }
 
   rebuildRowLayout () {
