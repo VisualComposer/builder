@@ -99,4 +99,4 @@ const API = {
   }
 }
 
-vcCake.addService('time-machine', API)
+vcCake.addService('timeMachine', API)

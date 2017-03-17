@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import {getStorage} from 'vc-cake'
 
+const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class AddTemplateControl extends React.Component {
@@ -26,7 +27,13 @@ export default class AddTemplateControl extends React.Component {
 
   toggleAddTemplate (e) {
     e && e.preventDefault()
-    workspaceContentEndState.set(!this.state.isActive ? 'addTemplate' : false)
+    const settings = this.state.isActive ? false : {
+      action: 'addTemplate',
+      element: {},
+      tag: '',
+      options: {}
+    }
+    workspaceSettings.set(settings)
   }
 
   render () {

@@ -61,7 +61,7 @@ module.exports = {
         'cook',
         'shared-library',
         'assets-library',
-        'time-machine',
+        // 'timeMachine',
         'actions-manager',
         'rules-manager',
         'api',

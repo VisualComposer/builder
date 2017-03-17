@@ -2,12 +2,13 @@ import {addStorage, getStorage, getService, env} from 'vc-cake'
 import {rebuildRawLayout, addRowBackground, isElementOneRelation} from './lib/tools'
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
-  const timeMachine = getService('time-machine')
+  // const timeMachineStorage = getStorage('timeMachine')
   const cook = getService('cook')
   const assets = getStorage('assets')
   const updateTimemachine = () => {
-    timeMachine.add(documentManager.all())
-    storage.state('undo').set(true)
+    // timeMachineStorage.update(documentManager.all())
+    // timeMachine.add(documentManager.all())
+    // storage.state('undo').set(true)
   }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
@@ -110,9 +111,8 @@ addStorage('elements', (storage) => {
     // storage.state('redo').set(true)
   })
   storage.on('reset', (data) => {
-    console.log('reest')
     documentManager.reset(data || {})
-    timeMachine.setZeroState(data)
+    // timeMachine.setZeroState(data)
     storage.state('document').set(documentManager.children(false))
   })
   /*

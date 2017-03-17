@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import {getStorage} from 'vc-cake'
 
+const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
 export default class PlusControl extends React.Component {
@@ -24,7 +25,13 @@ export default class PlusControl extends React.Component {
   }
   toggleAddElement (e) {
     e && e.preventDefault()
-    workspaceContentEndState.set(!this.state.isActive ? 'addElement' : false)
+    const settings = this.state.isActive ? false : {
+      action: 'add',
+      element: {},
+      tag: '',
+      options: {}
+    }
+    workspaceSettings.set(settings)
   }
 
   render () {

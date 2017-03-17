@@ -24,6 +24,8 @@ add('workspace', (api) => {
       workspaceStorage.state('contentEnd').set('addElement')
     } else if (settings.action === 'edit') {
       workspaceStorage.state('contentEnd').set('editElement')
+    } else if (settings.action === 'addTemplate') {
+      workspaceStorage.state('contentEnd').set('addTemplate')
     }
   })
   let layoutHeader = document.getElementById('vcv-layout-header')
