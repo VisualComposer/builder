@@ -6,6 +6,12 @@ const utils = vcCake.getService('utils')
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
+    if (!layout) {
+      layout = vcCake.getService('document').children(id)
+        .map((element) => {
+          return element.size || 'auto'
+        })
+    }
     let getLastInRow = (columns) => {
       let lastColumnIndex = []
       let rowValue = 0
@@ -149,6 +155,7 @@ vcCake.add('storage', (api) => {
     if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
         rebuildRawLayout(id, element.layout.layoutData)
+        element.layout = undefined
       }
     } else {
       if (element.tag === 'row' && element.layout && element.layout.length) {
@@ -207,6 +214,11 @@ vcCake.add('storage', (api) => {
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
+    Object.keys(content).forEach((id) => {
+      if (content[ id ].tag && content[ id ].tag === 'row') {
+        rebuildRawLayout(id)
+      }
+    })
     api.request('data:changed', DocumentData.children(false), 'reset')
   })
   api.reply('app:add', (parent = null, tag = null, options) => {
