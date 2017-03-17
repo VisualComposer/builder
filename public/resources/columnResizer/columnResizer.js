@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
-import lodash from 'lodash'
 
 class ColumnResizer extends React.Component {
   constructor (props) {
@@ -26,15 +25,20 @@ class ColumnResizer extends React.Component {
     bothColumnsWidth: null,
     bothColumnsWidthPx: null,
     columnGap: null,
-    mousePosition: null
+    mousePosition: null,
+    resizerPositions: null,
+    snapWidth: 7,
+    leftColumnIndex: null
   }
 
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
+      vcCake.setData('vcv:layoutCustomMode', true)
       ifameDocument.addEventListener('mousemove', this.handleMouseMove)
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
     } else if (!this.state.dragging && state.dragging) {
+      vcCake.setData('vcv:layoutCustomMode', false)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
     }
@@ -52,6 +56,13 @@ class ColumnResizer extends React.Component {
     let rowWidth = $helper.parentElement.getBoundingClientRect().width + columnGap
     let bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
     let bothColumnsWidthPx = $leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width
+    let allColumns = [].slice.call($helper.parentElement.querySelectorAll('.vce-col'))
+    let leftColumnIndex = ''
+    allColumns.forEach((column, index) => {
+      if (column === $leftCol) {
+        leftColumnIndex = index
+      }
+    })
 
     ColumnResizer.data.rowId = rowId
     ColumnResizer.data.rowData = rowData
@@ -62,31 +73,49 @@ class ColumnResizer extends React.Component {
     ColumnResizer.data.bothColumnsWidthPx = bothColumnsWidthPx
     ColumnResizer.data.columnGap = columnGap
     ColumnResizer.data.mousePosition = e.clientX
+    ColumnResizer.data.leftColumnIndex = leftColumnIndex
   }
 
   handleMouseDown (e) {
     if (e.nativeEvent.which === 1) {
       this.getRowData(e)
+      this.getResizerPositions(e)
       let colSizes = this.getResizedColumnsWidth(e)
       let labelPosition = e.clientY - ColumnResizer.data.helper.getBoundingClientRect().top
 
       this.setState({
         dragging: true,
-        leftColPercentage: Math.round(colSizes.leftCol * 100),
-        rightColPercentage: Math.round(colSizes.rightCol * 100),
+        leftColPercentage: colSizes.leftCol,
+        rightColPercentage: colSizes.rightCol,
         labelPosition: labelPosition
       })
     }
   }
 
+  getResizerPositions (e) {
+    let positions = []
+    let currentResizer = e.currentTarget
+
+    let allResizers = document.querySelector('#vcv-editor-iframe').contentWindow.document.querySelectorAll('.vce-column-resizer-handler')
+    allResizers = [].slice.call(allResizers)
+
+    allResizers.forEach((resizer) => {
+      if (resizer !== currentResizer && window.getComputedStyle(resizer.parentElement).getPropertyValue('display') !== 'none') {
+        let resizerClientRect = resizer.getBoundingClientRect()
+        let position = resizerClientRect.left + resizerClientRect.width / 2
+        if (positions.indexOf(position) < 0) {
+          positions.push(position)
+        }
+      }
+    })
+
+    ColumnResizer.data.resizerPositions = positions
+  }
+
   handleMouseUp (e) {
     this.setState({ dragging: false })
-    //
-    // let leftColSize = Math.round(this.state.leftColPercentage).toString()
-    // let rightColSize = Math.round(this.state.rightColPercentage).toString()
-    //
-    // this.updateColumnMixin(ColumnResizer.data.rowId, [ leftColSize, rightColSize ])
-    // this.resizeColumns(ColumnResizer.data.leftColumn.id.replace('el-', ''), ColumnResizer.data.rightColumn.id.replace('el-', ''), leftColSize, rightColSize, ColumnResizer.data.rowId)
+    this.rebuildRowLayout()
+    this.removeTemporaryColStyles()
   }
 
   handleMouseMove (e) {
@@ -106,11 +135,27 @@ class ColumnResizer extends React.Component {
     let rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
     let gapSpace = columnGap * (100 - 1)
 
-    let leftWidth = `calc((100% - ${gapSpace}px) * ${resizerPercentages} + ${equalSpace}px)`
-    let rightWidth = `calc((100% - ${gapSpace}px) * ${rightResizerPercentages} + ${rightEqualSpace}px)`
-
     let $row = ColumnResizer.data.helper.parentElement
     let rowWidth = $row.getBoundingClientRect().width
+
+    let mouseLeftPosition = e.clientX
+    ColumnResizer.data.resizerPositions.forEach((position) => {
+      let minPosition = Math.round(position) - ColumnResizer.data.snapWidth
+      let maxPosition = Math.round(position) + ColumnResizer.data.snapWidth
+      if (mouseLeftPosition > minPosition && mouseLeftPosition < maxPosition) {
+        let fullRowWidth = rowWidth + ColumnResizer.data.columnGap
+        let resizerWidth = position - ColumnResizer.data.leftColumn.getBoundingClientRect().left + ColumnResizer.data.columnGap / 2
+        let leftCol = resizerWidth / fullRowWidth
+
+        resizerPercentages = leftCol
+        rightResizerPercentages = ColumnResizer.data.bothColumnsWidth - leftCol
+        equalSpace = columnGap * (resizerPercentages * 100 - 1)
+        rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
+      }
+    })
+
+    let leftWidth = `calc((100% - ${gapSpace}px) * ${resizerPercentages} + ${equalSpace}px)`
+    let rightWidth = `calc((100% - ${gapSpace}px) * ${rightResizerPercentages} + ${rightEqualSpace}px)`
 
     if (ColumnResizer.data.mousePosition > e.clientX) {
       let left = (rowWidth - gapSpace) * resizerPercentages + equalSpace
@@ -141,9 +186,14 @@ class ColumnResizer extends React.Component {
     let leftPercentage = leftCol / columnCalc
     let rightPercentage = rightCol / columnCalc
 
-    this.setLabelPercentages(Math.floor(leftPercentage * 100), Math.floor(rightPercentage * 100))
+    this.setLabelPercentages(leftPercentage, rightPercentage)
 
     ColumnResizer.data.mousePosition = e.clientX
+  }
+
+  removeTemporaryColStyles () {
+    ColumnResizer.data.leftColumn.style = {}
+    ColumnResizer.data.rightColumn.style = {}
   }
 
   setLabelPercentages (left, right) {
@@ -153,39 +203,25 @@ class ColumnResizer extends React.Component {
     })
   }
 
-  getResizedColumnsWidth (e) {
+  getResizedColumnsWidth (e, leftColumn) {
     let $row = ColumnResizer.data.helper.parentElement
     let rowWidth = $row.getBoundingClientRect().width + ColumnResizer.data.columnGap
-    let resizerWidth = e.clientX - ColumnResizer.data.leftColumn.getBoundingClientRect().left + ColumnResizer.data.columnGap / 2
+    let resizerWidth = e.clientX - (leftColumn || ColumnResizer.data.leftColumn.getBoundingClientRect().left) + ColumnResizer.data.columnGap / 2
     let leftCol = resizerWidth / rowWidth
     return { leftCol: leftCol, rightCol: ColumnResizer.data.bothColumnsWidth - leftCol }
   }
 
-  updateColumnMixin (rowId, sizes) {
-    let rowData = vcCake.getService('document').get(rowId)
-    // let rowElement = vcCake.getService('cook').get(rowData)
-    // console.log(rowElement.settings('layout').type.component && rowElement.settings('layout').type.component.buildMixins(rowData))
-
-    let newMixins = {}
-    for (let i = 0; i < sizes.length; i++) {
-      let percentage = parseFloat(sizes[ i ]) / 100
-      let mixinName = `customColumnMixinResize${i}`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, rowData.layout.attributeMixins[ Object.keys(rowData.layout.attributeMixins)[ 0 ] ])
-      newMixins[ mixinName ].variables.percentageSelector.value = sizes[ i ]
-      newMixins[ mixinName ].variables.percentage.value = percentage.toString()
-      rowData.layout.attributeMixins[ mixinName ] = newMixins[ mixinName ]
-    }
-    // vcCake.setData(`element:instantMutation:${rowId}`, elementData)
-    this.props.api.request('data:instantMutation', rowData, 'update')
-  }
-
-  resizeColumns (leftColId, rightColId, leftColSize, rightColSize) {
-    let leftCol = vcCake.getService('document').get(leftColId)
-    let rightCol = vcCake.getService('document').get(rightColId)
-    leftCol.size = leftColSize + '%'
-    rightCol.size = rightColSize + '%'
-    this.props.api.request('data:update', leftCol.id, leftCol)
-    this.props.api.request('data:update', rightCol.id, rightCol)
+  rebuildRowLayout () {
+    const parentRow = vcCake.getService('document').get(ColumnResizer.data.rowId)
+    let layoutData = parentRow.layout.layoutData
+    let leftSize = (Math.round(this.state.leftColPercentage * 10000) / 10000) * 100
+    leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
+    let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
+    rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
+    layoutData[ ColumnResizer.data.leftColumnIndex ] = `${leftSize}%`
+    layoutData[ ColumnResizer.data.leftColumnIndex + 1 ] = `${rightSize}%`
+    parentRow.layout.layoutData = layoutData
+    this.props.api.request('data:update', parentRow.id, parentRow)
   }
 
   render () {
@@ -209,7 +245,8 @@ class ColumnResizer extends React.Component {
               </g>
             </svg>
             <div className='vce-column-resizer-label-background'>
-              <span className='vce-column-resizer-label-percentage'>{this.state.leftColPercentage + '%'}</span>
+              <span
+                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.leftColPercentage * 100) + '%'}</span>
             </div>
             <svg width='11px' height='23px' viewBox='0 0 11 23'
               version='1.1' xmlns='http://www.w3.org/2000/svg'>
@@ -229,7 +266,8 @@ class ColumnResizer extends React.Component {
               </g>
             </svg>
             <div className='vce-column-resizer-label-background'>
-              <span className='vce-column-resizer-label-percentage'>{this.state.rightColPercentage + '%'}</span>
+              <span
+                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.rightColPercentage * 100) + '%'}</span>
             </div>
             <svg width='6px' height='23px' viewBox='0 0 6 23' version='1.1' xmlns='http://www.w3.org/2000/svg'>
               <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' fill='#282828' opacity='0.5'>
@@ -244,7 +282,7 @@ class ColumnResizer extends React.Component {
 
     return (
       <vcvhelper className='vce-column-resizer'>
-        <div className='vce-column-resizer-handler' onMouseDown={this.handleMouseDown}>
+        <div className='vce-column-resizer-handler' onMouseDown={this.handleMouseDown} ref='resizerHandler'>
           {resizerLabels}
         </div>
       </vcvhelper>

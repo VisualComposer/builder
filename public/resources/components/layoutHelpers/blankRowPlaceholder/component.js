@@ -246,12 +246,14 @@ export default class BlankRowPlaceholder extends React.Component {
         className='vcv-ui-blank-row-container'
         ref={(container) => { this.rowContainer = container }}
       >
-        <div
-          className='vcv-ui-blank-row-controls-container'
-          style={containerWidth}
-          ref={(container) => { this.elementsContainer = container }}
-        >
-          {elementControls}
+        <div className='vcv-ui-blank-row'>
+          <div
+            className='vcv-ui-blank-row-controls-container'
+            style={containerWidth}
+            ref={(container) => { this.elementsContainer = container }}
+          >
+            {elementControls}
+          </div>
         </div>
       </vcvhelper>
     )
