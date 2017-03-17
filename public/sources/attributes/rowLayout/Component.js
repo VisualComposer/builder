@@ -79,11 +79,14 @@ class Layout extends Attribute {
   static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
   static buildMixins (data) {
-    let layout = data.layout
-    if (!layout || !layout.layoutData) {
+    let layoutData = vcCake.getService('document').children(data.id)
+        .map((element) => {
+          return element.size || 'auto'
+        })
+
+    if (!layoutData) {
       return null
     }
-    let layoutData = layout.layoutData
 
     let newMixin = {}
 
