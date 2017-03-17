@@ -1,8 +1,16 @@
 .vcv-ui-blank-row-container {
   display: flex;
+  align-items: center;
+  height: @vcv-blank-row-container-height;
+}
+
+.vcv-ui-blank-row {
+  display: flex;
   justify-content: center;
   align-items: center;
-  border: @vcv-blank-row-controls-container-border;
+  flex: 1 0 auto;
+  margin-top: @vcv-blank-row-margin-top;
+  border: @vcv-blank-row-border;
 }
 
 .vcv-ui-blank-row-controls-container {
@@ -22,6 +30,7 @@
   &:focus,
   &:hover {
     outline: none;
+    background: transparent;
   }
 
   &:hover {
