@@ -213,7 +213,10 @@ class ColumnResizer extends React.Component {
 
   rebuildRowLayout () {
     const parentRow = vcCake.getService('document').get(ColumnResizer.data.rowId)
-    let layoutData = parentRow.layout.layoutData
+    let layoutData = vcCake.getService('document').children(ColumnResizer.data.rowId)
+      .map((element) => {
+        return element.size || 'auto'
+      })
     let leftSize = (Math.round(this.state.leftColPercentage * 10000) / 10000) * 100
     leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
