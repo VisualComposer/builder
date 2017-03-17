@@ -82,16 +82,17 @@
 }
 
 .vcv-ui-form-attach-image-item-control {
-  flex: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
   outline: none;
   line-height: 1;
   text-decoration: none;
   color: @vcui-attach-image-icon-color;
   font-size: @vcui-attach-image-icon-size;
-  height: 1em;
-  width: 1em;
-  box-sizing: content-box;
-  padding: .5em;
+  height: 2em;
+  width: 2em;
   transition-duration: @vcui-form-transition-duration;
   transition-property: color;
   transition-timing-function: ease-in-out;
