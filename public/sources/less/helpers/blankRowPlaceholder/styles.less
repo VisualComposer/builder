@@ -1,0 +1,51 @@
+.vcv-ui-blank-row-container {
+  display: flex;
+  align-items: center;
+  height: @vcv-blank-row-container-height;
+}
+
+.vcv-ui-blank-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+  margin-top: @vcv-blank-row-margin-top;
+  border: @vcv-blank-row-border;
+}
+
+.vcv-ui-blank-row-controls-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.vcv-ui-blank-row-element-control {
+  flex: 0 0 auto;
+  padding: @vcv-blank-row-element-control-padding;
+  margin: @vcv-blank-row-element-control-margin;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover {
+    outline: none;
+    background: transparent;
+  }
+
+  &:hover {
+    .vcv-ui-blank-row-element-control-icon {
+      opacity: @vcv-blank-row-element-control-icon-opacity-hover;
+    }
+  }
+
+  .vcv-ui-blank-row-element-control-icon {
+    opacity: @vcv-blank-row-element-control-icon-opacity;
+    transition: opacity @transition-duration @transition-timing-function;
+  }
+}
+
+.vcv-ui-blank-row-element-control-label {
+  display: none;
+  font-family: inherit;
+}
