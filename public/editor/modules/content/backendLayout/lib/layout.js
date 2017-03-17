@@ -1,8 +1,9 @@
 import React from 'react'
-import { getData } from 'vc-cake'
+import { getData, env } from 'vc-cake'
 import Element from './element'
 import BlankPageManagerBack from './helpers/blankPageManagerBack/component'
 import RowPlaceholderBackend from './helpers/rowPlaceholderBackend/component'
+import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -81,12 +82,14 @@ export default class Layout extends React.Component {
       })
     }
 
+    const rowPlaceholder = env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholderBackend api={this.props.api} />
+
     return <div
       className='vcv-wpbackend-layout'
       data-vcv-module='content-layout'
       ref={(container) => { this.layoutContainer = container }}>
       {elementsList}
-      <RowPlaceholderBackend api={this.props.api} />
+      {rowPlaceholder}
     </div>
   }
 
@@ -98,7 +101,7 @@ export default class Layout extends React.Component {
     }
 
     if (!this.state.data.length && getData('app:dataLoaded')) {
-      return <BlankPageManagerBack api={this.props.api} iframe={false} />
+      return env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <BlankPageManagerBack api={this.props.api} iframe={false} />
     }
 
     return this.getElements()
