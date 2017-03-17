@@ -1,14 +1,13 @@
 .vcv-ui-blank-row-container {
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: @vcv-blank-row-controls-container-border;
 }
 
 .vcv-ui-blank-row-controls-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  padding: @vcv-blank-row-element-control-container-padding;
-  border: @vcv-blank-row-controls-container-border;
 }
 
 .vcv-ui-blank-row-element-control {
@@ -17,6 +16,7 @@
   margin: @vcv-blank-row-element-control-margin;
   border: none;
   background: transparent;
+  cursor: pointer;
 
   &:active,
   &:focus,
