@@ -90,7 +90,7 @@ class Layout extends Attribute {
 
     let newMixin = {}
 
-    let columnGap = parseInt(data.columnGap)
+    let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     let selector = `vce-row--col-gap-${columnGap}`
 
     Layout.devices.forEach((device) => {

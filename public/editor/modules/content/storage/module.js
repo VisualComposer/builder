@@ -127,6 +127,9 @@ vcCake.add('storage', (api) => {
     if (data.tag === 'column') {
       rebuildRawLayout(data.parent)
     }
+    if (data.tag === 'row') {
+      rebuildRawLayout(data.id)
+    }
 
     if (!options.silent) {
       api.request('data:afterAdd', createdElements)
