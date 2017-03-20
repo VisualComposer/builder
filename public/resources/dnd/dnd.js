@@ -206,11 +206,15 @@ export default class DnD {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
   findDOMNode (point) {
-    let domNode = this.options.document.elementFromPoint(point.x, point.y)
-    if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
-      domNode = $(domNode).closest('[data-vcv-dnd-element]').get(0)
+    let domNode
+    let targetDomNode = this.options.document.elementFromPoint(point.x, point.y)
+    if (targetDomNode && !targetDomNode.getAttribute('data-vcv-dnd-element')) {
+      let closest = $(targetDomNode).closest('[data-vcv-dnd-element]').get(0)
+      if (closest && closest.dataset.vcvModule !== 'content-layout') {
+        domNode = closest
+      }
     }
-    return domNode || null
+    return domNode
   }
   checkItems (point) {
     let domNode = this.findDOMNode(point)
