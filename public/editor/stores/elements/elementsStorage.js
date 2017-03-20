@@ -5,6 +5,8 @@ addStorage('elements', (storage) => {
   // const timeMachineStorage = getStorage('timeMachine')
   const cook = getService('cook')
   const assets = getStorage('assets')
+  const historyStorage = getStorage('history')
+
   const updateTimemachine = () => {
     // timeMachineStorage.update(documentManager.all())
     // timeMachine.add(documentManager.all())
@@ -112,8 +114,8 @@ addStorage('elements', (storage) => {
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})
-    // timeMachine.setZeroState(data)
     storage.state('document').set(documentManager.children(false))
+    historyStorage.trigger('init', 'elements', data)
   })
   /*
   Undo

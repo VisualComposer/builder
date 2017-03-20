@@ -1,5 +1,5 @@
 export default class TimeMachine {
-  constructor (name) {
+  constructor (name, limit = 0) {
     Object.defineProperties(this, {
       /**
        * @memberOf! TimeMachine
@@ -48,6 +48,15 @@ export default class TimeMachine {
         configurable: false,
         writable: true,
         value: false
+      },
+      /**
+       * @memberOf! TimeMachine
+       */
+      limit: {
+        enumerable: false,
+        configurable: false,
+        writable: true,
+        value: limit
       }
     })
   }
@@ -63,6 +72,9 @@ export default class TimeMachine {
       this.stack = this.stack.slice(0, this.stackPosition)
     }
     this.stack.push(data)
+    if (this.limit > 0) {
+      this.stack = this.stack.slice(0, this.limit)
+    }
     this.stackPosition = this.stack.length
     this.stackHash = JSON.stringify(this.get())
   }
