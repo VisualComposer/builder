@@ -119,7 +119,7 @@ addStorage('elements', (storage) => {
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})
-    historyStorage.trigger('init', 'elements', data)
+    historyStorage.trigger('initElements', data)
     storage.state('document').set(documentManager.children(false))
   })
   /*

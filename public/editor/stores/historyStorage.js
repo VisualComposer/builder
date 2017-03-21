@@ -33,11 +33,16 @@ addStorage('history', (storage) => {
       checkUndoRedo()
     }
   })
-  storage.on('init', (branch = '', data = false) => {
-    if (isValidBranch(branch)) {
-      activeBranch = branch
-    }
-    if (activeBranch && data) {
+  storage.on('initEditForm', () => {
+    activeBranch = 'editForm'
+    branches[activeBranch].clear()
+    branches[activeBranch].setZeroState(branches.elements.get())
+    checkUndoRedo()
+  })
+  storage.on('initElements', (data = false) => {
+    activeBranch = 'elements'
+    if (data) {
+      branches[activeBranch].clear()
       branches[activeBranch].setZeroState(data)
     }
     checkUndoRedo()

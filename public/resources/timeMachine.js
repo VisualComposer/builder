@@ -121,6 +121,11 @@ export default class TimeMachine {
       return this.stack[ this.stackPosition - 1 ]
     }
   }
+  clear () {
+    this.stack.length = 0
+    this.zeroState = {}
+    this.stackPosition = 0
+  }
   setZeroState (data) {
     this.zeroState = data
     this.stackHash = JSON.stringify(this.get())

@@ -1,6 +1,7 @@
 import React from 'react'
-import vcCake from 'vc-cake'
-const historyStorage = vcCake.getStorage('history')
+import {getStorage} from 'vc-cake'
+const historyStorage = getStorage('history')
+const workspaceStorage = getStorage('workspace')
 
 export default class UndoRedoControl extends React.Component {
   constructor (props) {
@@ -11,16 +12,19 @@ export default class UndoRedoControl extends React.Component {
     }
     this.checkUndoState = this.checkUndoState.bind(this)
     this.checkRedoState = this.checkRedoState.bind(this)
+    this.checkWorkspaceSettings = this.checkWorkspaceSettings.bind(this)
   }
 
   componentWillMount () {
     this.checkControls()
     historyStorage.state('canRedo').onChange(this.checkRedoState)
     historyStorage.state('canUndo').onChange(this.checkUndoState)
+    workspaceStorage.state('settings').onChange(this.checkWorkspaceSettings)
   }
   componentWillUnmount () {
     historyStorage.state('canRedo').ignoreChange(this.checkRedoState)
     historyStorage.state('canUndo').ignoreChange(this.checkUndoState)
+    workspaceStorage.state('settings').ignoreChange(this.checkWorkspaceSettings)
   }
   checkUndoState (value) {
     this.setState({
@@ -35,6 +39,13 @@ export default class UndoRedoControl extends React.Component {
   checkControls () {
     this.checkRedoState(historyStorage.state('canRedo').get())
     this.checkUndoState(historyStorage.state('canUndo').get())
+  }
+  checkWorkspaceSettings (data) {
+    if (data && data.action === 'edit') {
+      historyStorage.trigger('initEditForm')
+    } else {
+      historyStorage.trigger('initElements')
+    }
   }
   handleUndo = () => {
     historyStorage.trigger('undo')
