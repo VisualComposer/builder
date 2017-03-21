@@ -195,7 +195,7 @@ export default class ControlsHandler {
       elementId,
       {
         title: vcElement.get('name'),
-        icon: null // categoriesService.getElementIcon(vcElement.get('tag')) // TODO: Fix this
+        icon: categoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
     // create control dropdown
@@ -521,7 +521,6 @@ export default class ControlsHandler {
    */
   updateDropdownsPosition (e) {
     let dropdowns = this.controlsContainer.querySelectorAll('.vcv-ui-outline-control-dropdown')
-    dropdowns = [].slice.call(dropdowns)
     let iframePos = this.iframe.getBoundingClientRect()
     dropdowns.forEach((dropdown) => {
       let dropdownPos = dropdown.querySelector('.vcv-ui-outline-control-dropdown-content').getBoundingClientRect()

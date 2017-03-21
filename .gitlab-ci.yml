@@ -8,6 +8,8 @@ stages:
 codestyle:js:
   image: wpbakery/standardjs
   stage: codestyle
+  except:
+    - refactor
   script:
     - npm run standard
   tags:
@@ -95,4 +97,6 @@ deploy:test:alpha:
     - cd ci/deploy/test && dep deploy test
   tags:
    - docker
+  only:
+   - master
 

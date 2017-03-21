@@ -1,0 +1,351 @@
+.vcv-ui-add-template-content {
+  .vcv-ui-editor-tabs-container {
+    margin: 0;
+  }
+
+  .vcv-ui-tree-content-section {
+    overflow: hidden;
+  }
+
+  .vcv-ui-item-element-content {
+    &::before {
+      content: attr(data-letter);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: @color-inverted;
+    }
+  }
+
+  .vcv-ui-tree-content-error-message-container {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+  }
+
+  .vcv-ui-tree-content-error-message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: @error-message-background-color;
+    color: @text-color-base;
+    height: @error-message-height;
+    font-style: italic;
+    transform: translateY(100%);
+    transition: transform @transition-duration @transition-timing-function;
+    z-index: 1;
+
+    &--visible {
+      transform: translateY(0);
+    }
+  }
+
+  .vcv-ui-item-element {
+    cursor: default;
+  }
+
+  .vcv-ui-item-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vcv-ui-item-control {
+    padding: @item-control-padding;
+    font-size: @item-control-font-size;
+    cursor: pointer;
+    transition: color @transition-duration @transition-timing-function;
+
+    &.vcv-ui-icon-add {
+      &:hover {
+        color: darken(@text-color-base, 10%)
+      }
+    }
+  }
+
+  .vcv-ui-save-template-form {
+    display: flex;
+    justify-content: space-between;
+
+    .vcv-ui-form-input {
+      flex: @save-input-flex;
+    }
+
+    .vcv-ui-editor-no-items-action {
+      flex: @save-action-flex;
+      padding: @save-action-padding;
+      margin: @save-action-margin;
+      min-height: auto;
+      white-space: nowrap;
+    }
+  }
+
+  .vcv-ui-editor-list-cta-wrapper {
+    text-align: center;
+  }
+
+  .vcv-ui-state--hidden {
+    display: none;
+  }
+
+  .vcv-ui-editor-no-items-container {
+    .vcv-ui-form-helper {
+      margin-bottom: @form-helper-margin-bottom;
+    }
+  }
+
+  .vcv-ui-editor-no-items-image {
+    margin: @no-items-image-margin;
+  }
+
+  .vcv-ui-item-overlay {
+    &--visible {
+      opacity: 1;
+    }
+  }
+
+  .vcv-ui-wp-spinner {
+    cursor: default;
+  }
+
+  .vcv-ui-save-template-submit[disabled] {
+    cursor: not-allowed;
+    color: @save-action-disabled-color;
+
+    &:hover {
+      background: @save-action-disabled-bg-hover;
+    }
+  }
+}
+
+//== Tree view styles
+
+
+//== content
+.vcv-ui-tree-view-content {
+  height: 100%;
+  font-size: @tree-text-size-base;
+  color: @tree-text-color-base;
+  background-color: @tree-bg-base;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.vcv-ui-tree-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  min-height: 1em; // dirty ff flexbox bug fix
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+.vcv-ui-tree-content-section {
+  flex: 1 1 0;
+  color: @tree-content-text;
+  background-color: @tree-content-bg;
+  min-height: 1em; // dirty ff flexbox bug fix
+  //overflow: auto;
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  > * {
+    flex: 1 1 auto;
+  }
+}
+
+.vcv-ui-tree-content-section-inner {
+  padding: @tree-content-gutter;
+}
+
+//== title controls
+.vcv-ui-tree-content-title-controls {
+  padding-left: 0;
+  padding-right: 0;
+  font-size: @tree-content-control-size;
+  display: flex;
+  align-items: center;
+  margin-top: -@tree-tab-spacer;
+}
+
+.vcv-ui-tree-content-title-control {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0 @tree-content-gutter / 2;
+}
+
+//== Tree tabs
+.vcv-ui-editor-tabs-container {
+  margin-top: @tree-tab-spacer;
+  display: flex;
+  padding-left: @tree-content-gutter;
+  padding-right: @tree-content-gutter * 3;
+}
+
+.vcv-ui-editor-tabs {
+  font-family: 'Roboto', sans-serif;
+  font-size: @tree-text-size-base;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  flex: 1;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}
+
+.vcv-ui-editor-tab {
+  padding: @tree-tab-padding;
+  color: @tree-tab-color;
+  background-color: @tree-tab-bg;
+  border-radius: @tree-tab-border-radius @tree-tab-border-radius 0 0;
+  margin: 0 ceil(@tree-tab-space / 2) 0 floor(@tree-tab-space / 2);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all @transition-duration @transition-timing-function;
+  &:hover {
+    background-color: @tree-tab-bg-hover;
+  }
+  &.vcv-ui-state--active {
+    background-color: @tree-tab-bg-active;
+    color: @tree-tab-color-active;
+  }
+  &[disabled] {
+    background-color: transparent;
+    opacity: .5;
+    cursor: not-allowed;
+  }
+  &.vcv-ui-state--hidden {
+    display: none;
+  }
+}
+.vcv-ui-editor-tab-dropdown {
+  > .vcv-ui-editor-tab {
+    padding-left: @tree-tab-padding-horizontal / 2;
+    padding-right: @tree-tab-padding-horizontal / 2;
+  }
+}
+
+.vcv-ui-editor-tab-toggle-tree {
+  min-width: @tree-tab-icon-min-width;
+  background: none;
+}
+
+.vcv-ui-editor-tab-content {
+  white-space: nowrap;
+}
+
+.vcv-ui-editor-tab-icon {
+  font-size: 1em;
+  height: 1em;
+  width: 1.25em;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  &::before {
+    font-size: 1.25em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  + * {
+    margin-left: @tree-gold-value;
+  }
+}
+
+//== tab dropdown
+.vcv-ui-editor-tab-dropdown {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  margin: 0;
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  &:hover {
+    .vcv-ui-editor-tab-dropdown-trigger {
+      background-color: @tree-tab-bg-hover;
+    }
+    .vcv-ui-editor-tab-dropdown-content {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &.vcv-ui-state--active {
+    .vcv-ui-editor-tab-dropdown-trigger {
+      background-color: @tree-tab-bg-active;
+      color: @tree-tab-color-active;
+    }
+  }
+  &.vcv-ui-state--hidden {
+    display: none;
+  }
+}
+
+.vcv-ui-editor-tab-dropdown-trigger {
+  cursor: default;
+  min-width: 0;
+}
+
+.vcv-ui-editor-tab-dropdown-content {
+  min-width: @tree-dropdown-size;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: @tree-dropdown-zindex;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
+  box-shadow: @tree-dropdown-shadow;
+  margin-right: ceil(@tree-tab-space/2);
+  margin-left: floor(@tree-tab-space/2);
+  .vcv-ui-editor-tab {
+    text-align: left;
+    background-color: @tree-tab-bg-active;
+    color: @tree-tab-color-active;
+    border-radius: 0;
+    margin: 0;
+    &:hover,
+    &.vcv-ui-state--active {
+      background-color: @tree-tab-bg-hover;
+      color: @tree-tab-color;
+    }
+  }
+}
+
+.vcv-ui-editor-tabs-free-space {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+//== Tabs content
+
+.vcv-ui-editor-plate {
+  &:not(.vcv-ui-state--active) {
+    display: none;
+  }
+}

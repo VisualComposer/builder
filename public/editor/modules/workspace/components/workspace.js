@@ -1,19 +1,39 @@
 import ClassNames from 'classnames'
 import React from 'react'
 import Resizer from '../../../../resources/resizer/resizer'
-import Content from './content/content'
+import PanelsContainer from './panelsContainer'
 import NavbarContainer from './navbar/navbarContainer'
+import {getStorage} from 'vc-cake'
+
+const workspace = getStorage('workspace')
 
 export default class Workspace extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      hasStartContent: false,
-      hasEndContent: false
+      contentStart: false,
+      contentEnd: false,
+      settings: {}
     }
+    this.setContentStart = this.setContentStart.bind(this)
+    this.setContentEnd = this.setContentEnd.bind(this)
   }
-
+  componentDidMount () {
+    workspace.state('contentStart').onChange(this.setContentStart)
+    workspace.state('contentEnd').onChange(this.setContentEnd)
+  }
+  componentWillUnmount () {
+    workspace.state('contentStart').ignoreChange(this.setContentStart)
+    workspace.state('contentEnd').ignoreChange(this.setContentEnd)
+  }
+  setContentEnd (value) {
+    const contentEnd = value || false
+    this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
+  }
+  setContentStart (value) {
+    this.setState({contentStart: value || false})
+  }
   resizeCallback = (e) => {
     if (e && e.direction) {
       if (e.direction === 'top') {
@@ -25,22 +45,24 @@ export default class Workspace extends React.Component {
   }
 
   render () {
+    const {contentStart, contentEnd, settings} = this.state
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
-      'vcv-ui-content--hidden': !(this.state.hasStartContent || this.state.hasEndContent),
-      'vcv-ui-content-start--visible': this.state.hasStartContent,
-      'vcv-ui-content-end--visible': this.state.hasEndContent
+      'vcv-ui-content--hidden': !(contentEnd || contentStart),
+      'vcv-ui-content-start--visible': !!contentStart,
+      'vcv-ui-content-end--visible': !!contentEnd
     })
     return (
       <div className={layoutClasses}>
         <NavbarContainer />
-        <Content
+        <PanelsContainer
           start={
-          null
+          contentStart
         }
           end={
-          null
+          contentEnd
         }
+          settings={settings}
         />
         <Resizer params={{
           resizeTop: true,
@@ -54,7 +76,6 @@ export default class Workspace extends React.Component {
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
           callback: this.resizeCallback
         }} />
-
         <Resizer params={{
           resizeLeft: true,
           resizeTop: true,

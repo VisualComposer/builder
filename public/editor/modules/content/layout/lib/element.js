@@ -79,7 +79,6 @@ export default class Element extends React.Component {
       editor['data-vcv-element-disable-interaction'] = true
     }
     return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
-      api={this.props.api}
       editor={editor}>
       {this.getContent()}
     </ContentComponent>

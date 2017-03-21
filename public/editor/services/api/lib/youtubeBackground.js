@@ -9,8 +9,8 @@ export default class YoutubeBackground extends Component {
   }
 
   render () {
-    const { deviceKey, deviceData, applyBackground } = this.props
-    const { videoYoutube, parallax } = deviceData
+    const { deviceKey, deviceData } = this.props
+    const { videoYoutube } = deviceData
 
     let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&\?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
     if (videoYoutube && videoYoutube.search(ytrx) !== -1) {
@@ -25,20 +25,13 @@ export default class YoutubeBackground extends Component {
         `vce-visible-${deviceKey}-only`
       ]
 
-      let customProps = {}
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-video-yt-wrapper'
-      }
-      if (parallax === 'simple-fade') {
-        customProps[ 'data-vce-assets-parallax-fade' ] = true
-      }
-      return <div className={classNames(containerClasses)} {...customProps} {...applyBackground}>
+      return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-yt-wrapper'>
           <div className='vce-asset-video-yt-background'
             data-vce-assets-video-yt={playerSettings.videoId}
             data-vce-assets-video-replacer='.vce-asset-video-yt-player'
             data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'>
-            <svg className='vce-asset-video-yt-sizer' />
+            <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
             <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
           </div>
         </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace VisualComposer\Modules\System\Ajax;
 
 use VisualComposer\Framework\Container;

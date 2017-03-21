@@ -31,13 +31,13 @@ module.exports = {
   vc: {
     node: {
       modules: [
-        'content/storage',
-        'content/assets',
-        'content/layout',
-        'content/tree-view-dnd',
-        'content/local-storage/data-load',
-        'content/local-storage/data-save',
-        'content/local-storage/data-unload',
+        // 'content/storage',
+        // 'content/assets',
+        'content/modernLayout',
+        // 'content/tree-view-dnd',
+        // 'content/local-storage/data-load',
+        // 'content/local-storage/data-save',
+        // 'content/local-storage/data-unload',
         'workspace'
         /*
         'ui/layout-bar',
@@ -57,11 +57,11 @@ module.exports = {
       services: [
         'utils',
         'document',
-        'local-storage',
+        'localStorage',
         'cook',
         'shared-library',
         'assets-library',
-        'time-machine',
+        // 'timeMachine',
         'actions-manager',
         'rules-manager',
         'api',
@@ -70,17 +70,19 @@ module.exports = {
         'assetsStorage',
         'assetsManager',
         'stylesManager',
-        'myTemplates'
+        'myTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     wp: {
       modules: [
-        'content/storage',
-        'content/assets',
-        'content/layout',
-        'content/wordpress/data-load',
-        'content/wordpress/data-save',
-        'content/wordpress/data-unload',
+        // 'content/storage',
+        // 'content/assets',
+        'content/modernLayout',
+        // 'content/wordpress/data-load',
+        // 'content/wordpress/data-save',
+        // 'content/wordpress/data-unload',
         'content/tree-view-dnd',
         'workspace'
         /*

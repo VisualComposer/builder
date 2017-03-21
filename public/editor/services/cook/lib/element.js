@@ -10,7 +10,10 @@ const createKey = vcCake.getService('utils').createKey
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 
-class CookElement {
+export default class CookElement {
+  static propTypes = {
+    tag: React.PropTypes.string.isRequired
+  }
   constructor (data) {
     let { id = createKey(), parent = false, tag, order, ...attr } = data
     attr.tag = tag
@@ -172,8 +175,3 @@ class CookElement {
     })
   }
 }
-CookElement.propTypes = {
-  tag: React.PropTypes.string.isRequired
-}
-
-module.exports = CookElement

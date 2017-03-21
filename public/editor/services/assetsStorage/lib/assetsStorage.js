@@ -8,13 +8,14 @@ const customCss = new CustomCss()
 const globalCss = new GlobalCss()
 const documentService = vcCake.getService('document')
 
-export default {
+export default class {
   /**
    * Up-to-date list of all elements
-   *
-   * @param {Object}
+   * @param elements
    */
-  elements: {},
+  constructor (elements = {}) {
+    this.elements = lodash.defaultsDeep({}, elements)
+  }
 
   /**
    * Get cook service
@@ -22,7 +23,7 @@ export default {
    */
   cook () {
     return vcCake.getService('cook')
-  },
+  }
 
   /**
    * Set elements
@@ -31,7 +32,7 @@ export default {
   set (elements) {
     // todo: validate elements
     this.elements = lodash.defaultsDeep({}, elements)
-  },
+  }
 
   /**
    * Set custom css
@@ -39,7 +40,7 @@ export default {
    */
   setCustomCss (value) {
     customCss.data = value
-  },
+  }
 
   /**
    * Get custom css data
@@ -47,7 +48,7 @@ export default {
    */
   getCustomCss () {
     return customCss.data
-  },
+  }
 
   /**
    * Set global css
@@ -55,7 +56,7 @@ export default {
    */
   setGlobalCss (value) {
     globalCss.data = value
-  },
+  }
 
   /**
    * Get global css data
@@ -63,7 +64,7 @@ export default {
    */
   getGlobalCss () {
     return globalCss.data
-  },
+  }
 
   /**
    * Add element by id
@@ -81,7 +82,8 @@ export default {
         this.update(id, true)
       }
     })
-  },
+  }
+
   /**
    * Reset ids for storages
    * @param ids
@@ -90,7 +92,8 @@ export default {
     ids.forEach(() => {
       this.add(ids)
     })
-  },
+  }
+
   /**
    * Get element by id
    * @param assetKey
@@ -104,7 +107,7 @@ export default {
       return null
     }
     return this.elements[ assetKey ]
-  },
+  }
 
   /**
    * Update element by id
@@ -173,7 +176,7 @@ export default {
         }
       }
     }
-  },
+  }
 
   /**
    * Remove element by id
@@ -192,7 +195,7 @@ export default {
       }
       delete this.elements[ id ]
     })
-  },
+  }
 
   /**
    * Get element tags from element exact data or default settings
@@ -220,7 +223,7 @@ export default {
       tags[ tag ] = true
     }
     return tags
-  },
+  }
 
   /**
    * Get column sizes
@@ -238,7 +241,7 @@ export default {
       sizes = [ element.size ]
     }
     return sizes
-  },
+  }
 
   getRowLayoutByElement (element) {
     let settings = this.cook().get(element).get('settings')
@@ -252,7 +255,7 @@ export default {
       layout = element.rowLayout
     }
     return layout
-  },
+  }
 
   getRowGapByElement (element) {
     let settings = this.cook().get(element).get('settings')
@@ -266,7 +269,7 @@ export default {
       gap = element.columnGap
     }
     return gap
-  },
+  }
 
   getBackgroundByElement (element) {
     let cookElement = this.cook().get(element)
@@ -289,7 +292,7 @@ export default {
       data.background = documentService.get(data.id).background
     }
     return data
-  },
+  }
 
   /**
    * Get css mixins data by element
@@ -316,7 +319,7 @@ export default {
             }
           }
           let mixinValue = settings[ key ].value
-          if (typeof element.data[ key ] === `string`) {
+          if (typeof element.data[ key ] === 'string') {
             mixinValue = element.data[ key ]
           }
           foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
@@ -357,7 +360,7 @@ export default {
       }
     }
     return mixins
-  },
+  }
 
   /**
    * Get attributes mixins data by element
@@ -404,7 +407,7 @@ export default {
       }
     }
     return mixins
-  },
+  }
 
   /**
    * Get googles fonts data by element
@@ -439,7 +442,7 @@ export default {
     }
 
     return foundFonts
-  },
+  }
 
   /**
    * Get all used elements tags
@@ -452,7 +455,7 @@ export default {
       lodash.merge(tags, elementTags)
     }
     return tags
-  },
+  }
 
   /**
    * Get all used element tags as array
@@ -460,7 +463,7 @@ export default {
    */
   getTagsList () {
     return Object.keys(this.getTags())
-  },
+  }
 
   // get data
 
@@ -472,7 +475,7 @@ export default {
       })
     }
     return styles
-  },
+  }
 
   getGlobalCssData () {
     let styles = []
@@ -482,7 +485,7 @@ export default {
       })
     }
     return styles
-  },
+  }
 
   /**
    * Get css data for mixins
@@ -515,7 +518,7 @@ export default {
       })
     })
     return styles
-  },
+  }
 
   /**
    * Get css data for mixins
@@ -534,7 +537,7 @@ export default {
       }
     }
     return styles
-  },
+  }
 
   /**
    * Get css data for mixins
@@ -550,7 +553,7 @@ export default {
     }
 
     return fonts
-  },
+  }
 
   /**
    * Get css data for elements
@@ -573,7 +576,7 @@ export default {
       }
     })
     return styles
-  },
+  }
 
   /**
    * Get css data for single element
@@ -638,7 +641,7 @@ export default {
       })
     }
     return styles
-  },
+  }
 
   /**
    * get compiled columns

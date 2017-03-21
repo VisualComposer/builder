@@ -11,14 +11,13 @@ export default class ImageSlideshowBackground extends Component {
   }
 
   render () {
-    const { reactKey, deviceKey, deviceData, applyBackground } = this.props
-    const { images, backgroundStyle, sliderTimeout, parallax } = deviceData
+    const { reactKey, deviceKey, deviceData } = this.props
+    const { images, backgroundStyle, sliderTimeout, sliderEffect } = deviceData
     let timeout = sliderTimeout
     if (!timeout) {
       timeout = 5
     }
     if (images && images.urls && images.urls.length) {
-      let customProps = {}
       let imagesJSX = []
       images.urls.forEach((imgData) => {
         let styles = {
@@ -40,20 +39,18 @@ export default class ImageSlideshowBackground extends Component {
         `vce-asset-background-slider`
       ]
 
-      if (parallax) {
-        customProps[ 'data-vce-assets-parallax' ] = '.vce-asset-background-slider'
-      }
-      if (parallax === 'simple-fade') {
-        customProps[ 'data-vce-assets-parallax-fade' ] = true
+      let sliderProps = {
+        'data-vce-assets-slider': timeout,
+        'data-vce-assets-slider-effect': sliderEffect,
+        'data-vce-assets-slider-slide': '.vce-asset-background-slider-item'
       }
 
       let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
-        <div className={classNames(slideshowClasses)} data-vce-assets-slider={timeout}
-          data-vce-assets-slider-slide='.vce-asset-background-slider-item'>
+        <div className={classNames(slideshowClasses)} {...sliderProps}>
           {imagesJSX}
         </div>)
 
-      return <div className={classNames(containerClasses)} {...customProps} key={reactKey} {...applyBackground}>
+      return <div className={classNames(containerClasses)}>
         <vcvhelper data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
       </div>
     }

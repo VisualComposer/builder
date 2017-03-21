@@ -1,66 +1,78 @@
 import vcCake from 'vc-cake'
-import assetsStorage from './lib/assetsStorage'
+import AssetsStorage from './lib/assetsStorage'
 
-let publicApi = {
+const storage = new AssetsStorage()
+
+class PublicApi {
+  constructor (elements = {}) {
+    storage.set(elements)
+  }
+
   // ==== Elements
   /**
    * Set elements
    * @param elements
    */
   setElements (elements) {
-    assetsStorage.set(elements)
+    storage.set(elements)
     return this
-  },
+  }
+
   /**
    * Add element by id
    * @param id
    */
   addElement (id) {
-    assetsStorage.add(id)
+    storage.add(id)
     return this
-  },
+  }
+
   /**
    * Reset elements list
    * @param ids
    * @returns {publicApi.resetElements}
    */
   resetElements (ids) {
-    assetsStorage.reset(ids)
+    storage.reset(ids)
     return this
-  },
+  }
+
   /**
    * Update element by id
    * @param id
    * @returns {publicApi}
    */
   updateElement (id) {
-    assetsStorage.update(id)
+    storage.update(id)
     return this
-  },
+  }
+
   /**
    * Remove element by id
    * @param id
    * @returns {publicApi}
    */
   removeElement (id) {
-    assetsStorage.remove(id)
+    storage.remove(id)
     return this
-  },
+  }
+
   /**
    * get element by id
    * @param id
    * @returns {*}
    */
   getElementById (id) {
-    return assetsStorage.get(id)
-  },
+    return storage.get(id)
+  }
+
   /**
    * Get all elements
    * @returns {*}
    */
   getElements () {
-    return assetsStorage.get()
-  },
+    return storage.get()
+  }
 
   // ==== Other getters
   /**
@@ -68,24 +80,26 @@ let publicApi = {
    * @returns {*|Array}
    */
   getElementsTagsList () {
-    return assetsStorage.getTagsList()
-  },
+    return storage.getTagsList()
+  }
+
   /**
    * Get css mixin data by element
    * @param element
    * @returns {*|{}}
    */
   getCssMixinsByElement (element) {
-    return assetsStorage.getCssMixinsByElement(element)
-  },
+    return storage.getCssMixinsByElement(element)
+  }
+
   /**
    * Get attributes mixin data by element
    * @param element
    * @returns {*|{}}
    */
   getAttributesMixinsByElement (element) {
-    return assetsStorage.getAttributesMixinsByElement(element)
-  },
+    return storage.getAttributesMixinsByElement(element)
+  }
 
   // ==== Other css data
   /**
@@ -93,79 +107,101 @@ let publicApi = {
    * @param styles
    */
   setCustomCss (styles) {
-    assetsStorage.setCustomCss(styles)
+    storage.setCustomCss(styles)
     return this
-  },
+  }
+
   /**
    * Get custom css styles
    * @returns {*}
    */
   getCustomCss () {
-    return assetsStorage.getCustomCss()
-  },
+    return storage.getCustomCss()
+  }
+
   /**
    * Set global css styles
    * @param styles
    */
   setGlobalCss (styles) {
-    assetsStorage.setGlobalCss(styles)
+    storage.setGlobalCss(styles)
     return this
-  },
+  }
+
   /**
    * Get global css styles
    * @returns {*}
    */
   getGlobalCss () {
-    return assetsStorage.getGlobalCss()
-  },
+    return storage.getGlobalCss()
+  }
 
   // ==== Get css data
   getPageCssData () {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getCustomCssData(),
-      assetsStorage.getAttributesMixinsCssData()
+      storage.getCustomCssData(),
+      storage.getAttributesMixinsCssData()
     )
     return styles
-  },
+  }
+
   getSiteCssData (editor = false) {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getElementsCssData(editor),
-      assetsStorage.getColumnsCssData(),
-      assetsStorage.getMixinsCssData(),
-      assetsStorage.getGlobalCssData()
+      storage.getElementsCssData(editor),
+      storage.getColumnsCssData(),
+      storage.getMixinsCssData(),
+      storage.getGlobalCssData()
     )
     return styles
-  },
+  }
+
   getCssDataByElement (element, options = {}) {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getCssDataByElement(element, options)
+      storage.getCssDataByElement(element, options)
     )
     return styles
-  },
+  }
 
   // ==== Get css data for wordpress backend, doesn't include custom and global css
   getWpBackendPageCssData () {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getAttributesMixinsCssData()
+      storage.getAttributesMixinsCssData()
     )
     return styles
-  },
+  }
+
   getWpBackendSiteCssData (editor = false) {
     let styles = []
     styles = styles.concat(
-      assetsStorage.getElementsCssData(editor),
-      assetsStorage.getColumnsCssData(),
-      assetsStorage.getMixinsCssData(),
+      storage.getElementsCssData(editor),
+      storage.getColumnsCssData(),
+      storage.getMixinsCssData(),
     )
     return styles
-  },
+  }
+
   getGoogleFontsData () {
-    return assetsStorage.getGoogleFontsData()
+    return storage.getGoogleFontsData()
+  }
+  getColumnsCssData () {
+    return storage.getColumnsCssData()
+  }
+}
+let singleton = false
+const service = {
+  create (elements = {}) {
+    return new PublicApi(elements = {})
+  },
+  getGlobalInstance () {
+    if (!singleton) {
+      singleton = this.create()
+    }
+    return singleton
   }
 }
 
-vcCake.addService('assetsStorage', publicApi)
+vcCake.addService('assetsStorage', service)

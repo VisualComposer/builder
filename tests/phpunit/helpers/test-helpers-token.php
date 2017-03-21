@@ -10,42 +10,25 @@ class HelpersTokenTest extends WP_UnitTestCase
         $this->assertTrue(is_object($helper), 'Token helper should be an object');
     }
 
-    public function testIsRegisteredAndRegisterSite()
-    {
-        /** @var $helper \VisualComposer\Helpers\Token */
-        $helper = vchelper('Token');
-
-        /** @var $optionsHelper \VisualComposer\Helpers\Options */
-        $optionsHelper = vchelper('Options');
-        delete_option('vcv-site-registered');
-        $this->assertFalse($helper->isRegistered($optionsHelper));
-
-        $body = ['client_id' => 'foo', 'client_secret' => 'bar'];
-        $ret = $helper->registerSite($body, $optionsHelper);
-        $this->assertTrue($ret);
-
-        $this->assertTrue($helper->isRegistered($optionsHelper));
-    }
-
     public function testTokenLifecycle()
     {
         /** @var $helper VisualComposer\Helpers\Token */
         $helper = vchelper('Token');
         /** @var $optionsHelper VisualComposer\Helpers\Options */
         $optionsHelper = vchelper('Options');
-        delete_option('vcv-page-auth-token');
-        delete_option('vcv-page-auth-refresh-token');
+        delete_option('vcv-site-auth-token');
+        delete_option('vcv-site-auth-refresh-token');
         remove_all_filters('pre_http_request');
         add_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest'], 10, 3);
 
-        $this->assertFalse($optionsHelper->get('page-auth-token'));
-        $this->assertFalse($optionsHelper->get('page-auth-refresh-token'));
+        $this->assertFalse($optionsHelper->get('site-auth-token'));
+        $this->assertFalse($optionsHelper->get('site-auth-refresh-token'));
 
         $code = 'test-code';
-        $accessToken = vcapp()->call([$helper, 'generateToken'], [$code]);
+        $accessToken = vcapp()->call([$helper, 'createToken'], [$code]);
         $this->assertEquals('test-access-token-1', $accessToken);
 
-        $this->assertEquals('test-access-token-1', $helper->getToken($optionsHelper));
+        $this->assertEquals('test-access-token-1', $helper->getToken());
 
         remove_filter('pre_http_request', [$this, 'overrideGenerateTokenRequest']);
     }
@@ -62,7 +45,7 @@ class HelpersTokenTest extends WP_UnitTestCase
 
         // Test failed http request.
         // Force token to be expired.
-        $optionsHelper->set('page-auth-token-ttl', '-1');
+        $optionsHelper->set('site-auth-token-ttl', '-1');
 
         add_filter('pre_http_request', '__return_true', 100);
 

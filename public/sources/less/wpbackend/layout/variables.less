@@ -5,8 +5,10 @@
 @vcv-wpbackend-zindex: @vcv-wpbackend-layout-zindex + 100;
 @vcv-wpbackend-content-zindex: @vcv-wpbackend-layout-zindex;
 @vcv-wpbackend-item-preview-zindex: 2011;
-@vcv-wpbackend-layout-header-zindex: 9991; // overrides Wordpress's #adminmenuwrap z-index: 9990
+@vcv-wpbackend-layout-header-zindex: 1130; // overrides Wordpress's #adminmenuwrap z-index: 9990
+@vcv-wpbackend-layout-header-zindex-hover: 9991; // overrides Wordpress's #adminmenuwrap z-index: 9990
 @vcv-wpbackend-control-dropdown-zindex: @vcv-wpbackend-layout-header-zindex + 1;
+@vcv-wpbackend-modal-overlay-zindex: 2010;
 
 //=========================================
 // Fonts and sizes
@@ -15,12 +17,28 @@
 @vcv-wpbackend-element-name-font-size: 14px;
 @vcv-wpbackend-element-header-size: 50px;
 @vcv-wpbackend-element-icon-size: 24px;
+
 @vcv-wpbackend-layout-loading-height: 100px;
 @vcv-wpbackend-layout-row-control-size: 50px;
+
 @vcv-wpbackend-bar-content-box-shadow: rgba(0, 0, 0, 0.3) 1px 0 10px 0;
-@vcv-wpbackend-bar-content-height: 40vh;
 @vcv-wpbackend-bar-content-width: 100%;
+@vcv-wpbackend-bar-content-height: 400px;
 @vcv-wpbackend-bar-content-min-height: 200px;
+@vcv-wpbackend-bar-content-stack-min-height: 300px;
+@vcv-wpbackend-bar-content-stack-unlock-min-height: 100px;
+@vcv-wpbackend-bar-content-start-width: 400px;
+@vcv-wpbackend-bar-content-start-min-width: 200px;
+@vcv-wpbackend-bar-content-start-min-height: @vcv-wpbackend-bar-content-min-height;
+@vcv-wpbackend-bar-content-start-unlock-min-height: 100px;
+@vcv-wpbackend-bar-content-start-stack-height: 300px;
+@vcv-wpbackend-bar-content-start-stack-min-height: 100px;
+@vcv-wpbackend-bar-content-end-min-height: 200px;
+
+@vcv-wpbackend-select-font-size: 14px;
+
+@vcv-wpbackend-editor-search-container-width: 220px;
+@vcv-wpbackend-editor-search-field-width: 30px;
 
 //=========================================
 // Color names and values
@@ -45,19 +63,33 @@
 
 @vcv-wpbackend-container-margin-bottom: 10px;
 @vcv-wpbackend-layout-padding: 45px 10px;
+
 @vcv-wpbackend-element-header-after-margin-right: 9px;
-@vcv-wpbackend-element-header-padding: 5px 18px 5px 5px;
-@vcv-wpbackend-element-header-icon-only-padding: 5px;
+@vcv-wpbackend-element-header-padding: 0 5px;
 @vcv-wpbackend-element-header-icon-width: 24px;
-@vcv-wpbackend-element-attributes-padding: 14px 0 14px 14px;
-@vcv-wpbackend-element-block-attribute-padding: 14px;
+
+@vcv-wpbackend-attributes-group-padding: 10px 14px;
+@vcv-wpbackend-attributes-content-margin-right: 14px;
+@vcv-wpbackend-attributes-content-line-height: 2;
+
 @vcv-wpbackend-element-name-wrapper-margin: 0 0 0 5px;
+
 @vcv-wpbackend-form-input-padding: 8px 14px;
 @vcv-wpbackend-form-input-line-height: 1.5;
+
 @vcv-wpbackend-row-side-margin: -5px;
+@vcv-wpbackend-row-inner-top-margin: 45px;
+
 @vcv-wpbackend-column-content-side-padding: 5px;
+
 @vcv-wpbackend-layout-row-control-container-padding: 0;
 @vcv-wpbackend-layout-row-control-container-margin: -5px;
+
+@vcv-wpbackend-layout-top-space-margin: 10px;
+
+@vcv-wpbackend-layout-element-name-flex: 500 1 53px;
+@vcv-wpbackend-layout-element-arrow-flex: 0 0 8px;
+@vcv-wpbackend-layout-element-arrow-margin-right: 5px;
 
 //=========================================
 // Backgrounds and urls
