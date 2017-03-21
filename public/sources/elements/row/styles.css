@@ -117,16 +117,9 @@
   padding-left: 0;
   padding-right: 0;
 }
-.vce-row-direction--reverse > .vce-row-content,
-.rtl .vce-row > .vce-row-content,
-.rtl.vce-row > .vce-row-content {
+.vce-row-direction--reverse > .vce-row-content {
   flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
-}
-.rtl .vce-row.vce-row-direction--reverse > .vce-row-content,
-.rtl.vce-row.vce-row-direction--reverse > .vce-row-content {
-  flex-direction: row;
-  flex-wrap: wrap;
 }
 .vce-row-wrap--reverse > .vce-row-content {
   flex-wrap: wrap-reverse;
