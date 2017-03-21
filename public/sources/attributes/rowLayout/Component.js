@@ -121,6 +121,8 @@ class Layout extends Attribute {
           if (device === 'xs') {
             mixinName = `${'columnStyleMixin'}:col1:xs`
           }
+          // put index in the beginning of key to sort columns
+          mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
 
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
           newMixin[ mixinName ].variables.selector.value = selector

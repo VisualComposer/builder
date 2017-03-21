@@ -434,16 +434,25 @@ export default class {
    */
   getAttributesMixinsCssData () {
     let styles = []
+    let foundMixins = {}
     for (let id in this.elements) {
       let attributeMixins = this.elements[ id ].attributesMixins
       if (attributeMixins) {
         Object.keys(attributeMixins).forEach((tag) => {
           Object.keys(attributeMixins[ tag ]).forEach((attribute) => {
-            styles.push(attributeMixins[ tag ][ attribute ])
+            // generate mixin key
+            let keyData = [ tag, attribute, attributeMixins[ tag ][ attribute ].variables.selector ]
+            // put data by key in found mixins
+            foundMixins[ keyData.join('::') ] = attributeMixins[ tag ][ attribute ]
           })
         })
       }
     }
+    // sort found mixins by key and put them in to styles
+    let sortedKeys = Object.keys(foundMixins).sort()
+    sortedKeys.forEach((key) => {
+      styles.push(foundMixins[ key ])
+    })
     return styles
   }
 
