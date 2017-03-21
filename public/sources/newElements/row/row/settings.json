@@ -1,34 +1,4 @@
 {
-  "name": {
-    "type": "string",
-    "access": "protected",
-    "value": "Row"
-  },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "preview-row-column.jpg"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "thumbnail-row-column.png"
-  },
   "customClass": {
     "type": "string",
     "access": "public",
