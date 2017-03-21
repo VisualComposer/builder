@@ -88,7 +88,7 @@ export default class ControlsHandler {
    */
   buildControls (data, rebuild = false) {
     let elements = data.vcElementsPath
-    let layoutPos = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect()
+    let iframeRect = this.iframe.getBoundingClientRect()
 
     // create controls container
     let controlsList = document.createElement('nav')
@@ -106,10 +106,10 @@ export default class ControlsHandler {
           controlsList.insertBefore(delimiter, controlsList.children[0])
         }
       } else {
-        const controlsPos = controlsList.getBoundingClientRect()
-        const controlWidth = (controlsPos.width - 2) / (controlsList.children.length / 2)
-        const isWider = layoutPos.width - controlsPos.width < controlWidth * 2
-        const isToTheLeft = layoutPos.left > controlsPos.left - controlWidth * 2
+        const controlsRect = controlsList.getBoundingClientRect()
+        const controlWidth = (controlsRect.width - 2) / (controlsList.children.length / 2)
+        const isWider = iframeRect.width - controlsRect.width < controlWidth * 2
+        const isToTheLeft = controlsRect.left - controlWidth * 2 < iframeRect.left
         if (isWider || rebuild && isToTheLeft) {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
@@ -440,9 +440,9 @@ export default class ControlsHandler {
     this.controlsContainer.style.top = posTop + 'px'
     this.controlsContainer.style.left = posLeft + 'px'
     this.controlsContainer.style.width = elementPos.width + 'px'
-    const layoutPos = this.iframe.contentDocument.getElementById('vcv-editor').getBoundingClientRect()
-    const controlsPos = controls.getBoundingClientRect()
-    if (!this.state.containerTimeout && layoutPos.left > controlsPos.left) {
+    const iframeRect = this.iframe.getBoundingClientRect()
+    const controlsRect = controls.getBoundingClientRect()
+    if (!this.state.containerTimeout && iframeRect.left > controlsRect.left) {
       this.destroyControls()
       this.buildControls(data, true)
     }
