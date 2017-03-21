@@ -9,7 +9,6 @@ class Component extends vcvAPI.elementComponent {
     let classes = [ 'vce-row' ]
 
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
-    classes.push('vce-row-layout-custom')
     classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
     if (layout && layout.reverseColumn) {
       classes.push('vce-row-direction--reverse')
