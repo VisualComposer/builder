@@ -83,9 +83,11 @@
 .vce-row-columns--stretch > .vce-row-content > .vce-col > .vce-col-inner {
   align-items: stretch;
 }
-.vce-row[data-vce-stretch-content="true"] {
+.vce-row[data-vce-full-width="true"] {
   position: relative;
   box-sizing: border-box;
+}
+.vce-row[data-vce-stretch-content="true"] {
   padding-left: 15px;
   padding-right: 15px;
 }
