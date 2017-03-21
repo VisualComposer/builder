@@ -534,16 +534,12 @@ export default class {
    */
   getAttributesMixinsCssData () {
     let styles = []
-    let allMixinNames = []
     for (let id in this.elements) {
       let attributeMixins = this.elements[ id ].attributesMixins
       if (attributeMixins) {
         Object.keys(attributeMixins).forEach((tag) => {
           Object.keys(attributeMixins[ tag ]).forEach((attribute) => {
-            if (allMixinNames.indexOf(attribute) < 0) {
-              allMixinNames.push(attribute)
-              styles.push(attributeMixins[ tag ][ attribute ])
-            }
+            styles.push(attributeMixins[ tag ][ attribute ])
           })
         })
       }
