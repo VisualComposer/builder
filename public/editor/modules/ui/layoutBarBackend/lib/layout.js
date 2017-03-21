@@ -11,6 +11,8 @@ export default class LayoutBar extends React.Component {
 
   layoutHeader = this.props.layout.querySelector('.vcv-layout-header')
   layoutBar = null
+  scrollInterval = 0
+  didScroll = false
 
   constructor (props) {
     super(props)
@@ -24,6 +26,7 @@ export default class LayoutBar extends React.Component {
       adminBar: document.getElementById('wpadminbar')
     }
     this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
+    this.handleWindowScroll = this.handleWindowScroll.bind(this)
   }
 
   componentDidMount () {
@@ -48,7 +51,12 @@ export default class LayoutBar extends React.Component {
           hasEndContent: false
         })
       })
-    window.addEventListener('scroll', this.handleNavbarPosition)
+    this.scrollInterval = setInterval(() => {
+      if (this.didScroll) {
+        this.didScroll = false
+      }
+    }, 150)
+    window.addEventListener('scroll', this.handleWindowScroll)
     this.addResizeListener(this.props.layout, this.handleNavbarPosition)
   }
 
@@ -57,8 +65,15 @@ export default class LayoutBar extends React.Component {
   }
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', this.handleNavbarPosition)
+    window.clearInterval(this.scrollInterval)
+    this.scrollInterval = 0
+    window.removeEventListener('scroll', this.handleWindowScroll)
     this.removeResizeListener(this.props.layout, this.handleNavbarPosition)
+  }
+
+  handleWindowScroll () {
+    this.didScroll = true
+    this.handleNavbarPosition()
   }
 
   resizeCallback = (e) => {
