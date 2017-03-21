@@ -2,6 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import BlankPageManagerFront from './helpers/BlankPageManagerFront/component'
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -16,22 +17,11 @@ export default class LayoutEditor extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply(
-      'data:changed',
-      (data) => {
-        this.setState({ data: data }, () => {
-          this.props.api.request('data:editor:render')
-        })
-      }
-    )
-    if (vcCake.env('FEATURE_WORKSPACE_WITH_STORAGE')) {
-      const content = vcCake.getStorage('elements')
-      content.state('document').onChange((data) => {
-        this.setState({ data: data }, () => {
-          // content.trigger('data:editor:render')
-        })
+    elementsStorage.state('document').onChange((data) => {
+      this.setState({ data: data }, () => {
+        // content.trigger('data:editor:render')
       })
-    }
+    })
   }
 
   getContent () {

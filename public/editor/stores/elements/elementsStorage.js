@@ -7,7 +7,8 @@ addStorage('elements', (storage) => {
   const assets = getStorage('assets')
   const historyStorage = getStorage('history')
 
-  const updateTimemachine = () => {
+  const updateTimeMachine = () => {
+    historyStorage.trigger('add', documentManager.all())
     // timeMachineStorage.update(documentManager.all())
     // timeMachine.add(documentManager.all())
     // storage.state('undo').set(true)
@@ -35,7 +36,7 @@ addStorage('elements', (storage) => {
       }
     }
     storage.state('document').set(documentManager.children(false))
-    updateTimemachine()
+    updateTimeMachine()
   })
   storage.on('update', (id, element) => {
     if (env('FEATURE_CUSTOM_ROW_LAYOUT')) {
@@ -74,7 +75,7 @@ addStorage('elements', (storage) => {
     documentManager.update(id, element)
     storage.state('element:' + id).set(element)
     assets.trigger('updateElement', id)
-    updateTimemachine()
+    updateTimeMachine()
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
@@ -89,7 +90,7 @@ addStorage('elements', (storage) => {
     } else {
       storage.state('document').set(documentManager.children(false))
     }
-    updateTimemachine()
+    updateTimeMachine()
   })
   storage.on('clone', (id) => {
     let dolly = documentManager.clone(id)
@@ -107,15 +108,19 @@ addStorage('elements', (storage) => {
     storage.state('document').set(documentManager.children(false))
   })
   // Need to rewrite
-  storage.state('document').onChange(() => {
+  storage.state('document').onChange((data, test) => {
     // Maybe we can move it the top of the structure.
-    updateTimemachine()
+    // updateTimeMachine()
     // storage.state('redo').set(true)
+  })
+  storage.on('updateAll', (data) => {
+    documentManager.reset(data || {})
+    storage.state('document').set(documentManager.children(false))
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})
-    storage.state('document').set(documentManager.children(false))
     historyStorage.trigger('init', 'elements', data)
+    storage.state('document').set(documentManager.children(false))
   })
   /*
   Undo

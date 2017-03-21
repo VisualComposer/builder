@@ -1,6 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
-const elementsStorage = vcCake.getStorage('elements')
+const historyStorage = vcCake.getStorage('history')
 
 export default class UndoRedoControl extends React.Component {
   constructor (props) {
@@ -9,30 +9,39 @@ export default class UndoRedoControl extends React.Component {
       undoDisabled: true,
       redoDisabled: true
     }
+    this.checkUndoState = this.checkUndoState.bind(this)
+    this.checkRedoState = this.checkRedoState.bind(this)
   }
 
   componentWillMount () {
-    elementsStorage.state('document').onChange(this.checkControls)
     this.checkControls()
+    historyStorage.state('canRedo').onChange(this.checkRedoState)
+    historyStorage.state('canUndo').onChange(this.checkUndoState)
   }
-
   componentWillUnmount () {
-    elementsStorage.state('document').ignoreChange(this.checkControls)
+    historyStorage.state('canRedo').ignoreChange(this.checkRedoState)
+    historyStorage.state('canUndo').ignoreChange(this.checkUndoState)
   }
-
-  checkControls = () => {
+  checkUndoState (value) {
     this.setState({
-      redoDisabled: !elementsStorage.state('redo').get(),
-      undoDisabled: !elementsStorage.state('undo').get()
+      undoDisabled: !value
     })
   }
-
+  checkRedoState (value) {
+    this.setState({
+      redoDisabled: !value
+    })
+  }
+  checkControls () {
+    this.checkRedoState(historyStorage.state('canRedo').get())
+    this.checkUndoState(historyStorage.state('canUndo').get())
+  }
   handleUndo = () => {
-    elementsStorage.trigger('undo')
+    historyStorage.trigger('undo')
   }
 
   handleRedo = () => {
-    elementsStorage.trigger('redo')
+    historyStorage.trigger('redo')
   }
 
   render () {
