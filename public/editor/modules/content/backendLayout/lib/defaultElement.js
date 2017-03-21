@@ -68,9 +68,8 @@ export default class DefaultElement extends React.Component {
   }
 
   handleElementSize () {
-    let header = this.getElementData('.vce-wpbackend-element-header-container')
-    let { attributeState } = this.state
-    if (attributeState === 'opened') {
+    if (this.state.attributeState === 'opened') {
+      const header = this.getElementData('.vce-wpbackend-element-header-container')
       header.width < 100 ? this.setState({ activeElement: false }) : this.setState({ activeElement: true })
     }
   }
