@@ -189,11 +189,18 @@
   }
 }
 
-.vce-row-direction--reverse .vce-row-content{
+.vce-row-direction--reverse > .vce-row-content,
+.rtl .vce-row > .vce-row-content,
+.rtl.vce-row > .vce-row-content {
   flex-direction: row-reverse;
   flex-wrap: wrap-reverse;
 }
-.vce-row-wrap--reverse .vce-row-content{
+.rtl .vce-row.vce-row-direction--reverse > .vce-row-content,
+.rtl.vce-row.vce-row-direction--reverse > .vce-row-content {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.vce-row-wrap--reverse > .vce-row-content {
   flex-wrap: wrap-reverse;
 }
 //== DO behaviour
