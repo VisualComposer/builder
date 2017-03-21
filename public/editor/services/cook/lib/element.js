@@ -15,6 +15,11 @@ class CookElement {
     let { id = createKey(), parent = false, tag, order, ...attr } = data
     attr.tag = tag
     attr.id = id
+    let element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
+    if (!element) {
+      throw new Error('Element: ' + tag + ' doesn`t exists in HUB')
+    }
+    let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
     // Split on separate symbols
     Object.defineProperty(this, elData, {
@@ -24,6 +29,10 @@ class CookElement {
         tag: tag,
         parent: parent,
         data: attr,
+        name: metaSettings.name,
+        metaThumbnailUrl: metaSettings.metaThumbnailUrl,
+        metaPreviewUrl: metaSettings.metaPreviewUrl,
+        metaDescription: metaSettings.metaDescription,
         order: order,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
@@ -92,6 +101,11 @@ class CookElement {
       }
     }
     data.id = this[ elData ].id
+    data.tag = this[ elData ].tag
+    data.name = this[ elData ].name
+    data.metaThumbnailUrl = this[ elData ].metaThumbnailUrl
+    data.metaPreviewUrl = this[ elData ].metaPreviewUrl
+    data.metaDescription = this[ elData ].metaDescription
     if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent
     }
