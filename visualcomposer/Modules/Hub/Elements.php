@@ -48,9 +48,33 @@ class Elements extends Container implements Module
         $optionHelper->set(
             'hubElements',
             [
-                'row' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
-                'column' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
-                'textBlock' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
+                'row' => [
+                    'path' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Row',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
+                'column' => [
+                    'path' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Column',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
+                'textBlock' => [
+                    'path' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Text Block',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }

@@ -1,34 +1,4 @@
 {
-  "name": {
-    "type": "string",
-    "access": "protected",
-    "value": "Text block"
-  },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Short intro"
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor."
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "preview-text-block.jpg"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "thumbnail-text-block.png"
-  },
   "output": {
     "type": "htmleditor",
     "access": "public",
