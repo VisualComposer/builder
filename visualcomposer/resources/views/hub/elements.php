@@ -12,8 +12,8 @@
   });
 </script>
 <?php
-foreach ($elements as $key => $url):
+foreach ($elements as $key => $element):
     ?>
-    <script id="vcv-hub-element-<?php echo $key; ?>" src="<?php echo $url; ?>"></script>
+    <script id="vcv-hub-element-<?php echo $key; ?>" src="<?php echo $element['path']; ?>"></script>
     <?php
 endforeach;
