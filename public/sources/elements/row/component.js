@@ -8,13 +8,11 @@ class Component extends vcvAPI.elementComponent {
 
     let classes = [ 'vce-row' ]
 
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      classes.push(this.getBackgroundClass(designOptionsAdvanced))
-      classes.push('vce-row-layout-custom')
-      classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
-      if (layout && layout.reverseColumn) {
-        classes.push('vce-row-direction--reverse')
-      }
+    classes.push(this.getBackgroundClass(designOptionsAdvanced))
+    classes.push('vce-row-layout-custom')
+    classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
+    if (layout && layout.reverseColumn) {
+      classes.push('vce-row-direction--reverse')
     }
     let customProps = {
       style: {}
@@ -26,15 +24,6 @@ class Component extends vcvAPI.elementComponent {
     const classNames = require('classnames')
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
-    }
-
-    if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      if (parseInt(columnGap)) {
-        let mixinData = this.getMixinData('columnGap')
-        if (mixinData) {
-          classes.push(`vce-row--gap-${mixinData.selector}`)
-        }
-      }
     }
 
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {

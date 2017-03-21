@@ -14,22 +14,17 @@ class Component extends vcvAPI.elementComponent {
     let innerProps = {}
     let classes = []
 
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      classes = [ 'vce-col' ]
-      classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
-      classes.push('vce-col--xs-1')
-      classes.push(this.getBackgroundClass(designOptionsAdvanced))
+    classes = [ 'vce-col' ]
+    classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+    classes.push('vce-col--xs-1')
+    classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
-      if (lastInRow) {
-        classes.push('vce-col--last')
-      }
+    if (lastInRow) {
+      classes.push('vce-col--last')
+    }
 
-      if (firstInRow) {
-        classes.push('vce-col--first')
-      }
-    } else {
-      classes = [ 'vce-col', 'vce-col--xs-1' ]
-      classes.push('vce-col--sm-' + (size ? size.replace('/', '-') : 'auto'))
+    if (firstInRow) {
+      classes.push('vce-col--first')
     }
 
 // reverse classes.push('vce-row-wrap--reverse')

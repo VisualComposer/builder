@@ -150,7 +150,6 @@ class PublicApi {
     let styles = []
     styles = styles.concat(
       storage.getElementsCssData(editor),
-      storage.getColumnsCssData(),
       storage.getMixinsCssData(),
       storage.getGlobalCssData()
     )
@@ -178,7 +177,6 @@ class PublicApi {
     let styles = []
     styles = styles.concat(
       storage.getElementsCssData(editor),
-      storage.getColumnsCssData(),
       storage.getMixinsCssData(),
     )
     return styles

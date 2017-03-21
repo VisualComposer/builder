@@ -165,18 +165,10 @@ vcCake.add('storage', (api) => {
   })
 
   api.reply('data:update', (id, element) => {
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
-        rebuildRawLayout(id, element.layout.layoutData)
-        element.layout.layoutData = undefined
-      }
-    } else {
-      if (element.tag === 'row' && element.layout && element.layout.length) {
-        rebuildRawLayout(id, element.layout)
-        element.layout = undefined
-      }
+    if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
+      rebuildRawLayout(id, element.layout.layoutData)
+      element.layout.layoutData = undefined
     }
-
     DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update', id)
