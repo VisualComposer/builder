@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, env } from 'vc-cake'
+import { getService, setData, getData } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -373,7 +373,7 @@ export default class DnD {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
-    if (env('FEATURE_CUSTOM_ROW_LAYOUT') && this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (!this.dragStartHandled) {

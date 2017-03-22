@@ -43,7 +43,7 @@ export const predefinedTemplates = [
       },
       "00528e72": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -99,7 +99,7 @@ export const predefinedTemplates = [
       },
       "b4e00f1d": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -365,7 +365,7 @@ export const predefinedTemplates = [
       },
       "2dd91900": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -1361,7 +1361,7 @@ export const predefinedTemplates = [
       },
       "f5e195ee": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -1416,7 +1416,7 @@ export const predefinedTemplates = [
       },
       "6b62c553": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -1489,7 +1489,7 @@ export const predefinedTemplates = [
     "data": {
       "20969554": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [
@@ -2341,7 +2341,7 @@ export const predefinedTemplates = [
       },
       "62a88cc7": {
         "designOptionsAdvanced": [],
-        "columnGap": "0",
+        "columnGap": "30",
         "contentPosition": "top",
         "metaPreview": "preview-row-column.jpg",
         "relatedTo": [

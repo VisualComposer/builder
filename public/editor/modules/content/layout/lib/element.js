@@ -39,12 +39,10 @@ export default class Element extends React.Component {
     let elementsList = []
     DocumentData.children(currentElement.get('id')).map((childElement) => {
       elementsList.push(<Element element={childElement} key={childElement.id} api={this.props.api} />)
-      if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-        if (childElement.tag === 'column') {
-          elementsList.push(
-            <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
-          )
-        }
+      if (childElement.tag === 'column') {
+        elementsList.push(
+          <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
+        )
       }
     })
     return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />

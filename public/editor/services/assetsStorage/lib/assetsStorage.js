@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import CustomCss from './customCss'
 import GlobalCss from './globalCss'
-import rowColumn from './rowColumn'
 
 const customCss = new CustomCss()
 const globalCss = new GlobalCss()
@@ -129,21 +128,6 @@ export default class {
         this.elements[ id ] = {
           tags: tags
         }
-        // get columns data
-        let columnSizes = this.getColumnSizesByElement(element)
-        if (columnSizes) {
-          this.elements[ id ][ 'columnSizes' ] = columnSizes
-        }
-        if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-          let columnGap = this.getRowGapByElement(element)
-          if (columnGap) {
-            this.elements[ id ][ 'columnGap' ] = columnGap
-          }
-          let rowLayout = this.getRowLayoutByElement(element)
-          if (rowLayout) {
-            this.elements[ id ][ 'rowLayout' ] = rowLayout
-          }
-        }
         // get mixins data
         let cssMixins = this.getCssMixinsByElement(element, {})
         if (Object.keys(cssMixins).length) {
@@ -161,21 +145,6 @@ export default class {
         }
       }
     })
-
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      for (let elementId in this.elements) {
-        if (this.get(elementId) || force) {
-          let documentService = vcCake.getService('document')
-          let element = documentService.get(elementId)
-          if (element) {
-            let backgroundData = this.getBackgroundByElement(element)
-            if (backgroundData && backgroundData.id && backgroundData.background && this.elements[ backgroundData.id ]) {
-              this.elements[ backgroundData.id ][ 'background' ] = backgroundData.background
-            }
-          }
-        }
-      }
-    }
   }
 
   /**
@@ -223,75 +192,6 @@ export default class {
       tags[ tag ] = true
     }
     return tags
-  }
-
-  /**
-   * Get column sizes
-   * @param element
-   */
-  getColumnSizesByElement (element) {
-    let settings = this.cook().get(element).get('settings')
-    let value = settings.relatedTo ? settings.relatedTo.value : []
-    let isColumn = value.filter((item) => {
-      return item.toLowerCase() === 'column'
-    })
-
-    let sizes = null
-    if (isColumn.length && element.size) {
-      sizes = [ element.size ]
-    }
-    return sizes
-  }
-
-  getRowLayoutByElement (element) {
-    let settings = this.cook().get(element).get('settings')
-    let value = settings.relatedTo ? settings.relatedTo.value : []
-    let isRow = value.filter((item) => {
-      return item.toLowerCase() === 'general'
-    })
-
-    let layout = null
-    if (isRow.length && element.rowLayout) {
-      layout = element.rowLayout
-    }
-    return layout
-  }
-
-  getRowGapByElement (element) {
-    let settings = this.cook().get(element).get('settings')
-    let value = settings.relatedTo ? settings.relatedTo.value : []
-    let isRow = value.filter((item) => {
-      return item.toLowerCase() === 'general'
-    })
-
-    let gap = null
-    if (isRow.length && element.columnGap) {
-      gap = element.columnGap
-    }
-    return gap
-  }
-
-  getBackgroundByElement (element) {
-    let cookElement = this.cook().get(element)
-    let settings = cookElement.get('settings')
-    let value = settings.relatedTo ? settings.relatedTo.value : []
-    let data = {}
-    let isColumn = value.filter((item) => {
-      return item.toLowerCase() === 'column'
-    })
-    let isRow = value.filter((item) => {
-      return item.toLowerCase() === 'rootelements'
-    })
-    if (isColumn.length) {
-      data.id = element.parent
-    }
-    if (isRow.length) {
-      data.id = element.id
-    }
-    if (data.id && documentService.get(data.id)) {
-      data.background = documentService.get(data.id).background
-    }
-    return data
   }
 
   /**
@@ -534,16 +434,25 @@ export default class {
    */
   getAttributesMixinsCssData () {
     let styles = []
+    let foundMixins = {}
     for (let id in this.elements) {
       let attributeMixins = this.elements[ id ].attributesMixins
       if (attributeMixins) {
         Object.keys(attributeMixins).forEach((tag) => {
           Object.keys(attributeMixins[ tag ]).forEach((attribute) => {
-            styles.push(attributeMixins[ tag ][ attribute ])
+            // generate mixin key
+            let keyData = [ tag, attribute, attributeMixins[ tag ][ attribute ].variables.selector ]
+            // put data by key in found mixins
+            foundMixins[ keyData.join('::') ] = attributeMixins[ tag ][ attribute ]
           })
         })
       }
     }
+    // sort found mixins by key and put them in to styles
+    let sortedKeys = Object.keys(foundMixins).sort()
+    sortedKeys.forEach((key) => {
+      styles.push(foundMixins[ key ])
+    })
     return styles
   }
 
@@ -649,39 +558,6 @@ export default class {
       })
     }
     return styles
-  }
-
-  /**
-   * get compiled columns
-   * @returns {Array}
-   */
-  getColumnsCssData () {
-    let devices = rowColumn.getDevices()
-    let viewPortBreakpoints = {}
-    for (let device in devices) {
-      if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-        let sizes = []
-        if (devices[ device ].min) {
-          sizes.push('(min-width: ' + devices[ device ].min + ')')
-        }
-        if (devices[ device ].max) {
-          sizes.push('(max-width: ' + devices[ device ].max + ')')
-        }
-        viewPortBreakpoints[ '--' + device ] = sizes.join(' and ')
-      } else {
-        viewPortBreakpoints[ '--' + device ] = '(min-width: ' + devices[ device ].min + ')'
-      }
-    }
-    let outputCss = []
-    let columnCssData = rowColumn.getCss(rowColumn.getColumnsByElements(this.get()))
-    if (columnCssData) {
-      outputCss.push({
-        viewports: viewPortBreakpoints,
-        src: columnCssData
-      })
-    }
-
-    return outputCss
   }
 }
 

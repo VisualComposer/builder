@@ -121,6 +121,8 @@ class Layout extends Attribute {
           if (device === 'xs') {
             mixinName = `${'columnStyleMixin'}:col1:xs`
           }
+          // put index in the beginning of key to sort columns
+          mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
 
           newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
           newMixin[ mixinName ].variables.selector.value = selector
@@ -160,30 +162,17 @@ class Layout extends Attribute {
   }
 
   updateState (props) {
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
-        ? props.value.layoutData
-        : vcCake.getService('document').children(props.element.get('id'))
-          .map((element) => {
-            return element.size || 'auto'
-          })
-      let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
-      return {
-        value: {
-          layoutData: layout,
-          reverseColumn: reverseColumnState
-        }
-      }
-    } else {
-      let layout = props.value instanceof Array && props.value.length
-        ? props.value
-        : vcCake.getService('document').children(props.element.get('id'))
-          .map((element) => {
-            return element.size || 'auto'
-          })
-
-      return {
-        value: layout
+    let layout = props.value && props.value.layoutData instanceof Array && props.value.layoutData.length
+      ? props.value.layoutData
+      : vcCake.getService('document').children(props.element.get('id'))
+        .map((element) => {
+          return element.size || 'auto'
+        })
+    let reverseColumnState = props.value && props.value.reverseColumn ? props.value.reverseColumn : false
+    return {
+      value: {
+        layoutData: layout,
+        reverseColumn: reverseColumnState
       }
     }
   }
@@ -194,22 +183,17 @@ class Layout extends Attribute {
 
   setFieldValue (value, reverseColumn) {
     let { updater, fieldKey } = this.props
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
-      updater(fieldKey, {
-        layoutData: this.sanitizeLayout(value),
+    let reverseColumnState = reverseColumn !== undefined ? reverseColumn : this.state.value.reverseColumn
+    updater(fieldKey, {
+      layoutData: this.sanitizeLayout(value),
+      reverseColumn: reverseColumnState
+    })
+    this.setState({
+      value: {
+        layoutData: value,
         reverseColumn: reverseColumnState
-      })
-      this.setState({
-        value: {
-          layoutData: value,
-          reverseColumn: reverseColumnState
-        }
-      })
-    } else {
-      updater(fieldKey, this.sanitizeLayout(value))
-      this.setState({ value: value })
-    }
+      }
+    })
   }
 
   sanitizeLayout (value) {
@@ -232,22 +216,16 @@ class Layout extends Attribute {
       return numerator <= denominator
     }
 
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      let percentageRegex = /^(\d+)([,.]\d+)?%/
-      if (percentageRegex.test(text)) {
-        // test if percentage is more than 1 and less than 100
-        let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
-        return percentage >= 1 && percentage <= 100
-      }
+    let percentageRegex = /^(\d+)([,.]\d+)?%/
+    if (percentageRegex.test(text)) {
+      // test if percentage is more than 1 and less than 100
+      let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
+      return percentage >= 1 && percentage <= 100
     }
     return false
   }
 
   getReverseToggle () {
-    if (!vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      return null
-    }
-
     return (
       <div className='vcv-ui-form-layout-reverse-column-toggle'>
         <Toggle
@@ -267,11 +245,7 @@ class Layout extends Attribute {
 
   render () {
     let value = ''
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      value = this.state.value.layoutData
-    } else {
-      value = this.state.value
-    }
+    value = this.state.value.layoutData
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
