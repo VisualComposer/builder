@@ -151,15 +151,6 @@ export default class LayoutBar extends React.Component {
         barWidth: layoutRect.width
       })
     }
-    // user scroll up, stick navbar to top, after stick to layout bottom
-    if (layoutRect.bottom > adminBarHeight + bar.height && isStickyBottom) {
-      this.setState({
-        isStickyBottom: false,
-        barLeftPos: layoutRect.left,
-        barTopPos: adminBarHeight,
-        barWidth: layoutRect.width
-      })
-    }
     // user scroll down, stick navbar above visible layout area
     if (layoutRect.bottom < adminBarHeight && !isStickyAboveTop) {
       this.setState({
@@ -175,6 +166,15 @@ export default class LayoutBar extends React.Component {
         isStickyAboveTop: false,
         barLeftPos: layoutRect.left,
         barTopPos: layoutRect.bottom - bar.height,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll up, stick navbar to top, after stick to layout bottom
+    if (layoutRect.bottom > adminBarHeight + bar.height && isStickyBottom) {
+      this.setState({
+        isStickyBottom: false,
+        barLeftPos: layoutRect.left,
+        barTopPos: adminBarHeight,
         barWidth: layoutRect.width
       })
     }
