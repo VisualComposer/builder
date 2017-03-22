@@ -84,6 +84,15 @@ class Elements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'singleImage' => [
+                    'path' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Single Image',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }
