@@ -11,8 +11,6 @@ export default class LayoutBar extends React.Component {
 
   layoutHeader = this.props.layout.querySelector('.vcv-layout-header')
   layoutBar = null
-  scrollInterval = 0
-  didScroll = false
 
   constructor (props) {
     super(props)
@@ -20,6 +18,8 @@ export default class LayoutBar extends React.Component {
       hasStartContent: false,
       hasEndContent: false,
       isSticky: false,
+      isStickyBottom: false,
+      isStickyAboveTop: false,
       barLeftPos: 0,
       barTopPos: 0,
       barWidth: 0,
@@ -27,6 +27,7 @@ export default class LayoutBar extends React.Component {
     }
     this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
+    this.handleLayoutResize = this.handleLayoutResize.bind(this)
   }
 
   componentDidMount () {
@@ -51,13 +52,8 @@ export default class LayoutBar extends React.Component {
           hasEndContent: false
         })
       })
-    this.scrollInterval = setInterval(() => {
-      if (this.didScroll) {
-        this.didScroll = false
-      }
-    }, 150)
     window.addEventListener('scroll', this.handleWindowScroll)
-    this.addResizeListener(this.props.layout, this.handleNavbarPosition)
+    this.addResizeListener(this.props.layout, this.handleLayoutResize)
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -65,25 +61,21 @@ export default class LayoutBar extends React.Component {
   }
 
   componentWillUnmount () {
-    window.clearInterval(this.scrollInterval)
-    this.scrollInterval = 0
     window.removeEventListener('scroll', this.handleWindowScroll)
-    this.removeResizeListener(this.props.layout, this.handleNavbarPosition)
+    this.removeResizeListener(this.props.layout, this.handleLayoutResize)
   }
 
   handleWindowScroll () {
-    this.didScroll = true
     this.handleNavbarPosition()
   }
 
-  resizeCallback = (e) => {
-    if (e && e.direction) {
-      if (e.direction === 'top') {
-        this.props.api.request('navbar:resizeTop', e.offsetY)
-      } else if (e.direction === 'left') {
-        this.props.api.request('navbar:resizeLeft', e.offsetX)
-      }
-    }
+  handleLayoutResize () {
+    this.setState({
+      isSticky: false,
+      isStickyBottom: false,
+      isStickyAboveTop: false
+    })
+    this.handleNavbarPosition()
   }
 
   addResizeListener (element, fn) {
@@ -127,48 +119,64 @@ export default class LayoutBar extends React.Component {
    *  Set navbar position relative to layout, always within layout borders
    */
   handleNavbarPosition () {
-    let { isSticky, adminBar } = this.state
-    let layoutPos = this.props.layout.getBoundingClientRect()
+    let { isSticky, isStickyBottom, isStickyAboveTop, adminBar } = this.state
+    let layoutRect = this.props.layout.getBoundingClientRect()
     let bar = this.layoutBar.getBoundingClientRect()
     let adminBarPos = window.getComputedStyle(adminBar).position
     let adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
-    // sticky navbar is below layout bottom position
-    if (layoutPos.bottom < adminBarHeight + bar.height && isSticky) {
-      this.setState({
-        barLeftPos: layoutPos.left,
-        barTopPos: layoutPos.bottom - bar.height,
-        barWidth: layoutPos.width
-      })
-    }
-    // sticky navbar is above layout bottom position
-    if (layoutPos.bottom > adminBarHeight + bar.height && layoutPos.top < adminBarHeight && isSticky) {
-      this.setState({
-        barLeftPos: layoutPos.left,
-        barTopPos: adminBarHeight,
-        barWidth: layoutPos.width
-      })
-    }
-    // navbar is below layout top position, navbar becomes sticky
-    if (layoutPos.top < adminBarHeight && !isSticky) {
+    // user scroll down, navbar becomes sticky
+    if (layoutRect.top < adminBarHeight && !isSticky) {
       this.layoutHeader.style.height = `${bar.height}px`
       this.setState({
         isSticky: true,
-        barLeftPos: layoutPos.left,
+        barLeftPos: layoutRect.left,
         barTopPos: adminBarHeight,
-        barWidth: layoutPos.width
+        barWidth: layoutRect.width
       })
     }
-    // navbar is above layout top position, navbar gets initial position
-    if (layoutPos.top > adminBarHeight && isSticky) {
+    // user scroll up, navbar gets initial position
+    if (layoutRect.top > adminBarHeight && isSticky) {
       this.setState({
         isSticky: false,
-        barWidth: layoutPos.width
+        barWidth: layoutRect.width
       })
       this.layoutHeader.removeAttribute('style')
     }
-    // set layout width value
-    if (layoutPos.top > adminBarHeight && !isSticky) {
-      this.setState({ barWidth: layoutPos.width })
+    // user scroll down, stick navbar to bottom of layout
+    if (layoutRect.bottom < adminBarHeight + bar.height && !isStickyAboveTop) {
+      this.setState({
+        isStickyBottom: true,
+        barLeftPos: layoutRect.left,
+        barTopPos: layoutRect.bottom - bar.height,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll up, stick navbar to top, after stick to layout bottom
+    if (layoutRect.bottom > adminBarHeight + bar.height && isStickyBottom) {
+      this.setState({
+        isStickyBottom: false,
+        barLeftPos: layoutRect.left,
+        barTopPos: adminBarHeight,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll down, stick navbar above visible layout area
+    if (layoutRect.bottom < adminBarHeight && !isStickyAboveTop) {
+      this.setState({
+        isStickyAboveTop: true,
+        barLeftPos: layoutRect.left,
+        barTopPos: adminBarHeight - bar.height,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll up, stick navbar to bottom of layout
+    if (layoutRect.bottom > adminBarHeight && isStickyAboveTop) {
+      this.setState({
+        isStickyAboveTop: false,
+        barLeftPos: layoutRect.left,
+        barTopPos: layoutRect.bottom - bar.height,
+        barWidth: layoutRect.width
+      })
     }
   }
 
