@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Visual Composer Website Builder
- * Plugin URI: http://visualcomposer.io
+ * Plugin URI: http://visualcomposer.io/
  * Description: WordPress Website Builder by WPBakery
  *
  * Version: 0.9.2

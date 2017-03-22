@@ -1,5 +1,4 @@
 import vcCake from 'vc-cake'
-const assetsStorage = vcCake.getService('assetsStorage')
 const myTemplates = vcCake.getService('myTemplates')
 const DocumentData = vcCake.getService('document')
 const LocalStorage = vcCake.getService('local-storage')
@@ -11,10 +10,10 @@ vcCake.add('content-local-storage-data-save', (api) => {
     })
     LocalStorage.save({
       data: DocumentData.all(),
-      elements: assetsStorage.getElements(),
+      elements: vcCake.getData('globalAssetsStorage').getElements(),
       cssSettings: {
-        custom: assetsStorage.getCustomCss(),
-        global: assetsStorage.getGlobalCss()
+        custom: vcCake.getData('globalAssetsStorage').getCustomCss(),
+        global: vcCake.getData('globalAssetsStorage').getGlobalCss()
       }
     })
   })

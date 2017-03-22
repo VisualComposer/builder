@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
-import _ from 'lodash'
 import '../../../../../sources/less/wpbackend/representers/init.less'
 
 const categories = getService('categories')
@@ -10,22 +9,23 @@ const cook = getService('cook')
 export default class DefaultElement extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.number.isRequired
   }
 
   elementContainer = null
+  receivePropsTimeout = 0
 
   constructor (props) {
     super(props)
     this.state = {
       hasAttributes: true,
       element: props.element,
-      isName: true,
-      isArrow: true,
-      activeElement: false
+      activeElement: false,
+      attributeState: 'closed'
     }
     this.handleClick = this.handleClick.bind(this)
-    this.handleElementSize = _.debounce(this.handleElementSize.bind(this), 150)
+    this.handleElementSize = this.handleElementSize.bind(this)
   }
 
   // Lifecycle
@@ -39,64 +39,38 @@ export default class DefaultElement extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({ element: nextProps.element })
-  }
-
-  componentDidMount () {
-    this.handleElementSize()
-    this.addResizeListener(this.elementContainer, this.handleElementSize)
+    this.receivePropsTimeout = setTimeout(() => {
+      this.handleElementSize()
+    }, 1)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(this.elementContainer, this.handleElementSize)
+    if (this.receivePropsTimeout) {
+      this.receivePropsTimeout = 0
+    }
   }
 
   // Events
 
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
-  }
-
   handleClick () {
-    let { activeElement } = this.state
-    this.setState({ activeElement: !activeElement })
+    let { attributeState } = this.state
+    if (attributeState === 'closed') {
+      this.setState({
+        activeElement: true,
+        attributeState: 'opened'
+      })
+    } else {
+      this.setState({
+        activeElement: false,
+        attributeState: 'closed'
+      })
+    }
   }
 
   handleElementSize () {
-    let header = this.getElementData('.vce-wpbackend-element-header')
-    let { isName, isArrow } = this.state
-
-    if (isArrow && header.width < 100) {
-      this.setState({ isArrow: false })
-    } else if (!isArrow && header.width > 100) {
-      this.setState({ isArrow: true })
-    }
-
-    if (isName && header.width < 70) {
-      this.setState({ isName: false })
-    } else if (!isName && header.width > 70) {
-      this.setState({ isName: true })
+    if (this.state.attributeState === 'opened') {
+      const header = this.getElementData('.vce-wpbackend-element-header-container')
+      header.width < 100 ? this.setState({ activeElement: false }) : this.setState({ activeElement: true })
     }
   }
 
@@ -106,9 +80,9 @@ export default class DefaultElement extends React.Component {
     return this.elementContainer.querySelector(className).getBoundingClientRect()
   }
 
-  getDependency (label, element, cookElement) {
+  getDependency (group, label, element) {
     let isDependency, isRuleTrue
-    let options = cookElement.settings('metaBackendLabels').settings.options
+    let options = group.options
     if (options && options.onChange) {
       isDependency = options.onChange.find((option) => {
         return option.dependency === label
@@ -120,11 +94,10 @@ export default class DefaultElement extends React.Component {
     return isRuleTrue
   }
 
-  getRepresenter (element) {
+  getGroupAttributes (element, group) {
     let cookElement = cook.get({ tag: element.tag })
-    let backendLabels = cookElement.get('metaBackendLabels').value
-    return backendLabels.map((label) => {
-      if (this.getDependency(label, element, cookElement)) {
+    return group.value.map((label) => {
+      if (this.getDependency(group, label, element)) {
         return null
       }
       let RepresenterComponent = cookElement.settings(label).type.getRepresenter('Backend')
@@ -137,44 +110,56 @@ export default class DefaultElement extends React.Component {
     })
   }
 
+  getRepresenter (element) {
+    let cookElement = cook.get({ tag: element.tag })
+    let backendLabelGroups = cookElement.get('metaBackendLabels').value
+    return backendLabelGroups.map((group, i) => {
+      return <div
+        className='vce-wpbackend-element-attributes-group'
+        key={`attributes-group-${i}`}
+      >
+        {this.getGroupAttributes(element, group)}
+      </div>
+    })
+  }
+
   render () {
-    const { element, hasAttributes, isName, isArrow, activeElement } = this.state
-    let icon = null // categories.getElementIcon(element.tag, true) // TODO: Fix this
+    const { element, hasAttributes, activeElement } = this.state
+    let icon = null // categories.getElementIcon(element.tag, true)
+    console.log('backendLayout.lib.defaultElement.render TODO: Set Icon', icon)
     let attributesClasses = classNames({
-      'vce-wpbackend-element-attributes': true,
-      'vce-wpbackend-hidden': !activeElement || !isArrow
+      'vce-wpbackend-element-attributes-container': true,
+      'vce-wpbackend-hidden': !activeElement
     })
 
-    let headerClasses = classNames({
-      'vce-wpbackend-element-header': true,
-      'vce-wpbackend-element-header-closed': !activeElement,
-      'vce-wpbackend-element-header-opened': activeElement,
-      'vce-wpbackend-element-header-no-arrow': !isArrow,
-      'vce-wpbackend-element-header-icon-only': !isName
-    })
-
-    let nameClasses = classNames({
-      'vce-wpbackend-element-header-name-wrapper': true,
-      'vce-wpbackend-hidden': !isName
+    let arrowClasses = classNames({
+      'vce-wpbackend-element-arrow': true,
+      'vce-wpbackend-element-arrow-closed': !activeElement,
+      'vce-wpbackend-element-arrow-opened': activeElement
     })
 
     if (hasAttributes) {
       return <div
         className='vce-wpbackend-element-container'
+        id={`el-${element.id}-temp`}
         data-vcv-element={element.id}
         ref={(container) => { this.elementContainer = container }}
       >
-        <div className={headerClasses} onClick={this.handleClick}>
-          <div className='vce-wpbackend-element-header-icon-container'>
-            <img
-              className='vce-wpbackend-element-header-icon'
-              src={icon}
-              alt={element.name}
-              title={element.name}
-            />
-          </div>
-          <div className={nameClasses}>
-            <span className='vce-wpbackend-element-header-name'>{element.name}</span>
+        <div className='vce-wpbackend-element-header-container'>
+          <div className='vce-wpbackend-element-header'>
+            <div className='vce-wpbackend-element-icon-container'>
+              <img
+                className='vce-wpbackend-element-icon'
+                src={icon}
+                alt={element.name}
+                title={element.name}
+              />
+            </div>
+            <div className='vce-wpbackend-element-name-container'>
+              <span className='vce-wpbackend-element-name'>{element.name}</span>
+            </div>
+            <div className={arrowClasses} />
+            <div className='vce-wpbackend-element-header-overlay' onClick={this.handleClick} />
           </div>
         </div>
         <div className={attributesClasses}>
@@ -184,20 +169,23 @@ export default class DefaultElement extends React.Component {
     }
     return <div
       className='vce-wpbackend-element-container'
+      id={`el-${element.id}-temp`}
       data-vcv-element={element.id}
       ref={(container) => { this.elementContainer = container }}
     >
-      <div className='vce-wpbackend-element-header vce-wpbackend-element-header-no-arrow'>
-        <div className='vce-wpbackend-element-header-icon-container'>
-          <img
-            className='vce-wpbackend-element-header-icon'
-            src={icon}
-            alt={element.name}
-            title={element.name}
-          />
-        </div>
-        <div className='vce-wpbackend-element-header-name-wrapper'>
-          <span className='vce-wpbackend-element-header-name'>{element.name}</span>
+      <div className='vce-wpbackend-element-header-container'>
+        <div className='vce-wpbackend-element-header'>
+          <div className='vce-wpbackend-element-icon-container'>
+            <img
+              className='vce-wpbackend-element-icon'
+              src={icon}
+              alt={element.name}
+              title={element.name}
+            />
+          </div>
+          <div className='vce-wpbackend-element-name-container'>
+            <span className='vce-wpbackend-element-name'>{element.name}</span>
+          </div>
         </div>
       </div>
     </div>

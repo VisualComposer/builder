@@ -88,7 +88,8 @@
     "access": "public",
     "value": "https://twitter.com/Twitter/timelines/539487832448843776",
     "options": {
-      "label": "Twitter grid URL (Link)"
+      "label": "Twitter grid URL (Link)",
+      "link": true
     }
   },
   "alignment": {
@@ -140,7 +141,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "gridUrl"
+      {
+        "value": [
+          "gridUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

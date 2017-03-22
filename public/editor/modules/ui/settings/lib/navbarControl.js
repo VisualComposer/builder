@@ -1,15 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
-const {getData, setData} = vcCake
-const assetsStorage = vcCake.getService('assetsStorage')
+const { getData, setData } = vcCake
 
 export default class SettingsButtonControl extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       isWindowOpen: getData('settings:isWindowOpen'),
-      showWarning: !!assetsStorage.getCustomCss()
+      showWarning: getData('globalAssetsStorage') && !!getData('globalAssetsStorage').getCustomCss()
     }
 
     this.toggleSettings = this.toggleSettings.bind(this)
@@ -22,6 +21,8 @@ export default class SettingsButtonControl extends React.Component {
       .reply('bar-content-end:show', this.updateWindow)
       .reply('bar-content-end:hide', this.updateWindow)
       .reply('settings:update', this.checkSettings)
+      .reply('data:added', this.checkSettings)
+      .reply('wordpress:data:added', this.checkSettings)
     this.checkSettings()
   }
 
@@ -30,6 +31,8 @@ export default class SettingsButtonControl extends React.Component {
       .forget('bar-content-end:show', this.updateWindow)
       .forget('bar-content-end:hide', this.updateWindow)
       .forget('settings:update', this.checkSettings)
+      .forget('data:added', this.checkSettings)
+      .forget('wordpress:data:added', this.checkSettings)
   }
 
   toggleSettings (e) {
@@ -47,7 +50,7 @@ export default class SettingsButtonControl extends React.Component {
   }
 
   checkSettings () {
-    this.setState({ showWarning: !!assetsStorage.getCustomCss() })
+    this.setState({ showWarning: getData('globalAssetsStorage') && !!getData('globalAssetsStorage').getCustomCss() })
   }
 
   render () {

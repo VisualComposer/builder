@@ -1,7 +1,8 @@
 import React from 'react'
-import { getData } from 'vc-cake'
+import { getData, env } from 'vc-cake'
 import HtmlLayout from './htmlLayout'
 import BlankPageManagerFront from './helpers/BlankPageManagerFront/component'
+import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -27,9 +28,9 @@ export default class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    if (this.state.data.length === 0 && getData('app:dataLoaded') === true) {
-      return (<BlankPageManagerFront api={this.props.api} />)
-    }
+    //if (this.state.data.length === 0 && getData('app:dataLoaded') === true) {
+     // return env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <BlankPageManagerFront api={this.props.api} />
+    //}
     return (<HtmlLayout data={this.state.data} api={this.props.api} />)
   }
 

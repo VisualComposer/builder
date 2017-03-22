@@ -61,6 +61,7 @@
           Promise.all(promises).then(function (size) {
             _this.resizer.setAttribute('width', size[0]);
             _this.resizer.setAttribute('height', size[1]);
+            _this.resizer.setAttribute('data-vce-assets-video-state', 'visible');
             _this.ratio = parseInt(size[0]) / parseInt(size[1]);
             _this.checkOrientation();
           });

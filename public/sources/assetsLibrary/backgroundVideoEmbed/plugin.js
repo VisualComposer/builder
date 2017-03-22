@@ -34,6 +34,7 @@
         this.player.onloadedmetadata = function () {
           _this.resizer.setAttribute('width', _this.player.videoWidth);
           _this.resizer.setAttribute('height', _this.player.videoHeight);
+          _this.resizer.setAttribute('data-vce-assets-video-state', 'visible');
           _this.ratio = parseInt(_this.player.videoWidth) / parseInt(_this.player.videoHeight);
           _this.checkOrientation();
         };

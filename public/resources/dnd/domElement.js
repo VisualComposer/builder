@@ -1,7 +1,5 @@
-import {getService} from 'vc-cake'
 import _ from 'lodash'
 import $ from 'jquery'
-const categoriesService = getService('categories')
 
 export default class DOMElement {
   constructor (id, DOMNode, options) {
@@ -143,8 +141,5 @@ export default class DOMElement {
   }
   get tag () {
     return this.options.tag
-  }
-  get iconLink () {
-    return categoriesService.getElementIcon(this.options.tag) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
   }
 }

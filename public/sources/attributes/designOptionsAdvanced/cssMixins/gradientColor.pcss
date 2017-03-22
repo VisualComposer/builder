@@ -1,0 +1,8 @@
+#$selector[data-vce-do-apply*="gradient"],
+#$selector [data-vce-do-apply*="gradient"] {
+  &[data-vce-do-apply*="$selector"] {
+    @media (--$(device)-only) {
+      background-image: linear-gradient($(angle)deg, $endColor, $startColor);
+    }
+  }
+}

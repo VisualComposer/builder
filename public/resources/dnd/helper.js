@@ -31,7 +31,8 @@ export default class Helper {
       control.classList.add('vcv-drag-helper-container')
     }
     this.options.container.appendChild(control)
-    let icon = this.element.iconLink
+    let icon = null // this.element.iconLink - from domElement undefined.
+    console.log('dnd.helper.draw TODO: SET Icon', icon)
     if (icon) {
       control.innerHTML = '<img src="' +
         icon + '" class="vcv-ui-dnd-helper-icon" alt="" title=""/>'

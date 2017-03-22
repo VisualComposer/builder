@@ -1,22 +1,69 @@
 import vcCake from 'vc-cake'
 
 const cook = vcCake.getService('cook')
-const assetsStorage = vcCake.getService('assetsStorage')
 const utils = vcCake.getService('utils')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
   const rebuildRawLayout = (id, layout) => {
+    if (!layout) {
+      layout = vcCake.getService('document').children(id)
+        .map((element) => {
+          return element.size || 'auto'
+        })
+    }
+    let getLastInRow = (columns) => {
+      let lastColumnIndex = []
+      let rowValue = 0
+
+      columns.forEach((col, index) => {
+        let colValue = ''
+        if (col === 'auto') {
+          colValue = 0.03
+        } else {
+          if (col.indexOf('%') >= 0) {
+            colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
+          } else {
+            let column = col.split('/')
+            let numerator = column[ 0 ]
+            let denominator = column[ 1 ]
+            colValue = numerator / denominator
+          }
+        }
+
+        let newRowValue = (rowValue + colValue).toString()
+        newRowValue = newRowValue.slice(0, (newRowValue.indexOf('.')) + 4)
+
+        if (newRowValue > 1) {
+          lastColumnIndex.push(index - 1)
+          rowValue = 0
+        }
+
+        if (!columns[ index + 1 ]) {
+          lastColumnIndex.push(index)
+        }
+
+        rowValue += colValue
+      })
+
+      return lastColumnIndex
+    }
+    let lastColumns = getLastInRow(layout)
     let createdElements = []
     let columns = DocumentData.children(id)
     let lastColumnObject = null
     layout.forEach((size, i) => {
+      let lastInRow = lastColumns.indexOf(i) >= 0
+      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) >= 0
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size = size
-        api.request('data:update', lastColumnObject.id, lastColumnObject)
+        lastColumnObject.lastInRow = lastInRow
+        lastColumnObject.firstInRow = firstInRow
+        DocumentData.update(lastColumnObject.id, lastColumnObject)
+        api.request('data:afterUpdate', lastColumnObject.id, lastColumnObject)
       } else {
-        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size })
+        let createdElement = DocumentData.create({ tag: 'column', parent: id, size: size, lastInRow: lastInRow, firstInRow: firstInRow })
         createdElements.push(createdElement.id)
       }
     })
@@ -27,59 +74,12 @@ vcCake.add('storage', (api) => {
         let childElements = DocumentData.children(column.id)
         childElements.forEach((el) => {
           el.parent = lastColumnObject.id
-          api.request('data:update', el.id, el)
+          DocumentData.update(el.id, el)
+          api.request('data:afterUpdate', el.id, el)
         })
-        api.request('data:remove', column.id)
+        DocumentData.delete(column.id)
       })
     }
-  }
-  const addRowBackground = (id, element) => {
-    let allBackgrounds = []
-
-    let devices = {
-      'desktop': 'xl',
-      'tablet-landscape': 'lg',
-      'tablet-portrait': 'md',
-      'mobile-landscape': 'sm',
-      'mobile-portrait': 'xs'
-    }
-
-    const pushBackground = (element) => {
-      let designOptions = element.designOptions
-      let elementBackground = {}
-      if (designOptions && designOptions.used) {
-        if (designOptions.deviceTypes === 'all' && (designOptions.all.backgroundColor !== '' || designOptions.all.backgroundImage.urls.length)) {
-          elementBackground[ 'all' ] = true
-        } else {
-          for (let device in devices) {
-            if ((designOptions[ device ].backgroundColor !== '' || designOptions[ device ].backgroundImage.urls.length)) {
-              elementBackground[ devices[ device ] ] = true
-            }
-          }
-        }
-        allBackgrounds.push(elementBackground)
-      }
-    }
-
-    let rowChildren = DocumentData.children(id)
-
-    rowChildren.forEach((column) => {
-      pushBackground(column)
-    })
-
-    pushBackground(element)
-
-    let rowBackground = allBackgrounds.reduce(function (result, currentObject) {
-      for (let key in currentObject) {
-        if (currentObject.hasOwnProperty(key)) {
-          result[ key ] = currentObject[ key ]
-        }
-      }
-      return result
-    }, {})
-
-    element.background = rowBackground
-    DocumentData.update(id, element)
   }
   const isElementOneRelation = (parent) => {
     let element = DocumentData.get(parent)
@@ -89,9 +89,22 @@ vcCake.add('storage', (api) => {
     }
     return false
   }
+  const updateSubelementsIds = (element) => {
+    let elementObject = Object.assign(element)
+    let elementKeys = element.filter((k, v, s) => { return s.type === 'element' })
+    elementKeys.forEach((k) => {
+      let data = elementObject.get(k) || {}
+      data.id = utils.createKey()
+      elementObject.set(k, data)
+    })
+    return elementObject
+  }
   api.reply('data:add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
     let element = cook.get(elementData)
+    if (vcCake.env('FIX_SUBELEMENT_ID')) {
+      element = updateSubelementsIds(element)
+    }
     if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
       let rowElement = DocumentData.create({ tag: 'row' })
       createdElements.push(rowElement.id)
@@ -111,6 +124,13 @@ vcCake.add('storage', (api) => {
         createdElements.push(columnElement.id)
       }
     }
+    if (data.tag === 'column') {
+      rebuildRawLayout(data.parent)
+    }
+    if (data.tag === 'row') {
+      rebuildRawLayout(data.id)
+    }
+
     if (!options.silent) {
       api.request('data:afterAdd', createdElements)
       api.request('data:changed', DocumentData.children(false), 'add', data.id)
@@ -124,52 +144,50 @@ vcCake.add('storage', (api) => {
     if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
       DocumentData.delete(element.parent)
     }
+    if (element.tag === 'column') {
+      rebuildRawLayout(element.parent)
+    }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
 
   api.reply('data:clone', (id) => {
     let dolly = DocumentData.clone(id)
+    if (vcCake.env('FIX_SUBELEMENT_ID')) {
+      let element = cook.get(dolly)
+      element = updateSubelementsIds(element)
+      dolly = element.toJS()
+    }
+    if (dolly.tag === 'column') {
+      rebuildRawLayout(dolly.parent)
+    }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
   })
 
   api.reply('data:update', (id, element) => {
-    if (vcCake.env('FEATURE_CUSTOM_ROW_LAYOUT')) {
-      if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
-        rebuildRawLayout(id, element.layout.layoutData)
-        element.rowLayout = element.layout.layoutData
-        element.size = element.layout.layoutData
-        element.layout.layoutData = undefined
-      }
-      if (element.tag === 'column') {
-        let parentId = DocumentData.get(id).parent
-        let parentElement = DocumentData.get(parentId)
-
-        if (parentElement) {
-          addRowBackground(parentId, parentElement)
-        }
-      }
-      if (element.tag === 'row') {
-        addRowBackground(id, element)
-      }
-    } else {
-      if (element.tag === 'row' && element.layout && element.layout.length) {
-        rebuildRawLayout(id, element.layout)
-        element.layout = undefined
-      }
+    if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
+      rebuildRawLayout(id, element.layout.layoutData)
+      element.layout.layoutData = undefined
     }
-
     DocumentData.update(id, element)
     api.request('data:afterUpdate', id, element)
     api.request('data:changed', DocumentData.children(false), 'update', id)
   })
   api.reply('data:move', (id, data) => {
+    let element = DocumentData.get(id)
     if (data.action === 'after') {
       DocumentData.moveAfter(id, data.related)
     } else if (data.action === 'append') {
       DocumentData.appendTo(id, data.related)
     } else {
       DocumentData.moveBefore(id, data.related)
+    }
+    if (element.tag === 'column') {
+      // rebuild previous column
+      rebuildRawLayout(element.parent)
+      // rebuild next column
+      let newElement = DocumentData.get(id)
+      rebuildRawLayout(newElement.parent)
     }
     api.request('data:changed', DocumentData.children(false), 'move', id)
   })
@@ -209,6 +227,11 @@ vcCake.add('storage', (api) => {
   })
   api.reply('data:reset', (content) => {
     DocumentData.reset(content || {})
+    Object.keys(content).forEach((id) => {
+      if (content[ id ].tag && content[ id ].tag === 'row') {
+        rebuildRawLayout(id)
+      }
+    })
     api.request('data:changed', DocumentData.children(false), 'reset')
   })
   api.reply('app:add', (parent = null, tag = null, options) => {
@@ -222,10 +245,10 @@ vcCake.add('storage', (api) => {
   })
   api.reply('settings:update', (settings) => {
     if (settings.customStyles && settings.customStyles.global !== undefined) {
-      assetsStorage.setGlobalCss(settings.customStyles.global || '')
+      vcCake.getData('globalAssetsStorage').setGlobalCss(settings.customStyles.global || '')
     }
     if (settings.customStyles && settings.customStyles.local !== undefined) {
-      assetsStorage.setCustomCss(settings.customStyles.local || '')
+      vcCake.getData('globalAssetsStorage').setCustomCss(settings.customStyles.local || '')
     }
     api.request('settings:changed', settings)
   })

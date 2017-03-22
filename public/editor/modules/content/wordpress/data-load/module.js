@@ -11,6 +11,8 @@ vcCake.add('content-wordpress-data-load', (api) => {
     vcCake.setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
     let { status, request } = data
     if (status === 'success') {
+      const globalAssetsStorage = assetsStorage.create()
+      vcCake.setData('globalAssetsStorage', globalAssetsStorage)
       let responseData = JSON.parse(request || '{}')
       if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
@@ -22,13 +24,13 @@ vcCake.add('content-wordpress-data-load', (api) => {
       }
       if (responseData.globalElements && responseData.globalElements.length) {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && assetsStorage.setElements(globalElements)
+        globalElements && globalAssetsStorage.setElements(globalElements)
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
-        assetsStorage.setCustomCss(responseData.cssSettings.custom)
+        globalAssetsStorage.setCustomCss(responseData.cssSettings.custom)
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
-        assetsStorage.setGlobalCss(responseData.cssSettings.global)
+        globalAssetsStorage.setGlobalCss(responseData.cssSettings.global)
       }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')

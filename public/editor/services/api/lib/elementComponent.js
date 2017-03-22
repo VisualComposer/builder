@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import {getService} from 'vc-cake'
 import YoutubeBackground from './youtubeBackground'
 import VimeoBackground from './vimeoBackground'
 import ImageSimpleBackground from './imageSimpleBackground'
@@ -11,6 +10,7 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 
 const { Component, PropTypes } = React
+
 export default class ElementComponent extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -111,8 +111,9 @@ export default class ElementComponent extends Component {
   }
 
   getMixinData (mixinName) {
+    const vcCake = require('vc-cake')
+    const assetsStorage = vcCake.getData('globalAssetsStorage')
     let returnData = null
-    const assetsStorage = getService('assetsStorage').getGlobalInstance()
     let mixinData = assetsStorage.getCssMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
     if (mixinData[ tag ][ mixinName ]) {
@@ -126,8 +127,9 @@ export default class ElementComponent extends Component {
   }
 
   getAttributeMixinData (attributeName) {
+    const vcCake = require('vc-cake')
+    const assetsStorage = vcCake.getData('globalAssetsStorage')
     let returnData = null
-    const assetsStorage = getService('assetsStorage').getGlobalInstance()
     let mixinData = assetsStorage.getAttributesMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
     if (mixinData[ tag ] && mixinData[ tag ][ attributeName ] && mixinData[ tag ][ attributeName ].variables) {

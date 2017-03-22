@@ -17,7 +17,7 @@ if (vcCake.env('FEATURE_WPBACKEND')) {
     let options = {
       iframeContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
       iframeOverlay: document.querySelector('#vcv-wpbackend-layout-content-overlay'),
-      iframe: document.querySelector('#vcv-wpbackend-layout-content-overlay'),
+      iframe: document.querySelector('#vcv-wpbackend-layout-content'),
       iframeWindow: document.defaultView,
       iframeDocument: document
     }

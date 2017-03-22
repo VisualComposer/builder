@@ -6,7 +6,7 @@ let webpack = require('webpack')
 let autoprefixer = require('autoprefixer')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: {
     // node: './public/node-main',
     element: './column/index.js',

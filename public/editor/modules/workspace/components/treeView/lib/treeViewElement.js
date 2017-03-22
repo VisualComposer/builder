@@ -230,6 +230,7 @@ export default class TreeViewElement extends React.Component {
     })
 
     let publicPath = null // categoriesService.getElementIcon(element.get('tag')) // TODO: Fix this
+    console.log('workspace.components.treeView.lib.treeViewElement.render TODO: Set Icon/PublicPath', publicPath)
     let space = 0.8
 
     return (

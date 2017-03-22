@@ -42,14 +42,15 @@ export default class DndManager {
         moveCallback: this.move.bind(this),
         startCallback: DndManager.start,
         endCallback: DndManager.end,
-        container: document.querySelector('#vcwb_visual_composer > .inside')
+        container: document.querySelector('#vcwb_visual_composer > .inside'),
+        handler: '> .vce-wpbackend-element-header-container, > div > div > vcvhelper.vcv-row-control-container'
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
-        this.items.option('disabled', value === 'contentEditable')
+        this.items.option('disabled', value === 'contentEditable' || value === 'columnResizer')
       })
     }
   }
@@ -70,6 +71,7 @@ export default class DndManager {
     this.api
       .on('element:mount', this.add.bind(this))
       .on('element:unmount', this.remove.bind(this))
+      .on('element:didUpdate', this.update.bind(this))
   }
 
   add (id) {
@@ -80,6 +82,11 @@ export default class DndManager {
   remove (id) {
     this.buildItems()
     this.items.removeItem(id)
+  }
+
+  update (id) {
+    this.buildItems()
+    this.items.updateItem(id, this.documentDOM)
   }
 
   move (id, action, related) {

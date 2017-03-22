@@ -247,31 +247,43 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "image",
-      "backgroundColor",
-      "button",
-      "description"
-    ],
-    "options": {
-      "onChange": [
-        {
-          "rule": {
-            "attribute": "background",
-            "value": "color"
-          },
-          "dependency": "image",
-          "action": "toggle"
-        },
-        {
-          "rule": {
-            "attribute": "background",
-            "value": "image"
-          },
-          "dependency": "backgroundColor",
-          "action": "toggle"
+      {
+        "value": [
+          "image",
+          "backgroundColor"
+        ],
+        "options": {
+          "onChange": [
+            {
+              "rule": {
+                "attribute": "background",
+                "value": "color"
+              },
+              "dependency": "image",
+              "action": "toggle"
+            },
+            {
+              "rule": {
+                "attribute": "background",
+                "value": "image"
+              },
+              "dependency": "backgroundColor",
+              "action": "toggle"
+            }
+          ]
         }
-      ]
-    }
+      },
+      {
+        "value": [
+          "button"
+        ]
+      },
+      {
+        "value": [
+          "description"
+        ]
+      }
+    ]
   },
   "metaCustomId": {
     "type": "customId",

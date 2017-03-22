@@ -14,7 +14,7 @@ vcvAddElement(
     editorCss: false,
     mixins: {
       columnGap: {
-        'mixin': require('raw-loader!./cssMixins/columnGap.pcss')
+        mixin: require('raw-loader!./cssMixins/columnGap.pcss')
       }
     }
   },

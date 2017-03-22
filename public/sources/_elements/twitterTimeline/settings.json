@@ -89,7 +89,8 @@
     "access": "public",
     "value": "https://twitter.com/Twitter",
     "options": {
-      "label": "Twitter timeline URL (Link)"
+      "label": "Twitter timeline URL (Link)",
+      "link": true
     }
   },
   "alignment": {
@@ -159,7 +160,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "timelineUrl"
+      {
+        "value": [
+          "timelineUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

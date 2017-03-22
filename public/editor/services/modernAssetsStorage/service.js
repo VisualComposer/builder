@@ -150,7 +150,6 @@ class PublicApi {
     let styles = []
     styles = styles.concat(
       storage.getElementsCssData(editor),
-      storage.getColumnsCssData(),
       storage.getMixinsCssData(),
       storage.getGlobalCssData()
     )
@@ -178,7 +177,6 @@ class PublicApi {
     let styles = []
     styles = styles.concat(
       storage.getElementsCssData(editor),
-      storage.getColumnsCssData(),
       storage.getMixinsCssData(),
     )
     return styles
@@ -187,20 +185,10 @@ class PublicApi {
   getGoogleFontsData () {
     return storage.getGoogleFontsData()
   }
-  getColumnsCssData () {
-    return storage.getColumnsCssData()
-  }
 }
-let singleton = false
 const service = {
   create (elements = {}) {
     return new PublicApi(elements = {})
-  },
-  getGlobalInstance () {
-    if (!singleton) {
-      singleton = this.create()
-    }
-    return singleton
   }
 }
 

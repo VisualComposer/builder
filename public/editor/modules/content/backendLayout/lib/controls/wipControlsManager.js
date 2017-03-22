@@ -74,7 +74,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount, systemData),
+        value: new ControlsHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -82,7 +82,7 @@ export default class ControlsManager {
     })
 
     // Subscribe to main event to interact with content elements
-    this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    document.body.addEventListener('mousemove', this.findElement)
   }
 
   /**
@@ -100,11 +100,15 @@ export default class ControlsManager {
       this.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
-      let elPath = path.filter((el) => {
-        return el.dataset && el.dataset.hasOwnProperty('vcvElement')
-      })
+      let elPath
+      // check if elements are inside backend layout
+      if (e.target && e.target.closest('.vcv-wpbackend-layout')) {
+        elPath = path.filter((el) => {
+          return el.dataset && el.dataset.hasOwnProperty('vcvElement')
+        })
+      }
       let element = null
-      if (elPath.length) {
+      if (elPath && elPath.length) {
         element = elPath[ 0 ] // first element in path always hovered element
       }
       let control = path.find((el) => {
@@ -203,6 +207,9 @@ export default class ControlsManager {
 
     // interact with controls
     this.interactWithControls()
+
+    // interact with tree
+    this.interactWithTree()
   }
 
   /**
@@ -226,6 +233,23 @@ export default class ControlsManager {
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.frames.hide()
+    })
+  }
+
+  /**
+   * Interact with tree
+   */
+  interactWithTree () {
+    this.api.reply('treeContent:element:mouseEnter', (id) => {
+      if (this.state.showOutline) {
+        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
+        if (element) {
+          this.outline.show(element)
+        }
+      }
+    })
+    this.api.reply('treeContent:element:mouseLeave', () => {
+      this.outline.hide()
     })
   }
 
@@ -255,14 +279,6 @@ export default class ControlsManager {
         let elementId = el.dataset.vcvElementId
 
         this.api.request(event, elementId, tag, options)
-
-        if (event === 'app:edit' || event === 'app:add') {
-          let editor = document.getElementById('vcv-editor')
-          let layoutBar = editor.querySelector('.vcv-layout-bar-content')
-          if (layoutBar.getBoundingClientRect().bottom < 100) {
-            editor.scrollIntoView({ behavior: 'smooth' })
-          }
-        }
       }
     }
   }
@@ -341,14 +357,24 @@ export default class ControlsManager {
       if (this.controlsPrevElement !== element) {
         // unset prev element
         if (this.controlsPrevElement) {
+          // remove highlight from tree view
+          this.api.request('editorContent:control:mouseLeave', {
+            type: 'mouseLeave',
+            vcElementId: this.controlsPrevElement
+          })
           // hide outline from content element
           this.outline.hide()
         }
         // set new element
         if (element) {
           if (this.state.showOutline) {
+            // highlight tree view
+            this.api.request('editorContent:control:mouseEnter', {
+              type: 'mouseEnter',
+              vcElementId: element
+            })
             // show outline over content element
-            let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${element}"]`)
+            let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
             if (contentElement) {
               this.outline.show(contentElement)
             }

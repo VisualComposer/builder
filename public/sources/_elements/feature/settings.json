@@ -135,8 +135,16 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "icon",
-      "description"
+      {
+        "value": [
+          "icon"
+        ]
+      },
+      {
+        "value": [
+          "description"
+        ]
+      }
     ]
   },
   "metaCustomId": {

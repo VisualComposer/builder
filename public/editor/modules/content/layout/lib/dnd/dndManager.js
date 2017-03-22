@@ -56,14 +56,15 @@ export default class DndManager {
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         document: this.documentDOM || document,
-        container: document.getElementById('vcv-editor-iframe-overlay') || document.body
+        container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
+        ignoreHandling: '.vce-row'
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
-        this.items.option('disabled', value === 'contentEditable')
+        this.items.option('disabled', value === 'contentEditable' || value === 'columnResizer')
       })
     }
   }

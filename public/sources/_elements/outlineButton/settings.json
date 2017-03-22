@@ -280,10 +280,14 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText",
-      "buttonUrl",
-      "shape",
-      "borderColor"
+      {
+        "value": [
+          "buttonText",
+          "buttonUrl",
+          "shape",
+          "borderColor"
+        ]
+      }
     ]
   },
   "metaCustomId": {

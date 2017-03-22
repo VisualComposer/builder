@@ -1,15 +1,16 @@
 import React from 'react'
 
-class BrandLogoControl extends React.Component {
+export default class BrandLogoControl extends React.Component {
   render () {
-    // TODO: Make correct link&target http://alpha.visualcomposer.io/wp-admin/?amputm_medium=frontend_editor
     return (
-      <a className='vcv-ui-navbar-logo' title='Visual Composer'
-        href='javascript:;'>
+      <a
+        className='vcv-ui-navbar-logo'
+        title='Visual Composer'
+        href='http://visualcomposer.io/?utm_campaign=VCWB&utm_source=vc_user&utm_medium=frontend_editor'
+        target='_blank'
+      >
         <span className='vcv-ui-navbar-logo-title'>Visual Composer</span>
       </a>
     )
   }
 }
-
-export default BrandLogoControl

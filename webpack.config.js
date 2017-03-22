@@ -6,7 +6,7 @@ let autoprefixer = require('autoprefixer')
 let webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: {
     // node: './public/node-main',
     wp: './public/wp-main',
@@ -49,7 +49,7 @@ module.exports = {
     'fs': 'empty'
   },
   plugins: [
-    // new Collector(),
+    new Collector(),
     new ExtractTextPlugin('[name].bundle.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
@@ -102,7 +102,7 @@ module.exports = {
     wp: {
       modules: [
         'content/storage',
-        'content/assets',
+        //'content/assets',
         'content/layout',
         'content/wordpress/data-load',
         'content/wordpress/data-save',
@@ -113,7 +113,7 @@ module.exports = {
         'ui/brand-logo',
         'ui/addElement',
         'ui/edit-element',
-        //'ui/addTemplate',
+        // 'ui/addTemplate',
         'ui/tree-view',
         'ui/undo-redo',
         'ui/layout-control',
@@ -137,7 +137,7 @@ module.exports = {
         'dataProcessor',
         'assetsStorage',
         'assetsManager',
-        'stylesManager',
+        'stylesManager'
         //'wpMyTemplates'
       ]
     },
@@ -148,12 +148,14 @@ module.exports = {
         'content/wordpress/data-load',
         'content/wordpress/data-backend-save',
         'content/wordpress/data-unload',
-        'content/layout',
+        'content/backendContent',
         'content/backendLayout',
+        'content/backendTreeViewDnd',
         'ui/layoutBarBackend',
         'ui/navbarBackend',
-        'ui/brand-logo',
+        'ui/brandLogoBackend',
         'ui/addElement',
+        'ui/treeViewBackend',
         'ui/edit-element',
         'ui/addTemplate',
         'ui/undo-redo',

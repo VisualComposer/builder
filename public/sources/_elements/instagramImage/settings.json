@@ -34,7 +34,8 @@
     "access": "public",
     "value": "https://www.instagram.com/p/BJPIEc8BHEI/",
     "options": {
-      "label": "Instagram URL (Link) or embed code"
+      "label": "Instagram URL (Link) or embed code",
+      "link": true
     }
   },
   "designOptions": {
@@ -139,7 +140,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "instagramUrl"
+      {
+        "value": [
+          "instagramUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

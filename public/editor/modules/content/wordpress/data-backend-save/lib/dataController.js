@@ -5,7 +5,6 @@ import React from 'react'
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
 const assetsManager = vcCake.getService('assetsManager')
-const assetsStorage = vcCake.getService('assetsStorage')
 const stylesManager = vcCake.getService('stylesManager')
 const utils = vcCake.getService('utils')
 class SaveController {
@@ -48,6 +47,17 @@ class SaveController {
         this.save(options)
       }, 1)
     })
+    this.props.api.reply('settings:update', (options) => {
+      window.setTimeout(() => {
+        this.props.api.request('wordpress:beforeSave', {
+          pageElements: DocumentData.all()
+        })
+        options = $.extend({}, {
+          elements: DocumentData.all()
+        }, options)
+        this.save(options)
+      }, 1)
+    })
     $('#post').on('submit', (event) => {
       this.props.api.request('wordpress:data:saved', {
         status: 'success',
@@ -71,15 +81,15 @@ class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = assetsStorage.getElements()
+    let elements = vcCake.getData('globalAssetsStorage').getElements()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(assetsStorage.getSiteCssData())
+    globalStylesManager.add(vcCake.getData('globalAssetsStorage').getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
 
     let localStylesManager = stylesManager.create()
-    localStylesManager.add(assetsStorage.getPageCssData())
+    localStylesManager.add(vcCake.getData('globalAssetsStorage').getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
@@ -92,14 +102,14 @@ class SaveController {
         document.getElementById('vcv-ready').value = '1'
         document.getElementById('vcv-action').value = 'setData:adminNonce'
         document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-        document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(assetsStorage.getElementsTagsList()))
-        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(assetsStorage.getElementsTagsList()))
+        document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList()))
+        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList()))
         document.getElementById('vcv-global-styles').value = globalStyles
         document.getElementById('vcv-design-options').value = designOptions
         document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
-        document.getElementById('vcv-custom-css').value = assetsStorage.getCustomCss()
-        document.getElementById('vcv-global-css').value = assetsStorage.getGlobalCss()
-        document.getElementById('vcv-google-fonts').value = JSON.stringify(assetsStorage.getGoogleFontsData())
+        document.getElementById('vcv-custom-css').value = vcCake.getData('globalAssetsStorage').getCustomCss()
+        document.getElementById('vcv-global-css').value = vcCake.getData('globalAssetsStorage').getGlobalCss()
+        document.getElementById('vcv-google-fonts').value = JSON.stringify(vcCake.getData('globalAssetsStorage').getGoogleFontsData())
       }
     })
   }
