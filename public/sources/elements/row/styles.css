@@ -5,6 +5,7 @@
   margin-bottom: 35px;
 }
 .vce-row {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 0;
@@ -36,6 +37,7 @@
   justify-content: flex-start;
   align-content: flex-start;
   min-height: 1em;
+  position: relative;
 }
 .vce-row-columns--top > .vce-row-content {
   align-content: flex-start;
