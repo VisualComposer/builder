@@ -389,10 +389,6 @@ class DesignOptions extends Attribute {
    * @param value
    */
   setFieldValue (value, mixins) {
-    console.log('===================')
-    console.log(value)
-    console.log(mixins)
-    console.log('===================')
     let { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
