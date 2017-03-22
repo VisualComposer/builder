@@ -61,7 +61,7 @@ export default class CookElement {
   }
 
   get (k, raw = false) {
-    if ([ 'id', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings' ].indexOf(k) > -1) {
+    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
