@@ -1,0 +1,201 @@
+{
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": "single-image.jpg",
+    "options": {
+      "label": "Image",
+      "multiple": false,
+      "defaultValue": "single-image.jpg",
+      "onChange": {
+        "rules": {
+          "clickableOptions": {
+            "rule": "value",
+            "options": {
+              "value": "url"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "attachImageUrls"
+          }
+        ]
+      },
+      "url": false
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "square",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        }
+      ]
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "clickableOptions",
+      "image",
+      "shape",
+      "size",
+      "alignment",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Single Image"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaOrder": {
+    "type": "number",
+    "access": "protected",
+    "value": 3
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "size": {
+    "type": "string",
+    "access": "public",
+    "value": "large",
+    "options": {
+      "label": "Size",
+      "description": "Enter image size (Example: 'thumbnail', 'medium', 'large', 'full' or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height))."
+    }
+  },
+  "clickableOptions": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "lightbox",
+    "options": {
+      "label": "OnClick action",
+      "values": [
+        {
+          "label": "None",
+          "value": ""
+        },
+        {
+          "label": "Lightbox",
+          "value": "lightbox"
+        },
+        {
+          "label": "Zoom",
+          "value": "zoom"
+        },
+        {
+          "label": "Open Image in New Tab",
+          "value": "imageNewTab"
+        },
+        {
+          "label": "Link selector",
+          "value": "url"
+        }
+      ]
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "clickableOptions"
+        ]
+      },
+      {
+        "value": [
+          "image"
+        ]
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "singleImage"
+  },
+}
