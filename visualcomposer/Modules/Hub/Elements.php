@@ -75,6 +75,15 @@ class Elements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'basicButton' => [
+                    'path' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Basic Button',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }

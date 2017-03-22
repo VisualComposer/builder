@@ -1,5 +1,5 @@
 import vcCake from 'vc-cake'
-import TextBlockElement from './component'
+import BasicButtonComponent from './component'
 
 const vcvAddElement = vcCake.getService('cook').add
 
@@ -7,7 +7,7 @@ vcvAddElement(
   require('./settings.json'),
   // Component callback
   function (component) {
-    component.add(TextBlockElement)
+    component.add(BasicButtonComponent)
   },
   // css settings // css for element
   {

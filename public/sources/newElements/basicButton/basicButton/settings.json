@@ -4,36 +4,6 @@
     "access": "protected",
     "value": "Buttons"
   },
-  "name": {
-    "type": "string",
-    "access": "protected",
-    "value": "Basic Button"
-  },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Short intro"
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Basic flat style button with hover effect to catch visitor's attention."
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Basic flat style button with hover effect to catch visitor's attention."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "preview-basic-button.png"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "thumbnail-basic-button.png"
-  },
   "buttonUrl": {
     "type": "url",
     "access": "public",
@@ -264,5 +234,10 @@
       "label": "Element ID",
       "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
     }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "basicButton"
   }
 }
