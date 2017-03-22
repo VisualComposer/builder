@@ -206,7 +206,7 @@ export default class ControlsHandler {
       elementId,
       {
         title: vcElement.get('name'),
-        icon: categoriesService.getElementIcon(vcElement.get('tag'))
+        icon: null // categoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
     // create control dropdown

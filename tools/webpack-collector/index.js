@@ -21,7 +21,7 @@ Collector.prototype.apply = function (compiler) {
       }
       AttributesCollector.buildFile(prefix)
     }.bind(this))
-    ElementsCollector.buildFile()
+   //  ElementsCollector.buildFile()
     EnvCollector.buildFile()
     callback()
   })
