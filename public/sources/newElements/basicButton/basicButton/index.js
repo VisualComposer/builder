@@ -1,20 +1,24 @@
 import vcCake from 'vc-cake'
-import RowElement from './component'
+import TextBlockElement from './component'
+
 const vcvAddElement = vcCake.getService('cook').add
 
 vcvAddElement(
   require('./settings.json'),
   // Component callback
   function (component) {
-    component.add(RowElement)
+    component.add(TextBlockElement)
   },
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: false,
+    editorCss: require('raw-loader!./editor.css'),
     mixins: {
-      columnGap: {
-        mixin: require('raw-loader!./cssMixins/columnGap.pcss')
+      basicColor: {
+        mixin: require('raw-loader!./cssMixins/basicColor.scss')
+      },
+      basicHoverColor: {
+        mixin: require('raw-loader!./cssMixins/basicHoverColor.scss')
       }
     }
   },

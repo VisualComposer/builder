@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     // node: './public/node-main',
-    element: './column/index.js',
+    element: './basicButton/index.js',
     vendor: [
       'jquery',
       'react',
