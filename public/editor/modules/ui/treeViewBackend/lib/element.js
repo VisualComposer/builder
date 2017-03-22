@@ -241,6 +241,7 @@ export default class TreeViewElement extends React.Component {
     })
 
     let publicPath = null // categoriesService.getElementIcon(element.get('tag'))
+    console.log('treeViewBackend.lib.element.render TODO: Set Icon/PublicPath', publicPath)
     let space = 0.8
 
     return (

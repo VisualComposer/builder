@@ -209,6 +209,7 @@ export default class ControlsHandler {
         icon: null // categoriesService.getElementIcon(vcElement.get('tag')) // TODO: Fix this
       }
     ))
+    console.log('content.backendLayout.lib.controls.controlsHandler.createControlForElement TODO: Set Icon')
     // create control dropdown
     control.appendChild(this.createControlDropdown(
       elementId,
