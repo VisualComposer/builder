@@ -7,7 +7,6 @@ import AddTemplatePanel from './addTemplate/AddTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
 import EditElementPanel from './editElement/editElementPanel'
-import {getService} from 'vc-cake'
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
@@ -39,10 +38,8 @@ export default class PanelsContainer extends React.Component {
       return <SettingsPanel />
     } else if (end === 'editElement') {
       if (settings && settings.element) {
-        const cook = getService('cook')
-        const cookElement = cook.get(settings.element)
         const activeTabId = settings.tag || ''
-        return <EditElementPanel element={cookElement} activeTabId={activeTabId} />
+        return <EditElementPanel element={settings.element} activeTabId={activeTabId} />
       }
     }
   }

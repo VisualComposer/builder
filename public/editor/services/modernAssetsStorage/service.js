@@ -204,4 +204,4 @@ const service = {
   }
 }
 
-vcCake.addService('assetsStorage', service)
+vcCake.addService('modernAssetsStorage', service)

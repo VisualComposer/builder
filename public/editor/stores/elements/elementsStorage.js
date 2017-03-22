@@ -94,7 +94,11 @@ addStorage('elements', (storage) => {
   })
   storage.on('clone', (id) => {
     let dolly = documentManager.clone(id)
+    if (dolly.parent) {
+      storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
+    }
     storage.state('element:' + dolly.id).set(dolly)
+
     storage.state('document').set(documentManager.children(false))
   })
   storage.on('move', (id, data) => {

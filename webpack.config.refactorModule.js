@@ -67,7 +67,7 @@ module.exports = {
         'api',
         'categories',
         'dataProcessor',
-        'assetsStorage',
+        'modernAssetsStorage',
         'assetsManager',
         'stylesManager',
         'myTemplates',
