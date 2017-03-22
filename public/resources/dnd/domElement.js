@@ -145,6 +145,6 @@ export default class DOMElement {
     return this.options.tag
   }
   get iconLink () {
-    return categoriesService.getElementIcon(this.options.tag) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
+    return null // categoriesService.getElementIcon(this.options.tag) // AssetsManager.getPublicPath(elementObject.get('tag'), elementObject.get('metaIcon'))
   }
 }
