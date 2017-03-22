@@ -128,7 +128,11 @@ vcCake.add('storage', (api) => {
       rebuildRawLayout(data.parent)
     }
     if (data.tag === 'row') {
-      rebuildRawLayout(data.id)
+      if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
+        rebuildRawLayout(data.id, data.layout.layoutData)
+      } else {
+        rebuildRawLayout(data.id)
+      }
     }
 
     if (!options.silent) {
