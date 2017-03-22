@@ -10,9 +10,11 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: @resizer-background;
+  z-index: 999;
+  cursor: col-resize;
 
   &:before {
+    display: none;
     content: "";
     position: absolute;
     border-right: @resizer-handler-width dashed @resizer-handler-color;
@@ -20,7 +22,17 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    cursor: col-resize;
+  }
+
+  &:hover::before {
+    display: block;
+  }
+}
+
+.vce-row--col-gap-0 .vce-column-resizer {
+  .vce-column-resizer-handler {
+    width: 2px;
+    transform: translate(50%);
   }
 }
 
@@ -42,6 +54,7 @@
   position: relative;
   margin-top: -12px;
   display: flex;
+  user-select: none;
 
   &.vce-column-resizer-label-left {
     float: left;
@@ -57,9 +70,9 @@
 .vce-column-resizer-label-background {
   height: 23px;
   line-height: 23px;
-  opacity: .9;
+  opacity: .5;
   background: #282828;
   text-align: center;
-  min-width: 38px;
+  min-width: 34px;
   padding: 0 2px;
 }

@@ -1,8 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import '../../../../../sources/less/content/layout/element.less'
-import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
+import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -34,19 +33,19 @@ export default class Element extends React.Component {
     vcCake.ignoreDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
 
-  getContent (content) {
-    let returnData = null
+  getContent () {
+    // let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
-    let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      return <Element element={childElement} key={childElement.id} api={this.props.api} />
+    let elementsList = []
+    DocumentData.children(currentElement.get('id')).map((childElement) => {
+      elementsList.push(<Element element={childElement} key={childElement.id} api={this.props.api} />)
+      if (childElement.tag === 'column') {
+        elementsList.push(
+          <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
+        )
+      }
     })
-    if (elementsList.length) {
-      returnData = elementsList
-    } else {
-      returnData = currentElement.containerFor().length > 0
-        ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
-    }
-    return returnData
+    return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
   }
 
   visualizeAttributes (element) {

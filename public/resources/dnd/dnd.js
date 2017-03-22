@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import _ from 'lodash'
-import { getService, setData, getData, env } from 'vc-cake'
+import { getService, setData, getData } from 'vc-cake'
 import SmartLine from './smartLine'
 import Helper from './helper'
 import HelperClone from './helperClone'
@@ -206,11 +206,15 @@ export default class DnD {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
   findDOMNode (point) {
-    let domNode = this.options.document.elementFromPoint(point.x, point.y)
-    if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
-      domNode = $(domNode).closest('[data-vcv-dnd-element]').get(0)
+    let domNode
+    let targetDomNode = this.options.document.elementFromPoint(point.x, point.y)
+    if (targetDomNode && !targetDomNode.getAttribute('data-vcv-dnd-element')) {
+      let closest = $(targetDomNode).closest('[data-vcv-dnd-element]').get(0)
+      if (closest && closest.dataset.vcvModule !== 'content-layout') {
+        domNode = closest
+      }
     }
-    return domNode || null
+    return domNode
   }
   checkItems (point) {
     let domNode = this.findDOMNode(point)
@@ -369,7 +373,7 @@ export default class DnD {
     if (this.options.disabled === true || this.dragStartHandled) { // hack not to use stopPropogation
       return
     }
-    if (env('FEATURE_CUSTOM_ROW_LAYOUT') && this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
+    if (this.options.ignoreHandling && $(e.currentTarget).is(this.options.ignoreHandling)) {
       return
     }
     if (!this.dragStartHandled) {

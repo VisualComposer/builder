@@ -20,7 +20,7 @@
       var elMarginRight = parseInt(window.getComputedStyle(row, null)['margin-right'], 10);
 
       var offset = 0 - rowHelper.getBoundingClientRect().left - elMarginLeft;
-      var width = document.documentElement.clientWidth;
+      var width = document.documentElement.getBoundingClientRect().width;
 
       row.style.width = width + 'px';
       row.style.left = offset + 'px';

@@ -88,7 +88,8 @@
     "access": "public",
     "value": "https://twitter.com/Interior/status/463440424141459456",
     "options": {
-      "label": "Twitter tweet URL (Link)"
+      "label": "Twitter tweet URL (Link)",
+      "link": true
     }
   },
   "alignment": {
@@ -149,7 +150,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "tweetUrl"
+      {
+        "value": [
+          "tweetUrl"
+        ]
+      }
     ]
   },
   "metaCustomId": {

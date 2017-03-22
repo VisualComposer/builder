@@ -330,23 +330,27 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "iconPicker",
-      "iconUrl",
-      "shape",
-      "shapeColor"
-    ],
-    "options": {
-      "onChange": [
-        {
-          "rule": {
-            "attribute": "shape",
-            "value": "none"
-          },
-          "dependency": "shapeColor",
-          "action": "toggle"
+      {
+        "value": [
+          "iconPicker",
+          "iconUrl",
+          "shape",
+          "shapeColor"
+        ],
+        "options": {
+          "onChange": [
+            {
+              "rule": {
+                "attribute": "shape",
+                "value": "none"
+              },
+              "dependency": "shapeColor",
+              "action": "toggle"
+            }
+          ]
         }
-      ]
-    }
+      }
+    ]
   },
   "metaCustomId": {
     "type": "customId",

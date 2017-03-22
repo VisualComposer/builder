@@ -1,10 +1,21 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 
-class UndoRedoControl extends React.Component {
-  state = {
-    redoDisabled: true,
-    undoDisabled: true
+export default class UndoRedoControl extends React.Component {
+  static propTypes = {
+    api: React.PropTypes.object.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      redoDisabled: true,
+      undoDisabled: true
+    }
+
+    this.checkControls = this.checkControls.bind(this)
+    this.handleUndo = this.handleUndo.bind(this)
+    this.handleRedo = this.handleRedo.bind(this)
   }
 
   componentWillMount () {
@@ -16,7 +27,7 @@ class UndoRedoControl extends React.Component {
     this.props.api.forget('data:changed', this.checkControls)
   }
 
-  checkControls = () => {
+  checkControls () {
     const TimeMachine = vcCake.getService('time-machine')
     this.setState({
       redoDisabled: !TimeMachine.canRedo(),
@@ -24,12 +35,14 @@ class UndoRedoControl extends React.Component {
     })
   }
 
-  handleUndo = () => {
+  handleUndo (e) {
+    e && e.preventDefault()
     const TimeMachine = vcCake.getService('time-machine')
     !vcCake.getData('lockActivity') && this.props.api.request('data:reset', TimeMachine.undo())
   }
 
-  handleRedo = () => {
+  handleRedo (e) {
+    e && e.preventDefault()
     const TimeMachine = vcCake.getService('time-machine')
     !vcCake.getData('lockActivity') && this.props.api.request('data:reset', TimeMachine.redo())
   }
@@ -55,8 +68,3 @@ class UndoRedoControl extends React.Component {
     )
   }
 }
-UndoRedoControl.propTypes = {
-  api: React.PropTypes.object.isRequired
-}
-
-export default UndoRedoControl

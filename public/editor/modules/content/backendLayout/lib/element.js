@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import DefaultElement from './defaultElement'
-import ContentControlsBackend from './helpers/contentControlsBackend/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -9,7 +8,8 @@ const DocumentData = vcCake.getService('document')
 export default class Element extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    layoutWidth: React.PropTypes.number.isRequired
   }
 
   // element (row/column) options to prevent applying of in the backend view
@@ -32,24 +32,22 @@ export default class Element extends React.Component {
     }
   }
 
-  getContent (content) {
-    let { element, api } = this.props
-    let returnData = null
+  componentDidUpdate () {
+    this.props.api.notify('element:didUpdate', this.props.element.id)
+  }
+
+  getContent () {
+    let { element, api, layoutWidth } = this.props
     const currentElement = cook.get(element)
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       return <Element
         element={childElement}
         key={'vcvGetContentElement' + childElement.id}
         api={api}
+        layoutWidth={layoutWidth}
       />
     })
-    if (elementsList.length) {
-      returnData = elementsList
-    } else {
-      returnData = currentElement.containerFor().length > 0
-        ? <ContentControlsBackend api={api} id={currentElement.get('id')} /> : content
-    }
-    return returnData
+    return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
   }
 
   visualizeAttributes (element) {
@@ -69,7 +67,7 @@ export default class Element extends React.Component {
   }
 
   getOutput (el) {
-    let { element, api } = this.props
+    let { element, api, layoutWidth } = this.props
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
@@ -96,6 +94,7 @@ export default class Element extends React.Component {
       key={'vcvLayoutDefaultElement' + id}
       api={api}
       element={element}
+      layoutWidth={layoutWidth}
     />
   }
 

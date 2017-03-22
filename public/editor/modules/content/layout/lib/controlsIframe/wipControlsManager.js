@@ -74,7 +74,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount, systemData),
+        value: new ControlsHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -351,7 +351,7 @@ export default class ControlsManager {
             type: 'mouseLeave',
             vcElementId: this.controlsPrevElement
           })
-          // hide ouutline from tree element
+          // hide outline from tree element
           this.outline.hide()
         }
         // set new element

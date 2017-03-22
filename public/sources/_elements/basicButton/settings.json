@@ -246,10 +246,14 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText",
-      "buttonUrl",
-      "background",
-      "shape"
+      {
+        "value": [
+          "buttonText",
+          "buttonUrl",
+          "background",
+          "shape"
+        ]
+      }
     ]
   },
   "metaCustomId": {

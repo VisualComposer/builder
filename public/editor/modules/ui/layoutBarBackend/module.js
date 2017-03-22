@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom'
 import LayoutBar from './lib/layout'
 
 vcCake.add('ui-layout-bar', (api) => {
-  let layoutHeader = document.getElementById('vcv-wpbackend-layout-header')
+  const layoutHeader = document.getElementById('vcv-wpbackend-layout-header')
+  const layout = document.getElementById('vcv-layout')
   ReactDOM.render(
-    <LayoutBar api={api} layoutHeader={layoutHeader} />,
+    <LayoutBar api={api} layout={layout} />,
     layoutHeader
   )
 })

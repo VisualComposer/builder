@@ -71,7 +71,7 @@
   "lineColor": {
     "type": "color",
     "access": "public",
-    "value": "#FFC000",
+    "value": "#ffc000",
     "options": {
       "label": "Line color",
       "cssMixin": {
@@ -162,9 +162,13 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText",
-      "buttonUrl",
-      "lineColor"
+      {
+        "value": [
+          "buttonText",
+          "buttonUrl",
+          "lineColor"
+        ]
+      }
     ]
   },
   "metaCustomId": {

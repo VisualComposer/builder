@@ -218,11 +218,15 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "buttonText",
-      "buttonUrl",
-      "shape",
-      "gradientColorOne",
-      "gradientColorTwo"
+      {
+        "value": [
+          "buttonText",
+          "buttonUrl",
+          "shape",
+          "gradientColorOne",
+          "gradientColorTwo"
+        ]
+      }
     ]
   },
   "metaCustomId": {

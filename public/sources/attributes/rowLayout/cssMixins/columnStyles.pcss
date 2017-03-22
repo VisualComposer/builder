@@ -1,54 +1,137 @@
 .$selector > .vce-row-content {
-  @media (--$(device)-only) {
-    > .vce-col {
-      margin-right: 30px;
-    }
-    > .vce-col--$(numerator)-$(denominator) {
-      flex: 0;
-      flex-basis: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
-      max-width: calc((100% - $(gapSpace)px) / $(denominator) * $(numerator) + $(equalSpace)px);
-    }
-
-
-    > .vce-col:nth-child($colIndex) {
-      /*@if $colAuto != false {*/
-        /*flex: 1;*/
-        /*flex-basis: auto;*/
-        /*margin-right: $(columnGap)px;*/
-      /*} @else {*/
-        /*flex: 0;*/
-        /*flex-basis: calc(100%  / $(denominator) - $(gapSpace)px);*/
-        /*max-width: calc(100%  / $(denominator) - $(gapSpace)px);*/
-        /*margin-right: $(columnGap)px;*/
-      /*}*/
-
-      @if $lastInRow != false {
+  @media (--$(device)) {
+    @if $fullColumn != false {
+      > .vce-col {
         margin-right: 0;
+      }
+      > .vce-col--$(device)-1 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    } @else {
+      > .vce-col {
+        margin-right: $(columnGap)px;
+      }
+      @if $autoColumn != false {
+        > .vce-col--$(device)-auto {
+          flex: 1 1 0;
+          width: 1px;
+        }
+      } @else {
+        $width: calc((100% - $(gapSpace)px) * $(percentage) + $(equalSpace)px);
+
+        @if $percentageSelector != false {
+          > .vce-col--$(device)-$(percentageSelector)p {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
+        } @else {
+          > .vce-col--$(device)-$(numerator)-$(denominator) {
+            flex: 0;
+            flex-basis: $(width);
+            max-width: $(width);
+          }
+        }
       }
     }
   }
 }
 
-/*.rtl .$selector > .vce-row-content,*/
-/*.rtl.$selector > .vce-row-content {*/
-  /*@media (--$(device)-only) {*/
-    /*> .vce-col:nth-child($colIndex) {*/
-      /*@if $colAuto != false {*/
-        /*flex: 1;*/
-        /*flex-basis: auto;*/
-        /*margin-left: $(columnGap)px;*/
-        /*margin-right: 0;*/
-      /*} @else {*/
-        /*flex: 0;*/
-        /*flex-basis: calc(100% * ($(numerator) / $(denominator)) - $(gapSpace)px);*/
-        /*max-width: calc(100% * ($(numerator) / $(denominator)) - $(gapSpace)px);*/
-        /*margin-left: $(columnGap)px;*/
-        /*margin-right: 0;*/
-      /*}*/
+.$selector {
+  &.vce-row-direction--reverse > .vce-row-content {
+    @media (--$(device)) {
+      @if $fullColumn != false {
+        > .vce-col {
+          margin-left: 0;
+        }
+      } @else {
+        > .vce-col {
+          margin-right: 0;
+          margin-left: $(columnGap)px;
+        }
+      }
+    }
+  }
+}
 
-      /*@if $lastInRow != false {*/
-        /*margin-left: 0;*/
-      /*}*/
-    /*}*/
-  /*}*/
-/*}*/
+
+/* === Resizer === */
+
+.$selector {
+  .vce-column-resizer-handler {
+    width: $(columnGap)px;
+  }
+
+  &.vce-row-direction--reverse > .vce-row-content > .vce-column-resizer > .vce-column-resizer-handler {
+    right: auto;
+    left: 0;
+  }
+}
+
+
+/* === RTL === */
+
+.rtl .$selector > .vce-row-content,
+.rtl.$selector > .vce-row-content {
+  @media (--$(device)) {
+    @if $fullColumn != false {
+      > .vce-col {
+        margin-left: $(columnGap)px;
+        margin-right: 0;
+      }
+    }
+
+    > .vce-column-resizer > .vce-column-resizer-handler {
+      left: 0;
+      right: auto;
+    }
+  }
+}
+
+.rtl .$selector,
+.rtl.$selector {
+  &.vce-row-direction--reverse > .vce-row-content {
+    @media (--$(device)) {
+      @if $fullColumn != false {
+        > .vce-col {
+          margin-left: 0;
+          margin-right: $(columnGap)px;
+        }
+      }
+
+      > .vce-column-resizer > .vce-column-resizer-handler {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+}
+
+
+/* === Backend === */
+
+.vcv-wpbackend-layout .vce-row {
+  @if $autoColumn != false {
+    .vce-col--$(device)-auto {
+      flex: 1 1 0;
+      width: 1px;
+    }
+  } @else {
+    $width: calc(100% * $(percentage));
+
+    @if $percentageSelector != false {
+      .vce-col--$(device)-$(percentageSelector)p {
+        flex: 0;
+        flex-basis: $(width);
+        max-width: $(width);
+      }
+    } @else {
+      .vce-col--$(device)-$(numerator)-$(denominator) {
+        flex: 0;
+        flex-basis: $(width);
+        max-width: $(width);
+      }
+    }
+  }
+}

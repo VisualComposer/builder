@@ -87,7 +87,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "rawHtml"
+      {
+        "value": [
+          "rawHtml"
+        ]
+      }
     ]
   },
   "metaCustomId": {

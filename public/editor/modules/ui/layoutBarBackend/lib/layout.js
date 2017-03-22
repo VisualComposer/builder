@@ -1,15 +1,15 @@
 import React from 'react'
 import BarContent from './content'
 import BarHeader from './header'
-import Resizer from '../../../../../resources/resizer/resizer'
 import ClassNames from 'classnames'
 
 export default class LayoutBar extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    layoutHeader: React.PropTypes.object.isRequired
+    layout: React.PropTypes.object.isRequired
   }
 
+  layoutHeader = this.props.layout.querySelector('.vcv-layout-header')
   layoutBar = null
 
   constructor (props) {
@@ -18,12 +18,16 @@ export default class LayoutBar extends React.Component {
       hasStartContent: false,
       hasEndContent: false,
       isSticky: false,
-      barLeftPos: null,
-      berTopPos: null,
-      barWidth: null,
-      adminBarHeight: document.getElementById('wpadminbar').getBoundingClientRect().height
+      isStickyBottom: false,
+      isStickyAboveTop: false,
+      barLeftPos: 0,
+      barTopPos: 0,
+      barWidth: 0,
+      adminBar: document.getElementById('wpadminbar')
     }
+    this.handleNavbarPosition = this.handleNavbarPosition.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
+    this.handleLayoutResize = this.handleLayoutResize.bind(this)
   }
 
   componentDidMount () {
@@ -49,36 +53,130 @@ export default class LayoutBar extends React.Component {
         })
       })
     window.addEventListener('scroll', this.handleWindowScroll)
+    this.addResizeListener(this.props.layout, this.handleLayoutResize)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.refreshHeaderHeight()
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleWindowScroll)
-  }
-
-  resizeCallback = (e) => {
-    if (e && e.direction) {
-      if (e.direction === 'top') {
-        this.props.api.request('navbar:resizeTop', e.offsetY)
-      } else if (e.direction === 'left') {
-        this.props.api.request('navbar:resizeLeft', e.offsetX)
-      }
-    }
+    this.removeResizeListener(this.props.layout, this.handleLayoutResize)
   }
 
   handleWindowScroll () {
-    let { isSticky, adminBarHeight } = this.state
-    let headerPos = this.props.layoutHeader.getBoundingClientRect()
+    this.handleNavbarPosition()
+  }
+
+  handleLayoutResize () {
+    this.setState({
+      isSticky: false,
+      isStickyBottom: false,
+      isStickyAboveTop: false
+    })
+    this.handleNavbarPosition()
+  }
+
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('object')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
+
+  /**
+   *  Set layout header height if navbar is sticky,
+   *  to calculate proper position during window scroll
+   */
+  refreshHeaderHeight () {
+    if (this.state.isSticky) {
+      let bar = this.layoutBar.getBoundingClientRect()
+      this.layoutHeader.style.height = `${bar.height}px`
+    }
+  }
+
+  /**
+   *  Set navbar position relative to layout, always within layout borders
+   */
+  handleNavbarPosition () {
+    let { isSticky, isStickyBottom, isStickyAboveTop, adminBar } = this.state
+    let layoutRect = this.props.layout.getBoundingClientRect()
     let bar = this.layoutBar.getBoundingClientRect()
-    if (headerPos.top < adminBarHeight && !isSticky) {
+    let adminBarPos = window.getComputedStyle(adminBar).position
+    let adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
+    // user scroll down, navbar becomes sticky
+    if (layoutRect.top < adminBarHeight && !isSticky) {
+      this.layoutHeader.style.height = `${bar.height}px`
       this.setState({
         isSticky: true,
-        barLeftPos: headerPos.left,
+        barLeftPos: layoutRect.left,
         barTopPos: adminBarHeight,
-        barWidth: headerPos.width
+        barWidth: layoutRect.width
       })
     }
-    if (headerPos.top > adminBarHeight + bar.height && isSticky) {
-      this.setState({ isSticky: false })
+    // user scroll up, navbar gets initial position
+    if (layoutRect.top > adminBarHeight && isSticky) {
+      this.setState({
+        isSticky: false,
+        barWidth: layoutRect.width
+      })
+      this.layoutHeader.removeAttribute('style')
+    }
+    // user scroll down, stick navbar to bottom of layout
+    if (layoutRect.bottom < adminBarHeight + bar.height && !isStickyAboveTop) {
+      this.setState({
+        isStickyBottom: true,
+        barLeftPos: layoutRect.left,
+        barTopPos: layoutRect.bottom - bar.height,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll up, stick navbar to top, after stick to layout bottom
+    if (layoutRect.bottom > adminBarHeight + bar.height && isStickyBottom) {
+      this.setState({
+        isStickyBottom: false,
+        barLeftPos: layoutRect.left,
+        barTopPos: adminBarHeight,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll down, stick navbar above visible layout area
+    if (layoutRect.bottom < adminBarHeight && !isStickyAboveTop) {
+      this.setState({
+        isStickyAboveTop: true,
+        barLeftPos: layoutRect.left,
+        barTopPos: adminBarHeight - bar.height,
+        barWidth: layoutRect.width
+      })
+    }
+    // user scroll up, stick navbar to bottom of layout
+    if (layoutRect.bottom > adminBarHeight && isStickyAboveTop) {
+      this.setState({
+        isStickyAboveTop: false,
+        barLeftPos: layoutRect.left,
+        barTopPos: layoutRect.bottom - bar.height,
+        barWidth: layoutRect.width
+      })
     }
   }
 
@@ -103,66 +201,7 @@ export default class LayoutBar extends React.Component {
     return (
       <div className={layoutClasses} style={stickyBar} ref={(bar) => { this.layoutBar = bar }}>
         <BarHeader api={api} />
-        <BarContent api={api} />
-
-        <Resizer params={{
-          resizeTop: true,
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeBottom: true,
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
-          callback: this.resizeCallback
-        }} />
-
-        <Resizer params={{
-          resizeLeft: true,
-          resizeTop: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeLeft: true,
-          resizeBottom: true,
-          resizerTargetLeft: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom',
-          callback: this.resizeCallback
-        }} />
-
-        <Resizer params={{
-          resizeRight: true,
-          resizeTop: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetTop: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right',
-          callback: this.resizeCallback
-        }} />
-        <Resizer params={{
-          resizeRight: true,
-          resizeBottom: true,
-          resizerTargetRight: '.vcv-layout-bar',
-          resizerTargetBottom: '.vcv-layout-bar-content',
-          resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom',
-          callback: this.resizeCallback
-        }} />
+        <BarContent api={api} layoutWidth={barWidth} />
       </div>
     )
   }

@@ -35,7 +35,8 @@
     "value": "https://vimeo.com/channels/staffpicks/181907337",
     "options": {
       "label": "Vimeo video link",
-      "description": "Enter link to Vimeo video."
+      "description": "Enter link to Vimeo video.",
+      "link": true
     }
   },
   "alignment": {
@@ -265,7 +266,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "videoPlayer"
+      {
+        "value": [
+          "videoPlayer"
+        ]
+      }
     ]
   },
   "metaCustomId": {
