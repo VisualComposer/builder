@@ -161,7 +161,7 @@ export default class ControlsHandler {
     // create trigger
     let trigger = document.createElement('a')
     trigger.classList.add('vcv-ui-outline-control', 'vcv-ui-outline-control-more')
-    trigger.dataset.vcvElememtId = element
+    trigger.dataset.vcvElementId = element
     trigger.dataset.vcControlEvent = options.event
     trigger.title = options.title
 
