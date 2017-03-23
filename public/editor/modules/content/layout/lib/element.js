@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import React from 'react'
+import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 
@@ -34,7 +35,6 @@ export default class Element extends React.Component {
   }
 
   getContent () {
-    // let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
     let elementsList = []
     DocumentData.children(currentElement.get('id')).map((childElement) => {
@@ -47,7 +47,7 @@ export default class Element extends React.Component {
         }
       }
     })
-    return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
+    return elementsList.length ? elementsList : <ContentControls api={this.props.api} id={currentElement.get('id')} />
   }
 
   visualizeAttributes (element) {
