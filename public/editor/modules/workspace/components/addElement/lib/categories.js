@@ -167,9 +167,9 @@ export default class Categories extends React.Component {
   getElementsByCategory () {
     let { activeCategoryIndex } = this.state
 
-    return allCategories[ activeCategoryIndex ].elements.map((tag) => {
+    return allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements ? allCategories[ activeCategoryIndex ].elements.map((tag) => {
       return this.getElementControl(tag)
-    })
+    }) : []
   }
 
   getElementListContainer (itemsOutput) {

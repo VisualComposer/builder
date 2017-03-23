@@ -17,7 +17,7 @@ export default class SearchElement extends React.Component {
     this.state = {
       inputValue: '',
       activeIndex: this.props.index,
-      content: this.props.allCategories[this.props.index].title,
+      content: this.props.allCategories[this.props.index] ? this.props.allCategories[this.props.index].title : '',
       dropdown: false,
       input: false
     }
@@ -43,7 +43,7 @@ export default class SearchElement extends React.Component {
     this.setState({
       inputValue: e.currentTarget.value,
       activeIndex: 0,
-      content: this.props.allCategories[0].title
+      content: this.props.allCategories[0] ? this.props.allCategories[0].title : ''
     })
     this.props.changeActive(0)
     this.props.changeTerm('search')
@@ -54,7 +54,7 @@ export default class SearchElement extends React.Component {
     this.setState({
       inputValue: '',
       activeIndex: e.currentTarget.value,
-      content: this.props.allCategories[e.currentTarget.value].title
+      content: this.props.allCategories[e.currentTarget.value] ? this.props.allCategories[e.currentTarget.value].title : ''
     })
     this.props.changeActive(e.currentTarget.value)
     this.props.changeTerm('')
