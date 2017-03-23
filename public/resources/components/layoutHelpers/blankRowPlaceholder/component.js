@@ -188,8 +188,8 @@ export default class BlankRowPlaceholder extends React.Component {
    */
   setControlData () {
     const controls = Array.prototype.slice.call(this.elementsContainer.children)
-    const controlWidth = controls[0].getBoundingClientRect().width
     const controlStyle = window.getComputedStyle(controls[0])
+    const controlWidth = parseInt(controlStyle.width)
     const controlMargin = parseInt(controlStyle.marginLeft) + parseInt(controlStyle.marginRight)
     const controlFullWidth = controlWidth + controlMargin
     this.setState({
@@ -207,7 +207,9 @@ export default class BlankRowPlaceholder extends React.Component {
     const elementsCount = Math.floor(containerWidth / controlWidth)
     let elementsWidth = elementsCount * controlWidth
     elementsWidth = elementsWidth < controlsWidth ? elementsWidth : null
-    this.setState({ containerWidth: elementsWidth })
+    if (this.state.containerWidth !== elementsWidth) {
+      this.setState({ containerWidth: elementsWidth })
+    }
   }
 
   /**
