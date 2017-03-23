@@ -11,9 +11,6 @@ export default class EditElementPanel extends ActivitiesManager {
   }
   constructor (props) {
     super(props)
-    this.state = {
-      element: props.element
-    }
     this.updateElementOnChange = this.updateElementOnChange.bind(this)
   }
   componentDidMount () {

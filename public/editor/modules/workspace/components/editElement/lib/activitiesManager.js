@@ -1,10 +1,11 @@
 import React from 'react'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 const elementsStorage = vcCake.getStorage('elements')
+const cook = vcCake.getService('cook')
+
 export default class ActivitiesManager extends React.Component {
   static propTypes = {
     element: React.PropTypes.object.isRequired,
@@ -17,25 +18,30 @@ export default class ActivitiesManager extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      element: cook.get(props.element)
+    }
     this.resetIfEditFormClosed = this.resetIfEditFormClosed.bind(this)
+    this.listeners = this.initListeners(this.state.element)
   }
-
-  listeners = this.initListeners(this.props.element)
 
   componentWillUpdate (nextProps) {
     this.mount = {}
     this.stack = {}
     this.mountStack = {}
     this.initialStack = {}
-    this.listeners = this.initListeners(nextProps.element)
+    const cookElement = cook.get(nextProps.element)
+    this.setState({element: cookElement})
+    this.listeners = this.initListeners(cookElement)
   }
 
   shouldComponentUpdate (nextProps) {
-    return nextProps.element.get('id') !== this.props.element.get('id') || nextProps.activeState !== this.props.activeState
+    return nextProps.element.get('id') !== this.state.element.get('id') || nextProps.activeState !== this.props.activeState
   }
 
   initListeners (element) {
     let listeners = []
+
     lodash.forEach(element.getAll(), (value, key) => {
       let onChange = this.getRules(element.settings(key))
       if (onChange) {
@@ -86,9 +92,9 @@ export default class ActivitiesManager extends React.Component {
   }
 
   onElementChange = (key, value) => {
-    this.props.element.set(key, value)
+    this.state.element.set(key, value)
     if (vcCake.env('FEATURE_INSTANT_UPDATE')) {
-      const { element } = this.props
+      const { element } = this.state
       const elementData = element.toJS()
       elementsStorage.trigger('update', elementData.id, elementData)
       /*
@@ -180,7 +186,7 @@ export default class ActivitiesManager extends React.Component {
 
     let current = {
       key: listener.key,
-      value: this.props.element.get(listener.key)
+      value: this.state.element.get(listener.key)
     }
 
     if (this.mount[ listener.key ].field) {
@@ -194,7 +200,7 @@ export default class ActivitiesManager extends React.Component {
       current[ type ] = this.mount[ listener.key ][ type ]
     })
     let actionsCallback = (ruleState, listener) => {
-      let actions = this.getActions(this.props.element.settings(listener.key))
+      let actions = this.getActions(this.state.element.settings(listener.key))
       if (actions) {
         keys.forEach((type) => {
           actions.forEach((action) => {
@@ -204,12 +210,12 @@ export default class ActivitiesManager extends React.Component {
               [type]: current[ type ],
               value: current.value,
               key: current.key
-            }, this.props.element)
+            }, this.state.element)
           })
         })
       }
     }
-    RulesManager.check(this.props.element.toJS(), this.getRules(this.props.element.settings(listener.key)), (status) => {
+    RulesManager.check(this.state.element.toJS(), this.getRules(this.state.element.settings(listener.key)), (status) => {
       actionsCallback(status, listener)
     })
 
