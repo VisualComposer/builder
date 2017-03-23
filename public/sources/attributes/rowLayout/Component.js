@@ -14,19 +14,19 @@ import './css/styles.less'
 class Layout extends Attribute {
   static defaultProps = {
     layouts: [
-      [ 'auto' ],
-      [ '1/2', '1/2' ],
-      [ '1/3', '1/3', '1/3' ],
-      [ '1/4', '1/4', '1/4', '1/4' ],
-      [ '1/5', '1/5', '1/5', '1/5', '1/5' ],
-      [ '1/6', '1/6', '1/6', '1/6', '1/6', '1/6' ],
-      [ '2/3', '1/3' ],
-      [ '1/4', '3/4' ],
-      [ '1/4', '2/4', '1/4' ],
-      [ '1/6', '4/6', '1/6' ]
+      [ '100%' ],
+      [ '50%', '50%' ],
+      [ '33.33%', '33.33%', '33.33%' ],
+      [ '25%', '25%', '25%', '25%' ],
+      [ '20%', '20%', '20%', '20%', '20%' ],
+      [ '16.66%', '16.66%', '16.66%', '16.66%', '16.66%', '16.66%' ],
+      [ '66.66%', '33.34%' ],
+      [ '25%', '75%' ],
+      [ '25%', '50%', '25%' ],
+      [ '16.66%', '66.66%', '16.66%' ]
     ],
     suggestions: [
-      'auto',
+      '100%',
       '50%',
       '33.33%',
       '25%',
@@ -268,9 +268,7 @@ responsiveness options and stacking order.
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
                     />
-                    <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using fractions.
-                      The total sum of fractions should be 1 (ex. 1/3 + 1/3 + 1/3)
-                    </p>
+                    <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).</p>
                   </div>
                 </div>
               </div>

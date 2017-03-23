@@ -5,52 +5,121 @@ const utils = vcCake.getService('utils')
 
 vcCake.add('storage', (api) => {
   const DocumentData = api.getService('document')
-  const rebuildRawLayout = (id, layout) => {
+  const getRowData = (layout) => {
+    let lastColumnIndex = []
+    let rowValue = 0
+    let autoCount = 0
+    let columnValues = []
+    let isColumnsEqual = true
+
+    layout.forEach((col, index) => {
+      let colValue = 0
+      if (col === 'auto') {
+        colValue = 0.03
+        columnValues.push('auto')
+        autoCount++
+      } else {
+        if (col.indexOf('%') >= 0) {
+          colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
+        } else {
+          let column = col.split('/')
+          let numerator = column[ 0 ]
+          let denominator = column[ 1 ]
+          colValue = numerator / denominator
+        }
+        columnValues.push(colValue)
+      }
+
+      let newRowValue = (rowValue + colValue).toString()
+      newRowValue = newRowValue.slice(0, (newRowValue.indexOf('.')) + 4)
+
+      if (newRowValue > 1) {
+        isColumnsEqual = false
+        lastColumnIndex.push(index - 1)
+        rowValue = 0
+      }
+      if (!layout[ index + 1 ]) {
+        lastColumnIndex.push(index)
+      }
+      rowValue += colValue
+    })
+
+    let rowFullValue = 0
+
+    let newRowValue = rowValue - (autoCount * 0.03)
+    let autoValue = (1 - newRowValue) / autoCount
+
+    columnValues.forEach((size, index) => {
+      if (size === 'auto') {
+        columnValues[ index ] = autoValue
+        rowFullValue += autoValue
+      } else {
+        rowFullValue += size
+      }
+    })
+
+    if (columnValues.length === 1) {
+      if (columnValues[ 0 ] !== 1) {
+        isColumnsEqual = false
+      }
+    } else {
+      columnValues.forEach((size) => {
+        if (columnValues[ 0 ] !== size) {
+          isColumnsEqual = false
+        }
+      })
+    }
+    return {
+      lastColumnIndex: lastColumnIndex,
+      isColumnsEqual: isColumnsEqual,
+      rowValue: rowFullValue
+    }
+  }
+  const rebuildRawLayout = (id, layout, action, size) => {
+    let columns = DocumentData.children(id)
     if (!layout) {
       layout = vcCake.getService('document').children(id)
         .map((element) => {
-          return element.size || 'auto'
+          return element.size || '100%'
         })
-    }
-    let getLastInRow = (columns) => {
-      let lastColumnIndex = []
-      let rowValue = 0
+      if (action === 'columnAdd' || action === 'columnClone') {
+        let prevLayout = layout.slice()
+        prevLayout.pop()
+        let rowData = getRowData(prevLayout)
 
-      columns.forEach((col, index) => {
-        let colValue = ''
-        if (col === 'auto') {
-          colValue = 0.03
-        } else {
-          if (col.indexOf('%') >= 0) {
-            colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
-          } else {
-            let column = col.split('/')
-            let numerator = column[ 0 ]
-            let denominator = column[ 1 ]
-            colValue = numerator / denominator
+        if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
+          if (action === 'columnAdd') {
+            let leftValue = 1 - rowData.rowValue
+            layout = prevLayout
+            layout.push(`${leftValue * 100}%`)
+          }
+        } else if (rowData.isColumnsEqual) {
+          let colCount = layout.length
+          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+          layout = []
+          for (let i = 0; i < colCount; i++) {
+            layout.push(colSize)
           }
         }
+      }
 
-        let newRowValue = (rowValue + colValue).toString()
-        newRowValue = newRowValue.slice(0, (newRowValue.indexOf('.')) + 4)
+      if (action === 'columnRemove') {
+        let prevLayout = layout.slice()
+        prevLayout.push(size)
+        let rowData = getRowData(prevLayout)
 
-        if (newRowValue > 1) {
-          lastColumnIndex.push(index - 1)
-          rowValue = 0
+        if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
+          let colCount = layout.length
+          let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+          layout = []
+          for (let i = 0; i < colCount; i++) {
+            layout.push(colSize)
+          }
         }
-
-        if (!columns[ index + 1 ]) {
-          lastColumnIndex.push(index)
-        }
-
-        rowValue += colValue
-      })
-
-      return lastColumnIndex
+      }
     }
-    let lastColumns = getLastInRow(layout)
+    let lastColumns = getRowData(layout).lastColumnIndex
     let createdElements = []
-    let columns = DocumentData.children(id)
     let lastColumnObject = null
     layout.forEach((size, i) => {
       let lastInRow = lastColumns.indexOf(i) >= 0
@@ -125,10 +194,14 @@ vcCake.add('storage', (api) => {
       }
     }
     if (data.tag === 'column') {
-      rebuildRawLayout(data.parent)
+      rebuildRawLayout(data.parent, false, 'columnAdd')
     }
     if (data.tag === 'row') {
-      rebuildRawLayout(data.id)
+      if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
+        rebuildRawLayout(data.id, data.layout.layoutData)
+      } else {
+        rebuildRawLayout(data.id)
+      }
     }
 
     if (!options.silent) {
@@ -145,7 +218,7 @@ vcCake.add('storage', (api) => {
       DocumentData.delete(element.parent)
     }
     if (element.tag === 'column') {
-      rebuildRawLayout(element.parent)
+      rebuildRawLayout(element.parent, false, 'columnRemove', element.size)
     }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
@@ -158,7 +231,7 @@ vcCake.add('storage', (api) => {
       dolly = element.toJS()
     }
     if (dolly.tag === 'column') {
-      rebuildRawLayout(dolly.parent)
+      rebuildRawLayout(dolly.parent, false, 'columnClone')
     }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
