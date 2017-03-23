@@ -3,6 +3,7 @@ let Collector = require('./tools/webpack-collector')
 // let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let autoprefixer = require('autoprefixer')
+let webpack = require('webpack')
 
 module.exports = {
   devtool: 'eval',
@@ -13,7 +14,30 @@ module.exports = {
     front: './public/front-main',
     // wpbackend: './public/wpbackend-main',
     // wpbackendswitch: './public/wpbackend-switch',
-    app: []
+    app: [],
+    vendor: [
+      'jquery',
+      'react',
+      'react-dom',
+      'classnames',
+      'lodash',
+      'vc-cake',
+      './node_modules/babel-runtime/core-js.js',
+      './node_modules/babel-runtime/helpers/createClass.js',
+      './node_modules/babel-runtime/helpers/inherits.js',
+      './node_modules/babel-runtime/helpers/typeof.js',
+      './node_modules/babel-runtime/helpers/possibleConstructorReturn.js',
+      './node_modules/babel-runtime/helpers/classCallCheck.js',
+      './node_modules/babel-runtime/helpers/extends.js',
+      './node_modules/babel-runtime/core-js/symbol.js',
+      './node_modules/babel-runtime/core-js/symbol/iterator.js',
+      './node_modules/babel-runtime/core-js/object/set-prototype-of.js',
+      './node_modules/babel-runtime/core-js/object/get-prototype-of.js',
+      './node_modules/babel-runtime/core-js/object/define-property.js',
+      './node_modules/babel-runtime/core-js/object/create.js',
+      './node_modules/babel-runtime/core-js/object/assign.js',
+      './node_modules/babel-runtime/core-js/object/keys.js'
+    ]
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -26,7 +50,11 @@ module.exports = {
   },
   plugins: [
     new Collector(),
-    new ExtractTextPlugin('[name].bundle.css')
+    new ExtractTextPlugin('[name].bundle.css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
+    new webpack.NamedModulesPlugin()
   ],
   vc: {
     node: {
