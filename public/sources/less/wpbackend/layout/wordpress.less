@@ -234,11 +234,19 @@
 
   .vcv-ui-blank-row-container {
     height: @vcv-wpbackend-blank-row-container-height;
+    min-height: @vcv-wpbackend-blank-row-container-min-height;
+    margin: @vcv-wpbackend-blank-row-container-margin;
   }
 
   .vcv-wpbackend-layout {
     .vcv-ui-blank-row-container {
       height: auto;
+      min-height: 0;
+      margin: @vcv-wpbackend-blank-row-container-margin-inside-layout;
+    }
+
+    .vcv-ui-blank-row {
+      margin-top: @vcv-wpbackend-blank-row-margin-top;
     }
   }
 
