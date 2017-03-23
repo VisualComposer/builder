@@ -11,7 +11,7 @@ class Component extends vcvAPI.elementComponent {
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
     classes.push(`vce-row--col-gap-${columnGap ? parseInt(columnGap) : 0}`)
     if (layout && layout.reverseColumn) {
-      classes.push('vce-row-direction--reverse')
+      classes.push('vce-row-wrap--reverse')
     }
     let customProps = {
       style: {}

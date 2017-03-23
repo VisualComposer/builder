@@ -47,7 +47,7 @@ class AssetsController extends Container implements Module
             )
         ) {
             $this->registerEditorAssets();
-            $newWebpack = false;
+            $newWebpack = true;
             if ($newWebpack) {
                 wp_enqueue_script('vcv:editors:backend:vendor');
             }
