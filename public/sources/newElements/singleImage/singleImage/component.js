@@ -2,7 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
-export default class RowElement extends vcvAPI.elementComponent {
+export default class SingleImageElement extends vcvAPI.elementComponent {
   static imageSizes = {
     thumbnail: {
       height: '150',
@@ -28,9 +28,9 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    Component.imgProps[ 'data-img-src' ] = this.getImageUrl(this.props.atts.image, 'full')
-    Component.imgProps[ 'alt' ] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
-    Component.imgProps[ 'title' ] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
+    SingleImageElement.imgProps[ 'data-img-src' ] = this.getImageUrl(this.props.atts.image, 'full')
+    SingleImageElement.imgProps[ 'alt' ] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
+    SingleImageElement.imgProps[ 'title' ] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
 
     if (this.props.atts.size === 'full' && this.props.atts.shape !== 'round') {
       return true
@@ -51,9 +51,9 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    Component.imgProps[ 'data-img-src' ] = this.getImageUrl(nextProps.atts.image, 'full')
-    Component.imgProps[ 'alt' ] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
-    Component.imgProps[ 'title' ] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
+    SingleImageElement.imgProps[ 'data-img-src' ] = this.getImageUrl(nextProps.atts.image, 'full')
+    SingleImageElement.imgProps[ 'alt' ] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
+    SingleImageElement.imgProps[ 'title' ] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
 
     if (nextProps.atts.size === 'full' && nextProps.atts.shape !== 'round') {
       this.setState({
@@ -163,9 +163,9 @@ export default class RowElement extends vcvAPI.elementComponent {
       }
     }
     img.src = imgSrc
-    img.setAttribute('data-img-src', Component.imgProps[ 'data-img-src' ])
-    img.setAttribute('alt', Component.imgProps[ 'alt' ])
-    img.setAttribute('title', Component.imgProps[ 'title' ])
+    img.setAttribute('data-img-src', SingleImageElement.imgProps[ 'data-img-src' ])
+    img.setAttribute('alt', SingleImageElement.imgProps[ 'alt' ])
+    img.setAttribute('title', SingleImageElement.imgProps[ 'title' ])
     img.className = 'vce-single-image'
   }
 
@@ -173,8 +173,8 @@ export default class RowElement extends vcvAPI.elementComponent {
     let relatedSize = ''
     if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
       relatedSize = window.vcvImageSizes[ size ]
-    } else if (Component.imageSizes[ size ]) {
-      relatedSize = Component.imageSizes[ size ]
+    } else if (SingleImageElement.imageSizes[ size ]) {
+      relatedSize = SingleImageElement.imageSizes[ size ]
     }
     return relatedSize
   }
@@ -202,7 +202,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     let wrapperProps = {}
     let CustomTag = 'div'
     let originalSrc = this.getImageUrl(image, 'full')
-    let customImageProps = Component.imgProps
+    let customImageProps = SingleImageElement.imgProps
     let imgSrc = originalSrc
 
     size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
