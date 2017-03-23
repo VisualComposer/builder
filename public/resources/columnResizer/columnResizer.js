@@ -80,6 +80,7 @@ class ColumnResizer extends React.Component {
     if (e.nativeEvent.which === 1) {
       this.getRowData(e)
       this.getResizerPositions(e)
+      this.createWrapBlockers()
       let colSizes = this.getResizedColumnsWidth(e)
       let labelPosition = e.clientY - ColumnResizer.data.helper.getBoundingClientRect().top
 
@@ -114,6 +115,7 @@ class ColumnResizer extends React.Component {
 
   handleMouseUp (e) {
     this.setState({ dragging: false })
+    this.removeWrapBlockers()
     this.rebuildRowLayout()
     this.removeTemporaryColStyles()
   }
@@ -196,6 +198,48 @@ class ColumnResizer extends React.Component {
     ColumnResizer.data.rightColumn.style = {}
   }
 
+  createWrapBlockers () {
+    let $resizer = ColumnResizer.data.helper
+    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--first')
+    let blockElement = document.createElement('div')
+    blockElement.className = 'vce-column-wrap-blocker'
+
+    if (firstRowElement) {
+      firstRowElement.parentNode.insertBefore(blockElement, firstRowElement)
+    }
+  }
+
+  removeWrapBlockers () {
+    let blocker = ColumnResizer.data.helper.parentNode.querySelector('.vce-column-wrap-blocker')
+    blocker.parentNode.removeChild(blocker)
+  }
+
+  getSibling (element, direction, className) {
+    let sibling = null
+    if (direction === 'prev') {
+      direction = 'previousElementSibling'
+    } else if (direction === 'next') {
+      direction = 'nextElementSibling'
+    } else {
+      return null
+    }
+
+    let getElementSibling = (element, dir) => {
+      let siblingElement = element[ dir ]
+      if (!siblingElement) {
+        return null
+      }
+      let siblingClasses = element[ dir ].className.split(' ')
+      if (siblingClasses.indexOf(className) > -1) {
+        sibling = element[ dir ]
+      } else {
+        getElementSibling(element[ dir ], dir)
+      }
+    }
+    getElementSibling(element, direction)
+    return sibling
+  }
+
   setLabelPercentages (left, right) {
     this.setState({
       leftColPercentage: left,
@@ -215,7 +259,7 @@ class ColumnResizer extends React.Component {
     const parentRow = vcCake.getService('document').get(ColumnResizer.data.rowId)
     let layoutData = vcCake.getService('document').children(ColumnResizer.data.rowId)
       .map((element) => {
-        return element.size || 'auto'
+        return element.size || '100%'
       })
     let leftSize = (Math.round(this.state.leftColPercentage * 10000) / 10000) * 100
     leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
