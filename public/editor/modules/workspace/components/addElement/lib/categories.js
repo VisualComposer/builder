@@ -122,6 +122,7 @@ export default class Categories extends React.Component {
 
   getElementControl (tag) {
     let element = cook.get({ tag: tag }).toJS()
+
     return <ElementControl
       key={'vcv-element-control-' + element.tag}
       element={element}
