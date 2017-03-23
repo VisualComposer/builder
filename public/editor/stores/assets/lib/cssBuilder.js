@@ -147,7 +147,7 @@ export default class CssBuilder {
   addCssElementBaseByElement (data) {
     let styles = this.stylesManager.create()
     styles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
-    styles.add(this.assetsStorage.getColumnsCssData())
+    // styles.add(this.assetsStorage.getColumnsCssData())
     this.addJob(styles.compile().then((result) => {
       this.window.document.getElementById(`base-css-styles-${data.id}`).innerHTML = result
     }))
