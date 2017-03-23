@@ -13,7 +13,7 @@ class PostsGridSourcePosts extends Container implements Helper
             'type' => 'post',
             'child_of' => 0,
             'parent' => '',
-            'orderby' => 'parent_id',
+            'orderby' => 'parent',
             'order' => 'ASC',
             'hide_empty' => false,
             'hierarchical' => 1,
