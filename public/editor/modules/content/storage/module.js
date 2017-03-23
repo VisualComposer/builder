@@ -19,7 +19,7 @@ vcCake.add('storage', (api) => {
         columnValues.push('auto')
         autoCount++
       } else {
-        if (col.indexOf('%') >= 0) {
+        if (col.indexOf('%') > -1) {
           colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
         } else {
           let column = col.split('/')
@@ -30,8 +30,7 @@ vcCake.add('storage', (api) => {
         columnValues.push(colValue)
       }
 
-      let newRowValue = (rowValue + colValue).toString()
-      newRowValue = newRowValue.slice(0, (newRowValue.indexOf('.')) + 4)
+      let newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
 
       if (newRowValue > 1) {
         isColumnsEqual = false
@@ -58,25 +57,22 @@ vcCake.add('storage', (api) => {
       }
     })
 
-    if (columnValues.length === 1) {
-      if (columnValues[ 0 ] !== 1) {
+    columnValues.forEach((size) => {
+      if (columnValues[ 0 ] !== size && size !== 1) {
         isColumnsEqual = false
       }
-    } else {
-      columnValues.forEach((size) => {
-        if (columnValues[ 0 ] !== size) {
-          isColumnsEqual = false
-        }
-      })
-    }
+    })
+
     return {
       lastColumnIndex: lastColumnIndex,
       isColumnsEqual: isColumnsEqual,
       rowValue: rowFullValue
     }
   }
-  const rebuildRawLayout = (id, layout, action, size) => {
+
+  const rebuildRawLayout = (id, action, data = {}) => {
     let columns = DocumentData.children(id)
+    let layout = data.layout
     if (!layout) {
       layout = vcCake.getService('document').children(id)
         .map((element) => {
@@ -103,9 +99,9 @@ vcCake.add('storage', (api) => {
         }
       }
 
-      if (action === 'columnRemove') {
+      if (action === 'columnRemove' && data.size) {
         let prevLayout = layout.slice()
-        prevLayout.push(size)
+        prevLayout.push(data.size)
         let rowData = getRowData(prevLayout)
 
         if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
@@ -122,8 +118,8 @@ vcCake.add('storage', (api) => {
     let createdElements = []
     let lastColumnObject = null
     layout.forEach((size, i) => {
-      let lastInRow = lastColumns.indexOf(i) >= 0
-      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) >= 0
+      let lastInRow = lastColumns.indexOf(i) > -1
+      let firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
       if (columns[ i ] !== undefined) {
         lastColumnObject = columns[ i ]
         lastColumnObject.size = size
@@ -194,11 +190,13 @@ vcCake.add('storage', (api) => {
       }
     }
     if (data.tag === 'column') {
-      rebuildRawLayout(data.parent, false, 'columnAdd')
+      let rowElement = DocumentData.get(data.parent)
+      rebuildRawLayout(rowElement.id, 'columnAdd')
+      api.request('data:update', rowElement.id, rowElement)
     }
     if (data.tag === 'row') {
       if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
-        rebuildRawLayout(data.id, data.layout.layoutData)
+        rebuildRawLayout(data.id, null, { layout: data.layout.layoutData })
       } else {
         rebuildRawLayout(data.id)
       }
@@ -218,7 +216,9 @@ vcCake.add('storage', (api) => {
       DocumentData.delete(element.parent)
     }
     if (element.tag === 'column') {
-      rebuildRawLayout(element.parent, false, 'columnRemove', element.size)
+      let rowElement = DocumentData.get(element.parent)
+      rebuildRawLayout(rowElement.id, 'columnRemove', { size: element.size })
+      api.request('data:update', rowElement.id, rowElement)
     }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
@@ -231,7 +231,9 @@ vcCake.add('storage', (api) => {
       dolly = element.toJS()
     }
     if (dolly.tag === 'column') {
-      rebuildRawLayout(dolly.parent, false, 'columnClone')
+      let rowElement = DocumentData.get(dolly.parent)
+      rebuildRawLayout(rowElement.id, 'columnClone')
+      api.request('data:update', rowElement.id, rowElement)
     }
     api.request('data:afterClone', dolly.id)
     api.request('data:changed', DocumentData.children(false), 'clone', dolly.id)
@@ -239,7 +241,7 @@ vcCake.add('storage', (api) => {
 
   api.reply('data:update', (id, element) => {
     if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
-      rebuildRawLayout(id, element.layout.layoutData)
+      rebuildRawLayout(id, null, { layout: element.layout.layoutData })
       element.layout.layoutData = undefined
     }
     DocumentData.update(id, element)
