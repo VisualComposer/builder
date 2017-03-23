@@ -7,6 +7,11 @@
 .vcv-layouts-html {
   .vcv-ui-blank-row-container {
     height: auto;
+    min-height: 0;
+  }
+
+  .vcv-ui-blank-row {
+    margin-top: @vcv-blank-row-margin-top;
   }
 }
 
@@ -15,7 +20,6 @@
   justify-content: center;
   align-items: center;
   flex: 1 0 auto;
-  margin-top: @vcv-blank-row-margin-top;
   border: @vcv-blank-row-border;
 }
 
@@ -26,6 +30,7 @@
 
 .vcv-ui-blank-row-element-control {
   flex: 0 0 auto;
+  width: @vcv-blank-row-element-control-width;
   padding: @vcv-blank-row-element-control-padding;
   margin: @vcv-blank-row-element-control-margin;
   border: none;
