@@ -4,19 +4,12 @@
       > .vce-col {
         margin-right: 0;
       }
-      > .vce-col--$(device)-1 {
-        flex: 0 0 100%;
-        max-width: 100%;
-      }
     } @else {
       > .vce-col {
         margin-right: $(columnGap)px;
       }
       @if $autoColumn != false {
-        > .vce-col--$(device)-auto {
-          flex: 1 1 0;
-          width: 1px;
-        }
+
       } @else {
         $width: calc((100% - $(gapSpace)px) * $(percentage) + $(equalSpace)px);
 
