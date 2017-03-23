@@ -9,9 +9,6 @@ addStorage('elements', (storage) => {
 
   const updateTimeMachine = () => {
     historyStorage.trigger('add', documentManager.all())
-    // timeMachineStorage.update(documentManager.all())
-    // timeMachine.add(documentManager.all())
-    // storage.state('undo').set(true)
   }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     let createdElements = []
@@ -38,7 +35,7 @@ addStorage('elements', (storage) => {
     storage.state('document').set(documentManager.children(false))
     updateTimeMachine()
   })
-  storage.on('update', (id, element) => {
+  storage.on('update', (id, element, source = '') => {
     if (env('FEATURE_CUSTOM_ROW_LAYOUT')) {
       let children = false
       if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
@@ -62,7 +59,7 @@ addStorage('elements', (storage) => {
         const [element, action] = stack
         const id = element.id
         if (action !== 'remove') {
-          storage.state('element:' + id).set(element)
+          storage.state('element:' + id).set(element, source)
         }
         assets.trigger(`${action}Element`, id)
       })
@@ -73,7 +70,7 @@ addStorage('elements', (storage) => {
       }
     }
     documentManager.update(id, element)
-    storage.state('element:' + id).set(element)
+    storage.state('element:' + id).set(element, source)
     assets.trigger('updateElement', id)
     updateTimeMachine()
   })

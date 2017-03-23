@@ -9,7 +9,7 @@ module.exports = {
   devtool: 'eval',
   entry: {
     node: './public/node-main',
-    // wp: './public/wp-main',
+    wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
     // wpbackend: './public/wpbackend-main',
@@ -59,28 +59,8 @@ module.exports = {
   vc: {
     node: {
       modules: [
-        // 'content/storage',
-        // 'content/assets',
         'content/modernLayout',
-        // 'content/tree-view-dnd',
-        // 'content/local-storage/data-load',
-        // 'content/local-storage/data-save',
-        // 'content/local-storage/data-unload',
         'workspace'
-        /*
-        'ui/layout-bar',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/tree-view',
-        'ui/undo-redo',
-        'ui/layout-control',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/node-save'
-        */
       ],
       services: [
         'utils',
@@ -89,7 +69,6 @@ module.exports = {
         'cook',
         'shared-library',
         'assets-library',
-        // 'timeMachine',
         'actions-manager',
         'rules-manager',
         'api',
@@ -105,47 +84,27 @@ module.exports = {
     },
     wp: {
       modules: [
-        // 'content/storage',
-        // 'content/assets',
         'content/modernLayout',
-        // 'content/wordpress/data-load',
-        // 'content/wordpress/data-save',
-        // 'content/wordpress/data-unload',
-        'content/tree-view-dnd',
-        'workspace'
-        /*
-        'ui/layout-bar',
-        'ui/navbar',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/tree-view',
-        'ui/undo-redo',
-        'ui/layout-control',
-        'ui/settings',
-        'ui/navbar-separator',
-        'ui/wordpress-post'
-        */
+        'wordpressWorkspace'
       ],
       services: [
         'utils',
         'document',
-        'wordpress-post-data',
+        'localStorage',
         'cook',
         'shared-library',
         'assets-library',
-        'time-machine',
         'actions-manager',
         'rules-manager',
         'api',
-        'hubCategories',
-        'hubGroups',
+        'categories',
         'dataProcessor',
-        'assetsStorage',
+        'modernAssetsStorage',
         'assetsManager',
         'stylesManager',
-        'wpMyTemplates'
+        'myTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     wpbackend: {

@@ -20,6 +20,10 @@ $(() => {
     })
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
     vcCake.env('platform', 'wordpress').start(() => {
+      require('./editor/stores/elements/elementsStorage')
+      require('./editor/stores/assets/assetsStorage')
+      require('./editor/stores/workspaceStorage')
+      require('./editor/stores/historyStorage')
       require('./config/wp-modules')
     })
     vcCake.env('iframe', iframe)

@@ -8,7 +8,6 @@ import striptags from 'striptags'
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
-const elementsStorage = vcCake.getStorage('elements')
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
 
@@ -58,7 +57,7 @@ export default class ContentEditableComponent extends React.Component {
       let contentToSave = this.props.options && this.props.options.inlineMode === 'text'
         ? striptags(this.state.realContent) : this.state.realContent
       element.set(this.props.field, contentToSave)
-      elementsStorage.trigger('update', element.get('id'), element.toJS())
+      this.props.api.request('data:update', element.get('id'), element.toJS())
     }
     // add overlay
     if (this.state.contentEditable) {

@@ -1,12 +1,17 @@
-import {add, getStorage} from 'vc-cake'
+import {add, setData, getStorage} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
 
 const workspaceStorage = getStorage('workspace')
-add('workspace', (api) => {
+add('wordpressWorkspace', (api) => {
   // Set Templates
   api.reply('start', () => {
+    setData('myTemplates', window.vcvMyTemplates.map((template) => {
+      template.id = template.id.toString()
+      return template
+    }))
+
     workspaceStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
