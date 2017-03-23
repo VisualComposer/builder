@@ -22,7 +22,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: [ '1/2', '1/2' ],
+          layout: [ '50%', '50%' ],
           icon: 'twoColumns.svg',
           title: 'Add two columns'
         }
@@ -30,7 +30,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: [ '1/3', '1/3', '1/3' ],
+          layout: [ '33.33%', '33.33%', '33.33%' ],
           icon: 'threeColumns.svg',
           title: 'Add three columns'
         }
@@ -38,7 +38,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: [ '1/4', '1/4', '1/4', '1/4' ],
+          layout: [ '25%', '25%', '25%', '25%' ],
           icon: 'fourColumns.svg',
           title: 'Add four columns'
         }
@@ -46,7 +46,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: [ '1/5', '1/5', '1/5', '1/5', '1/5' ],
+          layout: [ '20%', '20%', '20%', '20%', '20%' ],
           icon: 'fiveColumns.svg',
           title: 'Add five columns'
         }
@@ -54,7 +54,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: [ '2/3', '1/3' ],
+          layout: [ '66.66%', '33.34%' ],
           icon: 'custom.svg',
           title: 'Add custom columns',
           type: 'custom'
