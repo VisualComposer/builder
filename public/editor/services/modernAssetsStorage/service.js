@@ -186,10 +186,16 @@ class PublicApi {
     return storage.getGoogleFontsData()
   }
 }
+let singleton = false
 const service = {
   create (elements = {}) {
     return new PublicApi(elements = {})
+  },
+  getGlobalInstance () {
+    if (!singleton) {
+      singleton = this.create()
+    }
+    return singleton
   }
 }
-
 vcCake.addService('modernAssetsStorage', service)
