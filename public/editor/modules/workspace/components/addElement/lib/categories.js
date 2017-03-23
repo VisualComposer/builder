@@ -157,9 +157,8 @@ export default class Categories extends React.Component {
       return val.title === 'All'
     })
     return allCategories[ getIndex ].elements.filter((val) => {
-      console.log(val)
-      let elName = val.name.toLowerCase()
-      return val.hasOwnProperty('name') && elName.indexOf(inputValue.trim()) !== -1
+      let elName = val.toLowerCase()
+      return elName.indexOf(inputValue.trim()) !== -1
     }).map((tag) => {
       return this.getElementControl(tag)
     })
