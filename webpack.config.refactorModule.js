@@ -95,7 +95,7 @@ module.exports = {
         'actions-manager',
         'rules-manager',
         'api',
-        'categories',
+        // 'categories',
         'dataProcessor',
         'modernAssetsStorage',
         'assetsManager',
