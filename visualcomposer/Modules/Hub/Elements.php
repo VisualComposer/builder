@@ -49,7 +49,7 @@ class Elements extends Container implements Module
             'hubElements',
             [
                 'row' => [
-                    'path' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/row/row/'),
                     'settings' => [
                         'name' => 'Row',
@@ -59,7 +59,7 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'column' => [
-                    'path' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/column/column/'),
                     'settings' => [
                         'name' => 'Column',
@@ -69,7 +69,7 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'textBlock' => [
-                    'path' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/'),
                     'settings' => [
                         'name' => 'Text Block',
@@ -79,7 +79,7 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'basicButton' => [
-                    'path' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/'),
                     'settings' => [
                         'name' => 'Basic Button',
@@ -89,7 +89,7 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'singleImage' => [
-                    'path' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/'),
                     'settings' => [
                         'name' => 'Single Image',
@@ -99,7 +99,7 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'heroSection' => [
-                    'path' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
                     'elementPath' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/'),
                     'settings' => [
                         'name' => 'Hero Section',
