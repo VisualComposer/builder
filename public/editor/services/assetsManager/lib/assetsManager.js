@@ -103,7 +103,7 @@ export default {
    * @returns {Array}
    */
   getAssetsLibraryJsFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
+    let assetsLibrary = vcCake.getService('assetsLibrary')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicJs && libData.publicJs.length) {
       return libData.publicJs
@@ -117,7 +117,7 @@ export default {
    * @returns {Array}
    */
   getAssetsLibraryCssFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
+    let assetsLibrary = vcCake.getService('assetsLibrary')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicCss && libData.publicCss.length) {
       return libData.publicCss

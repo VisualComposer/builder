@@ -117,4 +117,4 @@ AssetsLibrary.add('vimeoPlayerAPI', {
     'assetsLibrary/vimeoPlayerAPI/init.js'
   ]
 })
-vcCake.addService('assets-library', AssetsLibrary)
+vcCake.addService('assetsLibrary', AssetsLibrary)
