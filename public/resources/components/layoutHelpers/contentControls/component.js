@@ -5,43 +5,52 @@ import vcCake from 'vc-cake'
 export default class ContentControls extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
-    id: React.PropTypes.string.isRequired,
-    controlsData: React.PropTypes.array
+    id: React.PropTypes.string.isRequired
   }
 
-  static defaultProps = {
-    controlsData: [
-      {
-        icon: 'addElement.svg',
-        title: 'Add Element',
-        action: 'app:add'
-      }
-    ]
+  container = null
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      hideIcon: false
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
   }
 
-  getControls () {
+  handleMouseEnter () {
+    const image = this.container.querySelector('.vcv-ui-blank-row-element-control-icon')
+    if (image.getBoundingClientRect().width > this.container.getBoundingClientRect().width && !this.state.hideIcon) {
+      this.setState({ hideIcon: true })
+    }
+    if (image.getBoundingClientRect().width < this.container.getBoundingClientRect().width && this.state.hideIcon) {
+      this.setState({ hideIcon: false })
+    }
+  }
+
+  handleClick () {
     const element = vcCake.getService('document').get(this.props.id)
-    let addElementTag = ''
+    let options = ''
     const children = vcCake.getService('cook').getChildren(element.tag)
     if (children.length === 1) {
-      addElementTag = children[0].tag
+      options = children[0].tag
     }
-    return this.props.controlsData.map((control, i) => {
-      return <RowControl
-        key={`vcvRowControlItem${i}`}
-        api={this.props.api}
-        id={this.props.id}
-        title={control.title}
-        icon={control.icon}
-        action={control.action}
-        options={addElementTag}
-      />
-    })
+    this.props.api.request('app:add', this.props.id, options)
   }
 
   render () {
-    return <vcvhelper className='vcv-row-control-container vcv-row-control-container-hide-labels'>
-      {this.getControls()}
+    return <vcvhelper
+      className='vcv-row-control-container vcv-row-control-container-hide-labels'
+      title='Add Element'
+      onClick={this.handleClick}
+      onMouseEnter={this.handleMouseEnter}
+      ref={(container) => { this.container = container }}
+    >
+      <RowControl
+        ref={(icon) => { this.icon = icon }}
+        hideIcon={this.state.hideIcon}
+      />
     </vcvhelper>
   }
 }
