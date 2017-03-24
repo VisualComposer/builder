@@ -1,6 +1,8 @@
-/* global React, vcvAPI, vcCake */
-/* eslint no-unused-vars: 0 */
-class Component extends vcvAPI.elementComponent {
+import React from 'react'
+import vcCake from 'vc-cake'
+const vcvAPI = vcCake.getService('api')
+
+export default class HeroSectionElement extends vcvAPI.elementComponent {
   componentDidMount () {
     vcvAPI.publicEvents.trigger('heroSectionReady')
   }

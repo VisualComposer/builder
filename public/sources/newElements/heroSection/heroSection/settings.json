@@ -4,36 +4,6 @@
     "access": "protected",
     "value": "heroSection"
   },
-  "name": {
-    "type": "string",
-    "access": "protected",
-    "value": "Hero Section"
-  },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Short intro"
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Long description"
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Hero section with image background and 'Call to Action' message with a switchable button and position controls."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "preview-hero-section.jpg"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "thumbnail-hero-section.jpg"
-  },
   "description": {
     "type": "htmleditor",
     "access": "public",
