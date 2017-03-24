@@ -7,6 +7,9 @@ import TreeViewControl from '../../../../resources/components/navbar/controls/tr
 import UndoRedoControl from '../../../../resources/components/navbar/controls/undoRedoControl'
 import LayoutControl from '../../../../resources/components/navbar/controls/layout/layoutControl'
 import SettingsButtonControl from '../../../../resources/components/navbar/controls/settingsButtonControl'
+import WordPressAdminControl from '../../../../resources/components/navbar/controls/wordpressAdminControl'
+import WordPressPostSaveControl from '../../../../resources/components/navbar/controls/wordpressPostSaveControl'
+
 import NavbarSeparator from '../../../../resources/components/navbar/navbarSeparator'
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
@@ -23,6 +26,8 @@ export default class NavbarContainer extends React.Component {
         <LayoutControl />
         <SettingsButtonControl />
         <NavbarSeparator />
+        <WordPressPostSaveControl />
+        <WordPressAdminControl />
       </Navbar>
     </NavbarWrapper>
   }

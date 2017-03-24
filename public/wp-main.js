@@ -24,6 +24,7 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/historyStorage')
+      require('./editor/stores/wordpressDataStorage')
       require('./config/wp-modules')
     })
     vcCake.env('iframe', iframe)

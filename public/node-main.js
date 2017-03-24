@@ -26,7 +26,7 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/historyStorage')
-      require('./editor/stores/nodeVersion/localStorage')
+      require('./editor/stores/localStorage')
       require('./config/node-modules')
     })
     vcCake.env('iframe', iframe)

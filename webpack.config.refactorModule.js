@@ -90,6 +90,7 @@ module.exports = {
       services: [
         'utils',
         'document',
+        'wordpress-post-data',
         'localStorage',
         'cook',
         'shared-library',

@@ -1,3 +1,4 @@
+/* global setUserSetting */
 import vcCake from 'vc-cake'
 import React from 'react'
 
@@ -21,7 +22,7 @@ export default class WordPressAdminControl extends React.Component {
   setBackendEditor (e) {
     e && e.preventDefault && e.preventDefault()
     if (vcCake.env('FEATURE_WPBACKEND')) {
-      window.setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
+      setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
     window.location.href = e.currentTarget.href
   }
