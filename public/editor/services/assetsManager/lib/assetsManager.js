@@ -1,45 +1,6 @@
 import vcCake from 'vc-cake'
 
 export default {
-
-  /**
-   * Get element's public path
-   * @param tag
-   * @param file
-   * @returns {*}
-   */
-  getPublicPath (tag, file) {
-    let path = this.getSourcePath() + '/elements/' + tag + '/public'
-    let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
-    if ($element) {
-      path = $element.dataset.vcElementUrl + '/public' // TODO: Make vcv prefix data attribute
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
-  },
-
-  /**
-   * Get source path
-   * @param file
-   * @returns {*}
-   */
-  getSourcePath (file = null) {
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources'
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
-  },
-
   /**
    * Get js files list by tags
    * @returns {*}

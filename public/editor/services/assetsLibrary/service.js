@@ -13,108 +13,109 @@ const AssetsLibrary = {
     return data
   }
 }
+const assetsLibraryUrl = window.vcvPluginUrl + 'public/sources/'
 
 AssetsLibrary.add('animate', {
   publicCss: [
-    'assetsLibrary/animate/dist/animate.css'
+    assetsLibraryUrl + 'assetsLibrary/animate/dist/animate.css'
   ],
   publicJs: [
-    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
-    'assetsLibrary/animate/dist/animate.js'
+    assetsLibraryUrl + 'assetsLibrary/waypoints/lib/noframework.waypoints.js',
+    assetsLibraryUrl + 'assetsLibrary/animate/dist/animate.js'
   ]
 })
 
 AssetsLibrary.add('iconpicker', {
   publicCss: [
-    'assetsLibrary/iconpicker/css/styles.css'
+    assetsLibraryUrl + 'assetsLibrary/iconpicker/css/styles.css'
   ]
 })
 
 AssetsLibrary.add('backgroundSlider', {
   publicCss: [
-    'assetsLibrary/backgroundSlider/dist/backgroundSlider.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundSlider/dist/backgroundSlider.css'
   ],
   publicJs: [
-    'assetsLibrary/backgroundSlider/dist/plugin.js',
-    'assetsLibrary/backgroundSlider/dist/backgroundSlider.js'
+    assetsLibraryUrl + 'assetsLibrary/backgroundSlider/dist/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundSlider/dist/backgroundSlider.js'
   ]
 })
 
 AssetsLibrary.add('backgroundSimple', {
   publicCss: [
-    'assetsLibrary/backgroundSimple/dist/backgroundSimple.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundSimple/dist/backgroundSimple.css'
   ]
 })
 
 AssetsLibrary.add('backgroundColorGradient', {
   publicCss: [
-    'assetsLibrary/backgroundColorGradient/dist/backgroundColorGradient.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundColorGradient/dist/backgroundColorGradient.css'
   ]
 })
 
 AssetsLibrary.add('backgroundVideoYoutube', {
   publicCss: [
-    'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.css'
   ],
   publicJs: [
-    'assetsLibrary/youtubeIFrameAPI/init.js',
-    'assetsLibrary/backgroundVideoYoutube/plugin.js',
-    'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.js'
+    assetsLibraryUrl + 'assetsLibrary/youtubeIFrameAPI/init.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoYoutube/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoYoutube/dist/backgroundVideoYoutube.js'
   ]
 })
 
 AssetsLibrary.add('backgroundVideoVimeo', {
   publicCss: [
-    'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.css'
   ],
   publicJs: [
-    'assetsLibrary/vimeoPlayerAPI/init.js',
-    'assetsLibrary/backgroundVideoVimeo/plugin.js',
-    'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.js'
+    assetsLibraryUrl + 'assetsLibrary/vimeoPlayerAPI/init.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoVimeo/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoVimeo/dist/backgroundVideoVimeo.js'
   ]
 })
 
 AssetsLibrary.add('backgroundVideoEmbed', {
   publicCss: [
-    'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.css'
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.css'
   ],
   publicJs: [
-    'assetsLibrary/backgroundVideoEmbed/plugin.js',
-    'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.js'
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoEmbed/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/backgroundVideoEmbed/dist/backgroundVideoEmbed.js'
   ]
 })
 
 AssetsLibrary.add('parallaxBackground', {
   publicCss: [
-    'assetsLibrary/parallaxBackground/dist/parallax.css'
+    assetsLibraryUrl + 'assetsLibrary/parallaxBackground/dist/parallax.css'
   ],
   publicJs: [
-    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
-    'assetsLibrary/parallaxBackground/plugin.js',
-    'assetsLibrary/parallaxBackground/dist/parallax.js'
+    assetsLibraryUrl + 'assetsLibrary/waypoints/lib/noframework.waypoints.js',
+    assetsLibraryUrl + 'assetsLibrary/parallaxBackground/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/parallaxBackground/dist/parallax.js'
   ]
 })
 
 AssetsLibrary.add('parallaxFade', {
   publicCss: [
-    'assetsLibrary/parallaxFade/dist/parallax.css'
+    assetsLibraryUrl + 'assetsLibrary/parallaxFade/dist/parallax.css'
   ],
   publicJs: [
-    'assetsLibrary/waypoints/lib/noframework.waypoints.js',
-    'assetsLibrary/parallaxFade/plugin.js',
-    'assetsLibrary/parallaxFade/dist/parallax.js'
+    assetsLibraryUrl + 'assetsLibrary/waypoints/lib/noframework.waypoints.js',
+    assetsLibraryUrl + 'assetsLibrary/parallaxFade/plugin.js',
+    assetsLibraryUrl + 'assetsLibrary/parallaxFade/dist/parallax.js'
   ]
 })
 
 AssetsLibrary.add('youtubeIFrameAPI', {
   publicJs: [
-    'assetsLibrary/youtubeIFrameAPI/init.js'
+    assetsLibraryUrl + 'assetsLibrary/youtubeIFrameAPI/init.js'
   ]
 })
 
 AssetsLibrary.add('vimeoPlayerAPI', {
   publicJs: [
-    'assetsLibrary/vimeoPlayerAPI/init.js'
+    assetsLibraryUrl + 'assetsLibrary/vimeoPlayerAPI/init.js'
   ]
 })
 vcCake.addService('assetsLibrary', AssetsLibrary)
