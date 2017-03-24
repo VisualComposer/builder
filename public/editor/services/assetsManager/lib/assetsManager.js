@@ -3,14 +3,6 @@ import vcCake from 'vc-cake'
 export default {
 
   /**
-   * Get cook service
-   * @returns {*}
-   */
-  cook () {
-    return vcCake.getService('cook')
-  },
-
-  /**
    * Get element's public path
    * @param tag
    * @param file
@@ -54,11 +46,16 @@ export default {
    */
   getJsFilesByTags (tags) {
     let jsFilesList = []
+    let cook = vcCake.getService('cook')
     tags.forEach((tag) => {
       // get js files from elements
-      let elementObject = this.cook().get({ tag: tag })
+      let elementObject = cook.get({ tag: tag })
       let jsFiles = elementObject.get('metaPublicJs')
       if (jsFiles && jsFiles.length) {
+        let elementPath = window.VCV_HUB_GET_ELEMENTS()[ tag ].elementPath
+        jsFiles = jsFiles.map((url) => {
+          return elementPath + url
+        })
         jsFilesList = jsFilesList.concat(jsFiles)
       }
       let assetsLibrary = elementObject.get('assetsLibrary')
@@ -82,8 +79,9 @@ export default {
    */
   getCssFilesByTags (tags) {
     let cssFilesList = []
+    let cook = vcCake.getService('cook')
     tags.forEach((tag) => {
-      let elementObject = this.cook().get({ tag: tag })
+      let elementObject = cook.get({ tag: tag })
       let assetsLibrary = elementObject.get('assetsLibrary')
 
       if (assetsLibrary && assetsLibrary.length) {
