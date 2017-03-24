@@ -21,7 +21,7 @@ export default class ElementControl extends React.Component {
   render () {
     let { options } = this.props.control
 
-    return <button
+    return <span
       className='vcv-ui-blank-row-element-control'
       title={options.title}
       onClick={this.handleClick}
@@ -32,7 +32,7 @@ export default class ElementControl extends React.Component {
         alt={options.title}
       />
       <span className='vcv-ui-blank-row-element-control-label'>{options.title}</span>
-    </button>
+    </span>
   }
 }
 

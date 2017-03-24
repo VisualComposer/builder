@@ -79,6 +79,7 @@ export default class BlankRowPlaceholder extends React.Component {
 
   rowContainer = null
   elementsContainer = null
+  initialSetControlsLayoutTimeout = null
 
   constructor (props) {
     super(props)
@@ -89,12 +90,19 @@ export default class BlankRowPlaceholder extends React.Component {
 
   componentDidMount () {
     this.setControlData()
-    this.setControlsLayout()
+    // set timeout to get new state data from setControlData()
+    this.initialSetControlsLayoutTimeout = setTimeout(() => {
+      this.setControlsLayout()
+    }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
   }
 
   componentWillUnmount () {
     this.removeResizeListener(this.rowContainer, this.setControlsLayout)
+    if (this.initialSetControlsLayoutTimeout) {
+      window.clearTimeout(this.initialSetControlsLayoutTimeout)
+      this.initialSetControlsLayoutTimeout = null
+    }
   }
 
   /**
