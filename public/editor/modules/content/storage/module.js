@@ -175,7 +175,10 @@ vcCake.add('storage', (api) => {
       createdElements.push(rowElement.id)
       let columnElement = DocumentData.create({ tag: 'column', parent: rowElement.id })
       createdElements.push(columnElement.id)
+      // rebuild row
       elementData.parent = columnElement.id
+      rebuildRawLayout(rowElement.id)
+      api.request('data:update', rowElement.id, rowElement)
     }
     let data = DocumentData.create(elementData, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
