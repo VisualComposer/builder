@@ -81,14 +81,13 @@ class ColumnResizer extends React.Component {
       this.getRowData(e)
       this.getResizerPositions(e)
       this.createWrapBlockers()
+      this.setResizeLabelsPosition(e)
       let colSizes = this.getResizedColumnsWidth(e)
-      let labelPosition = e.clientY - ColumnResizer.data.helper.getBoundingClientRect().top
 
       this.setState({
         dragging: true,
         leftColPercentage: colSizes.leftCol,
-        rightColPercentage: colSizes.rightCol,
-        labelPosition: labelPosition
+        rightColPercentage: colSizes.rightCol
       })
     }
   }
@@ -125,6 +124,12 @@ class ColumnResizer extends React.Component {
       return
     }
     this.renderTemporaryColStyles(e)
+    this.setResizeLabelsPosition(e)
+  }
+
+  setResizeLabelsPosition (e) {
+    let labelPosition = e.clientY - ColumnResizer.data.helper.getBoundingClientRect().top
+    this.setState({ labelPosition: labelPosition })
   }
 
   renderTemporaryColStyles (e) {
