@@ -53,8 +53,12 @@ class Elements extends Container implements Module
                     'elementPath' => $urlHelper->to('public/sources/newElements/row/row/'),
                     'settings' => [
                         'name' => 'Row',
-                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/row/row/public/thumbnail-row-column.png'),
-                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/row/row/public/preview-row-column.jpg'),
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/row/row/public/thumbnail-row-column.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/row/row/public/preview-row-column.jpg'
+                        ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
@@ -69,42 +73,66 @@ class Elements extends Container implements Module
                     ],
                 ],
                 'textBlock' => [
-                    'bundlePath' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/textBlock/public/dist/element.bundle.js'
+                    ),
                     'elementPath' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/'),
                     'settings' => [
                         'name' => 'Text Block',
-                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public/thumbnail-text-block.png'),
-                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public/preview-text-block.jpg'),
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/textBlock/textBlock/public/thumbnail-text-block.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/textBlock/textBlock/public/preview-text-block.jpg'
+                        ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'basicButton' => [
-                    'bundlePath' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/basicButton/public/dist/element.bundle.js'
+                    ),
                     'elementPath' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/'),
                     'settings' => [
                         'name' => 'Basic Button',
-                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/thumbnail-basic-button.png'),
-                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/preview-basic-button.png'),
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/basicButton/basicButton/public/thumbnail-basic-button.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/basicButton/basicButton/public/preview-basic-button.png'
+                        ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'singleImage' => [
-                    'bundlePath' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/singleImage/public/dist/element.bundle.js'
+                    ),
                     'elementPath' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/'),
                     'settings' => [
                         'name' => 'Single Image',
-                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/thumbnail-single-image.png'),
-                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/preview-single-image.jpg'),
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/singleImage/singleImage/public/thumbnail-single-image.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/singleImage/singleImage/public/preview-single-image.jpg'
+                        ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'heroSection' => [
-                    'bundlePath' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/heroSection/public/dist/element.bundle.js'
+                    ),
                     'elementPath' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/'),
                     'settings' => [
                         'name' => 'Hero Section',
-                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/thumbnail-hero-section.jpg'),
-                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/preview-hero-section.jpg'),
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/heroSection/heroSection/public/thumbnail-hero-section.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/heroSection/heroSection/public/preview-hero-section.jpg'
+                        ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],

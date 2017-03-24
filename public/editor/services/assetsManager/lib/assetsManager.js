@@ -21,6 +21,7 @@ export default {
       }
       let assetsLibrary = elementObject.get('assetsLibrary')
       // get js file from shared assets
+      // TODO: Check for tags and libraries.
       if (assetsLibrary && assetsLibrary.length) {
         assetsLibrary.forEach((lib) => {
           jsFiles = this.getAssetsLibraryJsFiles(lib)
