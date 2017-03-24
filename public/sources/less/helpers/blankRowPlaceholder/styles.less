@@ -26,6 +26,7 @@
 .vcv-ui-blank-row-controls-container {
   display: flex;
   flex-flow: row wrap;
+  padding: @vcv-blank-row-controls-container-padding;
 }
 
 .vcv-ui-blank-row-element-control {
@@ -58,6 +59,17 @@
   .vcv-ui-blank-row-element-control-icon {
     opacity: @vcv-blank-row-element-control-icon-opacity;
     transition: opacity @transition-duration @transition-timing-function;
+  }
+}
+
+.vcv-row-control-container {
+  .vcv-ui-blank-row-element-control {
+    margin: @vcv-blank-row-element-control-margin-inside-column;
+    &:hover {
+      .vcv-ui-blank-row-element-control-icon {
+        opacity: @vcv-blank-row-element-control-icon-opacity;
+      }
+    }
   }
 }
 

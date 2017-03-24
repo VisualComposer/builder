@@ -167,6 +167,11 @@
   margin-right: @vcv-wpbackend-attributes-content-margin-right;
   vertical-align: middle;
   line-height: @vcv-wpbackend-attributes-content-line-height;
+
+  &:only-child,
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .vcv-layout-dock--unlock {
