@@ -93,6 +93,15 @@ class Elements extends Container implements Module
                         'metaDescription' => '',
                     ],
                 ],
+                'heroSection' => [
+                    'path' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
+                    'settings' => [
+                        'name' => 'Hero Section',
+                        'metaThumbnailUrl' => '',
+                        'metaPreviewUrl' => '',
+                        'metaDescription' => '',
+                    ],
+                ],
             ]
         );
     }
