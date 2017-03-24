@@ -29,6 +29,9 @@
 }
 
 .vcv-ui-blank-row-element-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   width: @vcv-blank-row-element-control-width;
   padding: @vcv-blank-row-element-control-padding;
@@ -36,12 +39,14 @@
   border: none;
   background: transparent;
   cursor: pointer;
+  box-shadow: none;
 
   &:active,
   &:focus,
   &:hover {
     outline: none;
     background: transparent;
+    box-shadow: none;
   }
 
   &:hover {
