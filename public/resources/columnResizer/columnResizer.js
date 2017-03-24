@@ -305,7 +305,7 @@ class ColumnResizer extends React.Component {
             </svg>
             <div className='vce-column-resizer-label-background'>
               <span
-                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.leftColPercentage * 100) + '%'}</span>
+                className='vce-column-resizer-label-percentage'>{Math.round(this.state.leftColPercentage * 100) + '%'}</span>
             </div>
             <svg width='11px' height='23px' viewBox='0 0 11 23'
               version='1.1' xmlns='http://www.w3.org/2000/svg'>
@@ -326,7 +326,7 @@ class ColumnResizer extends React.Component {
             </svg>
             <div className='vce-column-resizer-label-background'>
               <span
-                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.rightColPercentage * 100) + '%'}</span>
+                className='vce-column-resizer-label-percentage'>{Math.round(this.state.rightColPercentage * 100) + '%'}</span>
             </div>
             <svg width='6px' height='23px' viewBox='0 0 6 23' version='1.1' xmlns='http://www.w3.org/2000/svg'>
               <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' fill='#282828' opacity='0.5'>
