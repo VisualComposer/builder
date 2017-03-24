@@ -50,6 +50,7 @@ class Elements extends Container implements Module
             [
                 'row' => [
                     'path' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/row/row/'),
                     'settings' => [
                         'name' => 'Row',
                         'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/row/row/public/thumbnail-row-column.png'),
@@ -59,6 +60,7 @@ class Elements extends Container implements Module
                 ],
                 'column' => [
                     'path' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/column/column/'),
                     'settings' => [
                         'name' => 'Column',
                         'metaThumbnailUrl' => '',
@@ -68,6 +70,7 @@ class Elements extends Container implements Module
                 ],
                 'textBlock' => [
                     'path' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/'),
                     'settings' => [
                         'name' => 'Text Block',
                         'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public/thumbnail-text-block.png'),
@@ -77,6 +80,7 @@ class Elements extends Container implements Module
                 ],
                 'basicButton' => [
                     'path' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/'),
                     'settings' => [
                         'name' => 'Basic Button',
                         'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/thumbnail-basic-button.png'),
@@ -86,6 +90,7 @@ class Elements extends Container implements Module
                 ],
                 'singleImage' => [
                     'path' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/'),
                     'settings' => [
                         'name' => 'Single Image',
                         'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/thumbnail-single-image.png'),
@@ -95,6 +100,7 @@ class Elements extends Container implements Module
                 ],
                 'heroSection' => [
                     'path' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/'),
                     'settings' => [
                         'name' => 'Hero Section',
                         'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/thumbnail-hero-section.jpg'),
