@@ -1,68 +1,27 @@
 import vcCake from 'vc-cake'
 
 export default {
-
-  /**
-   * Get cook service
-   * @returns {*}
-   */
-  cook () {
-    return vcCake.getService('cook')
-  },
-
-  /**
-   * Get element's public path
-   * @param tag
-   * @param file
-   * @returns {*}
-   */
-  getPublicPath (tag, file) {
-    let path = this.getSourcePath() + '/elements/' + tag + '/public'
-    let $element = document.querySelector('[data-vc-element-script="' + tag + '"]')
-    if ($element) {
-      path = $element.dataset.vcElementUrl + '/public' // TODO: Make vcv prefix data attribute
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
-  },
-
-  /**
-   * Get source path
-   * @param file
-   * @returns {*}
-   */
-  getSourcePath (file = null) {
-    let path
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources'
-    }
-    if (file) {
-      path += '/' + file
-    }
-
-    return path
-  },
-
   /**
    * Get js files list by tags
    * @returns {*}
    */
   getJsFilesByTags (tags) {
     let jsFilesList = []
+    let cook = vcCake.getService('cook')
     tags.forEach((tag) => {
       // get js files from elements
-      let elementObject = this.cook().get({ tag: tag })
+      let elementObject = cook.get({ tag: tag })
       let jsFiles = elementObject.get('metaPublicJs')
       if (jsFiles && jsFiles.length) {
+        let elementPath = window.VCV_HUB_GET_ELEMENTS()[ tag ].elementPath
+        jsFiles = jsFiles.map((url) => {
+          return elementPath + url
+        })
         jsFilesList = jsFilesList.concat(jsFiles)
       }
       let assetsLibrary = elementObject.get('assetsLibrary')
       // get js file from shared assets
+      // TODO: Check for tags and libraries.
       if (assetsLibrary && assetsLibrary.length) {
         assetsLibrary.forEach((lib) => {
           jsFiles = this.getAssetsLibraryJsFiles(lib)
@@ -82,8 +41,9 @@ export default {
    */
   getCssFilesByTags (tags) {
     let cssFilesList = []
+    let cook = vcCake.getService('cook')
     tags.forEach((tag) => {
-      let elementObject = this.cook().get({ tag: tag })
+      let elementObject = cook.get({ tag: tag })
       let assetsLibrary = elementObject.get('assetsLibrary')
 
       if (assetsLibrary && assetsLibrary.length) {
@@ -105,7 +65,7 @@ export default {
    * @returns {Array}
    */
   getAssetsLibraryJsFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
+    let assetsLibrary = vcCake.getService('assetsLibrary')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicJs && libData.publicJs.length) {
       return libData.publicJs
@@ -119,7 +79,7 @@ export default {
    * @returns {Array}
    */
   getAssetsLibraryCssFiles (lib) {
-    let assetsLibrary = vcCake.getService('assets-library')
+    let assetsLibrary = vcCake.getService('assetsLibrary')
     let libData = assetsLibrary.get(lib)
     if (libData && libData.publicCss && libData.publicCss.length) {
       return libData.publicCss

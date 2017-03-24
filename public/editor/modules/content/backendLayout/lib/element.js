@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import DefaultElement from './defaultElement'
+import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
@@ -47,7 +48,7 @@ export default class Element extends React.Component {
         layoutWidth={layoutWidth}
       />
     })
-    return elementsList.length ? elementsList : <vcvhelper className='vcv-empty-col-helper' />
+    return elementsList.length ? elementsList : <ContentControls api={api} id={currentElement.get('id')} />
   }
 
   visualizeAttributes (element) {

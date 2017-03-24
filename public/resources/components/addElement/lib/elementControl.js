@@ -179,8 +179,11 @@ export default class ElementControl extends React.Component {
     let publicPathThumbnail
     let publicPathPreview
 
-    publicPathThumbnail = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-    publicPathPreview = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+    console.log('vcCake.getService(\'assetsManager\').getPublicPath(cookElement.get(\'tag\'), cookElement.get(\'metaThumbnail\'))')
+    publicPathPreview = cookElement.get('metaPreviewUrl')
+    publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+      //publicPathThumbnail = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+    //publicPathPreview = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
 
     return (
       <li className='vcv-ui-item-list-item'>

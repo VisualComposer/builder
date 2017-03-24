@@ -114,7 +114,7 @@ export default class CssBuilder {
     jsFiles.forEach((file) => {
       if (this.loadedJsFiles.indexOf(file) === -1) {
         this.loadedJsFiles.push(file)
-        this.addJob(this.window.$.getScript(this.assetsManager.getSourcePath(file)))
+        this.addJob(this.window.$.getScript(file))
       }
     })
   }
@@ -127,7 +127,7 @@ export default class CssBuilder {
         this.loadedCssFiles.push(file)
         let cssLink = doc.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        cssLink.setAttribute('href', this.assetsManager.getSourcePath(file))
+        cssLink.setAttribute('href', file)
         doc.head.appendChild(cssLink)
       }
     })

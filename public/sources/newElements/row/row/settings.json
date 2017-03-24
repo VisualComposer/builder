@@ -256,9 +256,9 @@
     "access": "protected",
     "type": "string",
     "value": [
-      "elements/row/public/js/lib/fullHeightRow.js",
-      "elements/row/public/js/lib/fullWidthRow.js",
-      "elements/row/public/js/row.js"
+      "public/js/lib/fullHeightRow.js",
+      "public/js/lib/fullWidthRow.js",
+      "public/js/row.js"
     ]
   }
 }
