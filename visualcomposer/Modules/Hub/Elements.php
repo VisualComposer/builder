@@ -52,9 +52,9 @@ class Elements extends Container implements Module
                     'path' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
                     'settings' => [
                         'name' => 'Row',
-                        'metaThumbnailUrl' => '',
-                        'metaPreviewUrl' => '',
-                        'metaDescription' => '',
+                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/row/row/public/thumbnail-row-column.png'),
+                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/row/row/public/preview-row-column.jpg'),
+                        'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'column' => [
@@ -70,36 +70,36 @@ class Elements extends Container implements Module
                     'path' => $urlHelper->to('public/sources/newElements/textBlock/public/dist/element.bundle.js'),
                     'settings' => [
                         'name' => 'Text Block',
-                        'metaThumbnailUrl' => '',
-                        'metaPreviewUrl' => '',
-                        'metaDescription' => '',
+                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public/thumbnail-text-block.png'),
+                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public/preview-text-block.jpg'),
+                        'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'basicButton' => [
                     'path' => $urlHelper->to('public/sources/newElements/basicButton/public/dist/element.bundle.js'),
                     'settings' => [
                         'name' => 'Basic Button',
-                        'metaThumbnailUrl' => '',
-                        'metaPreviewUrl' => '',
-                        'metaDescription' => '',
+                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/thumbnail-basic-button.png'),
+                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/preview-basic-button.png'),
+                        'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'singleImage' => [
                     'path' => $urlHelper->to('public/sources/newElements/singleImage/public/dist/element.bundle.js'),
                     'settings' => [
                         'name' => 'Single Image',
-                        'metaThumbnailUrl' => '',
-                        'metaPreviewUrl' => '',
-                        'metaDescription' => '',
+                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/thumbnail-single-image.png'),
+                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/preview-single-image.jpg'),
+                        'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'heroSection' => [
                     'path' => $urlHelper->to('public/sources/newElements/heroSection/public/dist/element.bundle.js'),
                     'settings' => [
                         'name' => 'Hero Section',
-                        'metaThumbnailUrl' => '',
-                        'metaPreviewUrl' => '',
-                        'metaDescription' => '',
+                        'metaThumbnailUrl' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/thumbnail-hero-section.jpg'),
+                        'metaPreviewUrl' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/preview-hero-section.jpg'),
+                        'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
             ]
