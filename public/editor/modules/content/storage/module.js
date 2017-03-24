@@ -15,7 +15,7 @@ vcCake.add('storage', (api) => {
     layout.forEach((col, index) => {
       let colValue = 0
       if (col === 'auto') {
-        colValue = 0.03
+        colValue = 0.01
         columnValues.push('auto')
         autoCount++
       } else {
@@ -45,7 +45,7 @@ vcCake.add('storage', (api) => {
 
     let rowFullValue = 0
 
-    let newRowValue = rowValue - (autoCount * 0.03)
+    let newRowValue = rowValue - (autoCount * 0.01)
     let autoValue = (1 - newRowValue) / autoCount
 
     columnValues.forEach((size, index) => {
