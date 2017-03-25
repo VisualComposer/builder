@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
+import NavbarControl from './controls/navbarControl'
 import '../../../sources/less/ui/navbar/init.less'
 
 const Utils = vcCake.getService('utils')
@@ -13,7 +14,8 @@ export default class Navbar extends React.Component {
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    pinned: React.PropTypes.array
   }
   constructor (props) {
     super(props)
@@ -192,30 +194,29 @@ export default class Navbar extends React.Component {
   }
 
   getVisibleControls () {
-    return navbarControls.filter((control) => {
-      if (control.isVisible) {
-        return true
-      }
+    const {pinned} = this.props
+    return this.props.children.filter((node) => {
+      return !pinned || !pinned.includes(node.type.name)
     })
   }
 
   getHiddenControls () {
-    let controls = navbarControls.filter((control) => {
-      return !control.isVisible
+    const {pinned} = this.props
+    let controls = this.props.children.filter((node) => {
+      return pinned && pinned.includes(node.type.name)
     })
     controls.reverse()
     return controls
   }
 
   buildVisibleControls () {
+    return this.getVisibleControls()
     /*
-    let controls = this.getVisibleControls()
     if (!controls.length) {
       return
     }
     return controls.map((value) => {
       return (<Navbar
-        api={value.options.api ? value.options.api : this.props.api}
         key={'Navbar:' + value.name}
         value={value}
         container='.vcv-ui-navbar'
@@ -253,19 +254,13 @@ export default class Navbar extends React.Component {
       return
     }
     let hiddenControls = null
-    /*
     controls.map((value) => {
       return React.createElement(NavbarControl, {
-        api: this.props.api,
-        key: 'Navbar:' + value.name,
+        key: 'Navbar:' + value.type.name,
         value: value,
-        container: '.vcv-ui-navbar',
-        ref: (ref) => {
-          navbarControls[ value.index ].ref = ref
-        }
+        container: '.vcv-ui-navbar'
       })
     })
-    */
 
     let sandwichClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
@@ -467,7 +462,6 @@ export default class Navbar extends React.Component {
   }
 
   render () {
-    const {children} = this.props
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
@@ -527,7 +521,6 @@ export default class Navbar extends React.Component {
           <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
           </div>
-          {children}
           {this.buildVisibleControls()}
           {this.buildHiddenControls()}
           <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer' onMouseDown={(e) => this.handleDragStart(e, false)} />

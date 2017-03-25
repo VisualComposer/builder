@@ -17,7 +17,7 @@ import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper
 export default class NavbarContainer extends React.Component {
   render () {
     return <NavbarWrapper>
-      <Navbar>
+      <Navbar pinned={['WordPressAdminControl']}>
         <Logo />
         <PlusControl />
         <AddTemplateControl />

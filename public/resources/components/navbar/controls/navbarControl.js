@@ -7,14 +7,10 @@ export default class NavbarControl extends React.Component {
     value: React.PropTypes.any,
     container: React.PropTypes.string
   }
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      realSize: {
-        width: undefined,
-        height: undefined
-      }
+  state = {
+    realSize: {
+      width: undefined,
+      height: undefined
     }
   }
 
@@ -71,8 +67,8 @@ export default class NavbarControl extends React.Component {
   }
 
   render () {
-    let { value, api } = this.props
+    let {value} = this.props
 
-    return React.createElement(value.icon, { value: value, api: api })
+    return React.createElement(value.icon, { value: value })
   }
 }
