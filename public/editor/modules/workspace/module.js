@@ -3,11 +3,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
 
+const localStorage = getStorage('localStorage')
 const workspaceStorage = getStorage('workspace')
 add('workspace', (api) => {
   // Set Templates
   api.reply('start', () => {
-    workspaceStorage.trigger('start')
+    localStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
     if (!settings || !settings.action) {

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
 
 const workspaceStorage = getStorage('workspace')
+const wordpressDataStorage = getStorage('wordpressData')
 add('wordpressWorkspace', (api) => {
   // Set Templates
   api.reply('start', () => {
@@ -12,7 +13,7 @@ add('wordpressWorkspace', (api) => {
       return template
     }))
 
-    workspaceStorage.trigger('start')
+    wordpressDataStorage.trigger('start')
   })
   workspaceStorage.state('settings').onChange((settings) => {
     if (!settings || !settings.action) {
