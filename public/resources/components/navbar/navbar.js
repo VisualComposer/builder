@@ -7,7 +7,7 @@ import '../../../sources/less/ui/navbar/init.less'
 
 const Utils = vcCake.getService('utils')
 
-let navbarControls = []
+// let navbarControls = []
 
 export default class Navbar extends React.Component {
   static propTypes = {
@@ -283,6 +283,7 @@ export default class Navbar extends React.Component {
   }
 
   refreshControls () {
+    /*
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
       return sidePlacements.indexOf(this.state.navbarPosition) !== -1
@@ -290,15 +291,18 @@ export default class Navbar extends React.Component {
 
     // get free space
     let freeSpaceEl = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer')
-    let freeSpace = freeSpaceEl.offsetWidth
+    // let freeSpace = freeSpaceEl.offsetWidth
     if (isSideNavbar()) {
-      freeSpace = freeSpaceEl.offsetHeight
+      // freeSpace = freeSpaceEl.offsetHeight
     }
 
     // hide control if there is no space
-    let visibleAndUnpinnedControls = this.getVisibleControls().filter((control) => {
+    let visibleAndUnpinnedControls = []
+    this.getVisibleControls().filter((control) => {
       return control.isVisible && control.pin !== 'visible'
     })
+    */
+    /*
     if (visibleAndUnpinnedControls.length && freeSpace === 0) {
       let lastControl = visibleAndUnpinnedControls.pop()
       navbarControls[ lastControl.index ].isVisible = false
@@ -341,6 +345,7 @@ export default class Navbar extends React.Component {
       })
       return
     }
+    */
     return
   }
 

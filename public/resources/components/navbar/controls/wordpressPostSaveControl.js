@@ -1,9 +1,10 @@
-import vcCake from 'vc-cake'
+import {getService, getStorage} from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 
-const PostData = vcCake.getService('wordpress-post-data')
-// const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
+const PostData = getService('wordpress-post-data')
+const wordpressDataStorage = getStorage('wordpressData')
+const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 export default class WordPressPostSaveControl extends React.Component {
   state = {
@@ -12,32 +13,39 @@ export default class WordPressPostSaveControl extends React.Component {
   }
   timer = 0
 
-  componentDidMount () {
-    /*
-    this.props.api.reply('wordpress:data:saved', (data) => {
-      let status = data.status === 'success' ? 'success' : 'error'
-      this.setState({
-        saving: false,
-        status: status
-      })
-      this.clearTimer()
-      this.timer = setTimeout(
-        () => {
-          this.setState({
-            saving: false,
-            status: ''
-          })
-        },
-        SAVED_TIMEOUT
-      )
-    })
-
-    this.props.api.reply('wordpress:data:saving', (options) => {
-      this.clickSaveData({ options: options })
-    })
-    */
+  constructor (props) {
+    super(props)
+    this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
   }
 
+  updateControlOnStatusChange (data, source = '') {
+    let status = data.status
+    if (status === 'saving' && source !== 'postSaveControl') {
+      this.clickSaveData({ options: data.options }, true)
+      return
+    }
+    this.setState({
+      saving: status === 'saving',
+      status: status
+    })
+    this.clearTimer()
+    this.timer = setTimeout(
+      () => {
+        this.setState({
+          saving: false,
+          status: ''
+        })
+      },
+      SAVED_TIMEOUT
+    )
+  }
+
+  componentDidMount () {
+    wordpressDataStorage.state('status').onChange(this.updateControlOnStatusChange)
+  }
+  componentWillUnmount () {
+    wordpressDataStorage.state('status').ignoreChange(this.updateControlOnStatusChange)
+  }
   clearTimer () {
     if (this.timer) {
       window.clearTimeout(this.timer)
@@ -45,12 +53,9 @@ export default class WordPressPostSaveControl extends React.Component {
     }
   }
 
-  clickSaveData = (e) => {
+  clickSaveData = (e, noStorageRequest = false) => {
     e && e.preventDefault && e.preventDefault()
-    if (vcCake.getData('lockActivity')) {
-      window.alert('Please complete your activity and then click save!')
-      return
-    }
+
     if (this.state.saving) {
       return
     }
@@ -59,9 +64,9 @@ export default class WordPressPostSaveControl extends React.Component {
       status: ''
     })
     // Check Save option from other modules
-    this.props.api.request('wordpress:save', {
+    !noStorageRequest && wordpressDataStorage.trigger('save', {
       options: e ? e.options : {}
-    })
+    }, 'postSaveControl')
   }
 
   render () {

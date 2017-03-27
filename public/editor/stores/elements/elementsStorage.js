@@ -108,29 +108,14 @@ addStorage('elements', (storage) => {
     }
     storage.state('document').set(documentManager.children(false))
   })
-  // Need to rewrite
-  storage.state('document').onChange((data, test) => {
-    // Maybe we can move it the top of the structure.
-    // updateTimeMachine()
-    // storage.state('redo').set(true)
-  })
   storage.on('updateAll', (data) => {
     documentManager.reset(data || {})
     storage.state('document').set(documentManager.children(false))
   })
   storage.on('reset', (data) => {
+    console.log(data)
     documentManager.reset(data || {})
     historyStorage.trigger('initElements', data)
     storage.state('document').set(documentManager.children(false))
   })
-  /*
-  Undo
-   const TimeMachine = vcCake.getService('time-machine')
-   this.props.api.request('data:reset', TimeMachine.undo()
-   */
-  /*
-  Redo
-   const TimeMachine = vcCake.getService('time-machine')
-   this.props.api.request('data:reset', TimeMachine.redo())
-   */
 })

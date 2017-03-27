@@ -202,6 +202,7 @@ export default class ControlsManager {
     this.setup(options)
 
     // Check custom layout mode
+    /*
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
@@ -209,6 +210,7 @@ export default class ControlsManager {
       this.findElement()
       this.controlElementFind()
     })
+    */
 
     // check remove element
     /*

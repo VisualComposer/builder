@@ -1,8 +1,9 @@
 /* global setUserSetting */
-import vcCake from 'vc-cake'
+import {env, getService, getStorage} from 'vc-cake'
 import React from 'react'
 
-const PostData = vcCake.getService('wordpress-post-data')
+const PostData = getService('wordpress-post-data')
+const wordpressDataStorage = getStorage('wordpressData')
 
 export default class WordPressAdminControl extends React.Component {
   constructor (props) {
@@ -11,6 +12,7 @@ export default class WordPressAdminControl extends React.Component {
   }
 
   componentDidMount () {
+    wordpressDataStorage.trigger('save')
     /*
     this.props.api.reply('wordpress:data:saved', (data) => {
       // Call the forceUpdate when saved
@@ -21,7 +23,7 @@ export default class WordPressAdminControl extends React.Component {
 
   setBackendEditor (e) {
     e && e.preventDefault && e.preventDefault()
-    if (vcCake.env('FEATURE_WPBACKEND')) {
+    if (env('FEATURE_WPBACKEND')) {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
     window.location.href = e.currentTarget.href
@@ -29,6 +31,7 @@ export default class WordPressAdminControl extends React.Component {
 
   saveDraft = (e) => {
     e && e.preventDefault && e.preventDefault()
+    wordpressDataStorage.trigger('save', {draft: true}, 'wordpressAdminControl')
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 

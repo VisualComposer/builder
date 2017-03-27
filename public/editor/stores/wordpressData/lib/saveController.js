@@ -3,6 +3,7 @@ import vcCake from 'vc-cake'
 const dataProcessor = vcCake.getService('dataProcessor')
 const assetsManager = vcCake.getService('assetsManager')
 const stylesManager = vcCake.getService('stylesManager')
+const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
 
 export default class SaveController {
@@ -12,21 +13,21 @@ export default class SaveController {
     })
   }
 
-  save (data) {
+  save (data, status) {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = vcCake.getData('globalAssetsStorage').getElements()
+    let elements = modernAssetsStorage.getGlobalInstance().getElements()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(vcCake.getData('globalAssetsStorage').getSiteCssData())
+    globalStylesManager.add(modernAssetsStorage.getGlobalInstance().getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
     let localStylesManager = stylesManager.create()
-    localStylesManager.add(vcCake.getData('globalAssetsStorage').getPageCssData())
+    localStylesManager.add(modernAssetsStorage.getGlobalInstance().getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
@@ -37,63 +38,86 @@ export default class SaveController {
           'vcv-ready': '1',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList())),
-          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList())),
+          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(modernAssetsStorage.getGlobalInstance().getElementsTagsList())),
+          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(modernAssetsStorage.getGlobalInstance().getElementsTagsList())),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': JSON.stringify(styles),
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': vcCake.getData('globalAssetsStorage').getCustomCss(),
-          'vcv-global-css': vcCake.getData('globalAssetsStorage').getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(vcCake.getData('globalAssetsStorage').getGoogleFontsData())
+          'vcv-custom-css': modernAssetsStorage.getGlobalInstance().getCustomCss(),
+          'vcv-global-css': modernAssetsStorage.getGlobalInstance().getGlobalCss(),
+          'vcv-google-fonts': JSON.stringify(modernAssetsStorage.getGlobalInstance().getGoogleFontsData())
         },
-        this.saveSuccess.bind(this),
-        this.saveFailed.bind(this)
+        this.saveSuccess.bind(this, status),
+        this.saveFailed.bind(this, status)
       )
     })
   }
 
-  saveSuccess (responseText) {
+  saveSuccess (status, responseText) {
     let data = JSON.parse(responseText || '{}')
     if (data.postData) {
       window.vcvPostData = data.postData
     }
-
+    status.set({
+      status: 'success',
+      request: responseText
+    })
+    /*
     this.props.api.request('wordpress:data:saved', {
       status: 'success',
       request: responseText
     })
+    */
   }
 
-  saveFailed (request) {
+  saveFailed (status, request) {
+    status.set({
+      status: 'failed',
+      request: request
+    })
+    /*
     this.props.api.request('wordpress:data:saved', {
       status: 'failed',
       request: request
     })
+    */
   }
 
-  load = (data) => {
+  load = (data, status) => {
     this.ajax(
       {
         'vcv-action': 'getData:adminNonce',
         'vcv-data': encodeURIComponent(JSON.stringify(data))
       },
-      this.loadSuccess.bind(this),
-      this.loadFailed.bind(this)
+      this.loadSuccess.bind(this, status),
+      this.loadFailed.bind(this, status)
     )
   }
 
-  loadSuccess = (request) => {
+  loadSuccess = (status, request) => {
+    status.set({
+      status: 'loadSuccess',
+      request: request
+    })
+    /*
     this.props.api.request('wordpress:data:loaded', {
       status: 'success',
       request: request
     })
+    */
   }
 
-  loadFailed = (request) => {
+  loadFailed = (status, request) => {
+    status.set({
+      status: 'loadFailed',
+      request: request
+    })
+    /*
     this.props.api.request('wordpress:data:loaded', {
       status: 'failed',
       request: request
     })
+    */
   }
 }
