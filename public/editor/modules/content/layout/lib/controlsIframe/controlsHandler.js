@@ -110,7 +110,7 @@ export default class ControlsHandler {
         const controlWidth = (controlsRect.width - 2) / (controlsList.children.length / 2)
         const isWider = iframeRect.width - controlsRect.width < controlWidth * 2
         const isToTheLeft = controlsRect.left - controlWidth * 2 < iframeRect.left
-        if (isWider || rebuild && isToTheLeft) {
+        if (isWider || (rebuild && isToTheLeft)) {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
               title: 'Tree View',
