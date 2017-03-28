@@ -64,14 +64,14 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'textBlock',
         options: {
           icon: 'textBlock.svg',
-          title: 'Add text block'
+          title: 'Add Text block'
         }
       },
       {
         tag: 'addElement',
         options: {
           icon: 'addElement.svg',
-          title: 'Add element'
+          title: 'Add Element'
         }
       }
     ]
