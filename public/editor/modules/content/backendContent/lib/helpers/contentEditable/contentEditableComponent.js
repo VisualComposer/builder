@@ -1,6 +1,5 @@
 import React from 'react'
 export default class ContentEditableComponent extends React.Component {
-
   static propTypes = {
     api: React.PropTypes.object.isRequired,
     id: React.PropTypes.string.isRequired,

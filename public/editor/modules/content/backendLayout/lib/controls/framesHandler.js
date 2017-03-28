@@ -97,4 +97,3 @@ export default class Frames {
     this.state.framesTimeout = []
   }
 }
-
