@@ -112,7 +112,7 @@ export default class ElementComponent extends Component {
 
   getMixinData (mixinName) {
     const vcCake = require('vc-cake')
-    const assetsStorage = vcCake.getData('globalAssetsStorage')
+    const assetsStorage = vcCake.getService('modernAssetsStorage').getGlobalInstance()
     let returnData = null
     let mixinData = assetsStorage.getCssMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
@@ -128,7 +128,7 @@ export default class ElementComponent extends Component {
 
   getAttributeMixinData (attributeName) {
     const vcCake = require('vc-cake')
-    const assetsStorage = vcCake.getData('globalAssetsStorage')
+    const assetsStorage = vcCake.getService('modernAssetsStorage').getGlobalInstance()
     let returnData = null
     let mixinData = assetsStorage.getAttributesMixinsByElement(this.props.atts)
     let { tag } = this.props.atts
