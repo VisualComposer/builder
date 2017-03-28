@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { getService } from 'vc-cake'
 import '../../../../../sources/less/wpbackend/representers/init.less'
 
-const categories = getService('categories')
+// const categories = getService('categories')
 const cook = getService('cook')
 
 export default class DefaultElement extends React.Component {

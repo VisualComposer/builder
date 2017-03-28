@@ -63,7 +63,7 @@ export default class Categories extends React.Component {
       })
     }
 
-    return groupElements;
+    return groupElements
   }
 
   categoriesFromProps (props) {
@@ -176,10 +176,10 @@ export default class Categories extends React.Component {
 
   getElementListContainer (itemsOutput) {
     return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
-        <ul className='vcv-ui-item-list'>
-          {itemsOutput}
-        </ul>
-      </div> : this.getNoResultsElement()
+      <ul className='vcv-ui-item-list'>
+        {itemsOutput}
+      </ul>
+    </div> : this.getNoResultsElement()
   }
 
   isSearching () {

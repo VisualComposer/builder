@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
-const categoriesService = getService('categories')
+// const categoriesService = getService('categories')
 
 export default class ControlsHandler {
   constructor (props) {

@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 const cook = vcCake.getService('cook')
-const categoriesService = vcCake.getService('categories')
+// const categoriesService = vcCake.getService('categories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
