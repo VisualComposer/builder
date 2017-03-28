@@ -274,12 +274,14 @@ export default class {
     let element = this.cook().get(elData)
     let settings = element.get('settings')
     let foundMixins = {}
+    let tag = element.get('tag')
+    let id = element.get('id')
     for (let key in settings) {
       // get css mixin from attribute
-      if (element.data[ key ]) {
+      if (element.get(key)) {
         let elementMixins = {}
         if (element.settings(key).type.component && element.settings(key).type.component.buildMixins) {
-          elementMixins = element.settings(key).type.component.buildMixins(element.data)
+          elementMixins = element.settings(key).type.component.buildMixins(element.toJS())
         } else if (element.data[ key ].attributeMixins) {
           elementMixins = element.data[ key ].attributeMixins
         }
@@ -303,18 +305,18 @@ export default class {
         }
       })
       if (useMixin) {
-        if (!mixins[ element.data.tag ]) {
-          mixins[ element.data.tag ] = {}
+        if (!mixins[ tag ]) {
+          mixins[ tag ] = {}
         }
-        if (!mixins[ element.data.tag ][ mixin ]) {
-          mixins[ element.data.tag ][ mixin ] = {}
+        if (!mixins[ tag ][ mixin ]) {
+          mixins[ tag ][ mixin ] = {}
         }
         if (!variables[ 'selector' ]) {
-          variables[ 'selector' ] = `el-${element.data.id}`
+          variables[ 'selector' ] = `el-${id}`
         }
-        mixins[ element.data.tag ][ mixin ].src = foundMixins[ mixin ].src
-        mixins[ element.data.tag ][ mixin ].variables = variables
-        mixins[ element.data.tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[ element.data.tag ].elementPath
+        mixins[ tag ][ mixin ].src = foundMixins[ mixin ].src
+        mixins[ tag ][ mixin ].variables = variables
+        mixins[ tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[ tag ].elementPath
       }
     }
     return mixins
