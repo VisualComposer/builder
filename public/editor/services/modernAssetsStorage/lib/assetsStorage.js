@@ -207,7 +207,7 @@ export default class {
     for (let key in settings) {
       // If found element then get actual data form element
       if (settings[ key ].type === 'element') {
-        mixins = this.getCssMixinsByElement(element.data[ key ], mixins)
+        mixins = this.getCssMixinsByElement(element.get(key), mixins)
       } else {
         if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
           let mixin = settings[ key ].options.cssMixin
@@ -216,12 +216,13 @@ export default class {
             foundMixins[ mixin.mixin ] = {
               variables: {},
               src: cssSettings.mixins[ mixin.mixin ].mixin,
-              path: window.VCV_HUB_GET_ELEMENTS()[element.tag].elementPath
+              path: window.VCV_HUB_GET_ELEMENTS()[ element.get('tag') ].elementPath
             }
           }
           let mixinValue = settings[ key ].value
-          if (typeof element.data[ key ] === `string`) {
-            mixinValue = element.data[ key ]
+          let tempValue = element.get(key)
+          if (typeof tempValue === 'string') {
+            mixinValue = tempValue
           }
           foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
           if (mixin.namePattern) {
@@ -313,7 +314,7 @@ export default class {
         }
         mixins[ element.data.tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ element.data.tag ][ mixin ].variables = variables
-        mixins[ element.data.tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+        mixins[ element.data.tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[ element.data.tag ].elementPath
       }
     }
     return mixins
@@ -568,4 +569,3 @@ export default class {
     return styles
   }
 }
-
