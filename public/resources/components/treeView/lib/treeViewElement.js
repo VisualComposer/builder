@@ -230,7 +230,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-state--outline': this.state.showOutline
     })
 
-    let publicPath = hubCategoriesService.getElementIcon(element.get('tag')) // TODO: Fix this
+    let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
 
     return (
