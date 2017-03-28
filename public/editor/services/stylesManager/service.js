@@ -5,6 +5,7 @@ import postcssCustomProps from 'postcss-custom-properties'
 import postcssAdvancedVars from 'postcss-advanced-variables'
 import postcssColor from 'postcss-color-function'
 import postcssNested from 'postcss-nested'
+import postcssPrefixUrl from 'postcss-prefix-url'
 import postcssMedia from 'postcss-custom-media'
 
 class StylesManager {
@@ -96,6 +97,13 @@ class StylesManager {
         use.push(postcssMedia({
           extensions: viewports
         }))
+
+        if (style.path) {
+          use.push(postcssPrefixUrl({
+            useUrl: true,
+            prefix: style.path
+          }))
+        }
 
         use.push(postcssColor)
         use.push(postcssNested)

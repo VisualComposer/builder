@@ -109,6 +109,7 @@
     "postcss-custom-properties": "5.0.1",
     "postcss-loader": "1.0.0",
     "postcss-nested": "1.0.0",
+    "postcss-prefix-url": "1.0.0",
     "raw-loader": "0.5.1",
     "react": "15.3.2",
     "react-ace": "3.6.1",
