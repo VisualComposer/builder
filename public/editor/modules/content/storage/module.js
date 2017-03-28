@@ -215,13 +215,12 @@ vcCake.add('storage', (api) => {
     api.request('data:beforeRemove', id)
     let element = DocumentData.get(id)
     DocumentData.delete(id)
-    if (element.tag === 'column') {
+    if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
+      DocumentData.delete(element.parent)
+    } else if (element.tag === 'column') {
       let rowElement = DocumentData.get(element.parent)
       rebuildRawLayout(rowElement.id, 'columnRemove', { size: element.size })
       api.request('data:update', rowElement.id, rowElement)
-    }
-    if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
-      DocumentData.delete(element.parent)
     }
     api.request('data:changed', DocumentData.children(false), 'remove')
   })
