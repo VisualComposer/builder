@@ -330,9 +330,9 @@ class Navbar extends React.Component {
       this.setState({
         visibleControlsCount: this.getVisibleControls().length
       })
-      return
+      // return
     }
-    return
+    // TODO: Check this return in while loop
   }
 
   handleDragStart (e, dragWithHandler = true) {
