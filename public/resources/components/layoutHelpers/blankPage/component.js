@@ -4,7 +4,7 @@ import ContentElementControl from './lib/contentElementControl'
 import CustomContentElementControl from './lib/customContentElementControl'
 import vcCake from 'vc-cake'
 const cook = vcCake.getService('cook')
-const categories = vcCake.getService('categories')
+// const categories = vcCake.getService('categories')
 
 export default class BlankPage extends React.Component {
   static propTypes = {
@@ -72,9 +72,12 @@ export default class BlankPage extends React.Component {
   }
 
   getControlProps (index, tag) {
-    let element = cook.get({tag: tag})
+    let element = cook.get({ tag: tag })
+    if (!element) {
+      return null
+    }
     let icon = null // categories.getElementIcon(tag)
-    console.log('resources.compontent.layoutHelper.blankPage.compontent.getControlProps TODO: Set Icon', icon)
+    console.log('resources.compontent.layoutHelper.blankPage.compontent.getControlProps TODO: Set Icon', icon, tag)
     return {
       key: 'vcvBlankPage' + tag + index,
       title: element.get('name'),
@@ -91,9 +94,10 @@ export default class BlankPage extends React.Component {
   }
 
   getElementControls () {
-    let {elementControls} = this.props.controlsData
+    let { elementControls } = this.props.controlsData
     let allControls = elementControls.map((tag, i) => {
-      return <ContentElementControl {...this.getControlProps(i, tag)} />
+      let controlProps = this.getControlProps(i, tag)
+      return controlProps ? <ContentElementControl {...controlProps} /> : null
     })
     allControls.push(<CustomContentElementControl key='vcvBlankPageAddElement'
       setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
