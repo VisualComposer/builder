@@ -48,6 +48,12 @@ class ColumnResizer extends React.Component {
     let $helper = ReactDOM.findDOMNode(this)
     let $rightCol = $helper.nextElementSibling
     let $leftCol = $helper.previousElementSibling
+    let rtl = false
+    if ($leftCol.getBoundingClientRect().left > $rightCol.getBoundingClientRect().left) {
+      $rightCol = $helper.previousElementSibling
+      $leftCol = $helper.nextElementSibling
+      rtl = true
+    }
     let rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
     let leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
     let rowId = vcCake.getService('document').get(rightColId || leftColId).parent
@@ -74,6 +80,7 @@ class ColumnResizer extends React.Component {
     ColumnResizer.data.columnGap = columnGap
     ColumnResizer.data.mousePosition = e.clientX
     ColumnResizer.data.leftColumnIndex = leftColumnIndex
+    ColumnResizer.data.rightColumnIndex = rtl ? leftColumnIndex - 1 : leftColumnIndex + 1
   }
 
   handleMouseDown (e) {
@@ -271,7 +278,7 @@ class ColumnResizer extends React.Component {
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
     layoutData[ ColumnResizer.data.leftColumnIndex ] = `${leftSize}%`
-    layoutData[ ColumnResizer.data.leftColumnIndex + 1 ] = `${rightSize}%`
+    layoutData[ ColumnResizer.data.rightColumnIndex ] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
     this.props.api.request('data:update', parentRow.id, parentRow)
   }
@@ -298,7 +305,7 @@ class ColumnResizer extends React.Component {
             </svg>
             <div className='vce-column-resizer-label-background'>
               <span
-                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.leftColPercentage * 100) + '%'}</span>
+                className='vce-column-resizer-label-percentage'>{Math.round(this.state.leftColPercentage * 100) + '%'}</span>
             </div>
             <svg width='11px' height='23px' viewBox='0 0 11 23'
               version='1.1' xmlns='http://www.w3.org/2000/svg'>
@@ -319,7 +326,7 @@ class ColumnResizer extends React.Component {
             </svg>
             <div className='vce-column-resizer-label-background'>
               <span
-                className='vce-column-resizer-label-percentage'>{Math.floor(this.state.rightColPercentage * 100) + '%'}</span>
+                className='vce-column-resizer-label-percentage'>{Math.round(this.state.rightColPercentage * 100) + '%'}</span>
             </div>
             <svg width='6px' height='23px' viewBox='0 0 6 23' version='1.1' xmlns='http://www.w3.org/2000/svg'>
               <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' fill='#282828' opacity='0.5'>

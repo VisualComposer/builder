@@ -6,7 +6,7 @@
   max-width: 100%;
   box-sizing: border-box;
   display: flex;
-  min-width: 1%;
+  min-width: 1em;
   position: relative;
 }
 .vce-col--auto {

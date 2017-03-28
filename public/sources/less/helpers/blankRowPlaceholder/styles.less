@@ -26,6 +26,7 @@
 .vcv-ui-blank-row-controls-container {
   display: flex;
   flex-flow: row wrap;
+  padding: @vcv-blank-row-controls-container-padding;
 }
 
 .vcv-ui-blank-row-element-control {
@@ -61,7 +62,22 @@
   }
 }
 
+.vcv-row-control-container {
+  .vcv-ui-blank-row-element-control {
+    margin: @vcv-blank-row-element-control-margin-inside-column;
+    &:hover {
+      .vcv-ui-blank-row-element-control-icon {
+        opacity: @vcv-blank-row-element-control-icon-opacity;
+      }
+    }
+  }
+}
+
 .vcv-ui-blank-row-element-control-label {
   display: none;
   font-family: inherit;
+}
+
+.vcv-is-hidden {
+  visibility: hidden;
 }
