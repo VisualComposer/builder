@@ -17,17 +17,17 @@ class SiteControllerTest extends \WP_UnitTestCase
         $user->set_role('administrator');
     }
 
-    public function testAppendScript()
-    {
-        /** @var $module \VisualComposer\Modules\Site\Controller */
-        $module = vcapp('SiteController');
-        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
-        $output = vcapp()->call([$module, 'appendScript']);
-
-        $pattern = '/<script src=".+node_modules\/less\/dist\/less.js" data-async="true"><\/script>/';
-
-        $this->assertEquals(1, preg_match($pattern, $output), 'macthes of output: ' . $output);
-    }
+//    public function testAppendScript()
+//    {
+//        /** @var $module \VisualComposer\Modules\Site\Controller */
+//        $module = vcapp('SiteController');
+//        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
+//        $output = vcapp()->call([$module, 'appendScript']);
+//
+//        $pattern = '/<script src=".+node_modules\/less\/dist\/less.js" data-async="true"><\/script>/';
+//
+//        $this->assertEquals(1, preg_match($pattern, $output), 'macthes of output: ' . $output);
+//    }
 
     public function testEditPostLink()
     {
@@ -47,14 +47,14 @@ class SiteControllerTest extends \WP_UnitTestCase
         $requestHelper->setData([]);
     }
 
-    public function testEnqueueScripts()
-    {
-        /** @var $module \VisualComposer\Modules\Site\Controller */
-        $module = vcapp('SiteController');
-        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
-        $wp_scripts = wp_scripts();
-        $this->assertFalse(array_search('jquery', $wp_scripts->queue) !== false);
-        vcapp()->call([$module, 'enqueueScripts']);
-        $this->assertTrue(array_search('jquery', $wp_scripts->queue) !== false);
-    }
+//    public function testEnqueueScripts()
+//    {
+//        /** @var $module \VisualComposer\Modules\Site\Controller */
+//        $module = vcapp('SiteController');
+//        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
+//        $wp_scripts = wp_scripts();
+//        $this->assertFalse(array_search('jquery', $wp_scripts->queue) !== false);
+//        vcapp()->call([$module, 'enqueueScripts']);
+//        $this->assertTrue(array_search('jquery', $wp_scripts->queue) !== false);
+//    }
 }
