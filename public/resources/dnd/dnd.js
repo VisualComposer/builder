@@ -9,6 +9,7 @@ import DOMElement from './domElement'
 
 const documentManager = getService('document')
 const cook = getService('cook')
+const hubCategories = getService('hubCategories')
 
 export default class DnD {
   /**
@@ -165,7 +166,8 @@ export default class DnD {
       relatedTo: relatedTo ? relatedTo.value : null,
       parent: element.get('parent') || this.options.rootID,
       handler: this.options.handler,
-      tag: element.get('tag')
+      tag: element.get('tag'),
+      iconLink: hubCategories.getElementIcon(element.get('tag'))
     })
       .on('dragstart', function (e) { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
