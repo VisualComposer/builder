@@ -215,7 +215,8 @@ export default class {
           if (!foundMixins[ mixin.mixin ]) {
             foundMixins[ mixin.mixin ] = {
               variables: {},
-              src: cssSettings.mixins[ mixin.mixin ].mixin
+              src: cssSettings.mixins[ mixin.mixin ].mixin,
+              path: window.VCV_HUB_GET_ELEMENTS()[element.tag].elementPath
             }
           }
           let mixinValue = settings[ key ].value
@@ -312,6 +313,7 @@ export default class {
         }
         mixins[ element.data.tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ element.data.tag ][ mixin ].variables = variables
+        mixins[ element.data.tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
       }
     }
     return mixins
@@ -419,7 +421,8 @@ export default class {
           if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
             styles.push({
               variables: mixinsData[ tag ][ mixin ][ selector ],
-              src: cssSettings.mixins[ mixin ].mixin
+              src: cssSettings.mixins[ mixin ].mixin,
+              path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
             })
           }
         }
@@ -483,12 +486,14 @@ export default class {
       let cssSettings = elementObject.get('cssSettings')
       if (cssSettings.css) {
         styles.push({
-          src: cssSettings.css
+          src: cssSettings.css,
+          path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
         })
       }
       if (editor && cssSettings.editorCss) {
         styles.push({
-          src: cssSettings.editorCss
+          src: cssSettings.editorCss,
+          path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
         })
       }
     })
@@ -518,12 +523,14 @@ export default class {
         let cssSettings = elementObject.get('cssSettings')
         if (cssSettings.css) {
           styles.push({
-            src: cssSettings.css
+            src: cssSettings.css,
+            path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
           })
         }
         if (options.editor && cssSettings.editorCss) {
           styles.push({
-            src: cssSettings.editorCss
+            src: cssSettings.editorCss,
+            path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
           })
         }
       })
@@ -541,7 +548,8 @@ export default class {
             if (cssSettings.mixins && cssSettings.mixins[ mixin ]) {
               styles.push({
                 variables: cssMixins[ tag ][ mixin ][ selector ],
-                src: cssSettings.mixins[ mixin ].mixin
+                src: cssSettings.mixins[ mixin ].mixin,
+                path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
               })
             }
           }
