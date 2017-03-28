@@ -6,7 +6,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 
@@ -41,73 +40,11 @@ class Controller extends Container implements Module
     public function __construct(Url $urlHelper)
     {
         $this->urlHelper = $urlHelper;
-        /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFrontend */
+        /** @see \VisualComposer\Modules\Site\Controller::outputScriptsFront */
         $this->wpAddAction(
             'wp_enqueue_scripts',
-            'outputScriptsFrontend'
+            'outputScriptsFront'
         );
-
-        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
-        $this->wpAddAction(
-            'wp_enqueue_scripts',
-            'enqueueScripts'
-        );
-        // remove_filter('the_content', 'wpautop');
-    }
-
-    /**
-     *
-     */
-    public function enqueueScripts()
-    {
-        // TODO: Check is it needed.
-
-        wp_enqueue_script('jquery');
-    }
-
-    /**
-     * Output less.js script to page header.
-     *
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     *
-     * @return string
-     */
-    public function appendScript(Url $urlHelper)
-    {
-        // TODO: Check is it really needed for webpack
-        return sprintf(
-            '<script src="%s" data-async="true"></script>',
-            esc_url($urlHelper->to('node_modules/less/dist/less.js'))
-        );
-    }
-
-    /**
-     * Output used assets.
-     *
-     * @param \VisualComposer\Helpers\Views $templatesHelper
-     *
-     * @return string
-     */
-    public function outputScriptsFrontendEditor(Views $templatesHelper)
-    {
-        /** @see \VisualComposer\Modules\Site\Controller::getAssetsViewArgs */
-        $args = $this->call('getAssetsViewArgs');
-
-        return $templatesHelper->render('site/frontend-scripts-styles', $args);
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return array
-     */
-    public function getAssetsViewArgs(Options $optionsHelper)
-    {
-        $scriptsBundle = $optionsHelper->get('scriptsBundle');
-        $stylesBundle = $optionsHelper->get('stylesBundle');
-        $args = compact('scriptsBundle', 'stylesBundle');
-
-        return $args;
     }
 
     /**
@@ -118,20 +55,21 @@ class Controller extends Container implements Module
      *
      * @return bool
      */
-    public function outputScriptsFrontend(Request $request, Options $optionsHelper)
+    public function outputScriptsFront(Request $request, Options $optionsHelper)
     {
         if ($request->exists('vcv-editable')) {
             return false;
         }
+        // Add Plugin Vendor File
+        $this->addScript('vcv-vendor-scripts', vchelper('Url')->to('public/dist/vendor.bundle.js'));
 
-        // $this->addScript('vcv-vendor-scripts', vchelper('Url')->to('public/dist/vendor.bundle.js'));
         $scriptsBundle = $optionsHelper->get('scriptsGlobalFile');
-        if ($scriptsBundle !== false) {
+        if (!empty($scriptsBundle)) {
             $this->addScript('vcv-scripts', $scriptsBundle);
         }
 
         $sharedLibraryCssBundles = $optionsHelper->get('sharedLibraryGlobalFile');
-        if ($sharedLibraryCssBundles !== false) {
+        if (!empty($sharedLibraryCssBundles)) {
             $this->addStyle('vcv-shared-library-styles', $sharedLibraryCssBundles);
         }
 
@@ -154,7 +92,7 @@ class Controller extends Container implements Module
      */
     public function addStyle($name, $file)
     {
-        wp_register_style($name, $file, VCV_VERSION);
+        wp_register_style($name, $file, [], VCV_VERSION);
         $this->wpAddAction(
             'wp_print_styles',
             function () use ($name) {
@@ -173,7 +111,8 @@ class Controller extends Container implements Module
                     $this->mainFrontBundle = 'vcv-front-js';
                     $url = $this->urlHelper->to('public/dist/front.bundle.js');
                     wp_register_script($this->mainFrontBundle, $url, [], VCV_VERSION, true);
-                }*/
+                }
+        */
         wp_register_script($name, $file, [], VCV_VERSION, true);
         $this->wpAddAction(
             'wp_print_scripts',
