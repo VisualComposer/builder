@@ -7,6 +7,7 @@ const documentManger = vcCake.getService('document')
 
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
+const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -229,8 +230,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-state--outline': this.state.showOutline
     })
 
-    let publicPath = null // categoriesService.getElementIcon(element.get('tag')) // TODO: Fix this
-    console.log('workspace.components.treeView.lib.treeViewElement.render TODO: Set Icon/PublicPath', publicPath)
+    let publicPath = hubCategoriesService.getElementIcon(element.get('tag')) // TODO: Fix this
     let space = 0.8
 
     return (
