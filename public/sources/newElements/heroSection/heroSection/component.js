@@ -1,5 +1,8 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
+
+const Cook = vcCake.getService('cook')
 const vcvAPI = vcCake.getService('api')
 
 export default class HeroSectionElement extends vcvAPI.elementComponent {
@@ -10,7 +13,6 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { description, image, align, addButton, customClass, button, background, metaCustomId } = atts
-    let classNames = require('classnames')
     let customProps = {}
     let containerProps = {}
 
@@ -27,7 +29,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-    let rowClasses = ['vce-hero-section__wrap-row']
+    let rowClasses = [ 'vce-hero-section__wrap-row' ]
 
     let mixinData = this.getMixinData('backgroundColor')
 
@@ -44,9 +46,9 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
     let buttonOutput = ''
     if (addButton) {
-      const Cook = vcCake.getService('cook')
+      /** @var CookElement Button */
       let Button = Cook.get(button)
-      buttonOutput = Button.render(null, false)
+      buttonOutput = Button ? Button.render(null, false) : null
     }
 
     if (metaCustomId) {
@@ -74,21 +76,17 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
     </section>
   }
 
-  getPublicImage (filename) {
-    let assetsManager = vcCake.getService('assetsManager')
-    let { tag } = this.props.atts
-    return assetsManager.getPublicPath(tag, filename)
-  }
-
   getImageUrl (image) {
     let imageUrl
     // Move it to attribute
+    // TODO: Make sure to allow use also other sizes?
     if (image && image.full) {
       imageUrl = image.full
     } else {
-      imageUrl = this.getPublicImage(image)
+      // It is string and it is default
+      imageUrl = window.VCV_HUB_GET_ELEMENTS()[ this.props.atts.tag ].assetsPath + image
     }
+
     return imageUrl
   }
 }
-
