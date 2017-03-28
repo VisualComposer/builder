@@ -31,4 +31,3 @@ vcCake.add('backendSwitcher', (api) => {
     )
   }
 })
-

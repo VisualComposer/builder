@@ -386,4 +386,3 @@ export default class ControlsManager {
     }
   }
 }
-
