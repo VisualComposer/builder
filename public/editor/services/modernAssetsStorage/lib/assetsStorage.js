@@ -270,8 +270,11 @@ export default class {
    * @returns {{}}
    */
   getAttributesMixinsByElement (elData) {
-    let mixins = {}
     let element = this.cook().get(elData)
+    if (!element) {
+      return {}
+    }
+    let mixins = {}
     let settings = element.get('settings')
     let foundMixins = {}
     let tag = element.get('tag')
@@ -319,7 +322,7 @@ export default class {
         }
         mixins[ tag ][ mixin ].src = foundMixins[ mixin ].src
         mixins[ tag ][ mixin ].variables = variables
-        mixins[ tag ][ mixin ].path = window.VCV_HUB_GET_ELEMENTS()[ tag ].elementPath
+        mixins[ tag ][ mixin ].path = element.get('metaElementPath')
       }
     }
     return mixins
@@ -333,6 +336,9 @@ export default class {
    */
   getGoogleFontsByElement (elData, foundFonts = {}) {
     let element = this.cook().get(elData)
+    if (!element) {
+      return foundFonts
+    }
     let settings = element.get('settings')
     for (let key in settings) {
       // If found element then get actual data form element
@@ -419,6 +425,9 @@ export default class {
     let styles = []
     Object.keys(mixinsData).forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
+      if (!elementObject) {
+        return
+      }
       let cssSettings = elementObject.get('cssSettings')
       let mixins = Object.keys(mixinsData[ tag ])
 
@@ -428,7 +437,7 @@ export default class {
             styles.push({
               variables: mixinsData[ tag ][ mixin ][ selector ],
               src: cssSettings.mixins[ mixin ].mixin,
-              path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+              path: elementObject.get('metaElementPath')
             })
           }
         }
@@ -489,17 +498,20 @@ export default class {
     let styles = []
     this.getTagsList().forEach((tag) => {
       let elementObject = this.cook().get({ tag: tag })
+      if (!elementObject) {
+        return
+      }
       let cssSettings = elementObject.get('cssSettings')
       if (cssSettings.css) {
         styles.push({
           src: cssSettings.css,
-          path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+          path: elementObject.get('metaElementPath')
         })
       }
       if (editor && cssSettings.editorCss) {
         styles.push({
           src: cssSettings.editorCss,
-          path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+          path: elementObject.get('metaElementPath')
         })
       }
     })
@@ -526,17 +538,20 @@ export default class {
       let tags = this.getElementTagsByTagName(elementData.tag, {}, elementData)
       Object.keys(tags).forEach((tag) => {
         let elementObject = this.cook().get({ tag: tag })
+        if (!elementObject) {
+          return
+        }
         let cssSettings = elementObject.get('cssSettings')
         if (cssSettings.css) {
           styles.push({
             src: cssSettings.css,
-            path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+            path: elementObject.get('metaElementPath')
           })
         }
         if (options.editor && cssSettings.editorCss) {
           styles.push({
             src: cssSettings.editorCss,
-            path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+            path: elementObject.get('metaElementPath')
           })
         }
       })
@@ -546,6 +561,9 @@ export default class {
       let cssMixins = this.getCssMixinsByElement(elementData, {})
       Object.keys(cssMixins).forEach((tag) => {
         let elementObject = this.cook().get({ tag: tag })
+        if (!elementObject) {
+          return
+        }
         let cssSettings = elementObject.get('cssSettings')
         let mixins = Object.keys(cssMixins[ tag ])
 
@@ -555,7 +573,7 @@ export default class {
               styles.push({
                 variables: cssMixins[ tag ][ mixin ][ selector ],
                 src: cssSettings.mixins[ mixin ].mixin,
-                path: window.VCV_HUB_GET_ELEMENTS()[tag].elementPath
+                path: elementObject.get('metaElementPath')
               })
             }
           }

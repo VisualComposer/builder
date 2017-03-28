@@ -11,9 +11,12 @@ export default {
     tags.forEach((tag) => {
       // get js files from elements
       let elementObject = cook.get({ tag: tag })
+      if (!elementObject) {
+        return
+      }
       let jsFiles = elementObject.get('metaPublicJs')
       if (jsFiles && jsFiles.length) {
-        let elementPath = window.VCV_HUB_GET_ELEMENTS()[ tag ].elementPath
+        let elementPath = elementObject.get('metaElementPath')
         jsFiles = jsFiles.map((url) => {
           return elementPath + url
         })
@@ -44,6 +47,9 @@ export default {
     let cook = vcCake.getService('cook')
     tags.forEach((tag) => {
       let elementObject = cook.get({ tag: tag })
+      if (!elementObject) {
+        return
+      }
       let assetsLibrary = elementObject.get('assetsLibrary')
 
       if (assetsLibrary && assetsLibrary.length) {

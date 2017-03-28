@@ -20,7 +20,7 @@ export default class CookElement {
     attr.id = id
     let element = window.VCV_HUB_GET_ELEMENTS()[ tag ]
     if (!element) {
-      throw new Error('Element: ' + tag + ' doesn`t exists in HUB')
+      throw new Error(`Element ${tag} is not registered in system`)
     }
     let metaSettings = element.settings
     let elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : false
@@ -36,6 +36,9 @@ export default class CookElement {
         metaThumbnailUrl: metaSettings.metaThumbnailUrl,
         metaPreviewUrl: metaSettings.metaPreviewUrl,
         metaDescription: metaSettings.metaDescription,
+        metaAssetsPath: element.assetsPath,
+        metaElementPath: element.elementPath,
+        metaBundlePath: element.bundlePath,
         order: order,
         settings: elSettings && elSettings.settings ? elSettings.settings : {},
         cssSettings: elSettings && elSettings.cssSettings ? elSettings.cssSettings : {},
@@ -61,7 +64,7 @@ export default class CookElement {
   }
 
   get (k, raw = false) {
-    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings' ].indexOf(k) > -1) {
+    if ([ 'id', 'name', 'metaThumbnailUrl', 'metaPreviewUrl', 'metaDescription', 'parent', 'order', 'cssSettings', 'settings', 'jsSettings', 'metaAssetsPath', 'metaElementPath', 'metaBundlePath' ].indexOf(k) > -1) {
       return this[ elData ][ k ]
     }
     let { type, settings } = this[ elData ].getAttributeType(k)
@@ -109,6 +112,9 @@ export default class CookElement {
     data.metaThumbnailUrl = this[ elData ].metaThumbnailUrl
     data.metaPreviewUrl = this[ elData ].metaPreviewUrl
     data.metaDescription = this[ elData ].metaDescription
+    data.metaAssetsPath = this[ elData ].metaAssetsPath
+    data.metaElementPath = this[ elData ].metaElementPath
+    data.metaBundlePath = this[ elData ].metaBundlePath
     if (this[ elData ].parent !== undefined) {
       data.parent = this[ elData ].parent
     }

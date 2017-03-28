@@ -11,14 +11,19 @@ const DocumentData = getService('document')
 addService('cook', {
   get (data) {
     if (!data || !data.tag) {
-      throw new Error('No element Tag provided')
+      console.error('No element Tag provided', data)
+      return null
+    }
+    if (!window.VCV_HUB_GET_ELEMENTS()[data.tag]) {
+      console.warn('Element is not registered in system', data)
+      return null
     }
 
     return new CookElement(data)
   },
   getById (id) {
     let data = DocumentData.get(id)
-    return data !== null ? this.get(data) : undefined
+    return data !== null ? this.get(data) : null
   },
   add (settings, componentCallback, cssSettings, javascriptCallback) {
     elementSettings.add(settings, componentCallback, cssSettings, javascriptCallback)
@@ -58,7 +63,7 @@ addService('cook', {
     let allElements = this.list.settings()
     return allElements.filter((settings) => {
       let element = this.get(settings)
-      return element.relatedTo(groups)
+      return element ? element.relatedTo(groups) : false
     })
   }
 })
