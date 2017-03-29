@@ -8,7 +8,7 @@ import UndoRedoControl from '../../../../resources/components/navbar/controls/un
 import LayoutControl from '../../../../resources/components/navbar/controls/layout/layoutControl'
 import SettingsButtonControl from '../../../../resources/components/navbar/controls/settingsButtonControl'
 import SaveControl from '../../../../resources/components/navbar/controls/saveControl'
-import NavbarSeparator from '../../../../resources/components/navbar/navbarSeparator'
+import NavbarSeparator from '../../../../resources/components/navbar/controls/navbarSeparator'
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
 

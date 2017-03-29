@@ -1,9 +1,11 @@
 import React from 'react'
 import {getStorage} from 'vc-cake'
+import NavbarContent from '../navbarContent'
+
 const historyStorage = getStorage('history')
 const workspaceStorage = getStorage('workspace')
 
-export default class UndoRedoControl extends React.Component {
+export default class UndoRedoControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {

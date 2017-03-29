@@ -9,25 +9,24 @@ import LayoutControl from '../../../../resources/components/navbar/controls/layo
 import SettingsButtonControl from '../../../../resources/components/navbar/controls/settingsButtonControl'
 import WordPressAdminControl from '../../../../resources/components/navbar/controls/wordpressAdminControl'
 import WordPressPostSaveControl from '../../../../resources/components/navbar/controls/wordpressPostSaveControl'
-
-import NavbarSeparator from '../../../../resources/components/navbar/navbarSeparator'
+import NavbarSeparator from '../../../../resources/components/navbar/controls/navbarSeparator'
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
 
 export default class NavbarContainer extends React.Component {
   render () {
     return <NavbarWrapper>
-      <Navbar pinned={['WordPressAdminControl']}>
-        <Logo />
-        <PlusControl />
+      <Navbar>
+        <Logo visibility='pinned' />
+        <PlusControl visibility='pinned' />
         <AddTemplateControl />
-        <TreeViewControl />
+        <TreeViewControl visibility='pinned' />
         <UndoRedoControl />
-        <LayoutControl />
+        <LayoutControl visibility='pinned' />
         <SettingsButtonControl />
-        <NavbarSeparator />
-        <WordPressPostSaveControl />
-        <WordPressAdminControl />
+        <NavbarSeparator visibility='pinned' />
+        <WordPressPostSaveControl visibility='pinned' />
+        <WordPressAdminControl visibility='hidden' />
       </Navbar>
     </NavbarWrapper>
   }

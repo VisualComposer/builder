@@ -1,11 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import {getStorage} from 'vc-cake'
-
+import NavbarContent from '../navbarContent'
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
-export default class AddTemplateControl extends React.Component {
+export default class AddTemplateControl extends NavbarContent {
 
   constructor (props) {
     super(props)

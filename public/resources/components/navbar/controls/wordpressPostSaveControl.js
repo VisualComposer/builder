@@ -1,12 +1,13 @@
 import {getService, getStorage} from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
+import NavbarContent from '../navbarContent'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
-export default class WordPressPostSaveControl extends React.Component {
+export default class WordPressPostSaveControl extends NavbarContent {
   state = {
     saving: false,
     status: ''

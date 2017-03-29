@@ -1,11 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
+import NavbarContent from '../navbarContent'
+
 import {getStorage} from 'vc-cake'
 
 // const assetsStorage = getService('assetsStorage')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
-export default class SettingsButtonControl extends React.Component {
+export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {

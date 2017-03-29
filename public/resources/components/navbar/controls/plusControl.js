@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import NavbarContent from '../navbarContent'
 import {getStorage} from 'vc-cake'
 
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentEndState = getStorage('workspace').state('contentEnd')
 
-export default class PlusControl extends React.Component {
+export default class PlusControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.toggleAddElement = this.toggleAddElement.bind(this)

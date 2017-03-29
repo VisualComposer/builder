@@ -1,11 +1,13 @@
 /* global setUserSetting */
-import {env, getService, getStorage} from 'vc-cake'
 import React from 'react'
+import NavbarContent from '../navbarContent'
+
+import {env, getService, getStorage} from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
 
-export default class WordPressAdminControl extends React.Component {
+export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.setBackendEditor = this.setBackendEditor.bind(this)

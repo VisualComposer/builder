@@ -1,10 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import NavbarContent from '../navbarContent'
+
 import {getStorage} from 'vc-cake'
 
 const workspaceContentStartState = getStorage('workspace').state('contentStart')
 
-export default class TreeViewControl extends React.Component {
+export default class TreeViewControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.toggleTreeView = this.toggleTreeView.bind(this)

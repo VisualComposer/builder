@@ -1,10 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
+import NavbarContent from '../navbarContent'
+
 import {getStorage} from 'vc-cake'
 
 const localStorage = getStorage('localStorage')
 
-export default class SaveControl extends React.Component {
+export default class SaveControl extends NavbarContent {
   state = {
     saving: false,
     saved: false
