@@ -175,6 +175,9 @@ export default class {
    */
   getElementTagsByTagName (tag, tags, data = {}) { // @SM
     let element = this.cook().get({ tag: tag })
+    if (!element) {
+      return tags
+    }
     let settings = element.get('settings')
     for (let key in settings) {
       // If found element than get actual tags form element
@@ -202,6 +205,9 @@ export default class {
    */
   getCssMixinsByElement (elData, mixins = {}) {
     let element = this.cook().get(elData)
+    if (!element) {
+      return mixins
+    }
     let settings = element.get('settings')
     let foundMixins = {}
     for (let key in settings) {

@@ -168,6 +168,9 @@ export default class TreeViewElement extends React.Component {
 
   render () {
     let element = cook.get(this.props.element)
+    if (!element) {
+      return null
+    }
     let treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
