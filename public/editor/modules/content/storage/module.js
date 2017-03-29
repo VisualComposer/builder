@@ -217,8 +217,7 @@ vcCake.add('storage', (api) => {
     DocumentData.delete(id)
     if (element && element.parent && !DocumentData.children(element.parent).length && element.tag === isElementOneRelation(element.parent)) {
       DocumentData.delete(element.parent)
-    }
-    if (element.tag === 'column') {
+    } else if (element.tag === 'column') {
       let rowElement = DocumentData.get(element.parent)
       rebuildRawLayout(rowElement.id, 'columnRemove', { size: element.size })
       api.request('data:update', rowElement.id, rowElement)

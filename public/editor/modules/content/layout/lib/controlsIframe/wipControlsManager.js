@@ -24,7 +24,8 @@ export default class ControlsManager {
       prevElementPath: [],
       showOutline: true,
       showFrames: true,
-      showControls: true
+      showControls: true,
+      showCustomFrames: false
     }
 
     this.findElement = this.findElement.bind(this)
@@ -61,6 +62,17 @@ export default class ControlsManager {
         enumerable: false,
         configurable: false
       },
+
+      /**
+       * Create custom frames
+       */
+      customFrames: {
+        value: new FramesHandler(false, systemData),
+        writable: false,
+        enumerable: false,
+        configurable: false
+      },
+
       /**
        * @memberOf! OutlineManager
        */
@@ -185,6 +197,15 @@ export default class ControlsManager {
       this.controlElementFind()
     })
 
+    // check column resize
+    vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
+      if (rowId) {
+        this.showChildrenFrames(rowId)
+      } else {
+        this.customFrames.hide()
+      }
+    })
+
     // check remove element
     this.api.reply('data:remove', () => {
       this.findElement()
@@ -219,9 +240,13 @@ export default class ControlsManager {
       if (this.state.showFrames) {
         this.frames.show({ element: data.element, path: data.path })
       }
+      if (this.state.showCustomFrames) {
+        this.showCustomFramse(data)
+      }
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.frames.hide()
+      this.customFrames.hide()
     })
   }
 
@@ -373,6 +398,53 @@ export default class ControlsManager {
         this.controlsPrevElement = element
       }
     }
+  }
+
+  /**
+   * Show frames with custom path
+   */
+  showCustomFramse (data) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    data.vcElementsPath.forEach((id) => {
+      let documentElement = documentService.get(id)
+      if (documentElement.tag === 'column') {
+        let children = documentService.children(documentElement.parent)
+        children.forEach((child) => {
+          elementsToShow.push(child.id)
+        })
+      } else {
+        elementsToShow.push(documentElement.id)
+      }
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.customFrames.show({ element: data.element, path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children
+   */
+  showChildrenFrames (parentId) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    let children = documentService.children(parentId)
+    children.forEach((child) => {
+      elementsToShow.push(child.id)
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.customFrames.show({ path: elementsToShow })
   }
 }
 

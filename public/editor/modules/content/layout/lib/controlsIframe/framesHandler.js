@@ -26,11 +26,18 @@ export default class Frames {
    */
   setup () {
     for (let i = 0; i < this.sliceSize; i++) {
-      let frame = document.createElement('svg')
-      frame.classList.add('vcv-ui-element-frame')
-      this.iframeOverlay.appendChild(frame)
-      this.frames.push(frame)
+      this.addFrame()
     }
+  }
+
+  /**
+   * Create frame and add it to frame list
+   */
+  addFrame () {
+    let frame = document.createElement('svg')
+    frame.classList.add('vcv-ui-element-frame')
+    this.iframeOverlay.appendChild(frame)
+    this.frames.push(frame)
   }
 
   /**
@@ -56,13 +63,15 @@ export default class Frames {
    * @param data
    */
   show (data) {
-    if (this.sliceSize) {
-      let slicedElements = data.path.slice(0, this.sliceSize)
-      slicedElements.forEach((element, index) => {
-        this.frames[ index ].classList.add('vcv-state--visible')
-      })
-      this.autoUpdatePosition(slicedElements)
+    let slicedElements = this.sliceSize ? data.path.slice(0, this.sliceSize) : data.path
+    // add frames if current frames count is not enough
+    while (slicedElements.length > this.frames.length) {
+      this.addFrame()
     }
+    slicedElements.forEach((element, index) => {
+      this.frames[ index ].classList.add('vcv-state--visible')
+    })
+    this.autoUpdatePosition(slicedElements)
   }
 
   /**

@@ -84,10 +84,23 @@ export default class Layout extends React.Component {
 
     const rowPlaceholder = env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholderBackend api={this.props.api} />
 
+    // TODO: temporary solution for demo purposes only, remove afterwards
+    let style = null
+    if (env('FEATURE_APPEND_TO_CONTROL')) {
+      style = <style>{
+        `.vcv-wpbackend-layout-container .vce-row .vce-row-container:first-child .vce-row {
+           margin: 45px 0 10px;
+           padding: 0 0 10px;
+        }`
+      }
+      </style>
+    }
+
     return <div
       className='vcv-wpbackend-layout'
       data-vcv-module='content-layout'
       ref={(container) => { this.layoutContainer = container }}>
+      {style}
       {elementsList}
       {rowPlaceholder}
     </div>
