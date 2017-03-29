@@ -25,7 +25,7 @@ export default class ControlsManager {
       showOutline: true,
       showFrames: true,
       showControls: true,
-      showCustomFrames: true
+      showCustomFrames: false
     }
 
     this.findElement = this.findElement.bind(this)
