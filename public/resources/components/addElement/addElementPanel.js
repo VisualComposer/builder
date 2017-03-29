@@ -21,7 +21,7 @@ export default class AddElementPanel extends React.Component {
     }
     return allElements.filter((elementData) => {
       let element = cook.get(elementData)
-      return element.relatedTo(parentContainerFor)
+      return element ? element.relatedTo(parentContainerFor) : false
     })
   }
 
