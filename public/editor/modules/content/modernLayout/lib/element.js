@@ -73,6 +73,9 @@ export default class Element extends React.Component {
 
   render () {
     let el = cook.get(this.state.element)
+    if (!el) {
+      return null
+    }
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {

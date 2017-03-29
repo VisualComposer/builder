@@ -2,7 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
-export default class ColumnElement extends vcvAPI.elementComponent {
+export default class ButtonElement extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, shape, color, alignment, customClass, toggleCustomHover, metaCustomId } = atts
