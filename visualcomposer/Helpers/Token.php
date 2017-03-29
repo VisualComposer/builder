@@ -39,13 +39,13 @@ class Token extends Container implements Helper
     public function reset()
     {
         $this->optionsHelper
-            ->set('site-registered', 0)
-            ->set('site-id', '')
-            ->set('site-secret', '')
-            ->set('site-auth-state', '')
-            ->set('site-auth-token', '')
-            ->set('site-auth-refresh-token', '')
-            ->set('site-auth-token-ttl', '');
+            ->set('siteRegistered', 0)
+            ->set('siteId', '')
+            ->set('siteSecret', '')
+            ->set('siteAuthState', '')
+            ->set('siteAuthToken', '')
+            ->set('siteAuthRefreshToken', '')
+            ->set('siteAuthTokenTtl', '');
 
         return true;
     }
@@ -56,7 +56,7 @@ class Token extends Container implements Helper
     public function isSiteRegistered()
     {
         return (bool)$this->optionsHelper->get(
-            'site-registered'
+            'siteRegistered'
         );
     }
 
@@ -66,7 +66,7 @@ class Token extends Container implements Helper
     protected function setIsSiteRegistered()
     {
         $this->optionsHelper->set(
-            'site-registered',
+            'siteRegistered',
             1
         );
 
@@ -109,10 +109,10 @@ class Token extends Container implements Helper
     protected function setClientSecret($body)
     {
         $this->optionsHelper->set(
-            'site-id',
+            'siteId',
             $body->client_id
         )->set(
-            'site-secret',
+            'siteSecret',
             $body->client_secret
         );
 
@@ -133,9 +133,9 @@ class Token extends Container implements Helper
                 'body' => [
                     'code' => $code,
                     'grant_type' => 'authorization_code',
-                    'client_secret' => $this->optionsHelper->get('site-secret'),
+                    'client_secret' => $this->optionsHelper->get('siteSecret'),
                     'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'account:token:api']),
-                    'client_id' => $this->optionsHelper->get('site-id'),
+                    'client_id' => $this->optionsHelper->get('siteId'),
                 ],
             ]
         );
@@ -160,8 +160,8 @@ class Token extends Container implements Helper
     public function getToken()
     {
         if ($this->isSiteAuthorized()) {
-            $token = $this->optionsHelper->get('site-auth-token');
-            $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('site-auth-token-ttl');
+            $token = $this->optionsHelper->get('siteAuthToken');
+            $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('siteAuthTokenTtl');
             if ($ttl > 3600) {
                 $token = $this->refreshToken();
             }
@@ -180,16 +180,16 @@ class Token extends Container implements Helper
     protected function setToken($body)
     {
         $this->optionsHelper->set(
-            'site-auth-state',
+            'siteAuthState',
             1
         )->set(
-            'site-auth-token',
+            'siteAuthToken',
             $body->access_token
         )->set(
-            'site-auth-refresh-token',
+            'siteAuthRefreshToken',
             $body->refresh_token
         )->set(
-            'site-auth-token-ttl',
+            'siteAuthTokenTtl',
             current_time('timestamp')
         );
 
@@ -203,15 +203,15 @@ class Token extends Container implements Helper
      */
     protected function refreshToken()
     {
-        $refreshToken = $this->optionsHelper->get('site-auth-refresh-token');
+        $refreshToken = $this->optionsHelper->get('siteAuthRefreshToken');
         $result = wp_remote_post(
             VCV_ACCOUNT_URL . '/token',
             [
                 'body' => [
                     'grant_type' => 'refresh_token',
-                    'client_secret' => $this->optionsHelper->get('site-secret'),
+                    'client_secret' => $this->optionsHelper->get('siteSecret'),
                     'redirect_uri' => $this->urlHelper->ajax(['vcv-action' => 'api']),
-                    'client_id' => $this->optionsHelper->get('site-id'),
+                    'client_id' => $this->optionsHelper->get('siteId'),
                     'refresh_token' => $refreshToken,
                 ],
             ]
@@ -235,7 +235,7 @@ class Token extends Container implements Helper
      */
     public function isSiteAuthorized()
     {
-        return (int)$this->optionsHelper->get('site-auth-state', 0) > 0;
+        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
     }
 
     /**
@@ -243,7 +243,7 @@ class Token extends Container implements Helper
      */
     public function getTokenActivationUrl()
     {
-        $clientId = esc_attr($this->optionsHelper->get('site-id'));
+        $clientId = esc_attr($this->optionsHelper->get('siteId'));
         $redirectUrl = rawurlencode($this->urlHelper->ajax(['vcv-action' => 'account:token:api']));
         $scope = 'user.read,elements.read';
 

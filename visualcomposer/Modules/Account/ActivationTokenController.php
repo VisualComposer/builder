@@ -53,6 +53,7 @@ class ActivationTokenController extends Container implements Module
         Token $tokenHelper,
         ActivationFinishPage $activationFinishPage
     ) {
+        // TODO: Add Access checks & checks for database flag
         if ($requestHelper->exists('code')) {
             // post to the API to get token
             /** @see \VisualComposer\Helpers\Token::generateToken */

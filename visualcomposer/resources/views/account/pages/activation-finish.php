@@ -11,12 +11,12 @@ var_dump(
         'isSiteAuthorized' => $tokenHelper->isSiteAuthorized(),
         'getToken' => $tokenHelper->getToken(),
         'privateInformation' => [
-            'site-id' => $optionsHelper->get('site-id'),
-            'site-secret' => $optionsHelper->get('site-secret'),
-            'site-auth-state' => $optionsHelper->get('site-auth-state'),
-            'site-auth-token' => $optionsHelper->get('site-auth-token'),
-            'site-auth-token-ttl' => $optionsHelper->get('site-auth-token-ttl'),
-            'site-auth-refresh-token' => $optionsHelper->get('site-auth-refresh-token'),
+            'site-id' => $optionsHelper->get('siteId'),
+            'site-secret' => $optionsHelper->get('siteSecret'),
+            'site-auth-state' => $optionsHelper->get('siteAuthState'),
+            'site-auth-token' => $optionsHelper->get('siteAuthToken'),
+            'site-auth-token-ttl' => $optionsHelper->get('siteAuthTokenTtl'),
+            'site-auth-refresh-token' => $optionsHelper->get('siteAuthRefreshToken'),
         ],
     ]
 );
