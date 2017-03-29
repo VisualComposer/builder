@@ -54,6 +54,7 @@ export default class PanelsContainer extends React.Component {
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!(start || end)
     })
+
     return (
       <div className={layoutClasses}>
         <ContentStart>

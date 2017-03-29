@@ -37,6 +37,7 @@ class Categories extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      */
     protected function dummySetCategories(Options $optionHelper, Url $urlHelper)
     {

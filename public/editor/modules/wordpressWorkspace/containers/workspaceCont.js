@@ -8,7 +8,6 @@ import {getStorage} from 'vc-cake'
 const workspace = getStorage('workspace')
 
 export default class WorkspaceCont extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
@@ -37,6 +36,7 @@ export default class WorkspaceCont extends React.Component {
 
   render () {
     const {contentStart, contentEnd, settings} = this.state
+
     return (
       <Workspace contentStart={!!contentStart} contentEnd={!!contentEnd}>
         <NavbarContainer />
