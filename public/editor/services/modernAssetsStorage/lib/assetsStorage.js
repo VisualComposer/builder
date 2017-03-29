@@ -222,7 +222,7 @@ export default class {
             foundMixins[ mixin.mixin ] = {
               variables: {},
               src: cssSettings.mixins[ mixin.mixin ].mixin,
-              path: window.VCV_HUB_GET_ELEMENTS()[ element.get('tag') ].elementPath
+              path: element.get('metaElementPath')
             }
           }
           let mixinValue = settings[ key ].value
