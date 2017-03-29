@@ -197,6 +197,15 @@ export default class ControlsManager {
       this.controlElementFind()
     })
 
+    // check column resize
+    vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
+      if (rowId) {
+        this.showChildrenFrames(rowId)
+      } else {
+        this.customFrames.hide()
+      }
+    })
+
     // check remove element
     this.api.reply('data:remove', () => {
       this.findElement()
@@ -416,6 +425,26 @@ export default class ControlsManager {
       return el
     })
     this.customFrames.show({ element: data.element, path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children
+   */
+  showChildrenFrames (parentId) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    let children = documentService.children(parentId)
+    children.forEach((child) => {
+      elementsToShow.push(child.id)
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.customFrames.show({ path: elementsToShow })
   }
 }
 
