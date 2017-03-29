@@ -68,18 +68,18 @@ export default class CssBuilder {
 
   add (data) {
     const id = data.id
-    this.assetsStorage.updateElement(id)
+    this.assetsStorage.addElement(id)
 
     const baseStyleElement = this.window.document.createElement('style')
-    baseStyleElement.id = `base-css-styles-${id}`
+    baseStyleElement.id = `vcv-base-css-styles-${id}`
     this.window.document.body.appendChild(baseStyleElement)
 
     const styleElement = this.window.document.createElement('style')
-    styleElement.id = `css-styles-${id}`
+    styleElement.id = `vcv-css-styles-${id}`
     this.window.document.body.appendChild(styleElement)
 
     const doStyleElement = this.window.document.createElement('style')
-    doStyleElement.id = `do-styles-${id}`
+    doStyleElement.id = `vcv-do-styles-${id}`
     this.window.document.body.appendChild(doStyleElement)
 
     this.addElementCssFiles(data.tag)
@@ -136,12 +136,12 @@ export default class CssBuilder {
     let styles = this.stylesManager.create()
     styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
     styles.compile().then((result) => {
-      this.window.document.getElementById(`css-styles-${data.id}`).innerHTML = result
+      this.window.document.getElementById(`vcv-css-styles-${data.id}`).innerHTML = result
     })
   }
 
   removeAttributesCssByElement (id) {
-    const node = this.window.document.getElementById(`css-styles-${id}`)
+    const node = this.window.document.getElementById(`vcv-css-styles-${id}`)
     node && node.remove()
   }
   addCssElementBaseByElement (data) {
@@ -149,22 +149,22 @@ export default class CssBuilder {
     styles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
     // styles.add(this.assetsStorage.getColumnsCssData())
     this.addJob(styles.compile().then((result) => {
-      this.window.document.getElementById(`base-css-styles-${data.id}`).innerHTML = result
+      this.window.document.getElementById(`vcv-base-css-styles-${data.id}`).innerHTML = result
     }))
   }
   removeCssElementBaseByElement (id) {
-    const node = this.window.document.getElementById(`base-css-styles-${id}`)
+    const node = this.window.document.getElementById(`vcv-base-css-styles-${id}`)
     node && node.remove()
   }
   addCssElementMixinByElement (data) {
     let styles = this.stylesManager.create()
     styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
     this.addJob(styles.compile().then((result) => {
-      this.window.document.getElementById(`do-styles-${data.id}`).innerHTML = result
+      this.window.document.getElementById(`vcv-do-styles-${data.id}`).innerHTML = result
     }))
   }
   removeCssElementMixinByElement (id) {
-    const node = this.window.document.getElementById(`do-styles-${id}`)
+    const node = this.window.document.getElementById(`vcv-do-styles-${id}`)
     node && node.remove()
   }
   addJob (job) {

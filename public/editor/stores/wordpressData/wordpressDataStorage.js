@@ -33,15 +33,15 @@ addStorage('wordpressData', (storage) => {
        * @property {string} data saved data
        */
       let responseData = JSON.parse(request || '{}')
+      if (responseData.globalElements && responseData.globalElements.length) {
+        let globalElements = JSON.parse(responseData.globalElements || '{}')
+        globalElements && globalAssetsStorage.setElements(globalElements)
+      }
       if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         elementsStorage.trigger('reset', data.elements || {})
       } else {
         elementsStorage.trigger('reset', {})
-      }
-      if (responseData.globalElements && responseData.globalElements.length) {
-        let globalElements = JSON.parse(responseData.globalElements || '{}')
-        globalElements && globalAssetsStorage.setElements(globalElements)
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
         globalAssetsStorage.setCustomCss(responseData.cssSettings.custom)

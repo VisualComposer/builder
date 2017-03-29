@@ -20,14 +20,15 @@ export default class SaveController {
     let globalStyles = ''
     let designOptions = ''
     let promises = []
-    let elements = modernAssetsStorage.getGlobalInstance().getElements()
+    const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
+    let elements = globalAssetsStorageInstance.getElements()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(modernAssetsStorage.getGlobalInstance().getSiteCssData())
+    globalStylesManager.add(globalAssetsStorageInstance.getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
     let localStylesManager = stylesManager.create()
-    localStylesManager.add(modernAssetsStorage.getGlobalInstance().getPageCssData())
+    localStylesManager.add(globalAssetsStorageInstance.getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
