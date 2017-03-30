@@ -127,7 +127,6 @@ class ColumnResizer extends React.Component {
     }
     // get content part position and width relative to window,
     let rowContentWidth = lastInRow.left + lastInRow.width - firstInRow.left + currentResizerClientRect.width
-    let defaultPositions = []
     ColumnResizer.defaultGridPercentage.forEach((percentage) => {
       let position = firstInRow.left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
       positions.push((Math.round(position * 100) / 100))
