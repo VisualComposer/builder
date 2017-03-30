@@ -56,7 +56,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '66.66%', '33.34%' ],
           icon: 'custom.svg',
-          title: 'Add custom columns',
+          title: 'Add custom row layout',
           type: 'custom'
         }
       },
