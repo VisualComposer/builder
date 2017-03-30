@@ -1,5 +1,6 @@
 <?php
 
+// @codingStandardsIgnoreFile
 /**
  * Register The Composer Auto Loader.
  *

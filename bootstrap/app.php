@@ -12,5 +12,3 @@ add_action(
     9 // priority is smaller than default, so 3rd can hook into with all core components registred.
 );
 $app->boot();
-
-return $app;

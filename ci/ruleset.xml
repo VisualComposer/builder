@@ -79,6 +79,10 @@
     <file>./visualcomposer</file>
     <file>./bootstrap</file>
     <file>./plugin-wordpress.php</file>
+    <rule ref="PSR1.Files.SideEffects">
+        <exclude-pattern type="relative">./plugin-wordpress.php</exclude-pattern>
+    </rule>
+
     <exclude-pattern type="relative">tests/*</exclude-pattern>
     <exclude-pattern type="relative">vendor/*</exclude-pattern>
 
