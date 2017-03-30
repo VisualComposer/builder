@@ -323,7 +323,7 @@ class ColumnResizer extends React.Component {
             <svg width='5px' height='23px' viewBox='0 0 5 23'
               version='1.1'
               xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fill='#282828' fillRule='evenodd' opacity='0.5'>
+              <g id='Page-1' stroke='none' strokeWidth='1' fill='rgba(40, 40, 40, .5)' fillRule='evenodd'>
                 <path
                   d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
                   transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)' />
@@ -335,8 +335,8 @@ class ColumnResizer extends React.Component {
             </div>
             <svg width='11px' height='23px' viewBox='0 0 11 23'
               version='1.1' xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' opacity='0.5'
-                transform='translate(-30.000000, 0.000000)' fill='#282828'>
+              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd'
+                transform='translate(-30.000000, 0.000000)' fill='rgba(40, 40, 40, .5)'>
                 <path
                   d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
                   transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)' />
