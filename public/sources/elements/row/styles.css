@@ -14,13 +14,6 @@
 .vce-row-content > .vce-col:last-child {
   margin-right: 0;
 }
-.vce-row > .vce-row-content > .vce-col.vce-col--last {
-  margin-right: 0;
-}
-.rtl .vce-row > .vce-row-content > .vce-col.vce-col--last,
-.rtl.vce-row > .vce-row-content > .vce-col.vce-col--last {
-  margin-left: 0;
-}
 .vce-row-full-height {
   min-height: 100vh;
 }
@@ -101,4 +94,54 @@
 }
 .vce-row.vce-element--has-background > .vce-row-content > .vce-col > .vce-col-inner > .vce-col-content {
   padding-top: 35px;
+}
+
+@media (min-width: 0) and (max-width: 543px) {
+  .vce-row > .vce-row-content > .vce-col.vce-col--xs-last {
+    margin-right: 0;
+  }
+  .rtl .vce-row > .vce-row-content > .vce-col.vce-col--xs-last,
+  .rtl.vce-row > .vce-row-content > .vce-col.vce-col--xs-last {
+    margin-left: 0;
+  }
+}
+/* styles for mobile-landscape */
+@media (min-width: 544px) and (max-width: 767px) {
+  .vce-row > .vce-row-content > .vce-col.vce-col--sm-last {
+    margin-right: 0;
+  }
+  .rtl .vce-row > .vce-row-content > .vce-col.vce-col--sm-last,
+  .rtl.vce-row > .vce-row-content > .vce-col.vce-col--sm-last {
+    margin-left: 0;
+  }
+}
+/* styles for mobile-landscape */
+@media (min-width: 768px) and (max-width: 991px) {
+  .vce-row > .vce-row-content > .vce-col.vce-col--md-last {
+    margin-right: 0;
+  }
+  .rtl .vce-row > .vce-row-content > .vce-col.vce-col--md-last,
+  .rtl.vce-row > .vce-row-content > .vce-col.vce-col--md-last {
+    margin-left: 0;
+  }
+}
+/* styles for mobile-landscape */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .vce-row > .vce-row-content > .vce-col.vce-col--lg-last {
+    margin-right: 0;
+  }
+  .rtl .vce-row > .vce-row-content > .vce-col.vce-col--lg-last,
+  .rtl.vce-row > .vce-row-content > .vce-col.vce-col--lg-last {
+    margin-left: 0;
+  }
+}
+/* styles for mobile-landscape */
+@media (min-width: 1200px) {
+  .vce-row > .vce-row-content > .vce-col.vce-col--xl-last {
+    margin-right: 0;
+  }
+  .rtl .vce-row > .vce-row-content > .vce-col.vce-col--xl-last,
+  .rtl.vce-row > .vce-row-content > .vce-col.vce-col--xl-last {
+    margin-left: 0;
+  }
 }

@@ -16,18 +16,17 @@ class Component extends vcvAPI.elementComponent {
 
     classes = [ 'vce-col' ]
     classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
-    classes.push('vce-col--xs-1')
+    classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
     if (lastInRow) {
-      classes.push('vce-col--last')
+      classes.push('vce-col--md-last vce-col--lg-last vce-col--xl-last')
     }
 
     if (firstInRow) {
-      classes.push('vce-col--first')
+      classes.push('vce-col--md-first vce-col--lg-first vce-col--xl-first')
     }
 
-// reverse classes.push('vce-row-wrap--reverse')
     if (typeof customClass === 'string' && customClass.length) {
       classes.push(customClass)
     }
