@@ -176,14 +176,8 @@ export default class ElementControl extends React.Component {
     //   <span className='vcv-ui-item-move vcv-ui-icon vcv-ui-icon-drag-dots'></span>
     //   <span className='vcv-ui-item-remove vcv-ui-icon vcv-ui-icon-close'></span>
     // </span>
-    let publicPathThumbnail
-    let publicPathPreview
-
-    console.log('vcCake.getService(\'assetsManager\').getPublicPath(cookElement.get(\'tag\'), cookElement.get(\'metaThumbnail\'))')
-    publicPathPreview = cookElement.get('metaPreviewUrl')
-    publicPathThumbnail = cookElement.get('metaThumbnailUrl')
-      //publicPathThumbnail = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
-    //publicPathPreview = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaPreview'))
+    let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+    let publicPathPreview = cookElement.get('metaPreviewUrl')
 
     return (
       <li className='vcv-ui-item-list-item'>
