@@ -24,8 +24,7 @@ export default class ControlsManager {
       prevElementPath: [],
       showOutline: true,
       showFrames: true,
-      showControls: true,
-      showCustomFrames: false
+      showControls: true
     }
 
     this.findElement = this.findElement.bind(this)
@@ -57,17 +56,7 @@ export default class ControlsManager {
        * @memberOf! FramesManager
        */
       frames: {
-        value: new FramesHandler(options.framesCount, systemData),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      },
-
-      /**
-       * Create custom frames
-       */
-      customFrames: {
-        value: new FramesHandler(false, systemData),
+        value: new FramesHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -176,7 +165,6 @@ export default class ControlsManager {
    */
   init (options = {}) {
     let defaultOptions = {
-      framesCount: 3,
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
@@ -192,6 +180,9 @@ export default class ControlsManager {
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
+      if (state === 'dnd') {
+        this.state.showFrames = true
+      }
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
@@ -202,7 +193,7 @@ export default class ControlsManager {
       if (rowId) {
         this.showChildrenFrames(rowId)
       } else {
-        this.customFrames.hide()
+        this.frames.hide()
       }
     })
 
@@ -238,15 +229,11 @@ export default class ControlsManager {
     // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
       if (this.state.showFrames) {
-        this.frames.show({ element: data.element, path: data.path })
-      }
-      if (this.state.showCustomFrames) {
-        this.showCustomFramse(data)
+        this.showFrames(data)
       }
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
       this.frames.hide()
-      this.customFrames.hide()
     })
   }
 
@@ -403,7 +390,7 @@ export default class ControlsManager {
   /**
    * Show frames with custom path
    */
-  showCustomFramse (data) {
+  showFrames (data) {
     const documentService = vcCake.getService('document')
     let elementsToShow = []
     data.vcElementsPath.forEach((id) => {
@@ -424,7 +411,7 @@ export default class ControlsManager {
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
-    this.customFrames.show({ element: data.element, path: elementsToShow })
+    this.frames.show({ element: data.element, path: elementsToShow })
   }
 
   /**
@@ -444,7 +431,7 @@ export default class ControlsManager {
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
-    this.customFrames.show({ path: elementsToShow })
+    this.frames.show({ path: elementsToShow })
   }
 }
 
