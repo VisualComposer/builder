@@ -8,7 +8,7 @@ import striptags from 'striptags'
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
-const elementsStorage = vcCake.getService('elementsStorage')
+const elementsStorage = vcCake.getStorage('elements')
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
 
