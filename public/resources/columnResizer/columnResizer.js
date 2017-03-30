@@ -5,19 +5,6 @@ import vcCake from 'vc-cake'
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 25, 33.33, 50, 66.66, 75 ]
 
-  constructor (props) {
-    super(props)
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
-    this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.state = {
-      dragging: false,
-      leftColPercentage: null,
-      rightColPercentage: null,
-      labelPosition: null
-    }
-  }
-
   static data = {
     rowId: null,
     rowData: null,
@@ -31,6 +18,19 @@ class ColumnResizer extends React.Component {
     resizerPositions: null,
     snapWidth: 7,
     leftColumnIndex: null
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      dragging: false,
+      leftColPercentage: null,
+      rightColPercentage: null,
+      labelPosition: null
+    }
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.handleMouseMove = this.handleMouseMove.bind(this)
   }
 
   componentDidUpdate (props, state) {
@@ -145,7 +145,7 @@ class ColumnResizer extends React.Component {
     ColumnResizer.data.resizerPositions = positions
   }
 
-  handleMouseUp (e) {
+  handleMouseUp () {
     this.setState({ dragging: false })
     this.removeWrapBlockers()
     this.rebuildRowLayout()

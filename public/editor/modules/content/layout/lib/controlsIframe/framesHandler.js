@@ -1,11 +1,5 @@
 export default class Frames {
-  constructor (sliceSize, props) {
-    Object.defineProperty(this, 'sliceSize', {
-      enumerable: false,
-      configurable: false,
-      writable: false,
-      value: sliceSize
-    })
+  constructor (props) {
     this.iframeContainer = props.iframeContainer
     this.iframeOverlay = props.iframeOverlay
     this.iframe = props.iframe
@@ -16,17 +10,6 @@ export default class Frames {
 
     this.state = {
       framesTimeout: []
-    }
-
-    this.setup()
-  }
-
-  /**
-   * Generate frames and add them to overlay
-   */
-  setup () {
-    for (let i = 0; i < this.sliceSize; i++) {
-      this.addFrame()
     }
   }
 
@@ -63,15 +46,15 @@ export default class Frames {
    * @param data
    */
   show (data) {
-    let slicedElements = this.sliceSize ? data.path.slice(0, this.sliceSize) : data.path
+    let elements = data.path
     // add frames if current frames count is not enough
-    while (slicedElements.length > this.frames.length) {
+    while (elements.length > this.frames.length) {
       this.addFrame()
     }
-    slicedElements.forEach((element, index) => {
+    elements.forEach((element, index) => {
       this.frames[ index ].classList.add('vcv-state--visible')
     })
-    this.autoUpdatePosition(slicedElements)
+    this.autoUpdatePosition(elements)
   }
 
   /**
