@@ -14,7 +14,7 @@ export default class WordPressAdminControl extends NavbarContent {
   }
 
   componentDidMount () {
-    wordpressDataStorage.trigger('save')
+    // wordpressDataStorage.trigger('save')
     /*
     this.props.api.reply('wordpress:data:saved', (data) => {
       // Call the forceUpdate when saved
