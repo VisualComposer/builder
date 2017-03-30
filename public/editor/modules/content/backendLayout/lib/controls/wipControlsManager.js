@@ -56,7 +56,7 @@ export default class ControlsManager {
        * @memberOf! FramesManager
        */
       frames: {
-        value: new FramesHandler(options.framesCount, systemData),
+        value: new FramesHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -175,7 +175,6 @@ export default class ControlsManager {
    */
   init (options = {}) {
     let defaultOptions = {
-      framesCount: 3,
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
@@ -191,6 +190,9 @@ export default class ControlsManager {
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
+      if (state === 'dnd') {
+        this.state.showFrames = true
+      }
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
@@ -228,7 +230,7 @@ export default class ControlsManager {
     // Frames interaction
     this.api.reply('editorContent:element:mouseEnter', (data) => {
       if (this.state.showFrames) {
-        this.frames.show({ element: data.element, path: data.path })
+        this.showFrames(data)
       }
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
@@ -384,6 +386,33 @@ export default class ControlsManager {
         this.controlsPrevElement = element
       }
     }
+  }
+
+  /**
+   * Show frames with custom path
+   */
+  showFrames (data) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    data.vcElementsPath.forEach((id) => {
+      let documentElement = documentService.get(id)
+      if (documentElement.tag === 'column') {
+        let children = documentService.children(documentElement.parent)
+        children.forEach((child) => {
+          elementsToShow.push(child.id)
+        })
+      } else {
+        elementsToShow.push(documentElement.id)
+      }
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeContainer.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.frames.show({ element: data.element, path: elementsToShow })
   }
 }
 
