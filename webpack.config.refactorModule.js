@@ -12,8 +12,8 @@ module.exports = {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    // wpbackend: './public/wpbackend-main',
-    // wpbackendswitch: './public/wpbackend-switch',
+    wpbackend: './public/wpbackend-main',
+    wpbackendswitch: './public/wpbackend-switch',
     app: [],
     vendor: [
       'jquery',
@@ -107,6 +107,7 @@ module.exports = {
     },
     wpbackend: {
       modules: [
+        /*
         'content/storage',
         'content/backendAssets',
         'content/wordpress/data-load',
@@ -122,6 +123,10 @@ module.exports = {
         'ui/addTemplate',
         'ui/undo-redo',
         'ui/settings'
+        */
+        'content/modernLayout',
+        'content/backendLayout',
+        'wordpressBackendWorkspace'
       ],
       services: [
         'utils',
