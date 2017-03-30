@@ -45,8 +45,11 @@ class Assets extends Container implements Module
      */
     private function copyDirectoryContent($src, $dist)
     {
+        if (!mkdir($dist)) {
+            return;
+        }
         $dir = opendir($src);
-        @mkdir($dist);
+
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file)) {

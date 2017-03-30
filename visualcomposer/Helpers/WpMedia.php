@@ -6,6 +6,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 /**
  * Helper for working with media content
  * Class Url.
+ * @codingStandardsIgnoreFile
  * @codeCoverageIgnore
  */
 class WpMedia implements Helper

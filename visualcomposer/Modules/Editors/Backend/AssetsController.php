@@ -43,6 +43,7 @@ class AssetsController extends Container implements Module
             && vcfilter(
                 'vcv:editors:backend:addMetabox',
                 true,
+                // @codingStandardsIgnoreLine
                 ['postType' => $post->post_type]
             )
         ) {

@@ -12,7 +12,7 @@
   });
 </script>
 <?php
-foreach ($elements as $key => $element):
+foreach ($elements as $key => $element) :
     ?>
     <script id="vcv-hub-element-<?php echo $key; ?>" src="<?php echo $element['bundlePath']; ?>"></script>
     <?php

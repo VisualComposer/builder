@@ -5,7 +5,7 @@ $tokenHelper = vchelper('Token');
 Hi from Activation Finish Page!
 
 <?php
-var_dump(
+var_export(
     [
         'isSiteRegistered' => $tokenHelper->isSiteRegistered(),
         'isSiteAuthorized' => $tokenHelper->isSiteAuthorized(),

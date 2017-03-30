@@ -26,9 +26,11 @@ class PostsGridPostIterator extends Container implements Helper
      */
     public function loopPosts($posts, $template)
     {
+        // @codingStandardsIgnoreStart
         global $post, $shortcode_tags;
 
         $backupTags = $shortcode_tags;
+        // @codingStandardsIgnoreEnd
         remove_all_shortcodes();
         $backup = $post;
         $output = '';
@@ -43,8 +45,9 @@ class PostsGridPostIterator extends Container implements Helper
             }
         }
         $post = $backup;
+        // @codingStandardsIgnoreStart
         $shortcode_tags = $backupTags;
-
+        // @codingStandardsIgnoreEnd
         return strip_shortcodes($output);
     }
 

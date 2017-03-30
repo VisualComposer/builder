@@ -50,5 +50,3 @@ if (!$elementsDownloaded) {
     $urlHelper = vchelper('Url');
     wp_enqueue_script('vcv:elements-js', $urlHelper->assetUrl('scripts/elements.js'));
 }
-
-?>

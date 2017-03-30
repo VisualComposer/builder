@@ -112,12 +112,14 @@ class Controller extends Container implements Module
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
             if ($post) {
+                // @codingStandardsIgnoreStart
                 $post->post_content = $content;
                 if (isset($data['draft']) && $post->post_status !== 'publish') {
                     $post->post_status = 'draft';
                 } else {
                     $post->post_status = 'publish';
                 }
+                // @codingStandardsIgnoreEnd
                 //temporarily disable
                 remove_filter('content_save_pre', 'wp_filter_post_kses');
                 remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');

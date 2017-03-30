@@ -50,6 +50,7 @@ class PostsGridPagination extends Container implements Module
             $postType = 'post';
             foreach ($posts as $postData) {
                 $postIds[] = $postData->ID;
+                // @codingStandardsIgnoreLine
                 $postType = $postData->post_type;
             }
             $perPage = (int)$payload['atts']['pagination_per_page'];
@@ -69,10 +70,12 @@ class PostsGridPagination extends Container implements Module
                 $posts[] = $post;
             }
             $this->tags[ $id ] = [
+                // @codingStandardsIgnoreLine
                 'total_pages' => $paginationQuery->max_num_pages,
                 'current_page' => $page,
                 'per_page' => $perPage,
             ];
+            // @codingStandardsIgnoreLine
             if ($page > $paginationQuery->max_num_pages) {
                 $posts = [];
             }

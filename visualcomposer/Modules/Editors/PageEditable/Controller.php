@@ -34,6 +34,7 @@ class Controller extends Container implements Module
         if ($this->call('isPageEditable')) {
             // TODO: Check another post statuses
             $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
+            // @codingStandardsIgnoreLine
             $wpQuery->query_vars['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
         }
     }

@@ -87,6 +87,7 @@ class Token extends Container implements Helper
         );
         if (is_array($result) && 200 === $result['response']['code']) {
             $body = json_decode($result['body']);
+            // @codingStandardsIgnoreLine
             if (!empty($body) && isset($body->client_id, $body->client_secret)) {
                 $this->setIsSiteRegistered();
                 $this->setClientSecret($body);
@@ -108,6 +109,7 @@ class Token extends Container implements Helper
      */
     protected function setClientSecret($body)
     {
+        // @codingStandardsIgnoreStart
         $this->optionsHelper->set(
             'siteId',
             $body->client_id
@@ -115,6 +117,7 @@ class Token extends Container implements Helper
             'siteSecret',
             $body->client_secret
         );
+        // @codingStandardsIgnoreEnd
 
         return true;
     }
@@ -141,9 +144,11 @@ class Token extends Container implements Helper
         );
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
+            // @codingStandardsIgnoreLine
             if ($body->access_token) {
                 $this->setToken($body);
 
+                // @codingStandardsIgnoreLine
                 return $body->access_token;
             }
         } else {
@@ -179,6 +184,7 @@ class Token extends Container implements Helper
      */
     protected function setToken($body)
     {
+        // @codingStandardsIgnoreStart
         $this->optionsHelper->set(
             'siteAuthState',
             1
@@ -192,6 +198,7 @@ class Token extends Container implements Helper
             'siteAuthTokenTtl',
             current_time('timestamp')
         );
+        // @codingStandardsIgnoreEnd
 
         return true;
     }
@@ -218,9 +225,11 @@ class Token extends Container implements Helper
         );
         if (is_array($result) && 200 == $result['response']['code']) {
             $body = json_decode($result['body']);
+            // @codingStandardsIgnoreLine
             if ($body->access_token) {
                 $this->setToken($body);
 
+                // @codingStandardsIgnoreLine
                 return $body->access_token;
             }
         } else {

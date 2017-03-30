@@ -58,4 +58,3 @@ $extraOutput = vcfilter('vcv:backend:extraOutput', []);
 foreach ($extraOutput as $output) {
     echo $output;
 }
-?>

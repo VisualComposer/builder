@@ -41,16 +41,16 @@ class PostsGridSourcePosts extends Container implements Helper
     /**
      * Get lists of categories.*
      *
-     * @param $parent_id
+     * @param $parentId
      * @param $pos
      * @param array $array
      * @param $level
      * @param array $dropdown - passed by  reference
      */
-    protected function getCategoryChildsFull($parent_id, $pos, $array, $level, &$dropdown)
+    protected function getCategoryChildsFull($parentId, $pos, $array, $level, &$dropdown)
     {
         for ($i = $pos; $i < count($array); $i++) {
-            if ($array[ $i ]->category_parent == $parent_id) {
+            if ($array[ $i ]->category_parent == $parentId) {
                 $name = str_repeat('- ', $level) . $array[ $i ]->name;
                 $value = $array[ $i ]->term_id;
                 $dropdown[] = [

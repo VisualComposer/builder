@@ -1,11 +1,14 @@
 <?php
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
+// @codingStandardsIgnoreStart
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
        $update_title, $total_update_count, $parent_file, $typenow;
+
 if (empty($current_screen)) {
     set_current_screen();
 }
+// @codingStandardsIgnoreEnd
 $typenow = get_post_type();
 /**
  * @var $editableLink - link to editable content
@@ -36,6 +39,7 @@ $postTypeHelper = vchelper('PostType');
     /** @todo add jquery into bundle.js. */
     do_action('embed_head');
     wp_print_head_scripts();
+    // @codingStandardsIgnoreLine
     do_action('admin_enqueue_scripts', $hook_suffix);
     do_action('admin_print_styles');
     do_action('admin_print_scripts');

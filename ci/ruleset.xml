@@ -12,7 +12,6 @@
 
 
     <rule ref="PSR2">
-        <exclude name="PSR1.Files.SideEffects"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
         <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
@@ -52,7 +51,12 @@
     <rule ref="Squiz.Scope.MethodScope"/>
     <rule ref="Squiz.Scope.StaticThisUsage"/>
     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
-
+    <rule ref="Generic.PHP.NoSilencedErrors"/>
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Zend.Files.ClosingTag"/>
+    <rule ref="Zend.NamingConventions.ValidVariableName">
+        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
+    </rule>
     <rule ref="Squiz.Classes.ValidClassName">
         <exclude-pattern>./visualcomposer/Requirements.php</exclude-pattern>
     </rule>

@@ -55,6 +55,7 @@ class PostVariablesController extends Container implements Module
     {
         /** @var \WP_Post $post */
         $post = $payload['post'];
+        // @codingStandardsIgnoreLine
         $author = get_userdata($post->post_author)->display_name;
 
         return $author;

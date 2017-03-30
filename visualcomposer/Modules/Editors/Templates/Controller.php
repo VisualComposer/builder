@@ -47,6 +47,7 @@ class Controller extends Container implements Module
             $templateElements = get_post_meta($template->ID, 'vcvEditorTemplateElements', true);
             if (!empty($templateElements)) {
                 $data[] = [
+                    // @codingStandardsIgnoreLine
                     'name' => $template->post_title,
                     'data' => $templateElements,
                     'id' => $template->ID,

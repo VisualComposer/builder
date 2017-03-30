@@ -143,6 +143,7 @@ class Roles extends Container implements Module
      */
     public function getWpRoles()
     {
+        // @codingStandardsIgnoreStart
         global $wp_roles;
         if (function_exists('wp_roles')) {
             return $wp_roles;
@@ -153,6 +154,7 @@ class Roles extends Container implements Module
         }
 
         return $wp_roles;
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -260,6 +262,7 @@ class Roles extends Container implements Module
     {
         $partKey = $roleAccess->who($role)->part($part)->getStateKey();
         $stateValue = '0';
+        // @codingStandardsIgnoreLine
         $roles->use_db = false; // Disable saving in DB on every cap change.
         foreach ($settings as $key => $value) {
             if ('_state' === $key) {
@@ -278,6 +281,7 @@ class Roles extends Container implements Module
                 }
             }
         }
+        // @codingStandardsIgnoreLine
         $roles->use_db = true; //  Enable for the lat change in cap of role to store data in DB.
         $roles->add_cap($role, $partKey, $stateValue);
     }

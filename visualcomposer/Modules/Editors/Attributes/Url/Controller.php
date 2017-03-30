@@ -45,8 +45,10 @@ class Controller extends Container implements Module
         foreach ($posts as $post) {
             $results[] = [
                 'id' => $post->ID,
+                // @codingStandardsIgnoreLine
                 'title' => $post->post_title,
                 'url' => get_permalink($post->ID),
+                // @codingStandardsIgnoreLine
                 'type' => $post->post_type,
             ];
         }

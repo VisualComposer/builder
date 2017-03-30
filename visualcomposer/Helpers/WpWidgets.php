@@ -34,10 +34,12 @@ class WpWidgets implements Helper
      */
     public function all()
     {
+        // @codingStandardsIgnoreStart
         /** @var \WP_Widget_Factory $wp_widget_factory */
         global $wp_widget_factory;
 
         return $wp_widget_factory instanceof \WP_Widget_Factory ? $wp_widget_factory->widgets : [];
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -72,10 +74,12 @@ class WpWidgets implements Helper
      */
     public function get($key)
     {
+        // @codingStandardsIgnoreStart
         /** @var \WP_Widget_Factory $wp_widget_factory */
         global $wp_widget_factory;
 
         return $this->exists($key) ? $wp_widget_factory->widgets[ $key ] : null;
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -85,10 +89,12 @@ class WpWidgets implements Helper
      */
     public function exists($key = '')
     {
+        // @codingStandardsIgnoreStart
         /** @var \WP_Widget_Factory $wp_widget_factory */
         global $wp_widget_factory;
 
         return $wp_widget_factory instanceof \WP_Widget_Factory && array_key_exists($key, $wp_widget_factory->widgets);
+        // @codingStandardsIgnoreEnd
     }
 
     /**
@@ -147,6 +153,7 @@ class WpWidgets implements Helper
         if (is_object($widget)) {
             ob_start();
             $widget->number = 1; //
+            // @codingStandardsIgnoreLine
             $widget->id_base = 'form'; // Encode input name strictly
             $noform = $widget->form($instance);
             $form = ob_get_clean();

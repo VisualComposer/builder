@@ -33,7 +33,7 @@ class Wp implements Helper
                 return $settings;
             }
 
-            $last_saved = (int)get_user_option('user-settings-time', $userId);
+            $lastSaved = (int)get_user_option('user-settings-time', $userId);
             $current = isset($_COOKIE[ 'wp-settings-time-' . $userId ]) ? preg_replace(
                 '/[^0-9]/',
                 '',
@@ -41,7 +41,7 @@ class Wp implements Helper
             ) : 0;
 
             // The cookie is newer than the saved value. Update the user_option and leave the cookie as-is
-            if ($current > $last_saved) {
+            if ($current > $lastSaved) {
                 return $cookie;
             }
         }

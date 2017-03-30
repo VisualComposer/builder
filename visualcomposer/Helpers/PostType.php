@@ -31,9 +31,11 @@ class PostType implements Helper
     public function get($id, $postType = '')
     {
         $post = get_post($id);
+        // @codingStandardsIgnoreStart
         if ($postType && $post->post_type !== $postType) {
             $post = false;
         }
+        // @codingStandardsIgnoreEnd
 
         return $post;
     }
@@ -56,11 +58,13 @@ class PostType implements Helper
     public function update($data)
     {
         $post = wp_update_post($data);
+        // @codingStandardsIgnoreStart
         if (!empty($data->meta_input) && !vchelper('Wp')->isMetaInput()) {
             foreach ($data->meta_input as $key => $value) {
                 update_post_meta($data->ID, $key, $value);
             }
         }
+        // @codingStandardsIgnoreEnd
 
         return $post;
     }
@@ -75,7 +79,7 @@ class PostType implements Helper
     {
         if ($postType) {
             $post = $this->get($id);
-
+            // @codingStandardsIgnoreLine
             return $post && $post->post_type == $postType ? wp_delete_post($id) : !$post;
         }
 
@@ -89,12 +93,13 @@ class PostType implements Helper
      */
     public function setupPost($sourceId)
     {
+        // @codingStandardsIgnoreStart
         global $post_type, $post_type_object, $post;
         $post = get_post($sourceId);
         setup_postdata($post);
         $post_type = $post->post_type;
         $post_type_object = get_post_type_object($post_type);
-
+        // @codingStandardsIgnoreEnd
         return $post;
     }
 
@@ -103,10 +108,12 @@ class PostType implements Helper
      */
     public function getPostData()
     {
+        // @codingStandardsIgnoreLine
         global $post_type_object, $post;
         $data = [];
 
         $data['id'] = get_the_ID();
+        // @codingStandardsIgnoreLine
         $data['status'] = $post->post_status;
 
         $permalink = get_permalink();
@@ -114,11 +121,13 @@ class PostType implements Helper
             $permalink = '';
         }
         $previewUrl = get_preview_post_link($post);
+        // @codingStandardsIgnoreLine
         $viewable = is_post_type_viewable($post_type_object);
         $data['permalink'] = $permalink;
         $data['previewUrl'] = $previewUrl;
         $data['viewable'] = $viewable;
         // TODO: Add access checks for post types
+        // @codingStandardsIgnoreLine
         $data['canPublish'] = current_user_can($post_type_object->cap->publish_posts);
         $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
         $data['adminDashboardUrl'] = self_admin_url('index.php');

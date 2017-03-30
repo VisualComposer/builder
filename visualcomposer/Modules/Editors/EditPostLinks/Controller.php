@@ -86,8 +86,10 @@ class Controller extends Container implements Module
     private function adminBarEditLink($wpAdminBar, Frontend $frontendHelper)
     {
         if (!is_object($wpAdminBar)) {
+            // @codingStandardsIgnoreStart
             global $wp_admin_bar;
             $wpAdminBar = $wp_admin_bar;
+            // @codingStandardsIgnoreEnd
         }
 
         if (is_singular()) {
