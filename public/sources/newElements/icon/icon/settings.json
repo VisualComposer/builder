@@ -1,0 +1,339 @@
+{
+  "iconUrl": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": false,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Icon URL"
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "medium",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Tiny",
+          "value": "tiny"
+        },
+        {
+          "label": "Small",
+          "value": "small"
+        },
+        {
+          "label": "Medium",
+          "value": "medium"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        }
+      ]
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "filled-circle",
+    "options": {
+      "label": "Shape",
+      "values": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Square",
+          "value": "filled-square"
+        },
+        {
+          "label": "Square outline",
+          "value": "outlined-square"
+        },
+        {
+          "label": "Rounded",
+          "value": "filled-rounded"
+        },
+        {
+          "label": "Rounded outline",
+          "value": "outlined-rounded"
+        },
+        {
+          "label": "Circle",
+          "value": "filled-circle"
+        },
+        {
+          "label": "Circle outline",
+          "value": "outlined-circle"
+        },
+        {
+          "label": "Diamond",
+          "value": "filled-diamond"
+        },
+        {
+          "label": "Diamond outline",
+          "value": "outlined-diamond"
+        },
+        {
+          "label": "Hexagon",
+          "value": "filled-hexagon"
+        },
+        {
+          "label": "Hexagon outline",
+          "value": "outlined-hexagon"
+        },
+        {
+          "label": "Underline",
+          "value": "outlined-underlined"
+        }
+      ]
+    }
+  },
+  "shapeColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Shape color",
+      "cssMixin": {
+        "mixin": "shapeColor",
+        "property": "shapeColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "toggleCustomHover": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Add hover effect"
+    }
+  },
+  "shapeColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#3cb878",
+    "options": {
+      "label": "Shape hover color",
+      "cssMixin": {
+        "mixin": "shapeColorHover",
+        "property": "shapeColorHover",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "shape": {
+            "rule": "!value",
+            "options": {
+              "value": "none"
+            }
+          },
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "iconColorHover": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Icon hover color",
+      "cssMixin": {
+        "mixin": "iconColorHover",
+        "property": "iconColorHover",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "toggleCustomHover": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "iconPicker": {
+    "type": "iconpicker",
+    "access": "public",
+    "value": {
+      "icon": "fa fa-video-camera",
+      "iconSet": "fontawesome"
+    },
+    "options": {
+      "label": "Icon",
+      "description": "Select the icon"
+    }
+  },
+  "iconColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Icon color",
+      "cssMixin": {
+        "mixin": "iconColor",
+        "property": "iconColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "iconAlignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Icon alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "iconPicker",
+      "iconColor",
+      "iconUrl",
+      "size",
+      "shape",
+      "shapeColor",
+      "iconAlignment",
+      "toggleCustomHover",
+      "iconColorHover",
+      "shapeColorHover",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Icon"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "iconpicker",
+      "animate"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "iconPicker",
+          "iconUrl",
+          "shape",
+          "shapeColor"
+        ],
+        "options": {
+          "onChange": [
+            {
+              "rule": {
+                "attribute": "shape",
+                "value": "none"
+              },
+              "dependency": "shapeColor",
+              "action": "toggle"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "icon"
+  }
+}

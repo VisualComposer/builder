@@ -142,6 +142,23 @@ class Elements extends Container implements Module
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
+                'icon' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/icon/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/icon/icon/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/icon/icon/public/'),
+                    'settings' => [
+                        'name' => 'Icon',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/icon/icon/public/thumbnail-icon.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/icon/icon/public/preview-icon.jpg'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
             ]
         );
     }

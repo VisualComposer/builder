@@ -1,0 +1,51 @@
+// Variables for Feature Icon
+//-----------------------------------------
+@import "../../../../less/boilerplate";
+
+@vce-features-color-white: @vcv-color-white;
+@vce-features-color-green: @vcv-color-fun-green;
+@vce-features-color-grey: @vcv-color-night-rider;
+
+@vce-features-border-radius-round: 50%;
+@vce-features-border-radius-rounded: 10px;
+// this variable controls the sizing of all the icon size and its backgrounds.
+// everything is calculated relative to this (either using less or sizing with em's)
+
+@vce-features-icon-base-font-size: 24px;
+@vce-features-icon-tiny-font-size: 18px;
+@vce-features-icon-medium-font-size: 32px;
+@vce-features-icon-large-font-size: 48px;
+@vce-features-icon-larger-font-size: @vce-features-icon-base-font-size * 1.583333333;
+@vce-features-content-margin: 13px;
+@vce-features-margin-bottom: 94px;
+@vce-features-no-shape-margin-bottom: -0.85em;
+//this is not recommended to change because outlined hexagons stroke will make it go
+// out of the viewbox.
+@vce-features-border-width: 3px;
+
+@vce-features-underline-height: 5px;
+// size of the fill will be relative to the size of the icon's given font-size
+// size calculated by dividing item sizes given in design PSD
+@vce-features-icon-background-size: 2.9em;
+@vce-features-icon-background-padding: 1.079em;
+
+// the original svg size was 725x725. To make stroke width proportional we have
+// multiply the base border width by 10, because by default icons outline is 70px;
+@vce-features-icon-stroke-width: @vce-features-border-width*10;
+@vce-features-underline-left: 0;
+@vce-features-underline-bottom: 0;
+
+// height to vertical center openiconic icons
+@vce-features-openiconic-height: .9em;
+
+@vce-features-fontawesome-line-height: .9em;
+@vce-features-fontawesome-height: .9em;
+
+@vce-features-iconmaterial-line-height: .95em;
+@vce-features-iconmaterial-font-size: 1.2em;
+
+@vce-features-typicon-font-size: 1.3em;
+
+@vce-features-monosocial-font-size: 2em;
+
+@vce-diamond-margin: 0 0 1.25em;

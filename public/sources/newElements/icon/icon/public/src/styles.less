@@ -1,0 +1,244 @@
+// Styles for Feature Icon
+//-----------------------------------------
+
+.vce-features {
+  display: block;
+
+  a {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    text-decoration: none;
+  }
+
+  &-icon-wrapper {
+    display: inline-block;
+  }
+
+  &__icon {
+    // we will save the aspect ratio of the small icon with the background
+    position: relative;
+    width: @vce-features-icon-background-size;
+    height: @vce-features-icon-background-size;
+    display: inline-block;
+    vertical-align: top;
+
+
+    .vce-icon-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+
+
+      &::before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    // We hide the svg which is inlined so we can style it with css.
+    svg {
+      display: none;
+      // size relative to the icon's font size
+      width: @vce-features-icon-background-size;
+      height: @vce-features-icon-background-size;
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__content {
+    & > * {
+      margin: 0 0 @vce-features-content-margin;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.vce-features--style {
+
+  &-none {
+    .vce-features__icon {
+      margin-bottom: @vce-features-no-shape-margin-bottom;
+    }
+  }
+
+  &-filled {
+    &-circle, &-rounded, &-square, &-hexagon, &-diamond {
+      border: none;
+      #vce-features > .make-shape ();
+    }
+
+    &-circle {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-round);
+    }
+
+    &-rounded {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-rounded;);
+    }
+
+    &-hexagon {
+      .vce-features__icon svg {  display: block;  }
+    }
+
+    &-diamond {
+      .vce-features__icon {
+        transform-origin: center center;
+        transform: rotate(45deg);
+        margin: ~'calc(@{vce-features-icon-background-size} / 4.85)';
+
+        span {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+
+  }
+
+  &-outlined {
+    &-circle, &-rounded, &-square, &-diamond {
+      background-color: transparent;
+      #vce-features > .make-shape (@border-width: @vce-features-border-width;);
+    }
+
+    &-circle {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-round;);
+    }
+
+    &-rounded {
+      #vce-features > .make-shape(@border-radius: @vce-features-border-radius-rounded;);
+    }
+
+    &-hexagon {
+      #vce-features > .make-shape ();
+
+      .vce-features__icon {
+        svg {
+          display: block;
+        }
+
+        span::after {  border: none;  }
+      }
+    }
+    &-underlined {
+      #vce-features > .make-shape ();
+
+      .vce-features__icon {
+        &::after {
+          content: '';
+          position: absolute;
+          height: @vce-features-underline-height;
+          width: @vce-features-icon-background-size; // relative to the font size of the icon
+          left: @vce-features-underline-left;
+          bottom: @vce-features-underline-bottom;
+        }
+      }
+    }
+
+    &-diamond {
+      .vce-features__icon {
+        transform-origin: center center;
+        transform: rotate(45deg);
+        margin: calc(@vce-features-icon-background-size / 4.85);
+
+        span {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  }
+}
+
+.vce-features--align {
+  &-left {
+    text-align: left;
+  }
+  &-center {
+    text-align: center;
+  }
+  &-right {
+    text-align: right;
+  }
+}
+
+.vce-features--size {
+  &-tiny {
+    font-size: @vce-features-icon-tiny-font-size;
+  }
+  &-small {
+    font-size: @vce-features-icon-base-font-size;
+  }
+  &-medium {
+    font-size: @vce-features-icon-medium-font-size;
+  }
+  &-large {
+    font-size: @vce-features-icon-large-font-size;
+  }
+}
+
+/*RTL support. */
+/*LTR support. */
+.rtl,
+[dir="rtl"] {
+  &.vce-features,
+  .vce-features {
+    direction: rtl;
+    unicode-bidi: embed;
+    /*check if IE+10 and than hack hexagon to the center*/
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      .vce-features__icon svg {
+        right: 50%;
+      }
+    }
+    @supports (-ms-accelerator:true) {
+      // hack for MS Edge detections
+      .vce-features__icon svg {
+        right: 50%;
+      }
+    }
+  }
+}
+.ltr,
+[dir="ltr"] {
+  &.vce-features,
+  .vce-features {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+.vce-features__icon {
+  .fa::before {
+    line-height: @vce-features-fontawesome-line-height;
+    height: @vce-features-fontawesome-height;
+  }
+
+  .typcn::before{
+    font-size: @vce-features-typicon-font-size;
+  }
+
+  .vcv-ui-icon-material::before {
+    font-size: @vce-features-iconmaterial-font-size;
+    line-height: @vce-features-iconmaterial-line-height;
+  }
+
+  .vcv-ui-icon-openiconic::before {
+    height: @vce-features-openiconic-height;
+  }
+
+  .vcv-ui-icon-monosocial::before {
+    font-size: @vce-features-monosocial-font-size;
+  }
+}

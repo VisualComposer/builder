@@ -1,0 +1,38 @@
+.vce-icon--style {
+  &--icon-color-hover-$selector {
+
+    &.vce-features--style {
+      &-none {
+        .vce-icon-container {
+          &:hover {
+            color: $iconColorHover;
+          }
+        }
+      }
+
+      &-filled {
+        &-circle, &-rounded, &-square, &-diamond, &-hexagon {
+          .vce-features__icon {
+            &:hover {
+              .vce-icon-container {
+                color: $iconColorHover;
+              }
+            }
+          }
+        }
+      }
+
+      &-outlined {
+        &-circle, &-rounded, &-square, &-diamond, &-hexagon, &-underlined {
+          .vce-features__icon {
+            &:hover {
+              .vce-icon-container {
+                color: $iconColorHover;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
