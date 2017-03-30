@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 
 class ColumnResizer extends React.Component {
+  static defaultGridPercentage = [ 25, 33.33, 50, 66.66, 75 ]
+
   constructor (props) {
     super(props)
     this.handleMouseDown = this.handleMouseDown.bind(this)
@@ -104,20 +106,42 @@ class ColumnResizer extends React.Component {
   getResizerPositions (e) {
     let positions = []
     let currentResizer = e.currentTarget
+    let currentResizerClientRect = currentResizer.getBoundingClientRect()
 
     let allResizers = document.querySelector('#vcv-editor-iframe').contentWindow.document.querySelectorAll('.vce-column-resizer-handler')
     allResizers = [].slice.call(allResizers)
 
+    let resizerRow = currentResizer.parentElement.parentElement
+    // row first and last column position
+    let firstInRow, lastInRow
+    for (let i = 0; i < resizerRow.childNodes.length; i++) {
+      if (resizerRow.childNodes[ i ].classList.contains('vce-col--first')) {
+        firstInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
+      }
+      if (resizerRow.childNodes[ i ].classList.contains('vce-col--last')) {
+        lastInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
+      }
+      if (firstInRow && lastInRow) {
+        resizerRow.childNodes.length
+      }
+    }
+    // get content part position and width relative to window,
+    let rowContentWidth = lastInRow.left + lastInRow.width - firstInRow.left + currentResizerClientRect.width
+    let defaultPositions = []
+    ColumnResizer.defaultGridPercentage.forEach((percentage) => {
+      let position = firstInRow.left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
+      positions.push((Math.round(position * 100) / 100))
+    })
+    // get default grid snap points and add them to positions []
     allResizers.forEach((resizer) => {
       if (resizer !== currentResizer && window.getComputedStyle(resizer.parentElement).getPropertyValue('display') !== 'none') {
         let resizerClientRect = resizer.getBoundingClientRect()
         let position = resizerClientRect.left + resizerClientRect.width / 2
         if (positions.indexOf(position) < 0) {
-          positions.push(position)
+          positions.push((Math.round(position * 100) / 100))
         }
       }
     })
-
     ColumnResizer.data.resizerPositions = positions
   }
 
