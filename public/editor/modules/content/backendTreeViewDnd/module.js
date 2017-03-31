@@ -33,6 +33,11 @@ vcCake.add('content-backend-tree-view-dnd', function (api) {
   ModuleDnd.prototype.remove = function (id) {
     this.buildItems()
     this.items.removeItem(id)
+    window.setTimeout(() => {
+      if (!document.querySelector('.vcv-ui-tree-layout')) {
+        this.items = null
+      }
+    }, 0)
   }
   ModuleDnd.prototype.move = function (id, action, related) {
     if (id && related) {
