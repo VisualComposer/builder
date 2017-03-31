@@ -125,7 +125,9 @@ module.exports = {
         'assetsStorage',
         'assetsManager',
         'stylesManager',
-        'wpMyTemplates'
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     'wpbackend-switcher': {
