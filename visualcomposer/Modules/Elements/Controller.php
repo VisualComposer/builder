@@ -12,7 +12,7 @@ class Controller extends Container implements Module
     use EventsFilters;
 
     public function __construct()
-    {
+    {n
         /** @see \VisualComposer\Modules\Elements\Controller::addBundleScripts */
         $this->addFilter('vcv:frontend:extraOutput', 'addBundleScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addVendorBundleScripts */

@@ -17,8 +17,8 @@ export default class NavbarContainer extends React.Component {
   render () {
     return <NavbarWrapper>
       <Navbar>
-        <Logo visibility='pinned' />
-        <PlusControl visibility='pinned' />
+        <Logo visibility='pinned' name='Visual Composer' />
+        <PlusControl visibility='pinned' name='Add Element' />
         <AddTemplateControl />
         <TreeViewControl visibility='pinned' />
         <UndoRedoControl />
