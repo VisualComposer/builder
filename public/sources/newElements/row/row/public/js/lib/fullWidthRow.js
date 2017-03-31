@@ -1,4 +1,7 @@
 (function () {
+  if (typeof window.vceResetFullWidthRows !== 'undefined') {
+    return
+  }
   let fullWidthRows
 
   function getRows () {
@@ -16,8 +19,8 @@
       let rowHelper = row.parentElement
       let rowContent = row.querySelector('.vce-row-content')
 
-      let elMarginLeft = parseInt(window.getComputedStyle(row, null)['margin-left'], 10)
-      let elMarginRight = parseInt(window.getComputedStyle(row, null)['margin-right'], 10)
+      let elMarginLeft = parseInt(window.getComputedStyle(row, null)[ 'margin-left' ], 10)
+      let elMarginRight = parseInt(window.getComputedStyle(row, null)[ 'margin-right' ], 10)
 
       let offset = 0 - rowHelper.getBoundingClientRect().left - elMarginLeft
       let width = document.documentElement.clientWidth
