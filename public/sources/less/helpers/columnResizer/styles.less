@@ -52,6 +52,7 @@
   display: flex;
   user-select: none;
   direction: ltr;
+  z-index: 9999;
 
   &.vce-column-resizer-label-left {
     float: left;
@@ -67,8 +68,7 @@
 .vce-column-resizer-label-background {
   height: 23px;
   line-height: 23px;
-  opacity: .5;
-  background: #282828;
+  background: rgba(40, 40, 40, .5);
   text-align: center;
   min-width: 34px;
   padding: 0 2px;
