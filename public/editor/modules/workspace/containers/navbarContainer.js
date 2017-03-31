@@ -16,15 +16,15 @@ export default class NavbarContainer extends React.Component {
   render () {
     return <NavbarWrapper>
       <Navbar>
-        <Logo />
-        <PlusControl />
+        <Logo visibility='pinned' name='Visual Composer' />
+        <PlusControl visibility='pinned' name='Add Element' />
         <AddTemplateControl />
-        <TreeViewControl />
+        <TreeViewControl visibility='pinned' />
         <UndoRedoControl />
         <LayoutControl />
         <SettingsButtonControl />
-        <NavbarSeparator />
-        <SaveControl />
+        <NavbarSeparator visibility='pinned' />
+        <SaveControl visibility='pinned' />
       </Navbar>
     </NavbarWrapper>
   }

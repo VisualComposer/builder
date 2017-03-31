@@ -12,9 +12,11 @@ class Controller extends Container implements Module
     use EventsFilters;
 
     public function __construct()
-    {
+    {n
         /** @see \VisualComposer\Modules\Elements\Controller::addBundleScripts */
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'addBundleScripts');
+        $this->addFilter('vcv:frontend:extraOutput', 'addBundleScripts');
+        /** @see \VisualComposer\Modules\Elements\Controller::addVendorBundleScripts */
+        $this->addFilter('vcv:frontend:extraOutput', 'addVendorBundleScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
         //$this->addFilter('vcv:frontend:extraOutput', 'addElementScripts');
         /** @see \VisualComposer\Modules\Elements\Controller::addElementScripts */
@@ -22,6 +24,17 @@ class Controller extends Container implements Module
     }
 
     private function addBundleScripts($output, Url $urlHelper)
+    {
+        $output[] = sprintf(
+            '<script type="text/javascript" src="%s"></script>',
+            $urlHelper->to(
+                'public/dist/wp.bundle.js?' . uniqid()
+            )
+        );
+
+        return $output;
+    }
+    private function addVendorBundleScripts($output, Url $urlHelper)
     {
         $newWebpack = true;
         if ($newWebpack) {
@@ -32,13 +45,6 @@ class Controller extends Container implements Module
                 )
             );
         }
-        $output[] = sprintf(
-            '<script type="text/javascript" src="%s"></script>',
-            $urlHelper->to(
-                'public/dist/wp.bundle.js?' . uniqid()
-            )
-        );
-
         return $output;
     }
 //

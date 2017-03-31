@@ -68,7 +68,6 @@ export default class NavbarControl extends React.Component {
 
   render () {
     let {value} = this.props
-
-    return React.createElement(value.icon, { value: value })
+    return value.icon
   }
 }

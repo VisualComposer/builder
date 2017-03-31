@@ -12,8 +12,8 @@ module.exports = {
     wp: './public/wp-main',
     pe: './public/pe-main',
     front: './public/front-main',
-    // wpbackend: './public/wpbackend-main',
-    // wpbackendswitch: './public/wpbackend-switch',
+    wpbackend: './public/wpbackend-main',
+    wpbackendswitch: './public/wpbackend-switch',
     app: [],
     vendor: [
       'jquery',
@@ -107,21 +107,9 @@ module.exports = {
     },
     wpbackend: {
       modules: [
-        'content/storage',
-        'content/backendAssets',
-        'content/wordpress/data-load',
-        'content/wordpress/data-backend-save',
-        'content/wordpress/data-unload',
-        'content/layout',
+        'content/modernLayout',
         'content/backendLayout',
-        'ui/layoutBarBackend',
-        'ui/navbarBackend',
-        'ui/brand-logo',
-        'ui/addElement',
-        'ui/edit-element',
-        'ui/addTemplate',
-        'ui/undo-redo',
-        'ui/settings'
+        'wordpressBackendWorkspace'
       ],
       services: [
         'utils',
@@ -137,7 +125,9 @@ module.exports = {
         'dataProcessor',
         'assetsStorage',
         'stylesManager',
-        'wpMyTemplates'
+        'wpMyTemplates',
+        'hubCategories',
+        'hubGroups'
       ]
     },
     'wpbackend-switcher': {

@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 // import NavbarControl from './controls/navbarControl'
 import '../../../sources/less/ui/navbar/init.less'
 
@@ -54,13 +55,14 @@ export default class Navbar extends React.Component {
     this.handleDragStart = this.handleDragStart.bind(this)
     this.handleDragEnd = this.handleDragEnd.bind(this)
     this.handleDragging = this.handleDragging.bind(this)
+    this.setHiddenControlsReference = this.setHiddenControlsReference.bind(this)
   }
   setVisibleControls () {
     const children = React.Children.toArray(this.props.children)
     return children.filter((node) => {
       return !node.props.visibility || node.props.visibility !== 'hidden'
     }).map((node) => {
-      return node.type.name
+      return node.key
     })
   }
   componentWillMount () {
@@ -146,7 +148,7 @@ export default class Navbar extends React.Component {
       })
     */
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
-    window.addEventListener('resize', this.handleWindowResize)
+    window.addEventListener('resize', lodash.debounce(this.handleWindowResize, 300))
     this.handleElementResize()
   }
 
@@ -201,14 +203,16 @@ export default class Navbar extends React.Component {
   }
 
   getVisibleControls () {
-    return this.props.children.filter((node) => {
-      return this.state.visibleControls.includes(node.type.name)
+    const children = React.Children.toArray(this.props.children)
+    return children.filter((node) => {
+      return this.state.visibleControls.includes(node.key)
     })
   }
 
   getHiddenControls () {
-    let controls = this.props.children.filter((node) => {
-      return !this.state.visibleControls.includes(node.type.name)
+    const children = React.Children.toArray(this.props.children)
+    let controls = children.filter((node) => {
+      return !this.state.visibleControls.includes(node.key)
     })
     controls.reverse()
     return controls
@@ -251,7 +255,9 @@ export default class Navbar extends React.Component {
       isActiveSandwich: !this.state.isActiveSandwich
     })
   }
-
+  setHiddenControlsReference (ref) {
+    this.hiddenControlsWrapper = ref
+  }
   buildHiddenControls () {
     const controls = this.getHiddenControls()
     if (!controls.length) {
@@ -279,13 +285,12 @@ export default class Navbar extends React.Component {
           <span className='vcv-ui-navbar-control-content'><i
             className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' /><span>Menu</span></span>
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels' ref={this.setHiddenControlsReference}>
           {controls}
         </dd>
       </dl>
     )
   }
-
   refreshControls () {
     const {visibleControls} = this.state
     let isSideNavbar = () => {
@@ -300,47 +305,45 @@ export default class Navbar extends React.Component {
       freeSpace = freeSpaceEl.offsetHeight
     }
     // hide control if there is no space
-    if (visibleControls.length && freeSpace === 0) {
-      visibleControls.pop()
-      // navbarControls[ lastControl.index ].isVisible = false
+    let visibleAndUnpinnedControls = this.getVisibleControls().filter((control) => {
+      return !control.props.visibility || control.props.visibility !== 'pinned'
+    }).map((control) => {
+      return control.key
+    })
+    if (visibleAndUnpinnedControls.length && freeSpace === 0) {
+      const keyToRemove = visibleAndUnpinnedControls.pop()
+      const visibleControls = this.state.visibleControls.filter(item => item !== keyToRemove)
       this.setState({
         visibleControls: visibleControls
-        // visibleControlsCount: this.getVisibleControls().length
       })
       this.refreshControls()
       return
     }
     // show controls if there is available space
     let hiddenAndUnpinnedControls = this.getHiddenControls().filter((control) => {
-      return control.props.visibility !== 'pinned'
+      return !control.props.visibility || control.props.visibility !== 'pinned'
     })
     if (hiddenAndUnpinnedControls.length) {
       // if it is las hidden element than add dropdown width to free space
       if (this.getHiddenControls().length === 1) {
         let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
-        if (isSideNavbar()) {
-          freeSpace += sandwich.offsetHeight
-        } else {
-          freeSpace += sandwich.offsetWidth
-        }
+        freeSpace += isSideNavbar() ? sandwich.offsetHeight : sandwich.offsetWidth
       }
 
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
-        let lastControl = hiddenAndUnpinnedControls.pop()
-        let controlsSize = 40 // lastControl.ref.state.realSize.width
-        if (isSideNavbar()) {
-          // controlsSize = lastControl.ref.state.realSize.height
-        }
-        freeSpace -= controlsSize
+        const lastControl = hiddenAndUnpinnedControls.pop()
+        const lastControlIndex = hiddenAndUnpinnedControls.length
+        const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
+        let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth // lastControl.ref.state.realSize.width
+        freeSpace -= controlSize
         if (freeSpace > 0) {
-          visibleControls.push(lastControl)
-          this.setState({
-            visibleControls: visibleControls
-          })
+          visibleControls.push(lastControl.key)
         }
       }
-      // return
     }
+    this.setState({
+      visibleControls: visibleControls
+    })
     // TODO: Check this return in while loop
   }
 
