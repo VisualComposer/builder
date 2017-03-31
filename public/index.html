@@ -30,6 +30,14 @@
 <script>
 	window.vcvPostPermanentLink = 'http://localhost:3000';
 </script>
+<script id="vcv-shared-assets">
+  // Read-Only data
+  Object.defineProperty(window, 'VCV_GET_SHARED_ASSETS', {
+    value: function () {
+      return {"waypoints":{"dependencies":[],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/waypoints\/dist\/noframework.waypoints.min.js"},"animate":{"dependencies":["waypoints"],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/animate\/dist\/animate.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/animate\/dist\/animate.bundle.css"},"backgroundColorGradient":{"dependencies":[],"cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundColorGradient\/dist\/backgroundColorGradient.bundle.css"},"backgroundSimple":{"dependencies":[],"cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundSimple\/dist\/backgroundSimple.bundle.css"},"backgroundSlider":{"dependencies":[],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundSlider\/dist\/backgroundSlider.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundSlider\/dist\/backgroundSlider.bundle.css"},"backgroundVideoEmbed":{"dependencies":[],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoEmbed\/dist\/backgroundVideoEmbed.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoEmbed\/dist\/backgroundVideoEmbed.bundle.css"},"backgroundVideoVimeo":{"dependencies":[],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoVimeo\/dist\/backgroundVideoVimeo.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoVimeo\/dist\/backgroundVideoVimeo.bundle.css"},"backgroundVideoYoutube":{"dependencies":[],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoYoutube\/dist\/backgroundVideoYoutube.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/backgroundVideoYoutube\/dist\/backgroundVideoYoutube.bundle.css"},"parallaxBackground":{"dependencies":["waypoints"],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/parallaxBackground\/dist\/parallaxBackground.bundle.js","cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/parallaxBackground\/dist\/parallaxBackground.bundle.css"},"parallaxFade":{"dependencies":["waypoints"],"jsBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/parallaxFade\/dist\/parallaxFade.bundle.js"},"iconpicker":{"dependencies":[],"cssBundle":"http:\/\/localhost:3000\/sources\/assetsLibrary\/iconpicker\/dist\/iconpicker.bundle.css"}} },
+    writable: false
+  });
+</script>
 <script id="vcv-hub-categories">
 	// Read-Only data
 	Object.defineProperty(window, 'VCV_HUB_GET_CATEGORIES', {
