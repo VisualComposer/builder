@@ -3,52 +3,48 @@ import classNames from 'classnames'
 import Representer from '../../representer'
 import vcCake from 'vc-cake'
 
-const AssetsManager = vcCake.getService('assetsManager')
+const cook = vcCake.getService('cook')
 
 export default class Backend extends Representer {
-  getSinglePlaceHolder (url) {
-    return <img
-      className='vcv-wpbackend-attr-representer-attach-image--preview'
-      src={url}
-      alt='Default image'
-      key={`representer-image-default`}
-    />
+  getUrls (value, cookElement) {
+    let urls = []
+    let elementPath = cookElement.get('metaElementPath')
+    if (typeof value === 'string') {
+      urls = [ elementPath + value ]
+    } else if (Array.isArray(value)) {
+      urls = value.map((file) => {
+        return elementPath + file
+      })
+    } else {
+      urls = value.urls
+    }
+
+    return urls
   }
 
-  getMultiplePlaceHolders (urls) {
+  getImages (urls, cookElement) {
     return urls.map((url, i) => {
-      let path = AssetsManager.getPublicPath(this.props.element.tag, url)
-      return <img
-        className='vcv-wpbackend-attr-representer-attach-image--preview'
-        src={path}
-        alt={`Default image ${i}`}
-        key={`representer-image-default-${i}`}
-      />
-    })
-  }
+      let urlData = {
+        src: url && url.thumbnail ? url.thumbnail : url,
+        alt: url && url.alt ? url.alt : 'Default image',
+        id: url && url.id ? url.id : i
+      }
 
-  getImages (urls) {
-    return urls.map((url) => {
-      return <img
-        className='vcv-wpbackend-attr-representer-attach-image--preview'
-        src={url.thumbnail}
-        alt={url.alt}
-        key={`representer-image-${url.id}`}
-      />
+      return (
+        <img
+          className='vcv-wpbackend-attr-representer-attach-image--preview'
+          src={urlData.src}
+          alt={urlData.alt}
+          key={`representer-image-${urlData.id}-${cookElement.get('id')}`}
+        />
+      )
     })
   }
 
   render () {
     let { value } = this.state
-    let output
-    if (typeof value === 'string') {
-      let url = AssetsManager.getPublicPath(this.props.element.tag, value)
-      output = this.getSinglePlaceHolder(url)
-    } else if (Array.isArray(value)) {
-      output = this.getMultiplePlaceHolders(value)
-    } else {
-      output = this.getImages(value.urls)
-    }
+    let cookElement = cook.get(this.props.element)
+    let urls = this.getUrls(value, cookElement)
 
     let classes = classNames({
       'vcv-wpbackend-attributes-content': true,
@@ -56,10 +52,12 @@ export default class Backend extends Representer {
       'vcv-wpbackend-attr-representer-attach-image': true
     })
 
-    return <div className={classes}>
-      <div className='vcv-wpbackend-attr-representer-attach-image--wrapper'>
-        {output}
+    return (
+      <div className={classes}>
+        <div className='vcv-wpbackend-attr-representer-attach-image--wrapper'>
+          {this.getImages(urls)}
+        </div>
       </div>
-    </div>
+    )
   }
 }
