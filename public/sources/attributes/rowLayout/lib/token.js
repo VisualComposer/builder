@@ -20,9 +20,11 @@ export default class Token extends React.Component {
   }
   render () {
     let {title, valid} = this.props
+    let roundedTitle = title
     if (title.indexOf('%') >= 0) {
       title = title.indexOf(',') >= 0 ? title.slice(0, (title.indexOf(',') + 3)).replace('%', '') + '%' : title
       title = title.indexOf('.') >= 0 ? title.slice(0, (title.indexOf('.') + 3)).replace('%', '') + '%' : title
+      roundedTitle = title.indexOf('.') >= 0 ? title.slice(0, (title.indexOf('.'))).replace('%', '') + '%' : title
     }
 
     let tagClasses = classNames({
@@ -31,8 +33,9 @@ export default class Token extends React.Component {
     })
     return <span
       className={tagClasses}
+      data-vcv-tag-list-label={roundedTitle}
+      data-vcv-tag-list-label-hover={title}
       >
-      {title}
       <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
       </button>

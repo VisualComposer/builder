@@ -103,11 +103,16 @@ export default class ControlsManager {
       // get all vcv elements
       let path = this.getPath(e)
       let elPath = path.filter((el) => {
-        return el.dataset && el.dataset.hasOwnProperty('vcvElement')
+        return el.dataset && (el.dataset.hasOwnProperty('vcvElement') || el.dataset.hasOwnProperty('vcvLinkedElement'))
       })
       let element = null
       if (elPath.length) {
         element = elPath[ 0 ] // first element in path always hovered element
+      }
+      // replace linked element with real element
+      if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
+        element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
+        elPath[ 0 ] = element
       }
       if (this.prevElement !== element) {
         // unset prev element
@@ -233,7 +238,9 @@ export default class ControlsManager {
       }
     })
     this.api.reply('editorContent:element:mouseLeave', () => {
-      this.frames.hide()
+      if (this.state.showFrames) {
+        this.frames.hide()
+      }
     })
   }
 

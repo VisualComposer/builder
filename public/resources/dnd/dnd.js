@@ -306,7 +306,7 @@ export default class DnD {
     this.position = null
     this.helper = null
     this.startPoint = null
-    if (getData('vcv:layoutCustomMode') !== 'contentEditable' && getData('vcv:layoutCustomMode') !== null) {
+    if (getData('vcv:layoutCustomMode') !== 'contentEditable' && getData('vcv:layoutCustomMode') !== 'columnResizer' && getData('vcv:layoutCustomMode') !== null) {
       setData('vcv:layoutCustomMode', null)
     }
     // Set callback on dragEnd

@@ -42,7 +42,7 @@ export default class Element extends React.Component {
       if (vcCake.env('FEATURE_COLUMN_RESIZER')) {
         if (childElement.tag === 'column') {
           elementsList.push(
-            <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
+            <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
           )
         }
       }
