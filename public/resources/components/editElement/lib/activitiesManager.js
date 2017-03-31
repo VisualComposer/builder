@@ -26,7 +26,7 @@ export default class ActivitiesManager extends React.Component {
     this.stack = {}
     this.mountStack = {}
     this.initialStack = {}
-    const cookElement = cook.get(nextProps.element)
+    const cookElement = nextProps.element
     this.setState({element: cookElement})
     this.listeners = this.initListeners(cookElement)
   }
