@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 
 const dataProcessor = vcCake.getService('dataProcessor')
-const elementsAssetsLibrary = vcCake.getService('elementsAssetsLibrary')
+const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
@@ -33,7 +33,7 @@ export default class SaveController {
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
-    let assetsFiles = elementsAssetsLibrary.getAssetsFilesByTags(elementsTagsList)
+    let assetsFiles = elementAssetsLibrary.getAssetsFilesByTags(elementsTagsList)
     Promise.all(promises).then(() => {
       this.ajax(
         {
