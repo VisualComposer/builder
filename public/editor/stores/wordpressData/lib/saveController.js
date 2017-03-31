@@ -1,7 +1,7 @@
 import vcCake from 'vc-cake'
 
 const dataProcessor = vcCake.getService('dataProcessor')
-const assetsManager = vcCake.getService('assetsManager')
+const elementsAssetsLibrary = vcCake.getService('elementsAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
@@ -22,6 +22,7 @@ export default class SaveController {
     let promises = []
     const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
     let elements = globalAssetsStorageInstance.getElements()
+    let elementsTagsList = globalAssetsStorageInstance.getElementsTagsList()
     let globalStylesManager = stylesManager.create()
     globalStylesManager.add(globalAssetsStorageInstance.getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
@@ -32,6 +33,7 @@ export default class SaveController {
     promises.push(localStylesManager.compile().then((result) => {
       designOptions = result
     }))
+    let assetsFiles = elementsAssetsLibrary.getAssetsFilesByTags(elementsTagsList)
     Promise.all(promises).then(() => {
       this.ajax(
         {
@@ -39,15 +41,15 @@ export default class SaveController {
           'vcv-ready': '1',
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': JSON.stringify(assetsManager.getJsFilesByTags(modernAssetsStorage.getGlobalInstance().getElementsTagsList())),
-          'vcv-shared-library-styles': JSON.stringify(assetsManager.getCssFilesByTags(modernAssetsStorage.getGlobalInstance().getElementsTagsList())),
+          'vcv-scripts': JSON.stringify(assetsFiles.jsBundles),
+          'vcv-shared-library-styles': JSON.stringify(assetsFiles.cssBundles),
           'vcv-global-styles': globalStyles,
           // 'vcv-styles': JSON.stringify(styles),
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': modernAssetsStorage.getGlobalInstance().getCustomCss(),
-          'vcv-global-css': modernAssetsStorage.getGlobalInstance().getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(modernAssetsStorage.getGlobalInstance().getGoogleFontsData())
+          'vcv-custom-css': globalAssetsStorageInstance.getCustomCss(),
+          'vcv-global-css': globalAssetsStorageInstance.getGlobalCss(),
+          'vcv-google-fonts': JSON.stringify(globalAssetsStorageInstance.getGoogleFontsData())
         },
         this.saveSuccess.bind(this, status),
         this.saveFailed.bind(this, status)
