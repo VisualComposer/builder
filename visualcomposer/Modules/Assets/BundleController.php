@@ -13,16 +13,16 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Assets\BundleController::addFeBundleScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addFeBundleScripts');
-        /** @see \VisualComposer\Modules\Assets\BundleController::addBeBundleScripts */
-        $this->addFilter('vcv:backend:extraOutput', 'addBeBundleScripts');
+        /** @see \VisualComposer\Modules\Assets\BundleController::outputFeBundleScripts */
+        $this->addFilter('vcv:frontend:extraOutput', 'outputFeBundleScripts');
+        /** @see \VisualComposer\Modules\Assets\BundleController::outputBeBundleScripts */
+        $this->addFilter('vcv:backend:extraOutput', 'outputBeBundleScripts');
 
-        /** @see \VisualComposer\Modules\Assets\BundleController::addVendorBundleScripts */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:extraOutput', 'addVendorBundleScripts');
+        /** @see \VisualComposer\Modules\Assets\BundleController::outputVendorBundleScripts */
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:extraOutput', 'outputVendorBundleScripts');
     }
 
-    protected function addFeBundleScripts($output, Url $urlHelper)
+    protected function outputFeBundleScripts($output, Url $urlHelper)
     {
         $output = array_merge(
             $output,
@@ -39,7 +39,7 @@ class BundleController extends Container implements Module
         return $output;
     }
 
-    protected function addBeBundleScripts($output, Url $urlHelper)
+    protected function outputBeBundleScripts($output, Url $urlHelper)
     {
         $output = array_merge(
             $output,
@@ -56,7 +56,7 @@ class BundleController extends Container implements Module
         return $output;
     }
 
-    protected function addVendorBundleScripts($output, Url $urlHelper)
+    protected function outputVendorBundleScripts($output, Url $urlHelper)
     {
         $output = array_merge(
             $output,
