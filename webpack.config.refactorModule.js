@@ -122,7 +122,7 @@ module.exports = {
         'rules-manager',
         'api',
         'dataProcessor',
-        'assetsStorage',
+        'modernAssetsStorage',
         'assetsManager',
         'stylesManager',
         'wpMyTemplates',
