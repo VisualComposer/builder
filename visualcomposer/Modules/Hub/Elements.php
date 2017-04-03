@@ -29,7 +29,7 @@ class Elements extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements');
+        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements', 2);
 
         $temporaryData = true;
         if ($temporaryData) {

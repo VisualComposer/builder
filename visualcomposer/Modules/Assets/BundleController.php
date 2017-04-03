@@ -14,12 +14,12 @@ class BundleController extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Assets\BundleController::addFeBundleScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addFeBundleScripts');
+        $this->addFilter('vcv:frontend:extraOutput', 'addFeBundleScripts', 2);
         /** @see \VisualComposer\Modules\Assets\BundleController::addBeBundleScripts */
-        $this->addFilter('vcv:backend:extraOutput', 'addBeBundleScripts');
+        $this->addFilter('vcv:backend:extraOutput', 'addBeBundleScripts', 2);
 
         /** @see \VisualComposer\Modules\Assets\BundleController::addVendorBundleScripts */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:extraOutput', 'addVendorBundleScripts');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:extraOutput', 'addVendorBundleScripts', 1);
     }
 
     protected function addFeBundleScripts($output, Url $urlHelper)
