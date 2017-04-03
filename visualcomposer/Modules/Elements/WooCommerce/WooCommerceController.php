@@ -19,7 +19,7 @@ class WooCommerceController extends Container
      */
     public function __construct()
     {
-        /** @see ShortcodesFactory::renderEditor */
+        /** @see ShortcodesTrait::renderEditor */
         $this->addFilter(
             'vcv:ajax:elements:' . $this->shortcodeNs . $this->shortcodeTag . ':adminNonce',
             'renderEditor'

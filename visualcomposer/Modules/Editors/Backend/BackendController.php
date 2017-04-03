@@ -12,7 +12,9 @@ class BackendController extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Editors\Backend\BackendController::checkPostType */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkPostType');
+        /** @see \VisualComposer\Modules\Editors\Backend\BackendController::checkToggleFeature */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkToggleFeature');
     }
 

@@ -28,10 +28,12 @@ class Elements extends Container implements Module
      */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
         $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputElements');
 
         $temporaryData = true;
         if ($temporaryData) {
+            /** @see \VisualComposer\Modules\Hub\Elements::dummySetElements */
             $this->wpAddAction(
                 'init',
                 'dummySetElements'
