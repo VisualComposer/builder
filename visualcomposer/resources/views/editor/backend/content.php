@@ -55,6 +55,8 @@ $postTypeHelper = vchelper('PostType');
 
 <?php
 $extraOutput = vcfilter('vcv:backend:extraOutput', []);
-foreach ($extraOutput as $output) {
-    echo $output;
+if (is_array($extraOutput)) {
+    foreach ($extraOutput as $output) {
+        echo $output;
+    }
 }
