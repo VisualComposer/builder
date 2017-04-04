@@ -158,7 +158,7 @@
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
-      "public/sources/elements/",
+      "public/sources/newElements/",
       "public/config/",
       "public/resources/tinymce",
       "public/sources/assetsLibrary",

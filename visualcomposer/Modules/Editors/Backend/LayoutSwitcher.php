@@ -55,7 +55,7 @@ class LayoutSwitcher extends Container implements Module
         ) {
             $this->registerEditorAssets();
 
-            wp_enqueue_script('vcv:editors:backendswitcher:bundle');
+           // wp_enqueue_script('vcv:editors:backendswitcher:bundle');
             wp_enqueue_style('vcv:editors:backendswitcher:bundle');
         }
     }
@@ -66,9 +66,9 @@ class LayoutSwitcher extends Container implements Module
     protected function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
-        $bundleJsUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.js?' . uniqid());
+        //$bundleJsUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.js?' . uniqid());
         $bundleCssUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.css?' . uniqid());
-        wp_register_script('vcv:editors:backendswitcher:bundle', $bundleJsUrl);
+       // wp_register_script('vcv:editors:backendswitcher:bundle', $bundleJsUrl);
         wp_register_style('vcv:editors:backendswitcher:bundle', $bundleCssUrl);
     }
 

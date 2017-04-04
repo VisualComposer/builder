@@ -6,11 +6,12 @@ addStorage('assets', (storage) => {
   const documentManager = getService('document')
   // const assetsManager = getService('assetsManager')
   const stylesManager = getService('stylesManager')
-  const assetsManager = getService('assetsManager')
+  const elementAssetsLibrary = getService('elementAssetsLibrary')
   const assetsStorage = getService('modernAssetsStorage')
+  const utils = getService('utils')
   const globalAssetsStorage = assetsStorage.getGlobalInstance()
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-  const builder = new CssBuilder(globalAssetsStorage, assetsManager, stylesManager, assetsWindow)
+  const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
   const data = {elements: {}}
 
   storage.on('addElement', (id) => {

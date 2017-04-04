@@ -1,4 +1,7 @@
 (function () {
+  if (typeof window.vceResetFullHeightRows !== 'undefined') {
+    return
+  }
   let fullHeightRows
 
   function getRows () {

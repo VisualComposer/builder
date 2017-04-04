@@ -29,7 +29,6 @@ add('wordpressBackendWorkspace', (api) => {
     }
   })
   let layoutHeader = document.getElementById('vcv-wpbackend-layout-header')
-  console.log(layoutHeader)
   ReactDOM.render(
     <WorkspaceCont />,
     layoutHeader
