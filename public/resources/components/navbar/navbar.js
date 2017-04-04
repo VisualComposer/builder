@@ -102,11 +102,6 @@ export default class Navbar extends React.Component {
 
   componentDidMount () {
     /*
-    this.props.api
-      .on('build', (count) => {
-        this.setState({ controlsCount: count })
-        this.handleElementResize()
-      })
       .reply('navbar:resizeTop', (offsetY) => {
         this.setState({ navPosY: this.state.navPosY - offsetY })
       })
@@ -420,7 +415,6 @@ export default class Navbar extends React.Component {
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
-    console.log(this.state)
     if (isDragging) {
       isDetached = false
     }

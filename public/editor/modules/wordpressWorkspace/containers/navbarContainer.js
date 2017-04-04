@@ -32,7 +32,6 @@ export default class NavbarContainer extends React.Component {
     contentEndState.ignoreChange(this.updateLockedState)
   }
   updateLockedState (data) {
-    console.log(data)
     this.setState({locked: !!data})
   }
   render () {
