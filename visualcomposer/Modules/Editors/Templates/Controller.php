@@ -38,7 +38,7 @@ class Controller extends Container implements Module
         return $extraOutput;
     }
 
-    protected function getData($templates)
+    protected function getData(array $templates)
     {
         $data = [];
         foreach ($templates as $template) {
