@@ -13,7 +13,8 @@ export default class Navbar extends React.Component {
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
     ]),
-    locked: React.PropTypes.bool
+    locked: React.PropTypes.bool,
+    draggable: React.PropTypes.bool
   }
   constructor (props) {
     super(props)
@@ -64,6 +65,16 @@ export default class Navbar extends React.Component {
     })
   }
   componentWillMount () {
+    const {draggable} = this.props
+    if (!draggable) {
+      this.setState({
+        navPosX: 0,
+        navPosY: 0,
+        navbarPosition: 'top'
+      })
+      return
+    }
+    // TODO: move all this logic to wrapper
     let cookieState = {}
     if (Utils.hasCookie('navPosition')) {
       cookieState.navbarPosition = Utils.getCookie('navPosition')
@@ -395,13 +406,21 @@ export default class Navbar extends React.Component {
     movingEvent.initEvent('vc.ui.navbar.dragging', true, true)
     e.target.dispatchEvent(movingEvent)
   }
-
+  renderDragHandler () {
+    const {draggable} = this.props
+    if (!draggable) {
+      return true
+    }
+    return <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
+      <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+    </div>
+  }
   render () {
     const {locked} = this.props
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
-
+    console.log(this.state)
     if (isDragging) {
       isDetached = false
     }
@@ -452,9 +471,7 @@ export default class Navbar extends React.Component {
     return (
       <div className={navbarContainerClasses}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
-          <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
-            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-          </div>
+          {this.renderDragHandler()}
           {this.getVisibleControls(this.state.visibleControls)}
           {this.buildHiddenControls(this.state.visibleControls)}
           <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer' onMouseDown={(e) => this.handleDragStart(e, false)} />
