@@ -73,6 +73,5 @@ class AssetsController extends Container implements Module
 //            true
 //        );
         wp_register_style('vcv:editors:backend:bundle', $bundleCssUrl);
-
     }
 }
