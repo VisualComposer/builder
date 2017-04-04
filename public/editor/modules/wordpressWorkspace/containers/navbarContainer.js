@@ -12,11 +12,33 @@ import WordPressPostSaveControl from '../../../../resources/components/navbar/co
 import NavbarSeparator from '../../../../resources/components/navbar/controls/navbarSeparator'
 import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
+import {getStorage} from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
+const contentEndState = workspaceStorage.state('contentEnd')
 
 export default class NavbarContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      locked: false
+    }
+    this.updateLockedState = this.updateLockedState.bind(this)
+  }
+  componentDidMount () {
+    contentEndState.onChange(this.updateLockedState)
+  }
+  componentWillUnmount () {
+    contentEndState.ignoreChange(this.updateLockedState)
+  }
+  updateLockedState (data) {
+    console.log(data)
+    this.setState({locked: !!data})
+  }
   render () {
+    const {locked} = this.state
     return <NavbarWrapper>
-      <Navbar>
+      <Navbar locked={locked}>
         <Logo visibility='pinned' name='Visual Composer' />
         <PlusControl visibility='pinned' name='Add Element' />
         <AddTemplateControl />

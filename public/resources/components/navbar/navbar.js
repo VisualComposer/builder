@@ -3,26 +3,23 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
-// import NavbarControl from './controls/navbarControl'
 import '../../../sources/less/ui/navbar/init.less'
 
 const Utils = vcCake.getService('utils')
-
-// const navbarControls = []
 
 export default class Navbar extends React.Component {
   static propTypes = {
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    locked: React.PropTypes.bool
   }
   constructor (props) {
     super(props)
     this.state = {
       visibleControls: this.setVisibleControls(),
       controlsCount: 0,
-      // visibleControlsCount: 0,
       saving: false,
       saved: false,
       isDragging: false,
@@ -104,16 +101,6 @@ export default class Navbar extends React.Component {
       })
       .reply('navbar:resizeLeft', (offsetX) => {
         this.setState({ navPosX: this.state.navPosX - offsetX })
-      })
-      .reply('bar-content-end:show', () => {
-        this.setState({
-          hasEndContent: true
-        })
-      })
-      .reply('bar-content-end:hide', () => {
-        this.setState({
-          hasEndContent: false
-        })
       })
     */
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
@@ -257,7 +244,7 @@ export default class Navbar extends React.Component {
     }).map((control) => {
       return control.key
     })
-    if (visibleAndUnpinnedControls.length && freeSpace === 0) {
+    if (visibleAndUnpinnedControls.length && freeSpace <= 0) {
       const keyToRemove = visibleAndUnpinnedControls.pop()
       const newVisibleControls = visibleControls.filter(item => item !== keyToRemove)
       this.setState({
@@ -267,7 +254,7 @@ export default class Navbar extends React.Component {
     }
     // show controls if there is available space
     let hiddenAndUnpinnedControls = this.getHiddenControls(visibleControls).filter((control) => {
-      return !control.props.visibility || control.props.visibility !== 'pinned'
+      return !control.props.visibility || control.props.visibility !== 'hidden'
     })
     if (hiddenAndUnpinnedControls.length) {
       // if it is las hidden element than add dropdown width to free space
@@ -280,7 +267,7 @@ export default class Navbar extends React.Component {
         const lastControl = hiddenAndUnpinnedControls.pop()
         const lastControlIndex = this.hiddenControlsIndex[lastControl.key]
         const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
-        let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth // lastControl.ref.state.realSize.width
+        let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth
         freeSpace -= controlSize
         if (freeSpace > 0) {
           visibleControls.push(lastControl.key)
@@ -410,6 +397,7 @@ export default class Navbar extends React.Component {
   }
 
   render () {
+    const {locked} = this.props
     let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
     let navBarStyle = {}
     let isDetached
@@ -435,7 +423,6 @@ export default class Navbar extends React.Component {
 
     document.body.classList.add('vcv-layout-dock')
     document.body.classList.add('vcv-layout-dock--' + navbarPosition)
-
     switch (navbarPosition) {
       case 'detached':
         navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
@@ -443,7 +430,7 @@ export default class Navbar extends React.Component {
         break
       case 'top':
       case 'bottom':
-        manageLock(this.state.hasEndContent)
+        manageLock(locked)
         break
       case 'left':
       case 'right':
