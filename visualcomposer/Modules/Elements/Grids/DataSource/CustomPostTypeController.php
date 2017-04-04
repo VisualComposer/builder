@@ -70,8 +70,8 @@ class CustomPostTypeController extends Container implements Module
             while ($paginationQuery->have_posts()) {
                 $paginationQuery->the_post();
                 $newPosts[] = $post;
+                wp_reset_postdata();
             }
-            wp_reset_postdata();
             $posts = array_merge(
                 $posts,
                 $newPosts
