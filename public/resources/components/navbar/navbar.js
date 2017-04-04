@@ -244,7 +244,6 @@ export default class Navbar extends React.Component {
     }).map((control) => {
       return control.key
     })
-    console.log('before modify', this.state.navbarPosition, freeSpace)
     if (visibleAndUnpinnedControls.length && freeSpace <= 0) {
       const keyToRemove = visibleAndUnpinnedControls.pop()
       const newVisibleControls = visibleControls.filter(item => item !== keyToRemove)
@@ -255,7 +254,7 @@ export default class Navbar extends React.Component {
     }
     // show controls if there is available space
     let hiddenAndUnpinnedControls = this.getHiddenControls(visibleControls).filter((control) => {
-      return !control.props.visibility || control.props.visibility !== 'pinned'
+      return !control.props.visibility || control.props.visibility !== 'hidden'
     })
     if (hiddenAndUnpinnedControls.length) {
       // if it is las hidden element than add dropdown width to free space
@@ -269,10 +268,8 @@ export default class Navbar extends React.Component {
         const lastControlIndex = this.hiddenControlsIndex[lastControl.key]
         const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
         let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth
-        console.log('remove control size', controlSize)
         freeSpace -= controlSize
         if (freeSpace > 0) {
-          console.log(freeSpace, 'ok')
           visibleControls.push(lastControl.key)
         }
       }
