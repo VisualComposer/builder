@@ -194,7 +194,7 @@ export default class DnD {
     }
   }
   findElementWithValidParent (domElement) {
-    var parentElement = domElement.parent() ? this.items[domElement.parent()] : null
+    let parentElement = domElement.parent() ? this.items[domElement.parent()] : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -206,15 +206,11 @@ export default class DnD {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
   findDOMNode (point) {
-    let domNode
-    let targetDomNode = this.options.document.elementFromPoint(point.x, point.y)
-    if (targetDomNode && !targetDomNode.getAttribute('data-vcv-dnd-element')) {
-      let closest = $(targetDomNode).closest('[data-vcv-dnd-element]').get(0)
-      if (closest && closest.dataset.vcvModule !== 'content-layout') {
-        domNode = closest
-      }
+    let domNode = this.options.document.elementFromPoint(point.x, point.y)
+    if (domNode && !domNode.getAttribute('data-vcv-dnd-element')) {
+      domNode = $(domNode).closest('[data-vcv-dnd-element]:not([data-vcv-dnd-element="vcv-content-root"])').get(0)
     }
-    return domNode
+    return domNode || null
   }
   checkItems (point) {
     let domNode = this.findDOMNode(point)
