@@ -25,7 +25,7 @@ class Categories extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Categories::outputCategories */
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputCategories');
+        $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputCategories');
 
         $temporaryData = true;
         if ($temporaryData) {

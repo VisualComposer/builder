@@ -13,7 +13,7 @@ class SharedController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:extraOutput', 'outputSharedLibraries');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'outputSharedLibraries');
     }
 
     protected function outputSharedLibraries($response, $payload, AssetsSharedHelper $assetsSharedHelper)

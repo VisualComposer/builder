@@ -13,19 +13,26 @@ class WpEditor extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\WpEditor::addWpEditorScripts */
-        $this->addFilter('vcv:frontend:extraOutput', 'addWpEditorScripts');
-        $this->addFilter('vcv:backend:extraOutput', 'addWpEditorScripts');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:footer:extraOutput', 'addWpEditorScripts');
     }
 
-    private function addWpEditorScripts($output)
+    protected function addWpEditorScripts($output)
     {
-        // $this->getWpEditor();
-        $output[] = sprintf('<script type="text/html" id="vcv-wpeditor-template">%s</script>', $this->getWpEditor());
+        $output[] = sprintf(
+            '<script type="text/html" id="vcv-wpeditor-template">
+try{
+    %s
+} catch(e) {
+    window.console && window.console.warn && window.console.warn(\'Wp Editor initialize error\', e)
+}
+</script>',
+            $this->getWpEditor()
+        );
 
         return $output;
     }
 
-    private function getWpEditor()
+    protected function getWpEditor()
     {
         ob_start();
         wp_editor(
