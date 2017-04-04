@@ -48,12 +48,8 @@ class AssetsController extends Container implements Module
             )
         ) {
             $this->registerEditorAssets();
-            $newWebpack = true;
-            if ($newWebpack) {
-                wp_enqueue_script('vcv:editors:backend:vendor');
-            }
-
-            wp_enqueue_script('vcv:editors:backend:bundle');
+//            wp_enqueue_script('vcv:editors:backend:vendor');
+//            wp_enqueue_script('vcv:editors:backend:bundle');
             wp_enqueue_style('vcv:editors:backend:bundle');
         }
     }
@@ -64,12 +60,19 @@ class AssetsController extends Container implements Module
     protected function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
-        $bundleJsUrl = $urlHelper->to('public/dist/wpbackend.bundle.js?' . uniqid());
+        //$bundleJsUrl = $urlHelper->to('public/dist/wpbackend.bundle.js?' . uniqid());
         $bundleCssUrl = $urlHelper->to('public/dist/wpbackend.bundle.css?' . uniqid());
-        wp_register_script('vcv:editors:backend:bundle', $bundleJsUrl);
+//        $vendorJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid());
+//        wp_register_script('vcv:editors:backend:vendor', $vendorJsUrl, [], false, false);
+//
+//        wp_register_script(
+//            'vcv:editors:backend:bundle',
+//            $bundleJsUrl,
+//            ['vcv:editors:backend:vendor'],
+//            VCV_VERSION,
+//            true
+//        );
         wp_register_style('vcv:editors:backend:bundle', $bundleCssUrl);
 
-        $vendorJsUrl = $urlHelper->to('public/dist/vendor.bundle.js?' . uniqid());
-        wp_register_script('vcv:editors:backend:vendor', $vendorJsUrl);
     }
 }

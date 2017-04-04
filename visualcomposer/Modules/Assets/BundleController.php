@@ -47,7 +47,7 @@ class BundleController extends Container implements Module
                 sprintf(
                     '<script id="vcv-script-be-bundle" type="text/javascript" src="%s"></script>',
                     $urlHelper->to(
-                        'public/dist/wp.backend.bundle.js?' . uniqid()
+                        'public/dist/wpbackend.bundle.js?' . uniqid()
                     )
                 ),
             ]
