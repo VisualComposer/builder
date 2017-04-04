@@ -8,8 +8,29 @@ import UndoRedoControl from '../../../../resources/components/navbar/controls/un
 import LayoutControl from '../../../../resources/components/navbar/controls/layout/layoutControl'
 import SettingsButtonControl from '../../../../resources/components/navbar/controls/settingsButtonControl'
 import Navbar from '../../../../resources/components/navbar/navbar'
+import {getStorage} from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
+const contentEndState = workspaceStorage.state('contentEnd')
 
 export default class NavbarContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      locked: false
+    }
+    this.updateLockedState = this.updateLockedState.bind(this)
+  }
+  componentDidMount () {
+    contentEndState.onChange(this.updateLockedState)
+  }
+  componentWillUnmount () {
+    contentEndState.ignoreChange(this.updateLockedState)
+  }
+  updateLockedState (data) {
+    console.log(data)
+    this.setState({locked: !!data})
+  }
   render () {
     return <Navbar>
       <Logo visibility='pinned' />
