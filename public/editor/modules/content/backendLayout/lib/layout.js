@@ -1,9 +1,8 @@
 import React from 'react'
-import { getData, env } from 'vc-cake'
+import { getData, getStorage } from 'vc-cake'
 import Element from './element'
-import BlankPageManagerBack from './helpers/blankPageManagerBack/component'
-import RowPlaceholderBackend from './helpers/rowPlaceholderBackend/component'
 import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
+const elementsStorage = getStorage('elements')
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -23,7 +22,7 @@ export default class Layout extends React.Component {
   }
 
   componentDidMount () {
-    this.props.api.reply('data:changed', (data) => {
+    elementsStorage.state('document').onChange((data) => {
       this.setState({ data: data })
       if (this.layoutContainer && !this.state.hasResizeEvent) {
         this.addResizeListener(this.layoutContainer, this.handleElementSize)
@@ -82,27 +81,12 @@ export default class Layout extends React.Component {
       })
     }
 
-    const rowPlaceholder = env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholderBackend api={this.props.api} />
-
-    // TODO: temporary solution for demo purposes only, remove afterwards
-    let style = null
-    if (env('FEATURE_APPEND_TO_CONTROL')) {
-      style = <style>{
-        `.vcv-wpbackend-layout-container .vce-row .vce-row-container:first-child .vce-row {
-           margin: 45px 0 10px;
-           padding: 0 0 10px;
-        }`
-      }
-      </style>
-    }
-
     return <div
       className='vcv-wpbackend-layout'
       data-vcv-module='content-layout'
       ref={(container) => { this.layoutContainer = container }}>
-      {style}
       {elementsList}
-      {rowPlaceholder}
+      <BlankRowPlaceholder api={this.props.api} />
     </div>
   }
 
@@ -114,7 +98,7 @@ export default class Layout extends React.Component {
     }
 
     if (!this.state.data.length && getData('app:dataLoaded')) {
-      return env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <BlankPageManagerBack api={this.props.api} iframe={false} />
+      return <BlankRowPlaceholder api={this.props.api} />
     }
 
     return this.getElements()
