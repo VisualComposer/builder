@@ -52,11 +52,7 @@ addStorage('assets', (storage) => {
         assetsFilesUsageCounter[ slug ]++
       }
     }
-    if (Array.isArray(filesToAdd)) {
-      filesToAdd.forEach(add)
-    } else {
-      add(filesToAdd)
-    }
+    filesToAdd.forEach(add)
   }
   let decrementAssetsFiles = (filesToRemove) => {
     const remove = (file) => {
@@ -66,34 +62,34 @@ addStorage('assets', (storage) => {
         assetsFilesUsageCounter[ slug ] = 0
       } else {
         assetsFilesUsageCounter[ slug ]--
+        if (assetsFilesUsageCounter[ slug ] < 0) {
+          window.console && window.console.warn && window.console.warn('Attempt to decrement assets file more than needed', slug, file, assetsFilesUsageCounter[ slug ])
+        }
       }
     }
-    if (Array.isArray(filesToRemove)) {
-      filesToRemove.forEach(remove)
-    } else {
-      remove(filesToRemove)
-    }
+    filesToRemove.forEach(remove)
   }
   let removeStaleFiles = () => {
     let files = storage.state('assetsFiles').get()
     let filesSet = new Set(files)
     filesSet.forEach((file) => {
       let slug = utils.slugify(file)
-      if (typeof assetsFilesUsageCounter[ slug ] === 'undefined' || assetsFilesUsageCounter[ slug ] <= 0) {
+      if (typeof assetsFilesUsageCounter[ slug ] === 'undefined' || assetsFilesUsageCounter[ slug ] === 0) {
         filesSet.delete(file)
       }
     })
-    storage.state('assetsFiles').set(...filesSet)
+    storage.state('assetsFiles').set([ ...filesSet ])
   }
   storage.on('addAssetsFiles', (filesToAdd) => {
-    console.log('addAssetsFiles', filesToAdd)
-    incrementAssetsFiles(filesToAdd)
+    let filesToAddSet = new Set([].concat(filesToAdd))
+    incrementAssetsFiles([ ...filesToAddSet ])
     let assetsFiles = storage.state('assetsFiles').get()
-    storage.state('assetsFiles').set([ ...new Set(assetsFiles.concat(filesToAdd)) ])
+    let mergedUniqueFiles = [ ...new Set(assetsFiles.concat(filesToAdd)) ]
+    storage.state('assetsFiles').set(mergedUniqueFiles)
   })
   storage.on('removeAssetsFiles', (filesToRemove) => {
-    console.log('removeAssetsFiles', filesToRemove)
-    decrementAssetsFiles(filesToRemove)
+    let filesToRemoveSet = new Set([].concat(filesToRemove))
+    decrementAssetsFiles([ ...filesToRemoveSet ])
     removeStaleFiles()
   })
   storage.state('assetsFiles').set([])

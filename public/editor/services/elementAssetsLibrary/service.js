@@ -66,6 +66,9 @@ const publicApi = {
       files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
     })
 
+    // Remove duplicates
+    files.cssBundles = [ ...new Set(files.cssBundles) ]
+    files.jsBundles = [ ...new Set(files.jsBundles) ]
     return files
   }
 }

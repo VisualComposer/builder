@@ -30,6 +30,9 @@ const API = {
         files.jsBundles = files.jsBundles.concat(data.jsBundle)
       }
     }
+    // Remove duplicates
+    files.cssBundles = [ ...new Set(files.cssBundles) ]
+    files.jsBundles = [ ...new Set(files.jsBundles) ]
     return files
   }
 }
