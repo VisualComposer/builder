@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Frontend;
+namespace VisualComposer\Modules\Editors\Backend;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -13,11 +13,11 @@ class BundleController extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addHeadBundleStyle */
-        $this->addFilter('vcv:frontend:head:extraOutput', 'addHeadBundleStyle');
+        /** @see \VisualComposer\Modules\Editors\Backend\BundleController::addHeadBundleStyle */
+        $this->addFilter('vcv:backend:extraOutput', 'addHeadBundleStyle');
 
-        /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addFooterBundleScript */
-        $this->addFilter('vcv:frontend:footer:extraOutput', 'addFooterBundleScript');
+        /** @see \VisualComposer\Modules\Editors\Backend\BundleController::addFooterBundleScript */
+        $this->addFilter('vcv:backend:extraOutput', 'addFooterBundleScript', 2);
     }
 
     protected function addHeadBundleStyle($response, $payload, Url $urlHelper)
@@ -27,10 +27,10 @@ class BundleController extends Container implements Module
             (array)$response,
             [
                 sprintf(
-                    '<link id="vcv-style-fe-bundle" 
+                    '<link id="vcv-style-be-bundle" 
 rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
                     $urlHelper->to(
-                        'public/dist/wp.bundle.css?' . uniqid()
+                        'public/dist/wpbackend.bundle.css?' . uniqid()
                     )
                 ),
             ]
@@ -46,9 +46,9 @@ rel="stylesheet" property="stylesheet" type="text/css" href="%s" />',
             (array)$response,
             [
                 sprintf(
-                    '<script id="vcv-script-fe-bundle" type="text/javascript" src="%s"></script>',
+                    '<script id="vcv-script-be-bundle" type="text/javascript" src="%s"></script>',
                     $urlHelper->to(
-                        'public/dist/wp.bundle.js?' . uniqid()
+                        'public/dist/wpbackend.bundle.js?' . uniqid()
                     )
                 ),
             ]

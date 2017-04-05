@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Backend;
+namespace VisualComposer\Modules\Editors\Backend\LayoutSwitcher;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -10,17 +10,17 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Wp;
 
-class LayoutSwitcher extends Container implements Module
+class Controller extends Container implements Module
 {
     use WpFiltersActions;
     use EventsFilters;
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::checkBackendMetabox */
+        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher\Controller::checkBackendMetabox */
         $this->addFilter('vcv:editors:backend:addMetabox', 'checkBackendMetabox');
 
-        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher::enqueueEditorAssets */
+        /** @see \VisualComposer\Modules\Editors\Backend\LayoutSwitcher\Controller::enqueueEditorAssets */
         $this->wpAddAction('admin_enqueue_scripts', 'enqueueEditorAssets');
 
         $this->wpAddAction('admin_head', 'printScripts');
@@ -55,20 +55,17 @@ class LayoutSwitcher extends Container implements Module
         ) {
             $this->registerEditorAssets();
 
-           // wp_enqueue_script('vcv:editors:backendswitcher:bundle');
+            wp_enqueue_script('vcv:editors:backendswitcher:bundle');
             wp_enqueue_style('vcv:editors:backendswitcher:bundle');
         }
     }
 
-    /**
-     *
-     */
     protected function registerEditorAssets()
     {
         $urlHelper = vchelper('Url');
-        //$bundleJsUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.js?' . uniqid());
+        $bundleJsUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.js?' . uniqid());
         $bundleCssUrl = $urlHelper->to('public/dist/wpbackendswitch.bundle.css?' . uniqid());
-       // wp_register_script('vcv:editors:backendswitcher:bundle', $bundleJsUrl);
+        wp_register_script('vcv:editors:backendswitcher:bundle', $bundleJsUrl);
         wp_register_style('vcv:editors:backendswitcher:bundle', $bundleCssUrl);
     }
 
