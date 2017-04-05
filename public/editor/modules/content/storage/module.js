@@ -200,6 +200,7 @@ vcCake.add('storage', (api) => {
     if (data.tag === 'row') {
       if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
         rebuildRawLayout(data.id, null, { layout: data.layout.layoutData })
+        data.layout.layoutData = undefined
       } else {
         rebuildRawLayout(data.id)
       }
