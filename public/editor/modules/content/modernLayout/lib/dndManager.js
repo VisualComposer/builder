@@ -62,13 +62,16 @@ export default class DndManager {
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
-      this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
+      workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
         this.items.option('disabled', value === 'contentEditable')
       })
     }
   }
-
+  removeItems () {
+    delete this.items
+    workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
+  }
   getOffsetTop () {
     if (this.iframe) {
       let rect = this.iframe.getBoundingClientRect()

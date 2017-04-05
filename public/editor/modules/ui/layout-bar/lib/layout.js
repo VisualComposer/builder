@@ -12,7 +12,6 @@ class LayoutBar extends React.Component {
   }
 
   componentDidMount () {
-    /*
     this.props.api
       .reply('bar-content-start:show', () => {
         this.setState({
@@ -34,7 +33,6 @@ class LayoutBar extends React.Component {
           hasEndContent: false
         })
       })
-      */
   }
 
   resizeCallback = (e) => {

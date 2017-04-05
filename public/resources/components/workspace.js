@@ -1,6 +1,10 @@
-import ClassNames from 'classnames'
 import React from 'react'
+import ClassNames from 'classnames'
+import {getStorage} from 'vc-cake'
+
 import Resizer from '../../resources/resizer/resizer'
+
+const workspaceStorageNavbarBoundingRectState = getStorage('workspace').state('navbarBoundingRect')
 
 export default class Workspace extends React.Component {
   static propTypes = {
@@ -14,10 +18,13 @@ export default class Workspace extends React.Component {
 
   resizeCallback = (e) => {
     if (e && e.direction) {
+      const rect = workspaceStorageNavbarBoundingRectState
       if (e.direction === 'top') {
-        // this.props.api.request('navbar:resizeTop', e.offsetY)
+        rect.resizeTop = e.offsetY
+        rect.set(rect)
       } else if (e.direction === 'left') {
-        // this.props.api.request('navbar:resizeLeft', e.offsetX)
+        rect.resizeLeft = e.offsetX
+        rect.set(rect)
       }
     }
   }
