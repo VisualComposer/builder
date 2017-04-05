@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import '../../../sources/less/ui/navbar/init.less'
-
+import {getRealSize} from './tools'
 const Utils = vcCake.getService('utils')
 
 export default class Navbar extends React.Component {
@@ -45,7 +45,7 @@ export default class Navbar extends React.Component {
       hasEndContent: false,
       isActiveSandwich: false
     }
-    this.hiddenControlsIndex = {}
+    this.hiddenControlsIndex = []
     this.handleDropdown = this.handleDropdown.bind(this)
     this.closeDropdown = this.closeDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
@@ -173,14 +173,14 @@ export default class Navbar extends React.Component {
 
   getHiddenControls (visibleControls) {
     const children = React.Children.toArray(this.props.children)
-    this.hiddenControlsIndex = {}
-    let index = 0
+    this.hiddenControlsIndex = []
     let controls = children.filter((node) => {
       if (!visibleControls.includes(node.key)) {
-        this.hiddenControlsIndex[node.key] = index++
+        this.hiddenControlsIndex.push(node.key)
         return true
       }
     })
+    this.hiddenControlsIndex.reverse()
     controls.reverse()
     return controls
   }
@@ -235,6 +235,11 @@ export default class Navbar extends React.Component {
       </dl>
     )
   }
+
+  /**
+   * Update controls to set visible or collapsed controls in bar.
+   * @param visibleControls {array} of visible controls keys
+   */
   refreshControls (visibleControls) {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
@@ -250,7 +255,7 @@ export default class Navbar extends React.Component {
     }).map((control) => {
       return control.key
     })
-    if (visibleAndUnpinnedControls.length && freeSpace <= 0) {
+    if (visibleAndUnpinnedControls.length && freeSpace === 0) {
       const keyToRemove = visibleAndUnpinnedControls.pop()
       const newVisibleControls = visibleControls.filter(item => item !== keyToRemove)
       this.setState({
@@ -268,12 +273,12 @@ export default class Navbar extends React.Component {
         let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
         freeSpace += isSideNavbar() ? sandwich.offsetHeight : sandwich.offsetWidth
       }
-
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
         const lastControl = hiddenAndUnpinnedControls.pop()
-        const lastControlIndex = this.hiddenControlsIndex[lastControl.key]
+        const lastControlIndex = this.hiddenControlsIndex.indexOf(lastControl.key)
         const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
-        let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth
+        const size = getRealSize(controlDOM, '.vcv-ui-navbar')
+        let controlSize = isSideNavbar() ? size.height : size.width
         freeSpace -= controlSize
         if (freeSpace > 0) {
           visibleControls.push(lastControl.key)
