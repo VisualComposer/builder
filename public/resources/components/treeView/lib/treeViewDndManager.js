@@ -51,7 +51,10 @@ export default class TreeViewDndManager {
       this.items.init()
     }
   }
-
+  removeItems () {
+    this.items = null
+    workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
+  }
   add (id) {
     this.buildItems()
     this.items.addItem(id, this.documentDOM)
@@ -60,6 +63,11 @@ export default class TreeViewDndManager {
   remove (id) {
     this.buildItems()
     this.items.removeItem(id)
+    window.setTimeout(() => {
+      if (!document.querySelector('.vcv-ui-tree-layout')) {
+        this.removeItems()
+      }
+    }, 0)
   }
   update (id) {
     this.buildItems()

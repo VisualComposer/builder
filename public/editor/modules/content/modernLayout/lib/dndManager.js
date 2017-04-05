@@ -69,7 +69,7 @@ export default class DndManager {
     }
   }
   removeItems () {
-    delete this.items
+    this.items = null
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
   getOffsetTop () {
@@ -98,6 +98,11 @@ export default class DndManager {
   remove (id) {
     this.buildItems()
     this.items.removeItem(id)
+    window.setTimeout(() => {
+      if (!this.documentDOM.querySelector('[data-vcv-module="content-layout"]')) {
+        this.removeItems()
+      }
+    }, 0)
   }
 
   move (id, action, related) {
