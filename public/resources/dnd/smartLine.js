@@ -59,7 +59,6 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
   let $element = $(element)
-  let subElement
   let subRect
   let lineWidth = 2
   let lineHeight = 2
@@ -88,54 +87,71 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     lineHeight = rect.height
     frame = true
   } else {
-    subElement = position === 'before' ? $element.prev(':not([data-vcv-dnd-helper])').get(0) : $element.next(':not([data-vcv-dnd-helper])').get(0)
-    if (subElement) {
-      subRect = subElement.getBoundingClientRect()
-      // Define ordering
-      if (rect.left !== subRect.left) {
-        // Horizontal order
-        lineHeight = subRect.height > rect.height ? subRect.height : rect.height
-        linePoint.y = rect.top
-        let elRects = position === 'before' ? { l: subRect, r: rect } : { l: rect, r: subRect }
-        linePoint.x = elRects.r.left - elRects.l.right > 0 ? elRects.r.right + (elRects.r.left - elRects.l.right) / 2 : elRects.r.left
-      } else {
-        // Vertical order
-        lineWidth = subRect.width > rect.width ? subRect.width : rect.width
-        linePoint.x = rect.left
-        let elRects = position === 'before' ? { b: rect, t: subRect } : { b: subRect, t: rect }
-        linePoint.y = elRects.b.top - elRects.t.bottom > 0 ? elRects.t.bottom + (elRects.b.top - elRects.t.bottom) / 2 : elRects.t.bottom
-      }
-    } else if (position === 'before') {
-      // Default
-      lineWidth = rect.width
+    let prevElement = $element.prevAll('[data-vcv-dnd-element]').get(0)
+    let nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
+
+    if (position === 'before') {
+      // set default point position
       linePoint.x = rect.left
       linePoint.y = rect.top
-      let nextSubling = $element.next(':not([data-vcv-dnd-helper])').get(0)
-      if (nextSubling) {
-        subRect = nextSubling.getBoundingClientRect()
-        if (subRect.left !== rect.left) {
-          lineWidth = 2
-          lineHeight = rect.height
-          linePoint.x = rect.left
-          linePoint.y = rect.top
-        }
+      let elRects = { prev: rect, next: rect }
+
+      // check if has other elements
+      if (prevElement) {
+        subRect = prevElement.getBoundingClientRect()
+        elRects = { prev: subRect, next: rect }
+      } else if (nextElement) {
+        subRect = nextElement.getBoundingClientRect()
+        elRects = { prev: subRect, next: rect }
+      }
+
+      // Define ordering
+      if (elRects.prev.left === elRects.next.left) {
+        // Vertical order
+        lineWidth = rect.width
+        let posModificator = (elRects.next.top - elRects.prev.bottom) / 2
+        posModificator = posModificator > 0 ? posModificator : 0
+        linePoint.y -= posModificator + lineHeight / 2
+      } else {
+        // Horizontal order
+        lineHeight = rect.height
+        let posModificator = (elRects.next.left - elRects.prev.right) / 2
+        posModificator = posModificator > 0 ? posModificator : 0
+        linePoint.x -= posModificator + lineWidth / 2
       }
     } else {
-      lineWidth = rect.width
+      // set default point position
       linePoint.x = rect.left
       linePoint.y = rect.bottom
-      let prevSubling = $element.prev(':not([data-vcv-dnd-helper])').get(0)
-      if (prevSubling) {
-        subRect = prevSubling.getBoundingClientRect()
-        if (subRect.left !== rect.left) {
-          lineWidth = 2
-          lineHeight = rect.height
-          linePoint.x = rect.right
-          linePoint.y = rect.top
-        }
+      let elRects = { prev: rect, next: rect }
+
+      // check if has other elements
+      if (nextElement) {
+        subRect = nextElement.getBoundingClientRect()
+        elRects = { prev: rect, next: subRect }
+      } else if (prevElement) {
+        subRect = prevElement.getBoundingClientRect()
+        elRects = { prev: rect, next: subRect }
+      }
+
+      // Define ordering
+      if (elRects.prev.left === elRects.next.left) {
+        // Vertical order
+        lineWidth = rect.width
+        let posModificator = (elRects.next.top - elRects.prev.bottom) / 2
+        posModificator = posModificator > 0 ? posModificator : 0
+        linePoint.y += posModificator - lineHeight / 2
+      } else {
+        // Horizontal order
+        lineHeight = rect.height
+        let posModificator = (elRects.next.left - elRects.prev.right) / 2
+        posModificator = posModificator > 0 ? posModificator : 0
+        linePoint.y = elRects.prev.top
+        linePoint.x = elRects.prev.right + posModificator - lineWidth / 2
       }
     }
   }
+
   if (position && !this.isSameElementPosition(linePoint, this.getVcvIdFromElement(element))) {
     this.clearStyle()
     this.setPoint(linePoint.x, linePoint.y)
@@ -153,4 +169,5 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
 
   return position
 }
+
 module.exports = SmartLine
