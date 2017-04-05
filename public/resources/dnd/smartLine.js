@@ -21,7 +21,8 @@ SmartLine.prototype.create = function () {
   this.el = document.createElement('svg')
   this.el.id = 'vcv-dnd-smart-line'
   this.currentElement = null
-  this.point = {x: 0, y: 0}
+  this.prevElement = null
+  this.point = { x: 0, y: 0 }
   this.options.container.appendChild(this.el)
 }
 SmartLine.prototype.setPoint = function (x, y) {
@@ -30,12 +31,13 @@ SmartLine.prototype.setPoint = function (x, y) {
 }
 SmartLine.prototype.remove = function () {
   this.options.container.removeChild(this.el)
+  this.prevElement = null
 }
 SmartLine.prototype.setCurrentElement = function (element) {
   this.currentElement = element
 }
-SmartLine.prototype.isSameElementPosition = function (point) {
-  return this.point.x === point.x && this.point.y === point.y
+SmartLine.prototype.isSameElementPosition = function (point, element) {
+  return this.point.x === point.x && this.point.y === point.y && element === this.prevElement
 }
 SmartLine.prototype.setStyle = function (point, width, height, frame) {
   this.el.setAttribute('style', _.reduce({
@@ -51,6 +53,9 @@ SmartLine.prototype.setStyle = function (point, width, height, frame) {
 SmartLine.prototype.clearStyle = function () {
   this.el.classList.remove('vcv-dnd-smart-line-frame', 'vcv-is-shown')
 }
+SmartLine.prototype.getVcvIdFromElement = function (element) {
+  return element.dataset.vcvDndElement || null
+}
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
   let $element = $(element)
@@ -58,7 +63,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let subRect
   let lineWidth = 2
   let lineHeight = 2
-  let linePoint = {x: 0, y: 0}
+  let linePoint = { x: 0, y: 0 }
   let frame = false
   settings = _.defaults(settings || {}, {
     allowAppend: true,
@@ -67,6 +72,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let rect = element.getBoundingClientRect()
   let positionY = point.y - (rect.top + rect.height / 2)
   let positionX = point.x - (rect.left + rect.width / 2)
+
   if (settings.allowAppend === true) {
     position = 'append'
   } else if (settings.allowBeforeAfter === true && Math.abs(positionX) / rect.width > Math.abs(positionY) / rect.height) {
@@ -90,13 +96,13 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
         // Horizontal order
         lineHeight = subRect.height > rect.height ? subRect.height : rect.height
         linePoint.y = rect.top
-        let elRects = position === 'before' ? {l: subRect, r: rect} : {l: rect, r: subRect}
+        let elRects = position === 'before' ? { l: subRect, r: rect } : { l: rect, r: subRect }
         linePoint.x = elRects.r.left - elRects.l.right > 0 ? elRects.r.right + (elRects.r.left - elRects.l.right) / 2 : elRects.r.left
       } else {
         // Vertical order
         lineWidth = subRect.width > rect.width ? subRect.width : rect.width
         linePoint.x = rect.left
-        let elRects = position === 'before' ? {b: rect, t: subRect} : {b: subRect, t: rect}
+        let elRects = position === 'before' ? { b: rect, t: subRect } : { b: subRect, t: rect }
         linePoint.y = elRects.b.top - elRects.t.bottom > 0 ? elRects.t.bottom + (elRects.b.top - elRects.t.bottom) / 2 : elRects.t.bottom
       }
     } else if (position === 'before') {
@@ -130,7 +136,7 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
       }
     }
   }
-  if (position && !this.isSameElementPosition(linePoint)) {
+  if (position && !this.isSameElementPosition(linePoint, this.getVcvIdFromElement(element))) {
     this.clearStyle()
     this.setPoint(linePoint.x, linePoint.y)
     this.setStyle(linePoint, lineWidth, lineHeight, frame)
@@ -140,6 +146,11 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   } else {
     position = false
   }
+
+  if (this.prevElement !== this.getVcvIdFromElement(element)) {
+    this.prevElement = this.getVcvIdFromElement(element)
+  }
+
   return position
 }
 module.exports = SmartLine
