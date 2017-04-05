@@ -1,5 +1,5 @@
 export default class CssBuilder {
-  constructor (assetsStorage, elementAssetsLibrary, stylesManager, windowObject, slugify) {
+  constructor (assetsStorage, globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
     Object.defineProperties(this, {
       /**
        * @memberOf! CssBuilder
@@ -26,6 +26,15 @@ export default class CssBuilder {
         configurable: false,
         enumerable: false,
         value: assetsStorage,
+        writable: false
+      },
+      /**
+       * @memberOf! CssBuilder
+       */
+      globalAssetsStorageService: {
+        configurable: false,
+        enumerable: false,
+        value: globalAssetsStorageService,
         writable: false
       },
       /**
@@ -77,7 +86,7 @@ export default class CssBuilder {
 
   add (data) {
     const id = data.id
-    this.assetsStorage.addElement(id)
+    this.globalAssetsStorageService.addElement(id)
 
     const baseStyleElement = this.window.document.createElement('style')
     baseStyleElement.id = `vcv-base-css-styles-${id}`
@@ -102,7 +111,7 @@ export default class CssBuilder {
 
   update (data) {
     const id = data.id
-    this.assetsStorage.updateElement(id)
+    this.globalAssetsStorageService.updateElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
     this.doJobs().then(() => {
@@ -110,16 +119,20 @@ export default class CssBuilder {
     })
   }
 
-  destroy (id) {
-    this.assetsStorage.removeElement(id)
+  destroy (id, tag) {
+    this.globalAssetsStorageService.removeElement(id)
     this.removeCssElementBaseByElement(id)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
+    this.removeElementFiles(tag)
     this.window.vcv.trigger('ready', 'destroy', id)
   }
 
   addElementFiles (tag) {
     let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByTags([ tag ])
+    // Also add to storage by request
+    this.assetsStorage.trigger('addAssetsFiles', elementAssetsFiles.cssBundles)
+    this.assetsStorage.trigger('addAssetsFiles', elementAssetsFiles.jsBundles)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       let slug = this.slugify(file)
@@ -141,9 +154,18 @@ export default class CssBuilder {
     })
   }
 
+  removeElementFiles (tag) {
+    if (tag) {
+      // Only trigger ask to remove from Storage
+      let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByTags([ tag ])
+      this.assetsStorage.trigger('removeAssetsFiles', elementAssetsFiles.cssBundles)
+      this.assetsStorage.trigger('removeAssetsFiles', elementAssetsFiles.jsBundles)
+    }
+  }
+
   addAttributesCssByElement (data) {
     let styles = this.stylesManager.create()
-    styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, attributeMixins: false }))
+    styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { tags: false, attributeMixins: false }))
     styles.compile().then((result) => {
       this.window.document.getElementById(`vcv-css-styles-${data.id}`).innerHTML = result
     })
@@ -156,8 +178,8 @@ export default class CssBuilder {
 
   addCssElementBaseByElement (data) {
     let styles = this.stylesManager.create()
-    styles.add(this.assetsStorage.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
-    // styles.add(this.assetsStorage.getColumnsCssData())
+    styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
+    // styles.add(this.globalAssetsStorageService.getColumnsCssData())
     this.addJob(styles.compile().then((result) => {
       this.window.document.getElementById(`vcv-base-css-styles-${data.id}`).innerHTML = result
     }))
@@ -170,7 +192,7 @@ export default class CssBuilder {
 
   addCssElementMixinByElement (data) {
     let styles = this.stylesManager.create()
-    styles.add(this.assetsStorage.getCssDataByElement(data, { tags: false, cssMixins: false }))
+    styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { tags: false, cssMixins: false }))
     this.addJob(styles.compile().then((result) => {
       this.window.document.getElementById(`vcv-do-styles-${data.id}`).innerHTML = result
     }))
