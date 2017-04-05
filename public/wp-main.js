@@ -10,6 +10,9 @@ import './config/wp-attributes'
 const $ = require('expose?$!jquery')
 $(() => {
   let $iframe = $('#vcv-editor-iframe')
+  // Get a handle to the iframe element
+  let iframe = $iframe.get(0)
+  let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
 
   let iframeLoadEvent = () => {
     let iframe = $iframe.get(0).contentWindow
@@ -31,6 +34,10 @@ $(() => {
   }
 
   $iframe.on('load', iframeLoadEvent)
+  // Check if loading is complete
+  if (iframeDoc && iframeDoc.readyState === 'complete') {
+    iframeLoadEvent()
+  }
 })
 
 window.app = vcCake
