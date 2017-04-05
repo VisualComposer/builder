@@ -1,4 +1,4 @@
-import {addStorage, getService} from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 
@@ -11,33 +11,90 @@ addStorage('assets', (storage) => {
   const utils = getService('utils')
   const globalAssetsStorage = assetsStorage.getGlobalInstance()
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-  const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
-  const data = {elements: {}}
+  const builder = new CssBuilder(storage, globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
+  const data = { elements: {} }
 
   storage.on('addElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[id] = element
+      data.elements[ id ] = element
       builder.add(element)
     })
   })
   storage.on('updateElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[id] = element
+      data.elements[ id ] = element
       builder.update(element)
     })
   })
   storage.on('removeElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
-      delete data.elements[id]
-      builder.destroy(id)
+      let tag = data.elements[ id ] ? data.elements[ id ].tag : null
+      delete data.elements[ id ]
+      builder.destroy(id, tag)
     })
   })
   storage.on('resetElements', () => {
     globalAssetsStorage.resetElements(Object.keys(documentManager.all()))
   })
+
+  let assetsFilesUsageCounter = {}
+  let incrementAssetsFiles = (filesToAdd) => {
+    const add = (file) => {
+      let slug = utils.slugify(file)
+      if (typeof assetsFilesUsageCounter[ slug ] === 'undefined') {
+        assetsFilesUsageCounter[ slug ] = 1
+      } else {
+        assetsFilesUsageCounter[ slug ]++
+      }
+    }
+    if (Array.isArray(filesToAdd)) {
+      filesToAdd.forEach(add)
+    } else {
+      add(filesToAdd)
+    }
+  }
+  let decrementAssetsFiles = (filesToRemove) => {
+    const remove = (file) => {
+      let slug = utils.slugify(file)
+      if (typeof assetsFilesUsageCounter[ slug ] === 'undefined') {
+        window.console && window.console.warn && window.console.warn('File was not added before', slug, file)
+        assetsFilesUsageCounter[ slug ] = 0
+      } else {
+        assetsFilesUsageCounter[ slug ]--
+      }
+    }
+    if (Array.isArray(filesToRemove)) {
+      filesToRemove.forEach(remove)
+    } else {
+      remove(filesToRemove)
+    }
+  }
+  let removeStaleFiles = () => {
+    let files = storage.state('assetsFiles').get()
+    let filesSet = new Set(files)
+    filesSet.forEach((file) => {
+      let slug = utils.slugify(file)
+      if (typeof assetsFilesUsageCounter[ slug ] === 'undefined' || assetsFilesUsageCounter[ slug ] <= 0) {
+        filesSet.delete(file)
+      }
+    })
+    storage.state('assetsFiles').set(...filesSet)
+  }
+  storage.on('addAssetsFiles', (filesToAdd) => {
+    console.log('addAssetsFiles', filesToAdd)
+    incrementAssetsFiles(filesToAdd)
+    let assetsFiles = storage.state('assetsFiles').get()
+    storage.state('assetsFiles').set([ ...new Set(assetsFiles.concat(filesToAdd)) ])
+  })
+  storage.on('removeAssetsFiles', (filesToRemove) => {
+    console.log('removeAssetsFiles', filesToRemove)
+    decrementAssetsFiles(filesToRemove)
+    removeStaleFiles()
+  })
+  storage.state('assetsFiles').set([])
 })
