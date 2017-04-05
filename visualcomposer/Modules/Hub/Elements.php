@@ -29,7 +29,8 @@ class Elements extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Elements::outputElements */
-        $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend:extraOutput', 'outputElements', 2);
+        $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputElements');
+        $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend:extraOutput', 'outputElementsBundle', 3);
 
         $temporaryData = true;
         if ($temporaryData) {
@@ -179,6 +180,28 @@ class Elements extends Container implements Module
             [
                 vcview(
                     'hub/elements',
+                    [
+                        'elements' => $optionHelper->get('hubElements', []),
+                    ]
+                ),
+            ]
+        );
+    }
+
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionHelper
+     *
+     * @return array
+     */
+    protected function outputElementsBundle($response, $payload, Options $optionHelper)
+    {
+        return array_merge(
+            $response,
+            [
+                vcview(
+                    'hub/elementsBundle',
                     [
                         'elements' => $optionHelper->get('hubElements', []),
                     ]
