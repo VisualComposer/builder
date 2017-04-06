@@ -146,7 +146,7 @@ export default class TemplateControl extends React.Component {
 
   handleAddClick (e) {
     e && e.preventDefault()
-    this.props.addClick(this.props.blank)
+    this.props.addClick(this.props)
   }
 
   ellipsize (selector) {

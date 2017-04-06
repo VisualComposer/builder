@@ -43,10 +43,12 @@ export default class startBlank extends React.Component {
     }
   }
 
-  handleControlClick (blank) {
-    if (blank) {
-      this.handleCloseClick()
+  handleControlClick (props) {
+    const { blank, data } = props
+    if (!blank) {
+      this.props.api.request('data:merge', data)
     }
+    this.handleCloseClick()
   }
 
   handleCloseClick () {
@@ -122,7 +124,7 @@ export default class startBlank extends React.Component {
    */
   setControlData () {
     const controls = Array.prototype.slice.call(this.elementsContainer.children)
-    const controlStyle = window.getComputedStyle(controls[0])
+    const controlStyle = window.getComputedStyle(controls[ 0 ])
     const controlWidth = parseInt(controlStyle.width)
     const controlMargin = parseInt(controlStyle.marginLeft) + parseInt(controlStyle.marginRight)
     const controlFullWidth = controlWidth + controlMargin
