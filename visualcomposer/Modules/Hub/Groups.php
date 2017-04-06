@@ -23,7 +23,7 @@ class Groups extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Hub\Groups::outputGroups */
-        $this->addFilter('vcv:frontend:extraOutput vcv:backend:extraOutput', 'outputGroups');
+        $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputGroups');
 
         $temporaryData = true;
         if ($temporaryData) {

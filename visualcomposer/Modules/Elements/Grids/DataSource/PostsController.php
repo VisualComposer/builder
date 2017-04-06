@@ -25,7 +25,7 @@ class PostsController extends Container implements Module
         $this->addFilter('vcv:elements:grids:posts', 'queryPosts');
 
         /** @see \VisualComposer\Modules\Elements\Grids\DataSource\PostsController::addGlobalVariables */
-        $this->addFilter('vcv:frontend:extraOutput', 'addGlobalVariables');
+        $this->addFilter('vcv:frontend:head:extraOutput', 'addGlobalVariables');
         $this->addFilter('vcv:backend:extraOutput', 'addGlobalVariables');
     }
 

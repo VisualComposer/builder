@@ -5,6 +5,7 @@ import CustomContentElementControl from './lib/customContentElementControl'
 import vcCake from 'vc-cake'
 const cook = vcCake.getService('cook')
 // const categories = vcCake.getService('categories')
+const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class BlankPage extends React.Component {
   static propTypes = {
@@ -76,8 +77,8 @@ export default class BlankPage extends React.Component {
     if (!element) {
       return null
     }
-    let icon = null // categories.getElementIcon(tag)
-    console.log('resources.compontent.layoutHelper.blankPage.compontent.getControlProps TODO: Set Icon', icon, tag)
+    let icon = hubCategoriesService.getElementIcon(tag)
+
     return {
       key: 'vcvBlankPage' + tag + index,
       title: element.get('name'),

@@ -26,8 +26,7 @@ class CustomPostTypeController extends Container implements Module
         $this->addFilter('vcv:elements:grids:posts', 'queryPosts');
 
         /** @see \VisualComposer\Modules\Elements\Grids\DataSource\CustomPostTypeController::addGlobalVariables */
-        $this->addFilter('vcv:frontend:extraOutput', 'addGlobalVariables');
-        $this->addFilter('vcv:backend:extraOutput', 'addGlobalVariables');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addGlobalVariables');
     }
 
     protected function addGlobalVariables($scripts, $payload)
@@ -70,8 +69,8 @@ class CustomPostTypeController extends Container implements Module
             while ($paginationQuery->have_posts()) {
                 $paginationQuery->the_post();
                 $newPosts[] = $post;
+                wp_reset_postdata();
             }
-            wp_reset_postdata();
             $posts = array_merge(
                 $posts,
                 $newPosts

@@ -19,8 +19,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::all */
-        $this->addFilter('vcv:frontend:extraOutput', 'all');
-        $this->addFilter('vcv:backend:extraOutput', 'all');
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:body:extraOutput', 'all');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
         $this->addFilter('vcv:ajax:editorTemplates:create:adminNonce', 'create');
@@ -29,7 +28,7 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
     }
 
-    private function all($extraOutput, EditorTemplates $editorTemplatesHelper)
+    protected function all($extraOutput, EditorTemplates $editorTemplatesHelper)
     {
         $extraOutput[] = sprintf(
             '<script>window.vcvMyTemplates = %s</script>',
@@ -39,7 +38,7 @@ class Controller extends Container implements Module
         return $extraOutput;
     }
 
-    private function getData($templates)
+    protected function getData(array $templates)
     {
         $data = [];
         foreach ($templates as $template) {
@@ -66,7 +65,7 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    private function create(Request $requestHelper, PostType $postTypeHelper)
+    protected function create(Request $requestHelper, PostType $postTypeHelper)
     {
         $data = $requestHelper->inputJson('vcv-template-data');
         $data['post_type'] = 'vcv_templates';
@@ -85,7 +84,7 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    private function delete(Request $requestHelper, PostType $postTypeHelper)
+    protected function delete(Request $requestHelper, PostType $postTypeHelper)
     {
         $id = $requestHelper->input('vcv-template-id');
 

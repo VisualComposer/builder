@@ -48,13 +48,15 @@ $postTypeHelper = vchelper('PostType');
     <input type="hidden" name="vcv-global-styles" id="vcv-global-styles">
     <input type="hidden" name="vcv-design-options" id="vcv-design-options">
     <input type="hidden" name="vcv-global-elements" id="vcv-global-elements">
-    <input type="hidden" name="vcv-custom-css" id="vcv-custom-css">
-    <input type="hidden" name="vcv-global-css" id="vcv-global-css">
+    <input type="hidden" name="vcv-settings-custom-css" id="vcv-settings-custom-css">
+    <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
     <input type="hidden" name="vcv-google-fonts" id="vcv-google-fonts">
 </div>
 
 <?php
 $extraOutput = vcfilter('vcv:backend:extraOutput', []);
-foreach ($extraOutput as $output) {
-    echo $output;
+if (is_array($extraOutput)) {
+    foreach ($extraOutput as $output) {
+        echo $output;
+    }
 }

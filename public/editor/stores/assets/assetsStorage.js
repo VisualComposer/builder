@@ -1,4 +1,4 @@
-import {addStorage, getService} from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 
@@ -12,29 +12,30 @@ addStorage('assets', (storage) => {
   const globalAssetsStorage = assetsStorage.getGlobalInstance()
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
   const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
-  const data = {elements: {}}
+  const data = { elements: {} }
 
   storage.on('addElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[id] = element
+      data.elements[ id ] = element
       builder.add(element)
     })
   })
   storage.on('updateElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[id] = element
+      data.elements[ id ] = element
       builder.update(element)
     })
   })
   storage.on('removeElement', (id) => {
-    let ids = Array.isArray(id) ? id : [id]
+    let ids = Array.isArray(id) ? id : [ id ]
     ids.forEach((id) => {
-      delete data.elements[id]
-      builder.destroy(id)
+      let tag = data.elements[ id ] ? data.elements[ id ].tag : null
+      delete data.elements[ id ]
+      builder.destroy(id, tag)
     })
   })
   storage.on('resetElements', () => {

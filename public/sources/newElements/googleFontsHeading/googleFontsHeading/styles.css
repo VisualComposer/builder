@@ -1,0 +1,30 @@
+.vce-google-fonts-heading-inner {
+  display: inline-block;
+}
+
+.vce-google-fonts-heading-wrapper {
+  max-width: 100%;
+  display: inline-block;
+}
+
+.vce-google-fonts-heading-link,
+.vce-google-fonts-heading-link:hover,
+.vce-google-fonts-heading-link:focus,
+.vce-google-fonts-heading-link:visited {
+  border: none;
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.vce-google-fonts-heading--align-center {
+  text-align: center;
+}
+
+.vce-google-fonts-heading--align-right {
+  text-align: right;
+}
+
+.vce-google-fonts-heading--align-left {
+  text-align: left;
+}
+

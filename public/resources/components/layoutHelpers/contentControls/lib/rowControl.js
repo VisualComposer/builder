@@ -2,7 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
 
-const assetsManager = vcCake.getService('assetsManager')
+const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class RowControl extends React.Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export default class RowControl extends React.Component {
      >
       <img
         className={imageClasses}
-        src={assetsManager.getSourcePath('images/blankRowPlaceholderIcons/addElement.svg')}
+        src={sharedAssetsLibraryService.getSourcePath('images/blankRowPlaceholderIcons/addElement.svg')}
         alt='Add Element'
       />
       <span className='vcv-ui-blank-row-element-control-label'>Add Element</span>

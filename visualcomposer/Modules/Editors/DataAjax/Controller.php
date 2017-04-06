@@ -110,6 +110,7 @@ class Controller extends Container implements Module
             $response = [];
         }
         if (is_numeric($sourceId)) {
+            $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
                 // @codingStandardsIgnoreStart

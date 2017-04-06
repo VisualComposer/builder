@@ -2,6 +2,7 @@ import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 // const categoriesService = getService('categories')
+const hubCategoriesService = getService('hubCategories')
 
 export default class ControlsHandler {
   constructor (props) {
@@ -199,10 +200,9 @@ export default class ControlsHandler {
       elementId,
       {
         title: vcElement.get('name'),
-        icon: null // categoriesService.getElementIcon(vcElement.get('tag'))
+        icon: hubCategoriesService.getElementIcon(vcElement.get('tag'))
       }
     ))
-    console.log('content.layout.lib.controlsIframe.controlsHandler.createControlForElement TODO: Set Icon')
     // create control dropdown
     control.appendChild(this.createControlDropdown(
       elementId,

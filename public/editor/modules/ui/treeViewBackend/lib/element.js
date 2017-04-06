@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 const cook = vcCake.getService('cook')
 // const categoriesService = vcCake.getService('categories')
+const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -240,8 +241,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-state--outline': this.state.showOutline
     })
 
-    let publicPath = null // categoriesService.getElementIcon(element.get('tag'))
-    console.log('treeViewBackend.lib.element.render TODO: Set Icon/PublicPath', publicPath)
+    let iconPath = hubCategoriesService.getElementIcon(element.get('tag'))
     let space = 0.8
 
     return (
@@ -263,7 +263,7 @@ export default class TreeViewElement extends React.Component {
           </div>
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
-            <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
+            <i className='vcv-ui-tree-layout-control-icon'><img src={iconPath} className='vcv-ui-icon' alt='' /></i>
             <span className='vcv-ui-tree-layout-control-label'>
               <span>{element.get('name')}</span>
             </span>

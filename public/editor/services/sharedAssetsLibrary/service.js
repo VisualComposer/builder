@@ -30,7 +30,29 @@ const API = {
         files.jsBundles = files.jsBundles.concat(data.jsBundle)
       }
     }
+    // Remove duplicates
+    files.cssBundles = [ ...new Set(files.cssBundles) ]
+    files.jsBundles = [ ...new Set(files.jsBundles) ]
     return files
+  },
+  /**
+   * Get source path
+   * @param file
+   * @returns {*}
+   */
+  getSourcePath: (file = null) => {
+    let path
+    // vcvPluginUrl ~~ http://domain.com/wp-content/plugins/vcwb/
+    if (vcCake.env('platform') === 'node') {
+      path = window.vcvPluginUrl + 'sources'
+    } else {
+      path = window.vcvPluginUrl + 'public/sources'
+    }
+    if (file) {
+      path += '/' + file
+    }
+
+    return path
   }
 }
 vcCake.addService('sharedAssetsLibrary', API)
