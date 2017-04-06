@@ -1,34 +1,4 @@
 {
-  "name": {
-    "type": "string",
-    "access": "protected",
-    "value": "Google Fonts Heading"
-  },
-  "metaIntro": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Short intro"
-  },
-  "metaDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Long description"
-  },
-  "metaPreviewDescription": {
-    "type": "textarea",
-    "access": "protected",
-    "value": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages."
-  },
-  "metaPreview": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "google-fonts-preview.png"
-  },
-  "metaThumbnail": {
-    "type": "attachimage",
-    "access": "protected",
-    "value": "google-fonts-thumbnail.png"
-  },
   "designOptions": {
     "type": "designOptions",
     "access": "public",
@@ -237,5 +207,10 @@
       "label": "Element ID",
       "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
     }
+  },
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "googleFontsHeading"
   }
 }

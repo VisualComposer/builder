@@ -144,11 +144,11 @@ class Controller extends Container implements Module
         );
         $this->updateGlobalAssets(
             'global-elements',
-            rawurldecode($this->requestHelper->inputJson('vcv-global-elements', ''))
+            $this->requestHelper->inputJson('vcv-global-elements', '')
         );
         $this->updateGlobalAssets(
             'global-css',
-            rawurldecode($this->requestHelper->input('vcv-settings-global-css', ''))
+            $this->requestHelper->input('vcv-settings-global-css', '')
         );
         $scriptsBundles = $this->generateScriptsBundle();
         $this->generateSharedLibraryCssBundle();

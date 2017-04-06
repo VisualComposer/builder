@@ -15,8 +15,8 @@ vcvAddElement(
     css: require('raw-loader!./styles.css'),
     editorCss: require('raw-loader!./editor.css'),
     mixins: {
-      basicColor: {
-        textColor: require('raw-loader!./cssMixins/textColor.pcss')
+      textColor: {
+        mixin: require('raw-loader!./cssMixins/textColor.pcss')
       }
     }
   },

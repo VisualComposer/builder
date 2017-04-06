@@ -213,7 +213,7 @@ export default class {
         if (settings[ key ].hasOwnProperty('options') && settings[ key ].options.hasOwnProperty('cssMixin')) {
           let mixin = settings[ key ].options.cssMixin
           let cssSettings = element.get('cssSettings')
-          if (!foundMixins[ mixin.mixin ]) {
+          if (!foundMixins[ mixin.mixin ] && cssSettings.mixins[ mixin.mixin ]) {
             foundMixins[ mixin.mixin ] = {
               variables: {},
               src: cssSettings.mixins[ mixin.mixin ].mixin,
