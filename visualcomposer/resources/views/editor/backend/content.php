@@ -43,14 +43,12 @@ $postTypeHelper = vchelper('PostType');
     <input type="hidden" value="0" name="vcv-ready" id="vcv-ready">
     <input type="hidden" name="vcv-action" id="vcv-action">
     <input type="hidden" name="vcv-data" id="vcv-data">
-    <input type="hidden" name="vcv-scripts" id="vcv-scripts">
-    <input type="hidden" name="vcv-shared-library-styles" id="vcv-shared-library-styles">
-    <input type="hidden" name="vcv-global-styles" id="vcv-global-styles">
-    <input type="hidden" name="vcv-design-options" id="vcv-design-options">
+    <input type="hidden" name="vcv-global-elements-css" id="vcv-global-elements-css">
     <input type="hidden" name="vcv-global-elements" id="vcv-global-elements">
-    <input type="hidden" name="vcv-settings-custom-css" id="vcv-settings-custom-css">
+    <input type="hidden" name="vcv-source-assets-files" id="vcv-source-assets-files">
+    <input type="hidden" name="vcv-source-css" id="vcv-source-css">
+    <input type="hidden" name="vcv-settings-source-custom-css" id="vcv-settings-source-custom-css">
     <input type="hidden" name="vcv-settings-global-css" id="vcv-settings-global-css">
-    <input type="hidden" name="vcv-google-fonts" id="vcv-google-fonts">
 </div>
 
 <?php

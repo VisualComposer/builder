@@ -4,9 +4,11 @@ import React from 'react'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const DocumentData = vcCake.getService('document')
-const assetsManager = vcCake.getService('assetsManager')
+// const assetsManager = vcCake.getService('assetsManager')
 const stylesManager = vcCake.getService('stylesManager')
 const utils = vcCake.getService('utils')
+const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
+const cook = vcCake.getService('cook')
 class SaveController {
   constructor (props) {
     this.props = props
@@ -79,7 +81,7 @@ class SaveController {
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     let globalStyles = ''
-    let designOptions = ''
+    let sourceCss = ''
     let promises = []
     let elements = vcCake.getData('globalAssetsStorage').getElements()
     let globalStylesManager = stylesManager.create()
@@ -91,8 +93,20 @@ class SaveController {
     let localStylesManager = stylesManager.create()
     localStylesManager.add(vcCake.getData('globalAssetsStorage').getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
-      designOptions = result
+      sourceCss = result
     }))
+    let assetsFiles = {
+      jsBundles: [],
+      cssBundles: []
+    }
+    Object.keys(data.elements).forEach((key) => {
+      let cookElement = cook.get(data.elements[key])
+      let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+      assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
+      assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
+    })
+    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
+    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
       if (iframe && iframe.contentWindow && iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]')) {
         if (window.switchEditors && window.tinymce) {
@@ -102,21 +116,19 @@ class SaveController {
         document.getElementById('vcv-ready').value = '1'
         document.getElementById('vcv-action').value = 'setData:adminNonce'
         document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-        document.getElementById('vcv-scripts').value = JSON.stringify(assetsManager.getJsFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList()))
-        document.getElementById('vcv-shared-library-styles').value = JSON.stringify(assetsManager.getCssFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList()))
-        document.getElementById('vcv-global-styles').value = globalStyles
-        document.getElementById('vcv-design-options').value = designOptions
+        document.getElementById('vcv-global-elements-css').value = globalStyles
         document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(elements))
-        document.getElementById('vcv-custom-css').value = vcCake.getData('globalAssetsStorage').getCustomCss()
-        document.getElementById('vcv-global-css').value = vcCake.getData('globalAssetsStorage').getGlobalCss()
-        document.getElementById('vcv-google-fonts').value = JSON.stringify(vcCake.getData('globalAssetsStorage').getGoogleFontsData())
+        document.getElementById('vcv-source-css').value = sourceCss
+        document.getElementById('vcv-source-assets-files').value = encodeURIComponent(JSON.stringify(assetsFiles))
+        document.getElementById('vcv-settings-source-custom-css').value = vcCake.getData('globalAssetsStorage').getCustomCss()
+        document.getElementById('vcv-settings-global-css').value = vcCake.getData('globalAssetsStorage').getGlobalCss()
       }
     })
   }
 
   saveSuccess (responseText) {
     let data = JSON.parse(responseText || '{}')
-    if (data.postData) {
+    if (data && data.postData) {
       window.vcvPostData = data.postData
     }
 
