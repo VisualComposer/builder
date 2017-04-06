@@ -31,15 +31,17 @@
   flex-shrink: 0;
   flex-grow: 1;
   padding: 100px 50px 250px;
+  position: relative;
 
   &::after {
     content: '';
-    height: 200px;
+    height: 180px;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     background: url('../../images/start-blank-page-img.png') no-repeat center 100%;
+    background-size: cover;
   }
 }
 
@@ -111,4 +113,13 @@
   font-style: italic;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
+}
+
+@media screen and (min-width: @vcv-grid-breakpoint-sm-min) {
+  .vcv-start-blank-inner::after {
+    height: 200px;
+    left: 20px;
+    right: 20px;
+    background-size: contain;
+  }
 }
