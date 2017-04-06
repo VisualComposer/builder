@@ -68,6 +68,7 @@ foreach ($extraOutput as $output) {
                     src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
                     frameborder="0" scrolling="auto"></iframe>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+	            <div class="vcv-layout-iframe-start-blank" id="vcv-layout-iframe-start-blank"></div>
             </div>
         </div>
     </div>
