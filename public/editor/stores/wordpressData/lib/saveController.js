@@ -56,7 +56,7 @@ export default class SaveController {
 
   saveSuccess (status, responseText) {
     let data = JSON.parse(responseText || '{}')
-    if (data.postData) {
+    if (data && data.postData) {
       window.vcvPostData = data.postData
     }
     status.set({
