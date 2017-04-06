@@ -13,14 +13,14 @@ import Navbar from '../../../../resources/components/navbar/navbar'
 import NavbarWrapper from '../../../../resources/components/navbar/navbarWrapper'
 import {getStorage} from 'vc-cake'
 
-const workspaceStorage = getStorage('workspace')
-const contentEndState = workspaceStorage.state('contentEnd')
+const contentEndState = getStorage('workspace').state('contentEnd')
 
 export default class NavbarContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      locked: false
+      locked: false,
+      boundingRect: false
     }
     this.updateLockedState = this.updateLockedState.bind(this)
   }
@@ -33,6 +33,7 @@ export default class NavbarContainer extends React.Component {
   updateLockedState (data) {
     this.setState({locked: !!data})
   }
+
   render () {
     const {locked} = this.state
     return <NavbarWrapper>

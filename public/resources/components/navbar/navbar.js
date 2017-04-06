@@ -4,8 +4,10 @@ import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import '../../../sources/less/ui/navbar/init.less'
-
+import {getRealSize} from './tools'
 const Utils = vcCake.getService('utils')
+const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
+const positionState = vcCake.getStorage('workspace').state('navbarPosition')
 
 export default class Navbar extends React.Component {
   static propTypes = {
@@ -45,7 +47,7 @@ export default class Navbar extends React.Component {
       hasEndContent: false,
       isActiveSandwich: false
     }
-    this.hiddenControlsIndex = {}
+    this.hiddenControlsIndex = []
     this.handleDropdown = this.handleDropdown.bind(this)
     this.closeDropdown = this.closeDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
@@ -55,6 +57,7 @@ export default class Navbar extends React.Component {
     this.handleDragEnd = this.handleDragEnd.bind(this)
     this.handleDragging = this.handleDragging.bind(this)
     this.setHiddenControlsReference = this.setHiddenControlsReference.bind(this)
+    this.updateNavbarBounding = this.updateNavbarBounding.bind(this)
   }
   setVisibleControls () {
     const children = React.Children.toArray(this.props.children)
@@ -62,6 +65,12 @@ export default class Navbar extends React.Component {
       return !node.props.visibility || node.props.visibility !== 'hidden'
     }).map((node) => {
       return node.key
+    })
+  }
+  updateNavbarBounding (data) {
+    this.setState({
+      navPosX: this.state.navPosX - data.resizeLeft,
+      navPosY: this.state.navPosY - data.resizeTop
     })
   }
   componentWillMount () {
@@ -101,19 +110,56 @@ export default class Navbar extends React.Component {
   }
 
   componentDidMount () {
-    /*
-      .reply('navbar:resizeTop', (offsetY) => {
-        this.setState({ navPosY: this.state.navPosY - offsetY })
-      })
-      .reply('navbar:resizeLeft', (offsetX) => {
-        this.setState({ navPosX: this.state.navPosX - offsetX })
-      })
-    */
+    boundingRectState.onChange(this.updateNavbarBounding)
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
     window.addEventListener('resize', lodash.debounce(this.handleWindowResize, 300))
     this.handleElementResize()
   }
+  updateWrapper () {
+    // TODO: move this method to wrapper itself
+    const {locked} = this.props
+    let { navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
+    let navBarStyle = {}
+    let manageLock = (shouldLocked) => {
+      if (shouldLocked) {
+        document.body.classList.remove('vcv-layout-dock--unlock')
+        document.body.classList.add('vcv-layout-dock--lock')
+      } else {
+        document.body.classList.remove('vcv-layout-dock--lock')
+        document.body.classList.add('vcv-layout-dock--unlock')
+      }
+    }
 
+    for (let i = 0; i < document.body.classList.length; i++) {
+      if (document.body.classList.item(i).search('vcv-layout-dock--') === 0) {
+        document.body.classList.remove(document.body.classList.item(i))
+      }
+    }
+
+    document.body.classList.add('vcv-layout-dock')
+    document.body.classList.add('vcv-layout-dock--' + navbarPosition)
+    if (!document.body.querySelector('.vcv-layout-bar')) {
+      return
+    }
+    switch (navbarPosition) {
+      case 'detached':
+        navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
+        navBarStyle.left = navPosX - navbarPositionFix.left + 'px'
+        break
+      case 'top':
+      case 'bottom':
+        manageLock(locked)
+        break
+      case 'left':
+      case 'right':
+        manageLock(true)
+        break
+    }
+    let targetStyle = document.body.querySelector('.vcv-layout-bar').style
+    for (let prop in navBarStyle) {
+      targetStyle[ prop ] = navBarStyle[ prop ]
+    }
+  }
   handleElementResize () {
     this.refreshControls(this.state.visibleControls)
   }
@@ -156,10 +202,12 @@ export default class Navbar extends React.Component {
   componentWillUnmount () {
     this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
     window.removeEventListener('resize', this.handleWindowResize)
+    boundingRectState.ignoreChange(this.updateNavbarBounding)
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevState.navbarPosition !== this.state.navbarPosition) {
+      positionState.set(this.state.navbarPosition)
       // this.props.api.request('ui:settingsUpdated', this.state.navbarPosition)
     }
   }
@@ -173,14 +221,14 @@ export default class Navbar extends React.Component {
 
   getHiddenControls (visibleControls) {
     const children = React.Children.toArray(this.props.children)
-    this.hiddenControlsIndex = {}
-    let index = 0
+    this.hiddenControlsIndex = []
     let controls = children.filter((node) => {
       if (!visibleControls.includes(node.key)) {
-        this.hiddenControlsIndex[node.key] = index++
+        this.hiddenControlsIndex.push(node.key)
         return true
       }
     })
+    this.hiddenControlsIndex.reverse()
     controls.reverse()
     return controls
   }
@@ -235,6 +283,11 @@ export default class Navbar extends React.Component {
       </dl>
     )
   }
+
+  /**
+   * Update controls to set visible or collapsed controls in bar.
+   * @param visibleControls {array} of visible controls keys
+   */
   refreshControls (visibleControls) {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
@@ -250,7 +303,7 @@ export default class Navbar extends React.Component {
     }).map((control) => {
       return control.key
     })
-    if (visibleAndUnpinnedControls.length && freeSpace <= 0) {
+    if (visibleAndUnpinnedControls.length && freeSpace === 0) {
       const keyToRemove = visibleAndUnpinnedControls.pop()
       const newVisibleControls = visibleControls.filter(item => item !== keyToRemove)
       this.setState({
@@ -268,12 +321,15 @@ export default class Navbar extends React.Component {
         let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
         freeSpace += isSideNavbar() ? sandwich.offsetHeight : sandwich.offsetWidth
       }
-
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
         const lastControl = hiddenAndUnpinnedControls.pop()
-        const lastControlIndex = this.hiddenControlsIndex[lastControl.key]
+        const lastControlIndex = this.hiddenControlsIndex.indexOf(lastControl.key)
         const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
-        let controlSize = isSideNavbar() ? controlDOM.offsetHeight : controlDOM.offsetWidth
+        if (!controlDOM) {
+          break
+        }
+        const size = getRealSize(controlDOM, '.vcv-ui-navbar')
+        let controlSize = isSideNavbar() ? size.height : size.width
         freeSpace -= controlSize
         if (freeSpace > 0) {
           visibleControls.push(lastControl.key)
@@ -411,57 +467,12 @@ export default class Navbar extends React.Component {
     </div>
   }
   render () {
-    const {locked} = this.props
-    let { isDragging, navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state
-    let navBarStyle = {}
-    let isDetached
-    if (isDragging) {
-      isDetached = false
-    }
-    let manageLock = (shouldLocked) => {
-      if (shouldLocked) {
-        document.body.classList.remove('vcv-layout-dock--unlock')
-        document.body.classList.add('vcv-layout-dock--lock')
-      } else {
-        document.body.classList.remove('vcv-layout-dock--lock')
-        document.body.classList.add('vcv-layout-dock--unlock')
-      }
-    }
-
-    for (let i = 0; i < document.body.classList.length; i++) {
-      if (document.body.classList.item(i).search('vcv-layout-dock--') === 0) {
-        document.body.classList.remove(document.body.classList.item(i))
-      }
-    }
-
-    document.body.classList.add('vcv-layout-dock')
-    document.body.classList.add('vcv-layout-dock--' + navbarPosition)
-    switch (navbarPosition) {
-      case 'detached':
-        navBarStyle.top = navPosY - navbarPositionFix.top + 'px'
-        navBarStyle.left = navPosX - navbarPositionFix.left + 'px'
-        break
-      case 'top':
-      case 'bottom':
-        manageLock(locked)
-        break
-      case 'left':
-      case 'right':
-        manageLock(true)
-        break
-    }
-
-/*
-    let targetStyle = document.body.querySelector('.vcv-layout-bar').style
-    for (let prop in navBarStyle) {
-      targetStyle[ prop ] = navBarStyle[ prop ]
-    }
-*/
-
+    let { isDragging } = this.state
     let navbarContainerClasses = classNames({
       'vcv-ui-navbar-container': true,
-      'vcv-ui-navbar-is-detached': isDetached
+      'vcv-ui-navbar-is-detached': !isDragging
     })
+    this.updateWrapper()
     return (
       <div className={navbarContainerClasses}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
