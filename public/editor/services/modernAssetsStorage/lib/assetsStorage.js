@@ -138,11 +138,6 @@ export default class {
         if (Object.keys(attributesMixins).length) {
           this.elements[ id ][ 'attributesMixins' ] = attributesMixins
         }
-        // get google fonts data
-        let googleFonts = this.getGoogleFontsByElement(element, {})
-        if (Object.keys(googleFonts).length) {
-          this.elements[ id ][ 'googleFonts' ] = googleFonts
-        }
       }
     })
   }
@@ -335,44 +330,6 @@ export default class {
   }
 
   /**
-   * Get googles fonts data by element
-   * @param elData
-   * @param fonts
-   * @returns {{}}
-   */
-  getGoogleFontsByElement (elData, foundFonts = {}) {
-    let element = this.cook().get(elData)
-    if (!element) {
-      return foundFonts
-    }
-    let settings = element.get('settings')
-    for (let key in settings) {
-      // If found element then get actual data form element
-      if (settings[ key ].type === 'element') {
-        foundFonts = this.getGoogleFontsByElement(element.data[ key ], foundFonts)
-      } else {
-        if (settings[ key ].type === 'googleFonts') {
-          let font = element.get(key)
-          if (font) {
-            let fontHref = ''
-
-            if (font.fontStyle) {
-              fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
-            } else {
-              fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
-            }
-            if (!foundFonts[ fontHref ]) {
-              foundFonts[ fontHref ] = fontHref
-            }
-          }
-        }
-      }
-    }
-
-    return foundFonts
-  }
-
-  /**
    * Get all used elements tags
    * @returns {{}}
    */
@@ -478,22 +435,6 @@ export default class {
       styles.push(foundMixins[ key ])
     })
     return styles
-  }
-
-  /**
-   * Get css data for mixins
-   * @returns {Array}
-   */
-  getGoogleFontsData () {
-    let fonts = {}
-    for (let id in this.elements) {
-      let googleFonts = this.elements[ id ].googleFonts
-      if (googleFonts) {
-        lodash.merge(fonts, googleFonts)
-      }
-    }
-
-    return fonts
   }
 
   /**

@@ -41,6 +41,41 @@ const innerApi = {
   }
 }
 
+/**
+ * Get googles fonts data by element
+ */
+let getGoogleFontsByElement = (cookElement) => {
+  if (!cookElement) {
+    return []
+  }
+  const cook = vcCake.getService('cook')
+  let fonts = new Set()
+  let settings = cookElement.get('settings')
+  for (let key in settings) {
+    // If found element then get actual data form element
+    if (settings[ key ].type === 'element') {
+      let newElement = cook.get(cookElement.data[ key ])
+      fonts = new Set([ ...fonts ].concat(getGoogleFontsByElement(newElement)))
+    } else {
+      if (settings[ key ].type === 'googleFonts') {
+        let font = cookElement.get(key)
+        if (font) {
+          let fontHref = ''
+
+          if (font.fontStyle) {
+            fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}:${font.fontStyle.weight + font.fontStyle.style}`
+          } else {
+            fontHref = `https://fonts.googleapis.com/css?family=${font.fontFamily}`
+          }
+          fonts.add(fontHref)
+        }
+      }
+    }
+  }
+
+  return [ ...fonts ]
+}
+
 const publicApi = {
   getAssetsFilesByTags (tags) {
     let files = {
@@ -64,6 +99,10 @@ const publicApi = {
       // Element Public JS
       files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
       files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+
+      // Element Attributes Css/Js
+      // Google Fonts
+      files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
     })
 
     // Remove duplicates
