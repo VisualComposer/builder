@@ -7,7 +7,8 @@ import '../css/init.less'
 import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
-const assetsManager = vcCake.getService('assetsManager')
+const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+
 const workspaceStorage = vcCake.getStorage('workspace')
 const cook = vcCake.getService('cook')
 let allCategories = []
@@ -99,7 +100,7 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    let source = assetsManager.getSourcePath('images/search-no-result.png')
+    let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
