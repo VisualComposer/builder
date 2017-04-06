@@ -42,7 +42,7 @@ $postTypeHelper = vchelper('PostType');
     do_action('admin_head');
     ?>
 </head>
-<body class="vcv-wb-editor">
+<body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
     window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
     window.vcvSourceID = <?php echo get_the_ID(); ?>;
@@ -58,7 +58,7 @@ foreach ($extraOutput as $output) {
     echo $output;
 }
 ?>
-<div class="vcv-layout-container">
+<div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">
         </div>
