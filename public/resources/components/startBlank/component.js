@@ -9,7 +9,7 @@ export default class startBlank extends React.Component {
   }
 
   static defaultProps = {
-    startBlankTemplates: templateManager.getAllTemplates()
+    startBlankTemplates: templateManager.getLiteVersionTemplates()
   }
 
   rowContainer = null
