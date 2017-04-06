@@ -180,7 +180,21 @@ export default class CssBuilder {
     const node = this.window.document.getElementById(`vcv-do-styles-${id}`)
     node && node.remove()
   }
-
+  getSettingsCssContainer () {
+    const id = 'vcv-settings-css-styles'
+    const container = this.window.document.getElementById(id)
+    if (container) {
+      return container
+    }
+    const styleElement = this.window.document.createElement('style')
+    styleElement.id = id
+    this.window.document.body.appendChild(styleElement)
+    return styleElement
+  }
+  buildSettingsCss (data) {
+    const container = this.getSettingsCssContainer()
+    container.innerHTML = data
+  }
   addJob (job) {
     this.jobs.push(job)
   }

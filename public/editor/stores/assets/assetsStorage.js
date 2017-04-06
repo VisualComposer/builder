@@ -1,4 +1,4 @@
-import { addStorage, getService } from 'vc-cake'
+import { addStorage, getService, getStorage } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 
@@ -10,6 +10,7 @@ addStorage('assets', (storage) => {
   const assetsStorage = getService('modernAssetsStorage')
   const utils = getService('utils')
   const globalAssetsStorage = assetsStorage.getGlobalInstance()
+  const settingsStorage = getStorage('settings')
   const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
   const builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, assetsWindow, utils.slugify)
   const data = { elements: {} }
@@ -41,4 +42,11 @@ addStorage('assets', (storage) => {
   storage.on('resetElements', () => {
     globalAssetsStorage.resetElements(Object.keys(documentManager.all()))
   })
+  const updateSettingsCss = () => {
+    const globalCss = settingsStorage.state('globalCss').get() || ''
+    const customCss = settingsStorage.state('customCss').get() || ''
+    builder.buildSettingsCss(globalCss + customCss)
+  }
+  settingsStorage.state('globalCss').onChange(updateSettingsCss)
+  settingsStorage.state('customCss').onChange(updateSettingsCss)
 })
