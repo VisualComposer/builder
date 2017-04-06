@@ -1,0 +1,241 @@
+{
+  "name": {
+    "type": "string",
+    "access": "protected",
+    "value": "Google Fonts Heading"
+  },
+  "metaIntro": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Short intro"
+  },
+  "metaDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Long description"
+  },
+  "metaPreviewDescription": {
+    "type": "textarea",
+    "access": "protected",
+    "value": "Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages."
+  },
+  "metaPreview": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "google-fonts-preview.png"
+  },
+  "metaThumbnail": {
+    "type": "attachimage",
+    "access": "protected",
+    "value": "google-fonts-thumbnail.png"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "text",
+      "font",
+      "elementTag",
+      "color",
+      "fontSize",
+      "alignment",
+      "lineHeight",
+      "link",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Google Fonts Heading"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "text": {
+    "type": "string",
+    "access": "public",
+    "value": "The sky was cloudless and of a deep dark blue.",
+    "options": {
+      "label": "Title text",
+      "inline": true,
+      "inlineMode": "text"
+    }
+  },
+  "font": {
+    "type": "googleFonts",
+    "access": "public",
+    "value": {
+      "fontFamily": "Lato"
+    },
+    "options": {
+      "label": ""
+    }
+  },
+  "elementTag": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "h2",
+    "options": {
+      "label": "Element tag",
+      "values": [
+        {
+          "label": "h1",
+          "value": "h1"
+        },
+        {
+          "label": "h2",
+          "value": "h2"
+        },
+        {
+          "label": "h3",
+          "value": "h3"
+        },
+        {
+          "label": "h4",
+          "value": "h4"
+        },
+        {
+          "label": "h5",
+          "value": "h5"
+        },
+        {
+          "label": "h6",
+          "value": "h6"
+        },
+        {
+          "label": "p",
+          "value": "p"
+        },
+        {
+          "label": "div",
+          "value": "div"
+        }
+      ]
+    }
+  },
+  "color": {
+    "type": "color",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Title color",
+      "cssMixin": {
+        "mixin": "textColor",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "fontSize": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Font size"
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "lineHeight": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Line height"
+    }
+  },
+  "link": {
+    "type": "url",
+    "access": "public",
+    "value": {
+      "url": "",
+      "title": "",
+      "targetBlank": true,
+      "relNofollow": false
+    },
+    "options": {
+      "label": "Link selection"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "font"
+        ]
+      },
+      {
+        "value": [
+          "text"
+        ]
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  }
+}

@@ -162,6 +162,27 @@ class Elements extends Container implements Module
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
+                'googleFontsHeading' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/googleFontsHeading/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Google Fonts Heading',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
             ]
         );
     }
