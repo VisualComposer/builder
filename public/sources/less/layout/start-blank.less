@@ -74,9 +74,15 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.vcv-start-blank-item-list-container {
+.vcv-start-blank-controls {
   margin: 100px auto;
   max-width: 750px;
+}
+
+.vcv-start-blank-item-list-container {
+  margin: 0 -15px;
+  display: flex;
+  justify-content: center;
 
   .vcv-ui-item-overlay {
     display: flex;
@@ -89,6 +95,11 @@
     font-size: 16px;
     cursor: pointer;
     transition: color 0.2s ease-in-out;
+  }
+
+  .vcv-start-blank-item-list {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

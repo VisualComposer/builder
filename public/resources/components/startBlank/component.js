@@ -12,12 +12,34 @@ export default class startBlank extends React.Component {
     startBlankTemplates: templateManager.getAllTemplates()
   }
 
+  rowContainer = null
+  elementsContainer = null
+  initialSetControlsLayoutTimeout = null
+
   constructor (props) {
     super(props)
     this.state = {
       startBlankVisible: true
     }
     this.handleCloseClick = this.handleCloseClick.bind(this)
+    this.setControlsLayout = this.setControlsLayout.bind(this)
+  }
+
+  componentDidMount () {
+    this.setControlData()
+    // set timeout to get new state data from setControlData()
+    this.initialSetControlsLayoutTimeout = setTimeout(() => {
+      this.setControlsLayout()
+    }, 1)
+    this.addResizeListener(this.rowContainer, this.setControlsLayout)
+  }
+
+  componentWillUnmount () {
+    this.removeResizeListener(this.rowContainer, this.setControlsLayout)
+    if (this.initialSetControlsLayoutTimeout) {
+      window.clearTimeout(this.initialSetControlsLayoutTimeout)
+      this.initialSetControlsLayoutTimeout = null
+    }
   }
 
   handleControlClick () {
@@ -39,16 +61,82 @@ export default class startBlank extends React.Component {
 
   getAllBlankControls () {
     return startBlank.defaultProps.startBlankTemplates.map((template) => {
-      return this.getBlankControl(template)
+      return <BlankControl {...this.getTemplateControlProps(template)} />
     })
   }
 
-  getBlankControl (template) {
-    return <BlankControl {...this.getTemplateControlProps(template)} />
+  /**
+   * Add element resize listener
+   * @param element
+   * @param fn
+   */
+  addResizeListener (element, fn) {
+    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    if (window.getComputedStyle(element).position === 'static') {
+      element.style.position = 'relative'
+    }
+    let obj = element.__resizeTrigger__ = document.createElement('iframe')
+    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+    obj.__resizeElement__ = element
+    obj.onload = function (e) {
+      this.contentDocument.defaultView.addEventListener('resize', fn)
+    }
+    obj.type = 'text/html'
+    if (isIE) {
+      element.appendChild(obj)
+    }
+    obj.data = 'about:blank'
+    if (!isIE) {
+      element.appendChild(obj)
+    }
+  }
+
+  /**
+   * Remove element resize listener
+   * @param element
+   * @param fn
+   */
+  removeResizeListener (element, fn) {
+    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
+    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+  }
+
+  /**
+   * Set state for the single control width, sum width of all controls
+   */
+  setControlData () {
+    const controls = Array.prototype.slice.call(this.elementsContainer.children)
+    const controlStyle = window.getComputedStyle(controls[0])
+    const controlWidth = parseInt(controlStyle.width)
+    const controlMargin = parseInt(controlStyle.marginLeft) + parseInt(controlStyle.marginRight)
+    const controlFullWidth = controlWidth + controlMargin
+    this.setState({
+      controlWidth: controlFullWidth,
+      controlsWidth: controlFullWidth * startBlank.defaultProps.startBlankTemplates.length
+    })
+  }
+
+  /**
+   * Set state for the width of element controls container
+   */
+  setControlsLayout () {
+    const { controlWidth, controlsWidth } = this.state
+    const containerWidth = this.rowContainer.getBoundingClientRect().width
+    const elementsCount = Math.floor(containerWidth / controlWidth)
+    let elementsWidth = elementsCount * controlWidth
+    elementsWidth = elementsWidth < controlsWidth ? elementsWidth : null
+    if (this.state.containerWidth !== elementsWidth) {
+      this.setState({ containerWidth: elementsWidth })
+    }
   }
 
   render () {
     if (this.state.startBlankVisible) {
+      let containerWidth = {}
+      if (this.state.containerWidth) {
+        containerWidth.width = `${this.state.containerWidth}px`
+      }
+
       return (
         <div className='vcv-start-blank-container'>
           <div className='vcv-start-blank-scroll-container'>
@@ -59,10 +147,19 @@ export default class startBlank extends React.Component {
               <div className='vcv-start-blank-heading-container'>
                 <span className='vcv-start-blank-page-heading'>Select Blank Canvas<br /> or Start With a Template</span>
               </div>
-              <div className='vcv-start-blank-item-list-container'>
-                <ul className='vcv-ui-item-list'>
-                  {this.getAllBlankControls()}
-                </ul>
+              <div className='vcv-start-blank-controls'>
+                <div
+                  className='vcv-start-blank-item-list-container'
+                  ref={(container) => { this.rowContainer = container }}
+                >
+                  <ul
+                    className='vcv-ui-item-list vcv-start-blank-item-list'
+                    style={containerWidth}
+                    ref={(container) => { this.elementsContainer = container }}
+                  >
+                    {this.getAllBlankControls()}
+                  </ul>
+                </div>
               </div>
               <button className='vcv-start-blank-button' disabled>Premium templates- coming soon</button>
               <p className='vcv-start-blank-helper'>
