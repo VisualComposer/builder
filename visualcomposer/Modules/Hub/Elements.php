@@ -175,9 +175,11 @@ class Elements extends Container implements Module
                     'settings' => [
                         'name' => 'Google Fonts Heading',
                         'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
                             'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
                             'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',

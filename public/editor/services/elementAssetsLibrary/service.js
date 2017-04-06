@@ -89,21 +89,38 @@ const publicApi = {
       if (!cookElement) {
         return
       }
-      let elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
-      let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
-
-      // SharedAssets
-      files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
-      files.jsBundles = files.jsBundles.concat(elementAssetsLibraryFiles.jsBundles)
-
-      // Element Public JS
-      files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
-      files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
-
-      // Element Attributes Css/Js
-      // Google Fonts
-      files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
+      let elementAssets = publicApi.getAssetsFilesByElement(cookElement)
+      files.cssBundles = files.cssBundles.concat(elementAssets.cssBundles)
+      files.jsBundles = files.jsBundles.concat(elementAssets.jsBundles)
     })
+
+    // Remove duplicates
+    files.cssBundles = [ ...new Set(files.cssBundles) ]
+    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    return files
+  },
+  getAssetsFilesByElement (cookElement) {
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+    if (!cookElement) {
+      return files
+    }
+    let elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
+    let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
+
+    // SharedAssets
+    files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementAssetsLibraryFiles.jsBundles)
+
+    // Element Public JS
+    files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
+    files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+
+    // Element Attributes Css/Js
+    // Google Fonts
+    files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]

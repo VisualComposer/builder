@@ -5,6 +5,7 @@ const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
+const cook = vcCake.getService('cook')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -22,7 +23,6 @@ export default class SaveController {
     let promises = []
     const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
     let globalElements = globalAssetsStorageInstance.getElements()
-    let elementsTagsList = globalAssetsStorageInstance.getElementsTagsList()
     let globalStylesManager = stylesManager.create()
     globalStylesManager.add(globalAssetsStorageInstance.getSiteCssData())
     promises.push(globalStylesManager.compile().then((result) => {
@@ -33,7 +33,18 @@ export default class SaveController {
     promises.push(localStylesManager.compile().then((result) => {
       pageStyles = result
     }))
-    let assetsFiles = elementAssetsLibrary.getAssetsFilesByTags(elementsTagsList)
+    let assetsFiles = {
+      jsBundles: [],
+      cssBundles: []
+    }
+    Object.keys(data.elements).forEach((key) => {
+      let cookElement = cook.get(data.elements[key])
+      let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+      assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
+      assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
+    })
+    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
+    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
       this.ajax(
         {
@@ -41,12 +52,12 @@ export default class SaveController {
           'vcv-ready': '1', // Used for backend editor when post being saved
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-assets': encodeURIComponent(JSON.stringify(assetsFiles)),
           'vcv-global-elements-css': globalStyles,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(globalElements)),
-          'vcv-page-css': pageStyles,
-          'vcv-settings-page-custom-css': globalAssetsStorageInstance.getCustomCss(),
-          'vcv-settings-global-css': globalAssetsStorageInstance.getGlobalCss()
+          'vcv-settings-global-css': globalAssetsStorageInstance.getGlobalCss(),
+          'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
+          'vcv-source-css': pageStyles,
+          'vcv-settings-source-custom-css': globalAssetsStorageInstance.getCustomCss()
         },
         this.saveSuccess.bind(this, status),
         this.saveFailed.bind(this, status)
