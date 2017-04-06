@@ -253,7 +253,7 @@ export default class BlankRowPlaceholder extends React.Component {
 
     return (
       <vcvhelper
-        className='vcv-ui-blank-row-container'
+        className='vcv-ui-blank-row-container vcv-is-disabled-outline'
         ref={(container) => { this.rowContainer = container }}
       >
         <div className='vcv-ui-blank-row'>
