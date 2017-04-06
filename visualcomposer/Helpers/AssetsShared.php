@@ -5,7 +5,7 @@ namespace VisualComposer\Helpers;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
-class AssetsSharedHelper extends Container implements Helper
+class AssetsShared extends Container implements Helper
 {
     public function getSharedAssets()
     {

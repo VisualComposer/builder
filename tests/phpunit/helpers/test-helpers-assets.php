@@ -16,27 +16,27 @@ class HelpersAssetsTest extends WP_UnitTestCase
     {
         $helper = vchelper('Assets');
         $path = $helper->getFilePath();
-        $destinationDir = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles';
+        $destinationDir = WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/';
         $this->assertTrue(strpos($path, WP_CONTENT_DIR) !== false);
         $this->assertEquals($destinationDir, $path);
 
         $filepath = 'test.css';
         $path = $helper->getFilePath($filepath);
         $this->assertTrue(strpos($path, WP_CONTENT_DIR) !== false);
-        $this->assertEquals($destinationDir . '/' . $filepath, $path);
+        $this->assertEquals($destinationDir . $filepath, $path);
     }
 
     public function testGetUrl()
     {
         $helper = vchelper('Assets');
         $path = $helper->getFileUrl();
-        $destinationDir = WP_CONTENT_URL . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles';
+        $destinationDir = WP_CONTENT_URL . '/' . VCV_PLUGIN_ASSETS_DIRNAME . '/assets-bundles/';
         $this->assertTrue(strpos($path, WP_CONTENT_URL) !== false);
         $this->assertEquals($destinationDir, $path);
 
         $filepath = 'test.css';
         $path = $helper->getFileUrl($filepath);
         $this->assertTrue(strpos($path, WP_CONTENT_URL) !== false);
-        $this->assertEquals($destinationDir . '/' . $filepath, $path);
+        $this->assertEquals($destinationDir . $filepath, $path);
     }
 }
