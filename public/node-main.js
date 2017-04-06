@@ -26,6 +26,7 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/historyStorage')
+      require('./editor/stores/settingsStorage')
       require('./editor/stores/localStorage')
       require('./config/node-modules')
     })

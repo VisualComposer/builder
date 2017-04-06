@@ -5,8 +5,9 @@ import NavbarContent from '../navbarContent'
 import {getStorage} from 'vc-cake'
 
 // const assetsStorage = getService('assetsStorage')
-const workspaceContentEndState = getStorage('workspace').state('contentEnd')
-
+const workspaceStorage = getStorage('workspace')
+const settingsStorage = getStorage('settings')
+const workspaceContentEndState = workspaceStorage.state('contentEnd')
 export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
@@ -25,22 +26,26 @@ export default class SettingsButtonControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentEndState.onChange(this.setActiveState)
+    settingsStorage.state('customCss').onChange(this.checkSettings)
+    settingsStorage.state('globalCss').onChange(this.checkSettings)
   }
 
   componentWillUnmount () {
     workspaceContentEndState.ignoreChange(this.setActiveState)
+    settingsStorage.state('customCss').ignoreChange(this.checkSettings)
+    settingsStorage.state('globalCss').ignoreChange(this.checkSettings)
   }
 
   checkSettings () {
-    this.setState({ showWarning: false })
-    /* !!assetsStorage.getCustomCss() */
+    const customCss = settingsStorage.state('customCss').get() || ''
+    const globalCss = settingsStorage.state('globalCss').get() || ''
+    this.setState({showWarning: customCss.length || globalCss.length})
   }
 
   toggleSettings (e) {
     e && e.preventDefault()
     workspaceContentEndState.set(!this.state.isActive ? 'settings' : false)
   }
-
   render () {
     let controlClass = classNames({
       'vcv-ui-navbar-control': true,

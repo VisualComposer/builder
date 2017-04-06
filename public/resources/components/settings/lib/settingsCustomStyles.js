@@ -1,10 +1,8 @@
 import React from 'react'
 import StyleControl from './styleControl'
 import StyleEditor from './styleEditor'
-import vcCake from 'vc-cake'
-const {setData} = vcCake
-
-const assetsStorage = vcCake.getService('assetsStorage')
+import {setData, getStorage} from 'vc-cake'
+const settingsStorage = getStorage('settings')
 
 export default class SettingsCustomStyles extends React.Component {
   static propTypes = {
@@ -29,8 +27,8 @@ export default class SettingsCustomStyles extends React.Component {
   constructor (props) {
     super(props)
     let customStyles = {
-      local: assetsStorage.getCustomCss(),
-      global: assetsStorage.getGlobalCss()
+      local: settingsStorage.state('customCss').get(),
+      global: settingsStorage.state('globalCss').get()
     }
     setData('ui:settings:customStyles:global', customStyles.global)
     setData('ui:settings:customStyles:local', customStyles.local)

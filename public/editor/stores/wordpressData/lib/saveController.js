@@ -5,7 +5,7 @@ const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 const modernAssetsStorage = vcCake.getService('modernAssetsStorage')
 const utils = vcCake.getService('utils')
-
+const settingsStorage = vcCake.getStorage('settings')
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
     dataProcessor.appAllDone().then(() => {
@@ -47,8 +47,8 @@ export default class SaveController {
           // 'vcv-styles': JSON.stringify(styles),
           'vcv-design-options': designOptions,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': globalAssetsStorageInstance.getCustomCss(),
-          'vcv-global-css': globalAssetsStorageInstance.getGlobalCss(),
+          'vcv-custom-css': settingsStorage.state('customCss').get(),
+          'vcv-global-css': settingsStorage.state('globalCss').get(),
           'vcv-google-fonts': JSON.stringify(globalAssetsStorageInstance.getGoogleFontsData())
         },
         this.saveSuccess.bind(this, status),

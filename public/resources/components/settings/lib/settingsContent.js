@@ -1,6 +1,6 @@
 import React from 'react'
 import SettingsCustomStyles from './settingsCustomStyles'
-import Scrollbar from '../../../scrollbar/scrollbar.js'
+import Scrollbar from '../../../../resources/scrollbar/scrollbar.js'
 
 export default class SettingsContent extends React.Component {
   render () {

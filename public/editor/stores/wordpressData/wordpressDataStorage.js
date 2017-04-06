@@ -5,6 +5,8 @@ addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
   const modernAssetsStorage = getService('modernAssetsStorage')
   const elementsStorage = getStorage('elements')
+  const workspaceStorage = getStorage('workspace')
+  const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
   storage.on('start', () => {
     // Here we call data load
@@ -25,8 +27,10 @@ addStorage('wordpressData', (storage) => {
   storage.state('status').onChange((data) => {
     const { status, request } = data
     if (status === 'loadSuccess') {
-      setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
+      // setData('app:dataLoaded', true) // all call of updating data should goes through data state :)
       const globalAssetsStorage = modernAssetsStorage.getGlobalInstance()
+      const customCssState = settingsStorage.state('customCss')
+      const globalCssState = settingsStorage.state('globalCss')
       /**
        * @typedef {Object} responseData parsed data from JSON
        * @property {Array} globalElements list of global elements
@@ -44,16 +48,17 @@ addStorage('wordpressData', (storage) => {
         elementsStorage.trigger('reset', {})
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
-        globalAssetsStorage.setCustomCss(responseData.cssSettings.custom)
+        customCssState.set(responseData.cssSettings.custom)
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
-        globalAssetsStorage.setGlobalCss(responseData.cssSettings.global)
+        globalCssState.set(responseData.cssSettings.global)
       }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')
         setData('myTemplates', templates)
       }
       storage.state('status').set({status: 'loaded'})
+      workspaceStorage.state('app').set('started')
     } else if (status === 'loadFailed') {
       storage.state('status').set({status: 'loaded'})
       throw new Error('Failed to load loaded')

@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
-
+import {getData, getStorage} from 'vc-cake'
+const settingsStorage = getStorage('settings')
 export default class SettingsFooter extends React.Component {
 
   constructor (props) {
@@ -12,15 +13,8 @@ export default class SettingsFooter extends React.Component {
   }
 
   onSave = () => {
-    /*
-    let { api } = this.props
-    api.request('settings:update', {
-      customStyles: {
-        global: getData('ui:settings:customStyles:global'),
-        local: getData('ui:settings:customStyles:local')
-      }
-    })
-    */
+    settingsStorage.state('globalCss').set(getData('ui:settings:customStyles:global'))
+    settingsStorage.state('customCss').set(getData('ui:settings:customStyles:local'))
     this.effect()
   }
   componentDidMount () {
