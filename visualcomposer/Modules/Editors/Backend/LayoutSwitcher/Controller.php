@@ -9,6 +9,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Wp;
+use VisualComposer\Modules\Editors\Backend\BackendController;
 
 class Controller extends Container implements Module
 {
