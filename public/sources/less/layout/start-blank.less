@@ -10,6 +10,127 @@
   bottom: 0;
   right: 0;
   overflow: hidden;
-  background: #fff;
-  z-index: 1030;
+  background: @editor-layout-start-blank-background;
+  z-index: @editor-layout-start-blank-zindex;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  word-wrap: break-word;
+  //-webkit-font-smoothing: antialiased;
+}
+
+.vcv-start-blank-scroll-container {
+  overflow: auto;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vcv-start-blank-inner {
+  flex-shrink: 0;
+  flex-grow: 1;
+  padding: 100px 50px 250px;
+  position: relative;
+
+  &::after {
+    content: '';
+    height: 180px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url('../../images/start-blank-page-img.png') no-repeat center 100%;
+    background-size: cover;
+  }
+}
+
+.vcv-start-blank-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 60px;
+  width: 60px;
+  color: #E0E0E0;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.vcv-start-blank-close-icon {
+  &::before {
+    font-size: 1.2em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.vcv-start-blank-page-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  color: #363636;
+  letter-spacing: 0.045em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.vcv-start-blank-controls {
+  margin: 100px auto;
+  max-width: 750px;
+}
+
+.vcv-start-blank-item-list-container {
+  margin: 0 -15px;
+  display: flex;
+  justify-content: center;
+
+  .vcv-ui-item-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vcv-ui-item-control {
+    padding: 0.6em;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .vcv-start-blank-item-list {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.vcv-start-blank-button {
+  background: transparent;
+  border: 2px solid #D6D6D6;
+  padding: 16px 34px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: .077em;
+  text-transform: uppercase;
+  color: #D6D6D6;
+  -webkit-font-smoothing: antialiased;
+  margin-bottom: 12px;
+}
+
+.vcv-start-blank-helper {
+  color: #A6A6A6;
+  font-size: 12px;
+  letter-spacing: .077em;
+  font-style: italic;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media screen and (min-width: @vcv-grid-breakpoint-sm-min) {
+  .vcv-start-blank-inner::after {
+    height: 200px;
+    left: 20px;
+    right: 20px;
+    background-size: contain;
+  }
 }
