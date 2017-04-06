@@ -30,7 +30,7 @@
 .vcv-start-blank-inner {
   flex-shrink: 0;
   flex-grow: 1;
-  padding: 100px 50px 250px;
+  padding: 70px 20px 220px;
   position: relative;
 
   &::after {
@@ -68,14 +68,14 @@
 
 .vcv-start-blank-page-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 40px;
+  font-size: 24px;
   color: #363636;
   letter-spacing: 0.045em;
   -webkit-font-smoothing: antialiased;
 }
 
 .vcv-start-blank-controls {
-  margin: 100px auto;
+  margin: 65px auto;
   max-width: 750px;
 }
 
@@ -101,6 +101,51 @@
     margin-left: 0;
     margin-right: 0;
   }
+
+  .vcv-ui-item-blank-page {
+    background: transparent;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      border-color: #D1D1D1;
+      border-width: 2px;
+      border-style: solid;
+      transition: border-color 0.2s ease-in-out;
+    }
+
+    &:hover::before {
+      border-color: transparent;
+    }
+  }
+
+  .vcv-ui-item-blank-page-icon {
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.6em;
+    font-size: 16px;
+    color: #D1D1D1;
+
+    &::before {
+      opacity: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    &:hover::before {
+      opacity: 0;
+    }
+  }
 }
 
 .vcv-start-blank-button {
@@ -115,6 +160,7 @@
   color: #D6D6D6;
   -webkit-font-smoothing: antialiased;
   margin-bottom: 12px;
+  max-width: 100%;
 }
 
 .vcv-start-blank-helper {
@@ -132,5 +178,17 @@
     left: 20px;
     right: 20px;
     background-size: contain;
+  }
+
+  .vcv-start-blank-page-heading {
+    font-size: 40px;
+  }
+
+  .vcv-start-blank-controls {
+    margin: 100px auto;
+  }
+
+  .vcv-start-blank-inner {
+    padding: 100px 50px 250px;
   }
 }

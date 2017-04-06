@@ -23,6 +23,7 @@ export default class startBlank extends React.Component {
     }
     this.handleCloseClick = this.handleCloseClick.bind(this)
     this.setControlsLayout = this.setControlsLayout.bind(this)
+    this.handleControlClick = this.handleControlClick.bind(this)
   }
 
   componentDidMount () {
@@ -42,8 +43,10 @@ export default class startBlank extends React.Component {
     }
   }
 
-  handleControlClick () {
-
+  handleControlClick (blank) {
+    if (blank) {
+      this.handleCloseClick()
+    }
   }
 
   handleCloseClick () {
@@ -51,18 +54,31 @@ export default class startBlank extends React.Component {
   }
 
   getTemplateControlProps (template) {
-    return {
-      api: this.props.api,
-      key: 'vcv-element-control-' + template.id,
-      addClick: this.handleControlClick,
-      ...template
+    if (template !== 'blank') {
+      return {
+        api: this.props.api,
+        key: 'vcv-element-control-' + template.id,
+        addClick: this.handleControlClick,
+        ...template
+      }
+    } else {
+      return {
+        api: this.props.api,
+        key: 'vcv-element-control-blank',
+        addClick: this.handleControlClick,
+        name: 'Blank Page',
+        blank: true
+      }
     }
   }
 
-  getAllBlankControls () {
-    return startBlank.defaultProps.startBlankTemplates.map((template) => {
-      return <BlankControl {...this.getTemplateControlProps(template)} />
+  getBlankControls () {
+    let controls = []
+    controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
+    startBlank.defaultProps.startBlankTemplates.map((template) => {
+      controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
     })
+    return controls
   }
 
   /**
@@ -112,7 +128,7 @@ export default class startBlank extends React.Component {
     const controlFullWidth = controlWidth + controlMargin
     this.setState({
       controlWidth: controlFullWidth,
-      controlsWidth: controlFullWidth * startBlank.defaultProps.startBlankTemplates.length
+      controlsWidth: controlFullWidth * startBlank.defaultProps.startBlankTemplates.length + 1
     })
   }
 
@@ -157,7 +173,7 @@ export default class startBlank extends React.Component {
                     style={containerWidth}
                     ref={(container) => { this.elementsContainer = container }}
                   >
-                    {this.getAllBlankControls()}
+                    {this.getBlankControls()}
                   </ul>
                 </div>
               </div>

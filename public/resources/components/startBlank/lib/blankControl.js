@@ -16,7 +16,8 @@ export default class TemplateControl extends React.Component {
     type: React.PropTypes.string,
     description: React.PropTypes.string,
     preview: React.PropTypes.string,
-    thumbnail: React.PropTypes.string
+    thumbnail: React.PropTypes.string,
+    blank: React.PropTypes.bool
   }
 
   constructor (props) {
@@ -36,17 +37,21 @@ export default class TemplateControl extends React.Component {
   }
 
   showPreview () {
-    if (this.updatePreviewPosition()) {
-      this.setState({
-        previewVisible: true
-      })
+    if (!this.props.blank) {
+      if (this.updatePreviewPosition()) {
+        this.setState({
+          previewVisible: true
+        })
+      }
     }
   }
 
   hidePreview () {
-    this.setState({
-      previewVisible: false
-    })
+    if (!this.props.blank) {
+      this.setState({
+        previewVisible: false
+      })
+    }
   }
 
   getClosest (el, selector) {
@@ -141,7 +146,7 @@ export default class TemplateControl extends React.Component {
 
   handleAddClick (e) {
     e && e.preventDefault()
-    this.props.addClick(this.props.data || {})
+    this.props.addClick(this.props.blank)
   }
 
   ellipsize (selector) {
@@ -155,58 +160,79 @@ export default class TemplateControl extends React.Component {
   }
 
   render () {
-    let { name, spinner, thumbnail, preview, description } = this.props
+    let { name, thumbnail, preview, description } = this.props
     let { previewVisible, previewStyle } = this.state
 
     let applyClasses = classNames({
-      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
-      'vcv-ui-state--hidden': spinner
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true
     })
 
     let overlayClasses = classNames({
-      'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': spinner
+      'vcv-ui-item-overlay': true
     })
 
-    let previewClasses = classNames({
-      'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible
+    let elementContentClasses = classNames({
+      'vcv-ui-item-element-content': true,
+      'vcv-ui-item-blank-page': this.props.blank
     })
+
+    let previewClasses = ''
+    let figure = ''
+    let thumbnailImage = ''
+    let blankOverlay = ''
+
+    if (!this.props.blank) {
+      previewClasses = classNames({
+        'vcv-ui-item-preview-container': true,
+        'vcv-ui-state--visible': previewVisible
+      })
+
+      figure = (
+        <figure className={previewClasses} style={previewStyle}>
+          <img
+            className='vcv-ui-item-preview-image'
+            src={AssetsManager.getSourcePath(preview)}
+            alt='Template preview'
+          />
+          <figcaption className='vcv-ui-item-preview-caption'>
+            <div className='vcv-ui-item-preview-text'>
+              {description}
+            </div>
+          </figcaption>
+        </figure>
+      )
+
+      thumbnailImage = (
+        <img
+          className='vcv-ui-item-element-image'
+          src={AssetsManager.getSourcePath(thumbnail)}
+          alt='Template thumbnail'
+        />
+      )
+    } else {
+      blankOverlay = (
+        <span className='vcv-ui-item-blank-page-icon vcv-ui-icon vcv-ui-icon-add' />
+      )
+    }
 
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'
+          onClick={this.handleAddClick.bind(this)}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
         >
-          <span className='vcv-ui-item-element-content'>
-            <img
-              className='vcv-ui-item-element-image'
-              src={AssetsManager.getSourcePath(thumbnail)}
-              alt='Template thumbnail'
-            />
+          <span className={elementContentClasses}>
+            {thumbnailImage}
             <span className={overlayClasses}>
-              <span
-                className={applyClasses}
-                onClick={this.handleAddClick}
-              />
+              <span className={applyClasses} />
             </span>
+            {blankOverlay}
           </span>
           <span className='vcv-ui-item-element-name'>
             {name}
           </span>
-          <figure className={previewClasses} style={previewStyle}>
-            <img
-              className='vcv-ui-item-preview-image'
-              src={AssetsManager.getSourcePath(preview)}
-              alt='Template preview'
-            />
-            <figcaption className='vcv-ui-item-preview-caption'>
-              <div className='vcv-ui-item-preview-text'>
-                {description}
-              </div>
-            </figcaption>
-          </figure>
+          {figure}
         </span>
       </li>
     )
