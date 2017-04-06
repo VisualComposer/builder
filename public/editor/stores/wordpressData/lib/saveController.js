@@ -18,10 +18,10 @@ export default class SaveController {
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     let globalStyles = ''
-    let designOptions = ''
+    let pageStyles = ''
     let promises = []
     const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
-    let elements = globalAssetsStorageInstance.getElements()
+    let globalElements = globalAssetsStorageInstance.getElements()
     let elementsTagsList = globalAssetsStorageInstance.getElementsTagsList()
     let globalStylesManager = stylesManager.create()
     globalStylesManager.add(globalAssetsStorageInstance.getSiteCssData())
@@ -31,25 +31,22 @@ export default class SaveController {
     let localStylesManager = stylesManager.create()
     localStylesManager.add(globalAssetsStorageInstance.getPageCssData())
     promises.push(localStylesManager.compile().then((result) => {
-      designOptions = result
+      pageStyles = result
     }))
     let assetsFiles = elementAssetsLibrary.getAssetsFilesByTags(elementsTagsList)
     Promise.all(promises).then(() => {
       this.ajax(
         {
           'vcv-action': 'setData:adminNonce',
-          'vcv-ready': '1',
+          'vcv-ready': '1', // Used for backend editor when post being saved
           'vcv-content': content,
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-scripts': JSON.stringify(assetsFiles.jsBundles),
-          'vcv-shared-library-styles': JSON.stringify(assetsFiles.cssBundles),
-          'vcv-global-styles': globalStyles,
-          // 'vcv-styles': JSON.stringify(styles),
-          'vcv-design-options': designOptions,
-          'vcv-global-elements': encodeURIComponent(JSON.stringify(elements)),
-          'vcv-custom-css': globalAssetsStorageInstance.getCustomCss(),
-          'vcv-global-css': globalAssetsStorageInstance.getGlobalCss(),
-          'vcv-google-fonts': JSON.stringify(globalAssetsStorageInstance.getGoogleFontsData())
+          'vcv-assets': encodeURIComponent(JSON.stringify(assetsFiles)),
+          'vcv-global-elements-css': globalStyles,
+          'vcv-global-elements': encodeURIComponent(JSON.stringify(globalElements)),
+          'vcv-page-css': pageStyles,
+          'vcv-settings-page-custom-css': globalAssetsStorageInstance.getCustomCss(),
+          'vcv-settings-global-css': globalAssetsStorageInstance.getGlobalCss()
         },
         this.saveSuccess.bind(this, status),
         this.saveFailed.bind(this, status)
@@ -66,12 +63,10 @@ export default class SaveController {
       status: 'success',
       request: responseText
     })
-    /*
-    this.props.api.request('wordpress:data:saved', {
-      status: 'success',
-      request: responseText
-    })
-    */
+    // this.props.api.request('wordpress:data:saved', {
+    //   status: 'success',
+    //   request: responseText
+    // })
   }
 
   saveFailed (status, request) {
@@ -79,12 +74,10 @@ export default class SaveController {
       status: 'failed',
       request: request
     })
-    /*
-    this.props.api.request('wordpress:data:saved', {
-      status: 'failed',
-      request: request
-    })
-    */
+    // this.props.api.request('wordpress:data:saved', {
+    //   status: 'failed',
+    //   request: request
+    // })
   }
 
   load = (data, status) => {
@@ -103,12 +96,10 @@ export default class SaveController {
       status: 'loadSuccess',
       request: request
     })
-    /*
-    this.props.api.request('wordpress:data:loaded', {
-      status: 'success',
-      request: request
-    })
-    */
+    // this.props.api.request('wordpress:data:loaded', {
+    //   status: 'success',
+    //   request: request
+    // })
   }
 
   loadFailed = (status, request) => {
@@ -116,11 +107,9 @@ export default class SaveController {
       status: 'loadFailed',
       request: request
     })
-    /*
-    this.props.api.request('wordpress:data:loaded', {
-      status: 'failed',
-      request: request
-    })
-    */
+    // this.props.api.request('wordpress:data:loaded', {
+    // status: 'failed',
+    // request: request
+    // })
   }
 }
