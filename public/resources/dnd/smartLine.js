@@ -59,9 +59,9 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
   let $element = $(element)
-  let subRect
-  let lineWidth = 2
-  let lineHeight = 2
+  let defaultLiteSize = 2
+  let lineWidth = defaultLiteSize
+  let lineHeight = defaultLiteSize
   let linePoint = { x: 0, y: 0 }
   let frame = false
   settings = _.defaults(settings || {}, {
@@ -89,65 +89,46 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   } else {
     let prevElement = $element.prevAll('[data-vcv-dnd-element]').get(0)
     let nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
+    let prevRect = prevElement ? prevElement.getBoundingClientRect() : null
+    let nextRect = nextElement ? nextElement.getBoundingClientRect() : null
+    let isHorizontalLine = prevRect && prevRect.left !== rect.left || nextRect && nextRect.left !== rect.left
 
-    if (position === 'before') {
-      // set default point position
-      linePoint.x = rect.left
+    // set default line position
+    linePoint.x = rect.left
+    linePoint.y = position === 'before' ? rect.top : rect.bottom
+    linePoint.y -= defaultLiteSize / 2
+    lineWidth = rect.width
+
+    // set horizontal line position
+    if (isHorizontalLine) {
+      lineWidth = defaultLiteSize
+      lineHeight = rect.height
       linePoint.y = rect.top
-      let elRects = { prev: rect, next: rect }
+      linePoint.x = position === 'before' ? rect.left : rect.right
+      linePoint.x -= defaultLiteSize / 2
+    }
 
-      // check if has other elements
-      if (prevElement) {
-        subRect = prevElement.getBoundingClientRect()
-        elRects = { prev: subRect, next: rect }
-      } else if (nextElement) {
-        subRect = nextElement.getBoundingClientRect()
-        elRects = { prev: subRect, next: rect }
-      }
-
-      // Define ordering
-      if (elRects.prev.left === elRects.next.left) {
-        // Vertical order
-        lineWidth = rect.width
-        let posModificator = (elRects.next.top - elRects.prev.bottom) / 2
-        posModificator = posModificator > 0 ? posModificator : 0
-        linePoint.y -= posModificator + lineHeight / 2
+    // modify line position for margins
+    if (position === 'before' && prevRect) {
+      if (isHorizontalLine) {
+        let positionModificator = (rect.left - prevRect.right) / 2
+        positionModificator = positionModificator > 0 ? positionModificator : 0
+        linePoint.x -= positionModificator
       } else {
-        // Horizontal order
-        lineHeight = rect.height
-        let posModificator = (elRects.next.left - elRects.prev.right) / 2
-        posModificator = posModificator > 0 ? posModificator : 0
-        linePoint.x -= posModificator + lineWidth / 2
+        let positionModificator = (rect.top - prevRect.bottom) / 2
+        positionModificator = positionModificator > 0 ? positionModificator : 0
+        linePoint.y -= positionModificator
       }
-    } else {
-      // set default point position
-      linePoint.x = rect.left
-      linePoint.y = rect.bottom
-      let elRects = { prev: rect, next: rect }
-
-      // check if has other elements
-      if (nextElement) {
-        subRect = nextElement.getBoundingClientRect()
-        elRects = { prev: rect, next: subRect }
-      } else if (prevElement) {
-        subRect = prevElement.getBoundingClientRect()
-        elRects = { prev: rect, next: subRect }
-      }
-
-      // Define ordering
-      if (elRects.prev.left === elRects.next.left) {
-        // Vertical order
-        lineWidth = rect.width
-        let posModificator = (elRects.next.top - elRects.prev.bottom) / 2
-        posModificator = posModificator > 0 ? posModificator : 0
-        linePoint.y += posModificator - lineHeight / 2
+    }
+    if (position === 'after' && nextRect) {
+      if (isHorizontalLine) {
+        let positionModificator = (nextRect.left - rect.right) / 2
+        positionModificator = positionModificator > 0 ? positionModificator : 0
+        linePoint.x += positionModificator
       } else {
-        // Horizontal order
-        lineHeight = rect.height
-        let posModificator = (elRects.next.left - elRects.prev.right) / 2
-        posModificator = posModificator > 0 ? posModificator : 0
-        linePoint.y = elRects.prev.top
-        linePoint.x = elRects.prev.right + posModificator - lineWidth / 2
+        let positionModificator = (nextRect.top - rect.bottom) / 2
+        positionModificator = positionModificator > 0 ? positionModificator : 0
+        linePoint.y += positionModificator
       }
     }
   }
