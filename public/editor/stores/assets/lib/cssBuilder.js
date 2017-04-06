@@ -1,5 +1,5 @@
 export default class CssBuilder {
-  constructor (assetsStorage, globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
+  constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
     Object.defineProperties(this, {
       /**
        * @memberOf! CssBuilder
@@ -18,15 +18,6 @@ export default class CssBuilder {
         enumerable: false,
         value: [],
         writable: true
-      },
-      /**
-       * @memberOf! CssBuilder
-       */
-      assetsStorage: {
-        configurable: false,
-        enumerable: false,
-        value: assetsStorage,
-        writable: false
       },
       /**
        * @memberOf! CssBuilder
@@ -124,15 +115,11 @@ export default class CssBuilder {
     this.removeCssElementBaseByElement(id)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
-    this.removeElementFiles(tag)
     this.window.vcv.trigger('ready', 'destroy', id)
   }
 
   addElementFiles (tag) {
     let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByTags([ tag ])
-    // Also add to storage by request
-    this.assetsStorage.trigger('addAssetsFiles', elementAssetsFiles.cssBundles)
-    this.assetsStorage.trigger('addAssetsFiles', elementAssetsFiles.jsBundles)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       let slug = this.slugify(file)
@@ -152,15 +139,6 @@ export default class CssBuilder {
         this.addJob(this.window.jQuery.getScript(file))
       }
     })
-  }
-
-  removeElementFiles (tag) {
-    if (tag) {
-      // Only trigger ask to remove from Storage
-      let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByTags([ tag ])
-      this.assetsStorage.trigger('removeAssetsFiles', elementAssetsFiles.cssBundles)
-      this.assetsStorage.trigger('removeAssetsFiles', elementAssetsFiles.jsBundles)
-    }
   }
 
   addAttributesCssByElement (data) {
