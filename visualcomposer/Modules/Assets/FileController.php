@@ -49,8 +49,7 @@ class FileController extends Container implements Module
     protected function generateGlobalElementsCssFile($response, $payload, Options $optionsHelper, Assets $assetsHelper)
     {
         $globalElementsCss = $optionsHelper->get('globalElementsCss', '');
-        $globalSettingsCss = $optionsHelper->get('settingsGlobalCss', '');
-        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss . $globalSettingsCss, 'global-elements.css');
+        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;
 
@@ -72,8 +71,7 @@ class FileController extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         $sourceCss = get_post_meta($sourceId, 'vcvSourceCss', true);
-        $sourceCustomCss = get_post_meta($sourceId, 'vcvSettingsSourceCustomCss', true);
-        $bundleUrl = $assetsHelper->updateBundleFile($sourceCss . $sourceCustomCss, $sourceId . '.source.css');
+        $bundleUrl = $assetsHelper->updateBundleFile($sourceCss, $sourceId . '.source.css');
         update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
         $response['sourceBundleCssFileUrl'] = $bundleUrl;
 
