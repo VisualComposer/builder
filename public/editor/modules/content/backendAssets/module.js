@@ -1,6 +1,6 @@
 import vcCake from 'vc-cake'
 const documentService = vcCake.getService('document')
-const assetsManager = vcCake.getService('assetsManager')
+const elementAssetsLibraryService = vcCake.getService('elementAssetsLibrary')
 const stylesManager = vcCake.getService('stylesManager')
 
 const loadedCssFiles = []
@@ -9,41 +9,42 @@ vcCake.add('assets', (api) => {
     if (action === 'reset') {
       vcCake.getData('globalAssetsStorage').resetElements(Object.keys(documentService.all()))
     }
-    let doElement = document.querySelector('#do-styles')
-    let styleElement = document.querySelector('#css-styles')
+    let doElement = document.querySelector('#vcv-do-styles')
+    let styleElement = document.querySelector('#vcv-css-styles')
     if (!styleElement) {
       styleElement = document.createElement('style')
-      styleElement.id = 'css-styles'
+      styleElement.id = 'vcv-css-styles'
       document.body.appendChild(styleElement)
     }
     if (!doElement) {
       doElement = document.createElement('style')
-      doElement.id = 'do-styles'
+      doElement.id = 'vcv-do-styles'
       document.body.appendChild(doElement)
     }
 
     let siteStylesManager = stylesManager.create()
-    siteStylesManager.add(vcCake.getData('globalAssetsStorage').getWpBackendSiteCssData())
+    siteStylesManager.add(vcCake.getData('globalAssetsStorage').getGlobalInstance().getWpBackendSiteCssData())
     siteStylesManager.compile().then((result) => {
       styleElement.innerHTML = result
     })
 
     let pageStylesManager = stylesManager.create()
-    pageStylesManager.add(vcCake.getData('globalAssetsStorage').getWpBackendPageCssData())
+    pageStylesManager.add(vcCake.getData('globalAssetsStorage').getGlobalInstance().getWpBackendPageCssData())
     pageStylesManager.compile().then((result) => {
       doElement.innerHTML = result
     })
 
     let d = window.document
 
-    let cssFiles = assetsManager.getCssFilesByTags(vcCake.getData('globalAssetsStorage').getElementsTagsList())
+    let assetsFiles = elementAssetsLibraryService.getAssetsFilesByTags(vcCake.getData('globalAssetsStorage').getGlobalInstance().getElementsTagsList())
+    let cssFiles = assetsFiles.cssBundles
 
     cssFiles.forEach((file) => {
       if (loadedCssFiles.indexOf(file) === -1) {
         loadedCssFiles.push(file)
         let cssLink = d.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
-        cssLink.setAttribute('href', assetsManager.getSourcePath(file))
+        cssLink.setAttribute('href', file)
         d.querySelector('head').appendChild(cssLink)
       }
     })
