@@ -125,43 +125,30 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    private function setPostDataHook($postId)
+    protected function setPostDataHook($postId)
     {
-        $this->updateGlobalAssets(
-            'scripts',
-            $this->requestHelper->inputJson('vcv-scripts', '[]')
-        );
-        $this->updateGlobalAssets(
-            'shared-library-styles',
-            $this->requestHelper->inputJson('vcv-shared-library-styles', '[]')
-        );
-        // TODO: Check for USAGE vcv-styles!!!
         $this->updatePostAssets(
             $postId,
-            'styles',
-            $this->requestHelper->inputJson('vcv-styles', '[]')
+            'assetsFiles',
+            $this->requestHelper->inputJson('vcv-assets', '[]')
         );
         $this->updatePostAssets(
             $postId,
-            'design-options',
-            $this->requestHelper->input('vcv-design-options', '')
+            'page-css',
+            $this->requestHelper->input('vcv-page-css', '')
         );
         $this->updatePostAssets(
             $postId,
-            'custom-css',
-            $this->requestHelper->input('vcv-custom-css', '')
+            'page-custom-css',
+            $this->requestHelper->input('vcv-settings-page-custom-css', '')
         );
         $this->updateGlobalAssets(
             'global-elements',
-            rawurldecode($this->requestHelper->input('vcv-global-elements', ''))
+            rawurldecode($this->requestHelper->inputJson('vcv-global-elements', ''))
         );
         $this->updateGlobalAssets(
             'global-css',
-            rawurldecode($this->requestHelper->input('vcv-global-css', ''))
-        );
-        $this->updateGlobalAssets(
-            'global-styles',
-            $this->requestHelper->input('vcv-global-styles', '')
+            rawurldecode($this->requestHelper->input('vcv-settings-global-css', ''))
         );
         $scriptsBundles = $this->generateScriptsBundle();
         $this->generateSharedLibraryCssBundle();
