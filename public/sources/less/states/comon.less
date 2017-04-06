@@ -12,14 +12,15 @@
 .vcv-is-no-selection {
   user-select: none;
 }
+
 .vcv-is-invisible {
   visibility: hidden;
 }
+
 vcvhelper {
   display: block;
   border: none;
 }
-
 
 .vcv-is-disabled-outline {
   &,
@@ -30,7 +31,8 @@ vcvhelper {
   label,
   select,
   summary,
-  textarea {
+  textarea,
+  [tabindex] {
     &:focus {
       outline: none;
     }
