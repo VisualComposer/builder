@@ -68,7 +68,7 @@
 
 .vcv-start-blank-page-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 24px;
+  font-size: 30px;
   color: #363636;
   letter-spacing: 0.045em;
   -webkit-font-smoothing: antialiased;
@@ -112,14 +112,19 @@
       bottom: 0;
       right: 0;
       left: 0;
-      border-color: #D1D1D1;
+      opacity: @vcv-blank-row-element-control-icon-opacity;
+      transition: opacity @transition-duration @transition-timing-function;
+      border-color: #000;
       border-width: 2px;
       border-style: solid;
-      transition: border-color 0.2s ease-in-out;
     }
 
     &:hover::before {
-      border-color: transparent;
+      opacity: @vcv-blank-row-element-control-icon-opacity-hover;
+    }
+
+    .vcv-ui-item-overlay {
+      display: none;
     }
   }
 
@@ -135,15 +140,12 @@
     align-items: center;
     padding: 0.6em;
     font-size: 16px;
-    color: #D1D1D1;
+    color: #000;
+    opacity: @vcv-blank-row-element-control-icon-opacity;
+    transition: opacity @transition-duration @transition-timing-function;
 
-    &::before {
-      opacity: 1;
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    &:hover::before {
-      opacity: 0;
+    &:hover {
+      opacity: @vcv-blank-row-element-control-icon-opacity-hover;
     }
   }
 }
