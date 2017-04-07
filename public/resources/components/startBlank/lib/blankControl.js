@@ -218,6 +218,7 @@ export default class TemplateControl extends React.Component {
     return (
       <li className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'
+          title={`Add ${name}`}
           onClick={this.handleAddClick.bind(this)}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
