@@ -8,7 +8,7 @@ if (vcCake.env('FEATURE_START_BLANK')) {
     api.reply(
       'data:changed',
       (data) => {
-        let startBlankOverlay = document.getElementById('vcv-layout-iframe-start-blank')
+        let startBlankOverlay = document.getElementById('vcv-layout-iframe-content')
         if (data.length === 0) {
           ReactDOM.render(
             <StartBlank api={api} />,
