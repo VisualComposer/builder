@@ -41,15 +41,9 @@ const API = {
    * @returns {*}
    */
   getSourcePath: (file = null) => {
-    let path
-    // vcvPluginUrl ~~ http://domain.com/wp-content/plugins/vcwb/
-    if (vcCake.env('platform') === 'node') {
-      path = window.vcvPluginUrl + 'sources'
-    } else {
-      path = window.vcvPluginUrl + 'public/sources'
-    }
+    let path = window.vcvPluginSourceUrl
     if (file) {
-      path += '/' + file
+      path += file.replace(/^\//, '')
     }
 
     return path

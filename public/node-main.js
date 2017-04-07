@@ -40,5 +40,6 @@ $(() => {
 window.app = vcCake
 window.vcvAddElement = vcCake.getService('cook').add
 window.vcvPluginUrl = '/'
+window.vcvPluginSourceUrl = '/sources/'
 window.React = React
 window.vcvAPI = vcCake.getService('api')

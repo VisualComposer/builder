@@ -54,6 +54,7 @@ $postTypeHelper = vchelper('PostType');
   window.vcvAjaxUrl = '<?php echo $urlHelper->ajax(); ?>';
   window.vcvNonce = '<?php echo $nonceHelper->admin(); ?>';
   window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
+  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
   window.vcvPostPermanentLink = '<?php echo get_permalink(get_the_ID()) ?>';
 </script>
