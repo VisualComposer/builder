@@ -15,6 +15,10 @@
   flex-direction: column;
   text-align: center;
   word-wrap: break-word;
+
+  &.vcv-ui-state--visible .vcv-start-blank-inner {
+    opacity: 1;
+  }
 }
 
 .vcv-start-blank-scroll-container {
@@ -30,6 +34,8 @@
   flex-grow: 1;
   padding: @editor-layout-start-blank-spacing-xs;
   position: relative;
+  opacity: 0;
+  transition: opacity 1s @transition-timing-function;
 
   &::after {
     content: '';
