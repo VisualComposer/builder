@@ -18,7 +18,7 @@ $(() => {
     require('./editor/stores/workspaceStorage')
     require('./editor/stores/historyStorage')
     require('./editor/stores/settingsStorage')
-    require('./editor/stores/wordpressData/wordpressDataStorage')
+    require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
     require('./config/wpbackend-modules')
   })
 })
