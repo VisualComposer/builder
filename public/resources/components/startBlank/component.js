@@ -1,11 +1,13 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
 const templateManager = vcCake.getService('myTemplates')
 
 export default class startBlank extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired
+    api: React.PropTypes.object.isRequired,
+    unmountStartBlank: React.PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -33,6 +35,7 @@ export default class startBlank extends React.Component {
       this.setControlsLayout()
     }, 1)
     this.addResizeListener(this.rowContainer, this.setControlsLayout)
+    ReactDOM.findDOMNode(this).classList.add('vcv-ui-state--visible')
   }
 
   componentWillUnmount () {
@@ -52,7 +55,7 @@ export default class startBlank extends React.Component {
   }
 
   handleCloseClick () {
-    this.setState({ startBlankVisible: false })
+    this.props.unmountStartBlank()
   }
 
   getTemplateControlProps (template) {
@@ -77,7 +80,7 @@ export default class startBlank extends React.Component {
   getBlankControls () {
     let controls = []
     controls.push(<BlankControl {...this.getTemplateControlProps('blank')} />)
-    startBlank.defaultProps.startBlankTemplates.map((template) => {
+    startBlank.defaultProps.startBlankTemplates.forEach((template) => {
       controls.push(<BlankControl {...this.getTemplateControlProps(template)} />)
     })
     return controls
@@ -149,47 +152,43 @@ export default class startBlank extends React.Component {
   }
 
   render () {
-    if (this.state.startBlankVisible) {
-      let containerWidth = {}
-      if (this.state.containerWidth) {
-        containerWidth.width = `${this.state.containerWidth}px`
-      }
+    let containerWidth = {}
+    if (this.state && this.state.containerWidth) {
+      containerWidth.width = `${this.state.containerWidth}px`
+    }
 
-      return (
-        <div className='vcv-start-blank-container'>
-          <div className='vcv-start-blank-scroll-container'>
-            <div className='vcv-start-blank-inner'>
-              <a className='vcv-start-blank-close' href='#' title='Close' onClick={this.handleCloseClick}>
-                <i className='vcv-start-blank-close-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-              </a>
-              <div className='vcv-start-blank-heading-container'>
-                <span className='vcv-start-blank-page-heading'>Select Blank Canvas<br /> or Start With a Template</span>
-              </div>
-              <div className='vcv-start-blank-controls'>
-                <div
-                  className='vcv-start-blank-item-list-container'
-                  ref={(container) => { this.rowContainer = container }}
-                >
-                  <ul
-                    className='vcv-ui-item-list vcv-start-blank-item-list'
-                    style={containerWidth}
-                    ref={(container) => { this.elementsContainer = container }}
-                  >
-                    {this.getBlankControls()}
-                  </ul>
-                </div>
-              </div>
-              <button className='vcv-start-blank-button' disabled>Premium templates- coming soon</button>
-              <p className='vcv-start-blank-helper'>
-                Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions
-                and more.
-              </p>
+    return (
+      <div className='vcv-start-blank-container'>
+        <div className='vcv-start-blank-scroll-container'>
+          <div className='vcv-start-blank-inner'>
+            <a className='vcv-start-blank-close' href='#' title='Close' onClick={this.handleCloseClick}>
+              <i className='vcv-start-blank-close-icon vcv-ui-icon vcv-ui-icon-close-thin' />
+            </a>
+            <div className='vcv-start-blank-heading-container'>
+              <span className='vcv-start-blank-page-heading'>Select Blank Canvas<br /> or Start With a Template</span>
             </div>
+            <div className='vcv-start-blank-controls'>
+              <div
+                className='vcv-start-blank-item-list-container'
+                ref={(container) => { this.rowContainer = container }}
+              >
+                <ul
+                  className='vcv-ui-item-list vcv-start-blank-item-list'
+                  style={containerWidth}
+                  ref={(container) => { this.elementsContainer = container }}
+                >
+                  {this.getBlankControls()}
+                </ul>
+              </div>
+            </div>
+            <button className='vcv-start-blank-button' disabled>Premium templates- coming soon</button>
+            <p className='vcv-start-blank-helper'>
+              Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions
+              and more.
+            </p>
           </div>
         </div>
-      )
-    } else {
-      return null
-    }
+      </div>
+    )
   }
 }
