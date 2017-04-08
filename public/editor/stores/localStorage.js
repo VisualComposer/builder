@@ -12,13 +12,6 @@ addStorage('localStorage', (storage) => {
     storage.trigger('node:beforeSave', { // remove this
       pageElements: data
     })
-    console.log({
-      data: data,
-      cssSettings: {
-        custom: settingsStorage.state('customCss').get(),
-        global: settingsStorage.state('globalCss').get()
-      }
-    })
     localStorage.save({
       data: data,
       cssSettings: {

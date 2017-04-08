@@ -82,8 +82,9 @@ addStorage('elements', (storage) => {
       documentManager.delete(parent.id)
       parent = parent.parent ? documentManager.get(parent.parent) : false
     }
+    storage.state(`element:${id}`).delete()
     if (parent) {
-      storage.state('element:' + parent.id).set(parent)
+      storage.state(`element:${parent.id}`).set(parent)
     } else {
       storage.state('document').set(documentManager.children(false))
     }
