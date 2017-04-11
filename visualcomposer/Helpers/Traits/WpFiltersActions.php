@@ -23,7 +23,7 @@ trait WpFiltersActions
         );
     }
 
-    private function wpAddAction($actionName, $methodCallback, $weight = 10, $argsCount = 100)
+    private function wpAddAction($actionName, $methodCallback, $priority = 10, $argsCount = 100)
     {
         add_action(
             $actionName,
@@ -36,7 +36,7 @@ trait WpFiltersActions
                  */
                 return $this->call($methodCallback, $args);
             },
-            $weight,
+            $priority,
             $argsCount
         );
     }
