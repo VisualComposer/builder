@@ -1,10 +1,12 @@
-import {add, getStorage} from 'vc-cake'
+import {add, getStorage, env} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
+import StartBlankPanel from '../../../resources/components/startBlank/startBlankPanel'
 
 const localStorage = getStorage('localStorage')
 const workspaceStorage = getStorage('workspace')
+const elementsStorage = getStorage('elements')
 add('workspace', (api) => {
   // Set Templates
   api.reply('start', () => {
@@ -28,4 +30,26 @@ add('workspace', (api) => {
     <WorkspaceCont />,
     layoutHeader
   )
+  // Start blank overlay
+  if (env('FEATURE_START_BLANK')) {
+    let startBlankOverlay = document.getElementById('vcv-layout-iframe-content')
+    const removeStartBlank = () => {
+      ReactDOM.unmountComponentAtNode(startBlankOverlay)
+    }
+    const addStartBlank = () => {
+      ReactDOM.render(
+        <StartBlankPanel api={api} unmountStartBlank={removeStartBlank} />,
+        startBlankOverlay
+      )
+    }
+    addStartBlank()
+
+    elementsStorage.state('document').onChange((data) => {
+      if (data.length === 0) {
+        addStartBlank()
+      } else {
+        removeStartBlank()
+      }
+    })
+  }
 })
