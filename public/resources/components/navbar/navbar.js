@@ -285,6 +285,30 @@ export default class Navbar extends React.Component {
   }
 
   /**
+   * Set inline styles to content in hidden metabox for further calculations
+   * @param metabox element
+   */
+  setMetaboxInlineStyles (metabox) {
+    const inside = metabox.querySelector('.inside')
+    metabox.style.overflow = 'hidden'
+    inside.style.position = 'absolute'
+    inside.style.top = '0'
+    inside.style.display = 'block'
+    inside.style.visibility = 'hidden'
+    inside.style.width = '100%'
+  }
+
+  /**
+   * Remove inline styles from hidden metabox
+   * @param metabox element
+   */
+  removeMetaboxInlineStyles (metabox) {
+    const inside = metabox.querySelector('.inside')
+    metabox.removeAttribute('style')
+    inside.removeAttribute('style')
+  }
+
+  /**
    * Update controls to set visible or collapsed controls in bar.
    * @param visibleControls {array} of visible controls keys
    */
@@ -292,6 +316,12 @@ export default class Navbar extends React.Component {
     let isSideNavbar = () => {
       let sidePlacements = [ 'left', 'right' ]
       return sidePlacements.indexOf(this.state.navbarPosition) !== -1
+    }
+
+    const metabox = document.getElementById('vcwb_visual_composer')
+    // Condition for collapsed initial metabox
+    if (metabox && ReactDOM.findDOMNode(this).getBoundingClientRect().width === 0) {
+      this.setMetaboxInlineStyles(metabox)
     }
 
     // get free space
@@ -309,6 +339,9 @@ export default class Navbar extends React.Component {
       this.setState({
         visibleControls: newVisibleControls
       })
+      if (metabox) {
+        this.removeMetaboxInlineStyles(metabox)
+      }
       return
     }
     // show controls if there is available space
@@ -338,6 +371,9 @@ export default class Navbar extends React.Component {
       this.setState({
         visibleControls: visibleControls
       })
+    }
+    if (metabox) {
+      this.removeMetaboxInlineStyles(metabox)
     }
   }
 
