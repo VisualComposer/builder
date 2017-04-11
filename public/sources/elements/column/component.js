@@ -1,15 +1,36 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
 class Component extends vcvAPI.elementComponent {
+  getContent (doBoxModel, innerProps) {
+    let rowProps = vcCake.getService('document').get(this.props.atts.parent)
+    let content = this.props.children
+    let contentContainer = ''
+
+    if (rowProps.contentPosition === 'top') {
+      contentContainer = (
+        <div className='vce-col-inner' {...innerProps} {...doBoxModel}>
+          {content}
+        </div>
+      )
+    } else {
+      contentContainer = (
+        <div className='vce-col-inner' {...innerProps} {...doBoxModel}>
+          <div className='vce-col-content'>
+            {content}
+          </div>
+        </div>
+      )
+    }
+    return contentContainer
+  }
+
   render () {
     // import variables
     let { id, atts, editor } = this.props
     let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow } = atts
-    let content = this.props.children
 
     // import template js
     const classNames = require('classnames')
-    let customProps = {}
     let customColProps = {}
     let innerProps = {}
     let classes = []
@@ -41,11 +62,7 @@ class Component extends vcvAPI.elementComponent {
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
       {this.getBackgroundTypeContent()}
-      <div className='vce-col-inner' {...innerProps}>
-        <div className='vce-col-content' {...customProps} {...doBoxModel}>
-          {content}
-        </div>
-      </div>
+      {this.getContent(doBoxModel, innerProps)}
     </div>)
   }
 }
