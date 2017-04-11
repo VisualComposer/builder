@@ -28,6 +28,8 @@ CVS
 ._*
 # Windows
 Thumbs.db
+# VS Code
+.vscode
 #less hack
 tpl_variables.css
 variables.css
