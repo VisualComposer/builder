@@ -1,52 +1,49 @@
 (function () {
-  if (typeof window.vceResetFullWidthRows !== 'undefined') {
-    return
-  }
-  let fullWidthRows
+  var fullWidthRows = undefined;
 
-  function getRows () {
-    fullWidthRows = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]'))
+  function getRows() {
+    fullWidthRows = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]'));
     if (fullWidthRows.length) {
-      handleResize()
+      handleResize();
     }
   }
 
-  function handleResize () {
+  function handleResize() {
     if (!fullWidthRows.length) {
-      return
+      return;
     }
-    fullWidthRows.forEach((row) => {
-      let rowHelper = row.parentElement
-      let rowContent = row.querySelector('.vce-row-content')
+    fullWidthRows.forEach(function (row) {
+      var rowHelper = row.parentElement;
+      var rowContent = row.querySelector('.vce-row-content');
 
-      let elMarginLeft = parseInt(window.getComputedStyle(row, null)[ 'margin-left' ], 10)
-      let elMarginRight = parseInt(window.getComputedStyle(row, null)[ 'margin-right' ], 10)
+      var elMarginLeft = parseInt(window.getComputedStyle(row, null)['margin-left'], 10);
+      var elMarginRight = parseInt(window.getComputedStyle(row, null)['margin-right'], 10);
 
-      let offset = 0 - rowHelper.getBoundingClientRect().left - elMarginLeft
-      let width = document.documentElement.clientWidth
+      var offset = 0 - rowHelper.getBoundingClientRect().left - elMarginLeft;
+      var width = document.documentElement.getBoundingClientRect().width;
 
-      row.style.width = width + 'px'
-      row.style.left = offset + 'px'
+      row.style.width = width + 'px';
+      row.style.left = offset + 'px';
 
       if (!row.getAttribute('data-vce-stretch-content')) {
-        let padding = (-1 * offset)
+        var padding = -1 * offset;
         if (padding < 0) {
-          padding = 0
+          padding = 0;
         }
-        let paddingRight = width - padding - rowHelper.getBoundingClientRect().width + elMarginLeft + elMarginRight
+        var paddingRight = width - padding - rowHelper.getBoundingClientRect().width + elMarginLeft + elMarginRight;
         if (paddingRight < 0) {
-          paddingRight = 0
+          paddingRight = 0;
         }
-        rowContent.style[ 'padding-left' ] = padding + 'px'
-        rowContent.style[ 'padding-right' ] = paddingRight + 'px'
+        rowContent.style['padding-left'] = padding + 'px';
+        rowContent.style['padding-right'] = paddingRight + 'px';
       } else {
-        rowContent.style[ 'padding-left' ] = ''
-        rowContent.style[ 'padding-right' ] = ''
+        rowContent.style['padding-left'] = '';
+        rowContent.style['padding-right'] = '';
       }
-    })
+    });
   }
 
-  getRows()
-  window.addEventListener('resize', handleResize)
-  window.vceResetFullWidthRows = getRows
-}())
+  getRows();
+  window.addEventListener('resize', handleResize);
+  window.vceResetFullWidthRows = getRows;
+})();
