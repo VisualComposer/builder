@@ -7,7 +7,7 @@ addStorage('elements', (storage) => {
   const assets = getStorage('assets')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
-  const updateTimeMachine = () => {
+  const updateTimeMachine = (branch = 'elements') => {
     historyStorage.trigger('add', documentManager.all())
   }
   storage.on('add', (elementData, wrap = true, options = {}) => {
@@ -57,7 +57,7 @@ addStorage('elements', (storage) => {
     documentManager.update(id, element)
     storage.state('element:' + id).set(element, source)
     assets.trigger('updateElement', id)
-    updateTimeMachine()
+    updateTimeMachine(source || 'elements')
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
@@ -90,8 +90,8 @@ addStorage('elements', (storage) => {
       storage.state('element:' + dolly.parent).set(documentManager.get(dolly.parent))
     }
     storage.state('element:' + dolly.id).set(dolly)
-
     storage.state('document').set(documentManager.children(false))
+    updateTimeMachine()
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
@@ -112,15 +112,11 @@ addStorage('elements', (storage) => {
     }
     storage.state(`element:${element.parent}`).set(documentManager.get(element.parent))
     if (relatedParent) {
-      console.log(relatedParent)
       storage.state(`element:${relatedParent}`).set(documentManager.get(relatedParent))
     } else {
       storage.state('document').set(documentManager.children(false))
     }
-  })
-  storage.on('updateAll', (data) => {
-    documentManager.reset(data || {})
-    storage.state('document').set(documentManager.children(false))
+    updateTimeMachine()
   })
   storage.on('merge', (content) => {
     const substituteIds = {}
@@ -168,12 +164,16 @@ addStorage('elements', (storage) => {
       delete element.order
       storage.trigger('add', element, false, { silent: true })
     })
-    storage.set('')
     storage.state('document').set(documentManager.children(false), 'merge')
+    updateTimeMachine()
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})
     historyStorage.trigger('initElements', data)
+    storage.state('document').set(documentManager.children(false))
+  })
+  storage.on('updateAll', (data) => {
+    documentManager.reset(data || {})
     storage.state('document').set(documentManager.children(false))
   })
 })

@@ -10,15 +10,15 @@ addStorage('history', (storage) => {
     return branch && Object.keys(branches).indexOf(branch) > -1
   }
   const checkUndoRedo = () => {
-    storage.state('canRedo').set(branches[activeBranch].canRedo())
-    storage.state('canUndo').set(branches[activeBranch].canUndo())
+    storage.state('canRedo').set(branches[ activeBranch ].canRedo())
+    storage.state('canUndo').set(branches[ activeBranch ].canUndo())
   }
   const updateElementsStorage = () => {
     elementsStorage.trigger('updateAll', branches[ activeBranch ].get())
   }
   let activeBranch = ''
   storage.on('undo', () => {
-    if (activeBranch) {
+    if (isValidBranch(activeBranch)) {
       branches[ activeBranch ].undo()
       // here comes get with undo data
       updateElementsStorage()
@@ -26,8 +26,8 @@ addStorage('history', (storage) => {
     }
   })
   storage.on('redo', () => {
-    if (activeBranch) {
-      branches[activeBranch].redo()
+    if (isValidBranch(activeBranch)) {
+      branches[ activeBranch ].redo()
       // here comes get with redo data
       updateElementsStorage()
       checkUndoRedo()
@@ -35,21 +35,21 @@ addStorage('history', (storage) => {
   })
   storage.on('initEditForm', () => {
     activeBranch = 'editForm'
-    branches[activeBranch].clear()
-    branches[activeBranch].setZeroState(branches.elements.get())
+    branches[ activeBranch ].clear()
+    branches[ activeBranch ].setZeroState(branches.elements.get())
     checkUndoRedo()
   })
   storage.on('initElements', (data = false) => {
     activeBranch = 'elements'
     if (data) {
-      branches[activeBranch].clear()
-      branches[activeBranch].setZeroState(data)
+      branches[ activeBranch ].clear()
+      branches[ activeBranch ].setZeroState(data)
     }
     checkUndoRedo()
   })
   storage.on('add', (data) => {
     if (isValidBranch(activeBranch)) {
-      branches[activeBranch].add(data)
+      branches[ activeBranch ].add(data)
       checkUndoRedo()
     }
   })

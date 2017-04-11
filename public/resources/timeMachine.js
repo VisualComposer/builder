@@ -16,7 +16,7 @@ export default class TimeMachine {
       stack: {
         enumerable: false,
         configurable: false,
-        writable: false,
+        writable: true,
         value: []
       },
       /**
