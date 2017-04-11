@@ -39,7 +39,7 @@ export default class TreeViewLayout extends React.Component {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
-      header: document.querySelector('.vcv-layout-bar-header').getBoundingClientRect(),
+      header: document.querySelector('.vcv-ui-navbar-container').getBoundingClientRect(),
       data: elementsStorage.state('document').get()
     })
     this.handleScrollToElement()
@@ -66,7 +66,7 @@ export default class TreeViewLayout extends React.Component {
   handleMousePos (e) {
     if (e.target.closest('.vcv-ui-outline-control-more') !== null) {
       if (document.querySelector('.vcv-layout-bar-content').classList.contains('vcv-ui-state--visible')) {
-        let layoutBar = document.querySelector('.vcv-layout-bar-header').getBoundingClientRect()
+        let layoutBar = document.querySelector('.vcv-ui-navbar-container').getBoundingClientRect()
         let treeView = document.querySelector('.vcv-ui-tree-layout-container').getBoundingClientRect()
         let leftX = layoutBar.left
         let rightX = leftX + treeView.width

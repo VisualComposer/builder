@@ -56,7 +56,7 @@ export default class BlankRowPlaceholder extends React.Component {
         options: {
           layout: [ '66.66%', '33.34%' ],
           icon: 'custom.svg',
-          title: 'Add custom columns',
+          title: 'Add custom row layout',
           type: 'custom'
         }
       },
@@ -253,7 +253,7 @@ export default class BlankRowPlaceholder extends React.Component {
 
     return (
       <vcvhelper
-        className='vcv-ui-blank-row-container'
+        className='vcv-ui-blank-row-container vcv-is-disabled-outline'
         ref={(container) => { this.rowContainer = container }}
       >
         <div className='vcv-ui-blank-row'>

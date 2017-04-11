@@ -3,20 +3,9 @@ import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 
 class ColumnResizer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleMouseDown = this.handleMouseDown.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
-    this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.state = {
-      dragging: false,
-      leftColPercentage: null,
-      rightColPercentage: null,
-      labelPosition: null
-    }
-  }
+  static defaultGridPercentage = [ 25, 33.33, 50, 66.66, 75 ]
 
-  static data = {
+  resizerData = {
     rowId: null,
     rowData: null,
     helper: null,
@@ -31,14 +20,29 @@ class ColumnResizer extends React.Component {
     leftColumnIndex: null
   }
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      dragging: false,
+      leftColPercentage: null,
+      rightColPercentage: null,
+      labelPosition: null
+    }
+    this.handleMouseDown = this.handleMouseDown.bind(this)
+    this.handleMouseUp = this.handleMouseUp.bind(this)
+    this.handleMouseMove = this.handleMouseMove.bind(this)
+  }
+
   componentDidUpdate (props, state) {
     let ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
     if (this.state.dragging && !state.dragging) {
       vcCake.setData('vcv:layoutCustomMode', 'columnResizer')
       ifameDocument.addEventListener('mousemove', this.handleMouseMove)
       ifameDocument.addEventListener('mouseup', this.handleMouseUp)
+      vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
     } else if (!this.state.dragging && state.dragging) {
       vcCake.setData('vcv:layoutCustomMode', null)
+      vcCake.setData('vcv:layoutColumnResize', null)
       ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
       ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
     }
@@ -70,17 +74,17 @@ class ColumnResizer extends React.Component {
       }
     })
 
-    ColumnResizer.data.rowId = rowId
-    ColumnResizer.data.rowData = rowData
-    ColumnResizer.data.helper = $helper
-    ColumnResizer.data.rightColumn = $rightCol
-    ColumnResizer.data.leftColumn = $leftCol
-    ColumnResizer.data.bothColumnsWidth = bothColumnsWidth
-    ColumnResizer.data.bothColumnsWidthPx = bothColumnsWidthPx
-    ColumnResizer.data.columnGap = columnGap
-    ColumnResizer.data.mousePosition = e.clientX
-    ColumnResizer.data.leftColumnIndex = leftColumnIndex
-    ColumnResizer.data.rightColumnIndex = rtl ? leftColumnIndex - 1 : leftColumnIndex + 1
+    this.resizerData.rowId = rowId
+    this.resizerData.rowData = rowData
+    this.resizerData.helper = $helper
+    this.resizerData.rightColumn = $rightCol
+    this.resizerData.leftColumn = $leftCol
+    this.resizerData.bothColumnsWidth = bothColumnsWidth
+    this.resizerData.bothColumnsWidthPx = bothColumnsWidthPx
+    this.resizerData.columnGap = columnGap
+    this.resizerData.mousePosition = e.clientX
+    this.resizerData.leftColumnIndex = leftColumnIndex
+    this.resizerData.rightColumnIndex = rtl ? leftColumnIndex - 1 : leftColumnIndex + 1
   }
 
   handleMouseDown (e) {
@@ -102,24 +106,45 @@ class ColumnResizer extends React.Component {
   getResizerPositions (e) {
     let positions = []
     let currentResizer = e.currentTarget
+    let currentResizerClientRect = currentResizer.getBoundingClientRect()
 
     let allResizers = document.querySelector('#vcv-editor-iframe').contentWindow.document.querySelectorAll('.vce-column-resizer-handler')
     allResizers = [].slice.call(allResizers)
 
+    let resizerRow = currentResizer.parentElement.parentElement
+    // row first and last column position
+    let firstInRow, lastInRow
+    for (let i = 0; i < resizerRow.childNodes.length; i++) {
+      if (resizerRow.childNodes[ i ].classList.contains('vce-col--md-first')) {
+        firstInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
+      }
+      if (resizerRow.childNodes[ i ].classList.contains('vce-col--md-last')) {
+        lastInRow = resizerRow.childNodes[ i ].getBoundingClientRect()
+      }
+      if (firstInRow && lastInRow) {
+        i = resizerRow.childNodes.length
+      }
+    }
+    // get content part position and width relative to window,
+    let rowContentWidth = lastInRow.left + lastInRow.width - firstInRow.left + currentResizerClientRect.width
+    ColumnResizer.defaultGridPercentage.forEach((percentage) => {
+      let position = firstInRow.left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
+      positions.push((Math.round(position * 100) / 100))
+    })
+    // get default grid snap points and add them to positions []
     allResizers.forEach((resizer) => {
       if (resizer !== currentResizer && window.getComputedStyle(resizer.parentElement).getPropertyValue('display') !== 'none') {
         let resizerClientRect = resizer.getBoundingClientRect()
         let position = resizerClientRect.left + resizerClientRect.width / 2
         if (positions.indexOf(position) < 0) {
-          positions.push(position)
+          positions.push((Math.round(position * 100) / 100))
         }
       }
     })
-
-    ColumnResizer.data.resizerPositions = positions
+    this.resizerData.resizerPositions = positions
   }
 
-  handleMouseUp (e) {
+  handleMouseUp () {
     this.setState({ dragging: false })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
@@ -135,12 +160,12 @@ class ColumnResizer extends React.Component {
   }
 
   setResizeLabelsPosition (e) {
-    let labelPosition = e.clientY - ColumnResizer.data.helper.getBoundingClientRect().top
+    let labelPosition = e.clientY - this.resizerData.helper.getBoundingClientRect().top
     this.setState({ labelPosition: labelPosition })
   }
 
   renderTemporaryColStyles (e) {
-    let columnGap = ColumnResizer.data.columnGap
+    let columnGap = this.resizerData.columnGap
     let colSizes = this.getResizedColumnsWidth(e)
     let resizerPercentages = colSizes.leftCol
     let rightResizerPercentages = colSizes.rightCol
@@ -149,20 +174,20 @@ class ColumnResizer extends React.Component {
     let rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
     let gapSpace = columnGap * (100 - 1)
 
-    let $row = ColumnResizer.data.helper.parentElement
+    let $row = this.resizerData.helper.parentElement
     let rowWidth = $row.getBoundingClientRect().width
 
     let mouseLeftPosition = e.clientX
-    ColumnResizer.data.resizerPositions.forEach((position) => {
-      let minPosition = Math.round(position) - ColumnResizer.data.snapWidth
-      let maxPosition = Math.round(position) + ColumnResizer.data.snapWidth
+    this.resizerData.resizerPositions.forEach((position) => {
+      let minPosition = Math.round(position) - this.resizerData.snapWidth
+      let maxPosition = Math.round(position) + this.resizerData.snapWidth
       if (mouseLeftPosition > minPosition && mouseLeftPosition < maxPosition) {
-        let fullRowWidth = rowWidth + ColumnResizer.data.columnGap
-        let resizerWidth = position - ColumnResizer.data.leftColumn.getBoundingClientRect().left + ColumnResizer.data.columnGap / 2
+        let fullRowWidth = rowWidth + this.resizerData.columnGap
+        let resizerWidth = position - this.resizerData.leftColumn.getBoundingClientRect().left + this.resizerData.columnGap / 2
         let leftCol = resizerWidth / fullRowWidth
 
         resizerPercentages = leftCol
-        rightResizerPercentages = ColumnResizer.data.bothColumnsWidth - leftCol
+        rightResizerPercentages = this.resizerData.bothColumnsWidth - leftCol
         equalSpace = columnGap * (resizerPercentages * 100 - 1)
         rightEqualSpace = columnGap * (rightResizerPercentages * 100 - 1)
       }
@@ -171,48 +196,48 @@ class ColumnResizer extends React.Component {
     let leftWidth = `calc((100% - ${gapSpace}px) * ${resizerPercentages} + ${equalSpace}px)`
     let rightWidth = `calc((100% - ${gapSpace}px) * ${rightResizerPercentages} + ${rightEqualSpace}px)`
 
-    if (ColumnResizer.data.mousePosition > e.clientX) {
+    if (this.resizerData.mousePosition > e.clientX) {
       let left = (rowWidth - gapSpace) * resizerPercentages + equalSpace
-      let right = ColumnResizer.data.rightColumn.getBoundingClientRect().width
+      let right = this.resizerData.rightColumn.getBoundingClientRect().width
 
-      if ((left + right) < ColumnResizer.data.bothColumnsWidthPx) {
-        ColumnResizer.data.leftColumn.style.flexBasis = leftWidth
-        ColumnResizer.data.leftColumn.style.maxWidth = leftWidth
+      if ((left + right) < this.resizerData.bothColumnsWidthPx) {
+        this.resizerData.leftColumn.style.flexBasis = leftWidth
+        this.resizerData.leftColumn.style.maxWidth = leftWidth
 
-        ColumnResizer.data.rightColumn.style.flexBasis = ColumnResizer.data.bothColumnsWidthPx - ColumnResizer.data.leftColumn.getBoundingClientRect().width + 'px'
-        ColumnResizer.data.rightColumn.style.maxWidth = ColumnResizer.data.bothColumnsWidthPx - ColumnResizer.data.leftColumn.getBoundingClientRect().width + 'px'
+        this.resizerData.rightColumn.style.flexBasis = this.resizerData.bothColumnsWidthPx - this.resizerData.leftColumn.getBoundingClientRect().width + 'px'
+        this.resizerData.rightColumn.style.maxWidth = this.resizerData.bothColumnsWidthPx - this.resizerData.leftColumn.getBoundingClientRect().width + 'px'
       }
-    } else if (ColumnResizer.data.mousePosition < e.clientX) {
-      let left = ColumnResizer.data.leftColumn.getBoundingClientRect().width
+    } else if (this.resizerData.mousePosition < e.clientX) {
+      let left = this.resizerData.leftColumn.getBoundingClientRect().width
       let right = (rowWidth - gapSpace) * rightResizerPercentages + rightEqualSpace
-      if ((left + right) < ColumnResizer.data.bothColumnsWidthPx) {
-        ColumnResizer.data.rightColumn.style.flexBasis = rightWidth
-        ColumnResizer.data.rightColumn.style.maxWidth = rightWidth
+      if ((left + right) < this.resizerData.bothColumnsWidthPx) {
+        this.resizerData.rightColumn.style.flexBasis = rightWidth
+        this.resizerData.rightColumn.style.maxWidth = rightWidth
 
-        ColumnResizer.data.leftColumn.style.flexBasis = ColumnResizer.data.bothColumnsWidthPx - ColumnResizer.data.rightColumn.getBoundingClientRect().width + 'px'
-        ColumnResizer.data.leftColumn.style.maxWidth = ColumnResizer.data.bothColumnsWidthPx - ColumnResizer.data.rightColumn.getBoundingClientRect().width + 'px'
+        this.resizerData.leftColumn.style.flexBasis = this.resizerData.bothColumnsWidthPx - this.resizerData.rightColumn.getBoundingClientRect().width + 'px'
+        this.resizerData.leftColumn.style.maxWidth = this.resizerData.bothColumnsWidthPx - this.resizerData.rightColumn.getBoundingClientRect().width + 'px'
       }
     }
 
     let columnCalc = (100 * columnGap) + (rowWidth - gapSpace)
-    let leftCol = columnGap + ColumnResizer.data.leftColumn.getBoundingClientRect().width
-    let rightCol = columnGap + ColumnResizer.data.rightColumn.getBoundingClientRect().width
+    let leftCol = columnGap + this.resizerData.leftColumn.getBoundingClientRect().width
+    let rightCol = columnGap + this.resizerData.rightColumn.getBoundingClientRect().width
     let leftPercentage = leftCol / columnCalc
     let rightPercentage = rightCol / columnCalc
 
     this.setLabelPercentages(leftPercentage, rightPercentage)
 
-    ColumnResizer.data.mousePosition = e.clientX
+    this.resizerData.mousePosition = e.clientX
   }
 
   removeTemporaryColStyles () {
-    ColumnResizer.data.leftColumn.style = {}
-    ColumnResizer.data.rightColumn.style = {}
+    this.resizerData.leftColumn.style = {}
+    this.resizerData.rightColumn.style = {}
   }
 
   createWrapBlockers () {
-    let $resizer = ColumnResizer.data.helper
-    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--first')
+    let $resizer = this.resizerData.helper
+    let firstRowElement = this.getSibling($resizer, 'prev', 'vce-col--md-first')
     let blockElement = document.createElement('div')
     blockElement.className = 'vce-column-wrap-blocker'
 
@@ -222,7 +247,7 @@ class ColumnResizer extends React.Component {
   }
 
   removeWrapBlockers () {
-    let blocker = ColumnResizer.data.helper.parentNode.querySelector('.vce-column-wrap-blocker')
+    let blocker = this.resizerData.helper.parentNode.querySelector('.vce-column-wrap-blocker')
     blocker.parentNode.removeChild(blocker)
   }
 
@@ -260,16 +285,16 @@ class ColumnResizer extends React.Component {
   }
 
   getResizedColumnsWidth (e, leftColumn) {
-    let $row = ColumnResizer.data.helper.parentElement
-    let rowWidth = $row.getBoundingClientRect().width + ColumnResizer.data.columnGap
-    let resizerWidth = e.clientX - (leftColumn || ColumnResizer.data.leftColumn.getBoundingClientRect().left) + ColumnResizer.data.columnGap / 2
+    let $row = this.resizerData.helper.parentElement
+    let rowWidth = $row.getBoundingClientRect().width + this.resizerData.columnGap
+    let resizerWidth = e.clientX - (leftColumn || this.resizerData.leftColumn.getBoundingClientRect().left) + this.resizerData.columnGap / 2
     let leftCol = resizerWidth / rowWidth
-    return { leftCol: leftCol, rightCol: ColumnResizer.data.bothColumnsWidth - leftCol }
+    return { leftCol: leftCol, rightCol: this.resizerData.bothColumnsWidth - leftCol }
   }
 
   rebuildRowLayout () {
-    const parentRow = vcCake.getService('document').get(ColumnResizer.data.rowId)
-    let layoutData = vcCake.getService('document').children(ColumnResizer.data.rowId)
+    const parentRow = vcCake.getService('document').get(this.resizerData.rowId)
+    let layoutData = vcCake.getService('document').children(this.resizerData.rowId)
       .map((element) => {
         return element.size || '100%'
       })
@@ -277,8 +302,8 @@ class ColumnResizer extends React.Component {
     leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
-    layoutData[ ColumnResizer.data.leftColumnIndex ] = `${leftSize}%`
-    layoutData[ ColumnResizer.data.rightColumnIndex ] = `${rightSize}%`
+    layoutData[ this.resizerData.leftColumnIndex ] = `${leftSize}%`
+    layoutData[ this.resizerData.rightColumnIndex ] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
     this.props.api.request('data:update', parentRow.id, parentRow)
   }
@@ -297,7 +322,7 @@ class ColumnResizer extends React.Component {
             <svg width='5px' height='23px' viewBox='0 0 5 23'
               version='1.1'
               xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fill='#282828' fillRule='evenodd' opacity='0.5'>
+              <g id='Page-1' stroke='none' strokeWidth='1' fill='rgba(40, 40, 40, .5)' fillRule='evenodd'>
                 <path
                   d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
                   transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)' />
@@ -309,8 +334,8 @@ class ColumnResizer extends React.Component {
             </div>
             <svg width='11px' height='23px' viewBox='0 0 11 23'
               version='1.1' xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' opacity='0.5'
-                transform='translate(-30.000000, 0.000000)' fill='#282828'>
+              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd'
+                transform='translate(-30.000000, 0.000000)' fill='rgba(40, 40, 40, .5)'>
                 <path
                   d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
                   transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)' />
@@ -341,7 +366,7 @@ class ColumnResizer extends React.Component {
 
     return (
       <vcvhelper className='vce-column-resizer'>
-        <div className='vce-column-resizer-handler' onMouseDown={this.handleMouseDown} ref='resizerHandler'>
+        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
           {resizerLabels}
         </div>
       </vcvhelper>

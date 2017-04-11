@@ -1,4 +1,4 @@
-import { getService, env } from 'vc-cake'
+import { getService } from 'vc-cake'
 const documentManager = getService('document')
 const cook = getService('cook')
 // const categoriesService = getService('categories')
@@ -134,56 +134,26 @@ export default class ControlsHandler {
   createAppendControl (data) {
     let elements = data.vcElementsPath
     const insertAfterElement = elements && elements.length ? elements[ 0 ] : false
-    const container = elements && elements.length >= 2 ? elements[ 1 ] : false
+    const container = elements && elements.length > 2 ? elements[ 1 ] : false
     if (!container || !insertAfterElement) {
       return false
     }
     const containerElement = cook.get(documentManager.get(container))
-    if (env('FEATURE_APPEND_TO_CONTROL')) {
-      if (containerElement) {
-        let appendControl = document.createElement('span')
-        if (containerElement.relatedTo([ 'Column' ])) {
-          appendControl.dataset.vcvElementId = containerElement.get('id')
-          appendControl.dataset.vcControlEvent = 'app:add'
-          appendControl.dataset.vcControlEventOptions = ''
-          appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
-        } else if (containerElement.relatedTo([ 'RootElements' ])) {
-          const column = this.iframe.querySelector(`[data-vcv-element='${insertAfterElement}']`)
-          const colContent = column.querySelector('.vce-col-content')
-          if (colContent.children[0].classList.contains('vcv-row-control-container')) {
-            return false
-          }
-          appendControl.dataset.vcvElementId = elements[ 0 ]
-          appendControl.dataset.vcControlEvent = 'app:add'
-          appendControl.dataset.vcControlEventOptions = ''
-        } else {
-          return false
-        }
-        appendControl.classList.add('vcv-ui-append-control')
-        appendControl.title = 'Add Element'
-        let appendControlContent = document.createElement('i')
-        appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
-        appendControl.appendChild(appendControlContent)
-
-        this.appendControlContainer.appendChild(appendControl)
-      }
-    } else {
-      if (!containerElement || !containerElement.relatedTo([ 'Column' ])) {
-        return false
-      }
-      let appendControl = document.createElement('a')
-      appendControl.classList.add('vcv-ui-append-control')
-      appendControl.title = 'Add Element'
-      appendControl.dataset.vcvElementId = containerElement.get('id')
-      appendControl.dataset.vcControlEvent = 'app:add'
-      appendControl.dataset.vcControlEventOptions = ''
-      appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
-      let appendControlContent = document.createElement('i')
-      appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
-      appendControl.appendChild(appendControlContent)
-
-      this.appendControlContainer.appendChild(appendControl)
+    if (!containerElement || !containerElement.relatedTo([ 'Column' ])) {
+      return false
     }
+    let appendControl = document.createElement('span')
+    appendControl.classList.add('vcv-ui-append-control')
+    appendControl.title = 'Add Element'
+    appendControl.dataset.vcvElementId = containerElement.get('id')
+    appendControl.dataset.vcControlEvent = 'app:add'
+    appendControl.dataset.vcControlEventOptions = ''
+    appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
+    let appendControlContent = document.createElement('i')
+    appendControlContent.classList.add('vcv-ui-icon', 'vcv-ui-icon-add')
+    appendControl.appendChild(appendControlContent)
+
+    this.appendControlContainer.appendChild(appendControl)
   }
 
   /**

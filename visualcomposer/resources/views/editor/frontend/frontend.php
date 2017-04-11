@@ -47,7 +47,7 @@ $postTypeHelper = vchelper('PostType');
     }
     ?>
 </head>
-<body class="vcv-wb-editor">
+<body class="vcv-wb-editor vcv-is-disabled-outline">
 <script>
   window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
   window.vcvSourceID = <?php echo get_the_ID(); ?>;
@@ -67,7 +67,7 @@ if (is_array($extraOutput)) {
     unset($output);
 }
 ?>
-<div class="vcv-layout-container">
+<div class="vcv-layout-container vcv-is-disabled-outline">
     <div class="vcv-layout" id="vcv-layout">
         <div class="vcv-layout-header" id="vcv-layout-header">
         </div>
@@ -77,6 +77,7 @@ if (is_array($extraOutput)) {
                     src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
                     frameborder="0" scrolling="auto"></iframe>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+	            <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content"></div>
             </div>
         </div>
     </div>

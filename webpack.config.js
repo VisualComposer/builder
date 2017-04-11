@@ -78,7 +78,8 @@ module.exports = {
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
-        'ui/node-save'
+        'ui/node-save',
+        'ui/start-blank'
       ],
       services: [
         'utils',
@@ -119,7 +120,8 @@ module.exports = {
         'ui/layout-control',
         'ui/settings',
         'ui/navbar-separator',
-        'ui/wordpress-post'
+        'ui/wordpress-post',
+        'ui/start-blank'
       ],
       services: [
         'utils',

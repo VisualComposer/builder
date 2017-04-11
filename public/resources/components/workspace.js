@@ -8,12 +8,13 @@ const workspaceStorageNavbarBoundingRectState = getStorage('workspace').state('n
 
 export default class Workspace extends React.Component {
   static propTypes = {
-    showStart: React.PropTypes.bool,
-    showEnd: React.PropTypes.bool,
+    contentStart: React.PropTypes.bool,
+    contentEnd: React.PropTypes.bool,
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    stickyBar: React.PropTypes.object
   }
 
   resizeCallback = (e) => {
@@ -30,12 +31,12 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const {showStart, showEnd} = this.props
+    const {contentStart, contentEnd} = this.props
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
-      'vcv-ui-content--hidden': !(showEnd || showStart),
-      'vcv-ui-content-start--visible': showStart,
-      'vcv-ui-content-end--visible': showEnd
+      'vcv-ui-content--hidden': !(contentEnd || contentStart),
+      'vcv-ui-content-start--visible': contentStart,
+      'vcv-ui-content-end--visible': contentEnd
     })
     return (
       <div className={layoutClasses}>

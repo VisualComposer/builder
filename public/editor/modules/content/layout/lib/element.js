@@ -39,12 +39,10 @@ export default class Element extends React.Component {
     let elementsList = []
     DocumentData.children(currentElement.get('id')).map((childElement) => {
       elementsList.push(<Element element={childElement} key={childElement.id} api={this.props.api} />)
-      if (vcCake.env('FEATURE_COLUMN_RESIZER')) {
-        if (childElement.tag === 'column') {
-          elementsList.push(
-            <ColumnResizer key={`columnResizer-${childElement.id}`} api={this.props.api} />
-          )
-        }
+      if (childElement.tag === 'column') {
+        elementsList.push(
+          <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
+        )
       }
     })
     return elementsList.length ? elementsList : <ContentControls api={this.props.api} id={currentElement.get('id')} />
