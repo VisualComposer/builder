@@ -4,6 +4,7 @@ import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
 import vcCake from 'vc-cake'
+import '../../../sources/less/ui/addTemplate/init.less'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const templateManager = vcCake.getService('myTemplates')
