@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import BlankControl from './lib/blankControl'
 const templateManager = vcCake.getService('myTemplates')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class startBlank extends React.Component {
   static propTypes = {
-    api: React.PropTypes.object.isRequired,
     unmountStartBlank: React.PropTypes.func.isRequired
   }
 
@@ -49,6 +49,7 @@ export default class startBlank extends React.Component {
   handleControlClick (props) {
     const { blank, data } = props
     if (!blank) {
+      elementsStorage.trigger('merge', data)
       this.props.api.request('data:merge', data)
     }
     this.handleCloseClick()
@@ -61,14 +62,12 @@ export default class startBlank extends React.Component {
   getTemplateControlProps (template) {
     if (template !== 'blank') {
       return {
-        api: this.props.api,
         key: 'vcv-element-control-' + template.id,
         addClick: this.handleControlClick,
         ...template
       }
     } else {
       return {
-        api: this.props.api,
         key: 'vcv-element-control-blank',
         addClick: this.handleControlClick,
         name: 'Blank Page',

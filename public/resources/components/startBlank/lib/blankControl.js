@@ -10,7 +10,6 @@ export default class TemplateControl extends React.Component {
     data: React.PropTypes.object,
     id: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    api: React.PropTypes.object.isRequired,
     addClick: React.PropTypes.func.isRequired,
     spinner: React.PropTypes.bool,
     type: React.PropTypes.string,

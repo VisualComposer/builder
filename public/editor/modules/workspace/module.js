@@ -38,7 +38,7 @@ add('workspace', (api) => {
     }
     const addStartBlank = () => {
       ReactDOM.render(
-        <StartBlankPanel api={api} unmountStartBlank={removeStartBlank} />,
+        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
         startBlankOverlay
       )
     }
