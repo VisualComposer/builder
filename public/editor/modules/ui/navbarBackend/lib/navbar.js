@@ -156,7 +156,35 @@ export default class Navbar extends React.Component {
     })
   }
 
+  /**
+   * Set inline styles to content in hidden metabox for further calculations
+   */
+  setMetaboxInlineStyles () {
+    const metabox = document.getElementById('vcwb_visual_composer')
+    const inside = metabox.querySelector('.inside')
+    metabox.style.overflow = 'hidden'
+    inside.style.position = 'absolute'
+    inside.style.top = '0'
+    inside.style.display = 'block'
+    inside.style.visibility = 'hidden'
+    inside.style.width = '100%'
+  }
+
+  /**
+   * Remove inline styles from hidden metabox
+   */
+  removeMetaboxInlineStyles () {
+    const metabox = document.getElementById('vcwb_visual_composer')
+    const inside = metabox.querySelector('.inside')
+    metabox.removeAttribute('style')
+    inside.removeAttribute('style')
+  }
+
   refreshControls () {
+    // Condition for collapsed initial metabox
+    if (ReactDOM.findDOMNode(this).getBoundingClientRect().width === 0) {
+      this.setMetaboxInlineStyles()
+    }
     // get free space
     let freeSpaceEl = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer')
     let freeSpace = freeSpaceEl.offsetWidth
@@ -171,6 +199,7 @@ export default class Navbar extends React.Component {
       this.setState({
         visibleControlsCount: this.getVisibleControls().length
       })
+      this.removeMetaboxInlineStyles()
       return
     }
 
@@ -180,7 +209,7 @@ export default class Navbar extends React.Component {
     })
     if (hiddenAndUnpinnedControls.length && freeSpace > 0) {
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
-        let lastControl = hiddenAndUnpinnedControls.pop()
+        let lastControl = hiddenAndUnpinnedControls.reverse().pop()
         let controlsSize = lastControl.ref.state.realSize.width
         freeSpace -= controlsSize
         if (freeSpace > 0) {
@@ -192,6 +221,7 @@ export default class Navbar extends React.Component {
         visibleControlsCount: this.getVisibleControls().length
       })
     }
+    this.removeMetaboxInlineStyles()
   }
 
   render () {

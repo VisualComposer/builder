@@ -1,37 +1,53 @@
 /* global React, vcvAPI */
 /* eslint no-unused-vars: 0 */
-import React from 'react'
-import vcCake from 'vc-cake'
-const vcvAPI = vcCake.getService('api')
+class Component extends vcvAPI.elementComponent {
+  getContent (doBoxModel, innerProps) {
+    let rowProps = vcCake.getService('document').get(this.props.atts.parent)
+    let content = this.props.children
+    let contentContainer = ''
 
-export default class Component extends vcvAPI.elementComponent {
+    if (rowProps.contentPosition === 'top') {
+      contentContainer = (
+        <div className='vce-col-inner' {...innerProps} {...doBoxModel}>
+          {content}
+        </div>
+      )
+    } else {
+      contentContainer = (
+        <div className='vce-col-inner' {...innerProps} {...doBoxModel}>
+          <div className='vce-col-content'>
+            {content}
+          </div>
+        </div>
+      )
+    }
+    return contentContainer
+  }
+
   render () {
     // import variables
     let { id, atts, editor } = this.props
     let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow } = atts
-    let content = this.props.children
 
     // import template js
     const classNames = require('classnames')
-    let customProps = {}
     let customColProps = {}
     let innerProps = {}
     let classes = []
 
     classes = [ 'vce-col' ]
     classes.push('vce-col--md-' + (size ? size.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
-    classes.push('vce-col--xs-1')
+    classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
     if (lastInRow) {
-      classes.push('vce-col--last')
+      classes.push('vce-col--md-last vce-col--lg-last vce-col--xl-last')
     }
 
     if (firstInRow) {
-      classes.push('vce-col--first')
+      classes.push('vce-col--md-first vce-col--lg-first vce-col--xl-first')
     }
 
-// reverse classes.push('vce-row-wrap--reverse')
     if (typeof customClass === 'string' && customClass.length) {
       classes.push(customClass)
     }
@@ -46,11 +62,7 @@ export default class Component extends vcvAPI.elementComponent {
     // import template
     return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
       {this.getBackgroundTypeContent()}
-      <div className='vce-col-inner' {...innerProps}>
-        <div className='vce-col-content' {...customProps} {...doBoxModel}>
-          {content}
-        </div>
-      </div>
+      {this.getContent(doBoxModel, innerProps)}
     </div>)
   }
 }

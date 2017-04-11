@@ -3,25 +3,23 @@
   max-width: 100%;
   box-sizing: border-box;
   display: flex;
+  min-width: 1em;
   position: relative;
+}
+
+.vce-col--auto {
+  flex: 1;
+  flex-basis: auto;
 }
 
 .vce-col-inner {
   position: relative;
-  display: flex;
   width: 100%;
-  align-items: flex-start;
+  word-break: break-word;
 }
 
 .vce-col-content {
-  flex: 1 1 0;
-  max-width: 100%;
-  width: 0;
-  min-height: 1em;
-  padding-left: @gutter / 2;
-  padding-right: @gutter / 2;
-  display: flex;
-  flex-flow: column nowrap;
+  position: relative;
   word-break: break-word;
 }
 
@@ -29,13 +27,10 @@
   direction: rtl;
 }
 
-@numbers: 1,2,3,4,5,6,7,8,9,10,11,12;
-
-@class-xs: xs;
-@class-sm: sm;
-@class-md: md;
-@class-lg: lg;
-@class-xl: xl;
+.vcv-wpbackend-layout .vce-row > .vce-row-content > .vce-col {
+  margin-right: 0;
+  margin-left: 0;
+}
 
 /* styles for mobile-portrait */
 @media (min-width: @vcv-grid-breakpoint-xs) {
@@ -48,7 +43,6 @@
     max-width: 100%;
   }
 }
-//.make-numerator(length(@numbers), @numbers, @vcv-grid-breakpoint-xs, @class-xs);
 
 /* styles for mobile-landscape */
 @media (min-width: @vcv-grid-breakpoint-sm) {
@@ -61,7 +55,6 @@
     max-width: 100%;
   }
 }
-//.make-numerator(length(@numbers), @numbers, @vcv-grid-breakpoint-sm, @class-sm);
 
 /* styles for mobile-landscape */
 @media (min-width: @vcv-grid-breakpoint-md) {
@@ -74,7 +67,6 @@
     max-width: 100%;
   }
 }
-//.make-numerator(length(@numbers), @numbers, @vcv-grid-breakpoint-md, @class-md);
 
 /* styles for mobile-landscape */
 @media (min-width: @vcv-grid-breakpoint-lg) {
@@ -87,7 +79,6 @@
     max-width: 100%;
   }
 }
-//.make-numerator(length(@numbers), @numbers, @vcv-grid-breakpoint-lg, @class-lg);
 
 /* styles for mobile-landscape */
 @media (min-width: @vcv-grid-breakpoint-xl) {
@@ -100,16 +91,16 @@
     max-width: 100%;
   }
 }
-.make-numerator(length(@numbers), @numbers, @vcv-grid-breakpoint-xl, @class-xl);
 
 //== DO behaviour
-.vce-col--has-background {
-  > .vce-col-content {
-    padding-top: @vcv-gold-margin;
-  }
+.vce-row-content--top > .vce-row-content > .vce-element--has-background > .vce-col-inner {
+  padding-top: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-.make-color-media(@class-xs, @vcv-grid-breakpoint-xs, @vcv-grid-breakpoint-xs-max);
-.make-color-media(@class-sm, @vcv-grid-breakpoint-sm, @vcv-grid-breakpoint-sm-max);
-.make-color-media(@class-md, @vcv-grid-breakpoint-md, @vcv-grid-breakpoint-md-max);
-.make-color-media(@class-lg, @vcv-grid-breakpoint-lg, @vcv-grid-breakpoint-lg-max);
-.make-color-media(@class-xl, @vcv-grid-breakpoint-xl);
+.vce-row-content--middle > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content,
+.vce-row-content--bottom > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content {
+  padding-top: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
