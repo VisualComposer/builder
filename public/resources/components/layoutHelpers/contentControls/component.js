@@ -41,7 +41,7 @@ export default class ContentControls extends React.Component {
 
   render () {
     return <vcvhelper
-      className='vcv-row-control-container vcv-row-control-container-hide-labels'
+      className='vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
       title='Add Element'
       onClick={this.handleClick}
       onMouseEnter={this.handleMouseEnter}

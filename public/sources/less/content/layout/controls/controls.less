@@ -5,7 +5,7 @@
   z-index: @controls-z-index;
   pointer-events: none;
   &:hover {
-    z-index: @controls-z-index-hover;
+    //z-index: @controls-z-index-hover;
   }
   > .vcv-ui-outline-controls {
     > * {
@@ -25,7 +25,7 @@
 .vcv-ui-outline-controls {
   font-size: @controls-text-size-base;
   line-height: @controls-text-size-base;
-
+  //z-index: @controls-z-index;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -314,7 +314,7 @@
 //== Append element control
 .vcv-ui-append-control-container {
   position: absolute;
-  z-index: @controls-z-index;
+  z-index: @controls-append-z-index;
   pointer-events: none;
   display: flex;
   justify-content: center;

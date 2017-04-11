@@ -10,10 +10,18 @@
   margin: 1px 3px;
   border-radius: 2em;
   padding: 4px 13px;
-  transition: background-color @vcv-transition-duration @vcv-transition-timing-function;
+  transition-property: all;
+  transition-duration: @vcv-transition-duration;
+  transition-timing-function: @vcv-transition-timing-function;
   pointer-events: auto;
+  &::before {
+    content: attr(data-vcv-tag-list-label)
+  }
   &:hover {
     background-color: @color-base-active;
+    &::before {
+      content: attr(data-vcv-tag-list-label-hover)
+    }
   }
 }
 
