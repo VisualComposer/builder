@@ -25,8 +25,17 @@ export default class EditElementPanel extends ActivitiesManager {
     elementsStorage.state(`element:${id}`).ignoreChange(this.updateElementOnChange)
   }
   updateElementOnChange (data, source) {
+    const {element} = this.props
+    const id = element.get('id')
     if (source !== 'editForm') {
-      console.log(cook.get(data))
+      const cookElement = cook.get(data)
+      const publicKeys = cookElement.filter((key, value, settings) => {
+        return settings.access === 'public'
+      })
+      publicKeys.forEach((key) => {
+        const newValue = cookElement.get(key)
+        elementsStorage.state(`element:${id}:attribute:${key}`).set(newValue, cookElement)
+      })
     }
   }
   getActiveTabId () {

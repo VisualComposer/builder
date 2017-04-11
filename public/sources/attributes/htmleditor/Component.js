@@ -7,13 +7,20 @@ import './css/wpEditor.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-
+import isEqual from 'is-equal'
 export default class Component extends Attribute {
   constructor (props) {
     super(props)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
+    this.id = `tinymce-htmleditor-component-${props.fieldKey}`
   }
-
+  componentWillReceiveProps (nextProps) {
+    if (!isEqual(this.props.value, nextProps.value) && vcCake.env('platform') !== 'wordpress') {
+      console.log(this.id)
+      window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
+    }
+    super.componentWillReceiveProps(nextProps)
+  }
   handleChange (event, editor) {
     const value = editor.getContent()
     this.setFieldValue(value)
@@ -43,6 +50,7 @@ export default class Component extends Attribute {
     return (
       <div className='vcv-ui-form-input vcv-ui-form-tinymce'>
         <TinyMceEditor
+          id={this.id}
           config={tinymceConfig}
           onChange={this.handleChange}
           onKeyup={this.handleChange}
