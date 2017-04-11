@@ -200,6 +200,7 @@ vcCake.add('storage', (api) => {
     if (data.tag === 'row') {
       if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
         rebuildRawLayout(data.id, null, { layout: data.layout.layoutData })
+        data.layout.layoutData = undefined
       } else {
         rebuildRawLayout(data.id)
       }
@@ -271,6 +272,21 @@ vcCake.add('storage', (api) => {
   api.reply('data:merge', (content) => {
     const substituteIds = {}
     Object.keys(content).sort((a, b) => {
+      if (!content[a].parent && content[b].parent) {
+        return -1
+      }
+      if (content[a].parent && !content[b].parent) {
+        return 1
+      }
+      if (content[a].parent && content[b].parent && content[a].id === content[b].parent) {
+        return -1
+      }
+      if (content[a].parent && content[b].parent && content[a].parent === content[b].id) {
+        return 1
+      }
+      if (content[a].parent && content[b].parent && content[a].parent !== content[b].parent) {
+        return 0
+      }
       if (content[ a ].order === undefined || content[ b ].order === undefined) {
         return 0
       }

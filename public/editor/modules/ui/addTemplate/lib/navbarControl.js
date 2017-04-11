@@ -25,8 +25,8 @@ export default class AddTemplateNavbarControl extends React.Component {
 
   componentWillUnmount () {
     this.props.api
-      .reply('bar-content-end:show', this.updateWindow)
-      .reply('bar-content-end:hide', this.updateWindow)
+      .forget('bar-content-end:show', this.updateWindow)
+      .forget('bar-content-end:hide', this.updateWindow)
   }
 
   updateWindow (isOpen = false) {

@@ -106,5 +106,9 @@ addService('myTemplates', {
       })
     }
     return allTemplates
+  },
+  getLiteVersionTemplates () {
+    // TODO get lite version templates from hub
+    return this.getAllTemplates()
   }
 })

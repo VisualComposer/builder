@@ -14,21 +14,13 @@
 
 .vce-col-inner {
   position: relative;
-  display: flex;
   width: 100%;
-  align-items: flex-start;
+  word-break: break-word;
 }
 
 .vce-col-content {
-  flex: 1 1 auto;
-  width: 0;
-  min-height: 100%;
-  padding-left: 0;
-  padding-right: 0;
-  display: flex;
-  flex-flow: column nowrap;
-  word-break: break-word;
   position: relative;
+  word-break: break-word;
 }
 
 .vce-col-direction--rtl {
@@ -101,12 +93,14 @@
 }
 
 //== DO behaviour
-.vce-col--has-background {
-  > .vce-col-content {
-    padding-top: @vcv-gold-margin;
-  }
+.vce-row-content--top > .vce-row-content > .vce-element--has-background > .vce-col-inner {
+  padding-top: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-.vce-row .vce-col.vce-element--has-background > .vce-col-inner > .vce-col-content {
+.vce-row-content--middle > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content,
+.vce-row-content--bottom > .vce-row-content > .vce-element--has-background > .vce-col-inner > .vce-col-content {
+  padding-top: 35px;
   padding-left: 15px;
   padding-right: 15px;
 }
