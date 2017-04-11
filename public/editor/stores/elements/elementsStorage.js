@@ -1,5 +1,5 @@
-import { addStorage, getStorage, getService, env } from 'vc-cake'
-import { rebuildRawLayout, addRowBackground, isElementOneRelation } from './lib/tools'
+import { addStorage, getStorage, getService } from 'vc-cake'
+import { rebuildRawLayout, isElementOneRelation } from './lib/tools'
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   // const timeMachineStorage = getStorage('timeMachine')
@@ -95,6 +95,7 @@ addStorage('elements', (storage) => {
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
+    const relatedParent = documentManager.get(data.related).parent
     if (data.action === 'after') {
       documentManager.moveAfter(id, data.related)
     } else if (data.action === 'append') {
@@ -109,7 +110,13 @@ addStorage('elements', (storage) => {
       let newElement = documentManager.get(id)
       rebuildRawLayout(newElement.parent, {}, documentManager)
     }
-    storage.state('document').set(documentManager.children(false))
+    storage.state(`element:${element.parent}`).set(documentManager.get(element.parent))
+    if (relatedParent) {
+      console.log(relatedParent)
+      storage.state(`element:${relatedParent}`).set(documentManager.get(relatedParent))
+    } else {
+      storage.state('document').set(documentManager.children(false))
+    }
   })
   storage.on('updateAll', (data) => {
     documentManager.reset(data || {})
