@@ -6,7 +6,7 @@ addStorage('elements', (storage) => {
   const cook = getService('cook')
   const assets = getStorage('assets')
   const historyStorage = getStorage('history')
-
+  const utils = getService('utils')
   const updateTimeMachine = () => {
     historyStorage.trigger('add', documentManager.all())
   }
@@ -114,6 +114,55 @@ addStorage('elements', (storage) => {
   storage.on('updateAll', (data) => {
     documentManager.reset(data || {})
     storage.state('document').set(documentManager.children(false))
+  })
+  storage.on('merge', (content) => {
+    const substituteIds = {}
+    Object.keys(content).sort((a, b) => {
+      if (!content[a].parent && content[b].parent) {
+        return -1
+      }
+      if (content[a].parent && !content[b].parent) {
+        return 1
+      }
+      if (content[a].parent && content[b].parent && content[a].id === content[b].parent) {
+        return -1
+      }
+      if (content[a].parent && content[b].parent && content[a].parent === content[b].id) {
+        return 1
+      }
+      if (content[a].parent && content[b].parent && content[a].parent !== content[b].parent) {
+        return 0
+      }
+      if (content[ a ].order === undefined || content[ b ].order === undefined) {
+        return 0
+      }
+      if (content[ a ].order > content[ b ].order) {
+        return 1
+      }
+      if (content[ a ].order < content[ b ].order) {
+        return -1
+      }
+      return 0
+    }).forEach((key) => {
+      let element = content[ key ]
+      let newId = utils.createKey()
+      if (substituteIds[ element.id ]) {
+        element.id = substituteIds[ element.id ]
+      } else {
+        substituteIds[ element.id ] = newId
+        element.id = newId
+      }
+      if (element.parent && substituteIds[ element.parent ]) {
+        element.parent = substituteIds[ element.parent ]
+      } else if (element.parent && !substituteIds[ element.parent ]) {
+        substituteIds[ element.parent ] = utils.createKey()
+        element.parent = substituteIds[ element.parent ]
+      }
+      delete element.order
+      storage.trigger('add', element, false, { silent: true })
+    })
+    storage.set('')
+    storage.state('document').set(documentManager.children(false), 'merge')
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})

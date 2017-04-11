@@ -316,7 +316,7 @@ export default class Navbar extends React.Component {
       return !control.props.visibility || control.props.visibility !== 'hidden'
     })
     if (hiddenAndUnpinnedControls.length) {
-      // if it is las hidden element than add dropdown width to free space
+      // if it is last hidden element then add dropdown width to free space
       if (this.getHiddenControls(visibleControls).length === 1) {
         let sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
         freeSpace += isSideNavbar() ? sandwich.offsetHeight : sandwich.offsetWidth
