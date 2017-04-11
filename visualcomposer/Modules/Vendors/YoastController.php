@@ -19,7 +19,7 @@ class YoastController extends Container implements Module
         }
     }
 
-    protected function removeFEScript()
+    protected function removeFeScript()
     {
         if (isset($GLOBALS['wpseo_metabox'])) {
             remove_action('admin_enqueue_scripts', [$GLOBALS['wpseo_metabox'], 'enqueue']);
