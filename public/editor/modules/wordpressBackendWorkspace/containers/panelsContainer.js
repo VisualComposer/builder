@@ -21,7 +21,23 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
     ]),
-    settings: React.PropTypes.object
+    settings: React.PropTypes.object,
+    layoutWidth: React.PropTypes.number
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      stack: this.props.layoutWidth < 800
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.layoutWidth < 800 && !this.state.stack) {
+      this.setState({ stack: true })
+    } else if (nextProps.layoutWidth > 800 && this.state.stack) {
+      this.setState({ stack: false })
+    }
   }
 
   getStartContent () {
@@ -50,9 +66,11 @@ export default class PanelsContainer extends React.Component {
 
   render () {
     const { start, end } = this.props
+    const { stack } = this.state
     let layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!(start || end)
+      'vcv-ui-state--visible': !!(start || end),
+      'vcv-layout-bar-content-stack': stack
     })
 
     return (
