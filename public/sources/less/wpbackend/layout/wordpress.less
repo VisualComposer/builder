@@ -98,22 +98,21 @@
     }
   }
 
-  .vcv-ui-form-input {
+  .vcv-ui-form-input,
+  .vcv-ui-form-dropdown {
     margin: 0;
+    box-shadow: none;
   }
 
-  select {
-    &.vcv-ui-form-dropdown {
-      height: auto !important;
-      padding: @vcv-wpbackend-form-input-padding;
-      line-height: @vcv-wpbackend-form-input-line-height;
-      font-size: @vcv-wpbackend-select-font-size !important;
-      margin: 0;
-    }
+  .vcv-ui-form-dropdown {
+    height: auto !important;
+    padding: @vcv-wpbackend-form-input-padding;
+    line-height: @vcv-wpbackend-form-input-line-height;
+    font-size: @vcv-wpbackend-select-font-size !important;
+  }
 
-    &.vcv-ui-editors-header-dropdown {
-      margin-bottom: 6px;
-    }
+  .vcv-ui-editors-header-dropdown {
+    margin-bottom: 6px;
   }
 
   .vcv-ui-item-preview-container {
@@ -265,6 +264,11 @@
       box-sizing: content-box !important;
     }
   }
+
+  .vcv-ui-editor-tab-content {
+    line-height: 1;
+  }
+
 }
 
 .vcv-layout-dock--unlock {

@@ -82,6 +82,11 @@ export default class DndManager {
   remove (id) {
     this.buildItems()
     this.items.removeItem(id)
+    window.setTimeout(() => {
+      if (!document.querySelector('[data-vcv-module="content-layout"]')) {
+        this.items = null
+      }
+    }, 0)
   }
 
   update (id) {
