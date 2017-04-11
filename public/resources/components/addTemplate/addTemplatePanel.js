@@ -8,7 +8,7 @@ import vcCake from 'vc-cake'
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const templateManager = vcCake.getService('myTemplates')
 const documentManager = vcCake.getService('document')
-
+const elementsStorage = vcCake.getStorage('elements')
 export default class AddTemplatePanel extends React.Component {
   static propTypes = {
     categories: React.PropTypes.array
@@ -273,7 +273,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleApplyTemplate (data) {
-    // this.props.api.request('data:merge', data)
+    elementsStorage.trigger('merge', data)
   }
 
   handleRemoveTemplate (id) {
