@@ -1,7 +1,10 @@
 import React from 'react'
 import ElementControl from './lib/elementControl'
 import vcCake from 'vc-cake'
+
 const cook = vcCake.getService('cook')
+const workspaceStorage = vcCake.getStorage('workspace')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class BlankRowPlaceholder extends React.Component {
   static propTypes = {
@@ -146,7 +149,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param element
    */
   handleElementControl (element) {
-    this.props.api.request('data:add', element)
+    elementsStorage.trigger('add', element)
   }
 
   /**
@@ -155,15 +158,15 @@ export default class BlankRowPlaceholder extends React.Component {
    * @param tab
    */
   handleElementControlWithForm (element, tab = '') {
-    this.props.api.request('data:add', element)
-    this.props.api.request('app:edit', element.id, tab)
+    elementsStorage.trigger('add', element)
+    workspaceStorage.trigger('edit', element.id, tab)
   }
 
   /**
    * Handle click for add element control, open add element form
    */
   handleAddElementControl () {
-    this.props.api.request('app:add', '')
+    workspaceStorage.trigger('add', '')
   }
 
   /**
