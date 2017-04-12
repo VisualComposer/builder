@@ -93,10 +93,18 @@ class ActivationTokenController extends Container implements Module
                 wp_redirect(self_admin_url(sprintf('admin.php?page=%s', $activationFinishPage->getSlug())));
                 die;
             } else {
-                $optionsHelper->setTransient('account:activation:error', 'Failed to generate token, please try again later.', 120);
+                $optionsHelper->setTransient(
+                    'account:activation:error',
+                    'Failed to generate token, please try again later.',
+                    120
+                );
             }
         }
-        $optionsHelper->setTransient('account:activation:error', 'Missing activation code, please try again later.', 120);
+        $optionsHelper->setTransient(
+            'account:activation:error',
+            'Missing activation code, please try again later.',
+            120
+        );
         wp_redirect(self_admin_url(sprintf('admin.php?page=%s', $activationWelcomePage->getSlug())));
         die;
     }
