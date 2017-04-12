@@ -50,7 +50,6 @@ export default class startBlank extends React.Component {
     const { blank, data } = props
     if (!blank) {
       elementsStorage.trigger('merge', data)
-      this.props.api.request('data:merge', data)
     }
     this.handleCloseClick()
   }
