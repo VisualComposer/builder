@@ -3,6 +3,7 @@ import React from 'react'
 import '../../../../../sources/less/content/layout/element.less'
 import ContentControls from './helpers/contentControls/component'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
+import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
@@ -44,7 +45,13 @@ export default class Element extends React.Component {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
     let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      return <Element element={childElement} key={childElement.id} api={this.props.api} />
+      let elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
+      if (childElement.tag === 'column') {
+        elements.push(
+          <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
+        )
+      }
+      return elements
     })
     if (elementsList.length) {
       returnData = elementsList
