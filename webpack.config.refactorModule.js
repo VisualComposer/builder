@@ -105,7 +105,7 @@ module.exports = {
     },
     wpbackend: {
       modules: [
-        'content/modernLayout',
+        // 'content/modernLayout',
         'content/modernLayoutBackend',
         'wordpressBackendWorkspace'
       ],
