@@ -1,0 +1,48 @@
+.vcv-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  background: @editor-layout-start-blank-background;
+}
+
+.vcv-loading-dots-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: @editor-layout-loading-icon-size;
+  height: @editor-layout-loading-icon-size;
+  margin: auto;
+  text-align: center;
+  animation: vcvDotsRotate 2s infinite linear;
+}
+
+.vcv-loading-dots-container .vcv-loading-dot {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: @editor-layout-loading-icon-color;
+  border-radius: 100%;
+  animation: vcvDotsBounce 2s infinite @transition-timing-function;
+}
+
+.vcv-loading-dots-container .vcv-loading-dot-2 {
+  top: auto;
+  bottom: 0;
+  animation-delay: -1s;
+}
+
+@keyframes vcvDotsRotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes vcvDotsBounce {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1); }
+}
