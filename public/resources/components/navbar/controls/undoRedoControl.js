@@ -14,6 +14,8 @@ export default class UndoRedoControl extends NavbarContent {
     }
     this.checkUndoState = this.checkUndoState.bind(this)
     this.checkRedoState = this.checkRedoState.bind(this)
+    this.handleRedo = this.handleRedo.bind(this)
+    this.handleUndo = this.handleUndo.bind(this)
     this.checkWorkspaceSettings = this.checkWorkspaceSettings.bind(this)
   }
 
@@ -43,17 +45,13 @@ export default class UndoRedoControl extends NavbarContent {
     this.checkUndoState(historyStorage.state('canUndo').get())
   }
   checkWorkspaceSettings (data) {
-    if (data && data.action === 'edit') {
-      historyStorage.trigger('initEditForm')
-    } else {
-      historyStorage.trigger('initElements')
-    }
+    // change history storage to manage data
   }
-  handleUndo = () => {
+  handleUndo () {
     historyStorage.trigger('undo')
   }
 
-  handleRedo = () => {
+  handleRedo () {
     historyStorage.trigger('redo')
   }
 
