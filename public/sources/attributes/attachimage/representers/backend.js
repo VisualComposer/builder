@@ -22,7 +22,7 @@ export default class Backend extends Representer {
     return urls.map((url, i) => {
       let urlData = {
         src: url && url.thumbnail ? url.thumbnail : (url && url.full ? url.full : url),
-        alt: url && url.alt ? url.alt : (typeof url === 'string' ? 'Default image' : ''),
+        alt: url && url.alt ? url.alt : '',
         id: url && url.id ? url.id : i
       }
 
