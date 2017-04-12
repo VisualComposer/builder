@@ -1,8 +1,10 @@
 import React from 'react'
-import { getData, getStorage } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import Element from './element'
 import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
+
 const elementsStorage = getStorage('elements')
+const wordpressBackendDataStorage = getStorage('wordpressData')
 
 export default class Layout extends React.Component {
   static propTypes = {
@@ -15,6 +17,7 @@ export default class Layout extends React.Component {
     super(props)
     this.state = {
       data: [],
+      isDataLoaded: false,
       layoutWidth: 0,
       hasResizeEvent: false
     }
@@ -27,6 +30,11 @@ export default class Layout extends React.Component {
       if (this.layoutContainer && !this.state.hasResizeEvent) {
         this.addResizeListener(this.layoutContainer, this.handleElementSize)
         this.setState({ hasResizeEvent: true })
+      }
+    })
+    wordpressBackendDataStorage.state('status').onChange((data) => {
+      if (data.status === 'loaded') {
+        this.setState({ isDataLoaded: true })
       }
     })
   }
@@ -91,13 +99,15 @@ export default class Layout extends React.Component {
   }
 
   render () {
-    if (!this.state.data.length && !getData('app:dataLoaded')) {
+    const { data, isDataLoaded } = this.state
+
+    if (!data.length && !isDataLoaded) {
       return <div className='vcv-wpbackend-layout-loading'>
         <span className='vcv-ui-wp-spinner' />
       </div>
     }
 
-    if (!this.state.data.length && getData('app:dataLoaded')) {
+    if (!data.length && isDataLoaded) {
       return <BlankRowPlaceholder api={this.props.api} />
     }
 
