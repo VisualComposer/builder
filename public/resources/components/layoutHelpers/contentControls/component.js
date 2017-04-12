@@ -2,6 +2,8 @@ import React from 'react'
 import RowControl from './lib/rowControl'
 import vcCake from 'vc-cake'
 
+const workspaceStorage = vcCake.getStorage('workspace')
+
 export default class ContentControls extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired,
@@ -36,7 +38,8 @@ export default class ContentControls extends React.Component {
     if (children.length === 1) {
       options = children[0].tag
     }
-    this.props.api.request('app:add', this.props.id, options)
+    // this.props.api.request('app:add', this.props.id, options)
+    workspaceStorage.trigger('add', this.props.id, options)
   }
 
   render () {
