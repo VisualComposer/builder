@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Representer from '../../representer'
-import vcCake from 'vc-cake'
 
 export default class Backend extends Representer {
   getUrls (value, assetsPath) {
@@ -22,8 +21,8 @@ export default class Backend extends Representer {
   getImages (urls, elementId) {
     return urls.map((url, i) => {
       let urlData = {
-        src: url && url.thumbnail ? url.thumbnail : url,
-        alt: url && url.alt ? url.alt : 'Default image',
+        src: url && url.thumbnail ? url.thumbnail : (url && url.full ? url.full : url),
+        alt: url && url.alt ? url.alt : (typeof url === 'string' ? 'Default image' : ''),
         id: url && url.id ? url.id : i
       }
 

@@ -30,8 +30,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   componentDidMount () {
     SingleImageElement.imgProps[ 'data-img-src' ] = this.getImageUrl(this.props.atts.image, 'full')
-    SingleImageElement.imgProps[ 'alt' ] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : ''
-    SingleImageElement.imgProps[ 'title' ] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : ''
+    SingleImageElement.imgProps[ 'alt' ] = this.props.atts.image && this.props.atts.image.alt ? this.props.atts.image.alt : (typeof this.props.atts.image === 'string' ? 'Single Image' : '')
+    SingleImageElement.imgProps[ 'title' ] = this.props.atts.image && this.props.atts.image.title ? this.props.atts.image.title : (typeof this.props.atts.image === 'string' ? 'Single Image' : '')
 
     if (this.props.atts.size === 'full' && this.props.atts.shape !== 'round') {
       return true
@@ -53,8 +53,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   componentWillReceiveProps (nextProps) {
     SingleImageElement.imgProps[ 'data-img-src' ] = this.getImageUrl(nextProps.atts.image, 'full')
-    SingleImageElement.imgProps[ 'alt' ] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : ''
-    SingleImageElement.imgProps[ 'title' ] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : ''
+    SingleImageElement.imgProps[ 'alt' ] = nextProps.atts.image && nextProps.atts.image.alt ? nextProps.atts.image.alt : (typeof nextProps.atts.image === 'string' ? 'Single Image' : '')
+    SingleImageElement.imgProps[ 'title' ] = nextProps.atts.image && nextProps.atts.image.title ? nextProps.atts.image.title : (typeof nextProps.atts.image === 'string' ? 'Single Image' : '')
 
     if (nextProps.atts.size === 'full' && nextProps.atts.shape !== 'round') {
       this.setState({

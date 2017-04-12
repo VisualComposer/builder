@@ -159,9 +159,6 @@ export default class startBlank extends React.Component {
       <div className='vcv-start-blank-container'>
         <div className='vcv-start-blank-scroll-container'>
           <div className='vcv-start-blank-inner'>
-            <a className='vcv-start-blank-close' href='#' title='Close' onClick={this.handleCloseClick}>
-              <i className='vcv-start-blank-close-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-            </a>
             <div className='vcv-start-blank-heading-container'>
               <span className='vcv-start-blank-page-heading'>Select Blank Canvas<br /> or Start With a Template</span>
             </div>
