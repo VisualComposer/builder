@@ -101,12 +101,6 @@ export default class Layout extends React.Component {
   render () {
     const { data, isDataLoaded } = this.state
 
-    if (!data.length && !isDataLoaded) {
-      return <div className='vcv-wpbackend-layout-loading'>
-        <span className='vcv-ui-wp-spinner' />
-      </div>
-    }
-
     if (!data.length && isDataLoaded) {
       return <BlankRowPlaceholder api={this.props.api} />
     }
