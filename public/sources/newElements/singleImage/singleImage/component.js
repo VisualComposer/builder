@@ -1,6 +1,7 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
+const cook = vcCake.getService('cook')
 
 export default class SingleImageElement extends vcvAPI.elementComponent {
   static imageSizes = {
@@ -93,10 +94,9 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    let assetsManager = vcCake.getService('assetsManager')
+    let { metaAssetsPath } = this.props.atts
 
-    var { tag } = this.props.atts
-    return assetsManager.getPublicPath(tag, filename)
+    return metaAssetsPath + filename
   }
 
   getImageUrl (image, size) {

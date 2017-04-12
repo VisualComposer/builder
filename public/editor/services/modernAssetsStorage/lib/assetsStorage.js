@@ -286,8 +286,9 @@ export default class {
         let value = element.get(key)
         if (value) {
           let elementMixins = {}
-          if (settings[ key ].type.component && settings[ key ].type.component.buildMixins) {
-            elementMixins = settings[ key ].type.component.buildMixins(element.toJS())
+          let attributeSettings = element.settings(key)
+          if (attributeSettings.type.component && attributeSettings.type.component.buildMixins) {
+            elementMixins = attributeSettings.type.component.buildMixins(element.toJS())
           } else if (value.attributeMixins) {
             elementMixins = value.attributeMixins
           }
