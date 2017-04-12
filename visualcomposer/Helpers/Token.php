@@ -63,7 +63,7 @@ class Token extends Container implements Helper
     /**
      * @return bool
      */
-    protected function setIsSiteRegistered()
+    public function setIsSiteRegistered()
     {
         $this->optionsHelper->set(
             'siteRegistered',
@@ -74,40 +74,11 @@ class Token extends Container implements Helper
     }
 
     /**
-     * @return bool
-     * @throws \Exception
-     */
-    public function createSecret()
-    {
-        /** @var Url $urlHelper */
-        $url = $this->urlHelper->ajax(['vcv-action' => 'account:token:api']);
-        $result = wp_remote_post(
-            VCV_ACCOUNT_URL . '/register-app',
-            ['body' => ['url' => $url]]
-        );
-        if (is_array($result) && 200 === $result['response']['code']) {
-            $body = json_decode($result['body']);
-            // @codingStandardsIgnoreLine
-            if (!empty($body) && isset($body->client_id, $body->client_secret)) {
-                $this->setIsSiteRegistered();
-                $this->setClientSecret($body);
-
-                return true;
-            }
-        } else {
-            // TODO: Handle error.
-            throw new Exception('HTTP request for registering app failed.');
-        }
-
-        return false;
-    }
-
-    /**
      * @param $body
      *
      * @return bool
      */
-    protected function setClientSecret($body)
+    public function setClientSecret($body)
     {
         // @codingStandardsIgnoreStart
         $this->optionsHelper->set(
