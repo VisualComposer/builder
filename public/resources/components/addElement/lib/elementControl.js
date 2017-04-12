@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 const elementsStorage = vcCake.getStorage('elements')
+const workspaceStorage = vcCake.getStorage('workspace')
 const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
@@ -37,6 +38,7 @@ export default class ElementControl extends React.Component {
     elementsStorage.trigger('add', data.toJS(), true, {
       insertAfter: workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
+    workspaceStorage.trigger('edit', data.toJS().id, '')
     // this.props.api.request('app:edit', data.toJS().id, '')
   }
 
