@@ -19,13 +19,7 @@ class WpEditor extends Container implements Module
     protected function addWpEditorScripts($output)
     {
         $output[] = sprintf(
-            '<script type="text/html" id="vcv-wpeditor-template">
-try{
-    %s
-} catch(e) {
-    window.console && window.console.warn && window.console.warn(\'Wp Editor initialize error\', e)
-}
-</script>',
+            '<script type="text/html" id="vcv-wpeditor-template">%s</script>',
             $this->getWpEditor()
         );
 
