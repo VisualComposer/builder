@@ -5,6 +5,8 @@ import ContentControls from '../../../../../resources/components/layoutHelpers/c
 
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
+const elementsStorage = vcCake.getStorage('elements')
+const assetsStorage = vcCake.getStorage('assets')
 
 export default class Element extends React.Component {
   static propTypes = {
@@ -16,8 +18,18 @@ export default class Element extends React.Component {
   // element (row/column) options to prevent applying of in the backend view
   elementOptions = ['columnGap', 'fullHeight', 'equalHeight', 'rowWidth', 'designOptionsAdvanced']
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      element: props.element
+    }
+    this.dataUpdate = this.dataUpdate.bind(this)
+  }
+
   componentDidMount () {
-    this.props.api.notify('element:mount', this.props.element.id)
+    // this.props.api.notify('element:mount', this.props.element.id)
+    elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
+    assetsStorage.trigger('addElement', this.state.element.id)
     // rename row/column id to prevent applying of DO
     let element = document.querySelector(`#el-${this.props.element.id}`)
     if (element) {
@@ -26,7 +38,9 @@ export default class Element extends React.Component {
   }
 
   componentWillUnmount () {
-    this.props.api.notify('element:unmount', this.props.element.id)
+    // this.props.api.notify('element:unmount', this.props.element.id)
+    elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
+    assetsStorage.trigger('removeElement', this.state.element.id)
     let element = document.querySelector(`#el-${this.props.element.id}-temp`)
     if (element) {
       element.id = `el-${this.props.element.id}`
@@ -35,6 +49,11 @@ export default class Element extends React.Component {
 
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
+  }
+
+  dataUpdate (data) {
+    this.setState({element: data || this.props.element})
+    assetsStorage.trigger('updateElement', this.state.element.id)
   }
 
   getContent () {

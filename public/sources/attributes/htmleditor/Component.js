@@ -7,7 +7,6 @@ import './css/wpEditor.css'
 import Attribute from '../attribute'
 import lodash from 'lodash'
 import vcCake from 'vc-cake'
-import isEqual from 'is-equal'
 export default class Component extends Attribute {
   constructor (props) {
     super(props)
@@ -15,8 +14,7 @@ export default class Component extends Attribute {
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
   }
   componentWillReceiveProps (nextProps) {
-    if (!isEqual(this.props.value, nextProps.value) && vcCake.env('platform') !== 'wordpress') {
-      console.log(this.id)
+    if (this.props.value !== nextProps.value && vcCake.env('platform') !== 'wordpress') {
       window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
     }
     super.componentWillReceiveProps(nextProps)

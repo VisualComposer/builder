@@ -115,7 +115,7 @@ export default class ControlsHandler {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
               title: 'Tree View',
-              event: 'bar-content-start:show'
+              event: 'treeView'
             }), controlsList.children[0])
           break
         }
@@ -279,7 +279,7 @@ export default class ControlsHandler {
         label: label,
         icon: 'vcv-ui-icon-add-thin',
         data: {
-          vcControlEvent: 'app:add',
+          vcControlEvent: 'add',
           vcControlEventOptions: addElementTag
         }
       })
@@ -291,7 +291,7 @@ export default class ControlsHandler {
         label: 'Row Layout',
         icon: 'vcv-ui-icon-row-layout',
         data: {
-          vcControlEvent: 'app:edit',
+          vcControlEvent: 'edit',
           vcControlEventOptions: 'layout'
         }
       })
@@ -302,7 +302,7 @@ export default class ControlsHandler {
       label: 'Edit',
       icon: 'vcv-ui-icon-edit',
       data: {
-        vcControlEvent: 'app:edit'
+        vcControlEvent: 'edit'
       }
     })
 
@@ -311,7 +311,7 @@ export default class ControlsHandler {
       label: 'Clone',
       icon: 'vcv-ui-icon-copy',
       data: {
-        vcControlEvent: 'data:clone'
+        vcControlEvent: 'clone'
       }
     })
 
@@ -320,7 +320,7 @@ export default class ControlsHandler {
       label: 'Remove',
       icon: 'vcv-ui-icon-trash',
       data: {
-        vcControlEvent: 'data:remove'
+        vcControlEvent: 'remove'
       }
     })
 
@@ -378,7 +378,7 @@ export default class ControlsHandler {
    * @returns {number}
    */
   getElementColorIndex (vcElement) {
-    var colorIndex = 2
+    let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
       colorIndex = vcElement.containerFor().indexOf('Column') > -1 ? 0 : 1
     }

@@ -3,6 +3,9 @@ import ControlsHandler from './controlsHandler'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
 
+const layoutStorage = vcCake.getStorage('layout')
+const workspaceStorage = vcCake.getStorage('workspace')
+
 require('../../../../../../sources/less/content/layout/controls/init.less')
 export default class ControlsManager {
   constructor (api) {
@@ -122,7 +125,8 @@ export default class ControlsManager {
         }
         // unset prev element
         if (this.prevElement) {
-          this.api.request('editorContent:element:mouseLeave', {
+          // this.api.request('editorContent:element:mouseLeave', {
+          this.mouseLeave({
             type: 'mouseLeave',
             element: this.prevElement,
             vcElementId: this.prevElement.dataset.vcvElement,
@@ -134,7 +138,8 @@ export default class ControlsManager {
         }
         // set new element
         if (element) {
-          this.api.request('editorContent:element:mouseEnter', {
+          // this.api.request('editorContent:element:mouseEnter', {
+          this.mouseEnter({
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -242,6 +247,17 @@ export default class ControlsManager {
    * Interact with tree
    */
   interactWithTree () {
+    workspaceStorage.state('userInteractWith').onChange((id = false) => {
+      if (id && this.state.showOutline) {
+        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+        if (element) {
+          this.outline.show(element)
+        }
+      } else {
+        this.outline.hide()
+      }
+    })
+    /*
     this.api.reply('treeContent:element:mouseEnter', (id) => {
       if (this.state.showOutline) {
         let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
@@ -253,6 +269,7 @@ export default class ControlsManager {
     this.api.reply('treeContent:element:mouseLeave', () => {
       this.outline.hide()
     })
+    */
   }
 
   /**
@@ -279,8 +296,12 @@ export default class ControlsManager {
           insertAfter: el.dataset.vcControlEventOptionInsertAfter || false
         }
         let elementId = el.dataset.vcvElementId
-
-        this.api.request(event, elementId, tag, options)
+        if (event === 'remove') {
+          this.findElement()
+          this.controlElementFind()
+        }
+        workspaceStorage.trigger(event, elementId, tag, options)
+        // this.api.request(event, elementId, tag, options)
       }
     }
   }
@@ -360,10 +381,13 @@ export default class ControlsManager {
         // unset prev element
         if (this.controlsPrevElement) {
           // remove highlight from tree view
+          /*
           this.api.request('editorContent:control:mouseLeave', {
             type: 'mouseLeave',
             vcElementId: this.controlsPrevElement
           })
+          */
+          layoutStorage.state('userInteractWith').set(this.controlsPrevElement)
           // hide outline from content element
           this.outline.hide()
         }
@@ -371,10 +395,13 @@ export default class ControlsManager {
         if (element) {
           if (this.state.showOutline) {
             // highlight tree view
+            layoutStorage.state('userInteractWith').set(element)
+            /*
             this.api.request('editorContent:control:mouseEnter', {
               type: 'mouseEnter',
               vcElementId: element
             })
+            */
             // show outline over content element
             let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
             if (contentElement) {
@@ -413,5 +440,27 @@ export default class ControlsManager {
       return el
     })
     this.frames.show({ element: data.element, path: elementsToShow })
+  }
+
+  /**
+   * Hide controls, frames, outline on mouseLeave
+   */
+  mouseLeave () {
+    this.controls.hide()
+    this.frames.hide()
+    this.outline.hide()
+  }
+
+  /**
+   * Show controls, frames on mouseEnter
+   * @param data object
+   */
+  mouseEnter (data) {
+    if (this.state.showControls) {
+      this.controls.show(data)
+    }
+    if (this.state.showFrames) {
+      this.frames.show({ element: data.element, path: data.path })
+    }
   }
 }

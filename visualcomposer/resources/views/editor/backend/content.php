@@ -38,6 +38,14 @@ $postTypeHelper = vchelper('PostType');
             <div class="vcv-wpbackend-layout-content-container">
                 <div id="vcv-wpbackend-layout-content" class="vcv-wpbackend-layout-content"></div>
                 <div class="vcv-wpbackend-layout-content-overlay" id="vcv-wpbackend-layout-content-overlay"></div>
+	            <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
+		            <div class="vcv-loading-overlay">
+			            <div class="vcv-loading-dots-container">
+				            <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+				            <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+			            </div>
+		            </div>
+	            </div>
             </div>
         </div>
     </div>
