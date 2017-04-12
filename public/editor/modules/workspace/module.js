@@ -30,24 +30,26 @@ add('workspace', (api) => {
     <WorkspaceCont />,
     layoutHeader
   )
-  // Start blank overlay
+
   if (env('FEATURE_START_BLANK')) {
-    let startBlankOverlay = document.getElementById('vcv-layout-iframe-content')
+    // Start blank overlay
+    let iframeContent = document.getElementById('vcv-layout-iframe-content')
+
     const removeStartBlank = () => {
-      ReactDOM.unmountComponentAtNode(startBlankOverlay)
+      ReactDOM.unmountComponentAtNode(iframeContent)
     }
     const addStartBlank = () => {
       ReactDOM.render(
         <StartBlankPanel unmountStartBlank={removeStartBlank} />,
-        startBlankOverlay
+        iframeContent
       )
     }
-    addStartBlank()
 
     elementsStorage.state('document').onChange((data) => {
       if (data.length === 0) {
         addStartBlank()
       } else {
+        iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
         removeStartBlank()
       }
     })

@@ -51,10 +51,24 @@ export default class TreeViewDndManager {
       this.items.init()
     }
   }
+
+  getOffsetTop () {
+    if (this.iframe) {
+      let rect = this.iframe.getBoundingClientRect()
+      return rect.top
+    }
+    return 0
+  }
+
+  updateOffsetTop () {
+    this.items.option('offsetTop', this.getOffsetTop())
+  }
+
   removeItems () {
     this.items = null
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
+
   add (id) {
     this.buildItems()
     this.items.addItem(id, this.documentDOM)
@@ -69,10 +83,12 @@ export default class TreeViewDndManager {
       }
     }, 0)
   }
+
   update (id) {
     this.buildItems()
     this.items.updateItem(id, this.documentDOM)
   }
+
   move (id, action, related) {
     if (id && related) {
       workspaceStorage.trigger('move', id, { action: action, related: related })

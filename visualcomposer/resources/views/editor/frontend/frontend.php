@@ -77,7 +77,14 @@ if (is_array($extraOutput)) {
                     src="<?php echo $editableLink; ?>" id="vcv-editor-iframe"
                     frameborder="0" scrolling="auto"></iframe>
                 <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
-	            <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content"></div>
+	            <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
+		            <div class="vcv-loading-overlay">
+			            <div class="vcv-loading-dots-container">
+				            <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+				            <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+			            </div>
+		            </div>
+	            </div>
             </div>
         </div>
     </div>

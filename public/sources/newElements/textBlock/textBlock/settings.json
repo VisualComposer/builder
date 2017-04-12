@@ -42,7 +42,11 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "output"
+      {
+        "value": [
+          "output"
+        ]
+      }
     ]
   },
   "relatedTo": {

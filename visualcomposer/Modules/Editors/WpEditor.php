@@ -18,7 +18,8 @@ class WpEditor extends Container implements Module
 
     protected function addWpEditorScripts($output)
     {
-        $output[] = sprintf('<script type="text/html" id="vcv-wpeditor-template">%s</script>',
+        $output[] = sprintf(
+            '<script type="text/html" id="vcv-wpeditor-template">%s</script>',
             $this->getWpEditor()
         );
 
