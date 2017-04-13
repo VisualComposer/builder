@@ -47,10 +47,10 @@ addStorage('wordpressData', (storage) => {
       } else {
         elementsStorage.trigger('reset', {})
       }
-      if (responseData.cssSettings && responseData.cssSettings.custom) {
+      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('custom')) {
         customCssState.set(responseData.cssSettings.custom || '')
       }
-      if (responseData.cssSettings && responseData.cssSettings.global) {
+      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
         globalCssState.set(responseData.cssSettings.global || '')
       }
       if (responseData.myTemplates) {

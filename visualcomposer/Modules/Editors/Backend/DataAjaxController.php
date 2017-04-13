@@ -28,6 +28,7 @@ class DataAjaxController extends Container implements Module
     {
         $this->options = $optionsHelper;
 
+        add_filter('wp_insert_post_empty_content', '__return_false');
         /** @see \VisualComposer\Modules\Editors\Backend\DataAjaxController::setData */
         $this->wpAddAction('save_post', 'setData');
     }
