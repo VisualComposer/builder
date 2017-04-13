@@ -241,9 +241,7 @@ export default class ControlsManager {
         }
       }
       if (data && data.type === 'mouseLeave') {
-        if (this.state.showControls) {
-          this.controls.hide()
-        }
+        this.controls.hide()
         if (this.state.showFrames) {
           this.frames.hide()
         }

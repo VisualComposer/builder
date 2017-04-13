@@ -1,6 +1,6 @@
 import { addStorage, getStorage, getService, setData } from 'vc-cake'
 import lodash from 'lodash'
-import $ from 'jQuery'
+import $ from 'jquery'
 import SaveController from './lib/saveController'
 
 addStorage('wordpressData', (storage) => {
