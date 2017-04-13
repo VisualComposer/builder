@@ -81,7 +81,7 @@ export default class Layout extends React.Component {
       })
     }
 
-    const rowPlaceholder = env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholderBackend api={this.props.api} />
+    // const rowPlaceholder = env('FEATURE_BLANK_PAGE_PLACEHOLDER') ? <BlankRowPlaceholder api={this.props.api} /> : <RowPlaceholderBackend api={this.props.api} />
 
     return <div
       className='vcv-wpbackend-layout'
