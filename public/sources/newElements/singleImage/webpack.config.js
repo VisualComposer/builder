@@ -6,7 +6,7 @@ let coreConfig = require('../../../../webpack.config.refactorModule')
 let vendors = coreConfig.entry.vendor
 let newConfig = coreConfig
 newConfig.entry = {
-  element: './element/index.js'
+  element: './singleImage/index.js'
 }
 newConfig.entry.vendor = vendors
 newConfig.plugins = [

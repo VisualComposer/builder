@@ -53,23 +53,23 @@ class Elements extends Container implements Module
             [
                 'row' => [
                     'bundlePath' => $urlHelper->to('public/sources/newElements/row/public/dist/element.bundle.js'),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/row/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/row/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/row/row/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/row/row/public/'),
                     'settings' => [
                         'name' => 'Row',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/row/element/public/thumbnail-row-column.png'
+                            'public/sources/newElements/row/row/public/thumbnail-row-column.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/row/element/public/preview-row-column.jpg'
+                            'public/sources/newElements/row/row/public/preview-row-column.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
                 'column' => [
                     'bundlePath' => $urlHelper->to('public/sources/newElements/column/public/dist/element.bundle.js'),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/column/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/column/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/column/column/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/column/column/public/'),
                     'settings' => [
                         'name' => 'Column',
                         'metaThumbnailUrl' => '',
@@ -81,15 +81,15 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/textBlock/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/textBlock/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/textBlock/element/public'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/textBlock/textBlock/public'),
                     'settings' => [
                         'name' => 'Text Block',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/textBlock/element/public/thumbnail-text-block.png'
+                            'public/sources/newElements/textBlock/textBlock/public/thumbnail-text-block.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/textBlock/element/public/preview-text-block.jpg'
+                            'public/sources/newElements/textBlock/textBlock/public/preview-text-block.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
@@ -98,15 +98,15 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/basicButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/basicButton/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/basicButton/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/basicButton/basicButton/public/'),
                     'settings' => [
                         'name' => 'Basic Button',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/basicButton/element/public/thumbnail-basic-button.png'
+                            'public/sources/newElements/basicButton/basicButton/public/thumbnail-basic-button.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/basicButton/element/public/preview-basic-button.png'
+                            'public/sources/newElements/basicButton/basicButton/public/preview-basic-button.png'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
@@ -115,15 +115,15 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/singleImage/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/singleImage/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/singleImage/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/singleImage/singleImage/public/'),
                     'settings' => [
                         'name' => 'Single Image',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/singleImage/element/public/thumbnail-single-image.png'
+                            'public/sources/newElements/singleImage/singleImage/public/thumbnail-single-image.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/singleImage/element/public/preview-single-image.jpg'
+                            'public/sources/newElements/singleImage/singleImage/public/preview-single-image.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
@@ -132,15 +132,15 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/heroSection/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/heroSection/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/heroSection/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/heroSection/heroSection/public/'),
                     'settings' => [
                         'name' => 'Hero Section',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/heroSection/element/public/thumbnail-hero-section.jpg'
+                            'public/sources/newElements/heroSection/heroSection/public/thumbnail-hero-section.jpg'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/heroSection/element/public/preview-hero-section.jpg'
+                            'public/sources/newElements/heroSection/heroSection/public/preview-hero-section.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
@@ -149,15 +149,15 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/icon/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/icon/element/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/icon/element/public/'),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/icon/icon/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/icon/icon/public/'),
                     'settings' => [
                         'name' => 'Icon',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/icon/element/public/thumbnail-icon.jpg'
+                            'public/sources/newElements/icon/icon/public/thumbnail-icon.jpg'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/icon/element/public/preview-icon.jpg'
+                            'public/sources/newElements/icon/icon/public/preview-icon.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
@@ -167,20 +167,20 @@ class Elements extends Container implements Module
                         'public/sources/newElements/googleFontsHeading/public/dist/element.bundle.js'
                     ),
                     'elementPath' => $urlHelper->to(
-                        'public/sources/newElements/googleFontsHeading/element/'
+                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/'
                     ),
                     'assetsPath' => $urlHelper->to(
-                        'public/sources/newElements/googleFontsHeading/element/public/'
+                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/'
                     ),
                     'settings' => [
                         'name' => 'Google Fonts Heading',
                         'metaThumbnailUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'public/sources/newElements/googleFontsHeading/element/public/google-fonts-thumbnail.png'
+                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
                         // @codingStandardsIgnoreLine
-                            'public/sources/newElements/googleFontsHeading/element/public/google-fonts-preview.png'
+                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
