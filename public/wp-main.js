@@ -9,6 +9,7 @@ import './config/wp-attributes'
 
 const $ = require('expose?$!jquery')
 $(() => {
+  console.log('test')
   let $iframe = $('#vcv-editor-iframe')
   // Get a handle to the iframe element
   let iframe = $iframe.get(0)
@@ -26,7 +27,7 @@ $(() => {
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/workspaceStorage')
-      require('./editor/stores/historyStorage')
+      require('./editor/stores/history/historyStorage')
       require('./editor/stores/settingsStorage')
       require('./editor/stores/wordpressData/wordpressDataStorage')
       require('./config/wp-modules')
