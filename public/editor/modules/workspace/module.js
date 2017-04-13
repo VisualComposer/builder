@@ -2,7 +2,7 @@ import {add, getStorage, env} from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from './containers/workspaceCont'
-import StartBlankPanel from '../../../resources/components/startBlank/startBlankPanel'
+import StartBlankPanel from '../../../resources/components/startBlank/StartBlankPanel'
 
 const localStorage = getStorage('localStorage')
 const workspaceStorage = getStorage('workspace')

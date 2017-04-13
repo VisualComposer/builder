@@ -64,6 +64,14 @@ addStorage('workspace', (storage) => {
     localStorage.trigger('start')
     storage.state('app').set('started')
   })
+  storage.on('addTemplate', () => {
+    storage.state('settings').set({
+      action: 'addTemplate',
+      element: false,
+      tag: false,
+      options: {}
+    })
+  })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,
     resizeLeft: 0

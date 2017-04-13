@@ -1,5 +1,5 @@
 import React from 'react'
-import FormWrapper from './lib/formWrapper'
+import FormWrapper from './lib/FormWrapper'
 import ActivitiesManager from './lib/activitiesManager'
 import './css/init.less'
 import {getStorage, getService} from 'vc-cake'

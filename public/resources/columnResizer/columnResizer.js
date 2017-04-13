@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
+const elementsStorage = vcCake.getStorage('elements')
 
 class ColumnResizer extends React.Component {
   static defaultGridPercentage = [ 25, 33.33, 50, 66.66, 75 ]
@@ -305,7 +306,7 @@ class ColumnResizer extends React.Component {
     layoutData[ this.resizerData.leftColumnIndex ] = `${leftSize}%`
     layoutData[ this.resizerData.rightColumnIndex ] = `${rightSize}%`
     parentRow.layout.layoutData = layoutData
-    this.props.api.request('data:update', parentRow.id, parentRow)
+    elementsStorage.trigger('update', parentRow.id, parentRow)
   }
 
   render () {

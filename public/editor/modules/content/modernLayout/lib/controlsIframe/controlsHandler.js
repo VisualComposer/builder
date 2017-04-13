@@ -56,9 +56,9 @@ export default class ControlsHandler {
    */
   show (data) {
     this.createControls(data)
-    this.autoUpdateContainerPosition(data.element)
+    this.autoUpdateContainerPosition(data)
     this.createAppendControl(data)
-    this.autoUpdateAppendContainerPosition(data.element)
+    this.autoUpdateAppendContainerPosition(data)
   }
 
   /**
@@ -406,10 +406,10 @@ export default class ControlsHandler {
 
   /**
    * Update controls container position
-   * @param element
+   * @param data
    */
-  updateContainerPosition (element) {
-    let elementPos = element.getBoundingClientRect()
+  updateContainerPosition (data) {
+    let elementPos = data.element.getBoundingClientRect()
     let controls = this.controlsContainer.firstElementChild
     let controlsHeight = 0
     if (controls) {
@@ -445,10 +445,10 @@ export default class ControlsHandler {
 
   /**
    * Update append control container position
-   * @param element
+   * @param data
    */
-  updateAppendContainerPosition (element) {
-    let elementPos = element.getBoundingClientRect()
+  updateAppendContainerPosition (data) {
+    let elementPos = data.element.getBoundingClientRect()
     let control = this.appendControlContainer.firstElementChild
     let controlPos = 0
     if (control) {
@@ -469,25 +469,25 @@ export default class ControlsHandler {
 
   /**
    * Automatically update controls container position after timeout
-   * @param element
+   * @param data
    */
-  autoUpdateContainerPosition (element) {
+  autoUpdateContainerPosition (data) {
     this.stopAutoUpdateContainerPosition()
     if (!this.state.containerTimeout) {
-      this.updateContainerPosition(element, this.outline)
-      this.state.containerTimeout = this.iframeWindow.setInterval(this.updateContainerPosition.bind(this, element, this.outline), 16)
+      this.updateContainerPosition(data, this.outline)
+      this.state.containerTimeout = this.iframeWindow.setInterval(this.updateContainerPosition.bind(this, data, this.outline), 16)
     }
   }
 
   /**
    * Automatically update append control container position after timeout
-   * @param element
+   * @param data
    */
-  autoUpdateAppendContainerPosition (element) {
+  autoUpdateAppendContainerPosition (data) {
     this.stopAutoUpdateAppendContainerPosition()
     if (!this.state.appendContainerTimeout) {
-      this.updateAppendContainerPosition(element, this.outline)
-      this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, element, this.outline), 16)
+      this.updateAppendContainerPosition(data, this.outline)
+      this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, data, this.outline), 16)
     }
   }
 

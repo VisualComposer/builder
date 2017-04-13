@@ -64,7 +64,7 @@ export default class DndManager {
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
       workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
-        this.items.option('disabled', value === 'contentEditable')
+        this.items.option('disabled', value === 'contentEditable' || value === 'columnResizer')
       })
     }
   }
