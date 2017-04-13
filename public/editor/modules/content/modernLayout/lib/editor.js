@@ -1,7 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import HtmlLayout from './htmlLayout'
-import BlankPageManagerFront from './helpers/BlankPageManagerFront/component'
 const elementsStorage = vcCake.getStorage('elements')
 
 export default class LayoutEditor extends React.Component {
@@ -25,9 +24,6 @@ export default class LayoutEditor extends React.Component {
   }
 
   getContent () {
-    if (this.state.data.length === 0 && vcCake.getData('app:dataLoaded') === true) {
-      return (<BlankPageManagerFront api={this.props.api} />)
-    }
     return (<HtmlLayout data={this.state.data} api={this.props.api} />)
   }
 
