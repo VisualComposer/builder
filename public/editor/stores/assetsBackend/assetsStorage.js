@@ -1,4 +1,4 @@
-import { addStorage, getService, getStorage } from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 

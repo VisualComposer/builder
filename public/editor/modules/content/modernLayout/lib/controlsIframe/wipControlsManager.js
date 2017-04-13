@@ -123,7 +123,6 @@ export default class ControlsManager {
       if (this.state.prevElement !== element) {
         // unset prev element
         if (this.state.prevElement) {
-
           layoutStorage.state('interactWithContent').set({
             type: 'mouseLeave',
             element: this.state.prevElement,
@@ -456,4 +455,3 @@ export default class ControlsManager {
     this.frames.show({ path: elementsToShow })
   }
 }
-
