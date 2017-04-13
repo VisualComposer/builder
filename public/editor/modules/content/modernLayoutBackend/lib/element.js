@@ -27,7 +27,7 @@ export default class Element extends React.Component {
   }
 
   componentDidMount () {
-    // this.props.api.notify('element:mount', this.props.element.id)
+    this.props.api.notify('element:mount', this.props.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
     // rename row/column id to prevent applying of DO
@@ -38,7 +38,7 @@ export default class Element extends React.Component {
   }
 
   componentWillUnmount () {
-    // this.props.api.notify('element:unmount', this.props.element.id)
+    this.props.api.notify('element:unmount', this.props.element.id)
     elementsStorage.state('element:' + this.state.element.id).ignoreChange(this.dataUpdate)
     assetsStorage.trigger('removeElement', this.state.element.id)
     let element = document.querySelector(`#el-${this.props.element.id}-temp`)
