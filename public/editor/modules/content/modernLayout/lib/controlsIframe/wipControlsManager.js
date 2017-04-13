@@ -281,7 +281,6 @@ export default class ControlsManager {
    * Handle control click
    */
   handleControlClick (controlsContainer, e) {
-    console.log('handlecontrolsclick')
     e && e.button === 0 && e.preventDefault()
     if (e.button === 0) {
       let path = this.getPath(e)
