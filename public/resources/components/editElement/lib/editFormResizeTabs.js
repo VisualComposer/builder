@@ -11,9 +11,9 @@ export default class EditFormResizeTabs extends React.Component {
     updateTabs: React.PropTypes.func.isRequired
   }
   allTabs = this.props.allTabs
-  freeSpace = null
   options = null
   showDropdown = false
+  editorNav = null
 
   componentWillReceiveProps (nextProps) {
     this.allTabs = nextProps.allTabs
@@ -24,36 +24,36 @@ export default class EditFormResizeTabs extends React.Component {
   }
 
   doRefresh = () => {
-    this.refreshTabs(ReactDOM.findDOMNode(this.freeSpace), this.options)
+    this.refreshTabs(ReactDOM.findDOMNode(this.editorNav), this.options)
   }
 
-  onTabsMount = (freespace, options) => {
+  onTabsMount = (editorNav, options) => {
     this.options = options
-    this.freeSpace = freespace
-    Utils.addResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
+    this.editorNav = editorNav
+    Utils.addResizeListener(ReactDOM.findDOMNode(editorNav), options, this.refreshTabs)
   }
 
-  onTabsUnmount = (freespace, options) => {
+  onTabsUnmount = (editorNav, options) => {
     this.options = options
-    this.freeSpace = freespace
-    Utils.removeResizeListener(ReactDOM.findDOMNode(freespace), options, this.refreshTabs)
+    this.editorNav = editorNav
+    Utils.removeResizeListener(ReactDOM.findDOMNode(editorNav), options, this.refreshTabs)
   }
 
-  refreshTabs = ($freeSpace, options) => {
-    // get tabs line width
-    let freeSpace = $freeSpace.offsetWidth
+  refreshTabs = ($editorNav, options) => {
+    let editorNavWidth = $editorNav.offsetWidth
+    let editorTabsWidth = options.tabsWrapper.offsetWidth
 
     // If there is no space show dropdown and hide tabs.
-    if (freeSpace === 0 && !this.showDropdown) {
+    if (editorNavWidth <= editorTabsWidth && !this.showDropdown) {
       this.showDropdown = true
       this.forceUpdate(() => {
-        this.refreshTabs($freeSpace, options)
+        this.refreshTabs($editorNav, options)
       })
       return
     }
 
     // If we have free space hide dropdown and show tabs.
-    if (this.showDropdown && freeSpace) {
+    if (this.showDropdown && editorNavWidth > editorTabsWidth) {
       this.showDropdown = false
       this.forceUpdate()
     }
