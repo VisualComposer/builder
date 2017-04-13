@@ -361,7 +361,7 @@ export default class ControlsManager {
       }
     })
   }
-  
+
   /**
    * Find element in controls (needed for controls interaction)
    * @param e
