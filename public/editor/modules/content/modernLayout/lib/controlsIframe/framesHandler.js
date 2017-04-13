@@ -1,11 +1,5 @@
 export default class Frames {
-  constructor (sliceSize, props) {
-    Object.defineProperty(this, 'sliceSize', {
-      enumerable: false,
-      configurable: false,
-      writable: false,
-      value: sliceSize
-    })
+  constructor (props) {
     this.iframeContainer = props.iframeContainer
     this.iframeOverlay = props.iframeOverlay
     this.iframe = props.iframe
@@ -17,20 +11,16 @@ export default class Frames {
     this.state = {
       framesTimeout: []
     }
-
-    this.setup()
   }
 
   /**
-   * Generate frames and add them to overlay
+   * Create frame and add it to frame list
    */
-  setup () {
-    for (let i = 0; i < this.sliceSize; i++) {
-      let frame = document.createElement('svg')
-      frame.classList.add('vcv-ui-element-frame')
-      this.iframeOverlay.appendChild(frame)
-      this.frames.push(frame)
-    }
+  addFrame () {
+    let frame = document.createElement('svg')
+    frame.classList.add('vcv-ui-element-frame')
+    this.iframeOverlay.appendChild(frame)
+    this.frames.push(frame)
   }
 
   /**
@@ -56,13 +46,15 @@ export default class Frames {
    * @param data
    */
   show (data) {
-    if (this.sliceSize) {
-      let slicedElements = data.path.slice(0, this.sliceSize)
-      slicedElements.forEach((element, index) => {
-        this.frames[ index ].classList.add('vcv-state--visible')
-      })
-      this.autoUpdatePosition(slicedElements)
+    let elements = data.path
+    // add frames if current frames count is not enough
+    while (elements.length > this.frames.length) {
+      this.addFrame()
     }
+    elements.forEach((element, index) => {
+      this.frames[ index ].classList.add('vcv-state--visible')
+    })
+    this.autoUpdatePosition(elements)
   }
 
   /**
@@ -97,4 +89,3 @@ export default class Frames {
     this.state.framesTimeout = []
   }
 }
-

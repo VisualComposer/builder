@@ -25,6 +25,8 @@ export default class ControlsManager {
       prevTarget: null,
       prevElement: null,
       prevElementPath: [],
+      controlsPrevTarget: null,
+      controlsPrevElement: null,
       showOutline: true,
       showFrames: true,
       showControls: true
@@ -59,7 +61,7 @@ export default class ControlsManager {
        * @memberOf! FramesManager
        */
       frames: {
-        value: new FramesHandler(options.framesCount, systemData),
+        value: new FramesHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -77,7 +79,7 @@ export default class ControlsManager {
        * @memberOf! ControlsManager
        */
       controls: {
-        value: new ControlsHandler(options.framesCount, systemData),
+        value: new ControlsHandler(systemData),
         writable: false,
         enumerable: false,
         configurable: false
@@ -86,6 +88,9 @@ export default class ControlsManager {
 
     // Subscribe to main event to interact with content elements
     this.iframeDocument.body.addEventListener('mousemove', this.findElement)
+    // add controls interaction with content
+    this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
+    this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
   }
 
   /**
@@ -99,56 +104,39 @@ export default class ControlsManager {
         target: null
       }
     }
-
-    if (e.target !== this.prevTarget) {
-      this.prevTarget = e.target
+    if (e.target !== this.state.prevTarget) {
+      this.state.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
       let elPath = path.filter((el) => {
-        return el.dataset && el.dataset.hasOwnProperty('vcvElement')
+        return el.dataset && (el.dataset.hasOwnProperty('vcvElement') || el.dataset.hasOwnProperty('vcvLinkedElement'))
       })
       let element = null
       if (elPath.length) {
         element = elPath[ 0 ] // first element in path always hovered element
       }
-      if (this.prevElement !== element) {
+      // replace linked element with real element
+      if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
+        element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
+        elPath[ 0 ] = element
+      }
+      if (this.state.prevElement !== element) {
         // unset prev element
-        if (this.prevElement) {
-          this.mouseLeave({
+        if (this.state.prevElement) {
+
+          layoutStorage.state('interactWithContent').set({
             type: 'mouseLeave',
-            element: this.prevElement,
-            vcElementId: this.prevElement.dataset.vcvElement,
-            path: this.prevElementPath,
-            vcElementsPath: this.prevElementPath.map((el) => {
+            element: this.state.prevElement,
+            vcElementId: this.state.prevElement.dataset.vcvElement,
+            path: this.state.prevElementPath,
+            vcElementsPath: this.state.prevElementPath.map((el) => {
               return el.dataset.vcvElement
             })
           })
-          /*
-          workspaceStorage.state('userInteractWith').set({
-            type: 'mouseLeave',
-            element: this.prevElement,
-            vcElementId: this.prevElement.dataset.vcvElement,
-            path: this.prevElementPath,
-            vcElementsPath: this.prevElementPath.map((el) => {
-              return el.dataset.vcvElement
-            })
-          })
-          */
         }
         // set new element
         if (element) {
-          /*
-          workspaceStorage.state('userInteractWith').set({
-            type: 'mouseEnter',
-            element: element,
-            vcElementId: element.dataset.vcvElement,
-            path: elPath,
-            vcElementsPath: elPath.map((el) => {
-              return el.dataset.vcvElement
-            })
-          })
-          */
-          this.mouseEnter({
+          layoutStorage.state('interactWithContent').set({
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -159,8 +147,8 @@ export default class ControlsManager {
           })
         }
 
-        this.prevElement = element
-        this.prevElementPath = elPath
+        this.state.prevElement = element
+        this.state.prevElementPath = elPath
       }
     }
   }
@@ -189,7 +177,6 @@ export default class ControlsManager {
    */
   init (options = {}) {
     let defaultOptions = {
-      framesCount: 3,
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
@@ -202,26 +189,36 @@ export default class ControlsManager {
     this.setup(options)
 
     // Check custom layout mode
-    /*
     vcCake.onDataChange('vcv:layoutCustomMode', (state) => {
       this.state.showOutline = !state
       this.state.showFrames = !state
+      if (state === 'dnd') {
+        this.state.showFrames = true
+      }
       this.state.showControls = !state
       this.findElement()
       this.controlElementFind()
     })
-    */
+
+    // check column resize
+    vcCake.onDataChange('vcv:layoutColumnResize', (rowId) => {
+      if (rowId) {
+        this.showChildrenFrames(rowId)
+      } else {
+        this.frames.hide()
+      }
+    })
 
     // check remove element
     /*
-    this.api.reply('data:remove', () => {
-      this.findElement()
-      this.controlElementFind()
-    })
-    */
+     this.api.reply('data:remove', () => {
+     this.findElement()
+     this.controlElementFind()
+     })
+     */
 
     // Interact with content
-    // this.interactWithContent()
+    this.interactWithContent()
 
     // Interact with tree
     this.interactWithTree()
@@ -234,46 +231,25 @@ export default class ControlsManager {
    * Interact with content
    */
   interactWithContent () {
-    // Controls interaction
-    /*
-    workspaceStorage.state('userInteractWith').onChange((data) => {
-      // mouseEnter
+    // Content interaction
+    layoutStorage.state('interactWithContent').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
         if (this.state.showControls) {
           this.controls.show(data)
         }
         if (this.state.showFrames) {
-          this.frames.show({ element: data.element, path: data.path })
+          this.showFrames(data)
         }
       }
-
       if (data && data.type === 'mouseLeave') {
-        // MouseLeave
-        this.controls.hide()
-        this.frames.hide()
-      }
-
-    })
-    */
-    /*
-    this.api.reply('editorContent:element:mouseEnter', (data) => {
-      if (this.state.showControls) {
-        this.controls.show(data)
+        if (this.state.showControls) {
+          this.controls.hide()
+        }
+        if (this.state.showFrames) {
+          this.frames.hide()
+        }
       }
     })
-    this.api.reply('editorContent:element:mouseLeave', () => {
-      this.controls.hide()
-    })
-    // Frames interaction
-    this.api.reply('editorContent:element:mouseEnter', (data) => {
-      if (this.state.showFrames) {
-        this.frames.show({ element: data.element, path: data.path })
-      }
-    })
-    this.api.reply('editorContent:element:mouseLeave', () => {
-      this.frames.hide()
-    })
-    */
   }
 
   /**
@@ -290,19 +266,15 @@ export default class ControlsManager {
         this.outline.hide()
       }
     })
-    /*
-    this.api.reply('treeContent:element:mouseEnter', (id) => {
-      if (this.state.showOutline) {
-        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
-        if (element) {
-          this.outline.show(element)
-        }
+    // Controls interaction
+    layoutStorage.state('interactWithControls').onChange((data) => {
+      if (data && data.type === 'mouseEnter') {
+        layoutStorage.state('userInteractWith').set(data.vcElementId)
+      }
+      if (data && data.type === 'mouseLeave') {
+        layoutStorage.state('userInteractWith').set(false)
       }
     })
-    this.api.reply('treeContent:element:mouseLeave', () => {
-      this.outline.hide()
-    })
-    */
   }
 
   /**
@@ -333,13 +305,12 @@ export default class ControlsManager {
           this.findElement()
           this.controlElementFind()
         }
-        workspaceStorage.trigger(event, elementId, tag, options)
       }
     }
   }
 
   /**
-   * Interact with con3trols
+   * Interact with controls
    */
   interactWithControls () {
     // click on action
@@ -372,29 +343,25 @@ export default class ControlsManager {
       }
     )
 
-    // add controls interaction with content
-    if (!this.hasOwnProperty('controlsPrevTarget')) {
-      this.controlsPrevTarget = null
-    }
-    if (!this.hasOwnProperty('controlsPrevElement')) {
-      this.controlsPrevElement = null
-    }
-    this.controls.getControlsContainer().addEventListener('mousemove', this.controlElementFind)
-    this.controls.getControlsContainer().addEventListener('mouseleave', this.controlElementFind)
+    // Controls interaction
+    layoutStorage.state('interactWithControls').onChange((data) => {
+      if (data && data.type === 'mouseEnter') {
+        if (this.state.showOutline) {
+          // show outline over content element
+          let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]`)
+          if (contentElement) {
+            this.outline.show(contentElement)
+          }
+        }
+      }
+      if (data && data.type === 'mouseLeave') {
+        if (this.state.showOutline) {
+          this.outline.hide()
+        }
+      }
+    })
   }
-  mouseLeave () {
-    this.controls.hide()
-    this.frames.hide()
-    this.outline.hide()
-  }
-  mouseEnter (data) {
-    if (this.state.showControls) {
-      this.controls.show(data)
-    }
-    if (this.state.showFrames) {
-      this.frames.show({ element: data.element, path: data.path })
-    }
-  }
+  
   /**
    * Find element in controls (needed for controls interaction)
    * @param e
@@ -406,8 +373,8 @@ export default class ControlsManager {
         target: null
       }
     }
-    if (e.target !== this.controlsPrevTarget) {
-      this.controlsPrevTarget = e.target
+    if (e.target !== this.state.controlsPrevTarget) {
+      this.state.controlsPrevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
       // search for event
@@ -421,41 +388,71 @@ export default class ControlsManager {
         }
         i++
       }
-      if (this.controlsPrevElement !== element) {
+      if (this.state.controlsPrevElement !== element) {
         // unset prev element
-        if (this.controlsPrevElement) {
-          // remove highlight from tree view
-         /*
-         this.api.request('editorContent:control:mouseLeave', {
+        if (this.state.controlsPrevElement) {
+          layoutStorage.state('interactWithControls').set({
             type: 'mouseLeave',
-            vcElementId: this.controlsPrevElement
+            vcElementId: this.state.controlsPrevElement
           })
-          */
-          layoutStorage.state('userInteractWith').set(this.controlsPrevElement)
-          // hide ouutline from tree element
         }
         // set new element
         if (element) {
-          if (this.state.showOutline) {
-            // highlight tree view
-            layoutStorage.state('userInteractWith').set(element)
-            /*
-            this.api.request('editorContent:control:mouseEnter', {
-              type: 'mouseEnter',
-              vcElementId: element
-            })
-            */
-            // show outline over content element
-            let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${element}"]`)
-            if (contentElement) {
-              this.outline.show(contentElement)
-            }
-          }
+          layoutStorage.state('interactWithControls').set({
+            type: 'mouseEnter',
+            vcElementId: element
+          })
         }
-
-        this.controlsPrevElement = element
+        this.state.controlsPrevElement = element
       }
     }
+  }
+
+  /**
+   * Show frames with custom path
+   */
+  showFrames (data) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    data.vcElementsPath.forEach((id) => {
+      let documentElement = documentService.get(id)
+      if (documentElement.tag === 'column') {
+        let children = documentService.children(documentElement.parent)
+        children.forEach((child) => {
+          elementsToShow.push(child.id)
+        })
+      } else {
+        elementsToShow.push(documentElement.id)
+      }
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.frames.show({ element: data.element, path: elementsToShow })
+  }
+
+  /**
+   * Show frames on elements children
+   */
+  showChildrenFrames (parentId) {
+    const documentService = vcCake.getService('document')
+    let elementsToShow = []
+    let children = documentService.children(parentId)
+    children.forEach((child) => {
+      elementsToShow.push(child.id)
+    })
+    elementsToShow = elementsToShow.map((id) => {
+      let selector = `[data-vcv-element="${id}"]`
+      return this.iframeDocument.querySelector(selector)
+    })
+    elementsToShow = elementsToShow.filter((el) => {
+      return el
+    })
+    this.frames.show({ path: elementsToShow })
   }
 }
 

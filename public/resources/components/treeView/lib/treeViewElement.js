@@ -246,9 +246,9 @@ export default class TreeViewElement extends React.Component {
         <div
           className={controlClasses}
           style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
-          // onMouseOver={this.handleMouseEnter}
-          // onMouseLeave={this.handleMouseLeave}
-          // onClick={this.scrollToElement}
+          onMouseOver={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          onClick={this.scrollToElement}
         >
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
