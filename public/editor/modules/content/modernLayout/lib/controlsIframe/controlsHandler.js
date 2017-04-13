@@ -445,10 +445,10 @@ export default class ControlsHandler {
 
   /**
    * Update append control container position
-   * @param element
+   * @param data
    */
-  updateAppendContainerPosition (element) {
-    let elementPos = element.getBoundingClientRect()
+  updateAppendContainerPosition (data) {
+    let elementPos = data.element.getBoundingClientRect()
     let control = this.appendControlContainer.firstElementChild
     let controlPos = 0
     if (control) {
@@ -481,13 +481,13 @@ export default class ControlsHandler {
 
   /**
    * Automatically update append control container position after timeout
-   * @param element
+   * @param data
    */
-  autoUpdateAppendContainerPosition (element) {
+  autoUpdateAppendContainerPosition (data) {
     this.stopAutoUpdateAppendContainerPosition()
     if (!this.state.appendContainerTimeout) {
-      this.updateAppendContainerPosition(element, this.outline)
-      this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, element, this.outline), 16)
+      this.updateAppendContainerPosition(data, this.outline)
+      this.state.appendContainerTimeout = this.iframeWindow.setInterval(this.updateAppendContainerPosition.bind(this, data, this.outline), 16)
     }
   }
 
