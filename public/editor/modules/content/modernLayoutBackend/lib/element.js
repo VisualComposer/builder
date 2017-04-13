@@ -88,6 +88,9 @@ export default class Element extends React.Component {
 
   getOutput (el) {
     let { element, api, layoutWidth } = this.props
+    if (!el) {
+      return null
+    }
     let id = el.get('id')
     let ContentComponent = el.getContentComponent()
     if (!ContentComponent) {

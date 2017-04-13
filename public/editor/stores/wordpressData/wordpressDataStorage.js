@@ -48,10 +48,10 @@ addStorage('wordpressData', (storage) => {
         elementsStorage.trigger('reset', {})
       }
       if (responseData.cssSettings && responseData.cssSettings.custom) {
-        customCssState.set(responseData.cssSettings.custom)
+        customCssState.set(responseData.cssSettings.custom || '')
       }
       if (responseData.cssSettings && responseData.cssSettings.global) {
-        globalCssState.set(responseData.cssSettings.global)
+        globalCssState.set(responseData.cssSettings.global || '')
       }
       if (responseData.myTemplates) {
         let templates = JSON.parse(responseData.myTemplates || '{}')

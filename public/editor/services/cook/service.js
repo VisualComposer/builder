@@ -8,7 +8,7 @@ import CookElement from './lib/element'
 
 const DocumentData = getService('document')
 
-addService('cook', {
+const API = {
   get (data) {
     if (!data || !data.tag) {
       console.error('No element Tag provided', data)
@@ -53,7 +53,8 @@ addService('cook', {
       let list = elementSettings.list()
 
       return lodash.sortBy(list.map((item) => {
-        return buildSettingsObject(item.settings)
+        let elementValues = buildSettingsObject(item.settings)
+        return API.get(elementValues).toJS()
       }), sortSelector)
     }
   },
@@ -62,8 +63,10 @@ addService('cook', {
     let groups = element.containerFor()
     let allElements = this.list.settings()
     return allElements.filter((settings) => {
-      let element = this.get(settings)
+      let element = API.get(settings)
       return element ? element.relatedTo(groups) : false
     })
   }
-})
+}
+
+addService('cook', API)
