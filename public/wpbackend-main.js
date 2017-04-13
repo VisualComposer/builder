@@ -14,7 +14,7 @@ $(() => {
   vcCake.env('iframe', iframe)
   vcCake.env('platform', 'wordpress').start(() => {
     require('./editor/stores/elements/elementsStorage')
-    require('./editor/stores/assets/assetsStorage')
+    require('./editor/stores/assetsBackend/assetsStorage')
     require('./editor/stores/workspaceStorage')
     require('./editor/stores/history/historyStorage')
     require('./editor/stores/history/elementHistoryStorage')

@@ -103,7 +103,7 @@ module.exports = {
     wp: {
       modules: [
         'content/storage',
-        //'content/assets',
+        // 'content/assets',
         'content/layout',
         'content/wordpress/data-load',
         'content/wordpress/data-save',
@@ -140,7 +140,7 @@ module.exports = {
         'assetsStorage',
         'assetsManager',
         'stylesManager'
-        //'wpMyTemplates'
+        // 'wpMyTemplates'
       ]
     },
     wpbackend: {

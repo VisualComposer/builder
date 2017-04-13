@@ -5,7 +5,6 @@ export default class FormDropdown extends React.Component {
   static propTypes = {
     activeTabIndex: React.PropTypes.number.isRequired,
     allTabs: React.PropTypes.array.isRequired,
-    getTabsWrapper: React.PropTypes.func.isRequired,
     setFieldMount: React.PropTypes.func.isRequired,
     setFieldUnmount: React.PropTypes.func.isRequired
   }
@@ -13,25 +12,13 @@ export default class FormDropdown extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      selectValue: this.props.activeTabIndex,
-      maxWidth: null
+      selectValue: this.props.activeTabIndex
     }
     this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
-  componentDidMount () {
-    this.setMaxWidth()
-  }
-
   componentWillReceiveProps (nextProps) {
     this.setSelectValue(nextProps.activeTabIndex)
-  }
-
-  setMaxWidth () {
-    let maxWidth = this.props.getTabsWrapper().offsetWidth
-    this.setState({
-      maxWidth: maxWidth
-    })
   }
 
   handleSelectChange (e) {
@@ -45,11 +32,6 @@ export default class FormDropdown extends React.Component {
   }
 
   render () {
-    let customProps = {}
-    customProps.style = {
-      maxWidth: this.state.maxWidth
-    }
-
     let { allTabs } = this.props
     let options = []
     allTabs.forEach((tab) => {
@@ -66,7 +48,6 @@ export default class FormDropdown extends React.Component {
         className='vcv-ui-form-dropdown vcv-ui-editors-header-dropdown'
         value={this.state.selectValue}
         onChange={this.handleSelectChange}
-        {...customProps}
       >
         {options}
       </select>

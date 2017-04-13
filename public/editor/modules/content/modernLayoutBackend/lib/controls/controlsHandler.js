@@ -146,7 +146,7 @@ export default class ControlsHandler {
     appendControl.classList.add('vcv-ui-append-control')
     appendControl.title = 'Add Element'
     appendControl.dataset.vcvElementId = containerElement.get('id')
-    appendControl.dataset.vcControlEvent = 'app:add'
+    appendControl.dataset.vcControlEvent = 'add'
     appendControl.dataset.vcControlEventOptions = ''
     appendControl.dataset.vcControlEventOptionInsertAfter = insertAfterElement
     let appendControlContent = document.createElement('i')
