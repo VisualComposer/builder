@@ -3,6 +3,7 @@ import {getStorage} from 'vc-cake'
 import NavbarContent from '../navbarContent'
 
 const historyStorage = getStorage('history')
+// const elementHistoryStorage = getStorage('elementHistory')
 const workspaceStorage = getStorage('workspace')
 
 export default class UndoRedoControl extends NavbarContent {
@@ -17,17 +18,18 @@ export default class UndoRedoControl extends NavbarContent {
     this.handleRedo = this.handleRedo.bind(this)
     this.handleUndo = this.handleUndo.bind(this)
     this.checkWorkspaceSettings = this.checkWorkspaceSettings.bind(this)
+    this.activeHistory = historyStorage
   }
 
   componentWillMount () {
     this.checkControls()
-    historyStorage.state('canRedo').onChange(this.checkRedoState)
-    historyStorage.state('canUndo').onChange(this.checkUndoState)
+    this.activeHistory.state('canRedo').onChange(this.checkRedoState)
+    this.activeHistory.state('canUndo').onChange(this.checkUndoState)
     workspaceStorage.state('settings').onChange(this.checkWorkspaceSettings)
   }
   componentWillUnmount () {
-    historyStorage.state('canRedo').ignoreChange(this.checkRedoState)
-    historyStorage.state('canUndo').ignoreChange(this.checkUndoState)
+    this.activeHistory.state('canRedo').ignoreChange(this.checkRedoState)
+    this.activeHistory.state('canUndo').ignoreChange(this.checkUndoState)
     workspaceStorage.state('settings').ignoreChange(this.checkWorkspaceSettings)
   }
   checkUndoState (value) {
@@ -41,18 +43,24 @@ export default class UndoRedoControl extends NavbarContent {
     })
   }
   checkControls () {
-    this.checkRedoState(historyStorage.state('canRedo').get())
-    this.checkUndoState(historyStorage.state('canUndo').get())
+    this.checkRedoState(this.activeHistory.state('canRedo').get())
+    this.checkUndoState(this.activeHistory.state('canUndo').get())
   }
   checkWorkspaceSettings (data) {
-    // change history storage to manage data
+    /*
+    if (data && data.action === 'edit') {
+      this.activeHistory = elementHistoryStorage
+    } else {
+      this.activeHistory = historyStorage
+    }
+    */
   }
   handleUndo () {
-    historyStorage.trigger('undo')
+    this.activeHistory.trigger('undo')
   }
 
   handleRedo () {
-    historyStorage.trigger('redo')
+    this.activeHistory.trigger('redo')
   }
 
   render () {

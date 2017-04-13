@@ -7,13 +7,14 @@ import TimeMachine from './lib/timeMachine'
 addStorage('elementHistory', (storage) => {
   const elementsStorage = getStorage('elements')
   const elementTimeMachine = new TimeMachine('element')
+  let inited = false
   const checkUndoRedo = () => {
     storage.state('canRedo').set(elementTimeMachine.canRedo())
     storage.state('canUndo').set(elementTimeMachine.canUndo())
   }
   const updateElementsStorage = () => {
     const data = elementTimeMachine.get()
-    elementsStorage.trigger('update', data.id, data)
+    data && elementsStorage.trigger('update', data.id, data)
   }
   storage.on('undo', () => {
     elementTimeMachine.undo()
@@ -29,12 +30,21 @@ addStorage('elementHistory', (storage) => {
   })
   storage.on('init', (data = false) => {
     if (data) {
+      inited = true
       elementTimeMachine.clear()
       elementTimeMachine.setZeroState(data)
     }
     checkUndoRedo()
   })
+  storage.on('disable', () => {
+    inited = false
+    elementTimeMachine.clear()
+    checkUndoRedo()
+  })
   storage.on('add', (data) => {
+    if (!inited) {
+      return
+    }
     elementTimeMachine.add(data)
     checkUndoRedo()
   })

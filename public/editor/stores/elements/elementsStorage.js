@@ -7,7 +7,7 @@ addStorage('elements', (storage) => {
   const assets = getStorage('assets')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
-  const updateTimeMachine = (branch = 'elements') => {
+  const updateTimeMachine = () => {
     historyStorage.trigger('add', documentManager.all())
   }
   storage.on('add', (elementData, wrap = true, options = {}) => {
@@ -169,7 +169,7 @@ addStorage('elements', (storage) => {
   })
   storage.on('reset', (data) => {
     documentManager.reset(data || {})
-    historyStorage.trigger('initElements', data)
+    historyStorage.trigger('init', data)
     storage.state('document').set(documentManager.children(false))
   })
   storage.on('updateAll', (data) => {

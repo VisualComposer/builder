@@ -28,6 +28,7 @@ $(() => {
       require('./editor/stores/assets/assetsStorage')
       require('./editor/stores/workspaceStorage')
       require('./editor/stores/history/historyStorage')
+      require('./editor/stores/history/elementHistoryStorage')
       require('./editor/stores/settingsStorage')
       require('./editor/stores/wordpressData/wordpressDataStorage')
       require('./config/wp-modules')
