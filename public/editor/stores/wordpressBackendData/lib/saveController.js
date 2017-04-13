@@ -47,34 +47,34 @@ export default class SaveController {
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
-      if (iframe && iframe.contentWindow && iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]')) {
-        if (window.switchEditors && window.tinymce) {
-          window.switchEditors.go('content', 'html')
-        }
-        document.getElementById('content').value = content
-        document.getElementById('vcv-ready').value = '1'
-        document.getElementById('vcv-action').value = 'setData:adminNonce'
-        document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
-        document.getElementById('vcv-global-elements-css').value = globalStyles
-        document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(globalElements))
-        document.getElementById('vcv-source-css').value = pageStyles
-        document.getElementById('vcv-source-assets-files').value = encodeURIComponent(JSON.stringify(assetsFiles))
-        document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get()
-        document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get()
-        if (typeof callback === 'function') {
-          callback('success')
-        }
-        status.set({
-          status: 'success'
-        })
-      } else {
-        if (typeof callback === 'function') {
-          callback('failed')
-        }
-        status.set({
-          status: 'failed'
-        })
+      // if (iframe && iframe.contentWindow && iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]')) {
+      if (window.switchEditors && window.tinymce) {
+        window.switchEditors.go('content', 'html')
       }
+      document.getElementById('content').value = content
+      document.getElementById('vcv-ready').value = '1'
+      document.getElementById('vcv-action').value = 'setData:adminNonce'
+      document.getElementById('vcv-data').value = encodeURIComponent(JSON.stringify(data))
+      document.getElementById('vcv-global-elements-css').value = globalStyles
+      document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(globalElements))
+      document.getElementById('vcv-source-css').value = pageStyles
+      document.getElementById('vcv-source-assets-files').value = encodeURIComponent(JSON.stringify(assetsFiles))
+      document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get()
+      document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get()
+      if (typeof callback === 'function') {
+        callback('success')
+      }
+      status.set({
+        status: 'success'
+      })
+      // } else {
+      //   if (typeof callback === 'function') {
+      //     callback('failed')
+      //   }
+      //   status.set({
+      //     status: 'failed'
+      //   })
+      // }
     })
   }
 
