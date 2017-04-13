@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../../resources/dnd/dnd'
+const workspaceStorage = vcCake.getStorage('workspace')
 
 require('../../../../../../sources/less/content/layout/dnd/init.less')
 export default class DndManager {
@@ -48,11 +49,17 @@ export default class DndManager {
       this.items.init()
       this.apiDnD = DnD.api(this.items)
       vcCake.onDataChange('draggingElement', this.apiDnD.start.bind(this.apiDnD))
-      this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
+      // this.api.reply('ui:settingsUpdated', this.updateOffsetTop.bind(this))
+      workspaceStorage.state('navbarPosition').onChange(this.updateOffsetTop.bind(this))
       vcCake.onDataChange('vcv:layoutCustomMode', (value) => {
         this.items.option('disabled', value === 'contentEditable' || value === 'columnResizer')
       })
     }
+  }
+
+  removeItems () {
+    this.items = null
+    workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
 
   getOffsetTop () {
@@ -84,7 +91,8 @@ export default class DndManager {
     this.items.removeItem(id)
     window.setTimeout(() => {
       if (!document.querySelector('[data-vcv-module="content-layout"]')) {
-        this.items = null
+        // this.items = null
+        this.removeItems()
       }
     }, 0)
   }
@@ -96,7 +104,8 @@ export default class DndManager {
 
   move (id, action, related) {
     if (id && related) {
-      this.api.request('data:move', id, { action: action, related: related })
+      // this.api.request('data:move', id, { action: action, related: related })
+      workspaceStorage.trigger('move', id, { action: action, related: related })
     }
   }
 

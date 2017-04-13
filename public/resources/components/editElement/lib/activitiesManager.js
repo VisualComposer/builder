@@ -4,7 +4,7 @@ import vcCake from 'vc-cake'
 const RulesManager = vcCake.getService('rules-manager')
 const ActionsManager = vcCake.getService('actions-manager')
 const elementsStorage = vcCake.getStorage('elements')
-const cook = vcCake.getService('cook')
+// const cook = vcCake.getService('cook')
 
 export default class ActivitiesManager extends React.Component {
   static propTypes = {

@@ -17,23 +17,15 @@ export default class EditFormTabsOutput extends React.Component {
   }
 
   componentDidMount () {
-    this.props.onTabsMount(this.refs[ 'editorTabsFreeSpace' ], {
-      getDropdown: this.getDropdown
+    this.props.onTabsMount(this.refs[ 'editorTabs' ], {
+      tabsWrapper: ReactDOM.findDOMNode(this.refs[ 'editorTabsWrapper' ])
     })
   }
 
   componentWillUnmount () {
-    this.props.onTabsUnmount(this.refs[ 'editorTabsFreeSpace' ], {
-      getDropdown: this.getDropdown
+    this.props.onTabsUnmount(this.refs[ 'editorTabs' ], {
+      tabsWrapper: ReactDOM.findDOMNode(this.refs[ 'editorTabsWrapper' ])
     })
-  }
-
-  getDropdown = () => {
-    return ReactDOM.findDOMNode(this.refs[ 'editorTabsDropdown' ])
-  }
-
-  getTabsWrapper = () => {
-    return ReactDOM.findDOMNode(this.refs[ 'editorTabsWrapper' ])
   }
 
   getContainer = () => {
@@ -69,7 +61,6 @@ export default class EditFormTabsOutput extends React.Component {
           allTabs={allTabs}
           setFieldMount={setFieldMount}
           setFieldUnmount={setFieldUnmount}
-          getTabsWrapper={this.getTabsWrapper}
         />
       )
     }
@@ -81,7 +72,6 @@ export default class EditFormTabsOutput extends React.Component {
             {tabsHeaderOutput}
           </div>
           {formDropdown}
-          <span ref='editorTabsFreeSpace' className='vcv-ui-editor-tabs-free-space' />
         </nav>
       </div>
     )

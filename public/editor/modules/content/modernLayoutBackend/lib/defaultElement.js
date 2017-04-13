@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import '../../../../../sources/less/wpbackend/representers/init.less'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')
 const cook = getService('cook')
+const elementsStorage = getStorage('elements')
 
 export default class DefaultElement extends React.Component {
   static propTypes = {
@@ -27,6 +28,7 @@ export default class DefaultElement extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleElementSize = this.handleElementSize.bind(this)
+    this.dataUpdate = this.dataUpdate.bind(this)
   }
 
   // Lifecycle
@@ -36,19 +38,27 @@ export default class DefaultElement extends React.Component {
     if (!cookElement.get('metaBackendLabels')) {
       this.setState({ hasAttributes: false })
     }
+    elementsStorage.state('element:' + this.props.element.id).onChange(this.dataUpdate)
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setState({ element: nextProps.element })
-    this.receivePropsTimeout = setTimeout(() => {
-      this.handleElementSize()
-    }, 1)
+    if (nextProps.layoutWidth !== this.props.layoutWidth) {
+      this.setState({ element: nextProps.element })
+      this.receivePropsTimeout = setTimeout(() => {
+        this.handleElementSize()
+      }, 1)
+    }
   }
 
   componentWillUnmount () {
     if (this.receivePropsTimeout) {
       this.receivePropsTimeout = 0
     }
+    elementsStorage.state('element:' + this.props.element.id).ignoreChange(this.dataUpdate)
+  }
+
+  dataUpdate (data) {
+    this.setState({ element: data || this.props.element })
   }
 
   // Events
