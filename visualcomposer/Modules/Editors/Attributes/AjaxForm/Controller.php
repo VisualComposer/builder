@@ -33,6 +33,9 @@ class Controller extends Container implements Module
         $element = $requestHelper->input('vcv-form-element');
         $value = $requestHelper->input('vcv-form-value');
         // Output Result Form JSON.
+        if (!is_array($response)) {
+            $response = [];
+        }
         $response['html'] = '';
         $response['status'] = true;
 

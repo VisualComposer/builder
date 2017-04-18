@@ -185,6 +185,52 @@ class Elements extends Container implements Module
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
+                'wpWidgetsCustom' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsCustom/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsCustom/wpWidgetsCustom/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsCustom/wpWidgetsCustom/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Wordpress Custom Widget',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/wpWidgetsCustom/wpWidgetsCustom/public/custom-widgets-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/wpWidgetsCustom/wpWidgetsCustom/public/custom-widgets-preview.png'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
+                'wpWidgetsDefault' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsDefault/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsDefault/wpWidgetsDefault/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/wpWidgetsDefault/wpWidgetsDefault/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Wordpress Default Widget',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/wpWidgetsDefault/wpWidgetsDefault/public/wordpress-widgets-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/wpWidgetsDefault/wpWidgetsDefault/public/wordpress-widgets-preview.png'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
             ]
         );
     }
