@@ -208,7 +208,9 @@
         display: block;
       }
 
-      .vcv-ui-resizer-target-bar {
+      .vcv-ui-resizer-target-bar,
+      .vcv-ui-resizer-content-start-right,
+      .vcv-ui-resizer-content-start-right-bottom {
         display: none;
       }
     }
@@ -266,32 +268,21 @@
   }
 
   .vcv-ui-editor-tab-content {
-    line-height: 1;
+    line-height: normal;
   }
 
-}
-
-.vcv-layout-dock--unlock {
-  .vcv-layout-bar-content {
-    &.vcv-layout-bar-content-stack {
-      position: relative;
-      min-height: @vcv-wpbackend-bar-content-stack-unlock-min-height;
-
-      .vcv-layout-bar-content-start {
-        flex-grow: 1;
-
-        .vcv-ui-resizer-target-content {
-          display: none;
-        }
-
-        .vcv-ui-resizer-target-bar {
-          display: block;
+  .vcv-layout-bar {
+    &:not(.vcv-ui-content-end--visible) {
+      .vcv-layout-bar-content {
+        &:not(.vcv-layout-bar-content-stack) {
+          position: absolute;
+          top: 100%;
+          bottom: auto;
+          left: 0;
+          right: 0;
         }
       }
     }
-
-    .vcv-layout-bar-content-start {
-      min-height: @vcv-wpbackend-bar-content-start-unlock-min-height;
-    }
   }
+
 }

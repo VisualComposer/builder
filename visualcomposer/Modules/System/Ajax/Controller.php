@@ -77,7 +77,7 @@ class Controller extends Container implements Module
         wp_die($output);
     }
 
-    private function parseRequest(Request $requestHelper)
+    protected function parseRequest(Request $requestHelper)
     {
         // Require an action parameter.
         if (!$requestHelper->exists('vcv-action')) {
@@ -97,7 +97,7 @@ class Controller extends Container implements Module
         return false;
     }
 
-    private function validateNonce($requestAction, Request $requestHelper, Str $strHelper, Nonce $nonceHelper)
+    protected function validateNonce($requestAction, Request $requestHelper, Str $strHelper, Nonce $nonceHelper)
     {
         if ($strHelper->contains($requestAction, ':nonce')) {
             return $nonceHelper->verifyUser(

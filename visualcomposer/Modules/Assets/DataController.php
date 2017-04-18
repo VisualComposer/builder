@@ -48,7 +48,7 @@ class DataController extends Container implements Module
         return $response;
     }
 
-    private function updateSourceAssets($sourceId)
+    protected function updateSourceAssets($sourceId)
     {
         $requestHelper = vchelper('Request');
         update_post_meta($sourceId, 'vcvSourceAssetsFiles', $requestHelper->inputJson('vcv-source-assets-files'));

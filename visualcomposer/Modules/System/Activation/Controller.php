@@ -30,7 +30,7 @@ class Controller extends Container implements Module
     /**
      * Trigger inner event on activation
      */
-    private function activationHook()
+    protected function activationHook()
     {
         vcevent('vcv:system:activation:hook');
     }

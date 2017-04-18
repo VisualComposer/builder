@@ -30,7 +30,7 @@ export default class NavbarContainer extends React.Component {
     this.setState({locked: !!data})
   }
   render () {
-    return <Navbar>
+    return <Navbar editor='backend'>
       <Logo visibility='pinned' />
       <PlusControl visibility='pinned' />
       <AddTemplateControl />

@@ -127,7 +127,7 @@ export default class ControlsManager {
         // unset prev element
         if (this.prevElement) {
           // this.api.request('editorContent:element:mouseLeave', {
-          this.mouseLeave({
+          layoutStorage.state('interactWithContent').set({
             type: 'mouseLeave',
             element: this.prevElement,
             vcElementId: this.prevElement.dataset.vcvElement,
@@ -140,7 +140,7 @@ export default class ControlsManager {
         // set new element
         if (element) {
           // this.api.request('editorContent:element:mouseEnter', {
-          this.mouseEnter({
+          layoutStorage.state('interactWithContent').set({
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -225,22 +225,38 @@ export default class ControlsManager {
    */
   interactWithContent () {
     // Controls interaction
-    this.api.reply('editorContent:element:mouseEnter', (data) => {
-      if (this.state.showControls) {
-        this.controls.show(data)
+    // this.api.reply('editorContent:element:mouseEnter', (data) => {
+    //   if (this.state.showControls) {
+    //     this.controls.show(data)
+    //   }
+    // })
+    // this.api.reply('editorContent:element:mouseLeave', () => {
+    //   this.controls.hide()
+    // })
+    // // Frames interaction
+    // this.api.reply('editorContent:element:mouseEnter', (data) => {
+    //   if (this.state.showFrames) {
+    //     this.showFrames(data)
+    //   }
+    // })
+    // this.api.reply('editorContent:element:mouseLeave', () => {
+    //   this.frames.hide()
+    // })
+    layoutStorage.state('interactWithContent').onChange((data) => {
+      if (data && data.type === 'mouseEnter') {
+        if (this.state.showControls) {
+          this.controls.show(data)
+        }
+        if (this.state.showFrames) {
+          this.showFrames(data)
+        }
       }
-    })
-    this.api.reply('editorContent:element:mouseLeave', () => {
-      this.controls.hide()
-    })
-    // Frames interaction
-    this.api.reply('editorContent:element:mouseEnter', (data) => {
-      if (this.state.showFrames) {
-        this.showFrames(data)
+      if (data && data.type === 'mouseLeave') {
+        this.controls.hide()
+        if (this.state.showFrames) {
+          this.frames.hide()
+        }
       }
-    })
-    this.api.reply('editorContent:element:mouseLeave', () => {
-      this.frames.hide()
     })
   }
 
@@ -250,7 +266,7 @@ export default class ControlsManager {
   interactWithTree () {
     workspaceStorage.state('userInteractWith').onChange((id = false) => {
       if (id && this.state.showOutline) {
-        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]`)
+        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
         if (element) {
           this.outline.show(element)
         }
@@ -259,18 +275,18 @@ export default class ControlsManager {
       }
     })
     /*
-    this.api.reply('treeContent:element:mouseEnter', (id) => {
-      if (this.state.showOutline) {
-        let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
-        if (element) {
-          this.outline.show(element)
-        }
-      }
-    })
-    this.api.reply('treeContent:element:mouseLeave', () => {
-      this.outline.hide()
-    })
-    */
+     this.api.reply('treeContent:element:mouseEnter', (id) => {
+     if (this.state.showOutline) {
+     let element = this.iframeContainer.querySelector(`[data-vcv-element="${id}"]`)
+     if (element) {
+     this.outline.show(element)
+     }
+     }
+     })
+     this.api.reply('treeContent:element:mouseLeave', () => {
+     this.outline.hide()
+     })
+     */
   }
 
   /**
@@ -387,11 +403,11 @@ export default class ControlsManager {
         if (this.controlsPrevElement) {
           // remove highlight from tree view
           /*
-          this.api.request('editorContent:control:mouseLeave', {
-            type: 'mouseLeave',
-            vcElementId: this.controlsPrevElement
-          })
-          */
+           this.api.request('editorContent:control:mouseLeave', {
+           type: 'mouseLeave',
+           vcElementId: this.controlsPrevElement
+           })
+           */
           layoutStorage.state('userInteractWith').set(this.controlsPrevElement)
           // hide outline from content element
           this.outline.hide()
@@ -402,11 +418,11 @@ export default class ControlsManager {
             // highlight tree view
             layoutStorage.state('userInteractWith').set(element)
             /*
-            this.api.request('editorContent:control:mouseEnter', {
-              type: 'mouseEnter',
-              vcElementId: element
-            })
-            */
+             this.api.request('editorContent:control:mouseEnter', {
+             type: 'mouseEnter',
+             vcElementId: element
+             })
+             */
             // show outline over content element
             let contentElement = this.iframeContainer.querySelector(`[data-vcv-element="${element}"]`)
             if (contentElement) {
@@ -445,27 +461,5 @@ export default class ControlsManager {
       return el
     })
     this.frames.show({ element: data.element, path: elementsToShow })
-  }
-
-  /**
-   * Hide controls, frames, outline on mouseLeave
-   */
-  mouseLeave () {
-    this.controls.hide()
-    this.frames.hide()
-    this.outline.hide()
-  }
-
-  /**
-   * Show controls, frames on mouseEnter
-   * @param data object
-   */
-  mouseEnter (data) {
-    if (this.state.showControls) {
-      this.controls.show(data)
-    }
-    if (this.state.showFrames) {
-      this.frames.show({ element: data.element, path: data.path })
-    }
   }
 }

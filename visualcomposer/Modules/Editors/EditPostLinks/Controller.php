@@ -58,7 +58,7 @@ class Controller extends Container implements Module
      *
      * @return string
      */
-    private function addEditPostLink(
+    protected function addEditPostLink(
         $link,
         CurrentUser $currentUserAccess,
         Request $requestHelper,
@@ -83,7 +83,7 @@ class Controller extends Container implements Module
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    private function adminBarEditLink($wpAdminBar, Frontend $frontendHelper)
+    protected function adminBarEditLink($wpAdminBar, Frontend $frontendHelper)
     {
         if (!is_object($wpAdminBar)) {
             // @codingStandardsIgnoreStart
@@ -110,7 +110,7 @@ class Controller extends Container implements Module
      *
      * @return mixed
      */
-    private function adminRowLinks($actions, Frontend $frontendHelper)
+    protected function adminRowLinks($actions, Frontend $frontendHelper)
     {
         $url = $frontendHelper->getFrontendUrl(get_the_ID());
 

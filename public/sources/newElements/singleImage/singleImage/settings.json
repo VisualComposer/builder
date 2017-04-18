@@ -197,5 +197,14 @@
     "access": "protected",
     "type": "string",
     "value": "singleImage"
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": [
+      "public/js/lib/jquery.zoom.js",
+      "public/js/lib/lightbox.js",
+      "public/js/singleImage.js"
+    ]
   }
 }

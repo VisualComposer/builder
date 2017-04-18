@@ -12,7 +12,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class About.
  */
-class About extends Container implements Module
+class About extends Container /*implements Module*/
 {
     use Page;
     use EventsFilters;

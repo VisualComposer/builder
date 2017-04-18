@@ -59,8 +59,8 @@ export default class SaveController {
       document.getElementById('vcv-global-elements').value = encodeURIComponent(JSON.stringify(globalElements))
       document.getElementById('vcv-source-css').value = pageStyles
       document.getElementById('vcv-source-assets-files').value = encodeURIComponent(JSON.stringify(assetsFiles))
-      document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get()
-      document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get()
+      document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get() || ''
+      document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get() || ''
       if (typeof callback === 'function') {
         callback('success')
       }

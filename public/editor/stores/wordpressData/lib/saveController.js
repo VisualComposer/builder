@@ -55,10 +55,10 @@ export default class SaveController {
           'vcv-data': encodeURIComponent(JSON.stringify(data)),
           'vcv-global-elements-css': globalStyles,
           'vcv-global-elements': encodeURIComponent(JSON.stringify(globalElements)),
-          'vcv-settings-global-css': settingsStorage.state('globalCss').get(),
+          'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
           'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
           'vcv-source-css': pageStyles,
-          'vcv-settings-source-custom-css': settingsStorage.state('customCss').get()
+          'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || ''
         },
         this.saveSuccess.bind(this, status),
         this.saveFailed.bind(this, status)

@@ -1,0 +1,195 @@
+{
+  "tag": {
+    "type": "string",
+    "access": "protected",
+    "value": "wpWidgetsCustom"
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "widgetKey": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Widget",
+      "values": [],
+      "global": "vcvCustomWidgets"
+    }
+  },
+  "customWidgetHtml": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Enable custom widget HTML"
+    }
+  },
+  "atts_before_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Title html",
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "atts_after_title": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Title html",
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "atts_before_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Before Widget html",
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "atts_after_widget": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "After Widget html",
+      "height": "20vh",
+      "onChange": {
+        "rules": {
+          "customWidgetHtml": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "widget": {
+    "type": "ajaxForm",
+    "access": "public",
+    "value": {
+      "key": "",
+      "value": ""
+    },
+    "options": {
+      "label": "",
+      "action": "vcv:wpWidgets:form",
+      "onChange": {
+        "rules": {
+          "widgetKey": {
+            "rule": "true"
+          }
+        },
+        "actions": [
+          {
+            "action": "fieldMethod",
+            "options": {
+              "method": "requestToServer"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "widgetKey",
+      "widget",
+      "customWidgetHtml",
+      "atts_before_title",
+      "atts_after_title",
+      "atts_before_widget",
+      "atts_after_widget",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Custom WordPress Widget"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  }
+}

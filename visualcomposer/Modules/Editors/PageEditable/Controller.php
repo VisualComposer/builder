@@ -28,7 +28,7 @@ class Controller extends Container implements Module
         $this->wpAddAction('pre_get_posts', 'inject404Page');
     }
 
-    private function inject404Page($wpQuery)
+    protected function inject404Page($wpQuery)
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
         if ($this->call('isPageEditable')) {
@@ -39,7 +39,7 @@ class Controller extends Container implements Module
         }
     }
 
-    private function templateRedirect()
+    protected function templateRedirect()
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
         if ($this->call('isPageEditable')) {
@@ -55,7 +55,7 @@ class Controller extends Container implements Module
      *
      * @return bool
      */
-    private function isPageEditable(Request $request, Nonce $nonce)
+    protected function isPageEditable(Request $request, Nonce $nonce)
     {
         return (
             $request->exists('vcv-editable')
@@ -64,7 +64,7 @@ class Controller extends Container implements Module
         );
     }
 
-    private function buildPageEditable(Url $urlHelper)
+    protected function buildPageEditable(Url $urlHelper)
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::addTheContentFilteringForPost */
         $this->wpAddAction(
@@ -84,7 +84,7 @@ class Controller extends Container implements Module
         wp_enqueue_style('vcv:pageEditable:css', $bundleCssUrl);
     }
 
-    private function addTheContentFilteringForPost()
+    protected function addTheContentFilteringForPost()
     {
         remove_all_filters('the_content'); // TODO: Check this. causes a bunch of problems with assets/enqueue
         $this->wpAddFilter(

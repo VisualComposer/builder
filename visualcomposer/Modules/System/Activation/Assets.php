@@ -30,7 +30,7 @@ class Assets extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      */
-    private function copyElementsAssets(AssetsHelper $assetsHelper)
+    protected function copyElementsAssets(AssetsHelper $assetsHelper)
     {
         $path = $assetsHelper->getFilePath('');
         $fontsDir = vcapp()->path() . 'public/sources/attributes/iconpicker/css';
@@ -43,7 +43,7 @@ class Assets extends Container implements Module
      * @param $src
      * @param $dist
      */
-    private function copyDirectoryContent($src, $dist)
+    protected function copyDirectoryContent($src, $dist)
     {
         if (!mkdir($dist)) {
             return;

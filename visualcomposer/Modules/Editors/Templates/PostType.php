@@ -19,7 +19,7 @@ class PostType extends Container implements Module
     /**
      * Post type from templates registration in wordpress
      */
-    private function registerTemplatesPostType()
+    protected function registerTemplatesPostType()
     {
         register_post_type(
             'vcv_templates',
