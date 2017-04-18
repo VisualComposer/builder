@@ -30,7 +30,7 @@ class Version extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Options $options
      */
-    private function setVersion(Options $options)
+    protected function setVersion(Options $options)
     {
         $options->set('version', VCV_VERSION);
     }

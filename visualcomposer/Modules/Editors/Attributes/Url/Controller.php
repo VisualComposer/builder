@@ -29,7 +29,7 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    private function posts(Request $request)
+    protected function posts(Request $request)
     {
         $search = $request->input('vcv-search');
 

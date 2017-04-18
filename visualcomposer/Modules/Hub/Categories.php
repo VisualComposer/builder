@@ -154,7 +154,7 @@ class Categories extends Container implements Module
                 ],
                 'WP Widgets' => [
                     'title' => 'WP Widgets',
-                    'elements' => [],
+                    'elements' => ['wpWidgetsCustom', 'wpWidgetsDefault'],
                     'icon' => $urlHelper->to('public/sources/newCategories/icons/WordPress.svg'),
                     'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/WordPress.svg'),
                 ],
