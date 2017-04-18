@@ -16,7 +16,8 @@ export default class Navbar extends React.Component {
       React.PropTypes.node
     ]),
     locked: React.PropTypes.bool,
-    draggable: React.PropTypes.bool
+    draggable: React.PropTypes.bool,
+    editor: React.PropTypes.string
   }
   constructor (props) {
     super(props)
@@ -116,6 +117,9 @@ export default class Navbar extends React.Component {
     this.handleElementResize()
   }
   updateWrapper () {
+    if (this.props.editor && this.props.editor === 'backend') {
+      return
+    }
     // TODO: move this method to wrapper itself
     const {locked} = this.props
     let { navPosX, navPosY, navbarPosition, navbarPositionFix } = this.state

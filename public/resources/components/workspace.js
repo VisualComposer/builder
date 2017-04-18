@@ -31,7 +31,7 @@ export default class Workspace extends React.Component {
   }
 
   render () {
-    const {contentStart, contentEnd} = this.props
+    const {contentStart, contentEnd, stickyBar} = this.props
     let layoutClasses = ClassNames({
       'vcv-layout-bar': true,
       'vcv-ui-content--hidden': !(contentEnd || contentStart),
@@ -39,7 +39,7 @@ export default class Workspace extends React.Component {
       'vcv-ui-content-end--visible': contentEnd
     })
     return (
-      <div className={layoutClasses}>
+      <div className={layoutClasses} style={stickyBar}>
         {this.props.children}
         <Resizer params={{
           resizeTop: true,

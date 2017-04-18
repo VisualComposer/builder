@@ -9,10 +9,12 @@ const workspace = getStorage('workspace')
 
 export default class WorkspaceCont extends React.Component {
   static propTypes = {
-    layout: React.PropTypes.object.isRequired
+    layout: React.PropTypes.object.isRequired,
+    layoutHeader: React.PropTypes.object.isRequired
   }
 
   layoutBar = null
+  panels = null
 
   constructor (props) {
     super(props)
@@ -52,7 +54,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    // this.refreshHeaderHeight()
+    this.refreshHeaderHeight()
   }
 
   setContentEnd (value) {
@@ -109,12 +111,13 @@ export default class WorkspaceCont extends React.Component {
    *  Set layout header height if navbar is sticky,
    *  to calculate proper position during window scroll
    */
-  // refreshHeaderHeight () {
-  //   if (this.state.isSticky) {
-  //     let bar = this.layoutBar.getBoundingClientRect()
-  //     this.layoutHeader.style.height = `${bar.height}px`
-  //   }
-  // }
+  refreshHeaderHeight () {
+    if (this.state.isSticky) {
+      let bar = ReactDOM.findDOMNode(this.layoutBar).getBoundingClientRect()
+      console.log('refreshHeaderHeight bar.height: ', bar.height)
+      this.props.layoutHeader.style.height = `${bar.height}px`
+    }
+  }
 
   /**
    *  Set navbar position relative to layout, always within layout borders
@@ -128,7 +131,7 @@ export default class WorkspaceCont extends React.Component {
     const adminBarHeight = adminBarPos === 'absolute' ? 0 : adminBar.getBoundingClientRect().height
     // user scroll down, navbar becomes sticky
     if (layoutRect.top < adminBarHeight && !isSticky) {
-      // this.layoutHeader.style.height = `${bar.height}px`
+      this.props.layoutHeader.style.height = `${bar.height}px`
       this.setState({
         isSticky: true,
         barLeftPos: layoutRect.left,
@@ -142,7 +145,7 @@ export default class WorkspaceCont extends React.Component {
         isSticky: false,
         barWidth: layoutRect.width
       })
-      // this.layoutHeader.removeAttribute('style')
+      this.props.layoutHeader.removeAttribute('style')
     }
     // user scroll down, stick navbar to bottom of layout
     if (layoutRect.bottom < adminBarHeight + bar.height && !isStickyAboveTop) {
@@ -208,6 +211,7 @@ export default class WorkspaceCont extends React.Component {
           end={contentEnd}
           settings={settings}
           layoutWidth={barWidth}
+          ref={(panels) => { this.panels = panels }}
         />
       </Workspace>
     )
