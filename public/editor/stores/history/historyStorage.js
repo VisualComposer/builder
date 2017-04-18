@@ -1,4 +1,4 @@
-import {addStorage, getStorage} from 'vc-cake'
+import {addStorage, getStorage, getService} from 'vc-cake'
 import TimeMachine from './lib/timeMachine'
 /**
  * History storage
@@ -6,11 +6,14 @@ import TimeMachine from './lib/timeMachine'
 
 addStorage('history', (storage) => {
   const elementsStorage = getStorage('elements')
+  const workspaceStorage = getStorage('workspace')
   const elementsTimeMachine = new TimeMachine('layout')
+  const documentService = getService('document')
   let inited = false
+  let lockedReason = ''
   const checkUndoRedo = () => {
-    storage.state('canRedo').set(elementsTimeMachine.canRedo())
-    storage.state('canUndo').set(elementsTimeMachine.canUndo())
+    storage.state('canRedo').set(inited && elementsTimeMachine.canRedo())
+    storage.state('canUndo').set(inited && elementsTimeMachine.canUndo())
   }
   const updateElementsStorage = () => {
     elementsStorage.trigger('updateAll', elementsTimeMachine.get())
@@ -40,6 +43,17 @@ addStorage('history', (storage) => {
       return
     }
     elementsTimeMachine.add(data)
+    checkUndoRedo()
+  })
+  workspaceStorage.state('settings').onChange((data) => {
+    if (data.action === 'edit' && data.element.id) {
+      inited = false
+      lockedReason = 'edit'
+    } else if (!inited) {
+      inited = true
+      lockedReason === 'edit' && elementsTimeMachine.add(documentService.all())
+      lockedReason = ''
+    }
     checkUndoRedo()
   })
   // States for undo/redo

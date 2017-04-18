@@ -4,7 +4,6 @@ addStorage('elements', (storage) => {
   const documentManager = getService('document')
   // const timeMachineStorage = getStorage('timeMachine')
   const cook = getService('cook')
-  const assets = getStorage('assets')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
   const updateTimeMachine = () => {
@@ -56,7 +55,6 @@ addStorage('elements', (storage) => {
     }
     documentManager.update(id, element)
     storage.state('element:' + id).set(element, source)
-    assets.trigger('updateElement', id)
     updateTimeMachine(source || 'elements')
   })
   storage.on('remove', (id) => {
