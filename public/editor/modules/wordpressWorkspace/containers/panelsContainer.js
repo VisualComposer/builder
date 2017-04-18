@@ -60,7 +60,7 @@ export default class PanelsContainer extends React.Component {
         <ContentStart>
           {this.getStartContent()}
         </ContentStart>
-        <ContentEnd>
+        <ContentEnd content={end} >
           {this.getEndContent()}
         </ContentEnd>
       </div>
