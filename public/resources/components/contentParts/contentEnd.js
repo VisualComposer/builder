@@ -11,8 +11,13 @@ export default class ContentEnd extends React.Component {
     children: React.PropTypes.oneOfType([
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
-    ])
+    ]),
+    content: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.bool
+    ]).isRequired
   }
+
   constructor (props) {
     super(props)
     this.state = {
@@ -94,12 +99,12 @@ export default class ContentEnd extends React.Component {
 
   render () {
     let aligned = false
-    const {children} = this.props
-    /*
-     if (contentProps && contentProps.api && (contentProps.api.name === 'uiAddElement' || contentProps.api.name === 'uiAddTemplate')) {
+    const { children, content } = this.props
+
+    if (content && (content === 'addElement' || content === 'addTemplate')) {
       aligned = true
     }
-    */
+
     let contentClasses = classNames({
       'vcv-layout-bar-content-end': true,
       'vcv-ui-state--visible': !!children,
@@ -109,6 +114,7 @@ export default class ContentEnd extends React.Component {
       'vcv-media--lg': this.state.realWidth > 1200,
       'vcv-media--xl': this.state.realWidth > 1600
     })
+
     let closeBtnClasses = classNames({
       'vcv-layout-bar-content-hide': true,
       'vcv-layout-bar-content-aligned': aligned
