@@ -22,13 +22,13 @@ export default class Element extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    assetsStorage.trigger('updateElement', this.state.element.id)
     this.setState({element: nextProps.element})
   }
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.state('element:' + this.state.element.id).onChange(this.dataUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
-
     // vcCake.onDataChange(`element:instantMutation:${this.state.element.id}`, this.instantDataUpdate)
   }
   dataUpdate (data) {
