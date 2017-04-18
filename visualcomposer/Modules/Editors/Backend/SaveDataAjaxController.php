@@ -14,7 +14,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Class Controller.
  */
-class DataAjaxController extends Container implements Module
+class SaveDataAjaxController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
@@ -29,33 +29,27 @@ class DataAjaxController extends Container implements Module
         $this->options = $optionsHelper;
 
         add_filter('wp_insert_post_empty_content', '__return_false');
-        /** @see \VisualComposer\Modules\Editors\Backend\DataAjaxController::setData */
+        /** @see \VisualComposer\Modules\Editors\Backend\SaveDataAjaxController::setData */
         $this->wpAddAction('save_post', 'setData');
     }
 
     /**
      * Save post content and used assets.
      *
-     * @param \VisualComposer\Helpers\Filters $filterHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
-     *
      * @param $response
-     *
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param $payload
      *
      * @return array|null
      */
-    private function setData(
+    protected function setData(
         $response,
         $payload,
-        Filters $filterHelper,
-        Request $requestHelper,
-        PostType $postTypeHelper
+        Request $requestHelper
     ) {
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
-        $data = $requestHelper->input('vcv-data');
         $sourceId = $requestHelper->input('post_ID');
 
         if (!is_array($response)) {
@@ -63,29 +57,9 @@ class DataAjaxController extends Container implements Module
         }
         if (is_numeric($sourceId)) {
             $post = get_post($sourceId);
+            $data = $requestHelper->input('vcv-data');
             if ($post) {
-                // In WordPress 4.4 + update_post_meta called if we use
-                // $post->meta_input = [ 'vcv:pageContent' => $data ]
-                update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
-
-                //bring it back once you're done posting
-                add_filter('content_save_pre', 'wp_filter_post_kses');
-                add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
-                $postTypeHelper->setupPost($sourceId);
-                $responseExtra = $filterHelper->fire(
-                    'vcv:dataAjax:setData',
-                    [
-                        'status' => true,
-                        'postData' => $postTypeHelper->getPostData(),
-                    ],
-                    [
-                        'sourceId' => $sourceId,
-                        'post' => $post,
-                        'data' => $data,
-                    ]
-                );
-
-                return array_merge($response, $responseExtra);
+                return array_merge($response, $this->getSourceResponse($post, $data));
             }
         }
         if (!is_array($response)) {
@@ -94,5 +68,32 @@ class DataAjaxController extends Container implements Module
         $response['status'] = false;
 
         return $response;
+    }
+
+    protected function getSourceResponse(\WP_Post $post, $data)
+    {
+        $postTypeHelper = vchelper('PostType');
+        // In WordPress 4.4 + update_post_meta called if we use
+        // $post->meta_input = [ 'vcv:pageContent' => $data ]
+        update_post_meta($post->ID, VCV_PREFIX . 'pageContent', $data);
+
+        //bring it back once you're done posting
+        add_filter('content_save_pre', 'wp_filter_post_kses');
+        add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
+        $postTypeHelper->setupPost($post->ID);
+        $responseExtra = vcfilter(
+            'vcv:dataAjax:setData',
+            [
+                'status' => true,
+                'postData' => $postTypeHelper->getPostData(),
+            ],
+            [
+                'sourceId' => $post->ID,
+                'post' => $post,
+                'data' => $data,
+            ]
+        );
+
+        return $responseExtra;
     }
 }

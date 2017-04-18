@@ -21,15 +21,17 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @param Request $request
+     * @param $response
+     * @param $payload
+     * @param Request $requestHelper
      *
      * @return array
      */
-    private function render(Request $request, $response)
+    protected function render($response, $payload, Request $requestHelper)
     {
-        $action = $request->input('vcv-form-action');
-        $element = $request->input('vcv-form-element');
-        $value = $request->input('vcv-form-value');
+        $action = $requestHelper->input('vcv-form-action');
+        $element = $requestHelper->input('vcv-form-element');
+        $value = $requestHelper->input('vcv-form-value');
         // Output Result Form JSON.
         $response['html'] = '';
         $response['status'] = true;
