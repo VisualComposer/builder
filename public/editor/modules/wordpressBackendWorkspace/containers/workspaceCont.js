@@ -114,7 +114,6 @@ export default class WorkspaceCont extends React.Component {
   refreshHeaderHeight () {
     if (this.state.isSticky) {
       let bar = ReactDOM.findDOMNode(this.layoutBar).getBoundingClientRect()
-      console.log('refreshHeaderHeight bar.height: ', bar.height)
       this.props.layoutHeader.style.height = `${bar.height}px`
     }
   }
