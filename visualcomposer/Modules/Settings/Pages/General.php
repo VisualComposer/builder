@@ -13,7 +13,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class General.
  */
-class General extends Container implements Module
+class General extends Container /*implements Module*/
 {
     use Fields;
     use Page;
@@ -56,18 +56,18 @@ class General extends Container implements Module
         $this->optionGroup = 'vcv-general';
         $this->optionSlug = 'vcv-general';
 
-        /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
-        $this->addFilter(
-            'vcv:settings:getPages',
-            'addPage',
-            20
-        );
-
-        /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
-        $this->wpAddAction(
-            'vcv:settings:initAdmin:page:' . $this->getSlug(),
-            'buildPage'
-        );
+//        /** @see \VisualComposer\Modules\Settings\Pages\General::addPage */
+//        $this->addFilter(
+//            'vcv:settings:getPages',
+//            'addPage',
+//            20
+//        );
+//
+//        /** @see \VisualComposer\Modules\Settings\Pages\General::buildPage */
+//        $this->wpAddAction(
+//            'vcv:settings:initAdmin:page:' . $this->getSlug(),
+//            'buildPage'
+//        );
     }
 
     /**

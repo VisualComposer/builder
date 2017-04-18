@@ -10,7 +10,7 @@ use VisualComposer\Modules\Settings\Traits\Page;
 /**
  * Class License.
  */
-class License extends Container implements Module
+class License extends Container /*implements Module*/
 {
     use Page;
     use EventsFilters;
