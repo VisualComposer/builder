@@ -77,8 +77,6 @@ export default class CssBuilder {
 
   add (data) {
     const id = data.id
-    this.globalAssetsStorageService.addElement(id)
-
     const baseStyleElement = this.window.document.createElement('style')
     baseStyleElement.id = `vcv-base-css-styles-${data.tag}`
     this.window.document.body.appendChild(baseStyleElement)
@@ -92,6 +90,7 @@ export default class CssBuilder {
     this.window.document.body.appendChild(doStyleElement)
 
     this.addCssElementBaseByElement(data)
+    this.globalAssetsStorageService.addElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
     this.addElementFiles(data.tag)
