@@ -17,7 +17,9 @@ export default class AddElementPanel extends React.Component {
     if (parentId) {
       let data = DocumentData.get(parentId)
       let parent = cook.get(data)
-      parentContainerFor = parent.containerFor()
+      if (parent) {
+        parentContainerFor = parent.containerFor()
+      }
     }
     return allElements.filter((elementData) => {
       let element = cook.get(elementData)
