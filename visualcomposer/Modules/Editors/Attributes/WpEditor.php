@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors;
+namespace VisualComposer\Modules\Editors\Attributes;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -12,8 +12,8 @@ class WpEditor extends Container implements Module
 
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\WpEditor::addWpEditorScripts */
-        $this->addFilter('vcv:backend:extraOutput vcv:frontend:footer:extraOutput', 'addWpEditorScripts');
+        /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addWpEditorScripts */
+        $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addWpEditorScripts');
     }
 
     protected function addWpEditorScripts($output)
