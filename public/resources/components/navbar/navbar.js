@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
-import '../../../sources/less/ui/navbar/init.less'
 import {getRealSize} from './tools'
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')

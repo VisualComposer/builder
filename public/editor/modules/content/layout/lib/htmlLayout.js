@@ -1,6 +1,5 @@
 import React from 'react'
 import Element from './element'
-import '../../../../../sources/less/content/layout/html-layout.less'
 import RowPlaceholder from './helpers/rowPlaceholder/component'
 import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
 import vcCake from 'vc-cake'

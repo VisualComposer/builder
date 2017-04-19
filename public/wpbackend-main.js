@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import './sources/less/bootstrapBackend/init.less'
 import './sources/css/wordpress.less'
-import './sources/less/wpbackend/layout/init.less'
 import './config/variables'
 import './config/wpbackend-services'
 import './config/wpbackend-attributes'
@@ -17,7 +16,6 @@ $(() => {
     require('./editor/stores/assetsBackend/assetsStorage')
     require('./editor/stores/workspaceStorage')
     require('./editor/stores/history/historyStorage')
-    require('./editor/stores/history/elementHistoryStorage')
     require('./editor/stores/settingsStorage')
     require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
     require('./config/wpbackend-modules')

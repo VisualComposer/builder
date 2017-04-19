@@ -1,0 +1,34 @@
+.vce-button--style-animated-outline {
+  &--color-$selector {
+    a&,
+    button& {
+      @if $color != false {
+        color: $color;
+      }
+
+      &:hover {
+        @if $color != false {
+          color: $color;
+        }
+      }
+
+      @if $lineColor != false {
+        &::before, &::after {
+          border-color: $lineColor;
+        }
+        .vce-button--style-animated-outline {
+          &__content {
+            &::after {
+              border-color: $lineColor;
+            }
+            &-box {
+              &::before, &::after {
+                background-color: $lineColor;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

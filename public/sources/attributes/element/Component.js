@@ -2,17 +2,16 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import './css/styles.less'
 import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
 import Dropdown from '../dropdown/Component'
 const Cook = vcCake.getService('cook')
-const categoriesService = vcCake.getService('categories')
+const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class ElementAttribute extends Attribute {
   static propTypes = {
     updater: React.PropTypes.func.isRequired,
-    api: React.PropTypes.object.isRequired,
+    // api: React.PropTypes.object.isRequired,
     fieldKey: React.PropTypes.string.isRequired,
     value: React.PropTypes.object.isRequired,
     element: React.PropTypes.object.isRequired,
@@ -129,10 +128,13 @@ export default class ElementAttribute extends Attribute {
     let replacements = ''
 
     let category = this.props.options.category || '*'
-    let categorySettings = categoriesService.category(category)
+    let categorySettings = hubCategoriesService.get(category)
     if (categorySettings && this.state.showReplacements) {
       let replacementItemsOutput = categorySettings.elements.map((tag) => {
         let cookElement = Cook.get({ tag: tag })
+        if (!cookElement) {
+          return null
+        }
         let nameClasses = classNames({
           'vcv-ui-item-badge vcv-ui-badge--success': false,
           'vcv-ui-item-badge vcv-ui-badge--warning': false
@@ -142,7 +144,7 @@ export default class ElementAttribute extends Attribute {
           'vcv-ui-item-list-item-content--active': this.state.tag === tag
         })
 
-        let publicPathThumbnail = vcCake.getService('assetsManager').getPublicPath(cookElement.get('tag'), cookElement.get('metaThumbnail'))
+        let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
 
         return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
           <a
@@ -198,6 +200,9 @@ export default class ElementAttribute extends Attribute {
         let dropdownValues = categorySettings.elements.map(
           (tag) => {
             let cookElement = Cook.get({ tag: tag })
+            if (!cookElement) {
+              return {}
+            }
             return {
               label: cookElement.get('name'),
               value: tag
@@ -207,7 +212,6 @@ export default class ElementAttribute extends Attribute {
         replacementBlock = (
           <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
             <Dropdown
-              api={this.props.api}
               fieldKey='replaceElement'
               updater={this.onClickReplacementDropdown.bind(this)} // TODO: Tag
               value={this.state.value.tag}
@@ -229,7 +233,6 @@ export default class ElementAttribute extends Attribute {
     return <div className='vcv-ui-form-element'>
       {replacementBlock}
       <FieldWrapper
-        api={this.props.api}
         onChange={this.onChange}
         element={this.state.element}
         allTabs={this.state.allTabs}

@@ -7,8 +7,6 @@ import {ColorWrap, Saturation, Hue, Alpha, Checkboard} from 'react-color/lib/com
 import SketchFields from './SketchFields'
 import SketchPresetColors from './SketchPresetColors'
 
-import '../../css/sketch/panel.less'
-
 export class Sketch extends React.Component {
   shouldComponentUpdate = shallowCompare.bind(this, this, arguments[ 0 ], arguments[ 1 ])
 

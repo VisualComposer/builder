@@ -1,7 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
 import lodash from 'lodash'
-import './css/module.less'
 
 class Resizer extends React.Component {
   static propTypes = {
