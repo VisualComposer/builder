@@ -9,8 +9,6 @@ import DefaultLayouts from './lib/defaultLayouts'
 import TokenizationList from './lib/tokenizationList'
 import Toggle from '../toggle/Component'
 
-import './css/styles.less'
-
 class Layout extends Attribute {
   static defaultProps = {
     layouts: [

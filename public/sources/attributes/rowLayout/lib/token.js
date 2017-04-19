@@ -2,8 +2,6 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import '../css/tokenizationList/token.less'
-
 export default class Token extends React.Component {
   static propTypes = {
     index: React.PropTypes.number.isRequired,
