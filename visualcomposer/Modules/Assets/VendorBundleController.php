@@ -18,7 +18,30 @@ class VendorBundleController extends Container implements Module
         /** @see \VisualComposer\Modules\Assets\VendorBundleController::addVendorScript */
         $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addVendorScript', 1);
 
+        $this->wpAddAction('admin_init', 'registerVendorScripts');
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
+    }
+
+    protected function registerVendorScripts(Url $urlHelper)
+    {
+        wp_register_script(
+            'vcv:assets:vendor:script',
+            $urlHelper->to(
+                'public/dist/vendor.bundle.js?' . uniqid()
+            ),
+            [
+                'jquery',
+            ]
+        );
+        wp_register_script(
+            'vcv:assets:front:script',
+            $urlHelper->to(
+                'public/dist/front.bundle.js?' . uniqid()
+            ),
+            [
+                'vcv:assets:vendor:script',
+            ]
+        );
     }
 
     protected function addVendorScript($response, $payload, Url $urlHelper)
@@ -42,20 +65,7 @@ class VendorBundleController extends Container implements Module
     protected function enqueueVendorFrontScripts(Url $urlHelper)
     {
         wp_enqueue_script('jquery'); // Required for 3-rd elements libraries
-        wp_enqueue_script(
-            'vcv:assets:vendor:script',
-            $urlHelper->to(
-                'public/dist/vendor.bundle.js?' . uniqid()
-            )
-        );
-        wp_enqueue_script(
-            'vcv:assets:front:script',
-            $urlHelper->to(
-                'public/dist/front.bundle.js?' . uniqid()
-            ),
-            [
-                'vcv:assets:vendor:script',
-            ]
-        );
+        wp_enqueue_script('vcv:assets:vendor:script');
+        wp_enqueue_script('vcv:assets:front:script');
     }
 }

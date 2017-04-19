@@ -192,21 +192,30 @@ class Controller extends Container implements Module
      */
     private function initAdmin(Url $urlHelper)
     {
-        // TODO: Remove/Refactor this file
         wp_register_script(
-            VCV_PREFIX . 'scripts-settings',
-            $urlHelper->assetUrl('scripts/dist/settings.min.js'),
-            [],
-            VCV_VERSION,
-            true
+            'vcv:settings:script',
+            $urlHelper->to('public/dist/wpsettings.bundle.js'),
+            ['vcv:assets:vendor:script']
         );
-        wp_enqueue_style(
-            VCV_PREFIX . 'styles-settings',
-            $urlHelper->assetUrl('styles/dist/settings.min.css'),
-            false,
-            VCV_VERSION,
-            false
+        wp_register_style(
+            'vcv:settings:style',
+            $urlHelper->to('public/dist/wpsettings.bundle.css')
         );
+        //        // TODO: Remove/Refactor this file
+        //        wp_register_script(
+        //            VCV_PREFIX . 'scripts-settings',
+        //            $urlHelper->assetUrl('scripts/dist/settings.min.js'),
+        //            [],
+        //            VCV_VERSION,
+        //            true
+        //        );
+        //        wp_enqueue_style(
+        //            VCV_PREFIX . 'styles-settings',
+        //            $urlHelper->assetUrl('styles/dist/settings.min.css'),
+        //            false,
+        //            VCV_VERSION,
+        //            false
+        //        );
 
         foreach ($this->getPages() as $page) {
             do_action('vcv:settings:initAdmin:page:' . $page['slug']);
