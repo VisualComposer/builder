@@ -51,10 +51,11 @@ let getGoogleFontsByElement = (cookElement) => {
   const cook = vcCake.getService('cook')
   let fonts = new Set()
   let settings = cookElement.get('settings')
+  let values = cookElement.toJS()
   for (let key in settings) {
     // If found element then get actual data form element
     if (settings[ key ].type === 'element') {
-      let newElement = cook.get(cookElement.data[ key ])
+      let newElement = cook.get(values[ key ])
       fonts = new Set([ ...fonts ].concat(getGoogleFontsByElement(newElement)))
     } else {
       if (settings[ key ].type === 'googleFonts') {
