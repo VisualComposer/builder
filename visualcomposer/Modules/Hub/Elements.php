@@ -63,6 +63,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/row/row/public/preview-row-column.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Row and Column are the basic structural element for building an initial content structure by adding rows and dividing them into columns. You can insert other content elements into columns.',
                     ],
                 ],
@@ -91,6 +92,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/textBlock/textBlock/public/preview-text-block.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Simple text editor for working with static text, including paragraphs, titles, bullets and even media. Simple text block is a copy of default WordPress editor.',
                     ],
                 ],
@@ -111,23 +113,6 @@ class Elements extends Container implements Module
                         'metaDescription' => 'Basic flat style button with hover effect to catch visitor\'s attention.',
                     ],
                 ],
-                //                'animatedOutlineButton' => [
-                //                    'bundlePath' => $urlHelper->to(
-                //                        'public/sources/newElements/animatedOutlineButton/public/dist/element.bundle.js'
-                //                    ),
-                //                    'elementPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/'),
-                //                    'assetsPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/'),
-                //                    'settings' => [
-                //                        'name' => 'Animated Outline Button',
-                //                        'metaThumbnailUrl' => $urlHelper->to(
-                //                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-thumbnail.jpg'
-                //                        ),
-                //                        'metaPreviewUrl' => $urlHelper->to(
-                //                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-preview.jpg'
-                //                        ),
-                //                        'metaDescription' => 'Underline-to-outline button with smooth transition effect for hover state.',
-                //                    ],
-                //                ],
                 'outlineButton' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/outlineButton/public/dist/element.bundle.js'
@@ -142,6 +127,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/outlineButton/outlineButton/public/outline-button-preview.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Simple outline button with solid fill on hover. Great solution to be used as a secondary button within a website.',
                     ],
                 ],
@@ -159,6 +145,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/youtubePlayer/youtubePlayer/public/youtube-player-preview.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'YouTube player allows you to display video from YouTube on your website by simply copy/paste link to the video.',
                     ],
                 ],
@@ -176,6 +163,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/vimeoPlayer/vimeoPlayer/public/vimeo-player-preview.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Vimeo player allows you to display video from Vimeo on your website by simply copy/paste link to the video.',
                     ],
                 ],
@@ -193,6 +181,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/singleImage/singleImage/public/preview-single-image.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Single image is a basic element for adding images from Media Library into the content area. Single image element includes controls for image manipulations.',
                     ],
                 ],
@@ -210,6 +199,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/heroSection/heroSection/public/preview-hero-section.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Hero section with image background and \'Call to Action\' message with a switchable button and position controls.',
                     ],
                 ],
@@ -227,6 +217,7 @@ class Elements extends Container implements Module
                         'metaPreviewUrl' => $urlHelper->to(
                             'public/sources/newElements/icon/icon/public/preview-icon.jpg'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                     ],
                 ],
@@ -250,6 +241,7 @@ class Elements extends Container implements Module
                         // @codingStandardsIgnoreLine
                             'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.',
                     ],
                 ],
@@ -296,11 +288,30 @@ class Elements extends Container implements Module
                         // @codingStandardsIgnoreLine
                             'public/sources/newElements/wpWidgetsDefault/wpWidgetsDefault/public/wordpress-widgets-preview.png'
                         ),
+                        // @codingStandardsIgnoreLine
                         'metaDescription' => 'Choose, configure and add any of WordPress default widgets to your site.',
                     ],
                 ],
             ]
         );
+        // 'animatedOutlineButton' => [
+        //   'bundlePath' => $urlHelper->to(
+        //       'public/sources/newElements/animatedOutlineButton/public/dist/element.bundle.js'
+        //   ),
+        //   'elementPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/'),
+        // @codingStandardsIgnoreLine
+        //   'assetsPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/'),
+        //   'settings' => [
+        //       'name' => 'Animated Outline Button',
+        //       'metaThumbnailUrl' => $urlHelper->to(
+        //           'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-thumbnail.jpg'
+        //       ),
+        //       'metaPreviewUrl' => $urlHelper->to(
+        //           'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-preview.jpg'
+        //       ),
+        //       'metaDescription' => 'Underline-to-outline button with smooth transition effect for hover state.',
+        //   ],
+        // ],
     }
 
     /**
