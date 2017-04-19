@@ -2,7 +2,7 @@ import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
 
-export default class animatedOutlineButtonElement extends vcvAPI.elementComponent {
+export default class AnimatedOutlineButtonElement extends vcvAPI.elementComponent {
   render () {
     let { id, atts, editor } = this.props
     let { buttonUrl, buttonText, color, alignment, customClass, metaCustomId } = atts
