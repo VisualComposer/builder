@@ -13,6 +13,15 @@ export default class Component extends Attribute {
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
   }
+  shouldComponentUpdate (nextProps) {
+    if (this.state.editorLoaded && this.props.value !== nextProps.value && vcCake.env('platform') === 'wordpress') {
+      const {fieldKey} = this.props
+      const id = `vcv-wpeditor-${fieldKey}`
+      window.tinymce.get(id).setContent(nextProps.value)
+      return false
+    }
+    return true
+  }
   componentWillReceiveProps (nextProps) {
     if (this.props.value !== nextProps.value && vcCake.env('platform') !== 'wordpress') {
       window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
