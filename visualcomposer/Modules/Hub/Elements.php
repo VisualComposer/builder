@@ -115,15 +115,19 @@ class Elements extends Container implements Module
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/animatedOutlineButton/public/dist/element.bundle.js'
                     ),
-                    'elementPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/'),
-                    'assetsPath' => $urlHelper->to('public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/'),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/'
+                    ),
                     'settings' => [
                         'name' => 'Animated Outline Button',
                         'metaThumbnailUrl' => $urlHelper->to(
-                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-thumbnail.jpg'
+                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/thumb.jpg'
                         ),
                         'metaPreviewUrl' => $urlHelper->to(
-                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/animated-outline-button-preview.jpg'
+                            'public/sources/newElements/animatedOutlineButton/animatedOutlineButton/public/preview.jpg'
                         ),
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
