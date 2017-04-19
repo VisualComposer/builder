@@ -1,0 +1,333 @@
+{
+  "videoPlayer": {
+    "type": "string",
+    "access": "public",
+    "value": "https://www.youtube.com/watch?v=Im6gfxoiHeU",
+    "options": {
+      "label": "YouTube video link",
+      "description": "Enter link to YouTube video.",
+      "link": true
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "size": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "560x315",
+    "options": {
+      "label": "Size",
+      "values": [
+        {
+          "label": "Default 560x315",
+          "value": "560x315"
+        },
+        {
+          "label": "1280x720",
+          "value": "1280x720"
+        },
+        {
+          "label": "853x480",
+          "value": "853x480"
+        },
+        {
+          "label": "640x360",
+          "value": "640x360"
+        },
+        {
+          "label": "Custom size",
+          "value": "custom"
+        }
+      ]
+    }
+  },
+  "customSize": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Custom width",
+      "description": "Enter custom width and the height will be automatically calculated for 16:9 aspect ratio.",
+      "onChange": {
+        "rules": {
+          "size": {
+            "rule": "value",
+            "options": {
+              "value": "custom"
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "advanced": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Advanced options"
+    }
+  },
+  "autoplay": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Autoplay",
+      "description": "Automatically start to play video when the player loads.",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "color": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "red",
+    "options": {
+      "label": "Color",
+      "description": "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen.",
+      "values": [
+        {
+          "label": "White",
+          "value": "white"
+        },
+        {
+          "label": "Red",
+          "value": "red"
+        }
+      ],
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "controls": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Show controls",
+      "description": "Indicates whether the video player controls are displayed.",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "loop": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Repeat video",
+      "description": "Play the video again when it reaches the end.",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "rel": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Show related videos",
+      "description": "Indicates whether the player should show related videos when playback of the initial video ends.",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "start": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Start at",
+      "description": "Causes the player to begin playing the video at the given time (e.g. 2h09m34s or 2:09:34)",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "end": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "End at",
+      "description": "Causes the player to stop playing the video at the given time (e.g. 2h09m34s or 2:09:34)",
+      "onChange": {
+        "rules": {
+          "advanced": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "videoPlayer",
+      "size",
+      "customSize",
+      "alignment",
+      "advanced",
+      "autoplay",
+      "color",
+      "controls",
+      "loop",
+      "rel",
+      "start",
+      "end",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "YouTube Player"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "videoPlayer"
+        ]
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "youtubePlayer"
+  }
+}
