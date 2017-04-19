@@ -38,13 +38,18 @@ class MetaboxController extends Container implements Module
         $sourceId = (int)$this->request->input('post');
         vchelper('PostType')->setupPost($sourceId);
         $frontendHelper = vchelper('Frontend');
-        echo vcview(
-            'editor/backend/content.php',
-            [
-                'editableLink' => $frontendHelper->getEditableUrl($sourceId),
-                'frontendEditorLink' => $frontendHelper->getFrontendUrl($sourceId),
-            ]
+        $content = vcfilter(
+            'vcv:editors:backend:render',
+            vcview(
+                'editor/backend/content.php',
+                [
+                    'editableLink' => $frontendHelper->getEditableUrl($sourceId),
+                    'frontendEditorLink' => $frontendHelper->getFrontendUrl($sourceId),
+                ]
+            )
         );
+
+        echo $content;
     }
 
     protected function addMetaBox($postType)
