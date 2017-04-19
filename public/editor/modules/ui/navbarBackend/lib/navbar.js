@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import NavbarControl from './control'
-import '../../../../../sources/less/ui/navbar/init.less'
 
 let navbarControls = []
 

@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import AddTemplate from './lib/addTemplate'
 import AddTemplateNavbarControl from './lib/navbarControl'
-import './css/init.less'
 
 vcCake.add('uiAddTemplate', (api) => {
   // subscribe to global events

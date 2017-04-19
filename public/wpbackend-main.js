@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import './sources/less/bootstrapBackend/init.less'
 import './sources/css/wordpress.less'
-import './sources/less/wpbackend/layout/init.less'
 import './config/variables'
 import './config/wpbackend-services'
 import './config/wpbackend-attributes'

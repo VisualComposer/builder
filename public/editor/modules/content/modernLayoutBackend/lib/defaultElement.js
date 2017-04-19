@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
-import '../../../../../sources/less/wpbackend/representers/init.less'
 
 // const categories = getService('categories')
 const hubCategoriesService = getService('hubCategories')

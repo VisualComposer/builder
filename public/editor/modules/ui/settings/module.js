@@ -2,8 +2,6 @@ import vcCake from 'vc-cake'
 import Settings from './lib/settings'
 import SettingsButtonControl from './lib/navbarControl'
 
-import './css/init.less'
-
 vcCake.add('ui-settings', (api) => {
   // subscribe to global events
   api

@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import ElementControl from './elementControl'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
-import '../css/init.less'
 import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')

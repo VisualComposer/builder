@@ -5,8 +5,6 @@ import EditElementController from './lib/controller'
 const DocumentData = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 
-import './css/init.less'
-
 vcCake.add('ui-edit-element', (api) => {
   let currentElementId = null
   let currentElementRef = null

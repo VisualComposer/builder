@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import '../../../../../sources/less/content/layout/element.less'
 import ContentEditableComponent from './helpers/contentEditable/contentEditableComponent'
 
 const cook = vcCake.getService('cook')

@@ -3,7 +3,6 @@ import ControlsHandler from './controlsHandler'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
 
-require('../../../../../../sources/less/content/layout/controls/init.less')
 export default class ControlsManager {
   constructor (api) {
     Object.defineProperties(this, {
