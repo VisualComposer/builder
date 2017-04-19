@@ -1,0 +1,102 @@
+.vce-button {
+  &--style-outline {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+        &:hover {
+          @if $color != false {
+            color: $color;
+          }
+        }
+
+        &:before {
+          @if $borderColor != false {
+            border-color: $borderColor;
+          }
+        }
+
+        &:hover, &:active, &:focus {
+          @if $hoverColorOutline != false {
+            color: $hoverColorOutline;
+          }
+          &:before {
+            @if $hoverBackgroundBorder != false {
+              border-color: $hoverBackgroundBorder;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--style-outline-animated {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+        &:hover {
+          @if $color != false {
+            color: $color;
+          }
+        }
+
+        &:before {
+          @if $borderColor != false {
+            border-color: $borderColor;
+          }
+        }
+
+        &:hover, &:active, &:focus {
+          @if $hoverColorAnimated != false {
+            color: $hoverColorAnimated;
+          }
+        }
+
+        &:after {
+          @if $hoverBackgroundBorder != false {
+            background-color: $hoverBackgroundBorder;
+          }
+        }
+      }
+    }
+  }
+
+  &--style-outline-animated-slidein {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+        &:hover {
+          @if $color != false {
+            color: $color;
+          }
+        }
+
+        &:before {
+          @if $borderColor != false {
+            border-color: $borderColor;
+          }
+        }
+
+        &:hover, &:active, &:focus {
+          @if $hoverColorAnimated != false {
+            color: $hoverColorAnimated;
+          }
+        }
+
+        &:after {
+          @if $hoverBackgroundBorder != false {
+            background-color: $hoverBackgroundBorder;
+          }
+        }
+      }
+    }
+  }
+}
