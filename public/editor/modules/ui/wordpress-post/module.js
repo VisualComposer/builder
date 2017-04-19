@@ -1,8 +1,6 @@
 import vcCake from 'vc-cake'
 import WordPressPostSaveControl from './lib/navbar-save-control'
 import WordPressAdminControls from './lib/navbar-post-controls'
-// TODO: Check init.less
-import '../../../../sources/less/ui/loader/init.less'
 
 vcCake.add('ui-wordpress-post', (api) => {
   api.module('ui-navbar').do('addElement', 'Post Save Control', WordPressPostSaveControl,

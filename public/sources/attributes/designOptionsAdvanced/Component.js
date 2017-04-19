@@ -235,6 +235,10 @@ class DesignOptionsAdvanced extends Attribute {
     return newState
   }
 
+  addPixelToNumber (number) {
+    return /^\d+$/.test(number) ? `${number}px` : number
+  }
+
   /**
    * Update value
    * @param newState
@@ -419,12 +423,13 @@ class DesignOptionsAdvanced extends Attribute {
               }
               for (let property in value) {
                 newMixins[ mixinName ].variables[ property ] = {
-                  value: value[ property ]
+                  value: this.addPixelToNumber(value[ property ])
                 }
                 if (syncData[ property ]) {
                   syncData[ property ].forEach((syncProp) => {
+                    let propVal = newValue[ device ][ syncProp.value ] || false
                     newMixins[ mixinName ].variables[ syncProp.key ] = {
-                      value: newValue[ device ][ syncProp.value ] || false
+                      value: this.addPixelToNumber(propVal)
                     }
                   })
                 }

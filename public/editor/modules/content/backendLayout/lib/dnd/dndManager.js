@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import DnD from '../../../../../../resources/dnd/dnd'
 
-require('../../../../../../sources/less/content/layout/dnd/init.less')
 export default class DndManager {
   constructor (api) {
     Object.defineProperties(this, {

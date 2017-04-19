@@ -1,6 +1,5 @@
 import React from 'react'
 import Element from './element'
-import '../../../../../sources/less/content/layout/html-layout.less'
 import BlankRowPlaceholder from '../../../../../resources/components/layoutHelpers/blankRowPlaceholder/component'
 
 export default class HtmlLayout extends React.Component {

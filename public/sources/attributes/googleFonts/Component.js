@@ -1,7 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import lodash from 'lodash'
-import './css/styles.less'
 
 import Dropdown from '../dropdown/Component'
 

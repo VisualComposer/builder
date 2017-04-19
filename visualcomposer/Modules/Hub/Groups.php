@@ -44,6 +44,11 @@ class Groups extends Container implements Module
             'hubGroups',
             [
                 [
+                    'title' => 'All',
+                    'metaOrder' => 1,
+                    'categories' => true,
+                ],
+                [
                     'title' => 'Basic',
                     'categories' => [
                         'Row',
@@ -103,12 +108,7 @@ class Groups extends Container implements Module
                 [
                     'title' => 'WP Widgets',
                     'categories' => ['WP Widgets'],
-                ],
-                [
-                    'title' => 'All',
-                    'metaOrder' => 1,
-                    'categories' => true,
-                ],
+                ]
             ]
         );
     }

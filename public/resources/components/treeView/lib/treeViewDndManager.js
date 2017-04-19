@@ -2,7 +2,6 @@ import vcCake from 'vc-cake'
 import DnD from '../../../dnd/dnd'
 const workspaceStorage = vcCake.getStorage('workspace')
 
-require('../../../../sources/less/content/layout/dnd/init.less')
 export default class TreeViewDndManager {
   constructor () {
     Object.defineProperties(this, {

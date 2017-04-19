@@ -204,7 +204,7 @@ export default class ElementControl extends React.Component {
             <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt='' />
             <figcaption className='vcv-ui-item-preview-caption'>
               <div className='vcv-ui-item-preview-text'>
-                {cookElement.get('metaPreviewDescription')}
+                {cookElement.get('metaDescription')}
               </div>
             </figcaption>
           </figure>

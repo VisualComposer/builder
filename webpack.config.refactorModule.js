@@ -14,6 +14,7 @@ module.exports = {
     front: './public/front-main',
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
+    wpsettings: './public/wp-settings-main',
     app: [],
     vendor: [
       'jquery',
@@ -98,7 +99,7 @@ module.exports = {
         'dataProcessor',
         'modernAssetsStorage',
         'stylesManager',
-        'myTemplates',
+        'wpMyTemplates',
         'hubCategories',
         'hubGroups'
       ]

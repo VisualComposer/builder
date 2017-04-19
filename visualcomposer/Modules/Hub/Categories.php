@@ -46,18 +46,6 @@ class Categories extends Container implements Module
         $optionHelper->set(
             'hubCategories',
             [
-                'Button' => [
-                    'title' => 'Simple Button',
-                    'elements' => [
-                        'basicButton',
-                        'outlineButton',
-                        'gradientButton',
-                        'animatedOutlineButton',
-                        'doubleOutlineButton',
-                    ],
-                    'icon' => $urlHelper->to('public/sources/newCategories/icons/Button.svg'),
-                    'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Button.svg'),
-                ],
                 'Row' => [
                     'title' => 'Row/Column',
                     'elements' => ['row'],
@@ -69,6 +57,18 @@ class Categories extends Container implements Module
                     'elements' => ['column'],
                     'icon' => $urlHelper->to('public/sources/newCategories/icons/Column.svg'),
                     'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Column.svg'),
+                ],
+                'Button' => [
+                    'title' => 'Simple Button',
+                    'elements' => [
+                        'basicButton',
+                        'outlineButton',
+                        'gradientButton',
+                        'animatedOutlineButton',
+                        'doubleOutlineButton',
+                    ],
+                    'icon' => $urlHelper->to('public/sources/newCategories/icons/Button.svg'),
+                    'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Button.svg'),
                 ],
                 'Feature' => [
                     'title' => 'Feature',

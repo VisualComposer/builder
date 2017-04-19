@@ -7,7 +7,6 @@ const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentStartState = vcCake.getStorage('workspace').state('contentStart')
 
-require('../../../../../../sources/less/content/layout/controls/init.less')
 export default class ControlsManager {
   constructor (api) {
     Object.defineProperties(this, {

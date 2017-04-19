@@ -34,9 +34,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: @error-message-background-color;
+    background: @add-template-error-message-background-color;
     color: @text-color-base;
-    height: @error-message-height;
+    height: @add-template-error-message-height;
     font-style: italic;
     transform: translateY(100%);
     transition: transform @transition-duration @transition-timing-function;
@@ -58,8 +58,8 @@
   }
 
   .vcv-ui-item-control {
-    padding: @item-control-padding;
-    font-size: @item-control-font-size;
+    padding: @add-template-item-control-padding;
+    font-size: @add-template-item-control-font-size;
     cursor: pointer;
     transition: color @transition-duration @transition-timing-function;
 
@@ -75,13 +75,13 @@
     justify-content: space-between;
 
     .vcv-ui-form-input {
-      flex: @save-input-flex;
+      flex: @add-template-save-input-flex;
     }
 
     .vcv-ui-editor-no-items-action {
-      flex: @save-action-flex;
-      padding: @save-action-padding;
-      margin: @save-action-margin;
+      flex: @add-template-save-action-flex;
+      padding: @add-template-save-action-padding;
+      margin: @add-template-save-action-margin;
       min-height: auto;
       white-space: nowrap;
     }
@@ -97,12 +97,12 @@
 
   .vcv-ui-editor-no-items-container {
     .vcv-ui-form-helper {
-      margin-bottom: @form-helper-margin-bottom;
+      margin-bottom: @add-template-form-helper-margin-bottom;
     }
   }
 
   .vcv-ui-editor-no-items-image {
-    margin: @no-items-image-margin;
+    margin: @add-template-no-items-image-margin;
   }
 
   .vcv-ui-item-overlay {
@@ -117,10 +117,10 @@
 
   .vcv-ui-save-template-submit[disabled] {
     cursor: not-allowed;
-    color: @save-action-disabled-color;
+    color: @add-template-save-action-disabled-color;
 
     &:hover {
-      background: @save-action-disabled-bg-hover;
+      background: @add-template-save-action-disabled-bg-hover;
     }
   }
 }

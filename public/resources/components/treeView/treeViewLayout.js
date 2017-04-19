@@ -4,8 +4,6 @@ import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 
-import '../../../sources/less/ui/tree-view/init.less'
-
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')

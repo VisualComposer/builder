@@ -1,7 +1,6 @@
 import vcCake from 'vc-cake'
 import {default as AddElement} from './lib/addElement'
 import AddElementControl from './lib/navbarControl'
-import './css/init.less'
 
 vcCake.add('uiAddElement', (api) => {
   // get get Parent

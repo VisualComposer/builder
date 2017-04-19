@@ -1,0 +1,114 @@
+.vcv-ui-style-control-container {
+  display: flex;
+  justify-content: center;
+  margin: @control-container-margin;
+}
+
+.vcv-ui-style-control {
+  flex: 0 1 auto;
+  border: none;
+  padding: @control-padding-top-bottom @control-padding-left-right;
+  background: @control-background-color;
+  color: @control-color;
+  cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
+
+  &:hover,
+  &.vcv-ui-state--active {
+    background: @control-background-color-active;
+  }
+
+  &:first-child {
+    border-top-left-radius: @settings-border-radius;
+    border-bottom-left-radius: @settings-border-radius;
+  }
+
+  &:last-child {
+    border-top-right-radius: @settings-border-radius;
+    border-bottom-right-radius: @settings-border-radius;
+  }
+}
+
+.vcv-ui-style-editor-container {
+  margin: @editor-container-margin;
+}
+
+.vcv-ui-style-ace-container {
+  border: 1px solid @editor-border-color;
+  border-radius: @settings-border-radius;
+}
+
+.vcv-ui-style-editor {
+  &:not(.vcv-ui-state--active) {
+    display: none;
+  }
+}
+
+// Actions
+.vcv-ui-settings-actions {
+  font-size: @settings-action-icon-size;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  .vcv-ui-settings-action-content {
+    span {
+      margin-left: @settings-gold-value;
+      display: none;
+    }
+  }
+}
+
+.vcv-ui-settings-action {
+  display: inline-flex;
+  vertical-align: middle;
+  color: @settings-text-color-base;
+  text-decoration: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding: @settings-gold-value;
+  text-align: center;
+  cursor: pointer;
+  transition: all @transition-duration @transition-timing-function;
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: @settings-separator-color;
+
+  &.vcv-ui-state--active,
+  &:hover {
+    background-color: @settings-bg-base-hover;
+  }
+  &[disabled] {
+    background-color: transparent;
+    opacity: .5;
+    cursor: not-allowed;
+  }
+  //== states
+  &.vcv-ui-state--success {
+    background-color: @settings-action-success-bg;
+  }
+}
+
+.vcv-ui-settings-action-content {
+
+}
+
+.vcv-ui-settings-action-icon {
+  height: @settings-action-icon-size;
+  width: @settings-action-icon-size;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  &::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
