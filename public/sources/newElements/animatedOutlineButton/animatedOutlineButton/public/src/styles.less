@@ -1,0 +1,171 @@
+.vce-button--style-animated-outline-container {
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+}
+
+.vce-button--style-animated-outline-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-button--style-animated-outline {
+  button& {
+    -webkit-appearance: none;
+  }
+
+  font-size: @vce-button-font-size;
+  padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
+
+  a&,
+  button& {
+    background-image: none;
+    border: none; // For input.btn
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 100%;
+    // If the contnet of the button is more than the containers, the text will break normally
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: normal;
+    touch-action: manipulation;
+    user-select: none;
+    line-height: normal;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+
+    background-color: transparent;
+    border-radius: 0;
+    overflow: hidden;
+
+    /*border top*/
+    &::before, &::after {
+      border-top-width: @vce-button-line-to-outline-border-size;
+      border-top-style: solid;
+      content: "";
+      position: absolute;
+      top: 0;
+      transition: transform @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+      width: 50%;
+    }
+    &::before {
+      left: 0;
+      transform: translate3D(-101%, 0, 0);
+    }
+    &::after {
+      right: 0;
+      transform: translate3D(101%, 0, 0);
+    }
+    .vce-button--style-animated-outline {
+      &__content {
+        &::after {
+          /*border bottom*/
+          content: "";
+          height: @vce-button-line-to-outline-border-size;
+          border-bottom-width: @vce-button-line-to-outline-border-size;
+          border-bottom-style: solid;
+          bottom: 0;
+          position: absolute;
+          right: 40%;
+          left: 40%;
+          transition: left @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function,
+          right @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+          /* double delayed time for transition */
+          #vce-button > .transition-delay-double-time(@vce-button-flat-transition-duration);
+
+        }
+        &-box {
+          display: block;
+
+          &::before, &::after {
+            content: "";
+            bottom: 0;
+            height: 100%;
+            position: absolute;
+            transform: translate3D(0, 100%, 0);
+            transition: transform @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+            transition-delay: @vce-button-line-to-outline-transition-duration;
+            width: @vce-button-line-to-outline-border-size;
+          }
+          &::before {
+            /*border right*/
+            right: 0;
+            left: auto;
+          }
+          /*border left*/
+          &::after {
+            left: 0;
+          }
+        }
+      }
+    }
+    &:hover {
+      &::before, &::after {
+        transform: translate3D(1%, 0, 0);
+        transition: transform @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+        /* double delayed time for transition */
+        #vce-button > .transition-delay-double-time(@vce-button-flat-transition-duration);
+      }
+      &::after {
+        transform: translate3D(-1%, 0, 0);
+      }
+      .vce-button--style-animated-outline {
+        &__content {
+          &::after {
+            right: 0;
+            left: 0;
+            transition: left @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function,
+            right @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+          }
+          &-box {
+            &::before, &::after {
+              transform: translate3D(0, 0, 0);
+              transition: transform @vce-button-line-to-outline-transition-duration @vce-button-line-to-outline-transition-timing-function;
+              transition-delay: @vce-button-line-to-outline-transition-duration;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL support
+.rtl,
+[dir="rlt"] {
+  &.vce-button--style-animated-outline,
+  .vce-button--style-animated-outline {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+}
+
+// LTR
+.ltr,
+[dir="ltr"] {
+  &.vce-button--style-animated-outline,
+  .vce-button--style-animated-outline {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+
+
