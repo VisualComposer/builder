@@ -80,7 +80,7 @@ export default class CssBuilder {
     this.globalAssetsStorageService.addElement(id)
 
     const baseStyleElement = this.window.document.createElement('style')
-    baseStyleElement.id = `vcv-base-css-styles-${id}`
+    baseStyleElement.id = `vcv-base-css-styles-${data.tag}`
     this.window.document.body.appendChild(baseStyleElement)
 
     const styleElement = this.window.document.createElement('style')
@@ -112,7 +112,7 @@ export default class CssBuilder {
 
   destroy (id, tag) {
     this.globalAssetsStorageService.removeElement(id)
-    this.removeCssElementBaseByElement(id)
+    this.removeCssElementBaseByElement(tag)
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id)
@@ -155,17 +155,23 @@ export default class CssBuilder {
   }
 
   addCssElementBaseByElement (data) {
-    let styles = this.stylesManager.create()
-    styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
-    // styles.add(this.globalAssetsStorageService.getColumnsCssData())
-    this.addJob(styles.compile().then((result) => {
-      this.window.document.getElementById(`vcv-base-css-styles-${data.id}`).innerHTML = result
-    }))
+    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
+    if (usedTags.indexOf(data.tag) === -1) {
+      let styles = this.stylesManager.create()
+      styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
+      // styles.add(this.globalAssetsStorageService.getColumnsCssData())
+      this.addJob(styles.compile().then((result) => {
+        this.window.document.getElementById(`vcv-base-css-styles-${data.tag}`).innerHTML = result
+      }))
+    }
   }
 
-  removeCssElementBaseByElement (id) {
-    const node = this.window.document.getElementById(`vcv-base-css-styles-${id}`)
-    node && node.remove()
+  removeCssElementBaseByElement (tag) {
+    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
+    if (usedTags.indexOf(tag) === -1) {
+      const node = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+      node && node.remove()
+    }
   }
 
   addCssElementMixinByElement (data) {
@@ -180,6 +186,7 @@ export default class CssBuilder {
     const node = this.window.document.getElementById(`vcv-do-styles-${id}`)
     node && node.remove()
   }
+
   getSettingsCssContainer () {
     const id = 'vcv-settings-css-styles'
     const container = this.window.document.getElementById(id)
@@ -191,10 +198,12 @@ export default class CssBuilder {
     this.window.document.body.appendChild(styleElement)
     return styleElement
   }
+
   buildSettingsCss (data) {
     const container = this.getSettingsCssContainer()
     container.innerHTML = data
   }
+
   addJob (job) {
     this.jobs.push(job)
   }
