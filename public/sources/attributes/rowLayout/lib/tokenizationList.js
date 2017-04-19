@@ -7,7 +7,6 @@ import $ from 'jquery'
 import 'jquery.caret'
 
 import Token from './token'
-import '../css/tokenizationList/styles.less'
 
 export default class TokenizationList extends React.Component {
 
