@@ -1,137 +1,10 @@
-.vcv-ui-add-template-content {
-  .vcv-ui-editor-tabs-container {
-    margin: 0;
-  }
-
-  .vcv-ui-tree-content-section {
-    overflow: hidden;
-  }
-
-  .vcv-ui-item-element-content {
-    &::before {
-      content: attr(data-letter);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
-      font-size: 50px;
-      color: @color-inverted;
-    }
-  }
-
-  .vcv-ui-tree-content-error-message-container {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-  }
-
-  .vcv-ui-tree-content-error-message {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: @error-message-background-color;
-    color: @text-color-base;
-    height: @error-message-height;
-    font-style: italic;
-    transform: translateY(100%);
-    transition: transform @transition-duration @transition-timing-function;
-    z-index: 1;
-
-    &--visible {
-      transform: translateY(0);
-    }
-  }
-
-  .vcv-ui-item-element {
-    cursor: default;
-  }
-
-  .vcv-ui-item-overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .vcv-ui-item-control {
-    padding: @item-control-padding;
-    font-size: @item-control-font-size;
-    cursor: pointer;
-    transition: color @transition-duration @transition-timing-function;
-
-    &.vcv-ui-icon-add {
-      &:hover {
-        color: darken(@text-color-base, 10%)
-      }
-    }
-  }
-
-  .vcv-ui-save-template-form {
-    display: flex;
-    justify-content: space-between;
-
-    .vcv-ui-form-input {
-      flex: @save-input-flex;
-    }
-
-    .vcv-ui-editor-no-items-action {
-      flex: @save-action-flex;
-      padding: @save-action-padding;
-      margin: @save-action-margin;
-      min-height: auto;
-      white-space: nowrap;
-    }
-  }
-
-  .vcv-ui-editor-list-cta-wrapper {
-    text-align: center;
-  }
-
-  .vcv-ui-state--hidden {
-    display: none;
-  }
-
-  .vcv-ui-editor-no-items-container {
-    .vcv-ui-form-helper {
-      margin-bottom: @form-helper-margin-bottom;
-    }
-  }
-
-  .vcv-ui-editor-no-items-image {
-    margin: @no-items-image-margin;
-  }
-
-  .vcv-ui-item-overlay {
-    &--visible {
-      opacity: 1;
-    }
-  }
-
-  .vcv-ui-wp-spinner {
-    cursor: default;
-  }
-
-  .vcv-ui-save-template-submit[disabled] {
-    cursor: not-allowed;
-    color: @save-action-disabled-color;
-
-    &:hover {
-      background: @save-action-disabled-bg-hover;
-    }
-  }
-}
-
 //== Tree view styles
 
 
 //== content
 .vcv-ui-tree-view-content {
   height: 100%;
-  font-size: @tree-text-size-base;
+  font-size: @add-element-tree-text-size-base;
   color: @tree-text-color-base;
   background-color: @tree-bg-base;
   display: flex;
@@ -199,7 +72,7 @@
 
 .vcv-ui-editor-tabs {
   font-family: 'Roboto', sans-serif;
-  font-size: @tree-text-size-base;
+  font-size: @add-element-tree-text-size-base;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -349,3 +222,5 @@
     display: none;
   }
 }
+
+

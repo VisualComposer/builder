@@ -3,8 +3,6 @@ import React from 'react'
 import TreeViewElement from './element.js'
 import Scrollbar from '../../../../../resources/scrollbar/scrollbar.js'
 
-import '../../../../../sources/less/ui/tree-view/init.less'
-
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
     api: React.PropTypes.object.isRequired
