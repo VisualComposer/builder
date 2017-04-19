@@ -162,6 +162,23 @@ class Elements extends Container implements Module
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
+                'vimeoPlayer' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/vimeoPlayer/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/vimeoPlayer/vimeoPlayer/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/vimeoPlayer/vimeoPlayer/public/'),
+                    'settings' => [
+                        'name' => 'Vimeo Player',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/vimeoPlayer/vimeoPlayer/public/vimeo-player-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/vimeoPlayer/vimeoPlayer/public/vimeo-player-preview.jpg'
+                        ),
+                        'metaDescription' => 'Vimeo player allows you to display video from Vimeo on your website by simply copy/paste link to the video.',
+                    ],
+                ],
                 'singleImage' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/singleImage/public/dist/element.bundle.js'
