@@ -2,7 +2,6 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import './css/styles.less'
 import vcCake from 'vc-cake'
 import FieldWrapper from './field-tabs'
 import Dropdown from '../dropdown/Component'
