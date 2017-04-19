@@ -1,0 +1,34 @@
+/* ----------------------------------------------
+ * YouTube Video Player
+ * ---------------------------------------------- */
+.vce-yt-video-player-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: top;
+}
+.vce-yt-video-player-inner {
+  position: relative;
+}
+.vce-yt-video-player-inner::before {
+  content: '';
+  width: 100%;
+  display: block;
+  padding-top: 56.25%;
+}
+.vce-yt-video-player-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.vce-yt-video-player--align-center {
+  text-align: center;
+}
+.vce-yt-video-player--align-right {
+  text-align: right;
+}
+.vce-yt-video-player--align-left {
+  text-align: left;
+}

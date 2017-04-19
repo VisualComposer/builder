@@ -145,6 +145,23 @@ class Elements extends Container implements Module
                         'metaDescription' => 'This is TODO Change text for description',
                     ],
                 ],
+                'youtubePlayer' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/youtubePlayer/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/youtubePlayer/youtubePlayer/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/youtubePlayer/youtubePlayer/public/'),
+                    'settings' => [
+                        'name' => 'Youtube Player',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/youtubePlayer/youtubePlayer/public/youtube-player-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/youtubePlayer/youtubePlayer/public/youtube-player-preview.jpg'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
                 'singleImage' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/singleImage/public/dist/element.bundle.js'
