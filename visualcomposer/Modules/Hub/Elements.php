@@ -128,6 +128,23 @@ class Elements extends Container implements Module
                 //                        'metaDescription' => 'This is TODO Change text for description',
                 //                    ],
                 //                ],
+                'outlineButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/outlineButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/outlineButton/outlineButton/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/outlineButton/outlineButton/public/'),
+                    'settings' => [
+                        'name' => 'Outline Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/outlineButton/outlineButton/public/outline-button-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/outlineButton/outlineButton/public/outline-button-preview.jpg'
+                        ),
+                        'metaDescription' => 'This is TODO Change text for description',
+                    ],
+                ],
                 'singleImage' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/singleImage/public/dist/element.bundle.js'
