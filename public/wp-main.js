@@ -9,7 +9,6 @@ import './config/wp-attributes'
 
 const $ = require('expose?$!jquery')
 $(() => {
-  console.log('test')
   let $iframe = $('#vcv-editor-iframe')
   // Get a handle to the iframe element
   let iframe = $iframe.get(0)

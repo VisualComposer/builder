@@ -17,12 +17,16 @@ export default class TreeViewElement extends React.Component {
     level: React.PropTypes.number,
     iframe: React.PropTypes.any,
     onMountCallback: React.PropTypes.func,
-    onUnmountCallback: React.PropTypes.func
+    onUnmountCallback: React.PropTypes.func,
+    scrollValue: React.PropTypes.any
   }
 
   static defaultProps = {
     iframe: document.getElementById('vcv-editor-iframe').contentWindow.document
   }
+
+  adminBar = document.getElementById('wpadminbar')
+  layoutBar = document.querySelector('.vcv-layout-bar')
 
   constructor (props) {
     super(props)
@@ -35,7 +39,7 @@ export default class TreeViewElement extends React.Component {
       element: props.element
     }
 
-    this.scrollToElement = this.scrollToElement.bind(this)
+    this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
     this.handleOutline = this.handleOutline.bind(this)
@@ -136,21 +140,60 @@ export default class TreeViewElement extends React.Component {
         onUnmountCallback={onUnmountCallback}
         element={element}
         key={element.id}
-        level={level} />
+        level={level}
+        scrollValue={this.props.scrollValue} />
     }, this)
     return elementsList.length ? <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul> : ''
   }
 
-  scrollToElement (e) {
-    let elId = e.currentTarget.parentNode.dataset.vcvElement
-    let editorEl = this.props.iframe.querySelector(`#el-${elId}`)
-    let elRect = editorEl.getBoundingClientRect()
-    let wh = document.getElementById('vcv-editor-iframe').contentWindow.innerHeight
-    let below = elRect.bottom > wh && elRect.top > wh
-    let above = elRect.bottom < 0 && elRect.top < 0
+  /**
+   * Perform scroll to element inside iframe
+   * @param e
+   */
+  scrollToElementInsideFrame (e) {
+    const elId = e.currentTarget.parentNode.dataset.vcvElement
+    const editorEl = this.props.iframe.querySelector(`#el-${elId}`)
+    const elRect = editorEl.getBoundingClientRect()
+    const wh = document.getElementById('vcv-editor-iframe').contentWindow.innerHeight
+    const below = elRect.bottom > wh && elRect.top > wh
+    const above = elRect.bottom < 0 && elRect.top < 0
 
     if (above || below) {
       editorEl.scrollIntoView({behavior: 'smooth'})
+    }
+  }
+
+  /**
+   * Perform scroll to element inside current document
+   * @param e
+   */
+  scrollToElementInsideCurrentDocument (e) {
+    const { scrollValue } = this.props
+    const elId = e.currentTarget.parentNode.dataset.vcvElement
+    const editorEl = document.getElementById(`el-${elId}-temp`)
+    const elRect = editorEl.getBoundingClientRect()
+    const isFixed = window.getComputedStyle(this.layoutBar).position === 'fixed'
+    const wh = window.innerHeight
+    const below = elRect.bottom > wh && elRect.top > wh
+    const above = isFixed ? elRect.bottom < this.layoutBar.getBoundingClientRect().bottom : elRect.bottom < 0 && elRect.top < 0
+
+    if (above || below) {
+      const barHeight = typeof scrollValue === 'function' ? scrollValue(this.layoutBar, this.adminBar) : scrollValue
+      const curPos = window.pageYOffset
+      const yPos = curPos + elRect.top - barHeight
+      window.scrollTo(0, yPos)
+    }
+  }
+
+  /**
+   * Execute click handle on treeView element based on scrollValue prop
+   * @param e
+   */
+  handleClick (e) {
+    if (!this.props.scrollValue) {
+      this.scrollToElementInsideFrame(e)
+    } else {
+      this.scrollToElementInsideCurrentDocument(e)
     }
   }
 
@@ -248,7 +291,7 @@ export default class TreeViewElement extends React.Component {
           style={{ paddingLeft: (space * this.props.level + 1) + 'rem' }}
           onMouseOver={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          onClick={this.scrollToElement}
+          onClick={this.handleClick}
         >
           <div className='vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'>
             <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />

@@ -11,6 +11,10 @@ const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
 
 export default class TreeViewLayout extends React.Component {
+  static propTypes = {
+    scrollValue: React.PropTypes.any
+  }
+
   constructor (props) {
     super(props)
     this.updateElementsData = this.updateElementsData.bind(this)
@@ -134,6 +138,7 @@ export default class TreeViewLayout extends React.Component {
           showOutlineCallback={this.checkShowOutlineCallback}
           onMountCallback={this.onElementMount}
           onUnmountCallback={this.onElementUnmount}
+          scrollValue={this.props.scrollValue}
         />
       }, this)
     }
