@@ -6,28 +6,8 @@ $errorMsg = $optionsHelper->getTransient('account:activation:error');
 if ($errorMsg) {
     $optionsHelper->deleteTransient('account:activation:error');
 }
+// echo $tokenHelper->getTokenActivationUrl();
 ?>
-Hi from Activation Welcome Page - 1
-
-<?php
-var_export(
-    [
-        'isSiteRegistered' => $tokenHelper->isSiteRegistered(),
-        'isSiteAuthorized' => $tokenHelper->isSiteAuthorized(),
-        'getToken' => $tokenHelper->getToken(),
-        'privateInformation' => [
-            'site-id' => $optionsHelper->get('siteId'),
-            'site-secret' => $optionsHelper->get('siteSecret'),
-            'site-auth-state' => $optionsHelper->get('siteAuthState'),
-            'site-auth-token' => $optionsHelper->get('siteAuthToken'),
-            'site-auth-token-ttl' => $optionsHelper->get('siteAuthTokenTtl'),
-            'site-auth-refresh-token' => $optionsHelper->get('siteAuthRefreshToken'),
-        ],
-    ]
-);
-
-?>
-
 <div class="">
     <a href="<?php echo $tokenHelper->getTokenActivationUrl(); ?>" class="">
         <?php echo __('Activate Visual Composer', 'vc5') ?>
@@ -65,11 +45,12 @@ var_export(
                 <div class="vcv-popup-heading">
                     <?php echo __('Advance Your WordPress With Visual Composer', 'vc5'); ?>
                 </div>
-                <div class="vcv-popup-button-container">
-                    <a class="vcv-popup-button" href="<?php echo $tokenHelper->getTokenActivationUrl(); ?>">
-                        <span><?php echo __('Activate Visual Composer', 'vc5'); ?></span>
-                    </a>
-                </div>
+                <!-- Form -->
+                <form class="vcv-popup-form" id="vcv-account-login-form">
+                    <input type="email" name="email" placeholder="E-mail" class="vcv-popup-form-input" required="required">
+                    <input type="submit" value="Activate Visual Composer" class="vcv-popup-form-submit vcv-popup-button">
+                    <a href="#" class="vcv-popup-link">Don’t have an account? Get your Visual Composer account now</a>
+                </form>
             </div>
             <!-- Error block -->
             <div class="vcv-popup-error<?php echo $errorMsg ? ' vcv-popup-error--active' : ''; ?>"><?php echo $errorMsg

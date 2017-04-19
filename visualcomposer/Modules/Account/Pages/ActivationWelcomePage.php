@@ -32,6 +32,12 @@ class ActivationWelcomePage extends Container implements Module
         );
     }
 
+    protected function beforeRender()
+    {
+        wp_enqueue_script('vcv:settings:script');
+        wp_enqueue_style('vcv:settings:style');
+    }
+
     /**
      * @param array $pages
      *

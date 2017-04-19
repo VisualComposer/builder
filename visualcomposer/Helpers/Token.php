@@ -135,14 +135,17 @@ class Token extends Container implements Helper
      */
     public function getToken()
     {
-        if ($this->isSiteAuthorized()) {
-            $token = $this->optionsHelper->get('siteAuthToken');
-            $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('siteAuthTokenTtl');
-            if ($ttl > 3600) {
-                $token = $this->refreshToken();
-            }
+        $featureToggle = false;
+        if ($featureToggle) {
+            if ($this->isSiteAuthorized()) {
+                $token = $this->optionsHelper->get('siteAuthToken');
+                $ttl = current_time('timestamp') - (int)$this->optionsHelper->get('siteAuthTokenTtl');
+                if ($ttl > 3600) {
+                    $token = $this->refreshToken();
+                }
 
-            return $token;
+                return $token;
+            }
         }
 
         return false;
