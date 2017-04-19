@@ -6,7 +6,6 @@ import FramesHandler from './framesHandler'
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
 
-require('../../../../../../sources/less/content/layout/controls/init.less')
 export default class ControlsManager {
   constructor (api) {
     Object.defineProperties(this, {

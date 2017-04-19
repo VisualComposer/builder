@@ -1,6 +1,5 @@
 import vcCake from 'vc-cake'
 import React from 'react'
-import '../../../../../sources/less/content/layout/element.less'
 import ContentControls from '../../../../../resources/components/layoutHelpers/contentControls/component'
 import ContentEditableComponent from '../../../../../resources/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from '../../../../../resources/columnResizer/columnResizer'
