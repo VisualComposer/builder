@@ -6,8 +6,6 @@ import '../../../../node_modules/brace/mode/html'
 import '../../../../node_modules/brace/mode/javascript'
 import '../../../../node_modules/brace/theme/github'
 
-import './css/init.less'
-
 export default class RawCode extends Attribute {
   static propTypes = {
     fieldKey: React.PropTypes.string.isRequired,
