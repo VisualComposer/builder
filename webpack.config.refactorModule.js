@@ -99,7 +99,7 @@ module.exports = {
         'dataProcessor',
         'modernAssetsStorage',
         'stylesManager',
-        'myTemplates',
+        'wpMyTemplates',
         'hubCategories',
         'hubGroups'
       ]
