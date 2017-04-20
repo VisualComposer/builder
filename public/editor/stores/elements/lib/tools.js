@@ -1,5 +1,5 @@
 
-export const rebuildRawLayout = (id, data = {}, documentManager) => {
+export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let elements = []
   let columns = documentManager.children(id)
   let layout = data.layout

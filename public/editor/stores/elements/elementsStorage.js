@@ -18,7 +18,7 @@ addStorage('elements', (storage) => {
       let columnElement = documentManager.create({ tag: 'column', parent: rowElement.id })
       createdElements.push(columnElement.id)
       elementData.parent = columnElement.id
-      rebuildRawLayout(rowElement.id, {}, documentManager)
+      rebuildRawLayout(rowElement.id, {}, documentManager, options)
     }
     let data = documentManager.create(elementData, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
@@ -35,7 +35,7 @@ addStorage('elements', (storage) => {
     if (data.tag === 'column') {
       let rowElement = documentManager.get(data.parent)
       rebuildRawLayout(rowElement.id, { action: 'columnAdd' }, documentManager)
-      storage.trigger('update', rowElement.id, rowElement)
+      storage.trigger('update', rowElement.id, rowElement, '', options)
     }
     if (data.tag === 'row') {
       if (data.layout && data.layout.layoutData && data.layout.layoutData.length) {
@@ -45,17 +45,21 @@ addStorage('elements', (storage) => {
         rebuildRawLayout(data.id, {}, documentManager)
       }
     }
-    storage.state('document').set(documentManager.children(false))
-    updateTimeMachine()
+    if (!options.silent) {
+      storage.state('document').set(documentManager.children(false))
+      updateTimeMachine()
+    }
   })
-  storage.on('update', (id, element, source = '') => {
+  storage.on('update', (id, element, source = '', options = {}) => {
     if (element.tag === 'row' && element.layout && element.layout.layoutData && element.layout.layoutData.length) {
       rebuildRawLayout(id, { layout: element.layout.layoutData }, documentManager)
       element.layout.layoutData = undefined
     }
     documentManager.update(id, element)
     storage.state('element:' + id).set(element, source)
-    updateTimeMachine(source || 'elements')
+    if (!options.silent) {
+      updateTimeMachine(source || 'elements')
+    }
   })
   storage.on('remove', (id) => {
     let element = documentManager.get(id)
