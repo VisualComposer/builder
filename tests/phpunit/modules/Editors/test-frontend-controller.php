@@ -18,6 +18,7 @@ class FrontendControllerTest extends WP_UnitTestCase
         $postId = $this->post->create(['post_title' => 'Test Post']);
         $requestHelper->setData(['vcv-source-id' => $postId]);
         vchelper('PostType')->setupPost($postId);
+        vchelper('Token')->setSiteAuthorized();
         $output = vchelper('Filters')->fire('vcv:editors:frontend:render');
 
         $patterns = [
