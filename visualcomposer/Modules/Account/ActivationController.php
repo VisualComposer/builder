@@ -89,7 +89,7 @@ class ActivationController extends Container implements Module
             $tokenHelper->setSiteAuthorized();
 
             return true;
-        } else if (is_array($result)) {
+        } elseif (is_array($result)) {
             return $result;
         }
 
