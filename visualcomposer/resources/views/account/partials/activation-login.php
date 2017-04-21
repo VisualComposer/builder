@@ -21,7 +21,7 @@
     </div>
     <!-- Form -->
     <form class="vcv-popup-form" id="vcv-account-login-form">
-        <input type="email" name="email" placeholder="<?php echo __(
+        <input type="email" name="email" id="vcv-account-login-form-email" placeholder="<?php echo __(
             'Your E-mail'
         ); ?>" class="vcv-popup-form-input" required="required">
         <input type="submit" value="<?php echo __(

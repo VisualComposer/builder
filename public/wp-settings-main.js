@@ -9,6 +9,7 @@ import './sources/less/wpsettings/init.less'
     let $zoomContainer = $('.vcv-popup-loading-zoom')
     let $popupInner = $('.vcv-popup')
     let $slider = $('.vcv-popup-slider')
+    let $inputEmail = $('#vcv-account-login-form-email')
 
     let loadSlider = () => {
       $slider.slick({
@@ -96,11 +97,20 @@ import './sources/less/wpsettings/init.less'
 
       $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
         // last screen shows
-        $popup.removeClass('vcv-loading-screen--active').addClass('vcv-last-screen--active')
+        showLastScreen()
         loadSlider()
       })
     }
 
+    let showLoadingScreen = () => {
+      $popup.removeClass('vcv-first-screen--active vcv-last-screen--active').addClass('vcv-loading-screen--active')
+    }
+    let showFirstScreen = () => {
+      $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active').addClass('vcv-first-screen--active')
+    }
+    let showLastScreen = () => {
+      $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active').addClass('vcv-last-screen--active')
+    }
     let showError = (msg, timeout) => {
       $errorPopup.text(msg)
       $errorPopup.addClass('vcv-popup-error--active')
@@ -109,7 +119,6 @@ import './sources/less/wpsettings/init.less'
         window.setTimeout(closeError, timeout)
       }
     }
-
     let closeError = () => {
       $errorPopup.removeClass('vcv-popup-error--active')
     }
@@ -126,23 +135,28 @@ import './sources/less/wpsettings/init.less'
     $('#vcv-account-login-form').on('submit', (e) => {
       e.preventDefault()
 
-      if (e.currentTarget[ 0 ].value && e.currentTarget[ 1 ].value) {
+      let email = $inputEmail.val()
+      if (email) {
         // third / loading screen shows, loading starts here
-        $popup.removeClass(' vcv-first-screen--active').addClass('vcv-loading-screen--active')
+        showLoadingScreen()
         // loading ends / loaded
         // Assign handlers immediately after making the request,
         // and remember the jqxhr object for this request
         ajaxTimeout = setTimeout(ajaxTimeoutTimer, 2000)
-        $.post(window.vcvAccountUrl, function (a, b, c, d) {
+        $.post(window.vcvAccountUrl, {
+          email: email,
+          'vcv-nonce': window.vcvAdminNonce
+        }, function (a, b, c, d) {
           if (ajaxTimeoutFinished) {
             loadLastScreen()
           } else {
             ajaxTimeoutFinished = true
           }
         }).fail(function (a, b, c, d) {
-          showError('Request for activation failed, please try again later', 2000)
+          showError('Request for activation failed, please try again later', 5000)
           clearTimeout(ajaxTimeout)
           ajaxTimeoutFinished = false
+          showFirstScreen()
         })
       } else {
         // error shows\
