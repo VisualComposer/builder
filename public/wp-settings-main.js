@@ -153,7 +153,17 @@ import './sources/less/wpsettings/init.less'
             ajaxTimeoutFinished = true
           }
         }).fail(function (a, b, c, d) {
-          showError('Request for activation failed, please try again later', 5000)
+          let responseJson = JSON.parse(a.responseText)
+          let message = ''
+          if (responseJson && responseJson.message) {
+            let messageData = JSON.parse(responseJson.message)
+            if (messageData) {
+              Object.keys(messageData).forEach((key) => {
+                message += ` ${messageData[ key ]}.`
+              })
+            }
+          }
+          showError(`Request for activation failed, please try again later. ${message}`, 10000)
           clearTimeout(ajaxTimeout)
           ajaxTimeoutFinished = false
           showFirstScreen()

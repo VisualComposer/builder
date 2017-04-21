@@ -89,6 +89,8 @@ class ActivationController extends Container implements Module
             $tokenHelper->setSiteAuthorized();
 
             return true;
+        } else if (is_array($result)) {
+            return $result;
         }
 
         return false;
@@ -96,9 +98,11 @@ class ActivationController extends Container implements Module
 
     protected function requestActivationResponseCode($response)
     {
-        if (!$response) {
+        if ($response !== true) {
             header('Status: 403', true, 403);
             header('HTTP/1.0 403 Forbidden', true, 403);
+
+            echo json_encode(is_array($response) ? ['message' => $response['body']] : ['status' => false]);
             exit;
         }
 
