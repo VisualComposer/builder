@@ -96,7 +96,7 @@ class PostTypes extends Container implements Module
         return vcview(
             'settings/pages/post-types/post-types-toggle',
             [
-                'postTypes' => (array)$optionsHelper->get('post-types', []),
+                'postTypes' => (array)$optionsHelper->get('post-types', ['pages']),
             ]
         );
     }
