@@ -7,7 +7,7 @@ use VisualComposer\Framework\Application as ApplicationVc;
 /**
  * Class Autoload.
  */
-class Autoload
+class Autoload extends Container
 {
     /** @var  ApplicationVc */
     private $app;

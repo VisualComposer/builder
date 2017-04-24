@@ -8,7 +8,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Modules\Account\Pages\ActivationWelcomePage;
+use VisualComposer\Modules\Account\Pages\ActivationPage;
 
 class ActivationController extends Container implements Module
 {
@@ -20,10 +20,13 @@ class ActivationController extends Container implements Module
         /** @see \VisualComposer\Modules\Account\ActivationController::setRedirect */
         $this->addEvent('vcv:system:activation:hook', 'setRedirect');
         /** @see \VisualComposer\Modules\Account\ActivationController::doRedirect */
-        // $this->wpAddAction('admin_init', 'doRedirect');
+        $this->wpAddAction('admin_init', 'doRedirect');
 
-       // $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'setRedirectDeactivated', 100);
-       // $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
+        $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'setRedirectDeactivated', 100);
+        $this->addFilter('vcv:editors:backend:addMetabox vcv:editors:frontend:render', 'doRedirect', 110);
+        /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
+        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
+        $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
     }
 
     /**
@@ -42,11 +45,11 @@ class ActivationController extends Container implements Module
      * Do redirect if required on welcome page
      *
      * @param $response
-     * @param \VisualComposer\Modules\Account\Pages\ActivationWelcomePage $activationWelcomePageModule
+     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationWelcomePageModule
      *
      * @return
      */
-    protected function doRedirect($response, ActivationWelcomePage $activationWelcomePageModule)
+    protected function doRedirect($response, ActivationPage $activationWelcomePageModule)
     {
         $redirect = get_transient('_vcv_activation_page_redirect');
         delete_transient('_vcv_activation_page_redirect');
@@ -61,6 +64,46 @@ class ActivationController extends Container implements Module
     {
         if (!$tokenHelper->isSiteAuthorized()) {
             set_transient('_vcv_activation_page_redirect', 1, 30);
+        }
+
+        return $response;
+    }
+
+    protected function requestActivation(
+        $response,
+        $payload,
+        Request $requestHelper,
+        Token $tokenHelper
+    ) {
+        // This is a place where we need to make registration/activation request in account
+        $result = wp_remote_post(
+            VCV_ACCOUNT_URL . '/register-account',
+            [
+                'body' => [
+                    'url' => VCV_PLUGIN_URL,
+                    'email' => $requestHelper->input('email'),
+                ],
+            ]
+        );
+        if (is_array($result) && 200 === $result['response']['code']) {
+            $tokenHelper->setSiteAuthorized();
+
+            return true;
+        } elseif (is_array($result)) {
+            return $result;
+        }
+
+        return false;
+    }
+
+    protected function requestActivationResponseCode($response)
+    {
+        if ($response !== true) {
+            header('Status: 403', true, 403);
+            header('HTTP/1.0 403 Forbidden', true, 403);
+
+            echo json_encode(is_array($response) ? ['message' => $response['body']] : ['status' => false]);
+            exit;
         }
 
         return $response;

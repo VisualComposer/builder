@@ -4,10 +4,14 @@ import './sources/less/wpsettings/init.less'
 
 (($) => {
   $(() => {
-    let popupOpened = false
     let $popup = $('.vcv-popup-container')
+    let $errorPopup = $('.vcv-popup-error')
+    let $zoomContainer = $('.vcv-popup-loading-zoom')
+    let $popupInner = $('.vcv-popup')
+    let $slider = $('.vcv-popup-slider')
+    let $inputEmail = $('#vcv-account-login-form-email')
+
     let loadSlider = () => {
-      let $slider = $('.vcv-popup-slider')
       $slider.slick({
         dots: true,
         slidesToShow: 1,
@@ -51,9 +55,6 @@ import './sources/less/wpsettings/init.less'
     }
 
     let loadAnimation = () => {
-      let $zoomContainer = $('.vcv-popup-loading-zoom')
-      let $popupInner = $('.vcv-popup')
-
       let popupWidth = $popupInner[ 0 ].getBoundingClientRect().width
       let popupHeight = $popupInner[ 0 ].getBoundingClientRect().height
 
@@ -70,72 +71,112 @@ import './sources/less/wpsettings/init.less'
       $zoomContainer[ 0 ].style.left = -leftPosition + 'px'
     }
 
-    $('#first-screen-button').on('click', () => {
-      // second screen shows
-      $popup.removeClass('vcv-first-screen--active').addClass('vcv-form-screen--active')
-    })
+    let loadLastScreen = () => {
+      closeError()
+      loadAnimation()
+      $popup.addClass('vcv-form-loaded')
 
-    $('#login-form').on('submit', (e) => {
-      e.preventDefault()
-      let $errorPopup = $('.vcv-popup-error')
-
-      if (e.currentTarget[ 0 ].value && e.currentTarget[ 1 ].value) {
-        // third / loading screen shows, loading starts here
-        $popup.removeClass('vcv-form-screen--active').addClass('vcv-loading-screen--active')
-
-        let loadLastScreen = () => {
-          loadAnimation()
-          $popup.addClass('vcv-form-loaded')
-
-          function whichTransitionEvent () {
-            let t
-            let el = document.createElement('fakeelement')
-            let transitions = {
-              'transition': 'transitionend',
-              'OTransition': 'oTransitionEnd',
-              'MozTransition': 'transitionend',
-              'WebkitTransition': 'webkitTransitionEnd'
-            }
-
-            for (t in transitions) {
-              if (el.style[ t ] !== undefined) {
-                return transitions[ t ]
-              }
-            }
-          }
-
-          let transitionEvent = whichTransitionEvent()
-
-          $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
-            // last screen shows
-            $popup.removeClass('vcv-loading-screen--active').addClass('vcv-last-screen--active')
-            loadSlider()
-          })
+      function whichTransitionEvent () {
+        let t
+        let el = document.createElement('fakeelement')
+        let transitions = {
+          'transition': 'transitionend',
+          'OTransition': 'oTransitionEnd',
+          'MozTransition': 'transitionend',
+          'WebkitTransition': 'webkitTransitionEnd'
         }
 
-        // loading ends / loaded
-        setTimeout(loadLastScreen, 2000)
+        for (t in transitions) {
+          if (el.style[ t ] !== undefined) {
+            return transitions[ t ]
+          }
+        }
+      }
+
+      let transitionEvent = whichTransitionEvent()
+
+      $('.vcv-popup-loading-zoom').one(transitionEvent, (event) => {
+        // last screen shows
+        showLastScreen()
+        loadSlider()
+      })
+    }
+
+    let showLoadingScreen = () => {
+      $popup.removeClass('vcv-first-screen--active vcv-last-screen--active').addClass('vcv-loading-screen--active')
+    }
+    let showFirstScreen = () => {
+      $popup.removeClass('vcv-loading-screen--active vcv-last-screen--active').addClass('vcv-first-screen--active')
+    }
+    let showLastScreen = () => {
+      $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active').addClass('vcv-last-screen--active')
+    }
+    let showError = (msg, timeout) => {
+      $errorPopup.text(msg)
+      $errorPopup.addClass('vcv-popup-error--active')
+
+      if (timeout) {
+        window.setTimeout(closeError, timeout)
+      }
+    }
+    let closeError = () => {
+      $errorPopup.removeClass('vcv-popup-error--active')
+    }
+    let ajaxTimeoutFinished = false
+    let ajaxTimeoutTimer = () => {
+      // Function used to make sure Loading windows is shown for at-least 2secs
+      if (ajaxTimeoutFinished) {
+        loadLastScreen()
       } else {
-        // error shows
-        $errorPopup.addClass('vcv-popup-error--active')
-        setTimeout(() => {
-          $errorPopup.removeClass('vcv-popup-error--active')
-        }, 2000)
+        ajaxTimeoutFinished = true
+      }
+    }
+    let ajaxTimeout
+    $('#vcv-account-login-form').on('submit', (e) => {
+      e.preventDefault()
+
+      let email = $inputEmail.val()
+      if (email) {
+        // third / loading screen shows, loading starts here
+        showLoadingScreen()
+        // loading ends / loaded
+        // Assign handlers immediately after making the request,
+        // and remember the jqxhr object for this request
+        ajaxTimeout = setTimeout(ajaxTimeoutTimer, 2000)
+        $.post(window.vcvAccountUrl, {
+          email: email,
+          'vcv-nonce': window.vcvAdminNonce
+        }, function (a, b, c, d) {
+          if (ajaxTimeoutFinished) {
+            loadLastScreen()
+          } else {
+            ajaxTimeoutFinished = true
+          }
+        }).fail(function (a, b, c, d) {
+          let responseJson = JSON.parse(a.responseText)
+          let message = ''
+          if (responseJson && responseJson.message) {
+            let messageData = JSON.parse(responseJson.message)
+            if (messageData) {
+              Object.keys(messageData).forEach((key) => {
+                message += ` ${messageData[ key ]}.`
+              })
+            }
+          }
+          showError(`Request for activation failed, please try again later. ${message}`, 10000)
+          clearTimeout(ajaxTimeout)
+          ajaxTimeoutFinished = false
+          showFirstScreen()
+        })
+      } else {
+        // error shows\
+        showError('Please provide correct E-Mail')
       }
     })
 
     $('.vcv-popup-close-button').on('click', () => {
       $popup.addClass('vcv-popup-container--hidden').removeClass('vcv-first-screen--active').removeClass('vcv-form-screen--active').removeClass('vcv-loading-screen--active').removeClass('vcv-last-screen--active').removeClass('vcv-form-loaded').addClass('vcv-first-screen--active')
-      console.log('closed')
       window.location.href = 'index.php'
-    })
-
-    $('#activate-visual-composer').on('click', () => {
-      $popup.removeClass('vcv-popup-container--hidden')
-
-      if (!popupOpened) {
-        popupOpened = true
-      }
     })
   })
 })(jQuery)

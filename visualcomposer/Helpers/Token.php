@@ -88,6 +88,7 @@ class Token extends Container implements Helper
             'siteSecret',
             $body->client_secret
         );
+
         // @codingStandardsIgnoreEnd
 
         return true;
@@ -151,6 +152,14 @@ class Token extends Container implements Helper
         return false;
     }
 
+    public function setSiteAuthorized()
+    {
+        return $this->optionsHelper->set(
+            'siteAuthState',
+            1
+        );
+    }
+
     /**
      * @param $body
      *
@@ -159,10 +168,7 @@ class Token extends Container implements Helper
     protected function setToken($body)
     {
         // @codingStandardsIgnoreStart
-        $this->optionsHelper->set(
-            'siteAuthState',
-            1
-        )->set(
+        $this->setSiteAuthorized()->set(
             'siteAuthToken',
             $body->access_token
         )->set(
@@ -172,6 +178,7 @@ class Token extends Container implements Helper
             'siteAuthTokenTtl',
             current_time('timestamp')
         );
+
         // @codingStandardsIgnoreEnd
 
         return true;

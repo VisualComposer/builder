@@ -24,6 +24,9 @@ class Controller extends Container implements Module
         $this->wpAddAction(
             'activate_' . $file,
             'activationHook'
+        );$this->wpAddAction(
+            'deactivate_' . $file,
+            'deactivationHook'
         );
     }
 
@@ -33,5 +36,13 @@ class Controller extends Container implements Module
     protected function activationHook()
     {
         vcevent('vcv:system:activation:hook');
+    }
+
+    /**
+     * Trigger inner event on activation
+     */
+    protected function deactivationHook()
+    {
+        vcevent('vcv:system:deactivation:hook');
     }
 }
