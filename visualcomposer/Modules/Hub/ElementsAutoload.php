@@ -17,6 +17,7 @@ class ElementsAutoload extends Autoload implements Module
      */
     protected $classStartString = 2;
 
+    /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
         // TODO: Get from Options->hub->elements
@@ -34,6 +35,7 @@ class ElementsAutoload extends Autoload implements Module
     {
         if (!empty($components['modules'])) {
             foreach ($components['modules'] as $module) {
+                /** @noinspection PhpIncludeInspection */
                 require_once($module['path']);
             }
         }
