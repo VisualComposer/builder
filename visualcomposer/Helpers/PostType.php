@@ -35,6 +35,7 @@ class PostType implements Helper
         if ($postType && $post->post_type !== $postType) {
             $post = false;
         }
+
         // @codingStandardsIgnoreEnd
 
         return $post;
@@ -64,6 +65,7 @@ class PostType implements Helper
                 update_post_meta($data->ID, $key, $value);
             }
         }
+
         // @codingStandardsIgnoreEnd
 
         return $post;
@@ -79,6 +81,7 @@ class PostType implements Helper
     {
         if ($postType) {
             $post = $this->get($id);
+
             // @codingStandardsIgnoreLine
             return $post && $post->post_type == $postType ? wp_delete_post($id) : !$post;
         }
@@ -99,6 +102,7 @@ class PostType implements Helper
         setup_postdata($post);
         $post_type = $post->post_type;
         $post_type_object = get_post_type_object($post_type);
+
         // @codingStandardsIgnoreEnd
         return $post;
     }
@@ -133,5 +137,47 @@ class PostType implements Helper
         $data['adminDashboardUrl'] = self_admin_url('index.php');
 
         return $data;
+    }
+
+    public function getPostTypes($extraExcluded = [])
+    {
+        $postTypes = get_post_types(
+            [
+                'public' => true,
+            ]
+        );
+        $postTypesList = [];
+        $excludedPostTypes = array_merge(
+            [
+                'revision',
+                'nav_menu_item',
+                'vc_grid_item',
+            ],
+            $extraExcluded
+        );
+        if (is_array($postTypes) && !empty($postTypes)) {
+            foreach ($postTypes as $postType) {
+                if (!in_array($postType, $excludedPostTypes)) {
+                    $label = ucfirst($postType);
+                    $postTypesList[] = [
+                        'label' => $label,
+                        'value' => $postType,
+                    ];
+                }
+            }
+        }
+
+        /*
+        $postTypesList[] = [
+            'value' => 'custom',
+            'label' => __('Custom Query', 'vc5'),
+        ];
+        $postTypesList[] = [
+            'value' => 'ids',
+            'label' => __('List of IDs', 'vc5'),
+        ];
+        */
+
+        return $postTypesList;
     }
 }

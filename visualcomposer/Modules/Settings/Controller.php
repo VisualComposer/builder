@@ -12,6 +12,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
+use VisualComposer\Modules\Settings\Pages\PostTypes;
 use VisualComposer\Modules\Settings\Traits\Page;
 
 /**
@@ -76,7 +77,7 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
-     * @param \VisualComposer\Modules\Settings\Pages\General $generalPage
+     * @param \VisualComposer\Modules\Settings\Pages\PostTypes $postTypes
      *
      * @return string
      * @throws \Exception
@@ -84,17 +85,17 @@ class Controller extends Container implements Module
     public function getMainPageSlug(
         CurrentUser $currentUserAccess,
         About $aboutPage,
-        General $generalPage
+        PostTypes $postTypes
     ) {
         // TODO: Fix \is_multisite() function same issue in js_composer.
-        $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($generalPage->getSlug())->get()
+        $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($postTypes->getSlug())->get()
             || (is_multisite()
                 && !is_main_site());
 
         if ($hasAccess) {
             return $aboutPage->getSlug();
         } else {
-            return $generalPage->getSlug();
+            return $postTypes->getSlug();
         }
     }
 
