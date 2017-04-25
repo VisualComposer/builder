@@ -1,5 +1,5 @@
-import { addStorage, getStorage, getService } from 'vc-cake'
-import { rebuildRawLayout, isElementOneRelation } from './lib/tools'
+import {addStorage, getStorage, getService} from 'vc-cake'
+import {rebuildRawLayout, isElementOneRelation} from './lib/tools'
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   // const timeMachineStorage = getStorage('timeMachine')
@@ -13,9 +13,11 @@ addStorage('elements', (storage) => {
     let createdElements = []
     let element = cook.get(elementData)
     if (wrap && !element.get('parent') && !element.relatedTo([ 'RootElements' ])) {
-      let rowElement = documentManager.create({ tag: 'row' })
+      const rowElementSettings = cook.get({ tag: 'row' })
+      let rowElement = documentManager.create(rowElementSettings.toJS())
       createdElements.push(rowElement.id)
-      let columnElement = documentManager.create({ tag: 'column', parent: rowElement.id })
+      const columnElementSettings = cook.get({ tag: 'column', parent: rowElement.id }).toJS()
+      let columnElement = documentManager.create(columnElementSettings)
       createdElements.push(columnElement.id)
       elementData.parent = columnElement.id
       rebuildRawLayout(rowElement.id, {}, documentManager, options)
@@ -123,19 +125,19 @@ addStorage('elements', (storage) => {
   storage.on('merge', (content) => {
     const substituteIds = {}
     Object.keys(content).sort((a, b) => {
-      if (!content[a].parent && content[b].parent) {
+      if (!content[ a ].parent && content[ b ].parent) {
         return -1
       }
-      if (content[a].parent && !content[b].parent) {
+      if (content[ a ].parent && !content[ b ].parent) {
         return 1
       }
-      if (content[a].parent && content[b].parent && content[a].id === content[b].parent) {
+      if (content[ a ].parent && content[ b ].parent && content[ a ].id === content[ b ].parent) {
         return -1
       }
-      if (content[a].parent && content[b].parent && content[a].parent === content[b].id) {
+      if (content[ a ].parent && content[ b ].parent && content[ a ].parent === content[ b ].id) {
         return 1
       }
-      if (content[a].parent && content[b].parent && content[a].parent !== content[b].parent) {
+      if (content[ a ].parent && content[ b ].parent && content[ a ].parent !== content[ b ].parent) {
         return 0
       }
       if (content[ a ].order === undefined || content[ b ].order === undefined) {

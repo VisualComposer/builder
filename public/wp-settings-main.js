@@ -154,16 +154,11 @@ import './sources/less/wpsettings/init.less'
           }
         }).fail(function (a, b, c, d) {
           let responseJson = JSON.parse(a.responseText)
-          let message = ''
           if (responseJson && responseJson.message) {
-            let messageData = JSON.parse(responseJson.message)
-            if (messageData) {
-              Object.keys(messageData).forEach((key) => {
-                message += ` ${messageData[ key ]}.`
-              })
-            }
+            showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
+          } else {
+            showError('Your activation request failed. Please try again.', 10000)
           }
-          showError(`Request for activation failed, please try again later. ${message}`, 10000)
           clearTimeout(ajaxTimeout)
           ajaxTimeoutFinished = false
           showFirstScreen()
