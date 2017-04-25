@@ -6,6 +6,7 @@ class SettingsAboutPageTest extends WP_UnitTestCase
     {
         /** @var \VisualComposer\Modules\Settings\Pages\About $module */
         $module = vcapp('\VisualComposer\Modules\Settings\Pages\About');
+        vchelper('Token')->setSiteAuthorized();
         $tabs = $module->getTabs();
         $this->assertTrue(is_array($tabs));
         $this->assertTrue(!empty($tabs));
