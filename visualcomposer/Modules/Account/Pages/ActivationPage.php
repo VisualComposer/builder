@@ -52,6 +52,7 @@ class ActivationPage extends Container implements Module
             'slug' => $this->getSlug(),
             'title' => __('Activation', 'vc5'),
             'showTab' => false,
+            'layout' => 'standalone',
             'controller' => $this,
         ];
 

@@ -171,7 +171,8 @@ class Controller extends Container implements Module
         $pages = $this->getPages();
         $page = $data->arraySearch($pages, 'slug', $pageSlug);
         if ($page) {
-            wp_enqueue_script(VCV_PREFIX . 'scripts-settings');
+            wp_enqueue_script('vcv:settings:script');
+            wp_enqueue_style('vcv:settings:style');
             // pages can define different layout, by setting 'layout' key/value.
             if (isset($page['layout'])) {
                 $layout = $page['layout'];

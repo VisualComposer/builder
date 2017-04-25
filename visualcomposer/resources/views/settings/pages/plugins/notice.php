@@ -5,8 +5,8 @@ global $status, $page, $s, $totals;
     <tr class="plugin-update-tr" id="vcv-visual-composer-website-builder">
         <td colspan="3" class="plugin-update colspanchange">
             <div class="notice inline notice-warning notice-alt">
-                <p>You have deactivated your copy of Visual Composer Website Builder and won't be able to manage layout that has been created. We will not remove any layout that was created, yet, due to deactivation, it is not using necessary style. To ensure correct layout display, please copy this snippet into your theme's function.php or use this free plugin that will do all the work for you automatically.<br><br>Regards, Michael M, CEO at WPBakery
-                    <a href="">Plugin with snippet</a>
+                <p>You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use this free plugin that will load CSS styles automatically.<br><br>
+                    Regards, Michael M, CEO at WPBakery
                 </p>
                 <p>
                     <a href="<?php echo wp_nonce_url(
