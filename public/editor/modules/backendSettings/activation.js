@@ -169,7 +169,6 @@ $(() => {
     })
 
     $('.vcv-popup-close-button').on('click', () => {
-      $popup.addClass('vcv-popup-container--hidden').removeClass('vcv-first-screen--active').removeClass('vcv-form-screen--active').removeClass('vcv-loading-screen--active').removeClass('vcv-last-screen--active').removeClass('vcv-form-loaded').addClass('vcv-first-screen--active')
       window.location.href = 'index.php'
     })
 
