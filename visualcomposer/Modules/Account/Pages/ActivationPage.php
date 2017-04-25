@@ -98,4 +98,9 @@ class ActivationPage extends Container implements Module
             ],
         ];
     }
+
+    public function getActivePage()
+    {
+        return 'first';
+    }
 }
