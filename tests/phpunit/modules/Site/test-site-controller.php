@@ -41,6 +41,7 @@ class SiteControllerTest extends \WP_UnitTestCase
         $requestHelper->setData(['vcv-action' => 'vcv-editable', 'vcv-source-id' => $postId]);
 
         wp_set_current_user(1);
+        $GLOBALS['post'] = $post;
         $link = apply_filters('edit_post_link', '');
         $pattern = '/' . __('Edit with Visual Composer', 'vc5') . '/';
         $this->assertEquals(1, preg_match($pattern, $link), 'matches of output:' . $link);

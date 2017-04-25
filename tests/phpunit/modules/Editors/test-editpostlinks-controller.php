@@ -56,7 +56,10 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
         /** @var \VisualComposer\Modules\Editors\EditPostLinks\Controller $module */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\EditPostLinks\Controller');
         $actions = [];
-
+        $post = new WP_UnitTest_Factory_For_Post($this);
+        $postId = $post->create(['post_title' => 'Test Post']);
+        $GLOBALS['post'] = $post;
+        /** @see \VisualComposer\Modules\Editors\EditPostLinks\Controller::adminRowLinks */
         $return = $module->call('adminRowLinks', [$actions]);
         $this->assertTrue(is_array($return));
         $this->assertTrue(array_key_exists('edit_vc5', $return));
