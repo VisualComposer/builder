@@ -145,14 +145,14 @@ $(() => {
         $.post(window.vcvAccountUrl, {
           email: email,
           'vcv-nonce': window.vcvAdminNonce
-        }, function (a, b, c, d) {
+        }, () => {
           if (ajaxTimeoutFinished) {
             loadLastScreen()
           } else {
             ajaxTimeoutFinished = true
           }
-        }).fail(function (a, b, c, d) {
-          let responseJson = JSON.parse(a.responseText)
+        }).fail((response) => {
+          let responseJson = JSON.parse(response.responseText)
           if (responseJson && responseJson.message) {
             showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
           } else {
