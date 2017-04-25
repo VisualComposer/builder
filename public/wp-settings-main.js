@@ -156,8 +156,9 @@ import './sources/less/wpsettings/init.less'
           let responseJson = JSON.parse(a.responseText)
           if (responseJson && responseJson.message) {
             showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
+          } else {
+            showError('Your activation request failed. Please try again.', 10000)
           }
-          showError('Your activation request failed. Please try again.', 10000)
           clearTimeout(ajaxTimeout)
           ajaxTimeoutFinished = false
           showFirstScreen()
