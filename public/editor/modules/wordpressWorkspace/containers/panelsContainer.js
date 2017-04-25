@@ -21,13 +21,14 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.arrayOf(React.PropTypes.node),
       React.PropTypes.node
     ]),
-    settings: React.PropTypes.object
+    settings: React.PropTypes.object,
+    contentStartId: React.PropTypes.string
   }
 
   getStartContent () {
-    const { start } = this.props
+    const { start, contentStartId } = this.props
     if (start === 'treeView') {
-      return <TreeViewLayout />
+      return <TreeViewLayout contentStartId={contentStartId} />
     }
   }
 
