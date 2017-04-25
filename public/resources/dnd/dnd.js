@@ -20,6 +20,7 @@ export default class DnD {
    * @constructor
    */
   constructor (container, options) {
+    console.log(options)
     Object.defineProperties(this, {
       /**
        * @memberOf! DnD
@@ -134,10 +135,12 @@ export default class DnD {
           handler: null,
           ignoreHandling: null,
           disabled: false,
-          helperType: null
+          helperType: null,
+          manualScroll: false
         })
       }
     })
+    console.log(this.options)
   }
   static api (dnd) {
     return new Api(dnd)
@@ -291,7 +294,7 @@ export default class DnD {
     this.removePlaceholder()
     this.options.document.removeEventListener('scroll', this.scrollEvent)
     this.point = null
-    this.manualScroll = false
+    this.options.manualScroll = false
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
@@ -336,7 +339,8 @@ export default class DnD {
     if (getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
-    this.manualScroll && this.scrollManually(point)
+    // console.log(this.manualScroll)
+    this.options.manualScroll && this.scrollManually(point)
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point

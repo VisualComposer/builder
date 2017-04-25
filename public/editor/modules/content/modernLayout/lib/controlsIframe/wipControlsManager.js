@@ -5,6 +5,7 @@ import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceContentStartState = workspaceStorage.state('contentStart')
 
 export default class ControlsManager {
   constructor (api) {
@@ -301,7 +302,11 @@ export default class ControlsManager {
           this.findElement()
           this.controlElementFind()
         }
-        workspaceStorage.trigger(event, elementId, tag, options)
+        if (event === 'treeView') {
+          workspaceContentStartState.set('treeView', elementId)
+        } else {
+          workspaceStorage.trigger(event, elementId, tag, options)
+        }
       }
     }
   }
