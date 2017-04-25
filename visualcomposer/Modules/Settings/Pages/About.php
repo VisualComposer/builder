@@ -6,6 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Modules\Settings\Traits\Page;
 
@@ -40,8 +41,11 @@ class About extends Container /*implements Module*/
     /**
      * About constructor.
      */
-    public function __construct()
+    public function __construct(Token $tokenHelper)
     {
+        if (!$tokenHelper->isSiteAuthorized()) {
+            return;
+        }
         /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
         $this->addFilter(
             'vcv:settings:getPages',

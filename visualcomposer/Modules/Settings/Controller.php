@@ -7,9 +7,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
+use VisualComposer\Modules\Account\Pages\ActivationPage;
 use VisualComposer\Modules\Settings\Pages\About;
 use VisualComposer\Modules\Settings\Pages\General;
 use VisualComposer\Modules\Settings\Pages\PostTypes;
@@ -79,13 +81,17 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Modules\Settings\Pages\About $aboutPage
      * @param \VisualComposer\Modules\Settings\Pages\PostTypes $postTypes
      *
+     * @param \VisualComposer\Modules\Account\Pages\ActivationPage $activationPage
+     * @param \VisualComposer\Helpers\Token $tokenHelper
+     *
      * @return string
-     * @throws \Exception
      */
     public function getMainPageSlug(
         CurrentUser $currentUserAccess,
         About $aboutPage,
-        PostTypes $postTypes
+        PostTypes $postTypes,
+        ActivationPage $activationPage,
+        Token $tokenHelper
     ) {
         // TODO: Fix \is_multisite() function same issue in js_composer.
         $hasAccess = !$currentUserAccess->wpAny('manage_options')->part('settings')->can($postTypes->getSlug())->get()
@@ -95,7 +101,7 @@ class Controller extends Container implements Module
         if ($hasAccess) {
             return $aboutPage->getSlug();
         } else {
-            return $postTypes->getSlug();
+            return $tokenHelper->isSiteAuthorized() ? $postTypes->getSlug() : $activationPage->getSlug();
         }
     }
 
