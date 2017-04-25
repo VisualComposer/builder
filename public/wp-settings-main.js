@@ -178,5 +178,17 @@ import './sources/less/wpsettings/init.less'
       $popup.addClass('vcv-popup-container--hidden').removeClass('vcv-first-screen--active').removeClass('vcv-form-screen--active').removeClass('vcv-loading-screen--active').removeClass('vcv-last-screen--active').removeClass('vcv-form-loaded').addClass('vcv-first-screen--active')
       window.location.href = 'index.php'
     })
+
+    let src = $popupInner.css('background-image')
+    let url = src.match(/\((.*?)\)/)[ 1 ].replace(/('|")/g, '')
+
+    let img = new window.Image()
+    img.onload = () => {
+      $popup.addClass('vcv-first-screen--active')
+    }
+    img.src = url
+    if (img.complete) {
+      img.onload()
+    }
   })
 })(jQuery)

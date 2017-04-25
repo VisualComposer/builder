@@ -13,7 +13,7 @@ if ($errorMsg) {
   window.vcvAccountUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
   window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>'
 </script>
-<div class="vcv-popup-container vcv-first-screen--active">
+<div class="vcv-popup-container">
     <div class="vcv-popup-scroll-container">
         <div class="vcv-popup">
             <!-- Back button -->
