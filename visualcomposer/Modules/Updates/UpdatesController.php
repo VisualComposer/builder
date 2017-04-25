@@ -2,6 +2,7 @@
 
 namespace VisualComposer\Modules\Updates;
 
+use stdClass;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -15,7 +16,7 @@ class UpdatesController extends Container implements Module
      *
      * @var string
      */
-    protected $updatePath = '..../index.html';
+    protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html?v=1';
 
     public function __construct()
     {
@@ -51,13 +52,13 @@ class UpdatesController extends Container implements Module
         $info = $this->getRemoteVersionInfo();
         // If a newer version is available, add the update.
         if ($info && version_compare(VCV_VERSION, $info['version'], '<')) {
-            $plugin = [];
-            $plugin['slug'] = VCV_PLUGIN_DIRNAME;
-            $plugin['plugin'] = VCV_PLUGIN_BASE_NAME;
-            $plugin['new_version'] = $info['version'];
-            $plugin['url'] = '.../changes.html';
-            $plugin['package'] = '.../visual-composer.zip';
-            $plugin['tested'] = $info['testedVersion'];
+            $plugin = new stdClass();
+            $plugin->slug = VCV_PLUGIN_DIRNAME;
+            $plugin->plugin = VCV_PLUGIN_BASE_NAME;
+            $plugin->new_version = $info['version'];
+            $plugin->url = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.html';
+            $plugin->package = 'http://updates.wpbakery.com/visual-composer-website-builder/visual-composer-website-builder.zip';
+            $plugin->tested = $info['testedVersion'];
             $transient->response[ VCV_PLUGIN_BASE_NAME ] = $plugin;
         }
 
@@ -71,7 +72,7 @@ class UpdatesController extends Container implements Module
      */
     protected function getRemoteVersionInfo()
     {
-        $request = wp_remote_get($this->updatePath);
+        $request = wp_remote_get($this->updateVersionUrl);
         if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
             return json_decode($request['body'], true);
         }
