@@ -3,6 +3,7 @@
 namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Views;
@@ -35,18 +36,28 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     *
      * @return bool|void
      */
-    protected function init(Request $requestHelper, Url $urlHelper, PostType $postTypeHelper, Frontend $frontendHelper)
-    {
+    protected function init(
+        Request $requestHelper,
+        Url $urlHelper,
+        PostType $postTypeHelper,
+        Frontend $frontendHelper,
+        EditorPostType $editorPostTypeHelper
+    ) {
         // Require an action parameter.
         if ($frontendHelper->isFrontend()) {
             $urlHelper->redirectIfUnauthorized();
             $sourceId = (int)$requestHelper->input('vcv-source-id');
-            $postTypeHelper->setupPost($sourceId);
-            $content = vcfilter('vcv:editors:frontend:render', '');
+            $post = $postTypeHelper->setupPost($sourceId);
+            if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
+                $content = vcfilter('vcv:editors:frontend:render', '');
 
-            return $this->terminate($content);
+                /** @noinspection PhpInconsistentReturnPointsInspection */
+                return $this->terminate($content);
+            }
         }
 
         return false;

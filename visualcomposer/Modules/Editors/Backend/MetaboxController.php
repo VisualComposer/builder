@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Editors\Backend;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Request;
@@ -52,9 +53,15 @@ class MetaboxController extends Container implements Module
         echo $content;
     }
 
-    protected function addMetaBox($postType)
+    protected function addMetaBox($postType, EditorPostType $editorPostTypeHelper)
     {
-        if (vcfilter('vcv:editors:backend:addMetabox', true, ['postType' => $postType])) {
+        if ($editorPostTypeHelper->isEditorEnabled($postType)
+            && vcfilter(
+                'vcv:editors:backend:addMetabox',
+                true,
+                ['postType' => $postType]
+            )
+        ) {
             // TODO:
             // 0. Check part enabled post type and etc
             // 1. Check access

@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Editors\EditPostLinks;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -56,18 +57,25 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     *
      * @return string
      */
     protected function addEditPostLink(
         $link,
         CurrentUser $currentUserAccess,
         Request $requestHelper,
-        Frontend $frontendHelper
+        Frontend $frontendHelper,
+        EditorPostType $editorPostTypeHelper
     ) {
         if ($requestHelper->exists('vcv-editable')) {
             return '';
         }
-        if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)) {
+        if ($currentUserAccess->part('frontend_editor', true)->can()->get(true)
+            && $editorPostTypeHelper->isEditorEnabled(
+                get_post_type()
+            )
+        ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $link .= sprintf(
                 ' <a href="%s">%s</a>',
@@ -82,8 +90,9 @@ class Controller extends Container implements Module
     /**
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      */
-    protected function adminBarEditLink($wpAdminBar, Frontend $frontendHelper)
+    protected function adminBarEditLink($wpAdminBar, Frontend $frontendHelper, EditorPostType $editorPostTypeHelper)
     {
         if (!is_object($wpAdminBar)) {
             // @codingStandardsIgnoreStart
@@ -92,7 +101,7 @@ class Controller extends Container implements Module
             // @codingStandardsIgnoreEnd
         }
 
-        if (is_singular()) {
+        if (is_singular() && $editorPostTypeHelper->isEditorEnabled(get_post_type())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $wpAdminBar->add_menu(
                 [
@@ -108,13 +117,16 @@ class Controller extends Container implements Module
      * @param $actions
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     *
      * @return mixed
      */
-    protected function adminRowLinks($actions, Frontend $frontendHelper)
+    protected function adminRowLinks($actions, Frontend $frontendHelper, EditorPostType $editorPostTypeHelper)
     {
-        $url = $frontendHelper->getFrontendUrl(get_the_ID());
-
-        $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vc5'));
+        if ($editorPostTypeHelper->isEditorEnabled(get_post_type())) {
+            $url = $frontendHelper->getFrontendUrl(get_the_ID());
+            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vc5'));
+        }
 
         return $actions;
     }
