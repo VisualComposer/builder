@@ -3,6 +3,7 @@ import React from 'react'
 import {default as Categories} from './lib/categories'
 
 const cook = vcCake.getService('cook')
+const hubCategoriesService = vcCake.getService('hubCategories')
 const DocumentData = vcCake.getService('document')
 
 export default class AddElementPanel extends React.Component {
@@ -12,7 +13,7 @@ export default class AddElementPanel extends React.Component {
   }
   getElementList () {
     let parentContainerFor = ['General']
-    let allElements = cook.list.settings()
+    let allElements = hubCategoriesService.getSortedElements()
     let parentId = false // this.props.api.actions.getParent()
     if (parentId) {
       let data = DocumentData.get(parentId)

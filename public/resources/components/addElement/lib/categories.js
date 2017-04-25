@@ -9,7 +9,6 @@ const groupsService = vcCake.getService('hubGroups')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 const workspaceStorage = vcCake.getStorage('workspace')
-const cook = vcCake.getService('cook')
 let allCategories = []
 
 export default class Categories extends React.Component {
@@ -41,26 +40,17 @@ export default class Categories extends React.Component {
 
   getElementsList (groupCategories, tags) {
     let groupElements = []
+    let setGroupElements = (element) => {
+      if (tags.indexOf(element.tag) > -1) {
+        groupElements.push(element)
+      }
+    }
     if (groupCategories === true) {
       // Get ALL
-      let allCategories = categoriesService.all()
-      Object.keys(allCategories).forEach((categoryKey) => {
-        let groupCategoryData = allCategories[ categoryKey ]
-        if (groupCategoryData && groupCategoryData.elements) {
-          groupElements = groupElements.concat(groupCategoryData.elements.filter((tag) => {
-            return tags.indexOf(tag) > -1
-          }))
-        }
-      })
+      let allSortedElements = categoriesService.getSortedElements()
+      allSortedElements.forEach(setGroupElements)
     } else {
-      groupCategories.forEach((category) => {
-        let groupCategoryData = categoriesService.get(category)
-        if (groupCategoryData && groupCategoryData.elements) {
-          groupElements = groupElements.concat(groupCategoryData.elements.filter((tag) => {
-            return tags.indexOf(tag) > -1
-          }))
-        }
-      })
+      groupCategories.forEach(setGroupElements)
     }
 
     return groupElements
@@ -120,9 +110,7 @@ export default class Categories extends React.Component {
     </div>
   }
 
-  getElementControl (tag) {
-    let element = cook.get({ tag: tag }).toJS()
-
+  getElementControl (element) {
     return <ElementControl
       key={'vcv-element-control-' + element.tag}
       element={element}
