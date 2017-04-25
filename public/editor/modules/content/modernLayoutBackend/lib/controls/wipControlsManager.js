@@ -5,7 +5,7 @@ import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentStartState = vcCake.getStorage('workspace').state('contentStart')
+const workspaceContentStartState = workspaceStorage.state('contentStart')
 
 export default class ControlsManager {
   constructor (api) {

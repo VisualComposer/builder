@@ -115,7 +115,7 @@ export default class ControlsHandler {
           controlsList.insertBefore(this.createControlForTrigger(element,
             {
               title: 'Tree View',
-              event: 'bar-content-start:show'
+              event: 'treeView'
             }), controlsList.children[0])
           break
         }
