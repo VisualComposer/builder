@@ -178,8 +178,13 @@ $(() => {
     let img = new window.Image()
     img.onload = () => {
       $popup.removeClass('vcv-popup-container--hidden')
+      showLoadingScreen()
       setTimeout(() => {
-        $popup.addClass('vcv-first-screen--active')
+        if (window.vcvActivationActivePage === 'last') {
+          loadLastScreen()
+        } else {
+          showFirstScreen()
+        }
       }, 300)
     }
     img.src = url
