@@ -66,6 +66,8 @@ export default class DndManager {
         if (value === 'contentEditable' || value === 'columnResizer') {
           this.items.option('disabled', true)
           this.items.handleDragEnd()
+        } else {
+          this.items.option('disabled', false)
         }
       })
     }

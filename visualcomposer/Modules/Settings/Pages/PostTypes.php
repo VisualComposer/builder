@@ -6,6 +6,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -30,24 +31,28 @@ class PostTypes extends Container implements Module
 
     /**
      * General constructor.
+     *
+     * @param \VisualComposer\Helpers\Token $tokenHelper
      */
-    public function __construct()
+    public function __construct(Token $tokenHelper)
     {
-        $this->optionGroup = 'vcv-post-types';
-        $this->optionSlug = 'vcv-post-types';
+        if ($tokenHelper->isSiteAuthorized()) {
+            $this->optionGroup = 'vcv-post-types';
+            $this->optionSlug = 'vcv-post-types';
 
-        /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::addPage */
-        $this->addFilter(
-            'vcv:settings:getPages',
-            'addPage',
-            20
-        );
+            /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::addPage */
+            $this->addFilter(
+                'vcv:settings:getPages',
+                'addPage',
+                20
+            );
 
-        /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::buildPage */
-        $this->wpAddAction(
-            'vcv:settings:initAdmin:page:' . $this->getSlug(),
-            'buildPage'
-        );
+            /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::buildPage */
+            $this->wpAddAction(
+                'vcv:settings:initAdmin:page:' . $this->getSlug(),
+                'buildPage'
+            );
+        }
     }
 
     /**
