@@ -22,7 +22,8 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.node
     ]),
     settings: React.PropTypes.object,
-    layoutWidth: React.PropTypes.number
+    layoutWidth: React.PropTypes.number,
+    contentStartId: React.PropTypes.string
   }
 
   constructor (props) {
@@ -30,6 +31,7 @@ export default class PanelsContainer extends React.Component {
     this.state = {
       stack: this.props.layoutWidth < 800
     }
+    this.getBarsHeight = this.getBarsHeight.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -40,10 +42,24 @@ export default class PanelsContainer extends React.Component {
     }
   }
 
+  /**
+   * Get the height of WP admin bar and layoutBar
+   * @param layoutBar element
+   * @param adminBar element
+   * @return barsHeight number
+   */
+  getBarsHeight (layoutBar, adminBar) {
+    let barsHeight = layoutBar.getBoundingClientRect().height
+    if (window.getComputedStyle(adminBar).position === 'fixed') {
+      barsHeight += adminBar.getBoundingClientRect().height
+    }
+    return barsHeight
+  }
+
   getStartContent () {
-    const { start } = this.props
+    const { start, contentStartId } = this.props
     if (start === 'treeView') {
-      return <TreeViewLayout />
+      return <TreeViewLayout scrollValue={this.getBarsHeight} contentStartId={contentStartId} />
     }
   }
 
