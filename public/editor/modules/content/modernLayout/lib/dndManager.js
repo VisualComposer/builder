@@ -56,7 +56,8 @@ export default class DndManager {
         startCallback: DndManager.start,
         endCallback: DndManager.end,
         document: this.documentDOM || document,
-        container: document.getElementById('vcv-editor-iframe-overlay') || document.body
+        container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
+        manualScroll: true
       })
       this.items.init()
       this.apiDnD = DnD.api(this.items)
@@ -68,6 +69,7 @@ export default class DndManager {
           this.items.handleDragEnd()
         } else {
           this.items.option('disabled', false)
+          this.items.option('manualScroll', true)
         }
       })
     }

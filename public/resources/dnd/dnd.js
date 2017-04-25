@@ -134,7 +134,8 @@ export default class DnD {
           handler: null,
           ignoreHandling: null,
           disabled: false,
-          helperType: null
+          helperType: null,
+          manualScroll: false
         })
       }
     })
@@ -291,7 +292,7 @@ export default class DnD {
     this.removePlaceholder()
     this.options.document.removeEventListener('scroll', this.scrollEvent)
     this.point = null
-    this.manualScroll = false
+    this.options.manualScroll = false
     if (typeof this.options.endCallback === 'function') {
       this.options.endCallback(this.draggingElement)
     }
@@ -336,7 +337,7 @@ export default class DnD {
     if (getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
-    this.manualScroll && this.scrollManually(point)
+    this.options.manualScroll && this.scrollManually(point)
     window.setTimeout(() => {
       if (!this.startPoint) {
         this.startPoint = point
