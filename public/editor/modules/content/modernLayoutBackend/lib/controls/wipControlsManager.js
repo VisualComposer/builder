@@ -317,7 +317,7 @@ export default class ControlsManager {
           this.controlElementFind()
         }
         if (event === 'treeView') {
-          workspaceContentStartState.set('treeView')
+          workspaceContentStartState.set('treeView', elementId)
         } else {
           workspaceStorage.trigger(event, elementId, tag, options)
         }

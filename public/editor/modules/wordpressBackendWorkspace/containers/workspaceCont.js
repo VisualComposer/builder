@@ -62,8 +62,11 @@ export default class WorkspaceCont extends React.Component {
     this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
   }
 
-  setContentStart (value) {
-    this.setState({contentStart: value || false})
+  setContentStart (value, id) {
+    this.setState({
+      contentStart: value || false,
+      contentStartId: id || ''
+    })
   }
 
   addResizeListener (element, fn) {
@@ -185,7 +188,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { contentStart, contentEnd, settings, isSticky, barTopPos, barLeftPos, barWidth } = this.state
+    const { contentStart, contentEnd, settings, isSticky, barTopPos, barLeftPos, barWidth, contentStartId } = this.state
 
     let stickyBar = {}
     if (isSticky) {
@@ -208,6 +211,7 @@ export default class WorkspaceCont extends React.Component {
         <PanelsContainer
           start={contentStart}
           end={contentEnd}
+          contentStartId={contentStartId}
           settings={settings}
           layoutWidth={barWidth}
           ref={(panels) => { this.panels = panels }}

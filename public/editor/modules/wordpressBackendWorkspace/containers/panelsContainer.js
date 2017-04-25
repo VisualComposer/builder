@@ -22,7 +22,8 @@ export default class PanelsContainer extends React.Component {
       React.PropTypes.node
     ]),
     settings: React.PropTypes.object,
-    layoutWidth: React.PropTypes.number
+    layoutWidth: React.PropTypes.number,
+    contentStartId: React.PropTypes.string
   }
 
   constructor (props) {
@@ -56,9 +57,9 @@ export default class PanelsContainer extends React.Component {
   }
 
   getStartContent () {
-    const { start } = this.props
+    const { start, contentStartId } = this.props
     if (start === 'treeView') {
-      return <TreeViewLayout scrollValue={this.getBarsHeight} />
+      return <TreeViewLayout scrollValue={this.getBarsHeight} contentStartId={contentStartId} />
     }
   }
 
