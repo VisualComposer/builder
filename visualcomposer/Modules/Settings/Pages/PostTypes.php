@@ -68,6 +68,8 @@ class PostTypes extends Container implements Module
 
     /**
      * Page: Post Types Settings.
+     *
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
      */
     protected function buildPage(PostType $postTypeHelper)
     {

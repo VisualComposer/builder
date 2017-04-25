@@ -1,5 +1,6 @@
 <?php
 /** @var array $enabledPostTypes */
+/** @var array $postType */
 ?>
 
 <div class="vcv-ui-form-switch-container">
