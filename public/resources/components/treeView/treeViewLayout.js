@@ -47,7 +47,7 @@ export default class TreeViewLayout extends React.Component {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
-      header: document.querySelector('.vcv-ui-navbar-container').getBoundingClientRect(),
+      header: document.querySelector('.vcv-ui-navbar-container'),
       data: elementsStorage.state('document').get()
     })
     this.scrollTimeout = setTimeout(() => {
@@ -97,11 +97,15 @@ export default class TreeViewLayout extends React.Component {
   handleScrollToElement (scrollToElement) {
     if (scrollToElement && this.scrollbar) {
       this.scrollbar.scrollTop(0)
-      let target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
+      const headerRect = this.state.header.getBoundingClientRect()
+      const target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
       this.expandTree(target)
-      let offset = target.getBoundingClientRect().top
+      const targetTop = target.getBoundingClientRect().top
+      const headerHeight = headerRect.height === window.innerHeight ? 0 : headerRect.height
+      const headerBottom = headerRect.bottom === window.innerHeight ? 0 : headerRect.bottom
+      const offset = targetTop - headerHeight - headerBottom
       this.interactWithContent(scrollToElement)
-      this.scrollbar.scrollTop(offset - this.state.header.height - this.state.header.bottom)
+      this.scrollbar.scrollTop(offset)
     }
   }
 

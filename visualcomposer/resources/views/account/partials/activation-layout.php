@@ -12,6 +12,7 @@ if ($errorMsg) {
 <script>
   window.vcvAccountUrl = '<?php echo vchelper('Url')->ajax(['vcv-action' => 'account:activation:adminNonce']); ?>'
   window.vcvAdminNonce = '<?php echo vchelper('Nonce')->admin(); ?>'
+  window.vcvActivationActivePage = '<?php echo $controller->getActivePage(); ?>'
 </script>
 <div class="vcv-popup-container vcv-popup-container--hidden">
     <div class="vcv-popup-scroll-container">
