@@ -1,22 +1,15 @@
 <?php
-/** @var array $postTypes */
-
-$postTypesHelper = vchelper('PostType');
-$availablePostTypes = $postTypesHelper->getPostTypes(['attachment']);
+/** @var array $enabledPostTypes */
 ?>
-    <p>
-        <?php echo __('Specify post types where you want to use Visual Composer Website Builder.', 'vc5'); ?>
-    </p>
-<?php
-foreach ($availablePostTypes as $postType) :
-    ?>
-    <label><span><?php echo $postType['label']; ?></span>
-        <input type="checkbox" name="vcv-post-types[]" value="<?php echo $postType['value']; ?>"
-            <?php echo in_array(
-                $postType['value'],
-                $postTypes
-            ) ? 'checked="checked"' : ''; ?>
-        />
+
+<div class="vcv-ui-form-switch-container">
+    <label class="vcv-ui-form-switch">
+        <input type="checkbox" value="<?php echo $postType['value']; ?>" name="vcv-post-types[]" <?php echo in_array(
+            $postType['value'],
+            $enabledPostTypes
+        ) ? 'checked="checked"' : ''; ?> />
+        <span class="vcv-ui-form-switch-indicator"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-on="on"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-off="off"></span>
     </label>
-    <?php
-endforeach;
+</div>

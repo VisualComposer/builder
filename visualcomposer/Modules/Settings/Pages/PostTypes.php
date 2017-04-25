@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -68,35 +69,50 @@ class PostTypes extends Container implements Module
     /**
      * Page: Post Types Settings.
      */
-    protected function buildPage()
+    protected function buildPage(PostType $postTypeHelper)
     {
+        $sectionCallback = function () {
+            echo __('Specify post types where you want to use Visual Composer Website Builder.', 'vc5');
+        };
         $this->addSection(
             [
-                'page' => $this->getSlug(),
-            ]
-        );
-
-        $fieldCallback = function ($data) {
-            /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::renderPostTypes */
-            echo $this->call('renderPostTypes', [$data]);
-        };
-
-        $this->addField(
-            [
-                'page' => $this->getSlug(),
                 'title' => __('Post Types', 'vc5'),
-                'name' => 'post-types',
-                'fieldCallback' => $fieldCallback,
+                'page' => $this->getSlug(),
+                'callback' => $sectionCallback,
             ]
         );
+
+        $availablePostTypes = $postTypeHelper->getPostTypes(['attachment']);
+        foreach ($availablePostTypes as $postType) {
+            $fieldCallback = function ($data) use ($postType) {
+                /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::renderPostTypes */
+                echo $this->call('renderPostTypes', ['data' => $data, 'postType' => $postType]);
+            };
+
+            $this->addField(
+                [
+                    'page' => $this->getSlug(),
+                    'title' => $postType['label'],
+                    'name' => 'post-types',
+                    'id' => 'vcv-post-types-' . $postType['value'],
+                    'fieldCallback' => $fieldCallback,
+                ]
+            );
+        }
     }
 
-    protected function renderPostTypes(EditorPostType $editorPostTypeHelper)
+    protected function beforeRender()
+    {
+        wp_enqueue_style('vcv:settings:style');
+    }
+
+    protected function renderPostTypes($data, $postType, EditorPostType $editorPostTypeHelper)
     {
         return vcview(
             'settings/pages/post-types/post-types-toggle',
             [
-                'postTypes' => $editorPostTypeHelper->getEnabledPostTypes(),
+                'postType' => $postType,
+                'enabledPostTypes' => $editorPostTypeHelper->getEnabledPostTypes(),
             ]
         );
     }

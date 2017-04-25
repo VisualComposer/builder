@@ -13,7 +13,6 @@ $optionGroup = $controller->getOptionGroup();
     class="vcv-settings-tab-content vcv-settings-tab-content-active"
     <?php echo apply_filters('vc_setting-tab-form-' . $slug, '') ?>
 >
-
     <?php settings_fields($optionGroup . '_' . $slug) ?>
 
     <?php do_settings_sections($slug . '_' . $slug) ?>
