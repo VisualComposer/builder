@@ -52,6 +52,7 @@ class Controller extends Container implements Module
             $urlHelper->redirectIfUnauthorized();
             $sourceId = (int)$requestHelper->input('vcv-source-id');
             $post = $postTypeHelper->setupPost($sourceId);
+            // @codingStandardsIgnoreLine
             if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
                 $content = vcfilter('vcv:editors:frontend:render', '');
 
