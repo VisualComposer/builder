@@ -4,7 +4,6 @@ namespace VisualComposer\Modules\Elements\Grids\DataSource;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\PostsGridSourcePosts;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use WP_Query;
@@ -43,15 +42,12 @@ class CustomPostTypeController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      *
-     * @param \VisualComposer\Helpers\PostsGridSourcePosts $postsGridSourcePostsHelper
-     *
      * @return array
      */
     protected function queryPosts(
         $posts,
         $payload,
-        PostType $postTypeHelper,
-        PostsGridSourcePosts $postsGridSourcePostsHelper
+        PostType $postTypeHelper
     ) {
         global $post;
         if (isset($payload['atts']['source'], $payload['atts']['source']['tag'])
@@ -60,7 +56,7 @@ class CustomPostTypeController extends Container implements Module
             // Value:
             $value = html_entity_decode($payload['atts']['source']['value']);
             if (strpos($value, 'post_type=&') !== false) {
-                $postTypes = $postsGridSourcePostsHelper->getPostTypes();
+                $postTypes = $postTypeHelper->getPostTypes(['post', 'page']);
                 $firstPostType = sprintf('post_type=%s&', $postTypes[0]['value']);
                 $value = str_replace('post_type=&', $firstPostType, $value);
             }

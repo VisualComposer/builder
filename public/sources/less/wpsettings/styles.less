@@ -5,6 +5,7 @@
 }
 
 .vcv-popup-container {
+  -webkit-font-smoothing: antialiased;
   position: fixed;
   overflow: hidden;
   left: 0;
@@ -18,7 +19,7 @@
   flex-direction: column;
   justify-content: center;
   word-wrap: break-word;
-
+  background: @vcv-popupOverlayBackground;
   z-index: 10000;
 
   &--hidden {

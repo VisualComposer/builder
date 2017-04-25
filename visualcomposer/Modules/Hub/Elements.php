@@ -221,30 +221,30 @@ class Elements extends Container implements Module
                         'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                     ],
                 ],
-                'googleFontsHeading' => [
-                    'bundlePath' => $urlHelper->to(
-                        'public/sources/newElements/googleFontsHeading/public/dist/element.bundle.js'
-                    ),
-                    'elementPath' => $urlHelper->to(
-                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/'
-                    ),
-                    'assetsPath' => $urlHelper->to(
-                        'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/'
-                    ),
-                    'settings' => [
-                        'name' => 'Google Fonts Heading',
-                        'metaThumbnailUrl' => $urlHelper->to(
-                        // @codingStandardsIgnoreLine
-                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png'
-                        ),
-                        'metaPreviewUrl' => $urlHelper->to(
-                        // @codingStandardsIgnoreLine
-                            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
-                        ),
-                        // @codingStandardsIgnoreLine
-                        'metaDescription' => 'Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.',
-                    ],
-                ],
+                //'googleFontsHeading' => [
+                //    'bundlePath' => $urlHelper->to(
+                //        'public/sources/newElements/googleFontsHeading/public/dist/element.bundle.js'
+                //    ),
+                //    'elementPath' => $urlHelper->to(
+                //        'public/sources/newElements/googleFontsHeading/googleFontsHeading/'
+                //    ),
+                //    'assetsPath' => $urlHelper->to(
+                //        'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/'
+                //    ),
+                //    'settings' => [
+                //        'name' => 'Google Fonts Heading',
+                //        'metaThumbnailUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-thumbnail.png'
+                //        ),
+                //        'metaPreviewUrl' => $urlHelper->to(
+                //        // @codingStandardsIgnoreLine
+                //            'public/sources/newElements/googleFontsHeading/googleFontsHeading/public/google-fonts-preview.png'
+                //        ),
+                //        // @codingStandardsIgnoreLine
+                //        'metaDescription' => 'Selected Google Fonts with additional styling allows adding eye-catching titles and call to action messages.',
+                //    ],
+                //],
                 'wpWidgetsCustom' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/wpWidgetsCustom/public/dist/element.bundle.js'

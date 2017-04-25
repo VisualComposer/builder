@@ -11,6 +11,7 @@ trait Fields
      * @var string
      */
     protected $optionGroup = 'vcv-settings';
+
     /**
      * @var string
      */
@@ -71,6 +72,7 @@ trait Fields
     {
         $fieldData = array_merge(
             [
+                'id' => '',
                 'group' => $this->optionGroup,
                 'slug' => $this->optionSlug,
                 'name' => '',
@@ -93,7 +95,7 @@ trait Fields
             $fieldData['sanitizeCallback']
         );
         add_settings_field(
-            VCV_PREFIX . $fieldData['name'],
+            $fieldData['id'] ? $fieldData['id'] : VCV_PREFIX . $fieldData['name'],
             $fieldData['title'],
             $fieldData['fieldCallback'],
             $fieldData['slug'] . '_' . $fieldData['page'],
