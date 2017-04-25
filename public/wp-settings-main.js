@@ -184,7 +184,10 @@ import './sources/less/wpsettings/init.less'
 
     let img = new window.Image()
     img.onload = () => {
-      $popup.addClass('vcv-first-screen--active')
+      $popup.removeClass('vcv-popup-container--hidden')
+      setTimeout(() => {
+        $popup.addClass('vcv-first-screen--active')
+      }, 300)
     }
     img.src = url
     if (img.complete) {
