@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Settings\Pages;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -91,12 +91,12 @@ class PostTypes extends Container implements Module
         );
     }
 
-    protected function renderPostTypes(Options $optionsHelper)
+    protected function renderPostTypes(EditorPostType $editorPostTypeHelper)
     {
         return vcview(
             'settings/pages/post-types/post-types-toggle',
             [
-                'postTypes' => (array)$optionsHelper->get('post-types', ['pages']),
+                'postTypes' => $editorPostTypeHelper->getEnabledPostTypes(),
             ]
         );
     }
