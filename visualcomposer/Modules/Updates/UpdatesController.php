@@ -16,7 +16,12 @@ class UpdatesController extends Container implements Module
      *
      * @var string
      */
-    protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html?v=1';
+    protected $updateVersionUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/index.html';
+
+    protected $updateChangelogUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.html';
+
+    // @codingStandardsIgnoreLine
+    protected $updatePackageUrl = 'http://updates.wpbakery.com/visual-composer-website-builder/visual-composer-website-builder.zip';
 
     public function __construct()
     {
@@ -55,9 +60,10 @@ class UpdatesController extends Container implements Module
             $plugin = new stdClass();
             $plugin->slug = VCV_PLUGIN_DIRNAME;
             $plugin->plugin = VCV_PLUGIN_BASE_NAME;
+            // @codingStandardsIgnoreLine
             $plugin->new_version = $info['version'];
-            $plugin->url = 'http://updates.wpbakery.com/visual-composer-website-builder/changes.html';
-            $plugin->package = 'http://updates.wpbakery.com/visual-composer-website-builder/visual-composer-website-builder.zip';
+            $plugin->url = $this->updateChangelogUrl;
+            $plugin->package = $this->updatePackageUrl;
             $plugin->tested = $info['testedVersion'];
             $transient->response[ VCV_PLUGIN_BASE_NAME ] = $plugin;
         }
