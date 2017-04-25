@@ -218,6 +218,9 @@ export default class DnD {
     let domNode = this.findDOMNode(point)
     if (!domNode || !domNode.ELEMENT_NODE) { return }
     let domElement = this.items[domNode.getAttribute('data-vcv-dnd-element')]
+    if (!domElement) {
+      return
+    }
     let parentDOMElement = this.items[domElement.parent()] || null
     if (domElement.isNearBoundaries(point, this.options.boundariesGap) && parentDOMElement && parentDOMElement.id !== this.options.rootID) {
       domElement = this.findElementWithValidParent(parentDOMElement) || domElement
