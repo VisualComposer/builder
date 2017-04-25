@@ -7,15 +7,5 @@ echo vcview('settings/partials/admin-nonce');
 ?>
 <div class="wrap vcv-settings">
     <h2><?php echo __('Settings', 'vc5') ?></h2>
-    <?php
-    echo vcview(
-        'settings/partials/tabs',
-        [
-            'activeSlug' => $activeSlug,
-            'tabs' => $tabs,
-        ]
-    );
-    echo $content;
-    ?>
-
+    <?php echo $content ?>
 </div>

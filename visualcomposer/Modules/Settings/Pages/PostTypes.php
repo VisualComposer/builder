@@ -65,6 +65,8 @@ class PostTypes extends Container implements Module
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => __('Settings', 'vc5'),
+            'showTab' => false,
+            'layout' => 'settings-standalone',
             'controller' => $this,
         ];
 
@@ -106,11 +108,6 @@ class PostTypes extends Container implements Module
                 ]
             );
         }
-    }
-
-    protected function beforeRender()
-    {
-        wp_enqueue_style('vcv:settings:style');
     }
 
     protected function renderPostTypes($data, $postType, EditorPostType $editorPostTypeHelper)
