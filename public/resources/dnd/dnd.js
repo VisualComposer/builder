@@ -20,7 +20,6 @@ export default class DnD {
    * @constructor
    */
   constructor (container, options) {
-    console.log(options)
     Object.defineProperties(this, {
       /**
        * @memberOf! DnD
@@ -140,7 +139,6 @@ export default class DnD {
         })
       }
     })
-    console.log(this.options)
   }
   static api (dnd) {
     return new Api(dnd)
@@ -339,7 +337,6 @@ export default class DnD {
     if (getData('vcv:layoutCustomMode') !== 'dnd') {
       setData('vcv:layoutCustomMode', 'dnd')
     }
-    // console.log(this.manualScroll)
     this.options.manualScroll && this.scrollManually(point)
     window.setTimeout(() => {
       if (!this.startPoint) {
