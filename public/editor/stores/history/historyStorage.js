@@ -19,12 +19,18 @@ addStorage('history', (storage) => {
     elementsStorage.trigger('updateAll', elementsTimeMachine.get())
   }
   storage.on('undo', () => {
+    if (!inited) {
+      return
+    }
     elementsTimeMachine.undo()
     // here comes get with undo data
     updateElementsStorage()
     checkUndoRedo()
   })
   storage.on('redo', () => {
+    if (!inited) {
+      return
+    }
     elementsTimeMachine.redo()
     // here comes get with redo data
     updateElementsStorage()
