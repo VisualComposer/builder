@@ -81,7 +81,10 @@ class PostTypes extends Container implements Module
     protected function buildPage(PostType $postTypeHelper)
     {
         $sectionCallback = function () {
-            echo __('Specify post types where you want to use Visual Composer Website Builder.', 'vc5');
+            echo sprintf(
+                '<p class="description">%s</p>',
+                __('Specify post types where you want to use Visual Composer Website Builder.', 'vc5')
+            );
         };
         $this->addSection(
             [
