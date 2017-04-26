@@ -108,8 +108,11 @@ export default class ControlsManager {
       this.state.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
-      let elPath = path.filter((el) => {
-        return el.dataset && (el.dataset.hasOwnProperty('vcvElement') || el.dataset.hasOwnProperty('vcvLinkedElement'))
+      let elPath = []
+      path.forEach((el) => {
+        if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
+          elPath.push(el)
+        }
       })
       let element = null
       if (elPath.length) {
