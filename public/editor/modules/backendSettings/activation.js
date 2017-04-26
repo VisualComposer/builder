@@ -178,14 +178,15 @@ $(() => {
     let img = new window.Image()
     img.onload = () => {
       $popup.removeClass('vcv-popup-container--hidden')
-      showLoadingScreen()
-      setTimeout(() => {
-        if (window.vcvActivationActivePage === 'last') {
-          loadLastScreen()
-        } else {
+      if (window.vcvActivationActivePage === 'last') {
+        loadSlider()
+        showLastScreen()
+      } else {
+        showLoadingScreen()
+        setTimeout(() => {
           showFirstScreen()
-        }
-      }, 300)
+        }, 300)
+      }
     }
     img.src = url
     if (img.complete) {
