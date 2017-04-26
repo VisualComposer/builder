@@ -16,7 +16,6 @@ use VisualComposer\Modules\Settings\Traits\Page;
  */
 class About extends ActivationPage implements Module
 {
-    use Page;
     use EventsFilters;
 
     /**
