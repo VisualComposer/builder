@@ -17,5 +17,4 @@ echo vcview('settings/partials/admin-nonce');
     );
     echo $content;
     ?>
-
 </div>
