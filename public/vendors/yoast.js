@@ -1,8 +1,12 @@
 import vcCake from 'vc-cake'
 
 const utils = vcCake.getService('utils')
+let contentTimeout
 const setContent = () => {
-  setTimeout(() => {
+  if (contentTimeout) {
+    clearTimeout(contentTimeout)
+  }
+  contentTimeout = setTimeout(() => {
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
