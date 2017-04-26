@@ -47,7 +47,7 @@ export default class UndoRedoControl extends NavbarContent {
 
   handleRedo (e) {
     e && e.preventDefault()
-    historyStorage.state('canUndo').get() && historyStorage.trigger('redo')
+    historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
   }
 
   render () {
