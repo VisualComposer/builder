@@ -19,6 +19,7 @@ class VendorBundleController extends Container implements Module
         $this->addFilter('vcv:backend:extraOutput vcv:frontend:head:extraOutput', 'addVendorScript', 1);
 
         $this->wpAddAction('admin_init', 'registerVendorScripts');
+        $this->wpAddAction('init', 'registerVendorScripts');
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueVendorFrontScripts', 1);
     }
 
