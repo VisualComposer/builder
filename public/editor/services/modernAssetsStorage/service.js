@@ -84,6 +84,15 @@ class PublicApi {
   }
 
   /**
+   * Get element tags by data
+   * @param data
+   * @returns {Array}
+   */
+  getElementTagsByData (data) {
+    return Object.keys(storage.getElementTagsByTagName(data.tag, {}, data))
+  }
+
+  /**
    * Get css mixin data by element
    * @param element
    * @returns {*|{}}
