@@ -15,6 +15,7 @@ module.exports = {
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
     wpsettings: './public/wp-settings-main',
+    yoast: './public/vendors/yoast',
     app: [],
     vendor: [
       'jquery',
