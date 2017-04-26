@@ -25,18 +25,15 @@ class UpdatesController extends Container implements Module
 
     public function __construct()
     {
-        $featureToggle = false;
-        if ($featureToggle) {
-            /**
-             * Init check update.
-             *
-             * @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates
-             */
-            $this->wpAddFilter(
-                'pre_set_site_transient_update_plugins',
-                'checkForUpdates'
-            );
-        }
+        /**
+         * Init check update.
+         *
+         * @see \VisualComposer\Modules\Updates\UpdatesController::checkForUpdates
+         */
+        $this->wpAddFilter(
+            'pre_set_site_transient_update_plugins',
+            'checkForUpdates'
+        );
     }
 
     /**
