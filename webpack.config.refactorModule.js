@@ -15,6 +15,7 @@ module.exports = {
     wpbackend: './public/wpbackend-main',
     wpbackendswitch: './public/wpbackend-switch',
     wpsettings: './public/wp-settings-main',
+    yoast: './public/vendors/yoast',
     app: [],
     vendor: [
       'jquery',
@@ -106,7 +107,7 @@ module.exports = {
     },
     wpbackend: {
       modules: [
-        // 'content/modernLayout',
+        'content/modernLayout',
         'content/modernLayoutBackend',
         'wordpressBackendWorkspace'
       ],

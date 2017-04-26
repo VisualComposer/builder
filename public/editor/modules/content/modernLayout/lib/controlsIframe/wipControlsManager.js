@@ -5,6 +5,7 @@ import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceContentStartState = workspaceStorage.state('contentStart')
 
 export default class ControlsManager {
   constructor (api) {
@@ -107,8 +108,11 @@ export default class ControlsManager {
       this.state.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
-      let elPath = path.filter((el) => {
-        return el.dataset && (el.dataset.hasOwnProperty('vcvElement') || el.dataset.hasOwnProperty('vcvLinkedElement'))
+      let elPath = []
+      path.forEach((el) => {
+        if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
+          elPath.push(el)
+        }
       })
       let element = null
       if (elPath.length) {
@@ -301,7 +305,11 @@ export default class ControlsManager {
           this.findElement()
           this.controlElementFind()
         }
-        workspaceStorage.trigger(event, elementId, tag, options)
+        if (event === 'treeView') {
+          workspaceContentStartState.set('treeView', elementId)
+        } else {
+          workspaceStorage.trigger(event, elementId, tag, options)
+        }
       }
     }
   }

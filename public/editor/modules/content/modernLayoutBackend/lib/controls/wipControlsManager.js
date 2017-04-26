@@ -5,7 +5,7 @@ import FramesHandler from './framesHandler'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')
-const workspaceContentStartState = vcCake.getStorage('workspace').state('contentStart')
+const workspaceContentStartState = workspaceStorage.state('contentStart')
 
 export default class ControlsManager {
   constructor (api) {
@@ -103,11 +103,13 @@ export default class ControlsManager {
       this.prevTarget = e.target
       // get all vcv elements
       let path = this.getPath(e)
-      let elPath
+      let elPath = []
       // check if elements are inside backend layout
       if (e.target && e.target.closest('.vcv-wpbackend-layout')) {
-        elPath = path.filter((el) => {
-          return el.dataset && el.dataset.hasOwnProperty('vcvElement')
+        path.forEach((el) => {
+          if (el.hasAttribute && el.hasAttribute('data-vcv-element')) {
+            elPath.push(el)
+          }
         })
       }
       let element = null

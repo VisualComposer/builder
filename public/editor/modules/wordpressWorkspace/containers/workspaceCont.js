@@ -30,24 +30,24 @@ export default class WorkspaceCont extends React.Component {
     const contentEnd = value || false
     this.setState({contentEnd: contentEnd, settings: workspace.state('settings').get() || {}})
   }
-  setContentStart (value) {
-    this.setState({contentStart: value || false})
+  setContentStart (value, id) {
+    this.setState({
+      contentStart: value || false,
+      contentStartId: id || ''
+    })
   }
 
   render () {
-    const {contentStart, contentEnd, settings} = this.state
+    const {contentStart, contentEnd, settings, contentStartId} = this.state
 
     return (
       <Workspace contentStart={!!contentStart} contentEnd={!!contentEnd}>
         <NavbarContainer />
         <PanelsContainer
-          start={
-          contentStart
-        }
-          end={
-          contentEnd
-        }
+          start={contentStart}
+          end={contentEnd}
           settings={settings}
+          contentStartId={contentStartId}
         />
       </Workspace>
     )

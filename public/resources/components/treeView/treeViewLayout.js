@@ -22,7 +22,6 @@ export default class TreeViewLayout extends React.Component {
     super(props)
     this.updateElementsData = this.updateElementsData.bind(this)
     this.handleMouseOver = this.handleMouseOver.bind(this)
-    this.handleMousePos = this.handleMousePos.bind(this)
     this.handleScrollToElement = this.handleScrollToElement.bind(this)
     this.interactWithContent = this.interactWithContent.bind(this)
     this.handleAddElement = this.handleAddElement.bind(this)
@@ -48,12 +47,15 @@ export default class TreeViewLayout extends React.Component {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
     this.setState({
-      header: document.querySelector('.vcv-ui-navbar-container').getBoundingClientRect(),
+      header: document.querySelector('.vcv-ui-navbar-container'),
       data: elementsStorage.state('document').get()
     })
     this.scrollTimeout = setTimeout(() => {
       this.handleScrollToElement(this.props.contentStartId)
     }, 1)
+    workspaceStorage.state('contentStart').onChange((value, id) => {
+      this.handleScrollToElement(id)
+    })
     /*
     this.props.api.reply('bar-content-start:show', this.handleScrollToElement)
     this.props.api.reply('editorContent:control:mouseEnter', this.interactWithContent)
@@ -76,45 +78,11 @@ export default class TreeViewLayout extends React.Component {
   }
 
   interactWithContent (id = false) {
-    this.setState({outlineElementId: id})
-  }
-
-  handleMousePos (e) {
-    if (e.target.closest('.vcv-ui-outline-control-more') !== null) {
-      if (document.querySelector('.vcv-layout-bar-content').classList.contains('vcv-ui-state--visible')) {
-        let layoutBar = document.querySelector('.vcv-ui-navbar-container').getBoundingClientRect()
-        let treeView = document.querySelector('.vcv-ui-tree-layout-container').getBoundingClientRect()
-        let leftX = layoutBar.left
-        let rightX = leftX + treeView.width
-        let topY = layoutBar.bottom
-        let bottomY = topY + treeView.height
-        if (e.clientX > leftX && e.clientX < rightX && e.clientY > topY && e.clientY < bottomY) {
-          this.state.selectedItem.classList.remove('vcv-ui-state--active')
-          this.setState({
-            selectedItem: null
-          })
-        }
-      }
-    }
+    this.setState({ outlineElementId: id })
   }
 
   handleMouseOver () {
     this.interactWithContent()
-    this.handleSelectedItem()
-  }
-
-  handleSelectedItem (selectedItem = null) {
-    if (this.state.selectedItem) {
-      this.state.selectedItem.classList.remove('vcv-ui-state--active')
-    }
-    if (this.state.selectedItem !== selectedItem) {
-      this.setState({
-        selectedItem: selectedItem
-      })
-    }
-    if (selectedItem) {
-      selectedItem.classList.add('vcv-ui-state--active')
-    }
   }
 
   expandTree (element) {
@@ -127,13 +95,17 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleScrollToElement (scrollToElement) {
-    if (scrollToElement) {
+    if (scrollToElement && this.scrollbar) {
       this.scrollbar.scrollTop(0)
-      let target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
+      const headerRect = this.state.header.getBoundingClientRect()
+      const target = this.layoutContainer.querySelector(`[data-vcv-element="${scrollToElement}"]`)
       this.expandTree(target)
-      let offset = target.getBoundingClientRect().top
-      this.handleSelectedItem(target.firstChild)
-      this.scrollbar.scrollTop(offset - this.state.header.height - this.state.header.bottom)
+      const targetTop = target.getBoundingClientRect().top
+      const headerHeight = headerRect.height === window.innerHeight ? 0 : headerRect.height
+      const headerBottom = headerRect.bottom === window.innerHeight ? 0 : headerRect.bottom
+      const offset = targetTop - headerHeight - headerBottom
+      this.interactWithContent(scrollToElement)
+      this.scrollbar.scrollTop(offset)
     }
   }
 

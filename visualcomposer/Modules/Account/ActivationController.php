@@ -76,8 +76,8 @@ class ActivationController extends Container implements Module
         Token $tokenHelper
     ) {
         // This is a place where we need to make registration/activation request in account
-        $result = wp_remote_post(
-            VCV_ACCOUNT_URL . '/register-account',
+        $result = wp_remote_get(
+            VCV_ACCOUNT_URL . '/subscribe-lite-version',
             [
                 'body' => [
                     'url' => VCV_PLUGIN_URL,

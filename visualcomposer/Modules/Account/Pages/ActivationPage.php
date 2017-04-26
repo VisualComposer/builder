@@ -51,6 +51,8 @@ class ActivationPage extends Container implements Module
         $pages[] = [
             'slug' => $this->getSlug(),
             'title' => __('Activation', 'vc5'),
+            'showTab' => false,
+            'layout' => 'standalone',
             'controller' => $this,
         ];
 
@@ -95,5 +97,10 @@ class ActivationPage extends Container implements Module
                 'url' => $urlHelper->assetUrl('images/account/008.gif'),
             ],
         ];
+    }
+
+    public function getActivePage()
+    {
+        return 'first';
     }
 }
