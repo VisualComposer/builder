@@ -88,7 +88,7 @@ class PublicApi {
    * @param data
    * @returns {Array}
    */
-  getElementTagsByData(data) {
+  getElementTagsByData (data) {
     return Object.keys(storage.getElementTagsByTagName(data.tag, {}, data))
   }
 
