@@ -14,7 +14,6 @@ class EnqueueController extends Container implements Module
 
     public function __construct()
     {
-
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets');
 
         /** @see \VisualComposer\Modules\Assets\EnqueueController::enqueueAssets */
