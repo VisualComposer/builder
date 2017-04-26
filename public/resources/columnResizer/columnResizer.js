@@ -131,6 +131,13 @@ class ColumnResizer extends React.Component {
     ColumnResizer.defaultGridPercentage.forEach((percentage) => {
       let position = firstInRow.left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
       positions.push((Math.round(position * 100) / 100))
+
+      let leftPosition = this.resizerData.leftColumn.getBoundingClientRect().left - currentResizerClientRect.width / 2 + rowContentWidth * (percentage / 100)
+      positions.push((Math.round(leftPosition * 100) / 100))
+
+      let rightColClientRect = this.resizerData.rightColumn.getBoundingClientRect()
+      let rightPosition = rightColClientRect.left + rightColClientRect.width + currentResizerClientRect.width / 2 - rowContentWidth * (percentage / 100)
+      positions.push((Math.round(rightPosition * 100) / 100))
     })
     // get default grid snap points and add them to positions []
     allResizers.forEach((resizer) => {
