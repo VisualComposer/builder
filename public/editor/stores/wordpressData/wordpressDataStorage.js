@@ -8,6 +8,7 @@ addStorage('wordpressData', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
+  const cook = getService('cook')
   storage.on('start', () => {
     // Here we call data load
     controller.load({}, storage.state('status'))
@@ -23,6 +24,12 @@ addStorage('wordpressData', (storage) => {
     }, options)
     controller.save(options, storage.state('status'))
   })
+  const wrapExistingContent = (content) => {
+    let textElement = cook.get({ tag: 'textBlock', output: content })
+    if (textElement) {
+      elementsStorage.trigger('add', textElement.toJS())
+    }
+  }
   storage.state('status').set('init')
   storage.state('status').onChange((data) => {
     const { status, request } = data
@@ -41,6 +48,10 @@ addStorage('wordpressData', (storage) => {
         let globalElements = JSON.parse(responseData.globalElements || '{}')
         globalElements && globalAssetsStorage.setElements(globalElements)
       }
+      const initialContent = responseData.post_content
+      if (!responseData.data && initialContent && initialContent.length) {
+        wrapExistingContent(initialContent)
+      } else
       if (responseData.data) {
         let data = JSON.parse(responseData.data ? decodeURIComponent(responseData.data) : '{}')
         elementsStorage.trigger('reset', data.elements || {})
