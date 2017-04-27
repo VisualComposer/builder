@@ -2,7 +2,7 @@
   "shortcode": {
     "type": "string",
     "access": "public",
-    "value": "",
+    "value": "Insert [shortcode] of any WordPress plugin installed on your website.",
     "options": {
       "label": "Shortcode",
       "description": "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
