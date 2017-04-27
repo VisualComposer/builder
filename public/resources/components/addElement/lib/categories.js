@@ -7,15 +7,17 @@ import vcCake from 'vc-cake'
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-
 const workspaceStorage = vcCake.getStorage('workspace')
-let allCategories = []
+const cook = vcCake.getService('cook')
 
 export default class Categories extends React.Component {
   static propTypes = {
-    elements: React.PropTypes.array.isRequired,
     options: React.PropTypes.object
   }
+
+  allElements = []
+  allCategories = []
+  allElementsTags = []
 
   constructor (props) {
     super(props)
@@ -30,12 +32,28 @@ export default class Categories extends React.Component {
     this.changeInput = this.changeInput.bind(this)
   }
 
-  componentWillMount () {
-    this.categoriesFromProps(this.props)
+  getAllElements () {
+    if (!this.allElements.length) {
+      let allElements = categoriesService.getSortedElements()
+      this.allElements = allElements.filter((elementData) => {
+        let cookElement = cook.get(elementData)
+        return cookElement ? cookElement.relatedTo([ 'General' ]) : false
+      })
+    }
+
+    return this.allElements
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.categoriesFromProps(nextProps)
+  getAllElementsTags () {
+    if (!this.allElementsTags.length) {
+      let allElements = this.getAllElements()
+
+      this.allElementsTags = allElements.map((element) => {
+        return element.tag
+      })
+    }
+
+    return this.allElementsTags
   }
 
   getElementsList (groupCategories, tags) {
@@ -47,21 +65,24 @@ export default class Categories extends React.Component {
     }
     if (groupCategories === true) {
       // Get ALL
-      let allSortedElements = categoriesService.getSortedElements()
-      allSortedElements.forEach(setGroupElements)
+      groupElements = this.getAllElements()
     } else {
-      groupCategories.forEach(setGroupElements)
+      groupCategories.forEach((category) => {
+        let categoryElements = categoriesService.getSortedElements(category)
+        categoryElements.forEach(setGroupElements)
+      })
     }
+    groupElements = [ ...new Set(groupElements) ]
 
     return groupElements
   }
 
-  categoriesFromProps (props) {
-    let groupsStore = {}
-    let groups = groupsService.all()
-    if (!allCategories.length) {
-      const tags = props.elements.map((e) => { return e.tag })
-      allCategories = groups.filter((group) => {
+  getAllCategories () {
+    if (!this.allCategories.length) {
+      let groupsStore = {}
+      let groups = groupsService.all()
+      let tags = this.getAllElementsTags()
+      this.allCategories = groups.filter((group) => {
         groupsStore[ group.title ] = this.getElementsList(group.categories, tags)
         return groupsStore[ group.title ].length > 0
       }).map((group, index) => {
@@ -74,6 +95,8 @@ export default class Categories extends React.Component {
         }
       })
     }
+
+    return this.allCategories
   }
 
   changeActiveCategory (catIndex) {
@@ -110,13 +133,13 @@ export default class Categories extends React.Component {
     </div>
   }
 
-  getElementControl (element) {
+  getElementControl (elementData) {
     return <ElementControl
-      key={'vcv-element-control-' + element.tag}
-      element={element}
-      tag={element.tag}
+      key={'vcv-element-control-' + elementData.tag}
+      element={elementData}
+      tag={elementData.tag}
       workspace={workspaceStorage.state('settings').get() || {}}
-      name={element.name} />
+      name={elementData.name} />
   }
 
   changeSearchState (state) {
@@ -127,7 +150,7 @@ export default class Categories extends React.Component {
 
   getSearchProps () {
     return {
-      allCategories: allCategories,
+      allCategories: this.getAllCategories(),
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
       changeTerm: this.changeSearchState,
@@ -142,19 +165,22 @@ export default class Categories extends React.Component {
 
   getSearchResults () {
     let { inputValue } = this.state
+    let allCategories = this.getAllCategories()
     let getIndex = allCategories.findIndex((val) => {
       return val.title === 'All'
     })
-    return allCategories[ getIndex ].elements.filter((val) => {
-      let elName = val.toLowerCase()
+
+    return allCategories[ getIndex ].elements.filter((elementData) => {
+      let elName = elementData.name.toLowerCase()
       return elName.indexOf(inputValue.trim()) !== -1
-    }).map((tag) => {
-      return this.getElementControl(tag)
+    }).map((elementData) => {
+      return this.getElementControl(elementData)
     })
   }
 
   getElementsByCategory () {
     let { activeCategoryIndex } = this.state
+    let allCategories = this.getAllCategories()
 
     return allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements ? allCategories[ activeCategoryIndex ].elements.map((tag) => {
       return this.getElementControl(tag)

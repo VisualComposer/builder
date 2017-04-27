@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import { sortingTool } from './lib/tools'
+import lodash from 'lodash'
 
 // TODO: Fix if element is in many categories
 let categoryByTag = (tag) => {
@@ -17,7 +18,7 @@ const API = {
   get: (key) => {
     return API.all()[ key ]
   },
-  getSortedElements: (category) => {
+  getSortedElements: lodash.memoize((category) => {
     let cook = vcCake.getService('cook')
     let allCategories = API.all()
     let elements = []
@@ -43,7 +44,7 @@ const API = {
     })
 
     return cookElements.sort(sortingTool)
-  },
+  }),
   getElementIcon: (tag, dark = false) => {
     let category = categoryByTag(tag)
     if (dark) {
