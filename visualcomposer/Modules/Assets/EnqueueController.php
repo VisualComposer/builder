@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Assets;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -26,10 +27,10 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Str $strHelper
      */
-    protected function enqueueGlobalAssets(Options $optionsHelper, Str $strHelper)
+    protected function enqueueGlobalAssets(Options $optionsHelper, Str $strHelper, Frontend $frontendHelper)
     {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
-        if ($bundleUrl) {
+        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             wp_enqueue_style('vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl), $bundleUrl);
         }
     }

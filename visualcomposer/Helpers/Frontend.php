@@ -63,4 +63,19 @@ class Frontend implements Helper
 
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPageEditable()
+    {
+        $requestHelper = vchelper('Request');
+        $nonceHelper = vchelper('Nonce');
+
+        return (
+            $requestHelper->exists('vcv-editable')
+            && $requestHelper->exists('vcv-nonce')
+            && $nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'))
+        );
+    }
 }
