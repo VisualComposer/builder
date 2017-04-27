@@ -1,11 +1,21 @@
 {
-  "shortcode": {
+  "rawHtml": {
+    "type": "rawCode",
+    "access": "public",
+    "value": "<p><strong>HyperText Markup Language (HTML)</strong> is the standard markup language for creating web pages and web applications.</p>",
+    "options": {
+      "label": "Raw HTML",
+      "description": "Add your own custom HTML code to WordPress website via raw code block that accepts HTML.",
+      "mode": "html"
+    }
+  },
+  "customClass": {
     "type": "string",
     "access": "public",
-    "value": "Insert [shortcode] of any WordPress plugin installed on your website.",
+    "value": "",
     "options": {
-      "label": "Shortcode",
-      "description": "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
   "designOptions": {
@@ -20,12 +30,12 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "shortcode",
+      "rawHtml",
       "metaCustomId",
       "customClass"
     ],
     "options": {
-      "label": "Shortcode"
+      "label": "Raw HTML"
     }
   },
   "metaEditFormTabs": {
@@ -43,20 +53,15 @@
       "General"
     ]
   },
-  "customClass": {
-    "type": "string",
-    "access": "public",
-    "value": "",
-    "options": {
-      "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
-    }
-  },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
     "value": [
-      "animate"
+      {
+        "value": [
+          "rawHtml"
+        ]
+      }
     ]
   },
   "metaCustomId": {
@@ -71,6 +76,6 @@
   "tag": {
     "access": "protected",
     "type": "string",
-    "value": "shortcode"
+    "value": "rawHtml"
   }
 }
