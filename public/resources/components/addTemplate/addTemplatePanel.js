@@ -367,7 +367,7 @@ export default class AddTemplatePanel extends React.Component {
                     disabled
                     onClick={this.handleGoToHub}
                   >
-                    Premium templates coming soon
+                    Premium Templates- Coming Soon
                   </button>
                 </div>
               </div>

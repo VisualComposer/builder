@@ -202,7 +202,7 @@ export default class Categories extends React.Component {
                 disabled
                 onClick={this.handleGoToHub}
               >
-                Premium Elements Coming Soon
+                Premium Elements- Coming Soon
               </button>
             </div>
           </div>
