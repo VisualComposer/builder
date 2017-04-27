@@ -47,5 +47,21 @@
     &:hover {
       background: @color-base-active;
     }
+
+    &.vcv-ui-editor-button-disabled {
+      background: transparent;
+      border-radius: 0;
+      cursor: default;
+      border: @vcui-graphics-action-disabled-border;
+      padding: @vcui-graphics-action-disabled-padding;
+      font-family: @vcui-graphics-action-disabled-font-family;
+      font-weight: @vcui-graphics-action-disabled-font-weight;
+      font-size: @vcui-graphics-action-disabled-font-size;
+      letter-spacing: @vcui-graphics-action-disabled-letter-spacing;
+      text-transform: uppercase;
+      color: @vcui-graphics-action-disabled-color;
+      -webkit-font-smoothing: antialiased;
+      max-width: 100%;
+    }
   }
 }

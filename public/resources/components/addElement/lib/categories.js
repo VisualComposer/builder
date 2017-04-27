@@ -180,6 +180,10 @@ export default class Categories extends React.Component {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
+    let listCtaClasses = classNames({
+      'vcv-ui-editor-list-cta-wrapper': true,
+      'vcv-ui-state--hidden': itemsOutput && !itemsOutput.length
+    })
     return <div className='vcv-ui-tree-content'>
       {this.getSearchElement()}
       <div className='vcv-ui-tree-content-section'>
@@ -191,6 +195,15 @@ export default class Categories extends React.Component {
                   {this.getElementListContainer(itemsOutput)}
                 </div>
               </div>
+            </div>
+            <div className={listCtaClasses}>
+              <button
+                className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
+                disabled
+                onClick={this.handleGoToHub}
+              >
+                Premium Elements Coming Soon
+              </button>
             </div>
           </div>
         </Scrollbar>
