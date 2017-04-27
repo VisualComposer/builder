@@ -77,10 +77,12 @@ export default class CssBuilder {
 
   add (data) {
     const id = data.id
-    const baseStyleElement = this.window.document.createElement('style')
-    baseStyleElement.id = `vcv-base-css-styles-${data.tag}`
-    this.window.document.body.appendChild(baseStyleElement)
-
+    const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
+    elementTags.forEach((tag) => {
+      const baseStyleElement = this.window.document.createElement('style')
+      baseStyleElement.id = `vcv-base-css-styles-${tag}`
+      this.window.document.body.appendChild(baseStyleElement)
+    })
     const styleElement = this.window.document.createElement('style')
     styleElement.id = `vcv-css-styles-${id}`
     this.window.document.body.appendChild(styleElement)
@@ -101,6 +103,15 @@ export default class CssBuilder {
 
   update (data) {
     const id = data.id
+    const elementTags = this.globalAssetsStorageService.getElementTagsByData(data)
+    elementTags.forEach((tag) => {
+      if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
+        const baseStyleElement = this.window.document.createElement('style')
+        baseStyleElement.id = `vcv-base-css-styles-${tag}`
+        this.window.document.body.appendChild(baseStyleElement)
+      }
+    })
+    this.addCssElementBaseByElement(data)
     this.globalAssetsStorageService.updateElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
@@ -155,14 +166,17 @@ export default class CssBuilder {
 
   addCssElementBaseByElement (data) {
     const usedTags = this.globalAssetsStorageService.getElementsTagsList()
-    if (usedTags.indexOf(data.tag) === -1) {
-      let styles = this.stylesManager.create()
-      styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
-      // styles.add(this.globalAssetsStorageService.getColumnsCssData())
-      this.addJob(styles.compile().then((result) => {
-        this.window.document.getElementById(`vcv-base-css-styles-${data.tag}`).innerHTML = result
-      }))
-    }
+    const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
+    elementTags.forEach((tag) => {
+      if (usedTags.indexOf(tag) === -1) {
+        let styles = this.stylesManager.create()
+        styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
+        // styles.add(this.globalAssetsStorageService.getColumnsCssData())
+        this.addJob(styles.compile().then((result) => {
+          this.window.document.getElementById(`vcv-base-css-styles-${tag}`).innerHTML = result
+        }))
+      }
+    })
   }
 
   removeCssElementBaseByElement (tag) {

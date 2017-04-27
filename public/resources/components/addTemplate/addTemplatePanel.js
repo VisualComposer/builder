@@ -41,14 +41,14 @@ export default class AddTemplatePanel extends React.Component {
         title: 'Downloaded Templates',
         index: 3,
         id: 'downloadedTemplates',
-        visible () { return this.templates().length },
+        visible () { return false },
         templates () { return templateManager.predefined() }
       },
       {
         title: 'Download More Templates',
         index: 4,
         id: 'downloadMoreTemplates',
-        visible () { return true },
+        visible () { return false },
         templates: null
       }
     ]
@@ -363,9 +363,11 @@ export default class AddTemplatePanel extends React.Component {
                 </div>
                 <div className={listCtaClasses}>
                   <button
-                    className='vcv-ui-editor-no-items-action'
+                    className='vcv-ui-editor-no-items-action vcv-ui-editor-button-disabled'
+                    disabled
                     onClick={this.handleGoToHub}
-                  >Download More Templates
+                  >
+                    Premium Templates- Coming Soon
                   </button>
                 </div>
               </div>
