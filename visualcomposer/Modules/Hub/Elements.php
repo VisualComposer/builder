@@ -292,6 +292,42 @@ class Elements extends Container implements Module
                         'metaDescription' => 'Choose, configure and add any of WordPress default widgets to your site.',
                     ],
                 ],
+                'shortcode' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/shortcode/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/shortcode/shortcode/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/shortcode/shortcode/public/'),
+                    'settings' => [
+                        'name' => 'Shortcode',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/shortcode/shortcode/public/shortcode-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/shortcode/shortcode/public/shortcode-preview.png'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add any shortcode available on your WordPress site to the layout.',
+                    ],
+                ],
+                'rawHtml' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/rawHtml/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/rawHtml/rawHtml/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/rawHtml/rawHtml/public/'),
+                    'settings' => [
+                        'name' => 'Raw HTML',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/rawHtml/rawHtml/public/raw-html-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/rawHtml/rawHtml/public/raw-html-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add your own custom HTML code to WordPress website via raw code block that accepts HTML.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [
