@@ -120,7 +120,7 @@ class Categories extends Container implements Module
                 ],
                 'Misc' => [
                     'title' => 'Misc',
-                    'elements' => ['rawHtml', 'rawJs'],
+                    'elements' => ['rawHtml', 'rawJs', 'shortcode'],
                     'icon' => $urlHelper->to('public/sources/newCategories/icons/Misc.svg'),
                     'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Misc.svg'),
                 ],

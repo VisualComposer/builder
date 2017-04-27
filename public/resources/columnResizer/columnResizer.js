@@ -4,7 +4,7 @@ import vcCake from 'vc-cake'
 const elementsStorage = vcCake.getStorage('elements')
 
 class ColumnResizer extends React.Component {
-  static defaultGridPercentage = [ 25, 33.33, 50, 66.66, 75 ]
+  static defaultGridPercentage = [ 20, 25, 33.33, 50, 66.66, 75 ]
 
   resizerData = {
     rowId: null,

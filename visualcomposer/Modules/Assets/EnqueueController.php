@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Assets;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -25,23 +26,25 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Str $strHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueueGlobalAssets(Options $optionsHelper, Str $strHelper)
+    protected function enqueueGlobalAssets(Options $optionsHelper, Str $strHelper, Frontend $frontendHelper)
     {
         $bundleUrl = $optionsHelper->get('globalElementsCssFileUrl');
-        if ($bundleUrl) {
+        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             wp_enqueue_style('vcv:assets:global:styles:' . $strHelper->slugify($bundleUrl), $bundleUrl);
         }
     }
 
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
      */
-    protected function enqueueSourceAssets(Str $strHelper)
+    protected function enqueueSourceAssets(Str $strHelper, Frontend $frontendHelper)
     {
         $sourceId = get_the_ID();
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
-        if ($bundleUrl) {
+        if ($bundleUrl && !$frontendHelper->isPageEditable()) {
             wp_enqueue_style('vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl), $bundleUrl);
         }
     }
@@ -49,8 +52,11 @@ class EnqueueController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Str $strHelper
      */
-    protected function enqueueAssets(Str $strHelper)
+    protected function enqueueAssets(Str $strHelper, Frontend $frontendHelper)
     {
+        if ($frontendHelper->isPageEditable()) {
+            return;
+        }
         $sourceId = get_the_ID();
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
 

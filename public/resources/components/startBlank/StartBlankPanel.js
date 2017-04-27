@@ -176,7 +176,7 @@ export default class startBlank extends React.Component {
                 </ul>
               </div>
             </div>
-            <button className='vcv-start-blank-button' disabled>Premium templates- coming soon</button>
+            <button className='vcv-start-blank-button' disabled>Premium templates - coming soon</button>
             <p className='vcv-start-blank-helper'>
               Visual Composer Hub will offer you unlimited download of premium quality templates, elements, extensions
               and more.

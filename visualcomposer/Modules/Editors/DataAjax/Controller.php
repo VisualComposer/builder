@@ -64,6 +64,7 @@ class Controller extends Container implements Module
                 $data = $postMeta;
                 /* !empty($postMeta) ? $postMeta : get_post($sourceId)->post_content; */
             }
+            $response['post_content'] = get_post($sourceId)->post_content;
             $responseExtra = $filterHelper->fire(
                 'vcv:dataAjax:getData',
                 [

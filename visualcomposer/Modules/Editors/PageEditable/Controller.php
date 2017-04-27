@@ -3,8 +3,7 @@
 namespace VisualComposer\Modules\Editors\PageEditable;
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Nonce;
+use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -28,10 +27,9 @@ class Controller extends Container implements Module
         $this->wpAddAction('pre_get_posts', 'inject404Page');
     }
 
-    protected function inject404Page($wpQuery)
+    protected function inject404Page($wpQuery, Frontend $frontendHelper)
     {
-        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
-        if ($this->call('isPageEditable')) {
+        if ($frontendHelper->isPageEditable()) {
             // TODO: Check another post statuses
             $wpQuery->query['post_status'] = ['publish', 'unpublish', 'draft', 'pending', 'auto-draft'];
             // @codingStandardsIgnoreLine
@@ -39,29 +37,13 @@ class Controller extends Container implements Module
         }
     }
 
-    protected function templateRedirect()
+    protected function templateRedirect(Frontend $frontendHelper)
     {
-        /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::isPageEditable */
-        if ($this->call('isPageEditable')) {
+        if ($frontendHelper->isPageEditable()) {
             /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::buildPageEditable */
             $this->wpAddFilter('show_admin_bar', '__return_false');
             $this->call('buildPageEditable');
         }
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Request $request
-     * @param \VisualComposer\Helpers\Nonce $nonce
-     *
-     * @return bool
-     */
-    protected function isPageEditable(Request $request, Nonce $nonce)
-    {
-        return (
-            $request->exists('vcv-editable')
-            && $request->exists('vcv-nonce')
-            && $nonce->verifyAdmin($request->input('vcv-nonce'))
-        );
     }
 
     protected function buildPageEditable(Url $urlHelper)
