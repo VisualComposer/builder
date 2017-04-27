@@ -10,7 +10,7 @@ vcvAddElement(
   },
   // css settings // css for element
   {
-    css: require('raw-loader!./styles.css'),
+    css: false,
     editorCss: require('raw-loader!./editor.css')
   },
   // javascript callback
