@@ -310,6 +310,24 @@ class Elements extends Container implements Module
                 //        'metaDescription' => 'Add any shortcode available on your WordPress site to the layout.',
                 //    ],
                 //],
+                'rawHtml' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/rawHtml/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to('public/sources/newElements/rawHtml/rawHtml/'),
+                    'assetsPath' => $urlHelper->to('public/sources/newElements/rawHtml/rawHtml/public/'),
+                    'settings' => [
+                        'name' => 'Raw HTML',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                            'public/sources/newElements/rawHtml/rawHtml/public/raw-html-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                            'public/sources/newElements/rawHtml/rawHtml/public/raw-html-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add your own custom HTML code to WordPress website via raw code block that accepts HTML.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [
