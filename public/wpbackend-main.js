@@ -7,18 +7,30 @@ import './config/wpbackend-attributes'
 
 const $ = require('expose?$!jquery')
 $(() => {
-  const iframe = document.getElementById('vcv-editor-iframe').contentWindow
+  let $iframe = $('#vcv-editor-iframe')
+  // Get a handle to the iframe element
+  let iframe = $iframe.get(0)
+  let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
   const iframeDocument = iframe.document
   $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
   vcCake.env('iframe', iframe)
-  vcCake.env('platform', 'wordpress').start(() => {
-    require('./editor/stores/elements/elementsStorage')
-    require('./editor/stores/assetsBackend/assetsStorage')
-    require('./editor/stores/workspaceStorage')
-    require('./editor/stores/history/historyStorage')
-    require('./editor/stores/settingsStorage')
-    require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
-    require('./config/wpbackend-modules')
-  })
+
+  let iframeLoadEvent = () => {
+    vcCake.env('platform', 'wordpress').start(() => {
+      require('./editor/stores/elements/elementsStorage')
+      require('./editor/stores/assetsBackend/assetsStorage')
+      require('./editor/stores/workspaceStorage')
+      require('./editor/stores/history/historyStorage')
+      require('./editor/stores/settingsStorage')
+      require('./editor/stores/wordpressBackendData/wordpressBackendDataStorage')
+      require('./config/wpbackend-modules')
+    })
+  }
+
+  $iframe.on('load', iframeLoadEvent)
+  // Check if loading is complete
+  if (iframeDoc && iframeDoc.readyState === 'complete') {
+    iframeLoadEvent()
+  }
 })
 window.app = vcCake
