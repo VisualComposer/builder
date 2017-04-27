@@ -151,7 +151,7 @@ addStorage('elements', (storage) => {
       }
       return 0
     }).forEach((key) => {
-      let element = content[ key ]
+      let element = Object.assign({}, content[ key ])
       let newId = utils.createKey()
       if (substituteIds[ element.id ]) {
         element.id = substituteIds[ element.id ]
