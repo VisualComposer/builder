@@ -18,7 +18,7 @@ let getElements = () => {
       elements.push(element)
     }
   })
-  console.log(elements)
+
   return elements
 }
 
@@ -134,11 +134,9 @@ let renderTemplate = (data) => {
   return compiledTemplate
 }
 
-let processElement = (element) => {
+let processElement = (element, elementDirectory) => {
   console.log('============================')
   console.log('Element: ', element)
-  let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
-
   let settingsFile = path.resolve(elementDirectory, 'settings.json')
   let settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
   // Update all related attributes
@@ -169,15 +167,34 @@ let processElement = (element) => {
   // }
   //
   // fs.writeFileSync(path.join(elementDir, 'element.js'), template)
+
+  return {
+    indexTemplate: template,
+    settings: settings
+  }
+}
+
+let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
+  console.log('Save new files', element, newElementDirectory)
+  console.log('====================')
 }
 
 let elements = getElements()
-elements = [elements[0]]
 elements.forEach((element) => {
+  console.log('####################')
   let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
-  fs.lstat(elementDirectory, (err, stats) => {
-    if (!err && stats.isDirectory()) {
-      processElement(element)
-    }
-  })
+  let newElementDirectory = path.join(config.publicDir, config.newElementsPath, element)
+  let isNewElementsDirectoryExists = fs.existsSync(newElementDirectory)
+  if (isNewElementsDirectoryExists) {
+    console.log('Skip already migrated element', element)
+  } else {
+    console.log('Migrate old element', element)
+    fs.lstat(elementDirectory, (err, stats) => {
+      if (!err && stats.isDirectory()) {
+        let processedElementData = processElement(element, elementDirectory)
+        createNewFiles(processedElementData, element, elementDirectory, newElementDirectory)
+      }
+    })
+  }
+  console.log('####################')
 })
