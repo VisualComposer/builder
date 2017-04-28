@@ -1,0 +1,28 @@
+.vce-instagram-image iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-instagram-image-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.vce-instagram-image-inner {
+  width: 100%;
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.vce-instagram-image--align-center {
+  text-align: center;
+}
+
+.vce-instagram-image--align-right {
+  text-align: right;
+}
+
+.vce-instagram-image--align-left {
+  text-align: left;
+}
