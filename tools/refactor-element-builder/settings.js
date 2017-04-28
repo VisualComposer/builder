@@ -1,11 +1,12 @@
-var join = require('path').join
-var elementsDirName = '_elements'
+let join = require('path').join
+
 module.exports = {
   publicDir: join(__dirname, '../../public'),
   servicePath: 'editor/services',
   modulePath: 'editor/modules',
   attributePath: 'sources/attributes',
-  elementsDirName: elementsDirName,
-  elementsPath: 'sources/' + elementsDirName,
+  elementsDirName: '_elements',
+  elementsPath: 'sources/_elements',
+  newElementsPath: 'sources/newElements',
   configPath: 'config'
 }

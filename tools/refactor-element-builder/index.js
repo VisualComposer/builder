@@ -18,7 +18,7 @@ let getElements = () => {
       elements.push(element)
     }
   })
-  console.log(elements)
+
   return elements
 }
 
@@ -134,11 +134,9 @@ let renderTemplate = (data) => {
   return compiledTemplate
 }
 
-let processElement = (element) => {
+let processElement = (element, elementDirectory) => {
   console.log('============================')
   console.log('Element: ', element)
-  let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
-
   let settingsFile = path.resolve(elementDirectory, 'settings.json')
   let settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
   // Update all related attributes
@@ -157,33 +155,53 @@ let processElement = (element) => {
     },
     elementComponentName: () => {
       // Ucfirst
-      return element.charAt(0).toUpperCase() + element.slice(1)
+      return elementComponentName
     }
   })
 
   console.log(template)
   console.log('=============================')
-  var componentTemplateFile = path.resolve(elementDirectory, 'component.js')
-  var componentTemplate = ''
+  let componentTemplateFile = path.resolve(elementDirectory, 'component.js')
+  let componentTemplate = ''
   if (fs.existsSync(componentTemplateFile)) {
     componentTemplate = fs.readFileSync(componentTemplateFile).toString()
   }
-  let componentHead = 'import React from "react" \n' +
-  'import vcCake from "vc-cake" \n' +
-  'const vcvAPI = vcCake.getService("api") \n' +
-  'const cook = vcCake.getService("cook") \n' +
-  '\n' +
-  'export default class ' + elementComponentName + ' extends '
+
+  let componentHead = `import React from 'react'
+import vcCake from 'vc-cake'
+const vcvAPI = vcCake.getService('api')
+const cook = vcCake.getService("cook")
+
+export default class ${elementComponentName} extends `
   let newComponentTemplate = componentHead + componentTemplate.substring(componentTemplate.indexOf('vcvAPI.elementComponent'))
   console.log(newComponentTemplate)
+  return {
+    indexTemplate: template,
+    settings: settings
+  }
+}
+
+let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
+  console.log('Save new files', element, newElementDirectory)
+  console.log('====================')
 }
 
 let elements = getElements()
 elements.forEach((element) => {
+  console.log('####################')
   let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
-  fs.lstat(elementDirectory, (err, stats) => {
-    if (!err && stats.isDirectory()) {
-      processElement(element)
-    }
-  })
+  let newElementDirectory = path.join(config.publicDir, config.newElementsPath, element)
+  let isNewElementsDirectoryExists = fs.existsSync(newElementDirectory)
+  if (isNewElementsDirectoryExists) {
+    console.log('Skip already migrated element', element)
+  } else {
+    console.log('Migrate old element', element)
+    fs.lstat(elementDirectory, (err, stats) => {
+      if (!err && stats.isDirectory()) {
+        let processedElementData = processElement(element, elementDirectory)
+        createNewFiles(processedElementData, element, elementDirectory, newElementDirectory)
+      }
+    })
+  }
+  console.log('####################')
 })
