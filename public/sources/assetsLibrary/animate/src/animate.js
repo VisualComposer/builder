@@ -6,7 +6,7 @@ window.vcv.on('ready', function (action, id) {
 });
 
 var vceAnimate = {
-  enableAnimate: function enableAnimate(id) {
+  enableAnimate: function enableAnimate (id) {
     window.Waypoint.destroyAll();
     var waypoints = [];
     var selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]';
@@ -31,23 +31,21 @@ var vceAnimate = {
       (_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
       var waypointObj = new window.Waypoint({
         element: element,
-        handler: function handler() {
+        handler: function handler () {
           var _this = this;
-
-          setTimeout(function () {
-            // add new classes
-            var newClasses = [];
-            if (_this.element.dataset['vceAnimate']) {
-              newClasses = _this.element.dataset['vceAnimate'].split(' ');
-            }
-            newClasses.push('vce-o-animate--animated');
-            newClasses.forEach(function (className) {
-              _this.element.classList.add(className);
-            });
-            _this.destroy();
-          }, 100);
+          // add new classes
+          var newClasses = [];
+          if (_this.element.dataset[ 'vceAnimate' ]) {
+            newClasses = _this.element.dataset[ 'vceAnimate' ].split(' ');
+          }
+          // _this.element.setAttribute('data-vce-animated', 'true')
+          newClasses.push('vce-o-animate--animated');
+          newClasses.forEach(function (className) {
+            _this.element.classList.add(className);
+          });
+          _this.destroy();
         },
-        offset: '80%'
+        offset: '85%'
       });
       waypoints.push(waypointObj);
     });

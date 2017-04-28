@@ -86,7 +86,7 @@ class EnqueueController extends Container implements Module
     {
         echo '<noscript>';
         echo '<style type="text/css">';
-        echo ' .wpb_animate_when_almost_visible { opacity: 1; }';
+        echo ' [data-vce-animate] { visibility: visible; }';
         echo '</style>';
         echo '</noscript>';
     }

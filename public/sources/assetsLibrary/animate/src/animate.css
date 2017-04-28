@@ -1,16 +1,16 @@
-[data-vce-animate] {
+[class*="vce-o-animate"] {
   visibility: hidden;
 }
 
-[data-vce-animate="vce-o-animate--bounce"],
-[data-vce-animate="vce-o-animate--flash"],
-[data-vce-animate="vce-o-animate--pulse"],
-[data-vce-animate="vce-o-animate--rubberBand"],
-[data-vce-animate="vce-o-animate--shake"],
-[data-vce-animate="vce-o-animate--swing"],
-[data-vce-animate="vce-o-animate--tada"],
-[data-vce-animate="vce-o-animate--wobble"],
-[data-vce-animate="vce-o-animate--jello"] {
+.vce-o-animate--bounce,
+.vce-o-animate--flash,
+.vce-o-animate--pulse,
+.vce-o-animate--rubberBand,
+.vce-o-animate--shake,
+.vce-o-animate--swing,
+.vce-o-animate--tada,
+.vce-o-animate--wobble,
+.vce-o-animate--jello {
   visibility: visible;
 }
 
@@ -19,6 +19,7 @@
   animation-fill-mode: both;
   visibility: visible;
 }
+
 .vce-o-animate--animated.vce-o-animate--infinite {
   animation-iteration-count: infinite;
 }
