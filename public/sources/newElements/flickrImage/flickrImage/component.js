@@ -37,7 +37,7 @@ export default class FlickrImage extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_flickrImage_' + Component.unique++
+    let name = '_jsonp_flickrImage_' + FlickrImage.unique++
     if (url.indexOf('?') >= 0) {
       url += '&jsoncallback=' + name + '&format=json'
     } else {
