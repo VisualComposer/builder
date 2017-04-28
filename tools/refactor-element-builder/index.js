@@ -232,7 +232,7 @@ let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
 }
 
 let elements = getElements()
-elements = [ elements[ 3 ] ]
+
 elements.forEach((element) => {
   console.log('####################')
   let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
