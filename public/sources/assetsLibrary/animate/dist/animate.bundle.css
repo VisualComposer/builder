@@ -1,13 +1,13 @@
-[data-vce-animate] {
-  visibility: hidden;
-}
+/*[data-vce-animate] {*/
+  /*visibility: hidden;*/
+/*}*/
 
-vce-o-animate--bounceIn
-vce-o-animate--bounceInDown
-vce-o-animate--bounceInLeft
-vce-o-animate--bounceInRight
-vce-o-animate--bounceInUp
-vce-o-animate--fadeIn
+/*vce-o-animate--bounceIn*/
+/*vce-o-animate--bounceInDown*/
+/*vce-o-animate--bounceInLeft*/
+/*vce-o-animate--bounceInRight*/
+/*vce-o-animate--bounceInUp*/
+/*vce-o-animate--fadeIn*/
 
 
 .vce-o-animate--animated {
@@ -15,7 +15,7 @@ vce-o-animate--fadeIn
   animation-duration: .7s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
-  visibility: visible;
+  /*visibility: visible;*/
 }
 
 .vce-o-animate--animated.vce-o-animate--infinite {
