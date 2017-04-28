@@ -141,6 +141,7 @@ let processElement = (element, elementDirectory) => {
   let settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
   // Update all related attributes
   let settings = JSON.parse(settingsString)
+  let elementComponentName = element.charAt(0).toUpperCase() + element.slice(1)
   // Update Settings
   outputPhpElementSettings(settings, element)
   settings = updateSettings(settings, element)
@@ -154,20 +155,26 @@ let processElement = (element, elementDirectory) => {
     },
     elementComponentName: () => {
       // Ucfirst
-      return element.charAt(0).toUpperCase() + element.slice(1)
+      return elementComponentName
     }
   })
 
   console.log(template)
   console.log('=============================')
-  // var componentTemplateFile = path.resolve(elementDir, 'component.js')
-  // var componentTemplate = ''
-  // if (fs.existsSync(componentTemplateFile)) {
-  //   componentTemplate = fs.readFileSync(componentTemplateFile)
-  // }
-  //
-  // fs.writeFileSync(path.join(elementDir, 'element.js'), template)
+  let componentTemplateFile = path.resolve(elementDirectory, 'component.js')
+  let componentTemplate = ''
+  if (fs.existsSync(componentTemplateFile)) {
+    componentTemplate = fs.readFileSync(componentTemplateFile).toString()
+  }
 
+  let componentHead = `import React from 'react'
+import vcCake from 'vc-cake'
+const vcvAPI = vcCake.getService('api')
+const cook = vcCake.getService("cook")
+
+export default class ${elementComponentName} extends `
+  let newComponentTemplate = componentHead + componentTemplate.substring(componentTemplate.indexOf('vcvAPI.elementComponent'))
+  console.log(newComponentTemplate)
   return {
     indexTemplate: template,
     settings: settings

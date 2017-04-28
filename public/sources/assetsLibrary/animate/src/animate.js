@@ -47,7 +47,7 @@ var vceAnimate = {
             _this.destroy();
           }, 100);
         },
-        offset: '70%'
+        offset: '80%'
       });
       waypoints.push(waypointObj);
     });
