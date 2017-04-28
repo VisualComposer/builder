@@ -98,7 +98,7 @@ let getCssSettings = (elementDirectory) => {
   let cssRelativeFile = fs.existsSync(cssFile) ? "require( 'raw-loader!./styles.css' )" : false
   // editor file
   let editorCssFile = path.resolve(elementDirectory, 'editor.css')
-  let editorCssString = fs.existsSync(editorCssFile) ? "require( 'raw-loader!./styles.css' )" : false
+  let editorCssString = fs.existsSync(editorCssFile) ? "require( 'raw-loader!./editor.css' )" : false
 
   // mixins
   let mixinsDir = path.resolve(elementDirectory, 'cssMixins')
@@ -107,7 +107,7 @@ let getCssSettings = (elementDirectory) => {
     let filePath = path.resolve(mixinsDir, file)
     if (!fs.lstatSync(filePath).isDirectory()) {
       cssMixins[ path.basename(filePath, path.extname(filePath)) ] = {
-        mixin: `require(raw-loader!./cssMixins/${file})` // fs.readFileSync(filePath, 'utf8')
+        mixin: `require( 'raw-loader!./cssMixins/${file}' )` // fs.readFileSync(filePath, 'utf8')
       }
     }
   })
@@ -177,8 +177,6 @@ export default class ${elementComponentName} extends `
 }
 
 let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
-  console.log('Save new files', data, element, elementDirectory, newElementDirectory)
-  console.log('====================')
   // check if folder needs to be created or integrated
 
   if (!fs.existsSync(newElementDirectory)) {
@@ -225,7 +223,7 @@ let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
     fs.writeFileSync(path.join(newElementDirectory, element, 'styles.css'), fs.readFileSync(path.join(elementDirectory, 'styles.css')))
   }
   if (fs.existsSync(path.join(elementDirectory, 'editor.css'))) {
-    fs.writeFileSync(path.join(newElementDirectory, element, 'editor.css'), fs.readFileSync(path.join(elementDirectory, 'styles.css')))
+    fs.writeFileSync(path.join(newElementDirectory, element, 'editor.css'), fs.readFileSync(path.join(elementDirectory, 'editor.css')))
   }
 
   fs.writeFileSync(path.join(newElementDirectory, element, 'temp.php'), data.php)
@@ -239,15 +237,14 @@ elements.forEach((element) => {
   let newElementDirectory = path.join(config.publicDir, config.newElementsPath, element)
   let isNewElementsDirectoryExists = fs.existsSync(newElementDirectory)
   if (isNewElementsDirectoryExists) {
-    console.log('Skip already migrated element', element)
+    console.log('--------Skip already migrated element-------', element)
   } else {
     console.log('Migrate old element', element)
-    fs.lstat(elementDirectory, (err, stats) => {
-      if (!err && stats.isDirectory()) {
-        let processedElementData = processElement(element, elementDirectory)
-        createNewFiles(processedElementData, element, elementDirectory, newElementDirectory)
-      }
-    })
+    let stats = fs.lstatSync(elementDirectory)
+    if (stats && stats.isDirectory()) {
+      let processedElementData = processElement(element, elementDirectory)
+      createNewFiles(processedElementData, element, elementDirectory, newElementDirectory)
+    }
   }
   console.log('####################')
 })
