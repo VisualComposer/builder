@@ -423,76 +423,76 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
                 //     ],
                 // ],
-                // 'flickrImage' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/flickrImage/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/flickrImage/flickrImage/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/flickrImage/flickrImage/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Flickr Image',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/flickrImage/flickrImage/public/thumbnail-flickr-image.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/flickrImage/flickrImage/public/preview-flickr-image.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
-                // 'googleMaps' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/googleMaps/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/googleMaps/googleMaps/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/googleMaps/googleMaps/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Google Maps',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/googleMaps/googleMaps/public/google-maps-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/googleMaps/googleMaps/public/google-maps-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
-                // 'googlePlusButton' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/googlePlusButton/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/googlePlusButton/googlePlusButton/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/googlePlusButton/googlePlusButton/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Google Plus Button',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/googlePlusButton/googlePlusButton/public/google-plus-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/googlePlusButton/googlePlusButton/public/google-plus-preview.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Add standard Google Plus button to your WordPress website for quick content sharing on Google Social Network.',
-                //     ],
-                // ],
+                 'flickrImage' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/flickrImage/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/flickrImage/flickrImage/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/flickrImage/flickrImage/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Flickr Image',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/flickrImage/flickrImage/public/thumbnail-flickr-image.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/flickrImage/flickrImage/public/preview-flickr-image.jpg'
+                         ),
+                         'metaDescription' => 'Embed Flickr image directly to your WordPress website.',
+                     ],
+                 ],
+                 'googleMaps' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/googleMaps/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/googleMaps/googleMaps/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/googleMaps/googleMaps/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Google Maps',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/googleMaps/googleMaps/public/google-maps-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/googleMaps/googleMaps/public/google-maps-preview.jpg'
+                         ),
+                         'metaDescription' => 'Add basic Google Maps via embed code to your WordPress website to display location.',
+                     ],
+                 ],
+                 'googlePlusButton' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/googlePlusButton/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/googlePlusButton/googlePlusButton/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/googlePlusButton/googlePlusButton/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Google Plus Button',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/googlePlusButton/googlePlusButton/public/google-plus-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/googlePlusButton/googlePlusButton/public/google-plus-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Add standard Google Plus button to your WordPress website for quick content sharing on Google Social Network.',
+                     ],
+                 ],
                 // 'gradientButton' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/gradientButton/public/dist/element.bundle.js'

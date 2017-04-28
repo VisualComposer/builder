@@ -143,11 +143,9 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    let { tag } = this.props.atts
+    let { metaAssetsPath } = this.props.atts
 
-    let assetsManager = vcCake.getService('assetsManager')
-
-    return assetsManager.getPublicPath(tag, filename)
+    return metaAssetsPath + filename
   }
 
   render () {

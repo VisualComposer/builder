@@ -94,6 +94,11 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
+    let assetsManager = vcCake.getService('assetsManager')
+
+    var { tag } = this.props.atts
+    return assetsManager.getPublicPath(tag, filename)
+
     let { metaAssetsPath } = this.props.atts
 
     return metaAssetsPath + filename
