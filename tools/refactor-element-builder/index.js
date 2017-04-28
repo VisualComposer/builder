@@ -83,6 +83,14 @@ let updateSettings = (settings, element) => {
     }
   }
 
+  // Remove unneeded
+  delete settings.name
+  delete settings.metaIntro
+  delete settings.metaDescription
+  delete settings.metaPreviewDescription
+  delete settings.metaPreview
+  delete settings.metaThumbnail
+
   return settings
 }
 
@@ -139,7 +147,8 @@ let processElement = (element) => {
   // Update Settings
   outputPhpElementSettings(settings, element)
   settings = updateSettings(settings, element)
-
+  console.log('=====   NEW SETTINGS   =====')
+  console.log(JSON.stringify(settings))
   let cssSettings = getCssSettings(elementDirectory)
   console.log('====      TEMPLATE      ====')
   let template = renderTemplate({
@@ -170,7 +179,6 @@ let processElement = (element) => {
 }
 
 let elements = getElements()
-elements = [elements [0]]
 elements.forEach((element) => {
   let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
   fs.lstat(elementDirectory, (err, stats) => {
