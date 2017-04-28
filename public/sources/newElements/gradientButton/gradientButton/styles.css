@@ -1,0 +1,97 @@
+/* ----------------------------------------------
+ * Text separator
+ * ---------------------------------------------- */
+.vce-button--style-gradient-container--align-left {
+  text-align: left;
+}
+.vce-button--style-gradient-container--align-right {
+  text-align: right;
+}
+.vce-button--style-gradient-container--align-center {
+  text-align: center;
+}
+.vce-button--style-gradient-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+.vce-button--style-gradient-horizontal,
+.vce-button--style-gradient-vertical {
+  font-size: 16px;
+  padding: 15px 43px;
+}
+a.vce-button--style-gradient-horizontal,
+a.vce-button--style-gradient-vertical,
+button.vce-button--style-gradient-horizontal,
+button.vce-button--style-gradient-vertical {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 0;
+  max-width: 100%;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  white-space: normal;
+  touch-action: manipulation;
+  user-select: none;
+  line-height: normal;
+}
+a.vce-button--style-gradient-horizontal:hover,
+a.vce-button--style-gradient-vertical:hover,
+button.vce-button--style-gradient-horizontal:hover,
+button.vce-button--style-gradient-vertical:hover,
+a.vce-button--style-gradient-horizontal:focus,
+a.vce-button--style-gradient-vertical:focus,
+button.vce-button--style-gradient-horizontal:focus,
+button.vce-button--style-gradient-vertical:focus {
+  text-decoration: none;
+  outline: none;
+}
+button.vce-button--style-gradient-horizontal,
+button.vce-button--style-gradient-vertical {
+  -webkit-appearance: none;
+}
+.vce-button--style-gradient-horizontal::before,
+a.vce-button--style-gradient-horizontal::before,
+button.vce-button--style-gradient-horizontal::before {
+  transition: opacity 0.5s ease-in-out;
+}
+.vce-button--style-gradient-vertical::before,
+a.vce-button--style-gradient-vertical::before,
+button.vce-button--style-gradient-vertical::before {
+  transition: opacity 0.5s ease-in-out;
+}
+a.vce-button--style-gradient--border-rounded,
+a.vce-button--style-gradient--border-round,
+button.vce-button--style-gradient--border-rounded,
+button.vce-button--style-gradient--border-round {
+  position: relative;
+  overflow: hidden;
+}
+a.vce-button--style-gradient--border-rounded,
+button.vce-button--style-gradient--border-rounded {
+  border-radius: 5px;
+}
+a.vce-button--style-gradient--border-round,
+button.vce-button--style-gradient--border-round {
+  border-radius: 4em;
+}
+.rtl.vce-button--style-gradient,
+[dir="rlt"].vce-button--style-gradient,
+.rtl .vce-button--style-gradient,
+[dir="rlt"] .vce-button--style-gradient {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+.ltr.vce-button--style-gradient,
+[dir="ltr"].vce-button--style-gradient,
+.ltr .vce-button--style-gradient,
+[dir="ltr"] .vce-button--style-gradient {
+  direction: ltr;
+  unicode-bidi: normal;
+}

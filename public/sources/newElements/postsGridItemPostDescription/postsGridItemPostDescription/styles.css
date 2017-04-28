@@ -1,0 +1,153 @@
+/* ----------------------------------------------
+ * Post Description
+ * ---------------------------------------------- */
+.vce-post-description {
+  box-sizing: border-box;
+  border: none;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.vce-post-description--background {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  transition: -webkit-transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+}
+
+.vce-post-description--background-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.vce-post-description--background:after {
+  content: '';
+  display: block;
+  /* intrinsic aspect ratio */
+  height: 0;
+  padding-bottom: 50%;
+}
+
+.vce-post-description--background {
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.vce-post-description-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.vce-post-description.vce-post-description--animation .vce-post-description-link:hover + .vce-post-description--background-wrapper-box .vce-post-description--background,
+.vce-post-description.vce-post-description--animation .vce-post-description-link:focus + .vce-post-description--background-wrapper-box .vce-post-description--background {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.vce-post-description--content {
+  padding: 0 20px 20px;
+  position: relative;
+  text-align: left;
+}
+
+.vce-post-description--content.vce-post-description-content--has-excerpt p:last-child,
+.vce-post-description--content.vce-post-description-content--has-title:not(.vce-post-description-content--has-excerpt) h3 {
+  margin: 0;
+}
+
+.vce-post-description--content.vce-post-description-content--has-title.vce-post-description-content--has-excerpt h3 {
+  margin-bottom: 10px;
+}
+
+.vce-post-description--has-background .vce-post-description--content {
+  padding-top: 20px;
+}
+
+.vce-post-description--title {
+  text-transform: uppercase;
+}
+
+.vce-post-description--title h3 {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 0;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.vce-post-description--title a {
+  text-decoration: none;
+  box-shadow: none;
+  border: none;
+}
+
+.vce-post-description--full .vce-post-description--background-wrapper-box {
+  padding: 0;
+}
+
+.vce-post-description--full .vce-post-description--background:after {
+  padding-bottom: 50%;
+}
+
+.vce-post-description--full .vce-post-description--content {
+  padding: 0 0 20px;
+}
+
+.vce-post-description--background-wrapper-box + .vce-post-description--content {
+  /*
+  margin-bottom: 20px;
+  */
+  padding-top: 20px;
+}
+
+/*RTL support. */
+.rtl.vce-post-description,
+[dir="rtl"].vce-post-description,
+.rtl .vce-post-description,
+[dir="rtl"] .vce-post-description {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+.rtl.vce-post-description--content,
+[dir="rtl"].vce-post-description--content,
+.rtl .vce-post-description--content,
+[dir="rtl"] .vce-post-description--content {
+  text-align: right;
+}
+
+.ltr.vce-post-description,
+[dir="ltr"].vce-post-description,
+.ltr .vce-post-description,
+[dir="ltr"] .vce-post-description {
+  direction: ltr;
+  unicode-bidi: normal;
+}
+
+.ltr.vce-post-description--content,
+[dir="ltr"].vce-post-description--content,
+.ltr .vce-post-description--content,
+[dir="ltr"] .vce-post-description--content {
+  text-align: left;
+}

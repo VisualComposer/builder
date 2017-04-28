@@ -1,0 +1,85 @@
+.vce-button--style-gradient {
+  &-horizontal {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+
+        @if $color != false {
+          &:hover {
+            color: $color;
+          }
+        }
+
+        background-size: 100%;
+        background-image: linear-gradient(to right, $startColor, $endColor);
+        position: relative;
+        z-index: 100;
+
+        &::before {
+          border-radius: inherit;
+          background-image: linear-gradient(to right, $endColor, $startColor);
+          content: '';
+          display: block;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          top: 0; left: 0;
+          opacity: 0;
+          z-index: -100;
+        }
+
+        &:hover,
+        &:focus {
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &-vertical {
+    &--color-$selector {
+      a&,
+      button& {
+        @if $color != false {
+          color: $color;
+        }
+
+        @if $color != false {
+          &:hover {
+            color: $color;
+          }
+        }
+
+        background-size: 100%;
+        background-image: linear-gradient(to bottom, $startColor, $endColor);
+        position: relative;
+        z-index: 100;
+
+        &::before {
+          border-radius: inherit;
+          background-image: linear-gradient(to bottom, $endColor, $startColor);
+          content: '';
+          display: block;
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          top: 0; left: 0;
+          opacity: 0;
+          z-index: -100;
+        }
+
+        &:hover,
+        &:focus {
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
