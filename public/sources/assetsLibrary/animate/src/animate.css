@@ -1,26 +1,26 @@
-[class*="vce-o-animate"] {
+[data-vce-animate] {
   visibility: hidden;
 }
 
-.vce-o-animate--bounce,
-.vce-o-animate--flash,
-.vce-o-animate--pulse,
-.vce-o-animate--rubberBand,
-.vce-o-animate--shake,
-.vce-o-animate--swing,
-.vce-o-animate--tada,
-.vce-o-animate--wobble,
-.vce-o-animate--jello {
+[data-vce-animate="animate--bounce"],
+[data-vce-animate="animate--flash"],
+[data-vce-animate="animate--pulse"],
+[data-vce-animate="animate--rubberBand"],
+[data-vce-animate="animate--shake"],
+[data-vce-animate="animate--swing"],
+[data-vce-animate="animate--tada"],
+[data-vce-animate="animate--wobble"],
+[data-vce-animate="animate--jello"] {
   visibility: visible;
 }
 
-.vce-o-animate--animated {
+[data-vcv-o-animated] {
   animation-duration: 0.7s;
   animation-fill-mode: both;
   visibility: visible;
 }
 
-.vce-o-animate--animated.vce-o-animate--infinite {
+[data-vcv-o-animated].vce-o-animate--infinite {
   animation-iteration-count: infinite;
 }
 @keyframes vce-o-animate--bounce {

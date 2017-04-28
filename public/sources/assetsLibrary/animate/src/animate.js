@@ -1,7 +1,6 @@
 window.vcv.on('ready', (action, id) => {
+  // window.Waypoint.destroyAll()
   let enableAnimate = (id) => {
-    window.Waypoint.destroyAll()
-    let waypoints = []
     let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
     let elements = document.querySelectorAll(selector)
     elements = [].slice.call(elements)
@@ -12,6 +11,10 @@ window.vcv.on('ready', (action, id) => {
           return
         }
       }
+      let $element = window.jQuery(element)
+      if ($element.data('vcvWaypoints')) {
+        $element.data('vcvWaypoints').destroy()
+      }
       // remove old classes
       let oldClasses = []
       let re = /^vce-o-animate--/
@@ -21,7 +24,6 @@ window.vcv.on('ready', (action, id) => {
         }
       })
       element.classList.remove.apply(element.classList, oldClasses)
-
       let waypointObj = new window.Waypoint({
         element: element,
         handler: () => {
@@ -30,8 +32,8 @@ window.vcv.on('ready', (action, id) => {
           if (element.dataset[ 'vceAnimate' ]) {
             newClasses = element.dataset[ 'vceAnimate' ].split(' ')
           }
-          // _this.element.setAttribute('data-vce-animated', 'true')
-          newClasses.push('vce-o-animate--animated')
+          element.setAttribute('data-vcv-o-animated', 'true')
+          // newClasses.push('vce-o-animate--animated')
           newClasses.forEach((className) => {
             element.classList.add(className)
           })
@@ -39,7 +41,7 @@ window.vcv.on('ready', (action, id) => {
         },
         offset: '85%'
       })
-      waypoints.push(waypointObj)
+      $element.data('vcvWaypoints', waypointObj)
     })
   }
 
