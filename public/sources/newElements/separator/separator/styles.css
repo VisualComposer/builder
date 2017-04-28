@@ -1,0 +1,43 @@
+/* ----------------------------------------------
+ * Separator
+ * ---------------------------------------------- */
+.vce-line-separator {
+  display: inline-block;
+  vertical-align: middle;
+  min-height: 1.2em;
+  line-height: 1;
+}
+.vce-line-separator::before,
+.vce-line-separator::after {
+  display: block;
+  content: '';
+  box-sizing: content-box;
+  border-width: 1px;
+  border-top-style: solid;
+  height: 1px;
+}
+.vce-line-separator::before {
+  padding-bottom: 0.188em;
+  width: 100%;
+}
+.vce-line-separator::after {
+  width: 74%;
+  margin: 0 auto;
+}
+.vce-line-separator--align-left {
+  text-align: left;
+}
+.vce-line-separator--align-left .vce-line-separator::after {
+  width: 87%;
+  margin: 0;
+}
+.vce-line-separator--align-center {
+  text-align: center;
+}
+.vce-line-separator--align-right {
+  text-align: right;
+}
+.vce-line-separator--align-right .vce-line-separator::after {
+  width: 87%;
+  margin: 0 0 0 auto;
+}

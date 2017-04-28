@@ -1,0 +1,34 @@
+.vce-google-plus-button {
+  line-height: 1;
+}
+
+.vce-google-plus-button iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-google-plus-button--align-center {
+  text-align: center;
+}
+
+.vce-google-plus-button--align-right {
+  text-align: right;
+}
+
+.vce-google-plus-button--align-left {
+  text-align: left;
+}
+
+.vce-google-plus-button-inner {
+  vertical-align: top;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.vce-google-plus-button-inner div {
+  max-width: 100%;
+}
+
+.vce-google-plus-button-inner > * {
+  margin: 0;
+}

@@ -1,55 +1,51 @@
-/* global Waypoint */
-window.vcv.on('ready', function (action, id) {
-  if (action !== 'merge') {
-    vceAnimate.enableAnimate(action && id ? id : '');
-  }
-});
-
-var vceAnimate = {
-  enableAnimate: function enableAnimate(id) {
-    window.Waypoint.destroyAll();
-    var waypoints = [];
-    var selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]';
-    var elements = document.querySelectorAll(selector);
-    elements = [].slice.call(elements);
-    elements.forEach(function (element) {
-      var _element$classList;
+window.vcv.on('ready', (action, id) => {
+  // window.Waypoint.destroyAll()
+  let enableAnimate = (id) => {
+    let selector = id ? '[data-vcv-element="' + id + '"]' : '[data-vce-animate]'
+    let elements = document.querySelectorAll(selector)
+    elements = [].slice.call(elements)
+    elements.forEach((element) => {
       if (id && !element.getAttribute('data-vce-animate')) {
-        element = element.querySelector('[data-vce-animate]');
+        element = element.querySelector('[data-vce-animate]')
         if (!element) {
-          return;
+          return
         }
       }
+      let $element = window.jQuery(element)
+      if ($element.data('vcvWaypoints')) {
+        $element.data('vcvWaypoints').destroy()
+      }
       // remove old classes
-      var oldClasses = [];
-      var re = /^vce-o-animate--/;
-      element.classList.forEach(function (className) {
+      let oldClasses = []
+      let re = /^vce-o-animate--/
+      element.classList.forEach((className) => {
         if (className.search(re) !== -1) {
-          oldClasses.push(className);
+          oldClasses.push(className)
         }
-      });
-      (_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
-      var waypointObj = new window.Waypoint({
+      })
+      element.classList.remove.apply(element.classList, oldClasses)
+      let waypointObj = new window.Waypoint({
         element: element,
-        handler: function handler() {
-          var _this = this;
-
-          setTimeout(function () {
-            // add new classes
-            var newClasses = [];
-            if (_this.element.dataset['vceAnimate']) {
-              newClasses = _this.element.dataset['vceAnimate'].split(' ');
-            }
-            newClasses.push('vce-o-animate--animated');
-            newClasses.forEach(function (className) {
-              _this.element.classList.add(className);
-            });
-            _this.destroy();
-          }, 100);
+        handler: () => {
+          // add new classes
+          let newClasses = []
+          if (element.dataset[ 'vceAnimate' ]) {
+            newClasses = element.dataset[ 'vceAnimate' ].split(' ')
+          }
+          element.setAttribute('data-vcv-o-animated', 'true')
+          // newClasses.push('vce-o-animate--animated')
+          newClasses.forEach((className) => {
+            element.classList.add(className)
+          })
+          waypointObj.destroy()
         },
-        offset: '70%'
-      });
-      waypoints.push(waypointObj);
-    });
+        offset: '85%'
+      })
+      $element.data('vcvWaypoints', waypointObj)
+    })
   }
-};
+
+  if (action !== 'merge') {
+    enableAnimate(action && id ? id : '')
+  }
+})

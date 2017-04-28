@@ -1,0 +1,58 @@
+// Styles for Text Separator
+//-----------------------------------------
+
+.vce-line-separator {
+  display: inline-block;
+  vertical-align: middle;
+  min-height: @vce-line-separator-min-height;
+  line-height: @vce-line-separator-line-height;
+
+  &::before,
+  &::after {
+    display: block;
+    content: '';
+    box-sizing: content-box;
+    border-width: 1px;
+    border-top-style: solid;
+    height: @vce-line-separator-border-space;
+  }
+  &::before {
+    padding-bottom: @vce-line-separator-padding-bottom;
+    width: 100%;
+  }
+  &::after {
+    width: 74%;
+    margin: 0 auto;
+  }
+}
+
+// Styles
+//===========================
+
+.vce-line-separator--align {
+  &-left {
+    text-align: left;
+
+    .vce-line-separator {
+      &::after {
+        width: 87%;
+        margin: 0;
+      }
+    }
+  }
+
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+    .vce-line-separator {
+      &::after {
+        width: 87%;
+        margin: 0 0 0 auto;
+      }
+    }
+  }
+}
+

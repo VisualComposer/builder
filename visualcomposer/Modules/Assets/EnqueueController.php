@@ -21,6 +21,9 @@ class EnqueueController extends Container implements Module
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets');
 
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets');
+
+        /** @see \VisualComposer\Modules\Assets\EnqueueController::addNoScript */
+        $this->wpAddAction('wp_head', 'addNoScript');
     }
 
     /**
@@ -77,5 +80,14 @@ class EnqueueController extends Container implements Module
             }
             unset($asset);
         }
+    }
+
+    protected function addNoScript()
+    {
+        echo '<noscript>';
+        echo '<style type="text/css">';
+        echo ' [data-vce-animate] { visibility: visible; }';
+        echo '</style>';
+        echo '</noscript>';
     }
 }

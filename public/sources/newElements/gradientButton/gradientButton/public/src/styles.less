@@ -1,0 +1,124 @@
+.vce-button--style-gradient-container {
+  &--align-left {
+    text-align: left;
+  }
+
+  &--align-right {
+    text-align: right;
+  }
+
+  &--align-center {
+    text-align: center;
+  }
+}
+
+.vce-button--style-gradient-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-button--style-gradient {
+  &-horizontal,
+  &-vertical {
+    a&,
+    button& {
+      background-color: transparent;
+      background-image: none;
+      border: none;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 0;
+      max-width: 100%;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      white-space: normal;
+      touch-action: manipulation;
+      user-select: none;
+      line-height: normal;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        outline: none;
+      }
+    }
+
+    button& {
+      -webkit-appearance: none;
+    }
+
+    font-size: @vce-button-font-size;
+    padding: @vce-button-padding-vertical @vce-button-padding-horizontal;
+  }
+
+  &-horizontal {
+    &,
+    a&,
+    button& {
+      &::before {
+        transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;
+      }
+    }
+  }
+
+  &-vertical {
+    &,
+    a&,
+    button& {
+      &::before {
+        transition: opacity @vce-button-gradient-transition-duration @vce-button-gradient-transition-timing-function;;
+      }
+    }
+  }
+
+
+  // shapes
+  &--border {
+    &-rounded, &-round {
+      a&,
+      button& {
+        position: relative;
+        overflow: hidden;
+      }
+    }
+    &-rounded {
+      a&,
+      button& {
+        border-radius: @vce-button-rounded;
+      }
+    }
+    &-round {
+      a&,
+      button& {
+        border-radius: @vce-button-round;
+      }
+    }
+  }
+}
+
+// RTL support
+.rtl,
+[dir="rlt"] {
+  &.vce-button--style-gradient,
+  .vce-button--style-gradient {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+}
+
+// LTR
+.ltr,
+[dir="ltr"] {
+  &.vce-button--style-gradient,
+  .vce-button--style-gradient {
+    direction: ltr;
+    unicode-bidi: normal;
+  }
+}
+
+
+

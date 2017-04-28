@@ -1,0 +1,16 @@
+.vce-posts-grid--gap-$selector {
+  .vce-posts-grid-list {
+    @if $gap != false {
+      margin-left: calc(-$(gap)px / 2);
+      margin-right: calc(-$(gap)px / 2);
+      margin-bottom: -$(gap)px;
+    }
+  }
+  .vce-posts-grid-item {
+    @if $gap != false {
+      padding-left: calc($(gap)px / 2);
+      padding-right: calc($(gap)px / 2);
+      margin-bottom: $(gap)px;
+    }
+  }
+}
