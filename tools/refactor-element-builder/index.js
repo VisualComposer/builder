@@ -4,10 +4,10 @@ let swig = require('swig')
 let config = require('./settings')
 let path = require('path')
 let fs = require('fs')
+let ncp = require('ncp').ncp
 
 let getElements = () => {
   let elementPath = path.join(config.publicDir, config.elementsPath)
-  console.log(elementPath)
   let files = fs.readdirSync(elementPath)
   let elements = []
   files.forEach((element) => {
@@ -44,8 +44,7 @@ let outputPhpElementSettings = (settings, element) => {
                 // @codingStandardsIgnoreLine
                     'public/sources/newElements/${element}/${element}/public/${settings.metaPreview.value}'
                 ),` : ''
-  console.log(
-    `
+  return `
         '${element}' => [
             'bundlePath' => $urlHelper->to(
                 'public/sources/newElements/${element}/public/dist/element.bundle.js'
@@ -64,7 +63,6 @@ let outputPhpElementSettings = (settings, element) => {
             ],
         ],
     `
-  )
 }
 let updateSettings = (settings, element) => {
   // generate settings tag
@@ -135,20 +133,17 @@ let renderTemplate = (data) => {
 }
 
 let processElement = (element, elementDirectory) => {
-  console.log('============================')
-  console.log('Element: ', element)
   let settingsFile = path.resolve(elementDirectory, 'settings.json')
   let settingsString = fs.existsSync(settingsFile) ? fs.readFileSync(settingsFile) : '{}'
   // Update all related attributes
   let settings = JSON.parse(settingsString)
   let elementComponentName = element.charAt(0).toUpperCase() + element.slice(1)
   // Update Settings
-  outputPhpElementSettings(settings, element)
+  let php = outputPhpElementSettings(settings, element)
   settings = updateSettings(settings, element)
-  console.log('=====   NEW SETTINGS   =====')
-  console.log(JSON.stringify(settings))
+
+  // index-template
   let cssSettings = getCssSettings(elementDirectory)
-  console.log('====      TEMPLATE      ====')
   let template = renderTemplate({
     cssSettings: () => {
       return JSON.stringify(cssSettings)
@@ -159,8 +154,6 @@ let processElement = (element, elementDirectory) => {
     }
   })
 
-  console.log(template)
-  console.log('=============================')
   let componentTemplateFile = path.resolve(elementDirectory, 'component.js')
   let componentTemplate = ''
   if (fs.existsSync(componentTemplateFile)) {
@@ -174,19 +167,72 @@ const cook = vcCake.getService("cook")
 
 export default class ${elementComponentName} extends `
   let newComponentTemplate = componentHead + componentTemplate.substring(componentTemplate.indexOf('vcvAPI.elementComponent'))
-  console.log(newComponentTemplate)
+
   return {
     indexTemplate: template,
-    settings: settings
+    settings: settings,
+    newComponentTemplate: newComponentTemplate,
+    php: php
   }
 }
 
 let createNewFiles = (data, element, elementDirectory, newElementDirectory) => {
-  console.log('Save new files', element, newElementDirectory)
+  console.log('Save new files', data, element, elementDirectory, newElementDirectory)
   console.log('====================')
+  // check if folder needs to be created or integrated
+
+  if (!fs.existsSync(newElementDirectory)) {
+    fs.mkdirSync(newElementDirectory)
+  }
+  if (!fs.existsSync(path.join(newElementDirectory, element))) {
+    fs.mkdirSync(path.join(newElementDirectory, element))
+  }
+  if (fs.existsSync(path.join(elementDirectory, 'cssMixins'))) {
+    fs.mkdirSync(path.join(newElementDirectory, element, 'cssMixins'))
+    ncp(
+      `./public/sources/_elements/${element}/cssMixins`,
+      `./public/sources/newElements/${element}/${element}/cssMixins`,
+      (err) => {
+        if (err) {
+          return console.error(err)
+        }
+        console.log('done cssMixins', element)
+      }
+    )
+  }
+  if (fs.existsSync(path.join(elementDirectory, 'public'))) {
+    fs.mkdirSync(path.join(newElementDirectory, element, 'public'))
+    ncp(
+      `./public/sources/_elements/${element}/public`,
+      `./public/sources/newElements/${element}/${element}/public`,
+      (err) => {
+        if (err) {
+          return console.error(err)
+        }
+        console.log('done public', element)
+      }
+    )
+  }
+
+  let webpackFile = fs.readFileSync(path.join(__dirname, 'webpack.config.js')).toString()
+  let packagejsonFile = fs.readFileSync(path.join(__dirname, 'package.json')).toString()
+  fs.writeFileSync(path.join(newElementDirectory, 'webpack.config.js'), webpackFile.replace('[elementToBeReplaced]', element))
+  fs.writeFileSync(path.join(newElementDirectory, 'package.json'), packagejsonFile)
+  fs.writeFileSync(path.join(newElementDirectory, element, 'index.js'), data.indexTemplate)
+  fs.writeFileSync(path.join(newElementDirectory, element, 'settings.json'), JSON.stringify(data.settings))
+  fs.writeFileSync(path.join(newElementDirectory, element, 'component.js'), data.newComponentTemplate)
+  if (fs.existsSync(path.join(elementDirectory, 'styles.css'))) {
+    fs.writeFileSync(path.join(newElementDirectory, element, 'styles.css'), fs.readFileSync(path.join(elementDirectory, 'styles.css')))
+  }
+  if (fs.existsSync(path.join(elementDirectory, 'editor.css'))) {
+    fs.writeFileSync(path.join(newElementDirectory, element, 'editor.css'), fs.readFileSync(path.join(elementDirectory, 'styles.css')))
+  }
+
+  fs.writeFileSync(path.join(newElementDirectory, element, 'temp.php'), data.php)
 }
 
 let elements = getElements()
+elements = [ elements[ 3 ] ]
 elements.forEach((element) => {
   console.log('####################')
   let elementDirectory = path.join(config.publicDir, config.elementsPath, element)
