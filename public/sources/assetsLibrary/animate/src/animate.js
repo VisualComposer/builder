@@ -11,37 +11,20 @@ window.vcv.on('ready', (action, id) => {
           return
         }
       }
-      let $element = window.jQuery(element)
-      if ($element.data('vcvWaypoints')) {
-        $element.data('vcvWaypoints').destroy()
+      let previousElementWaypoints = element.vcvWaypoints
+      if (previousElementWaypoints) {
+        previousElementWaypoints.destroy()
+        element.removeAttribute('data-vcv-o-animated')
       }
-      // remove old classes
-      let oldClasses = []
-      let re = /^vce-o-animate--/
-      element.classList.forEach((className) => {
-        if (className.search(re) !== -1) {
-          oldClasses.push(className)
-        }
-      })
-      element.classList.remove.apply(element.classList, oldClasses)
       let waypointObj = new window.Waypoint({
         element: element,
-        handler: () => {
-          // add new classes
-          let newClasses = []
-          if (element.dataset[ 'vceAnimate' ]) {
-            newClasses = element.dataset[ 'vceAnimate' ].split(' ')
-          }
+        handler: (a, b, c, d, e) => {
           element.setAttribute('data-vcv-o-animated', 'true')
-          // newClasses.push('vce-o-animate--animated')
-          newClasses.forEach((className) => {
-            element.classList.add(className)
-          })
           waypointObj.destroy()
         },
         offset: '85%'
       })
-      $element.data('vcvWaypoints', waypointObj)
+      element.vcvWaypoints = waypointObj
     })
   }
 
