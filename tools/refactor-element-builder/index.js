@@ -5,7 +5,6 @@ let config = require('./settings')
 let path = require('path')
 let fs = require('fs')
 
-let elementDir = ''
 let getElements = () => {
   let elementPath = path.join(config.publicDir, config.elementsPath)
   console.log(elementPath)
@@ -32,6 +31,7 @@ let collectPublicJsFile = (contentPath, files, prefix) => {
       files.push(prefix + '/' + file)
     }
   })
+
   return files
 }
 
@@ -74,7 +74,7 @@ let updateSettings = (settings, element) => {
     value: element
   }
   // Public javascript
-  let publicJs = collectPublicJsFile(path.resolve(elementDir, 'public/js'), [], config.elementsDirName + '/' + element + '/public/js')
+  let publicJs = collectPublicJsFile(path.resolve(config.elementsDirName + '/' + element + '/public/js'), [], config.elementsDirName + '/' + element + '/public/js')
   if (publicJs.length) {
     settings.metaPublicJs = {
       access: 'protected',
@@ -92,7 +92,7 @@ let getCssSettings = (elementDirectory) => {
   let cssRelativeFile = fs.existsSync(cssFile) ? "require( 'raw-loader!./styles.css' )" : false
   // editor file
   let editorCssFile = path.resolve(elementDirectory, 'editor.css')
-  let editorCssString = fs.existsSync(editorCssFile) ? "require( 'raw-loader!./styles.css')" : false
+  let editorCssString = fs.existsSync(editorCssFile) ? "require( 'raw-loader!./styles.css' )" : false
 
   // mixins
   let mixinsDir = path.resolve(elementDirectory, 'cssMixins')
@@ -101,7 +101,7 @@ let getCssSettings = (elementDirectory) => {
     let filePath = path.resolve(mixinsDir, file)
     if (!fs.lstatSync(filePath).isDirectory()) {
       cssMixins[ path.basename(filePath, path.extname(filePath)) ] = {
-        mixin: fs.readFileSync(filePath, 'utf8')
+        mixin: `require(raw-loader!./cssMixins/${file})` // fs.readFileSync(filePath, 'utf8')
       }
     }
   })
@@ -120,7 +120,10 @@ let getCssSettings = (elementDirectory) => {
 }
 
 let renderTemplate = (data) => {
-  return swig.renderFile(path.join(__dirname, 'index-template.jst'), data)
+  let compiledTemplate = swig.renderFile(path.join(__dirname, 'index-template.jst'), data)
+  compiledTemplate = compiledTemplate.replace(/"require\((.[^\)]*)\)"/g, ' require($1)')
+
+  return compiledTemplate
 }
 
 let processElement = (element) => {
