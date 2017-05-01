@@ -56,7 +56,6 @@ class Groups extends Container implements Module
                         'Section',
                         'Text block',
                         'Single image',
-                        'Basic video', // TODO: Check it!
                         'Button',
                     ],
                 ],
