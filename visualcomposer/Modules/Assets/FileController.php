@@ -52,10 +52,10 @@ class FileController extends Container implements Module
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
-        foreach($globalElementsCssData as $postElements) {
-            foreach($postElements as $element) {
-                if(!isset($globalElementsBaseCss[$element['tag']])) {
-                    $globalElementsBaseCss[$element['tag']] = $element['baseCss'];
+        foreach ($globalElementsCssData as $postElements) {
+            foreach ($postElements as $element) {
+                if (!isset($globalElementsBaseCss[ $element['tag'] ])) {
+                    $globalElementsBaseCss[ $element['tag'] ] = $element['baseCss'];
                 }
                 $globalElementsMixinsCss[] = $element['mixinsCss'];
                 $globalElementsAttributesCss[] = $element['attributesCss'];

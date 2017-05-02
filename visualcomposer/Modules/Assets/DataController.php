@@ -67,7 +67,7 @@ class DataController extends Container implements Module
         $tf = $requestHelper->input('vcv-tf');
         if ($tf === 'noGlobalCss') {
             // Base css
-            $elementsCssData = $requestHelper->input('vcv-elements-css-data');
+            $elementsCssData =  $requestHelper->inputJson('vcv-elements-css-data', '');
             $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
             $globalElementsCssData[$sourceId] = $elementsCssData;
             $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
@@ -77,7 +77,7 @@ class DataController extends Container implements Module
 
             return;
         }
-        $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements'));
+        $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements', ''));
         $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
         $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
     }

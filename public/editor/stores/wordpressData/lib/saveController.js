@@ -77,14 +77,13 @@ export default class SaveController {
         'vcv-content': content,
         'vcv-data': encodeURIComponent(JSON.stringify(data)),
         'vcv-global-elements-css': globalStyles,
-        'vcv-elements-css-data': elementsCss,
-        'vcv-source-assets-files': assetsFiles,
+        'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
+        'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css': pageStyles,
         'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
         'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
         'vcv-tf': 'noGlobalCss'
       }
-      console.log(requestData)
       this.ajax(
         requestData,
         this.saveSuccess.bind(this, status),
