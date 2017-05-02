@@ -78,7 +78,7 @@ class Categories extends Container implements Module
                 ],
                 'Feature section' => [
                     'title' => 'Feature Section',
-                    'elements' => [],
+                    'elements' => ['featureSection'],
                     'icon' => $urlHelper->to('public/sources/newCategories/icons/Feature.svg'),
                     'iconDark' => $urlHelper->to('public/sources/newCategories/iconsDark/Feature.svg'),
                 ],

@@ -16,7 +16,6 @@
 .vce-feature-section--image {
   -ms-flex: 1 0 300px;
       flex: 1 0 300px;
-  background-color: #b3a694;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -24,7 +23,6 @@
 .vce-feature-section--content {
   -ms-flex: 1 0 auto;
       flex: 1 0 auto;
-  background-color: #b3a694;
   background-position: center;
   padding-top: 30px;
   padding-bottom: 30px;

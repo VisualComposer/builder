@@ -352,7 +352,7 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent.',
                 //     ],
                 // ],
-                 'facebookLike' => [
+                'facebookLike' => [
                      'bundlePath' => $urlHelper->to(
                          'public/sources/newElements/facebookLike/public/dist/element.bundle.js'
                      ),
@@ -399,30 +399,30 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Long description',
                 //     ],
                 // ],
-                // 'featureSection' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/featureSection/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/featureSection/featureSection/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/featureSection/featureSection/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Feature Section',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/featureSection/featureSection/public/thumbnail-feature-section.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/featureSection/featureSection/public/preview-feature-section.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
-                //     ],
-                // ],
+                'featureSection' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/featureSection/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/featureSection/featureSection/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/featureSection/featureSection/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Feature Section',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/featureSection/featureSection/public/thumbnail-feature-section.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/featureSection/featureSection/public/preview-feature-section.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
+                     ],
+                 ],
                 'flickrImage' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/flickrImage/public/dist/element.bundle.js'

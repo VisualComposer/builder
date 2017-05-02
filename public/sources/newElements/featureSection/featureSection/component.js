@@ -9,9 +9,8 @@ export default class FeatureSection extends vcvAPI.elementComponent {
   // }
 
   getPublicImage (filename) {
-    let assetsManager = vcCake.getService('assetsManager')
-    let { tag } = this.props.atts
-    return assetsManager.getPublicPath(tag, filename)
+    let { metaAssetsPath } = this.props.atts
+    return metaAssetsPath + filename
   }
 
   getImageUrl (image) {
@@ -74,14 +73,14 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     contentClasses = classNames(contentClasses)
 
-    // let doRest = this.applyDO('margin padding border animation')
-    // let doBackgroundColor = this.applyDO('background-color')
+    let doPadding = this.applyDO('padding')
+    let doRest = this.applyDO('margin background border animation')
 
     return <section className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id}>
+      <div className={wrapperClasses} id={'el-' + id} {...doRest}>
         <div className='vce-feature-section--image' style={imageStyles} />
         <div className={contentClasses}>
-          <div className='vce-feature-section--content-container'>
+          <div className='vce-feature-section--content-container' {...doPadding}>
             <div className='vce-feature-section-description'>
               {description}
             </div>

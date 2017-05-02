@@ -1,1 +1,173 @@
-{"tag":{"access":"protected","type":"string","value":"featureSection"},"description":{"type":"htmleditor","access":"public","value":"<h1>Beyond Beach and Cloudy Waves</h1><p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>","options":{"label":"Description","inline":true}},"backgroundColor":{"type":"color","access":"public","value":"#b3a694","options":{"label":"Background color","cssMixin":{"mixin":"backgroundColor","property":"backgroundColor","namePattern":"[\\da-f]+"}}},"image":{"type":"attachimage","access":"public","value":"feature-section-background.jpg","options":{"label":"Image","multiple":false,"defaultValue":"feature-section-background.jpg"}},"addButton":{"type":"toggle","access":"public","value":true,"options":{"label":"Add button"}},"customClass":{"type":"string","access":"public","value":"","options":{"label":"Extra class name","description":"Add an extra class name to the element and refer to it from Custom CSS option."}},"button":{"type":"element","access":"public","value":{"tag":"outlineButton","alignment":"center"},"options":{"category":"Button","tabLabel":"Button","merge":{"attributes":[{"key":"alignment","type":"string"},{"key":"buttonText","type":"string"},{"key":"buttonUrl","type":"object"}]},"onChange":{"rules":{"addButton":{"rule":"toggle"}},"actions":[{"action":"toggleVisibility"}]}}},"designOptions":{"type":"designOptions","access":"public","value":{},"options":{"label":"Design Options"}},"editFormTab1":{"type":"group","access":"protected","value":["description","image","backgroundColor","addButton","metaCustomId","customClass"],"options":{"label":"Hero Section"}},"metaEditFormTabs":{"type":"group","access":"protected","value":["editFormTab1","button","designOptions"]},"relatedTo":{"type":"group","access":"protected","value":["General"]},"assetsLibrary":{"access":"public","type":"string","value":["animate"]},"metaBackendLabels":{"type":"group","access":"protected","value":[{"value":["image","backgroundColor"]},{"value":["button"]},{"value":["description"]}]},"metaCustomId":{"type":"customId","access":"public","value":"","options":{"label":"Element ID","description":"Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."}}}
+{
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "featureSection"
+  },
+  "description": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<h1>Beyond Beach and Cloudy Waves</h1><p>A beach is a landform along the coast of an ocean or sea, or the edge of a lake or river. Beaches typically occur in areas along the coast where wave or current action deposits and reworks sediments.</p>",
+    "options": {
+      "label": "Description",
+      "inline": true
+    }
+  },
+  "backgroundColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#b3a694",
+    "options": {
+      "label": "Background color",
+      "cssMixin": {
+        "mixin": "backgroundColor",
+        "property": "backgroundColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "image": {
+    "type": "attachimage",
+    "access": "public",
+    "value": "feature-section-background.jpg",
+    "options": {
+      "label": "Image",
+      "multiple": false,
+      "defaultValue": "feature-section-background.jpg"
+    }
+  },
+  "addButton": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Add button"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "button": {
+    "type": "element",
+    "access": "public",
+    "value": {
+      "tag": "outlineButton",
+      "alignment": "center"
+    },
+    "options": {
+      "category": "Button",
+      "tabLabel": "Button",
+      "merge": {
+        "attributes": [
+          {
+            "key": "alignment",
+            "type": "string"
+          },
+          {
+            "key": "buttonText",
+            "type": "string"
+          },
+          {
+            "key": "buttonUrl",
+            "type": "object"
+          }
+        ]
+      },
+      "onChange": {
+        "rules": {
+          "addButton": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "description",
+      "image",
+      "backgroundColor",
+      "addButton",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Feature Section"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "button",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "image",
+          "backgroundColor"
+        ]
+      },
+      {
+        "value": [
+          "button"
+        ]
+      },
+      {
+        "value": [
+          "description"
+        ]
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  }
+}
