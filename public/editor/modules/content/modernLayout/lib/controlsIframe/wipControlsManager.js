@@ -307,6 +307,11 @@ export default class ControlsManager {
         }
         if (event === 'treeView') {
           workspaceContentStartState.set('treeView', elementId)
+        } else if (event === 'edit') {
+          if (workspaceContentStartState.get() === 'treeView') {
+            workspaceContentStartState.set('treeView', elementId)
+          }
+          workspaceStorage.trigger(event, elementId, tag, options)
         } else {
           workspaceStorage.trigger(event, elementId, tag, options)
         }
