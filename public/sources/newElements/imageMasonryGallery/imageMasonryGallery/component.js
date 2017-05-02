@@ -86,11 +86,8 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   }
 
   getPublicImage (filename) {
-    let { tag } = this.props.atts
-
-    let assetsManager = vcCake.getService('assetsManager')
-
-    return assetsManager.getPublicPath(tag, filename)
+    let { metaAssetsPath } = this.props.atts
+    return metaAssetsPath + filename
   }
 
   getImageUrl (image, size) {

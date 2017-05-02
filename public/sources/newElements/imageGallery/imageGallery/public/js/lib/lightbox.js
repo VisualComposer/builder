@@ -32,7 +32,7 @@
   function Lightbox(options) {
     this.album = [];
     this.currentImageIndex = void 0;
-    this.init();
+    window.jQuery(this.init.bind(this));
 
     // options
     this.options = window.jQuery.extend({}, this.constructor.defaults);

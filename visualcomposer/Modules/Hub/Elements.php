@@ -541,30 +541,30 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Image gallery is a basic element for adding simple image gallery from Media Library into the content area.',
                      ],
                  ],
-                // 'imageMasonryGallery' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/imageMasonryGallery/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Image Masonry Gallery',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-thumbnail.png'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-preview.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Image masonry gallery is a gallery element for adding simple masonry image gallery from Media Library into the content area.',
-                //     ],
-                // ],
+                 'imageMasonryGallery' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/imageMasonryGallery/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Image Masonry Gallery',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-thumbnail.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Image masonry gallery is a gallery element for adding simple masonry image gallery from Media Library into the content area.',
+                     ],
+                 ],
                 // 'instagramImage' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/instagramImage/public/dist/element.bundle.js'
