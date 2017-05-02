@@ -590,30 +590,30 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Embed Instagram image directly to your WordPress website.',
                      ],
                  ],
-                // 'pinterestPinit' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/pinterestPinit/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/pinterestPinit/pinterestPinit/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/pinterestPinit/pinterestPinit/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Pinterest Pinit',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-preview.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
-                //     ],
-                // ],
+                 'pinterestPinit' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/pinterestPinit/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/pinterestPinit/pinterestPinit/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/pinterestPinit/pinterestPinit/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Pinterest Pinit',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
+                     ],
+                 ],
                 // 'postsGrid' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/postsGrid/public/dist/element.bundle.js'
