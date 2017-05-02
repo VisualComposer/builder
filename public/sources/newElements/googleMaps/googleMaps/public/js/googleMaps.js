@@ -1,6 +1,6 @@
 /* global vcv */
 (function ($) {
-  vcv.on('googleMapsReady', function () {
+  vcv.on('ready', function () {
     var $googleMaps = $('.vce-google-maps-inner')
     var $googleMapsIframe = $googleMaps.find('iframe')
 
@@ -13,11 +13,5 @@
     })
 
     $googleMapsIframe.css('pointer-events', 'none')
-  })
-
-  vcv.on('ready', function () {
-    $(function () {
-      vcv.trigger('googleMapsReady')
-    })
   })
 })(window.jQuery)
