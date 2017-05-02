@@ -697,29 +697,30 @@ class Elements extends Container implements Module
                 //         'metaDescription' => '',
                 //     ],
                 // ],
-                // 'rawJs' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/rawJs/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/rawJs/rawJs/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/rawJs/rawJs/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Raw JS',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/rawJs/rawJs/public/raw-js-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/rawJs/rawJs/public/raw-js-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
+                 'rawJs' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/rawJs/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/rawJs/rawJs/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/rawJs/rawJs/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Raw JS',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/rawJs/rawJs/public/raw-js-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/rawJs/rawJs/public/raw-js-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Add your own custom Javascript code to WordPress website to execute it on this particular page.',
+                     ],
+                 ],
                 // 'separator' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/separator/public/dist/element.bundle.js'
