@@ -566,30 +566,30 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Image masonry gallery is a gallery element for adding simple masonry image gallery from Media Library into the content area.',
                      ],
                  ],
-                // 'instagramImage' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/instagramImage/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/instagramImage/instagramImage/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/instagramImage/instagramImage/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Instagram Image',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/instagramImage/instagramImage/public/thumbnail-instagram.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/instagramImage/instagramImage/public/preview-instagram.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
+                 'instagramImage' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/instagramImage/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/instagramImage/instagramImage/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/instagramImage/instagramImage/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Instagram Image',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/instagramImage/instagramImage/public/thumbnail-instagram.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/instagramImage/instagramImage/public/preview-instagram.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Embed Instagram image directly to your WordPress website.',
+                     ],
+                 ],
                 // 'pinterestPinit' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/pinterestPinit/public/dist/element.bundle.js'

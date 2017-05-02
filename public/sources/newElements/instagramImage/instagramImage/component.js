@@ -59,7 +59,7 @@ export default class InstagramImage extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_instagramImage_' + Component.unique++
+    let name = '_jsonp_instagramImage_' + InstagramImage.unique++
     if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {
