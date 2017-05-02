@@ -538,6 +538,7 @@ class Elements extends Container implements Module
                          // @codingStandardsIgnoreLine
                              'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-preview.jpg'
                          ),
+                         // @codingStandardsIgnoreLine
                          'metaDescription' => 'Image gallery is a basic element for adding simple image gallery from Media Library into the content area.',
                      ],
                  ],
