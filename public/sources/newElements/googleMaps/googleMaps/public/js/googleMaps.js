@@ -1,7 +1,6 @@
 /* global vcv */
 (function ($) {
   vcv.on('googleMapsReady', function () {
-    console.log('asdasd')
     var $googleMaps = $('.vce-google-maps-inner')
     var $googleMapsIframe = $googleMaps.find('iframe')
 

@@ -263,5 +263,12 @@
       "label": "Element ID",
       "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
     }
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": [
+      "public/js/heroSection.js"
+    ]
   }
 }
