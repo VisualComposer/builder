@@ -28,14 +28,13 @@ export default class SaveController {
     let pageStyles = ''
     let promises = []
     const globalAssetsStorageInstance = modernAssetsStorage.getGlobalInstance()
-    let globalElements = globalAssetsStorageInstance.getElements()
     let globalStylesManager = stylesManager.create()
-    globalStylesManager.add(globalAssetsStorageInstance.getSiteCssData())
+    globalStylesManager.add(globalAssetsStorageInstance.getSiteCssDataNG())
     promises.push(globalStylesManager.compile().then((result) => {
       globalStyles = result
     }))
-    let localStylesManager = stylesManager.create()
-    localStylesManager.add(globalAssetsStorageInstance.getPageCssData())
+    const localStylesManager = stylesManager.create()
+    localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
     promises.push(localStylesManager.compile().then((result) => {
       pageStyles = result
     }))
@@ -43,48 +42,51 @@ export default class SaveController {
       jsBundles: [],
       cssBundles: []
     }
-    const elementsCssSettings = {}
+    const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
-      let cookElement = cook.get(data.elements[key])
+      const cookElement = cook.get(data.elements[key])
+      const tag = cookElement.get('tag')
+      elementsCss[key] = {
+        tag: tag
+      }
       let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
       assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
       assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const tag = data.elements[key].tag
       const baseCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { attributeMixins: false, cssMixins: false })
       const attributesCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, cssMixins: false })
       const mixinsCss = globalAssetsStorageInstance.getCssDataByElement(data.elements[key], { tags: false, attributeMixins: false })
-      elementsCssSettings[key] = {
-        tag: tag
-      }
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
-        elementsCssSettings[key].baseCss = result
+        elementsCss[key].baseCss = result
       }))
       promises.push(elementAttributesStyleManager.add(attributesCss).compile().then((result) => {
-        elementsCssSettings[key].attributesCss = result
+        elementsCss[key].attributesCss = result
       }))
       promises.push(elementMixinsStyleManager.add(mixinsCss).compile().then((result) => {
-        elementsCssSettings[key].mixinsCss = result
+        elementsCss[key].mixinsCss = result
       }))
     })
     assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
     assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
     Promise.all(promises).then(() => {
+      const requestData = {
+        'vcv-action': 'setData:adminNonce',
+        'vcv-ready': '1', // Used for backend editor when post being saved
+        'vcv-content': content,
+        'vcv-data': encodeURIComponent(JSON.stringify(data)),
+        'vcv-global-elements-css': globalStyles,
+        'vcv-elements-css-data': elementsCss,
+        'vcv-source-assets-files': assetsFiles,
+        'vcv-source-css': pageStyles,
+        'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || '',
+        'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
+        'vcv-tf': 'noGlobalCss'
+      }
+      console.log(requestData)
       this.ajax(
-        {
-          'vcv-action': 'setData:adminNonce',
-          'vcv-ready': '1', // Used for backend editor when post being saved
-          'vcv-content': content,
-          'vcv-data': encodeURIComponent(JSON.stringify(data)),
-          'vcv-global-elements-css': globalStyles,
-          'vcv-global-elements': globalElements,
-          'vcv-settings-global-css': settingsStorage.state('globalCss').get() || '',
-          'vcv-source-assets-files': assetsFiles,
-          'vcv-source-css': pageStyles,
-          'vcv-settings-source-custom-css': settingsStorage.state('customCss').get() || ''
-        },
+        requestData,
         this.saveSuccess.bind(this, status),
         this.saveFailed.bind(this, status)
       )

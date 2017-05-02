@@ -43,7 +43,7 @@ class DataController extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         $this->updateSourceAssets($sourceId);
-        $this->updateGlobalAssets();
+        $this->updateGlobalAssets($sourceId);
 
         return $response;
     }
@@ -60,10 +60,23 @@ class DataController extends Container implements Module
         );
     }
 
-    protected function updateGlobalAssets()
+    protected function updateGlobalAssets($sourceId = false)
     {
         $optionsHelper = vchelper('Options');
         $requestHelper = vchelper('Request');
+        $tf = $requestHelper->input('vcv-tf');
+        if ($tf === 'noGlobalCss') {
+            // Base css
+            $elementsCssData = $requestHelper->input('vcv-elements-css-data');
+            $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
+            $globalElementsCssData[$sourceId] = $elementsCssData;
+            $optionsHelper->set('globalElementsCssData', $globalElementsCssData);
+            // Other data
+            $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
+            $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));
+
+            return;
+        }
         $optionsHelper->set('globalElements', $requestHelper->inputJson('vcv-global-elements'));
         $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-global-elements-css'));
         $optionsHelper->set('settingsGlobalCss', $requestHelper->input('vcv-settings-global-css'));

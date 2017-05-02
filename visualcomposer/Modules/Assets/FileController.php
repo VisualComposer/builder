@@ -48,7 +48,28 @@ class FileController extends Container implements Module
      */
     protected function generateGlobalElementsCssFile($response, $payload, Options $optionsHelper, Assets $assetsHelper)
     {
-        $globalElementsCss = $optionsHelper->get('globalElementsCss', '');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', '');
+        $globalElementsBaseCss = [];
+        $globalElementsAttributesCss = [];
+        $globalElementsMixinsCss = [];
+        foreach($globalElementsCssData as $postElements) {
+            foreach($postElements as $element) {
+                if(!isset($globalElementsBaseCss[$element['tag']])) {
+                    $globalElementsBaseCss[$element['tag']] = $element['baseCss'];
+                }
+                $globalElementsMixinsCss[] = $element['mixinsCss'];
+                $globalElementsAttributesCss[] = $element['attributesCss'];
+            }
+        }
+
+        $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
+        $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
+        $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
+
+        $globalCss = $optionsHelper->get('globalElementsCss', '');
+
+        $globalElementsCss = $globalElementsBaseCssContent . $globalElementsAttributesCssContent
+            . $globalElementsMixinsCssContent . $globalCss;
         $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
         $response['globalBundleCssFileUrl'] = $bundleUrl;

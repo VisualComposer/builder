@@ -154,7 +154,13 @@ class PublicApi {
     )
     return styles
   }
-
+  getPageCssDataNG () {
+    let styles = []
+    styles = styles.concat(
+      storage.getCustomCssData(),
+    )
+    return styles
+  }
   getSiteCssData (editor = false) {
     let styles = []
     styles = styles.concat(
@@ -164,7 +170,13 @@ class PublicApi {
     )
     return styles
   }
-
+  getSiteCssDataNG () {
+    let styles = []
+    styles = styles.concat(
+      storage.getGlobalCssData()
+    )
+    return styles
+  }
   getCssDataByElement (element, options = {}) {
     let styles = []
     styles = styles.concat(
