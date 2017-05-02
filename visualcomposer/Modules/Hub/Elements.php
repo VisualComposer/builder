@@ -721,30 +721,30 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Add your own custom Javascript code to WordPress website to execute it on this particular page.',
                      ],
                  ],
-                // 'separator' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/separator/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/separator/separator/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/separator/separator/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Separator',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/separator/separator/public/thumbnail-separator.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/separator/separator/public/preview-separator.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
-                //     ],
-                // ],
+                 'separator' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/separator/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/separator/separator/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/separator/separator/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Separator',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/separator/separator/public/thumbnail-separator.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/separator/separator/public/preview-separator.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
+                     ],
+                 ],
                 // 'twitterButton' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/twitterButton/public/dist/element.bundle.js'
