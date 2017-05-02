@@ -87,7 +87,7 @@ export default class IconElement extends vcvAPI.elementComponent {
 
     return <div className={classes} {...editor} {...containerProps}>
       <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
-        <CustomTag className='vce-features__icon vce-icon' {...customProps}>
+        <CustomTag className='vce-features--icon vce-icon' {...customProps}>
           <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
             <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
           </svg>

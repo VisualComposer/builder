@@ -376,29 +376,30 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Add Facebook Like button to your WordPress website for quick content sharing on Facebook.',
                      ],
                  ],
-                // 'feature' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/feature/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/feature/feature/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/feature/feature/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Feature',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/feature/feature/public/thumbnail-feature.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/feature/feature/public/preview-feature.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
+                'feature' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/feature/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/feature/feature/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/feature/feature/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Feature',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/feature/feature/public/thumbnail-feature.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/feature/feature/public/preview-feature.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Feature element with an icon, title and description. Icon element contains controls for various background shapes.',
+                     ],
+                 ],
                 'featureSection' => [
                      'bundlePath' => $urlHelper->to(
                          'public/sources/newElements/featureSection/public/dist/element.bundle.js'

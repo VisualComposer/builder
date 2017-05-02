@@ -18,7 +18,7 @@ export default class Feature extends vcvAPI.elementComponent {
       'vce-feature--alignment--center': align === 'center'
     })
 
-    let wrapperClasses = ['vce', 'vce-feature__wrap-row']
+    let wrapperClasses = ['vce', 'vce-feature--wrap-row']
     wrapperClasses = classNames(wrapperClasses)
 
     if (typeof customClass === 'string' && customClass) {

@@ -4,7 +4,7 @@
     &.vce-features--style {
       &-filled {
         &-circle, &-rounded, &-square, &-diamond {
-          .vce-features__icon {
+          .vce-features--icon {
             @if $shapeColor != false {
               background-color: $shapeColor;
               transition: background-color .2s ease-in-out;
@@ -15,7 +15,7 @@
           }
         }
         &-hexagon {
-          .vce-features__icon {
+          .vce-features--icon {
             @if $shapeColor != false {
               fill: $shapeColor;
               background-color: transparent;
@@ -30,7 +30,7 @@
 
       &-outlined {
         &-circle, &-rounded, &-square, &-diamond {
-          .vce-features__icon {
+          .vce-features--icon {
             @if $shapeColor != false {
               border-color: $shapeColor;
               transition: border-color .2s ease-in-out;
@@ -41,7 +41,7 @@
           }
         }
         &-hexagon {
-          .vce-features__icon {
+          .vce-features--icon {
             @if $shapeColor != false {
               stroke: $shapeColor;
               fill: transparent;
@@ -54,7 +54,7 @@
           }
         }
         &-underlined {
-          .vce-features__icon {
+          .vce-features--icon {
             &::after {
               @if $shapeColor != false {
                 background-color: $shapeColor;

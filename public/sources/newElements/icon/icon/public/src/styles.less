@@ -15,7 +15,7 @@
     display: inline-block;
   }
 
-  &__icon {
+  &--icon {
     // we will save the aspect ratio of the small icon with the background
     position: relative;
     width: @vce-features-icon-background-size;
@@ -70,7 +70,7 @@
 .vce-features--style {
 
   &-none {
-    .vce-features__icon {
+    .vce-features--icon {
       margin-bottom: @vce-features-no-shape-margin-bottom;
     }
   }
@@ -90,11 +90,11 @@
     }
 
     &-hexagon {
-      .vce-features__icon svg {  display: block;  }
+      .vce-features--icon svg {  display: block;  }
     }
 
     &-diamond {
-      .vce-features__icon {
+      .vce-features--icon {
         transform-origin: center center;
         transform: rotate(45deg);
         margin: ~'calc(@{vce-features-icon-background-size} / 4.85)';
@@ -124,7 +124,7 @@
     &-hexagon {
       #vce-features > .make-shape ();
 
-      .vce-features__icon {
+      .vce-features--icon {
         svg {
           display: block;
         }
@@ -135,7 +135,7 @@
     &-underlined {
       #vce-features > .make-shape ();
 
-      .vce-features__icon {
+      .vce-features--icon {
         &::after {
           content: '';
           position: absolute;
@@ -148,7 +148,7 @@
     }
 
     &-diamond {
-      .vce-features__icon {
+      .vce-features--icon {
         transform-origin: center center;
         transform: rotate(45deg);
         margin: calc(@vce-features-icon-background-size / 4.85);
@@ -198,13 +198,13 @@
     unicode-bidi: embed;
     /*check if IE+10 and than hack hexagon to the center*/
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      .vce-features__icon svg {
+      .vce-features--icon svg {
         right: 50%;
       }
     }
     @supports (-ms-accelerator:true) {
       // hack for MS Edge detections
-      .vce-features__icon svg {
+      .vce-features--icon svg {
         right: 50%;
       }
     }
@@ -219,7 +219,7 @@
   }
 }
 
-.vce-features__icon {
+.vce-features--icon {
   .fa::before {
     line-height: @vce-features-fontawesome-line-height;
     height: @vce-features-fontawesome-height;
