@@ -37,7 +37,7 @@ export default class TwitterTweet extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterTweet_' + Component.unique++
+    let name = '_jsonp_twitterTweet_' + TwitterTweet.unique++
     if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {

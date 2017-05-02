@@ -745,99 +745,102 @@ class Elements extends Container implements Module
                          'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
                      ],
                  ],
-                // 'twitterButton' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterButton/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterButton/twitterButton/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterButton/twitterButton/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Twitter Button',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-preview.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Add standard Tweet button to your WordPress website for quick content sharing on Twitter.',
-                //     ],
-                // ],
-                // 'twitterGrid' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterGrid/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterGrid/twitterGrid/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterGrid/twitterGrid/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Twitter Grid',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-thumbnail.png'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
-                // 'twitterTimeline' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTimeline/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTimeline/twitterTimeline/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTimeline/twitterTimeline/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Twitter Timeline',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-thumbnail.png'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
-                // 'twitterTweet' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTweet/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTweet/twitterTweet/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/twitterTweet/twitterTweet/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Twitter Tweet',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-thumbnail.png'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
+                 'twitterButton' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/twitterButton/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterButton/twitterButton/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterButton/twitterButton/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Twitter Button',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Add standard Tweet button to your WordPress website for quick content sharing on Twitter.',
+                     ],
+                 ],
+                 'twitterGrid' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/twitterGrid/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterGrid/twitterGrid/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterGrid/twitterGrid/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Twitter Grid',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-thumbnail.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Showcase Twitter stories that are primarily told with photos, videos, GIFs, and Vines.',
+                     ],
+                 ],
+                 'twitterTimeline' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTimeline/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTimeline/twitterTimeline/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTimeline/twitterTimeline/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Twitter Timeline',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-thumbnail.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Embedded timeline to display a stream of Tweets on your site. Use it to showcase profiles, lists, and favorites, as well as the stories.',
+                     ],
+                 ],
+                 'twitterTweet' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTweet/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTweet/twitterTweet/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/twitterTweet/twitterTweet/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Twitter Tweet',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-thumbnail.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL.',
+                     ],
+                 ],
             ]
         );
         // 'animatedOutlineButton' => [

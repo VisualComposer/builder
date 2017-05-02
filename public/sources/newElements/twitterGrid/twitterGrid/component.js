@@ -49,7 +49,7 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterGrid_' + Component.unique++
+    let name = '_jsonp_twitterGrid_' + TwitterGrid.unique++
     if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {

@@ -48,7 +48,7 @@ export default class TwitterTimeline extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterTimeline_' + Component.unique++
+    let name = '_jsonp_twitterTimeline_' + TwitterTimeline.unique++
     if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {
