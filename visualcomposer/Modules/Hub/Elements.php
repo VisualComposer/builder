@@ -518,29 +518,29 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change.',
                 //     ],
                 // ],
-                // 'imageGallery' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/imageGallery/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/imageGallery/imageGallery/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/imageGallery/imageGallery/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Image Gallery',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-thumbnail.png'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-preview.jpg'
-                //         ),
-                //         'metaDescription' => 'Long description',
-                //     ],
-                // ],
+                 'imageGallery' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/imageGallery/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/imageGallery/imageGallery/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/imageGallery/imageGallery/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Image Gallery',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-thumbnail.png'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-preview.jpg'
+                         ),
+                         'metaDescription' => 'Image gallery is a basic element for adding simple image gallery from Media Library into the content area.',
+                     ],
+                 ],
                 // 'imageMasonryGallery' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/imageMasonryGallery/public/dist/element.bundle.js'

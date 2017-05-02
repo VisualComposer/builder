@@ -30,7 +30,7 @@
   display: block;
 }
 
-.vce-image-gallery-img {
+img.vce-image-gallery-img {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -40,7 +40,7 @@
   height: 101%;
 }
 
-.vce-image-gallery-img--orientation-portrait {
+img.vce-image-gallery-img--orientation-portrait {
   width: 101%;
   height: auto;
 }
