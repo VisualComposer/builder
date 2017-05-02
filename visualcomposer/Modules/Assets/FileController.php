@@ -48,7 +48,7 @@ class FileController extends Container implements Module
      */
     protected function generateGlobalElementsCssFile($response, $payload, Options $optionsHelper, Assets $assetsHelper)
     {
-        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', '');
+        $globalElementsCssData = $optionsHelper->get('globalElementsCssData', []);
         $globalElementsBaseCss = [];
         $globalElementsAttributesCss = [];
         $globalElementsMixinsCss = [];
