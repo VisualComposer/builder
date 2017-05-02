@@ -1,1 +1,131 @@
-{"embed":{"type":"string","access":"public","value":"<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51958.85712317783!2d-122.07918491530957!3d37.39946933872877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fba02425dad8f%3A0x6c296c66619367e0!2sGoogleplex!5e0!3m2!1sen!2slv!4v1476280809540\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>","options":{"label":"Map embed iframe","description":"Visit Google maps to create your map (Step by step: 1) Find location 2) Click the cog symbol in the lower right corner and select \"Share or embed map\" 3) On modal window select \"Embed map\" 4) Copy iframe code and paste it)."}},"designOptions":{"type":"designOptions","access":"public","value":{},"options":{"label":"Design Options"}},"editFormTab1":{"type":"group","access":"protected","value":["embed","width","height","alignment","metaCustomId","customClass"],"options":{"label":"Google Maps"}},"metaEditFormTabs":{"type":"group","access":"protected","value":["editFormTab1","designOptions"]},"relatedTo":{"type":"group","access":"protected","value":["General"]},"customClass":{"type":"string","access":"public","value":"","options":{"label":"Extra class name","description":"Add an extra class name to the element and refer to it from Custom CSS option."}},"assetsLibrary":{"access":"public","type":"string","value":["animate"]},"width":{"type":"string","access":"public","value":"","options":{"label":"Width","description":"Enter width in pixels or percentages (Example: 200px)."}},"height":{"type":"string","access":"public","value":"","options":{"label":"Height","description":"Enter height in pixels or percentages (Example: 200px)."}},"alignment":{"type":"dropdown","access":"public","value":"left","options":{"label":"Alignment","values":[{"label":"Left","value":"left"},{"label":"Center","value":"center"},{"label":"Right","value":"right"}]}},"metaDisableInteractionInEditor":{"type":"toggle","access":"protected","value":true},"metaCustomId":{"type":"customId","access":"public","value":"","options":{"label":"Element ID","description":"Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."}},"tag":{"access":"protected","type":"string","value":"googleMaps"}}
+{
+  "embed": {
+    "type": "string",
+    "access": "public",
+    "value": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51958.85712317783!2d-122.07918491530957!3d37.39946933872877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fba02425dad8f%3A0x6c296c66619367e0!2sGoogleplex!5e0!3m2!1sen!2slv!4v1476280809540\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>",
+    "options": {
+      "label": "Map embed iframe",
+      "description": "Visit Google maps to create your map (Step by step: 1) Find location 2) Click the cog symbol in the lower right corner and select \"Share or embed map\" 3) On modal window select \"Embed map\" 4) Copy iframe code and paste it)."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "embed",
+      "width",
+      "height",
+      "alignment",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "Google Maps"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "width": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Width",
+      "description": "Enter width in pixels or percentages (Example: 200px)."
+    }
+  },
+  "height": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Height",
+      "description": "Enter height in pixels or percentages (Example: 200px)."
+    }
+  },
+  "alignment": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "googleMaps"
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": [
+      "public/js/googleMaps.js"
+    ]
+  }
+}
