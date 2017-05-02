@@ -352,30 +352,30 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Double outline button with solid color hover. Great solution for light and dark websites to keep website design consistent.',
                 //     ],
                 // ],
-                // 'facebookLike' => [
-                //     'bundlePath' => $urlHelper->to(
-                //         'public/sources/newElements/facebookLike/public/dist/element.bundle.js'
-                //     ),
-                //     'elementPath' => $urlHelper->to(
-                //         'public/sources/newElements/facebookLike/facebookLike/'
-                //     ),
-                //     'assetsPath' => $urlHelper->to(
-                //         'public/sources/newElements/facebookLike/facebookLike/public/'
-                //     ),
-                //     'settings' => [
-                //         'name' => 'Facebook Like',
-                //         'metaThumbnailUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-thumbnail.jpg'
-                //         ),
-                //         'metaPreviewUrl' => $urlHelper->to(
-                //         // @codingStandardsIgnoreLine
-                //             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-preview.jpg'
-                //         ),
-                //         // @codingStandardsIgnoreLine
-                //         'metaDescription' => 'Add Facebook Like button to your WordPress website for quick content sharing on Facebook.',
-                //     ],
-                // ],
+                 'facebookLike' => [
+                     'bundlePath' => $urlHelper->to(
+                         'public/sources/newElements/facebookLike/public/dist/element.bundle.js'
+                     ),
+                     'elementPath' => $urlHelper->to(
+                         'public/sources/newElements/facebookLike/facebookLike/'
+                     ),
+                     'assetsPath' => $urlHelper->to(
+                         'public/sources/newElements/facebookLike/facebookLike/public/'
+                     ),
+                     'settings' => [
+                         'name' => 'Facebook Like',
+                         'metaThumbnailUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-thumbnail.jpg'
+                         ),
+                         'metaPreviewUrl' => $urlHelper->to(
+                         // @codingStandardsIgnoreLine
+                             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-preview.jpg'
+                         ),
+                         // @codingStandardsIgnoreLine
+                         'metaDescription' => 'Add Facebook Like button to your WordPress website for quick content sharing on Facebook.',
+                     ],
+                 ],
                 // 'feature' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/feature/public/dist/element.bundle.js'

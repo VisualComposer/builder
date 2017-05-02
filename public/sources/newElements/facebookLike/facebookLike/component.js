@@ -111,7 +111,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   checkIfVisible (element) {
-    return !(element.offsetHeight === 0 || element.offsetWidth === 0)
+    return !(element === null || element.offsetHeight === 0 || element.offsetWidth === 0)
   }
 
   reloadScript () {
