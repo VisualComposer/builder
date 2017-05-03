@@ -129,6 +129,9 @@ class DesignOptions extends Attribute {
         backgroundColor: {
           value: false
         },
+        backgroundPosition: {
+          value: false
+        },
         backgroundImage: {
           value: false
         },
@@ -276,6 +279,8 @@ class DesignOptions extends Attribute {
             delete newValue[ device ].borderStyle
             delete newValue[ device ].borderColor
           }
+
+          delete newValue[ device ].backgroundPosition
         }
         // mixins
         if (newValue[ device ].hasOwnProperty('display')) {
@@ -343,6 +348,9 @@ class DesignOptions extends Attribute {
               let sizeState = sizeStyles.indexOf(newValue[ device ].backgroundStyle) >= 0
 
               if (sizeState) {
+                newMixins[ mixinName ].variables.backgroundRepeat = {
+                  value: false
+                }
                 switch (newValue[ device ].backgroundStyle) {
                   case 'full-width':
                     newMixins[ mixinName ].variables.backgroundSize = {
@@ -355,12 +363,15 @@ class DesignOptions extends Attribute {
                     }
                     break
                   default:
+                    newMixins[ mixinName ].variables.backgroundRepeat = {
+                      value: 'no-repeat'
+                    }
                     newMixins[ mixinName ].variables.backgroundSize = {
                       value: newValue[ device ].backgroundStyle
                     }
-                }
-                newMixins[ mixinName ].variables.backgroundRepeat = {
-                  value: false
+                    newMixins[ mixinName ].variables.backgroundPosition = {
+                      value: 'center'
+                    }
                 }
               } else {
                 newMixins[ mixinName ].variables.backgroundRepeat = {
