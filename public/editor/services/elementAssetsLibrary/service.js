@@ -38,6 +38,23 @@ const innerApi = {
     }
 
     return files
+  },
+  getInnerAssetsFilesByElement (cookElement) {
+    let files = {
+      cssBundles: [],
+      jsBundles: []
+    }
+
+    cookElement.filter((key, value, settings) => {
+      if (settings.type === 'element') {
+        // Element Public JS
+        let elementPublicAssetsFiles = publicApi.getAssetsFilesByTags([ value.tag ])
+        files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
+        files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
+      }
+    })
+
+    return files
   }
 }
 
@@ -98,6 +115,7 @@ const publicApi = {
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]
     files.jsBundles = [ ...new Set(files.jsBundles) ]
+
     return files
   },
   getAssetsFilesByElement (cookElement) {
@@ -123,9 +141,15 @@ const publicApi = {
     // Google Fonts
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
+    // Inner elements / Sub elements
+    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement)
+    files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
+    files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
+
     // Remove duplicates
     files.cssBundles = [ ...new Set(files.cssBundles) ]
     files.jsBundles = [ ...new Set(files.jsBundles) ]
+
     return files
   }
 }

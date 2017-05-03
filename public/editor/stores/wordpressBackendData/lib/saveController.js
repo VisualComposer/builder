@@ -86,7 +86,6 @@ export default class SaveController {
       document.getElementById('vcv-settings-source-custom-css').value = settingsStorage.state('customCss').get() || ''
       document.getElementById('vcv-settings-global-css').value = settingsStorage.state('globalCss').get() || ''
       document.getElementById('vcv-tf').value = 'noGlobalCss'
-      return
       if (typeof callback === 'function') {
         callback('success')
       }

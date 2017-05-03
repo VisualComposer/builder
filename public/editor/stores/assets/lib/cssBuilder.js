@@ -1,3 +1,6 @@
+import { getService } from 'vc-cake'
+const cook = getService('cook')
+
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
     Object.defineProperties(this, {
@@ -82,6 +85,9 @@ export default class CssBuilder {
       const baseStyleElement = this.window.document.createElement('style')
       baseStyleElement.id = `vcv-base-css-styles-${tag}`
       this.window.document.body.appendChild(baseStyleElement)
+      const editorStyleElement = this.window.document.createElement('style')
+      editorStyleElement.id = `vcv-css-editor-styles-${tag}`
+      this.window.document.body.appendChild(editorStyleElement)
     })
     const styleElement = this.window.document.createElement('style')
     styleElement.id = `vcv-css-styles-${id}`
@@ -92,6 +98,7 @@ export default class CssBuilder {
     this.window.document.body.appendChild(doStyleElement)
 
     this.addCssElementBaseByElement(data)
+    this.addElementEditorFiles(data)
     this.globalAssetsStorageService.addElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
@@ -110,8 +117,14 @@ export default class CssBuilder {
         baseStyleElement.id = `vcv-base-css-styles-${tag}`
         this.window.document.body.appendChild(baseStyleElement)
       }
+      if (!this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)) {
+        const editorStyleElement = this.window.document.createElement('style')
+        editorStyleElement.id = `vcv-css-editor-styles-${tag}`
+        this.window.document.body.appendChild(editorStyleElement)
+      }
     })
     this.addCssElementBaseByElement(data)
+    this.addElementEditorFiles(data)
     this.globalAssetsStorageService.updateElement(id)
     this.addCssElementMixinByElement(data)
     this.addAttributesCssByElement(data)
@@ -147,6 +160,26 @@ export default class CssBuilder {
       if (this.loadedJsFiles.indexOf(slug) === -1) {
         this.loadedJsFiles.push(slug)
         this.addJob(this.window.jQuery.getScript(file))
+      }
+    })
+  }
+
+  addElementEditorFiles (data) {
+    const usedTags = this.globalAssetsStorageService.getElementsTagsList()
+    const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
+    elementTags.forEach((tag) => {
+      if (usedTags.indexOf(tag) === -1) {
+        let styles = this.stylesManager.create()
+        let elementObject = cook.get({ tag: tag })
+        let cssSettings = elementObject.get('cssSettings')
+        if (cssSettings.editorCss) {
+          styles.add({
+            src: cssSettings.editorCss
+          })
+        }
+        this.addJob(styles.compile().then((result) => {
+          this.window.document.getElementById(`vcv-css-editor-styles-${tag}`).innerHTML = result
+        }))
       }
     })
   }
