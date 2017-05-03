@@ -2,6 +2,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  overflow: hidden;
 }
 
 .vce-hero-section--content {
@@ -28,7 +29,6 @@
   justify-content: center;
   box-sizing: border-box;
   background-size: cover;
-  border-radius: inherit;
   background-position: center;
 }
 
