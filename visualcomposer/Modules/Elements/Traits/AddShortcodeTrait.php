@@ -12,7 +12,7 @@ trait AddShortcodeTrait
      * @param $tag
      * @param $callback
      */
-    protected function addShortcode($tag, $callback)
+    protected function addShortcode($tag, $callback = '')
     {
         add_shortcode(
             $tag,
@@ -21,7 +21,7 @@ trait AddShortcodeTrait
                 /** @var $this \VisualComposer\Framework\Illuminate\Container\Container */
                 $content = base64_decode(rawurldecode($content));
 
-                return $this->call($callback, [$atts, $content, $tag]);
+                return is_callable($callback) ? $this->call($callback, [$atts, $content, $tag]) : $content;
             }
         );
     }
