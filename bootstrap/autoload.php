@@ -33,10 +33,18 @@ if (VCV_LAZY_LOAD) {
  * Add action for init state.
  */
 add_action('init', 'vcvinit', 11);
+add_action('admin_init', 'vcvadmininit', 11);
 
 function vcvinit()
 {
     require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
     require_once __DIR__ . '/app.php';
     vcapp()->init();
+}
+
+function vcvadmininit()
+{
+    require_once __DIR__ . '/../visualcomposer/Framework/helpers.php';
+    require_once __DIR__ . '/app.php';
+    vcapp()->adminInit();
 }
