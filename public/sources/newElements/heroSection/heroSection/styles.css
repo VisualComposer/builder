@@ -29,6 +29,7 @@
   box-sizing: border-box;
   background-size: cover;
   border-radius: inherit;
+  background-position: center;
 }
 
 .vce-hero-section--wrap-row:before,
