@@ -9,6 +9,7 @@ $(() => {
     let $popupInner = $('.vcv-popup')
     let $slider = $('.vcv-popup-slider')
     let $inputEmail = $('#vcv-account-login-form-email')
+    let $agreementCheckbox = $('#vcv-account-activation-agreement')
 
     let loadSlider = () => {
       $slider.slick({
@@ -110,6 +111,9 @@ $(() => {
     let showLastScreen = () => {
       $popup.removeClass('vcv-loading-screen--active vcv-first-screen--active').addClass('vcv-last-screen--active')
     }
+    let closeError = () => {
+      $errorPopup.removeClass('vcv-popup-error--active')
+    }
     let showError = (msg, timeout) => {
       $errorPopup.text(msg)
       $errorPopup.addClass('vcv-popup-error--active')
@@ -117,9 +121,6 @@ $(() => {
       if (timeout) {
         window.setTimeout(closeError, timeout)
       }
-    }
-    let closeError = () => {
-      $errorPopup.removeClass('vcv-popup-error--active')
     }
     let ajaxTimeoutFinished = false
     let ajaxTimeoutTimer = () => {
@@ -134,6 +135,12 @@ $(() => {
     $('#vcv-account-login-form').on('submit', (e) => {
       e.preventDefault()
 
+      let checkbox = $agreementCheckbox.is(':checked')
+      if (!checkbox) {
+        showError('Please make sure to read and agree to our terms of service in order to activate and use Visual Composer.')
+        return
+      }
+
       let email = $inputEmail.val()
       if (email) {
         // third / loading screen shows, loading starts here
@@ -144,6 +151,7 @@ $(() => {
         ajaxTimeout = setTimeout(ajaxTimeoutTimer, 2000)
         $.post(window.vcvAccountUrl, {
           email: email,
+          agreement: $agreementCheckbox.val(),
           'vcv-nonce': window.vcvAdminNonce
         }, () => {
           if (ajaxTimeoutFinished) {

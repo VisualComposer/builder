@@ -295,13 +295,13 @@
   margin: 0 auto;
 }
 
-.vcv-popup-form-input {
+input.vcv-popup-form-input {
   display: block;
   width: 100%;
   box-sizing: border-box;
   padding: 17px;
   border: 0;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   color: @vcv-formInputColor;
   font: @vcv-formFont;
   letter-spacing: @vcv-formLetterSpacing;
@@ -316,6 +316,97 @@
   background: transparent;
   white-space: normal;
   margin: 0 0 20px;
+}
+
+.vcv-popup-form-checkbox {
+  position: relative;
+  margin: 0 10px 40px;
+  display: inline-block;
+
+  [type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: @vcv-checkboxSize;
+    width: @vcv-checkboxSize;
+    opacity: 0;
+    z-index: -99;
+  }
+
+  [type="checkbox"] + label {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    vertical-align: -3px;
+    width: @vcv-checkboxSize;
+    height: @vcv-checkboxSize;
+    margin-right: 5px;
+  }
+
+  [type="checkbox"] + label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: border @vcv-transitionDuration @vcv-transitionTimingFunction, background @vcv-transitionDuration @vcv-transitionTimingFunction;
+  }
+
+  [type="checkbox"]:not(:checked) + label:before {
+    border: @vcv-checkboxBorderWidth solid @vcv-uncheckedCheckboxBorderColor;
+  }
+
+  [type="checkbox"]:checked + label:before {
+    border: @vcv-checkboxBorderWidth solid @vcv-checkedCheckboxBorderColor;
+    background: @vcv-checkedCheckboxBackground;
+  }
+
+  [type="checkbox"] + label:after {
+    content: '';
+    height: @vcv-checkIconHeight;
+    width: @vcv-checkIconWidth;
+    border: 2px solid @vcv-checkColor;
+    border-left: 0;
+    border-top: 0;
+    position: absolute;
+    top: @vcv-checkTopPosition;
+    left: @vcv-checkLeftPosition;
+    transform: rotate(45deg);
+    transition: border-color @vcv-transitionDuration @vcv-transitionTimingFunction;
+  }
+
+  [type="checkbox"]:not(:checked) + label:after {
+    border-color: transparent;
+  }
+
+  [type="checkbox"]:checked + label:after {
+    border-color: @vcv-checkColor;
+  }
+}
+
+.vcv-popup-form-checkbox-label {
+  font: @vcv-labelFont;
+  letter-spacing: 0.077em;
+  line-height: 18px;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    border-bottom-style: solid;
+    border-bottom-color: #fff;
+    border-bottom-width: 1px;
+    transition: border-bottom @vcv-transitionDuration @vcv-transitionTimingFunction;
+
+    &:hover {
+      border-bottom-color: transparent;
+    }
+  }
 }
 
 .vcv-popup-helper {

@@ -21,9 +21,14 @@
     </div>
     <!-- Form -->
     <form class="vcv-popup-form" id="vcv-account-login-form">
-        <input type="email" name="email" id="vcv-account-login-form-email" placeholder="<?php echo __(
+        <input type="email" name="vcv-account-activation-email" id="vcv-account-login-form-email" placeholder="<?php echo __(
             'Your E-mail'
         ); ?>" class="vcv-popup-form-input" required="required">
+        <div class="vcv-popup-form-checkbox">
+            <input type="checkbox" value="<?php echo time(); ?>" name="vcv-account-activation-agreement" required="required" id="vcv-account-activation-agreement" />
+            <label for="vcv-account-activation-agreement"></label>
+	        <span class="vcv-popup-form-checkbox-label">I have read and agree to the <a href="https://visualcomposer.io/terms-of-service" target="_blank">terms of service</a></span>
+        </div>
         <input type="submit" value="<?php echo __(
             'Activate Visual Composer',
             'vc5'
