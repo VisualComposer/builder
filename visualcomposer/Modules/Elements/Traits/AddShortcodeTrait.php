@@ -21,7 +21,7 @@ trait AddShortcodeTrait
                 /** @var $this \VisualComposer\Framework\Illuminate\Container\Container */
                 $content = base64_decode(rawurldecode($content));
 
-                return is_callable($callback) ? $this->call($callback, [$atts, $content, $tag]) : $content;
+                return !empty($callback) ? $this->call($callback, [$atts, $content, $tag]) : $content;
             }
         );
     }
