@@ -31,6 +31,9 @@
 .vce-feature-section--content-container {
   padding: 30px;
 }
+.vce-feature-section .vce {
+  margin-bottom: 0;
+}
 @media (min-width: 768px) {
   .vce-feature-section {
     -ms-flex-direction: row;
