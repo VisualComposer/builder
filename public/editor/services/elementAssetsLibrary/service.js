@@ -39,7 +39,7 @@ const innerApi = {
 
     return files
   },
-  getInnerAssetsFilesByElement (cookElement)  {
+  getInnerAssetsFilesByElement (cookElement) {
     let files = {
       cssBundles: [],
       jsBundles: []
