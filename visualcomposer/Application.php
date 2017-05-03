@@ -17,6 +17,11 @@ class Application extends ApplicationFactory
         vcevent('vcv:inited', $this);
     }
 
+    public function adminInit()
+    {
+        vcevent('vcv:admin:inited', $this);
+    }
+
     /**
      * Bootstraps registred modules( also creates an instance ).
      * And saves helpers as singletons.

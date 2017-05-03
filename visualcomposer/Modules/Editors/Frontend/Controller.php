@@ -6,6 +6,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Views;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Framework\Container;
@@ -18,6 +19,7 @@ use VisualComposer\Helpers\Url;
 class Controller extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * Frontend constructor.
@@ -27,7 +29,15 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
         $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::init */
-        $this->addEvent('vcv:inited', 'init');
+        defined('WP_ADMIN') && WP_ADMIN
+        && $this->wpAddFilter(
+            'secure_auth_redirect',
+            function ($response) {
+                $this->call('init');
+
+                return $response;
+            }
+        );
     }
 
     /**
@@ -47,10 +57,23 @@ class Controller extends Container implements Module
         Frontend $frontendHelper,
         EditorPostType $editorPostTypeHelper
     ) {
+        global $pagenow;
         // Require an action parameter.
         if ($frontendHelper->isFrontend()) {
             $urlHelper->redirectIfUnauthorized();
             $sourceId = (int)$requestHelper->input('vcv-source-id');
+            if (!$sourceId) {
+                if ($pagenow === 'post-new.php') {
+                    $postType = 'post';
+                    if (in_array($requestHelper->input('post_type'), get_post_types(['show_ui' => true]))) {
+                        $postType = $requestHelper->input('post_type');
+                    }
+                    $post = \get_default_post_to_edit($postType, true);
+                    $sourceId = $post->ID;
+                } else {
+                    return false;
+                }
+            }
             $post = $postTypeHelper->setupPost($sourceId);
             // @codingStandardsIgnoreLine
             if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
