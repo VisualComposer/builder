@@ -13,6 +13,7 @@ a.vce-single-image-inner {
 .vce-single-image-wrapper {
   display: inline-block;
   max-width: 100%;
+  overflow: hidden;
 }
 
 .vce-single-image--border-rounded {
