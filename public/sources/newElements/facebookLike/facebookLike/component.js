@@ -33,7 +33,14 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   insertHtml (atts) {
     let html = this.createHtml(atts)
     const wrapper = this.refs.facebookLikeInner
-    this.updateInlineHtml(wrapper, html)
+    const helper = document.createElement('vcvhelper')
+    wrapper.innerHTML = ''
+    helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(btoa(html))}[/vcv_encoded_shortcode]`)
+    let range = document.createRange()
+    let documentFragment = range.createContextualFragment(html)
+    helper.appendChild(documentFragment)
+    wrapper.appendChild(helper)
+
     this.reloadScript()
     this.setPlaceholder()
   }
