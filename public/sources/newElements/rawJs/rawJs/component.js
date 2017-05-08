@@ -14,11 +14,7 @@ export default class RawJs extends vcvAPI.elementComponent {
 
   updateJsScript (rawJs) {
     let component = this.refs.rawJsWrapper
-    component.innerHTML = ''
-    let script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.text = rawJs
-    component.appendChild(script)
+    this.updateInlineScript(component, rawJs)
   }
 
   render () {
@@ -37,13 +33,8 @@ export default class RawJs extends vcvAPI.elementComponent {
 
     let doAll = this.applyDO('all')
 
-    let vcvHelperHTML = `<script>${rawJs}</script>`
-
     return <div className={classes} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        <vcvhelper
-          data-vcvs-html={`[vcv_encoded_shortcode]${encodeURIComponent(btoa(vcvHelperHTML))}[/vcv_encoded_shortcode]`} ref='rawJsWrapper' />
-      </div>
+      <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawJsWrapper' />
     </div>
   }
 
