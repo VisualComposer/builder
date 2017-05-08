@@ -50,7 +50,7 @@ export default class InstagramImage extends vcvAPI.elementComponent {
 
   updateInstagramHtml (tagString = '') {
     tagString = tagString.replace(/max-width\:\d+px\;/g, 'max-width:100%;')
-    const component = this.getDomNode().querySelector('.vce-instagram-image-inner')
+    const component = this.getDomNode().querySelector('.vce-instagram-image-wrapper')
     this.updateInlineHtml(component, tagString)
     let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
     if (iframe && iframe.instgrm && iframe.instgrm.Embeds) {
@@ -112,7 +112,6 @@ export default class InstagramImage extends vcvAPI.elementComponent {
     let classes = 'vce-instagram-image'
     let wrapperClasses = 'vce-instagram-image-wrapper vce'
     let customProps = {}
-    let innerClasses = 'vce-instagram-image-inner'
     let innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
@@ -136,9 +135,7 @@ export default class InstagramImage extends vcvAPI.elementComponent {
     let doAll = this.applyDO('all')
 
     return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        <div className={innerClasses} {...innerCustomProps} />
-      </div>
+      <div className={wrapperClasses} id={'el-' + id} {...doAll} {...innerCustomProps} />
     </div>
   }
 }
