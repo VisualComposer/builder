@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Account;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -73,7 +74,8 @@ class ActivationController extends Container implements Module
         $response,
         $payload,
         Request $requestHelper,
-        Token $tokenHelper
+        Token $tokenHelper,
+        Options $optionsHelper
     ) {
         // This is a place where we need to make registration/activation request in account
         $result = wp_remote_get(
@@ -82,10 +84,13 @@ class ActivationController extends Container implements Module
                 'body' => [
                     'url' => VCV_PLUGIN_URL,
                     'email' => $requestHelper->input('email'),
+                    'agreement' => $requestHelper->input('agreement'),
                 ],
             ]
         );
         if (is_array($result) && 200 === $result['response']['code']) {
+            $optionsHelper->set('activation-email', $requestHelper->input('email'));
+            $optionsHelper->set('activation-agreement', $requestHelper->input('agreement'));
             $tokenHelper->setSiteAuthorized();
 
             return true;
