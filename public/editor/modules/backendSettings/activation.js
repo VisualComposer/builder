@@ -12,6 +12,9 @@ $(() => {
     let $agreementCheckbox = $('#vcv-account-activation-agreement')
 
     let loadSlider = () => {
+      if ($slider.hasClass('slick-initialized')) {
+        return
+      }
       $slider.slick({
         dots: true,
         slidesToShow: 1,
