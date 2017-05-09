@@ -178,7 +178,10 @@ export default class CssBuilder {
           })
         }
         this.addJob(styles.compile().then((result) => {
-          this.window.document.getElementById(`vcv-css-editor-styles-${tag}`).innerHTML = result
+          const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
+          if (file) {
+            file.innerHTML = result
+          }
         }))
       }
     })
@@ -188,7 +191,10 @@ export default class CssBuilder {
     let styles = this.stylesManager.create()
     styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { tags: false, attributeMixins: false }))
     styles.compile().then((result) => {
-      this.window.document.getElementById(`vcv-css-styles-${data.id}`).innerHTML = result
+      const style = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
+      if (style) {
+        style.innerHTML = result
+      }
     })
   }
 
@@ -206,7 +212,10 @@ export default class CssBuilder {
         styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { attributeMixins: false, cssMixins: false }))
         // styles.add(this.globalAssetsStorageService.getColumnsCssData())
         this.addJob(styles.compile().then((result) => {
-          this.window.document.getElementById(`vcv-base-css-styles-${tag}`).innerHTML = result
+          const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+          if (style) {
+            style.innerHTML = result
+          }
         }))
       }
     })
@@ -224,7 +233,10 @@ export default class CssBuilder {
     let styles = this.stylesManager.create()
     styles.add(this.globalAssetsStorageService.getCssDataByElement(data, { tags: false, cssMixins: false }))
     this.addJob(styles.compile().then((result) => {
-      this.window.document.getElementById(`vcv-do-styles-${data.id}`).innerHTML = result
+      const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
+      if (style) {
+        style.innerHTML = result
+      }
     }))
   }
 

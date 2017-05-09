@@ -99,7 +99,6 @@ addStorage('elements', (storage) => {
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
-    const relatedParent = documentManager.get(data.related).parent
     if (data.action === 'after') {
       documentManager.moveAfter(id, data.related)
     } else if (data.action === 'append') {
@@ -114,12 +113,7 @@ addStorage('elements', (storage) => {
       let newElement = documentManager.get(id)
       rebuildRawLayout(newElement.parent, {}, documentManager)
     }
-    storage.state(`element:${element.parent}`).set(documentManager.get(element.parent))
-    if (relatedParent) {
-      storage.state(`element:${relatedParent}`).set(documentManager.get(relatedParent))
-    } else {
-      storage.state('document').set(documentManager.children(false))
-    }
+    storage.state('document').set(documentManager.children(false))
     updateTimeMachine()
   })
   storage.on('merge', (content) => {

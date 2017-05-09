@@ -15,14 +15,15 @@ class EnqueueController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets');
+        $actionPriority = 50;
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueGlobalAssets', $actionPriority);
 
         /** @see \VisualComposer\Modules\Assets\EnqueueController::enqueueAssets */
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets');
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', $actionPriority);
 
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets');
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueSourceAssets', $actionPriority);
 
-        $this->wpAddFilter('language_attributes', 'addNoJs');
+        $this->wpAddFilter('language_attributes', 'addNoJs', $actionPriority);
     }
 
     /**

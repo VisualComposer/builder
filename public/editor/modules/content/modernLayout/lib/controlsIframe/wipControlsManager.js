@@ -212,12 +212,11 @@ export default class ControlsManager {
     })
 
     // check remove element
-    /*
-     this.api.reply('data:remove', () => {
-     this.findElement()
-     this.controlElementFind()
-     })
-     */
+    this.api.on('element:unmount', () => {
+      this.findElement()
+      this.controlElementFind()
+      this.outline.hide()
+    })
 
     // Interact with content
     this.interactWithContent()
