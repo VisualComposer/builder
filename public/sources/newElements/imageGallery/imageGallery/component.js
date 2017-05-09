@@ -200,9 +200,11 @@ export default class ImageGallery extends vcvAPI.elementComponent {
 
       galleryItems.push(
         <div className='vce-image-gallery-item' key={`vce-image-gallery-item-${index}-${id}`}>
-          <CustomTag {...customProps} className={classes}>
-            <img className={imgClasses} src={src.imgSrc} {...customImageProps} />
-          </CustomTag>
+          <div className='vce-image-gallery-item-inner-wrapper'>
+            <CustomTag {...customProps} className={classes}>
+              <img className={imgClasses} src={src.imgSrc} {...customImageProps} />
+            </CustomTag>
+          </div>
         </div>
       )
     })
