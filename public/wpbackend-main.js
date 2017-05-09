@@ -14,8 +14,14 @@ $(() => {
   const iframeDocument = iframe.document
   $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
   vcCake.env('iframe', iframe)
+  let isIframeLoaded = false
 
   let iframeLoadEvent = () => {
+    if (!isIframeLoaded) {
+      isIframeLoaded = true
+    } else {
+      return
+    }
     vcCake.env('platform', 'wordpress').start(() => {
       require('./editor/stores/elements/elementsStorage')
       require('./editor/stores/assetsBackend/assetsStorage')
@@ -29,7 +35,11 @@ $(() => {
 
   $iframe.on('load', iframeLoadEvent)
   // Check if loading is complete
-  if (iframeDoc && iframeDoc.readyState === 'complete') {
+  const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
+    $iframe.get(0).contentWindow.document.body.getAttribute('class') &&
+    $iframe.get(0).contentWindow.document.body.childNodes.length
+
+  if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
     iframeLoadEvent()
   }
 })

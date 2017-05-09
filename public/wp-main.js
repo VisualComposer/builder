@@ -13,8 +13,14 @@ $(() => {
   // Get a handle to the iframe element
   let iframe = $iframe.get(0)
   let iframeDoc = iframe.contentDocument || iframe.contentWindow.document
+  let isIframeLoaded = false
 
   let iframeLoadEvent = () => {
+    if (!isIframeLoaded) {
+      isIframeLoaded = true
+    } else {
+      return
+    }
     let iframe = $iframe.get(0).contentWindow
     let iframeDocument = iframe.document
     // Disable iframe clicks
@@ -36,7 +42,11 @@ $(() => {
 
   $iframe.on('load', iframeLoadEvent)
   // Check if loading is complete
-  if (iframeDoc && iframeDoc.readyState === 'complete') {
+  const isContentLoaded = $iframe.get(0).contentWindow.document.body &&
+    $iframe.get(0).contentWindow.document.body.getAttribute('class') &&
+    $iframe.get(0).contentWindow.document.body.childNodes.length
+
+  if (iframeDoc && iframeDoc.readyState === 'complete' && isContentLoaded) {
     iframeLoadEvent()
   }
 })
