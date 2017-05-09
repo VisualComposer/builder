@@ -5,7 +5,9 @@
       &-none {
         .vce-icon-container {
           &:hover {
-            color: $iconColorHover;
+            &::before  {
+              color: $iconColorHover;
+            }
           }
         }
       }
@@ -15,7 +17,9 @@
           .vce-features--icon {
             &:hover {
               .vce-icon-container {
-                color: $iconColorHover;
+                &::before  {
+                  color: $iconColorHover;
+                }
               }
             }
           }
@@ -27,7 +31,9 @@
           .vce-features--icon {
             &:hover {
               .vce-icon-container {
-                color: $iconColorHover;
+                &::before  {
+                  color: $iconColorHover;
+                }
               }
             }
           }

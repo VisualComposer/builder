@@ -18,10 +18,14 @@
   box-sizing: border-box;
 }
 
+.vce-image-gallery-item-inner-wrapper {
+  overflow: hidden
+}
+
 .vce-image-gallery-item-inner {
   position: relative;
   display: block;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .vce-image-gallery-item-inner::after {

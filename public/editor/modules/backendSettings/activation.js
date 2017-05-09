@@ -117,12 +117,17 @@ $(() => {
     let closeError = () => {
       $errorPopup.removeClass('vcv-popup-error--active')
     }
+    let errorTimeout
     let showError = (msg, timeout) => {
+      if (errorTimeout) {
+        window.clearTimeout(errorTimeout)
+        errorTimeout = 0
+      }
       $errorPopup.text(msg)
       $errorPopup.addClass('vcv-popup-error--active')
 
       if (timeout) {
-        window.setTimeout(closeError, timeout)
+        errorTimeout = window.setTimeout(closeError, timeout)
       }
     }
     let ajaxTimeoutFinished = false
@@ -165,7 +170,14 @@ $(() => {
         }).fail((response) => {
           let responseJson = JSON.parse(response.responseText)
           if (responseJson && responseJson.message) {
-            showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
+            let messageJson = JSON.parse(responseJson.message)
+            if (messageJson && messageJson.email) {
+              showError('Your activation request failed due to the e-mail address format. Please check your e-mail address and try again.', 10000)
+            } else if (messageJson && messageJson.agreement) {
+              showError('To activate and use Visual Compos er, you must read and agree to the terms of service.', 10000)
+            } else {
+              showError('Your activation request failed. Please try again.', 10000)
+            }
           } else {
             showError('Your activation request failed. Please try again.', 10000)
           }

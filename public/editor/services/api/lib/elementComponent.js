@@ -20,14 +20,38 @@ export default class ElementComponent extends Component {
   }
 
   updateInlineHtml (elementWrapper, tagString = '') {
+    // const helper = document.createElement('vcvhelper')
+    // const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
+    // elementWrapper.innerHTML = ''
+    // let range = document.createRange()
+    // let documentFragment = range.createContextualFragment(tagString)
+    //
+    // helper.appendChild(documentFragment)
+    // elementWrapper.appendChild(comment)
+    // elementWrapper.appendChild(helper)
+
     const helper = document.createElement('vcvhelper')
-    const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
     elementWrapper.innerHTML = ''
+    helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(window.btoa(unescape(encodeURIComponent(tagString))))}[/vcv_encoded_shortcode]`)
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(tagString)
-
     helper.appendChild(documentFragment)
-    elementWrapper.appendChild(comment)
+    elementWrapper.appendChild(helper)
+  }
+
+  updateInlineScript (elementWrapper, tagString = '') {
+    const helper = document.createElement('vcvhelper')
+    elementWrapper.innerHTML = ''
+    let scriptHtml = `<script type="text/javascript">${tagString}</script>`
+    helper.setAttribute('data-vcvs-html', `[vcv_encoded_shortcode]${encodeURIComponent(window.btoa(unescape(encodeURIComponent(scriptHtml))))}[/vcv_encoded_shortcode]`)
+    let script = document.createElement('script')
+    script.type = 'text/javascript'
+    let escapedString = escape(tagString)
+    script.text = `try{ 
+eval(unescape('${escapedString}'))
+} catch(e) {}`
+    // TODO: add catched error message to console..
+    helper.appendChild(script)
     elementWrapper.appendChild(helper)
   }
 
@@ -152,23 +176,28 @@ export default class ElementComponent extends Component {
       switch (device[ deviceKey ].backgroundType) {
         case 'imagesSimple':
           backgroundElements.push(
-            <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+            <ImageSimpleBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} />)
           break
         case 'imagesSlideshow':
           backgroundElements.push(
-            <ImageSlideshowBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+            <ImageSlideshowBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} />)
           break
         case 'videoYoutube':
           backgroundElements.push(
-            <YoutubeBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+            <YoutubeBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} />)
           break
         case 'videoVimeo':
           backgroundElements.push(
-            <VimeoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+            <VimeoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} />)
           break
         case 'videoEmbed':
           backgroundElements.push(
-            <EmbedVideoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey} key={reactKey} />)
+            <EmbedVideoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} />)
           break
       }
 
