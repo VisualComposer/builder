@@ -57,6 +57,7 @@ class File implements Helper
     {
         return is_dir($dirPath);
     }
+
     /**
      * Check does directory exists and if not create it
      *
@@ -68,5 +69,24 @@ class File implements Helper
     public function checkDir($dirPath, $permissions = 0777)
     {
         return !$this->isDir($dirPath) ? mkdir($dirPath, $permissions, true) : true;
+    }
+
+    public function download($url)
+    {
+        $downloadedArchive = download_url($url);
+
+        return $downloadedArchive;
+    }
+
+    public function unzip($file, $destination, $overwrite = false)
+    {
+        /** @var $wp_filesystem \WP_Filesystem_Base */
+        global $wp_filesystem;
+        if ($overwrite && is_dir($destination)) {
+            $wp_filesystem->delete($destination);
+        }
+        $result = unzip_file($file, $destination);
+
+        return $result;
     }
 }
