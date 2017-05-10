@@ -80,15 +80,33 @@ class File implements Helper
 
     public function unzip($file, $destination, $overwrite = false)
     {
-        /** @var $wp_filesystem \WP_Filesystem_Base */
-        // @codingStandardsIgnoreLine
-        global $wp_filesystem;
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
         if ($overwrite && is_dir($destination)) {
-            // @codingStandardsIgnoreLine
-            $wp_filesystem->delete($destination);
+            $fileSystem->delete($destination);
         }
         $result = unzip_file($file, $destination);
 
         return $result;
+    }
+
+    /**
+     * @return \WP_Filesystem_Base|bool
+     */
+    public function getFileSystem()
+    {
+        // @codingStandardsIgnoreLine
+        global $wp_filesystem;
+        $status = true;
+        // @codingStandardsIgnoreLine
+        if (!$wp_filesystem || !is_object($wp_filesystem)) {
+            require_once(ABSPATH . '/wp-admin/includes/file.php');
+            $status = WP_Filesystem();
+        }
+
+        // @codingStandardsIgnoreLine
+        return $status ? $wp_filesystem : false;
     }
 }

@@ -59,6 +59,9 @@ class Url implements Helper
      */
     public function query($url, $query = [])
     {
+        if (empty($query)) {
+            return $url;
+        }
         $q = '?';
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
