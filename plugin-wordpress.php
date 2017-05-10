@@ -86,7 +86,7 @@ if (!defined('VCV_LAZY_LOAD')) {
     define('VCV_LAZY_LOAD', false);
 }
 
-define('VCV_ACCOUNT_URL', 'http://test.account.visualcomposer.io');
+define('VCV_ACCOUNT_URL', 'http://localhost:8080');
 
 /**
  * Check PHP version.

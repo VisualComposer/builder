@@ -15,7 +15,7 @@ class ElementsDownload extends Container implements Module
 
     public function __construct(Hub $hubHelper)
     {
-        $featureToggle = true;
+        $featureToggle = false;
         if ($featureToggle) {
             $this->wpAddAction(
                 'admin_init',
