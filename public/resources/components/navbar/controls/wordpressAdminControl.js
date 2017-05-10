@@ -27,13 +27,14 @@ export default class WordPressAdminControl extends NavbarContent {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget
     const isBackendEditor = target.dataset.backendEditor && target.dataset.backendEditor === 'backendEditor'
-    const message = 'There are unsaved changes. Do you really want to leave this page?'
     if (isBackendEditor && env('FEATURE_WPBACKEND')) {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
-    if (wordpressDataStorage.state('status').get().status === 'changed' && !window.confirm(message)) {
-      return
-    }
+    // TODO: Update condition for View Page
+    // const message = 'There are unsaved changes. Do you really want to leave this page?'
+    // if (wordpressDataStorage.state('status').get().status === 'changed' && !window.confirm(message)) {
+    //   return
+    // }
     window.open(
       target.href,
       target.getAttribute('target') ? target.getAttribute('target') : '_self'
