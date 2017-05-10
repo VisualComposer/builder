@@ -36,6 +36,32 @@
       "defaultValue": "feature-section-background.jpg"
     }
   },
+  "imagePosition": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "1",
+    "options": {
+      "label": "Image position",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ]
+    }
+  },
+  "reverseStacking": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Reverse stacking"
+    }
+  },
   "addButton": {
     "type": "toggle",
     "access": "public",
@@ -107,6 +133,8 @@
     "value": [
       "description",
       "image",
+      "imagePosition",
+      "reverseStacking",
       "backgroundColor",
       "addButton",
       "metaCustomId",
