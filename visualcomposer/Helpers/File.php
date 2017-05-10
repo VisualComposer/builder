@@ -84,6 +84,7 @@ class File implements Helper
         // @codingStandardsIgnoreLine
         global $wp_filesystem;
         if ($overwrite && is_dir($destination)) {
+            // @codingStandardsIgnoreLine
             $wp_filesystem->delete($destination);
         }
         $result = unzip_file($file, $destination);
