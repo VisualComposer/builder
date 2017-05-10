@@ -81,6 +81,7 @@ class File implements Helper
     public function unzip($file, $destination, $overwrite = false)
     {
         /** @var $wp_filesystem \WP_Filesystem_Base */
+        // @codingStandardsIgnoreLine
         global $wp_filesystem;
         if ($overwrite && is_dir($destination)) {
             $wp_filesystem->delete($destination);
