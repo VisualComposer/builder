@@ -7,6 +7,10 @@
   width: 100%;
   min-height: 100%;
 
+  &--reverse {
+    flex-direction: column-reverse;
+  }
+
   &--min-height {
     min-height: 450px;
   }
@@ -17,15 +21,28 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+
+    &-left {
+      order: 1;
+    }
+
+    &-right {
+      order: 3;
+    }
   }
 
   &--content {
     flex: 1 0 auto;
+    order: 2;
     background-color: #b3a694;
     background-position: center;
     padding-top: 30px;
     padding-bottom: 30px;
     color: #fff;
+
+    h1 {
+      color: inherit;
+    }
 
     &-container {
       padding: 30px;

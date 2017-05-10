@@ -10,7 +10,7 @@ const wordpressDataStorage = getStorage('wordpressData')
 export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
-    this.setBackendEditor = this.setBackendEditor.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount () {
@@ -23,12 +23,21 @@ export default class WordPressAdminControl extends NavbarContent {
     */
   }
 
-  setBackendEditor (e) {
+  handleClick (e) {
     e && e.preventDefault && e.preventDefault()
-    if (env('FEATURE_WPBACKEND')) {
+    const target = e.currentTarget
+    const isBackendEditor = target.dataset.backendEditor && target.dataset.backendEditor === 'backendEditor'
+    const message = 'There are unsaved changes. Do you really want to leave this page?'
+    if (isBackendEditor && env('FEATURE_WPBACKEND')) {
       setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
     }
-    window.location.href = e.currentTarget.href
+    if (wordpressDataStorage.state('status').get().status === 'changed' && !window.confirm(message)) {
+      return
+    }
+    window.open(
+      target.href,
+      target.getAttribute('target') ? target.getAttribute('target') : '_self'
+    )
   }
 
   saveDraft = (e) => {
@@ -54,8 +63,15 @@ export default class WordPressAdminControl extends NavbarContent {
     let viewButton = ''
     if (PostData.isPublished()) {
       viewButton = (
-        <a className='vcv-ui-navbar-control' href={PostData.permalink()} title='View Page' target='_blank'><span
-          className='vcv-ui-navbar-control-content'>View Page</span></a>
+        <a
+          className='vcv-ui-navbar-control'
+          href={PostData.permalink()}
+          title='View Page'
+          target='_blank'
+          onClick={this.handleClick}
+        >
+          <span className='vcv-ui-navbar-control-content'>View Page</span>
+        </a>
       )
     }
     // let previewText = PostData.isPublished() ? 'Preview Changes' : 'Preview'
@@ -72,14 +88,23 @@ export default class WordPressAdminControl extends NavbarContent {
       <a
         className='vcv-ui-navbar-control'
         href={PostData.backendEditorUrl()}
-        onClick={this.setBackendEditor}
+        onClick={this.handleClick}
         title='Edit in Backend Editor'
-      ><span className='vcv-ui-navbar-control-content'>Backend Editor</span></a>
+        data-backend-editor='backendEditor'
+      >
+        <span className='vcv-ui-navbar-control-content'>Backend Editor</span>
+      </a>
     )
 
     let wordpressDashboardButton = (
-      <a className='vcv-ui-navbar-control' href={PostData.adminDashboardUrl()} title='WordPress Dashboard'><span
-        className='vcv-ui-navbar-control-content'>WordPress Dashboard</span></a>
+      <a
+        className='vcv-ui-navbar-control'
+        href={PostData.adminDashboardUrl()}
+        onClick={this.handleClick}
+        title='WordPress Dashboard'
+      >
+        <span className='vcv-ui-navbar-control-content'>WordPress Dashboard</span>
+      </a>
     )
 
     return (
