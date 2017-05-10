@@ -71,7 +71,6 @@ addStorage('wordpressData', (storage) => {
       }
       storage.state('status').set({status: 'loaded'})
       workspaceStorage.state('app').set('started')
-      console.log('status === loadSuccess', status)
       window.onbeforeunload = (e) => {
         if (wordpressDataStorage.state('status').get().status === 'changed') {
           return true
