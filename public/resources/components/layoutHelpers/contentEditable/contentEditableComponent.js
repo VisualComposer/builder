@@ -9,6 +9,7 @@ const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
+const wordpressDataStorage = vcCake.getStorage('wordpressData')
 export default class ContentEditableComponent extends React.Component {
   static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
 
@@ -303,6 +304,7 @@ export default class ContentEditableComponent extends React.Component {
     const dom = ReactDOM.findDOMNode(this)
     let content = dom.innerHTML
     this.setState({ realContent: content })
+    wordpressDataStorage.state('status').set({status: 'changed'})
   }
 
   handleChange () {

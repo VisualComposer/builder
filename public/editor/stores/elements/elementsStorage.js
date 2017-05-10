@@ -6,7 +6,9 @@ addStorage('elements', (storage) => {
   const cook = getService('cook')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
+  const wordpressDataStorage = getStorage('wordpressData')
   const updateTimeMachine = () => {
+    wordpressDataStorage.state('status').set({status: 'changed'})
     historyStorage.trigger('add', documentManager.all())
   }
   storage.on('add', (elementData, wrap = true, options = {}) => {
