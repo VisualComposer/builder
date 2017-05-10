@@ -162,7 +162,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         // exclude: /node_modules/,
-        exclude: new RegExp('node_modules\\'+path.sep+'(?!postcss-prefix-url)'),
+        exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
         query: {
           // https://github.com/babel/babel-loader#options
           cacheDirectory: true
