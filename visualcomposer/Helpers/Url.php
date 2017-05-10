@@ -46,6 +46,22 @@ class Url implements Helper
         $ajax = [VCV_AJAX_REQUEST => 1];
         $query = $ajax + $query;
         $url = get_site_url();
+
+        return $this->query($url, $query);
+    }
+
+    /**
+     * Returns queried request to url
+     *
+     * @param $query
+     *
+     * @return string
+     */
+    public function query($url, $query = [])
+    {
+        if (empty($query)) {
+            return $url;
+        }
         $q = '?';
         /** @var Str $strHelper */
         $strHelper = vchelper('Str');
