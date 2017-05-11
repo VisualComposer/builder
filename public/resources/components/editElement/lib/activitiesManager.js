@@ -18,7 +18,6 @@ export default class ActivitiesManager extends React.Component {
 
   constructor (props) {
     super(props)
-    console.log('activities manager constructor called')
     this.listeners = this.initListeners(this.props.element)
   }
 
