@@ -1,4 +1,5 @@
 <?php
+
 namespace ComposerHooks\Hooks;
 
 use VisualComposer\Framework\Application;

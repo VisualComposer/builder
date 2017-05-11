@@ -1,4 +1,5 @@
 <?php
+
 namespace ComposerHooks\Hooks;
 
 use VisualComposer\Framework\Application;
@@ -61,6 +62,7 @@ DATA;
                         'name' => $name,
                         'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => false,
+                        'singleton' => !self::isImmutable($data['implements']),
                     ];
                 } elseif (self::isModule($data['implements'])) {
                     $name = self::getModuleName($data);
@@ -68,6 +70,7 @@ DATA;
                         'name' => $name,
                         'abstract' => $data['namespace'] . "\\" . $data['class'],
                         'make' => true,
+                        'singleton' => true,
                     ];
                 }
             }
@@ -83,14 +86,35 @@ DATA;
      */
     public static function isHelper($implements)
     {
-        return in_array(
-            $implements,
-            [
-                'Helper',
-                '\VisualComposer\Framework\Illuminate\Support\Helper',
-                '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
-            ]
-        );
+        return count(
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Helper',
+                        '\VisualComposer\Framework\Illuminate\Support\Helper',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Helper',
+                    ]
+                )
+            ) > 0;
+    }
+
+    /**
+     * @param $implements
+     *
+     * @return bool
+     */
+    public static function isImmutable($implements)
+    {
+        return count(
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Immutable',
+                        '\VisualComposer\Framework\Illuminate\Support\Immutable',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Immutable',
+                    ]
+                )
+            ) > 0;
     }
 
     /**
@@ -100,14 +124,16 @@ DATA;
      */
     public static function isModule($implements)
     {
-        return in_array(
-            $implements,
-            [
-                'Module',
-                '\VisualComposer\Framework\Illuminate\Support\Module',
-                '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
-            ]
-        );
+        return count(
+                array_intersect(
+                    (array)$implements,
+                    [
+                        'Module',
+                        '\VisualComposer\Framework\Illuminate\Support\Module',
+                        '\\VisualComposer\\Framework\\Illuminate\\Support\\Module',
+                    ]
+                )
+            ) > 0;
     }
 
     /**
@@ -125,7 +151,7 @@ DATA;
             ],
             'class' => '',
             'namespace' => '',
-            'implements' => '',
+            'implements' => [],
         ];
         $i = 0;
         while ($i < count($tokens) - 1) {
@@ -150,7 +176,7 @@ DATA;
                 if ($data['start']['namespace'] && $token === ';') {
                     $data['start']['namespace'] = false;
                 } elseif ($data['start']['implements'] && $token === '{') {
-                    $data['start']['implements'] = false;
+                    $data['start']['implements'] = [];
                 }
             }
             $i++;
@@ -183,14 +209,14 @@ DATA;
                     $data['start']['class'] = self::CLASS_START + self::CLASS_START_STRING;
                     $data['class'] .= $value;
                 } elseif ($data['start']['implements']) {
-                    $data['implements'] .= $value;
+                    $data['implements'][] = $value;
                 }
                 break;
             case T_NS_SEPARATOR:
                 if ($data['start']['namespace']) {
                     $data['namespace'] .= $value;
                 } elseif ($data['start']['implements']) {
-                    $data['implements'] .= $value;
+                    $data['implements'][] = $value;
                 }
                 break;
         }

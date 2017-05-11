@@ -181,13 +181,16 @@ class Application extends ContainerContract
      * @param $componentName
      * @param $componentController
      * @param bool $make
+     * @param bool $singleton
      *
      * @return $this
      */
-    public function addComponent($componentName, $componentController, $make = true)
+    public function addComponent($componentName, $componentController, $make = true, $singleton = true)
     {
         if (!$this->bound($componentController)) {
-            $this->singleton($componentController);
+            if ($singleton) {
+                $this->singleton($componentController);
+            }
             $this->alias($componentController, $componentName);
             if ($make) {
                 $this->make($componentController);
