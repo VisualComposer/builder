@@ -5,6 +5,7 @@ namespace VisualComposer\Modules\Hub;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
+use VisualComposer\Helpers\Hub;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -27,7 +28,7 @@ class Categories extends Container implements Module
         /** @see \VisualComposer\Modules\Hub\Categories::outputCategories */
         $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputCategories');
 
-        $temporaryData = true;
+        $temporaryData = false;
         if ($temporaryData) {
             /** @see \VisualComposer\Modules\Hub\Categories::dummySetCategories */
             $this->wpAddAction(
@@ -193,11 +194,11 @@ class Categories extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Hub $hubHelper
      *
      * @return array
      */
-    protected function outputCategories($response, $payload, Options $optionHelper)
+    protected function outputCategories($response, $payload, Hub $hubHelper)
     {
         return array_merge(
             $response,
@@ -205,7 +206,7 @@ class Categories extends Container implements Module
                 vcview(
                     'hub/categories',
                     [
-                        'categories' => $optionHelper->get('hubCategories', []),
+                        'categories' => $hubHelper->getCategories(),
                     ]
                 ),
             ]

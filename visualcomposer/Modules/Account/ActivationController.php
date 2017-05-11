@@ -28,6 +28,14 @@ class ActivationController extends Container implements Module
         /** @see \VisualComposer\Modules\Account\ActivationController::requestActivation */
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivation');
         $this->addFilter('vcv:ajax:account:activation:adminNonce', 'requestActivationResponseCode', 100);
+
+        $featureToggle = false;
+        if ($featureToggle) {
+            vchelper('Options')
+                ->delete('hubElements')
+                ->delete('hubCategories')
+                ->delete('hubGroups');
+        }
     }
 
     /**

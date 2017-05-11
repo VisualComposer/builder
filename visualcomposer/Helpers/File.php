@@ -119,4 +119,23 @@ class File implements Helper
 
         return $fileSystem->rmdir($dir, $recursive);
     }
+
+    public function copyDirectory($from, $to, $overwrite = true)
+    {
+        $fileSystem = $this->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+        if ($overwrite) {
+            $this->removeDirectory($to);
+        }
+        $this->createDirectory($to);
+
+        return copy_dir($from, $to);
+    }
+
+    public function createDirectory($dir)
+    {
+        return $this->getFileSystem()->mkdir($dir);
+    }
 }

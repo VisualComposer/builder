@@ -4,47 +4,42 @@
   justify-content: center;
   overflow: hidden;
   box-sizing: border-box;
-  min-height: 100%;
+  min-height: @vce-feature-section-min-height;
 
   &--reverse {
     flex-direction: column-reverse;
   }
 
-  &--min-height {
-    min-height: 450px;
-  }
-
-  &--image {
-    flex: 1 0 300px;
-    background-color: #b3a694;
+  &-image {
+    flex: @vce-feature-section-image-flex;
+    background-color: @vce-feature-section-image-background-color;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 
-    &-left {
+    &--left {
       order: 1;
     }
 
-    &-right {
+    &--right {
       order: 3;
     }
   }
 
-  &--content {
-    flex: 1 0 auto;
+  &-content {
+    flex: @vce-feature-section-content-flex;
     order: 2;
-    background-color: #b3a694;
+    background-color: @vce-feature-section-content-background-color;
     background-position: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    color: #fff;
+    padding: @vce-feature-section-content-padding;
+    color: @vce-feature-section-content-color;
 
     h1 {
       color: inherit;
     }
 
     &-container {
-      padding: 30px;
+      padding: @vce-feature-section-content-container-padding;
     }
   }
 
@@ -57,23 +52,23 @@
   .vce-feature-section {
     flex-direction: row;
 
-    &--image {
-      flex: 1 1 50%;
+    &-image {
+      flex: @vce-feature-section-image-flex-stack;
     }
 
-    &--content {
+    &-content {
       display: flex;
-      flex: 1 1 50%;
+      flex: @vce-feature-section-content-flex-stack;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
 
       &-container {
-        padding: 0;
-        max-width: 585px;
-        width: 66.66666667%;
-        margin-left: 16.66666667%;
-        padding-left: 15px;
+        padding: @vce-feature-section-content-container-padding-stack;
+        max-width: @vce-feature-section-content-container-max-width-stack;
+        width: @vce-feature-section-content-container-width-stack;
+        margin-left: @vce-feature-section-content-container-margin-left-stack;
+        padding-left: @vce-feature-section-content-container-padding-left-stack;
       }
     }
   }

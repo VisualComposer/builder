@@ -39,8 +39,8 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       'vce-feature-section--reverse': reverseStacking
     })
 
-    let imageClasses = ['vce-feature-section--image']
-    let contentClasses = ['vce-feature-section--content']
+    let imageClasses = ['vce-feature-section-image']
+    let contentClasses = ['vce-feature-section-content']
 
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses = containerClasses.concat(' ' + customClass)
@@ -53,13 +53,13 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     }
 
     if (imagePosition) {
-      imageClasses.push(`vce-feature-section--image-${imagePosition}`)
+      imageClasses.push(`vce-feature-section-image--${imagePosition}`)
     }
 
     let mixinData = this.getMixinData('backgroundColor')
 
     if (mixinData) {
-      contentClasses.push(`vce-feature-section--background-color-${mixinData.selector}`)
+      contentClasses.push(`vce-feature-section-background-color--${mixinData.selector}`)
     }
 
     let buttonOutput = ''
@@ -82,7 +82,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
       <div className={wrapperClasses} id={'el-' + id} {...doRest}>
         <div className={imageClasses} style={imageStyles} />
         <div className={contentClasses}>
-          <div className='vce-feature-section--content-container' {...doPadding}>
+          <div className='vce-feature-section-content-container' {...doPadding}>
             <div className='vce-feature-section-description'>
               {description}
             </div>

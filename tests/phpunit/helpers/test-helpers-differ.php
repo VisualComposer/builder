@@ -63,7 +63,7 @@ class HelpersDifferTest extends WP_UnitTestCase
                 'test4' => 4,
             ]
         );
-        $onUpdate = function ($prev, $new, $merged) {
+        $onUpdate = function ($key, $prev, $new, $merged) {
             $merged *= 2;
 
             return $merged;
@@ -93,7 +93,7 @@ class HelpersDifferTest extends WP_UnitTestCase
                 'test4' => 4,
             ]
         );
-        $onUpdate = function ($prev, $new, $merged) {
+        $onUpdate = function ($key, $prev, $new, $merged) {
             $merged *= 2;
 
             return $merged;
@@ -121,7 +121,7 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testUpdateCallbackFirst()
     {
-        $onUpdate = function ($prev, $new, $merged) {
+        $onUpdate = function ($key, $prev, $new, $merged) {
             return $merged * 2;
         };
 
@@ -134,12 +134,12 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testDifferUpdateCallbacks()
     {
-        $onUpdate = function ($prevValue, $newValue, $mergedValue) {
+        $onUpdate = function ($key, $prevValue, $newValue, $mergedValue) {
             /* Just some calculations */
-            foreach ($newValue as $key => $item) {
+            foreach ($newValue as $innerKey => $item) {
                 // Only if it was existed before
-                if (array_key_exists($key, $prevValue)) {
-                    $mergedValue[ $key ] = $item * 2;
+                if (array_key_exists($innerKey, $prevValue)) {
+                    $mergedValue[ $innerKey ] = $item * 2;
                 }
             }
 
@@ -209,12 +209,12 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testUpdateCallbacks()
     {
-        $onUpdate = function ($prevValue, $newValue, $mergedValue) {
+        $onUpdate = function ($key, $prevValue, $newValue, $mergedValue) {
             /* Just some calculations */
-            foreach ($newValue as $key => $item) {
+            foreach ($newValue as $innerKey => $item) {
                 // Only if it was existed before
-                if (array_key_exists($key, $prevValue)) {
-                    $mergedValue[ $key ] = $item * 2;
+                if (array_key_exists($innerKey, $prevValue)) {
+                    $mergedValue[ $innerKey ] = $item * 2;
                 }
             }
 
@@ -258,12 +258,12 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testUpdateCallbacksChangeKeys()
     {
-        $onUpdate = function ($prevValue, $newValue, $mergedValue) {
+        $onUpdate = function ($key, $prevValue, $newValue, $mergedValue) {
             /* Just some calculations */
-            foreach ($newValue as $key => $item) {
+            foreach ($newValue as $innerKey => $item) {
                 // Only if it was existed before
-                if (array_key_exists($key, $prevValue)) {
-                    $mergedValue[ $key . '_updated' ] = $item * 2;
+                if (array_key_exists($innerKey, $prevValue)) {
+                    $mergedValue[ $innerKey . '_updated' ] = $item * 2;
                 }
             }
 
@@ -308,12 +308,12 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testUpdateCallbacksUnset()
     {
-        $onUpdate = function ($prevValue, $newValue, $mergedValue) {
+        $onUpdate = function ($key, $prevValue, $newValue, $mergedValue) {
             /* Just some calculations */
-            foreach ($newValue as $key => $item) {
+            foreach ($newValue as $innerKey => $item) {
                 // Only if it was existed before
-                if (array_key_exists($key, $prevValue)) {
-                    unset($mergedValue[ $key ]);
+                if (array_key_exists($innerKey, $prevValue)) {
+                    unset($mergedValue[ $innerKey ]);
                 }
             }
 
@@ -356,15 +356,15 @@ class HelpersDifferTest extends WP_UnitTestCase
 
     public function testUpdateCallbacksUnsetAndChangeKeys()
     {
-        $onUpdate = function ($prevValue, $newValue, $mergedValue) {
+        $onUpdate = function ($key, $prevValue, $newValue, $mergedValue) {
             /* Just some calculations */
-            foreach ($newValue as $key => $item) {
+            foreach ($newValue as $innerKey => $item) {
                 // Only if it was existed before
-                if (array_key_exists($key, $prevValue)) {
-                    unset($mergedValue[ $key ]);
-                    $mergedValue[ $key . '_updated' ] = $item * 2;
-                    $mergedValue[ $key . '_previous' ] = $prevValue[ $key ];
-                    $mergedValue[ $key . '_new' ] = $item;
+                if (array_key_exists($innerKey, $prevValue)) {
+                    unset($mergedValue[ $innerKey ]);
+                    $mergedValue[ $innerKey . '_updated' ] = $item * 2;
+                    $mergedValue[ $innerKey . '_previous' ] = $prevValue[ $innerKey ];
+                    $mergedValue[ $innerKey . '_new' ] = $item;
                 }
             }
 

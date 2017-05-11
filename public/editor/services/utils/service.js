@@ -122,6 +122,13 @@ const API = {
     })
     let html = ''
     let elementChildren = documentFragment.children
+    // polyfill for IE and Edge
+    if (typeof elementChildren === 'undefined') {
+      elementChildren = [].slice.call(documentFragment.childNodes)
+      elementChildren = elementChildren.filter((child) => {
+        return child.nodeType === 1
+      })
+    }
     for (let i = 0; i < elementChildren.length; i++) {
       html += elementChildren[ i ].outerHTML
     }

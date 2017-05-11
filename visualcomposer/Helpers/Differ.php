@@ -41,19 +41,18 @@ class Differ extends Container implements Helper, Immutable
             throw new \InvalidArgumentException('New value must be an associative array');
         }
         foreach ($newKeys as $key) {
+            $mergedValue = $newValue[ $key ];
             if (array_key_exists($key, $this->data)) {
-                $mergedValue = is_array($this->data[ $key ])
-                    ? array_unique(
-                        (array)$newValue[ $key ]
-                        + $this->data[ $key ] // Union of $this->data and $newValue with preserve associative keys
-                    ) : $newValue[ $key ];
-            } else {
-                $mergedValue = $newValue[ $key ];
+                if (is_array($this->data[ $key ])) {
+                    $unionValue = (array)$newValue[ $key ] + $this->data[ $key ];
+                    $mergedValue = array_unique($unionValue, SORT_REGULAR);
+                }
             }
             if (isset($this->updateCallback)) {
                 $mergedValue = call_user_func_array(
                     $this->updateCallback,
                     [
+                        'key' => $key,
                         'oldValue' => array_key_exists($key, $this->data) ? $this->data[ $key ] : [],
                         'newValue' => $newValue[ $key ],
                         'mergedValue' => $mergedValue,
