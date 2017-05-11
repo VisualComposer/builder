@@ -1,12 +1,9 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 const vcvAPI = vcCake.getService('api')
-const cook = vcCake.getService("cook")
+const cook = vcCake.getService('cook')
 
 export default class FeatureSection extends vcvAPI.elementComponent {
-  // componentDidMount () {
-  //   vcvAPI.publicEvents.trigger('heroSectionReady')
-  // }
 
   getPublicImage (filename) {
     let { metaAssetsPath } = this.props.atts
@@ -28,7 +25,6 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     let { id, atts, editor } = this.props
     let { description, image, imagePosition, reverseStacking, addButton, customClass, button, background, metaCustomId } = atts
     let classNames = require('classnames')
-    // let customProps = {}
     let containerProps = {}
 
     let containerClasses = classNames({
@@ -68,8 +64,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     let buttonOutput = ''
     if (addButton) {
-      const Cook = vcCake.getService('cook')
-      let Button = Cook.get(button)
+      let Button = cook.get(button)
       buttonOutput = Button.render(null, false)
     }
 
@@ -98,4 +93,3 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     </section>
   }
 }
-
