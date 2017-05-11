@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Hub;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Hub;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -32,7 +33,7 @@ class Elements extends Container implements Module
         $this->addFilter('vcv:frontend:head:extraOutput vcv:backend:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput vcv:backend:extraOutput', 'outputElementsBundle', 3);
 
-        $temporaryData = true;
+        $temporaryData = false;
         if ($temporaryData) {
             /** @see \VisualComposer\Modules\Hub\Elements::dummySetElements */
             $this->wpAddAction(
@@ -353,77 +354,77 @@ class Elements extends Container implements Module
                 //     ],
                 // ],
                 'facebookLike' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/facebookLike/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/facebookLike/facebookLike/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/facebookLike/facebookLike/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Facebook Like',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-thumbnail.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Add Facebook Like button to your WordPress website for quick content sharing on Facebook.',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/facebookLike/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/facebookLike/facebookLike/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/facebookLike/facebookLike/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Facebook Like',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/facebookLike/facebookLike/public/facebook-like-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add Facebook Like button to your WordPress website for quick content sharing on Facebook.',
+                    ],
+                ],
                 'feature' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/feature/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/feature/feature/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/feature/feature/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Feature',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/feature/feature/public/thumbnail-feature.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/feature/feature/public/preview-feature.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Feature element with an icon, title and description. Icon element contains controls for various background shapes.',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/feature/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/feature/feature/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/feature/feature/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Feature',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/feature/feature/public/thumbnail-feature.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/feature/feature/public/preview-feature.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Feature element with an icon, title and description. Icon element contains controls for various background shapes.',
+                    ],
+                ],
                 'featureSection' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/featureSection/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/featureSection/featureSection/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/featureSection/featureSection/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Feature Section',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/featureSection/featureSection/public/thumbnail-feature-section.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/featureSection/featureSection/public/preview-feature-section.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
-                     ],
-                 ],
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/featureSection/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/featureSection/featureSection/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/featureSection/featureSection/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Feature Section',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/featureSection/featureSection/public/thumbnail-feature-section.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/featureSection/featureSection/public/preview-feature-section.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Feature section divided into image and content columns. Great for representing product features or company services.',
+                    ],
+                ],
                 'flickrImage' => [
                     'bundlePath' => $urlHelper->to(
                         'public/sources/newElements/flickrImage/public/dist/element.bundle.js'
@@ -519,102 +520,102 @@ class Elements extends Container implements Module
                 //         'metaDescription' => 'Gradient button with gradient direction and color controls. Animated hover effects with gradient direction change.',
                 //     ],
                 // ],
-                 'imageGallery' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/imageGallery/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/imageGallery/imageGallery/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/imageGallery/imageGallery/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Image Gallery',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Image gallery is a basic element for adding simple image gallery from Media Library into the content area.',
-                     ],
-                 ],
-                 'imageMasonryGallery' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/imageMasonryGallery/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Image Masonry Gallery',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Image masonry gallery is a gallery element for adding simple masonry image gallery from Media Library into the content area.',
-                     ],
-                 ],
-                 'instagramImage' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/instagramImage/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/instagramImage/instagramImage/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/instagramImage/instagramImage/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Instagram Image',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/instagramImage/instagramImage/public/thumbnail-instagram.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/instagramImage/instagramImage/public/preview-instagram.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Embed Instagram image directly to your WordPress website.',
-                     ],
-                 ],
-                 'pinterestPinit' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/pinterestPinit/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/pinterestPinit/pinterestPinit/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/pinterestPinit/pinterestPinit/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Pinterest Pinit',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-thumbnail.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
-                     ],
-                 ],
+                'imageGallery' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/imageGallery/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/imageGallery/imageGallery/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/imageGallery/imageGallery/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Image Gallery',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/imageGallery/imageGallery/public/image-gallery-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Image gallery is a basic element for adding simple image gallery from Media Library into the content area.',
+                    ],
+                ],
+                'imageMasonryGallery' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/imageMasonryGallery/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Image Masonry Gallery',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/imageMasonryGallery/imageMasonryGallery/public/image-masonry-gallery-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Image masonry gallery is a gallery element for adding simple masonry image gallery from Media Library into the content area.',
+                    ],
+                ],
+                'instagramImage' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/instagramImage/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/instagramImage/instagramImage/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/instagramImage/instagramImage/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Instagram Image',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/instagramImage/instagramImage/public/thumbnail-instagram.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/instagramImage/instagramImage/public/preview-instagram.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Embed Instagram image directly to your WordPress website.',
+                    ],
+                ],
+                'pinterestPinit' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/pinterestPinit/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/pinterestPinit/pinterestPinit/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/pinterestPinit/pinterestPinit/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Pinterest Pinit',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/pinterestPinit/pinterestPinit/public/pinterest-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add Pinterest Pinit button to your WordPress website for quick media content sharing on Pinterest.',
+                    ],
+                ],
                 // 'postsGrid' => [
                 //     'bundlePath' => $urlHelper->to(
                 //         'public/sources/newElements/postsGrid/public/dist/element.bundle.js'
@@ -698,150 +699,150 @@ class Elements extends Container implements Module
                 //         'metaDescription' => '',
                 //     ],
                 // ],
-                 'rawJs' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/rawJs/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/rawJs/rawJs/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/rawJs/rawJs/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Raw JS',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/rawJs/rawJs/public/raw-js-thumbnail.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/rawJs/rawJs/public/raw-js-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Add your own custom Javascript code to WordPress website to execute it on this particular page.',
-                     ],
-                 ],
-                 'separator' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/separator/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/separator/separator/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/separator/separator/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Separator',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/separator/separator/public/thumbnail-separator.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/separator/separator/public/preview-separator.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
-                     ],
-                 ],
-                 'twitterButton' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/twitterButton/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterButton/twitterButton/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterButton/twitterButton/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Twitter Button',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-thumbnail.jpg'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Add standard Tweet button to your WordPress website for quick content sharing on Twitter.',
-                     ],
-                 ],
-                 'twitterGrid' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/twitterGrid/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterGrid/twitterGrid/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterGrid/twitterGrid/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Twitter Grid',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Showcase Twitter stories that are primarily told with photos, videos, GIFs, and Vines.',
-                     ],
-                 ],
-                 'twitterTimeline' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTimeline/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTimeline/twitterTimeline/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTimeline/twitterTimeline/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Twitter Timeline',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Embedded timeline to display a stream of Tweets on your site. Use it to showcase profiles, lists, and favorites, as well as the stories.',
-                     ],
-                 ],
-                 'twitterTweet' => [
-                     'bundlePath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTweet/public/dist/element.bundle.js'
-                     ),
-                     'elementPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTweet/twitterTweet/'
-                     ),
-                     'assetsPath' => $urlHelper->to(
-                         'public/sources/newElements/twitterTweet/twitterTweet/public/'
-                     ),
-                     'settings' => [
-                         'name' => 'Twitter Tweet',
-                         'metaThumbnailUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-thumbnail.png'
-                         ),
-                         'metaPreviewUrl' => $urlHelper->to(
-                         // @codingStandardsIgnoreLine
-                             'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-preview.jpg'
-                         ),
-                         // @codingStandardsIgnoreLine
-                         'metaDescription' => 'Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL.',
-                     ],
-                 ],
+                'rawJs' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/rawJs/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/rawJs/rawJs/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/rawJs/rawJs/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Raw JS',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/rawJs/rawJs/public/raw-js-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/rawJs/rawJs/public/raw-js-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add your own custom Javascript code to WordPress website to execute it on this particular page.',
+                    ],
+                ],
+                'separator' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/separator/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/separator/separator/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/separator/separator/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Separator',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/separator/separator/public/thumbnail-separator.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/separator/separator/public/preview-separator.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Double line separator with different line length - calculated automatically. ',
+                    ],
+                ],
+                'twitterButton' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/twitterButton/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterButton/twitterButton/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterButton/twitterButton/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Twitter Button',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-thumbnail.jpg'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterButton/twitterButton/public/tweet-button-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Add standard Tweet button to your WordPress website for quick content sharing on Twitter.',
+                    ],
+                ],
+                'twitterGrid' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/twitterGrid/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterGrid/twitterGrid/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterGrid/twitterGrid/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Twitter Grid',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterGrid/twitterGrid/public/twitter-grid-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Showcase Twitter stories that are primarily told with photos, videos, GIFs, and Vines.',
+                    ],
+                ],
+                'twitterTimeline' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTimeline/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTimeline/twitterTimeline/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTimeline/twitterTimeline/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Twitter Timeline',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterTimeline/twitterTimeline/public/twitter-timeline-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Embedded timeline to display a stream of Tweets on your site. Use it to showcase profiles, lists, and favorites, as well as the stories.',
+                    ],
+                ],
+                'twitterTweet' => [
+                    'bundlePath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTweet/public/dist/element.bundle.js'
+                    ),
+                    'elementPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTweet/twitterTweet/'
+                    ),
+                    'assetsPath' => $urlHelper->to(
+                        'public/sources/newElements/twitterTweet/twitterTweet/public/'
+                    ),
+                    'settings' => [
+                        'name' => 'Twitter Tweet',
+                        'metaThumbnailUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-thumbnail.png'
+                        ),
+                        'metaPreviewUrl' => $urlHelper->to(
+                        // @codingStandardsIgnoreLine
+                            'public/sources/newElements/twitterTweet/twitterTweet/public/twitter-tweet-preview.jpg'
+                        ),
+                        // @codingStandardsIgnoreLine
+                        'metaDescription' => 'Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL.',
+                    ],
+                ],
             ]
         );
         // 'animatedOutlineButton' => [
@@ -867,11 +868,11 @@ class Elements extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Hub $hubHelper
      *
      * @return array
      */
-    protected function outputElements($response, $payload, Options $optionHelper)
+    protected function outputElements($response, $payload, Hub $hubHelper)
     {
         return array_merge(
             $response,
@@ -879,7 +880,7 @@ class Elements extends Container implements Module
                 vcview(
                     'hub/elements',
                     [
-                        'elements' => $optionHelper->get('hubElements', []),
+                        'elements' => $hubHelper->getElements(),
                     ]
                 ),
             ]
@@ -889,11 +890,11 @@ class Elements extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Hub $hubHelper
      *
      * @return array
      */
-    protected function outputElementsBundle($response, $payload, Options $optionHelper)
+    protected function outputElementsBundle($response, $payload, Hub $hubHelper)
     {
         return array_merge(
             $response,
@@ -901,7 +902,7 @@ class Elements extends Container implements Module
                 vcview(
                     'hub/elementsBundle',
                     [
-                        'elements' => $optionHelper->get('hubElements', []),
+                        'elements' => $hubHelper->getElements(),
                     ]
                 ),
             ]

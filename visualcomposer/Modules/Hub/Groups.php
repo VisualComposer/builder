@@ -4,6 +4,7 @@ namespace VisualComposer\Modules\Hub;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Hub;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -25,7 +26,7 @@ class Groups extends Container implements Module
         /** @see \VisualComposer\Modules\Hub\Groups::outputGroups */
         $this->addFilter('vcv:frontend:body:extraOutput vcv:backend:extraOutput', 'outputGroups');
 
-        $temporaryData = true;
+        $temporaryData = false;
         if ($temporaryData) {
             /** @see \VisualComposer\Modules\Hub\Groups::dummySetGroups */
             $this->wpAddAction(
@@ -107,7 +108,7 @@ class Groups extends Container implements Module
                 [
                     'title' => 'WP Widgets',
                     'categories' => ['WP Widgets'],
-                ]
+                ],
             ]
         );
     }
@@ -115,11 +116,11 @@ class Groups extends Container implements Module
     /**
      * @param $response
      * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionHelper
+     * @param \VisualComposer\Helpers\Hub $hubHelper
      *
      * @return array
      */
-    protected function outputGroups($response, $payload, Options $optionHelper)
+    protected function outputGroups($response, $payload, Hub $hubHelper)
     {
         return array_merge(
             $response,
@@ -127,7 +128,7 @@ class Groups extends Container implements Module
                 vcview(
                     'hub/groups',
                     [
-                        'groups' => $optionHelper->get('hubGroups', []),
+                        'groups' => array_values($hubHelper->getGroups()),
                     ]
                 ),
             ]
