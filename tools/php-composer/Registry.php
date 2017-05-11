@@ -1,4 +1,5 @@
 <?php
+
 namespace ComposerHooks;
 
 use ComposerHooks\Hooks\Autoload;
