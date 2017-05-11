@@ -26,7 +26,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
   render () {
     let { id, atts, editor } = this.props
-    let { description, image, addButton, customClass, button, background, metaCustomId } = atts
+    let { description, image, imagePosition, reverseStacking, addButton, customClass, button, background, metaCustomId } = atts
     let classNames = require('classnames')
     // let customProps = {}
     let containerProps = {}
@@ -39,9 +39,11 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     let wrapperClasses = classNames({
       'vce': true,
       'vce-feature-section': true,
-      'vce-feature-section--min-height': true
+      'vce-feature-section--min-height': true,
+      'vce-feature-section--reverse': reverseStacking
     })
 
+    let imageClasses = ['vce-feature-section--image']
     let contentClasses = ['vce-feature-section--content']
 
     if (typeof customClass === 'string' && customClass) {
@@ -52,6 +54,10 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     if (image) {
       imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`
+    }
+
+    if (imagePosition) {
+      imageClasses.push(`vce-feature-section--image-${imagePosition}`)
     }
 
     let mixinData = this.getMixinData('backgroundColor')
@@ -72,13 +78,14 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     }
 
     contentClasses = classNames(contentClasses)
+    imageClasses = classNames(imageClasses)
 
     let doPadding = this.applyDO('padding')
     let doRest = this.applyDO('margin background border animation')
 
     return <section className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-        <div className='vce-feature-section--image' style={imageStyles} />
+        <div className={imageClasses} style={imageStyles} />
         <div className={contentClasses}>
           <div className='vce-feature-section--content-container' {...doPadding}>
             <div className='vce-feature-section-description'>
@@ -89,21 +96,6 @@ export default class FeatureSection extends vcvAPI.elementComponent {
         </div>
       </div>
     </section>
-
-    // return <section className={containerClasses} {...editor} {...containerProps}>
-    //   <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-    //     <div className={rowClasses} style={rowStyles} {...customProps}>
-    //       <div className='vce-feature-section__wrap'>
-    //         <div className='vce-feature-section__content' {...doPadding}>
-    //           <div className='vce-feature-section__content-container'>
-    //             {description}
-    //           </div>
-    //           {buttonOutput}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
   }
 }
 

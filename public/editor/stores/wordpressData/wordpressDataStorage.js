@@ -8,6 +8,7 @@ addStorage('wordpressData', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const settingsStorage = getStorage('settings')
   const documentManager = getService('document')
+  const wordpressDataStorage = getStorage('wordpressData')
   const cook = getService('cook')
   storage.on('start', () => {
     // Here we call data load
@@ -70,6 +71,11 @@ addStorage('wordpressData', (storage) => {
       }
       storage.state('status').set({status: 'loaded'})
       workspaceStorage.state('app').set('started')
+      window.onbeforeunload = (e) => {
+        if (wordpressDataStorage.state('status').get().status === 'changed') {
+          return true
+        }
+      }
     } else if (status === 'loadFailed') {
       storage.state('status').set({status: 'loaded'})
       throw new Error('Failed to load loaded')
