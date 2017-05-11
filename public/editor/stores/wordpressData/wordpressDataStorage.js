@@ -16,6 +16,7 @@ addStorage('wordpressData', (storage) => {
   })
   storage.on('save', (options, source = '') => {
     storage.state('status').set({status: 'saving'}, source)
+    settingsStorage.state('status').set({status: 'ready'})
     const documentData = documentManager.all()
     storage.trigger('wordpress:beforeSave', {
       pageElements: documentData
@@ -70,9 +71,12 @@ addStorage('wordpressData', (storage) => {
         setData('myTemplates', templates)
       }
       storage.state('status').set({status: 'loaded'})
+      settingsStorage.state('status').set({status: 'ready'})
       workspaceStorage.state('app').set('started')
-      window.onbeforeunload = (e) => {
-        if (wordpressDataStorage.state('status').get().status === 'changed') {
+      window.onbeforeunload = () => {
+        const isContentChanged = wordpressDataStorage.state('status').get().status === 'changed'
+        const isCssChanged = settingsStorage.state('status').get().status === 'changed'
+        if (isContentChanged || isCssChanged) {
           return true
         }
       }
