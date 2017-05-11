@@ -134,8 +134,8 @@
       "description",
       "image",
       "imagePosition",
-      "reverseStacking",
       "backgroundColor",
+      "reverseStacking",
       "addButton",
       "metaCustomId",
       "customClass"
